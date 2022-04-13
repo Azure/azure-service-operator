@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/resourceDefinitions/flexibleServers
+//Deprecated version of FlexibleServer. Use v1beta20210601.FlexibleServer instead
 type FlexibleServer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -48,22 +48,36 @@ var _ conversion.Convertible = &FlexibleServer{}
 
 // ConvertFrom populates our FlexibleServer from the provided hub FlexibleServer
 func (server *FlexibleServer) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1alpha1api20210601storage.FlexibleServer)
-	if !ok {
-		return fmt.Errorf("expected dbforpostgresql/v1alpha1api20210601storage/FlexibleServer but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v1alpha1api20210601storage.FlexibleServer
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return server.AssignPropertiesFromFlexibleServer(source)
+	err = server.AssignPropertiesFromFlexibleServer(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to server")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub FlexibleServer from our FlexibleServer
 func (server *FlexibleServer) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1alpha1api20210601storage.FlexibleServer)
-	if !ok {
-		return fmt.Errorf("expected dbforpostgresql/v1alpha1api20210601storage/FlexibleServer but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v1alpha1api20210601storage.FlexibleServer
+	err := server.AssignPropertiesToFlexibleServer(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from server")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return server.AssignPropertiesToFlexibleServer(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-dbforpostgresql-azure-com-v1alpha1api20210601-flexibleserver,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=dbforpostgresql.azure.com,resources=flexibleservers,verbs=create;update,versions=v1alpha1api20210601,name=default.v1alpha1api20210601.flexibleservers.dbforpostgresql.azure.com,admissionReviewVersions=v1beta1
@@ -300,76 +314,39 @@ func (server *FlexibleServer) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/resourceDefinitions/flexibleServers
+//Deprecated version of FlexibleServer. Use v1beta20210601.FlexibleServer instead
 type FlexibleServerList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []FlexibleServer `json:"items"`
 }
 
-// +kubebuilder:validation:Enum={"2021-06-01"}
-type FlexibleServersSpecAPIVersion string
-
-const FlexibleServersSpecAPIVersion20210601 = FlexibleServersSpecAPIVersion("2021-06-01")
-
 type FlexibleServers_Spec struct {
-	//AdministratorLogin: The administrator's login name of a server. Can only be specified when the server is being created
-	//(and is required for creation).
-	AdministratorLogin *string `json:"administratorLogin,omitempty"`
-
-	//AdministratorLoginPassword: The administrator login password (required for server creation).
+	AdministratorLogin         *string                     `json:"administratorLogin,omitempty"`
 	AdministratorLoginPassword *genruntime.SecretReference `json:"administratorLoginPassword,omitempty"`
-
-	//AvailabilityZone: availability zone information of the server.
-	AvailabilityZone *string `json:"availabilityZone,omitempty"`
+	AvailabilityZone           *string                     `json:"availabilityZone,omitempty"`
 
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	//Backup: Backup properties of a server
-	Backup *Backup `json:"backup,omitempty"`
-
-	//CreateMode: The mode to create a new PostgreSQL server.
-	CreateMode *ServerPropertiesCreateMode `json:"createMode,omitempty"`
-
-	//HighAvailability: High availability properties of a server
-	HighAvailability *HighAvailability `json:"highAvailability,omitempty"`
-
-	//Location: The geo-location where the resource lives
-	Location *string `json:"location,omitempty"`
-
-	//MaintenanceWindow: Maintenance window properties of a server.
-	MaintenanceWindow *MaintenanceWindow `json:"maintenanceWindow,omitempty"`
-
-	//Network: Network properties of a server
-	Network *Network `json:"network,omitempty"`
+	AzureName         string                      `json:"azureName,omitempty"`
+	Backup            *Backup                     `json:"backup,omitempty"`
+	CreateMode        *ServerPropertiesCreateMode `json:"createMode,omitempty"`
+	HighAvailability  *HighAvailability           `json:"highAvailability,omitempty"`
+	Location          *string                     `json:"location,omitempty"`
+	MaintenanceWindow *MaintenanceWindow          `json:"maintenanceWindow,omitempty"`
+	Network           *Network                    `json:"network,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a resources.azure.com/ResourceGroup resource
-	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-
-	//PointInTimeUTC: Restore point creation time (ISO8601 format), specifying the time to restore from. It's required when
-	//'createMode' is 'PointInTimeRestore'.
-	PointInTimeUTC *string `json:"pointInTimeUTC,omitempty"`
-
-	//Sku: Sku information related properties of a server.
-	Sku *Sku `json:"sku,omitempty"`
-
-	//SourceServerResourceReference: The source server resource ID to restore from. It's required when 'createMode' is
-	//'PointInTimeRestore'.
-	SourceServerResourceReference *genruntime.ResourceReference `armReference:"SourceServerResourceId" json:"sourceServerResourceReference,omitempty"`
-
-	//Storage: Storage properties of a server
-	Storage *Storage `json:"storage,omitempty"`
-
-	//Tags: Name-value pairs to add to the resource
-	Tags map[string]string `json:"tags,omitempty"`
-
-	//Version: PostgreSQL Server version.
-	Version *ServerPropertiesVersion `json:"version,omitempty"`
+	Owner                         *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PointInTimeUTC                *string                            `json:"pointInTimeUTC,omitempty"`
+	Sku                           *Sku                               `json:"sku,omitempty"`
+	SourceServerResourceReference *genruntime.ResourceReference      `armReference:"SourceServerResourceId" json:"sourceServerResourceReference,omitempty"`
+	Storage                       *Storage                           `json:"storage,omitempty"`
+	Tags                          map[string]string                  `json:"tags,omitempty"`
+	Version                       *ServerPropertiesVersion           `json:"version,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &FlexibleServers_Spec{}
@@ -1024,76 +1001,32 @@ func (servers *FlexibleServers_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (servers *FlexibleServers_Spec) SetAzureName(azureName string) { servers.AzureName = azureName }
 
+//Deprecated version of Server_Status. Use v1beta20210601.Server_Status instead
 type Server_Status struct {
-	//AdministratorLogin: The administrator's login name of a server. Can only be specified when the server is being created
-	//(and is required for creation).
-	AdministratorLogin *string `json:"administratorLogin,omitempty"`
-
-	//AvailabilityZone: availability zone information of the server.
-	AvailabilityZone *string `json:"availabilityZone,omitempty"`
-
-	//Backup: Backup properties of a server.
-	Backup *Backup_Status `json:"backup,omitempty"`
+	AdministratorLogin *string        `json:"administratorLogin,omitempty"`
+	AvailabilityZone   *string        `json:"availabilityZone,omitempty"`
+	Backup             *Backup_Status `json:"backup,omitempty"`
 
 	//Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	//CreateMode: The mode to create a new PostgreSQL server.
-	CreateMode *ServerPropertiesStatusCreateMode `json:"createMode,omitempty"`
-
-	//FullyQualifiedDomainName: The fully qualified domain name of a server.
-	FullyQualifiedDomainName *string `json:"fullyQualifiedDomainName,omitempty"`
-
-	//HighAvailability: High availability properties of a server.
-	HighAvailability *HighAvailability_Status `json:"highAvailability,omitempty"`
-
-	//Id: Fully qualified resource ID for the resource. Ex -
-	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
-	//Location: The geo-location where the resource lives
-	Location *string `json:"location,omitempty"`
-
-	//MaintenanceWindow: Maintenance window properties of a server.
-	MaintenanceWindow *MaintenanceWindow_Status `json:"maintenanceWindow,omitempty"`
-
-	//MinorVersion: The minor version of the server.
-	MinorVersion *string `json:"minorVersion,omitempty"`
-
-	//Name: The name of the resource
-	Name *string `json:"name,omitempty"`
-
-	//Network: Network properties of a server.
-	Network *Network_Status `json:"network,omitempty"`
-
-	//PointInTimeUTC: Restore point creation time (ISO8601 format), specifying the time to restore from. It's required when
-	//'createMode' is 'PointInTimeRestore'.
-	PointInTimeUTC *string `json:"pointInTimeUTC,omitempty"`
-
-	//Sku: The SKU (pricing tier) of the server.
-	Sku *Sku_Status `json:"sku,omitempty"`
-
-	//SourceServerResourceId: The source server resource ID to restore from. It's required when 'createMode' is
-	//'PointInTimeRestore'.
-	SourceServerResourceId *string `json:"sourceServerResourceId,omitempty"`
-
-	//State: A state of a server that is visible to user.
-	State *ServerPropertiesStatusState `json:"state,omitempty"`
-
-	//Storage: Storage properties of a server.
-	Storage *Storage_Status `json:"storage,omitempty"`
-
-	//SystemData: The system metadata relating to this resource.
-	SystemData *SystemData_Status `json:"systemData,omitempty"`
-
-	//Tags: Resource tags.
-	Tags map[string]string `json:"tags,omitempty"`
-
-	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-	Type *string `json:"type,omitempty"`
-
-	//Version: PostgreSQL Server version.
-	Version *ServerVersion_Status `json:"version,omitempty"`
+	Conditions               []conditions.Condition            `json:"conditions,omitempty"`
+	CreateMode               *ServerPropertiesStatusCreateMode `json:"createMode,omitempty"`
+	FullyQualifiedDomainName *string                           `json:"fullyQualifiedDomainName,omitempty"`
+	HighAvailability         *HighAvailability_Status          `json:"highAvailability,omitempty"`
+	Id                       *string                           `json:"id,omitempty"`
+	Location                 *string                           `json:"location,omitempty"`
+	MaintenanceWindow        *MaintenanceWindow_Status         `json:"maintenanceWindow,omitempty"`
+	MinorVersion             *string                           `json:"minorVersion,omitempty"`
+	Name                     *string                           `json:"name,omitempty"`
+	Network                  *Network_Status                   `json:"network,omitempty"`
+	PointInTimeUTC           *string                           `json:"pointInTimeUTC,omitempty"`
+	Sku                      *Sku_Status                       `json:"sku,omitempty"`
+	SourceServerResourceId   *string                           `json:"sourceServerResourceId,omitempty"`
+	State                    *ServerPropertiesStatusState      `json:"state,omitempty"`
+	Storage                  *Storage_Status                   `json:"storage,omitempty"`
+	SystemData               *SystemData_Status                `json:"systemData,omitempty"`
+	Tags                     map[string]string                 `json:"tags,omitempty"`
+	Type                     *string                           `json:"type,omitempty"`
+	Version                  *ServerVersion_Status             `json:"version,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &Server_Status{}
@@ -1682,13 +1615,10 @@ func (server *Server_Status) AssignPropertiesToServerStatus(destination *v1alpha
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/Backup
+//Deprecated version of Backup. Use v1beta20210601.Backup instead
 type Backup struct {
-	//BackupRetentionDays: Backup retention days for the server.
-	BackupRetentionDays *int `json:"backupRetentionDays,omitempty"`
-
-	//GeoRedundantBackup: A value indicating whether Geo-Redundant backup is enabled on the server.
-	GeoRedundantBackup *BackupGeoRedundantBackup `json:"geoRedundantBackup,omitempty"`
+	BackupRetentionDays *int                      `json:"backupRetentionDays,omitempty"`
+	GeoRedundantBackup  *BackupGeoRedundantBackup `json:"geoRedundantBackup,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Backup{}
@@ -1787,15 +1717,11 @@ func (backup *Backup) AssignPropertiesToBackup(destination *v1alpha1api20210601s
 	return nil
 }
 
+//Deprecated version of Backup_Status. Use v1beta20210601.Backup_Status instead
 type Backup_Status struct {
-	//BackupRetentionDays: Backup retention days for the server.
-	BackupRetentionDays *int `json:"backupRetentionDays,omitempty"`
-
-	//EarliestRestoreDate: The earliest restore point time (ISO8601 format) for server.
-	EarliestRestoreDate *string `json:"earliestRestoreDate,omitempty"`
-
-	//GeoRedundantBackup: A value indicating whether Geo-Redundant backup is enabled on the server.
-	GeoRedundantBackup *BackupStatusGeoRedundantBackup `json:"geoRedundantBackup,omitempty"`
+	BackupRetentionDays *int                            `json:"backupRetentionDays,omitempty"`
+	EarliestRestoreDate *string                         `json:"earliestRestoreDate,omitempty"`
+	GeoRedundantBackup  *BackupStatusGeoRedundantBackup `json:"geoRedundantBackup,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &Backup_Status{}
@@ -1885,13 +1811,10 @@ func (backup *Backup_Status) AssignPropertiesToBackupStatus(destination *v1alpha
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/HighAvailability
+//Deprecated version of HighAvailability. Use v1beta20210601.HighAvailability instead
 type HighAvailability struct {
-	//Mode: The HA mode for the server.
-	Mode *HighAvailabilityMode `json:"mode,omitempty"`
-
-	//StandbyAvailabilityZone: availability zone information of the standby.
-	StandbyAvailabilityZone *string `json:"standbyAvailabilityZone,omitempty"`
+	Mode                    *HighAvailabilityMode `json:"mode,omitempty"`
+	StandbyAvailabilityZone *string               `json:"standbyAvailabilityZone,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &HighAvailability{}
@@ -1990,15 +1913,11 @@ func (availability *HighAvailability) AssignPropertiesToHighAvailability(destina
 	return nil
 }
 
+//Deprecated version of HighAvailability_Status. Use v1beta20210601.HighAvailability_Status instead
 type HighAvailability_Status struct {
-	//Mode: The HA mode for the server.
-	Mode *HighAvailabilityStatusMode `json:"mode,omitempty"`
-
-	//StandbyAvailabilityZone: availability zone information of the standby.
-	StandbyAvailabilityZone *string `json:"standbyAvailabilityZone,omitempty"`
-
-	//State: A state of a HA server that is visible to user.
-	State *HighAvailabilityStatusState `json:"state,omitempty"`
+	Mode                    *HighAvailabilityStatusMode  `json:"mode,omitempty"`
+	StandbyAvailabilityZone *string                      `json:"standbyAvailabilityZone,omitempty"`
+	State                   *HighAvailabilityStatusState `json:"state,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &HighAvailability_Status{}
@@ -2098,19 +2017,12 @@ func (availability *HighAvailability_Status) AssignPropertiesToHighAvailabilityS
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/MaintenanceWindow
+//Deprecated version of MaintenanceWindow. Use v1beta20210601.MaintenanceWindow instead
 type MaintenanceWindow struct {
-	//CustomWindow: indicates whether custom window is enabled or disabled
 	CustomWindow *string `json:"customWindow,omitempty"`
-
-	//DayOfWeek: day of week for maintenance window
-	DayOfWeek *int `json:"dayOfWeek,omitempty"`
-
-	//StartHour: start hour for maintenance window
-	StartHour *int `json:"startHour,omitempty"`
-
-	//StartMinute: start minute for maintenance window
-	StartMinute *int `json:"startMinute,omitempty"`
+	DayOfWeek    *int    `json:"dayOfWeek,omitempty"`
+	StartHour    *int    `json:"startHour,omitempty"`
+	StartMinute  *int    `json:"startMinute,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &MaintenanceWindow{}
@@ -2235,18 +2147,12 @@ func (window *MaintenanceWindow) AssignPropertiesToMaintenanceWindow(destination
 	return nil
 }
 
+//Deprecated version of MaintenanceWindow_Status. Use v1beta20210601.MaintenanceWindow_Status instead
 type MaintenanceWindow_Status struct {
-	//CustomWindow: indicates whether custom window is enabled or disabled
 	CustomWindow *string `json:"customWindow,omitempty"`
-
-	//DayOfWeek: day of week for maintenance window
-	DayOfWeek *int `json:"dayOfWeek,omitempty"`
-
-	//StartHour: start hour for maintenance window
-	StartHour *int `json:"startHour,omitempty"`
-
-	//StartMinute: start minute for maintenance window
-	StartMinute *int `json:"startMinute,omitempty"`
+	DayOfWeek    *int    `json:"dayOfWeek,omitempty"`
+	StartHour    *int    `json:"startHour,omitempty"`
+	StartMinute  *int    `json:"startMinute,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &MaintenanceWindow_Status{}
@@ -2338,12 +2244,9 @@ func (window *MaintenanceWindow_Status) AssignPropertiesToMaintenanceWindowStatu
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/Network
+//Deprecated version of Network. Use v1beta20210601.Network instead
 type Network struct {
-	//DelegatedSubnetResourceReference: delegated subnet arm resource id.
-	DelegatedSubnetResourceReference *genruntime.ResourceReference `armReference:"DelegatedSubnetResourceId" json:"delegatedSubnetResourceReference,omitempty"`
-
-	//PrivateDnsZoneArmResourceReference: private dns zone arm resource id.
+	DelegatedSubnetResourceReference   *genruntime.ResourceReference `armReference:"DelegatedSubnetResourceId" json:"delegatedSubnetResourceReference,omitempty"`
 	PrivateDnsZoneArmResourceReference *genruntime.ResourceReference `armReference:"PrivateDnsZoneArmResourceId" json:"privateDnsZoneArmResourceReference,omitempty"`
 }
 
@@ -2453,15 +2356,11 @@ func (network *Network) AssignPropertiesToNetwork(destination *v1alpha1api202106
 	return nil
 }
 
+//Deprecated version of Network_Status. Use v1beta20210601.Network_Status instead
 type Network_Status struct {
-	//DelegatedSubnetResourceId: delegated subnet arm resource id.
-	DelegatedSubnetResourceId *string `json:"delegatedSubnetResourceId,omitempty"`
-
-	//PrivateDnsZoneArmResourceId: private dns zone arm resource id.
-	PrivateDnsZoneArmResourceId *string `json:"privateDnsZoneArmResourceId,omitempty"`
-
-	//PublicNetworkAccess: public network access is enabled or not
-	PublicNetworkAccess *NetworkStatusPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+	DelegatedSubnetResourceId   *string                           `json:"delegatedSubnetResourceId,omitempty"`
+	PrivateDnsZoneArmResourceId *string                           `json:"privateDnsZoneArmResourceId,omitempty"`
+	PublicNetworkAccess         *NetworkStatusPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &Network_Status{}
@@ -2551,6 +2450,7 @@ func (network *Network_Status) AssignPropertiesToNetworkStatus(destination *v1al
 	return nil
 }
 
+//Deprecated version of ServerPropertiesCreateMode. Use v1beta20210601.ServerPropertiesCreateMode instead
 // +kubebuilder:validation:Enum={"Create","Default","PointInTimeRestore","Update"}
 type ServerPropertiesCreateMode string
 
@@ -2561,6 +2461,7 @@ const (
 	ServerPropertiesCreateModeUpdate             = ServerPropertiesCreateMode("Update")
 )
 
+//Deprecated version of ServerPropertiesStatusCreateMode. Use v1beta20210601.ServerPropertiesStatusCreateMode instead
 type ServerPropertiesStatusCreateMode string
 
 const (
@@ -2570,6 +2471,7 @@ const (
 	ServerPropertiesStatusCreateModeUpdate             = ServerPropertiesStatusCreateMode("Update")
 )
 
+//Deprecated version of ServerPropertiesStatusState. Use v1beta20210601.ServerPropertiesStatusState instead
 type ServerPropertiesStatusState string
 
 const (
@@ -2582,6 +2484,7 @@ const (
 	ServerPropertiesStatusStateUpdating = ServerPropertiesStatusState("Updating")
 )
 
+//Deprecated version of ServerPropertiesVersion. Use v1beta20210601.ServerPropertiesVersion instead
 // +kubebuilder:validation:Enum={"11","12","13"}
 type ServerPropertiesVersion string
 
@@ -2591,6 +2494,7 @@ const (
 	ServerPropertiesVersion13 = ServerPropertiesVersion("13")
 )
 
+//Deprecated version of ServerVersion_Status. Use v1beta20210601.ServerVersion_Status instead
 type ServerVersion_Status string
 
 const (
@@ -2599,14 +2503,12 @@ const (
 	ServerVersion_Status13 = ServerVersion_Status("13")
 )
 
-//Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/Sku
+//Deprecated version of Sku. Use v1beta20210601.Sku instead
 type Sku struct {
 	// +kubebuilder:validation:Required
-	//Name: The name of the sku, typically, tier + family + cores, e.g. Standard_D4s_v3.
 	Name *string `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Tier: The tier of the particular SKU, e.g. Burstable.
 	Tier *SkuTier `json:"tier,omitempty"`
 }
 
@@ -2706,11 +2608,9 @@ func (sku *Sku) AssignPropertiesToSku(destination *v1alpha1api20210601storage.Sk
 	return nil
 }
 
+//Deprecated version of Sku_Status. Use v1beta20210601.Sku_Status instead
 type Sku_Status struct {
-	//Name: The name of the sku, typically, tier + family + cores, e.g. Standard_D4s_v3.
-	Name *string `json:"name,omitempty"`
-
-	//Tier: The tier of the particular SKU, e.g. Burstable.
+	Name *string        `json:"name,omitempty"`
 	Tier *SkuStatusTier `json:"tier,omitempty"`
 }
 
@@ -2789,9 +2689,8 @@ func (sku *Sku_Status) AssignPropertiesToSkuStatus(destination *v1alpha1api20210
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/Storage
+//Deprecated version of Storage. Use v1beta20210601.Storage instead
 type Storage struct {
-	//StorageSizeGB: Max storage allowed for a server.
 	StorageSizeGB *int `json:"storageSizeGB,omitempty"`
 }
 
@@ -2863,8 +2762,8 @@ func (storage *Storage) AssignPropertiesToStorage(destination *v1alpha1api202106
 	return nil
 }
 
+//Deprecated version of Storage_Status. Use v1beta20210601.Storage_Status instead
 type Storage_Status struct {
-	//StorageSizeGB: Max storage allowed for a server.
 	StorageSizeGB *int `json:"storageSizeGB,omitempty"`
 }
 
@@ -2921,23 +2820,13 @@ func (storage *Storage_Status) AssignPropertiesToStorageStatus(destination *v1al
 	return nil
 }
 
+//Deprecated version of SystemData_Status. Use v1beta20210601.SystemData_Status instead
 type SystemData_Status struct {
-	//CreatedAt: The timestamp of resource creation (UTC).
-	CreatedAt *string `json:"createdAt,omitempty"`
-
-	//CreatedBy: The identity that created the resource.
-	CreatedBy *string `json:"createdBy,omitempty"`
-
-	//CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemDataStatusCreatedByType `json:"createdByType,omitempty"`
-
-	//LastModifiedAt: The timestamp of resource last modification (UTC)
-	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
-
-	//LastModifiedBy: The identity that last modified the resource.
-	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
-
-	//LastModifiedByType: The type of identity that last modified the resource.
+	CreatedAt          *string                             `json:"createdAt,omitempty"`
+	CreatedBy          *string                             `json:"createdBy,omitempty"`
+	CreatedByType      *SystemDataStatusCreatedByType      `json:"createdByType,omitempty"`
+	LastModifiedAt     *string                             `json:"lastModifiedAt,omitempty"`
+	LastModifiedBy     *string                             `json:"lastModifiedBy,omitempty"`
 	LastModifiedByType *SystemDataStatusLastModifiedByType `json:"lastModifiedByType,omitempty"`
 }
 
@@ -3074,6 +2963,7 @@ func (data *SystemData_Status) AssignPropertiesToSystemDataStatus(destination *v
 	return nil
 }
 
+//Deprecated version of BackupGeoRedundantBackup. Use v1beta20210601.BackupGeoRedundantBackup instead
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type BackupGeoRedundantBackup string
 
@@ -3082,6 +2972,7 @@ const (
 	BackupGeoRedundantBackupEnabled  = BackupGeoRedundantBackup("Enabled")
 )
 
+//Deprecated version of BackupStatusGeoRedundantBackup. Use v1beta20210601.BackupStatusGeoRedundantBackup instead
 type BackupStatusGeoRedundantBackup string
 
 const (
@@ -3089,6 +2980,7 @@ const (
 	BackupStatusGeoRedundantBackupEnabled  = BackupStatusGeoRedundantBackup("Enabled")
 )
 
+//Deprecated version of HighAvailabilityMode. Use v1beta20210601.HighAvailabilityMode instead
 // +kubebuilder:validation:Enum={"Disabled","ZoneRedundant"}
 type HighAvailabilityMode string
 
@@ -3097,6 +2989,7 @@ const (
 	HighAvailabilityModeZoneRedundant = HighAvailabilityMode("ZoneRedundant")
 )
 
+//Deprecated version of HighAvailabilityStatusMode. Use v1beta20210601.HighAvailabilityStatusMode instead
 type HighAvailabilityStatusMode string
 
 const (
@@ -3104,6 +2997,7 @@ const (
 	HighAvailabilityStatusModeZoneRedundant = HighAvailabilityStatusMode("ZoneRedundant")
 )
 
+//Deprecated version of HighAvailabilityStatusState. Use v1beta20210601.HighAvailabilityStatusState instead
 type HighAvailabilityStatusState string
 
 const (
@@ -3115,6 +3009,7 @@ const (
 	HighAvailabilityStatusStateReplicatingData = HighAvailabilityStatusState("ReplicatingData")
 )
 
+//Deprecated version of NetworkStatusPublicNetworkAccess. Use v1beta20210601.NetworkStatusPublicNetworkAccess instead
 type NetworkStatusPublicNetworkAccess string
 
 const (

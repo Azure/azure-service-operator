@@ -13,7 +13,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1alpha1api20200601"
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
 )
 
 func Test_ReconcilePolicy_SkipReconcileAddedAlongWithTagsChange_ReconcileIsSkipped(t *testing.T) {

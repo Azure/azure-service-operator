@@ -5,6 +5,7 @@ package v1alpha1api20201101storage
 
 import (
 	"encoding/json"
+	"github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,90 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_VirtualNetwork_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from VirtualNetwork to hub returns original",
+		prop.ForAll(RunResourceConversionTestForVirtualNetwork, VirtualNetworkGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForVirtualNetwork tests if a specific instance of VirtualNetwork round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForVirtualNetwork(subject VirtualNetwork) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub v1beta20201101storage.VirtualNetwork
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual VirtualNetwork
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_VirtualNetwork_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from VirtualNetwork to VirtualNetwork via AssignPropertiesToVirtualNetwork & AssignPropertiesFromVirtualNetwork returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualNetwork, VirtualNetworkGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForVirtualNetwork tests if a specific instance of VirtualNetwork can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForVirtualNetwork(subject VirtualNetwork) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20201101storage.VirtualNetwork
+	err := copied.AssignPropertiesToVirtualNetwork(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual VirtualNetwork
+	err = actual.AssignPropertiesFromVirtualNetwork(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_VirtualNetwork_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -75,6 +160,48 @@ func VirtualNetworkGenerator() gopter.Gen {
 func AddRelatedPropertyGeneratorsForVirtualNetwork(gens map[string]gopter.Gen) {
 	gens["Spec"] = VirtualNetworksSpecGenerator()
 	gens["Status"] = VirtualNetworkStatusGenerator()
+}
+
+func Test_VirtualNetwork_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from VirtualNetwork_Status to VirtualNetwork_Status via AssignPropertiesToVirtualNetworkStatus & AssignPropertiesFromVirtualNetworkStatus returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualNetworkStatus, VirtualNetworkStatusGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForVirtualNetworkStatus tests if a specific instance of VirtualNetwork_Status can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForVirtualNetworkStatus(subject VirtualNetwork_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20201101storage.VirtualNetwork_Status
+	err := copied.AssignPropertiesToVirtualNetworkStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual VirtualNetwork_Status
+	err = actual.AssignPropertiesFromVirtualNetworkStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_VirtualNetwork_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -165,6 +292,48 @@ func AddRelatedPropertyGeneratorsForVirtualNetworkStatus(gens map[string]gopter.
 	gens["IpAllocations"] = gen.SliceOf(SubResourceStatusGenerator())
 }
 
+func Test_VirtualNetworks_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from VirtualNetworks_Spec to VirtualNetworks_Spec via AssignPropertiesToVirtualNetworksSpec & AssignPropertiesFromVirtualNetworksSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualNetworksSpec, VirtualNetworksSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForVirtualNetworksSpec tests if a specific instance of VirtualNetworks_Spec can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForVirtualNetworksSpec(subject VirtualNetworks_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20201101storage.VirtualNetworks_Spec
+	err := copied.AssignPropertiesToVirtualNetworksSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual VirtualNetworks_Spec
+	err = actual.AssignPropertiesFromVirtualNetworksSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_VirtualNetworks_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -249,6 +418,48 @@ func AddRelatedPropertyGeneratorsForVirtualNetworksSpec(gens map[string]gopter.G
 	gens["IpAllocations"] = gen.SliceOf(SubResourceGenerator())
 }
 
+func Test_AddressSpace_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AddressSpace to AddressSpace via AssignPropertiesToAddressSpace & AssignPropertiesFromAddressSpace returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAddressSpace, AddressSpaceGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAddressSpace tests if a specific instance of AddressSpace can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForAddressSpace(subject AddressSpace) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20201101storage.AddressSpace
+	err := copied.AssignPropertiesToAddressSpace(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AddressSpace
+	err = actual.AssignPropertiesFromAddressSpace(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_AddressSpace_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -306,6 +517,48 @@ func AddressSpaceGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForAddressSpace is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAddressSpace(gens map[string]gopter.Gen) {
 	gens["AddressPrefixes"] = gen.SliceOf(gen.AlphaString())
+}
+
+func Test_AddressSpace_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AddressSpace_Status to AddressSpace_Status via AssignPropertiesToAddressSpaceStatus & AssignPropertiesFromAddressSpaceStatus returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAddressSpaceStatus, AddressSpaceStatusGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAddressSpaceStatus tests if a specific instance of AddressSpace_Status can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForAddressSpaceStatus(subject AddressSpace_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20201101storage.AddressSpace_Status
+	err := copied.AssignPropertiesToAddressSpaceStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AddressSpace_Status
+	err = actual.AssignPropertiesFromAddressSpaceStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_AddressSpace_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -367,6 +620,48 @@ func AddIndependentPropertyGeneratorsForAddressSpaceStatus(gens map[string]gopte
 	gens["AddressPrefixes"] = gen.SliceOf(gen.AlphaString())
 }
 
+func Test_DhcpOptions_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from DhcpOptions to DhcpOptions via AssignPropertiesToDhcpOptions & AssignPropertiesFromDhcpOptions returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDhcpOptions, DhcpOptionsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForDhcpOptions tests if a specific instance of DhcpOptions can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForDhcpOptions(subject DhcpOptions) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20201101storage.DhcpOptions
+	err := copied.AssignPropertiesToDhcpOptions(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual DhcpOptions
+	err = actual.AssignPropertiesFromDhcpOptions(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_DhcpOptions_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -424,6 +719,48 @@ func DhcpOptionsGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForDhcpOptions is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDhcpOptions(gens map[string]gopter.Gen) {
 	gens["DnsServers"] = gen.SliceOf(gen.AlphaString())
+}
+
+func Test_DhcpOptions_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from DhcpOptions_Status to DhcpOptions_Status via AssignPropertiesToDhcpOptionsStatus & AssignPropertiesFromDhcpOptionsStatus returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDhcpOptionsStatus, DhcpOptionsStatusGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForDhcpOptionsStatus tests if a specific instance of DhcpOptions_Status can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForDhcpOptionsStatus(subject DhcpOptions_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20201101storage.DhcpOptions_Status
+	err := copied.AssignPropertiesToDhcpOptionsStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual DhcpOptions_Status
+	err = actual.AssignPropertiesFromDhcpOptionsStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_DhcpOptions_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -485,6 +822,48 @@ func AddIndependentPropertyGeneratorsForDhcpOptionsStatus(gens map[string]gopter
 	gens["DnsServers"] = gen.SliceOf(gen.AlphaString())
 }
 
+func Test_VirtualNetworkBgpCommunities_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from VirtualNetworkBgpCommunities to VirtualNetworkBgpCommunities via AssignPropertiesToVirtualNetworkBgpCommunities & AssignPropertiesFromVirtualNetworkBgpCommunities returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualNetworkBgpCommunities, VirtualNetworkBgpCommunitiesGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForVirtualNetworkBgpCommunities tests if a specific instance of VirtualNetworkBgpCommunities can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForVirtualNetworkBgpCommunities(subject VirtualNetworkBgpCommunities) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20201101storage.VirtualNetworkBgpCommunities
+	err := copied.AssignPropertiesToVirtualNetworkBgpCommunities(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual VirtualNetworkBgpCommunities
+	err = actual.AssignPropertiesFromVirtualNetworkBgpCommunities(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_VirtualNetworkBgpCommunities_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -543,6 +922,48 @@ func VirtualNetworkBgpCommunitiesGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForVirtualNetworkBgpCommunities is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualNetworkBgpCommunities(gens map[string]gopter.Gen) {
 	gens["VirtualNetworkCommunity"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_VirtualNetworkBgpCommunities_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from VirtualNetworkBgpCommunities_Status to VirtualNetworkBgpCommunities_Status via AssignPropertiesToVirtualNetworkBgpCommunitiesStatus & AssignPropertiesFromVirtualNetworkBgpCommunitiesStatus returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualNetworkBgpCommunitiesStatus, VirtualNetworkBgpCommunitiesStatusGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForVirtualNetworkBgpCommunitiesStatus tests if a specific instance of VirtualNetworkBgpCommunities_Status can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForVirtualNetworkBgpCommunitiesStatus(subject VirtualNetworkBgpCommunities_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1beta20201101storage.VirtualNetworkBgpCommunities_Status
+	err := copied.AssignPropertiesToVirtualNetworkBgpCommunitiesStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual VirtualNetworkBgpCommunities_Status
+	err = actual.AssignPropertiesFromVirtualNetworkBgpCommunitiesStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_VirtualNetworkBgpCommunities_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

@@ -6,6 +6,7 @@ package v1alpha1api20200601
 import (
 	"encoding/json"
 	"github.com/Azure/azure-service-operator/v2/api/eventgrid/v1alpha1api20200601storage"
+	"github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -35,7 +36,7 @@ func RunResourceConversionTestForDomainsTopic(subject DomainsTopic) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1alpha1api20200601storage.DomainsTopic
+	var hub v1beta20200601storage.DomainsTopic
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()

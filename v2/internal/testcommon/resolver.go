@@ -12,8 +12,8 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/client/apiutil"
 
-	"github.com/Azure/azure-service-operator/v2/api/batch/v1alpha1api20210101"
-	"github.com/Azure/azure-service-operator/v2/api/resources/v1alpha1api20200601"
+	"github.com/Azure/azure-service-operator/v2/api/batch/v1beta20210101"
+	"github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 )
@@ -33,8 +33,8 @@ func makeResourceGVKLookup(scheme *runtime.Scheme) (map[schema.GroupKind]schema.
 
 	// Register all types used in these tests
 	objs := []runtime.Object{
-		new(v1alpha1api20200601.ResourceGroup),
-		new(v1alpha1api20210101.BatchAccount),
+		new(v1beta20200601.ResourceGroup),
+		new(v1beta20210101.BatchAccount),
 	}
 
 	for _, obj := range objs {

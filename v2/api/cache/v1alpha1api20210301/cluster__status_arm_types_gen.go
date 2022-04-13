@@ -3,62 +3,36 @@
 // Licensed under the MIT license.
 package v1alpha1api20210301
 
+//Deprecated version of Cluster_Status. Use v1beta20210301.Cluster_Status instead
 type Cluster_StatusARM struct {
-	//Id: Fully qualified resource ID for the resource. Ex -
-	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
-	//Location: The geo-location where the resource lives
-	Location *string `json:"location,omitempty"`
-
-	//Name: The name of the resource
-	Name *string `json:"name,omitempty"`
-
-	//Properties: Other properties of the cluster.
+	Id         *string                      `json:"id,omitempty"`
+	Location   *string                      `json:"location,omitempty"`
+	Name       *string                      `json:"name,omitempty"`
 	Properties *ClusterProperties_StatusARM `json:"properties,omitempty"`
-
-	//Sku: The SKU to create, which affects price, performance, and features.
-	Sku *Sku_StatusARM `json:"sku,omitempty"`
-
-	//Tags: Resource tags.
-	Tags map[string]string `json:"tags,omitempty"`
-
-	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-	Type *string `json:"type,omitempty"`
-
-	//Zones: The Availability Zones where this cluster will be deployed.
-	Zones []string `json:"zones,omitempty"`
+	Sku        *Sku_StatusARM               `json:"sku,omitempty"`
+	Tags       map[string]string            `json:"tags,omitempty"`
+	Type       *string                      `json:"type,omitempty"`
+	Zones      []string                     `json:"zones,omitempty"`
 }
 
+//Deprecated version of ClusterProperties_Status. Use v1beta20210301.ClusterProperties_Status instead
 type ClusterProperties_StatusARM struct {
-	//HostName: DNS name of the cluster endpoint
-	HostName *string `json:"hostName,omitempty"`
-
-	//MinimumTlsVersion: The minimum TLS version for the cluster to support, e.g. '1.2'
-	MinimumTlsVersion *ClusterPropertiesStatusMinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
-
-	//PrivateEndpointConnections: List of private endpoint connections associated with the specified RedisEnterprise cluster
+	HostName                   *string                                                   `json:"hostName,omitempty"`
+	MinimumTlsVersion          *ClusterPropertiesStatusMinimumTlsVersion                 `json:"minimumTlsVersion,omitempty"`
 	PrivateEndpointConnections []PrivateEndpointConnection_Status_SubResourceEmbeddedARM `json:"privateEndpointConnections,omitempty"`
-
-	//ProvisioningState: Current provisioning status of the cluster
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
-
-	//RedisVersion: Version of redis the cluster supports, e.g. '6'
-	RedisVersion *string `json:"redisVersion,omitempty"`
-
-	//ResourceState: Current resource status of the cluster
-	ResourceState *ResourceState_Status `json:"resourceState,omitempty"`
+	ProvisioningState          *ProvisioningState_Status                                 `json:"provisioningState,omitempty"`
+	RedisVersion               *string                                                   `json:"redisVersion,omitempty"`
+	ResourceState              *ResourceState_Status                                     `json:"resourceState,omitempty"`
 }
 
+//Deprecated version of Sku_Status. Use v1beta20210301.Sku_Status instead
 type Sku_StatusARM struct {
-	//Capacity: The size of the RedisEnterprise cluster. Defaults to 2 or 3 depending on SKU. Valid values are (2, 4, 6, ...)
-	//for Enterprise SKUs and (3, 9, 15, ...) for Flash SKUs.
-	Capacity *int `json:"capacity,omitempty"`
-
-	//Name: The type of RedisEnterprise cluster to deploy. Possible values: (Enterprise_E10, EnterpriseFlash_F300 etc.)
-	Name *SkuStatusName `json:"name,omitempty"`
+	Capacity *int           `json:"capacity,omitempty"`
+	Name     *SkuStatusName `json:"name,omitempty"`
 }
 
+//Deprecated version of ClusterPropertiesStatusMinimumTlsVersion. Use
+//v1beta20210301.ClusterPropertiesStatusMinimumTlsVersion instead
 type ClusterPropertiesStatusMinimumTlsVersion string
 
 const (
@@ -67,12 +41,12 @@ const (
 	ClusterPropertiesStatusMinimumTlsVersion12 = ClusterPropertiesStatusMinimumTlsVersion("1.2")
 )
 
+//Deprecated version of PrivateEndpointConnection_Status_SubResourceEmbedded. Use v1beta20210301.PrivateEndpointConnection_Status_SubResourceEmbedded instead
 type PrivateEndpointConnection_Status_SubResourceEmbeddedARM struct {
-	//Id: Fully qualified resource ID for the resource. Ex -
-	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
 }
 
+//Deprecated version of ProvisioningState_Status. Use v1beta20210301.ProvisioningState_Status instead
 type ProvisioningState_Status string
 
 const (
@@ -84,6 +58,7 @@ const (
 	ProvisioningState_StatusUpdating  = ProvisioningState_Status("Updating")
 )
 
+//Deprecated version of ResourceState_Status. Use v1beta20210301.ResourceState_Status instead
 type ResourceState_Status string
 
 const (
@@ -101,6 +76,7 @@ const (
 	ResourceState_StatusUpdating      = ResourceState_Status("Updating")
 )
 
+//Deprecated version of SkuStatusName. Use v1beta20210301.SkuStatusName instead
 type SkuStatusName string
 
 const (

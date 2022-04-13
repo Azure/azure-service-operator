@@ -14,9 +14,9 @@ import (
 
 	"github.com/Azure/go-autorest/autorest/to"
 
-	compute "github.com/Azure/azure-service-operator/v2/api/compute/v1alpha1api20201201"
-	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1alpha1api20200601"
-	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401"
+	compute "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201"
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
+	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )

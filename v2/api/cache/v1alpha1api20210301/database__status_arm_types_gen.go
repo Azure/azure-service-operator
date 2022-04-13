@@ -3,48 +3,28 @@
 // Licensed under the MIT license.
 package v1alpha1api20210301
 
+//Deprecated version of Database_Status. Use v1beta20210301.Database_Status instead
 type Database_StatusARM struct {
-	//Id: Fully qualified resource ID for the resource. Ex -
-	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
-	//Name: The name of the resource
-	Name *string `json:"name,omitempty"`
-
-	//Properties: Other properties of the database.
+	Id         *string                       `json:"id,omitempty"`
+	Name       *string                       `json:"name,omitempty"`
 	Properties *DatabaseProperties_StatusARM `json:"properties,omitempty"`
-
-	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-	Type *string `json:"type,omitempty"`
+	Type       *string                       `json:"type,omitempty"`
 }
 
+//Deprecated version of DatabaseProperties_Status. Use v1beta20210301.DatabaseProperties_Status instead
 type DatabaseProperties_StatusARM struct {
-	//ClientProtocol: Specifies whether redis clients can connect using TLS-encrypted or plaintext redis protocols. Default is
-	//TLS-encrypted.
-	ClientProtocol *DatabasePropertiesStatusClientProtocol `json:"clientProtocol,omitempty"`
-
-	//ClusteringPolicy: Clustering policy - default is OSSCluster. Specified at create time.
-	ClusteringPolicy *DatabasePropertiesStatusClusteringPolicy `json:"clusteringPolicy,omitempty"`
-
-	//EvictionPolicy: Redis eviction policy - default is VolatileLRU
-	EvictionPolicy *DatabasePropertiesStatusEvictionPolicy `json:"evictionPolicy,omitempty"`
-
-	//Modules: Optional set of redis modules to enable in this database - modules can only be added at creation time.
-	Modules []Module_StatusARM `json:"modules,omitempty"`
-
-	//Persistence: Persistence settings
-	Persistence *Persistence_StatusARM `json:"persistence,omitempty"`
-
-	//Port: TCP port of the database endpoint. Specified at create time. Defaults to an available port.
-	Port *int `json:"port,omitempty"`
-
-	//ProvisioningState: Current provisioning status of the database
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
-
-	//ResourceState: Current resource status of the database
-	ResourceState *ResourceState_Status `json:"resourceState,omitempty"`
+	ClientProtocol    *DatabasePropertiesStatusClientProtocol   `json:"clientProtocol,omitempty"`
+	ClusteringPolicy  *DatabasePropertiesStatusClusteringPolicy `json:"clusteringPolicy,omitempty"`
+	EvictionPolicy    *DatabasePropertiesStatusEvictionPolicy   `json:"evictionPolicy,omitempty"`
+	Modules           []Module_StatusARM                        `json:"modules,omitempty"`
+	Persistence       *Persistence_StatusARM                    `json:"persistence,omitempty"`
+	Port              *int                                      `json:"port,omitempty"`
+	ProvisioningState *ProvisioningState_Status                 `json:"provisioningState,omitempty"`
+	ResourceState     *ResourceState_Status                     `json:"resourceState,omitempty"`
 }
 
+//Deprecated version of DatabasePropertiesStatusClientProtocol. Use v1beta20210301.DatabasePropertiesStatusClientProtocol
+//instead
 type DatabasePropertiesStatusClientProtocol string
 
 const (
@@ -52,6 +32,8 @@ const (
 	DatabasePropertiesStatusClientProtocolPlaintext = DatabasePropertiesStatusClientProtocol("Plaintext")
 )
 
+//Deprecated version of DatabasePropertiesStatusClusteringPolicy. Use
+//v1beta20210301.DatabasePropertiesStatusClusteringPolicy instead
 type DatabasePropertiesStatusClusteringPolicy string
 
 const (
@@ -59,6 +41,8 @@ const (
 	DatabasePropertiesStatusClusteringPolicyOSSCluster        = DatabasePropertiesStatusClusteringPolicy("OSSCluster")
 )
 
+//Deprecated version of DatabasePropertiesStatusEvictionPolicy. Use v1beta20210301.DatabasePropertiesStatusEvictionPolicy
+//instead
 type DatabasePropertiesStatusEvictionPolicy string
 
 const (
@@ -72,31 +56,22 @@ const (
 	DatabasePropertiesStatusEvictionPolicyVolatileTTL    = DatabasePropertiesStatusEvictionPolicy("VolatileTTL")
 )
 
+//Deprecated version of Module_Status. Use v1beta20210301.Module_Status instead
 type Module_StatusARM struct {
-	//Args: Configuration options for the module, e.g. 'ERROR_RATE 0.00 INITIAL_SIZE 400'.
-	Args *string `json:"args,omitempty"`
-
-	//Name: The name of the module, e.g. 'RedisBloom', 'RediSearch', 'RedisTimeSeries'
-	Name *string `json:"name,omitempty"`
-
-	//Version: The version of the module, e.g. '1.0'.
+	Args    *string `json:"args,omitempty"`
+	Name    *string `json:"name,omitempty"`
 	Version *string `json:"version,omitempty"`
 }
 
+//Deprecated version of Persistence_Status. Use v1beta20210301.Persistence_Status instead
 type Persistence_StatusARM struct {
-	//AofEnabled: Sets whether AOF is enabled.
-	AofEnabled *bool `json:"aofEnabled,omitempty"`
-
-	//AofFrequency: Sets the frequency at which data is written to disk.
+	AofEnabled   *bool                          `json:"aofEnabled,omitempty"`
 	AofFrequency *PersistenceStatusAofFrequency `json:"aofFrequency,omitempty"`
-
-	//RdbEnabled: Sets whether RDB is enabled.
-	RdbEnabled *bool `json:"rdbEnabled,omitempty"`
-
-	//RdbFrequency: Sets the frequency at which a snapshot of the database is created.
+	RdbEnabled   *bool                          `json:"rdbEnabled,omitempty"`
 	RdbFrequency *PersistenceStatusRdbFrequency `json:"rdbFrequency,omitempty"`
 }
 
+//Deprecated version of PersistenceStatusAofFrequency. Use v1beta20210301.PersistenceStatusAofFrequency instead
 type PersistenceStatusAofFrequency string
 
 const (
@@ -104,6 +79,7 @@ const (
 	PersistenceStatusAofFrequencyAlways = PersistenceStatusAofFrequency("always")
 )
 
+//Deprecated version of PersistenceStatusRdbFrequency. Use v1beta20210301.PersistenceStatusRdbFrequency instead
 type PersistenceStatusRdbFrequency string
 
 const (

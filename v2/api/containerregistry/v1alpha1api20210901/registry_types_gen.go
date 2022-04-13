@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/resourceDefinitions/registries
+//Deprecated version of Registry. Use v1beta20210901.Registry instead
 type Registry struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -48,22 +48,36 @@ var _ conversion.Convertible = &Registry{}
 
 // ConvertFrom populates our Registry from the provided hub Registry
 func (registry *Registry) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1alpha1api20210901storage.Registry)
-	if !ok {
-		return fmt.Errorf("expected containerregistry/v1alpha1api20210901storage/Registry but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v1alpha1api20210901storage.Registry
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return registry.AssignPropertiesFromRegistry(source)
+	err = registry.AssignPropertiesFromRegistry(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to registry")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub Registry from our Registry
 func (registry *Registry) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1alpha1api20210901storage.Registry)
-	if !ok {
-		return fmt.Errorf("expected containerregistry/v1alpha1api20210901storage/Registry but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v1alpha1api20210901storage.Registry
+	err := registry.AssignPropertiesToRegistry(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from registry")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return registry.AssignPropertiesToRegistry(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-containerregistry-azure-com-v1alpha1api20210901-registry,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=containerregistry.azure.com,resources=registries,verbs=create;update,versions=v1alpha1api20210901,name=default.v1alpha1api20210901.registries.containerregistry.azure.com,admissionReviewVersions=v1beta1
@@ -300,20 +314,14 @@ func (registry *Registry) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/resourceDefinitions/registries
+//Deprecated version of Registry. Use v1beta20210901.Registry instead
 type RegistryList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Registry `json:"items"`
 }
 
-// +kubebuilder:validation:Enum={"2021-09-01"}
-type RegistriesSpecAPIVersion string
-
-const RegistriesSpecAPIVersion20210901 = RegistriesSpecAPIVersion("2021-09-01")
-
 type Registries_Spec struct {
-	//AdminUserEnabled: The value that indicates whether the admin user is enabled.
 	AdminUserEnabled *bool `json:"adminUserEnabled,omitempty"`
 
 	// +kubebuilder:validation:MaxLength=50
@@ -321,44 +329,25 @@ type Registries_Spec struct {
 	// +kubebuilder:validation:Pattern="^[a-zA-Z0-9]*$"
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	//DataEndpointEnabled: Enable a single data endpoint per region for serving data.
-	DataEndpointEnabled *bool               `json:"dataEndpointEnabled,omitempty"`
-	Encryption          *EncryptionProperty `json:"encryption,omitempty"`
-
-	//Identity: Managed identity for the resource.
-	Identity *IdentityProperties `json:"identity,omitempty"`
-
-	//Location: The location of the resource. This cannot be changed after the resource is created.
-	Location *string `json:"location,omitempty"`
-
-	//NetworkRuleBypassOptions: Whether to allow trusted Azure services to access a network restricted registry.
+	AzureName                string                                      `json:"azureName,omitempty"`
+	DataEndpointEnabled      *bool                                       `json:"dataEndpointEnabled,omitempty"`
+	Encryption               *EncryptionProperty                         `json:"encryption,omitempty"`
+	Identity                 *IdentityProperties                         `json:"identity,omitempty"`
+	Location                 *string                                     `json:"location,omitempty"`
 	NetworkRuleBypassOptions *RegistryPropertiesNetworkRuleBypassOptions `json:"networkRuleBypassOptions,omitempty"`
-
-	//NetworkRuleSet: The network rule set for a container registry.
-	NetworkRuleSet *NetworkRuleSet `json:"networkRuleSet,omitempty"`
+	NetworkRuleSet           *NetworkRuleSet                             `json:"networkRuleSet,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a resources.azure.com/ResourceGroup resource
-	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-
-	//Policies: The policies for a container registry.
-	Policies *Policies `json:"policies,omitempty"`
-
-	//PublicNetworkAccess: Whether or not public network access is allowed for the container registry.
+	Owner               *genruntime.KnownResourceReference     `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	Policies            *Policies                              `json:"policies,omitempty"`
 	PublicNetworkAccess *RegistryPropertiesPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Sku: The SKU of a container registry.
-	Sku *Sku `json:"sku,omitempty"`
-
-	//Tags: Name-value pairs to add to the resource
-	Tags map[string]string `json:"tags,omitempty"`
-
-	//ZoneRedundancy: Whether or not zone redundancy is enabled for this container registry.
+	Sku            *Sku                              `json:"sku,omitempty"`
+	Tags           map[string]string                 `json:"tags,omitempty"`
 	ZoneRedundancy *RegistryPropertiesZoneRedundancy `json:"zoneRedundancy,omitempty"`
 }
 
@@ -931,75 +920,33 @@ func (registries *Registries_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (registries *Registries_Spec) SetAzureName(azureName string) { registries.AzureName = azureName }
 
+//Deprecated version of Registry_Status. Use v1beta20210901.Registry_Status instead
 type Registry_Status struct {
-	//AdminUserEnabled: The value that indicates whether the admin user is enabled.
 	AdminUserEnabled *bool `json:"adminUserEnabled,omitempty"`
 
 	//Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	//CreationDate: The creation date of the container registry in ISO8601 format.
-	CreationDate *string `json:"creationDate,omitempty"`
-
-	//DataEndpointEnabled: Enable a single data endpoint per region for serving data.
-	DataEndpointEnabled *bool `json:"dataEndpointEnabled,omitempty"`
-
-	//DataEndpointHostNames: List of host names that will serve data when dataEndpointEnabled is true.
-	DataEndpointHostNames []string `json:"dataEndpointHostNames,omitempty"`
-
-	//Encryption: The encryption settings of container registry.
-	Encryption *EncryptionProperty_Status `json:"encryption,omitempty"`
-
-	//Id: The resource ID.
-	Id *string `json:"id,omitempty"`
-
-	//Identity: The identity of the container registry.
-	Identity *IdentityProperties_Status `json:"identity,omitempty"`
-
-	//Location: The location of the resource. This cannot be changed after the resource is created.
-	Location *string `json:"location,omitempty"`
-
-	//LoginServer: The URL that can be used to log into the container registry.
-	LoginServer *string `json:"loginServer,omitempty"`
-
-	//Name: The name of the resource.
-	Name *string `json:"name,omitempty"`
-
-	//NetworkRuleBypassOptions: Whether to allow trusted Azure services to access a network restricted registry.
-	NetworkRuleBypassOptions *RegistryPropertiesStatusNetworkRuleBypassOptions `json:"networkRuleBypassOptions,omitempty"`
-
-	//NetworkRuleSet: The network rule set for a container registry.
-	NetworkRuleSet *NetworkRuleSet_Status `json:"networkRuleSet,omitempty"`
-
-	//Policies: The policies for a container registry.
-	Policies *Policies_Status `json:"policies,omitempty"`
-
-	//PrivateEndpointConnections: List of private endpoint connections for a container registry.
+	Conditions                 []conditions.Condition                                 `json:"conditions,omitempty"`
+	CreationDate               *string                                                `json:"creationDate,omitempty"`
+	DataEndpointEnabled        *bool                                                  `json:"dataEndpointEnabled,omitempty"`
+	DataEndpointHostNames      []string                                               `json:"dataEndpointHostNames,omitempty"`
+	Encryption                 *EncryptionProperty_Status                             `json:"encryption,omitempty"`
+	Id                         *string                                                `json:"id,omitempty"`
+	Identity                   *IdentityProperties_Status                             `json:"identity,omitempty"`
+	Location                   *string                                                `json:"location,omitempty"`
+	LoginServer                *string                                                `json:"loginServer,omitempty"`
+	Name                       *string                                                `json:"name,omitempty"`
+	NetworkRuleBypassOptions   *RegistryPropertiesStatusNetworkRuleBypassOptions      `json:"networkRuleBypassOptions,omitempty"`
+	NetworkRuleSet             *NetworkRuleSet_Status                                 `json:"networkRuleSet,omitempty"`
+	Policies                   *Policies_Status                                       `json:"policies,omitempty"`
 	PrivateEndpointConnections []PrivateEndpointConnection_Status_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
-
-	//ProvisioningState: The provisioning state of the container registry at the time the operation was called.
-	ProvisioningState *RegistryPropertiesStatusProvisioningState `json:"provisioningState,omitempty"`
-
-	//PublicNetworkAccess: Whether or not public network access is allowed for the container registry.
-	PublicNetworkAccess *RegistryPropertiesStatusPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
-
-	//Sku: The SKU of the container registry.
-	Sku *Sku_Status `json:"sku,omitempty"`
-
-	//Status: The status of the container registry at the time the operation was called.
-	Status *Status_Status `json:"status,omitempty"`
-
-	//SystemData: Metadata pertaining to creation and last modification of the resource.
-	SystemData *SystemData_Status `json:"systemData,omitempty"`
-
-	//Tags: The tags of the resource.
-	Tags map[string]string `json:"tags,omitempty"`
-
-	//Type: The type of the resource.
-	Type *string `json:"type,omitempty"`
-
-	//ZoneRedundancy: Whether or not zone redundancy is enabled for this container registry
-	ZoneRedundancy *RegistryPropertiesStatusZoneRedundancy `json:"zoneRedundancy,omitempty"`
+	ProvisioningState          *RegistryPropertiesStatusProvisioningState             `json:"provisioningState,omitempty"`
+	PublicNetworkAccess        *RegistryPropertiesStatusPublicNetworkAccess           `json:"publicNetworkAccess,omitempty"`
+	Sku                        *Sku_Status                                            `json:"sku,omitempty"`
+	Status                     *Status_Status                                         `json:"status,omitempty"`
+	SystemData                 *SystemData_Status                                     `json:"systemData,omitempty"`
+	Tags                       map[string]string                                      `json:"tags,omitempty"`
+	Type                       *string                                                `json:"type,omitempty"`
+	ZoneRedundancy             *RegistryPropertiesStatusZoneRedundancy                `json:"zoneRedundancy,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &Registry_Status{}
@@ -1663,12 +1610,10 @@ func (registry *Registry_Status) AssignPropertiesToRegistryStatus(destination *v
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/EncryptionProperty
+//Deprecated version of EncryptionProperty. Use v1beta20210901.EncryptionProperty instead
 type EncryptionProperty struct {
-	KeyVaultProperties *KeyVaultProperties `json:"keyVaultProperties,omitempty"`
-
-	//Status: Indicates whether or not the encryption is enabled for container registry.
-	Status *EncryptionPropertyStatus `json:"status,omitempty"`
+	KeyVaultProperties *KeyVaultProperties       `json:"keyVaultProperties,omitempty"`
+	Status             *EncryptionPropertyStatus `json:"status,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &EncryptionProperty{}
@@ -1794,12 +1739,10 @@ func (property *EncryptionProperty) AssignPropertiesToEncryptionProperty(destina
 	return nil
 }
 
+//Deprecated version of EncryptionProperty_Status. Use v1beta20210901.EncryptionProperty_Status instead
 type EncryptionProperty_Status struct {
-	//KeyVaultProperties: Key vault properties.
-	KeyVaultProperties *KeyVaultProperties_Status `json:"keyVaultProperties,omitempty"`
-
-	//Status: Indicates whether or not the encryption is enabled for container registry.
-	Status *EncryptionPropertyStatusStatus `json:"status,omitempty"`
+	KeyVaultProperties *KeyVaultProperties_Status      `json:"keyVaultProperties,omitempty"`
+	Status             *EncryptionPropertyStatusStatus `json:"status,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &EncryptionProperty_Status{}
@@ -1900,21 +1843,11 @@ func (property *EncryptionProperty_Status) AssignPropertiesToEncryptionPropertyS
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/IdentityProperties
+//Deprecated version of IdentityProperties. Use v1beta20210901.IdentityProperties instead
 type IdentityProperties struct {
-	//PrincipalId: The principal ID of resource identity.
-	PrincipalId *string `json:"principalId,omitempty"`
-
-	//TenantId: The tenant ID of resource.
-	TenantId *string `json:"tenantId,omitempty"`
-
-	//Type: The identity type.
-	Type *IdentityPropertiesType `json:"type,omitempty"`
-
-	//UserAssignedIdentities: The list of user identities associated with the resource. The user identity
-	//dictionary key references will be ARM resource ids in the form:
-	//'/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/
-	//providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+	PrincipalId            *string                           `json:"principalId,omitempty"`
+	TenantId               *string                           `json:"tenantId,omitempty"`
+	Type                   *IdentityPropertiesType           `json:"type,omitempty"`
 	UserAssignedIdentities map[string]UserIdentityProperties `json:"userAssignedIdentities,omitempty"`
 }
 
@@ -2093,20 +2026,11 @@ func (properties *IdentityProperties) AssignPropertiesToIdentityProperties(desti
 	return nil
 }
 
+//Deprecated version of IdentityProperties_Status. Use v1beta20210901.IdentityProperties_Status instead
 type IdentityProperties_Status struct {
-	//PrincipalId: The principal ID of resource identity.
-	PrincipalId *string `json:"principalId,omitempty"`
-
-	//TenantId: The tenant ID of resource.
-	TenantId *string `json:"tenantId,omitempty"`
-
-	//Type: The identity type.
-	Type *IdentityPropertiesStatusType `json:"type,omitempty"`
-
-	//UserAssignedIdentities: The list of user identities associated with the resource. The user identity
-	//dictionary key references will be ARM resource ids in the form:
-	//'/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/
-	//providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+	PrincipalId            *string                                  `json:"principalId,omitempty"`
+	TenantId               *string                                  `json:"tenantId,omitempty"`
+	Type                   *IdentityPropertiesStatusType            `json:"type,omitempty"`
 	UserAssignedIdentities map[string]UserIdentityProperties_Status `json:"userAssignedIdentities,omitempty"`
 }
 
@@ -2246,14 +2170,11 @@ func (properties *IdentityProperties_Status) AssignPropertiesToIdentityPropertie
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/NetworkRuleSet
+//Deprecated version of NetworkRuleSet. Use v1beta20210901.NetworkRuleSet instead
 type NetworkRuleSet struct {
 	// +kubebuilder:validation:Required
-	//DefaultAction: The default action of allow or deny when no other rules match.
 	DefaultAction *NetworkRuleSetDefaultAction `json:"defaultAction,omitempty"`
-
-	//IpRules: The IP ACL rules.
-	IpRules []IPRule `json:"ipRules,omitempty"`
+	IpRules       []IPRule                     `json:"ipRules,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &NetworkRuleSet{}
@@ -2389,12 +2310,10 @@ func (ruleSet *NetworkRuleSet) AssignPropertiesToNetworkRuleSet(destination *v1a
 	return nil
 }
 
+//Deprecated version of NetworkRuleSet_Status. Use v1beta20210901.NetworkRuleSet_Status instead
 type NetworkRuleSet_Status struct {
-	//DefaultAction: The default action of allow or deny when no other rules match.
 	DefaultAction *NetworkRuleSetStatusDefaultAction `json:"defaultAction,omitempty"`
-
-	//IpRules: The IP ACL rules.
-	IpRules []IPRule_Status `json:"ipRules,omitempty"`
+	IpRules       []IPRule_Status                    `json:"ipRules,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &NetworkRuleSet_Status{}
@@ -2506,19 +2425,12 @@ func (ruleSet *NetworkRuleSet_Status) AssignPropertiesToNetworkRuleSetStatus(des
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/Policies
+//Deprecated version of Policies. Use v1beta20210901.Policies instead
 type Policies struct {
-	//ExportPolicy: The export policy for a container registry.
-	ExportPolicy *ExportPolicy `json:"exportPolicy,omitempty"`
-
-	//QuarantinePolicy: The quarantine policy for a container registry.
+	ExportPolicy     *ExportPolicy     `json:"exportPolicy,omitempty"`
 	QuarantinePolicy *QuarantinePolicy `json:"quarantinePolicy,omitempty"`
-
-	//RetentionPolicy: The retention policy for a container registry.
-	RetentionPolicy *RetentionPolicy `json:"retentionPolicy,omitempty"`
-
-	//TrustPolicy: The content trust policy for a container registry.
-	TrustPolicy *TrustPolicy `json:"trustPolicy,omitempty"`
+	RetentionPolicy  *RetentionPolicy  `json:"retentionPolicy,omitempty"`
+	TrustPolicy      *TrustPolicy      `json:"trustPolicy,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Policies{}
@@ -2751,18 +2663,12 @@ func (policies *Policies) AssignPropertiesToPolicies(destination *v1alpha1api202
 	return nil
 }
 
+//Deprecated version of Policies_Status. Use v1beta20210901.Policies_Status instead
 type Policies_Status struct {
-	//ExportPolicy: The export policy for a container registry.
-	ExportPolicy *ExportPolicy_Status `json:"exportPolicy,omitempty"`
-
-	//QuarantinePolicy: The quarantine policy for a container registry.
+	ExportPolicy     *ExportPolicy_Status     `json:"exportPolicy,omitempty"`
 	QuarantinePolicy *QuarantinePolicy_Status `json:"quarantinePolicy,omitempty"`
-
-	//RetentionPolicy: The retention policy for a container registry.
-	RetentionPolicy *RetentionPolicy_Status `json:"retentionPolicy,omitempty"`
-
-	//TrustPolicy: The content trust policy for a container registry.
-	TrustPolicy *TrustPolicy_Status `json:"trustPolicy,omitempty"`
+	RetentionPolicy  *RetentionPolicy_Status  `json:"retentionPolicy,omitempty"`
+	TrustPolicy      *TrustPolicy_Status      `json:"trustPolicy,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &Policies_Status{}
@@ -2946,11 +2852,9 @@ func (policies *Policies_Status) AssignPropertiesToPoliciesStatus(destination *v
 	return nil
 }
 
+//Deprecated version of PrivateEndpointConnection_Status_SubResourceEmbedded. Use v1beta20210901.PrivateEndpointConnection_Status_SubResourceEmbedded instead
 type PrivateEndpointConnection_Status_SubResourceEmbedded struct {
-	//Id: The resource ID.
-	Id *string `json:"id,omitempty"`
-
-	//SystemData: Metadata pertaining to creation and last modification of the resource.
+	Id         *string            `json:"id,omitempty"`
 	SystemData *SystemData_Status `json:"systemData,omitempty"`
 }
 
@@ -3042,6 +2946,8 @@ func (embedded *PrivateEndpointConnection_Status_SubResourceEmbedded) AssignProp
 	return nil
 }
 
+//Deprecated version of RegistryPropertiesStatusNetworkRuleBypassOptions. Use
+//v1beta20210901.RegistryPropertiesStatusNetworkRuleBypassOptions instead
 type RegistryPropertiesStatusNetworkRuleBypassOptions string
 
 const (
@@ -3049,6 +2955,8 @@ const (
 	RegistryPropertiesStatusNetworkRuleBypassOptionsNone          = RegistryPropertiesStatusNetworkRuleBypassOptions("None")
 )
 
+//Deprecated version of RegistryPropertiesStatusProvisioningState. Use
+//v1beta20210901.RegistryPropertiesStatusProvisioningState instead
 type RegistryPropertiesStatusProvisioningState string
 
 const (
@@ -3060,6 +2968,8 @@ const (
 	RegistryPropertiesStatusProvisioningStateUpdating  = RegistryPropertiesStatusProvisioningState("Updating")
 )
 
+//Deprecated version of RegistryPropertiesStatusPublicNetworkAccess. Use
+//v1beta20210901.RegistryPropertiesStatusPublicNetworkAccess instead
 type RegistryPropertiesStatusPublicNetworkAccess string
 
 const (
@@ -3067,6 +2977,8 @@ const (
 	RegistryPropertiesStatusPublicNetworkAccessEnabled  = RegistryPropertiesStatusPublicNetworkAccess("Enabled")
 )
 
+//Deprecated version of RegistryPropertiesStatusZoneRedundancy. Use v1beta20210901.RegistryPropertiesStatusZoneRedundancy
+//instead
 type RegistryPropertiesStatusZoneRedundancy string
 
 const (
@@ -3074,10 +2986,9 @@ const (
 	RegistryPropertiesStatusZoneRedundancyEnabled  = RegistryPropertiesStatusZoneRedundancy("Enabled")
 )
 
-//Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/Sku
+//Deprecated version of Sku. Use v1beta20210901.Sku instead
 type Sku struct {
 	// +kubebuilder:validation:Required
-	//Name: The SKU name of the container registry. Required for registry creation.
 	Name *SkuName `json:"name,omitempty"`
 }
 
@@ -3159,11 +3070,9 @@ func (sku *Sku) AssignPropertiesToSku(destination *v1alpha1api20210901storage.Sk
 	return nil
 }
 
+//Deprecated version of Sku_Status. Use v1beta20210901.Sku_Status instead
 type Sku_Status struct {
-	//Name: The SKU name of the container registry. Required for registry creation.
 	Name *SkuStatusName `json:"name,omitempty"`
-
-	//Tier: The SKU tier based on the SKU name.
 	Tier *SkuStatusTier `json:"tier,omitempty"`
 }
 
@@ -3252,15 +3161,11 @@ func (sku *Sku_Status) AssignPropertiesToSkuStatus(destination *v1alpha1api20210
 	return nil
 }
 
+//Deprecated version of Status_Status. Use v1beta20210901.Status_Status instead
 type Status_Status struct {
-	//DisplayStatus: The short label for the status.
 	DisplayStatus *string `json:"displayStatus,omitempty"`
-
-	//Message: The detailed message for the status, including alerts and error messages.
-	Message *string `json:"message,omitempty"`
-
-	//Timestamp: The timestamp when the status was changed to the current value.
-	Timestamp *string `json:"timestamp,omitempty"`
+	Message       *string `json:"message,omitempty"`
+	Timestamp     *string `json:"timestamp,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &Status_Status{}
@@ -3340,23 +3245,13 @@ func (status *Status_Status) AssignPropertiesToStatusStatus(destination *v1alpha
 	return nil
 }
 
+//Deprecated version of SystemData_Status. Use v1beta20210901.SystemData_Status instead
 type SystemData_Status struct {
-	//CreatedAt: The timestamp of resource creation (UTC).
-	CreatedAt *string `json:"createdAt,omitempty"`
-
-	//CreatedBy: The identity that created the resource.
-	CreatedBy *string `json:"createdBy,omitempty"`
-
-	//CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemDataStatusCreatedByType `json:"createdByType,omitempty"`
-
-	//LastModifiedAt: The timestamp of resource modification (UTC).
-	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
-
-	//LastModifiedBy: The identity that last modified the resource.
-	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
-
-	//LastModifiedByType: The type of identity that last modified the resource.
+	CreatedAt          *string                             `json:"createdAt,omitempty"`
+	CreatedBy          *string                             `json:"createdBy,omitempty"`
+	CreatedByType      *SystemDataStatusCreatedByType      `json:"createdByType,omitempty"`
+	LastModifiedAt     *string                             `json:"lastModifiedAt,omitempty"`
+	LastModifiedBy     *string                             `json:"lastModifiedBy,omitempty"`
 	LastModifiedByType *SystemDataStatusLastModifiedByType `json:"lastModifiedByType,omitempty"`
 }
 
@@ -3493,6 +3388,7 @@ func (data *SystemData_Status) AssignPropertiesToSystemDataStatus(destination *v
 	return nil
 }
 
+//Deprecated version of EncryptionPropertyStatusStatus. Use v1beta20210901.EncryptionPropertyStatusStatus instead
 type EncryptionPropertyStatusStatus string
 
 const (
@@ -3500,9 +3396,8 @@ const (
 	EncryptionPropertyStatusStatusEnabled  = EncryptionPropertyStatusStatus("enabled")
 )
 
-//Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/ExportPolicy
+//Deprecated version of ExportPolicy. Use v1beta20210901.ExportPolicy instead
 type ExportPolicy struct {
-	//Status: The value that indicates whether the policy is enabled or not.
 	Status *ExportPolicyStatus `json:"status,omitempty"`
 }
 
@@ -3584,8 +3479,8 @@ func (policy *ExportPolicy) AssignPropertiesToExportPolicy(destination *v1alpha1
 	return nil
 }
 
+//Deprecated version of ExportPolicy_Status. Use v1beta20210901.ExportPolicy_Status instead
 type ExportPolicy_Status struct {
-	//Status: The value that indicates whether the policy is enabled or not.
 	Status *ExportPolicyStatusStatus `json:"status,omitempty"`
 }
 
@@ -3652,13 +3547,11 @@ func (policy *ExportPolicy_Status) AssignPropertiesToExportPolicyStatus(destinat
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/IPRule
+//Deprecated version of IPRule. Use v1beta20210901.IPRule instead
 type IPRule struct {
-	//Action: The action of IP ACL rule.
 	Action *IPRuleAction `json:"action,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Value: Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed.
 	Value *string `json:"value,omitempty"`
 }
 
@@ -3758,12 +3651,10 @@ func (rule *IPRule) AssignPropertiesToIPRule(destination *v1alpha1api20210901sto
 	return nil
 }
 
+//Deprecated version of IPRule_Status. Use v1beta20210901.IPRule_Status instead
 type IPRule_Status struct {
-	//Action: The action of IP ACL rule.
 	Action *IPRuleStatusAction `json:"action,omitempty"`
-
-	//Value: Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed.
-	Value *string `json:"value,omitempty"`
+	Value  *string             `json:"value,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &IPRule_Status{}
@@ -3841,12 +3732,9 @@ func (rule *IPRule_Status) AssignPropertiesToIPRuleStatus(destination *v1alpha1a
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/KeyVaultProperties
+//Deprecated version of KeyVaultProperties. Use v1beta20210901.KeyVaultProperties instead
 type KeyVaultProperties struct {
-	//Identity: The client id of the identity which will be used to access key vault.
-	Identity *string `json:"identity,omitempty"`
-
-	//KeyIdentifier: Key vault uri to access the encryption key.
+	Identity      *string `json:"identity,omitempty"`
 	KeyIdentifier *string `json:"keyIdentifier,omitempty"`
 }
 
@@ -3936,22 +3824,13 @@ func (properties *KeyVaultProperties) AssignPropertiesToKeyVaultProperties(desti
 	return nil
 }
 
+//Deprecated version of KeyVaultProperties_Status. Use v1beta20210901.KeyVaultProperties_Status instead
 type KeyVaultProperties_Status struct {
-	//Identity: The client id of the identity which will be used to access key vault.
-	Identity *string `json:"identity,omitempty"`
-
-	//KeyIdentifier: Key vault uri to access the encryption key.
-	KeyIdentifier *string `json:"keyIdentifier,omitempty"`
-
-	//KeyRotationEnabled: Auto key rotation status for a CMK enabled registry.
-	KeyRotationEnabled *bool `json:"keyRotationEnabled,omitempty"`
-
-	//LastKeyRotationTimestamp: Timestamp of the last successful key rotation.
+	Identity                 *string `json:"identity,omitempty"`
+	KeyIdentifier            *string `json:"keyIdentifier,omitempty"`
+	KeyRotationEnabled       *bool   `json:"keyRotationEnabled,omitempty"`
 	LastKeyRotationTimestamp *string `json:"lastKeyRotationTimestamp,omitempty"`
-
-	//VersionedKeyIdentifier: The fully qualified key identifier that includes the version of the key that is actually used
-	//for encryption.
-	VersionedKeyIdentifier *string `json:"versionedKeyIdentifier,omitempty"`
+	VersionedKeyIdentifier   *string `json:"versionedKeyIdentifier,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &KeyVaultProperties_Status{}
@@ -4065,6 +3944,7 @@ func (properties *KeyVaultProperties_Status) AssignPropertiesToKeyVaultPropertie
 	return nil
 }
 
+//Deprecated version of NetworkRuleSetStatusDefaultAction. Use v1beta20210901.NetworkRuleSetStatusDefaultAction instead
 type NetworkRuleSetStatusDefaultAction string
 
 const (
@@ -4072,9 +3952,8 @@ const (
 	NetworkRuleSetStatusDefaultActionDeny  = NetworkRuleSetStatusDefaultAction("Deny")
 )
 
-//Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/QuarantinePolicy
+//Deprecated version of QuarantinePolicy. Use v1beta20210901.QuarantinePolicy instead
 type QuarantinePolicy struct {
-	//Status: The value that indicates whether the policy is enabled or not.
 	Status *QuarantinePolicyStatus `json:"status,omitempty"`
 }
 
@@ -4156,8 +4035,8 @@ func (policy *QuarantinePolicy) AssignPropertiesToQuarantinePolicy(destination *
 	return nil
 }
 
+//Deprecated version of QuarantinePolicy_Status. Use v1beta20210901.QuarantinePolicy_Status instead
 type QuarantinePolicy_Status struct {
-	//Status: The value that indicates whether the policy is enabled or not.
 	Status *QuarantinePolicyStatusStatus `json:"status,omitempty"`
 }
 
@@ -4224,12 +4103,9 @@ func (policy *QuarantinePolicy_Status) AssignPropertiesToQuarantinePolicyStatus(
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/RetentionPolicy
+//Deprecated version of RetentionPolicy. Use v1beta20210901.RetentionPolicy instead
 type RetentionPolicy struct {
-	//Days: The number of days to retain an untagged manifest after which it gets purged.
-	Days *int `json:"days,omitempty"`
-
-	//Status: The value that indicates whether the policy is enabled or not.
+	Days   *int                   `json:"days,omitempty"`
 	Status *RetentionPolicyStatus `json:"status,omitempty"`
 }
 
@@ -4329,15 +4205,11 @@ func (policy *RetentionPolicy) AssignPropertiesToRetentionPolicy(destination *v1
 	return nil
 }
 
+//Deprecated version of RetentionPolicy_Status. Use v1beta20210901.RetentionPolicy_Status instead
 type RetentionPolicy_Status struct {
-	//Days: The number of days to retain an untagged manifest after which it gets purged.
-	Days *int `json:"days,omitempty"`
-
-	//LastUpdatedTime: The timestamp when the policy was last updated.
-	LastUpdatedTime *string `json:"lastUpdatedTime,omitempty"`
-
-	//Status: The value that indicates whether the policy is enabled or not.
-	Status *RetentionPolicyStatusStatus `json:"status,omitempty"`
+	Days            *int                         `json:"days,omitempty"`
+	LastUpdatedTime *string                      `json:"lastUpdatedTime,omitempty"`
+	Status          *RetentionPolicyStatusStatus `json:"status,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &RetentionPolicy_Status{}
@@ -4427,13 +4299,10 @@ func (policy *RetentionPolicy_Status) AssignPropertiesToRetentionPolicyStatus(de
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/TrustPolicy
+//Deprecated version of TrustPolicy. Use v1beta20210901.TrustPolicy instead
 type TrustPolicy struct {
-	//Status: The value that indicates whether the policy is enabled or not.
 	Status *TrustPolicyStatus `json:"status,omitempty"`
-
-	//Type: The type of trust policy.
-	Type *TrustPolicyType `json:"type,omitempty"`
+	Type   *TrustPolicyType   `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &TrustPolicy{}
@@ -4542,12 +4411,10 @@ func (policy *TrustPolicy) AssignPropertiesToTrustPolicy(destination *v1alpha1ap
 	return nil
 }
 
+//Deprecated version of TrustPolicy_Status. Use v1beta20210901.TrustPolicy_Status instead
 type TrustPolicy_Status struct {
-	//Status: The value that indicates whether the policy is enabled or not.
 	Status *TrustPolicyStatusStatus `json:"status,omitempty"`
-
-	//Type: The type of trust policy.
-	Type *TrustPolicyStatusType `json:"type,omitempty"`
+	Type   *TrustPolicyStatusType   `json:"type,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &TrustPolicy_Status{}
@@ -4635,12 +4502,9 @@ func (policy *TrustPolicy_Status) AssignPropertiesToTrustPolicyStatus(destinatio
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/UserIdentityProperties
+//Deprecated version of UserIdentityProperties. Use v1beta20210901.UserIdentityProperties instead
 type UserIdentityProperties struct {
-	//ClientId: The client id of user assigned identity.
-	ClientId *string `json:"clientId,omitempty"`
-
-	//PrincipalId: The principal id of user assigned identity.
+	ClientId    *string `json:"clientId,omitempty"`
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
@@ -4730,11 +4594,9 @@ func (properties *UserIdentityProperties) AssignPropertiesToUserIdentityProperti
 	return nil
 }
 
+//Deprecated version of UserIdentityProperties_Status. Use v1beta20210901.UserIdentityProperties_Status instead
 type UserIdentityProperties_Status struct {
-	//ClientId: The client id of user assigned identity.
-	ClientId *string `json:"clientId,omitempty"`
-
-	//PrincipalId: The principal id of user assigned identity.
+	ClientId    *string `json:"clientId,omitempty"`
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
@@ -4803,6 +4665,7 @@ func (properties *UserIdentityProperties_Status) AssignPropertiesToUserIdentityP
 	return nil
 }
 
+//Deprecated version of ExportPolicyStatusStatus. Use v1beta20210901.ExportPolicyStatusStatus instead
 type ExportPolicyStatusStatus string
 
 const (
@@ -4810,10 +4673,12 @@ const (
 	ExportPolicyStatusStatusEnabled  = ExportPolicyStatusStatus("enabled")
 )
 
+//Deprecated version of IPRuleStatusAction. Use v1beta20210901.IPRuleStatusAction instead
 type IPRuleStatusAction string
 
 const IPRuleStatusActionAllow = IPRuleStatusAction("Allow")
 
+//Deprecated version of QuarantinePolicyStatusStatus. Use v1beta20210901.QuarantinePolicyStatusStatus instead
 type QuarantinePolicyStatusStatus string
 
 const (
@@ -4821,6 +4686,7 @@ const (
 	QuarantinePolicyStatusStatusEnabled  = QuarantinePolicyStatusStatus("enabled")
 )
 
+//Deprecated version of RetentionPolicyStatusStatus. Use v1beta20210901.RetentionPolicyStatusStatus instead
 type RetentionPolicyStatusStatus string
 
 const (
@@ -4828,6 +4694,7 @@ const (
 	RetentionPolicyStatusStatusEnabled  = RetentionPolicyStatusStatus("enabled")
 )
 
+//Deprecated version of TrustPolicyStatusStatus. Use v1beta20210901.TrustPolicyStatusStatus instead
 type TrustPolicyStatusStatus string
 
 const (
@@ -4835,6 +4702,7 @@ const (
 	TrustPolicyStatusStatusEnabled  = TrustPolicyStatusStatus("enabled")
 )
 
+//Deprecated version of TrustPolicyStatusType. Use v1beta20210901.TrustPolicyStatusType instead
 type TrustPolicyStatusType string
 
 const TrustPolicyStatusTypeNotary = TrustPolicyStatusType("Notary")

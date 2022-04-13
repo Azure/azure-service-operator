@@ -3,83 +3,57 @@
 // Licensed under the MIT license.
 package v1alpha1api20210515
 
+//Deprecated version of MongoDBCollectionGetResults_Status. Use v1beta20210515.MongoDBCollectionGetResults_Status instead
 type MongoDBCollectionGetResults_StatusARM struct {
-	//Id: The unique resource identifier of the ARM resource.
-	Id *string `json:"id,omitempty"`
-
-	//Location: The location of the resource group to which the resource belongs.
-	Location *string `json:"location,omitempty"`
-
-	//Name: The name of the ARM resource.
-	Name *string `json:"name,omitempty"`
-
-	//Properties: The properties of an Azure Cosmos DB MongoDB collection
+	Id         *string                                   `json:"id,omitempty"`
+	Location   *string                                   `json:"location,omitempty"`
+	Name       *string                                   `json:"name,omitempty"`
 	Properties *MongoDBCollectionGetProperties_StatusARM `json:"properties,omitempty"`
 	Tags       map[string]string                         `json:"tags,omitempty"`
-
-	//Type: The type of Azure resource.
-	Type *string `json:"type,omitempty"`
+	Type       *string                                   `json:"type,omitempty"`
 }
 
+//Deprecated version of MongoDBCollectionGetProperties_Status. Use v1beta20210515.MongoDBCollectionGetProperties_Status instead
 type MongoDBCollectionGetProperties_StatusARM struct {
 	Options  *OptionsResource_StatusARM                         `json:"options,omitempty"`
 	Resource *MongoDBCollectionGetProperties_Status_ResourceARM `json:"resource,omitempty"`
 }
 
+//Deprecated version of MongoDBCollectionGetProperties_Status_Resource. Use v1beta20210515.MongoDBCollectionGetProperties_Status_Resource instead
 type MongoDBCollectionGetProperties_Status_ResourceARM struct {
-	//AnalyticalStorageTtl: Analytical TTL.
-	AnalyticalStorageTtl *int `json:"analyticalStorageTtl,omitempty"`
-
-	//Etag: A system generated property representing the resource etag required for optimistic concurrency control.
-	Etag *string `json:"_etag,omitempty"`
-
-	//Id: Name of the Cosmos DB MongoDB collection
-	Id *string `json:"id,omitempty"`
-
-	//Indexes: List of index keys
-	Indexes []MongoIndex_StatusARM `json:"indexes,omitempty"`
-
-	//Rid: A system generated property. A unique identifier.
-	Rid *string `json:"_rid,omitempty"`
-
-	//ShardKey: A key-value pair of shard keys to be applied for the request.
-	ShardKey map[string]string `json:"shardKey,omitempty"`
-
-	//Ts: A system generated property that denotes the last updated timestamp of the resource.
-	Ts *float64 `json:"_ts,omitempty"`
+	AnalyticalStorageTtl *int                   `json:"analyticalStorageTtl,omitempty"`
+	Etag                 *string                `json:"_etag,omitempty"`
+	Id                   *string                `json:"id,omitempty"`
+	Indexes              []MongoIndex_StatusARM `json:"indexes,omitempty"`
+	Rid                  *string                `json:"_rid,omitempty"`
+	ShardKey             map[string]string      `json:"shardKey,omitempty"`
+	Ts                   *float64               `json:"_ts,omitempty"`
 }
 
+//Deprecated version of OptionsResource_Status. Use v1beta20210515.OptionsResource_Status instead
 type OptionsResource_StatusARM struct {
-	//AutoscaleSettings: Specifies the Autoscale settings.
 	AutoscaleSettings *AutoscaleSettings_StatusARM `json:"autoscaleSettings,omitempty"`
-
-	//Throughput: Value of the Cosmos DB resource throughput or autoscaleSettings. Use the ThroughputSetting resource when
-	//retrieving offer details.
-	Throughput *int `json:"throughput,omitempty"`
+	Throughput        *int                         `json:"throughput,omitempty"`
 }
 
+//Deprecated version of AutoscaleSettings_Status. Use v1beta20210515.AutoscaleSettings_Status instead
 type AutoscaleSettings_StatusARM struct {
-	//MaxThroughput: Represents maximum throughput, the resource can scale up to.
 	MaxThroughput *int `json:"maxThroughput,omitempty"`
 }
 
+//Deprecated version of MongoIndex_Status. Use v1beta20210515.MongoIndex_Status instead
 type MongoIndex_StatusARM struct {
-	//Key: Cosmos DB MongoDB collection index keys
-	Key *MongoIndexKeys_StatusARM `json:"key,omitempty"`
-
-	//Options: Cosmos DB MongoDB collection index key options
+	Key     *MongoIndexKeys_StatusARM    `json:"key,omitempty"`
 	Options *MongoIndexOptions_StatusARM `json:"options,omitempty"`
 }
 
+//Deprecated version of MongoIndexKeys_Status. Use v1beta20210515.MongoIndexKeys_Status instead
 type MongoIndexKeys_StatusARM struct {
-	//Keys: List of keys for each MongoDB collection in the Azure Cosmos DB service
 	Keys []string `json:"keys,omitempty"`
 }
 
+//Deprecated version of MongoIndexOptions_Status. Use v1beta20210515.MongoIndexOptions_Status instead
 type MongoIndexOptions_StatusARM struct {
-	//ExpireAfterSeconds: Expire after seconds
-	ExpireAfterSeconds *int `json:"expireAfterSeconds,omitempty"`
-
-	//Unique: Is unique or not
-	Unique *bool `json:"unique,omitempty"`
+	ExpireAfterSeconds *int  `json:"expireAfterSeconds,omitempty"`
+	Unique             *bool `json:"unique,omitempty"`
 }

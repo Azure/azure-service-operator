@@ -4,26 +4,25 @@
 package v1alpha1api20180501previewstorage
 
 import (
+	"fmt"
+	"github.com/Azure/azure-service-operator/v2/api/insights/v1beta20180501previewstorage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
 	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
-
-// +kubebuilder:rbac:groups=insights.azure.com,resources=webtests,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=insights.azure.com,resources={webtests/status,webtests/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 //Storage version of v1alpha1api20180501preview.Webtest
-//Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/resourceDefinitions/webtests
+//Deprecated version of Webtest. Use v1beta20180501preview.Webtest instead
 type Webtest struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -41,6 +40,28 @@ func (webtest *Webtest) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (webtest *Webtest) SetConditions(conditions conditions.Conditions) {
 	webtest.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &Webtest{}
+
+// ConvertFrom populates our Webtest from the provided hub Webtest
+func (webtest *Webtest) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*v1beta20180501previewstorage.Webtest)
+	if !ok {
+		return fmt.Errorf("expected insights/v1beta20180501previewstorage/Webtest but received %T instead", hub)
+	}
+
+	return webtest.AssignPropertiesFromWebtest(source)
+}
+
+// ConvertTo populates the provided hub Webtest from our Webtest
+func (webtest *Webtest) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*v1beta20180501previewstorage.Webtest)
+	if !ok {
+		return fmt.Errorf("expected insights/v1beta20180501previewstorage/Webtest but received %T instead", hub)
+	}
+
+	return webtest.AssignPropertiesToWebtest(destination)
 }
 
 var _ genruntime.KubernetesResource = &Webtest{}
@@ -109,8 +130,57 @@ func (webtest *Webtest) SetStatus(status genruntime.ConvertibleStatus) error {
 	return nil
 }
 
-// Hub marks that this Webtest is the hub type for conversion
-func (webtest *Webtest) Hub() {}
+// AssignPropertiesFromWebtest populates our Webtest from the provided source Webtest
+func (webtest *Webtest) AssignPropertiesFromWebtest(source *v1beta20180501previewstorage.Webtest) error {
+
+	// ObjectMeta
+	webtest.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec Webtests_Spec
+	err := spec.AssignPropertiesFromWebtestsSpec(&source.Spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesFromWebtestsSpec() to populate field Spec")
+	}
+	webtest.Spec = spec
+
+	// Status
+	var status WebTest_Status
+	err = status.AssignPropertiesFromWebTestStatus(&source.Status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesFromWebTestStatus() to populate field Status")
+	}
+	webtest.Status = status
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToWebtest populates the provided destination Webtest from our Webtest
+func (webtest *Webtest) AssignPropertiesToWebtest(destination *v1beta20180501previewstorage.Webtest) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *webtest.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec v1beta20180501previewstorage.Webtests_Spec
+	err := webtest.Spec.AssignPropertiesToWebtestsSpec(&spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesToWebtestsSpec() to populate field Spec")
+	}
+	destination.Spec = spec
+
+	// Status
+	var status v1beta20180501previewstorage.WebTest_Status
+	err = webtest.Status.AssignPropertiesToWebTestStatus(&status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesToWebTestStatus() to populate field Status")
+	}
+	destination.Status = status
+
+	// No error
+	return nil
+}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (webtest *Webtest) OriginalGVK() *schema.GroupVersionKind {
@@ -123,7 +193,7 @@ func (webtest *Webtest) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 //Storage version of v1alpha1api20180501preview.Webtest
-//Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/resourceDefinitions/webtests
+//Deprecated version of Webtest. Use v1beta20180501preview.Webtest instead
 type WebtestList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -131,6 +201,7 @@ type WebtestList struct {
 }
 
 //Storage version of v1alpha1api20180501preview.WebTest_Status
+//Deprecated version of WebTest_Status. Use v1beta20180501preview.WebTest_Status instead
 type WebTest_Status struct {
 	Conditions         []conditions.Condition                    `json:"conditions,omitempty"`
 	Configuration      *WebTestProperties_Status_Configuration   `json:"Configuration,omitempty"`
@@ -158,20 +229,310 @@ var _ genruntime.ConvertibleStatus = &WebTest_Status{}
 
 // ConvertStatusFrom populates our WebTest_Status from the provided source
 func (test *WebTest_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == test {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	src, ok := source.(*v1beta20180501previewstorage.WebTest_Status)
+	if ok {
+		// Populate our instance from source
+		return test.AssignPropertiesFromWebTestStatus(src)
 	}
 
-	return source.ConvertStatusTo(test)
+	// Convert to an intermediate form
+	src = &v1beta20180501previewstorage.WebTest_Status{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = test.AssignPropertiesFromWebTestStatus(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
 }
 
 // ConvertStatusTo populates the provided destination from our WebTest_Status
 func (test *WebTest_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == test {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	dst, ok := destination.(*v1beta20180501previewstorage.WebTest_Status)
+	if ok {
+		// Populate destination from our instance
+		return test.AssignPropertiesToWebTestStatus(dst)
 	}
 
-	return destination.ConvertStatusFrom(test)
+	// Convert to an intermediate form
+	dst = &v1beta20180501previewstorage.WebTest_Status{}
+	err := test.AssignPropertiesToWebTestStatus(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+// AssignPropertiesFromWebTestStatus populates our WebTest_Status from the provided source WebTest_Status
+func (test *WebTest_Status) AssignPropertiesFromWebTestStatus(source *v1beta20180501previewstorage.WebTest_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Conditions
+	test.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// Configuration
+	if source.Configuration != nil {
+		var configuration WebTestProperties_Status_Configuration
+		err := configuration.AssignPropertiesFromWebTestPropertiesStatusConfiguration(source.Configuration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromWebTestPropertiesStatusConfiguration() to populate field Configuration")
+		}
+		test.Configuration = &configuration
+	} else {
+		test.Configuration = nil
+	}
+
+	// Description
+	test.Description = genruntime.ClonePointerToString(source.Description)
+
+	// Enabled
+	if source.Enabled != nil {
+		enabled := *source.Enabled
+		test.Enabled = &enabled
+	} else {
+		test.Enabled = nil
+	}
+
+	// Frequency
+	test.Frequency = genruntime.ClonePointerToInt(source.Frequency)
+
+	// Id
+	test.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Kind
+	test.Kind = genruntime.ClonePointerToString(source.Kind)
+
+	// Location
+	test.Location = genruntime.ClonePointerToString(source.Location)
+
+	// Locations
+	if source.Locations != nil {
+		locationList := make([]WebTestGeolocation_Status, len(source.Locations))
+		for locationIndex, locationItem := range source.Locations {
+			// Shadow the loop variable to avoid aliasing
+			locationItem := locationItem
+			var location WebTestGeolocation_Status
+			err := location.AssignPropertiesFromWebTestGeolocationStatus(&locationItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromWebTestGeolocationStatus() to populate field Locations")
+			}
+			locationList[locationIndex] = location
+		}
+		test.Locations = locationList
+	} else {
+		test.Locations = nil
+	}
+
+	// Name
+	test.Name = genruntime.ClonePointerToString(source.Name)
+
+	// PropertiesName
+	test.PropertiesName = genruntime.ClonePointerToString(source.PropertiesName)
+
+	// ProvisioningState
+	test.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
+
+	// Request
+	if source.Request != nil {
+		var request WebTestProperties_Status_Request
+		err := request.AssignPropertiesFromWebTestPropertiesStatusRequest(source.Request)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromWebTestPropertiesStatusRequest() to populate field Request")
+		}
+		test.Request = &request
+	} else {
+		test.Request = nil
+	}
+
+	// RetryEnabled
+	if source.RetryEnabled != nil {
+		retryEnabled := *source.RetryEnabled
+		test.RetryEnabled = &retryEnabled
+	} else {
+		test.RetryEnabled = nil
+	}
+
+	// SyntheticMonitorId
+	test.SyntheticMonitorId = genruntime.ClonePointerToString(source.SyntheticMonitorId)
+
+	// Tags
+	if source.Tags != nil {
+		tag := *source.Tags.DeepCopy()
+		test.Tags = &tag
+	} else {
+		test.Tags = nil
+	}
+
+	// Timeout
+	test.Timeout = genruntime.ClonePointerToInt(source.Timeout)
+
+	// Type
+	test.Type = genruntime.ClonePointerToString(source.Type)
+
+	// ValidationRules
+	if source.ValidationRules != nil {
+		var validationRule WebTestProperties_Status_ValidationRules
+		err := validationRule.AssignPropertiesFromWebTestPropertiesStatusValidationRules(source.ValidationRules)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromWebTestPropertiesStatusValidationRules() to populate field ValidationRules")
+		}
+		test.ValidationRules = &validationRule
+	} else {
+		test.ValidationRules = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		test.PropertyBag = propertyBag
+	} else {
+		test.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToWebTestStatus populates the provided destination WebTest_Status from our WebTest_Status
+func (test *WebTest_Status) AssignPropertiesToWebTestStatus(destination *v1beta20180501previewstorage.WebTest_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(test.PropertyBag)
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(test.Conditions)
+
+	// Configuration
+	if test.Configuration != nil {
+		var configuration v1beta20180501previewstorage.WebTestProperties_Status_Configuration
+		err := test.Configuration.AssignPropertiesToWebTestPropertiesStatusConfiguration(&configuration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToWebTestPropertiesStatusConfiguration() to populate field Configuration")
+		}
+		destination.Configuration = &configuration
+	} else {
+		destination.Configuration = nil
+	}
+
+	// Description
+	destination.Description = genruntime.ClonePointerToString(test.Description)
+
+	// Enabled
+	if test.Enabled != nil {
+		enabled := *test.Enabled
+		destination.Enabled = &enabled
+	} else {
+		destination.Enabled = nil
+	}
+
+	// Frequency
+	destination.Frequency = genruntime.ClonePointerToInt(test.Frequency)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(test.Id)
+
+	// Kind
+	destination.Kind = genruntime.ClonePointerToString(test.Kind)
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(test.Location)
+
+	// Locations
+	if test.Locations != nil {
+		locationList := make([]v1beta20180501previewstorage.WebTestGeolocation_Status, len(test.Locations))
+		for locationIndex, locationItem := range test.Locations {
+			// Shadow the loop variable to avoid aliasing
+			locationItem := locationItem
+			var location v1beta20180501previewstorage.WebTestGeolocation_Status
+			err := locationItem.AssignPropertiesToWebTestGeolocationStatus(&location)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToWebTestGeolocationStatus() to populate field Locations")
+			}
+			locationList[locationIndex] = location
+		}
+		destination.Locations = locationList
+	} else {
+		destination.Locations = nil
+	}
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(test.Name)
+
+	// PropertiesName
+	destination.PropertiesName = genruntime.ClonePointerToString(test.PropertiesName)
+
+	// ProvisioningState
+	destination.ProvisioningState = genruntime.ClonePointerToString(test.ProvisioningState)
+
+	// Request
+	if test.Request != nil {
+		var request v1beta20180501previewstorage.WebTestProperties_Status_Request
+		err := test.Request.AssignPropertiesToWebTestPropertiesStatusRequest(&request)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToWebTestPropertiesStatusRequest() to populate field Request")
+		}
+		destination.Request = &request
+	} else {
+		destination.Request = nil
+	}
+
+	// RetryEnabled
+	if test.RetryEnabled != nil {
+		retryEnabled := *test.RetryEnabled
+		destination.RetryEnabled = &retryEnabled
+	} else {
+		destination.RetryEnabled = nil
+	}
+
+	// SyntheticMonitorId
+	destination.SyntheticMonitorId = genruntime.ClonePointerToString(test.SyntheticMonitorId)
+
+	// Tags
+	if test.Tags != nil {
+		tag := *test.Tags.DeepCopy()
+		destination.Tags = &tag
+	} else {
+		destination.Tags = nil
+	}
+
+	// Timeout
+	destination.Timeout = genruntime.ClonePointerToInt(test.Timeout)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(test.Type)
+
+	// ValidationRules
+	if test.ValidationRules != nil {
+		var validationRule v1beta20180501previewstorage.WebTestProperties_Status_ValidationRules
+		err := test.ValidationRules.AssignPropertiesToWebTestPropertiesStatusValidationRules(&validationRule)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToWebTestPropertiesStatusValidationRules() to populate field ValidationRules")
+		}
+		destination.ValidationRules = &validationRule
+	} else {
+		destination.ValidationRules = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 //Storage version of v1alpha1api20180501preview.Webtests_Spec
@@ -207,44 +568,437 @@ var _ genruntime.ConvertibleSpec = &Webtests_Spec{}
 
 // ConvertSpecFrom populates our Webtests_Spec from the provided source
 func (webtests *Webtests_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == webtests {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	src, ok := source.(*v1beta20180501previewstorage.Webtests_Spec)
+	if ok {
+		// Populate our instance from source
+		return webtests.AssignPropertiesFromWebtestsSpec(src)
 	}
 
-	return source.ConvertSpecTo(webtests)
+	// Convert to an intermediate form
+	src = &v1beta20180501previewstorage.Webtests_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = webtests.AssignPropertiesFromWebtestsSpec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
 }
 
 // ConvertSpecTo populates the provided destination from our Webtests_Spec
 func (webtests *Webtests_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == webtests {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	dst, ok := destination.(*v1beta20180501previewstorage.Webtests_Spec)
+	if ok {
+		// Populate destination from our instance
+		return webtests.AssignPropertiesToWebtestsSpec(dst)
 	}
 
-	return destination.ConvertSpecFrom(webtests)
+	// Convert to an intermediate form
+	dst = &v1beta20180501previewstorage.Webtests_Spec{}
+	err := webtests.AssignPropertiesToWebtestsSpec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignPropertiesFromWebtestsSpec populates our Webtests_Spec from the provided source Webtests_Spec
+func (webtests *Webtests_Spec) AssignPropertiesFromWebtestsSpec(source *v1beta20180501previewstorage.Webtests_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AzureName
+	webtests.AzureName = source.AzureName
+
+	// Configuration
+	if source.Configuration != nil {
+		var configuration WebTestPropertiesConfiguration
+		err := configuration.AssignPropertiesFromWebTestPropertiesConfiguration(source.Configuration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromWebTestPropertiesConfiguration() to populate field Configuration")
+		}
+		webtests.Configuration = &configuration
+	} else {
+		webtests.Configuration = nil
+	}
+
+	// Description
+	webtests.Description = genruntime.ClonePointerToString(source.Description)
+
+	// Enabled
+	if source.Enabled != nil {
+		enabled := *source.Enabled
+		webtests.Enabled = &enabled
+	} else {
+		webtests.Enabled = nil
+	}
+
+	// Frequency
+	webtests.Frequency = genruntime.ClonePointerToInt(source.Frequency)
+
+	// Kind
+	webtests.Kind = genruntime.ClonePointerToString(source.Kind)
+
+	// Location
+	webtests.Location = genruntime.ClonePointerToString(source.Location)
+
+	// Locations
+	if source.Locations != nil {
+		locationList := make([]WebTestGeolocation, len(source.Locations))
+		for locationIndex, locationItem := range source.Locations {
+			// Shadow the loop variable to avoid aliasing
+			locationItem := locationItem
+			var location WebTestGeolocation
+			err := location.AssignPropertiesFromWebTestGeolocation(&locationItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromWebTestGeolocation() to populate field Locations")
+			}
+			locationList[locationIndex] = location
+		}
+		webtests.Locations = locationList
+	} else {
+		webtests.Locations = nil
+	}
+
+	// Name
+	webtests.Name = genruntime.ClonePointerToString(source.Name)
+
+	// OriginalVersion
+	webtests.OriginalVersion = source.OriginalVersion
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		webtests.Owner = &owner
+	} else {
+		webtests.Owner = nil
+	}
+
+	// Request
+	if source.Request != nil {
+		var request WebTestPropertiesRequest
+		err := request.AssignPropertiesFromWebTestPropertiesRequest(source.Request)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromWebTestPropertiesRequest() to populate field Request")
+		}
+		webtests.Request = &request
+	} else {
+		webtests.Request = nil
+	}
+
+	// RetryEnabled
+	if source.RetryEnabled != nil {
+		retryEnabled := *source.RetryEnabled
+		webtests.RetryEnabled = &retryEnabled
+	} else {
+		webtests.RetryEnabled = nil
+	}
+
+	// SyntheticMonitorId
+	webtests.SyntheticMonitorId = genruntime.ClonePointerToString(source.SyntheticMonitorId)
+
+	// Tags
+	webtests.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Timeout
+	webtests.Timeout = genruntime.ClonePointerToInt(source.Timeout)
+
+	// ValidationRules
+	if source.ValidationRules != nil {
+		var validationRule WebTestPropertiesValidationRules
+		err := validationRule.AssignPropertiesFromWebTestPropertiesValidationRules(source.ValidationRules)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromWebTestPropertiesValidationRules() to populate field ValidationRules")
+		}
+		webtests.ValidationRules = &validationRule
+	} else {
+		webtests.ValidationRules = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		webtests.PropertyBag = propertyBag
+	} else {
+		webtests.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToWebtestsSpec populates the provided destination Webtests_Spec from our Webtests_Spec
+func (webtests *Webtests_Spec) AssignPropertiesToWebtestsSpec(destination *v1beta20180501previewstorage.Webtests_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(webtests.PropertyBag)
+
+	// AzureName
+	destination.AzureName = webtests.AzureName
+
+	// Configuration
+	if webtests.Configuration != nil {
+		var configuration v1beta20180501previewstorage.WebTestPropertiesConfiguration
+		err := webtests.Configuration.AssignPropertiesToWebTestPropertiesConfiguration(&configuration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToWebTestPropertiesConfiguration() to populate field Configuration")
+		}
+		destination.Configuration = &configuration
+	} else {
+		destination.Configuration = nil
+	}
+
+	// Description
+	destination.Description = genruntime.ClonePointerToString(webtests.Description)
+
+	// Enabled
+	if webtests.Enabled != nil {
+		enabled := *webtests.Enabled
+		destination.Enabled = &enabled
+	} else {
+		destination.Enabled = nil
+	}
+
+	// Frequency
+	destination.Frequency = genruntime.ClonePointerToInt(webtests.Frequency)
+
+	// Kind
+	destination.Kind = genruntime.ClonePointerToString(webtests.Kind)
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(webtests.Location)
+
+	// Locations
+	if webtests.Locations != nil {
+		locationList := make([]v1beta20180501previewstorage.WebTestGeolocation, len(webtests.Locations))
+		for locationIndex, locationItem := range webtests.Locations {
+			// Shadow the loop variable to avoid aliasing
+			locationItem := locationItem
+			var location v1beta20180501previewstorage.WebTestGeolocation
+			err := locationItem.AssignPropertiesToWebTestGeolocation(&location)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToWebTestGeolocation() to populate field Locations")
+			}
+			locationList[locationIndex] = location
+		}
+		destination.Locations = locationList
+	} else {
+		destination.Locations = nil
+	}
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(webtests.Name)
+
+	// OriginalVersion
+	destination.OriginalVersion = webtests.OriginalVersion
+
+	// Owner
+	if webtests.Owner != nil {
+		owner := webtests.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// Request
+	if webtests.Request != nil {
+		var request v1beta20180501previewstorage.WebTestPropertiesRequest
+		err := webtests.Request.AssignPropertiesToWebTestPropertiesRequest(&request)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToWebTestPropertiesRequest() to populate field Request")
+		}
+		destination.Request = &request
+	} else {
+		destination.Request = nil
+	}
+
+	// RetryEnabled
+	if webtests.RetryEnabled != nil {
+		retryEnabled := *webtests.RetryEnabled
+		destination.RetryEnabled = &retryEnabled
+	} else {
+		destination.RetryEnabled = nil
+	}
+
+	// SyntheticMonitorId
+	destination.SyntheticMonitorId = genruntime.ClonePointerToString(webtests.SyntheticMonitorId)
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(webtests.Tags)
+
+	// Timeout
+	destination.Timeout = genruntime.ClonePointerToInt(webtests.Timeout)
+
+	// ValidationRules
+	if webtests.ValidationRules != nil {
+		var validationRule v1beta20180501previewstorage.WebTestPropertiesValidationRules
+		err := webtests.ValidationRules.AssignPropertiesToWebTestPropertiesValidationRules(&validationRule)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToWebTestPropertiesValidationRules() to populate field ValidationRules")
+		}
+		destination.ValidationRules = &validationRule
+	} else {
+		destination.ValidationRules = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 //Storage version of v1alpha1api20180501preview.WebTestGeolocation
-//Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestGeolocation
+//Deprecated version of WebTestGeolocation. Use v1beta20180501preview.WebTestGeolocation instead
 type WebTestGeolocation struct {
 	Id          *string                `json:"Id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignPropertiesFromWebTestGeolocation populates our WebTestGeolocation from the provided source WebTestGeolocation
+func (geolocation *WebTestGeolocation) AssignPropertiesFromWebTestGeolocation(source *v1beta20180501previewstorage.WebTestGeolocation) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Id
+	geolocation.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		geolocation.PropertyBag = propertyBag
+	} else {
+		geolocation.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToWebTestGeolocation populates the provided destination WebTestGeolocation from our WebTestGeolocation
+func (geolocation *WebTestGeolocation) AssignPropertiesToWebTestGeolocation(destination *v1beta20180501previewstorage.WebTestGeolocation) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(geolocation.PropertyBag)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(geolocation.Id)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20180501preview.WebTestGeolocation_Status
+//Deprecated version of WebTestGeolocation_Status. Use v1beta20180501preview.WebTestGeolocation_Status instead
 type WebTestGeolocation_Status struct {
 	Id          *string                `json:"Id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignPropertiesFromWebTestGeolocationStatus populates our WebTestGeolocation_Status from the provided source WebTestGeolocation_Status
+func (geolocation *WebTestGeolocation_Status) AssignPropertiesFromWebTestGeolocationStatus(source *v1beta20180501previewstorage.WebTestGeolocation_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Id
+	geolocation.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		geolocation.PropertyBag = propertyBag
+	} else {
+		geolocation.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToWebTestGeolocationStatus populates the provided destination WebTestGeolocation_Status from our WebTestGeolocation_Status
+func (geolocation *WebTestGeolocation_Status) AssignPropertiesToWebTestGeolocationStatus(destination *v1beta20180501previewstorage.WebTestGeolocation_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(geolocation.PropertyBag)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(geolocation.Id)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20180501preview.WebTestPropertiesConfiguration
-//Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestPropertiesConfiguration
+//Deprecated version of WebTestPropertiesConfiguration. Use v1beta20180501preview.WebTestPropertiesConfiguration instead
 type WebTestPropertiesConfiguration struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	WebTest     *string                `json:"WebTest,omitempty"`
 }
 
+// AssignPropertiesFromWebTestPropertiesConfiguration populates our WebTestPropertiesConfiguration from the provided source WebTestPropertiesConfiguration
+func (configuration *WebTestPropertiesConfiguration) AssignPropertiesFromWebTestPropertiesConfiguration(source *v1beta20180501previewstorage.WebTestPropertiesConfiguration) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// WebTest
+	configuration.WebTest = genruntime.ClonePointerToString(source.WebTest)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		configuration.PropertyBag = propertyBag
+	} else {
+		configuration.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToWebTestPropertiesConfiguration populates the provided destination WebTestPropertiesConfiguration from our WebTestPropertiesConfiguration
+func (configuration *WebTestPropertiesConfiguration) AssignPropertiesToWebTestPropertiesConfiguration(destination *v1beta20180501previewstorage.WebTestPropertiesConfiguration) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(configuration.PropertyBag)
+
+	// WebTest
+	destination.WebTest = genruntime.ClonePointerToString(configuration.WebTest)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20180501preview.WebTestPropertiesRequest
-//Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestPropertiesRequest
+//Deprecated version of WebTestPropertiesRequest. Use v1beta20180501preview.WebTestPropertiesRequest instead
 type WebTestPropertiesRequest struct {
 	FollowRedirects        *bool                  `json:"FollowRedirects,omitempty"`
 	Headers                []HeaderField          `json:"Headers,omitempty"`
@@ -255,8 +1009,126 @@ type WebTestPropertiesRequest struct {
 	RequestUrl             *string                `json:"RequestUrl,omitempty"`
 }
 
+// AssignPropertiesFromWebTestPropertiesRequest populates our WebTestPropertiesRequest from the provided source WebTestPropertiesRequest
+func (request *WebTestPropertiesRequest) AssignPropertiesFromWebTestPropertiesRequest(source *v1beta20180501previewstorage.WebTestPropertiesRequest) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// FollowRedirects
+	if source.FollowRedirects != nil {
+		followRedirect := *source.FollowRedirects
+		request.FollowRedirects = &followRedirect
+	} else {
+		request.FollowRedirects = nil
+	}
+
+	// Headers
+	if source.Headers != nil {
+		headerList := make([]HeaderField, len(source.Headers))
+		for headerIndex, headerItem := range source.Headers {
+			// Shadow the loop variable to avoid aliasing
+			headerItem := headerItem
+			var header HeaderField
+			err := header.AssignPropertiesFromHeaderField(&headerItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromHeaderField() to populate field Headers")
+			}
+			headerList[headerIndex] = header
+		}
+		request.Headers = headerList
+	} else {
+		request.Headers = nil
+	}
+
+	// HttpVerb
+	request.HttpVerb = genruntime.ClonePointerToString(source.HttpVerb)
+
+	// ParseDependentRequests
+	if source.ParseDependentRequests != nil {
+		parseDependentRequest := *source.ParseDependentRequests
+		request.ParseDependentRequests = &parseDependentRequest
+	} else {
+		request.ParseDependentRequests = nil
+	}
+
+	// RequestBody
+	request.RequestBody = genruntime.ClonePointerToString(source.RequestBody)
+
+	// RequestUrl
+	request.RequestUrl = genruntime.ClonePointerToString(source.RequestUrl)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		request.PropertyBag = propertyBag
+	} else {
+		request.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToWebTestPropertiesRequest populates the provided destination WebTestPropertiesRequest from our WebTestPropertiesRequest
+func (request *WebTestPropertiesRequest) AssignPropertiesToWebTestPropertiesRequest(destination *v1beta20180501previewstorage.WebTestPropertiesRequest) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(request.PropertyBag)
+
+	// FollowRedirects
+	if request.FollowRedirects != nil {
+		followRedirect := *request.FollowRedirects
+		destination.FollowRedirects = &followRedirect
+	} else {
+		destination.FollowRedirects = nil
+	}
+
+	// Headers
+	if request.Headers != nil {
+		headerList := make([]v1beta20180501previewstorage.HeaderField, len(request.Headers))
+		for headerIndex, headerItem := range request.Headers {
+			// Shadow the loop variable to avoid aliasing
+			headerItem := headerItem
+			var header v1beta20180501previewstorage.HeaderField
+			err := headerItem.AssignPropertiesToHeaderField(&header)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToHeaderField() to populate field Headers")
+			}
+			headerList[headerIndex] = header
+		}
+		destination.Headers = headerList
+	} else {
+		destination.Headers = nil
+	}
+
+	// HttpVerb
+	destination.HttpVerb = genruntime.ClonePointerToString(request.HttpVerb)
+
+	// ParseDependentRequests
+	if request.ParseDependentRequests != nil {
+		parseDependentRequest := *request.ParseDependentRequests
+		destination.ParseDependentRequests = &parseDependentRequest
+	} else {
+		destination.ParseDependentRequests = nil
+	}
+
+	// RequestBody
+	destination.RequestBody = genruntime.ClonePointerToString(request.RequestBody)
+
+	// RequestUrl
+	destination.RequestUrl = genruntime.ClonePointerToString(request.RequestUrl)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20180501preview.WebTestPropertiesValidationRules
-//Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestPropertiesValidationRules
+//Deprecated version of WebTestPropertiesValidationRules. Use v1beta20180501preview.WebTestPropertiesValidationRules instead
 type WebTestPropertiesValidationRules struct {
 	ContentValidation             *WebTestPropertiesValidationRulesContentValidation `json:"ContentValidation,omitempty"`
 	ExpectedHttpStatusCode        *int                                               `json:"ExpectedHttpStatusCode,omitempty"`
@@ -266,13 +1138,153 @@ type WebTestPropertiesValidationRules struct {
 	SSLCheck                      *bool                                              `json:"SSLCheck,omitempty"`
 }
 
+// AssignPropertiesFromWebTestPropertiesValidationRules populates our WebTestPropertiesValidationRules from the provided source WebTestPropertiesValidationRules
+func (rules *WebTestPropertiesValidationRules) AssignPropertiesFromWebTestPropertiesValidationRules(source *v1beta20180501previewstorage.WebTestPropertiesValidationRules) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ContentValidation
+	if source.ContentValidation != nil {
+		var contentValidation WebTestPropertiesValidationRulesContentValidation
+		err := contentValidation.AssignPropertiesFromWebTestPropertiesValidationRulesContentValidation(source.ContentValidation)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromWebTestPropertiesValidationRulesContentValidation() to populate field ContentValidation")
+		}
+		rules.ContentValidation = &contentValidation
+	} else {
+		rules.ContentValidation = nil
+	}
+
+	// ExpectedHttpStatusCode
+	rules.ExpectedHttpStatusCode = genruntime.ClonePointerToInt(source.ExpectedHttpStatusCode)
+
+	// IgnoreHttpsStatusCode
+	if source.IgnoreHttpsStatusCode != nil {
+		ignoreHttpsStatusCode := *source.IgnoreHttpsStatusCode
+		rules.IgnoreHttpsStatusCode = &ignoreHttpsStatusCode
+	} else {
+		rules.IgnoreHttpsStatusCode = nil
+	}
+
+	// SSLCertRemainingLifetimeCheck
+	rules.SSLCertRemainingLifetimeCheck = genruntime.ClonePointerToInt(source.SSLCertRemainingLifetimeCheck)
+
+	// SSLCheck
+	if source.SSLCheck != nil {
+		sslCheck := *source.SSLCheck
+		rules.SSLCheck = &sslCheck
+	} else {
+		rules.SSLCheck = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		rules.PropertyBag = propertyBag
+	} else {
+		rules.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToWebTestPropertiesValidationRules populates the provided destination WebTestPropertiesValidationRules from our WebTestPropertiesValidationRules
+func (rules *WebTestPropertiesValidationRules) AssignPropertiesToWebTestPropertiesValidationRules(destination *v1beta20180501previewstorage.WebTestPropertiesValidationRules) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(rules.PropertyBag)
+
+	// ContentValidation
+	if rules.ContentValidation != nil {
+		var contentValidation v1beta20180501previewstorage.WebTestPropertiesValidationRulesContentValidation
+		err := rules.ContentValidation.AssignPropertiesToWebTestPropertiesValidationRulesContentValidation(&contentValidation)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToWebTestPropertiesValidationRulesContentValidation() to populate field ContentValidation")
+		}
+		destination.ContentValidation = &contentValidation
+	} else {
+		destination.ContentValidation = nil
+	}
+
+	// ExpectedHttpStatusCode
+	destination.ExpectedHttpStatusCode = genruntime.ClonePointerToInt(rules.ExpectedHttpStatusCode)
+
+	// IgnoreHttpsStatusCode
+	if rules.IgnoreHttpsStatusCode != nil {
+		ignoreHttpsStatusCode := *rules.IgnoreHttpsStatusCode
+		destination.IgnoreHttpsStatusCode = &ignoreHttpsStatusCode
+	} else {
+		destination.IgnoreHttpsStatusCode = nil
+	}
+
+	// SSLCertRemainingLifetimeCheck
+	destination.SSLCertRemainingLifetimeCheck = genruntime.ClonePointerToInt(rules.SSLCertRemainingLifetimeCheck)
+
+	// SSLCheck
+	if rules.SSLCheck != nil {
+		sslCheck := *rules.SSLCheck
+		destination.SSLCheck = &sslCheck
+	} else {
+		destination.SSLCheck = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20180501preview.WebTestProperties_Status_Configuration
+//Deprecated version of WebTestProperties_Status_Configuration. Use v1beta20180501preview.WebTestProperties_Status_Configuration instead
 type WebTestProperties_Status_Configuration struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	WebTest     *string                `json:"WebTest,omitempty"`
 }
 
+// AssignPropertiesFromWebTestPropertiesStatusConfiguration populates our WebTestProperties_Status_Configuration from the provided source WebTestProperties_Status_Configuration
+func (configuration *WebTestProperties_Status_Configuration) AssignPropertiesFromWebTestPropertiesStatusConfiguration(source *v1beta20180501previewstorage.WebTestProperties_Status_Configuration) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// WebTest
+	configuration.WebTest = genruntime.ClonePointerToString(source.WebTest)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		configuration.PropertyBag = propertyBag
+	} else {
+		configuration.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToWebTestPropertiesStatusConfiguration populates the provided destination WebTestProperties_Status_Configuration from our WebTestProperties_Status_Configuration
+func (configuration *WebTestProperties_Status_Configuration) AssignPropertiesToWebTestPropertiesStatusConfiguration(destination *v1beta20180501previewstorage.WebTestProperties_Status_Configuration) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(configuration.PropertyBag)
+
+	// WebTest
+	destination.WebTest = genruntime.ClonePointerToString(configuration.WebTest)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20180501preview.WebTestProperties_Status_Request
+//Deprecated version of WebTestProperties_Status_Request. Use v1beta20180501preview.WebTestProperties_Status_Request instead
 type WebTestProperties_Status_Request struct {
 	FollowRedirects        *bool                  `json:"FollowRedirects,omitempty"`
 	Headers                []HeaderField_Status   `json:"Headers,omitempty"`
@@ -283,7 +1295,126 @@ type WebTestProperties_Status_Request struct {
 	RequestUrl             *string                `json:"RequestUrl,omitempty"`
 }
 
+// AssignPropertiesFromWebTestPropertiesStatusRequest populates our WebTestProperties_Status_Request from the provided source WebTestProperties_Status_Request
+func (request *WebTestProperties_Status_Request) AssignPropertiesFromWebTestPropertiesStatusRequest(source *v1beta20180501previewstorage.WebTestProperties_Status_Request) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// FollowRedirects
+	if source.FollowRedirects != nil {
+		followRedirect := *source.FollowRedirects
+		request.FollowRedirects = &followRedirect
+	} else {
+		request.FollowRedirects = nil
+	}
+
+	// Headers
+	if source.Headers != nil {
+		headerList := make([]HeaderField_Status, len(source.Headers))
+		for headerIndex, headerItem := range source.Headers {
+			// Shadow the loop variable to avoid aliasing
+			headerItem := headerItem
+			var header HeaderField_Status
+			err := header.AssignPropertiesFromHeaderFieldStatus(&headerItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromHeaderFieldStatus() to populate field Headers")
+			}
+			headerList[headerIndex] = header
+		}
+		request.Headers = headerList
+	} else {
+		request.Headers = nil
+	}
+
+	// HttpVerb
+	request.HttpVerb = genruntime.ClonePointerToString(source.HttpVerb)
+
+	// ParseDependentRequests
+	if source.ParseDependentRequests != nil {
+		parseDependentRequest := *source.ParseDependentRequests
+		request.ParseDependentRequests = &parseDependentRequest
+	} else {
+		request.ParseDependentRequests = nil
+	}
+
+	// RequestBody
+	request.RequestBody = genruntime.ClonePointerToString(source.RequestBody)
+
+	// RequestUrl
+	request.RequestUrl = genruntime.ClonePointerToString(source.RequestUrl)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		request.PropertyBag = propertyBag
+	} else {
+		request.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToWebTestPropertiesStatusRequest populates the provided destination WebTestProperties_Status_Request from our WebTestProperties_Status_Request
+func (request *WebTestProperties_Status_Request) AssignPropertiesToWebTestPropertiesStatusRequest(destination *v1beta20180501previewstorage.WebTestProperties_Status_Request) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(request.PropertyBag)
+
+	// FollowRedirects
+	if request.FollowRedirects != nil {
+		followRedirect := *request.FollowRedirects
+		destination.FollowRedirects = &followRedirect
+	} else {
+		destination.FollowRedirects = nil
+	}
+
+	// Headers
+	if request.Headers != nil {
+		headerList := make([]v1beta20180501previewstorage.HeaderField_Status, len(request.Headers))
+		for headerIndex, headerItem := range request.Headers {
+			// Shadow the loop variable to avoid aliasing
+			headerItem := headerItem
+			var header v1beta20180501previewstorage.HeaderField_Status
+			err := headerItem.AssignPropertiesToHeaderFieldStatus(&header)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToHeaderFieldStatus() to populate field Headers")
+			}
+			headerList[headerIndex] = header
+		}
+		destination.Headers = headerList
+	} else {
+		destination.Headers = nil
+	}
+
+	// HttpVerb
+	destination.HttpVerb = genruntime.ClonePointerToString(request.HttpVerb)
+
+	// ParseDependentRequests
+	if request.ParseDependentRequests != nil {
+		parseDependentRequest := *request.ParseDependentRequests
+		destination.ParseDependentRequests = &parseDependentRequest
+	} else {
+		destination.ParseDependentRequests = nil
+	}
+
+	// RequestBody
+	destination.RequestBody = genruntime.ClonePointerToString(request.RequestBody)
+
+	// RequestUrl
+	destination.RequestUrl = genruntime.ClonePointerToString(request.RequestUrl)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20180501preview.WebTestProperties_Status_ValidationRules
+//Deprecated version of WebTestProperties_Status_ValidationRules. Use v1beta20180501preview.WebTestProperties_Status_ValidationRules instead
 type WebTestProperties_Status_ValidationRules struct {
 	ContentValidation             *WebTestProperties_Status_ValidationRules_ContentValidation `json:"ContentValidation,omitempty"`
 	ExpectedHttpStatusCode        *int                                                        `json:"ExpectedHttpStatusCode,omitempty"`
@@ -293,23 +1424,212 @@ type WebTestProperties_Status_ValidationRules struct {
 	SSLCheck                      *bool                                                       `json:"SSLCheck,omitempty"`
 }
 
+// AssignPropertiesFromWebTestPropertiesStatusValidationRules populates our WebTestProperties_Status_ValidationRules from the provided source WebTestProperties_Status_ValidationRules
+func (rules *WebTestProperties_Status_ValidationRules) AssignPropertiesFromWebTestPropertiesStatusValidationRules(source *v1beta20180501previewstorage.WebTestProperties_Status_ValidationRules) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ContentValidation
+	if source.ContentValidation != nil {
+		var contentValidation WebTestProperties_Status_ValidationRules_ContentValidation
+		err := contentValidation.AssignPropertiesFromWebTestPropertiesStatusValidationRulesContentValidation(source.ContentValidation)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromWebTestPropertiesStatusValidationRulesContentValidation() to populate field ContentValidation")
+		}
+		rules.ContentValidation = &contentValidation
+	} else {
+		rules.ContentValidation = nil
+	}
+
+	// ExpectedHttpStatusCode
+	rules.ExpectedHttpStatusCode = genruntime.ClonePointerToInt(source.ExpectedHttpStatusCode)
+
+	// IgnoreHttpsStatusCode
+	if source.IgnoreHttpsStatusCode != nil {
+		ignoreHttpsStatusCode := *source.IgnoreHttpsStatusCode
+		rules.IgnoreHttpsStatusCode = &ignoreHttpsStatusCode
+	} else {
+		rules.IgnoreHttpsStatusCode = nil
+	}
+
+	// SSLCertRemainingLifetimeCheck
+	rules.SSLCertRemainingLifetimeCheck = genruntime.ClonePointerToInt(source.SSLCertRemainingLifetimeCheck)
+
+	// SSLCheck
+	if source.SSLCheck != nil {
+		sslCheck := *source.SSLCheck
+		rules.SSLCheck = &sslCheck
+	} else {
+		rules.SSLCheck = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		rules.PropertyBag = propertyBag
+	} else {
+		rules.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToWebTestPropertiesStatusValidationRules populates the provided destination WebTestProperties_Status_ValidationRules from our WebTestProperties_Status_ValidationRules
+func (rules *WebTestProperties_Status_ValidationRules) AssignPropertiesToWebTestPropertiesStatusValidationRules(destination *v1beta20180501previewstorage.WebTestProperties_Status_ValidationRules) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(rules.PropertyBag)
+
+	// ContentValidation
+	if rules.ContentValidation != nil {
+		var contentValidation v1beta20180501previewstorage.WebTestProperties_Status_ValidationRules_ContentValidation
+		err := rules.ContentValidation.AssignPropertiesToWebTestPropertiesStatusValidationRulesContentValidation(&contentValidation)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToWebTestPropertiesStatusValidationRulesContentValidation() to populate field ContentValidation")
+		}
+		destination.ContentValidation = &contentValidation
+	} else {
+		destination.ContentValidation = nil
+	}
+
+	// ExpectedHttpStatusCode
+	destination.ExpectedHttpStatusCode = genruntime.ClonePointerToInt(rules.ExpectedHttpStatusCode)
+
+	// IgnoreHttpsStatusCode
+	if rules.IgnoreHttpsStatusCode != nil {
+		ignoreHttpsStatusCode := *rules.IgnoreHttpsStatusCode
+		destination.IgnoreHttpsStatusCode = &ignoreHttpsStatusCode
+	} else {
+		destination.IgnoreHttpsStatusCode = nil
+	}
+
+	// SSLCertRemainingLifetimeCheck
+	destination.SSLCertRemainingLifetimeCheck = genruntime.ClonePointerToInt(rules.SSLCertRemainingLifetimeCheck)
+
+	// SSLCheck
+	if rules.SSLCheck != nil {
+		sslCheck := *rules.SSLCheck
+		destination.SSLCheck = &sslCheck
+	} else {
+		destination.SSLCheck = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20180501preview.HeaderField
-//Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/HeaderField
+//Deprecated version of HeaderField. Use v1beta20180501preview.HeaderField instead
 type HeaderField struct {
 	Key         *string                `json:"key,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Value       *string                `json:"value,omitempty"`
 }
 
+// AssignPropertiesFromHeaderField populates our HeaderField from the provided source HeaderField
+func (field *HeaderField) AssignPropertiesFromHeaderField(source *v1beta20180501previewstorage.HeaderField) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Key
+	field.Key = genruntime.ClonePointerToString(source.Key)
+
+	// Value
+	field.Value = genruntime.ClonePointerToString(source.Value)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		field.PropertyBag = propertyBag
+	} else {
+		field.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToHeaderField populates the provided destination HeaderField from our HeaderField
+func (field *HeaderField) AssignPropertiesToHeaderField(destination *v1beta20180501previewstorage.HeaderField) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(field.PropertyBag)
+
+	// Key
+	destination.Key = genruntime.ClonePointerToString(field.Key)
+
+	// Value
+	destination.Value = genruntime.ClonePointerToString(field.Value)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20180501preview.HeaderField_Status
+//Deprecated version of HeaderField_Status. Use v1beta20180501preview.HeaderField_Status instead
 type HeaderField_Status struct {
 	Key         *string                `json:"key,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Value       *string                `json:"value,omitempty"`
 }
 
+// AssignPropertiesFromHeaderFieldStatus populates our HeaderField_Status from the provided source HeaderField_Status
+func (field *HeaderField_Status) AssignPropertiesFromHeaderFieldStatus(source *v1beta20180501previewstorage.HeaderField_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Key
+	field.Key = genruntime.ClonePointerToString(source.Key)
+
+	// Value
+	field.Value = genruntime.ClonePointerToString(source.Value)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		field.PropertyBag = propertyBag
+	} else {
+		field.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToHeaderFieldStatus populates the provided destination HeaderField_Status from our HeaderField_Status
+func (field *HeaderField_Status) AssignPropertiesToHeaderFieldStatus(destination *v1beta20180501previewstorage.HeaderField_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(field.PropertyBag)
+
+	// Key
+	destination.Key = genruntime.ClonePointerToString(field.Key)
+
+	// Value
+	destination.Value = genruntime.ClonePointerToString(field.Value)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20180501preview.WebTestPropertiesValidationRulesContentValidation
-//Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestPropertiesValidationRulesContentValidation
+//Deprecated version of WebTestPropertiesValidationRulesContentValidation. Use v1beta20180501preview.WebTestPropertiesValidationRulesContentValidation instead
 type WebTestPropertiesValidationRulesContentValidation struct {
 	ContentMatch    *string                `json:"ContentMatch,omitempty"`
 	IgnoreCase      *bool                  `json:"IgnoreCase,omitempty"`
@@ -317,12 +1637,153 @@ type WebTestPropertiesValidationRulesContentValidation struct {
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignPropertiesFromWebTestPropertiesValidationRulesContentValidation populates our WebTestPropertiesValidationRulesContentValidation from the provided source WebTestPropertiesValidationRulesContentValidation
+func (validation *WebTestPropertiesValidationRulesContentValidation) AssignPropertiesFromWebTestPropertiesValidationRulesContentValidation(source *v1beta20180501previewstorage.WebTestPropertiesValidationRulesContentValidation) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ContentMatch
+	validation.ContentMatch = genruntime.ClonePointerToString(source.ContentMatch)
+
+	// IgnoreCase
+	if source.IgnoreCase != nil {
+		ignoreCase := *source.IgnoreCase
+		validation.IgnoreCase = &ignoreCase
+	} else {
+		validation.IgnoreCase = nil
+	}
+
+	// PassIfTextFound
+	if source.PassIfTextFound != nil {
+		passIfTextFound := *source.PassIfTextFound
+		validation.PassIfTextFound = &passIfTextFound
+	} else {
+		validation.PassIfTextFound = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		validation.PropertyBag = propertyBag
+	} else {
+		validation.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToWebTestPropertiesValidationRulesContentValidation populates the provided destination WebTestPropertiesValidationRulesContentValidation from our WebTestPropertiesValidationRulesContentValidation
+func (validation *WebTestPropertiesValidationRulesContentValidation) AssignPropertiesToWebTestPropertiesValidationRulesContentValidation(destination *v1beta20180501previewstorage.WebTestPropertiesValidationRulesContentValidation) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(validation.PropertyBag)
+
+	// ContentMatch
+	destination.ContentMatch = genruntime.ClonePointerToString(validation.ContentMatch)
+
+	// IgnoreCase
+	if validation.IgnoreCase != nil {
+		ignoreCase := *validation.IgnoreCase
+		destination.IgnoreCase = &ignoreCase
+	} else {
+		destination.IgnoreCase = nil
+	}
+
+	// PassIfTextFound
+	if validation.PassIfTextFound != nil {
+		passIfTextFound := *validation.PassIfTextFound
+		destination.PassIfTextFound = &passIfTextFound
+	} else {
+		destination.PassIfTextFound = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20180501preview.WebTestProperties_Status_ValidationRules_ContentValidation
+//Deprecated version of WebTestProperties_Status_ValidationRules_ContentValidation. Use v1beta20180501preview.WebTestProperties_Status_ValidationRules_ContentValidation instead
 type WebTestProperties_Status_ValidationRules_ContentValidation struct {
 	ContentMatch    *string                `json:"ContentMatch,omitempty"`
 	IgnoreCase      *bool                  `json:"IgnoreCase,omitempty"`
 	PassIfTextFound *bool                  `json:"PassIfTextFound,omitempty"`
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignPropertiesFromWebTestPropertiesStatusValidationRulesContentValidation populates our WebTestProperties_Status_ValidationRules_ContentValidation from the provided source WebTestProperties_Status_ValidationRules_ContentValidation
+func (validation *WebTestProperties_Status_ValidationRules_ContentValidation) AssignPropertiesFromWebTestPropertiesStatusValidationRulesContentValidation(source *v1beta20180501previewstorage.WebTestProperties_Status_ValidationRules_ContentValidation) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ContentMatch
+	validation.ContentMatch = genruntime.ClonePointerToString(source.ContentMatch)
+
+	// IgnoreCase
+	if source.IgnoreCase != nil {
+		ignoreCase := *source.IgnoreCase
+		validation.IgnoreCase = &ignoreCase
+	} else {
+		validation.IgnoreCase = nil
+	}
+
+	// PassIfTextFound
+	if source.PassIfTextFound != nil {
+		passIfTextFound := *source.PassIfTextFound
+		validation.PassIfTextFound = &passIfTextFound
+	} else {
+		validation.PassIfTextFound = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		validation.PropertyBag = propertyBag
+	} else {
+		validation.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToWebTestPropertiesStatusValidationRulesContentValidation populates the provided destination WebTestProperties_Status_ValidationRules_ContentValidation from our WebTestProperties_Status_ValidationRules_ContentValidation
+func (validation *WebTestProperties_Status_ValidationRules_ContentValidation) AssignPropertiesToWebTestPropertiesStatusValidationRulesContentValidation(destination *v1beta20180501previewstorage.WebTestProperties_Status_ValidationRules_ContentValidation) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(validation.PropertyBag)
+
+	// ContentMatch
+	destination.ContentMatch = genruntime.ClonePointerToString(validation.ContentMatch)
+
+	// IgnoreCase
+	if validation.IgnoreCase != nil {
+		ignoreCase := *validation.IgnoreCase
+		destination.IgnoreCase = &ignoreCase
+	} else {
+		destination.IgnoreCase = nil
+	}
+
+	// PassIfTextFound
+	if validation.PassIfTextFound != nil {
+		passIfTextFound := *validation.PassIfTextFound
+		destination.PassIfTextFound = &passIfTextFound
+	} else {
+		destination.PassIfTextFound = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 func init() {

@@ -3,33 +3,22 @@
 // Licensed under the MIT license.
 package v1alpha1api20201201
 
+//Deprecated version of RedisPatchSchedule_Status. Use v1beta20201201.RedisPatchSchedule_Status instead
 type RedisPatchSchedule_StatusARM struct {
-	//Id: Fully qualified resource ID for the resource. Ex -
-	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
-	//Name: The name of the resource
-	Name *string `json:"name,omitempty"`
-
-	//Properties: List of patch schedules for a Redis cache.
+	Id         *string                    `json:"id,omitempty"`
+	Name       *string                    `json:"name,omitempty"`
 	Properties *ScheduleEntries_StatusARM `json:"properties,omitempty"`
-
-	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-	Type *string `json:"type,omitempty"`
+	Type       *string                    `json:"type,omitempty"`
 }
 
+//Deprecated version of ScheduleEntries_Status. Use v1beta20201201.ScheduleEntries_Status instead
 type ScheduleEntries_StatusARM struct {
-	//ScheduleEntries: List of patch schedules for a Redis cache.
 	ScheduleEntries []ScheduleEntry_StatusARM `json:"scheduleEntries,omitempty"`
 }
 
+//Deprecated version of ScheduleEntry_Status. Use v1beta20201201.ScheduleEntry_Status instead
 type ScheduleEntry_StatusARM struct {
-	//DayOfWeek: Day of the week when a cache can be patched.
-	DayOfWeek *ScheduleEntryStatusDayOfWeek `json:"dayOfWeek,omitempty"`
-
-	//MaintenanceWindow: ISO8601 timespan specifying how much time cache patching can take.
-	MaintenanceWindow *string `json:"maintenanceWindow,omitempty"`
-
-	//StartHourUtc: Start hour after which cache patching can start.
-	StartHourUtc *int `json:"startHourUtc,omitempty"`
+	DayOfWeek         *ScheduleEntryStatusDayOfWeek `json:"dayOfWeek,omitempty"`
+	MaintenanceWindow *string                       `json:"maintenanceWindow,omitempty"`
+	StartHourUtc      *int                          `json:"startHourUtc,omitempty"`
 }

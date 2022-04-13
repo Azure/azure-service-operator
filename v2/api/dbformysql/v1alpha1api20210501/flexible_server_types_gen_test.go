@@ -6,6 +6,7 @@ package v1alpha1api20210501
 import (
 	"encoding/json"
 	"github.com/Azure/azure-service-operator/v2/api/dbformysql/v1alpha1api20210501storage"
+	"github.com/Azure/azure-service-operator/v2/api/dbformysql/v1beta20210501storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -35,7 +36,7 @@ func RunResourceConversionTestForFlexibleServer(subject FlexibleServer) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1alpha1api20210501storage.FlexibleServer
+	var hub v1beta20210501storage.FlexibleServer
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()

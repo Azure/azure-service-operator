@@ -6,6 +6,7 @@ package v1alpha1api20181130
 import (
 	"encoding/json"
 	"github.com/Azure/azure-service-operator/v2/api/managedidentity/v1alpha1api20181130storage"
+	"github.com/Azure/azure-service-operator/v2/api/managedidentity/v1beta20181130storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -35,7 +36,7 @@ func RunResourceConversionTestForUserAssignedIdentity(subject UserAssignedIdenti
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1alpha1api20181130storage.UserAssignedIdentity
+	var hub v1beta20181130storage.UserAssignedIdentity
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()

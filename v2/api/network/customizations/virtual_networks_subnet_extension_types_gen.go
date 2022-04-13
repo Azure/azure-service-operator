@@ -4,8 +4,10 @@
 package customizations
 
 import (
-	network "github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101"
+	networkv1alpha1api20201101 "github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101"
 	"github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101storage"
+	networkv1beta20201101 "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101"
+	"github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -15,6 +17,8 @@ type VirtualNetworksSubnetExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *VirtualNetworksSubnetExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&network.VirtualNetworksSubnet{},
-		&v1alpha1api20201101storage.VirtualNetworksSubnet{}}
+		&networkv1alpha1api20201101.VirtualNetworksSubnet{},
+		&v1alpha1api20201101storage.VirtualNetworksSubnet{},
+		&networkv1beta20201101.VirtualNetworksSubnet{},
+		&v1beta20201101storage.VirtualNetworksSubnet{}}
 }

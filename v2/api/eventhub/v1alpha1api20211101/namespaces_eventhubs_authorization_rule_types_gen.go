@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Generated from: https://schema.management.azure.com/schemas/2021-11-01/Microsoft.EventHub.json#/resourceDefinitions/namespaces_eventhubs_authorizationRules
+//Deprecated version of NamespacesEventhubsAuthorizationRule. Use v1beta20211101.NamespacesEventhubsAuthorizationRule instead
 type NamespacesEventhubsAuthorizationRule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -48,22 +48,36 @@ var _ conversion.Convertible = &NamespacesEventhubsAuthorizationRule{}
 
 // ConvertFrom populates our NamespacesEventhubsAuthorizationRule from the provided hub NamespacesEventhubsAuthorizationRule
 func (rule *NamespacesEventhubsAuthorizationRule) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1alpha1api20211101storage.NamespacesEventhubsAuthorizationRule)
-	if !ok {
-		return fmt.Errorf("expected eventhub/v1alpha1api20211101storage/NamespacesEventhubsAuthorizationRule but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v1alpha1api20211101storage.NamespacesEventhubsAuthorizationRule
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return rule.AssignPropertiesFromNamespacesEventhubsAuthorizationRule(source)
+	err = rule.AssignPropertiesFromNamespacesEventhubsAuthorizationRule(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to rule")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub NamespacesEventhubsAuthorizationRule from our NamespacesEventhubsAuthorizationRule
 func (rule *NamespacesEventhubsAuthorizationRule) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1alpha1api20211101storage.NamespacesEventhubsAuthorizationRule)
-	if !ok {
-		return fmt.Errorf("expected eventhub/v1alpha1api20211101storage/NamespacesEventhubsAuthorizationRule but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v1alpha1api20211101storage.NamespacesEventhubsAuthorizationRule
+	err := rule.AssignPropertiesToNamespacesEventhubsAuthorizationRule(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from rule")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return rule.AssignPropertiesToNamespacesEventhubsAuthorizationRule(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-eventhub-azure-com-v1alpha1api20211101-namespaceseventhubsauthorizationrule,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=eventhub.azure.com,resources=namespaceseventhubsauthorizationrules,verbs=create;update,versions=v1alpha1api20211101,name=default.v1alpha1api20211101.namespaceseventhubsauthorizationrules.eventhub.azure.com,admissionReviewVersions=v1beta1
@@ -300,26 +314,19 @@ func (rule *NamespacesEventhubsAuthorizationRule) OriginalGVK() *schema.GroupVer
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://schema.management.azure.com/schemas/2021-11-01/Microsoft.EventHub.json#/resourceDefinitions/namespaces_eventhubs_authorizationRules
+//Deprecated version of NamespacesEventhubsAuthorizationRule. Use v1beta20211101.NamespacesEventhubsAuthorizationRule instead
 type NamespacesEventhubsAuthorizationRuleList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []NamespacesEventhubsAuthorizationRule `json:"items"`
 }
 
-// +kubebuilder:validation:Enum={"2021-11-01"}
-type NamespacesEventhubsAuthorizationRulesSpecAPIVersion string
-
-const NamespacesEventhubsAuthorizationRulesSpecAPIVersion20211101 = NamespacesEventhubsAuthorizationRulesSpecAPIVersion("2021-11-01")
-
 type NamespacesEventhubsAuthorizationRules_Spec struct {
 	// +kubebuilder:validation:MinLength=1
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	//Location: Location to deploy resource to
-	Location *string `json:"location,omitempty"`
+	AzureName string  `json:"azureName,omitempty"`
+	Location  *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -328,11 +335,8 @@ type NamespacesEventhubsAuthorizationRules_Spec struct {
 	Owner *genruntime.KnownResourceReference `group:"eventhub.azure.com" json:"owner,omitempty" kind:"NamespacesEventhub"`
 
 	// +kubebuilder:validation:Required
-	//Rights: The rights associated with the rule.
 	Rights []AuthorizationRulePropertiesRights `json:"rights,omitempty"`
-
-	//Tags: Name-value pairs to add to the resource
-	Tags map[string]string `json:"tags,omitempty"`
+	Tags   map[string]string                   `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &NamespacesEventhubsAuthorizationRules_Spec{}

@@ -40,12 +40,12 @@ func ReportOnTypesAndVersions(configuration *config.Configuration) *Stage {
 
 type PackagesMatrixReport struct {
 	// A separate table for each package
-	tables map[string]*reporting.Table
+	tables map[string]*reporting.SparseTable
 }
 
 func NewPackagesMatrixReport() *PackagesMatrixReport {
 	return &PackagesMatrixReport{
-		tables: make(map[string]*reporting.Table),
+		tables: make(map[string]*reporting.SparseTable),
 	}
 }
 
@@ -56,7 +56,7 @@ func (report *PackagesMatrixReport) Summarize(definitions astmodel.TypeDefinitio
 		packageVersion := t.Name().PackageReference.PackageName()
 		table, ok := report.tables[packageName]
 		if !ok {
-			table = reporting.NewTable(fmt.Sprintf("Type Definitions in package %q", packageName))
+			table = reporting.NewSparseTable(fmt.Sprintf("Type Definitions in package %q", packageName))
 			report.tables[packageName] = table
 		}
 
@@ -86,7 +86,7 @@ func (report *PackagesMatrixReport) ServiceName(ref astmodel.PackageReference) s
 	return pathBits[index]
 }
 
-func (report *PackagesMatrixReport) WriteTableTo(table *reporting.Table, pkg string, outputPath string) error {
+func (report *PackagesMatrixReport) WriteTableTo(table *reporting.SparseTable, pkg string, outputPath string) error {
 	table.SortColumns(func(left string, right string) bool {
 		return left < right
 	})

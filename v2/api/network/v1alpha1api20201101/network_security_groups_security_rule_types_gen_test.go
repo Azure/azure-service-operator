@@ -6,6 +6,7 @@ package v1alpha1api20201101
 import (
 	"encoding/json"
 	"github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101storage"
+	"github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -35,7 +36,7 @@ func RunResourceConversionTestForNetworkSecurityGroupsSecurityRule(subject Netwo
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1alpha1api20201101storage.NetworkSecurityGroupsSecurityRule
+	var hub v1beta20201101storage.NetworkSecurityGroupsSecurityRule
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()

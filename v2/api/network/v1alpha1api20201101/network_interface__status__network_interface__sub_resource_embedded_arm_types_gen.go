@@ -3,275 +3,158 @@
 // Licensed under the MIT license.
 package v1alpha1api20201101
 
+//Deprecated version of NetworkInterface_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.NetworkInterface_Status_NetworkInterface_SubResourceEmbedded instead
 type NetworkInterface_Status_NetworkInterface_SubResourceEmbeddedARM struct {
-	//Etag: A unique read-only string that changes whenever the resource is updated.
-	Etag *string `json:"etag,omitempty"`
-
-	//ExtendedLocation: The extended location of the network interface.
-	ExtendedLocation *ExtendedLocation_StatusARM `json:"extendedLocation,omitempty"`
-
-	//Id: Resource ID.
-	Id *string `json:"id,omitempty"`
-
-	//Location: Resource location.
-	Location *string `json:"location,omitempty"`
-
-	//Name: Resource name.
-	Name *string `json:"name,omitempty"`
-
-	//Properties: Properties of the network interface.
-	Properties *NetworkInterfacePropertiesFormat_StatusARM `json:"properties,omitempty"`
-
-	//Tags: Resource tags.
-	Tags map[string]string `json:"tags,omitempty"`
-
-	//Type: Resource type.
-	Type *string `json:"type,omitempty"`
+	Etag             *string                                     `json:"etag,omitempty"`
+	ExtendedLocation *ExtendedLocation_StatusARM                 `json:"extendedLocation,omitempty"`
+	Id               *string                                     `json:"id,omitempty"`
+	Location         *string                                     `json:"location,omitempty"`
+	Name             *string                                     `json:"name,omitempty"`
+	Properties       *NetworkInterfacePropertiesFormat_StatusARM `json:"properties,omitempty"`
+	Tags             map[string]string                           `json:"tags,omitempty"`
+	Type             *string                                     `json:"type,omitempty"`
 }
 
+//Deprecated version of NetworkInterfacePropertiesFormat_Status. Use v1beta20201101.NetworkInterfacePropertiesFormat_Status instead
 type NetworkInterfacePropertiesFormat_StatusARM struct {
-	//DnsSettings: The DNS settings in network interface.
-	DnsSettings *NetworkInterfaceDnsSettings_StatusARM `json:"dnsSettings,omitempty"`
-
-	//DscpConfiguration: A reference to the dscp configuration to which the network interface is linked.
-	DscpConfiguration *SubResource_StatusARM `json:"dscpConfiguration,omitempty"`
-
-	//EnableAcceleratedNetworking: If the network interface is accelerated networking enabled.
-	EnableAcceleratedNetworking *bool `json:"enableAcceleratedNetworking,omitempty"`
-
-	//EnableIPForwarding: Indicates whether IP forwarding is enabled on this network interface.
-	EnableIPForwarding *bool `json:"enableIPForwarding,omitempty"`
-
-	//HostedWorkloads: A list of references to linked BareMetal resources.
-	HostedWorkloads []string `json:"hostedWorkloads,omitempty"`
-
-	//IpConfigurations: A list of IPConfigurations of the network interface.
-	IpConfigurations []NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResourceEmbeddedARM `json:"ipConfigurations,omitempty"`
-
-	//MacAddress: The MAC address of the network interface.
-	MacAddress *string `json:"macAddress,omitempty"`
-
-	//MigrationPhase: Migration phase of Network Interface resource.
-	MigrationPhase *NetworkInterfacePropertiesFormatStatusMigrationPhase `json:"migrationPhase,omitempty"`
-
-	//NetworkSecurityGroup: The reference to the NetworkSecurityGroup resource.
-	NetworkSecurityGroup *NetworkSecurityGroup_Status_NetworkInterface_SubResourceEmbeddedARM `json:"networkSecurityGroup,omitempty"`
-
-	//NicType: Type of Network Interface resource.
-	NicType *NetworkInterfacePropertiesFormatStatusNicType `json:"nicType,omitempty"`
-
-	//Primary: Whether this is a primary network interface on a virtual machine.
-	Primary *bool `json:"primary,omitempty"`
-
-	//PrivateEndpoint: A reference to the private endpoint to which the network interface is linked.
-	PrivateEndpoint *PrivateEndpoint_Status_NetworkInterface_SubResourceEmbeddedARM `json:"privateEndpoint,omitempty"`
-
-	//PrivateLinkService: Privatelinkservice of the network interface resource.
-	PrivateLinkService *PrivateLinkService_Status_NetworkInterface_SubResourceEmbeddedARM `json:"privateLinkService,omitempty"`
-
-	//ProvisioningState: The provisioning state of the network interface resource.
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
-
-	//ResourceGuid: The resource GUID property of the network interface resource.
-	ResourceGuid *string `json:"resourceGuid,omitempty"`
-
-	//TapConfigurations: A list of TapConfigurations of the network interface.
-	TapConfigurations []NetworkInterfaceTapConfiguration_Status_NetworkInterface_SubResourceEmbeddedARM `json:"tapConfigurations,omitempty"`
-
-	//VirtualMachine: The reference to a virtual machine.
-	VirtualMachine *SubResource_StatusARM `json:"virtualMachine,omitempty"`
+	DnsSettings                 *NetworkInterfaceDnsSettings_StatusARM                                            `json:"dnsSettings,omitempty"`
+	DscpConfiguration           *SubResource_StatusARM                                                            `json:"dscpConfiguration,omitempty"`
+	EnableAcceleratedNetworking *bool                                                                             `json:"enableAcceleratedNetworking,omitempty"`
+	EnableIPForwarding          *bool                                                                             `json:"enableIPForwarding,omitempty"`
+	HostedWorkloads             []string                                                                          `json:"hostedWorkloads,omitempty"`
+	IpConfigurations            []NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResourceEmbeddedARM  `json:"ipConfigurations,omitempty"`
+	MacAddress                  *string                                                                           `json:"macAddress,omitempty"`
+	MigrationPhase              *NetworkInterfacePropertiesFormatStatusMigrationPhase                             `json:"migrationPhase,omitempty"`
+	NetworkSecurityGroup        *NetworkSecurityGroup_Status_NetworkInterface_SubResourceEmbeddedARM              `json:"networkSecurityGroup,omitempty"`
+	NicType                     *NetworkInterfacePropertiesFormatStatusNicType                                    `json:"nicType,omitempty"`
+	Primary                     *bool                                                                             `json:"primary,omitempty"`
+	PrivateEndpoint             *PrivateEndpoint_Status_NetworkInterface_SubResourceEmbeddedARM                   `json:"privateEndpoint,omitempty"`
+	PrivateLinkService          *PrivateLinkService_Status_NetworkInterface_SubResourceEmbeddedARM                `json:"privateLinkService,omitempty"`
+	ProvisioningState           *ProvisioningState_Status                                                         `json:"provisioningState,omitempty"`
+	ResourceGuid                *string                                                                           `json:"resourceGuid,omitempty"`
+	TapConfigurations           []NetworkInterfaceTapConfiguration_Status_NetworkInterface_SubResourceEmbeddedARM `json:"tapConfigurations,omitempty"`
+	VirtualMachine              *SubResource_StatusARM                                                            `json:"virtualMachine,omitempty"`
 }
 
+//Deprecated version of NetworkInterfaceDnsSettings_Status. Use v1beta20201101.NetworkInterfaceDnsSettings_Status instead
 type NetworkInterfaceDnsSettings_StatusARM struct {
-	//AppliedDnsServers: If the VM that uses this NIC is part of an Availability Set, then this list will have the union of
-	//all DNS servers from all NICs that are part of the Availability Set. This property is what is configured on each of
-	//those VMs.
-	AppliedDnsServers []string `json:"appliedDnsServers,omitempty"`
-
-	//DnsServers: List of DNS servers IP addresses. Use 'AzureProvidedDNS' to switch to azure provided DNS resolution.
-	//'AzureProvidedDNS' value cannot be combined with other IPs, it must be the only value in dnsServers collection.
-	DnsServers []string `json:"dnsServers,omitempty"`
-
-	//InternalDnsNameLabel: Relative DNS name for this NIC used for internal communications between VMs in the same virtual
-	//network.
-	InternalDnsNameLabel *string `json:"internalDnsNameLabel,omitempty"`
-
-	//InternalDomainNameSuffix: Even if internalDnsNameLabel is not specified, a DNS entry is created for the primary NIC of
-	//the VM. This DNS name can be constructed by concatenating the VM name with the value of internalDomainNameSuffix.
-	InternalDomainNameSuffix *string `json:"internalDomainNameSuffix,omitempty"`
-
-	//InternalFqdn: Fully qualified DNS name supporting internal communications between VMs in the same virtual network.
-	InternalFqdn *string `json:"internalFqdn,omitempty"`
+	AppliedDnsServers        []string `json:"appliedDnsServers,omitempty"`
+	DnsServers               []string `json:"dnsServers,omitempty"`
+	InternalDnsNameLabel     *string  `json:"internalDnsNameLabel,omitempty"`
+	InternalDomainNameSuffix *string  `json:"internalDomainNameSuffix,omitempty"`
+	InternalFqdn             *string  `json:"internalFqdn,omitempty"`
 }
 
+//Deprecated version of NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResourceEmbedded instead
 type NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResourceEmbeddedARM struct {
-	//Etag: A unique read-only string that changes whenever the resource is updated.
-	Etag *string `json:"etag,omitempty"`
-
-	//Id: Resource ID.
-	Id *string `json:"id,omitempty"`
-
-	//Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
-	Name *string `json:"name,omitempty"`
-
-	//Properties: Network interface IP configuration properties.
+	Etag       *string                                                                                         `json:"etag,omitempty"`
+	Id         *string                                                                                         `json:"id,omitempty"`
+	Name       *string                                                                                         `json:"name,omitempty"`
 	Properties *NetworkInterfaceIPConfigurationPropertiesFormat_Status_NetworkInterface_SubResourceEmbeddedARM `json:"properties,omitempty"`
-
-	//Type: Resource type.
-	Type *string `json:"type,omitempty"`
+	Type       *string                                                                                         `json:"type,omitempty"`
 }
 
+//Deprecated version of NetworkInterfaceTapConfiguration_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.NetworkInterfaceTapConfiguration_Status_NetworkInterface_SubResourceEmbedded instead
 type NetworkInterfaceTapConfiguration_Status_NetworkInterface_SubResourceEmbeddedARM struct {
-	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
+//Deprecated version of NetworkSecurityGroup_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.NetworkSecurityGroup_Status_NetworkInterface_SubResourceEmbedded instead
 type NetworkSecurityGroup_Status_NetworkInterface_SubResourceEmbeddedARM struct {
-	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
+//Deprecated version of PrivateEndpoint_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.PrivateEndpoint_Status_NetworkInterface_SubResourceEmbedded instead
 type PrivateEndpoint_Status_NetworkInterface_SubResourceEmbeddedARM struct {
-	//ExtendedLocation: The extended location of the load balancer.
 	ExtendedLocation *ExtendedLocation_StatusARM `json:"extendedLocation,omitempty"`
-
-	//Id: Resource ID.
-	Id *string `json:"id,omitempty"`
+	Id               *string                     `json:"id,omitempty"`
 }
 
+//Deprecated version of PrivateLinkService_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.PrivateLinkService_Status_NetworkInterface_SubResourceEmbedded instead
 type PrivateLinkService_Status_NetworkInterface_SubResourceEmbeddedARM struct {
-	//ExtendedLocation: The extended location of the load balancer.
 	ExtendedLocation *ExtendedLocation_StatusARM `json:"extendedLocation,omitempty"`
-
-	//Id: Resource ID.
-	Id *string `json:"id,omitempty"`
+	Id               *string                     `json:"id,omitempty"`
 }
 
+//Deprecated version of SubResource_Status. Use v1beta20201101.SubResource_Status instead
 type SubResource_StatusARM struct {
-	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
+//Deprecated version of NetworkInterfaceIPConfigurationPropertiesFormat_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.NetworkInterfaceIPConfigurationPropertiesFormat_Status_NetworkInterface_SubResourceEmbedded instead
 type NetworkInterfaceIPConfigurationPropertiesFormat_Status_NetworkInterface_SubResourceEmbeddedARM struct {
-	//ApplicationGatewayBackendAddressPools: The reference to ApplicationGatewayBackendAddressPool resource.
 	ApplicationGatewayBackendAddressPools []ApplicationGatewayBackendAddressPool_Status_NetworkInterface_SubResourceEmbeddedARM `json:"applicationGatewayBackendAddressPools,omitempty"`
-
-	//ApplicationSecurityGroups: Application security groups in which the IP configuration is included.
-	ApplicationSecurityGroups []ApplicationSecurityGroup_Status_NetworkInterface_SubResourceEmbeddedARM `json:"applicationSecurityGroups,omitempty"`
-
-	//LoadBalancerBackendAddressPools: The reference to LoadBalancerBackendAddressPool resource.
-	LoadBalancerBackendAddressPools []BackendAddressPool_Status_NetworkInterface_SubResourceEmbeddedARM `json:"loadBalancerBackendAddressPools,omitempty"`
-
-	//LoadBalancerInboundNatRules: A list of references of LoadBalancerInboundNatRules.
-	LoadBalancerInboundNatRules []InboundNatRule_Status_NetworkInterface_SubResourceEmbeddedARM `json:"loadBalancerInboundNatRules,omitempty"`
-
-	//Primary: Whether this is a primary customer address on the network interface.
-	Primary *bool `json:"primary,omitempty"`
-
-	//PrivateIPAddress: Private IP address of the IP configuration.
-	PrivateIPAddress *string `json:"privateIPAddress,omitempty"`
-
-	//PrivateIPAddressVersion: Whether the specific IP configuration is IPv4 or IPv6. Default is IPv4.
-	PrivateIPAddressVersion *IPVersion_Status `json:"privateIPAddressVersion,omitempty"`
-
-	//PrivateIPAllocationMethod: The private IP address allocation method.
-	PrivateIPAllocationMethod *IPAllocationMethod_Status `json:"privateIPAllocationMethod,omitempty"`
-
-	//PrivateLinkConnectionProperties: PrivateLinkConnection properties for the network interface.
-	PrivateLinkConnectionProperties *NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_StatusARM `json:"privateLinkConnectionProperties,omitempty"`
-
-	//ProvisioningState: The provisioning state of the network interface IP configuration.
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
-
-	//PublicIPAddress: Public IP address bound to the IP configuration.
-	PublicIPAddress *PublicIPAddress_Status_NetworkInterface_SubResourceEmbeddedARM `json:"publicIPAddress,omitempty"`
-
-	//Subnet: Subnet bound to the IP configuration.
-	Subnet *Subnet_Status_NetworkInterface_SubResourceEmbeddedARM `json:"subnet,omitempty"`
-
-	//VirtualNetworkTaps: The reference to Virtual Network Taps.
-	VirtualNetworkTaps []VirtualNetworkTap_Status_NetworkInterface_SubResourceEmbeddedARM `json:"virtualNetworkTaps,omitempty"`
+	ApplicationSecurityGroups             []ApplicationSecurityGroup_Status_NetworkInterface_SubResourceEmbeddedARM             `json:"applicationSecurityGroups,omitempty"`
+	LoadBalancerBackendAddressPools       []BackendAddressPool_Status_NetworkInterface_SubResourceEmbeddedARM                   `json:"loadBalancerBackendAddressPools,omitempty"`
+	LoadBalancerInboundNatRules           []InboundNatRule_Status_NetworkInterface_SubResourceEmbeddedARM                       `json:"loadBalancerInboundNatRules,omitempty"`
+	Primary                               *bool                                                                                 `json:"primary,omitempty"`
+	PrivateIPAddress                      *string                                                                               `json:"privateIPAddress,omitempty"`
+	PrivateIPAddressVersion               *IPVersion_Status                                                                     `json:"privateIPAddressVersion,omitempty"`
+	PrivateIPAllocationMethod             *IPAllocationMethod_Status                                                            `json:"privateIPAllocationMethod,omitempty"`
+	PrivateLinkConnectionProperties       *NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_StatusARM             `json:"privateLinkConnectionProperties,omitempty"`
+	ProvisioningState                     *ProvisioningState_Status                                                             `json:"provisioningState,omitempty"`
+	PublicIPAddress                       *PublicIPAddress_Status_NetworkInterface_SubResourceEmbeddedARM                       `json:"publicIPAddress,omitempty"`
+	Subnet                                *Subnet_Status_NetworkInterface_SubResourceEmbeddedARM                                `json:"subnet,omitempty"`
+	VirtualNetworkTaps                    []VirtualNetworkTap_Status_NetworkInterface_SubResourceEmbeddedARM                    `json:"virtualNetworkTaps,omitempty"`
 }
 
+//Deprecated version of ApplicationGatewayBackendAddressPool_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.ApplicationGatewayBackendAddressPool_Status_NetworkInterface_SubResourceEmbedded instead
 type ApplicationGatewayBackendAddressPool_Status_NetworkInterface_SubResourceEmbeddedARM struct {
-	//Etag: A unique read-only string that changes whenever the resource is updated.
-	Etag *string `json:"etag,omitempty"`
-
-	//Id: Resource ID.
-	Id *string `json:"id,omitempty"`
-
-	//Name: Name of the backend address pool that is unique within an Application Gateway.
-	Name *string `json:"name,omitempty"`
-
-	//Properties: Properties of the application gateway backend address pool.
+	Etag       *string                                                                                              `json:"etag,omitempty"`
+	Id         *string                                                                                              `json:"id,omitempty"`
+	Name       *string                                                                                              `json:"name,omitempty"`
 	Properties *ApplicationGatewayBackendAddressPoolPropertiesFormat_Status_NetworkInterface_SubResourceEmbeddedARM `json:"properties,omitempty"`
-
-	//Type: Type of the resource.
-	Type *string `json:"type,omitempty"`
+	Type       *string                                                                                              `json:"type,omitempty"`
 }
 
+//Deprecated version of ApplicationSecurityGroup_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.ApplicationSecurityGroup_Status_NetworkInterface_SubResourceEmbedded instead
 type ApplicationSecurityGroup_Status_NetworkInterface_SubResourceEmbeddedARM struct {
-	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
+//Deprecated version of BackendAddressPool_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.BackendAddressPool_Status_NetworkInterface_SubResourceEmbedded instead
 type BackendAddressPool_Status_NetworkInterface_SubResourceEmbeddedARM struct {
-	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
+//Deprecated version of InboundNatRule_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.InboundNatRule_Status_NetworkInterface_SubResourceEmbedded instead
 type InboundNatRule_Status_NetworkInterface_SubResourceEmbeddedARM struct {
-	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
+//Deprecated version of NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_Status. Use v1beta20201101.NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_Status instead
 type NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_StatusARM struct {
-	//Fqdns: List of FQDNs for current private link connection.
-	Fqdns []string `json:"fqdns,omitempty"`
-
-	//GroupId: The group ID for current private link connection.
-	GroupId *string `json:"groupId,omitempty"`
-
-	//RequiredMemberName: The required member name for current private link connection.
-	RequiredMemberName *string `json:"requiredMemberName,omitempty"`
+	Fqdns              []string `json:"fqdns,omitempty"`
+	GroupId            *string  `json:"groupId,omitempty"`
+	RequiredMemberName *string  `json:"requiredMemberName,omitempty"`
 }
 
+//Deprecated version of PublicIPAddress_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.PublicIPAddress_Status_NetworkInterface_SubResourceEmbedded instead
 type PublicIPAddress_Status_NetworkInterface_SubResourceEmbeddedARM struct {
-	//ExtendedLocation: The extended location of the public ip address.
-	ExtendedLocation *ExtendedLocation_StatusARM `json:"extendedLocation,omitempty"`
-
-	//Id: Resource ID.
-	Id *string `json:"id,omitempty"`
-
-	//Sku: The public IP address SKU.
-	Sku *PublicIPAddressSku_StatusARM `json:"sku,omitempty"`
-
-	//Zones: A list of availability zones denoting the IP allocated for the resource needs to come from.
-	Zones []string `json:"zones,omitempty"`
+	ExtendedLocation *ExtendedLocation_StatusARM   `json:"extendedLocation,omitempty"`
+	Id               *string                       `json:"id,omitempty"`
+	Sku              *PublicIPAddressSku_StatusARM `json:"sku,omitempty"`
+	Zones            []string                      `json:"zones,omitempty"`
 }
 
+//Deprecated version of Subnet_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.Subnet_Status_NetworkInterface_SubResourceEmbedded instead
 type Subnet_Status_NetworkInterface_SubResourceEmbeddedARM struct {
-	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
+//Deprecated version of VirtualNetworkTap_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.VirtualNetworkTap_Status_NetworkInterface_SubResourceEmbedded instead
 type VirtualNetworkTap_Status_NetworkInterface_SubResourceEmbeddedARM struct {
-	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
+//Deprecated version of ApplicationGatewayBackendAddressPoolPropertiesFormat_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.ApplicationGatewayBackendAddressPoolPropertiesFormat_Status_NetworkInterface_SubResourceEmbedded instead
 type ApplicationGatewayBackendAddressPoolPropertiesFormat_Status_NetworkInterface_SubResourceEmbeddedARM struct {
-	//BackendAddresses: Backend addresses.
-	BackendAddresses []ApplicationGatewayBackendAddress_StatusARM `json:"backendAddresses,omitempty"`
-
-	//ProvisioningState: The provisioning state of the backend address pool resource.
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
+	BackendAddresses  []ApplicationGatewayBackendAddress_StatusARM `json:"backendAddresses,omitempty"`
+	ProvisioningState *ProvisioningState_Status                    `json:"provisioningState,omitempty"`
 }
 
+//Deprecated version of ApplicationGatewayBackendAddress_Status. Use v1beta20201101.ApplicationGatewayBackendAddress_Status instead
 type ApplicationGatewayBackendAddress_StatusARM struct {
-	//Fqdn: Fully qualified domain name (FQDN).
-	Fqdn *string `json:"fqdn,omitempty"`
-
-	//IpAddress: IP address.
+	Fqdn      *string `json:"fqdn,omitempty"`
 	IpAddress *string `json:"ipAddress,omitempty"`
 }

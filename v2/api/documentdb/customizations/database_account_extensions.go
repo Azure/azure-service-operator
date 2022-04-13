@@ -15,7 +15,7 @@ import (
 	"k8s.io/api/core/v1"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
-	documentdb "github.com/Azure/azure-service-operator/v2/api/documentdb/v1alpha1api20210515storage"
+	documentdb "github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -83,17 +83,17 @@ func secretsSpecified(obj *documentdb.DatabaseAccount) (bool, bool) {
 		return false, false
 	}
 
-	secrets := obj.Spec.OperatorSpec.Secrets
+	specSecrets := obj.Spec.OperatorSpec.Secrets
 	hasSecrets := false
 	hasEndpoints := false
-	if secrets.PrimaryMasterKey != nil ||
-		secrets.SecondaryMasterKey != nil ||
-		secrets.PrimaryReadonlyMasterKey != nil ||
-		secrets.SecondaryReadonlyMasterKey != nil {
+	if specSecrets.PrimaryMasterKey != nil ||
+		specSecrets.SecondaryMasterKey != nil ||
+		specSecrets.PrimaryReadonlyMasterKey != nil ||
+		specSecrets.SecondaryReadonlyMasterKey != nil {
 		hasSecrets = true
 	}
 
-	if secrets.DocumentEndpoint != nil {
+	if specSecrets.DocumentEndpoint != nil {
 		hasEndpoints = true
 	}
 

@@ -4,25 +4,24 @@
 package v1alpha1api20210515storage
 
 import (
+	"fmt"
+	"github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
-
-// +kubebuilder:rbac:groups=documentdb.azure.com,resources=databaseaccounts,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=documentdb.azure.com,resources={databaseaccounts/status,databaseaccounts/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 //Storage version of v1alpha1api20210515.DatabaseAccount
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts
+//Deprecated version of DatabaseAccount. Use v1beta20210515.DatabaseAccount instead
 type DatabaseAccount struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -40,6 +39,28 @@ func (account *DatabaseAccount) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (account *DatabaseAccount) SetConditions(conditions conditions.Conditions) {
 	account.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &DatabaseAccount{}
+
+// ConvertFrom populates our DatabaseAccount from the provided hub DatabaseAccount
+func (account *DatabaseAccount) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*v1beta20210515storage.DatabaseAccount)
+	if !ok {
+		return fmt.Errorf("expected documentdb/v1beta20210515storage/DatabaseAccount but received %T instead", hub)
+	}
+
+	return account.AssignPropertiesFromDatabaseAccount(source)
+}
+
+// ConvertTo populates the provided hub DatabaseAccount from our DatabaseAccount
+func (account *DatabaseAccount) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*v1beta20210515storage.DatabaseAccount)
+	if !ok {
+		return fmt.Errorf("expected documentdb/v1beta20210515storage/DatabaseAccount but received %T instead", hub)
+	}
+
+	return account.AssignPropertiesToDatabaseAccount(destination)
 }
 
 var _ genruntime.KubernetesResource = &DatabaseAccount{}
@@ -108,8 +129,57 @@ func (account *DatabaseAccount) SetStatus(status genruntime.ConvertibleStatus) e
 	return nil
 }
 
-// Hub marks that this DatabaseAccount is the hub type for conversion
-func (account *DatabaseAccount) Hub() {}
+// AssignPropertiesFromDatabaseAccount populates our DatabaseAccount from the provided source DatabaseAccount
+func (account *DatabaseAccount) AssignPropertiesFromDatabaseAccount(source *v1beta20210515storage.DatabaseAccount) error {
+
+	// ObjectMeta
+	account.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec DatabaseAccounts_Spec
+	err := spec.AssignPropertiesFromDatabaseAccountsSpec(&source.Spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesFromDatabaseAccountsSpec() to populate field Spec")
+	}
+	account.Spec = spec
+
+	// Status
+	var status DatabaseAccountGetResults_Status
+	err = status.AssignPropertiesFromDatabaseAccountGetResultsStatus(&source.Status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesFromDatabaseAccountGetResultsStatus() to populate field Status")
+	}
+	account.Status = status
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToDatabaseAccount populates the provided destination DatabaseAccount from our DatabaseAccount
+func (account *DatabaseAccount) AssignPropertiesToDatabaseAccount(destination *v1beta20210515storage.DatabaseAccount) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *account.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec v1beta20210515storage.DatabaseAccounts_Spec
+	err := account.Spec.AssignPropertiesToDatabaseAccountsSpec(&spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesToDatabaseAccountsSpec() to populate field Spec")
+	}
+	destination.Spec = spec
+
+	// Status
+	var status v1beta20210515storage.DatabaseAccountGetResults_Status
+	err = account.Status.AssignPropertiesToDatabaseAccountGetResultsStatus(&status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesToDatabaseAccountGetResultsStatus() to populate field Status")
+	}
+	destination.Status = status
+
+	// No error
+	return nil
+}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (account *DatabaseAccount) OriginalGVK() *schema.GroupVersionKind {
@@ -122,7 +192,7 @@ func (account *DatabaseAccount) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 //Storage version of v1alpha1api20210515.DatabaseAccount
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts
+//Deprecated version of DatabaseAccount. Use v1beta20210515.DatabaseAccount instead
 type DatabaseAccountList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -130,6 +200,7 @@ type DatabaseAccountList struct {
 }
 
 //Storage version of v1alpha1api20210515.DatabaseAccountGetResults_Status
+//Deprecated version of DatabaseAccountGetResults_Status. Use v1beta20210515.DatabaseAccountGetResults_Status instead
 type DatabaseAccountGetResults_Status struct {
 	AnalyticalStorageConfiguration     *AnalyticalStorageConfiguration_Status                 `json:"analyticalStorageConfiguration,omitempty"`
 	ApiProperties                      *ApiProperties_Status                                  `json:"apiProperties,omitempty"`
@@ -175,20 +246,734 @@ var _ genruntime.ConvertibleStatus = &DatabaseAccountGetResults_Status{}
 
 // ConvertStatusFrom populates our DatabaseAccountGetResults_Status from the provided source
 func (results *DatabaseAccountGetResults_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == results {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	src, ok := source.(*v1beta20210515storage.DatabaseAccountGetResults_Status)
+	if ok {
+		// Populate our instance from source
+		return results.AssignPropertiesFromDatabaseAccountGetResultsStatus(src)
 	}
 
-	return source.ConvertStatusTo(results)
+	// Convert to an intermediate form
+	src = &v1beta20210515storage.DatabaseAccountGetResults_Status{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = results.AssignPropertiesFromDatabaseAccountGetResultsStatus(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
 }
 
 // ConvertStatusTo populates the provided destination from our DatabaseAccountGetResults_Status
 func (results *DatabaseAccountGetResults_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == results {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	dst, ok := destination.(*v1beta20210515storage.DatabaseAccountGetResults_Status)
+	if ok {
+		// Populate destination from our instance
+		return results.AssignPropertiesToDatabaseAccountGetResultsStatus(dst)
 	}
 
-	return destination.ConvertStatusFrom(results)
+	// Convert to an intermediate form
+	dst = &v1beta20210515storage.DatabaseAccountGetResults_Status{}
+	err := results.AssignPropertiesToDatabaseAccountGetResultsStatus(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+// AssignPropertiesFromDatabaseAccountGetResultsStatus populates our DatabaseAccountGetResults_Status from the provided source DatabaseAccountGetResults_Status
+func (results *DatabaseAccountGetResults_Status) AssignPropertiesFromDatabaseAccountGetResultsStatus(source *v1beta20210515storage.DatabaseAccountGetResults_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AnalyticalStorageConfiguration
+	if source.AnalyticalStorageConfiguration != nil {
+		var analyticalStorageConfiguration AnalyticalStorageConfiguration_Status
+		err := analyticalStorageConfiguration.AssignPropertiesFromAnalyticalStorageConfigurationStatus(source.AnalyticalStorageConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromAnalyticalStorageConfigurationStatus() to populate field AnalyticalStorageConfiguration")
+		}
+		results.AnalyticalStorageConfiguration = &analyticalStorageConfiguration
+	} else {
+		results.AnalyticalStorageConfiguration = nil
+	}
+
+	// ApiProperties
+	if source.ApiProperties != nil {
+		var apiProperty ApiProperties_Status
+		err := apiProperty.AssignPropertiesFromApiPropertiesStatus(source.ApiProperties)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromApiPropertiesStatus() to populate field ApiProperties")
+		}
+		results.ApiProperties = &apiProperty
+	} else {
+		results.ApiProperties = nil
+	}
+
+	// BackupPolicy
+	if source.BackupPolicy != nil {
+		var backupPolicy BackupPolicy_Status
+		err := backupPolicy.AssignPropertiesFromBackupPolicyStatus(source.BackupPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromBackupPolicyStatus() to populate field BackupPolicy")
+		}
+		results.BackupPolicy = &backupPolicy
+	} else {
+		results.BackupPolicy = nil
+	}
+
+	// Capabilities
+	if source.Capabilities != nil {
+		capabilityList := make([]Capability_Status, len(source.Capabilities))
+		for capabilityIndex, capabilityItem := range source.Capabilities {
+			// Shadow the loop variable to avoid aliasing
+			capabilityItem := capabilityItem
+			var capability Capability_Status
+			err := capability.AssignPropertiesFromCapabilityStatus(&capabilityItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromCapabilityStatus() to populate field Capabilities")
+			}
+			capabilityList[capabilityIndex] = capability
+		}
+		results.Capabilities = capabilityList
+	} else {
+		results.Capabilities = nil
+	}
+
+	// Conditions
+	results.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// ConnectorOffer
+	results.ConnectorOffer = genruntime.ClonePointerToString(source.ConnectorOffer)
+
+	// ConsistencyPolicy
+	if source.ConsistencyPolicy != nil {
+		var consistencyPolicy ConsistencyPolicy_Status
+		err := consistencyPolicy.AssignPropertiesFromConsistencyPolicyStatus(source.ConsistencyPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromConsistencyPolicyStatus() to populate field ConsistencyPolicy")
+		}
+		results.ConsistencyPolicy = &consistencyPolicy
+	} else {
+		results.ConsistencyPolicy = nil
+	}
+
+	// Cors
+	if source.Cors != nil {
+		corList := make([]CorsPolicy_Status, len(source.Cors))
+		for corIndex, corItem := range source.Cors {
+			// Shadow the loop variable to avoid aliasing
+			corItem := corItem
+			var cor CorsPolicy_Status
+			err := cor.AssignPropertiesFromCorsPolicyStatus(&corItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromCorsPolicyStatus() to populate field Cors")
+			}
+			corList[corIndex] = cor
+		}
+		results.Cors = corList
+	} else {
+		results.Cors = nil
+	}
+
+	// DatabaseAccountOfferType
+	results.DatabaseAccountOfferType = genruntime.ClonePointerToString(source.DatabaseAccountOfferType)
+
+	// DefaultIdentity
+	results.DefaultIdentity = genruntime.ClonePointerToString(source.DefaultIdentity)
+
+	// DisableKeyBasedMetadataWriteAccess
+	if source.DisableKeyBasedMetadataWriteAccess != nil {
+		disableKeyBasedMetadataWriteAccess := *source.DisableKeyBasedMetadataWriteAccess
+		results.DisableKeyBasedMetadataWriteAccess = &disableKeyBasedMetadataWriteAccess
+	} else {
+		results.DisableKeyBasedMetadataWriteAccess = nil
+	}
+
+	// DocumentEndpoint
+	results.DocumentEndpoint = genruntime.ClonePointerToString(source.DocumentEndpoint)
+
+	// EnableAnalyticalStorage
+	if source.EnableAnalyticalStorage != nil {
+		enableAnalyticalStorage := *source.EnableAnalyticalStorage
+		results.EnableAnalyticalStorage = &enableAnalyticalStorage
+	} else {
+		results.EnableAnalyticalStorage = nil
+	}
+
+	// EnableAutomaticFailover
+	if source.EnableAutomaticFailover != nil {
+		enableAutomaticFailover := *source.EnableAutomaticFailover
+		results.EnableAutomaticFailover = &enableAutomaticFailover
+	} else {
+		results.EnableAutomaticFailover = nil
+	}
+
+	// EnableCassandraConnector
+	if source.EnableCassandraConnector != nil {
+		enableCassandraConnector := *source.EnableCassandraConnector
+		results.EnableCassandraConnector = &enableCassandraConnector
+	} else {
+		results.EnableCassandraConnector = nil
+	}
+
+	// EnableFreeTier
+	if source.EnableFreeTier != nil {
+		enableFreeTier := *source.EnableFreeTier
+		results.EnableFreeTier = &enableFreeTier
+	} else {
+		results.EnableFreeTier = nil
+	}
+
+	// EnableMultipleWriteLocations
+	if source.EnableMultipleWriteLocations != nil {
+		enableMultipleWriteLocation := *source.EnableMultipleWriteLocations
+		results.EnableMultipleWriteLocations = &enableMultipleWriteLocation
+	} else {
+		results.EnableMultipleWriteLocations = nil
+	}
+
+	// FailoverPolicies
+	if source.FailoverPolicies != nil {
+		failoverPolicyList := make([]FailoverPolicy_Status, len(source.FailoverPolicies))
+		for failoverPolicyIndex, failoverPolicyItem := range source.FailoverPolicies {
+			// Shadow the loop variable to avoid aliasing
+			failoverPolicyItem := failoverPolicyItem
+			var failoverPolicy FailoverPolicy_Status
+			err := failoverPolicy.AssignPropertiesFromFailoverPolicyStatus(&failoverPolicyItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromFailoverPolicyStatus() to populate field FailoverPolicies")
+			}
+			failoverPolicyList[failoverPolicyIndex] = failoverPolicy
+		}
+		results.FailoverPolicies = failoverPolicyList
+	} else {
+		results.FailoverPolicies = nil
+	}
+
+	// Id
+	results.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Identity
+	if source.Identity != nil {
+		var identity ManagedServiceIdentity_Status
+		err := identity.AssignPropertiesFromManagedServiceIdentityStatus(source.Identity)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromManagedServiceIdentityStatus() to populate field Identity")
+		}
+		results.Identity = &identity
+	} else {
+		results.Identity = nil
+	}
+
+	// IpRules
+	if source.IpRules != nil {
+		ipRuleList := make([]IpAddressOrRange_Status, len(source.IpRules))
+		for ipRuleIndex, ipRuleItem := range source.IpRules {
+			// Shadow the loop variable to avoid aliasing
+			ipRuleItem := ipRuleItem
+			var ipRule IpAddressOrRange_Status
+			err := ipRule.AssignPropertiesFromIpAddressOrRangeStatus(&ipRuleItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromIpAddressOrRangeStatus() to populate field IpRules")
+			}
+			ipRuleList[ipRuleIndex] = ipRule
+		}
+		results.IpRules = ipRuleList
+	} else {
+		results.IpRules = nil
+	}
+
+	// IsVirtualNetworkFilterEnabled
+	if source.IsVirtualNetworkFilterEnabled != nil {
+		isVirtualNetworkFilterEnabled := *source.IsVirtualNetworkFilterEnabled
+		results.IsVirtualNetworkFilterEnabled = &isVirtualNetworkFilterEnabled
+	} else {
+		results.IsVirtualNetworkFilterEnabled = nil
+	}
+
+	// KeyVaultKeyUri
+	results.KeyVaultKeyUri = genruntime.ClonePointerToString(source.KeyVaultKeyUri)
+
+	// Kind
+	results.Kind = genruntime.ClonePointerToString(source.Kind)
+
+	// Location
+	results.Location = genruntime.ClonePointerToString(source.Location)
+
+	// Locations
+	if source.Locations != nil {
+		locationList := make([]Location_Status, len(source.Locations))
+		for locationIndex, locationItem := range source.Locations {
+			// Shadow the loop variable to avoid aliasing
+			locationItem := locationItem
+			var location Location_Status
+			err := location.AssignPropertiesFromLocationStatus(&locationItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromLocationStatus() to populate field Locations")
+			}
+			locationList[locationIndex] = location
+		}
+		results.Locations = locationList
+	} else {
+		results.Locations = nil
+	}
+
+	// Name
+	results.Name = genruntime.ClonePointerToString(source.Name)
+
+	// NetworkAclBypass
+	results.NetworkAclBypass = genruntime.ClonePointerToString(source.NetworkAclBypass)
+
+	// NetworkAclBypassResourceIds
+	results.NetworkAclBypassResourceIds = genruntime.CloneSliceOfString(source.NetworkAclBypassResourceIds)
+
+	// PrivateEndpointConnections
+	if source.PrivateEndpointConnections != nil {
+		privateEndpointConnectionList := make([]PrivateEndpointConnection_Status_SubResourceEmbedded, len(source.PrivateEndpointConnections))
+		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range source.PrivateEndpointConnections {
+			// Shadow the loop variable to avoid aliasing
+			privateEndpointConnectionItem := privateEndpointConnectionItem
+			var privateEndpointConnection PrivateEndpointConnection_Status_SubResourceEmbedded
+			err := privateEndpointConnection.AssignPropertiesFromPrivateEndpointConnectionStatusSubResourceEmbedded(&privateEndpointConnectionItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromPrivateEndpointConnectionStatusSubResourceEmbedded() to populate field PrivateEndpointConnections")
+			}
+			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
+		}
+		results.PrivateEndpointConnections = privateEndpointConnectionList
+	} else {
+		results.PrivateEndpointConnections = nil
+	}
+
+	// ProvisioningState
+	results.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
+
+	// PublicNetworkAccess
+	results.PublicNetworkAccess = genruntime.ClonePointerToString(source.PublicNetworkAccess)
+
+	// ReadLocations
+	if source.ReadLocations != nil {
+		readLocationList := make([]Location_Status, len(source.ReadLocations))
+		for readLocationIndex, readLocationItem := range source.ReadLocations {
+			// Shadow the loop variable to avoid aliasing
+			readLocationItem := readLocationItem
+			var readLocation Location_Status
+			err := readLocation.AssignPropertiesFromLocationStatus(&readLocationItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromLocationStatus() to populate field ReadLocations")
+			}
+			readLocationList[readLocationIndex] = readLocation
+		}
+		results.ReadLocations = readLocationList
+	} else {
+		results.ReadLocations = nil
+	}
+
+	// Tags
+	results.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Type
+	results.Type = genruntime.ClonePointerToString(source.Type)
+
+	// VirtualNetworkRules
+	if source.VirtualNetworkRules != nil {
+		virtualNetworkRuleList := make([]VirtualNetworkRule_Status, len(source.VirtualNetworkRules))
+		for virtualNetworkRuleIndex, virtualNetworkRuleItem := range source.VirtualNetworkRules {
+			// Shadow the loop variable to avoid aliasing
+			virtualNetworkRuleItem := virtualNetworkRuleItem
+			var virtualNetworkRule VirtualNetworkRule_Status
+			err := virtualNetworkRule.AssignPropertiesFromVirtualNetworkRuleStatus(&virtualNetworkRuleItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromVirtualNetworkRuleStatus() to populate field VirtualNetworkRules")
+			}
+			virtualNetworkRuleList[virtualNetworkRuleIndex] = virtualNetworkRule
+		}
+		results.VirtualNetworkRules = virtualNetworkRuleList
+	} else {
+		results.VirtualNetworkRules = nil
+	}
+
+	// WriteLocations
+	if source.WriteLocations != nil {
+		writeLocationList := make([]Location_Status, len(source.WriteLocations))
+		for writeLocationIndex, writeLocationItem := range source.WriteLocations {
+			// Shadow the loop variable to avoid aliasing
+			writeLocationItem := writeLocationItem
+			var writeLocation Location_Status
+			err := writeLocation.AssignPropertiesFromLocationStatus(&writeLocationItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromLocationStatus() to populate field WriteLocations")
+			}
+			writeLocationList[writeLocationIndex] = writeLocation
+		}
+		results.WriteLocations = writeLocationList
+	} else {
+		results.WriteLocations = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		results.PropertyBag = propertyBag
+	} else {
+		results.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToDatabaseAccountGetResultsStatus populates the provided destination DatabaseAccountGetResults_Status from our DatabaseAccountGetResults_Status
+func (results *DatabaseAccountGetResults_Status) AssignPropertiesToDatabaseAccountGetResultsStatus(destination *v1beta20210515storage.DatabaseAccountGetResults_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(results.PropertyBag)
+
+	// AnalyticalStorageConfiguration
+	if results.AnalyticalStorageConfiguration != nil {
+		var analyticalStorageConfiguration v1beta20210515storage.AnalyticalStorageConfiguration_Status
+		err := results.AnalyticalStorageConfiguration.AssignPropertiesToAnalyticalStorageConfigurationStatus(&analyticalStorageConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToAnalyticalStorageConfigurationStatus() to populate field AnalyticalStorageConfiguration")
+		}
+		destination.AnalyticalStorageConfiguration = &analyticalStorageConfiguration
+	} else {
+		destination.AnalyticalStorageConfiguration = nil
+	}
+
+	// ApiProperties
+	if results.ApiProperties != nil {
+		var apiProperty v1beta20210515storage.ApiProperties_Status
+		err := results.ApiProperties.AssignPropertiesToApiPropertiesStatus(&apiProperty)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToApiPropertiesStatus() to populate field ApiProperties")
+		}
+		destination.ApiProperties = &apiProperty
+	} else {
+		destination.ApiProperties = nil
+	}
+
+	// BackupPolicy
+	if results.BackupPolicy != nil {
+		var backupPolicy v1beta20210515storage.BackupPolicy_Status
+		err := results.BackupPolicy.AssignPropertiesToBackupPolicyStatus(&backupPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToBackupPolicyStatus() to populate field BackupPolicy")
+		}
+		destination.BackupPolicy = &backupPolicy
+	} else {
+		destination.BackupPolicy = nil
+	}
+
+	// Capabilities
+	if results.Capabilities != nil {
+		capabilityList := make([]v1beta20210515storage.Capability_Status, len(results.Capabilities))
+		for capabilityIndex, capabilityItem := range results.Capabilities {
+			// Shadow the loop variable to avoid aliasing
+			capabilityItem := capabilityItem
+			var capability v1beta20210515storage.Capability_Status
+			err := capabilityItem.AssignPropertiesToCapabilityStatus(&capability)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToCapabilityStatus() to populate field Capabilities")
+			}
+			capabilityList[capabilityIndex] = capability
+		}
+		destination.Capabilities = capabilityList
+	} else {
+		destination.Capabilities = nil
+	}
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(results.Conditions)
+
+	// ConnectorOffer
+	destination.ConnectorOffer = genruntime.ClonePointerToString(results.ConnectorOffer)
+
+	// ConsistencyPolicy
+	if results.ConsistencyPolicy != nil {
+		var consistencyPolicy v1beta20210515storage.ConsistencyPolicy_Status
+		err := results.ConsistencyPolicy.AssignPropertiesToConsistencyPolicyStatus(&consistencyPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToConsistencyPolicyStatus() to populate field ConsistencyPolicy")
+		}
+		destination.ConsistencyPolicy = &consistencyPolicy
+	} else {
+		destination.ConsistencyPolicy = nil
+	}
+
+	// Cors
+	if results.Cors != nil {
+		corList := make([]v1beta20210515storage.CorsPolicy_Status, len(results.Cors))
+		for corIndex, corItem := range results.Cors {
+			// Shadow the loop variable to avoid aliasing
+			corItem := corItem
+			var cor v1beta20210515storage.CorsPolicy_Status
+			err := corItem.AssignPropertiesToCorsPolicyStatus(&cor)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToCorsPolicyStatus() to populate field Cors")
+			}
+			corList[corIndex] = cor
+		}
+		destination.Cors = corList
+	} else {
+		destination.Cors = nil
+	}
+
+	// DatabaseAccountOfferType
+	destination.DatabaseAccountOfferType = genruntime.ClonePointerToString(results.DatabaseAccountOfferType)
+
+	// DefaultIdentity
+	destination.DefaultIdentity = genruntime.ClonePointerToString(results.DefaultIdentity)
+
+	// DisableKeyBasedMetadataWriteAccess
+	if results.DisableKeyBasedMetadataWriteAccess != nil {
+		disableKeyBasedMetadataWriteAccess := *results.DisableKeyBasedMetadataWriteAccess
+		destination.DisableKeyBasedMetadataWriteAccess = &disableKeyBasedMetadataWriteAccess
+	} else {
+		destination.DisableKeyBasedMetadataWriteAccess = nil
+	}
+
+	// DocumentEndpoint
+	destination.DocumentEndpoint = genruntime.ClonePointerToString(results.DocumentEndpoint)
+
+	// EnableAnalyticalStorage
+	if results.EnableAnalyticalStorage != nil {
+		enableAnalyticalStorage := *results.EnableAnalyticalStorage
+		destination.EnableAnalyticalStorage = &enableAnalyticalStorage
+	} else {
+		destination.EnableAnalyticalStorage = nil
+	}
+
+	// EnableAutomaticFailover
+	if results.EnableAutomaticFailover != nil {
+		enableAutomaticFailover := *results.EnableAutomaticFailover
+		destination.EnableAutomaticFailover = &enableAutomaticFailover
+	} else {
+		destination.EnableAutomaticFailover = nil
+	}
+
+	// EnableCassandraConnector
+	if results.EnableCassandraConnector != nil {
+		enableCassandraConnector := *results.EnableCassandraConnector
+		destination.EnableCassandraConnector = &enableCassandraConnector
+	} else {
+		destination.EnableCassandraConnector = nil
+	}
+
+	// EnableFreeTier
+	if results.EnableFreeTier != nil {
+		enableFreeTier := *results.EnableFreeTier
+		destination.EnableFreeTier = &enableFreeTier
+	} else {
+		destination.EnableFreeTier = nil
+	}
+
+	// EnableMultipleWriteLocations
+	if results.EnableMultipleWriteLocations != nil {
+		enableMultipleWriteLocation := *results.EnableMultipleWriteLocations
+		destination.EnableMultipleWriteLocations = &enableMultipleWriteLocation
+	} else {
+		destination.EnableMultipleWriteLocations = nil
+	}
+
+	// FailoverPolicies
+	if results.FailoverPolicies != nil {
+		failoverPolicyList := make([]v1beta20210515storage.FailoverPolicy_Status, len(results.FailoverPolicies))
+		for failoverPolicyIndex, failoverPolicyItem := range results.FailoverPolicies {
+			// Shadow the loop variable to avoid aliasing
+			failoverPolicyItem := failoverPolicyItem
+			var failoverPolicy v1beta20210515storage.FailoverPolicy_Status
+			err := failoverPolicyItem.AssignPropertiesToFailoverPolicyStatus(&failoverPolicy)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToFailoverPolicyStatus() to populate field FailoverPolicies")
+			}
+			failoverPolicyList[failoverPolicyIndex] = failoverPolicy
+		}
+		destination.FailoverPolicies = failoverPolicyList
+	} else {
+		destination.FailoverPolicies = nil
+	}
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(results.Id)
+
+	// Identity
+	if results.Identity != nil {
+		var identity v1beta20210515storage.ManagedServiceIdentity_Status
+		err := results.Identity.AssignPropertiesToManagedServiceIdentityStatus(&identity)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToManagedServiceIdentityStatus() to populate field Identity")
+		}
+		destination.Identity = &identity
+	} else {
+		destination.Identity = nil
+	}
+
+	// IpRules
+	if results.IpRules != nil {
+		ipRuleList := make([]v1beta20210515storage.IpAddressOrRange_Status, len(results.IpRules))
+		for ipRuleIndex, ipRuleItem := range results.IpRules {
+			// Shadow the loop variable to avoid aliasing
+			ipRuleItem := ipRuleItem
+			var ipRule v1beta20210515storage.IpAddressOrRange_Status
+			err := ipRuleItem.AssignPropertiesToIpAddressOrRangeStatus(&ipRule)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToIpAddressOrRangeStatus() to populate field IpRules")
+			}
+			ipRuleList[ipRuleIndex] = ipRule
+		}
+		destination.IpRules = ipRuleList
+	} else {
+		destination.IpRules = nil
+	}
+
+	// IsVirtualNetworkFilterEnabled
+	if results.IsVirtualNetworkFilterEnabled != nil {
+		isVirtualNetworkFilterEnabled := *results.IsVirtualNetworkFilterEnabled
+		destination.IsVirtualNetworkFilterEnabled = &isVirtualNetworkFilterEnabled
+	} else {
+		destination.IsVirtualNetworkFilterEnabled = nil
+	}
+
+	// KeyVaultKeyUri
+	destination.KeyVaultKeyUri = genruntime.ClonePointerToString(results.KeyVaultKeyUri)
+
+	// Kind
+	destination.Kind = genruntime.ClonePointerToString(results.Kind)
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(results.Location)
+
+	// Locations
+	if results.Locations != nil {
+		locationList := make([]v1beta20210515storage.Location_Status, len(results.Locations))
+		for locationIndex, locationItem := range results.Locations {
+			// Shadow the loop variable to avoid aliasing
+			locationItem := locationItem
+			var location v1beta20210515storage.Location_Status
+			err := locationItem.AssignPropertiesToLocationStatus(&location)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToLocationStatus() to populate field Locations")
+			}
+			locationList[locationIndex] = location
+		}
+		destination.Locations = locationList
+	} else {
+		destination.Locations = nil
+	}
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(results.Name)
+
+	// NetworkAclBypass
+	destination.NetworkAclBypass = genruntime.ClonePointerToString(results.NetworkAclBypass)
+
+	// NetworkAclBypassResourceIds
+	destination.NetworkAclBypassResourceIds = genruntime.CloneSliceOfString(results.NetworkAclBypassResourceIds)
+
+	// PrivateEndpointConnections
+	if results.PrivateEndpointConnections != nil {
+		privateEndpointConnectionList := make([]v1beta20210515storage.PrivateEndpointConnection_Status_SubResourceEmbedded, len(results.PrivateEndpointConnections))
+		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range results.PrivateEndpointConnections {
+			// Shadow the loop variable to avoid aliasing
+			privateEndpointConnectionItem := privateEndpointConnectionItem
+			var privateEndpointConnection v1beta20210515storage.PrivateEndpointConnection_Status_SubResourceEmbedded
+			err := privateEndpointConnectionItem.AssignPropertiesToPrivateEndpointConnectionStatusSubResourceEmbedded(&privateEndpointConnection)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToPrivateEndpointConnectionStatusSubResourceEmbedded() to populate field PrivateEndpointConnections")
+			}
+			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
+		}
+		destination.PrivateEndpointConnections = privateEndpointConnectionList
+	} else {
+		destination.PrivateEndpointConnections = nil
+	}
+
+	// ProvisioningState
+	destination.ProvisioningState = genruntime.ClonePointerToString(results.ProvisioningState)
+
+	// PublicNetworkAccess
+	destination.PublicNetworkAccess = genruntime.ClonePointerToString(results.PublicNetworkAccess)
+
+	// ReadLocations
+	if results.ReadLocations != nil {
+		readLocationList := make([]v1beta20210515storage.Location_Status, len(results.ReadLocations))
+		for readLocationIndex, readLocationItem := range results.ReadLocations {
+			// Shadow the loop variable to avoid aliasing
+			readLocationItem := readLocationItem
+			var readLocation v1beta20210515storage.Location_Status
+			err := readLocationItem.AssignPropertiesToLocationStatus(&readLocation)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToLocationStatus() to populate field ReadLocations")
+			}
+			readLocationList[readLocationIndex] = readLocation
+		}
+		destination.ReadLocations = readLocationList
+	} else {
+		destination.ReadLocations = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(results.Tags)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(results.Type)
+
+	// VirtualNetworkRules
+	if results.VirtualNetworkRules != nil {
+		virtualNetworkRuleList := make([]v1beta20210515storage.VirtualNetworkRule_Status, len(results.VirtualNetworkRules))
+		for virtualNetworkRuleIndex, virtualNetworkRuleItem := range results.VirtualNetworkRules {
+			// Shadow the loop variable to avoid aliasing
+			virtualNetworkRuleItem := virtualNetworkRuleItem
+			var virtualNetworkRule v1beta20210515storage.VirtualNetworkRule_Status
+			err := virtualNetworkRuleItem.AssignPropertiesToVirtualNetworkRuleStatus(&virtualNetworkRule)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToVirtualNetworkRuleStatus() to populate field VirtualNetworkRules")
+			}
+			virtualNetworkRuleList[virtualNetworkRuleIndex] = virtualNetworkRule
+		}
+		destination.VirtualNetworkRules = virtualNetworkRuleList
+	} else {
+		destination.VirtualNetworkRules = nil
+	}
+
+	// WriteLocations
+	if results.WriteLocations != nil {
+		writeLocationList := make([]v1beta20210515storage.Location_Status, len(results.WriteLocations))
+		for writeLocationIndex, writeLocationItem := range results.WriteLocations {
+			// Shadow the loop variable to avoid aliasing
+			writeLocationItem := writeLocationItem
+			var writeLocation v1beta20210515storage.Location_Status
+			err := writeLocationItem.AssignPropertiesToLocationStatus(&writeLocation)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToLocationStatus() to populate field WriteLocations")
+			}
+			writeLocationList[writeLocationIndex] = writeLocation
+		}
+		destination.WriteLocations = writeLocationList
+	} else {
+		destination.WriteLocations = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 //Storage version of v1alpha1api20210515.DatabaseAccounts_Spec
@@ -242,77 +1027,1013 @@ var _ genruntime.ConvertibleSpec = &DatabaseAccounts_Spec{}
 
 // ConvertSpecFrom populates our DatabaseAccounts_Spec from the provided source
 func (accounts *DatabaseAccounts_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == accounts {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	src, ok := source.(*v1beta20210515storage.DatabaseAccounts_Spec)
+	if ok {
+		// Populate our instance from source
+		return accounts.AssignPropertiesFromDatabaseAccountsSpec(src)
 	}
 
-	return source.ConvertSpecTo(accounts)
+	// Convert to an intermediate form
+	src = &v1beta20210515storage.DatabaseAccounts_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = accounts.AssignPropertiesFromDatabaseAccountsSpec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
 }
 
 // ConvertSpecTo populates the provided destination from our DatabaseAccounts_Spec
 func (accounts *DatabaseAccounts_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == accounts {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	dst, ok := destination.(*v1beta20210515storage.DatabaseAccounts_Spec)
+	if ok {
+		// Populate destination from our instance
+		return accounts.AssignPropertiesToDatabaseAccountsSpec(dst)
 	}
 
-	return destination.ConvertSpecFrom(accounts)
+	// Convert to an intermediate form
+	dst = &v1beta20210515storage.DatabaseAccounts_Spec{}
+	err := accounts.AssignPropertiesToDatabaseAccountsSpec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignPropertiesFromDatabaseAccountsSpec populates our DatabaseAccounts_Spec from the provided source DatabaseAccounts_Spec
+func (accounts *DatabaseAccounts_Spec) AssignPropertiesFromDatabaseAccountsSpec(source *v1beta20210515storage.DatabaseAccounts_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AnalyticalStorageConfiguration
+	if source.AnalyticalStorageConfiguration != nil {
+		var analyticalStorageConfiguration AnalyticalStorageConfiguration
+		err := analyticalStorageConfiguration.AssignPropertiesFromAnalyticalStorageConfiguration(source.AnalyticalStorageConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromAnalyticalStorageConfiguration() to populate field AnalyticalStorageConfiguration")
+		}
+		accounts.AnalyticalStorageConfiguration = &analyticalStorageConfiguration
+	} else {
+		accounts.AnalyticalStorageConfiguration = nil
+	}
+
+	// ApiProperties
+	if source.ApiProperties != nil {
+		var apiProperty ApiProperties
+		err := apiProperty.AssignPropertiesFromApiProperties(source.ApiProperties)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromApiProperties() to populate field ApiProperties")
+		}
+		accounts.ApiProperties = &apiProperty
+	} else {
+		accounts.ApiProperties = nil
+	}
+
+	// AzureName
+	accounts.AzureName = source.AzureName
+
+	// BackupPolicy
+	if source.BackupPolicy != nil {
+		var backupPolicy BackupPolicy
+		err := backupPolicy.AssignPropertiesFromBackupPolicy(source.BackupPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromBackupPolicy() to populate field BackupPolicy")
+		}
+		accounts.BackupPolicy = &backupPolicy
+	} else {
+		accounts.BackupPolicy = nil
+	}
+
+	// Capabilities
+	if source.Capabilities != nil {
+		capabilityList := make([]Capability, len(source.Capabilities))
+		for capabilityIndex, capabilityItem := range source.Capabilities {
+			// Shadow the loop variable to avoid aliasing
+			capabilityItem := capabilityItem
+			var capability Capability
+			err := capability.AssignPropertiesFromCapability(&capabilityItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromCapability() to populate field Capabilities")
+			}
+			capabilityList[capabilityIndex] = capability
+		}
+		accounts.Capabilities = capabilityList
+	} else {
+		accounts.Capabilities = nil
+	}
+
+	// ConnectorOffer
+	accounts.ConnectorOffer = genruntime.ClonePointerToString(source.ConnectorOffer)
+
+	// ConsistencyPolicy
+	if source.ConsistencyPolicy != nil {
+		var consistencyPolicy ConsistencyPolicy
+		err := consistencyPolicy.AssignPropertiesFromConsistencyPolicy(source.ConsistencyPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromConsistencyPolicy() to populate field ConsistencyPolicy")
+		}
+		accounts.ConsistencyPolicy = &consistencyPolicy
+	} else {
+		accounts.ConsistencyPolicy = nil
+	}
+
+	// Cors
+	if source.Cors != nil {
+		corList := make([]CorsPolicy, len(source.Cors))
+		for corIndex, corItem := range source.Cors {
+			// Shadow the loop variable to avoid aliasing
+			corItem := corItem
+			var cor CorsPolicy
+			err := cor.AssignPropertiesFromCorsPolicy(&corItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromCorsPolicy() to populate field Cors")
+			}
+			corList[corIndex] = cor
+		}
+		accounts.Cors = corList
+	} else {
+		accounts.Cors = nil
+	}
+
+	// DatabaseAccountOfferType
+	accounts.DatabaseAccountOfferType = genruntime.ClonePointerToString(source.DatabaseAccountOfferType)
+
+	// DefaultIdentity
+	accounts.DefaultIdentity = genruntime.ClonePointerToString(source.DefaultIdentity)
+
+	// DisableKeyBasedMetadataWriteAccess
+	if source.DisableKeyBasedMetadataWriteAccess != nil {
+		disableKeyBasedMetadataWriteAccess := *source.DisableKeyBasedMetadataWriteAccess
+		accounts.DisableKeyBasedMetadataWriteAccess = &disableKeyBasedMetadataWriteAccess
+	} else {
+		accounts.DisableKeyBasedMetadataWriteAccess = nil
+	}
+
+	// EnableAnalyticalStorage
+	if source.EnableAnalyticalStorage != nil {
+		enableAnalyticalStorage := *source.EnableAnalyticalStorage
+		accounts.EnableAnalyticalStorage = &enableAnalyticalStorage
+	} else {
+		accounts.EnableAnalyticalStorage = nil
+	}
+
+	// EnableAutomaticFailover
+	if source.EnableAutomaticFailover != nil {
+		enableAutomaticFailover := *source.EnableAutomaticFailover
+		accounts.EnableAutomaticFailover = &enableAutomaticFailover
+	} else {
+		accounts.EnableAutomaticFailover = nil
+	}
+
+	// EnableCassandraConnector
+	if source.EnableCassandraConnector != nil {
+		enableCassandraConnector := *source.EnableCassandraConnector
+		accounts.EnableCassandraConnector = &enableCassandraConnector
+	} else {
+		accounts.EnableCassandraConnector = nil
+	}
+
+	// EnableFreeTier
+	if source.EnableFreeTier != nil {
+		enableFreeTier := *source.EnableFreeTier
+		accounts.EnableFreeTier = &enableFreeTier
+	} else {
+		accounts.EnableFreeTier = nil
+	}
+
+	// EnableMultipleWriteLocations
+	if source.EnableMultipleWriteLocations != nil {
+		enableMultipleWriteLocation := *source.EnableMultipleWriteLocations
+		accounts.EnableMultipleWriteLocations = &enableMultipleWriteLocation
+	} else {
+		accounts.EnableMultipleWriteLocations = nil
+	}
+
+	// Identity
+	if source.Identity != nil {
+		var identity ManagedServiceIdentity
+		err := identity.AssignPropertiesFromManagedServiceIdentity(source.Identity)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromManagedServiceIdentity() to populate field Identity")
+		}
+		accounts.Identity = &identity
+	} else {
+		accounts.Identity = nil
+	}
+
+	// IpRules
+	if source.IpRules != nil {
+		ipRuleList := make([]IpAddressOrRange, len(source.IpRules))
+		for ipRuleIndex, ipRuleItem := range source.IpRules {
+			// Shadow the loop variable to avoid aliasing
+			ipRuleItem := ipRuleItem
+			var ipRule IpAddressOrRange
+			err := ipRule.AssignPropertiesFromIpAddressOrRange(&ipRuleItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromIpAddressOrRange() to populate field IpRules")
+			}
+			ipRuleList[ipRuleIndex] = ipRule
+		}
+		accounts.IpRules = ipRuleList
+	} else {
+		accounts.IpRules = nil
+	}
+
+	// IsVirtualNetworkFilterEnabled
+	if source.IsVirtualNetworkFilterEnabled != nil {
+		isVirtualNetworkFilterEnabled := *source.IsVirtualNetworkFilterEnabled
+		accounts.IsVirtualNetworkFilterEnabled = &isVirtualNetworkFilterEnabled
+	} else {
+		accounts.IsVirtualNetworkFilterEnabled = nil
+	}
+
+	// KeyVaultKeyUri
+	accounts.KeyVaultKeyUri = genruntime.ClonePointerToString(source.KeyVaultKeyUri)
+
+	// Kind
+	accounts.Kind = genruntime.ClonePointerToString(source.Kind)
+
+	// Location
+	accounts.Location = genruntime.ClonePointerToString(source.Location)
+
+	// Locations
+	if source.Locations != nil {
+		locationList := make([]Location, len(source.Locations))
+		for locationIndex, locationItem := range source.Locations {
+			// Shadow the loop variable to avoid aliasing
+			locationItem := locationItem
+			var location Location
+			err := location.AssignPropertiesFromLocation(&locationItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromLocation() to populate field Locations")
+			}
+			locationList[locationIndex] = location
+		}
+		accounts.Locations = locationList
+	} else {
+		accounts.Locations = nil
+	}
+
+	// NetworkAclBypass
+	accounts.NetworkAclBypass = genruntime.ClonePointerToString(source.NetworkAclBypass)
+
+	// NetworkAclBypassResourceIds
+	accounts.NetworkAclBypassResourceIds = genruntime.CloneSliceOfString(source.NetworkAclBypassResourceIds)
+
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec DatabaseAccountOperatorSpec
+		err := operatorSpec.AssignPropertiesFromDatabaseAccountOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromDatabaseAccountOperatorSpec() to populate field OperatorSpec")
+		}
+		accounts.OperatorSpec = &operatorSpec
+	} else {
+		accounts.OperatorSpec = nil
+	}
+
+	// OriginalVersion
+	accounts.OriginalVersion = source.OriginalVersion
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		accounts.Owner = &owner
+	} else {
+		accounts.Owner = nil
+	}
+
+	// PublicNetworkAccess
+	accounts.PublicNetworkAccess = genruntime.ClonePointerToString(source.PublicNetworkAccess)
+
+	// Tags
+	accounts.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// VirtualNetworkRules
+	if source.VirtualNetworkRules != nil {
+		virtualNetworkRuleList := make([]VirtualNetworkRule, len(source.VirtualNetworkRules))
+		for virtualNetworkRuleIndex, virtualNetworkRuleItem := range source.VirtualNetworkRules {
+			// Shadow the loop variable to avoid aliasing
+			virtualNetworkRuleItem := virtualNetworkRuleItem
+			var virtualNetworkRule VirtualNetworkRule
+			err := virtualNetworkRule.AssignPropertiesFromVirtualNetworkRule(&virtualNetworkRuleItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromVirtualNetworkRule() to populate field VirtualNetworkRules")
+			}
+			virtualNetworkRuleList[virtualNetworkRuleIndex] = virtualNetworkRule
+		}
+		accounts.VirtualNetworkRules = virtualNetworkRuleList
+	} else {
+		accounts.VirtualNetworkRules = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		accounts.PropertyBag = propertyBag
+	} else {
+		accounts.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToDatabaseAccountsSpec populates the provided destination DatabaseAccounts_Spec from our DatabaseAccounts_Spec
+func (accounts *DatabaseAccounts_Spec) AssignPropertiesToDatabaseAccountsSpec(destination *v1beta20210515storage.DatabaseAccounts_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(accounts.PropertyBag)
+
+	// AnalyticalStorageConfiguration
+	if accounts.AnalyticalStorageConfiguration != nil {
+		var analyticalStorageConfiguration v1beta20210515storage.AnalyticalStorageConfiguration
+		err := accounts.AnalyticalStorageConfiguration.AssignPropertiesToAnalyticalStorageConfiguration(&analyticalStorageConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToAnalyticalStorageConfiguration() to populate field AnalyticalStorageConfiguration")
+		}
+		destination.AnalyticalStorageConfiguration = &analyticalStorageConfiguration
+	} else {
+		destination.AnalyticalStorageConfiguration = nil
+	}
+
+	// ApiProperties
+	if accounts.ApiProperties != nil {
+		var apiProperty v1beta20210515storage.ApiProperties
+		err := accounts.ApiProperties.AssignPropertiesToApiProperties(&apiProperty)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToApiProperties() to populate field ApiProperties")
+		}
+		destination.ApiProperties = &apiProperty
+	} else {
+		destination.ApiProperties = nil
+	}
+
+	// AzureName
+	destination.AzureName = accounts.AzureName
+
+	// BackupPolicy
+	if accounts.BackupPolicy != nil {
+		var backupPolicy v1beta20210515storage.BackupPolicy
+		err := accounts.BackupPolicy.AssignPropertiesToBackupPolicy(&backupPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToBackupPolicy() to populate field BackupPolicy")
+		}
+		destination.BackupPolicy = &backupPolicy
+	} else {
+		destination.BackupPolicy = nil
+	}
+
+	// Capabilities
+	if accounts.Capabilities != nil {
+		capabilityList := make([]v1beta20210515storage.Capability, len(accounts.Capabilities))
+		for capabilityIndex, capabilityItem := range accounts.Capabilities {
+			// Shadow the loop variable to avoid aliasing
+			capabilityItem := capabilityItem
+			var capability v1beta20210515storage.Capability
+			err := capabilityItem.AssignPropertiesToCapability(&capability)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToCapability() to populate field Capabilities")
+			}
+			capabilityList[capabilityIndex] = capability
+		}
+		destination.Capabilities = capabilityList
+	} else {
+		destination.Capabilities = nil
+	}
+
+	// ConnectorOffer
+	destination.ConnectorOffer = genruntime.ClonePointerToString(accounts.ConnectorOffer)
+
+	// ConsistencyPolicy
+	if accounts.ConsistencyPolicy != nil {
+		var consistencyPolicy v1beta20210515storage.ConsistencyPolicy
+		err := accounts.ConsistencyPolicy.AssignPropertiesToConsistencyPolicy(&consistencyPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToConsistencyPolicy() to populate field ConsistencyPolicy")
+		}
+		destination.ConsistencyPolicy = &consistencyPolicy
+	} else {
+		destination.ConsistencyPolicy = nil
+	}
+
+	// Cors
+	if accounts.Cors != nil {
+		corList := make([]v1beta20210515storage.CorsPolicy, len(accounts.Cors))
+		for corIndex, corItem := range accounts.Cors {
+			// Shadow the loop variable to avoid aliasing
+			corItem := corItem
+			var cor v1beta20210515storage.CorsPolicy
+			err := corItem.AssignPropertiesToCorsPolicy(&cor)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToCorsPolicy() to populate field Cors")
+			}
+			corList[corIndex] = cor
+		}
+		destination.Cors = corList
+	} else {
+		destination.Cors = nil
+	}
+
+	// DatabaseAccountOfferType
+	destination.DatabaseAccountOfferType = genruntime.ClonePointerToString(accounts.DatabaseAccountOfferType)
+
+	// DefaultIdentity
+	destination.DefaultIdentity = genruntime.ClonePointerToString(accounts.DefaultIdentity)
+
+	// DisableKeyBasedMetadataWriteAccess
+	if accounts.DisableKeyBasedMetadataWriteAccess != nil {
+		disableKeyBasedMetadataWriteAccess := *accounts.DisableKeyBasedMetadataWriteAccess
+		destination.DisableKeyBasedMetadataWriteAccess = &disableKeyBasedMetadataWriteAccess
+	} else {
+		destination.DisableKeyBasedMetadataWriteAccess = nil
+	}
+
+	// EnableAnalyticalStorage
+	if accounts.EnableAnalyticalStorage != nil {
+		enableAnalyticalStorage := *accounts.EnableAnalyticalStorage
+		destination.EnableAnalyticalStorage = &enableAnalyticalStorage
+	} else {
+		destination.EnableAnalyticalStorage = nil
+	}
+
+	// EnableAutomaticFailover
+	if accounts.EnableAutomaticFailover != nil {
+		enableAutomaticFailover := *accounts.EnableAutomaticFailover
+		destination.EnableAutomaticFailover = &enableAutomaticFailover
+	} else {
+		destination.EnableAutomaticFailover = nil
+	}
+
+	// EnableCassandraConnector
+	if accounts.EnableCassandraConnector != nil {
+		enableCassandraConnector := *accounts.EnableCassandraConnector
+		destination.EnableCassandraConnector = &enableCassandraConnector
+	} else {
+		destination.EnableCassandraConnector = nil
+	}
+
+	// EnableFreeTier
+	if accounts.EnableFreeTier != nil {
+		enableFreeTier := *accounts.EnableFreeTier
+		destination.EnableFreeTier = &enableFreeTier
+	} else {
+		destination.EnableFreeTier = nil
+	}
+
+	// EnableMultipleWriteLocations
+	if accounts.EnableMultipleWriteLocations != nil {
+		enableMultipleWriteLocation := *accounts.EnableMultipleWriteLocations
+		destination.EnableMultipleWriteLocations = &enableMultipleWriteLocation
+	} else {
+		destination.EnableMultipleWriteLocations = nil
+	}
+
+	// Identity
+	if accounts.Identity != nil {
+		var identity v1beta20210515storage.ManagedServiceIdentity
+		err := accounts.Identity.AssignPropertiesToManagedServiceIdentity(&identity)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToManagedServiceIdentity() to populate field Identity")
+		}
+		destination.Identity = &identity
+	} else {
+		destination.Identity = nil
+	}
+
+	// IpRules
+	if accounts.IpRules != nil {
+		ipRuleList := make([]v1beta20210515storage.IpAddressOrRange, len(accounts.IpRules))
+		for ipRuleIndex, ipRuleItem := range accounts.IpRules {
+			// Shadow the loop variable to avoid aliasing
+			ipRuleItem := ipRuleItem
+			var ipRule v1beta20210515storage.IpAddressOrRange
+			err := ipRuleItem.AssignPropertiesToIpAddressOrRange(&ipRule)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToIpAddressOrRange() to populate field IpRules")
+			}
+			ipRuleList[ipRuleIndex] = ipRule
+		}
+		destination.IpRules = ipRuleList
+	} else {
+		destination.IpRules = nil
+	}
+
+	// IsVirtualNetworkFilterEnabled
+	if accounts.IsVirtualNetworkFilterEnabled != nil {
+		isVirtualNetworkFilterEnabled := *accounts.IsVirtualNetworkFilterEnabled
+		destination.IsVirtualNetworkFilterEnabled = &isVirtualNetworkFilterEnabled
+	} else {
+		destination.IsVirtualNetworkFilterEnabled = nil
+	}
+
+	// KeyVaultKeyUri
+	destination.KeyVaultKeyUri = genruntime.ClonePointerToString(accounts.KeyVaultKeyUri)
+
+	// Kind
+	destination.Kind = genruntime.ClonePointerToString(accounts.Kind)
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(accounts.Location)
+
+	// Locations
+	if accounts.Locations != nil {
+		locationList := make([]v1beta20210515storage.Location, len(accounts.Locations))
+		for locationIndex, locationItem := range accounts.Locations {
+			// Shadow the loop variable to avoid aliasing
+			locationItem := locationItem
+			var location v1beta20210515storage.Location
+			err := locationItem.AssignPropertiesToLocation(&location)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToLocation() to populate field Locations")
+			}
+			locationList[locationIndex] = location
+		}
+		destination.Locations = locationList
+	} else {
+		destination.Locations = nil
+	}
+
+	// NetworkAclBypass
+	destination.NetworkAclBypass = genruntime.ClonePointerToString(accounts.NetworkAclBypass)
+
+	// NetworkAclBypassResourceIds
+	destination.NetworkAclBypassResourceIds = genruntime.CloneSliceOfString(accounts.NetworkAclBypassResourceIds)
+
+	// OperatorSpec
+	if accounts.OperatorSpec != nil {
+		var operatorSpec v1beta20210515storage.DatabaseAccountOperatorSpec
+		err := accounts.OperatorSpec.AssignPropertiesToDatabaseAccountOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToDatabaseAccountOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
+
+	// OriginalVersion
+	destination.OriginalVersion = accounts.OriginalVersion
+
+	// Owner
+	if accounts.Owner != nil {
+		owner := accounts.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// PublicNetworkAccess
+	destination.PublicNetworkAccess = genruntime.ClonePointerToString(accounts.PublicNetworkAccess)
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(accounts.Tags)
+
+	// VirtualNetworkRules
+	if accounts.VirtualNetworkRules != nil {
+		virtualNetworkRuleList := make([]v1beta20210515storage.VirtualNetworkRule, len(accounts.VirtualNetworkRules))
+		for virtualNetworkRuleIndex, virtualNetworkRuleItem := range accounts.VirtualNetworkRules {
+			// Shadow the loop variable to avoid aliasing
+			virtualNetworkRuleItem := virtualNetworkRuleItem
+			var virtualNetworkRule v1beta20210515storage.VirtualNetworkRule
+			err := virtualNetworkRuleItem.AssignPropertiesToVirtualNetworkRule(&virtualNetworkRule)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToVirtualNetworkRule() to populate field VirtualNetworkRules")
+			}
+			virtualNetworkRuleList[virtualNetworkRuleIndex] = virtualNetworkRule
+		}
+		destination.VirtualNetworkRules = virtualNetworkRuleList
+	} else {
+		destination.VirtualNetworkRules = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 //Storage version of v1alpha1api20210515.AnalyticalStorageConfiguration
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/AnalyticalStorageConfiguration
+//Deprecated version of AnalyticalStorageConfiguration. Use v1beta20210515.AnalyticalStorageConfiguration instead
 type AnalyticalStorageConfiguration struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SchemaType  *string                `json:"schemaType,omitempty"`
 }
 
+// AssignPropertiesFromAnalyticalStorageConfiguration populates our AnalyticalStorageConfiguration from the provided source AnalyticalStorageConfiguration
+func (configuration *AnalyticalStorageConfiguration) AssignPropertiesFromAnalyticalStorageConfiguration(source *v1beta20210515storage.AnalyticalStorageConfiguration) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// SchemaType
+	configuration.SchemaType = genruntime.ClonePointerToString(source.SchemaType)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		configuration.PropertyBag = propertyBag
+	} else {
+		configuration.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToAnalyticalStorageConfiguration populates the provided destination AnalyticalStorageConfiguration from our AnalyticalStorageConfiguration
+func (configuration *AnalyticalStorageConfiguration) AssignPropertiesToAnalyticalStorageConfiguration(destination *v1beta20210515storage.AnalyticalStorageConfiguration) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(configuration.PropertyBag)
+
+	// SchemaType
+	destination.SchemaType = genruntime.ClonePointerToString(configuration.SchemaType)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210515.AnalyticalStorageConfiguration_Status
+//Deprecated version of AnalyticalStorageConfiguration_Status. Use v1beta20210515.AnalyticalStorageConfiguration_Status instead
 type AnalyticalStorageConfiguration_Status struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SchemaType  *string                `json:"schemaType,omitempty"`
 }
 
+// AssignPropertiesFromAnalyticalStorageConfigurationStatus populates our AnalyticalStorageConfiguration_Status from the provided source AnalyticalStorageConfiguration_Status
+func (configuration *AnalyticalStorageConfiguration_Status) AssignPropertiesFromAnalyticalStorageConfigurationStatus(source *v1beta20210515storage.AnalyticalStorageConfiguration_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// SchemaType
+	configuration.SchemaType = genruntime.ClonePointerToString(source.SchemaType)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		configuration.PropertyBag = propertyBag
+	} else {
+		configuration.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToAnalyticalStorageConfigurationStatus populates the provided destination AnalyticalStorageConfiguration_Status from our AnalyticalStorageConfiguration_Status
+func (configuration *AnalyticalStorageConfiguration_Status) AssignPropertiesToAnalyticalStorageConfigurationStatus(destination *v1beta20210515storage.AnalyticalStorageConfiguration_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(configuration.PropertyBag)
+
+	// SchemaType
+	destination.SchemaType = genruntime.ClonePointerToString(configuration.SchemaType)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210515.ApiProperties
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ApiProperties
+//Deprecated version of ApiProperties. Use v1beta20210515.ApiProperties instead
 type ApiProperties struct {
 	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	ServerVersion *string                `json:"serverVersion,omitempty"`
 }
 
+// AssignPropertiesFromApiProperties populates our ApiProperties from the provided source ApiProperties
+func (properties *ApiProperties) AssignPropertiesFromApiProperties(source *v1beta20210515storage.ApiProperties) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ServerVersion
+	properties.ServerVersion = genruntime.ClonePointerToString(source.ServerVersion)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		properties.PropertyBag = propertyBag
+	} else {
+		properties.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToApiProperties populates the provided destination ApiProperties from our ApiProperties
+func (properties *ApiProperties) AssignPropertiesToApiProperties(destination *v1beta20210515storage.ApiProperties) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
+
+	// ServerVersion
+	destination.ServerVersion = genruntime.ClonePointerToString(properties.ServerVersion)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210515.ApiProperties_Status
+//Deprecated version of ApiProperties_Status. Use v1beta20210515.ApiProperties_Status instead
 type ApiProperties_Status struct {
 	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	ServerVersion *string                `json:"serverVersion,omitempty"`
 }
 
+// AssignPropertiesFromApiPropertiesStatus populates our ApiProperties_Status from the provided source ApiProperties_Status
+func (properties *ApiProperties_Status) AssignPropertiesFromApiPropertiesStatus(source *v1beta20210515storage.ApiProperties_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ServerVersion
+	properties.ServerVersion = genruntime.ClonePointerToString(source.ServerVersion)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		properties.PropertyBag = propertyBag
+	} else {
+		properties.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToApiPropertiesStatus populates the provided destination ApiProperties_Status from our ApiProperties_Status
+func (properties *ApiProperties_Status) AssignPropertiesToApiPropertiesStatus(destination *v1beta20210515storage.ApiProperties_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
+
+	// ServerVersion
+	destination.ServerVersion = genruntime.ClonePointerToString(properties.ServerVersion)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210515.BackupPolicy
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/BackupPolicy
+//Deprecated version of BackupPolicy. Use v1beta20210515.BackupPolicy instead
 type BackupPolicy struct {
 	Continuous  *ContinuousModeBackupPolicy `json:"continuousModeBackupPolicy,omitempty"`
 	Periodic    *PeriodicModeBackupPolicy   `json:"periodicModeBackupPolicy,omitempty"`
 	PropertyBag genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
 }
 
+// AssignPropertiesFromBackupPolicy populates our BackupPolicy from the provided source BackupPolicy
+func (policy *BackupPolicy) AssignPropertiesFromBackupPolicy(source *v1beta20210515storage.BackupPolicy) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Continuous
+	if source.Continuous != nil {
+		var continuou ContinuousModeBackupPolicy
+		err := continuou.AssignPropertiesFromContinuousModeBackupPolicy(source.Continuous)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromContinuousModeBackupPolicy() to populate field Continuous")
+		}
+		policy.Continuous = &continuou
+	} else {
+		policy.Continuous = nil
+	}
+
+	// Periodic
+	if source.Periodic != nil {
+		var periodic PeriodicModeBackupPolicy
+		err := periodic.AssignPropertiesFromPeriodicModeBackupPolicy(source.Periodic)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromPeriodicModeBackupPolicy() to populate field Periodic")
+		}
+		policy.Periodic = &periodic
+	} else {
+		policy.Periodic = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		policy.PropertyBag = propertyBag
+	} else {
+		policy.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToBackupPolicy populates the provided destination BackupPolicy from our BackupPolicy
+func (policy *BackupPolicy) AssignPropertiesToBackupPolicy(destination *v1beta20210515storage.BackupPolicy) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
+
+	// Continuous
+	if policy.Continuous != nil {
+		var continuou v1beta20210515storage.ContinuousModeBackupPolicy
+		err := policy.Continuous.AssignPropertiesToContinuousModeBackupPolicy(&continuou)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToContinuousModeBackupPolicy() to populate field Continuous")
+		}
+		destination.Continuous = &continuou
+	} else {
+		destination.Continuous = nil
+	}
+
+	// Periodic
+	if policy.Periodic != nil {
+		var periodic v1beta20210515storage.PeriodicModeBackupPolicy
+		err := policy.Periodic.AssignPropertiesToPeriodicModeBackupPolicy(&periodic)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToPeriodicModeBackupPolicy() to populate field Periodic")
+		}
+		destination.Periodic = &periodic
+	} else {
+		destination.Periodic = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210515.BackupPolicy_Status
+//Deprecated version of BackupPolicy_Status. Use v1beta20210515.BackupPolicy_Status instead
 type BackupPolicy_Status struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Type        *string                `json:"type,omitempty"`
 }
 
+// AssignPropertiesFromBackupPolicyStatus populates our BackupPolicy_Status from the provided source BackupPolicy_Status
+func (policy *BackupPolicy_Status) AssignPropertiesFromBackupPolicyStatus(source *v1beta20210515storage.BackupPolicy_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Type
+	policy.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		policy.PropertyBag = propertyBag
+	} else {
+		policy.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToBackupPolicyStatus populates the provided destination BackupPolicy_Status from our BackupPolicy_Status
+func (policy *BackupPolicy_Status) AssignPropertiesToBackupPolicyStatus(destination *v1beta20210515storage.BackupPolicy_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(policy.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210515.Capability
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/Capability
+//Deprecated version of Capability. Use v1beta20210515.Capability instead
 type Capability struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignPropertiesFromCapability populates our Capability from the provided source Capability
+func (capability *Capability) AssignPropertiesFromCapability(source *v1beta20210515storage.Capability) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Name
+	capability.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		capability.PropertyBag = propertyBag
+	} else {
+		capability.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToCapability populates the provided destination Capability from our Capability
+func (capability *Capability) AssignPropertiesToCapability(destination *v1beta20210515storage.Capability) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(capability.PropertyBag)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(capability.Name)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210515.Capability_Status
+//Deprecated version of Capability_Status. Use v1beta20210515.Capability_Status instead
 type Capability_Status struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignPropertiesFromCapabilityStatus populates our Capability_Status from the provided source Capability_Status
+func (capability *Capability_Status) AssignPropertiesFromCapabilityStatus(source *v1beta20210515storage.Capability_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Name
+	capability.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		capability.PropertyBag = propertyBag
+	} else {
+		capability.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToCapabilityStatus populates the provided destination Capability_Status from our Capability_Status
+func (capability *Capability_Status) AssignPropertiesToCapabilityStatus(destination *v1beta20210515storage.Capability_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(capability.PropertyBag)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(capability.Name)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210515.ConsistencyPolicy
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ConsistencyPolicy
+//Deprecated version of ConsistencyPolicy. Use v1beta20210515.ConsistencyPolicy instead
 type ConsistencyPolicy struct {
 	DefaultConsistencyLevel *string                `json:"defaultConsistencyLevel,omitempty"`
 	MaxIntervalInSeconds    *int                   `json:"maxIntervalInSeconds,omitempty"`
@@ -320,7 +2041,58 @@ type ConsistencyPolicy struct {
 	PropertyBag             genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignPropertiesFromConsistencyPolicy populates our ConsistencyPolicy from the provided source ConsistencyPolicy
+func (policy *ConsistencyPolicy) AssignPropertiesFromConsistencyPolicy(source *v1beta20210515storage.ConsistencyPolicy) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// DefaultConsistencyLevel
+	policy.DefaultConsistencyLevel = genruntime.ClonePointerToString(source.DefaultConsistencyLevel)
+
+	// MaxIntervalInSeconds
+	policy.MaxIntervalInSeconds = genruntime.ClonePointerToInt(source.MaxIntervalInSeconds)
+
+	// MaxStalenessPrefix
+	policy.MaxStalenessPrefix = genruntime.ClonePointerToInt(source.MaxStalenessPrefix)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		policy.PropertyBag = propertyBag
+	} else {
+		policy.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToConsistencyPolicy populates the provided destination ConsistencyPolicy from our ConsistencyPolicy
+func (policy *ConsistencyPolicy) AssignPropertiesToConsistencyPolicy(destination *v1beta20210515storage.ConsistencyPolicy) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
+
+	// DefaultConsistencyLevel
+	destination.DefaultConsistencyLevel = genruntime.ClonePointerToString(policy.DefaultConsistencyLevel)
+
+	// MaxIntervalInSeconds
+	destination.MaxIntervalInSeconds = genruntime.ClonePointerToInt(policy.MaxIntervalInSeconds)
+
+	// MaxStalenessPrefix
+	destination.MaxStalenessPrefix = genruntime.ClonePointerToInt(policy.MaxStalenessPrefix)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210515.ConsistencyPolicy_Status
+//Deprecated version of ConsistencyPolicy_Status. Use v1beta20210515.ConsistencyPolicy_Status instead
 type ConsistencyPolicy_Status struct {
 	DefaultConsistencyLevel *string                `json:"defaultConsistencyLevel,omitempty"`
 	MaxIntervalInSeconds    *int                   `json:"maxIntervalInSeconds,omitempty"`
@@ -328,8 +2100,58 @@ type ConsistencyPolicy_Status struct {
 	PropertyBag             genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignPropertiesFromConsistencyPolicyStatus populates our ConsistencyPolicy_Status from the provided source ConsistencyPolicy_Status
+func (policy *ConsistencyPolicy_Status) AssignPropertiesFromConsistencyPolicyStatus(source *v1beta20210515storage.ConsistencyPolicy_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// DefaultConsistencyLevel
+	policy.DefaultConsistencyLevel = genruntime.ClonePointerToString(source.DefaultConsistencyLevel)
+
+	// MaxIntervalInSeconds
+	policy.MaxIntervalInSeconds = genruntime.ClonePointerToInt(source.MaxIntervalInSeconds)
+
+	// MaxStalenessPrefix
+	policy.MaxStalenessPrefix = genruntime.ClonePointerToInt(source.MaxStalenessPrefix)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		policy.PropertyBag = propertyBag
+	} else {
+		policy.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToConsistencyPolicyStatus populates the provided destination ConsistencyPolicy_Status from our ConsistencyPolicy_Status
+func (policy *ConsistencyPolicy_Status) AssignPropertiesToConsistencyPolicyStatus(destination *v1beta20210515storage.ConsistencyPolicy_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
+
+	// DefaultConsistencyLevel
+	destination.DefaultConsistencyLevel = genruntime.ClonePointerToString(policy.DefaultConsistencyLevel)
+
+	// MaxIntervalInSeconds
+	destination.MaxIntervalInSeconds = genruntime.ClonePointerToInt(policy.MaxIntervalInSeconds)
+
+	// MaxStalenessPrefix
+	destination.MaxStalenessPrefix = genruntime.ClonePointerToInt(policy.MaxStalenessPrefix)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210515.CorsPolicy
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/CorsPolicy
+//Deprecated version of CorsPolicy. Use v1beta20210515.CorsPolicy instead
 type CorsPolicy struct {
 	AllowedHeaders  *string                `json:"allowedHeaders,omitempty"`
 	AllowedMethods  *string                `json:"allowedMethods,omitempty"`
@@ -339,7 +2161,70 @@ type CorsPolicy struct {
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignPropertiesFromCorsPolicy populates our CorsPolicy from the provided source CorsPolicy
+func (policy *CorsPolicy) AssignPropertiesFromCorsPolicy(source *v1beta20210515storage.CorsPolicy) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AllowedHeaders
+	policy.AllowedHeaders = genruntime.ClonePointerToString(source.AllowedHeaders)
+
+	// AllowedMethods
+	policy.AllowedMethods = genruntime.ClonePointerToString(source.AllowedMethods)
+
+	// AllowedOrigins
+	policy.AllowedOrigins = genruntime.ClonePointerToString(source.AllowedOrigins)
+
+	// ExposedHeaders
+	policy.ExposedHeaders = genruntime.ClonePointerToString(source.ExposedHeaders)
+
+	// MaxAgeInSeconds
+	policy.MaxAgeInSeconds = genruntime.ClonePointerToInt(source.MaxAgeInSeconds)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		policy.PropertyBag = propertyBag
+	} else {
+		policy.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToCorsPolicy populates the provided destination CorsPolicy from our CorsPolicy
+func (policy *CorsPolicy) AssignPropertiesToCorsPolicy(destination *v1beta20210515storage.CorsPolicy) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
+
+	// AllowedHeaders
+	destination.AllowedHeaders = genruntime.ClonePointerToString(policy.AllowedHeaders)
+
+	// AllowedMethods
+	destination.AllowedMethods = genruntime.ClonePointerToString(policy.AllowedMethods)
+
+	// AllowedOrigins
+	destination.AllowedOrigins = genruntime.ClonePointerToString(policy.AllowedOrigins)
+
+	// ExposedHeaders
+	destination.ExposedHeaders = genruntime.ClonePointerToString(policy.ExposedHeaders)
+
+	// MaxAgeInSeconds
+	destination.MaxAgeInSeconds = genruntime.ClonePointerToInt(policy.MaxAgeInSeconds)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210515.CorsPolicy_Status
+//Deprecated version of CorsPolicy_Status. Use v1beta20210515.CorsPolicy_Status instead
 type CorsPolicy_Status struct {
 	AllowedHeaders  *string                `json:"allowedHeaders,omitempty"`
 	AllowedMethods  *string                `json:"allowedMethods,omitempty"`
@@ -349,6 +2234,68 @@ type CorsPolicy_Status struct {
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignPropertiesFromCorsPolicyStatus populates our CorsPolicy_Status from the provided source CorsPolicy_Status
+func (policy *CorsPolicy_Status) AssignPropertiesFromCorsPolicyStatus(source *v1beta20210515storage.CorsPolicy_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AllowedHeaders
+	policy.AllowedHeaders = genruntime.ClonePointerToString(source.AllowedHeaders)
+
+	// AllowedMethods
+	policy.AllowedMethods = genruntime.ClonePointerToString(source.AllowedMethods)
+
+	// AllowedOrigins
+	policy.AllowedOrigins = genruntime.ClonePointerToString(source.AllowedOrigins)
+
+	// ExposedHeaders
+	policy.ExposedHeaders = genruntime.ClonePointerToString(source.ExposedHeaders)
+
+	// MaxAgeInSeconds
+	policy.MaxAgeInSeconds = genruntime.ClonePointerToInt(source.MaxAgeInSeconds)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		policy.PropertyBag = propertyBag
+	} else {
+		policy.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToCorsPolicyStatus populates the provided destination CorsPolicy_Status from our CorsPolicy_Status
+func (policy *CorsPolicy_Status) AssignPropertiesToCorsPolicyStatus(destination *v1beta20210515storage.CorsPolicy_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
+
+	// AllowedHeaders
+	destination.AllowedHeaders = genruntime.ClonePointerToString(policy.AllowedHeaders)
+
+	// AllowedMethods
+	destination.AllowedMethods = genruntime.ClonePointerToString(policy.AllowedMethods)
+
+	// AllowedOrigins
+	destination.AllowedOrigins = genruntime.ClonePointerToString(policy.AllowedOrigins)
+
+	// ExposedHeaders
+	destination.ExposedHeaders = genruntime.ClonePointerToString(policy.ExposedHeaders)
+
+	// MaxAgeInSeconds
+	destination.MaxAgeInSeconds = genruntime.ClonePointerToInt(policy.MaxAgeInSeconds)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210515.DatabaseAccountOperatorSpec
 //Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type DatabaseAccountOperatorSpec struct {
@@ -356,7 +2303,64 @@ type DatabaseAccountOperatorSpec struct {
 	Secrets     *DatabaseAccountOperatorSecrets `json:"secrets,omitempty"`
 }
 
+// AssignPropertiesFromDatabaseAccountOperatorSpec populates our DatabaseAccountOperatorSpec from the provided source DatabaseAccountOperatorSpec
+func (operator *DatabaseAccountOperatorSpec) AssignPropertiesFromDatabaseAccountOperatorSpec(source *v1beta20210515storage.DatabaseAccountOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Secrets
+	if source.Secrets != nil {
+		var secret DatabaseAccountOperatorSecrets
+		err := secret.AssignPropertiesFromDatabaseAccountOperatorSecrets(source.Secrets)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromDatabaseAccountOperatorSecrets() to populate field Secrets")
+		}
+		operator.Secrets = &secret
+	} else {
+		operator.Secrets = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		operator.PropertyBag = propertyBag
+	} else {
+		operator.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToDatabaseAccountOperatorSpec populates the provided destination DatabaseAccountOperatorSpec from our DatabaseAccountOperatorSpec
+func (operator *DatabaseAccountOperatorSpec) AssignPropertiesToDatabaseAccountOperatorSpec(destination *v1beta20210515storage.DatabaseAccountOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
+
+	// Secrets
+	if operator.Secrets != nil {
+		var secret v1beta20210515storage.DatabaseAccountOperatorSecrets
+		err := operator.Secrets.AssignPropertiesToDatabaseAccountOperatorSecrets(&secret)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToDatabaseAccountOperatorSecrets() to populate field Secrets")
+		}
+		destination.Secrets = &secret
+	} else {
+		destination.Secrets = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210515.FailoverPolicy_Status
+//Deprecated version of FailoverPolicy_Status. Use v1beta20210515.FailoverPolicy_Status instead
 type FailoverPolicy_Status struct {
 	FailoverPriority *int                   `json:"failoverPriority,omitempty"`
 	Id               *string                `json:"id,omitempty"`
@@ -364,21 +2368,148 @@ type FailoverPolicy_Status struct {
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignPropertiesFromFailoverPolicyStatus populates our FailoverPolicy_Status from the provided source FailoverPolicy_Status
+func (policy *FailoverPolicy_Status) AssignPropertiesFromFailoverPolicyStatus(source *v1beta20210515storage.FailoverPolicy_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// FailoverPriority
+	policy.FailoverPriority = genruntime.ClonePointerToInt(source.FailoverPriority)
+
+	// Id
+	policy.Id = genruntime.ClonePointerToString(source.Id)
+
+	// LocationName
+	policy.LocationName = genruntime.ClonePointerToString(source.LocationName)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		policy.PropertyBag = propertyBag
+	} else {
+		policy.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToFailoverPolicyStatus populates the provided destination FailoverPolicy_Status from our FailoverPolicy_Status
+func (policy *FailoverPolicy_Status) AssignPropertiesToFailoverPolicyStatus(destination *v1beta20210515storage.FailoverPolicy_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
+
+	// FailoverPriority
+	destination.FailoverPriority = genruntime.ClonePointerToInt(policy.FailoverPriority)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(policy.Id)
+
+	// LocationName
+	destination.LocationName = genruntime.ClonePointerToString(policy.LocationName)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210515.IpAddressOrRange
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/IpAddressOrRange
+//Deprecated version of IpAddressOrRange. Use v1beta20210515.IpAddressOrRange instead
 type IpAddressOrRange struct {
 	IpAddressOrRange *string                `json:"ipAddressOrRange,omitempty"`
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignPropertiesFromIpAddressOrRange populates our IpAddressOrRange from the provided source IpAddressOrRange
+func (orRange *IpAddressOrRange) AssignPropertiesFromIpAddressOrRange(source *v1beta20210515storage.IpAddressOrRange) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// IpAddressOrRange
+	orRange.IpAddressOrRange = genruntime.ClonePointerToString(source.IpAddressOrRange)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		orRange.PropertyBag = propertyBag
+	} else {
+		orRange.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToIpAddressOrRange populates the provided destination IpAddressOrRange from our IpAddressOrRange
+func (orRange *IpAddressOrRange) AssignPropertiesToIpAddressOrRange(destination *v1beta20210515storage.IpAddressOrRange) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(orRange.PropertyBag)
+
+	// IpAddressOrRange
+	destination.IpAddressOrRange = genruntime.ClonePointerToString(orRange.IpAddressOrRange)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210515.IpAddressOrRange_Status
+//Deprecated version of IpAddressOrRange_Status. Use v1beta20210515.IpAddressOrRange_Status instead
 type IpAddressOrRange_Status struct {
 	IpAddressOrRange *string                `json:"ipAddressOrRange,omitempty"`
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignPropertiesFromIpAddressOrRangeStatus populates our IpAddressOrRange_Status from the provided source IpAddressOrRange_Status
+func (orRange *IpAddressOrRange_Status) AssignPropertiesFromIpAddressOrRangeStatus(source *v1beta20210515storage.IpAddressOrRange_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// IpAddressOrRange
+	orRange.IpAddressOrRange = genruntime.ClonePointerToString(source.IpAddressOrRange)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		orRange.PropertyBag = propertyBag
+	} else {
+		orRange.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToIpAddressOrRangeStatus populates the provided destination IpAddressOrRange_Status from our IpAddressOrRange_Status
+func (orRange *IpAddressOrRange_Status) AssignPropertiesToIpAddressOrRangeStatus(destination *v1beta20210515storage.IpAddressOrRange_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(orRange.PropertyBag)
+
+	// IpAddressOrRange
+	destination.IpAddressOrRange = genruntime.ClonePointerToString(orRange.IpAddressOrRange)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210515.Location
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/Location
+//Deprecated version of Location. Use v1beta20210515.Location instead
 type Location struct {
 	FailoverPriority *int                   `json:"failoverPriority,omitempty"`
 	IsZoneRedundant  *bool                  `json:"isZoneRedundant,omitempty"`
@@ -386,7 +2517,68 @@ type Location struct {
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignPropertiesFromLocation populates our Location from the provided source Location
+func (location *Location) AssignPropertiesFromLocation(source *v1beta20210515storage.Location) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// FailoverPriority
+	location.FailoverPriority = genruntime.ClonePointerToInt(source.FailoverPriority)
+
+	// IsZoneRedundant
+	if source.IsZoneRedundant != nil {
+		isZoneRedundant := *source.IsZoneRedundant
+		location.IsZoneRedundant = &isZoneRedundant
+	} else {
+		location.IsZoneRedundant = nil
+	}
+
+	// LocationName
+	location.LocationName = genruntime.ClonePointerToString(source.LocationName)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		location.PropertyBag = propertyBag
+	} else {
+		location.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToLocation populates the provided destination Location from our Location
+func (location *Location) AssignPropertiesToLocation(destination *v1beta20210515storage.Location) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(location.PropertyBag)
+
+	// FailoverPriority
+	destination.FailoverPriority = genruntime.ClonePointerToInt(location.FailoverPriority)
+
+	// IsZoneRedundant
+	if location.IsZoneRedundant != nil {
+		isZoneRedundant := *location.IsZoneRedundant
+		destination.IsZoneRedundant = &isZoneRedundant
+	} else {
+		destination.IsZoneRedundant = nil
+	}
+
+	// LocationName
+	destination.LocationName = genruntime.ClonePointerToString(location.LocationName)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210515.Location_Status
+//Deprecated version of Location_Status. Use v1beta20210515.Location_Status instead
 type Location_Status struct {
 	DocumentEndpoint  *string                `json:"documentEndpoint,omitempty"`
 	FailoverPriority  *int                   `json:"failoverPriority,omitempty"`
@@ -397,14 +2589,131 @@ type Location_Status struct {
 	ProvisioningState *string                `json:"provisioningState,omitempty"`
 }
 
+// AssignPropertiesFromLocationStatus populates our Location_Status from the provided source Location_Status
+func (location *Location_Status) AssignPropertiesFromLocationStatus(source *v1beta20210515storage.Location_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// DocumentEndpoint
+	location.DocumentEndpoint = genruntime.ClonePointerToString(source.DocumentEndpoint)
+
+	// FailoverPriority
+	location.FailoverPriority = genruntime.ClonePointerToInt(source.FailoverPriority)
+
+	// Id
+	location.Id = genruntime.ClonePointerToString(source.Id)
+
+	// IsZoneRedundant
+	if source.IsZoneRedundant != nil {
+		isZoneRedundant := *source.IsZoneRedundant
+		location.IsZoneRedundant = &isZoneRedundant
+	} else {
+		location.IsZoneRedundant = nil
+	}
+
+	// LocationName
+	location.LocationName = genruntime.ClonePointerToString(source.LocationName)
+
+	// ProvisioningState
+	location.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		location.PropertyBag = propertyBag
+	} else {
+		location.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToLocationStatus populates the provided destination Location_Status from our Location_Status
+func (location *Location_Status) AssignPropertiesToLocationStatus(destination *v1beta20210515storage.Location_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(location.PropertyBag)
+
+	// DocumentEndpoint
+	destination.DocumentEndpoint = genruntime.ClonePointerToString(location.DocumentEndpoint)
+
+	// FailoverPriority
+	destination.FailoverPriority = genruntime.ClonePointerToInt(location.FailoverPriority)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(location.Id)
+
+	// IsZoneRedundant
+	if location.IsZoneRedundant != nil {
+		isZoneRedundant := *location.IsZoneRedundant
+		destination.IsZoneRedundant = &isZoneRedundant
+	} else {
+		destination.IsZoneRedundant = nil
+	}
+
+	// LocationName
+	destination.LocationName = genruntime.ClonePointerToString(location.LocationName)
+
+	// ProvisioningState
+	destination.ProvisioningState = genruntime.ClonePointerToString(location.ProvisioningState)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210515.ManagedServiceIdentity
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ManagedServiceIdentity
+//Deprecated version of ManagedServiceIdentity. Use v1beta20210515.ManagedServiceIdentity instead
 type ManagedServiceIdentity struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Type        *string                `json:"type,omitempty"`
 }
 
+// AssignPropertiesFromManagedServiceIdentity populates our ManagedServiceIdentity from the provided source ManagedServiceIdentity
+func (identity *ManagedServiceIdentity) AssignPropertiesFromManagedServiceIdentity(source *v1beta20210515storage.ManagedServiceIdentity) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Type
+	identity.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		identity.PropertyBag = propertyBag
+	} else {
+		identity.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToManagedServiceIdentity populates the provided destination ManagedServiceIdentity from our ManagedServiceIdentity
+func (identity *ManagedServiceIdentity) AssignPropertiesToManagedServiceIdentity(destination *v1beta20210515storage.ManagedServiceIdentity) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(identity.PropertyBag)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(identity.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210515.ManagedServiceIdentity_Status
+//Deprecated version of ManagedServiceIdentity_Status. Use v1beta20210515.ManagedServiceIdentity_Status instead
 type ManagedServiceIdentity_Status struct {
 	PrincipalId            *string                                                         `json:"principalId,omitempty"`
 	PropertyBag            genruntime.PropertyBag                                          `json:"$propertyBag,omitempty"`
@@ -413,35 +2722,314 @@ type ManagedServiceIdentity_Status struct {
 	UserAssignedIdentities map[string]ManagedServiceIdentity_Status_UserAssignedIdentities `json:"userAssignedIdentities,omitempty"`
 }
 
+// AssignPropertiesFromManagedServiceIdentityStatus populates our ManagedServiceIdentity_Status from the provided source ManagedServiceIdentity_Status
+func (identity *ManagedServiceIdentity_Status) AssignPropertiesFromManagedServiceIdentityStatus(source *v1beta20210515storage.ManagedServiceIdentity_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// PrincipalId
+	identity.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
+
+	// TenantId
+	identity.TenantId = genruntime.ClonePointerToString(source.TenantId)
+
+	// Type
+	identity.Type = genruntime.ClonePointerToString(source.Type)
+
+	// UserAssignedIdentities
+	if source.UserAssignedIdentities != nil {
+		userAssignedIdentityMap := make(map[string]ManagedServiceIdentity_Status_UserAssignedIdentities, len(source.UserAssignedIdentities))
+		for userAssignedIdentityKey, userAssignedIdentityValue := range source.UserAssignedIdentities {
+			// Shadow the loop variable to avoid aliasing
+			userAssignedIdentityValue := userAssignedIdentityValue
+			var userAssignedIdentity ManagedServiceIdentity_Status_UserAssignedIdentities
+			err := userAssignedIdentity.AssignPropertiesFromManagedServiceIdentityStatusUserAssignedIdentities(&userAssignedIdentityValue)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromManagedServiceIdentityStatusUserAssignedIdentities() to populate field UserAssignedIdentities")
+			}
+			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
+		}
+		identity.UserAssignedIdentities = userAssignedIdentityMap
+	} else {
+		identity.UserAssignedIdentities = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		identity.PropertyBag = propertyBag
+	} else {
+		identity.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToManagedServiceIdentityStatus populates the provided destination ManagedServiceIdentity_Status from our ManagedServiceIdentity_Status
+func (identity *ManagedServiceIdentity_Status) AssignPropertiesToManagedServiceIdentityStatus(destination *v1beta20210515storage.ManagedServiceIdentity_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(identity.PropertyBag)
+
+	// PrincipalId
+	destination.PrincipalId = genruntime.ClonePointerToString(identity.PrincipalId)
+
+	// TenantId
+	destination.TenantId = genruntime.ClonePointerToString(identity.TenantId)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(identity.Type)
+
+	// UserAssignedIdentities
+	if identity.UserAssignedIdentities != nil {
+		userAssignedIdentityMap := make(map[string]v1beta20210515storage.ManagedServiceIdentity_Status_UserAssignedIdentities, len(identity.UserAssignedIdentities))
+		for userAssignedIdentityKey, userAssignedIdentityValue := range identity.UserAssignedIdentities {
+			// Shadow the loop variable to avoid aliasing
+			userAssignedIdentityValue := userAssignedIdentityValue
+			var userAssignedIdentity v1beta20210515storage.ManagedServiceIdentity_Status_UserAssignedIdentities
+			err := userAssignedIdentityValue.AssignPropertiesToManagedServiceIdentityStatusUserAssignedIdentities(&userAssignedIdentity)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToManagedServiceIdentityStatusUserAssignedIdentities() to populate field UserAssignedIdentities")
+			}
+			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
+		}
+		destination.UserAssignedIdentities = userAssignedIdentityMap
+	} else {
+		destination.UserAssignedIdentities = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210515.PrivateEndpointConnection_Status_SubResourceEmbedded
+//Deprecated version of PrivateEndpointConnection_Status_SubResourceEmbedded. Use v1beta20210515.PrivateEndpointConnection_Status_SubResourceEmbedded instead
 type PrivateEndpointConnection_Status_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1alpha1api20210515.VirtualNetworkRule
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/VirtualNetworkRule
-type VirtualNetworkRule struct {
-	IgnoreMissingVNetServiceEndpoint *bool                  `json:"ignoreMissingVNetServiceEndpoint,omitempty"`
-	PropertyBag                      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+// AssignPropertiesFromPrivateEndpointConnectionStatusSubResourceEmbedded populates our PrivateEndpointConnection_Status_SubResourceEmbedded from the provided source PrivateEndpointConnection_Status_SubResourceEmbedded
+func (embedded *PrivateEndpointConnection_Status_SubResourceEmbedded) AssignPropertiesFromPrivateEndpointConnectionStatusSubResourceEmbedded(source *v1beta20210515storage.PrivateEndpointConnection_Status_SubResourceEmbedded) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	//Reference: Resource ID of a subnet, for example:
-	///subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+	// Id
+	embedded.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		embedded.PropertyBag = propertyBag
+	} else {
+		embedded.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToPrivateEndpointConnectionStatusSubResourceEmbedded populates the provided destination PrivateEndpointConnection_Status_SubResourceEmbedded from our PrivateEndpointConnection_Status_SubResourceEmbedded
+func (embedded *PrivateEndpointConnection_Status_SubResourceEmbedded) AssignPropertiesToPrivateEndpointConnectionStatusSubResourceEmbedded(destination *v1beta20210515storage.PrivateEndpointConnection_Status_SubResourceEmbedded) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(embedded.PropertyBag)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(embedded.Id)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+//Storage version of v1alpha1api20210515.VirtualNetworkRule
+//Deprecated version of VirtualNetworkRule. Use v1beta20210515.VirtualNetworkRule instead
+type VirtualNetworkRule struct {
+	IgnoreMissingVNetServiceEndpoint *bool                         `json:"ignoreMissingVNetServiceEndpoint,omitempty"`
+	PropertyBag                      genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	Reference                        *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+}
+
+// AssignPropertiesFromVirtualNetworkRule populates our VirtualNetworkRule from the provided source VirtualNetworkRule
+func (rule *VirtualNetworkRule) AssignPropertiesFromVirtualNetworkRule(source *v1beta20210515storage.VirtualNetworkRule) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// IgnoreMissingVNetServiceEndpoint
+	if source.IgnoreMissingVNetServiceEndpoint != nil {
+		ignoreMissingVNetServiceEndpoint := *source.IgnoreMissingVNetServiceEndpoint
+		rule.IgnoreMissingVNetServiceEndpoint = &ignoreMissingVNetServiceEndpoint
+	} else {
+		rule.IgnoreMissingVNetServiceEndpoint = nil
+	}
+
+	// Reference
+	if source.Reference != nil {
+		reference := source.Reference.Copy()
+		rule.Reference = &reference
+	} else {
+		rule.Reference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		rule.PropertyBag = propertyBag
+	} else {
+		rule.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToVirtualNetworkRule populates the provided destination VirtualNetworkRule from our VirtualNetworkRule
+func (rule *VirtualNetworkRule) AssignPropertiesToVirtualNetworkRule(destination *v1beta20210515storage.VirtualNetworkRule) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(rule.PropertyBag)
+
+	// IgnoreMissingVNetServiceEndpoint
+	if rule.IgnoreMissingVNetServiceEndpoint != nil {
+		ignoreMissingVNetServiceEndpoint := *rule.IgnoreMissingVNetServiceEndpoint
+		destination.IgnoreMissingVNetServiceEndpoint = &ignoreMissingVNetServiceEndpoint
+	} else {
+		destination.IgnoreMissingVNetServiceEndpoint = nil
+	}
+
+	// Reference
+	if rule.Reference != nil {
+		reference := rule.Reference.Copy()
+		destination.Reference = &reference
+	} else {
+		destination.Reference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 //Storage version of v1alpha1api20210515.VirtualNetworkRule_Status
+//Deprecated version of VirtualNetworkRule_Status. Use v1beta20210515.VirtualNetworkRule_Status instead
 type VirtualNetworkRule_Status struct {
 	Id                               *string                `json:"id,omitempty"`
 	IgnoreMissingVNetServiceEndpoint *bool                  `json:"ignoreMissingVNetServiceEndpoint,omitempty"`
 	PropertyBag                      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignPropertiesFromVirtualNetworkRuleStatus populates our VirtualNetworkRule_Status from the provided source VirtualNetworkRule_Status
+func (rule *VirtualNetworkRule_Status) AssignPropertiesFromVirtualNetworkRuleStatus(source *v1beta20210515storage.VirtualNetworkRule_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Id
+	rule.Id = genruntime.ClonePointerToString(source.Id)
+
+	// IgnoreMissingVNetServiceEndpoint
+	if source.IgnoreMissingVNetServiceEndpoint != nil {
+		ignoreMissingVNetServiceEndpoint := *source.IgnoreMissingVNetServiceEndpoint
+		rule.IgnoreMissingVNetServiceEndpoint = &ignoreMissingVNetServiceEndpoint
+	} else {
+		rule.IgnoreMissingVNetServiceEndpoint = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		rule.PropertyBag = propertyBag
+	} else {
+		rule.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToVirtualNetworkRuleStatus populates the provided destination VirtualNetworkRule_Status from our VirtualNetworkRule_Status
+func (rule *VirtualNetworkRule_Status) AssignPropertiesToVirtualNetworkRuleStatus(destination *v1beta20210515storage.VirtualNetworkRule_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(rule.PropertyBag)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(rule.Id)
+
+	// IgnoreMissingVNetServiceEndpoint
+	if rule.IgnoreMissingVNetServiceEndpoint != nil {
+		ignoreMissingVNetServiceEndpoint := *rule.IgnoreMissingVNetServiceEndpoint
+		destination.IgnoreMissingVNetServiceEndpoint = &ignoreMissingVNetServiceEndpoint
+	} else {
+		destination.IgnoreMissingVNetServiceEndpoint = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210515.ContinuousModeBackupPolicy
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ContinuousModeBackupPolicy
+//Deprecated version of ContinuousModeBackupPolicy. Use v1beta20210515.ContinuousModeBackupPolicy instead
 type ContinuousModeBackupPolicy struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Type        *string                `json:"type,omitempty"`
+}
+
+// AssignPropertiesFromContinuousModeBackupPolicy populates our ContinuousModeBackupPolicy from the provided source ContinuousModeBackupPolicy
+func (policy *ContinuousModeBackupPolicy) AssignPropertiesFromContinuousModeBackupPolicy(source *v1beta20210515storage.ContinuousModeBackupPolicy) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Type
+	policy.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		policy.PropertyBag = propertyBag
+	} else {
+		policy.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToContinuousModeBackupPolicy populates the provided destination ContinuousModeBackupPolicy from our ContinuousModeBackupPolicy
+func (policy *ContinuousModeBackupPolicy) AssignPropertiesToContinuousModeBackupPolicy(destination *v1beta20210515storage.ContinuousModeBackupPolicy) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(policy.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 //Storage version of v1alpha1api20210515.DatabaseAccountOperatorSecrets
@@ -454,27 +3042,290 @@ type DatabaseAccountOperatorSecrets struct {
 	SecondaryReadonlyMasterKey *genruntime.SecretDestination `json:"secondaryReadonlyMasterKey,omitempty"`
 }
 
+// AssignPropertiesFromDatabaseAccountOperatorSecrets populates our DatabaseAccountOperatorSecrets from the provided source DatabaseAccountOperatorSecrets
+func (secrets *DatabaseAccountOperatorSecrets) AssignPropertiesFromDatabaseAccountOperatorSecrets(source *v1beta20210515storage.DatabaseAccountOperatorSecrets) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// DocumentEndpoint
+	if source.DocumentEndpoint != nil {
+		documentEndpoint := source.DocumentEndpoint.Copy()
+		secrets.DocumentEndpoint = &documentEndpoint
+	} else {
+		secrets.DocumentEndpoint = nil
+	}
+
+	// PrimaryMasterKey
+	if source.PrimaryMasterKey != nil {
+		primaryMasterKey := source.PrimaryMasterKey.Copy()
+		secrets.PrimaryMasterKey = &primaryMasterKey
+	} else {
+		secrets.PrimaryMasterKey = nil
+	}
+
+	// PrimaryReadonlyMasterKey
+	if source.PrimaryReadonlyMasterKey != nil {
+		primaryReadonlyMasterKey := source.PrimaryReadonlyMasterKey.Copy()
+		secrets.PrimaryReadonlyMasterKey = &primaryReadonlyMasterKey
+	} else {
+		secrets.PrimaryReadonlyMasterKey = nil
+	}
+
+	// SecondaryMasterKey
+	if source.SecondaryMasterKey != nil {
+		secondaryMasterKey := source.SecondaryMasterKey.Copy()
+		secrets.SecondaryMasterKey = &secondaryMasterKey
+	} else {
+		secrets.SecondaryMasterKey = nil
+	}
+
+	// SecondaryReadonlyMasterKey
+	if source.SecondaryReadonlyMasterKey != nil {
+		secondaryReadonlyMasterKey := source.SecondaryReadonlyMasterKey.Copy()
+		secrets.SecondaryReadonlyMasterKey = &secondaryReadonlyMasterKey
+	} else {
+		secrets.SecondaryReadonlyMasterKey = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		secrets.PropertyBag = propertyBag
+	} else {
+		secrets.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToDatabaseAccountOperatorSecrets populates the provided destination DatabaseAccountOperatorSecrets from our DatabaseAccountOperatorSecrets
+func (secrets *DatabaseAccountOperatorSecrets) AssignPropertiesToDatabaseAccountOperatorSecrets(destination *v1beta20210515storage.DatabaseAccountOperatorSecrets) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(secrets.PropertyBag)
+
+	// DocumentEndpoint
+	if secrets.DocumentEndpoint != nil {
+		documentEndpoint := secrets.DocumentEndpoint.Copy()
+		destination.DocumentEndpoint = &documentEndpoint
+	} else {
+		destination.DocumentEndpoint = nil
+	}
+
+	// PrimaryMasterKey
+	if secrets.PrimaryMasterKey != nil {
+		primaryMasterKey := secrets.PrimaryMasterKey.Copy()
+		destination.PrimaryMasterKey = &primaryMasterKey
+	} else {
+		destination.PrimaryMasterKey = nil
+	}
+
+	// PrimaryReadonlyMasterKey
+	if secrets.PrimaryReadonlyMasterKey != nil {
+		primaryReadonlyMasterKey := secrets.PrimaryReadonlyMasterKey.Copy()
+		destination.PrimaryReadonlyMasterKey = &primaryReadonlyMasterKey
+	} else {
+		destination.PrimaryReadonlyMasterKey = nil
+	}
+
+	// SecondaryMasterKey
+	if secrets.SecondaryMasterKey != nil {
+		secondaryMasterKey := secrets.SecondaryMasterKey.Copy()
+		destination.SecondaryMasterKey = &secondaryMasterKey
+	} else {
+		destination.SecondaryMasterKey = nil
+	}
+
+	// SecondaryReadonlyMasterKey
+	if secrets.SecondaryReadonlyMasterKey != nil {
+		secondaryReadonlyMasterKey := secrets.SecondaryReadonlyMasterKey.Copy()
+		destination.SecondaryReadonlyMasterKey = &secondaryReadonlyMasterKey
+	} else {
+		destination.SecondaryReadonlyMasterKey = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210515.ManagedServiceIdentity_Status_UserAssignedIdentities
+//Deprecated version of ManagedServiceIdentity_Status_UserAssignedIdentities. Use v1beta20210515.ManagedServiceIdentity_Status_UserAssignedIdentities instead
 type ManagedServiceIdentity_Status_UserAssignedIdentities struct {
 	ClientId    *string                `json:"clientId,omitempty"`
 	PrincipalId *string                `json:"principalId,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignPropertiesFromManagedServiceIdentityStatusUserAssignedIdentities populates our ManagedServiceIdentity_Status_UserAssignedIdentities from the provided source ManagedServiceIdentity_Status_UserAssignedIdentities
+func (identities *ManagedServiceIdentity_Status_UserAssignedIdentities) AssignPropertiesFromManagedServiceIdentityStatusUserAssignedIdentities(source *v1beta20210515storage.ManagedServiceIdentity_Status_UserAssignedIdentities) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ClientId
+	identities.ClientId = genruntime.ClonePointerToString(source.ClientId)
+
+	// PrincipalId
+	identities.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		identities.PropertyBag = propertyBag
+	} else {
+		identities.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToManagedServiceIdentityStatusUserAssignedIdentities populates the provided destination ManagedServiceIdentity_Status_UserAssignedIdentities from our ManagedServiceIdentity_Status_UserAssignedIdentities
+func (identities *ManagedServiceIdentity_Status_UserAssignedIdentities) AssignPropertiesToManagedServiceIdentityStatusUserAssignedIdentities(destination *v1beta20210515storage.ManagedServiceIdentity_Status_UserAssignedIdentities) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(identities.PropertyBag)
+
+	// ClientId
+	destination.ClientId = genruntime.ClonePointerToString(identities.ClientId)
+
+	// PrincipalId
+	destination.PrincipalId = genruntime.ClonePointerToString(identities.PrincipalId)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210515.PeriodicModeBackupPolicy
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/PeriodicModeBackupPolicy
+//Deprecated version of PeriodicModeBackupPolicy. Use v1beta20210515.PeriodicModeBackupPolicy instead
 type PeriodicModeBackupPolicy struct {
 	PeriodicModeProperties *PeriodicModeProperties `json:"periodicModeProperties,omitempty"`
 	PropertyBag            genruntime.PropertyBag  `json:"$propertyBag,omitempty"`
 	Type                   *string                 `json:"type,omitempty"`
 }
 
+// AssignPropertiesFromPeriodicModeBackupPolicy populates our PeriodicModeBackupPolicy from the provided source PeriodicModeBackupPolicy
+func (policy *PeriodicModeBackupPolicy) AssignPropertiesFromPeriodicModeBackupPolicy(source *v1beta20210515storage.PeriodicModeBackupPolicy) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// PeriodicModeProperties
+	if source.PeriodicModeProperties != nil {
+		var periodicModeProperty PeriodicModeProperties
+		err := periodicModeProperty.AssignPropertiesFromPeriodicModeProperties(source.PeriodicModeProperties)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromPeriodicModeProperties() to populate field PeriodicModeProperties")
+		}
+		policy.PeriodicModeProperties = &periodicModeProperty
+	} else {
+		policy.PeriodicModeProperties = nil
+	}
+
+	// Type
+	policy.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		policy.PropertyBag = propertyBag
+	} else {
+		policy.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToPeriodicModeBackupPolicy populates the provided destination PeriodicModeBackupPolicy from our PeriodicModeBackupPolicy
+func (policy *PeriodicModeBackupPolicy) AssignPropertiesToPeriodicModeBackupPolicy(destination *v1beta20210515storage.PeriodicModeBackupPolicy) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
+
+	// PeriodicModeProperties
+	if policy.PeriodicModeProperties != nil {
+		var periodicModeProperty v1beta20210515storage.PeriodicModeProperties
+		err := policy.PeriodicModeProperties.AssignPropertiesToPeriodicModeProperties(&periodicModeProperty)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToPeriodicModeProperties() to populate field PeriodicModeProperties")
+		}
+		destination.PeriodicModeProperties = &periodicModeProperty
+	} else {
+		destination.PeriodicModeProperties = nil
+	}
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(policy.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210515.PeriodicModeProperties
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/PeriodicModeProperties
+//Deprecated version of PeriodicModeProperties. Use v1beta20210515.PeriodicModeProperties instead
 type PeriodicModeProperties struct {
 	BackupIntervalInMinutes        *int                   `json:"backupIntervalInMinutes,omitempty"`
 	BackupRetentionIntervalInHours *int                   `json:"backupRetentionIntervalInHours,omitempty"`
 	PropertyBag                    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignPropertiesFromPeriodicModeProperties populates our PeriodicModeProperties from the provided source PeriodicModeProperties
+func (properties *PeriodicModeProperties) AssignPropertiesFromPeriodicModeProperties(source *v1beta20210515storage.PeriodicModeProperties) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// BackupIntervalInMinutes
+	properties.BackupIntervalInMinutes = genruntime.ClonePointerToInt(source.BackupIntervalInMinutes)
+
+	// BackupRetentionIntervalInHours
+	properties.BackupRetentionIntervalInHours = genruntime.ClonePointerToInt(source.BackupRetentionIntervalInHours)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		properties.PropertyBag = propertyBag
+	} else {
+		properties.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToPeriodicModeProperties populates the provided destination PeriodicModeProperties from our PeriodicModeProperties
+func (properties *PeriodicModeProperties) AssignPropertiesToPeriodicModeProperties(destination *v1beta20210515storage.PeriodicModeProperties) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
+
+	// BackupIntervalInMinutes
+	destination.BackupIntervalInMinutes = genruntime.ClonePointerToInt(properties.BackupIntervalInMinutes)
+
+	// BackupRetentionIntervalInHours
+	destination.BackupRetentionIntervalInHours = genruntime.ClonePointerToInt(properties.BackupRetentionIntervalInHours)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 func init() {

@@ -6,6 +6,7 @@ package v1alpha1api20211001
 import (
 	"encoding/json"
 	"github.com/Azure/azure-service-operator/v2/api/signalrservice/v1alpha1api20211001storage"
+	"github.com/Azure/azure-service-operator/v2/api/signalrservice/v1beta20211001storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -35,7 +36,7 @@ func RunResourceConversionTestForSignalR(subject SignalR) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1alpha1api20211001storage.SignalR
+	var hub v1beta20211001storage.SignalR
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()

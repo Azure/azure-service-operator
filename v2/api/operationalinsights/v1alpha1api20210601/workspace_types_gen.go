@@ -25,7 +25,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.OperationalInsights.json#/resourceDefinitions/workspaces
+//Deprecated version of Workspace. Use v1beta20210601.Workspace instead
 type Workspace struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -49,22 +49,36 @@ var _ conversion.Convertible = &Workspace{}
 
 // ConvertFrom populates our Workspace from the provided hub Workspace
 func (workspace *Workspace) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1alpha1api20210601storage.Workspace)
-	if !ok {
-		return fmt.Errorf("expected operationalinsights/v1alpha1api20210601storage/Workspace but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v1alpha1api20210601storage.Workspace
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return workspace.AssignPropertiesFromWorkspace(source)
+	err = workspace.AssignPropertiesFromWorkspace(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to workspace")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub Workspace from our Workspace
 func (workspace *Workspace) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1alpha1api20210601storage.Workspace)
-	if !ok {
-		return fmt.Errorf("expected operationalinsights/v1alpha1api20210601storage/Workspace but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v1alpha1api20210601storage.Workspace
+	err := workspace.AssignPropertiesToWorkspace(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from workspace")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return workspace.AssignPropertiesToWorkspace(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-operationalinsights-azure-com-v1alpha1api20210601-workspace,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=operationalinsights.azure.com,resources=workspaces,verbs=create;update,versions=v1alpha1api20210601,name=default.v1alpha1api20210601.workspaces.operationalinsights.azure.com,admissionReviewVersions=v1beta1
@@ -301,72 +315,35 @@ func (workspace *Workspace) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.OperationalInsights.json#/resourceDefinitions/workspaces
+//Deprecated version of Workspace. Use v1beta20210601.Workspace instead
 type WorkspaceList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Workspace `json:"items"`
 }
 
+//Deprecated version of Workspace_Status. Use v1beta20210601.Workspace_Status instead
 type Workspace_Status struct {
 	//Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	//CreatedDate: Workspace creation date.
-	CreatedDate *string `json:"createdDate,omitempty"`
-
-	//CustomerId: This is a read-only property. Represents the ID associated with the workspace.
-	CustomerId *string `json:"customerId,omitempty"`
-
-	//ETag: The ETag of the workspace.
-	ETag *string `json:"eTag,omitempty"`
-
-	//Features: Workspace features.
-	Features *WorkspaceFeatures_Status `json:"features,omitempty"`
-
-	//ForceCmkForQuery: Indicates whether customer managed storage is mandatory for query management.
-	ForceCmkForQuery *bool `json:"forceCmkForQuery,omitempty"`
-
-	//Id: Fully qualified resource ID for the resource. Ex -
-	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
-	//Location: The geo-location where the resource lives
-	Location *string `json:"location,omitempty"`
-
-	//ModifiedDate: Workspace modification date.
-	ModifiedDate *string `json:"modifiedDate,omitempty"`
-
-	//Name: The name of the resource
-	Name *string `json:"name,omitempty"`
-
-	//PrivateLinkScopedResources: List of linked private link scope resources.
-	PrivateLinkScopedResources []PrivateLinkScopedResource_Status `json:"privateLinkScopedResources,omitempty"`
-
-	//ProvisioningState: The provisioning state of the workspace.
-	ProvisioningState *WorkspacePropertiesStatusProvisioningState `json:"provisioningState,omitempty"`
-
-	//PublicNetworkAccessForIngestion: The network access type for accessing Log Analytics ingestion.
-	PublicNetworkAccessForIngestion *PublicNetworkAccessType_Status `json:"publicNetworkAccessForIngestion,omitempty"`
-
-	//PublicNetworkAccessForQuery: The network access type for accessing Log Analytics query.
-	PublicNetworkAccessForQuery *PublicNetworkAccessType_Status `json:"publicNetworkAccessForQuery,omitempty"`
-
-	//RetentionInDays: The workspace data retention in days. Allowed values are per pricing plan. See pricing tiers
-	//documentation for details.
-	RetentionInDays *int `json:"retentionInDays,omitempty"`
-
-	//Sku: The SKU of the workspace.
-	Sku *WorkspaceSku_Status `json:"sku,omitempty"`
-
-	//Tags: Resource tags.
-	Tags map[string]string `json:"tags,omitempty"`
-
-	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-	Type *string `json:"type,omitempty"`
-
-	//WorkspaceCapping: The daily volume cap for ingestion.
-	WorkspaceCapping *WorkspaceCapping_Status `json:"workspaceCapping,omitempty"`
+	Conditions                      []conditions.Condition                      `json:"conditions,omitempty"`
+	CreatedDate                     *string                                     `json:"createdDate,omitempty"`
+	CustomerId                      *string                                     `json:"customerId,omitempty"`
+	ETag                            *string                                     `json:"eTag,omitempty"`
+	Features                        *WorkspaceFeatures_Status                   `json:"features,omitempty"`
+	ForceCmkForQuery                *bool                                       `json:"forceCmkForQuery,omitempty"`
+	Id                              *string                                     `json:"id,omitempty"`
+	Location                        *string                                     `json:"location,omitempty"`
+	ModifiedDate                    *string                                     `json:"modifiedDate,omitempty"`
+	Name                            *string                                     `json:"name,omitempty"`
+	PrivateLinkScopedResources      []PrivateLinkScopedResource_Status          `json:"privateLinkScopedResources,omitempty"`
+	ProvisioningState               *WorkspacePropertiesStatusProvisioningState `json:"provisioningState,omitempty"`
+	PublicNetworkAccessForIngestion *PublicNetworkAccessType_Status             `json:"publicNetworkAccessForIngestion,omitempty"`
+	PublicNetworkAccessForQuery     *PublicNetworkAccessType_Status             `json:"publicNetworkAccessForQuery,omitempty"`
+	RetentionInDays                 *int                                        `json:"retentionInDays,omitempty"`
+	Sku                             *WorkspaceSku_Status                        `json:"sku,omitempty"`
+	Tags                            map[string]string                           `json:"tags,omitempty"`
+	Type                            *string                                     `json:"type,omitempty"`
+	WorkspaceCapping                *WorkspaceCapping_Status                    `json:"workspaceCapping,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &Workspace_Status{}
@@ -865,58 +842,30 @@ func (workspace *Workspace_Status) AssignPropertiesToWorkspaceStatus(destination
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"2021-06-01"}
-type WorkspacesSpecAPIVersion string
-
-const WorkspacesSpecAPIVersion20210601 = WorkspacesSpecAPIVersion("2021-06-01")
-
 type Workspaces_Spec struct {
 	// +kubebuilder:validation:MaxLength=63
 	// +kubebuilder:validation:MinLength=4
 	// +kubebuilder:validation:Pattern="^[A-Za-z0-9][A-Za-z0-9-]+[A-Za-z0-9]$"
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	//ETag: The ETag of the workspace.
-	ETag *string `json:"eTag,omitempty"`
-
-	//Features: Workspace features.
-	Features *WorkspaceFeatures `json:"features,omitempty"`
-
-	//ForceCmkForQuery: Indicates whether customer managed storage is mandatory for query management.
-	ForceCmkForQuery *bool `json:"forceCmkForQuery,omitempty"`
-
-	//Location: The geo-location where the resource lives
-	Location *string `json:"location,omitempty"`
+	AzureName        string             `json:"azureName,omitempty"`
+	ETag             *string            `json:"eTag,omitempty"`
+	Features         *WorkspaceFeatures `json:"features,omitempty"`
+	ForceCmkForQuery *bool              `json:"forceCmkForQuery,omitempty"`
+	Location         *string            `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	//reference to a resources.azure.com/ResourceGroup resource
-	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-
-	//ProvisioningState: The provisioning state of the workspace.
-	ProvisioningState *WorkspacePropertiesProvisioningState `json:"provisioningState,omitempty"`
-
-	//PublicNetworkAccessForIngestion: The network access type for accessing Log Analytics ingestion.
+	Owner                           *genruntime.KnownResourceReference                  `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	ProvisioningState               *WorkspacePropertiesProvisioningState               `json:"provisioningState,omitempty"`
 	PublicNetworkAccessForIngestion *WorkspacePropertiesPublicNetworkAccessForIngestion `json:"publicNetworkAccessForIngestion,omitempty"`
-
-	//PublicNetworkAccessForQuery: The network access type for accessing Log Analytics query.
-	PublicNetworkAccessForQuery *WorkspacePropertiesPublicNetworkAccessForQuery `json:"publicNetworkAccessForQuery,omitempty"`
-
-	//RetentionInDays: The workspace data retention in days. Allowed values are per pricing plan. See pricing tiers
-	//documentation for details.
-	RetentionInDays *int `json:"retentionInDays,omitempty"`
-
-	//Sku: The SKU (tier) of a workspace.
-	Sku *WorkspaceSku `json:"sku,omitempty"`
-
-	//Tags: Name-value pairs to add to the resource
-	Tags map[string]string `json:"tags,omitempty"`
-
-	//WorkspaceCapping: The daily volume cap for ingestion.
-	WorkspaceCapping *WorkspaceCapping `json:"workspaceCapping,omitempty"`
+	PublicNetworkAccessForQuery     *WorkspacePropertiesPublicNetworkAccessForQuery     `json:"publicNetworkAccessForQuery,omitempty"`
+	RetentionInDays                 *int                                                `json:"retentionInDays,omitempty"`
+	Sku                             *WorkspaceSku                                       `json:"sku,omitempty"`
+	Tags                            map[string]string                                   `json:"tags,omitempty"`
+	WorkspaceCapping                *WorkspaceCapping                                   `json:"workspaceCapping,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Workspaces_Spec{}
@@ -1406,12 +1355,10 @@ func (workspaces *Workspaces_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (workspaces *Workspaces_Spec) SetAzureName(azureName string) { workspaces.AzureName = azureName }
 
+//Deprecated version of PrivateLinkScopedResource_Status. Use v1beta20210601.PrivateLinkScopedResource_Status instead
 type PrivateLinkScopedResource_Status struct {
-	//ResourceId: The full resource Id of the private link scope resource.
 	ResourceId *string `json:"resourceId,omitempty"`
-
-	//ScopeId: The private link scope unique Identifier.
-	ScopeId *string `json:"scopeId,omitempty"`
+	ScopeId    *string `json:"scopeId,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &PrivateLinkScopedResource_Status{}
@@ -1479,6 +1426,7 @@ func (resource *PrivateLinkScopedResource_Status) AssignPropertiesToPrivateLinkS
 	return nil
 }
 
+//Deprecated version of PublicNetworkAccessType_Status. Use v1beta20210601.PublicNetworkAccessType_Status instead
 type PublicNetworkAccessType_Status string
 
 const (
@@ -1486,9 +1434,8 @@ const (
 	PublicNetworkAccessType_StatusEnabled  = PublicNetworkAccessType_Status("Enabled")
 )
 
-//Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.OperationalInsights.json#/definitions/WorkspaceCapping
+//Deprecated version of WorkspaceCapping. Use v1beta20210601.WorkspaceCapping instead
 type WorkspaceCapping struct {
-	//DailyQuotaGb: The workspace daily quota for ingestion.
 	DailyQuotaGb *float64 `json:"dailyQuotaGb,omitempty"`
 }
 
@@ -1570,15 +1517,11 @@ func (capping *WorkspaceCapping) AssignPropertiesToWorkspaceCapping(destination 
 	return nil
 }
 
+//Deprecated version of WorkspaceCapping_Status. Use v1beta20210601.WorkspaceCapping_Status instead
 type WorkspaceCapping_Status struct {
-	//DailyQuotaGb: The workspace daily quota for ingestion.
-	DailyQuotaGb *float64 `json:"dailyQuotaGb,omitempty"`
-
-	//DataIngestionStatus: The status of data ingestion for this workspace.
+	DailyQuotaGb        *float64                                   `json:"dailyQuotaGb,omitempty"`
 	DataIngestionStatus *WorkspaceCappingStatusDataIngestionStatus `json:"dataIngestionStatus,omitempty"`
-
-	//QuotaNextResetTime: The time when the quota will be rest.
-	QuotaNextResetTime *string `json:"quotaNextResetTime,omitempty"`
+	QuotaNextResetTime  *string                                    `json:"quotaNextResetTime,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &WorkspaceCapping_Status{}
@@ -1678,25 +1621,14 @@ func (capping *WorkspaceCapping_Status) AssignPropertiesToWorkspaceCappingStatus
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.OperationalInsights.json#/definitions/WorkspaceFeatures
+//Deprecated version of WorkspaceFeatures. Use v1beta20210601.WorkspaceFeatures instead
 type WorkspaceFeatures struct {
-	//AdditionalProperties: Unmatched properties from the message are deserialized this collection
-	AdditionalProperties map[string]v1.JSON `json:"additionalProperties,omitempty"`
-
-	//ClusterResourceReference: Dedicated LA cluster resourceId that is linked to the workspaces.
-	ClusterResourceReference *genruntime.ResourceReference `armReference:"ClusterResourceId" json:"clusterResourceReference,omitempty"`
-
-	//DisableLocalAuth: Disable Non-AAD based Auth.
-	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
-
-	//EnableDataExport: Flag that indicate if data should be exported.
-	EnableDataExport *bool `json:"enableDataExport,omitempty"`
-
-	//EnableLogAccessUsingOnlyResourcePermissions: Flag that indicate which permission to use - resource or workspace or both.
-	EnableLogAccessUsingOnlyResourcePermissions *bool `json:"enableLogAccessUsingOnlyResourcePermissions,omitempty"`
-
-	//ImmediatePurgeDataOn30Days: Flag that describes if we want to remove the data after 30 days.
-	ImmediatePurgeDataOn30Days *bool `json:"immediatePurgeDataOn30Days,omitempty"`
+	AdditionalProperties                        map[string]v1.JSON            `json:"additionalProperties,omitempty"`
+	ClusterResourceReference                    *genruntime.ResourceReference `armReference:"ClusterResourceId" json:"clusterResourceReference,omitempty"`
+	DisableLocalAuth                            *bool                         `json:"disableLocalAuth,omitempty"`
+	EnableDataExport                            *bool                         `json:"enableDataExport,omitempty"`
+	EnableLogAccessUsingOnlyResourcePermissions *bool                         `json:"enableLogAccessUsingOnlyResourcePermissions,omitempty"`
+	ImmediatePurgeDataOn30Days                  *bool                         `json:"immediatePurgeDataOn30Days,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &WorkspaceFeatures{}
@@ -1931,21 +1863,13 @@ func (features *WorkspaceFeatures) AssignPropertiesToWorkspaceFeatures(destinati
 	return nil
 }
 
+//Deprecated version of WorkspaceFeatures_Status. Use v1beta20210601.WorkspaceFeatures_Status instead
 type WorkspaceFeatures_Status struct {
-	//ClusterResourceId: Dedicated LA cluster resourceId that is linked to the workspaces.
-	ClusterResourceId *string `json:"clusterResourceId,omitempty"`
-
-	//DisableLocalAuth: Disable Non-AAD based Auth.
-	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
-
-	//EnableDataExport: Flag that indicate if data should be exported.
-	EnableDataExport *bool `json:"enableDataExport,omitempty"`
-
-	//EnableLogAccessUsingOnlyResourcePermissions: Flag that indicate which permission to use - resource or workspace or both.
-	EnableLogAccessUsingOnlyResourcePermissions *bool `json:"enableLogAccessUsingOnlyResourcePermissions,omitempty"`
-
-	//ImmediatePurgeDataOn30Days: Flag that describes if we want to remove the data after 30 days.
-	ImmediatePurgeDataOn30Days *bool `json:"immediatePurgeDataOn30Days,omitempty"`
+	ClusterResourceId                           *string `json:"clusterResourceId,omitempty"`
+	DisableLocalAuth                            *bool   `json:"disableLocalAuth,omitempty"`
+	EnableDataExport                            *bool   `json:"enableDataExport,omitempty"`
+	EnableLogAccessUsingOnlyResourcePermissions *bool   `json:"enableLogAccessUsingOnlyResourcePermissions,omitempty"`
+	ImmediatePurgeDataOn30Days                  *bool   `json:"immediatePurgeDataOn30Days,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &WorkspaceFeatures_Status{}
@@ -2089,6 +2013,8 @@ func (features *WorkspaceFeatures_Status) AssignPropertiesToWorkspaceFeaturesSta
 	return nil
 }
 
+//Deprecated version of WorkspacePropertiesProvisioningState. Use v1beta20210601.WorkspacePropertiesProvisioningState
+//instead
 // +kubebuilder:validation:Enum={"Canceled","Creating","Deleting","Failed","ProvisioningAccount","Succeeded","Updating"}
 type WorkspacePropertiesProvisioningState string
 
@@ -2102,6 +2028,8 @@ const (
 	WorkspacePropertiesProvisioningStateUpdating            = WorkspacePropertiesProvisioningState("Updating")
 )
 
+//Deprecated version of WorkspacePropertiesPublicNetworkAccessForIngestion. Use
+//v1beta20210601.WorkspacePropertiesPublicNetworkAccessForIngestion instead
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type WorkspacePropertiesPublicNetworkAccessForIngestion string
 
@@ -2110,6 +2038,8 @@ const (
 	WorkspacePropertiesPublicNetworkAccessForIngestionEnabled  = WorkspacePropertiesPublicNetworkAccessForIngestion("Enabled")
 )
 
+//Deprecated version of WorkspacePropertiesPublicNetworkAccessForQuery. Use
+//v1beta20210601.WorkspacePropertiesPublicNetworkAccessForQuery instead
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type WorkspacePropertiesPublicNetworkAccessForQuery string
 
@@ -2118,6 +2048,8 @@ const (
 	WorkspacePropertiesPublicNetworkAccessForQueryEnabled  = WorkspacePropertiesPublicNetworkAccessForQuery("Enabled")
 )
 
+//Deprecated version of WorkspacePropertiesStatusProvisioningState. Use
+//v1beta20210601.WorkspacePropertiesStatusProvisioningState instead
 type WorkspacePropertiesStatusProvisioningState string
 
 const (
@@ -2130,14 +2062,11 @@ const (
 	WorkspacePropertiesStatusProvisioningStateUpdating            = WorkspacePropertiesStatusProvisioningState("Updating")
 )
 
-//Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.OperationalInsights.json#/definitions/WorkspaceSku
+//Deprecated version of WorkspaceSku. Use v1beta20210601.WorkspaceSku instead
 type WorkspaceSku struct {
-	//CapacityReservationLevel: The capacity reservation level in GB for this workspace, when CapacityReservation sku is
-	//selected.
 	CapacityReservationLevel *int `json:"capacityReservationLevel,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Name: The name of the SKU.
 	Name *WorkspaceSkuName `json:"name,omitempty"`
 }
 
@@ -2237,16 +2166,11 @@ func (workspaceSku *WorkspaceSku) AssignPropertiesToWorkspaceSku(destination *v1
 	return nil
 }
 
+//Deprecated version of WorkspaceSku_Status. Use v1beta20210601.WorkspaceSku_Status instead
 type WorkspaceSku_Status struct {
-	//CapacityReservationLevel: The capacity reservation level in GB for this workspace, when CapacityReservation sku is
-	//selected.
 	CapacityReservationLevel *WorkspaceSkuStatusCapacityReservationLevel `json:"capacityReservationLevel,omitempty"`
-
-	//LastSkuUpdate: The last time when the sku was updated.
-	LastSkuUpdate *string `json:"lastSkuUpdate,omitempty"`
-
-	//Name: The name of the SKU.
-	Name *WorkspaceSkuStatusName `json:"name,omitempty"`
+	LastSkuUpdate            *string                                     `json:"lastSkuUpdate,omitempty"`
+	Name                     *WorkspaceSkuStatusName                     `json:"name,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &WorkspaceSku_Status{}
@@ -2346,6 +2270,8 @@ func (workspaceSku *WorkspaceSku_Status) AssignPropertiesToWorkspaceSkuStatus(de
 	return nil
 }
 
+//Deprecated version of WorkspaceCappingStatusDataIngestionStatus. Use
+//v1beta20210601.WorkspaceCappingStatusDataIngestionStatus instead
 type WorkspaceCappingStatusDataIngestionStatus string
 
 const (
@@ -2357,6 +2283,7 @@ const (
 	WorkspaceCappingStatusDataIngestionStatusSubscriptionSuspended = WorkspaceCappingStatusDataIngestionStatus("SubscriptionSuspended")
 )
 
+//Deprecated version of WorkspaceSkuName. Use v1beta20210601.WorkspaceSkuName instead
 // +kubebuilder:validation:Enum={"CapacityReservation","Free","LACluster","PerGB2018","PerNode","Premium","Standalone","Standard"}
 type WorkspaceSkuName string
 
@@ -2371,6 +2298,8 @@ const (
 	WorkspaceSkuNameStandard            = WorkspaceSkuName("Standard")
 )
 
+//Deprecated version of WorkspaceSkuStatusCapacityReservationLevel. Use
+//v1beta20210601.WorkspaceSkuStatusCapacityReservationLevel instead
 type WorkspaceSkuStatusCapacityReservationLevel int
 
 const (
@@ -2384,6 +2313,7 @@ const (
 	WorkspaceSkuStatusCapacityReservationLevel5000 = WorkspaceSkuStatusCapacityReservationLevel(5000)
 )
 
+//Deprecated version of WorkspaceSkuStatusName. Use v1beta20210601.WorkspaceSkuStatusName instead
 type WorkspaceSkuStatusName string
 
 const (

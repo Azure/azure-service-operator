@@ -4,8 +4,10 @@
 package customizations
 
 import (
-	eventhub "github.com/Azure/azure-service-operator/v2/api/eventhub/v1alpha1api20211101"
+	eventhubv1alpha1api20211101 "github.com/Azure/azure-service-operator/v2/api/eventhub/v1alpha1api20211101"
 	"github.com/Azure/azure-service-operator/v2/api/eventhub/v1alpha1api20211101storage"
+	eventhubv1beta20211101 "github.com/Azure/azure-service-operator/v2/api/eventhub/v1beta20211101"
+	"github.com/Azure/azure-service-operator/v2/api/eventhub/v1beta20211101storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -15,6 +17,8 @@ type NamespacesEventhubsConsumerGroupExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *NamespacesEventhubsConsumerGroupExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&eventhub.NamespacesEventhubsConsumerGroup{},
-		&v1alpha1api20211101storage.NamespacesEventhubsConsumerGroup{}}
+		&eventhubv1alpha1api20211101.NamespacesEventhubsConsumerGroup{},
+		&v1alpha1api20211101storage.NamespacesEventhubsConsumerGroup{},
+		&eventhubv1beta20211101.NamespacesEventhubsConsumerGroup{},
+		&v1beta20211101storage.NamespacesEventhubsConsumerGroup{}}
 }

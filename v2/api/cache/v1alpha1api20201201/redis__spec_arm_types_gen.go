@@ -5,21 +5,13 @@ package v1alpha1api20201201
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
+//Deprecated version of Redis_Spec. Use v1beta20201201.Redis_Spec instead
 type Redis_SpecARM struct {
-	//Location: The geo-location where the resource lives
-	Location *string `json:"location,omitempty"`
-
-	//Name: The name of the Redis cache.
-	Name string `json:"name,omitempty"`
-
-	//Properties: Properties supplied to Create Redis operation.
+	Location   *string                   `json:"location,omitempty"`
+	Name       string                    `json:"name,omitempty"`
 	Properties *RedisCreatePropertiesARM `json:"properties,omitempty"`
-
-	//Tags: Name-value pairs to add to the resource
-	Tags map[string]string `json:"tags,omitempty"`
-
-	//Zones: A list of availability zones denoting where the resource needs to come from.
-	Zones []string `json:"zones,omitempty"`
+	Tags       map[string]string         `json:"tags,omitempty"`
+	Zones      []string                  `json:"zones,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &Redis_SpecARM{}
@@ -39,58 +31,25 @@ func (redis Redis_SpecARM) GetType() string {
 	return "Microsoft.Cache/redis"
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/definitions/RedisCreateProperties
+//Deprecated version of RedisCreateProperties. Use v1beta20201201.RedisCreateProperties instead
 type RedisCreatePropertiesARM struct {
-	//EnableNonSslPort: Specifies whether the non-ssl Redis server port (6379) is enabled.
-	EnableNonSslPort *bool `json:"enableNonSslPort,omitempty"`
-
-	//MinimumTlsVersion: Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, '1.0', '1.1',
-	//'1.2').
-	MinimumTlsVersion *RedisCreatePropertiesMinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
-
-	//PublicNetworkAccess: Whether or not public endpoint access is allowed for this cache.  Value is optional but if passed
-	//in, must be 'Enabled' or 'Disabled'. If 'Disabled', private endpoints are the exclusive access method. Default value is
-	//'Enabled'.
+	EnableNonSslPort    *bool                                     `json:"enableNonSslPort,omitempty"`
+	MinimumTlsVersion   *RedisCreatePropertiesMinimumTlsVersion   `json:"minimumTlsVersion,omitempty"`
 	PublicNetworkAccess *RedisCreatePropertiesPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
-
-	//RedisConfiguration: All Redis Settings. Few possible keys:
-	//rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value
-	//etc.
-	RedisConfiguration map[string]string `json:"redisConfiguration,omitempty"`
-
-	//RedisVersion: Redis version. Only major version will be used in PUT/PATCH request with current valid values: (4, 6)
-	RedisVersion *string `json:"redisVersion,omitempty"`
-
-	//ReplicasPerMaster: The number of replicas to be created per primary.
-	ReplicasPerMaster *int `json:"replicasPerMaster,omitempty"`
-
-	//ReplicasPerPrimary: The number of replicas to be created per primary.
-	ReplicasPerPrimary *int `json:"replicasPerPrimary,omitempty"`
-
-	//ShardCount: The number of shards to be created on a Premium Cluster Cache.
-	ShardCount *int `json:"shardCount,omitempty"`
-
-	//Sku: SKU parameters supplied to the create Redis operation.
-	Sku *SkuARM `json:"sku,omitempty"`
-
-	//StaticIP: Static IP address. Optionally, may be specified when deploying a Redis cache inside an existing Azure Virtual
-	//Network; auto assigned by default.
-	StaticIP *string `json:"staticIP,omitempty"`
-	SubnetId *string `json:"subnetId,omitempty"`
-
-	//TenantSettings: A dictionary of tenant settings
-	TenantSettings map[string]string `json:"tenantSettings,omitempty"`
+	RedisConfiguration  map[string]string                         `json:"redisConfiguration,omitempty"`
+	RedisVersion        *string                                   `json:"redisVersion,omitempty"`
+	ReplicasPerMaster   *int                                      `json:"replicasPerMaster,omitempty"`
+	ReplicasPerPrimary  *int                                      `json:"replicasPerPrimary,omitempty"`
+	ShardCount          *int                                      `json:"shardCount,omitempty"`
+	Sku                 *SkuARM                                   `json:"sku,omitempty"`
+	StaticIP            *string                                   `json:"staticIP,omitempty"`
+	SubnetId            *string                                   `json:"subnetId,omitempty"`
+	TenantSettings      map[string]string                         `json:"tenantSettings,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/definitions/Sku
+//Deprecated version of Sku. Use v1beta20201201.Sku instead
 type SkuARM struct {
-	//Capacity: The size of the Redis cache to deploy. Valid values: for C (Basic/Standard) family (0, 1, 2, 3, 4, 5, 6), for
-	//P (Premium) family (1, 2, 3, 4).
-	Capacity *int `json:"capacity,omitempty"`
-
-	//Family: The SKU family to use. Valid values: (C, P). (C = Basic/Standard, P = Premium).
-	Family *SkuFamily `json:"family,omitempty"`
-
-	//Name: The type of Redis cache to deploy. Valid values: (Basic, Standard, Premium).
-	Name *SkuName `json:"name,omitempty"`
+	Capacity *int       `json:"capacity,omitempty"`
+	Family   *SkuFamily `json:"family,omitempty"`
+	Name     *SkuName   `json:"name,omitempty"`
 }

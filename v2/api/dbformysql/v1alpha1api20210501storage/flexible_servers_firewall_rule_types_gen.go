@@ -4,25 +4,24 @@
 package v1alpha1api20210501storage
 
 import (
+	"fmt"
+	"github.com/Azure/azure-service-operator/v2/api/dbformysql/v1beta20210501storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
-
-// +kubebuilder:rbac:groups=dbformysql.azure.com,resources=flexibleserversfirewallrules,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=dbformysql.azure.com,resources={flexibleserversfirewallrules/status,flexibleserversfirewallrules/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 //Storage version of v1alpha1api20210501.FlexibleServersFirewallRule
-//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/resourceDefinitions/flexibleServers_firewallRules
+//Deprecated version of FlexibleServersFirewallRule. Use v1beta20210501.FlexibleServersFirewallRule instead
 type FlexibleServersFirewallRule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -40,6 +39,28 @@ func (rule *FlexibleServersFirewallRule) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (rule *FlexibleServersFirewallRule) SetConditions(conditions conditions.Conditions) {
 	rule.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &FlexibleServersFirewallRule{}
+
+// ConvertFrom populates our FlexibleServersFirewallRule from the provided hub FlexibleServersFirewallRule
+func (rule *FlexibleServersFirewallRule) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*v1beta20210501storage.FlexibleServersFirewallRule)
+	if !ok {
+		return fmt.Errorf("expected dbformysql/v1beta20210501storage/FlexibleServersFirewallRule but received %T instead", hub)
+	}
+
+	return rule.AssignPropertiesFromFlexibleServersFirewallRule(source)
+}
+
+// ConvertTo populates the provided hub FlexibleServersFirewallRule from our FlexibleServersFirewallRule
+func (rule *FlexibleServersFirewallRule) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*v1beta20210501storage.FlexibleServersFirewallRule)
+	if !ok {
+		return fmt.Errorf("expected dbformysql/v1beta20210501storage/FlexibleServersFirewallRule but received %T instead", hub)
+	}
+
+	return rule.AssignPropertiesToFlexibleServersFirewallRule(destination)
 }
 
 var _ genruntime.KubernetesResource = &FlexibleServersFirewallRule{}
@@ -108,8 +129,57 @@ func (rule *FlexibleServersFirewallRule) SetStatus(status genruntime.Convertible
 	return nil
 }
 
-// Hub marks that this FlexibleServersFirewallRule is the hub type for conversion
-func (rule *FlexibleServersFirewallRule) Hub() {}
+// AssignPropertiesFromFlexibleServersFirewallRule populates our FlexibleServersFirewallRule from the provided source FlexibleServersFirewallRule
+func (rule *FlexibleServersFirewallRule) AssignPropertiesFromFlexibleServersFirewallRule(source *v1beta20210501storage.FlexibleServersFirewallRule) error {
+
+	// ObjectMeta
+	rule.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec FlexibleServersFirewallRules_Spec
+	err := spec.AssignPropertiesFromFlexibleServersFirewallRulesSpec(&source.Spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesFromFlexibleServersFirewallRulesSpec() to populate field Spec")
+	}
+	rule.Spec = spec
+
+	// Status
+	var status FirewallRule_Status
+	err = status.AssignPropertiesFromFirewallRuleStatus(&source.Status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesFromFirewallRuleStatus() to populate field Status")
+	}
+	rule.Status = status
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToFlexibleServersFirewallRule populates the provided destination FlexibleServersFirewallRule from our FlexibleServersFirewallRule
+func (rule *FlexibleServersFirewallRule) AssignPropertiesToFlexibleServersFirewallRule(destination *v1beta20210501storage.FlexibleServersFirewallRule) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *rule.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec v1beta20210501storage.FlexibleServersFirewallRules_Spec
+	err := rule.Spec.AssignPropertiesToFlexibleServersFirewallRulesSpec(&spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesToFlexibleServersFirewallRulesSpec() to populate field Spec")
+	}
+	destination.Spec = spec
+
+	// Status
+	var status v1beta20210501storage.FirewallRule_Status
+	err = rule.Status.AssignPropertiesToFirewallRuleStatus(&status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesToFirewallRuleStatus() to populate field Status")
+	}
+	destination.Status = status
+
+	// No error
+	return nil
+}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (rule *FlexibleServersFirewallRule) OriginalGVK() *schema.GroupVersionKind {
@@ -122,7 +192,7 @@ func (rule *FlexibleServersFirewallRule) OriginalGVK() *schema.GroupVersionKind 
 
 // +kubebuilder:object:root=true
 //Storage version of v1alpha1api20210501.FlexibleServersFirewallRule
-//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/resourceDefinitions/flexibleServers_firewallRules
+//Deprecated version of FlexibleServersFirewallRule. Use v1beta20210501.FlexibleServersFirewallRule instead
 type FlexibleServersFirewallRuleList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -130,6 +200,7 @@ type FlexibleServersFirewallRuleList struct {
 }
 
 //Storage version of v1alpha1api20210501.FirewallRule_Status
+//Deprecated version of FirewallRule_Status. Use v1beta20210501.FirewallRule_Status instead
 type FirewallRule_Status struct {
 	Conditions     []conditions.Condition `json:"conditions,omitempty"`
 	EndIpAddress   *string                `json:"endIpAddress,omitempty"`
@@ -145,20 +216,142 @@ var _ genruntime.ConvertibleStatus = &FirewallRule_Status{}
 
 // ConvertStatusFrom populates our FirewallRule_Status from the provided source
 func (rule *FirewallRule_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == rule {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	src, ok := source.(*v1beta20210501storage.FirewallRule_Status)
+	if ok {
+		// Populate our instance from source
+		return rule.AssignPropertiesFromFirewallRuleStatus(src)
 	}
 
-	return source.ConvertStatusTo(rule)
+	// Convert to an intermediate form
+	src = &v1beta20210501storage.FirewallRule_Status{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = rule.AssignPropertiesFromFirewallRuleStatus(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
 }
 
 // ConvertStatusTo populates the provided destination from our FirewallRule_Status
 func (rule *FirewallRule_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == rule {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	dst, ok := destination.(*v1beta20210501storage.FirewallRule_Status)
+	if ok {
+		// Populate destination from our instance
+		return rule.AssignPropertiesToFirewallRuleStatus(dst)
 	}
 
-	return destination.ConvertStatusFrom(rule)
+	// Convert to an intermediate form
+	dst = &v1beta20210501storage.FirewallRule_Status{}
+	err := rule.AssignPropertiesToFirewallRuleStatus(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+// AssignPropertiesFromFirewallRuleStatus populates our FirewallRule_Status from the provided source FirewallRule_Status
+func (rule *FirewallRule_Status) AssignPropertiesFromFirewallRuleStatus(source *v1beta20210501storage.FirewallRule_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Conditions
+	rule.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// EndIpAddress
+	rule.EndIpAddress = genruntime.ClonePointerToString(source.EndIpAddress)
+
+	// Id
+	rule.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Name
+	rule.Name = genruntime.ClonePointerToString(source.Name)
+
+	// StartIpAddress
+	rule.StartIpAddress = genruntime.ClonePointerToString(source.StartIpAddress)
+
+	// SystemData
+	if source.SystemData != nil {
+		var systemDatum SystemData_Status
+		err := systemDatum.AssignPropertiesFromSystemDataStatus(source.SystemData)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataStatus() to populate field SystemData")
+		}
+		rule.SystemData = &systemDatum
+	} else {
+		rule.SystemData = nil
+	}
+
+	// Type
+	rule.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		rule.PropertyBag = propertyBag
+	} else {
+		rule.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToFirewallRuleStatus populates the provided destination FirewallRule_Status from our FirewallRule_Status
+func (rule *FirewallRule_Status) AssignPropertiesToFirewallRuleStatus(destination *v1beta20210501storage.FirewallRule_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(rule.PropertyBag)
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(rule.Conditions)
+
+	// EndIpAddress
+	destination.EndIpAddress = genruntime.ClonePointerToString(rule.EndIpAddress)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(rule.Id)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(rule.Name)
+
+	// StartIpAddress
+	destination.StartIpAddress = genruntime.ClonePointerToString(rule.StartIpAddress)
+
+	// SystemData
+	if rule.SystemData != nil {
+		var systemDatum v1beta20210501storage.SystemData_Status
+		err := rule.SystemData.AssignPropertiesToSystemDataStatus(&systemDatum)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSystemDataStatus() to populate field SystemData")
+		}
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
+	}
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(rule.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 //Storage version of v1alpha1api20210501.FlexibleServersFirewallRules_Spec
@@ -184,20 +377,134 @@ var _ genruntime.ConvertibleSpec = &FlexibleServersFirewallRules_Spec{}
 
 // ConvertSpecFrom populates our FlexibleServersFirewallRules_Spec from the provided source
 func (rules *FlexibleServersFirewallRules_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == rules {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	src, ok := source.(*v1beta20210501storage.FlexibleServersFirewallRules_Spec)
+	if ok {
+		// Populate our instance from source
+		return rules.AssignPropertiesFromFlexibleServersFirewallRulesSpec(src)
 	}
 
-	return source.ConvertSpecTo(rules)
+	// Convert to an intermediate form
+	src = &v1beta20210501storage.FlexibleServersFirewallRules_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = rules.AssignPropertiesFromFlexibleServersFirewallRulesSpec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
 }
 
 // ConvertSpecTo populates the provided destination from our FlexibleServersFirewallRules_Spec
 func (rules *FlexibleServersFirewallRules_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == rules {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	dst, ok := destination.(*v1beta20210501storage.FlexibleServersFirewallRules_Spec)
+	if ok {
+		// Populate destination from our instance
+		return rules.AssignPropertiesToFlexibleServersFirewallRulesSpec(dst)
 	}
 
-	return destination.ConvertSpecFrom(rules)
+	// Convert to an intermediate form
+	dst = &v1beta20210501storage.FlexibleServersFirewallRules_Spec{}
+	err := rules.AssignPropertiesToFlexibleServersFirewallRulesSpec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignPropertiesFromFlexibleServersFirewallRulesSpec populates our FlexibleServersFirewallRules_Spec from the provided source FlexibleServersFirewallRules_Spec
+func (rules *FlexibleServersFirewallRules_Spec) AssignPropertiesFromFlexibleServersFirewallRulesSpec(source *v1beta20210501storage.FlexibleServersFirewallRules_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AzureName
+	rules.AzureName = source.AzureName
+
+	// EndIpAddress
+	rules.EndIpAddress = genruntime.ClonePointerToString(source.EndIpAddress)
+
+	// Location
+	rules.Location = genruntime.ClonePointerToString(source.Location)
+
+	// OriginalVersion
+	rules.OriginalVersion = source.OriginalVersion
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		rules.Owner = &owner
+	} else {
+		rules.Owner = nil
+	}
+
+	// StartIpAddress
+	rules.StartIpAddress = genruntime.ClonePointerToString(source.StartIpAddress)
+
+	// Tags
+	rules.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		rules.PropertyBag = propertyBag
+	} else {
+		rules.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToFlexibleServersFirewallRulesSpec populates the provided destination FlexibleServersFirewallRules_Spec from our FlexibleServersFirewallRules_Spec
+func (rules *FlexibleServersFirewallRules_Spec) AssignPropertiesToFlexibleServersFirewallRulesSpec(destination *v1beta20210501storage.FlexibleServersFirewallRules_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(rules.PropertyBag)
+
+	// AzureName
+	destination.AzureName = rules.AzureName
+
+	// EndIpAddress
+	destination.EndIpAddress = genruntime.ClonePointerToString(rules.EndIpAddress)
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(rules.Location)
+
+	// OriginalVersion
+	destination.OriginalVersion = rules.OriginalVersion
+
+	// Owner
+	if rules.Owner != nil {
+		owner := rules.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// StartIpAddress
+	destination.StartIpAddress = genruntime.ClonePointerToString(rules.StartIpAddress)
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(rules.Tags)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 func init() {

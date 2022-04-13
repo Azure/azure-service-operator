@@ -1,0 +1,13 @@
+apiVersion: documentdb.azure.com/v1beta20210515
+kind: DatabaseAccount
+metadata:
+  name: sample-db-account
+  namespace: default
+spec:
+  location: westcentralus
+  owner:
+    name: aso-sample-rg
+  kind: MongoDB
+  databaseAccountOfferType: Standard
+  locations:
+    - locationName: westcentralus

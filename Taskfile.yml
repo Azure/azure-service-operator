@@ -20,7 +20,7 @@ vars:
     # Version tags for the v2 controller must start with "v2", e.g. "v2.0.0-alpha.0".
     sh: "{{.SCRIPTS_ROOT}}/build-version.py v2"
 
-  LATEST_VERSION_TAG: $(git describe --tags $(git rev-list --tags --max-count=1))
+  LATEST_VERSION_TAG: $(git describe --tags $(git rev-list --tags=v2* --max-count=1))
 
   VERSION_FLAGS: -ldflags "-X {{.PACKAGE}}/internal/version.BuildVersion={{.VERSION}}"
 

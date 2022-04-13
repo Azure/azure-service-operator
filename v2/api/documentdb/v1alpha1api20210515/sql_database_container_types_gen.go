@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_containers
+//Deprecated version of SqlDatabaseContainer. Use v1beta20210515.SqlDatabaseContainer instead
 type SqlDatabaseContainer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -48,22 +48,36 @@ var _ conversion.Convertible = &SqlDatabaseContainer{}
 
 // ConvertFrom populates our SqlDatabaseContainer from the provided hub SqlDatabaseContainer
 func (container *SqlDatabaseContainer) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1alpha1api20210515storage.SqlDatabaseContainer)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v1alpha1api20210515storage/SqlDatabaseContainer but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v1alpha1api20210515storage.SqlDatabaseContainer
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return container.AssignPropertiesFromSqlDatabaseContainer(source)
+	err = container.AssignPropertiesFromSqlDatabaseContainer(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to container")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub SqlDatabaseContainer from our SqlDatabaseContainer
 func (container *SqlDatabaseContainer) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1alpha1api20210515storage.SqlDatabaseContainer)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v1alpha1api20210515storage/SqlDatabaseContainer but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v1alpha1api20210515storage.SqlDatabaseContainer
+	err := container.AssignPropertiesToSqlDatabaseContainer(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from container")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return container.AssignPropertiesToSqlDatabaseContainer(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-documentdb-azure-com-v1alpha1api20210515-sqldatabasecontainer,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=documentdb.azure.com,resources=sqldatabasecontainers,verbs=create;update,versions=v1alpha1api20210515,name=default.v1alpha1api20210515.sqldatabasecontainers.documentdb.azure.com,admissionReviewVersions=v1beta1
@@ -300,29 +314,19 @@ func (container *SqlDatabaseContainer) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_containers
+//Deprecated version of SqlDatabaseContainer. Use v1beta20210515.SqlDatabaseContainer instead
 type SqlDatabaseContainerList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []SqlDatabaseContainer `json:"items"`
 }
 
-// +kubebuilder:validation:Enum={"2021-05-15"}
-type DatabaseAccountsSqlDatabasesContainersSpecAPIVersion string
-
-const DatabaseAccountsSqlDatabasesContainersSpecAPIVersion20210515 = DatabaseAccountsSqlDatabasesContainersSpecAPIVersion("2021-05-15")
-
 type DatabaseAccountsSqlDatabasesContainers_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	//Location: The location of the resource group to which the resource belongs.
-	Location *string `json:"location,omitempty"`
-
-	//Options: CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are "If-Match",
-	//"If-None-Match", "Session-Token" and "Throughput"
-	Options *CreateUpdateOptions `json:"options,omitempty"`
+	AzureName string               `json:"azureName,omitempty"`
+	Location  *string              `json:"location,omitempty"`
+	Options   *CreateUpdateOptions `json:"options,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -331,15 +335,8 @@ type DatabaseAccountsSqlDatabasesContainers_Spec struct {
 	Owner *genruntime.KnownResourceReference `group:"documentdb.azure.com" json:"owner,omitempty" kind:"SqlDatabase"`
 
 	// +kubebuilder:validation:Required
-	//Resource: Cosmos DB SQL container resource object
 	Resource *SqlContainerResource `json:"resource,omitempty"`
-
-	//Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
-	//resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
-	//greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
-	//type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph",
-	//"DocumentDB", and "MongoDB".
-	Tags map[string]string `json:"tags,omitempty"`
+	Tags     map[string]string     `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &DatabaseAccountsSqlDatabasesContainers_Spec{}
@@ -625,24 +622,17 @@ func (containers *DatabaseAccountsSqlDatabasesContainers_Spec) SetAzureName(azur
 	containers.AzureName = azureName
 }
 
+//Deprecated version of SqlContainerGetResults_Status. Use v1beta20210515.SqlContainerGetResults_Status instead
 type SqlContainerGetResults_Status struct {
 	//Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	//Id: The unique resource identifier of the ARM resource.
-	Id *string `json:"id,omitempty"`
-
-	//Location: The location of the resource group to which the resource belongs.
-	Location *string `json:"location,omitempty"`
-
-	//Name: The name of the ARM resource.
-	Name     *string                                    `json:"name,omitempty"`
-	Options  *OptionsResource_Status                    `json:"options,omitempty"`
-	Resource *SqlContainerGetProperties_Status_Resource `json:"resource,omitempty"`
-	Tags     map[string]string                          `json:"tags,omitempty"`
-
-	//Type: The type of Azure resource.
-	Type *string `json:"type,omitempty"`
+	Conditions []conditions.Condition                     `json:"conditions,omitempty"`
+	Id         *string                                    `json:"id,omitempty"`
+	Location   *string                                    `json:"location,omitempty"`
+	Name       *string                                    `json:"name,omitempty"`
+	Options    *OptionsResource_Status                    `json:"options,omitempty"`
+	Resource   *SqlContainerGetProperties_Status_Resource `json:"resource,omitempty"`
+	Tags       map[string]string                          `json:"tags,omitempty"`
+	Type       *string                                    `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &SqlContainerGetResults_Status{}
@@ -882,38 +872,18 @@ func (results *SqlContainerGetResults_Status) AssignPropertiesToSqlContainerGetR
 	return nil
 }
 
+//Deprecated version of SqlContainerGetProperties_Status_Resource. Use v1beta20210515.SqlContainerGetProperties_Status_Resource instead
 type SqlContainerGetProperties_Status_Resource struct {
-	//AnalyticalStorageTtl: Analytical TTL.
-	AnalyticalStorageTtl *int `json:"analyticalStorageTtl,omitempty"`
-
-	//ConflictResolutionPolicy: The conflict resolution policy for the container.
+	AnalyticalStorageTtl     *int                             `json:"analyticalStorageTtl,omitempty"`
 	ConflictResolutionPolicy *ConflictResolutionPolicy_Status `json:"conflictResolutionPolicy,omitempty"`
-
-	//DefaultTtl: Default time to live
-	DefaultTtl *int `json:"defaultTtl,omitempty"`
-
-	//Etag: A system generated property representing the resource etag required for optimistic concurrency control.
-	Etag *string `json:"_etag,omitempty"`
-
-	//Id: Name of the Cosmos DB SQL container
-	Id *string `json:"id,omitempty"`
-
-	//IndexingPolicy: The configuration of the indexing policy. By default, the indexing is automatic for all document paths
-	//within the container
-	IndexingPolicy *IndexingPolicy_Status `json:"indexingPolicy,omitempty"`
-
-	//PartitionKey: The configuration of the partition key to be used for partitioning data into multiple partitions
-	PartitionKey *ContainerPartitionKey_Status `json:"partitionKey,omitempty"`
-
-	//Rid: A system generated property. A unique identifier.
-	Rid *string `json:"_rid,omitempty"`
-
-	//Ts: A system generated property that denotes the last updated timestamp of the resource.
-	Ts *float64 `json:"_ts,omitempty"`
-
-	//UniqueKeyPolicy: The unique key policy configuration for specifying uniqueness constraints on documents in the
-	//collection in the Azure Cosmos DB service.
-	UniqueKeyPolicy *UniqueKeyPolicy_Status `json:"uniqueKeyPolicy,omitempty"`
+	DefaultTtl               *int                             `json:"defaultTtl,omitempty"`
+	Etag                     *string                          `json:"_etag,omitempty"`
+	Id                       *string                          `json:"id,omitempty"`
+	IndexingPolicy           *IndexingPolicy_Status           `json:"indexingPolicy,omitempty"`
+	PartitionKey             *ContainerPartitionKey_Status    `json:"partitionKey,omitempty"`
+	Rid                      *string                          `json:"_rid,omitempty"`
+	Ts                       *float64                         `json:"_ts,omitempty"`
+	UniqueKeyPolicy          *UniqueKeyPolicy_Status          `json:"uniqueKeyPolicy,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &SqlContainerGetProperties_Status_Resource{}
@@ -1179,30 +1149,17 @@ func (resource *SqlContainerGetProperties_Status_Resource) AssignPropertiesToSql
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlContainerResource
+//Deprecated version of SqlContainerResource. Use v1beta20210515.SqlContainerResource instead
 type SqlContainerResource struct {
-	//AnalyticalStorageTtl: Analytical TTL.
-	AnalyticalStorageTtl *int `json:"analyticalStorageTtl,omitempty"`
-
-	//ConflictResolutionPolicy: The conflict resolution policy for the container.
+	AnalyticalStorageTtl     *int                      `json:"analyticalStorageTtl,omitempty"`
 	ConflictResolutionPolicy *ConflictResolutionPolicy `json:"conflictResolutionPolicy,omitempty"`
-
-	//DefaultTtl: Default time to live
-	DefaultTtl *int `json:"defaultTtl,omitempty"`
+	DefaultTtl               *int                      `json:"defaultTtl,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Id: Name of the Cosmos DB SQL container
-	Id *string `json:"id,omitempty"`
-
-	//IndexingPolicy: Cosmos DB indexing policy
-	IndexingPolicy *IndexingPolicy `json:"indexingPolicy,omitempty"`
-
-	//PartitionKey: The configuration of the partition key to be used for partitioning data into multiple partitions
-	PartitionKey *ContainerPartitionKey `json:"partitionKey,omitempty"`
-
-	//UniqueKeyPolicy: The unique key policy configuration for specifying uniqueness constraints on documents in the
-	//collection in the Azure Cosmos DB service.
-	UniqueKeyPolicy *UniqueKeyPolicy `json:"uniqueKeyPolicy,omitempty"`
+	Id              *string                `json:"id,omitempty"`
+	IndexingPolicy  *IndexingPolicy        `json:"indexingPolicy,omitempty"`
+	PartitionKey    *ContainerPartitionKey `json:"partitionKey,omitempty"`
+	UniqueKeyPolicy *UniqueKeyPolicy       `json:"uniqueKeyPolicy,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &SqlContainerResource{}
@@ -1489,16 +1446,11 @@ func (resource *SqlContainerResource) AssignPropertiesToSqlContainerResource(des
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ConflictResolutionPolicy
+//Deprecated version of ConflictResolutionPolicy. Use v1beta20210515.ConflictResolutionPolicy instead
 type ConflictResolutionPolicy struct {
-	//ConflictResolutionPath: The conflict resolution path in the case of LastWriterWins mode.
-	ConflictResolutionPath *string `json:"conflictResolutionPath,omitempty"`
-
-	//ConflictResolutionProcedure: The procedure to resolve conflicts in the case of custom mode.
-	ConflictResolutionProcedure *string `json:"conflictResolutionProcedure,omitempty"`
-
-	//Mode: Indicates the conflict resolution mode.
-	Mode *ConflictResolutionPolicyMode `json:"mode,omitempty"`
+	ConflictResolutionPath      *string                       `json:"conflictResolutionPath,omitempty"`
+	ConflictResolutionProcedure *string                       `json:"conflictResolutionProcedure,omitempty"`
+	Mode                        *ConflictResolutionPolicyMode `json:"mode,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ConflictResolutionPolicy{}
@@ -1615,15 +1567,11 @@ func (policy *ConflictResolutionPolicy) AssignPropertiesToConflictResolutionPoli
 	return nil
 }
 
+//Deprecated version of ConflictResolutionPolicy_Status. Use v1beta20210515.ConflictResolutionPolicy_Status instead
 type ConflictResolutionPolicy_Status struct {
-	//ConflictResolutionPath: The conflict resolution path in the case of LastWriterWins mode.
-	ConflictResolutionPath *string `json:"conflictResolutionPath,omitempty"`
-
-	//ConflictResolutionProcedure: The procedure to resolve conflicts in the case of custom mode.
-	ConflictResolutionProcedure *string `json:"conflictResolutionProcedure,omitempty"`
-
-	//Mode: Indicates the conflict resolution mode.
-	Mode *ConflictResolutionPolicyStatusMode `json:"mode,omitempty"`
+	ConflictResolutionPath      *string                             `json:"conflictResolutionPath,omitempty"`
+	ConflictResolutionProcedure *string                             `json:"conflictResolutionProcedure,omitempty"`
+	Mode                        *ConflictResolutionPolicyStatusMode `json:"mode,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ConflictResolutionPolicy_Status{}
@@ -1713,18 +1661,13 @@ func (policy *ConflictResolutionPolicy_Status) AssignPropertiesToConflictResolut
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ContainerPartitionKey
+//Deprecated version of ContainerPartitionKey. Use v1beta20210515.ContainerPartitionKey instead
 type ContainerPartitionKey struct {
-	//Kind: Indicates the kind of algorithm used for partitioning. For MultiHash, multiple partition keys (upto three maximum)
-	//are supported for container create.
-	Kind *ContainerPartitionKeyKind `json:"kind,omitempty"`
-
-	//Paths: List of paths using which data within the container can be partitioned
-	Paths []string `json:"paths,omitempty"`
+	Kind  *ContainerPartitionKeyKind `json:"kind,omitempty"`
+	Paths []string                   `json:"paths,omitempty"`
 
 	// +kubebuilder:validation:Maximum=2
 	// +kubebuilder:validation:Minimum=1
-	//Version: Indicates the version of the partition key definition
 	Version *int `json:"version,omitempty"`
 }
 
@@ -1850,19 +1793,12 @@ func (partitionKey *ContainerPartitionKey) AssignPropertiesToContainerPartitionK
 	return nil
 }
 
+//Deprecated version of ContainerPartitionKey_Status. Use v1beta20210515.ContainerPartitionKey_Status instead
 type ContainerPartitionKey_Status struct {
-	//Kind: Indicates the kind of algorithm used for partitioning. For MultiHash, multiple partition keys (upto three maximum)
-	//are supported for container create
-	Kind *ContainerPartitionKeyStatusKind `json:"kind,omitempty"`
-
-	//Paths: List of paths using which data within the container can be partitioned
-	Paths []string `json:"paths,omitempty"`
-
-	//SystemKey: Indicates if the container is using a system generated partition key
-	SystemKey *bool `json:"systemKey,omitempty"`
-
-	//Version: Indicates the version of the partition key definition
-	Version *int `json:"version,omitempty"`
+	Kind      *ContainerPartitionKeyStatusKind `json:"kind,omitempty"`
+	Paths     []string                         `json:"paths,omitempty"`
+	SystemKey *bool                            `json:"systemKey,omitempty"`
+	Version   *int                             `json:"version,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ContainerPartitionKey_Status{}
@@ -1973,25 +1909,14 @@ func (partitionKey *ContainerPartitionKey_Status) AssignPropertiesToContainerPar
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/IndexingPolicy
+//Deprecated version of IndexingPolicy. Use v1beta20210515.IndexingPolicy instead
 type IndexingPolicy struct {
-	//Automatic: Indicates if the indexing policy is automatic
-	Automatic *bool `json:"automatic,omitempty"`
-
-	//CompositeIndexes: List of composite path list
-	CompositeIndexes [][]CompositePath `json:"compositeIndexes,omitempty"`
-
-	//ExcludedPaths: List of paths to exclude from indexing
-	ExcludedPaths []ExcludedPath `json:"excludedPaths,omitempty"`
-
-	//IncludedPaths: List of paths to include in the indexing
-	IncludedPaths []IncludedPath `json:"includedPaths,omitempty"`
-
-	//IndexingMode: Indicates the indexing mode.
-	IndexingMode *IndexingPolicyIndexingMode `json:"indexingMode,omitempty"`
-
-	//SpatialIndexes: List of spatial specifics
-	SpatialIndexes []SpatialSpec `json:"spatialIndexes,omitempty"`
+	Automatic        *bool                       `json:"automatic,omitempty"`
+	CompositeIndexes [][]CompositePath           `json:"compositeIndexes,omitempty"`
+	ExcludedPaths    []ExcludedPath              `json:"excludedPaths,omitempty"`
+	IncludedPaths    []IncludedPath              `json:"includedPaths,omitempty"`
+	IndexingMode     *IndexingPolicyIndexingMode `json:"indexingMode,omitempty"`
+	SpatialIndexes   []SpatialSpec               `json:"spatialIndexes,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &IndexingPolicy{}
@@ -2348,24 +2273,14 @@ func (policy *IndexingPolicy) AssignPropertiesToIndexingPolicy(destination *v1al
 	return nil
 }
 
+//Deprecated version of IndexingPolicy_Status. Use v1beta20210515.IndexingPolicy_Status instead
 type IndexingPolicy_Status struct {
-	//Automatic: Indicates if the indexing policy is automatic
-	Automatic *bool `json:"automatic,omitempty"`
-
-	//CompositeIndexes: List of composite path list
-	CompositeIndexes [][]CompositePath_Status `json:"compositeIndexes,omitempty"`
-
-	//ExcludedPaths: List of paths to exclude from indexing
-	ExcludedPaths []ExcludedPath_Status `json:"excludedPaths,omitempty"`
-
-	//IncludedPaths: List of paths to include in the indexing
-	IncludedPaths []IncludedPath_Status `json:"includedPaths,omitempty"`
-
-	//IndexingMode: Indicates the indexing mode.
-	IndexingMode *IndexingPolicyStatusIndexingMode `json:"indexingMode,omitempty"`
-
-	//SpatialIndexes: List of spatial specifics
-	SpatialIndexes []SpatialSpec_Status `json:"spatialIndexes,omitempty"`
+	Automatic        *bool                             `json:"automatic,omitempty"`
+	CompositeIndexes [][]CompositePath_Status          `json:"compositeIndexes,omitempty"`
+	ExcludedPaths    []ExcludedPath_Status             `json:"excludedPaths,omitempty"`
+	IncludedPaths    []IncludedPath_Status             `json:"includedPaths,omitempty"`
+	IndexingMode     *IndexingPolicyStatusIndexingMode `json:"indexingMode,omitempty"`
+	SpatialIndexes   []SpatialSpec_Status              `json:"spatialIndexes,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &IndexingPolicy_Status{}
@@ -2661,10 +2576,8 @@ func (policy *IndexingPolicy_Status) AssignPropertiesToIndexingPolicyStatus(dest
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/UniqueKeyPolicy
+//Deprecated version of UniqueKeyPolicy. Use v1beta20210515.UniqueKeyPolicy instead
 type UniqueKeyPolicy struct {
-	//UniqueKeys: List of unique keys on that enforces uniqueness constraint on documents in the collection in the Azure
-	//Cosmos DB service.
 	UniqueKeys []UniqueKey `json:"uniqueKeys,omitempty"`
 }
 
@@ -2773,9 +2686,8 @@ func (policy *UniqueKeyPolicy) AssignPropertiesToUniqueKeyPolicy(destination *v1
 	return nil
 }
 
+//Deprecated version of UniqueKeyPolicy_Status. Use v1beta20210515.UniqueKeyPolicy_Status instead
 type UniqueKeyPolicy_Status struct {
-	//UniqueKeys: List of unique keys on that enforces uniqueness constraint on documents in the collection in the Azure
-	//Cosmos DB service.
 	UniqueKeys []UniqueKey_Status `json:"uniqueKeys,omitempty"`
 }
 
@@ -2866,14 +2778,10 @@ func (policy *UniqueKeyPolicy_Status) AssignPropertiesToUniqueKeyPolicyStatus(de
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/CompositePath
+//Deprecated version of CompositePath. Use v1beta20210515.CompositePath instead
 type CompositePath struct {
-	//Order: Sort order for composite paths.
 	Order *CompositePathOrder `json:"order,omitempty"`
-
-	//Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
-	//(/path/*)
-	Path *string `json:"path,omitempty"`
+	Path  *string             `json:"path,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &CompositePath{}
@@ -2972,13 +2880,10 @@ func (path *CompositePath) AssignPropertiesToCompositePath(destination *v1alpha1
 	return nil
 }
 
+//Deprecated version of CompositePath_Status. Use v1beta20210515.CompositePath_Status instead
 type CompositePath_Status struct {
-	//Order: Sort order for composite paths.
 	Order *CompositePathStatusOrder `json:"order,omitempty"`
-
-	//Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
-	//(/path/*)
-	Path *string `json:"path,omitempty"`
+	Path  *string                   `json:"path,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &CompositePath_Status{}
@@ -3056,10 +2961,8 @@ func (path *CompositePath_Status) AssignPropertiesToCompositePathStatus(destinat
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ExcludedPath
+//Deprecated version of ExcludedPath. Use v1beta20210515.ExcludedPath instead
 type ExcludedPath struct {
-	//Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
-	//(/path/*)
 	Path *string `json:"path,omitempty"`
 }
 
@@ -3131,9 +3034,8 @@ func (path *ExcludedPath) AssignPropertiesToExcludedPath(destination *v1alpha1ap
 	return nil
 }
 
+//Deprecated version of ExcludedPath_Status. Use v1beta20210515.ExcludedPath_Status instead
 type ExcludedPath_Status struct {
-	//Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
-	//(/path/*)
 	Path *string `json:"path,omitempty"`
 }
 
@@ -3190,14 +3092,10 @@ func (path *ExcludedPath_Status) AssignPropertiesToExcludedPathStatus(destinatio
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/IncludedPath
+//Deprecated version of IncludedPath. Use v1beta20210515.IncludedPath instead
 type IncludedPath struct {
-	//Indexes: List of indexes for this path
 	Indexes []Indexes `json:"indexes,omitempty"`
-
-	//Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
-	//(/path/*)
-	Path *string `json:"path,omitempty"`
+	Path    *string   `json:"path,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &IncludedPath{}
@@ -3323,13 +3221,10 @@ func (path *IncludedPath) AssignPropertiesToIncludedPath(destination *v1alpha1ap
 	return nil
 }
 
+//Deprecated version of IncludedPath_Status. Use v1beta20210515.IncludedPath_Status instead
 type IncludedPath_Status struct {
-	//Indexes: List of indexes for this path
 	Indexes []Indexes_Status `json:"indexes,omitempty"`
-
-	//Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
-	//(/path/*)
-	Path *string `json:"path,omitempty"`
+	Path    *string          `json:"path,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &IncludedPath_Status{}
@@ -3431,13 +3326,9 @@ func (path *IncludedPath_Status) AssignPropertiesToIncludedPathStatus(destinatio
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SpatialSpec
+//Deprecated version of SpatialSpec. Use v1beta20210515.SpatialSpec instead
 type SpatialSpec struct {
-	//Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
-	//(/path/*)
-	Path *string `json:"path,omitempty"`
-
-	//Types: List of path's spatial type
+	Path  *string            `json:"path,omitempty"`
 	Types []SpatialSpecTypes `json:"types,omitempty"`
 }
 
@@ -3545,12 +3436,9 @@ func (spatial *SpatialSpec) AssignPropertiesToSpatialSpec(destination *v1alpha1a
 	return nil
 }
 
+//Deprecated version of SpatialSpec_Status. Use v1beta20210515.SpatialSpec_Status instead
 type SpatialSpec_Status struct {
-	//Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
-	//(/path/*)
-	Path *string `json:"path,omitempty"`
-
-	//Types: List of path's spatial type
+	Path  *string              `json:"path,omitempty"`
 	Types []SpatialType_Status `json:"types,omitempty"`
 }
 
@@ -3638,9 +3526,8 @@ func (spatial *SpatialSpec_Status) AssignPropertiesToSpatialSpecStatus(destinati
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/UniqueKey
+//Deprecated version of UniqueKey. Use v1beta20210515.UniqueKey instead
 type UniqueKey struct {
-	//Paths: List of paths must be unique for each document in the Azure Cosmos DB service
 	Paths []string `json:"paths,omitempty"`
 }
 
@@ -3710,8 +3597,8 @@ func (uniqueKey *UniqueKey) AssignPropertiesToUniqueKey(destination *v1alpha1api
 	return nil
 }
 
+//Deprecated version of UniqueKey_Status. Use v1beta20210515.UniqueKey_Status instead
 type UniqueKey_Status struct {
-	//Paths: List of paths must be unique for each document in the Azure Cosmos DB service
 	Paths []string `json:"paths,omitempty"`
 }
 
@@ -3767,16 +3654,11 @@ func (uniqueKey *UniqueKey_Status) AssignPropertiesToUniqueKeyStatus(destination
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/Indexes
+//Deprecated version of Indexes. Use v1beta20210515.Indexes instead
 type Indexes struct {
-	//DataType: The datatype for which the indexing behavior is applied to.
-	DataType *IndexesDataType `json:"dataType,omitempty"`
-
-	//Kind: Indicates the type of index.
-	Kind *IndexesKind `json:"kind,omitempty"`
-
-	//Precision: The precision of the index. -1 is maximum precision.
-	Precision *int `json:"precision,omitempty"`
+	DataType  *IndexesDataType `json:"dataType,omitempty"`
+	Kind      *IndexesKind     `json:"kind,omitempty"`
+	Precision *int             `json:"precision,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Indexes{}
@@ -3903,15 +3785,11 @@ func (indexes *Indexes) AssignPropertiesToIndexes(destination *v1alpha1api202105
 	return nil
 }
 
+//Deprecated version of Indexes_Status. Use v1beta20210515.Indexes_Status instead
 type Indexes_Status struct {
-	//DataType: The datatype for which the indexing behavior is applied to.
-	DataType *IndexesStatusDataType `json:"dataType,omitempty"`
-
-	//Kind: Indicates the type of index.
-	Kind *IndexesStatusKind `json:"kind,omitempty"`
-
-	//Precision: The precision of the index. -1 is maximum precision.
-	Precision *int `json:"precision,omitempty"`
+	DataType  *IndexesStatusDataType `json:"dataType,omitempty"`
+	Kind      *IndexesStatusKind     `json:"kind,omitempty"`
+	Precision *int                   `json:"precision,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &Indexes_Status{}

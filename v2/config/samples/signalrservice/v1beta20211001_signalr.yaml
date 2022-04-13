@@ -1,0 +1,46 @@
+# Adapted from the quickstart example:
+# https://docs.microsoft.com/en-us/azure/azure-signalr/signalr-quickstart-azure-signalr-service-arm-template
+apiVersion: signalrservice.azure.com/v1beta20211001
+kind: SignalR
+metadata:
+  name: aso-sample-signalr
+  namespace: default
+spec:
+  location: westcentralus
+  owner:
+    name: aso-sample-rg
+  sku:
+    capacity: 1
+    name: Standard_S1
+  identity:
+    type: SystemAssigned
+  tls:
+    clientCertEnabled: false
+  features:
+    - flag: ServiceMode
+      value: Classic
+    - flag: EnableConnectivityLogs
+      value: "true"
+    - flag: EnableMessagingLogs
+      value: "true"
+    - flag: EnableLiveTrace
+      value: "true"
+  cors:
+    allowedOrigins:
+      - "https://foo.com"
+      - "https://bar.com"
+  networkAcls:
+    defaultAction: Deny
+    publicNetwork:
+      allow:
+        - ClientConnection
+    privateEndpoints:
+      - name: privateendpointname
+        allow:
+          - ServerConnection
+  upstream:
+    templates:
+      - categoryPattern: "*"
+        eventPattern: "connect,disconnect"
+        hubPattern: "*"
+        urlTemplate: "https://example.com/chat/api/connect"

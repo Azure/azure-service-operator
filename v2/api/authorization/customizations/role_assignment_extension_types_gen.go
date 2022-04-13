@@ -4,8 +4,10 @@
 package customizations
 
 import (
-	authorization "github.com/Azure/azure-service-operator/v2/api/authorization/v1alpha1api20200801preview"
+	authorizationv1alpha1api20200801preview "github.com/Azure/azure-service-operator/v2/api/authorization/v1alpha1api20200801preview"
 	"github.com/Azure/azure-service-operator/v2/api/authorization/v1alpha1api20200801previewstorage"
+	authorizationv1beta20200801preview "github.com/Azure/azure-service-operator/v2/api/authorization/v1beta20200801preview"
+	"github.com/Azure/azure-service-operator/v2/api/authorization/v1beta20200801previewstorage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -15,6 +17,8 @@ type RoleAssignmentExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *RoleAssignmentExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&authorization.RoleAssignment{},
-		&v1alpha1api20200801previewstorage.RoleAssignment{}}
+		&authorizationv1alpha1api20200801preview.RoleAssignment{},
+		&v1alpha1api20200801previewstorage.RoleAssignment{},
+		&authorizationv1beta20200801preview.RoleAssignment{},
+		&v1beta20200801previewstorage.RoleAssignment{}}
 }

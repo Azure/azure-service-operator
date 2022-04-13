@@ -4,25 +4,24 @@
 package v1alpha1api20210401storage
 
 import (
+	"fmt"
+	"github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
-
-// +kubebuilder:rbac:groups=storage.azure.com,resources=storageaccountsmanagementpolicies,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=storage.azure.com,resources={storageaccountsmanagementpolicies/status,storageaccountsmanagementpolicies/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 //Storage version of v1alpha1api20210401.StorageAccountsManagementPolicy
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/resourceDefinitions/storageAccounts_managementPolicies
+//Deprecated version of StorageAccountsManagementPolicy. Use v1beta20210401.StorageAccountsManagementPolicy instead
 type StorageAccountsManagementPolicy struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -40,6 +39,28 @@ func (policy *StorageAccountsManagementPolicy) GetConditions() conditions.Condit
 // SetConditions sets the conditions on the resource status
 func (policy *StorageAccountsManagementPolicy) SetConditions(conditions conditions.Conditions) {
 	policy.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &StorageAccountsManagementPolicy{}
+
+// ConvertFrom populates our StorageAccountsManagementPolicy from the provided hub StorageAccountsManagementPolicy
+func (policy *StorageAccountsManagementPolicy) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*v1beta20210401storage.StorageAccountsManagementPolicy)
+	if !ok {
+		return fmt.Errorf("expected storage/v1beta20210401storage/StorageAccountsManagementPolicy but received %T instead", hub)
+	}
+
+	return policy.AssignPropertiesFromStorageAccountsManagementPolicy(source)
+}
+
+// ConvertTo populates the provided hub StorageAccountsManagementPolicy from our StorageAccountsManagementPolicy
+func (policy *StorageAccountsManagementPolicy) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*v1beta20210401storage.StorageAccountsManagementPolicy)
+	if !ok {
+		return fmt.Errorf("expected storage/v1beta20210401storage/StorageAccountsManagementPolicy but received %T instead", hub)
+	}
+
+	return policy.AssignPropertiesToStorageAccountsManagementPolicy(destination)
 }
 
 var _ genruntime.KubernetesResource = &StorageAccountsManagementPolicy{}
@@ -108,8 +129,57 @@ func (policy *StorageAccountsManagementPolicy) SetStatus(status genruntime.Conve
 	return nil
 }
 
-// Hub marks that this StorageAccountsManagementPolicy is the hub type for conversion
-func (policy *StorageAccountsManagementPolicy) Hub() {}
+// AssignPropertiesFromStorageAccountsManagementPolicy populates our StorageAccountsManagementPolicy from the provided source StorageAccountsManagementPolicy
+func (policy *StorageAccountsManagementPolicy) AssignPropertiesFromStorageAccountsManagementPolicy(source *v1beta20210401storage.StorageAccountsManagementPolicy) error {
+
+	// ObjectMeta
+	policy.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec StorageAccountsManagementPolicies_Spec
+	err := spec.AssignPropertiesFromStorageAccountsManagementPoliciesSpec(&source.Spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesFromStorageAccountsManagementPoliciesSpec() to populate field Spec")
+	}
+	policy.Spec = spec
+
+	// Status
+	var status ManagementPolicy_Status
+	err = status.AssignPropertiesFromManagementPolicyStatus(&source.Status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesFromManagementPolicyStatus() to populate field Status")
+	}
+	policy.Status = status
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToStorageAccountsManagementPolicy populates the provided destination StorageAccountsManagementPolicy from our StorageAccountsManagementPolicy
+func (policy *StorageAccountsManagementPolicy) AssignPropertiesToStorageAccountsManagementPolicy(destination *v1beta20210401storage.StorageAccountsManagementPolicy) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *policy.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec v1beta20210401storage.StorageAccountsManagementPolicies_Spec
+	err := policy.Spec.AssignPropertiesToStorageAccountsManagementPoliciesSpec(&spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesToStorageAccountsManagementPoliciesSpec() to populate field Spec")
+	}
+	destination.Spec = spec
+
+	// Status
+	var status v1beta20210401storage.ManagementPolicy_Status
+	err = policy.Status.AssignPropertiesToManagementPolicyStatus(&status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesToManagementPolicyStatus() to populate field Status")
+	}
+	destination.Status = status
+
+	// No error
+	return nil
+}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (policy *StorageAccountsManagementPolicy) OriginalGVK() *schema.GroupVersionKind {
@@ -122,7 +192,7 @@ func (policy *StorageAccountsManagementPolicy) OriginalGVK() *schema.GroupVersio
 
 // +kubebuilder:object:root=true
 //Storage version of v1alpha1api20210401.StorageAccountsManagementPolicy
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/resourceDefinitions/storageAccounts_managementPolicies
+//Deprecated version of StorageAccountsManagementPolicy. Use v1beta20210401.StorageAccountsManagementPolicy instead
 type StorageAccountsManagementPolicyList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -130,6 +200,7 @@ type StorageAccountsManagementPolicyList struct {
 }
 
 //Storage version of v1alpha1api20210401.ManagementPolicy_Status
+//Deprecated version of ManagementPolicy_Status. Use v1beta20210401.ManagementPolicy_Status instead
 type ManagementPolicy_Status struct {
 	Conditions       []conditions.Condition         `json:"conditions,omitempty"`
 	Id               *string                        `json:"id,omitempty"`
@@ -144,20 +215,136 @@ var _ genruntime.ConvertibleStatus = &ManagementPolicy_Status{}
 
 // ConvertStatusFrom populates our ManagementPolicy_Status from the provided source
 func (policy *ManagementPolicy_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == policy {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	src, ok := source.(*v1beta20210401storage.ManagementPolicy_Status)
+	if ok {
+		// Populate our instance from source
+		return policy.AssignPropertiesFromManagementPolicyStatus(src)
 	}
 
-	return source.ConvertStatusTo(policy)
+	// Convert to an intermediate form
+	src = &v1beta20210401storage.ManagementPolicy_Status{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = policy.AssignPropertiesFromManagementPolicyStatus(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
 }
 
 // ConvertStatusTo populates the provided destination from our ManagementPolicy_Status
 func (policy *ManagementPolicy_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == policy {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	dst, ok := destination.(*v1beta20210401storage.ManagementPolicy_Status)
+	if ok {
+		// Populate destination from our instance
+		return policy.AssignPropertiesToManagementPolicyStatus(dst)
 	}
 
-	return destination.ConvertStatusFrom(policy)
+	// Convert to an intermediate form
+	dst = &v1beta20210401storage.ManagementPolicy_Status{}
+	err := policy.AssignPropertiesToManagementPolicyStatus(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+// AssignPropertiesFromManagementPolicyStatus populates our ManagementPolicy_Status from the provided source ManagementPolicy_Status
+func (policy *ManagementPolicy_Status) AssignPropertiesFromManagementPolicyStatus(source *v1beta20210401storage.ManagementPolicy_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Conditions
+	policy.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// Id
+	policy.Id = genruntime.ClonePointerToString(source.Id)
+
+	// LastModifiedTime
+	policy.LastModifiedTime = genruntime.ClonePointerToString(source.LastModifiedTime)
+
+	// Name
+	policy.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Policy
+	if source.Policy != nil {
+		var policyLocal ManagementPolicySchema_Status
+		err := policyLocal.AssignPropertiesFromManagementPolicySchemaStatus(source.Policy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromManagementPolicySchemaStatus() to populate field Policy")
+		}
+		policy.Policy = &policyLocal
+	} else {
+		policy.Policy = nil
+	}
+
+	// Type
+	policy.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		policy.PropertyBag = propertyBag
+	} else {
+		policy.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToManagementPolicyStatus populates the provided destination ManagementPolicy_Status from our ManagementPolicy_Status
+func (policy *ManagementPolicy_Status) AssignPropertiesToManagementPolicyStatus(destination *v1beta20210401storage.ManagementPolicy_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(policy.Conditions)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(policy.Id)
+
+	// LastModifiedTime
+	destination.LastModifiedTime = genruntime.ClonePointerToString(policy.LastModifiedTime)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(policy.Name)
+
+	// Policy
+	if policy.Policy != nil {
+		var policyLocal v1beta20210401storage.ManagementPolicySchema_Status
+		err := policy.Policy.AssignPropertiesToManagementPolicySchemaStatus(&policyLocal)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToManagementPolicySchemaStatus() to populate field Policy")
+		}
+		destination.Policy = &policyLocal
+	} else {
+		destination.Policy = nil
+	}
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(policy.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 //Storage version of v1alpha1api20210401.StorageAccountsManagementPolicies_Spec
@@ -178,37 +365,288 @@ var _ genruntime.ConvertibleSpec = &StorageAccountsManagementPolicies_Spec{}
 
 // ConvertSpecFrom populates our StorageAccountsManagementPolicies_Spec from the provided source
 func (policies *StorageAccountsManagementPolicies_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == policies {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	src, ok := source.(*v1beta20210401storage.StorageAccountsManagementPolicies_Spec)
+	if ok {
+		// Populate our instance from source
+		return policies.AssignPropertiesFromStorageAccountsManagementPoliciesSpec(src)
 	}
 
-	return source.ConvertSpecTo(policies)
+	// Convert to an intermediate form
+	src = &v1beta20210401storage.StorageAccountsManagementPolicies_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = policies.AssignPropertiesFromStorageAccountsManagementPoliciesSpec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
 }
 
 // ConvertSpecTo populates the provided destination from our StorageAccountsManagementPolicies_Spec
 func (policies *StorageAccountsManagementPolicies_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == policies {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	dst, ok := destination.(*v1beta20210401storage.StorageAccountsManagementPolicies_Spec)
+	if ok {
+		// Populate destination from our instance
+		return policies.AssignPropertiesToStorageAccountsManagementPoliciesSpec(dst)
 	}
 
-	return destination.ConvertSpecFrom(policies)
+	// Convert to an intermediate form
+	dst = &v1beta20210401storage.StorageAccountsManagementPolicies_Spec{}
+	err := policies.AssignPropertiesToStorageAccountsManagementPoliciesSpec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignPropertiesFromStorageAccountsManagementPoliciesSpec populates our StorageAccountsManagementPolicies_Spec from the provided source StorageAccountsManagementPolicies_Spec
+func (policies *StorageAccountsManagementPolicies_Spec) AssignPropertiesFromStorageAccountsManagementPoliciesSpec(source *v1beta20210401storage.StorageAccountsManagementPolicies_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// OriginalVersion
+	policies.OriginalVersion = source.OriginalVersion
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		policies.Owner = &owner
+	} else {
+		policies.Owner = nil
+	}
+
+	// Policy
+	if source.Policy != nil {
+		var policy ManagementPolicySchema
+		err := policy.AssignPropertiesFromManagementPolicySchema(source.Policy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromManagementPolicySchema() to populate field Policy")
+		}
+		policies.Policy = &policy
+	} else {
+		policies.Policy = nil
+	}
+
+	// Tags
+	policies.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		policies.PropertyBag = propertyBag
+	} else {
+		policies.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToStorageAccountsManagementPoliciesSpec populates the provided destination StorageAccountsManagementPolicies_Spec from our StorageAccountsManagementPolicies_Spec
+func (policies *StorageAccountsManagementPolicies_Spec) AssignPropertiesToStorageAccountsManagementPoliciesSpec(destination *v1beta20210401storage.StorageAccountsManagementPolicies_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(policies.PropertyBag)
+
+	// OriginalVersion
+	destination.OriginalVersion = policies.OriginalVersion
+
+	// Owner
+	if policies.Owner != nil {
+		owner := policies.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// Policy
+	if policies.Policy != nil {
+		var policy v1beta20210401storage.ManagementPolicySchema
+		err := policies.Policy.AssignPropertiesToManagementPolicySchema(&policy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToManagementPolicySchema() to populate field Policy")
+		}
+		destination.Policy = &policy
+	} else {
+		destination.Policy = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(policies.Tags)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 //Storage version of v1alpha1api20210401.ManagementPolicySchema
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ManagementPolicySchema
+//Deprecated version of ManagementPolicySchema. Use v1beta20210401.ManagementPolicySchema instead
 type ManagementPolicySchema struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Rules       []ManagementPolicyRule `json:"rules,omitempty"`
 }
 
+// AssignPropertiesFromManagementPolicySchema populates our ManagementPolicySchema from the provided source ManagementPolicySchema
+func (schema *ManagementPolicySchema) AssignPropertiesFromManagementPolicySchema(source *v1beta20210401storage.ManagementPolicySchema) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Rules
+	if source.Rules != nil {
+		ruleList := make([]ManagementPolicyRule, len(source.Rules))
+		for ruleIndex, ruleItem := range source.Rules {
+			// Shadow the loop variable to avoid aliasing
+			ruleItem := ruleItem
+			var rule ManagementPolicyRule
+			err := rule.AssignPropertiesFromManagementPolicyRule(&ruleItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromManagementPolicyRule() to populate field Rules")
+			}
+			ruleList[ruleIndex] = rule
+		}
+		schema.Rules = ruleList
+	} else {
+		schema.Rules = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		schema.PropertyBag = propertyBag
+	} else {
+		schema.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToManagementPolicySchema populates the provided destination ManagementPolicySchema from our ManagementPolicySchema
+func (schema *ManagementPolicySchema) AssignPropertiesToManagementPolicySchema(destination *v1beta20210401storage.ManagementPolicySchema) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(schema.PropertyBag)
+
+	// Rules
+	if schema.Rules != nil {
+		ruleList := make([]v1beta20210401storage.ManagementPolicyRule, len(schema.Rules))
+		for ruleIndex, ruleItem := range schema.Rules {
+			// Shadow the loop variable to avoid aliasing
+			ruleItem := ruleItem
+			var rule v1beta20210401storage.ManagementPolicyRule
+			err := ruleItem.AssignPropertiesToManagementPolicyRule(&rule)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToManagementPolicyRule() to populate field Rules")
+			}
+			ruleList[ruleIndex] = rule
+		}
+		destination.Rules = ruleList
+	} else {
+		destination.Rules = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210401.ManagementPolicySchema_Status
+//Deprecated version of ManagementPolicySchema_Status. Use v1beta20210401.ManagementPolicySchema_Status instead
 type ManagementPolicySchema_Status struct {
 	PropertyBag genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	Rules       []ManagementPolicyRule_Status `json:"rules,omitempty"`
 }
 
+// AssignPropertiesFromManagementPolicySchemaStatus populates our ManagementPolicySchema_Status from the provided source ManagementPolicySchema_Status
+func (schema *ManagementPolicySchema_Status) AssignPropertiesFromManagementPolicySchemaStatus(source *v1beta20210401storage.ManagementPolicySchema_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Rules
+	if source.Rules != nil {
+		ruleList := make([]ManagementPolicyRule_Status, len(source.Rules))
+		for ruleIndex, ruleItem := range source.Rules {
+			// Shadow the loop variable to avoid aliasing
+			ruleItem := ruleItem
+			var rule ManagementPolicyRule_Status
+			err := rule.AssignPropertiesFromManagementPolicyRuleStatus(&ruleItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromManagementPolicyRuleStatus() to populate field Rules")
+			}
+			ruleList[ruleIndex] = rule
+		}
+		schema.Rules = ruleList
+	} else {
+		schema.Rules = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		schema.PropertyBag = propertyBag
+	} else {
+		schema.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToManagementPolicySchemaStatus populates the provided destination ManagementPolicySchema_Status from our ManagementPolicySchema_Status
+func (schema *ManagementPolicySchema_Status) AssignPropertiesToManagementPolicySchemaStatus(destination *v1beta20210401storage.ManagementPolicySchema_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(schema.PropertyBag)
+
+	// Rules
+	if schema.Rules != nil {
+		ruleList := make([]v1beta20210401storage.ManagementPolicyRule_Status, len(schema.Rules))
+		for ruleIndex, ruleItem := range schema.Rules {
+			// Shadow the loop variable to avoid aliasing
+			ruleItem := ruleItem
+			var rule v1beta20210401storage.ManagementPolicyRule_Status
+			err := ruleItem.AssignPropertiesToManagementPolicyRuleStatus(&rule)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToManagementPolicyRuleStatus() to populate field Rules")
+			}
+			ruleList[ruleIndex] = rule
+		}
+		destination.Rules = ruleList
+	} else {
+		destination.Rules = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210401.ManagementPolicyRule
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ManagementPolicyRule
+//Deprecated version of ManagementPolicyRule. Use v1beta20210401.ManagementPolicyRule instead
 type ManagementPolicyRule struct {
 	Definition  *ManagementPolicyDefinition `json:"definition,omitempty"`
 	Enabled     *bool                       `json:"enabled,omitempty"`
@@ -217,7 +655,92 @@ type ManagementPolicyRule struct {
 	Type        *string                     `json:"type,omitempty"`
 }
 
+// AssignPropertiesFromManagementPolicyRule populates our ManagementPolicyRule from the provided source ManagementPolicyRule
+func (rule *ManagementPolicyRule) AssignPropertiesFromManagementPolicyRule(source *v1beta20210401storage.ManagementPolicyRule) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Definition
+	if source.Definition != nil {
+		var definition ManagementPolicyDefinition
+		err := definition.AssignPropertiesFromManagementPolicyDefinition(source.Definition)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromManagementPolicyDefinition() to populate field Definition")
+		}
+		rule.Definition = &definition
+	} else {
+		rule.Definition = nil
+	}
+
+	// Enabled
+	if source.Enabled != nil {
+		enabled := *source.Enabled
+		rule.Enabled = &enabled
+	} else {
+		rule.Enabled = nil
+	}
+
+	// Name
+	rule.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Type
+	rule.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		rule.PropertyBag = propertyBag
+	} else {
+		rule.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToManagementPolicyRule populates the provided destination ManagementPolicyRule from our ManagementPolicyRule
+func (rule *ManagementPolicyRule) AssignPropertiesToManagementPolicyRule(destination *v1beta20210401storage.ManagementPolicyRule) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(rule.PropertyBag)
+
+	// Definition
+	if rule.Definition != nil {
+		var definition v1beta20210401storage.ManagementPolicyDefinition
+		err := rule.Definition.AssignPropertiesToManagementPolicyDefinition(&definition)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToManagementPolicyDefinition() to populate field Definition")
+		}
+		destination.Definition = &definition
+	} else {
+		destination.Definition = nil
+	}
+
+	// Enabled
+	if rule.Enabled != nil {
+		enabled := *rule.Enabled
+		destination.Enabled = &enabled
+	} else {
+		destination.Enabled = nil
+	}
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(rule.Name)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(rule.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210401.ManagementPolicyRule_Status
+//Deprecated version of ManagementPolicyRule_Status. Use v1beta20210401.ManagementPolicyRule_Status instead
 type ManagementPolicyRule_Status struct {
 	Definition  *ManagementPolicyDefinition_Status `json:"definition,omitempty"`
 	Enabled     *bool                              `json:"enabled,omitempty"`
@@ -226,23 +749,268 @@ type ManagementPolicyRule_Status struct {
 	Type        *string                            `json:"type,omitempty"`
 }
 
+// AssignPropertiesFromManagementPolicyRuleStatus populates our ManagementPolicyRule_Status from the provided source ManagementPolicyRule_Status
+func (rule *ManagementPolicyRule_Status) AssignPropertiesFromManagementPolicyRuleStatus(source *v1beta20210401storage.ManagementPolicyRule_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Definition
+	if source.Definition != nil {
+		var definition ManagementPolicyDefinition_Status
+		err := definition.AssignPropertiesFromManagementPolicyDefinitionStatus(source.Definition)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromManagementPolicyDefinitionStatus() to populate field Definition")
+		}
+		rule.Definition = &definition
+	} else {
+		rule.Definition = nil
+	}
+
+	// Enabled
+	if source.Enabled != nil {
+		enabled := *source.Enabled
+		rule.Enabled = &enabled
+	} else {
+		rule.Enabled = nil
+	}
+
+	// Name
+	rule.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Type
+	rule.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		rule.PropertyBag = propertyBag
+	} else {
+		rule.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToManagementPolicyRuleStatus populates the provided destination ManagementPolicyRule_Status from our ManagementPolicyRule_Status
+func (rule *ManagementPolicyRule_Status) AssignPropertiesToManagementPolicyRuleStatus(destination *v1beta20210401storage.ManagementPolicyRule_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(rule.PropertyBag)
+
+	// Definition
+	if rule.Definition != nil {
+		var definition v1beta20210401storage.ManagementPolicyDefinition_Status
+		err := rule.Definition.AssignPropertiesToManagementPolicyDefinitionStatus(&definition)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToManagementPolicyDefinitionStatus() to populate field Definition")
+		}
+		destination.Definition = &definition
+	} else {
+		destination.Definition = nil
+	}
+
+	// Enabled
+	if rule.Enabled != nil {
+		enabled := *rule.Enabled
+		destination.Enabled = &enabled
+	} else {
+		destination.Enabled = nil
+	}
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(rule.Name)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(rule.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210401.ManagementPolicyDefinition
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ManagementPolicyDefinition
+//Deprecated version of ManagementPolicyDefinition. Use v1beta20210401.ManagementPolicyDefinition instead
 type ManagementPolicyDefinition struct {
 	Actions     *ManagementPolicyAction `json:"actions,omitempty"`
 	Filters     *ManagementPolicyFilter `json:"filters,omitempty"`
 	PropertyBag genruntime.PropertyBag  `json:"$propertyBag,omitempty"`
 }
 
+// AssignPropertiesFromManagementPolicyDefinition populates our ManagementPolicyDefinition from the provided source ManagementPolicyDefinition
+func (definition *ManagementPolicyDefinition) AssignPropertiesFromManagementPolicyDefinition(source *v1beta20210401storage.ManagementPolicyDefinition) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Actions
+	if source.Actions != nil {
+		var action ManagementPolicyAction
+		err := action.AssignPropertiesFromManagementPolicyAction(source.Actions)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromManagementPolicyAction() to populate field Actions")
+		}
+		definition.Actions = &action
+	} else {
+		definition.Actions = nil
+	}
+
+	// Filters
+	if source.Filters != nil {
+		var filter ManagementPolicyFilter
+		err := filter.AssignPropertiesFromManagementPolicyFilter(source.Filters)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromManagementPolicyFilter() to populate field Filters")
+		}
+		definition.Filters = &filter
+	} else {
+		definition.Filters = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		definition.PropertyBag = propertyBag
+	} else {
+		definition.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToManagementPolicyDefinition populates the provided destination ManagementPolicyDefinition from our ManagementPolicyDefinition
+func (definition *ManagementPolicyDefinition) AssignPropertiesToManagementPolicyDefinition(destination *v1beta20210401storage.ManagementPolicyDefinition) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(definition.PropertyBag)
+
+	// Actions
+	if definition.Actions != nil {
+		var action v1beta20210401storage.ManagementPolicyAction
+		err := definition.Actions.AssignPropertiesToManagementPolicyAction(&action)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToManagementPolicyAction() to populate field Actions")
+		}
+		destination.Actions = &action
+	} else {
+		destination.Actions = nil
+	}
+
+	// Filters
+	if definition.Filters != nil {
+		var filter v1beta20210401storage.ManagementPolicyFilter
+		err := definition.Filters.AssignPropertiesToManagementPolicyFilter(&filter)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToManagementPolicyFilter() to populate field Filters")
+		}
+		destination.Filters = &filter
+	} else {
+		destination.Filters = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210401.ManagementPolicyDefinition_Status
+//Deprecated version of ManagementPolicyDefinition_Status. Use v1beta20210401.ManagementPolicyDefinition_Status instead
 type ManagementPolicyDefinition_Status struct {
 	Actions     *ManagementPolicyAction_Status `json:"actions,omitempty"`
 	Filters     *ManagementPolicyFilter_Status `json:"filters,omitempty"`
 	PropertyBag genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
 }
 
+// AssignPropertiesFromManagementPolicyDefinitionStatus populates our ManagementPolicyDefinition_Status from the provided source ManagementPolicyDefinition_Status
+func (definition *ManagementPolicyDefinition_Status) AssignPropertiesFromManagementPolicyDefinitionStatus(source *v1beta20210401storage.ManagementPolicyDefinition_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Actions
+	if source.Actions != nil {
+		var action ManagementPolicyAction_Status
+		err := action.AssignPropertiesFromManagementPolicyActionStatus(source.Actions)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromManagementPolicyActionStatus() to populate field Actions")
+		}
+		definition.Actions = &action
+	} else {
+		definition.Actions = nil
+	}
+
+	// Filters
+	if source.Filters != nil {
+		var filter ManagementPolicyFilter_Status
+		err := filter.AssignPropertiesFromManagementPolicyFilterStatus(source.Filters)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromManagementPolicyFilterStatus() to populate field Filters")
+		}
+		definition.Filters = &filter
+	} else {
+		definition.Filters = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		definition.PropertyBag = propertyBag
+	} else {
+		definition.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToManagementPolicyDefinitionStatus populates the provided destination ManagementPolicyDefinition_Status from our ManagementPolicyDefinition_Status
+func (definition *ManagementPolicyDefinition_Status) AssignPropertiesToManagementPolicyDefinitionStatus(destination *v1beta20210401storage.ManagementPolicyDefinition_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(definition.PropertyBag)
+
+	// Actions
+	if definition.Actions != nil {
+		var action v1beta20210401storage.ManagementPolicyAction_Status
+		err := definition.Actions.AssignPropertiesToManagementPolicyActionStatus(&action)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToManagementPolicyActionStatus() to populate field Actions")
+		}
+		destination.Actions = &action
+	} else {
+		destination.Actions = nil
+	}
+
+	// Filters
+	if definition.Filters != nil {
+		var filter v1beta20210401storage.ManagementPolicyFilter_Status
+		err := definition.Filters.AssignPropertiesToManagementPolicyFilterStatus(&filter)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToManagementPolicyFilterStatus() to populate field Filters")
+		}
+		destination.Filters = &filter
+	} else {
+		destination.Filters = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210401.ManagementPolicyAction
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ManagementPolicyAction
+//Deprecated version of ManagementPolicyAction. Use v1beta20210401.ManagementPolicyAction instead
 type ManagementPolicyAction struct {
 	BaseBlob    *ManagementPolicyBaseBlob `json:"baseBlob,omitempty"`
 	PropertyBag genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
@@ -250,7 +1018,112 @@ type ManagementPolicyAction struct {
 	Version     *ManagementPolicyVersion  `json:"version,omitempty"`
 }
 
+// AssignPropertiesFromManagementPolicyAction populates our ManagementPolicyAction from the provided source ManagementPolicyAction
+func (action *ManagementPolicyAction) AssignPropertiesFromManagementPolicyAction(source *v1beta20210401storage.ManagementPolicyAction) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// BaseBlob
+	if source.BaseBlob != nil {
+		var baseBlob ManagementPolicyBaseBlob
+		err := baseBlob.AssignPropertiesFromManagementPolicyBaseBlob(source.BaseBlob)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromManagementPolicyBaseBlob() to populate field BaseBlob")
+		}
+		action.BaseBlob = &baseBlob
+	} else {
+		action.BaseBlob = nil
+	}
+
+	// Snapshot
+	if source.Snapshot != nil {
+		var snapshot ManagementPolicySnapShot
+		err := snapshot.AssignPropertiesFromManagementPolicySnapShot(source.Snapshot)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromManagementPolicySnapShot() to populate field Snapshot")
+		}
+		action.Snapshot = &snapshot
+	} else {
+		action.Snapshot = nil
+	}
+
+	// Version
+	if source.Version != nil {
+		var version ManagementPolicyVersion
+		err := version.AssignPropertiesFromManagementPolicyVersion(source.Version)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromManagementPolicyVersion() to populate field Version")
+		}
+		action.Version = &version
+	} else {
+		action.Version = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		action.PropertyBag = propertyBag
+	} else {
+		action.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToManagementPolicyAction populates the provided destination ManagementPolicyAction from our ManagementPolicyAction
+func (action *ManagementPolicyAction) AssignPropertiesToManagementPolicyAction(destination *v1beta20210401storage.ManagementPolicyAction) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(action.PropertyBag)
+
+	// BaseBlob
+	if action.BaseBlob != nil {
+		var baseBlob v1beta20210401storage.ManagementPolicyBaseBlob
+		err := action.BaseBlob.AssignPropertiesToManagementPolicyBaseBlob(&baseBlob)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToManagementPolicyBaseBlob() to populate field BaseBlob")
+		}
+		destination.BaseBlob = &baseBlob
+	} else {
+		destination.BaseBlob = nil
+	}
+
+	// Snapshot
+	if action.Snapshot != nil {
+		var snapshot v1beta20210401storage.ManagementPolicySnapShot
+		err := action.Snapshot.AssignPropertiesToManagementPolicySnapShot(&snapshot)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToManagementPolicySnapShot() to populate field Snapshot")
+		}
+		destination.Snapshot = &snapshot
+	} else {
+		destination.Snapshot = nil
+	}
+
+	// Version
+	if action.Version != nil {
+		var version v1beta20210401storage.ManagementPolicyVersion
+		err := action.Version.AssignPropertiesToManagementPolicyVersion(&version)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToManagementPolicyVersion() to populate field Version")
+		}
+		destination.Version = &version
+	} else {
+		destination.Version = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210401.ManagementPolicyAction_Status
+//Deprecated version of ManagementPolicyAction_Status. Use v1beta20210401.ManagementPolicyAction_Status instead
 type ManagementPolicyAction_Status struct {
 	BaseBlob    *ManagementPolicyBaseBlob_Status `json:"baseBlob,omitempty"`
 	PropertyBag genruntime.PropertyBag           `json:"$propertyBag,omitempty"`
@@ -258,8 +1131,112 @@ type ManagementPolicyAction_Status struct {
 	Version     *ManagementPolicyVersion_Status  `json:"version,omitempty"`
 }
 
+// AssignPropertiesFromManagementPolicyActionStatus populates our ManagementPolicyAction_Status from the provided source ManagementPolicyAction_Status
+func (action *ManagementPolicyAction_Status) AssignPropertiesFromManagementPolicyActionStatus(source *v1beta20210401storage.ManagementPolicyAction_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// BaseBlob
+	if source.BaseBlob != nil {
+		var baseBlob ManagementPolicyBaseBlob_Status
+		err := baseBlob.AssignPropertiesFromManagementPolicyBaseBlobStatus(source.BaseBlob)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromManagementPolicyBaseBlobStatus() to populate field BaseBlob")
+		}
+		action.BaseBlob = &baseBlob
+	} else {
+		action.BaseBlob = nil
+	}
+
+	// Snapshot
+	if source.Snapshot != nil {
+		var snapshot ManagementPolicySnapShot_Status
+		err := snapshot.AssignPropertiesFromManagementPolicySnapShotStatus(source.Snapshot)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromManagementPolicySnapShotStatus() to populate field Snapshot")
+		}
+		action.Snapshot = &snapshot
+	} else {
+		action.Snapshot = nil
+	}
+
+	// Version
+	if source.Version != nil {
+		var version ManagementPolicyVersion_Status
+		err := version.AssignPropertiesFromManagementPolicyVersionStatus(source.Version)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromManagementPolicyVersionStatus() to populate field Version")
+		}
+		action.Version = &version
+	} else {
+		action.Version = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		action.PropertyBag = propertyBag
+	} else {
+		action.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToManagementPolicyActionStatus populates the provided destination ManagementPolicyAction_Status from our ManagementPolicyAction_Status
+func (action *ManagementPolicyAction_Status) AssignPropertiesToManagementPolicyActionStatus(destination *v1beta20210401storage.ManagementPolicyAction_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(action.PropertyBag)
+
+	// BaseBlob
+	if action.BaseBlob != nil {
+		var baseBlob v1beta20210401storage.ManagementPolicyBaseBlob_Status
+		err := action.BaseBlob.AssignPropertiesToManagementPolicyBaseBlobStatus(&baseBlob)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToManagementPolicyBaseBlobStatus() to populate field BaseBlob")
+		}
+		destination.BaseBlob = &baseBlob
+	} else {
+		destination.BaseBlob = nil
+	}
+
+	// Snapshot
+	if action.Snapshot != nil {
+		var snapshot v1beta20210401storage.ManagementPolicySnapShot_Status
+		err := action.Snapshot.AssignPropertiesToManagementPolicySnapShotStatus(&snapshot)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToManagementPolicySnapShotStatus() to populate field Snapshot")
+		}
+		destination.Snapshot = &snapshot
+	} else {
+		destination.Snapshot = nil
+	}
+
+	// Version
+	if action.Version != nil {
+		var version v1beta20210401storage.ManagementPolicyVersion_Status
+		err := action.Version.AssignPropertiesToManagementPolicyVersionStatus(&version)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToManagementPolicyVersionStatus() to populate field Version")
+		}
+		destination.Version = &version
+	} else {
+		destination.Version = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210401.ManagementPolicyFilter
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ManagementPolicyFilter
+//Deprecated version of ManagementPolicyFilter. Use v1beta20210401.ManagementPolicyFilter instead
 type ManagementPolicyFilter struct {
 	BlobIndexMatch []TagFilter            `json:"blobIndexMatch,omitempty"`
 	BlobTypes      []string               `json:"blobTypes,omitempty"`
@@ -267,7 +1244,88 @@ type ManagementPolicyFilter struct {
 	PropertyBag    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignPropertiesFromManagementPolicyFilter populates our ManagementPolicyFilter from the provided source ManagementPolicyFilter
+func (filter *ManagementPolicyFilter) AssignPropertiesFromManagementPolicyFilter(source *v1beta20210401storage.ManagementPolicyFilter) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// BlobIndexMatch
+	if source.BlobIndexMatch != nil {
+		blobIndexMatchList := make([]TagFilter, len(source.BlobIndexMatch))
+		for blobIndexMatchIndex, blobIndexMatchItem := range source.BlobIndexMatch {
+			// Shadow the loop variable to avoid aliasing
+			blobIndexMatchItem := blobIndexMatchItem
+			var blobIndexMatch TagFilter
+			err := blobIndexMatch.AssignPropertiesFromTagFilter(&blobIndexMatchItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromTagFilter() to populate field BlobIndexMatch")
+			}
+			blobIndexMatchList[blobIndexMatchIndex] = blobIndexMatch
+		}
+		filter.BlobIndexMatch = blobIndexMatchList
+	} else {
+		filter.BlobIndexMatch = nil
+	}
+
+	// BlobTypes
+	filter.BlobTypes = genruntime.CloneSliceOfString(source.BlobTypes)
+
+	// PrefixMatch
+	filter.PrefixMatch = genruntime.CloneSliceOfString(source.PrefixMatch)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		filter.PropertyBag = propertyBag
+	} else {
+		filter.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToManagementPolicyFilter populates the provided destination ManagementPolicyFilter from our ManagementPolicyFilter
+func (filter *ManagementPolicyFilter) AssignPropertiesToManagementPolicyFilter(destination *v1beta20210401storage.ManagementPolicyFilter) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(filter.PropertyBag)
+
+	// BlobIndexMatch
+	if filter.BlobIndexMatch != nil {
+		blobIndexMatchList := make([]v1beta20210401storage.TagFilter, len(filter.BlobIndexMatch))
+		for blobIndexMatchIndex, blobIndexMatchItem := range filter.BlobIndexMatch {
+			// Shadow the loop variable to avoid aliasing
+			blobIndexMatchItem := blobIndexMatchItem
+			var blobIndexMatch v1beta20210401storage.TagFilter
+			err := blobIndexMatchItem.AssignPropertiesToTagFilter(&blobIndexMatch)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToTagFilter() to populate field BlobIndexMatch")
+			}
+			blobIndexMatchList[blobIndexMatchIndex] = blobIndexMatch
+		}
+		destination.BlobIndexMatch = blobIndexMatchList
+	} else {
+		destination.BlobIndexMatch = nil
+	}
+
+	// BlobTypes
+	destination.BlobTypes = genruntime.CloneSliceOfString(filter.BlobTypes)
+
+	// PrefixMatch
+	destination.PrefixMatch = genruntime.CloneSliceOfString(filter.PrefixMatch)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210401.ManagementPolicyFilter_Status
+//Deprecated version of ManagementPolicyFilter_Status. Use v1beta20210401.ManagementPolicyFilter_Status instead
 type ManagementPolicyFilter_Status struct {
 	BlobIndexMatch []TagFilter_Status     `json:"blobIndexMatch,omitempty"`
 	BlobTypes      []string               `json:"blobTypes,omitempty"`
@@ -275,8 +1333,88 @@ type ManagementPolicyFilter_Status struct {
 	PropertyBag    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignPropertiesFromManagementPolicyFilterStatus populates our ManagementPolicyFilter_Status from the provided source ManagementPolicyFilter_Status
+func (filter *ManagementPolicyFilter_Status) AssignPropertiesFromManagementPolicyFilterStatus(source *v1beta20210401storage.ManagementPolicyFilter_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// BlobIndexMatch
+	if source.BlobIndexMatch != nil {
+		blobIndexMatchList := make([]TagFilter_Status, len(source.BlobIndexMatch))
+		for blobIndexMatchIndex, blobIndexMatchItem := range source.BlobIndexMatch {
+			// Shadow the loop variable to avoid aliasing
+			blobIndexMatchItem := blobIndexMatchItem
+			var blobIndexMatch TagFilter_Status
+			err := blobIndexMatch.AssignPropertiesFromTagFilterStatus(&blobIndexMatchItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromTagFilterStatus() to populate field BlobIndexMatch")
+			}
+			blobIndexMatchList[blobIndexMatchIndex] = blobIndexMatch
+		}
+		filter.BlobIndexMatch = blobIndexMatchList
+	} else {
+		filter.BlobIndexMatch = nil
+	}
+
+	// BlobTypes
+	filter.BlobTypes = genruntime.CloneSliceOfString(source.BlobTypes)
+
+	// PrefixMatch
+	filter.PrefixMatch = genruntime.CloneSliceOfString(source.PrefixMatch)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		filter.PropertyBag = propertyBag
+	} else {
+		filter.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToManagementPolicyFilterStatus populates the provided destination ManagementPolicyFilter_Status from our ManagementPolicyFilter_Status
+func (filter *ManagementPolicyFilter_Status) AssignPropertiesToManagementPolicyFilterStatus(destination *v1beta20210401storage.ManagementPolicyFilter_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(filter.PropertyBag)
+
+	// BlobIndexMatch
+	if filter.BlobIndexMatch != nil {
+		blobIndexMatchList := make([]v1beta20210401storage.TagFilter_Status, len(filter.BlobIndexMatch))
+		for blobIndexMatchIndex, blobIndexMatchItem := range filter.BlobIndexMatch {
+			// Shadow the loop variable to avoid aliasing
+			blobIndexMatchItem := blobIndexMatchItem
+			var blobIndexMatch v1beta20210401storage.TagFilter_Status
+			err := blobIndexMatchItem.AssignPropertiesToTagFilterStatus(&blobIndexMatch)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToTagFilterStatus() to populate field BlobIndexMatch")
+			}
+			blobIndexMatchList[blobIndexMatchIndex] = blobIndexMatch
+		}
+		destination.BlobIndexMatch = blobIndexMatchList
+	} else {
+		destination.BlobIndexMatch = nil
+	}
+
+	// BlobTypes
+	destination.BlobTypes = genruntime.CloneSliceOfString(filter.BlobTypes)
+
+	// PrefixMatch
+	destination.PrefixMatch = genruntime.CloneSliceOfString(filter.PrefixMatch)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210401.ManagementPolicyBaseBlob
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ManagementPolicyBaseBlob
+//Deprecated version of ManagementPolicyBaseBlob. Use v1beta20210401.ManagementPolicyBaseBlob instead
 type ManagementPolicyBaseBlob struct {
 	Delete                      *DateAfterModification `json:"delete,omitempty"`
 	EnableAutoTierToHotFromCool *bool                  `json:"enableAutoTierToHotFromCool,omitempty"`
@@ -285,7 +1423,128 @@ type ManagementPolicyBaseBlob struct {
 	TierToCool                  *DateAfterModification `json:"tierToCool,omitempty"`
 }
 
+// AssignPropertiesFromManagementPolicyBaseBlob populates our ManagementPolicyBaseBlob from the provided source ManagementPolicyBaseBlob
+func (blob *ManagementPolicyBaseBlob) AssignPropertiesFromManagementPolicyBaseBlob(source *v1beta20210401storage.ManagementPolicyBaseBlob) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Delete
+	if source.Delete != nil {
+		var delete DateAfterModification
+		err := delete.AssignPropertiesFromDateAfterModification(source.Delete)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromDateAfterModification() to populate field Delete")
+		}
+		blob.Delete = &delete
+	} else {
+		blob.Delete = nil
+	}
+
+	// EnableAutoTierToHotFromCool
+	if source.EnableAutoTierToHotFromCool != nil {
+		enableAutoTierToHotFromCool := *source.EnableAutoTierToHotFromCool
+		blob.EnableAutoTierToHotFromCool = &enableAutoTierToHotFromCool
+	} else {
+		blob.EnableAutoTierToHotFromCool = nil
+	}
+
+	// TierToArchive
+	if source.TierToArchive != nil {
+		var tierToArchive DateAfterModification
+		err := tierToArchive.AssignPropertiesFromDateAfterModification(source.TierToArchive)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromDateAfterModification() to populate field TierToArchive")
+		}
+		blob.TierToArchive = &tierToArchive
+	} else {
+		blob.TierToArchive = nil
+	}
+
+	// TierToCool
+	if source.TierToCool != nil {
+		var tierToCool DateAfterModification
+		err := tierToCool.AssignPropertiesFromDateAfterModification(source.TierToCool)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromDateAfterModification() to populate field TierToCool")
+		}
+		blob.TierToCool = &tierToCool
+	} else {
+		blob.TierToCool = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		blob.PropertyBag = propertyBag
+	} else {
+		blob.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToManagementPolicyBaseBlob populates the provided destination ManagementPolicyBaseBlob from our ManagementPolicyBaseBlob
+func (blob *ManagementPolicyBaseBlob) AssignPropertiesToManagementPolicyBaseBlob(destination *v1beta20210401storage.ManagementPolicyBaseBlob) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(blob.PropertyBag)
+
+	// Delete
+	if blob.Delete != nil {
+		var delete v1beta20210401storage.DateAfterModification
+		err := blob.Delete.AssignPropertiesToDateAfterModification(&delete)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToDateAfterModification() to populate field Delete")
+		}
+		destination.Delete = &delete
+	} else {
+		destination.Delete = nil
+	}
+
+	// EnableAutoTierToHotFromCool
+	if blob.EnableAutoTierToHotFromCool != nil {
+		enableAutoTierToHotFromCool := *blob.EnableAutoTierToHotFromCool
+		destination.EnableAutoTierToHotFromCool = &enableAutoTierToHotFromCool
+	} else {
+		destination.EnableAutoTierToHotFromCool = nil
+	}
+
+	// TierToArchive
+	if blob.TierToArchive != nil {
+		var tierToArchive v1beta20210401storage.DateAfterModification
+		err := blob.TierToArchive.AssignPropertiesToDateAfterModification(&tierToArchive)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToDateAfterModification() to populate field TierToArchive")
+		}
+		destination.TierToArchive = &tierToArchive
+	} else {
+		destination.TierToArchive = nil
+	}
+
+	// TierToCool
+	if blob.TierToCool != nil {
+		var tierToCool v1beta20210401storage.DateAfterModification
+		err := blob.TierToCool.AssignPropertiesToDateAfterModification(&tierToCool)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToDateAfterModification() to populate field TierToCool")
+		}
+		destination.TierToCool = &tierToCool
+	} else {
+		destination.TierToCool = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210401.ManagementPolicyBaseBlob_Status
+//Deprecated version of ManagementPolicyBaseBlob_Status. Use v1beta20210401.ManagementPolicyBaseBlob_Status instead
 type ManagementPolicyBaseBlob_Status struct {
 	Delete                      *DateAfterModification_Status `json:"delete,omitempty"`
 	EnableAutoTierToHotFromCool *bool                         `json:"enableAutoTierToHotFromCool,omitempty"`
@@ -294,8 +1553,128 @@ type ManagementPolicyBaseBlob_Status struct {
 	TierToCool                  *DateAfterModification_Status `json:"tierToCool,omitempty"`
 }
 
+// AssignPropertiesFromManagementPolicyBaseBlobStatus populates our ManagementPolicyBaseBlob_Status from the provided source ManagementPolicyBaseBlob_Status
+func (blob *ManagementPolicyBaseBlob_Status) AssignPropertiesFromManagementPolicyBaseBlobStatus(source *v1beta20210401storage.ManagementPolicyBaseBlob_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Delete
+	if source.Delete != nil {
+		var delete DateAfterModification_Status
+		err := delete.AssignPropertiesFromDateAfterModificationStatus(source.Delete)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromDateAfterModificationStatus() to populate field Delete")
+		}
+		blob.Delete = &delete
+	} else {
+		blob.Delete = nil
+	}
+
+	// EnableAutoTierToHotFromCool
+	if source.EnableAutoTierToHotFromCool != nil {
+		enableAutoTierToHotFromCool := *source.EnableAutoTierToHotFromCool
+		blob.EnableAutoTierToHotFromCool = &enableAutoTierToHotFromCool
+	} else {
+		blob.EnableAutoTierToHotFromCool = nil
+	}
+
+	// TierToArchive
+	if source.TierToArchive != nil {
+		var tierToArchive DateAfterModification_Status
+		err := tierToArchive.AssignPropertiesFromDateAfterModificationStatus(source.TierToArchive)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromDateAfterModificationStatus() to populate field TierToArchive")
+		}
+		blob.TierToArchive = &tierToArchive
+	} else {
+		blob.TierToArchive = nil
+	}
+
+	// TierToCool
+	if source.TierToCool != nil {
+		var tierToCool DateAfterModification_Status
+		err := tierToCool.AssignPropertiesFromDateAfterModificationStatus(source.TierToCool)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromDateAfterModificationStatus() to populate field TierToCool")
+		}
+		blob.TierToCool = &tierToCool
+	} else {
+		blob.TierToCool = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		blob.PropertyBag = propertyBag
+	} else {
+		blob.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToManagementPolicyBaseBlobStatus populates the provided destination ManagementPolicyBaseBlob_Status from our ManagementPolicyBaseBlob_Status
+func (blob *ManagementPolicyBaseBlob_Status) AssignPropertiesToManagementPolicyBaseBlobStatus(destination *v1beta20210401storage.ManagementPolicyBaseBlob_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(blob.PropertyBag)
+
+	// Delete
+	if blob.Delete != nil {
+		var delete v1beta20210401storage.DateAfterModification_Status
+		err := blob.Delete.AssignPropertiesToDateAfterModificationStatus(&delete)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToDateAfterModificationStatus() to populate field Delete")
+		}
+		destination.Delete = &delete
+	} else {
+		destination.Delete = nil
+	}
+
+	// EnableAutoTierToHotFromCool
+	if blob.EnableAutoTierToHotFromCool != nil {
+		enableAutoTierToHotFromCool := *blob.EnableAutoTierToHotFromCool
+		destination.EnableAutoTierToHotFromCool = &enableAutoTierToHotFromCool
+	} else {
+		destination.EnableAutoTierToHotFromCool = nil
+	}
+
+	// TierToArchive
+	if blob.TierToArchive != nil {
+		var tierToArchive v1beta20210401storage.DateAfterModification_Status
+		err := blob.TierToArchive.AssignPropertiesToDateAfterModificationStatus(&tierToArchive)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToDateAfterModificationStatus() to populate field TierToArchive")
+		}
+		destination.TierToArchive = &tierToArchive
+	} else {
+		destination.TierToArchive = nil
+	}
+
+	// TierToCool
+	if blob.TierToCool != nil {
+		var tierToCool v1beta20210401storage.DateAfterModification_Status
+		err := blob.TierToCool.AssignPropertiesToDateAfterModificationStatus(&tierToCool)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToDateAfterModificationStatus() to populate field TierToCool")
+		}
+		destination.TierToCool = &tierToCool
+	} else {
+		destination.TierToCool = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210401.ManagementPolicySnapShot
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ManagementPolicySnapShot
+//Deprecated version of ManagementPolicySnapShot. Use v1beta20210401.ManagementPolicySnapShot instead
 type ManagementPolicySnapShot struct {
 	Delete        *DateAfterCreation     `json:"delete,omitempty"`
 	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -303,7 +1682,112 @@ type ManagementPolicySnapShot struct {
 	TierToCool    *DateAfterCreation     `json:"tierToCool,omitempty"`
 }
 
+// AssignPropertiesFromManagementPolicySnapShot populates our ManagementPolicySnapShot from the provided source ManagementPolicySnapShot
+func (shot *ManagementPolicySnapShot) AssignPropertiesFromManagementPolicySnapShot(source *v1beta20210401storage.ManagementPolicySnapShot) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Delete
+	if source.Delete != nil {
+		var delete DateAfterCreation
+		err := delete.AssignPropertiesFromDateAfterCreation(source.Delete)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromDateAfterCreation() to populate field Delete")
+		}
+		shot.Delete = &delete
+	} else {
+		shot.Delete = nil
+	}
+
+	// TierToArchive
+	if source.TierToArchive != nil {
+		var tierToArchive DateAfterCreation
+		err := tierToArchive.AssignPropertiesFromDateAfterCreation(source.TierToArchive)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromDateAfterCreation() to populate field TierToArchive")
+		}
+		shot.TierToArchive = &tierToArchive
+	} else {
+		shot.TierToArchive = nil
+	}
+
+	// TierToCool
+	if source.TierToCool != nil {
+		var tierToCool DateAfterCreation
+		err := tierToCool.AssignPropertiesFromDateAfterCreation(source.TierToCool)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromDateAfterCreation() to populate field TierToCool")
+		}
+		shot.TierToCool = &tierToCool
+	} else {
+		shot.TierToCool = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		shot.PropertyBag = propertyBag
+	} else {
+		shot.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToManagementPolicySnapShot populates the provided destination ManagementPolicySnapShot from our ManagementPolicySnapShot
+func (shot *ManagementPolicySnapShot) AssignPropertiesToManagementPolicySnapShot(destination *v1beta20210401storage.ManagementPolicySnapShot) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(shot.PropertyBag)
+
+	// Delete
+	if shot.Delete != nil {
+		var delete v1beta20210401storage.DateAfterCreation
+		err := shot.Delete.AssignPropertiesToDateAfterCreation(&delete)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToDateAfterCreation() to populate field Delete")
+		}
+		destination.Delete = &delete
+	} else {
+		destination.Delete = nil
+	}
+
+	// TierToArchive
+	if shot.TierToArchive != nil {
+		var tierToArchive v1beta20210401storage.DateAfterCreation
+		err := shot.TierToArchive.AssignPropertiesToDateAfterCreation(&tierToArchive)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToDateAfterCreation() to populate field TierToArchive")
+		}
+		destination.TierToArchive = &tierToArchive
+	} else {
+		destination.TierToArchive = nil
+	}
+
+	// TierToCool
+	if shot.TierToCool != nil {
+		var tierToCool v1beta20210401storage.DateAfterCreation
+		err := shot.TierToCool.AssignPropertiesToDateAfterCreation(&tierToCool)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToDateAfterCreation() to populate field TierToCool")
+		}
+		destination.TierToCool = &tierToCool
+	} else {
+		destination.TierToCool = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210401.ManagementPolicySnapShot_Status
+//Deprecated version of ManagementPolicySnapShot_Status. Use v1beta20210401.ManagementPolicySnapShot_Status instead
 type ManagementPolicySnapShot_Status struct {
 	Delete        *DateAfterCreation_Status `json:"delete,omitempty"`
 	PropertyBag   genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
@@ -311,8 +1795,112 @@ type ManagementPolicySnapShot_Status struct {
 	TierToCool    *DateAfterCreation_Status `json:"tierToCool,omitempty"`
 }
 
+// AssignPropertiesFromManagementPolicySnapShotStatus populates our ManagementPolicySnapShot_Status from the provided source ManagementPolicySnapShot_Status
+func (shot *ManagementPolicySnapShot_Status) AssignPropertiesFromManagementPolicySnapShotStatus(source *v1beta20210401storage.ManagementPolicySnapShot_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Delete
+	if source.Delete != nil {
+		var delete DateAfterCreation_Status
+		err := delete.AssignPropertiesFromDateAfterCreationStatus(source.Delete)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromDateAfterCreationStatus() to populate field Delete")
+		}
+		shot.Delete = &delete
+	} else {
+		shot.Delete = nil
+	}
+
+	// TierToArchive
+	if source.TierToArchive != nil {
+		var tierToArchive DateAfterCreation_Status
+		err := tierToArchive.AssignPropertiesFromDateAfterCreationStatus(source.TierToArchive)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromDateAfterCreationStatus() to populate field TierToArchive")
+		}
+		shot.TierToArchive = &tierToArchive
+	} else {
+		shot.TierToArchive = nil
+	}
+
+	// TierToCool
+	if source.TierToCool != nil {
+		var tierToCool DateAfterCreation_Status
+		err := tierToCool.AssignPropertiesFromDateAfterCreationStatus(source.TierToCool)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromDateAfterCreationStatus() to populate field TierToCool")
+		}
+		shot.TierToCool = &tierToCool
+	} else {
+		shot.TierToCool = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		shot.PropertyBag = propertyBag
+	} else {
+		shot.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToManagementPolicySnapShotStatus populates the provided destination ManagementPolicySnapShot_Status from our ManagementPolicySnapShot_Status
+func (shot *ManagementPolicySnapShot_Status) AssignPropertiesToManagementPolicySnapShotStatus(destination *v1beta20210401storage.ManagementPolicySnapShot_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(shot.PropertyBag)
+
+	// Delete
+	if shot.Delete != nil {
+		var delete v1beta20210401storage.DateAfterCreation_Status
+		err := shot.Delete.AssignPropertiesToDateAfterCreationStatus(&delete)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToDateAfterCreationStatus() to populate field Delete")
+		}
+		destination.Delete = &delete
+	} else {
+		destination.Delete = nil
+	}
+
+	// TierToArchive
+	if shot.TierToArchive != nil {
+		var tierToArchive v1beta20210401storage.DateAfterCreation_Status
+		err := shot.TierToArchive.AssignPropertiesToDateAfterCreationStatus(&tierToArchive)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToDateAfterCreationStatus() to populate field TierToArchive")
+		}
+		destination.TierToArchive = &tierToArchive
+	} else {
+		destination.TierToArchive = nil
+	}
+
+	// TierToCool
+	if shot.TierToCool != nil {
+		var tierToCool v1beta20210401storage.DateAfterCreation_Status
+		err := shot.TierToCool.AssignPropertiesToDateAfterCreationStatus(&tierToCool)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToDateAfterCreationStatus() to populate field TierToCool")
+		}
+		destination.TierToCool = &tierToCool
+	} else {
+		destination.TierToCool = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210401.ManagementPolicyVersion
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ManagementPolicyVersion
+//Deprecated version of ManagementPolicyVersion. Use v1beta20210401.ManagementPolicyVersion instead
 type ManagementPolicyVersion struct {
 	Delete        *DateAfterCreation     `json:"delete,omitempty"`
 	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -320,7 +1908,112 @@ type ManagementPolicyVersion struct {
 	TierToCool    *DateAfterCreation     `json:"tierToCool,omitempty"`
 }
 
+// AssignPropertiesFromManagementPolicyVersion populates our ManagementPolicyVersion from the provided source ManagementPolicyVersion
+func (version *ManagementPolicyVersion) AssignPropertiesFromManagementPolicyVersion(source *v1beta20210401storage.ManagementPolicyVersion) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Delete
+	if source.Delete != nil {
+		var delete DateAfterCreation
+		err := delete.AssignPropertiesFromDateAfterCreation(source.Delete)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromDateAfterCreation() to populate field Delete")
+		}
+		version.Delete = &delete
+	} else {
+		version.Delete = nil
+	}
+
+	// TierToArchive
+	if source.TierToArchive != nil {
+		var tierToArchive DateAfterCreation
+		err := tierToArchive.AssignPropertiesFromDateAfterCreation(source.TierToArchive)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromDateAfterCreation() to populate field TierToArchive")
+		}
+		version.TierToArchive = &tierToArchive
+	} else {
+		version.TierToArchive = nil
+	}
+
+	// TierToCool
+	if source.TierToCool != nil {
+		var tierToCool DateAfterCreation
+		err := tierToCool.AssignPropertiesFromDateAfterCreation(source.TierToCool)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromDateAfterCreation() to populate field TierToCool")
+		}
+		version.TierToCool = &tierToCool
+	} else {
+		version.TierToCool = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		version.PropertyBag = propertyBag
+	} else {
+		version.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToManagementPolicyVersion populates the provided destination ManagementPolicyVersion from our ManagementPolicyVersion
+func (version *ManagementPolicyVersion) AssignPropertiesToManagementPolicyVersion(destination *v1beta20210401storage.ManagementPolicyVersion) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(version.PropertyBag)
+
+	// Delete
+	if version.Delete != nil {
+		var delete v1beta20210401storage.DateAfterCreation
+		err := version.Delete.AssignPropertiesToDateAfterCreation(&delete)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToDateAfterCreation() to populate field Delete")
+		}
+		destination.Delete = &delete
+	} else {
+		destination.Delete = nil
+	}
+
+	// TierToArchive
+	if version.TierToArchive != nil {
+		var tierToArchive v1beta20210401storage.DateAfterCreation
+		err := version.TierToArchive.AssignPropertiesToDateAfterCreation(&tierToArchive)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToDateAfterCreation() to populate field TierToArchive")
+		}
+		destination.TierToArchive = &tierToArchive
+	} else {
+		destination.TierToArchive = nil
+	}
+
+	// TierToCool
+	if version.TierToCool != nil {
+		var tierToCool v1beta20210401storage.DateAfterCreation
+		err := version.TierToCool.AssignPropertiesToDateAfterCreation(&tierToCool)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToDateAfterCreation() to populate field TierToCool")
+		}
+		destination.TierToCool = &tierToCool
+	} else {
+		destination.TierToCool = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210401.ManagementPolicyVersion_Status
+//Deprecated version of ManagementPolicyVersion_Status. Use v1beta20210401.ManagementPolicyVersion_Status instead
 type ManagementPolicyVersion_Status struct {
 	Delete        *DateAfterCreation_Status `json:"delete,omitempty"`
 	PropertyBag   genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
@@ -328,8 +2021,112 @@ type ManagementPolicyVersion_Status struct {
 	TierToCool    *DateAfterCreation_Status `json:"tierToCool,omitempty"`
 }
 
+// AssignPropertiesFromManagementPolicyVersionStatus populates our ManagementPolicyVersion_Status from the provided source ManagementPolicyVersion_Status
+func (version *ManagementPolicyVersion_Status) AssignPropertiesFromManagementPolicyVersionStatus(source *v1beta20210401storage.ManagementPolicyVersion_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Delete
+	if source.Delete != nil {
+		var delete DateAfterCreation_Status
+		err := delete.AssignPropertiesFromDateAfterCreationStatus(source.Delete)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromDateAfterCreationStatus() to populate field Delete")
+		}
+		version.Delete = &delete
+	} else {
+		version.Delete = nil
+	}
+
+	// TierToArchive
+	if source.TierToArchive != nil {
+		var tierToArchive DateAfterCreation_Status
+		err := tierToArchive.AssignPropertiesFromDateAfterCreationStatus(source.TierToArchive)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromDateAfterCreationStatus() to populate field TierToArchive")
+		}
+		version.TierToArchive = &tierToArchive
+	} else {
+		version.TierToArchive = nil
+	}
+
+	// TierToCool
+	if source.TierToCool != nil {
+		var tierToCool DateAfterCreation_Status
+		err := tierToCool.AssignPropertiesFromDateAfterCreationStatus(source.TierToCool)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromDateAfterCreationStatus() to populate field TierToCool")
+		}
+		version.TierToCool = &tierToCool
+	} else {
+		version.TierToCool = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		version.PropertyBag = propertyBag
+	} else {
+		version.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToManagementPolicyVersionStatus populates the provided destination ManagementPolicyVersion_Status from our ManagementPolicyVersion_Status
+func (version *ManagementPolicyVersion_Status) AssignPropertiesToManagementPolicyVersionStatus(destination *v1beta20210401storage.ManagementPolicyVersion_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(version.PropertyBag)
+
+	// Delete
+	if version.Delete != nil {
+		var delete v1beta20210401storage.DateAfterCreation_Status
+		err := version.Delete.AssignPropertiesToDateAfterCreationStatus(&delete)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToDateAfterCreationStatus() to populate field Delete")
+		}
+		destination.Delete = &delete
+	} else {
+		destination.Delete = nil
+	}
+
+	// TierToArchive
+	if version.TierToArchive != nil {
+		var tierToArchive v1beta20210401storage.DateAfterCreation_Status
+		err := version.TierToArchive.AssignPropertiesToDateAfterCreationStatus(&tierToArchive)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToDateAfterCreationStatus() to populate field TierToArchive")
+		}
+		destination.TierToArchive = &tierToArchive
+	} else {
+		destination.TierToArchive = nil
+	}
+
+	// TierToCool
+	if version.TierToCool != nil {
+		var tierToCool v1beta20210401storage.DateAfterCreation_Status
+		err := version.TierToCool.AssignPropertiesToDateAfterCreationStatus(&tierToCool)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToDateAfterCreationStatus() to populate field TierToCool")
+		}
+		destination.TierToCool = &tierToCool
+	} else {
+		destination.TierToCool = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210401.TagFilter
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/TagFilter
+//Deprecated version of TagFilter. Use v1beta20210401.TagFilter instead
 type TagFilter struct {
 	Name        *string                `json:"name,omitempty"`
 	Op          *string                `json:"op,omitempty"`
@@ -337,7 +2134,58 @@ type TagFilter struct {
 	Value       *string                `json:"value,omitempty"`
 }
 
+// AssignPropertiesFromTagFilter populates our TagFilter from the provided source TagFilter
+func (filter *TagFilter) AssignPropertiesFromTagFilter(source *v1beta20210401storage.TagFilter) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Name
+	filter.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Op
+	filter.Op = genruntime.ClonePointerToString(source.Op)
+
+	// Value
+	filter.Value = genruntime.ClonePointerToString(source.Value)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		filter.PropertyBag = propertyBag
+	} else {
+		filter.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToTagFilter populates the provided destination TagFilter from our TagFilter
+func (filter *TagFilter) AssignPropertiesToTagFilter(destination *v1beta20210401storage.TagFilter) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(filter.PropertyBag)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(filter.Name)
+
+	// Op
+	destination.Op = genruntime.ClonePointerToString(filter.Op)
+
+	// Value
+	destination.Value = genruntime.ClonePointerToString(filter.Value)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210401.TagFilter_Status
+//Deprecated version of TagFilter_Status. Use v1beta20210401.TagFilter_Status instead
 type TagFilter_Status struct {
 	Name        *string                `json:"name,omitempty"`
 	Op          *string                `json:"op,omitempty"`
@@ -345,32 +2193,278 @@ type TagFilter_Status struct {
 	Value       *string                `json:"value,omitempty"`
 }
 
+// AssignPropertiesFromTagFilterStatus populates our TagFilter_Status from the provided source TagFilter_Status
+func (filter *TagFilter_Status) AssignPropertiesFromTagFilterStatus(source *v1beta20210401storage.TagFilter_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Name
+	filter.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Op
+	filter.Op = genruntime.ClonePointerToString(source.Op)
+
+	// Value
+	filter.Value = genruntime.ClonePointerToString(source.Value)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		filter.PropertyBag = propertyBag
+	} else {
+		filter.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToTagFilterStatus populates the provided destination TagFilter_Status from our TagFilter_Status
+func (filter *TagFilter_Status) AssignPropertiesToTagFilterStatus(destination *v1beta20210401storage.TagFilter_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(filter.PropertyBag)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(filter.Name)
+
+	// Op
+	destination.Op = genruntime.ClonePointerToString(filter.Op)
+
+	// Value
+	destination.Value = genruntime.ClonePointerToString(filter.Value)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210401.DateAfterCreation
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/DateAfterCreation
+//Deprecated version of DateAfterCreation. Use v1beta20210401.DateAfterCreation instead
 type DateAfterCreation struct {
 	DaysAfterCreationGreaterThan *int                   `json:"daysAfterCreationGreaterThan,omitempty"`
 	PropertyBag                  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignPropertiesFromDateAfterCreation populates our DateAfterCreation from the provided source DateAfterCreation
+func (creation *DateAfterCreation) AssignPropertiesFromDateAfterCreation(source *v1beta20210401storage.DateAfterCreation) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// DaysAfterCreationGreaterThan
+	creation.DaysAfterCreationGreaterThan = genruntime.ClonePointerToInt(source.DaysAfterCreationGreaterThan)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		creation.PropertyBag = propertyBag
+	} else {
+		creation.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToDateAfterCreation populates the provided destination DateAfterCreation from our DateAfterCreation
+func (creation *DateAfterCreation) AssignPropertiesToDateAfterCreation(destination *v1beta20210401storage.DateAfterCreation) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(creation.PropertyBag)
+
+	// DaysAfterCreationGreaterThan
+	destination.DaysAfterCreationGreaterThan = genruntime.ClonePointerToInt(creation.DaysAfterCreationGreaterThan)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210401.DateAfterCreation_Status
+//Deprecated version of DateAfterCreation_Status. Use v1beta20210401.DateAfterCreation_Status instead
 type DateAfterCreation_Status struct {
 	DaysAfterCreationGreaterThan *float64               `json:"daysAfterCreationGreaterThan,omitempty"`
 	PropertyBag                  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignPropertiesFromDateAfterCreationStatus populates our DateAfterCreation_Status from the provided source DateAfterCreation_Status
+func (creation *DateAfterCreation_Status) AssignPropertiesFromDateAfterCreationStatus(source *v1beta20210401storage.DateAfterCreation_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// DaysAfterCreationGreaterThan
+	if source.DaysAfterCreationGreaterThan != nil {
+		daysAfterCreationGreaterThan := *source.DaysAfterCreationGreaterThan
+		creation.DaysAfterCreationGreaterThan = &daysAfterCreationGreaterThan
+	} else {
+		creation.DaysAfterCreationGreaterThan = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		creation.PropertyBag = propertyBag
+	} else {
+		creation.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToDateAfterCreationStatus populates the provided destination DateAfterCreation_Status from our DateAfterCreation_Status
+func (creation *DateAfterCreation_Status) AssignPropertiesToDateAfterCreationStatus(destination *v1beta20210401storage.DateAfterCreation_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(creation.PropertyBag)
+
+	// DaysAfterCreationGreaterThan
+	if creation.DaysAfterCreationGreaterThan != nil {
+		daysAfterCreationGreaterThan := *creation.DaysAfterCreationGreaterThan
+		destination.DaysAfterCreationGreaterThan = &daysAfterCreationGreaterThan
+	} else {
+		destination.DaysAfterCreationGreaterThan = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210401.DateAfterModification
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/DateAfterModification
+//Deprecated version of DateAfterModification. Use v1beta20210401.DateAfterModification instead
 type DateAfterModification struct {
 	DaysAfterLastAccessTimeGreaterThan *int                   `json:"daysAfterLastAccessTimeGreaterThan,omitempty"`
 	DaysAfterModificationGreaterThan   *int                   `json:"daysAfterModificationGreaterThan,omitempty"`
 	PropertyBag                        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignPropertiesFromDateAfterModification populates our DateAfterModification from the provided source DateAfterModification
+func (modification *DateAfterModification) AssignPropertiesFromDateAfterModification(source *v1beta20210401storage.DateAfterModification) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// DaysAfterLastAccessTimeGreaterThan
+	modification.DaysAfterLastAccessTimeGreaterThan = genruntime.ClonePointerToInt(source.DaysAfterLastAccessTimeGreaterThan)
+
+	// DaysAfterModificationGreaterThan
+	modification.DaysAfterModificationGreaterThan = genruntime.ClonePointerToInt(source.DaysAfterModificationGreaterThan)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		modification.PropertyBag = propertyBag
+	} else {
+		modification.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToDateAfterModification populates the provided destination DateAfterModification from our DateAfterModification
+func (modification *DateAfterModification) AssignPropertiesToDateAfterModification(destination *v1beta20210401storage.DateAfterModification) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(modification.PropertyBag)
+
+	// DaysAfterLastAccessTimeGreaterThan
+	destination.DaysAfterLastAccessTimeGreaterThan = genruntime.ClonePointerToInt(modification.DaysAfterLastAccessTimeGreaterThan)
+
+	// DaysAfterModificationGreaterThan
+	destination.DaysAfterModificationGreaterThan = genruntime.ClonePointerToInt(modification.DaysAfterModificationGreaterThan)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20210401.DateAfterModification_Status
+//Deprecated version of DateAfterModification_Status. Use v1beta20210401.DateAfterModification_Status instead
 type DateAfterModification_Status struct {
 	DaysAfterLastAccessTimeGreaterThan *float64               `json:"daysAfterLastAccessTimeGreaterThan,omitempty"`
 	DaysAfterModificationGreaterThan   *float64               `json:"daysAfterModificationGreaterThan,omitempty"`
 	PropertyBag                        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignPropertiesFromDateAfterModificationStatus populates our DateAfterModification_Status from the provided source DateAfterModification_Status
+func (modification *DateAfterModification_Status) AssignPropertiesFromDateAfterModificationStatus(source *v1beta20210401storage.DateAfterModification_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// DaysAfterLastAccessTimeGreaterThan
+	if source.DaysAfterLastAccessTimeGreaterThan != nil {
+		daysAfterLastAccessTimeGreaterThan := *source.DaysAfterLastAccessTimeGreaterThan
+		modification.DaysAfterLastAccessTimeGreaterThan = &daysAfterLastAccessTimeGreaterThan
+	} else {
+		modification.DaysAfterLastAccessTimeGreaterThan = nil
+	}
+
+	// DaysAfterModificationGreaterThan
+	if source.DaysAfterModificationGreaterThan != nil {
+		daysAfterModificationGreaterThan := *source.DaysAfterModificationGreaterThan
+		modification.DaysAfterModificationGreaterThan = &daysAfterModificationGreaterThan
+	} else {
+		modification.DaysAfterModificationGreaterThan = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		modification.PropertyBag = propertyBag
+	} else {
+		modification.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToDateAfterModificationStatus populates the provided destination DateAfterModification_Status from our DateAfterModification_Status
+func (modification *DateAfterModification_Status) AssignPropertiesToDateAfterModificationStatus(destination *v1beta20210401storage.DateAfterModification_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(modification.PropertyBag)
+
+	// DaysAfterLastAccessTimeGreaterThan
+	if modification.DaysAfterLastAccessTimeGreaterThan != nil {
+		daysAfterLastAccessTimeGreaterThan := *modification.DaysAfterLastAccessTimeGreaterThan
+		destination.DaysAfterLastAccessTimeGreaterThan = &daysAfterLastAccessTimeGreaterThan
+	} else {
+		destination.DaysAfterLastAccessTimeGreaterThan = nil
+	}
+
+	// DaysAfterModificationGreaterThan
+	if modification.DaysAfterModificationGreaterThan != nil {
+		daysAfterModificationGreaterThan := *modification.DaysAfterModificationGreaterThan
+		destination.DaysAfterModificationGreaterThan = &daysAfterModificationGreaterThan
+	} else {
+		destination.DaysAfterModificationGreaterThan = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 func init() {

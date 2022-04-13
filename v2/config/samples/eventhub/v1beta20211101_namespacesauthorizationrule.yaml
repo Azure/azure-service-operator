@@ -1,0 +1,11 @@
+apiVersion: eventhub.azure.com/v1beta20211101
+kind: NamespacesAuthorizationRule
+metadata:
+  name: sample-authrule
+  namespace: default
+spec:
+  owner:
+    name: aso-sample-namespace
+  rights:
+    - Listen
+    - Send

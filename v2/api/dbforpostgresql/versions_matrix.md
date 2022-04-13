@@ -1,55 +1,55 @@
-| Type Definitions in package "dbforpostgresql" | v1alpha1api20210601 |
-|-----------------------------------------------|---------------------|
-| Backup                                        | v1alpha1api20210601 |
-| BackupGeoRedundantBackup                      | v1alpha1api20210601 |
-| BackupStatusGeoRedundantBackup                | v1alpha1api20210601 |
-| Backup_Status                                 | v1alpha1api20210601 |
-| ConfigurationProperties                       | v1alpha1api20210601 |
-| ConfigurationPropertiesStatusDataType         | v1alpha1api20210601 |
-| ConfigurationProperties_Status                | v1alpha1api20210601 |
-| Configuration_Status                          | v1alpha1api20210601 |
-| DatabaseProperties                            | v1alpha1api20210601 |
-| DatabaseProperties_Status                     | v1alpha1api20210601 |
-| Database_Status                               | v1alpha1api20210601 |
-| FirewallRuleProperties                        | v1alpha1api20210601 |
-| FirewallRuleProperties_Status                 | v1alpha1api20210601 |
-| FirewallRule_Status                           | v1alpha1api20210601 |
-| FlexibleServer                                | v1alpha1api20210601 |
-| FlexibleServersConfiguration                  | v1alpha1api20210601 |
-| FlexibleServersConfigurationsSpecAPIVersion   | v1alpha1api20210601 |
-| FlexibleServersConfigurations_Spec            | v1alpha1api20210601 |
-| FlexibleServersDatabase                       | v1alpha1api20210601 |
-| FlexibleServersDatabasesSpecAPIVersion        | v1alpha1api20210601 |
-| FlexibleServersDatabases_Spec                 | v1alpha1api20210601 |
-| FlexibleServersFirewallRule                   | v1alpha1api20210601 |
-| FlexibleServersFirewallRulesSpecAPIVersion    | v1alpha1api20210601 |
-| FlexibleServersFirewallRules_Spec             | v1alpha1api20210601 |
-| FlexibleServersSpecAPIVersion                 | v1alpha1api20210601 |
-| FlexibleServers_Spec                          | v1alpha1api20210601 |
-| HighAvailability                              | v1alpha1api20210601 |
-| HighAvailabilityMode                          | v1alpha1api20210601 |
-| HighAvailabilityStatusMode                    | v1alpha1api20210601 |
-| HighAvailabilityStatusState                   | v1alpha1api20210601 |
-| HighAvailability_Status                       | v1alpha1api20210601 |
-| MaintenanceWindow                             | v1alpha1api20210601 |
-| MaintenanceWindow_Status                      | v1alpha1api20210601 |
-| Network                                       | v1alpha1api20210601 |
-| NetworkStatusPublicNetworkAccess              | v1alpha1api20210601 |
-| Network_Status                                | v1alpha1api20210601 |
-| ServerProperties                              | v1alpha1api20210601 |
-| ServerPropertiesCreateMode                    | v1alpha1api20210601 |
-| ServerPropertiesStatusCreateMode              | v1alpha1api20210601 |
-| ServerPropertiesStatusState                   | v1alpha1api20210601 |
-| ServerPropertiesVersion                       | v1alpha1api20210601 |
-| ServerProperties_Status                       | v1alpha1api20210601 |
-| ServerVersion_Status                          | v1alpha1api20210601 |
-| Server_Status                                 | v1alpha1api20210601 |
-| Sku                                           | v1alpha1api20210601 |
-| SkuStatusTier                                 | v1alpha1api20210601 |
-| SkuTier                                       | v1alpha1api20210601 |
-| Sku_Status                                    | v1alpha1api20210601 |
-| Storage                                       | v1alpha1api20210601 |
-| Storage_Status                                | v1alpha1api20210601 |
-| SystemDataStatusCreatedByType                 | v1alpha1api20210601 |
-| SystemDataStatusLastModifiedByType            | v1alpha1api20210601 |
-| SystemData_Status                             | v1alpha1api20210601 |
+| Type Definitions in package "dbforpostgresql" | v1alpha1api20210601 | v1beta20210601 |
+|-----------------------------------------------|---------------------|----------------|
+| Backup                                        | v1alpha1api20210601 | v1beta20210601 |
+| BackupGeoRedundantBackup                      | v1alpha1api20210601 | v1beta20210601 |
+| BackupStatusGeoRedundantBackup                | v1alpha1api20210601 | v1beta20210601 |
+| Backup_Status                                 | v1alpha1api20210601 | v1beta20210601 |
+| ConfigurationProperties                       | v1alpha1api20210601 | v1beta20210601 |
+| ConfigurationPropertiesStatusDataType         | v1alpha1api20210601 | v1beta20210601 |
+| ConfigurationProperties_Status                | v1alpha1api20210601 | v1beta20210601 |
+| Configuration_Status                          | v1alpha1api20210601 | v1beta20210601 |
+| DatabaseProperties                            | v1alpha1api20210601 | v1beta20210601 |
+| DatabaseProperties_Status                     | v1alpha1api20210601 | v1beta20210601 |
+| Database_Status                               | v1alpha1api20210601 | v1beta20210601 |
+| FirewallRuleProperties                        | v1alpha1api20210601 | v1beta20210601 |
+| FirewallRuleProperties_Status                 | v1alpha1api20210601 | v1beta20210601 |
+| FirewallRule_Status                           | v1alpha1api20210601 | v1beta20210601 |
+| FlexibleServer                                | v1alpha1api20210601 | v1beta20210601 |
+| FlexibleServersConfiguration                  | v1alpha1api20210601 | v1beta20210601 |
+| FlexibleServersConfigurationsSpecAPIVersion   | v1alpha1api20210601 | v1beta20210601 |
+| FlexibleServersConfigurations_Spec            | v1alpha1api20210601 | v1beta20210601 |
+| FlexibleServersDatabase                       | v1alpha1api20210601 | v1beta20210601 |
+| FlexibleServersDatabasesSpecAPIVersion        | v1alpha1api20210601 | v1beta20210601 |
+| FlexibleServersDatabases_Spec                 | v1alpha1api20210601 | v1beta20210601 |
+| FlexibleServersFirewallRule                   | v1alpha1api20210601 | v1beta20210601 |
+| FlexibleServersFirewallRulesSpecAPIVersion    | v1alpha1api20210601 | v1beta20210601 |
+| FlexibleServersFirewallRules_Spec             | v1alpha1api20210601 | v1beta20210601 |
+| FlexibleServersSpecAPIVersion                 | v1alpha1api20210601 | v1beta20210601 |
+| FlexibleServers_Spec                          | v1alpha1api20210601 | v1beta20210601 |
+| HighAvailability                              | v1alpha1api20210601 | v1beta20210601 |
+| HighAvailabilityMode                          | v1alpha1api20210601 | v1beta20210601 |
+| HighAvailabilityStatusMode                    | v1alpha1api20210601 | v1beta20210601 |
+| HighAvailabilityStatusState                   | v1alpha1api20210601 | v1beta20210601 |
+| HighAvailability_Status                       | v1alpha1api20210601 | v1beta20210601 |
+| MaintenanceWindow                             | v1alpha1api20210601 | v1beta20210601 |
+| MaintenanceWindow_Status                      | v1alpha1api20210601 | v1beta20210601 |
+| Network                                       | v1alpha1api20210601 | v1beta20210601 |
+| NetworkStatusPublicNetworkAccess              | v1alpha1api20210601 | v1beta20210601 |
+| Network_Status                                | v1alpha1api20210601 | v1beta20210601 |
+| ServerProperties                              | v1alpha1api20210601 | v1beta20210601 |
+| ServerPropertiesCreateMode                    | v1alpha1api20210601 | v1beta20210601 |
+| ServerPropertiesStatusCreateMode              | v1alpha1api20210601 | v1beta20210601 |
+| ServerPropertiesStatusState                   | v1alpha1api20210601 | v1beta20210601 |
+| ServerPropertiesVersion                       | v1alpha1api20210601 | v1beta20210601 |
+| ServerProperties_Status                       | v1alpha1api20210601 | v1beta20210601 |
+| ServerVersion_Status                          | v1alpha1api20210601 | v1beta20210601 |
+| Server_Status                                 | v1alpha1api20210601 | v1beta20210601 |
+| Sku                                           | v1alpha1api20210601 | v1beta20210601 |
+| SkuStatusTier                                 | v1alpha1api20210601 | v1beta20210601 |
+| SkuTier                                       | v1alpha1api20210601 | v1beta20210601 |
+| Sku_Status                                    | v1alpha1api20210601 | v1beta20210601 |
+| Storage                                       | v1alpha1api20210601 | v1beta20210601 |
+| Storage_Status                                | v1alpha1api20210601 | v1beta20210601 |
+| SystemDataStatusCreatedByType                 | v1alpha1api20210601 | v1beta20210601 |
+| SystemDataStatusLastModifiedByType            | v1alpha1api20210601 | v1beta20210601 |
+| SystemData_Status                             | v1alpha1api20210601 | v1beta20210601 |

@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_mongodbDatabases_collections
+//Deprecated version of MongodbDatabaseCollection. Use v1beta20210515.MongodbDatabaseCollection instead
 type MongodbDatabaseCollection struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -48,22 +48,36 @@ var _ conversion.Convertible = &MongodbDatabaseCollection{}
 
 // ConvertFrom populates our MongodbDatabaseCollection from the provided hub MongodbDatabaseCollection
 func (collection *MongodbDatabaseCollection) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1alpha1api20210515storage.MongodbDatabaseCollection)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v1alpha1api20210515storage/MongodbDatabaseCollection but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v1alpha1api20210515storage.MongodbDatabaseCollection
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return collection.AssignPropertiesFromMongodbDatabaseCollection(source)
+	err = collection.AssignPropertiesFromMongodbDatabaseCollection(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to collection")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub MongodbDatabaseCollection from our MongodbDatabaseCollection
 func (collection *MongodbDatabaseCollection) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1alpha1api20210515storage.MongodbDatabaseCollection)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v1alpha1api20210515storage/MongodbDatabaseCollection but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v1alpha1api20210515storage.MongodbDatabaseCollection
+	err := collection.AssignPropertiesToMongodbDatabaseCollection(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from collection")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return collection.AssignPropertiesToMongodbDatabaseCollection(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-documentdb-azure-com-v1alpha1api20210515-mongodbdatabasecollection,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=documentdb.azure.com,resources=mongodbdatabasecollections,verbs=create;update,versions=v1alpha1api20210515,name=default.v1alpha1api20210515.mongodbdatabasecollections.documentdb.azure.com,admissionReviewVersions=v1beta1
@@ -300,29 +314,19 @@ func (collection *MongodbDatabaseCollection) OriginalGVK() *schema.GroupVersionK
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_mongodbDatabases_collections
+//Deprecated version of MongodbDatabaseCollection. Use v1beta20210515.MongodbDatabaseCollection instead
 type MongodbDatabaseCollectionList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []MongodbDatabaseCollection `json:"items"`
 }
 
-// +kubebuilder:validation:Enum={"2021-05-15"}
-type DatabaseAccountsMongodbDatabasesCollectionsSpecAPIVersion string
-
-const DatabaseAccountsMongodbDatabasesCollectionsSpecAPIVersion20210515 = DatabaseAccountsMongodbDatabasesCollectionsSpecAPIVersion("2021-05-15")
-
 type DatabaseAccountsMongodbDatabasesCollections_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	//doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	//Location: The location of the resource group to which the resource belongs.
-	Location *string `json:"location,omitempty"`
-
-	//Options: CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are "If-Match",
-	//"If-None-Match", "Session-Token" and "Throughput"
-	Options *CreateUpdateOptions `json:"options,omitempty"`
+	AzureName string               `json:"azureName,omitempty"`
+	Location  *string              `json:"location,omitempty"`
+	Options   *CreateUpdateOptions `json:"options,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -331,15 +335,8 @@ type DatabaseAccountsMongodbDatabasesCollections_Spec struct {
 	Owner *genruntime.KnownResourceReference `group:"documentdb.azure.com" json:"owner,omitempty" kind:"MongodbDatabase"`
 
 	// +kubebuilder:validation:Required
-	//Resource: Cosmos DB MongoDB collection resource object
 	Resource *MongoDBCollectionResource `json:"resource,omitempty"`
-
-	//Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
-	//resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
-	//greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
-	//type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph",
-	//"DocumentDB", and "MongoDB".
-	Tags map[string]string `json:"tags,omitempty"`
+	Tags     map[string]string          `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &DatabaseAccountsMongodbDatabasesCollections_Spec{}
@@ -625,24 +622,17 @@ func (collections *DatabaseAccountsMongodbDatabasesCollections_Spec) SetAzureNam
 	collections.AzureName = azureName
 }
 
+//Deprecated version of MongoDBCollectionGetResults_Status. Use v1beta20210515.MongoDBCollectionGetResults_Status instead
 type MongoDBCollectionGetResults_Status struct {
 	//Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	//Id: The unique resource identifier of the ARM resource.
-	Id *string `json:"id,omitempty"`
-
-	//Location: The location of the resource group to which the resource belongs.
-	Location *string `json:"location,omitempty"`
-
-	//Name: The name of the ARM resource.
-	Name     *string                                         `json:"name,omitempty"`
-	Options  *OptionsResource_Status                         `json:"options,omitempty"`
-	Resource *MongoDBCollectionGetProperties_Status_Resource `json:"resource,omitempty"`
-	Tags     map[string]string                               `json:"tags,omitempty"`
-
-	//Type: The type of Azure resource.
-	Type *string `json:"type,omitempty"`
+	Conditions []conditions.Condition                          `json:"conditions,omitempty"`
+	Id         *string                                         `json:"id,omitempty"`
+	Location   *string                                         `json:"location,omitempty"`
+	Name       *string                                         `json:"name,omitempty"`
+	Options    *OptionsResource_Status                         `json:"options,omitempty"`
+	Resource   *MongoDBCollectionGetProperties_Status_Resource `json:"resource,omitempty"`
+	Tags       map[string]string                               `json:"tags,omitempty"`
+	Type       *string                                         `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &MongoDBCollectionGetResults_Status{}
@@ -882,27 +872,15 @@ func (results *MongoDBCollectionGetResults_Status) AssignPropertiesToMongoDBColl
 	return nil
 }
 
+//Deprecated version of MongoDBCollectionGetProperties_Status_Resource. Use v1beta20210515.MongoDBCollectionGetProperties_Status_Resource instead
 type MongoDBCollectionGetProperties_Status_Resource struct {
-	//AnalyticalStorageTtl: Analytical TTL.
-	AnalyticalStorageTtl *int `json:"analyticalStorageTtl,omitempty"`
-
-	//Etag: A system generated property representing the resource etag required for optimistic concurrency control.
-	Etag *string `json:"_etag,omitempty"`
-
-	//Id: Name of the Cosmos DB MongoDB collection
-	Id *string `json:"id,omitempty"`
-
-	//Indexes: List of index keys
-	Indexes []MongoIndex_Status `json:"indexes,omitempty"`
-
-	//Rid: A system generated property. A unique identifier.
-	Rid *string `json:"_rid,omitempty"`
-
-	//ShardKey: A key-value pair of shard keys to be applied for the request.
-	ShardKey map[string]string `json:"shardKey,omitempty"`
-
-	//Ts: A system generated property that denotes the last updated timestamp of the resource.
-	Ts *float64 `json:"_ts,omitempty"`
+	AnalyticalStorageTtl *int                `json:"analyticalStorageTtl,omitempty"`
+	Etag                 *string             `json:"_etag,omitempty"`
+	Id                   *string             `json:"id,omitempty"`
+	Indexes              []MongoIndex_Status `json:"indexes,omitempty"`
+	Rid                  *string             `json:"_rid,omitempty"`
+	ShardKey             map[string]string   `json:"shardKey,omitempty"`
+	Ts                   *float64            `json:"_ts,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &MongoDBCollectionGetProperties_Status_Resource{}
@@ -1076,19 +1054,13 @@ func (resource *MongoDBCollectionGetProperties_Status_Resource) AssignProperties
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/MongoDBCollectionResource
+//Deprecated version of MongoDBCollectionResource. Use v1beta20210515.MongoDBCollectionResource instead
 type MongoDBCollectionResource struct {
-	//AnalyticalStorageTtl: Analytical TTL.
 	AnalyticalStorageTtl *int `json:"analyticalStorageTtl,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Id: Name of the Cosmos DB MongoDB collection
-	Id *string `json:"id,omitempty"`
-
-	//Indexes: List of index keys
-	Indexes []MongoIndex `json:"indexes,omitempty"`
-
-	//ShardKey: The shard key and partition kind pair, only support "Hash" partition kind
+	Id       *string           `json:"id,omitempty"`
+	Indexes  []MongoIndex      `json:"indexes,omitempty"`
 	ShardKey map[string]string `json:"shardKey,omitempty"`
 }
 
@@ -1255,12 +1227,9 @@ func (resource *MongoDBCollectionResource) AssignPropertiesToMongoDBCollectionRe
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/MongoIndex
+//Deprecated version of MongoIndex. Use v1beta20210515.MongoIndex instead
 type MongoIndex struct {
-	//Key: Cosmos DB MongoDB collection resource object
-	Key *MongoIndexKeys `json:"key,omitempty"`
-
-	//Options: Cosmos DB MongoDB collection index options
+	Key     *MongoIndexKeys    `json:"key,omitempty"`
 	Options *MongoIndexOptions `json:"options,omitempty"`
 }
 
@@ -1404,11 +1373,9 @@ func (index *MongoIndex) AssignPropertiesToMongoIndex(destination *v1alpha1api20
 	return nil
 }
 
+//Deprecated version of MongoIndex_Status. Use v1beta20210515.MongoIndex_Status instead
 type MongoIndex_Status struct {
-	//Key: Cosmos DB MongoDB collection index keys
-	Key *MongoIndexKeys_Status `json:"key,omitempty"`
-
-	//Options: Cosmos DB MongoDB collection index key options
+	Key     *MongoIndexKeys_Status    `json:"key,omitempty"`
 	Options *MongoIndexOptions_Status `json:"options,omitempty"`
 }
 
@@ -1523,9 +1490,8 @@ func (index *MongoIndex_Status) AssignPropertiesToMongoIndexStatus(destination *
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/MongoIndexKeys
+//Deprecated version of MongoIndexKeys. Use v1beta20210515.MongoIndexKeys instead
 type MongoIndexKeys struct {
-	//Keys: List of keys for each MongoDB collection in the Azure Cosmos DB service
 	Keys []string `json:"keys,omitempty"`
 }
 
@@ -1595,8 +1561,8 @@ func (keys *MongoIndexKeys) AssignPropertiesToMongoIndexKeys(destination *v1alph
 	return nil
 }
 
+//Deprecated version of MongoIndexKeys_Status. Use v1beta20210515.MongoIndexKeys_Status instead
 type MongoIndexKeys_Status struct {
-	//Keys: List of keys for each MongoDB collection in the Azure Cosmos DB service
 	Keys []string `json:"keys,omitempty"`
 }
 
@@ -1652,13 +1618,10 @@ func (keys *MongoIndexKeys_Status) AssignPropertiesToMongoIndexKeysStatus(destin
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/MongoIndexOptions
+//Deprecated version of MongoIndexOptions. Use v1beta20210515.MongoIndexOptions instead
 type MongoIndexOptions struct {
-	//ExpireAfterSeconds: Expire after seconds
-	ExpireAfterSeconds *int `json:"expireAfterSeconds,omitempty"`
-
-	//Unique: Is unique or not
-	Unique *bool `json:"unique,omitempty"`
+	ExpireAfterSeconds *int  `json:"expireAfterSeconds,omitempty"`
+	Unique             *bool `json:"unique,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &MongoIndexOptions{}
@@ -1757,12 +1720,10 @@ func (options *MongoIndexOptions) AssignPropertiesToMongoIndexOptions(destinatio
 	return nil
 }
 
+//Deprecated version of MongoIndexOptions_Status. Use v1beta20210515.MongoIndexOptions_Status instead
 type MongoIndexOptions_Status struct {
-	//ExpireAfterSeconds: Expire after seconds
-	ExpireAfterSeconds *int `json:"expireAfterSeconds,omitempty"`
-
-	//Unique: Is unique or not
-	Unique *bool `json:"unique,omitempty"`
+	ExpireAfterSeconds *int  `json:"expireAfterSeconds,omitempty"`
+	Unique             *bool `json:"unique,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &MongoIndexOptions_Status{}

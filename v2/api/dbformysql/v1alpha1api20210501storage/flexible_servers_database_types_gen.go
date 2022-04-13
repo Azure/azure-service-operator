@@ -4,25 +4,24 @@
 package v1alpha1api20210501storage
 
 import (
+	"fmt"
+	"github.com/Azure/azure-service-operator/v2/api/dbformysql/v1beta20210501storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
-
-// +kubebuilder:rbac:groups=dbformysql.azure.com,resources=flexibleserversdatabases,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=dbformysql.azure.com,resources={flexibleserversdatabases/status,flexibleserversdatabases/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 //Storage version of v1alpha1api20210501.FlexibleServersDatabase
-//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/resourceDefinitions/flexibleServers_databases
+//Deprecated version of FlexibleServersDatabase. Use v1beta20210501.FlexibleServersDatabase instead
 type FlexibleServersDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -40,6 +39,28 @@ func (database *FlexibleServersDatabase) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (database *FlexibleServersDatabase) SetConditions(conditions conditions.Conditions) {
 	database.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &FlexibleServersDatabase{}
+
+// ConvertFrom populates our FlexibleServersDatabase from the provided hub FlexibleServersDatabase
+func (database *FlexibleServersDatabase) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*v1beta20210501storage.FlexibleServersDatabase)
+	if !ok {
+		return fmt.Errorf("expected dbformysql/v1beta20210501storage/FlexibleServersDatabase but received %T instead", hub)
+	}
+
+	return database.AssignPropertiesFromFlexibleServersDatabase(source)
+}
+
+// ConvertTo populates the provided hub FlexibleServersDatabase from our FlexibleServersDatabase
+func (database *FlexibleServersDatabase) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*v1beta20210501storage.FlexibleServersDatabase)
+	if !ok {
+		return fmt.Errorf("expected dbformysql/v1beta20210501storage/FlexibleServersDatabase but received %T instead", hub)
+	}
+
+	return database.AssignPropertiesToFlexibleServersDatabase(destination)
 }
 
 var _ genruntime.KubernetesResource = &FlexibleServersDatabase{}
@@ -108,8 +129,57 @@ func (database *FlexibleServersDatabase) SetStatus(status genruntime.Convertible
 	return nil
 }
 
-// Hub marks that this FlexibleServersDatabase is the hub type for conversion
-func (database *FlexibleServersDatabase) Hub() {}
+// AssignPropertiesFromFlexibleServersDatabase populates our FlexibleServersDatabase from the provided source FlexibleServersDatabase
+func (database *FlexibleServersDatabase) AssignPropertiesFromFlexibleServersDatabase(source *v1beta20210501storage.FlexibleServersDatabase) error {
+
+	// ObjectMeta
+	database.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec FlexibleServersDatabases_Spec
+	err := spec.AssignPropertiesFromFlexibleServersDatabasesSpec(&source.Spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesFromFlexibleServersDatabasesSpec() to populate field Spec")
+	}
+	database.Spec = spec
+
+	// Status
+	var status Database_Status
+	err = status.AssignPropertiesFromDatabaseStatus(&source.Status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesFromDatabaseStatus() to populate field Status")
+	}
+	database.Status = status
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToFlexibleServersDatabase populates the provided destination FlexibleServersDatabase from our FlexibleServersDatabase
+func (database *FlexibleServersDatabase) AssignPropertiesToFlexibleServersDatabase(destination *v1beta20210501storage.FlexibleServersDatabase) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *database.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec v1beta20210501storage.FlexibleServersDatabases_Spec
+	err := database.Spec.AssignPropertiesToFlexibleServersDatabasesSpec(&spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesToFlexibleServersDatabasesSpec() to populate field Spec")
+	}
+	destination.Spec = spec
+
+	// Status
+	var status v1beta20210501storage.Database_Status
+	err = database.Status.AssignPropertiesToDatabaseStatus(&status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignPropertiesToDatabaseStatus() to populate field Status")
+	}
+	destination.Status = status
+
+	// No error
+	return nil
+}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (database *FlexibleServersDatabase) OriginalGVK() *schema.GroupVersionKind {
@@ -122,7 +192,7 @@ func (database *FlexibleServersDatabase) OriginalGVK() *schema.GroupVersionKind 
 
 // +kubebuilder:object:root=true
 //Storage version of v1alpha1api20210501.FlexibleServersDatabase
-//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/resourceDefinitions/flexibleServers_databases
+//Deprecated version of FlexibleServersDatabase. Use v1beta20210501.FlexibleServersDatabase instead
 type FlexibleServersDatabaseList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -130,6 +200,7 @@ type FlexibleServersDatabaseList struct {
 }
 
 //Storage version of v1alpha1api20210501.Database_Status
+//Deprecated version of Database_Status. Use v1beta20210501.Database_Status instead
 type Database_Status struct {
 	Charset     *string                `json:"charset,omitempty"`
 	Collation   *string                `json:"collation,omitempty"`
@@ -145,20 +216,142 @@ var _ genruntime.ConvertibleStatus = &Database_Status{}
 
 // ConvertStatusFrom populates our Database_Status from the provided source
 func (database *Database_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == database {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	src, ok := source.(*v1beta20210501storage.Database_Status)
+	if ok {
+		// Populate our instance from source
+		return database.AssignPropertiesFromDatabaseStatus(src)
 	}
 
-	return source.ConvertStatusTo(database)
+	// Convert to an intermediate form
+	src = &v1beta20210501storage.Database_Status{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = database.AssignPropertiesFromDatabaseStatus(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
 }
 
 // ConvertStatusTo populates the provided destination from our Database_Status
 func (database *Database_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == database {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	dst, ok := destination.(*v1beta20210501storage.Database_Status)
+	if ok {
+		// Populate destination from our instance
+		return database.AssignPropertiesToDatabaseStatus(dst)
 	}
 
-	return destination.ConvertStatusFrom(database)
+	// Convert to an intermediate form
+	dst = &v1beta20210501storage.Database_Status{}
+	err := database.AssignPropertiesToDatabaseStatus(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+// AssignPropertiesFromDatabaseStatus populates our Database_Status from the provided source Database_Status
+func (database *Database_Status) AssignPropertiesFromDatabaseStatus(source *v1beta20210501storage.Database_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Charset
+	database.Charset = genruntime.ClonePointerToString(source.Charset)
+
+	// Collation
+	database.Collation = genruntime.ClonePointerToString(source.Collation)
+
+	// Conditions
+	database.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// Id
+	database.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Name
+	database.Name = genruntime.ClonePointerToString(source.Name)
+
+	// SystemData
+	if source.SystemData != nil {
+		var systemDatum SystemData_Status
+		err := systemDatum.AssignPropertiesFromSystemDataStatus(source.SystemData)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataStatus() to populate field SystemData")
+		}
+		database.SystemData = &systemDatum
+	} else {
+		database.SystemData = nil
+	}
+
+	// Type
+	database.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		database.PropertyBag = propertyBag
+	} else {
+		database.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToDatabaseStatus populates the provided destination Database_Status from our Database_Status
+func (database *Database_Status) AssignPropertiesToDatabaseStatus(destination *v1beta20210501storage.Database_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(database.PropertyBag)
+
+	// Charset
+	destination.Charset = genruntime.ClonePointerToString(database.Charset)
+
+	// Collation
+	destination.Collation = genruntime.ClonePointerToString(database.Collation)
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(database.Conditions)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(database.Id)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(database.Name)
+
+	// SystemData
+	if database.SystemData != nil {
+		var systemDatum v1beta20210501storage.SystemData_Status
+		err := database.SystemData.AssignPropertiesToSystemDataStatus(&systemDatum)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSystemDataStatus() to populate field SystemData")
+		}
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
+	}
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(database.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 //Storage version of v1alpha1api20210501.FlexibleServersDatabases_Spec
@@ -184,20 +377,134 @@ var _ genruntime.ConvertibleSpec = &FlexibleServersDatabases_Spec{}
 
 // ConvertSpecFrom populates our FlexibleServersDatabases_Spec from the provided source
 func (databases *FlexibleServersDatabases_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == databases {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	src, ok := source.(*v1beta20210501storage.FlexibleServersDatabases_Spec)
+	if ok {
+		// Populate our instance from source
+		return databases.AssignPropertiesFromFlexibleServersDatabasesSpec(src)
 	}
 
-	return source.ConvertSpecTo(databases)
+	// Convert to an intermediate form
+	src = &v1beta20210501storage.FlexibleServersDatabases_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = databases.AssignPropertiesFromFlexibleServersDatabasesSpec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
 }
 
 // ConvertSpecTo populates the provided destination from our FlexibleServersDatabases_Spec
 func (databases *FlexibleServersDatabases_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == databases {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	dst, ok := destination.(*v1beta20210501storage.FlexibleServersDatabases_Spec)
+	if ok {
+		// Populate destination from our instance
+		return databases.AssignPropertiesToFlexibleServersDatabasesSpec(dst)
 	}
 
-	return destination.ConvertSpecFrom(databases)
+	// Convert to an intermediate form
+	dst = &v1beta20210501storage.FlexibleServersDatabases_Spec{}
+	err := databases.AssignPropertiesToFlexibleServersDatabasesSpec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignPropertiesFromFlexibleServersDatabasesSpec populates our FlexibleServersDatabases_Spec from the provided source FlexibleServersDatabases_Spec
+func (databases *FlexibleServersDatabases_Spec) AssignPropertiesFromFlexibleServersDatabasesSpec(source *v1beta20210501storage.FlexibleServersDatabases_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AzureName
+	databases.AzureName = source.AzureName
+
+	// Charset
+	databases.Charset = genruntime.ClonePointerToString(source.Charset)
+
+	// Collation
+	databases.Collation = genruntime.ClonePointerToString(source.Collation)
+
+	// Location
+	databases.Location = genruntime.ClonePointerToString(source.Location)
+
+	// OriginalVersion
+	databases.OriginalVersion = source.OriginalVersion
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		databases.Owner = &owner
+	} else {
+		databases.Owner = nil
+	}
+
+	// Tags
+	databases.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		databases.PropertyBag = propertyBag
+	} else {
+		databases.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToFlexibleServersDatabasesSpec populates the provided destination FlexibleServersDatabases_Spec from our FlexibleServersDatabases_Spec
+func (databases *FlexibleServersDatabases_Spec) AssignPropertiesToFlexibleServersDatabasesSpec(destination *v1beta20210501storage.FlexibleServersDatabases_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(databases.PropertyBag)
+
+	// AzureName
+	destination.AzureName = databases.AzureName
+
+	// Charset
+	destination.Charset = genruntime.ClonePointerToString(databases.Charset)
+
+	// Collation
+	destination.Collation = genruntime.ClonePointerToString(databases.Collation)
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(databases.Location)
+
+	// OriginalVersion
+	destination.OriginalVersion = databases.OriginalVersion
+
+	// Owner
+	if databases.Owner != nil {
+		owner := databases.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(databases.Tags)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 func init() {

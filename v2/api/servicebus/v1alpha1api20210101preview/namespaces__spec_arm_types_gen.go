@@ -5,24 +5,14 @@ package v1alpha1api20210101preview
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
+//Deprecated version of Namespaces_Spec. Use v1beta20210101preview.Namespaces_Spec instead
 type Namespaces_SpecARM struct {
-	//Identity: Properties to configure User Assigned Identities for Bring your Own Keys
-	Identity *IdentityARM `json:"identity,omitempty"`
-
-	//Location: The Geo-location where the resource lives
-	Location *string `json:"location,omitempty"`
-
-	//Name: Name of the resource
-	Name string `json:"name,omitempty"`
-
-	//Properties: Properties of the namespace.
+	Identity   *IdentityARM                   `json:"identity,omitempty"`
+	Location   *string                        `json:"location,omitempty"`
+	Name       string                         `json:"name,omitempty"`
 	Properties *Namespaces_Spec_PropertiesARM `json:"properties,omitempty"`
-
-	//Sku: SKU of the namespace.
-	Sku *SBSkuARM `json:"sku,omitempty"`
-
-	//Tags: Name-value pairs to add to the resource
-	Tags map[string]string `json:"tags,omitempty"`
+	Sku        *SBSkuARM                      `json:"sku,omitempty"`
+	Tags       map[string]string              `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &Namespaces_SpecARM{}
@@ -42,44 +32,32 @@ func (namespaces Namespaces_SpecARM) GetType() string {
 	return "Microsoft.ServiceBus/namespaces"
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/Identity
+//Deprecated version of Identity. Use v1beta20210101preview.Identity instead
 type IdentityARM struct {
-	//Type: Type of managed service identity.
 	Type *IdentityType `json:"type,omitempty"`
 }
 
+//Deprecated version of Namespaces_Spec_Properties. Use v1beta20210101preview.Namespaces_Spec_Properties instead
 type Namespaces_Spec_PropertiesARM struct {
-	//Encryption: Properties to configure Encryption
-	Encryption *EncryptionARM `json:"encryption,omitempty"`
-
-	//ZoneRedundant: Enabling this property creates a Premium Service Bus Namespace in regions supported availability zones.
-	ZoneRedundant *bool `json:"zoneRedundant,omitempty"`
+	Encryption    *EncryptionARM `json:"encryption,omitempty"`
+	ZoneRedundant *bool          `json:"zoneRedundant,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/SBSku
+//Deprecated version of SBSku. Use v1beta20210101preview.SBSku instead
 type SBSkuARM struct {
-	//Capacity: The specified messaging units for the tier. For Premium tier, capacity are 1,2 and 4.
-	Capacity *int `json:"capacity,omitempty"`
-
-	//Name: Name of this SKU.
-	Name *SBSkuName `json:"name,omitempty"`
-
-	//Tier: The billing tier of this particular SKU.
-	Tier *SBSkuTier `json:"tier,omitempty"`
+	Capacity *int       `json:"capacity,omitempty"`
+	Name     *SBSkuName `json:"name,omitempty"`
+	Tier     *SBSkuTier `json:"tier,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/Encryption
+//Deprecated version of Encryption. Use v1beta20210101preview.Encryption instead
 type EncryptionARM struct {
-	//KeySource: Enumerates the possible value of keySource for Encryption.
-	KeySource *EncryptionKeySource `json:"keySource,omitempty"`
-
-	//KeyVaultProperties: Properties of KeyVault
-	KeyVaultProperties []KeyVaultPropertiesARM `json:"keyVaultProperties,omitempty"`
-
-	//RequireInfrastructureEncryption: Enable Infrastructure Encryption (Double Encryption)
-	RequireInfrastructureEncryption *bool `json:"requireInfrastructureEncryption,omitempty"`
+	KeySource                       *EncryptionKeySource    `json:"keySource,omitempty"`
+	KeyVaultProperties              []KeyVaultPropertiesARM `json:"keyVaultProperties,omitempty"`
+	RequireInfrastructureEncryption *bool                   `json:"requireInfrastructureEncryption,omitempty"`
 }
 
+//Deprecated version of IdentityType. Use v1beta20210101preview.IdentityType instead
 // +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned, UserAssigned","UserAssigned"}
 type IdentityType string
 
@@ -90,6 +68,7 @@ const (
 	IdentityTypeUserAssigned               = IdentityType("UserAssigned")
 )
 
+//Deprecated version of SBSkuName. Use v1beta20210101preview.SBSkuName instead
 // +kubebuilder:validation:Enum={"Basic","Premium","Standard"}
 type SBSkuName string
 
@@ -99,6 +78,7 @@ const (
 	SBSkuNameStandard = SBSkuName("Standard")
 )
 
+//Deprecated version of SBSkuTier. Use v1beta20210101preview.SBSkuTier instead
 // +kubebuilder:validation:Enum={"Basic","Premium","Standard"}
 type SBSkuTier string
 
@@ -108,21 +88,15 @@ const (
 	SBSkuTierStandard = SBSkuTier("Standard")
 )
 
-//Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/KeyVaultProperties
+//Deprecated version of KeyVaultProperties. Use v1beta20210101preview.KeyVaultProperties instead
 type KeyVaultPropertiesARM struct {
-	Identity *UserAssignedIdentityPropertiesARM `json:"identity,omitempty"`
-
-	//KeyName: Name of the Key from KeyVault
-	KeyName *string `json:"keyName,omitempty"`
-
-	//KeyVaultUri: Uri of KeyVault
-	KeyVaultUri *string `json:"keyVaultUri,omitempty"`
-
-	//KeyVersion: Version of KeyVault
-	KeyVersion *string `json:"keyVersion,omitempty"`
+	Identity    *UserAssignedIdentityPropertiesARM `json:"identity,omitempty"`
+	KeyName     *string                            `json:"keyName,omitempty"`
+	KeyVaultUri *string                            `json:"keyVaultUri,omitempty"`
+	KeyVersion  *string                            `json:"keyVersion,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/UserAssignedIdentityProperties
+//Deprecated version of UserAssignedIdentityProperties. Use v1beta20210101preview.UserAssignedIdentityProperties instead
 type UserAssignedIdentityPropertiesARM struct {
 	UserAssignedIdentity *string `json:"userAssignedIdentity,omitempty"`
 }

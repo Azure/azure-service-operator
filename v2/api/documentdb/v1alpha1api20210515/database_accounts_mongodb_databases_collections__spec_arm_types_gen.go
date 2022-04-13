@@ -5,22 +5,12 @@ package v1alpha1api20210515
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
+//Deprecated version of DatabaseAccountsMongodbDatabasesCollections_Spec. Use v1beta20210515.DatabaseAccountsMongodbDatabasesCollections_Spec instead
 type DatabaseAccountsMongodbDatabasesCollections_SpecARM struct {
-	//Location: The location of the resource group to which the resource belongs.
-	Location *string `json:"location,omitempty"`
-
-	//Name: Cosmos DB collection name.
-	Name string `json:"name,omitempty"`
-
-	//Properties: Properties to create and update Azure Cosmos DB MongoDB collection.
+	Location   *string                                     `json:"location,omitempty"`
+	Name       string                                      `json:"name,omitempty"`
 	Properties *MongoDBCollectionCreateUpdatePropertiesARM `json:"properties,omitempty"`
-
-	//Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
-	//resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
-	//greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
-	//type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph",
-	//"DocumentDB", and "MongoDB".
-	Tags map[string]string `json:"tags,omitempty"`
+	Tags       map[string]string                           `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &DatabaseAccountsMongodbDatabasesCollections_SpecARM{}
@@ -40,65 +30,44 @@ func (collections DatabaseAccountsMongodbDatabasesCollections_SpecARM) GetType()
 	return "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections"
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/MongoDBCollectionCreateUpdateProperties
+//Deprecated version of MongoDBCollectionCreateUpdateProperties. Use v1beta20210515.MongoDBCollectionCreateUpdateProperties instead
 type MongoDBCollectionCreateUpdatePropertiesARM struct {
-	//Options: CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are "If-Match",
-	//"If-None-Match", "Session-Token" and "Throughput"
-	Options *CreateUpdateOptionsARM `json:"options,omitempty"`
-
-	//Resource: Cosmos DB MongoDB collection resource object
+	Options  *CreateUpdateOptionsARM       `json:"options,omitempty"`
 	Resource *MongoDBCollectionResourceARM `json:"resource,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/CreateUpdateOptions
+//Deprecated version of CreateUpdateOptions. Use v1beta20210515.CreateUpdateOptions instead
 type CreateUpdateOptionsARM struct {
 	AutoscaleSettings *AutoscaleSettingsARM `json:"autoscaleSettings,omitempty"`
-
-	//Throughput: Request Units per second. For example, "throughput": 10000.
-	Throughput *int `json:"throughput,omitempty"`
+	Throughput        *int                  `json:"throughput,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/MongoDBCollectionResource
+//Deprecated version of MongoDBCollectionResource. Use v1beta20210515.MongoDBCollectionResource instead
 type MongoDBCollectionResourceARM struct {
-	//AnalyticalStorageTtl: Analytical TTL.
-	AnalyticalStorageTtl *int `json:"analyticalStorageTtl,omitempty"`
-
-	//Id: Name of the Cosmos DB MongoDB collection
-	Id *string `json:"id,omitempty"`
-
-	//Indexes: List of index keys
-	Indexes []MongoIndexARM `json:"indexes,omitempty"`
-
-	//ShardKey: The shard key and partition kind pair, only support "Hash" partition kind
-	ShardKey map[string]string `json:"shardKey,omitempty"`
+	AnalyticalStorageTtl *int              `json:"analyticalStorageTtl,omitempty"`
+	Id                   *string           `json:"id,omitempty"`
+	Indexes              []MongoIndexARM   `json:"indexes,omitempty"`
+	ShardKey             map[string]string `json:"shardKey,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/AutoscaleSettings
+//Deprecated version of AutoscaleSettings. Use v1beta20210515.AutoscaleSettings instead
 type AutoscaleSettingsARM struct {
-	//MaxThroughput: Represents maximum throughput, the resource can scale up to.
 	MaxThroughput *int `json:"maxThroughput,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/MongoIndex
+//Deprecated version of MongoIndex. Use v1beta20210515.MongoIndex instead
 type MongoIndexARM struct {
-	//Key: Cosmos DB MongoDB collection resource object
-	Key *MongoIndexKeysARM `json:"key,omitempty"`
-
-	//Options: Cosmos DB MongoDB collection index options
+	Key     *MongoIndexKeysARM    `json:"key,omitempty"`
 	Options *MongoIndexOptionsARM `json:"options,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/MongoIndexKeys
+//Deprecated version of MongoIndexKeys. Use v1beta20210515.MongoIndexKeys instead
 type MongoIndexKeysARM struct {
-	//Keys: List of keys for each MongoDB collection in the Azure Cosmos DB service
 	Keys []string `json:"keys,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/MongoIndexOptions
+//Deprecated version of MongoIndexOptions. Use v1beta20210515.MongoIndexOptions instead
 type MongoIndexOptionsARM struct {
-	//ExpireAfterSeconds: Expire after seconds
-	ExpireAfterSeconds *int `json:"expireAfterSeconds,omitempty"`
-
-	//Unique: Is unique or not
-	Unique *bool `json:"unique,omitempty"`
+	ExpireAfterSeconds *int  `json:"expireAfterSeconds,omitempty"`
+	Unique             *bool `json:"unique,omitempty"`
 }
