@@ -10,7 +10,7 @@ By default, metrics scraping is turned on for ASOv2. It can be turned off using 
 
 ### ASOv2 Helm Chart
 
-While installing the Helm chart, we can turn the metrics ON and OFF and set the metrics expose address using the 
+While installing the Helm chart, we can turn the metrics _**on**_ and _**off**_ and set the metrics expose address using the 
 below settings. Also, we can change the settings inside `values.yaml` file for ASOv2 Helm chart.
 
    ```
