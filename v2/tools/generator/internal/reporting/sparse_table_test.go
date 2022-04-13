@@ -13,7 +13,7 @@ import (
 	"github.com/sebdah/goldie/v2"
 )
 
-func TestTable_StepByStep_GivesExpectedResults(t *testing.T) {
+func TestSparseTable_StepByStep_GivesExpectedResults(t *testing.T) {
 	t.Parallel()
 
 	steps := []struct {
@@ -34,7 +34,7 @@ func TestTable_StepByStep_GivesExpectedResults(t *testing.T) {
 		{"10", "triangle", "yes"},
 	}
 
-	table := NewTable("Demo")
+	table := NewSparseTable("Demo")
 	g := goldie.New(t)
 	for i, s := range steps {
 		table.SetCell(s.row, s.col, s.cell)
