@@ -24,7 +24,7 @@ func (r *MySQLUser) SetupWebhookWithManager(mgr ctrl.Manager) error {
 
 // EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
 
-// +kubebuilder:webhook:verbs=create;update,path=/validate-azure-microsoft-com-v1alpha2-mysqluser,mutating=false,failurePolicy=fail,groups=azure.microsoft.com,resources=mysqlusers,versions=v1alpha2,name=vmysqluser.kb.io,sideEffects=none,webhookVersions=v1
+// +kubebuilder:webhook:verbs=create;update,path=/validate-azure-microsoft-com-v1alpha2-mysqluser,mutating=false,failurePolicy=fail,groups=azure.microsoft.com,resources=mysqlusers,versions=v1alpha2,name=vmysqluser.kb.io,sideEffects=none,webhookVersions=v1,admissionReviewVersions=v1;v1beta1
 
 func ensureNoSQLAll(privileges []string) error {
 	for _, privilege := range privileges {

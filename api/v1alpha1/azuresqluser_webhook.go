@@ -22,7 +22,7 @@ func (r *AzureSQLUser) SetupWebhookWithManager(mgr ctrl.Manager) error {
 
 // EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
 
-// +kubebuilder:webhook:verbs=create;update,path=/validate-azure-microsoft-com-v1alpha1-azuresqluser,mutating=false,failurePolicy=fail,groups=azure.microsoft.com,resources=azuresqlusers,versions=v1alpha1,name=vazuresqluser.kb.io,sideEffects=none,webhookVersions=v1
+// +kubebuilder:webhook:verbs=create;update,path=/validate-azure-microsoft-com-v1alpha1-azuresqluser,mutating=false,failurePolicy=fail,groups=azure.microsoft.com,resources=azuresqlusers,versions=v1alpha1,name=vazuresqluser.kb.io,sideEffects=none,webhookVersions=v1,admissionReviewVersions=v1;v1beta1
 
 func ValidateAzureSQLDBName(name string) error {
 	if name == "master" {

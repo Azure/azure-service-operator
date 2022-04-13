@@ -21,7 +21,7 @@ func (r *MySQLAADUser) SetupWebhookWithManager(mgr ctrl.Manager) error {
 
 // EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
 
-// +kubebuilder:webhook:verbs=create;update,path=/validate-azure-microsoft-com-v1alpha2-mysqlaaduser,mutating=false,failurePolicy=fail,groups=azure.microsoft.com,resources=mysqlaadusers,versions=v1alpha2,name=vmysqlaaduser.kb.io,sideEffects=none,webhookVersions=v1
+// +kubebuilder:webhook:verbs=create;update,path=/validate-azure-microsoft-com-v1alpha2-mysqlaaduser,mutating=false,failurePolicy=fail,groups=azure.microsoft.com,resources=mysqlaadusers,versions=v1alpha2,name=vmysqlaaduser.kb.io,sideEffects=none,webhookVersions=v1,admissionReviewVersions=v1;v1beta1
 
 var _ webhook.Validator = &MySQLAADUser{}
 

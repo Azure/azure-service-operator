@@ -74,10 +74,10 @@ jobs:
 
 
     - task: GoTool@0
-      displayName: Get Go 1.16
+      displayName: Get Go 1.18
       condition: or(eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true'), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
       inputs:
-        version: '1.16'
+        version: '1.18'
 
     - task: Go@0
       displayName: Get Go dependencies
