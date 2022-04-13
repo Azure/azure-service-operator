@@ -12,7 +12,7 @@ Resource Types:
 (<em>Appears on:</em><a href="#dbformysql.azure.com/v1alpha1api20210501.FlexibleServers_Spec">FlexibleServers_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Backup">https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Backup</a></p>
+<p>Deprecated version of Backup. Use v1beta20210501.Backup instead</p>
 </div>
 <table>
 <thead>
@@ -30,7 +30,6 @@ int
 </em>
 </td>
 <td>
-<p>BackupRetentionDays: Backup retention days for the server.</p>
 </td>
 </tr>
 <tr>
@@ -43,7 +42,6 @@ BackupGeoRedundantBackup
 </em>
 </td>
 <td>
-<p>GeoRedundantBackup: Whether or not geo redundant backup is enabled.</p>
 </td>
 </tr>
 </tbody>
@@ -54,7 +52,7 @@ BackupGeoRedundantBackup
 (<em>Appears on:</em><a href="#dbformysql.azure.com/v1alpha1api20210501.ServerPropertiesARM">ServerPropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Backup">https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Backup</a></p>
+<p>Deprecated version of Backup. Use v1beta20210501.Backup instead</p>
 </div>
 <table>
 <thead>
@@ -72,7 +70,6 @@ int
 </em>
 </td>
 <td>
-<p>BackupRetentionDays: Backup retention days for the server.</p>
 </td>
 </tr>
 <tr>
@@ -85,7 +82,6 @@ BackupGeoRedundantBackup
 </em>
 </td>
 <td>
-<p>GeoRedundantBackup: Whether or not geo redundant backup is enabled.</p>
 </td>
 </tr>
 </tbody>
@@ -96,6 +92,7 @@ BackupGeoRedundantBackup
 (<em>Appears on:</em><a href="#dbformysql.azure.com/v1alpha1api20210501.Backup">Backup</a>, <a href="#dbformysql.azure.com/v1alpha1api20210501.BackupARM">BackupARM</a>)
 </p>
 <div>
+<p>Deprecated version of BackupGeoRedundantBackup. Use v1beta20210501.BackupGeoRedundantBackup instead</p>
 </div>
 <table>
 <thead>
@@ -116,6 +113,7 @@ BackupGeoRedundantBackup
 (<em>Appears on:</em><a href="#dbformysql.azure.com/v1alpha1api20210501.Server_Status">Server_Status</a>)
 </p>
 <div>
+<p>Deprecated version of Backup_Status. Use v1beta20210501.Backup_Status instead</p>
 </div>
 <table>
 <thead>
@@ -133,7 +131,6 @@ int
 </em>
 </td>
 <td>
-<p>BackupRetentionDays: Backup retention days for the server.</p>
 </td>
 </tr>
 <tr>
@@ -144,7 +141,6 @@ string
 </em>
 </td>
 <td>
-<p>EarliestRestoreDate: Earliest restore point creation time (ISO8601 format)</p>
 </td>
 </tr>
 <tr>
@@ -157,7 +153,6 @@ EnableStatusEnum_Status
 </em>
 </td>
 <td>
-<p>GeoRedundantBackup: Whether or not geo redundant backup is enabled.</p>
 </td>
 </tr>
 </tbody>
@@ -168,6 +163,7 @@ EnableStatusEnum_Status
 (<em>Appears on:</em><a href="#dbformysql.azure.com/v1alpha1api20210501.ServerProperties_StatusARM">ServerProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of Backup_Status. Use v1beta20210501.Backup_Status instead</p>
 </div>
 <table>
 <thead>
@@ -185,7 +181,6 @@ int
 </em>
 </td>
 <td>
-<p>BackupRetentionDays: Backup retention days for the server.</p>
 </td>
 </tr>
 <tr>
@@ -196,7 +191,6 @@ string
 </em>
 </td>
 <td>
-<p>EarliestRestoreDate: Earliest restore point creation time (ISO8601 format)</p>
 </td>
 </tr>
 <tr>
@@ -209,7 +203,6 @@ EnableStatusEnum_Status
 </em>
 </td>
 <td>
-<p>GeoRedundantBackup: Whether or not geo redundant backup is enabled.</p>
 </td>
 </tr>
 </tbody>
@@ -220,7 +213,7 @@ EnableStatusEnum_Status
 (<em>Appears on:</em><a href="#dbformysql.azure.com/v1alpha1api20210501.FlexibleServersDatabases_SpecARM">FlexibleServersDatabases_SpecARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/DatabaseProperties">https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/DatabaseProperties</a></p>
+<p>Deprecated version of DatabaseProperties. Use v1beta20210501.DatabaseProperties instead</p>
 </div>
 <table>
 <thead>
@@ -238,7 +231,6 @@ string
 </em>
 </td>
 <td>
-<p>Charset: The charset of the database.</p>
 </td>
 </tr>
 <tr>
@@ -249,7 +241,6 @@ string
 </em>
 </td>
 <td>
-<p>Collation: The collation of the database.</p>
 </td>
 </tr>
 </tbody>
@@ -260,6 +251,7 @@ string
 (<em>Appears on:</em><a href="#dbformysql.azure.com/v1alpha1api20210501.Database_StatusARM">Database_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of DatabaseProperties_Status. Use v1beta20210501.DatabaseProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -277,7 +269,6 @@ string
 </em>
 </td>
 <td>
-<p>Charset: The charset of the database.</p>
 </td>
 </tr>
 <tr>
@@ -288,7 +279,6 @@ string
 </em>
 </td>
 <td>
-<p>Collation: The collation of the database.</p>
 </td>
 </tr>
 </tbody>
@@ -299,6 +289,7 @@ string
 (<em>Appears on:</em><a href="#dbformysql.azure.com/v1alpha1api20210501.FlexibleServersDatabase">FlexibleServersDatabase</a>)
 </p>
 <div>
+<p>Deprecated version of Database_Status. Use v1beta20210501.Database_Status instead</p>
 </div>
 <table>
 <thead>
@@ -316,7 +307,6 @@ string
 </em>
 </td>
 <td>
-<p>Charset: The charset of the database.</p>
 </td>
 </tr>
 <tr>
@@ -327,7 +317,6 @@ string
 </em>
 </td>
 <td>
-<p>Collation: The collation of the database.</p>
 </td>
 </tr>
 <tr>
@@ -351,8 +340,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}</p>
 </td>
 </tr>
 <tr>
@@ -363,7 +350,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource</p>
 </td>
 </tr>
 <tr>
@@ -376,7 +362,6 @@ SystemData_Status
 </em>
 </td>
 <td>
-<p>SystemData: The system metadata relating to this resource.</p>
 </td>
 </tr>
 <tr>
@@ -387,7 +372,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
 </td>
 </tr>
 </tbody>
@@ -395,6 +379,7 @@ string
 <h3 id="dbformysql.azure.com/v1alpha1api20210501.Database_StatusARM">Database_StatusARM
 </h3>
 <div>
+<p>Deprecated version of Database_Status. Use v1beta20210501.Database_Status instead</p>
 </div>
 <table>
 <thead>
@@ -412,8 +397,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}</p>
 </td>
 </tr>
 <tr>
@@ -424,7 +407,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource</p>
 </td>
 </tr>
 <tr>
@@ -437,7 +419,6 @@ DatabaseProperties_StatusARM
 </em>
 </td>
 <td>
-<p>Properties: The properties of a database.</p>
 </td>
 </tr>
 <tr>
@@ -450,7 +431,6 @@ SystemData_StatusARM
 </em>
 </td>
 <td>
-<p>SystemData: The system metadata relating to this resource.</p>
 </td>
 </tr>
 <tr>
@@ -461,7 +441,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
 </td>
 </tr>
 </tbody>
@@ -472,6 +451,7 @@ string
 (<em>Appears on:</em><a href="#dbformysql.azure.com/v1alpha1api20210501.Backup_Status">Backup_Status</a>, <a href="#dbformysql.azure.com/v1alpha1api20210501.Backup_StatusARM">Backup_StatusARM</a>, <a href="#dbformysql.azure.com/v1alpha1api20210501.Network_Status">Network_Status</a>, <a href="#dbformysql.azure.com/v1alpha1api20210501.Network_StatusARM">Network_StatusARM</a>, <a href="#dbformysql.azure.com/v1alpha1api20210501.Storage_Status">Storage_Status</a>, <a href="#dbformysql.azure.com/v1alpha1api20210501.Storage_StatusARM">Storage_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of EnableStatusEnum_Status. Use v1beta20210501.EnableStatusEnum_Status instead</p>
 </div>
 <table>
 <thead>
@@ -492,7 +472,7 @@ string
 (<em>Appears on:</em><a href="#dbformysql.azure.com/v1alpha1api20210501.FlexibleServersFirewallRules_SpecARM">FlexibleServersFirewallRules_SpecARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/FirewallRuleProperties">https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/FirewallRuleProperties</a></p>
+<p>Deprecated version of FirewallRuleProperties. Use v1beta20210501.FirewallRuleProperties instead</p>
 </div>
 <table>
 <thead>
@@ -510,7 +490,6 @@ string
 </em>
 </td>
 <td>
-<p>EndIpAddress: The end IP address of the server firewall rule. Must be IPv4 format.</p>
 </td>
 </tr>
 <tr>
@@ -521,7 +500,6 @@ string
 </em>
 </td>
 <td>
-<p>StartIpAddress: The start IP address of the server firewall rule. Must be IPv4 format.</p>
 </td>
 </tr>
 </tbody>
@@ -532,6 +510,7 @@ string
 (<em>Appears on:</em><a href="#dbformysql.azure.com/v1alpha1api20210501.FirewallRule_StatusARM">FirewallRule_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of FirewallRuleProperties_Status. Use v1beta20210501.FirewallRuleProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -549,7 +528,6 @@ string
 </em>
 </td>
 <td>
-<p>EndIpAddress: The end IP address of the server firewall rule. Must be IPv4 format.</p>
 </td>
 </tr>
 <tr>
@@ -560,7 +538,6 @@ string
 </em>
 </td>
 <td>
-<p>StartIpAddress: The start IP address of the server firewall rule. Must be IPv4 format.</p>
 </td>
 </tr>
 </tbody>
@@ -571,6 +548,7 @@ string
 (<em>Appears on:</em><a href="#dbformysql.azure.com/v1alpha1api20210501.FlexibleServersFirewallRule">FlexibleServersFirewallRule</a>)
 </p>
 <div>
+<p>Deprecated version of FirewallRule_Status. Use v1beta20210501.FirewallRule_Status instead</p>
 </div>
 <table>
 <thead>
@@ -601,7 +579,6 @@ string
 </em>
 </td>
 <td>
-<p>EndIpAddress: The end IP address of the server firewall rule. Must be IPv4 format.</p>
 </td>
 </tr>
 <tr>
@@ -612,8 +589,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}</p>
 </td>
 </tr>
 <tr>
@@ -624,7 +599,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource</p>
 </td>
 </tr>
 <tr>
@@ -635,7 +609,6 @@ string
 </em>
 </td>
 <td>
-<p>StartIpAddress: The start IP address of the server firewall rule. Must be IPv4 format.</p>
 </td>
 </tr>
 <tr>
@@ -648,7 +621,6 @@ SystemData_Status
 </em>
 </td>
 <td>
-<p>SystemData: The system metadata relating to this resource.</p>
 </td>
 </tr>
 <tr>
@@ -659,7 +631,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
 </td>
 </tr>
 </tbody>
@@ -667,6 +638,7 @@ string
 <h3 id="dbformysql.azure.com/v1alpha1api20210501.FirewallRule_StatusARM">FirewallRule_StatusARM
 </h3>
 <div>
+<p>Deprecated version of FirewallRule_Status. Use v1beta20210501.FirewallRule_Status instead</p>
 </div>
 <table>
 <thead>
@@ -684,8 +656,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}</p>
 </td>
 </tr>
 <tr>
@@ -696,7 +666,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource</p>
 </td>
 </tr>
 <tr>
@@ -709,7 +678,6 @@ FirewallRuleProperties_StatusARM
 </em>
 </td>
 <td>
-<p>Properties: The properties of a firewall rule.</p>
 </td>
 </tr>
 <tr>
@@ -722,7 +690,6 @@ SystemData_StatusARM
 </em>
 </td>
 <td>
-<p>SystemData: The system metadata relating to this resource.</p>
 </td>
 </tr>
 <tr>
@@ -733,7 +700,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
 </td>
 </tr>
 </tbody>
@@ -741,7 +707,7 @@ string
 <h3 id="dbformysql.azure.com/v1alpha1api20210501.FlexibleServer">FlexibleServer
 </h3>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/resourceDefinitions/flexibleServers">https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/resourceDefinitions/flexibleServers</a></p>
+<p>Deprecated version of FlexibleServer. Use v1beta20210501.FlexibleServer instead</p>
 </div>
 <table>
 <thead>
@@ -786,8 +752,6 @@ string
 </em>
 </td>
 <td>
-<p>AdministratorLogin: The administrator&rsquo;s login name of a server. Can only be specified when the server is being created
-(and is required for creation).</p>
 </td>
 </tr>
 <tr>
@@ -800,7 +764,6 @@ genruntime.SecretReference
 </em>
 </td>
 <td>
-<p>AdministratorLoginPassword: The password of the administrator login (required for server creation).</p>
 </td>
 </tr>
 <tr>
@@ -811,7 +774,6 @@ string
 </em>
 </td>
 <td>
-<p>AvailabilityZone: availability Zone information of the server.</p>
 </td>
 </tr>
 <tr>
@@ -836,7 +798,6 @@ Backup
 </em>
 </td>
 <td>
-<p>Backup: Storage Profile properties of a server</p>
 </td>
 </tr>
 <tr>
@@ -849,7 +810,6 @@ ServerPropertiesCreateMode
 </em>
 </td>
 <td>
-<p>CreateMode: The mode to create a new MySQL server.</p>
 </td>
 </tr>
 <tr>
@@ -862,7 +822,6 @@ HighAvailability
 </em>
 </td>
 <td>
-<p>HighAvailability: Network related properties of a server</p>
 </td>
 </tr>
 <tr>
@@ -873,7 +832,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The geo-location where the resource lives</p>
 </td>
 </tr>
 <tr>
@@ -886,7 +844,6 @@ MaintenanceWindow
 </em>
 </td>
 <td>
-<p>MaintenanceWindow: Maintenance window of a server.</p>
 </td>
 </tr>
 <tr>
@@ -899,7 +856,6 @@ Network
 </em>
 </td>
 <td>
-<p>Network: Network related properties of a server</p>
 </td>
 </tr>
 <tr>
@@ -912,6 +868,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -924,7 +883,6 @@ ServerPropertiesReplicationRole
 </em>
 </td>
 <td>
-<p>ReplicationRole: The replication role.</p>
 </td>
 </tr>
 <tr>
@@ -935,7 +893,6 @@ string
 </em>
 </td>
 <td>
-<p>RestorePointInTime: Restore point creation time (ISO8601 format), specifying the time to restore from.</p>
 </td>
 </tr>
 <tr>
@@ -948,7 +905,6 @@ Sku
 </em>
 </td>
 <td>
-<p>Sku: Billing information related properties of a server.</p>
 </td>
 </tr>
 <tr>
@@ -959,7 +915,6 @@ string
 </em>
 </td>
 <td>
-<p>SourceServerResourceId: The source MySQL server id.</p>
 </td>
 </tr>
 <tr>
@@ -972,7 +927,6 @@ Storage
 </em>
 </td>
 <td>
-<p>Storage: Storage Profile properties of a server</p>
 </td>
 </tr>
 <tr>
@@ -983,7 +937,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 <tr>
@@ -996,7 +949,6 @@ ServerPropertiesVersion
 </em>
 </td>
 <td>
-<p>Version: Server version.</p>
 </td>
 </tr>
 </table>
@@ -1019,7 +971,7 @@ Server_Status
 <h3 id="dbformysql.azure.com/v1alpha1api20210501.FlexibleServersDatabase">FlexibleServersDatabase
 </h3>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/resourceDefinitions/flexibleServers_databases">https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/resourceDefinitions/flexibleServers_databases</a></p>
+<p>Deprecated version of FlexibleServersDatabase. Use v1beta20210501.FlexibleServersDatabase instead</p>
 </div>
 <table>
 <thead>
@@ -1076,7 +1028,6 @@ string
 </em>
 </td>
 <td>
-<p>Charset: The charset of the database.</p>
 </td>
 </tr>
 <tr>
@@ -1087,7 +1038,6 @@ string
 </em>
 </td>
 <td>
-<p>Collation: The collation of the database.</p>
 </td>
 </tr>
 <tr>
@@ -1098,7 +1048,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -1111,6 +1060,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a dbformysql.azure.com/FlexibleServer resource</p>
 </td>
 </tr>
 <tr>
@@ -1121,7 +1073,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </table>
@@ -1140,21 +1091,6 @@ Database_Status
 </td>
 </tr>
 </tbody>
-</table>
-<h3 id="dbformysql.azure.com/v1alpha1api20210501.FlexibleServersDatabasesSpecAPIVersion">FlexibleServersDatabasesSpecAPIVersion
-(<code>string</code> alias)</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;2021-05-01&#34;</p></td>
-<td></td>
-</tr></tbody>
 </table>
 <h3 id="dbformysql.azure.com/v1alpha1api20210501.FlexibleServersDatabases_Spec">FlexibleServersDatabases_Spec
 </h3>
@@ -1191,7 +1127,6 @@ string
 </em>
 </td>
 <td>
-<p>Charset: The charset of the database.</p>
 </td>
 </tr>
 <tr>
@@ -1202,7 +1137,6 @@ string
 </em>
 </td>
 <td>
-<p>Collation: The collation of the database.</p>
 </td>
 </tr>
 <tr>
@@ -1213,7 +1147,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -1226,6 +1159,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a dbformysql.azure.com/FlexibleServer resource</p>
 </td>
 </tr>
 <tr>
@@ -1236,7 +1172,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </tbody>
@@ -1244,6 +1179,7 @@ map[string]string
 <h3 id="dbformysql.azure.com/v1alpha1api20210501.FlexibleServersDatabases_SpecARM">FlexibleServersDatabases_SpecARM
 </h3>
 <div>
+<p>Deprecated version of FlexibleServersDatabases_Spec. Use v1beta20210501.FlexibleServersDatabases_Spec instead</p>
 </div>
 <table>
 <thead>
@@ -1261,7 +1197,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -1272,7 +1207,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the database.</p>
 </td>
 </tr>
 <tr>
@@ -1285,7 +1219,6 @@ DatabasePropertiesARM
 </em>
 </td>
 <td>
-<p>Properties: The properties of a database.</p>
 </td>
 </tr>
 <tr>
@@ -1296,7 +1229,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </tbody>
@@ -1304,7 +1236,7 @@ map[string]string
 <h3 id="dbformysql.azure.com/v1alpha1api20210501.FlexibleServersFirewallRule">FlexibleServersFirewallRule
 </h3>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/resourceDefinitions/flexibleServers_firewallRules">https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/resourceDefinitions/flexibleServers_firewallRules</a></p>
+<p>Deprecated version of FlexibleServersFirewallRule. Use v1beta20210501.FlexibleServersFirewallRule instead</p>
 </div>
 <table>
 <thead>
@@ -1361,7 +1293,6 @@ string
 </em>
 </td>
 <td>
-<p>EndIpAddress: The end IP address of the server firewall rule. Must be IPv4 format.</p>
 </td>
 </tr>
 <tr>
@@ -1372,7 +1303,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -1385,6 +1315,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a dbformysql.azure.com/FlexibleServer resource</p>
 </td>
 </tr>
 <tr>
@@ -1395,7 +1328,6 @@ string
 </em>
 </td>
 <td>
-<p>StartIpAddress: The start IP address of the server firewall rule. Must be IPv4 format.</p>
 </td>
 </tr>
 <tr>
@@ -1406,7 +1338,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </table>
@@ -1425,21 +1356,6 @@ FirewallRule_Status
 </td>
 </tr>
 </tbody>
-</table>
-<h3 id="dbformysql.azure.com/v1alpha1api20210501.FlexibleServersFirewallRulesSpecAPIVersion">FlexibleServersFirewallRulesSpecAPIVersion
-(<code>string</code> alias)</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;2021-05-01&#34;</p></td>
-<td></td>
-</tr></tbody>
 </table>
 <h3 id="dbformysql.azure.com/v1alpha1api20210501.FlexibleServersFirewallRules_Spec">FlexibleServersFirewallRules_Spec
 </h3>
@@ -1476,7 +1392,6 @@ string
 </em>
 </td>
 <td>
-<p>EndIpAddress: The end IP address of the server firewall rule. Must be IPv4 format.</p>
 </td>
 </tr>
 <tr>
@@ -1487,7 +1402,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -1500,6 +1414,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a dbformysql.azure.com/FlexibleServer resource</p>
 </td>
 </tr>
 <tr>
@@ -1510,7 +1427,6 @@ string
 </em>
 </td>
 <td>
-<p>StartIpAddress: The start IP address of the server firewall rule. Must be IPv4 format.</p>
 </td>
 </tr>
 <tr>
@@ -1521,7 +1437,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </tbody>
@@ -1529,6 +1444,7 @@ map[string]string
 <h3 id="dbformysql.azure.com/v1alpha1api20210501.FlexibleServersFirewallRules_SpecARM">FlexibleServersFirewallRules_SpecARM
 </h3>
 <div>
+<p>Deprecated version of FlexibleServersFirewallRules_Spec. Use v1beta20210501.FlexibleServersFirewallRules_Spec instead</p>
 </div>
 <table>
 <thead>
@@ -1546,7 +1462,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -1557,7 +1472,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the server firewall rule.</p>
 </td>
 </tr>
 <tr>
@@ -1570,7 +1484,6 @@ FirewallRulePropertiesARM
 </em>
 </td>
 <td>
-<p>Properties: The properties of a server firewall rule.</p>
 </td>
 </tr>
 <tr>
@@ -1581,25 +1494,9 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </tbody>
-</table>
-<h3 id="dbformysql.azure.com/v1alpha1api20210501.FlexibleServersSpecAPIVersion">FlexibleServersSpecAPIVersion
-(<code>string</code> alias)</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;2021-05-01&#34;</p></td>
-<td></td>
-</tr></tbody>
 </table>
 <h3 id="dbformysql.azure.com/v1alpha1api20210501.FlexibleServers_Spec">FlexibleServers_Spec
 </h3>
@@ -1624,8 +1521,6 @@ string
 </em>
 </td>
 <td>
-<p>AdministratorLogin: The administrator&rsquo;s login name of a server. Can only be specified when the server is being created
-(and is required for creation).</p>
 </td>
 </tr>
 <tr>
@@ -1638,7 +1533,6 @@ genruntime.SecretReference
 </em>
 </td>
 <td>
-<p>AdministratorLoginPassword: The password of the administrator login (required for server creation).</p>
 </td>
 </tr>
 <tr>
@@ -1649,7 +1543,6 @@ string
 </em>
 </td>
 <td>
-<p>AvailabilityZone: availability Zone information of the server.</p>
 </td>
 </tr>
 <tr>
@@ -1674,7 +1567,6 @@ Backup
 </em>
 </td>
 <td>
-<p>Backup: Storage Profile properties of a server</p>
 </td>
 </tr>
 <tr>
@@ -1687,7 +1579,6 @@ ServerPropertiesCreateMode
 </em>
 </td>
 <td>
-<p>CreateMode: The mode to create a new MySQL server.</p>
 </td>
 </tr>
 <tr>
@@ -1700,7 +1591,6 @@ HighAvailability
 </em>
 </td>
 <td>
-<p>HighAvailability: Network related properties of a server</p>
 </td>
 </tr>
 <tr>
@@ -1711,7 +1601,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The geo-location where the resource lives</p>
 </td>
 </tr>
 <tr>
@@ -1724,7 +1613,6 @@ MaintenanceWindow
 </em>
 </td>
 <td>
-<p>MaintenanceWindow: Maintenance window of a server.</p>
 </td>
 </tr>
 <tr>
@@ -1737,7 +1625,6 @@ Network
 </em>
 </td>
 <td>
-<p>Network: Network related properties of a server</p>
 </td>
 </tr>
 <tr>
@@ -1750,6 +1637,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -1762,7 +1652,6 @@ ServerPropertiesReplicationRole
 </em>
 </td>
 <td>
-<p>ReplicationRole: The replication role.</p>
 </td>
 </tr>
 <tr>
@@ -1773,7 +1662,6 @@ string
 </em>
 </td>
 <td>
-<p>RestorePointInTime: Restore point creation time (ISO8601 format), specifying the time to restore from.</p>
 </td>
 </tr>
 <tr>
@@ -1786,7 +1674,6 @@ Sku
 </em>
 </td>
 <td>
-<p>Sku: Billing information related properties of a server.</p>
 </td>
 </tr>
 <tr>
@@ -1797,7 +1684,6 @@ string
 </em>
 </td>
 <td>
-<p>SourceServerResourceId: The source MySQL server id.</p>
 </td>
 </tr>
 <tr>
@@ -1810,7 +1696,6 @@ Storage
 </em>
 </td>
 <td>
-<p>Storage: Storage Profile properties of a server</p>
 </td>
 </tr>
 <tr>
@@ -1821,7 +1706,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 <tr>
@@ -1834,7 +1718,6 @@ ServerPropertiesVersion
 </em>
 </td>
 <td>
-<p>Version: Server version.</p>
 </td>
 </tr>
 </tbody>
@@ -1842,6 +1725,7 @@ ServerPropertiesVersion
 <h3 id="dbformysql.azure.com/v1alpha1api20210501.FlexibleServers_SpecARM">FlexibleServers_SpecARM
 </h3>
 <div>
+<p>Deprecated version of FlexibleServers_Spec. Use v1beta20210501.FlexibleServers_Spec instead</p>
 </div>
 <table>
 <thead>
@@ -1859,7 +1743,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The geo-location where the resource lives</p>
 </td>
 </tr>
 <tr>
@@ -1870,7 +1753,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the server.</p>
 </td>
 </tr>
 <tr>
@@ -1883,7 +1765,6 @@ ServerPropertiesARM
 </em>
 </td>
 <td>
-<p>Properties: The properties of a server.</p>
 </td>
 </tr>
 <tr>
@@ -1896,7 +1777,6 @@ SkuARM
 </em>
 </td>
 <td>
-<p>Sku: Billing information related properties of a server.</p>
 </td>
 </tr>
 <tr>
@@ -1907,7 +1787,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </tbody>
@@ -1918,7 +1797,7 @@ map[string]string
 (<em>Appears on:</em><a href="#dbformysql.azure.com/v1alpha1api20210501.FlexibleServers_Spec">FlexibleServers_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/HighAvailability">https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/HighAvailability</a></p>
+<p>Deprecated version of HighAvailability. Use v1beta20210501.HighAvailability instead</p>
 </div>
 <table>
 <thead>
@@ -1938,7 +1817,6 @@ HighAvailabilityMode
 </em>
 </td>
 <td>
-<p>Mode: High availability mode for a server.</p>
 </td>
 </tr>
 <tr>
@@ -1949,7 +1827,6 @@ string
 </em>
 </td>
 <td>
-<p>StandbyAvailabilityZone: Availability zone of the standby server.</p>
 </td>
 </tr>
 </tbody>
@@ -1960,7 +1837,7 @@ string
 (<em>Appears on:</em><a href="#dbformysql.azure.com/v1alpha1api20210501.ServerPropertiesARM">ServerPropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/HighAvailability">https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/HighAvailability</a></p>
+<p>Deprecated version of HighAvailability. Use v1beta20210501.HighAvailability instead</p>
 </div>
 <table>
 <thead>
@@ -1980,7 +1857,6 @@ HighAvailabilityMode
 </em>
 </td>
 <td>
-<p>Mode: High availability mode for a server.</p>
 </td>
 </tr>
 <tr>
@@ -1991,7 +1867,6 @@ string
 </em>
 </td>
 <td>
-<p>StandbyAvailabilityZone: Availability zone of the standby server.</p>
 </td>
 </tr>
 </tbody>
@@ -2002,6 +1877,7 @@ string
 (<em>Appears on:</em><a href="#dbformysql.azure.com/v1alpha1api20210501.HighAvailability">HighAvailability</a>, <a href="#dbformysql.azure.com/v1alpha1api20210501.HighAvailabilityARM">HighAvailabilityARM</a>)
 </p>
 <div>
+<p>Deprecated version of HighAvailabilityMode. Use v1beta20210501.HighAvailabilityMode instead</p>
 </div>
 <table>
 <thead>
@@ -2024,6 +1900,7 @@ string
 (<em>Appears on:</em><a href="#dbformysql.azure.com/v1alpha1api20210501.HighAvailability_Status">HighAvailability_Status</a>, <a href="#dbformysql.azure.com/v1alpha1api20210501.HighAvailability_StatusARM">HighAvailability_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of HighAvailabilityStatusMode. Use v1beta20210501.HighAvailabilityStatusMode instead</p>
 </div>
 <table>
 <thead>
@@ -2046,6 +1923,7 @@ string
 (<em>Appears on:</em><a href="#dbformysql.azure.com/v1alpha1api20210501.HighAvailability_Status">HighAvailability_Status</a>, <a href="#dbformysql.azure.com/v1alpha1api20210501.HighAvailability_StatusARM">HighAvailability_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of HighAvailabilityStatusState. Use v1beta20210501.HighAvailabilityStatusState instead</p>
 </div>
 <table>
 <thead>
@@ -2072,6 +1950,7 @@ string
 (<em>Appears on:</em><a href="#dbformysql.azure.com/v1alpha1api20210501.Server_Status">Server_Status</a>)
 </p>
 <div>
+<p>Deprecated version of HighAvailability_Status. Use v1beta20210501.HighAvailability_Status instead</p>
 </div>
 <table>
 <thead>
@@ -2091,7 +1970,6 @@ HighAvailabilityStatusMode
 </em>
 </td>
 <td>
-<p>Mode: High availability mode for a server.</p>
 </td>
 </tr>
 <tr>
@@ -2102,7 +1980,6 @@ string
 </em>
 </td>
 <td>
-<p>StandbyAvailabilityZone: Availability zone of the standby server.</p>
 </td>
 </tr>
 <tr>
@@ -2115,7 +1992,6 @@ HighAvailabilityStatusState
 </em>
 </td>
 <td>
-<p>State: The state of server high availability.</p>
 </td>
 </tr>
 </tbody>
@@ -2126,6 +2002,7 @@ HighAvailabilityStatusState
 (<em>Appears on:</em><a href="#dbformysql.azure.com/v1alpha1api20210501.ServerProperties_StatusARM">ServerProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of HighAvailability_Status. Use v1beta20210501.HighAvailability_Status instead</p>
 </div>
 <table>
 <thead>
@@ -2145,7 +2022,6 @@ HighAvailabilityStatusMode
 </em>
 </td>
 <td>
-<p>Mode: High availability mode for a server.</p>
 </td>
 </tr>
 <tr>
@@ -2156,7 +2032,6 @@ string
 </em>
 </td>
 <td>
-<p>StandbyAvailabilityZone: Availability zone of the standby server.</p>
 </td>
 </tr>
 <tr>
@@ -2169,7 +2044,6 @@ HighAvailabilityStatusState
 </em>
 </td>
 <td>
-<p>State: The state of server high availability.</p>
 </td>
 </tr>
 </tbody>
@@ -2180,7 +2054,7 @@ HighAvailabilityStatusState
 (<em>Appears on:</em><a href="#dbformysql.azure.com/v1alpha1api20210501.FlexibleServers_Spec">FlexibleServers_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/MaintenanceWindow">https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/MaintenanceWindow</a></p>
+<p>Deprecated version of MaintenanceWindow. Use v1beta20210501.MaintenanceWindow instead</p>
 </div>
 <table>
 <thead>
@@ -2198,7 +2072,6 @@ string
 </em>
 </td>
 <td>
-<p>CustomWindow: indicates whether custom window is enabled or disabled</p>
 </td>
 </tr>
 <tr>
@@ -2209,7 +2082,6 @@ int
 </em>
 </td>
 <td>
-<p>DayOfWeek: day of week for maintenance window</p>
 </td>
 </tr>
 <tr>
@@ -2220,7 +2092,6 @@ int
 </em>
 </td>
 <td>
-<p>StartHour: start hour for maintenance window</p>
 </td>
 </tr>
 <tr>
@@ -2231,7 +2102,6 @@ int
 </em>
 </td>
 <td>
-<p>StartMinute: start minute for maintenance window</p>
 </td>
 </tr>
 </tbody>
@@ -2242,7 +2112,7 @@ int
 (<em>Appears on:</em><a href="#dbformysql.azure.com/v1alpha1api20210501.ServerPropertiesARM">ServerPropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/MaintenanceWindow">https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/MaintenanceWindow</a></p>
+<p>Deprecated version of MaintenanceWindow. Use v1beta20210501.MaintenanceWindow instead</p>
 </div>
 <table>
 <thead>
@@ -2260,7 +2130,6 @@ string
 </em>
 </td>
 <td>
-<p>CustomWindow: indicates whether custom window is enabled or disabled</p>
 </td>
 </tr>
 <tr>
@@ -2271,7 +2140,6 @@ int
 </em>
 </td>
 <td>
-<p>DayOfWeek: day of week for maintenance window</p>
 </td>
 </tr>
 <tr>
@@ -2282,7 +2150,6 @@ int
 </em>
 </td>
 <td>
-<p>StartHour: start hour for maintenance window</p>
 </td>
 </tr>
 <tr>
@@ -2293,7 +2160,6 @@ int
 </em>
 </td>
 <td>
-<p>StartMinute: start minute for maintenance window</p>
 </td>
 </tr>
 </tbody>
@@ -2304,6 +2170,7 @@ int
 (<em>Appears on:</em><a href="#dbformysql.azure.com/v1alpha1api20210501.Server_Status">Server_Status</a>)
 </p>
 <div>
+<p>Deprecated version of MaintenanceWindow_Status. Use v1beta20210501.MaintenanceWindow_Status instead</p>
 </div>
 <table>
 <thead>
@@ -2321,7 +2188,6 @@ string
 </em>
 </td>
 <td>
-<p>CustomWindow: indicates whether custom window is enabled or disabled</p>
 </td>
 </tr>
 <tr>
@@ -2332,7 +2198,6 @@ int
 </em>
 </td>
 <td>
-<p>DayOfWeek: day of week for maintenance window</p>
 </td>
 </tr>
 <tr>
@@ -2343,7 +2208,6 @@ int
 </em>
 </td>
 <td>
-<p>StartHour: start hour for maintenance window</p>
 </td>
 </tr>
 <tr>
@@ -2354,7 +2218,6 @@ int
 </em>
 </td>
 <td>
-<p>StartMinute: start minute for maintenance window</p>
 </td>
 </tr>
 </tbody>
@@ -2365,6 +2228,7 @@ int
 (<em>Appears on:</em><a href="#dbformysql.azure.com/v1alpha1api20210501.ServerProperties_StatusARM">ServerProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of MaintenanceWindow_Status. Use v1beta20210501.MaintenanceWindow_Status instead</p>
 </div>
 <table>
 <thead>
@@ -2382,7 +2246,6 @@ string
 </em>
 </td>
 <td>
-<p>CustomWindow: indicates whether custom window is enabled or disabled</p>
 </td>
 </tr>
 <tr>
@@ -2393,7 +2256,6 @@ int
 </em>
 </td>
 <td>
-<p>DayOfWeek: day of week for maintenance window</p>
 </td>
 </tr>
 <tr>
@@ -2404,7 +2266,6 @@ int
 </em>
 </td>
 <td>
-<p>StartHour: start hour for maintenance window</p>
 </td>
 </tr>
 <tr>
@@ -2415,7 +2276,6 @@ int
 </em>
 </td>
 <td>
-<p>StartMinute: start minute for maintenance window</p>
 </td>
 </tr>
 </tbody>
@@ -2426,7 +2286,7 @@ int
 (<em>Appears on:</em><a href="#dbformysql.azure.com/v1alpha1api20210501.FlexibleServers_Spec">FlexibleServers_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Network">https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Network</a></p>
+<p>Deprecated version of Network. Use v1beta20210501.Network instead</p>
 </div>
 <table>
 <thead>
@@ -2446,7 +2306,6 @@ genruntime.ResourceReference
 </em>
 </td>
 <td>
-<p>DelegatedSubnetResourceReference: Delegated subnet resource id used to setup vnet for a server.</p>
 </td>
 </tr>
 <tr>
@@ -2459,7 +2318,6 @@ genruntime.ResourceReference
 </em>
 </td>
 <td>
-<p>PrivateDnsZoneResourceReference: Private DNS zone resource id.</p>
 </td>
 </tr>
 </tbody>
@@ -2470,7 +2328,7 @@ genruntime.ResourceReference
 (<em>Appears on:</em><a href="#dbformysql.azure.com/v1alpha1api20210501.ServerPropertiesARM">ServerPropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Network">https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Network</a></p>
+<p>Deprecated version of Network. Use v1beta20210501.Network instead</p>
 </div>
 <table>
 <thead>
@@ -2508,6 +2366,7 @@ string
 (<em>Appears on:</em><a href="#dbformysql.azure.com/v1alpha1api20210501.Server_Status">Server_Status</a>)
 </p>
 <div>
+<p>Deprecated version of Network_Status. Use v1beta20210501.Network_Status instead</p>
 </div>
 <table>
 <thead>
@@ -2525,7 +2384,6 @@ string
 </em>
 </td>
 <td>
-<p>DelegatedSubnetResourceId: Delegated subnet resource id used to setup vnet for a server.</p>
 </td>
 </tr>
 <tr>
@@ -2536,7 +2394,6 @@ string
 </em>
 </td>
 <td>
-<p>PrivateDnsZoneResourceId: Private DNS zone resource id.</p>
 </td>
 </tr>
 <tr>
@@ -2549,8 +2406,6 @@ EnableStatusEnum_Status
 </em>
 </td>
 <td>
-<p>PublicNetworkAccess: Whether or not public network access is allowed for this server. Value is &lsquo;Disabled&rsquo; when server
-has VNet integration.</p>
 </td>
 </tr>
 </tbody>
@@ -2561,6 +2416,7 @@ has VNet integration.</p>
 (<em>Appears on:</em><a href="#dbformysql.azure.com/v1alpha1api20210501.ServerProperties_StatusARM">ServerProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of Network_Status. Use v1beta20210501.Network_Status instead</p>
 </div>
 <table>
 <thead>
@@ -2578,7 +2434,6 @@ string
 </em>
 </td>
 <td>
-<p>DelegatedSubnetResourceId: Delegated subnet resource id used to setup vnet for a server.</p>
 </td>
 </tr>
 <tr>
@@ -2589,7 +2444,6 @@ string
 </em>
 </td>
 <td>
-<p>PrivateDnsZoneResourceId: Private DNS zone resource id.</p>
 </td>
 </tr>
 <tr>
@@ -2602,8 +2456,6 @@ EnableStatusEnum_Status
 </em>
 </td>
 <td>
-<p>PublicNetworkAccess: Whether or not public network access is allowed for this server. Value is &lsquo;Disabled&rsquo; when server
-has VNet integration.</p>
 </td>
 </tr>
 </tbody>
@@ -2614,6 +2466,7 @@ has VNet integration.</p>
 (<em>Appears on:</em><a href="#dbformysql.azure.com/v1alpha1api20210501.ServerProperties_StatusARM">ServerProperties_StatusARM</a>, <a href="#dbformysql.azure.com/v1alpha1api20210501.Server_Status">Server_Status</a>)
 </p>
 <div>
+<p>Deprecated version of ReplicationRole_Status. Use v1beta20210501.ReplicationRole_Status instead</p>
 </div>
 <table>
 <thead>
@@ -2636,7 +2489,7 @@ has VNet integration.</p>
 (<em>Appears on:</em><a href="#dbformysql.azure.com/v1alpha1api20210501.FlexibleServers_SpecARM">FlexibleServers_SpecARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/ServerProperties">https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/ServerProperties</a></p>
+<p>Deprecated version of ServerProperties. Use v1beta20210501.ServerProperties instead</p>
 </div>
 <table>
 <thead>
@@ -2654,8 +2507,6 @@ string
 </em>
 </td>
 <td>
-<p>AdministratorLogin: The administrator&rsquo;s login name of a server. Can only be specified when the server is being created
-(and is required for creation).</p>
 </td>
 </tr>
 <tr>
@@ -2666,7 +2517,6 @@ string
 </em>
 </td>
 <td>
-<p>AdministratorLoginPassword: The password of the administrator login (required for server creation).</p>
 </td>
 </tr>
 <tr>
@@ -2677,7 +2527,6 @@ string
 </em>
 </td>
 <td>
-<p>AvailabilityZone: availability Zone information of the server.</p>
 </td>
 </tr>
 <tr>
@@ -2690,7 +2539,6 @@ BackupARM
 </em>
 </td>
 <td>
-<p>Backup: Storage Profile properties of a server</p>
 </td>
 </tr>
 <tr>
@@ -2703,7 +2551,6 @@ ServerPropertiesCreateMode
 </em>
 </td>
 <td>
-<p>CreateMode: The mode to create a new MySQL server.</p>
 </td>
 </tr>
 <tr>
@@ -2716,7 +2563,6 @@ HighAvailabilityARM
 </em>
 </td>
 <td>
-<p>HighAvailability: Network related properties of a server</p>
 </td>
 </tr>
 <tr>
@@ -2729,7 +2575,6 @@ MaintenanceWindowARM
 </em>
 </td>
 <td>
-<p>MaintenanceWindow: Maintenance window of a server.</p>
 </td>
 </tr>
 <tr>
@@ -2742,7 +2587,6 @@ NetworkARM
 </em>
 </td>
 <td>
-<p>Network: Network related properties of a server</p>
 </td>
 </tr>
 <tr>
@@ -2755,7 +2599,6 @@ ServerPropertiesReplicationRole
 </em>
 </td>
 <td>
-<p>ReplicationRole: The replication role.</p>
 </td>
 </tr>
 <tr>
@@ -2766,7 +2609,6 @@ string
 </em>
 </td>
 <td>
-<p>RestorePointInTime: Restore point creation time (ISO8601 format), specifying the time to restore from.</p>
 </td>
 </tr>
 <tr>
@@ -2777,7 +2619,6 @@ string
 </em>
 </td>
 <td>
-<p>SourceServerResourceId: The source MySQL server id.</p>
 </td>
 </tr>
 <tr>
@@ -2790,7 +2631,6 @@ StorageARM
 </em>
 </td>
 <td>
-<p>Storage: Storage Profile properties of a server</p>
 </td>
 </tr>
 <tr>
@@ -2803,7 +2643,6 @@ ServerPropertiesVersion
 </em>
 </td>
 <td>
-<p>Version: Server version.</p>
 </td>
 </tr>
 </tbody>
@@ -2814,6 +2653,7 @@ ServerPropertiesVersion
 (<em>Appears on:</em><a href="#dbformysql.azure.com/v1alpha1api20210501.FlexibleServers_Spec">FlexibleServers_Spec</a>, <a href="#dbformysql.azure.com/v1alpha1api20210501.ServerPropertiesARM">ServerPropertiesARM</a>)
 </p>
 <div>
+<p>Deprecated version of ServerPropertiesCreateMode. Use v1beta20210501.ServerPropertiesCreateMode instead</p>
 </div>
 <table>
 <thead>
@@ -2838,6 +2678,7 @@ ServerPropertiesVersion
 (<em>Appears on:</em><a href="#dbformysql.azure.com/v1alpha1api20210501.FlexibleServers_Spec">FlexibleServers_Spec</a>, <a href="#dbformysql.azure.com/v1alpha1api20210501.ServerPropertiesARM">ServerPropertiesARM</a>)
 </p>
 <div>
+<p>Deprecated version of ServerPropertiesReplicationRole. Use v1beta20210501.ServerPropertiesReplicationRole instead</p>
 </div>
 <table>
 <thead>
@@ -2860,6 +2701,7 @@ ServerPropertiesVersion
 (<em>Appears on:</em><a href="#dbformysql.azure.com/v1alpha1api20210501.ServerProperties_StatusARM">ServerProperties_StatusARM</a>, <a href="#dbformysql.azure.com/v1alpha1api20210501.Server_Status">Server_Status</a>)
 </p>
 <div>
+<p>Deprecated version of ServerPropertiesStatusCreateMode. Use v1beta20210501.ServerPropertiesStatusCreateMode instead</p>
 </div>
 <table>
 <thead>
@@ -2884,6 +2726,7 @@ ServerPropertiesVersion
 (<em>Appears on:</em><a href="#dbformysql.azure.com/v1alpha1api20210501.ServerProperties_StatusARM">ServerProperties_StatusARM</a>, <a href="#dbformysql.azure.com/v1alpha1api20210501.Server_Status">Server_Status</a>)
 </p>
 <div>
+<p>Deprecated version of ServerPropertiesStatusState. Use v1beta20210501.ServerPropertiesStatusState instead</p>
 </div>
 <table>
 <thead>
@@ -2914,6 +2757,7 @@ ServerPropertiesVersion
 (<em>Appears on:</em><a href="#dbformysql.azure.com/v1alpha1api20210501.FlexibleServers_Spec">FlexibleServers_Spec</a>, <a href="#dbformysql.azure.com/v1alpha1api20210501.ServerPropertiesARM">ServerPropertiesARM</a>)
 </p>
 <div>
+<p>Deprecated version of ServerPropertiesVersion. Use v1beta20210501.ServerPropertiesVersion instead</p>
 </div>
 <table>
 <thead>
@@ -2934,6 +2778,7 @@ ServerPropertiesVersion
 (<em>Appears on:</em><a href="#dbformysql.azure.com/v1alpha1api20210501.Server_StatusARM">Server_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of ServerProperties_Status. Use v1beta20210501.ServerProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -2951,8 +2796,6 @@ string
 </em>
 </td>
 <td>
-<p>AdministratorLogin: The administrator&rsquo;s login name of a server. Can only be specified when the server is being created
-(and is required for creation).</p>
 </td>
 </tr>
 <tr>
@@ -2963,7 +2806,6 @@ string
 </em>
 </td>
 <td>
-<p>AvailabilityZone: availability Zone information of the server.</p>
 </td>
 </tr>
 <tr>
@@ -2976,7 +2818,6 @@ Backup_StatusARM
 </em>
 </td>
 <td>
-<p>Backup: Backup related properties of a server.</p>
 </td>
 </tr>
 <tr>
@@ -2989,7 +2830,6 @@ ServerPropertiesStatusCreateMode
 </em>
 </td>
 <td>
-<p>CreateMode: The mode to create a new MySQL server.</p>
 </td>
 </tr>
 <tr>
@@ -3000,7 +2840,6 @@ string
 </em>
 </td>
 <td>
-<p>FullyQualifiedDomainName: The fully qualified domain name of a server.</p>
 </td>
 </tr>
 <tr>
@@ -3013,7 +2852,6 @@ HighAvailability_StatusARM
 </em>
 </td>
 <td>
-<p>HighAvailability: High availability related properties of a server.</p>
 </td>
 </tr>
 <tr>
@@ -3026,7 +2864,6 @@ MaintenanceWindow_StatusARM
 </em>
 </td>
 <td>
-<p>MaintenanceWindow: Maintenance window of a server.</p>
 </td>
 </tr>
 <tr>
@@ -3039,7 +2876,6 @@ Network_StatusARM
 </em>
 </td>
 <td>
-<p>Network: Network related properties of a server.</p>
 </td>
 </tr>
 <tr>
@@ -3050,7 +2886,6 @@ int
 </em>
 </td>
 <td>
-<p>ReplicaCapacity: The maximum number of replicas that a primary server can have.</p>
 </td>
 </tr>
 <tr>
@@ -3063,7 +2898,6 @@ ReplicationRole_Status
 </em>
 </td>
 <td>
-<p>ReplicationRole: The replication role.</p>
 </td>
 </tr>
 <tr>
@@ -3074,7 +2908,6 @@ string
 </em>
 </td>
 <td>
-<p>RestorePointInTime: Restore point creation time (ISO8601 format), specifying the time to restore from.</p>
 </td>
 </tr>
 <tr>
@@ -3085,7 +2918,6 @@ string
 </em>
 </td>
 <td>
-<p>SourceServerResourceId: The source MySQL server id.</p>
 </td>
 </tr>
 <tr>
@@ -3098,7 +2930,6 @@ ServerPropertiesStatusState
 </em>
 </td>
 <td>
-<p>State: The state of a server.</p>
 </td>
 </tr>
 <tr>
@@ -3111,7 +2942,6 @@ Storage_StatusARM
 </em>
 </td>
 <td>
-<p>Storage: Storage related properties of a server.</p>
 </td>
 </tr>
 <tr>
@@ -3124,7 +2954,6 @@ ServerVersion_Status
 </em>
 </td>
 <td>
-<p>Version: Server version.</p>
 </td>
 </tr>
 </tbody>
@@ -3135,6 +2964,7 @@ ServerVersion_Status
 (<em>Appears on:</em><a href="#dbformysql.azure.com/v1alpha1api20210501.ServerProperties_StatusARM">ServerProperties_StatusARM</a>, <a href="#dbformysql.azure.com/v1alpha1api20210501.Server_Status">Server_Status</a>)
 </p>
 <div>
+<p>Deprecated version of ServerVersion_Status. Use v1beta20210501.ServerVersion_Status instead</p>
 </div>
 <table>
 <thead>
@@ -3155,6 +2985,7 @@ ServerVersion_Status
 (<em>Appears on:</em><a href="#dbformysql.azure.com/v1alpha1api20210501.FlexibleServer">FlexibleServer</a>)
 </p>
 <div>
+<p>Deprecated version of Server_Status. Use v1beta20210501.Server_Status instead</p>
 </div>
 <table>
 <thead>
@@ -3172,8 +3003,6 @@ string
 </em>
 </td>
 <td>
-<p>AdministratorLogin: The administrator&rsquo;s login name of a server. Can only be specified when the server is being created
-(and is required for creation).</p>
 </td>
 </tr>
 <tr>
@@ -3184,7 +3013,6 @@ string
 </em>
 </td>
 <td>
-<p>AvailabilityZone: availability Zone information of the server.</p>
 </td>
 </tr>
 <tr>
@@ -3197,7 +3025,6 @@ Backup_Status
 </em>
 </td>
 <td>
-<p>Backup: Backup related properties of a server.</p>
 </td>
 </tr>
 <tr>
@@ -3223,7 +3050,6 @@ ServerPropertiesStatusCreateMode
 </em>
 </td>
 <td>
-<p>CreateMode: The mode to create a new MySQL server.</p>
 </td>
 </tr>
 <tr>
@@ -3234,7 +3060,6 @@ string
 </em>
 </td>
 <td>
-<p>FullyQualifiedDomainName: The fully qualified domain name of a server.</p>
 </td>
 </tr>
 <tr>
@@ -3247,7 +3072,6 @@ HighAvailability_Status
 </em>
 </td>
 <td>
-<p>HighAvailability: High availability related properties of a server.</p>
 </td>
 </tr>
 <tr>
@@ -3258,8 +3082,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}</p>
 </td>
 </tr>
 <tr>
@@ -3270,7 +3092,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The geo-location where the resource lives</p>
 </td>
 </tr>
 <tr>
@@ -3283,7 +3104,6 @@ MaintenanceWindow_Status
 </em>
 </td>
 <td>
-<p>MaintenanceWindow: Maintenance window of a server.</p>
 </td>
 </tr>
 <tr>
@@ -3294,7 +3114,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource</p>
 </td>
 </tr>
 <tr>
@@ -3307,7 +3126,6 @@ Network_Status
 </em>
 </td>
 <td>
-<p>Network: Network related properties of a server.</p>
 </td>
 </tr>
 <tr>
@@ -3318,7 +3136,6 @@ int
 </em>
 </td>
 <td>
-<p>ReplicaCapacity: The maximum number of replicas that a primary server can have.</p>
 </td>
 </tr>
 <tr>
@@ -3331,7 +3148,6 @@ ReplicationRole_Status
 </em>
 </td>
 <td>
-<p>ReplicationRole: The replication role.</p>
 </td>
 </tr>
 <tr>
@@ -3342,7 +3158,6 @@ string
 </em>
 </td>
 <td>
-<p>RestorePointInTime: Restore point creation time (ISO8601 format), specifying the time to restore from.</p>
 </td>
 </tr>
 <tr>
@@ -3355,7 +3170,6 @@ Sku_Status
 </em>
 </td>
 <td>
-<p>Sku: The SKU (pricing tier) of the server.</p>
 </td>
 </tr>
 <tr>
@@ -3366,7 +3180,6 @@ string
 </em>
 </td>
 <td>
-<p>SourceServerResourceId: The source MySQL server id.</p>
 </td>
 </tr>
 <tr>
@@ -3379,7 +3192,6 @@ ServerPropertiesStatusState
 </em>
 </td>
 <td>
-<p>State: The state of a server.</p>
 </td>
 </tr>
 <tr>
@@ -3392,7 +3204,6 @@ Storage_Status
 </em>
 </td>
 <td>
-<p>Storage: Storage related properties of a server.</p>
 </td>
 </tr>
 <tr>
@@ -3405,7 +3216,6 @@ SystemData_Status
 </em>
 </td>
 <td>
-<p>SystemData: The system metadata relating to this resource.</p>
 </td>
 </tr>
 <tr>
@@ -3416,7 +3226,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Resource tags.</p>
 </td>
 </tr>
 <tr>
@@ -3427,7 +3236,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
 </td>
 </tr>
 <tr>
@@ -3440,7 +3248,6 @@ ServerVersion_Status
 </em>
 </td>
 <td>
-<p>Version: Server version.</p>
 </td>
 </tr>
 </tbody>
@@ -3448,6 +3255,7 @@ ServerVersion_Status
 <h3 id="dbformysql.azure.com/v1alpha1api20210501.Server_StatusARM">Server_StatusARM
 </h3>
 <div>
+<p>Deprecated version of Server_Status. Use v1beta20210501.Server_Status instead</p>
 </div>
 <table>
 <thead>
@@ -3465,8 +3273,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}</p>
 </td>
 </tr>
 <tr>
@@ -3477,7 +3283,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The geo-location where the resource lives</p>
 </td>
 </tr>
 <tr>
@@ -3488,7 +3293,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource</p>
 </td>
 </tr>
 <tr>
@@ -3501,7 +3305,6 @@ ServerProperties_StatusARM
 </em>
 </td>
 <td>
-<p>Properties: Properties of the server.</p>
 </td>
 </tr>
 <tr>
@@ -3514,7 +3317,6 @@ Sku_StatusARM
 </em>
 </td>
 <td>
-<p>Sku: The SKU (pricing tier) of the server.</p>
 </td>
 </tr>
 <tr>
@@ -3527,7 +3329,6 @@ SystemData_StatusARM
 </em>
 </td>
 <td>
-<p>SystemData: The system metadata relating to this resource.</p>
 </td>
 </tr>
 <tr>
@@ -3538,7 +3339,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Resource tags.</p>
 </td>
 </tr>
 <tr>
@@ -3549,7 +3349,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
 </td>
 </tr>
 </tbody>
@@ -3560,7 +3359,7 @@ string
 (<em>Appears on:</em><a href="#dbformysql.azure.com/v1alpha1api20210501.FlexibleServers_Spec">FlexibleServers_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Sku">https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Sku</a></p>
+<p>Deprecated version of Sku. Use v1beta20210501.Sku instead</p>
 </div>
 <table>
 <thead>
@@ -3578,7 +3377,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the sku, e.g. Standard_D32s_v3.</p>
 </td>
 </tr>
 <tr>
@@ -3591,7 +3389,6 @@ SkuTier
 </em>
 </td>
 <td>
-<p>Tier: The tier of the particular SKU, e.g. GeneralPurpose.</p>
 </td>
 </tr>
 </tbody>
@@ -3602,7 +3399,7 @@ SkuTier
 (<em>Appears on:</em><a href="#dbformysql.azure.com/v1alpha1api20210501.FlexibleServers_SpecARM">FlexibleServers_SpecARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Sku">https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Sku</a></p>
+<p>Deprecated version of Sku. Use v1beta20210501.Sku instead</p>
 </div>
 <table>
 <thead>
@@ -3620,7 +3417,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the sku, e.g. Standard_D32s_v3.</p>
 </td>
 </tr>
 <tr>
@@ -3633,7 +3429,6 @@ SkuTier
 </em>
 </td>
 <td>
-<p>Tier: The tier of the particular SKU, e.g. GeneralPurpose.</p>
 </td>
 </tr>
 </tbody>
@@ -3644,6 +3439,7 @@ SkuTier
 (<em>Appears on:</em><a href="#dbformysql.azure.com/v1alpha1api20210501.Sku_Status">Sku_Status</a>, <a href="#dbformysql.azure.com/v1alpha1api20210501.Sku_StatusARM">Sku_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of SkuStatusTier. Use v1beta20210501.SkuStatusTier instead</p>
 </div>
 <table>
 <thead>
@@ -3666,6 +3462,7 @@ SkuTier
 (<em>Appears on:</em><a href="#dbformysql.azure.com/v1alpha1api20210501.Sku">Sku</a>, <a href="#dbformysql.azure.com/v1alpha1api20210501.SkuARM">SkuARM</a>)
 </p>
 <div>
+<p>Deprecated version of SkuTier. Use v1beta20210501.SkuTier instead</p>
 </div>
 <table>
 <thead>
@@ -3688,6 +3485,7 @@ SkuTier
 (<em>Appears on:</em><a href="#dbformysql.azure.com/v1alpha1api20210501.Server_Status">Server_Status</a>)
 </p>
 <div>
+<p>Deprecated version of Sku_Status. Use v1beta20210501.Sku_Status instead</p>
 </div>
 <table>
 <thead>
@@ -3705,7 +3503,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the sku, e.g. Standard_D32s_v3.</p>
 </td>
 </tr>
 <tr>
@@ -3718,7 +3515,6 @@ SkuStatusTier
 </em>
 </td>
 <td>
-<p>Tier: The tier of the particular SKU, e.g. GeneralPurpose.</p>
 </td>
 </tr>
 </tbody>
@@ -3729,6 +3525,7 @@ SkuStatusTier
 (<em>Appears on:</em><a href="#dbformysql.azure.com/v1alpha1api20210501.Server_StatusARM">Server_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of Sku_Status. Use v1beta20210501.Sku_Status instead</p>
 </div>
 <table>
 <thead>
@@ -3746,7 +3543,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the sku, e.g. Standard_D32s_v3.</p>
 </td>
 </tr>
 <tr>
@@ -3759,7 +3555,6 @@ SkuStatusTier
 </em>
 </td>
 <td>
-<p>Tier: The tier of the particular SKU, e.g. GeneralPurpose.</p>
 </td>
 </tr>
 </tbody>
@@ -3770,7 +3565,7 @@ SkuStatusTier
 (<em>Appears on:</em><a href="#dbformysql.azure.com/v1alpha1api20210501.FlexibleServers_Spec">FlexibleServers_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Storage">https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Storage</a></p>
+<p>Deprecated version of Storage. Use v1beta20210501.Storage instead</p>
 </div>
 <table>
 <thead>
@@ -3790,7 +3585,6 @@ StorageAutoGrow
 </em>
 </td>
 <td>
-<p>AutoGrow: Enable Storage Auto Grow or not.</p>
 </td>
 </tr>
 <tr>
@@ -3801,7 +3595,6 @@ int
 </em>
 </td>
 <td>
-<p>Iops: Storage IOPS for a server.</p>
 </td>
 </tr>
 <tr>
@@ -3812,7 +3605,6 @@ int
 </em>
 </td>
 <td>
-<p>StorageSizeGB: Max storage size allowed for a server.</p>
 </td>
 </tr>
 </tbody>
@@ -3823,7 +3615,7 @@ int
 (<em>Appears on:</em><a href="#dbformysql.azure.com/v1alpha1api20210501.ServerPropertiesARM">ServerPropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Storage">https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Storage</a></p>
+<p>Deprecated version of Storage. Use v1beta20210501.Storage instead</p>
 </div>
 <table>
 <thead>
@@ -3843,7 +3635,6 @@ StorageAutoGrow
 </em>
 </td>
 <td>
-<p>AutoGrow: Enable Storage Auto Grow or not.</p>
 </td>
 </tr>
 <tr>
@@ -3854,7 +3645,6 @@ int
 </em>
 </td>
 <td>
-<p>Iops: Storage IOPS for a server.</p>
 </td>
 </tr>
 <tr>
@@ -3865,7 +3655,6 @@ int
 </em>
 </td>
 <td>
-<p>StorageSizeGB: Max storage size allowed for a server.</p>
 </td>
 </tr>
 </tbody>
@@ -3876,6 +3665,7 @@ int
 (<em>Appears on:</em><a href="#dbformysql.azure.com/v1alpha1api20210501.Storage">Storage</a>, <a href="#dbformysql.azure.com/v1alpha1api20210501.StorageARM">StorageARM</a>)
 </p>
 <div>
+<p>Deprecated version of StorageAutoGrow. Use v1beta20210501.StorageAutoGrow instead</p>
 </div>
 <table>
 <thead>
@@ -3896,6 +3686,7 @@ int
 (<em>Appears on:</em><a href="#dbformysql.azure.com/v1alpha1api20210501.Server_Status">Server_Status</a>)
 </p>
 <div>
+<p>Deprecated version of Storage_Status. Use v1beta20210501.Storage_Status instead</p>
 </div>
 <table>
 <thead>
@@ -3915,7 +3706,6 @@ EnableStatusEnum_Status
 </em>
 </td>
 <td>
-<p>AutoGrow: Enable Storage Auto Grow or not.</p>
 </td>
 </tr>
 <tr>
@@ -3926,7 +3716,6 @@ int
 </em>
 </td>
 <td>
-<p>Iops: Storage IOPS for a server.</p>
 </td>
 </tr>
 <tr>
@@ -3937,7 +3726,6 @@ int
 </em>
 </td>
 <td>
-<p>StorageSizeGB: Max storage size allowed for a server.</p>
 </td>
 </tr>
 <tr>
@@ -3948,7 +3736,6 @@ string
 </em>
 </td>
 <td>
-<p>StorageSku: The sku name of the server storage.</p>
 </td>
 </tr>
 </tbody>
@@ -3959,6 +3746,7 @@ string
 (<em>Appears on:</em><a href="#dbformysql.azure.com/v1alpha1api20210501.ServerProperties_StatusARM">ServerProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of Storage_Status. Use v1beta20210501.Storage_Status instead</p>
 </div>
 <table>
 <thead>
@@ -3978,7 +3766,6 @@ EnableStatusEnum_Status
 </em>
 </td>
 <td>
-<p>AutoGrow: Enable Storage Auto Grow or not.</p>
 </td>
 </tr>
 <tr>
@@ -3989,7 +3776,6 @@ int
 </em>
 </td>
 <td>
-<p>Iops: Storage IOPS for a server.</p>
 </td>
 </tr>
 <tr>
@@ -4000,7 +3786,6 @@ int
 </em>
 </td>
 <td>
-<p>StorageSizeGB: Max storage size allowed for a server.</p>
 </td>
 </tr>
 <tr>
@@ -4011,7 +3796,6 @@ string
 </em>
 </td>
 <td>
-<p>StorageSku: The sku name of the server storage.</p>
 </td>
 </tr>
 </tbody>
@@ -4022,6 +3806,7 @@ string
 (<em>Appears on:</em><a href="#dbformysql.azure.com/v1alpha1api20210501.SystemData_Status">SystemData_Status</a>, <a href="#dbformysql.azure.com/v1alpha1api20210501.SystemData_StatusARM">SystemData_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of SystemDataStatusCreatedByType. Use v1beta20210501.SystemDataStatusCreatedByType instead</p>
 </div>
 <table>
 <thead>
@@ -4046,6 +3831,7 @@ string
 (<em>Appears on:</em><a href="#dbformysql.azure.com/v1alpha1api20210501.SystemData_Status">SystemData_Status</a>, <a href="#dbformysql.azure.com/v1alpha1api20210501.SystemData_StatusARM">SystemData_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of SystemDataStatusLastModifiedByType. Use v1beta20210501.SystemDataStatusLastModifiedByType instead</p>
 </div>
 <table>
 <thead>
@@ -4070,6 +3856,7 @@ string
 (<em>Appears on:</em><a href="#dbformysql.azure.com/v1alpha1api20210501.Database_Status">Database_Status</a>, <a href="#dbformysql.azure.com/v1alpha1api20210501.FirewallRule_Status">FirewallRule_Status</a>, <a href="#dbformysql.azure.com/v1alpha1api20210501.Server_Status">Server_Status</a>)
 </p>
 <div>
+<p>Deprecated version of SystemData_Status. Use v1beta20210501.SystemData_Status instead</p>
 </div>
 <table>
 <thead>
@@ -4087,7 +3874,6 @@ string
 </em>
 </td>
 <td>
-<p>CreatedAt: The timestamp of resource creation (UTC).</p>
 </td>
 </tr>
 <tr>
@@ -4098,7 +3884,6 @@ string
 </em>
 </td>
 <td>
-<p>CreatedBy: The identity that created the resource.</p>
 </td>
 </tr>
 <tr>
@@ -4111,7 +3896,6 @@ SystemDataStatusCreatedByType
 </em>
 </td>
 <td>
-<p>CreatedByType: The type of identity that created the resource.</p>
 </td>
 </tr>
 <tr>
@@ -4122,7 +3906,6 @@ string
 </em>
 </td>
 <td>
-<p>LastModifiedAt: The timestamp of resource last modification (UTC)</p>
 </td>
 </tr>
 <tr>
@@ -4133,7 +3916,6 @@ string
 </em>
 </td>
 <td>
-<p>LastModifiedBy: The identity that last modified the resource.</p>
 </td>
 </tr>
 <tr>
@@ -4146,7 +3928,6 @@ SystemDataStatusLastModifiedByType
 </em>
 </td>
 <td>
-<p>LastModifiedByType: The type of identity that last modified the resource.</p>
 </td>
 </tr>
 </tbody>
@@ -4157,6 +3938,7 @@ SystemDataStatusLastModifiedByType
 (<em>Appears on:</em><a href="#dbformysql.azure.com/v1alpha1api20210501.Database_StatusARM">Database_StatusARM</a>, <a href="#dbformysql.azure.com/v1alpha1api20210501.FirewallRule_StatusARM">FirewallRule_StatusARM</a>, <a href="#dbformysql.azure.com/v1alpha1api20210501.Server_StatusARM">Server_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of SystemData_Status. Use v1beta20210501.SystemData_Status instead</p>
 </div>
 <table>
 <thead>
@@ -4174,7 +3956,6 @@ string
 </em>
 </td>
 <td>
-<p>CreatedAt: The timestamp of resource creation (UTC).</p>
 </td>
 </tr>
 <tr>
@@ -4185,7 +3966,6 @@ string
 </em>
 </td>
 <td>
-<p>CreatedBy: The identity that created the resource.</p>
 </td>
 </tr>
 <tr>
@@ -4198,7 +3978,6 @@ SystemDataStatusCreatedByType
 </em>
 </td>
 <td>
-<p>CreatedByType: The type of identity that created the resource.</p>
 </td>
 </tr>
 <tr>
@@ -4209,7 +3988,6 @@ string
 </em>
 </td>
 <td>
-<p>LastModifiedAt: The timestamp of resource last modification (UTC)</p>
 </td>
 </tr>
 <tr>
@@ -4220,7 +3998,6 @@ string
 </em>
 </td>
 <td>
-<p>LastModifiedBy: The identity that last modified the resource.</p>
 </td>
 </tr>
 <tr>
@@ -4233,7 +4010,6 @@ SystemDataStatusLastModifiedByType
 </em>
 </td>
 <td>
-<p>LastModifiedByType: The type of identity that last modified the resource.</p>
 </td>
 </tr>
 </tbody>

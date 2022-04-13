@@ -12,7 +12,7 @@ Resource Types:
 (<em>Appears on:</em><a href="#insights.azure.com/v1alpha1api20200202.Components_SpecARM">Components_SpecARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-02-02/Microsoft.Insights.Application.json#/definitions/ApplicationInsightsComponentProperties">https://schema.management.azure.com/schemas/2020-02-02/Microsoft.Insights.Application.json#/definitions/ApplicationInsightsComponentProperties</a></p>
+<p>Deprecated version of ApplicationInsightsComponentProperties. Use v1beta20200202.ApplicationInsightsComponentProperties instead</p>
 </div>
 <table>
 <thead>
@@ -32,7 +32,6 @@ ApplicationInsightsComponentPropertiesApplicationType
 </em>
 </td>
 <td>
-<p>ApplicationType: Type of application being monitored.</p>
 </td>
 </tr>
 <tr>
@@ -43,7 +42,6 @@ bool
 </em>
 </td>
 <td>
-<p>DisableIpMasking: Disable IP masking.</p>
 </td>
 </tr>
 <tr>
@@ -54,7 +52,6 @@ bool
 </em>
 </td>
 <td>
-<p>DisableLocalAuth: Disable Non-AAD based Auth.</p>
 </td>
 </tr>
 <tr>
@@ -67,8 +64,6 @@ ApplicationInsightsComponentPropertiesFlowType
 </em>
 </td>
 <td>
-<p>FlowType: Used by the Application Insights system to determine what kind of flow this component was created by. This is
-to be set to &lsquo;Bluefield&rsquo; when creating/updating a component via the REST API.</p>
 </td>
 </tr>
 <tr>
@@ -79,7 +74,6 @@ bool
 </em>
 </td>
 <td>
-<p>ForceCustomerStorageForProfiler: Force users to create their own storage account for profiler and debugger.</p>
 </td>
 </tr>
 <tr>
@@ -90,8 +84,6 @@ string
 </em>
 </td>
 <td>
-<p>HockeyAppId: The unique application ID created when a new application is added to HockeyApp, used for communications
-with HockeyApp.</p>
 </td>
 </tr>
 <tr>
@@ -102,7 +94,6 @@ bool
 </em>
 </td>
 <td>
-<p>ImmediatePurgeDataOn30Days: Purge data immediately after 30 days.</p>
 </td>
 </tr>
 <tr>
@@ -115,7 +106,6 @@ ApplicationInsightsComponentPropertiesIngestionMode
 </em>
 </td>
 <td>
-<p>IngestionMode: Indicates the flow of the ingestion.</p>
 </td>
 </tr>
 <tr>
@@ -128,7 +118,6 @@ ApplicationInsightsComponentPropertiesPublicNetworkAccessForIngestion
 </em>
 </td>
 <td>
-<p>PublicNetworkAccessForIngestion: The network access type for accessing Application Insights ingestion.</p>
 </td>
 </tr>
 <tr>
@@ -141,7 +130,6 @@ ApplicationInsightsComponentPropertiesPublicNetworkAccessForQuery
 </em>
 </td>
 <td>
-<p>PublicNetworkAccessForQuery: The network access type for accessing Application Insights query.</p>
 </td>
 </tr>
 <tr>
@@ -154,8 +142,6 @@ ApplicationInsightsComponentPropertiesRequestSource
 </em>
 </td>
 <td>
-<p>RequestSource: Describes what tool created this Application Insights component. Customers using this API should set this
-to the default &lsquo;rest&rsquo;.</p>
 </td>
 </tr>
 <tr>
@@ -166,7 +152,6 @@ int
 </em>
 </td>
 <td>
-<p>RetentionInDays: Retention period in days.</p>
 </td>
 </tr>
 <tr>
@@ -177,8 +162,6 @@ float64
 </em>
 </td>
 <td>
-<p>SamplingPercentage: Percentage of the data produced by the application being monitored that is being sampled for
-Application Insights telemetry.</p>
 </td>
 </tr>
 <tr>
@@ -199,6 +182,8 @@ string
 (<em>Appears on:</em><a href="#insights.azure.com/v1alpha1api20200202.ApplicationInsightsComponentPropertiesARM">ApplicationInsightsComponentPropertiesARM</a>, <a href="#insights.azure.com/v1alpha1api20200202.Components_Spec">Components_Spec</a>)
 </p>
 <div>
+<p>Deprecated version of ApplicationInsightsComponentPropertiesApplicationType. Use
+v1beta20200202.ApplicationInsightsComponentPropertiesApplicationType instead</p>
 </div>
 <table>
 <thead>
@@ -219,6 +204,8 @@ string
 (<em>Appears on:</em><a href="#insights.azure.com/v1alpha1api20200202.ApplicationInsightsComponentPropertiesARM">ApplicationInsightsComponentPropertiesARM</a>, <a href="#insights.azure.com/v1alpha1api20200202.Components_Spec">Components_Spec</a>)
 </p>
 <div>
+<p>Deprecated version of ApplicationInsightsComponentPropertiesFlowType. Use
+v1beta20200202.ApplicationInsightsComponentPropertiesFlowType instead</p>
 </div>
 <table>
 <thead>
@@ -237,6 +224,8 @@ string
 (<em>Appears on:</em><a href="#insights.azure.com/v1alpha1api20200202.ApplicationInsightsComponentPropertiesARM">ApplicationInsightsComponentPropertiesARM</a>, <a href="#insights.azure.com/v1alpha1api20200202.Components_Spec">Components_Spec</a>)
 </p>
 <div>
+<p>Deprecated version of ApplicationInsightsComponentPropertiesIngestionMode. Use
+v1beta20200202.ApplicationInsightsComponentPropertiesIngestionMode instead</p>
 </div>
 <table>
 <thead>
@@ -259,6 +248,8 @@ string
 (<em>Appears on:</em><a href="#insights.azure.com/v1alpha1api20200202.ApplicationInsightsComponentPropertiesARM">ApplicationInsightsComponentPropertiesARM</a>, <a href="#insights.azure.com/v1alpha1api20200202.Components_Spec">Components_Spec</a>)
 </p>
 <div>
+<p>Deprecated version of ApplicationInsightsComponentPropertiesPublicNetworkAccessForIngestion. Use
+v1beta20200202.ApplicationInsightsComponentPropertiesPublicNetworkAccessForIngestion instead</p>
 </div>
 <table>
 <thead>
@@ -279,6 +270,8 @@ string
 (<em>Appears on:</em><a href="#insights.azure.com/v1alpha1api20200202.ApplicationInsightsComponentPropertiesARM">ApplicationInsightsComponentPropertiesARM</a>, <a href="#insights.azure.com/v1alpha1api20200202.Components_Spec">Components_Spec</a>)
 </p>
 <div>
+<p>Deprecated version of ApplicationInsightsComponentPropertiesPublicNetworkAccessForQuery. Use
+v1beta20200202.ApplicationInsightsComponentPropertiesPublicNetworkAccessForQuery instead</p>
 </div>
 <table>
 <thead>
@@ -299,6 +292,8 @@ string
 (<em>Appears on:</em><a href="#insights.azure.com/v1alpha1api20200202.ApplicationInsightsComponentPropertiesARM">ApplicationInsightsComponentPropertiesARM</a>, <a href="#insights.azure.com/v1alpha1api20200202.Components_Spec">Components_Spec</a>)
 </p>
 <div>
+<p>Deprecated version of ApplicationInsightsComponentPropertiesRequestSource. Use
+v1beta20200202.ApplicationInsightsComponentPropertiesRequestSource instead</p>
 </div>
 <table>
 <thead>
@@ -317,6 +312,8 @@ string
 (<em>Appears on:</em><a href="#insights.azure.com/v1alpha1api20200202.ApplicationInsightsComponentProperties_StatusARM">ApplicationInsightsComponentProperties_StatusARM</a>, <a href="#insights.azure.com/v1alpha1api20200202.ApplicationInsightsComponent_Status">ApplicationInsightsComponent_Status</a>)
 </p>
 <div>
+<p>Deprecated version of ApplicationInsightsComponentPropertiesStatusApplicationType. Use
+v1beta20200202.ApplicationInsightsComponentPropertiesStatusApplicationType instead</p>
 </div>
 <table>
 <thead>
@@ -337,6 +334,8 @@ string
 (<em>Appears on:</em><a href="#insights.azure.com/v1alpha1api20200202.ApplicationInsightsComponentProperties_StatusARM">ApplicationInsightsComponentProperties_StatusARM</a>, <a href="#insights.azure.com/v1alpha1api20200202.ApplicationInsightsComponent_Status">ApplicationInsightsComponent_Status</a>)
 </p>
 <div>
+<p>Deprecated version of ApplicationInsightsComponentPropertiesStatusFlowType. Use
+v1beta20200202.ApplicationInsightsComponentPropertiesStatusFlowType instead</p>
 </div>
 <table>
 <thead>
@@ -355,6 +354,8 @@ string
 (<em>Appears on:</em><a href="#insights.azure.com/v1alpha1api20200202.ApplicationInsightsComponentProperties_StatusARM">ApplicationInsightsComponentProperties_StatusARM</a>, <a href="#insights.azure.com/v1alpha1api20200202.ApplicationInsightsComponent_Status">ApplicationInsightsComponent_Status</a>)
 </p>
 <div>
+<p>Deprecated version of ApplicationInsightsComponentPropertiesStatusIngestionMode. Use
+v1beta20200202.ApplicationInsightsComponentPropertiesStatusIngestionMode instead</p>
 </div>
 <table>
 <thead>
@@ -377,6 +378,8 @@ string
 (<em>Appears on:</em><a href="#insights.azure.com/v1alpha1api20200202.ApplicationInsightsComponentProperties_StatusARM">ApplicationInsightsComponentProperties_StatusARM</a>, <a href="#insights.azure.com/v1alpha1api20200202.ApplicationInsightsComponent_Status">ApplicationInsightsComponent_Status</a>)
 </p>
 <div>
+<p>Deprecated version of ApplicationInsightsComponentPropertiesStatusRequestSource. Use
+v1beta20200202.ApplicationInsightsComponentPropertiesStatusRequestSource instead</p>
 </div>
 <table>
 <thead>
@@ -395,6 +398,7 @@ string
 (<em>Appears on:</em><a href="#insights.azure.com/v1alpha1api20200202.ApplicationInsightsComponent_StatusARM">ApplicationInsightsComponent_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of ApplicationInsightsComponentProperties_Status. Use v1beta20200202.ApplicationInsightsComponentProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -412,7 +416,6 @@ string
 </em>
 </td>
 <td>
-<p>AppId: Application Insights Unique ID for your Application.</p>
 </td>
 </tr>
 <tr>
@@ -423,7 +426,6 @@ string
 </em>
 </td>
 <td>
-<p>ApplicationId: The unique ID of your application. This field mirrors the &lsquo;Name&rsquo; field and cannot be changed.</p>
 </td>
 </tr>
 <tr>
@@ -436,7 +438,6 @@ ApplicationInsightsComponentPropertiesStatusApplicationType
 </em>
 </td>
 <td>
-<p>ApplicationType: Type of application being monitored.</p>
 </td>
 </tr>
 <tr>
@@ -447,7 +448,6 @@ string
 </em>
 </td>
 <td>
-<p>ConnectionString: Application Insights component connection string.</p>
 </td>
 </tr>
 <tr>
@@ -458,7 +458,6 @@ string
 </em>
 </td>
 <td>
-<p>CreationDate: Creation Date for the Application Insights component, in ISO 8601 format.</p>
 </td>
 </tr>
 <tr>
@@ -469,7 +468,6 @@ bool
 </em>
 </td>
 <td>
-<p>DisableIpMasking: Disable IP masking.</p>
 </td>
 </tr>
 <tr>
@@ -480,7 +478,6 @@ bool
 </em>
 </td>
 <td>
-<p>DisableLocalAuth: Disable Non-AAD based Auth.</p>
 </td>
 </tr>
 <tr>
@@ -493,8 +490,6 @@ ApplicationInsightsComponentPropertiesStatusFlowType
 </em>
 </td>
 <td>
-<p>FlowType: Used by the Application Insights system to determine what kind of flow this component was created by. This is
-to be set to &lsquo;Bluefield&rsquo; when creating/updating a component via the REST API.</p>
 </td>
 </tr>
 <tr>
@@ -505,7 +500,6 @@ bool
 </em>
 </td>
 <td>
-<p>ForceCustomerStorageForProfiler: Force users to create their own storage account for profiler and debugger.</p>
 </td>
 </tr>
 <tr>
@@ -516,8 +510,6 @@ string
 </em>
 </td>
 <td>
-<p>HockeyAppId: The unique application ID created when a new application is added to HockeyApp, used for communications
-with HockeyApp.</p>
 </td>
 </tr>
 <tr>
@@ -528,7 +520,6 @@ string
 </em>
 </td>
 <td>
-<p>HockeyAppToken: Token used to authenticate communications with between Application Insights and HockeyApp.</p>
 </td>
 </tr>
 <tr>
@@ -539,7 +530,6 @@ bool
 </em>
 </td>
 <td>
-<p>ImmediatePurgeDataOn30Days: Purge data immediately after 30 days.</p>
 </td>
 </tr>
 <tr>
@@ -552,7 +542,6 @@ ApplicationInsightsComponentPropertiesStatusIngestionMode
 </em>
 </td>
 <td>
-<p>IngestionMode: Indicates the flow of the ingestion.</p>
 </td>
 </tr>
 <tr>
@@ -563,9 +552,6 @@ string
 </em>
 </td>
 <td>
-<p>InstrumentationKey: Application Insights Instrumentation key. A read-only value that applications can use to identify
-the destination for all telemetry sent to Azure Application Insights. This value will be supplied upon construction of
-each new Application Insights component.</p>
 </td>
 </tr>
 <tr>
@@ -576,7 +562,6 @@ string
 </em>
 </td>
 <td>
-<p>LaMigrationDate: The date which the component got migrated to LA, in ISO 8601 format.</p>
 </td>
 </tr>
 <tr>
@@ -587,7 +572,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Application name.</p>
 </td>
 </tr>
 <tr>
@@ -600,7 +584,6 @@ string
 </em>
 </td>
 <td>
-<p>PrivateLinkScopedResources: List of linked private link scope resources.</p>
 </td>
 </tr>
 <tr>
@@ -611,9 +594,6 @@ string
 </em>
 </td>
 <td>
-<p>ProvisioningState: Current state of this component: whether or not is has been provisioned within the resource group it
-is defined. Users cannot change this value but are able to read from it. Values will include Succeeded, Deploying,
-Canceled, and Failed.</p>
 </td>
 </tr>
 <tr>
@@ -626,7 +606,6 @@ PublicNetworkAccessType_Status
 </em>
 </td>
 <td>
-<p>PublicNetworkAccessForIngestion: The network access type for accessing Application Insights ingestion.</p>
 </td>
 </tr>
 <tr>
@@ -639,7 +618,6 @@ PublicNetworkAccessType_Status
 </em>
 </td>
 <td>
-<p>PublicNetworkAccessForQuery: The network access type for accessing Application Insights query.</p>
 </td>
 </tr>
 <tr>
@@ -652,8 +630,6 @@ ApplicationInsightsComponentPropertiesStatusRequestSource
 </em>
 </td>
 <td>
-<p>RequestSource: Describes what tool created this Application Insights component. Customers using this API should set this
-to the default &lsquo;rest&rsquo;.</p>
 </td>
 </tr>
 <tr>
@@ -664,7 +640,6 @@ int
 </em>
 </td>
 <td>
-<p>RetentionInDays: Retention period in days.</p>
 </td>
 </tr>
 <tr>
@@ -675,8 +650,6 @@ float64
 </em>
 </td>
 <td>
-<p>SamplingPercentage: Percentage of the data produced by the application being monitored that is being sampled for
-Application Insights telemetry.</p>
 </td>
 </tr>
 <tr>
@@ -687,7 +660,6 @@ string
 </em>
 </td>
 <td>
-<p>TenantId: Azure Tenant Id.</p>
 </td>
 </tr>
 <tr>
@@ -698,8 +670,6 @@ string
 </em>
 </td>
 <td>
-<p>WorkspaceResourceId: Resource Id of the log analytics workspace which the data will be ingested to. This property is
-required to create an application with this API version. Applications from older versions will not have this property.</p>
 </td>
 </tr>
 </tbody>
@@ -710,6 +680,7 @@ required to create an application with this API version. Applications from older
 (<em>Appears on:</em><a href="#insights.azure.com/v1alpha1api20200202.Component">Component</a>)
 </p>
 <div>
+<p>Deprecated version of ApplicationInsightsComponent_Status. Use v1beta20200202.ApplicationInsightsComponent_Status instead</p>
 </div>
 <table>
 <thead>
@@ -727,7 +698,6 @@ string
 </em>
 </td>
 <td>
-<p>AppId: Application Insights Unique ID for your Application.</p>
 </td>
 </tr>
 <tr>
@@ -738,7 +708,6 @@ string
 </em>
 </td>
 <td>
-<p>ApplicationId: The unique ID of your application. This field mirrors the &lsquo;Name&rsquo; field and cannot be changed.</p>
 </td>
 </tr>
 <tr>
@@ -751,7 +720,6 @@ ApplicationInsightsComponentPropertiesStatusApplicationType
 </em>
 </td>
 <td>
-<p>ApplicationType: Type of application being monitored.</p>
 </td>
 </tr>
 <tr>
@@ -775,7 +743,6 @@ string
 </em>
 </td>
 <td>
-<p>ConnectionString: Application Insights component connection string.</p>
 </td>
 </tr>
 <tr>
@@ -786,7 +753,6 @@ string
 </em>
 </td>
 <td>
-<p>CreationDate: Creation Date for the Application Insights component, in ISO 8601 format.</p>
 </td>
 </tr>
 <tr>
@@ -797,7 +763,6 @@ bool
 </em>
 </td>
 <td>
-<p>DisableIpMasking: Disable IP masking.</p>
 </td>
 </tr>
 <tr>
@@ -808,7 +773,6 @@ bool
 </em>
 </td>
 <td>
-<p>DisableLocalAuth: Disable Non-AAD based Auth.</p>
 </td>
 </tr>
 <tr>
@@ -819,7 +783,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: Resource etag</p>
 </td>
 </tr>
 <tr>
@@ -832,8 +795,6 @@ ApplicationInsightsComponentPropertiesStatusFlowType
 </em>
 </td>
 <td>
-<p>FlowType: Used by the Application Insights system to determine what kind of flow this component was created by. This is
-to be set to &lsquo;Bluefield&rsquo; when creating/updating a component via the REST API.</p>
 </td>
 </tr>
 <tr>
@@ -844,7 +805,6 @@ bool
 </em>
 </td>
 <td>
-<p>ForceCustomerStorageForProfiler: Force users to create their own storage account for profiler and debugger.</p>
 </td>
 </tr>
 <tr>
@@ -855,8 +815,6 @@ string
 </em>
 </td>
 <td>
-<p>HockeyAppId: The unique application ID created when a new application is added to HockeyApp, used for communications
-with HockeyApp.</p>
 </td>
 </tr>
 <tr>
@@ -867,7 +825,6 @@ string
 </em>
 </td>
 <td>
-<p>HockeyAppToken: Token used to authenticate communications with between Application Insights and HockeyApp.</p>
 </td>
 </tr>
 <tr>
@@ -878,7 +835,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Azure resource Id</p>
 </td>
 </tr>
 <tr>
@@ -889,7 +845,6 @@ bool
 </em>
 </td>
 <td>
-<p>ImmediatePurgeDataOn30Days: Purge data immediately after 30 days.</p>
 </td>
 </tr>
 <tr>
@@ -902,7 +857,6 @@ ApplicationInsightsComponentPropertiesStatusIngestionMode
 </em>
 </td>
 <td>
-<p>IngestionMode: Indicates the flow of the ingestion.</p>
 </td>
 </tr>
 <tr>
@@ -913,9 +867,6 @@ string
 </em>
 </td>
 <td>
-<p>InstrumentationKey: Application Insights Instrumentation key. A read-only value that applications can use to identify
-the destination for all telemetry sent to Azure Application Insights. This value will be supplied upon construction of
-each new Application Insights component.</p>
 </td>
 </tr>
 <tr>
@@ -926,8 +877,6 @@ string
 </em>
 </td>
 <td>
-<p>Kind: The kind of application that this component refers to, used to customize UI. This value is a freeform string,
-values should typically be one of the following: web, ios, other, store, java, phone.</p>
 </td>
 </tr>
 <tr>
@@ -938,7 +887,6 @@ string
 </em>
 </td>
 <td>
-<p>LaMigrationDate: The date which the component got migrated to LA, in ISO 8601 format.</p>
 </td>
 </tr>
 <tr>
@@ -949,7 +897,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Resource location</p>
 </td>
 </tr>
 <tr>
@@ -960,7 +907,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Azure resource name</p>
 </td>
 </tr>
 <tr>
@@ -973,7 +919,6 @@ string
 </em>
 </td>
 <td>
-<p>PrivateLinkScopedResources: List of linked private link scope resources.</p>
 </td>
 </tr>
 <tr>
@@ -984,7 +929,6 @@ string
 </em>
 </td>
 <td>
-<p>PropertiesName: Application name.</p>
 </td>
 </tr>
 <tr>
@@ -995,9 +939,6 @@ string
 </em>
 </td>
 <td>
-<p>ProvisioningState: Current state of this component: whether or not is has been provisioned within the resource group it
-is defined. Users cannot change this value but are able to read from it. Values will include Succeeded, Deploying,
-Canceled, and Failed.</p>
 </td>
 </tr>
 <tr>
@@ -1010,7 +951,6 @@ PublicNetworkAccessType_Status
 </em>
 </td>
 <td>
-<p>PublicNetworkAccessForIngestion: The network access type for accessing Application Insights ingestion.</p>
 </td>
 </tr>
 <tr>
@@ -1023,7 +963,6 @@ PublicNetworkAccessType_Status
 </em>
 </td>
 <td>
-<p>PublicNetworkAccessForQuery: The network access type for accessing Application Insights query.</p>
 </td>
 </tr>
 <tr>
@@ -1036,8 +975,6 @@ ApplicationInsightsComponentPropertiesStatusRequestSource
 </em>
 </td>
 <td>
-<p>RequestSource: Describes what tool created this Application Insights component. Customers using this API should set this
-to the default &lsquo;rest&rsquo;.</p>
 </td>
 </tr>
 <tr>
@@ -1048,7 +985,6 @@ int
 </em>
 </td>
 <td>
-<p>RetentionInDays: Retention period in days.</p>
 </td>
 </tr>
 <tr>
@@ -1059,8 +995,6 @@ float64
 </em>
 </td>
 <td>
-<p>SamplingPercentage: Percentage of the data produced by the application being monitored that is being sampled for
-Application Insights telemetry.</p>
 </td>
 </tr>
 <tr>
@@ -1073,7 +1007,6 @@ Kubernetes v1.JSON
 </em>
 </td>
 <td>
-<p>Tags: Resource tags</p>
 </td>
 </tr>
 <tr>
@@ -1084,7 +1017,6 @@ string
 </em>
 </td>
 <td>
-<p>TenantId: Azure Tenant Id.</p>
 </td>
 </tr>
 <tr>
@@ -1095,7 +1027,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: Azure resource type</p>
 </td>
 </tr>
 <tr>
@@ -1106,8 +1037,6 @@ string
 </em>
 </td>
 <td>
-<p>WorkspaceResourceId: Resource Id of the log analytics workspace which the data will be ingested to. This property is
-required to create an application with this API version. Applications from older versions will not have this property.</p>
 </td>
 </tr>
 </tbody>
@@ -1115,6 +1044,7 @@ required to create an application with this API version. Applications from older
 <h3 id="insights.azure.com/v1alpha1api20200202.ApplicationInsightsComponent_StatusARM">ApplicationInsightsComponent_StatusARM
 </h3>
 <div>
+<p>Deprecated version of ApplicationInsightsComponent_Status. Use v1beta20200202.ApplicationInsightsComponent_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1132,7 +1062,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: Resource etag</p>
 </td>
 </tr>
 <tr>
@@ -1143,7 +1072,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Azure resource Id</p>
 </td>
 </tr>
 <tr>
@@ -1154,8 +1082,6 @@ string
 </em>
 </td>
 <td>
-<p>Kind: The kind of application that this component refers to, used to customize UI. This value is a freeform string,
-values should typically be one of the following: web, ios, other, store, java, phone.</p>
 </td>
 </tr>
 <tr>
@@ -1166,7 +1092,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Resource location</p>
 </td>
 </tr>
 <tr>
@@ -1177,7 +1102,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Azure resource name</p>
 </td>
 </tr>
 <tr>
@@ -1190,7 +1114,6 @@ ApplicationInsightsComponentProperties_StatusARM
 </em>
 </td>
 <td>
-<p>Properties: Properties that define an Application Insights component resource.</p>
 </td>
 </tr>
 <tr>
@@ -1203,7 +1126,6 @@ Kubernetes v1.JSON
 </em>
 </td>
 <td>
-<p>Tags: Resource tags</p>
 </td>
 </tr>
 <tr>
@@ -1214,7 +1136,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: Azure resource type</p>
 </td>
 </tr>
 </tbody>
@@ -1222,7 +1143,7 @@ string
 <h3 id="insights.azure.com/v1alpha1api20200202.Component">Component
 </h3>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-02-02/Microsoft.Insights.Application.json#/resourceDefinitions/components">https://schema.management.azure.com/schemas/2020-02-02/Microsoft.Insights.Application.json#/resourceDefinitions/components</a></p>
+<p>Deprecated version of Component. Use v1beta20200202.Component instead</p>
 </div>
 <table>
 <thead>
@@ -1269,7 +1190,6 @@ ApplicationInsightsComponentPropertiesApplicationType
 </em>
 </td>
 <td>
-<p>ApplicationType: Type of application being monitored.</p>
 </td>
 </tr>
 <tr>
@@ -1292,7 +1212,6 @@ bool
 </em>
 </td>
 <td>
-<p>DisableIpMasking: Disable IP masking.</p>
 </td>
 </tr>
 <tr>
@@ -1303,7 +1222,6 @@ bool
 </em>
 </td>
 <td>
-<p>DisableLocalAuth: Disable Non-AAD based Auth.</p>
 </td>
 </tr>
 <tr>
@@ -1314,7 +1232,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: Resource etag</p>
 </td>
 </tr>
 <tr>
@@ -1327,8 +1244,6 @@ ApplicationInsightsComponentPropertiesFlowType
 </em>
 </td>
 <td>
-<p>FlowType: Used by the Application Insights system to determine what kind of flow this component was created by. This is
-to be set to &lsquo;Bluefield&rsquo; when creating/updating a component via the REST API.</p>
 </td>
 </tr>
 <tr>
@@ -1339,7 +1254,6 @@ bool
 </em>
 </td>
 <td>
-<p>ForceCustomerStorageForProfiler: Force users to create their own storage account for profiler and debugger.</p>
 </td>
 </tr>
 <tr>
@@ -1350,8 +1264,6 @@ string
 </em>
 </td>
 <td>
-<p>HockeyAppId: The unique application ID created when a new application is added to HockeyApp, used for communications
-with HockeyApp.</p>
 </td>
 </tr>
 <tr>
@@ -1362,7 +1274,6 @@ bool
 </em>
 </td>
 <td>
-<p>ImmediatePurgeDataOn30Days: Purge data immediately after 30 days.</p>
 </td>
 </tr>
 <tr>
@@ -1375,7 +1286,6 @@ ApplicationInsightsComponentPropertiesIngestionMode
 </em>
 </td>
 <td>
-<p>IngestionMode: Indicates the flow of the ingestion.</p>
 </td>
 </tr>
 <tr>
@@ -1386,8 +1296,6 @@ string
 </em>
 </td>
 <td>
-<p>Kind: The kind of application that this component refers to, used to customize UI. This value is a freeform string,
-values should typically be one of the following: web, ios, other, store, java, phone.</p>
 </td>
 </tr>
 <tr>
@@ -1398,7 +1306,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -1411,6 +1318,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -1423,7 +1333,6 @@ ApplicationInsightsComponentPropertiesPublicNetworkAccessForIngestion
 </em>
 </td>
 <td>
-<p>PublicNetworkAccessForIngestion: The network access type for accessing Application Insights ingestion.</p>
 </td>
 </tr>
 <tr>
@@ -1436,7 +1345,6 @@ ApplicationInsightsComponentPropertiesPublicNetworkAccessForQuery
 </em>
 </td>
 <td>
-<p>PublicNetworkAccessForQuery: The network access type for accessing Application Insights query.</p>
 </td>
 </tr>
 <tr>
@@ -1449,8 +1357,6 @@ ApplicationInsightsComponentPropertiesRequestSource
 </em>
 </td>
 <td>
-<p>RequestSource: Describes what tool created this Application Insights component. Customers using this API should set this
-to the default &lsquo;rest&rsquo;.</p>
 </td>
 </tr>
 <tr>
@@ -1461,7 +1367,6 @@ int
 </em>
 </td>
 <td>
-<p>RetentionInDays: Retention period in days.</p>
 </td>
 </tr>
 <tr>
@@ -1472,8 +1377,6 @@ float64
 </em>
 </td>
 <td>
-<p>SamplingPercentage: Percentage of the data produced by the application being monitored that is being sampled for
-Application Insights telemetry.</p>
 </td>
 </tr>
 <tr>
@@ -1484,7 +1387,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 <tr>
@@ -1497,8 +1399,6 @@ genruntime.ResourceReference
 </em>
 </td>
 <td>
-<p>WorkspaceResourceReference: Resource Id of the log analytics workspace which the data will be ingested to. This property
-is required to create an application with this API version. Applications from older versions will not have this property.</p>
 </td>
 </tr>
 </table>
@@ -1517,21 +1417,6 @@ ApplicationInsightsComponent_Status
 </td>
 </tr>
 </tbody>
-</table>
-<h3 id="insights.azure.com/v1alpha1api20200202.ComponentsSpecAPIVersion">ComponentsSpecAPIVersion
-(<code>string</code> alias)</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;2020-02-02&#34;</p></td>
-<td></td>
-</tr></tbody>
 </table>
 <h3 id="insights.azure.com/v1alpha1api20200202.Components_Spec">Components_Spec
 </h3>
@@ -1558,7 +1443,6 @@ ApplicationInsightsComponentPropertiesApplicationType
 </em>
 </td>
 <td>
-<p>ApplicationType: Type of application being monitored.</p>
 </td>
 </tr>
 <tr>
@@ -1581,7 +1465,6 @@ bool
 </em>
 </td>
 <td>
-<p>DisableIpMasking: Disable IP masking.</p>
 </td>
 </tr>
 <tr>
@@ -1592,7 +1475,6 @@ bool
 </em>
 </td>
 <td>
-<p>DisableLocalAuth: Disable Non-AAD based Auth.</p>
 </td>
 </tr>
 <tr>
@@ -1603,7 +1485,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: Resource etag</p>
 </td>
 </tr>
 <tr>
@@ -1616,8 +1497,6 @@ ApplicationInsightsComponentPropertiesFlowType
 </em>
 </td>
 <td>
-<p>FlowType: Used by the Application Insights system to determine what kind of flow this component was created by. This is
-to be set to &lsquo;Bluefield&rsquo; when creating/updating a component via the REST API.</p>
 </td>
 </tr>
 <tr>
@@ -1628,7 +1507,6 @@ bool
 </em>
 </td>
 <td>
-<p>ForceCustomerStorageForProfiler: Force users to create their own storage account for profiler and debugger.</p>
 </td>
 </tr>
 <tr>
@@ -1639,8 +1517,6 @@ string
 </em>
 </td>
 <td>
-<p>HockeyAppId: The unique application ID created when a new application is added to HockeyApp, used for communications
-with HockeyApp.</p>
 </td>
 </tr>
 <tr>
@@ -1651,7 +1527,6 @@ bool
 </em>
 </td>
 <td>
-<p>ImmediatePurgeDataOn30Days: Purge data immediately after 30 days.</p>
 </td>
 </tr>
 <tr>
@@ -1664,7 +1539,6 @@ ApplicationInsightsComponentPropertiesIngestionMode
 </em>
 </td>
 <td>
-<p>IngestionMode: Indicates the flow of the ingestion.</p>
 </td>
 </tr>
 <tr>
@@ -1675,8 +1549,6 @@ string
 </em>
 </td>
 <td>
-<p>Kind: The kind of application that this component refers to, used to customize UI. This value is a freeform string,
-values should typically be one of the following: web, ios, other, store, java, phone.</p>
 </td>
 </tr>
 <tr>
@@ -1687,7 +1559,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -1700,6 +1571,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -1712,7 +1586,6 @@ ApplicationInsightsComponentPropertiesPublicNetworkAccessForIngestion
 </em>
 </td>
 <td>
-<p>PublicNetworkAccessForIngestion: The network access type for accessing Application Insights ingestion.</p>
 </td>
 </tr>
 <tr>
@@ -1725,7 +1598,6 @@ ApplicationInsightsComponentPropertiesPublicNetworkAccessForQuery
 </em>
 </td>
 <td>
-<p>PublicNetworkAccessForQuery: The network access type for accessing Application Insights query.</p>
 </td>
 </tr>
 <tr>
@@ -1738,8 +1610,6 @@ ApplicationInsightsComponentPropertiesRequestSource
 </em>
 </td>
 <td>
-<p>RequestSource: Describes what tool created this Application Insights component. Customers using this API should set this
-to the default &lsquo;rest&rsquo;.</p>
 </td>
 </tr>
 <tr>
@@ -1750,7 +1620,6 @@ int
 </em>
 </td>
 <td>
-<p>RetentionInDays: Retention period in days.</p>
 </td>
 </tr>
 <tr>
@@ -1761,8 +1630,6 @@ float64
 </em>
 </td>
 <td>
-<p>SamplingPercentage: Percentage of the data produced by the application being monitored that is being sampled for
-Application Insights telemetry.</p>
 </td>
 </tr>
 <tr>
@@ -1773,7 +1640,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 <tr>
@@ -1786,8 +1652,6 @@ genruntime.ResourceReference
 </em>
 </td>
 <td>
-<p>WorkspaceResourceReference: Resource Id of the log analytics workspace which the data will be ingested to. This property
-is required to create an application with this API version. Applications from older versions will not have this property.</p>
 </td>
 </tr>
 </tbody>
@@ -1795,6 +1659,7 @@ is required to create an application with this API version. Applications from ol
 <h3 id="insights.azure.com/v1alpha1api20200202.Components_SpecARM">Components_SpecARM
 </h3>
 <div>
+<p>Deprecated version of Components_Spec. Use v1beta20200202.Components_Spec instead</p>
 </div>
 <table>
 <thead>
@@ -1812,7 +1677,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: Resource etag</p>
 </td>
 </tr>
 <tr>
@@ -1823,8 +1687,6 @@ string
 </em>
 </td>
 <td>
-<p>Kind: The kind of application that this component refers to, used to customize UI. This value is a freeform string,
-values should typically be one of the following: web, ios, other, store, java, phone.</p>
 </td>
 </tr>
 <tr>
@@ -1835,7 +1697,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -1846,7 +1707,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the Application Insights component resource.</p>
 </td>
 </tr>
 <tr>
@@ -1859,7 +1719,6 @@ ApplicationInsightsComponentPropertiesARM
 </em>
 </td>
 <td>
-<p>Properties: Properties that define an Application Insights component resource.</p>
 </td>
 </tr>
 <tr>
@@ -1870,7 +1729,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </tbody>
@@ -1881,6 +1739,7 @@ map[string]string
 (<em>Appears on:</em><a href="#insights.azure.com/v1alpha1api20200202.ApplicationInsightsComponent_Status">ApplicationInsightsComponent_Status</a>)
 </p>
 <div>
+<p>Deprecated version of PrivateLinkScopedResource_Status. Use v1beta20200202.PrivateLinkScopedResource_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1898,7 +1757,6 @@ string
 </em>
 </td>
 <td>
-<p>ResourceId: The full resource Id of the private link scope resource.</p>
 </td>
 </tr>
 <tr>
@@ -1909,7 +1767,6 @@ string
 </em>
 </td>
 <td>
-<p>ScopeId: The private link scope unique Identifier.</p>
 </td>
 </tr>
 </tbody>
@@ -1920,6 +1777,7 @@ string
 (<em>Appears on:</em><a href="#insights.azure.com/v1alpha1api20200202.ApplicationInsightsComponentProperties_StatusARM">ApplicationInsightsComponentProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of PrivateLinkScopedResource_Status. Use v1beta20200202.PrivateLinkScopedResource_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1937,7 +1795,6 @@ string
 </em>
 </td>
 <td>
-<p>ResourceId: The full resource Id of the private link scope resource.</p>
 </td>
 </tr>
 <tr>
@@ -1948,7 +1805,6 @@ string
 </em>
 </td>
 <td>
-<p>ScopeId: The private link scope unique Identifier.</p>
 </td>
 </tr>
 </tbody>
@@ -1959,6 +1815,7 @@ string
 (<em>Appears on:</em><a href="#insights.azure.com/v1alpha1api20200202.ApplicationInsightsComponentProperties_StatusARM">ApplicationInsightsComponentProperties_StatusARM</a>, <a href="#insights.azure.com/v1alpha1api20200202.ApplicationInsightsComponent_Status">ApplicationInsightsComponent_Status</a>)
 </p>
 <div>
+<p>Deprecated version of PublicNetworkAccessType_Status. Use v1beta20200202.PublicNetworkAccessType_Status instead</p>
 </div>
 <table>
 <thead>

@@ -12,6 +12,7 @@ Resource Types:
 (<em>Appears on:</em><a href="#operationalinsights.azure.com/v1alpha1api20210601.Workspace_Status">Workspace_Status</a>)
 </p>
 <div>
+<p>Deprecated version of PrivateLinkScopedResource_Status. Use v1beta20210601.PrivateLinkScopedResource_Status instead</p>
 </div>
 <table>
 <thead>
@@ -29,7 +30,6 @@ string
 </em>
 </td>
 <td>
-<p>ResourceId: The full resource Id of the private link scope resource.</p>
 </td>
 </tr>
 <tr>
@@ -40,7 +40,6 @@ string
 </em>
 </td>
 <td>
-<p>ScopeId: The private link scope unique Identifier.</p>
 </td>
 </tr>
 </tbody>
@@ -51,6 +50,7 @@ string
 (<em>Appears on:</em><a href="#operationalinsights.azure.com/v1alpha1api20210601.WorkspaceProperties_StatusARM">WorkspaceProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of PrivateLinkScopedResource_Status. Use v1beta20210601.PrivateLinkScopedResource_Status instead</p>
 </div>
 <table>
 <thead>
@@ -68,7 +68,6 @@ string
 </em>
 </td>
 <td>
-<p>ResourceId: The full resource Id of the private link scope resource.</p>
 </td>
 </tr>
 <tr>
@@ -79,7 +78,6 @@ string
 </em>
 </td>
 <td>
-<p>ScopeId: The private link scope unique Identifier.</p>
 </td>
 </tr>
 </tbody>
@@ -90,6 +88,7 @@ string
 (<em>Appears on:</em><a href="#operationalinsights.azure.com/v1alpha1api20210601.WorkspaceProperties_StatusARM">WorkspaceProperties_StatusARM</a>, <a href="#operationalinsights.azure.com/v1alpha1api20210601.Workspace_Status">Workspace_Status</a>)
 </p>
 <div>
+<p>Deprecated version of PublicNetworkAccessType_Status. Use v1beta20210601.PublicNetworkAccessType_Status instead</p>
 </div>
 <table>
 <thead>
@@ -107,7 +106,7 @@ string
 <h3 id="operationalinsights.azure.com/v1alpha1api20210601.Workspace">Workspace
 </h3>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-06-01/Microsoft.OperationalInsights.json#/resourceDefinitions/workspaces">https://schema.management.azure.com/schemas/2021-06-01/Microsoft.OperationalInsights.json#/resourceDefinitions/workspaces</a></p>
+<p>Deprecated version of Workspace. Use v1beta20210601.Workspace instead</p>
 </div>
 <table>
 <thead>
@@ -164,7 +163,6 @@ string
 </em>
 </td>
 <td>
-<p>ETag: The ETag of the workspace.</p>
 </td>
 </tr>
 <tr>
@@ -177,7 +175,6 @@ WorkspaceFeatures
 </em>
 </td>
 <td>
-<p>Features: Workspace features.</p>
 </td>
 </tr>
 <tr>
@@ -188,7 +185,6 @@ bool
 </em>
 </td>
 <td>
-<p>ForceCmkForQuery: Indicates whether customer managed storage is mandatory for query management.</p>
 </td>
 </tr>
 <tr>
@@ -199,7 +195,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The geo-location where the resource lives</p>
 </td>
 </tr>
 <tr>
@@ -212,6 +207,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -224,7 +222,6 @@ WorkspacePropertiesProvisioningState
 </em>
 </td>
 <td>
-<p>ProvisioningState: The provisioning state of the workspace.</p>
 </td>
 </tr>
 <tr>
@@ -237,7 +234,6 @@ WorkspacePropertiesPublicNetworkAccessForIngestion
 </em>
 </td>
 <td>
-<p>PublicNetworkAccessForIngestion: The network access type for accessing Log Analytics ingestion.</p>
 </td>
 </tr>
 <tr>
@@ -250,7 +246,6 @@ WorkspacePropertiesPublicNetworkAccessForQuery
 </em>
 </td>
 <td>
-<p>PublicNetworkAccessForQuery: The network access type for accessing Log Analytics query.</p>
 </td>
 </tr>
 <tr>
@@ -261,8 +256,6 @@ int
 </em>
 </td>
 <td>
-<p>RetentionInDays: The workspace data retention in days. Allowed values are per pricing plan. See pricing tiers
-documentation for details.</p>
 </td>
 </tr>
 <tr>
@@ -275,7 +268,6 @@ WorkspaceSku
 </em>
 </td>
 <td>
-<p>Sku: The SKU (tier) of a workspace.</p>
 </td>
 </tr>
 <tr>
@@ -286,7 +278,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 <tr>
@@ -299,7 +290,6 @@ WorkspaceCapping
 </em>
 </td>
 <td>
-<p>WorkspaceCapping: The daily volume cap for ingestion.</p>
 </td>
 </tr>
 </table>
@@ -325,7 +315,7 @@ Workspace_Status
 (<em>Appears on:</em><a href="#operationalinsights.azure.com/v1alpha1api20210601.Workspaces_Spec">Workspaces_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-06-01/Microsoft.OperationalInsights.json#/definitions/WorkspaceCapping">https://schema.management.azure.com/schemas/2021-06-01/Microsoft.OperationalInsights.json#/definitions/WorkspaceCapping</a></p>
+<p>Deprecated version of WorkspaceCapping. Use v1beta20210601.WorkspaceCapping instead</p>
 </div>
 <table>
 <thead>
@@ -343,7 +333,6 @@ float64
 </em>
 </td>
 <td>
-<p>DailyQuotaGb: The workspace daily quota for ingestion.</p>
 </td>
 </tr>
 </tbody>
@@ -354,7 +343,7 @@ float64
 (<em>Appears on:</em><a href="#operationalinsights.azure.com/v1alpha1api20210601.WorkspacePropertiesARM">WorkspacePropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-06-01/Microsoft.OperationalInsights.json#/definitions/WorkspaceCapping">https://schema.management.azure.com/schemas/2021-06-01/Microsoft.OperationalInsights.json#/definitions/WorkspaceCapping</a></p>
+<p>Deprecated version of WorkspaceCapping. Use v1beta20210601.WorkspaceCapping instead</p>
 </div>
 <table>
 <thead>
@@ -372,7 +361,6 @@ float64
 </em>
 </td>
 <td>
-<p>DailyQuotaGb: The workspace daily quota for ingestion.</p>
 </td>
 </tr>
 </tbody>
@@ -383,6 +371,8 @@ float64
 (<em>Appears on:</em><a href="#operationalinsights.azure.com/v1alpha1api20210601.WorkspaceCapping_Status">WorkspaceCapping_Status</a>, <a href="#operationalinsights.azure.com/v1alpha1api20210601.WorkspaceCapping_StatusARM">WorkspaceCapping_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of WorkspaceCappingStatusDataIngestionStatus. Use
+v1beta20210601.WorkspaceCappingStatusDataIngestionStatus instead</p>
 </div>
 <table>
 <thead>
@@ -411,6 +401,7 @@ float64
 (<em>Appears on:</em><a href="#operationalinsights.azure.com/v1alpha1api20210601.Workspace_Status">Workspace_Status</a>)
 </p>
 <div>
+<p>Deprecated version of WorkspaceCapping_Status. Use v1beta20210601.WorkspaceCapping_Status instead</p>
 </div>
 <table>
 <thead>
@@ -428,7 +419,6 @@ float64
 </em>
 </td>
 <td>
-<p>DailyQuotaGb: The workspace daily quota for ingestion.</p>
 </td>
 </tr>
 <tr>
@@ -441,7 +431,6 @@ WorkspaceCappingStatusDataIngestionStatus
 </em>
 </td>
 <td>
-<p>DataIngestionStatus: The status of data ingestion for this workspace.</p>
 </td>
 </tr>
 <tr>
@@ -452,7 +441,6 @@ string
 </em>
 </td>
 <td>
-<p>QuotaNextResetTime: The time when the quota will be rest.</p>
 </td>
 </tr>
 </tbody>
@@ -463,6 +451,7 @@ string
 (<em>Appears on:</em><a href="#operationalinsights.azure.com/v1alpha1api20210601.WorkspaceProperties_StatusARM">WorkspaceProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of WorkspaceCapping_Status. Use v1beta20210601.WorkspaceCapping_Status instead</p>
 </div>
 <table>
 <thead>
@@ -480,7 +469,6 @@ float64
 </em>
 </td>
 <td>
-<p>DailyQuotaGb: The workspace daily quota for ingestion.</p>
 </td>
 </tr>
 <tr>
@@ -493,7 +481,6 @@ WorkspaceCappingStatusDataIngestionStatus
 </em>
 </td>
 <td>
-<p>DataIngestionStatus: The status of data ingestion for this workspace.</p>
 </td>
 </tr>
 <tr>
@@ -504,7 +491,6 @@ string
 </em>
 </td>
 <td>
-<p>QuotaNextResetTime: The time when the quota will be rest.</p>
 </td>
 </tr>
 </tbody>
@@ -515,7 +501,7 @@ string
 (<em>Appears on:</em><a href="#operationalinsights.azure.com/v1alpha1api20210601.Workspaces_Spec">Workspaces_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-06-01/Microsoft.OperationalInsights.json#/definitions/WorkspaceFeatures">https://schema.management.azure.com/schemas/2021-06-01/Microsoft.OperationalInsights.json#/definitions/WorkspaceFeatures</a></p>
+<p>Deprecated version of WorkspaceFeatures. Use v1beta20210601.WorkspaceFeatures instead</p>
 </div>
 <table>
 <thead>
@@ -535,7 +521,6 @@ map[string]k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
 </em>
 </td>
 <td>
-<p>AdditionalProperties: Unmatched properties from the message are deserialized this collection</p>
 </td>
 </tr>
 <tr>
@@ -548,7 +533,6 @@ genruntime.ResourceReference
 </em>
 </td>
 <td>
-<p>ClusterResourceReference: Dedicated LA cluster resourceId that is linked to the workspaces.</p>
 </td>
 </tr>
 <tr>
@@ -559,7 +543,6 @@ bool
 </em>
 </td>
 <td>
-<p>DisableLocalAuth: Disable Non-AAD based Auth.</p>
 </td>
 </tr>
 <tr>
@@ -570,7 +553,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableDataExport: Flag that indicate if data should be exported.</p>
 </td>
 </tr>
 <tr>
@@ -581,7 +563,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableLogAccessUsingOnlyResourcePermissions: Flag that indicate which permission to use - resource or workspace or both.</p>
 </td>
 </tr>
 <tr>
@@ -592,7 +573,6 @@ bool
 </em>
 </td>
 <td>
-<p>ImmediatePurgeDataOn30Days: Flag that describes if we want to remove the data after 30 days.</p>
 </td>
 </tr>
 </tbody>
@@ -603,7 +583,7 @@ bool
 (<em>Appears on:</em><a href="#operationalinsights.azure.com/v1alpha1api20210601.WorkspacePropertiesARM">WorkspacePropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-06-01/Microsoft.OperationalInsights.json#/definitions/WorkspaceFeatures">https://schema.management.azure.com/schemas/2021-06-01/Microsoft.OperationalInsights.json#/definitions/WorkspaceFeatures</a></p>
+<p>Deprecated version of WorkspaceFeatures. Use v1beta20210601.WorkspaceFeatures instead</p>
 </div>
 <table>
 <thead>
@@ -623,7 +603,6 @@ map[string]k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
 </em>
 </td>
 <td>
-<p>AdditionalProperties: Unmatched properties from the message are deserialized this collection</p>
 </td>
 </tr>
 <tr>
@@ -644,7 +623,6 @@ bool
 </em>
 </td>
 <td>
-<p>DisableLocalAuth: Disable Non-AAD based Auth.</p>
 </td>
 </tr>
 <tr>
@@ -655,7 +633,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableDataExport: Flag that indicate if data should be exported.</p>
 </td>
 </tr>
 <tr>
@@ -666,7 +643,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableLogAccessUsingOnlyResourcePermissions: Flag that indicate which permission to use - resource or workspace or both.</p>
 </td>
 </tr>
 <tr>
@@ -677,7 +653,6 @@ bool
 </em>
 </td>
 <td>
-<p>ImmediatePurgeDataOn30Days: Flag that describes if we want to remove the data after 30 days.</p>
 </td>
 </tr>
 </tbody>
@@ -688,6 +663,7 @@ bool
 (<em>Appears on:</em><a href="#operationalinsights.azure.com/v1alpha1api20210601.Workspace_Status">Workspace_Status</a>)
 </p>
 <div>
+<p>Deprecated version of WorkspaceFeatures_Status. Use v1beta20210601.WorkspaceFeatures_Status instead</p>
 </div>
 <table>
 <thead>
@@ -705,7 +681,6 @@ string
 </em>
 </td>
 <td>
-<p>ClusterResourceId: Dedicated LA cluster resourceId that is linked to the workspaces.</p>
 </td>
 </tr>
 <tr>
@@ -716,7 +691,6 @@ bool
 </em>
 </td>
 <td>
-<p>DisableLocalAuth: Disable Non-AAD based Auth.</p>
 </td>
 </tr>
 <tr>
@@ -727,7 +701,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableDataExport: Flag that indicate if data should be exported.</p>
 </td>
 </tr>
 <tr>
@@ -738,7 +711,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableLogAccessUsingOnlyResourcePermissions: Flag that indicate which permission to use - resource or workspace or both.</p>
 </td>
 </tr>
 <tr>
@@ -749,7 +721,6 @@ bool
 </em>
 </td>
 <td>
-<p>ImmediatePurgeDataOn30Days: Flag that describes if we want to remove the data after 30 days.</p>
 </td>
 </tr>
 </tbody>
@@ -760,6 +731,7 @@ bool
 (<em>Appears on:</em><a href="#operationalinsights.azure.com/v1alpha1api20210601.WorkspaceProperties_StatusARM">WorkspaceProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of WorkspaceFeatures_Status. Use v1beta20210601.WorkspaceFeatures_Status instead</p>
 </div>
 <table>
 <thead>
@@ -777,7 +749,6 @@ string
 </em>
 </td>
 <td>
-<p>ClusterResourceId: Dedicated LA cluster resourceId that is linked to the workspaces.</p>
 </td>
 </tr>
 <tr>
@@ -788,7 +759,6 @@ bool
 </em>
 </td>
 <td>
-<p>DisableLocalAuth: Disable Non-AAD based Auth.</p>
 </td>
 </tr>
 <tr>
@@ -799,7 +769,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableDataExport: Flag that indicate if data should be exported.</p>
 </td>
 </tr>
 <tr>
@@ -810,7 +779,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableLogAccessUsingOnlyResourcePermissions: Flag that indicate which permission to use - resource or workspace or both.</p>
 </td>
 </tr>
 <tr>
@@ -821,7 +789,6 @@ bool
 </em>
 </td>
 <td>
-<p>ImmediatePurgeDataOn30Days: Flag that describes if we want to remove the data after 30 days.</p>
 </td>
 </tr>
 </tbody>
@@ -832,7 +799,7 @@ bool
 (<em>Appears on:</em><a href="#operationalinsights.azure.com/v1alpha1api20210601.Workspaces_SpecARM">Workspaces_SpecARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-06-01/Microsoft.OperationalInsights.json#/definitions/WorkspaceProperties">https://schema.management.azure.com/schemas/2021-06-01/Microsoft.OperationalInsights.json#/definitions/WorkspaceProperties</a></p>
+<p>Deprecated version of WorkspaceProperties. Use v1beta20210601.WorkspaceProperties instead</p>
 </div>
 <table>
 <thead>
@@ -852,7 +819,6 @@ WorkspaceFeaturesARM
 </em>
 </td>
 <td>
-<p>Features: Workspace features.</p>
 </td>
 </tr>
 <tr>
@@ -863,7 +829,6 @@ bool
 </em>
 </td>
 <td>
-<p>ForceCmkForQuery: Indicates whether customer managed storage is mandatory for query management.</p>
 </td>
 </tr>
 <tr>
@@ -876,7 +841,6 @@ WorkspacePropertiesProvisioningState
 </em>
 </td>
 <td>
-<p>ProvisioningState: The provisioning state of the workspace.</p>
 </td>
 </tr>
 <tr>
@@ -889,7 +853,6 @@ WorkspacePropertiesPublicNetworkAccessForIngestion
 </em>
 </td>
 <td>
-<p>PublicNetworkAccessForIngestion: The network access type for accessing Log Analytics ingestion.</p>
 </td>
 </tr>
 <tr>
@@ -902,7 +865,6 @@ WorkspacePropertiesPublicNetworkAccessForQuery
 </em>
 </td>
 <td>
-<p>PublicNetworkAccessForQuery: The network access type for accessing Log Analytics query.</p>
 </td>
 </tr>
 <tr>
@@ -913,8 +875,6 @@ int
 </em>
 </td>
 <td>
-<p>RetentionInDays: The workspace data retention in days. Allowed values are per pricing plan. See pricing tiers
-documentation for details.</p>
 </td>
 </tr>
 <tr>
@@ -927,7 +887,6 @@ WorkspaceSkuARM
 </em>
 </td>
 <td>
-<p>Sku: The SKU (tier) of a workspace.</p>
 </td>
 </tr>
 <tr>
@@ -940,7 +899,6 @@ WorkspaceCappingARM
 </em>
 </td>
 <td>
-<p>WorkspaceCapping: The daily volume cap for ingestion.</p>
 </td>
 </tr>
 </tbody>
@@ -951,6 +909,8 @@ WorkspaceCappingARM
 (<em>Appears on:</em><a href="#operationalinsights.azure.com/v1alpha1api20210601.WorkspacePropertiesARM">WorkspacePropertiesARM</a>, <a href="#operationalinsights.azure.com/v1alpha1api20210601.Workspaces_Spec">Workspaces_Spec</a>)
 </p>
 <div>
+<p>Deprecated version of WorkspacePropertiesProvisioningState. Use v1beta20210601.WorkspacePropertiesProvisioningState
+instead</p>
 </div>
 <table>
 <thead>
@@ -981,6 +941,8 @@ WorkspaceCappingARM
 (<em>Appears on:</em><a href="#operationalinsights.azure.com/v1alpha1api20210601.WorkspacePropertiesARM">WorkspacePropertiesARM</a>, <a href="#operationalinsights.azure.com/v1alpha1api20210601.Workspaces_Spec">Workspaces_Spec</a>)
 </p>
 <div>
+<p>Deprecated version of WorkspacePropertiesPublicNetworkAccessForIngestion. Use
+v1beta20210601.WorkspacePropertiesPublicNetworkAccessForIngestion instead</p>
 </div>
 <table>
 <thead>
@@ -1001,6 +963,8 @@ WorkspaceCappingARM
 (<em>Appears on:</em><a href="#operationalinsights.azure.com/v1alpha1api20210601.WorkspacePropertiesARM">WorkspacePropertiesARM</a>, <a href="#operationalinsights.azure.com/v1alpha1api20210601.Workspaces_Spec">Workspaces_Spec</a>)
 </p>
 <div>
+<p>Deprecated version of WorkspacePropertiesPublicNetworkAccessForQuery. Use
+v1beta20210601.WorkspacePropertiesPublicNetworkAccessForQuery instead</p>
 </div>
 <table>
 <thead>
@@ -1021,6 +985,8 @@ WorkspaceCappingARM
 (<em>Appears on:</em><a href="#operationalinsights.azure.com/v1alpha1api20210601.WorkspaceProperties_StatusARM">WorkspaceProperties_StatusARM</a>, <a href="#operationalinsights.azure.com/v1alpha1api20210601.Workspace_Status">Workspace_Status</a>)
 </p>
 <div>
+<p>Deprecated version of WorkspacePropertiesStatusProvisioningState. Use
+v1beta20210601.WorkspacePropertiesStatusProvisioningState instead</p>
 </div>
 <table>
 <thead>
@@ -1051,6 +1017,7 @@ WorkspaceCappingARM
 (<em>Appears on:</em><a href="#operationalinsights.azure.com/v1alpha1api20210601.Workspace_StatusARM">Workspace_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of WorkspaceProperties_Status. Use v1beta20210601.WorkspaceProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1068,7 +1035,6 @@ string
 </em>
 </td>
 <td>
-<p>CreatedDate: Workspace creation date.</p>
 </td>
 </tr>
 <tr>
@@ -1079,7 +1045,6 @@ string
 </em>
 </td>
 <td>
-<p>CustomerId: This is a read-only property. Represents the ID associated with the workspace.</p>
 </td>
 </tr>
 <tr>
@@ -1092,7 +1057,6 @@ WorkspaceFeatures_StatusARM
 </em>
 </td>
 <td>
-<p>Features: Workspace features.</p>
 </td>
 </tr>
 <tr>
@@ -1103,7 +1067,6 @@ bool
 </em>
 </td>
 <td>
-<p>ForceCmkForQuery: Indicates whether customer managed storage is mandatory for query management.</p>
 </td>
 </tr>
 <tr>
@@ -1114,7 +1077,6 @@ string
 </em>
 </td>
 <td>
-<p>ModifiedDate: Workspace modification date.</p>
 </td>
 </tr>
 <tr>
@@ -1127,7 +1089,6 @@ string
 </em>
 </td>
 <td>
-<p>PrivateLinkScopedResources: List of linked private link scope resources.</p>
 </td>
 </tr>
 <tr>
@@ -1140,7 +1101,6 @@ WorkspacePropertiesStatusProvisioningState
 </em>
 </td>
 <td>
-<p>ProvisioningState: The provisioning state of the workspace.</p>
 </td>
 </tr>
 <tr>
@@ -1153,7 +1113,6 @@ PublicNetworkAccessType_Status
 </em>
 </td>
 <td>
-<p>PublicNetworkAccessForIngestion: The network access type for accessing Log Analytics ingestion.</p>
 </td>
 </tr>
 <tr>
@@ -1166,7 +1125,6 @@ PublicNetworkAccessType_Status
 </em>
 </td>
 <td>
-<p>PublicNetworkAccessForQuery: The network access type for accessing Log Analytics query.</p>
 </td>
 </tr>
 <tr>
@@ -1177,8 +1135,6 @@ int
 </em>
 </td>
 <td>
-<p>RetentionInDays: The workspace data retention in days. Allowed values are per pricing plan. See pricing tiers
-documentation for details.</p>
 </td>
 </tr>
 <tr>
@@ -1191,7 +1147,6 @@ WorkspaceSku_StatusARM
 </em>
 </td>
 <td>
-<p>Sku: The SKU of the workspace.</p>
 </td>
 </tr>
 <tr>
@@ -1204,7 +1159,6 @@ WorkspaceCapping_StatusARM
 </em>
 </td>
 <td>
-<p>WorkspaceCapping: The daily volume cap for ingestion.</p>
 </td>
 </tr>
 </tbody>
@@ -1215,7 +1169,7 @@ WorkspaceCapping_StatusARM
 (<em>Appears on:</em><a href="#operationalinsights.azure.com/v1alpha1api20210601.Workspaces_Spec">Workspaces_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-06-01/Microsoft.OperationalInsights.json#/definitions/WorkspaceSku">https://schema.management.azure.com/schemas/2021-06-01/Microsoft.OperationalInsights.json#/definitions/WorkspaceSku</a></p>
+<p>Deprecated version of WorkspaceSku. Use v1beta20210601.WorkspaceSku instead</p>
 </div>
 <table>
 <thead>
@@ -1233,8 +1187,6 @@ int
 </em>
 </td>
 <td>
-<p>CapacityReservationLevel: The capacity reservation level in GB for this workspace, when CapacityReservation sku is
-selected.</p>
 </td>
 </tr>
 <tr>
@@ -1247,7 +1199,6 @@ WorkspaceSkuName
 </em>
 </td>
 <td>
-<p>Name: The name of the SKU.</p>
 </td>
 </tr>
 </tbody>
@@ -1258,7 +1209,7 @@ WorkspaceSkuName
 (<em>Appears on:</em><a href="#operationalinsights.azure.com/v1alpha1api20210601.WorkspacePropertiesARM">WorkspacePropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-06-01/Microsoft.OperationalInsights.json#/definitions/WorkspaceSku">https://schema.management.azure.com/schemas/2021-06-01/Microsoft.OperationalInsights.json#/definitions/WorkspaceSku</a></p>
+<p>Deprecated version of WorkspaceSku. Use v1beta20210601.WorkspaceSku instead</p>
 </div>
 <table>
 <thead>
@@ -1276,8 +1227,6 @@ int
 </em>
 </td>
 <td>
-<p>CapacityReservationLevel: The capacity reservation level in GB for this workspace, when CapacityReservation sku is
-selected.</p>
 </td>
 </tr>
 <tr>
@@ -1290,7 +1239,6 @@ WorkspaceSkuName
 </em>
 </td>
 <td>
-<p>Name: The name of the SKU.</p>
 </td>
 </tr>
 </tbody>
@@ -1301,6 +1249,7 @@ WorkspaceSkuName
 (<em>Appears on:</em><a href="#operationalinsights.azure.com/v1alpha1api20210601.WorkspaceSku">WorkspaceSku</a>, <a href="#operationalinsights.azure.com/v1alpha1api20210601.WorkspaceSkuARM">WorkspaceSkuARM</a>)
 </p>
 <div>
+<p>Deprecated version of WorkspaceSkuName. Use v1beta20210601.WorkspaceSkuName instead</p>
 </div>
 <table>
 <thead>
@@ -1333,6 +1282,8 @@ WorkspaceSkuName
 (<em>Appears on:</em><a href="#operationalinsights.azure.com/v1alpha1api20210601.WorkspaceSku_Status">WorkspaceSku_Status</a>, <a href="#operationalinsights.azure.com/v1alpha1api20210601.WorkspaceSku_StatusARM">WorkspaceSku_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of WorkspaceSkuStatusCapacityReservationLevel. Use
+v1beta20210601.WorkspaceSkuStatusCapacityReservationLevel instead</p>
 </div>
 <table>
 <thead>
@@ -1365,6 +1316,7 @@ WorkspaceSkuName
 (<em>Appears on:</em><a href="#operationalinsights.azure.com/v1alpha1api20210601.WorkspaceSku_Status">WorkspaceSku_Status</a>, <a href="#operationalinsights.azure.com/v1alpha1api20210601.WorkspaceSku_StatusARM">WorkspaceSku_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of WorkspaceSkuStatusName. Use v1beta20210601.WorkspaceSkuStatusName instead</p>
 </div>
 <table>
 <thead>
@@ -1397,6 +1349,7 @@ WorkspaceSkuName
 (<em>Appears on:</em><a href="#operationalinsights.azure.com/v1alpha1api20210601.Workspace_Status">Workspace_Status</a>)
 </p>
 <div>
+<p>Deprecated version of WorkspaceSku_Status. Use v1beta20210601.WorkspaceSku_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1416,8 +1369,6 @@ WorkspaceSkuStatusCapacityReservationLevel
 </em>
 </td>
 <td>
-<p>CapacityReservationLevel: The capacity reservation level in GB for this workspace, when CapacityReservation sku is
-selected.</p>
 </td>
 </tr>
 <tr>
@@ -1428,7 +1379,6 @@ string
 </em>
 </td>
 <td>
-<p>LastSkuUpdate: The last time when the sku was updated.</p>
 </td>
 </tr>
 <tr>
@@ -1441,7 +1391,6 @@ WorkspaceSkuStatusName
 </em>
 </td>
 <td>
-<p>Name: The name of the SKU.</p>
 </td>
 </tr>
 </tbody>
@@ -1452,6 +1401,7 @@ WorkspaceSkuStatusName
 (<em>Appears on:</em><a href="#operationalinsights.azure.com/v1alpha1api20210601.WorkspaceProperties_StatusARM">WorkspaceProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of WorkspaceSku_Status. Use v1beta20210601.WorkspaceSku_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1471,8 +1421,6 @@ WorkspaceSkuStatusCapacityReservationLevel
 </em>
 </td>
 <td>
-<p>CapacityReservationLevel: The capacity reservation level in GB for this workspace, when CapacityReservation sku is
-selected.</p>
 </td>
 </tr>
 <tr>
@@ -1483,7 +1431,6 @@ string
 </em>
 </td>
 <td>
-<p>LastSkuUpdate: The last time when the sku was updated.</p>
 </td>
 </tr>
 <tr>
@@ -1496,7 +1443,6 @@ WorkspaceSkuStatusName
 </em>
 </td>
 <td>
-<p>Name: The name of the SKU.</p>
 </td>
 </tr>
 </tbody>
@@ -1507,6 +1453,7 @@ WorkspaceSkuStatusName
 (<em>Appears on:</em><a href="#operationalinsights.azure.com/v1alpha1api20210601.Workspace">Workspace</a>)
 </p>
 <div>
+<p>Deprecated version of Workspace_Status. Use v1beta20210601.Workspace_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1537,7 +1484,6 @@ string
 </em>
 </td>
 <td>
-<p>CreatedDate: Workspace creation date.</p>
 </td>
 </tr>
 <tr>
@@ -1548,7 +1494,6 @@ string
 </em>
 </td>
 <td>
-<p>CustomerId: This is a read-only property. Represents the ID associated with the workspace.</p>
 </td>
 </tr>
 <tr>
@@ -1559,7 +1504,6 @@ string
 </em>
 </td>
 <td>
-<p>ETag: The ETag of the workspace.</p>
 </td>
 </tr>
 <tr>
@@ -1572,7 +1516,6 @@ WorkspaceFeatures_Status
 </em>
 </td>
 <td>
-<p>Features: Workspace features.</p>
 </td>
 </tr>
 <tr>
@@ -1583,7 +1526,6 @@ bool
 </em>
 </td>
 <td>
-<p>ForceCmkForQuery: Indicates whether customer managed storage is mandatory for query management.</p>
 </td>
 </tr>
 <tr>
@@ -1594,8 +1536,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}</p>
 </td>
 </tr>
 <tr>
@@ -1606,7 +1546,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The geo-location where the resource lives</p>
 </td>
 </tr>
 <tr>
@@ -1617,7 +1556,6 @@ string
 </em>
 </td>
 <td>
-<p>ModifiedDate: Workspace modification date.</p>
 </td>
 </tr>
 <tr>
@@ -1628,7 +1566,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource</p>
 </td>
 </tr>
 <tr>
@@ -1641,7 +1578,6 @@ string
 </em>
 </td>
 <td>
-<p>PrivateLinkScopedResources: List of linked private link scope resources.</p>
 </td>
 </tr>
 <tr>
@@ -1654,7 +1590,6 @@ WorkspacePropertiesStatusProvisioningState
 </em>
 </td>
 <td>
-<p>ProvisioningState: The provisioning state of the workspace.</p>
 </td>
 </tr>
 <tr>
@@ -1667,7 +1602,6 @@ PublicNetworkAccessType_Status
 </em>
 </td>
 <td>
-<p>PublicNetworkAccessForIngestion: The network access type for accessing Log Analytics ingestion.</p>
 </td>
 </tr>
 <tr>
@@ -1680,7 +1614,6 @@ PublicNetworkAccessType_Status
 </em>
 </td>
 <td>
-<p>PublicNetworkAccessForQuery: The network access type for accessing Log Analytics query.</p>
 </td>
 </tr>
 <tr>
@@ -1691,8 +1624,6 @@ int
 </em>
 </td>
 <td>
-<p>RetentionInDays: The workspace data retention in days. Allowed values are per pricing plan. See pricing tiers
-documentation for details.</p>
 </td>
 </tr>
 <tr>
@@ -1705,7 +1636,6 @@ WorkspaceSku_Status
 </em>
 </td>
 <td>
-<p>Sku: The SKU of the workspace.</p>
 </td>
 </tr>
 <tr>
@@ -1716,7 +1646,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Resource tags.</p>
 </td>
 </tr>
 <tr>
@@ -1727,7 +1656,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
 </td>
 </tr>
 <tr>
@@ -1740,7 +1668,6 @@ WorkspaceCapping_Status
 </em>
 </td>
 <td>
-<p>WorkspaceCapping: The daily volume cap for ingestion.</p>
 </td>
 </tr>
 </tbody>
@@ -1748,6 +1675,7 @@ WorkspaceCapping_Status
 <h3 id="operationalinsights.azure.com/v1alpha1api20210601.Workspace_StatusARM">Workspace_StatusARM
 </h3>
 <div>
+<p>Deprecated version of Workspace_Status. Use v1beta20210601.Workspace_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1765,7 +1693,6 @@ string
 </em>
 </td>
 <td>
-<p>ETag: The ETag of the workspace.</p>
 </td>
 </tr>
 <tr>
@@ -1776,8 +1703,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}</p>
 </td>
 </tr>
 <tr>
@@ -1788,7 +1713,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The geo-location where the resource lives</p>
 </td>
 </tr>
 <tr>
@@ -1799,7 +1723,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource</p>
 </td>
 </tr>
 <tr>
@@ -1812,7 +1735,6 @@ WorkspaceProperties_StatusARM
 </em>
 </td>
 <td>
-<p>Properties: Workspace properties.</p>
 </td>
 </tr>
 <tr>
@@ -1823,7 +1745,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Resource tags.</p>
 </td>
 </tr>
 <tr>
@@ -1834,25 +1755,9 @@ string
 </em>
 </td>
 <td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
 </td>
 </tr>
 </tbody>
-</table>
-<h3 id="operationalinsights.azure.com/v1alpha1api20210601.WorkspacesSpecAPIVersion">WorkspacesSpecAPIVersion
-(<code>string</code> alias)</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;2021-06-01&#34;</p></td>
-<td></td>
-</tr></tbody>
 </table>
 <h3 id="operationalinsights.azure.com/v1alpha1api20210601.Workspaces_Spec">Workspaces_Spec
 </h3>
@@ -1889,7 +1794,6 @@ string
 </em>
 </td>
 <td>
-<p>ETag: The ETag of the workspace.</p>
 </td>
 </tr>
 <tr>
@@ -1902,7 +1806,6 @@ WorkspaceFeatures
 </em>
 </td>
 <td>
-<p>Features: Workspace features.</p>
 </td>
 </tr>
 <tr>
@@ -1913,7 +1816,6 @@ bool
 </em>
 </td>
 <td>
-<p>ForceCmkForQuery: Indicates whether customer managed storage is mandatory for query management.</p>
 </td>
 </tr>
 <tr>
@@ -1924,7 +1826,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The geo-location where the resource lives</p>
 </td>
 </tr>
 <tr>
@@ -1937,6 +1838,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -1949,7 +1853,6 @@ WorkspacePropertiesProvisioningState
 </em>
 </td>
 <td>
-<p>ProvisioningState: The provisioning state of the workspace.</p>
 </td>
 </tr>
 <tr>
@@ -1962,7 +1865,6 @@ WorkspacePropertiesPublicNetworkAccessForIngestion
 </em>
 </td>
 <td>
-<p>PublicNetworkAccessForIngestion: The network access type for accessing Log Analytics ingestion.</p>
 </td>
 </tr>
 <tr>
@@ -1975,7 +1877,6 @@ WorkspacePropertiesPublicNetworkAccessForQuery
 </em>
 </td>
 <td>
-<p>PublicNetworkAccessForQuery: The network access type for accessing Log Analytics query.</p>
 </td>
 </tr>
 <tr>
@@ -1986,8 +1887,6 @@ int
 </em>
 </td>
 <td>
-<p>RetentionInDays: The workspace data retention in days. Allowed values are per pricing plan. See pricing tiers
-documentation for details.</p>
 </td>
 </tr>
 <tr>
@@ -2000,7 +1899,6 @@ WorkspaceSku
 </em>
 </td>
 <td>
-<p>Sku: The SKU (tier) of a workspace.</p>
 </td>
 </tr>
 <tr>
@@ -2011,7 +1909,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 <tr>
@@ -2024,7 +1921,6 @@ WorkspaceCapping
 </em>
 </td>
 <td>
-<p>WorkspaceCapping: The daily volume cap for ingestion.</p>
 </td>
 </tr>
 </tbody>
@@ -2032,6 +1928,7 @@ WorkspaceCapping
 <h3 id="operationalinsights.azure.com/v1alpha1api20210601.Workspaces_SpecARM">Workspaces_SpecARM
 </h3>
 <div>
+<p>Deprecated version of Workspaces_Spec. Use v1beta20210601.Workspaces_Spec instead</p>
 </div>
 <table>
 <thead>
@@ -2049,7 +1946,6 @@ string
 </em>
 </td>
 <td>
-<p>ETag: The ETag of the workspace.</p>
 </td>
 </tr>
 <tr>
@@ -2060,7 +1956,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The geo-location where the resource lives</p>
 </td>
 </tr>
 <tr>
@@ -2071,7 +1966,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the workspace.</p>
 </td>
 </tr>
 <tr>
@@ -2084,7 +1978,6 @@ WorkspacePropertiesARM
 </em>
 </td>
 <td>
-<p>Properties: Workspace properties.</p>
 </td>
 </tr>
 <tr>
@@ -2095,7 +1988,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </tbody>

@@ -12,6 +12,7 @@ Resource Types:
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.SignalRNetworkACLs_Status">SignalRNetworkACLs_Status</a>, <a href="#signalrservice.azure.com/v1alpha1api20211001.SignalRNetworkACLs_StatusARM">SignalRNetworkACLs_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of ACLAction_Status. Use v1beta20211001.ACLAction_Status instead</p>
 </div>
 <table>
 <thead>
@@ -32,6 +33,7 @@ Resource Types:
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.SignalRFeature_Status">SignalRFeature_Status</a>, <a href="#signalrservice.azure.com/v1alpha1api20211001.SignalRFeature_StatusARM">SignalRFeature_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of FeatureFlags_Status. Use v1beta20211001.FeatureFlags_Status instead</p>
 </div>
 <table>
 <thead>
@@ -56,7 +58,7 @@ Resource Types:
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.SignalR_Spec">SignalR_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/ManagedIdentity">https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/ManagedIdentity</a></p>
+<p>Deprecated version of ManagedIdentity. Use v1beta20211001.ManagedIdentity instead</p>
 </div>
 <table>
 <thead>
@@ -88,7 +90,6 @@ map[string]k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
 </em>
 </td>
 <td>
-<p>UserAssignedIdentities: Get or set the user assigned identities</p>
 </td>
 </tr>
 </tbody>
@@ -99,7 +100,7 @@ map[string]k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.SignalR_SpecARM">SignalR_SpecARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/ManagedIdentity">https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/ManagedIdentity</a></p>
+<p>Deprecated version of ManagedIdentity. Use v1beta20211001.ManagedIdentity instead</p>
 </div>
 <table>
 <thead>
@@ -131,7 +132,6 @@ map[string]k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
 </em>
 </td>
 <td>
-<p>UserAssignedIdentities: Get or set the user assigned identities</p>
 </td>
 </tr>
 </tbody>
@@ -142,7 +142,7 @@ map[string]k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.UpstreamAuthSettings">UpstreamAuthSettings</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/ManagedIdentitySettings">https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/ManagedIdentitySettings</a></p>
+<p>Deprecated version of ManagedIdentitySettings. Use v1beta20211001.ManagedIdentitySettings instead</p>
 </div>
 <table>
 <thead>
@@ -160,8 +160,6 @@ string
 </em>
 </td>
 <td>
-<p>Resource: The Resource indicating the App ID URI of the target resource.
-It also appears in the aud (audience) claim of the issued token.</p>
 </td>
 </tr>
 </tbody>
@@ -172,7 +170,7 @@ It also appears in the aud (audience) claim of the issued token.</p>
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.UpstreamAuthSettingsARM">UpstreamAuthSettingsARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/ManagedIdentitySettings">https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/ManagedIdentitySettings</a></p>
+<p>Deprecated version of ManagedIdentitySettings. Use v1beta20211001.ManagedIdentitySettings instead</p>
 </div>
 <table>
 <thead>
@@ -190,8 +188,6 @@ string
 </em>
 </td>
 <td>
-<p>Resource: The Resource indicating the App ID URI of the target resource.
-It also appears in the aud (audience) claim of the issued token.</p>
 </td>
 </tr>
 </tbody>
@@ -202,6 +198,7 @@ It also appears in the aud (audience) claim of the issued token.</p>
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.UpstreamAuthSettings_Status">UpstreamAuthSettings_Status</a>)
 </p>
 <div>
+<p>Deprecated version of ManagedIdentitySettings_Status. Use v1beta20211001.ManagedIdentitySettings_Status instead</p>
 </div>
 <table>
 <thead>
@@ -219,8 +216,6 @@ string
 </em>
 </td>
 <td>
-<p>Resource: The Resource indicating the App ID URI of the target resource.
-It also appears in the aud (audience) claim of the issued token.</p>
 </td>
 </tr>
 </tbody>
@@ -231,6 +226,7 @@ It also appears in the aud (audience) claim of the issued token.</p>
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.UpstreamAuthSettings_StatusARM">UpstreamAuthSettings_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of ManagedIdentitySettings_Status. Use v1beta20211001.ManagedIdentitySettings_Status instead</p>
 </div>
 <table>
 <thead>
@@ -248,8 +244,6 @@ string
 </em>
 </td>
 <td>
-<p>Resource: The Resource indicating the App ID URI of the target resource.
-It also appears in the aud (audience) claim of the issued token.</p>
 </td>
 </tr>
 </tbody>
@@ -260,6 +254,7 @@ It also appears in the aud (audience) claim of the issued token.</p>
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.ManagedIdentity">ManagedIdentity</a>, <a href="#signalrservice.azure.com/v1alpha1api20211001.ManagedIdentityARM">ManagedIdentityARM</a>)
 </p>
 <div>
+<p>Deprecated version of ManagedIdentityType. Use v1beta20211001.ManagedIdentityType instead</p>
 </div>
 <table>
 <thead>
@@ -282,6 +277,7 @@ It also appears in the aud (audience) claim of the issued token.</p>
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.ManagedIdentity_Status">ManagedIdentity_Status</a>, <a href="#signalrservice.azure.com/v1alpha1api20211001.ManagedIdentity_StatusARM">ManagedIdentity_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of ManagedIdentityType_Status. Use v1beta20211001.ManagedIdentityType_Status instead</p>
 </div>
 <table>
 <thead>
@@ -304,6 +300,7 @@ It also appears in the aud (audience) claim of the issued token.</p>
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.SignalRResource_Status">SignalRResource_Status</a>)
 </p>
 <div>
+<p>Deprecated version of ManagedIdentity_Status. Use v1beta20211001.ManagedIdentity_Status instead</p>
 </div>
 <table>
 <thead>
@@ -321,8 +318,6 @@ string
 </em>
 </td>
 <td>
-<p>PrincipalId: Get the principal id for the system assigned identity.
-Only be used in response.</p>
 </td>
 </tr>
 <tr>
@@ -333,8 +328,6 @@ string
 </em>
 </td>
 <td>
-<p>TenantId: Get the tenant id for the system assigned identity.
-Only be used in response</p>
 </td>
 </tr>
 <tr>
@@ -347,7 +340,6 @@ ManagedIdentityType_Status
 </em>
 </td>
 <td>
-<p>Type: Represent the identity type: systemAssigned, userAssigned, None</p>
 </td>
 </tr>
 <tr>
@@ -360,7 +352,6 @@ map[string]./api/signalrservice/v1alpha1api20211001.UserAssignedIdentityProperty
 </em>
 </td>
 <td>
-<p>UserAssignedIdentities: Get or set the user assigned identities</p>
 </td>
 </tr>
 </tbody>
@@ -371,6 +362,7 @@ map[string]./api/signalrservice/v1alpha1api20211001.UserAssignedIdentityProperty
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.SignalRResource_StatusARM">SignalRResource_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of ManagedIdentity_Status. Use v1beta20211001.ManagedIdentity_Status instead</p>
 </div>
 <table>
 <thead>
@@ -388,8 +380,6 @@ string
 </em>
 </td>
 <td>
-<p>PrincipalId: Get the principal id for the system assigned identity.
-Only be used in response.</p>
 </td>
 </tr>
 <tr>
@@ -400,8 +390,6 @@ string
 </em>
 </td>
 <td>
-<p>TenantId: Get the tenant id for the system assigned identity.
-Only be used in response</p>
 </td>
 </tr>
 <tr>
@@ -414,7 +402,6 @@ ManagedIdentityType_Status
 </em>
 </td>
 <td>
-<p>Type: Represent the identity type: systemAssigned, userAssigned, None</p>
 </td>
 </tr>
 <tr>
@@ -427,7 +414,6 @@ map[string]./api/signalrservice/v1alpha1api20211001.UserAssignedIdentityProperty
 </em>
 </td>
 <td>
-<p>UserAssignedIdentities: Get or set the user assigned identities</p>
 </td>
 </tr>
 </tbody>
@@ -438,7 +424,7 @@ map[string]./api/signalrservice/v1alpha1api20211001.UserAssignedIdentityProperty
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.SignalRNetworkACLs">SignalRNetworkACLs</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/NetworkACL">https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/NetworkACL</a></p>
+<p>Deprecated version of NetworkACL. Use v1beta20211001.NetworkACL instead</p>
 </div>
 <table>
 <thead>
@@ -458,7 +444,6 @@ map[string]./api/signalrservice/v1alpha1api20211001.UserAssignedIdentityProperty
 </em>
 </td>
 <td>
-<p>Allow: Allowed request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.</p>
 </td>
 </tr>
 <tr>
@@ -471,7 +456,6 @@ map[string]./api/signalrservice/v1alpha1api20211001.UserAssignedIdentityProperty
 </em>
 </td>
 <td>
-<p>Deny: Denied request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.</p>
 </td>
 </tr>
 </tbody>
@@ -482,7 +466,7 @@ map[string]./api/signalrservice/v1alpha1api20211001.UserAssignedIdentityProperty
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.SignalRNetworkACLsARM">SignalRNetworkACLsARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/NetworkACL">https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/NetworkACL</a></p>
+<p>Deprecated version of NetworkACL. Use v1beta20211001.NetworkACL instead</p>
 </div>
 <table>
 <thead>
@@ -502,7 +486,6 @@ map[string]./api/signalrservice/v1alpha1api20211001.UserAssignedIdentityProperty
 </em>
 </td>
 <td>
-<p>Allow: Allowed request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.</p>
 </td>
 </tr>
 <tr>
@@ -515,7 +498,6 @@ map[string]./api/signalrservice/v1alpha1api20211001.UserAssignedIdentityProperty
 </em>
 </td>
 <td>
-<p>Deny: Denied request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.</p>
 </td>
 </tr>
 </tbody>
@@ -526,6 +508,7 @@ map[string]./api/signalrservice/v1alpha1api20211001.UserAssignedIdentityProperty
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.NetworkACL">NetworkACL</a>, <a href="#signalrservice.azure.com/v1alpha1api20211001.NetworkACLARM">NetworkACLARM</a>)
 </p>
 <div>
+<p>Deprecated version of NetworkACLAllow. Use v1beta20211001.NetworkACLAllow instead</p>
 </div>
 <table>
 <thead>
@@ -550,6 +533,7 @@ map[string]./api/signalrservice/v1alpha1api20211001.UserAssignedIdentityProperty
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.NetworkACL">NetworkACL</a>, <a href="#signalrservice.azure.com/v1alpha1api20211001.NetworkACLARM">NetworkACLARM</a>)
 </p>
 <div>
+<p>Deprecated version of NetworkACLDeny. Use v1beta20211001.NetworkACLDeny instead</p>
 </div>
 <table>
 <thead>
@@ -574,6 +558,7 @@ map[string]./api/signalrservice/v1alpha1api20211001.UserAssignedIdentityProperty
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.SignalRNetworkACLs_Status">SignalRNetworkACLs_Status</a>)
 </p>
 <div>
+<p>Deprecated version of NetworkACL_Status. Use v1beta20211001.NetworkACL_Status instead</p>
 </div>
 <table>
 <thead>
@@ -593,7 +578,6 @@ map[string]./api/signalrservice/v1alpha1api20211001.UserAssignedIdentityProperty
 </em>
 </td>
 <td>
-<p>Allow: Allowed request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.</p>
 </td>
 </tr>
 <tr>
@@ -606,7 +590,6 @@ map[string]./api/signalrservice/v1alpha1api20211001.UserAssignedIdentityProperty
 </em>
 </td>
 <td>
-<p>Deny: Denied request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.</p>
 </td>
 </tr>
 </tbody>
@@ -617,6 +600,7 @@ map[string]./api/signalrservice/v1alpha1api20211001.UserAssignedIdentityProperty
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.SignalRNetworkACLs_StatusARM">SignalRNetworkACLs_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of NetworkACL_Status. Use v1beta20211001.NetworkACL_Status instead</p>
 </div>
 <table>
 <thead>
@@ -636,7 +620,6 @@ map[string]./api/signalrservice/v1alpha1api20211001.UserAssignedIdentityProperty
 </em>
 </td>
 <td>
-<p>Allow: Allowed request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.</p>
 </td>
 </tr>
 <tr>
@@ -649,7 +632,6 @@ map[string]./api/signalrservice/v1alpha1api20211001.UserAssignedIdentityProperty
 </em>
 </td>
 <td>
-<p>Deny: Denied request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.</p>
 </td>
 </tr>
 </tbody>
@@ -660,7 +642,7 @@ map[string]./api/signalrservice/v1alpha1api20211001.UserAssignedIdentityProperty
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.SignalRNetworkACLs">SignalRNetworkACLs</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/PrivateEndpointACL">https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/PrivateEndpointACL</a></p>
+<p>Deprecated version of PrivateEndpointACL. Use v1beta20211001.PrivateEndpointACL instead</p>
 </div>
 <table>
 <thead>
@@ -680,7 +662,6 @@ map[string]./api/signalrservice/v1alpha1api20211001.UserAssignedIdentityProperty
 </em>
 </td>
 <td>
-<p>Allow: Allowed request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.</p>
 </td>
 </tr>
 <tr>
@@ -693,7 +674,6 @@ map[string]./api/signalrservice/v1alpha1api20211001.UserAssignedIdentityProperty
 </em>
 </td>
 <td>
-<p>Deny: Denied request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.</p>
 </td>
 </tr>
 <tr>
@@ -704,7 +684,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Name of the private endpoint connection</p>
 </td>
 </tr>
 </tbody>
@@ -715,7 +694,7 @@ string
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.SignalRNetworkACLsARM">SignalRNetworkACLsARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/PrivateEndpointACL">https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/PrivateEndpointACL</a></p>
+<p>Deprecated version of PrivateEndpointACL. Use v1beta20211001.PrivateEndpointACL instead</p>
 </div>
 <table>
 <thead>
@@ -735,7 +714,6 @@ string
 </em>
 </td>
 <td>
-<p>Allow: Allowed request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.</p>
 </td>
 </tr>
 <tr>
@@ -748,7 +726,6 @@ string
 </em>
 </td>
 <td>
-<p>Deny: Denied request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.</p>
 </td>
 </tr>
 <tr>
@@ -759,7 +736,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Name of the private endpoint connection</p>
 </td>
 </tr>
 </tbody>
@@ -770,6 +746,7 @@ string
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.PrivateEndpointACL">PrivateEndpointACL</a>, <a href="#signalrservice.azure.com/v1alpha1api20211001.PrivateEndpointACLARM">PrivateEndpointACLARM</a>)
 </p>
 <div>
+<p>Deprecated version of PrivateEndpointACLAllow. Use v1beta20211001.PrivateEndpointACLAllow instead</p>
 </div>
 <table>
 <thead>
@@ -794,6 +771,7 @@ string
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.PrivateEndpointACL">PrivateEndpointACL</a>, <a href="#signalrservice.azure.com/v1alpha1api20211001.PrivateEndpointACLARM">PrivateEndpointACLARM</a>)
 </p>
 <div>
+<p>Deprecated version of PrivateEndpointACLDeny. Use v1beta20211001.PrivateEndpointACLDeny instead</p>
 </div>
 <table>
 <thead>
@@ -818,6 +796,7 @@ string
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.SignalRNetworkACLs_Status">SignalRNetworkACLs_Status</a>)
 </p>
 <div>
+<p>Deprecated version of PrivateEndpointACL_Status. Use v1beta20211001.PrivateEndpointACL_Status instead</p>
 </div>
 <table>
 <thead>
@@ -837,7 +816,6 @@ string
 </em>
 </td>
 <td>
-<p>Allow: Allowed request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.</p>
 </td>
 </tr>
 <tr>
@@ -850,7 +828,6 @@ string
 </em>
 </td>
 <td>
-<p>Deny: Denied request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.</p>
 </td>
 </tr>
 <tr>
@@ -861,7 +838,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Name of the private endpoint connection</p>
 </td>
 </tr>
 </tbody>
@@ -872,6 +848,7 @@ string
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.SignalRNetworkACLs_StatusARM">SignalRNetworkACLs_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of PrivateEndpointACL_Status. Use v1beta20211001.PrivateEndpointACL_Status instead</p>
 </div>
 <table>
 <thead>
@@ -891,7 +868,6 @@ string
 </em>
 </td>
 <td>
-<p>Allow: Allowed request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.</p>
 </td>
 </tr>
 <tr>
@@ -904,7 +880,6 @@ string
 </em>
 </td>
 <td>
-<p>Deny: Denied request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.</p>
 </td>
 </tr>
 <tr>
@@ -915,7 +890,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Name of the private endpoint connection</p>
 </td>
 </tr>
 </tbody>
@@ -926,6 +900,7 @@ string
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.SignalRResource_Status">SignalRResource_Status</a>)
 </p>
 <div>
+<p>Deprecated version of PrivateEndpointConnection_Status_SignalR_SubResourceEmbedded. Use v1beta20211001.PrivateEndpointConnection_Status_SignalR_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -943,7 +918,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Fully qualified resource Id for the resource.</p>
 </td>
 </tr>
 <tr>
@@ -956,7 +930,6 @@ SystemData_Status
 </em>
 </td>
 <td>
-<p>SystemData: Metadata pertaining to creation and last modification of the resource.</p>
 </td>
 </tr>
 </tbody>
@@ -967,6 +940,7 @@ SystemData_Status
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.SignalRProperties_StatusARM">SignalRProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of PrivateEndpointConnection_Status_SignalR_SubResourceEmbedded. Use v1beta20211001.PrivateEndpointConnection_Status_SignalR_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -984,7 +958,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Fully qualified resource Id for the resource.</p>
 </td>
 </tr>
 <tr>
@@ -997,7 +970,6 @@ SystemData_StatusARM
 </em>
 </td>
 <td>
-<p>SystemData: Metadata pertaining to creation and last modification of the resource.</p>
 </td>
 </tr>
 </tbody>
@@ -1008,6 +980,7 @@ SystemData_StatusARM
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.SignalRProperties_StatusARM">SignalRProperties_StatusARM</a>, <a href="#signalrservice.azure.com/v1alpha1api20211001.SignalRResource_Status">SignalRResource_Status</a>)
 </p>
 <div>
+<p>Deprecated version of ProvisioningState_Status. Use v1beta20211001.ProvisioningState_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1042,7 +1015,7 @@ SystemData_StatusARM
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.ResourceLogConfiguration">ResourceLogConfiguration</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/ResourceLogCategory">https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/ResourceLogCategory</a></p>
+<p>Deprecated version of ResourceLogCategory. Use v1beta20211001.ResourceLogCategory instead</p>
 </div>
 <table>
 <thead>
@@ -1060,9 +1033,6 @@ string
 </em>
 </td>
 <td>
-<p>Enabled: Indicates whether or the resource log category is enabled.
-Available values: true, false.
-Case insensitive.</p>
 </td>
 </tr>
 <tr>
@@ -1073,9 +1043,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Gets or sets the resource log category&rsquo;s name.
-Available values: ConnectivityLogs, MessagingLogs.
-Case insensitive.</p>
 </td>
 </tr>
 </tbody>
@@ -1086,7 +1053,7 @@ Case insensitive.</p>
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.ResourceLogConfigurationARM">ResourceLogConfigurationARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/ResourceLogCategory">https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/ResourceLogCategory</a></p>
+<p>Deprecated version of ResourceLogCategory. Use v1beta20211001.ResourceLogCategory instead</p>
 </div>
 <table>
 <thead>
@@ -1104,9 +1071,6 @@ string
 </em>
 </td>
 <td>
-<p>Enabled: Indicates whether or the resource log category is enabled.
-Available values: true, false.
-Case insensitive.</p>
 </td>
 </tr>
 <tr>
@@ -1117,9 +1081,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Gets or sets the resource log category&rsquo;s name.
-Available values: ConnectivityLogs, MessagingLogs.
-Case insensitive.</p>
 </td>
 </tr>
 </tbody>
@@ -1130,6 +1091,7 @@ Case insensitive.</p>
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.ResourceLogConfiguration_Status">ResourceLogConfiguration_Status</a>)
 </p>
 <div>
+<p>Deprecated version of ResourceLogCategory_Status. Use v1beta20211001.ResourceLogCategory_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1147,9 +1109,6 @@ string
 </em>
 </td>
 <td>
-<p>Enabled: Indicates whether or the resource log category is enabled.
-Available values: true, false.
-Case insensitive.</p>
 </td>
 </tr>
 <tr>
@@ -1160,9 +1119,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Gets or sets the resource log category&rsquo;s name.
-Available values: ConnectivityLogs, MessagingLogs.
-Case insensitive.</p>
 </td>
 </tr>
 </tbody>
@@ -1173,6 +1129,7 @@ Case insensitive.</p>
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.ResourceLogConfiguration_StatusARM">ResourceLogConfiguration_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of ResourceLogCategory_Status. Use v1beta20211001.ResourceLogCategory_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1190,9 +1147,6 @@ string
 </em>
 </td>
 <td>
-<p>Enabled: Indicates whether or the resource log category is enabled.
-Available values: true, false.
-Case insensitive.</p>
 </td>
 </tr>
 <tr>
@@ -1203,9 +1157,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Gets or sets the resource log category&rsquo;s name.
-Available values: ConnectivityLogs, MessagingLogs.
-Case insensitive.</p>
 </td>
 </tr>
 </tbody>
@@ -1216,7 +1167,7 @@ Case insensitive.</p>
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.SignalR_Spec">SignalR_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/ResourceLogConfiguration">https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/ResourceLogConfiguration</a></p>
+<p>Deprecated version of ResourceLogConfiguration. Use v1beta20211001.ResourceLogConfiguration instead</p>
 </div>
 <table>
 <thead>
@@ -1236,7 +1187,6 @@ Case insensitive.</p>
 </em>
 </td>
 <td>
-<p>Categories: Gets or sets the list of category configurations.</p>
 </td>
 </tr>
 </tbody>
@@ -1247,7 +1197,7 @@ Case insensitive.</p>
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.SignalRPropertiesARM">SignalRPropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/ResourceLogConfiguration">https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/ResourceLogConfiguration</a></p>
+<p>Deprecated version of ResourceLogConfiguration. Use v1beta20211001.ResourceLogConfiguration instead</p>
 </div>
 <table>
 <thead>
@@ -1267,7 +1217,6 @@ Case insensitive.</p>
 </em>
 </td>
 <td>
-<p>Categories: Gets or sets the list of category configurations.</p>
 </td>
 </tr>
 </tbody>
@@ -1278,6 +1227,7 @@ Case insensitive.</p>
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.SignalRResource_Status">SignalRResource_Status</a>)
 </p>
 <div>
+<p>Deprecated version of ResourceLogConfiguration_Status. Use v1beta20211001.ResourceLogConfiguration_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1297,7 +1247,6 @@ Case insensitive.</p>
 </em>
 </td>
 <td>
-<p>Categories: Gets or sets the list of category configurations.</p>
 </td>
 </tr>
 </tbody>
@@ -1308,6 +1257,7 @@ Case insensitive.</p>
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.SignalRProperties_StatusARM">SignalRProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of ResourceLogConfiguration_Status. Use v1beta20211001.ResourceLogConfiguration_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1327,7 +1277,6 @@ Case insensitive.</p>
 </em>
 </td>
 <td>
-<p>Categories: Gets or sets the list of category configurations.</p>
 </td>
 </tr>
 </tbody>
@@ -1338,7 +1287,7 @@ Case insensitive.</p>
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.SignalR_Spec">SignalR_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/ResourceSku">https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/ResourceSku</a></p>
+<p>Deprecated version of ResourceSku. Use v1beta20211001.ResourceSku instead</p>
 </div>
 <table>
 <thead>
@@ -1356,10 +1305,6 @@ int
 </em>
 </td>
 <td>
-<p>Capacity: Optional, integer. The unit count of the resource. 1 by default.
-If present, following values are allowed:
-Free: 1
-Standard: 1,2,5,10,20,50,100</p>
 </td>
 </tr>
 <tr>
@@ -1370,8 +1315,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the SKU. Required.
-Allowed values: Standard_S1, Free_F1</p>
 </td>
 </tr>
 <tr>
@@ -1394,7 +1337,7 @@ ResourceSkuTier
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.SignalR_SpecARM">SignalR_SpecARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/ResourceSku">https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/ResourceSku</a></p>
+<p>Deprecated version of ResourceSku. Use v1beta20211001.ResourceSku instead</p>
 </div>
 <table>
 <thead>
@@ -1412,10 +1355,6 @@ int
 </em>
 </td>
 <td>
-<p>Capacity: Optional, integer. The unit count of the resource. 1 by default.
-If present, following values are allowed:
-Free: 1
-Standard: 1,2,5,10,20,50,100</p>
 </td>
 </tr>
 <tr>
@@ -1426,8 +1365,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the SKU. Required.
-Allowed values: Standard_S1, Free_F1</p>
 </td>
 </tr>
 <tr>
@@ -1450,6 +1387,7 @@ ResourceSkuTier
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.ResourceSku">ResourceSku</a>, <a href="#signalrservice.azure.com/v1alpha1api20211001.ResourceSkuARM">ResourceSkuARM</a>)
 </p>
 <div>
+<p>Deprecated version of ResourceSkuTier. Use v1beta20211001.ResourceSkuTier instead</p>
 </div>
 <table>
 <thead>
@@ -1474,6 +1412,7 @@ ResourceSkuTier
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.SignalRResource_Status">SignalRResource_Status</a>)
 </p>
 <div>
+<p>Deprecated version of ResourceSku_Status. Use v1beta20211001.ResourceSku_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1491,10 +1430,6 @@ int
 </em>
 </td>
 <td>
-<p>Capacity: Optional, integer. The unit count of the resource. 1 by default.
-If present, following values are allowed:
-Free: 1
-Standard: 1,2,5,10,20,50,100</p>
 </td>
 </tr>
 <tr>
@@ -1505,7 +1440,6 @@ string
 </em>
 </td>
 <td>
-<p>Family: Not used. Retained for future use.</p>
 </td>
 </tr>
 <tr>
@@ -1516,8 +1450,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the SKU. Required.
-Allowed values: Standard_S1, Free_F1</p>
 </td>
 </tr>
 <tr>
@@ -1528,7 +1460,6 @@ string
 </em>
 </td>
 <td>
-<p>Size: Not used. Retained for future use.</p>
 </td>
 </tr>
 <tr>
@@ -1541,8 +1472,6 @@ SignalRSkuTier_Status
 </em>
 </td>
 <td>
-<p>Tier: Optional tier of this particular SKU. &lsquo;Standard&rsquo; or &lsquo;Free&rsquo;.
-<code>Basic</code> is deprecated, use <code>Standard</code> instead.</p>
 </td>
 </tr>
 </tbody>
@@ -1553,6 +1482,7 @@ SignalRSkuTier_Status
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.SignalRResource_StatusARM">SignalRResource_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of ResourceSku_Status. Use v1beta20211001.ResourceSku_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1570,10 +1500,6 @@ int
 </em>
 </td>
 <td>
-<p>Capacity: Optional, integer. The unit count of the resource. 1 by default.
-If present, following values are allowed:
-Free: 1
-Standard: 1,2,5,10,20,50,100</p>
 </td>
 </tr>
 <tr>
@@ -1584,7 +1510,6 @@ string
 </em>
 </td>
 <td>
-<p>Family: Not used. Retained for future use.</p>
 </td>
 </tr>
 <tr>
@@ -1595,8 +1520,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the SKU. Required.
-Allowed values: Standard_S1, Free_F1</p>
 </td>
 </tr>
 <tr>
@@ -1607,7 +1530,6 @@ string
 </em>
 </td>
 <td>
-<p>Size: Not used. Retained for future use.</p>
 </td>
 </tr>
 <tr>
@@ -1620,8 +1542,6 @@ SignalRSkuTier_Status
 </em>
 </td>
 <td>
-<p>Tier: Optional tier of this particular SKU. &lsquo;Standard&rsquo; or &lsquo;Free&rsquo;.
-<code>Basic</code> is deprecated, use <code>Standard</code> instead.</p>
 </td>
 </tr>
 </tbody>
@@ -1632,7 +1552,7 @@ SignalRSkuTier_Status
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.SignalR_Spec">SignalR_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/ServerlessUpstreamSettings">https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/ServerlessUpstreamSettings</a></p>
+<p>Deprecated version of ServerlessUpstreamSettings. Use v1beta20211001.ServerlessUpstreamSettings instead</p>
 </div>
 <table>
 <thead>
@@ -1652,7 +1572,6 @@ SignalRSkuTier_Status
 </em>
 </td>
 <td>
-<p>Templates: Gets or sets the list of Upstream URL templates. Order matters, and the first matching template takes effects.</p>
 </td>
 </tr>
 </tbody>
@@ -1663,7 +1582,7 @@ SignalRSkuTier_Status
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.SignalRPropertiesARM">SignalRPropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/ServerlessUpstreamSettings">https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/ServerlessUpstreamSettings</a></p>
+<p>Deprecated version of ServerlessUpstreamSettings. Use v1beta20211001.ServerlessUpstreamSettings instead</p>
 </div>
 <table>
 <thead>
@@ -1683,7 +1602,6 @@ SignalRSkuTier_Status
 </em>
 </td>
 <td>
-<p>Templates: Gets or sets the list of Upstream URL templates. Order matters, and the first matching template takes effects.</p>
 </td>
 </tr>
 </tbody>
@@ -1694,6 +1612,7 @@ SignalRSkuTier_Status
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.SignalRResource_Status">SignalRResource_Status</a>)
 </p>
 <div>
+<p>Deprecated version of ServerlessUpstreamSettings_Status. Use v1beta20211001.ServerlessUpstreamSettings_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1713,7 +1632,6 @@ SignalRSkuTier_Status
 </em>
 </td>
 <td>
-<p>Templates: Gets or sets the list of Upstream URL templates. Order matters, and the first matching template takes effects.</p>
 </td>
 </tr>
 </tbody>
@@ -1724,6 +1642,7 @@ SignalRSkuTier_Status
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.SignalRProperties_StatusARM">SignalRProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of ServerlessUpstreamSettings_Status. Use v1beta20211001.ServerlessUpstreamSettings_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1743,7 +1662,6 @@ SignalRSkuTier_Status
 </em>
 </td>
 <td>
-<p>Templates: Gets or sets the list of Upstream URL templates. Order matters, and the first matching template takes effects.</p>
 </td>
 </tr>
 </tbody>
@@ -1754,6 +1672,7 @@ SignalRSkuTier_Status
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.SignalRResource_Status">SignalRResource_Status</a>, <a href="#signalrservice.azure.com/v1alpha1api20211001.SignalRResource_StatusARM">SignalRResource_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of ServiceKind_Status. Use v1beta20211001.ServiceKind_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1774,6 +1693,7 @@ SignalRSkuTier_Status
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.SignalRResource_Status">SignalRResource_Status</a>)
 </p>
 <div>
+<p>Deprecated version of SharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded. Use v1beta20211001.SharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -1791,7 +1711,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Fully qualified resource Id for the resource.</p>
 </td>
 </tr>
 <tr>
@@ -1804,7 +1723,6 @@ SystemData_Status
 </em>
 </td>
 <td>
-<p>SystemData: Metadata pertaining to creation and last modification of the resource.</p>
 </td>
 </tr>
 </tbody>
@@ -1815,6 +1733,7 @@ SystemData_Status
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.SignalRProperties_StatusARM">SignalRProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of SharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded. Use v1beta20211001.SharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -1832,7 +1751,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Fully qualified resource Id for the resource.</p>
 </td>
 </tr>
 <tr>
@@ -1845,7 +1763,6 @@ SystemData_StatusARM
 </em>
 </td>
 <td>
-<p>SystemData: Metadata pertaining to creation and last modification of the resource.</p>
 </td>
 </tr>
 </tbody>
@@ -1853,7 +1770,7 @@ SystemData_StatusARM
 <h3 id="signalrservice.azure.com/v1alpha1api20211001.SignalR">SignalR
 </h3>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/resourceDefinitions/signalR">https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/resourceDefinitions/signalR</a></p>
+<p>Deprecated version of SignalR. Use v1beta20211001.SignalR instead</p>
 </div>
 <table>
 <thead>
@@ -1912,7 +1829,6 @@ SignalRCorsSettings
 </em>
 </td>
 <td>
-<p>Cors: Cross-Origin Resource Sharing (CORS) settings.</p>
 </td>
 </tr>
 <tr>
@@ -1923,9 +1839,6 @@ bool
 </em>
 </td>
 <td>
-<p>DisableAadAuth: DisableLocalAuth
-Enable or disable aad auth
-When set as true, connection with AuthType=aad won&rsquo;t work.</p>
 </td>
 </tr>
 <tr>
@@ -1936,9 +1849,6 @@ bool
 </em>
 </td>
 <td>
-<p>DisableLocalAuth: DisableLocalAuth
-Enable or disable local auth with AccessKey
-When set as true, connection with AccessKey=xxx won&rsquo;t work.</p>
 </td>
 </tr>
 <tr>
@@ -1951,11 +1861,6 @@ When set as true, connection with AccessKey=xxx won&rsquo;t work.</p>
 </em>
 </td>
 <td>
-<p>Features: List of the featureFlags.
-FeatureFlags that are not included in the parameters for the update operation will not be modified.
-And the response will only include featureFlags that are explicitly set.
-When a featureFlag is not explicitly set, its globally default value will be used
-But keep in mind, the default value doesn&rsquo;t mean &ldquo;false&rdquo;. It varies in terms of different FeatureFlags.</p>
 </td>
 </tr>
 <tr>
@@ -1968,7 +1873,6 @@ ManagedIdentity
 </em>
 </td>
 <td>
-<p>Identity: A class represent managed identities used for request and response</p>
 </td>
 </tr>
 <tr>
@@ -1991,7 +1895,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The GEO location of the resource. e.g. West US | East US | North Central US | South Central US.</p>
 </td>
 </tr>
 <tr>
@@ -2004,7 +1907,6 @@ SignalRNetworkACLs
 </em>
 </td>
 <td>
-<p>NetworkACLs: Network ACLs for the resource</p>
 </td>
 </tr>
 <tr>
@@ -2017,6 +1919,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -2027,9 +1932,6 @@ string
 </em>
 </td>
 <td>
-<p>PublicNetworkAccess: Enable or disable public network access. Default to &ldquo;Enabled&rdquo;.
-When it&rsquo;s Enabled, network ACLs still apply.
-When it&rsquo;s Disabled, public network access is always disabled no matter what you set in network ACLs.</p>
 </td>
 </tr>
 <tr>
@@ -2042,7 +1944,6 @@ ResourceLogConfiguration
 </em>
 </td>
 <td>
-<p>ResourceLogConfiguration: Resource log configuration of a Microsoft.SignalRService resource.</p>
 </td>
 </tr>
 <tr>
@@ -2055,7 +1956,6 @@ ResourceSku
 </em>
 </td>
 <td>
-<p>Sku: The billing information of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -2066,7 +1966,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Tags of the service which is a list of key value pairs that describe the resource.</p>
 </td>
 </tr>
 <tr>
@@ -2079,7 +1978,6 @@ SignalRTlsSettings
 </em>
 </td>
 <td>
-<p>Tls: TLS settings for the resource</p>
 </td>
 </tr>
 <tr>
@@ -2092,7 +1990,6 @@ ServerlessUpstreamSettings
 </em>
 </td>
 <td>
-<p>Upstream: The settings for the Upstream when the service is in server-less mode.</p>
 </td>
 </tr>
 </table>
@@ -2118,7 +2015,7 @@ SignalRResource_Status
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.SignalR_Spec">SignalR_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/SignalRCorsSettings">https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/SignalRCorsSettings</a></p>
+<p>Deprecated version of SignalRCorsSettings. Use v1beta20211001.SignalRCorsSettings instead</p>
 </div>
 <table>
 <thead>
@@ -2136,8 +2033,6 @@ SignalRResource_Status
 </em>
 </td>
 <td>
-<p>AllowedOrigins: Gets or sets the list of origins that should be allowed to make cross-origin calls (for example:
-<a href="http://example.com:12345)">http://example.com:12345)</a>. Use &ldquo;*&rdquo; to allow all. If omitted, allow all by default.</p>
 </td>
 </tr>
 </tbody>
@@ -2148,7 +2043,7 @@ SignalRResource_Status
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.SignalRPropertiesARM">SignalRPropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/SignalRCorsSettings">https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/SignalRCorsSettings</a></p>
+<p>Deprecated version of SignalRCorsSettings. Use v1beta20211001.SignalRCorsSettings instead</p>
 </div>
 <table>
 <thead>
@@ -2166,8 +2061,6 @@ SignalRResource_Status
 </em>
 </td>
 <td>
-<p>AllowedOrigins: Gets or sets the list of origins that should be allowed to make cross-origin calls (for example:
-<a href="http://example.com:12345)">http://example.com:12345)</a>. Use &ldquo;*&rdquo; to allow all. If omitted, allow all by default.</p>
 </td>
 </tr>
 </tbody>
@@ -2178,6 +2071,7 @@ SignalRResource_Status
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.SignalRResource_Status">SignalRResource_Status</a>)
 </p>
 <div>
+<p>Deprecated version of SignalRCorsSettings_Status. Use v1beta20211001.SignalRCorsSettings_Status instead</p>
 </div>
 <table>
 <thead>
@@ -2195,8 +2089,6 @@ SignalRResource_Status
 </em>
 </td>
 <td>
-<p>AllowedOrigins: Gets or sets the list of origins that should be allowed to make cross-origin calls (for example:
-<a href="http://example.com:12345)">http://example.com:12345)</a>. Use &ldquo;*&rdquo; to allow all. If omitted, allow all by default.</p>
 </td>
 </tr>
 </tbody>
@@ -2207,6 +2099,7 @@ SignalRResource_Status
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.SignalRProperties_StatusARM">SignalRProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of SignalRCorsSettings_Status. Use v1beta20211001.SignalRCorsSettings_Status instead</p>
 </div>
 <table>
 <thead>
@@ -2224,8 +2117,6 @@ SignalRResource_Status
 </em>
 </td>
 <td>
-<p>AllowedOrigins: Gets or sets the list of origins that should be allowed to make cross-origin calls (for example:
-<a href="http://example.com:12345)">http://example.com:12345)</a>. Use &ldquo;*&rdquo; to allow all. If omitted, allow all by default.</p>
 </td>
 </tr>
 </tbody>
@@ -2236,7 +2127,7 @@ SignalRResource_Status
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.SignalR_Spec">SignalR_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/SignalRFeature">https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/SignalRFeature</a></p>
+<p>Deprecated version of SignalRFeature. Use v1beta20211001.SignalRFeature instead</p>
 </div>
 <table>
 <thead>
@@ -2266,7 +2157,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Properties: Optional properties related to this feature.</p>
 </td>
 </tr>
 <tr>
@@ -2277,8 +2167,6 @@ string
 </em>
 </td>
 <td>
-<p>Value: Value of the feature flag. See Azure SignalR service document <a href="https://docs.microsoft.com/azure/azure-signalr/">https://docs.microsoft.com/azure/azure-signalr/</a> for
-allowed values.</p>
 </td>
 </tr>
 </tbody>
@@ -2289,7 +2177,7 @@ allowed values.</p>
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.SignalRPropertiesARM">SignalRPropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/SignalRFeature">https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/SignalRFeature</a></p>
+<p>Deprecated version of SignalRFeature. Use v1beta20211001.SignalRFeature instead</p>
 </div>
 <table>
 <thead>
@@ -2319,7 +2207,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Properties: Optional properties related to this feature.</p>
 </td>
 </tr>
 <tr>
@@ -2330,8 +2217,6 @@ string
 </em>
 </td>
 <td>
-<p>Value: Value of the feature flag. See Azure SignalR service document <a href="https://docs.microsoft.com/azure/azure-signalr/">https://docs.microsoft.com/azure/azure-signalr/</a> for
-allowed values.</p>
 </td>
 </tr>
 </tbody>
@@ -2342,6 +2227,7 @@ allowed values.</p>
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.SignalRFeature">SignalRFeature</a>, <a href="#signalrservice.azure.com/v1alpha1api20211001.SignalRFeatureARM">SignalRFeatureARM</a>)
 </p>
 <div>
+<p>Deprecated version of SignalRFeatureFlag. Use v1beta20211001.SignalRFeatureFlag instead</p>
 </div>
 <table>
 <thead>
@@ -2366,6 +2252,7 @@ allowed values.</p>
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.SignalRResource_Status">SignalRResource_Status</a>)
 </p>
 <div>
+<p>Deprecated version of SignalRFeature_Status. Use v1beta20211001.SignalRFeature_Status instead</p>
 </div>
 <table>
 <thead>
@@ -2385,16 +2272,6 @@ FeatureFlags_Status
 </em>
 </td>
 <td>
-<p>Flag: FeatureFlags is the supported features of Azure SignalR service.
-- ServiceMode: Flag for backend server for SignalR service. Values allowed: &ldquo;Default&rdquo;: have your own backend server;
-&ldquo;Serverless&rdquo;: your application doesn&rsquo;t have a backend server; &ldquo;Classic&rdquo;: for backward compatibility. Support both
-Default and Serverless mode but not recommended; &ldquo;PredefinedOnly&rdquo;: for future use.
-- EnableConnectivityLogs: &ldquo;true&rdquo;/&ldquo;false&rdquo;, to enable/disable the connectivity log category respectively.
-- EnableMessagingLogs: &ldquo;true&rdquo;/&ldquo;false&rdquo;, to enable/disable the connectivity log category respectively.
-- EnableLiveTrace: Live Trace allows you to know what&rsquo;s happening inside Azure SignalR service, it will give you live
-traces in real time, it will be helpful when you developing your own Azure SignalR based web application or
-self-troubleshooting some issues. Please note that live traces are counted as outbound messages that will be charged.
-Values allowed: &ldquo;true&rdquo;/&ldquo;false&rdquo;, to enable/disable live trace feature.</p>
 </td>
 </tr>
 <tr>
@@ -2405,7 +2282,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Properties: Optional properties related to this feature.</p>
 </td>
 </tr>
 <tr>
@@ -2416,8 +2292,6 @@ string
 </em>
 </td>
 <td>
-<p>Value: Value of the feature flag. See Azure SignalR service document <a href="https://docs.microsoft.com/azure/azure-signalr/">https://docs.microsoft.com/azure/azure-signalr/</a> for
-allowed values.</p>
 </td>
 </tr>
 </tbody>
@@ -2428,6 +2302,7 @@ allowed values.</p>
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.SignalRProperties_StatusARM">SignalRProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of SignalRFeature_Status. Use v1beta20211001.SignalRFeature_Status instead</p>
 </div>
 <table>
 <thead>
@@ -2447,16 +2322,6 @@ FeatureFlags_Status
 </em>
 </td>
 <td>
-<p>Flag: FeatureFlags is the supported features of Azure SignalR service.
-- ServiceMode: Flag for backend server for SignalR service. Values allowed: &ldquo;Default&rdquo;: have your own backend server;
-&ldquo;Serverless&rdquo;: your application doesn&rsquo;t have a backend server; &ldquo;Classic&rdquo;: for backward compatibility. Support both
-Default and Serverless mode but not recommended; &ldquo;PredefinedOnly&rdquo;: for future use.
-- EnableConnectivityLogs: &ldquo;true&rdquo;/&ldquo;false&rdquo;, to enable/disable the connectivity log category respectively.
-- EnableMessagingLogs: &ldquo;true&rdquo;/&ldquo;false&rdquo;, to enable/disable the connectivity log category respectively.
-- EnableLiveTrace: Live Trace allows you to know what&rsquo;s happening inside Azure SignalR service, it will give you live
-traces in real time, it will be helpful when you developing your own Azure SignalR based web application or
-self-troubleshooting some issues. Please note that live traces are counted as outbound messages that will be charged.
-Values allowed: &ldquo;true&rdquo;/&ldquo;false&rdquo;, to enable/disable live trace feature.</p>
 </td>
 </tr>
 <tr>
@@ -2467,7 +2332,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Properties: Optional properties related to this feature.</p>
 </td>
 </tr>
 <tr>
@@ -2478,8 +2342,6 @@ string
 </em>
 </td>
 <td>
-<p>Value: Value of the feature flag. See Azure SignalR service document <a href="https://docs.microsoft.com/azure/azure-signalr/">https://docs.microsoft.com/azure/azure-signalr/</a> for
-allowed values.</p>
 </td>
 </tr>
 </tbody>
@@ -2490,7 +2352,7 @@ allowed values.</p>
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.SignalR_Spec">SignalR_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/SignalRNetworkACLs">https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/SignalRNetworkACLs</a></p>
+<p>Deprecated version of SignalRNetworkACLs. Use v1beta20211001.SignalRNetworkACLs instead</p>
 </div>
 <table>
 <thead>
@@ -2522,7 +2384,6 @@ SignalRNetworkACLsDefaultAction
 </em>
 </td>
 <td>
-<p>PrivateEndpoints: ACLs for requests from private endpoints</p>
 </td>
 </tr>
 <tr>
@@ -2535,7 +2396,6 @@ NetworkACL
 </em>
 </td>
 <td>
-<p>PublicNetwork: Network ACL</p>
 </td>
 </tr>
 </tbody>
@@ -2546,7 +2406,7 @@ NetworkACL
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.SignalRPropertiesARM">SignalRPropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/SignalRNetworkACLs">https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/SignalRNetworkACLs</a></p>
+<p>Deprecated version of SignalRNetworkACLs. Use v1beta20211001.SignalRNetworkACLs instead</p>
 </div>
 <table>
 <thead>
@@ -2578,7 +2438,6 @@ SignalRNetworkACLsDefaultAction
 </em>
 </td>
 <td>
-<p>PrivateEndpoints: ACLs for requests from private endpoints</p>
 </td>
 </tr>
 <tr>
@@ -2591,7 +2450,6 @@ NetworkACLARM
 </em>
 </td>
 <td>
-<p>PublicNetwork: Network ACL</p>
 </td>
 </tr>
 </tbody>
@@ -2602,6 +2460,7 @@ NetworkACLARM
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.SignalRNetworkACLs">SignalRNetworkACLs</a>, <a href="#signalrservice.azure.com/v1alpha1api20211001.SignalRNetworkACLsARM">SignalRNetworkACLsARM</a>)
 </p>
 <div>
+<p>Deprecated version of SignalRNetworkACLsDefaultAction. Use v1beta20211001.SignalRNetworkACLsDefaultAction instead</p>
 </div>
 <table>
 <thead>
@@ -2622,6 +2481,7 @@ NetworkACLARM
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.SignalRResource_Status">SignalRResource_Status</a>)
 </p>
 <div>
+<p>Deprecated version of SignalRNetworkACLs_Status. Use v1beta20211001.SignalRNetworkACLs_Status instead</p>
 </div>
 <table>
 <thead>
@@ -2641,7 +2501,6 @@ ACLAction_Status
 </em>
 </td>
 <td>
-<p>DefaultAction: Default action when no other rule matches</p>
 </td>
 </tr>
 <tr>
@@ -2654,7 +2513,6 @@ ACLAction_Status
 </em>
 </td>
 <td>
-<p>PrivateEndpoints: ACLs for requests from private endpoints</p>
 </td>
 </tr>
 <tr>
@@ -2667,7 +2525,6 @@ NetworkACL_Status
 </em>
 </td>
 <td>
-<p>PublicNetwork: ACL for requests from public network</p>
 </td>
 </tr>
 </tbody>
@@ -2678,6 +2535,7 @@ NetworkACL_Status
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.SignalRProperties_StatusARM">SignalRProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of SignalRNetworkACLs_Status. Use v1beta20211001.SignalRNetworkACLs_Status instead</p>
 </div>
 <table>
 <thead>
@@ -2697,7 +2555,6 @@ ACLAction_Status
 </em>
 </td>
 <td>
-<p>DefaultAction: Default action when no other rule matches</p>
 </td>
 </tr>
 <tr>
@@ -2710,7 +2567,6 @@ ACLAction_Status
 </em>
 </td>
 <td>
-<p>PrivateEndpoints: ACLs for requests from private endpoints</p>
 </td>
 </tr>
 <tr>
@@ -2723,7 +2579,6 @@ NetworkACL_StatusARM
 </em>
 </td>
 <td>
-<p>PublicNetwork: ACL for requests from public network</p>
 </td>
 </tr>
 </tbody>
@@ -2734,7 +2589,7 @@ NetworkACL_StatusARM
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.SignalR_SpecARM">SignalR_SpecARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/SignalRProperties">https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/SignalRProperties</a></p>
+<p>Deprecated version of SignalRProperties. Use v1beta20211001.SignalRProperties instead</p>
 </div>
 <table>
 <thead>
@@ -2754,7 +2609,6 @@ SignalRCorsSettingsARM
 </em>
 </td>
 <td>
-<p>Cors: Cross-Origin Resource Sharing (CORS) settings.</p>
 </td>
 </tr>
 <tr>
@@ -2765,9 +2619,6 @@ bool
 </em>
 </td>
 <td>
-<p>DisableAadAuth: DisableLocalAuth
-Enable or disable aad auth
-When set as true, connection with AuthType=aad won&rsquo;t work.</p>
 </td>
 </tr>
 <tr>
@@ -2778,9 +2629,6 @@ bool
 </em>
 </td>
 <td>
-<p>DisableLocalAuth: DisableLocalAuth
-Enable or disable local auth with AccessKey
-When set as true, connection with AccessKey=xxx won&rsquo;t work.</p>
 </td>
 </tr>
 <tr>
@@ -2793,11 +2641,6 @@ When set as true, connection with AccessKey=xxx won&rsquo;t work.</p>
 </em>
 </td>
 <td>
-<p>Features: List of the featureFlags.
-FeatureFlags that are not included in the parameters for the update operation will not be modified.
-And the response will only include featureFlags that are explicitly set.
-When a featureFlag is not explicitly set, its globally default value will be used
-But keep in mind, the default value doesn&rsquo;t mean &ldquo;false&rdquo;. It varies in terms of different FeatureFlags.</p>
 </td>
 </tr>
 <tr>
@@ -2810,7 +2653,6 @@ SignalRNetworkACLsARM
 </em>
 </td>
 <td>
-<p>NetworkACLs: Network ACLs for the resource</p>
 </td>
 </tr>
 <tr>
@@ -2821,9 +2663,6 @@ string
 </em>
 </td>
 <td>
-<p>PublicNetworkAccess: Enable or disable public network access. Default to &ldquo;Enabled&rdquo;.
-When it&rsquo;s Enabled, network ACLs still apply.
-When it&rsquo;s Disabled, public network access is always disabled no matter what you set in network ACLs.</p>
 </td>
 </tr>
 <tr>
@@ -2836,7 +2675,6 @@ ResourceLogConfigurationARM
 </em>
 </td>
 <td>
-<p>ResourceLogConfiguration: Resource log configuration of a Microsoft.SignalRService resource.</p>
 </td>
 </tr>
 <tr>
@@ -2849,7 +2687,6 @@ SignalRTlsSettingsARM
 </em>
 </td>
 <td>
-<p>Tls: TLS settings for the resource</p>
 </td>
 </tr>
 <tr>
@@ -2862,7 +2699,6 @@ ServerlessUpstreamSettingsARM
 </em>
 </td>
 <td>
-<p>Upstream: The settings for the Upstream when the service is in server-less mode.</p>
 </td>
 </tr>
 </tbody>
@@ -2873,6 +2709,7 @@ ServerlessUpstreamSettingsARM
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.SignalRResource_StatusARM">SignalRResource_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of SignalRProperties_Status. Use v1beta20211001.SignalRProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -2892,7 +2729,6 @@ SignalRCorsSettings_StatusARM
 </em>
 </td>
 <td>
-<p>Cors: Cross-Origin Resource Sharing (CORS) settings.</p>
 </td>
 </tr>
 <tr>
@@ -2903,9 +2739,6 @@ bool
 </em>
 </td>
 <td>
-<p>DisableAadAuth: DisableLocalAuth
-Enable or disable aad auth
-When set as true, connection with AuthType=aad won&rsquo;t work.</p>
 </td>
 </tr>
 <tr>
@@ -2916,9 +2749,6 @@ bool
 </em>
 </td>
 <td>
-<p>DisableLocalAuth: DisableLocalAuth
-Enable or disable local auth with AccessKey
-When set as true, connection with AccessKey=xxx won&rsquo;t work.</p>
 </td>
 </tr>
 <tr>
@@ -2929,7 +2759,6 @@ string
 </em>
 </td>
 <td>
-<p>ExternalIP: The publicly accessible IP of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -2942,11 +2771,6 @@ string
 </em>
 </td>
 <td>
-<p>Features: List of the featureFlags.
-FeatureFlags that are not included in the parameters for the update operation will not be modified.
-And the response will only include featureFlags that are explicitly set.
-When a featureFlag is not explicitly set, its globally default value will be used
-But keep in mind, the default value doesn&rsquo;t mean &ldquo;false&rdquo;. It varies in terms of different FeatureFlags.</p>
 </td>
 </tr>
 <tr>
@@ -2957,7 +2781,6 @@ string
 </em>
 </td>
 <td>
-<p>HostName: FQDN of the service instance.</p>
 </td>
 </tr>
 <tr>
@@ -2968,7 +2791,6 @@ string
 </em>
 </td>
 <td>
-<p>HostNamePrefix: Deprecated.</p>
 </td>
 </tr>
 <tr>
@@ -2981,7 +2803,6 @@ SignalRNetworkACLs_StatusARM
 </em>
 </td>
 <td>
-<p>NetworkACLs: Network ACLs</p>
 </td>
 </tr>
 <tr>
@@ -2994,7 +2815,6 @@ SignalRNetworkACLs_StatusARM
 </em>
 </td>
 <td>
-<p>PrivateEndpointConnections: Private endpoint connections to the resource.</p>
 </td>
 </tr>
 <tr>
@@ -3007,7 +2827,6 @@ ProvisioningState_Status
 </em>
 </td>
 <td>
-<p>ProvisioningState: Provisioning state of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -3018,9 +2837,6 @@ string
 </em>
 </td>
 <td>
-<p>PublicNetworkAccess: Enable or disable public network access. Default to &ldquo;Enabled&rdquo;.
-When it&rsquo;s Enabled, network ACLs still apply.
-When it&rsquo;s Disabled, public network access is always disabled no matter what you set in network ACLs.</p>
 </td>
 </tr>
 <tr>
@@ -3031,7 +2847,6 @@ int
 </em>
 </td>
 <td>
-<p>PublicPort: The publicly accessible port of the resource which is designed for browser/client side usage.</p>
 </td>
 </tr>
 <tr>
@@ -3044,10 +2859,6 @@ ResourceLogConfiguration_StatusARM
 </em>
 </td>
 <td>
-<p>ResourceLogConfiguration: Resource log configuration of a Microsoft.SignalRService resource.
-If resourceLogConfiguration isn&rsquo;t null or empty, it will override options &ldquo;EnableConnectivityLog&rdquo; and
-&ldquo;EnableMessagingLogs&rdquo; in features.
-Otherwise, use options &ldquo;EnableConnectivityLog&rdquo; and &ldquo;EnableMessagingLogs&rdquo; in features.</p>
 </td>
 </tr>
 <tr>
@@ -3058,7 +2869,6 @@ int
 </em>
 </td>
 <td>
-<p>ServerPort: The publicly accessible port of the resource which is designed for customer server side usage.</p>
 </td>
 </tr>
 <tr>
@@ -3071,7 +2881,6 @@ int
 </em>
 </td>
 <td>
-<p>SharedPrivateLinkResources: The list of shared private link resources.</p>
 </td>
 </tr>
 <tr>
@@ -3084,7 +2893,6 @@ SignalRTlsSettings_StatusARM
 </em>
 </td>
 <td>
-<p>Tls: TLS settings.</p>
 </td>
 </tr>
 <tr>
@@ -3097,7 +2905,6 @@ ServerlessUpstreamSettings_StatusARM
 </em>
 </td>
 <td>
-<p>Upstream: Upstream settings when the service is in server-less mode.</p>
 </td>
 </tr>
 <tr>
@@ -3108,7 +2915,6 @@ string
 </em>
 </td>
 <td>
-<p>Version: Version of the resource. Probably you need the same or higher version of client SDKs.</p>
 </td>
 </tr>
 </tbody>
@@ -3119,6 +2925,7 @@ string
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.NetworkACL_Status">NetworkACL_Status</a>, <a href="#signalrservice.azure.com/v1alpha1api20211001.NetworkACL_StatusARM">NetworkACL_StatusARM</a>, <a href="#signalrservice.azure.com/v1alpha1api20211001.PrivateEndpointACL_Status">PrivateEndpointACL_Status</a>, <a href="#signalrservice.azure.com/v1alpha1api20211001.PrivateEndpointACL_StatusARM">PrivateEndpointACL_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of SignalRRequestType_Status. Use v1beta20211001.SignalRRequestType_Status instead</p>
 </div>
 <table>
 <thead>
@@ -3143,6 +2950,7 @@ string
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.SignalR">SignalR</a>)
 </p>
 <div>
+<p>Deprecated version of SignalRResource_Status. Use v1beta20211001.SignalRResource_Status instead</p>
 </div>
 <table>
 <thead>
@@ -3175,7 +2983,6 @@ SignalRCorsSettings_Status
 </em>
 </td>
 <td>
-<p>Cors: Cross-Origin Resource Sharing (CORS) settings.</p>
 </td>
 </tr>
 <tr>
@@ -3186,9 +2993,6 @@ bool
 </em>
 </td>
 <td>
-<p>DisableAadAuth: DisableLocalAuth
-Enable or disable aad auth
-When set as true, connection with AuthType=aad won&rsquo;t work.</p>
 </td>
 </tr>
 <tr>
@@ -3199,9 +3003,6 @@ bool
 </em>
 </td>
 <td>
-<p>DisableLocalAuth: DisableLocalAuth
-Enable or disable local auth with AccessKey
-When set as true, connection with AccessKey=xxx won&rsquo;t work.</p>
 </td>
 </tr>
 <tr>
@@ -3212,7 +3013,6 @@ string
 </em>
 </td>
 <td>
-<p>ExternalIP: The publicly accessible IP of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -3225,11 +3025,6 @@ string
 </em>
 </td>
 <td>
-<p>Features: List of the featureFlags.
-FeatureFlags that are not included in the parameters for the update operation will not be modified.
-And the response will only include featureFlags that are explicitly set.
-When a featureFlag is not explicitly set, its globally default value will be used
-But keep in mind, the default value doesn&rsquo;t mean &ldquo;false&rdquo;. It varies in terms of different FeatureFlags.</p>
 </td>
 </tr>
 <tr>
@@ -3240,7 +3035,6 @@ string
 </em>
 </td>
 <td>
-<p>HostName: FQDN of the service instance.</p>
 </td>
 </tr>
 <tr>
@@ -3251,7 +3045,6 @@ string
 </em>
 </td>
 <td>
-<p>HostNamePrefix: Deprecated.</p>
 </td>
 </tr>
 <tr>
@@ -3262,7 +3055,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Fully qualified resource Id for the resource.</p>
 </td>
 </tr>
 <tr>
@@ -3275,7 +3067,6 @@ ManagedIdentity_Status
 </em>
 </td>
 <td>
-<p>Identity: The managed identity response</p>
 </td>
 </tr>
 <tr>
@@ -3288,7 +3079,6 @@ ServiceKind_Status
 </em>
 </td>
 <td>
-<p>Kind: The kind of the service - e.g. &ldquo;SignalR&rdquo; for &ldquo;Microsoft.SignalRService/SignalR&rdquo;</p>
 </td>
 </tr>
 <tr>
@@ -3299,7 +3089,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The GEO location of the resource. e.g. West US | East US | North Central US | South Central US.</p>
 </td>
 </tr>
 <tr>
@@ -3310,7 +3099,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -3323,7 +3111,6 @@ SignalRNetworkACLs_Status
 </em>
 </td>
 <td>
-<p>NetworkACLs: Network ACLs</p>
 </td>
 </tr>
 <tr>
@@ -3336,7 +3123,6 @@ SignalRNetworkACLs_Status
 </em>
 </td>
 <td>
-<p>PrivateEndpointConnections: Private endpoint connections to the resource.</p>
 </td>
 </tr>
 <tr>
@@ -3349,7 +3135,6 @@ ProvisioningState_Status
 </em>
 </td>
 <td>
-<p>ProvisioningState: Provisioning state of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -3360,9 +3145,6 @@ string
 </em>
 </td>
 <td>
-<p>PublicNetworkAccess: Enable or disable public network access. Default to &ldquo;Enabled&rdquo;.
-When it&rsquo;s Enabled, network ACLs still apply.
-When it&rsquo;s Disabled, public network access is always disabled no matter what you set in network ACLs.</p>
 </td>
 </tr>
 <tr>
@@ -3373,7 +3155,6 @@ int
 </em>
 </td>
 <td>
-<p>PublicPort: The publicly accessible port of the resource which is designed for browser/client side usage.</p>
 </td>
 </tr>
 <tr>
@@ -3386,10 +3167,6 @@ ResourceLogConfiguration_Status
 </em>
 </td>
 <td>
-<p>ResourceLogConfiguration: Resource log configuration of a Microsoft.SignalRService resource.
-If resourceLogConfiguration isn&rsquo;t null or empty, it will override options &ldquo;EnableConnectivityLog&rdquo; and
-&ldquo;EnableMessagingLogs&rdquo; in features.
-Otherwise, use options &ldquo;EnableConnectivityLog&rdquo; and &ldquo;EnableMessagingLogs&rdquo; in features.</p>
 </td>
 </tr>
 <tr>
@@ -3400,7 +3177,6 @@ int
 </em>
 </td>
 <td>
-<p>ServerPort: The publicly accessible port of the resource which is designed for customer server side usage.</p>
 </td>
 </tr>
 <tr>
@@ -3413,7 +3189,6 @@ int
 </em>
 </td>
 <td>
-<p>SharedPrivateLinkResources: The list of shared private link resources.</p>
 </td>
 </tr>
 <tr>
@@ -3426,7 +3201,6 @@ ResourceSku_Status
 </em>
 </td>
 <td>
-<p>Sku: The billing information of the resource.(e.g. Free, Standard)</p>
 </td>
 </tr>
 <tr>
@@ -3439,7 +3213,6 @@ SystemData_Status
 </em>
 </td>
 <td>
-<p>SystemData: Metadata pertaining to creation and last modification of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -3450,7 +3223,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Tags of the service which is a list of key value pairs that describe the resource.</p>
 </td>
 </tr>
 <tr>
@@ -3463,7 +3235,6 @@ SignalRTlsSettings_Status
 </em>
 </td>
 <td>
-<p>Tls: TLS settings.</p>
 </td>
 </tr>
 <tr>
@@ -3474,7 +3245,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: The type of the resource - e.g. &ldquo;Microsoft.SignalRService/SignalR&rdquo;</p>
 </td>
 </tr>
 <tr>
@@ -3487,7 +3257,6 @@ ServerlessUpstreamSettings_Status
 </em>
 </td>
 <td>
-<p>Upstream: Upstream settings when the service is in server-less mode.</p>
 </td>
 </tr>
 <tr>
@@ -3498,7 +3267,6 @@ string
 </em>
 </td>
 <td>
-<p>Version: Version of the resource. Probably you need the same or higher version of client SDKs.</p>
 </td>
 </tr>
 </tbody>
@@ -3506,6 +3274,7 @@ string
 <h3 id="signalrservice.azure.com/v1alpha1api20211001.SignalRResource_StatusARM">SignalRResource_StatusARM
 </h3>
 <div>
+<p>Deprecated version of SignalRResource_Status. Use v1beta20211001.SignalRResource_Status instead</p>
 </div>
 <table>
 <thead>
@@ -3523,7 +3292,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Fully qualified resource Id for the resource.</p>
 </td>
 </tr>
 <tr>
@@ -3536,7 +3304,6 @@ ManagedIdentity_StatusARM
 </em>
 </td>
 <td>
-<p>Identity: The managed identity response</p>
 </td>
 </tr>
 <tr>
@@ -3549,7 +3316,6 @@ ServiceKind_Status
 </em>
 </td>
 <td>
-<p>Kind: The kind of the service - e.g. &ldquo;SignalR&rdquo; for &ldquo;Microsoft.SignalRService/SignalR&rdquo;</p>
 </td>
 </tr>
 <tr>
@@ -3560,7 +3326,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The GEO location of the resource. e.g. West US | East US | North Central US | South Central US.</p>
 </td>
 </tr>
 <tr>
@@ -3571,7 +3336,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -3584,7 +3348,6 @@ SignalRProperties_StatusARM
 </em>
 </td>
 <td>
-<p>Properties: Settings used to provision or configure the resource</p>
 </td>
 </tr>
 <tr>
@@ -3597,7 +3360,6 @@ ResourceSku_StatusARM
 </em>
 </td>
 <td>
-<p>Sku: The billing information of the resource.(e.g. Free, Standard)</p>
 </td>
 </tr>
 <tr>
@@ -3610,7 +3372,6 @@ SystemData_StatusARM
 </em>
 </td>
 <td>
-<p>SystemData: Metadata pertaining to creation and last modification of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -3621,7 +3382,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Tags of the service which is a list of key value pairs that describe the resource.</p>
 </td>
 </tr>
 <tr>
@@ -3632,7 +3392,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: The type of the resource - e.g. &ldquo;Microsoft.SignalRService/SignalR&rdquo;</p>
 </td>
 </tr>
 </tbody>
@@ -3643,6 +3402,7 @@ string
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.ResourceSku_Status">ResourceSku_Status</a>, <a href="#signalrservice.azure.com/v1alpha1api20211001.ResourceSku_StatusARM">ResourceSku_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of SignalRSkuTier_Status. Use v1beta20211001.SignalRSkuTier_Status instead</p>
 </div>
 <table>
 <thead>
@@ -3661,27 +3421,13 @@ string
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="signalrservice.azure.com/v1alpha1api20211001.SignalRSpecAPIVersion">SignalRSpecAPIVersion
-(<code>string</code> alias)</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;2021-10-01&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
 <h3 id="signalrservice.azure.com/v1alpha1api20211001.SignalRSpecKind">SignalRSpecKind
 (<code>string</code> alias)</h3>
 <p>
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.SignalR_Spec">SignalR_Spec</a>, <a href="#signalrservice.azure.com/v1alpha1api20211001.SignalR_SpecARM">SignalR_SpecARM</a>)
 </p>
 <div>
+<p>Deprecated version of SignalRSpecKind. Use v1beta20211001.SignalRSpecKind instead</p>
 </div>
 <table>
 <thead>
@@ -3702,7 +3448,7 @@ string
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.SignalR_Spec">SignalR_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/SignalRTlsSettings">https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/SignalRTlsSettings</a></p>
+<p>Deprecated version of SignalRTlsSettings. Use v1beta20211001.SignalRTlsSettings instead</p>
 </div>
 <table>
 <thead>
@@ -3720,7 +3466,6 @@ bool
 </em>
 </td>
 <td>
-<p>ClientCertEnabled: Request client certificate during TLS handshake if enabled</p>
 </td>
 </tr>
 </tbody>
@@ -3731,7 +3476,7 @@ bool
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.SignalRPropertiesARM">SignalRPropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/SignalRTlsSettings">https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/SignalRTlsSettings</a></p>
+<p>Deprecated version of SignalRTlsSettings. Use v1beta20211001.SignalRTlsSettings instead</p>
 </div>
 <table>
 <thead>
@@ -3749,7 +3494,6 @@ bool
 </em>
 </td>
 <td>
-<p>ClientCertEnabled: Request client certificate during TLS handshake if enabled</p>
 </td>
 </tr>
 </tbody>
@@ -3760,6 +3504,7 @@ bool
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.SignalRResource_Status">SignalRResource_Status</a>)
 </p>
 <div>
+<p>Deprecated version of SignalRTlsSettings_Status. Use v1beta20211001.SignalRTlsSettings_Status instead</p>
 </div>
 <table>
 <thead>
@@ -3777,7 +3522,6 @@ bool
 </em>
 </td>
 <td>
-<p>ClientCertEnabled: Request client certificate during TLS handshake if enabled</p>
 </td>
 </tr>
 </tbody>
@@ -3788,6 +3532,7 @@ bool
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.SignalRProperties_StatusARM">SignalRProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of SignalRTlsSettings_Status. Use v1beta20211001.SignalRTlsSettings_Status instead</p>
 </div>
 <table>
 <thead>
@@ -3805,7 +3550,6 @@ bool
 </em>
 </td>
 <td>
-<p>ClientCertEnabled: Request client certificate during TLS handshake if enabled</p>
 </td>
 </tr>
 </tbody>
@@ -3847,7 +3591,6 @@ SignalRCorsSettings
 </em>
 </td>
 <td>
-<p>Cors: Cross-Origin Resource Sharing (CORS) settings.</p>
 </td>
 </tr>
 <tr>
@@ -3858,9 +3601,6 @@ bool
 </em>
 </td>
 <td>
-<p>DisableAadAuth: DisableLocalAuth
-Enable or disable aad auth
-When set as true, connection with AuthType=aad won&rsquo;t work.</p>
 </td>
 </tr>
 <tr>
@@ -3871,9 +3611,6 @@ bool
 </em>
 </td>
 <td>
-<p>DisableLocalAuth: DisableLocalAuth
-Enable or disable local auth with AccessKey
-When set as true, connection with AccessKey=xxx won&rsquo;t work.</p>
 </td>
 </tr>
 <tr>
@@ -3886,11 +3623,6 @@ When set as true, connection with AccessKey=xxx won&rsquo;t work.</p>
 </em>
 </td>
 <td>
-<p>Features: List of the featureFlags.
-FeatureFlags that are not included in the parameters for the update operation will not be modified.
-And the response will only include featureFlags that are explicitly set.
-When a featureFlag is not explicitly set, its globally default value will be used
-But keep in mind, the default value doesn&rsquo;t mean &ldquo;false&rdquo;. It varies in terms of different FeatureFlags.</p>
 </td>
 </tr>
 <tr>
@@ -3903,7 +3635,6 @@ ManagedIdentity
 </em>
 </td>
 <td>
-<p>Identity: A class represent managed identities used for request and response</p>
 </td>
 </tr>
 <tr>
@@ -3926,7 +3657,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The GEO location of the resource. e.g. West US | East US | North Central US | South Central US.</p>
 </td>
 </tr>
 <tr>
@@ -3939,7 +3669,6 @@ SignalRNetworkACLs
 </em>
 </td>
 <td>
-<p>NetworkACLs: Network ACLs for the resource</p>
 </td>
 </tr>
 <tr>
@@ -3952,6 +3681,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -3962,9 +3694,6 @@ string
 </em>
 </td>
 <td>
-<p>PublicNetworkAccess: Enable or disable public network access. Default to &ldquo;Enabled&rdquo;.
-When it&rsquo;s Enabled, network ACLs still apply.
-When it&rsquo;s Disabled, public network access is always disabled no matter what you set in network ACLs.</p>
 </td>
 </tr>
 <tr>
@@ -3977,7 +3706,6 @@ ResourceLogConfiguration
 </em>
 </td>
 <td>
-<p>ResourceLogConfiguration: Resource log configuration of a Microsoft.SignalRService resource.</p>
 </td>
 </tr>
 <tr>
@@ -3990,7 +3718,6 @@ ResourceSku
 </em>
 </td>
 <td>
-<p>Sku: The billing information of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -4001,7 +3728,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Tags of the service which is a list of key value pairs that describe the resource.</p>
 </td>
 </tr>
 <tr>
@@ -4014,7 +3740,6 @@ SignalRTlsSettings
 </em>
 </td>
 <td>
-<p>Tls: TLS settings for the resource</p>
 </td>
 </tr>
 <tr>
@@ -4027,7 +3752,6 @@ ServerlessUpstreamSettings
 </em>
 </td>
 <td>
-<p>Upstream: The settings for the Upstream when the service is in server-less mode.</p>
 </td>
 </tr>
 </tbody>
@@ -4035,6 +3759,7 @@ ServerlessUpstreamSettings
 <h3 id="signalrservice.azure.com/v1alpha1api20211001.SignalR_SpecARM">SignalR_SpecARM
 </h3>
 <div>
+<p>Deprecated version of SignalR_Spec. Use v1beta20211001.SignalR_Spec instead</p>
 </div>
 <table>
 <thead>
@@ -4054,7 +3779,6 @@ ManagedIdentityARM
 </em>
 </td>
 <td>
-<p>Identity: A class represent managed identities used for request and response</p>
 </td>
 </tr>
 <tr>
@@ -4077,7 +3801,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The GEO location of the resource. e.g. West US | East US | North Central US | South Central US.</p>
 </td>
 </tr>
 <tr>
@@ -4088,7 +3811,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -4101,7 +3823,6 @@ SignalRPropertiesARM
 </em>
 </td>
 <td>
-<p>Properties: A class that describes the properties of the resource</p>
 </td>
 </tr>
 <tr>
@@ -4114,7 +3835,6 @@ ResourceSkuARM
 </em>
 </td>
 <td>
-<p>Sku: The billing information of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -4125,7 +3845,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Tags of the service which is a list of key value pairs that describe the resource.</p>
 </td>
 </tr>
 </tbody>
@@ -4136,6 +3855,7 @@ map[string]string
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.SystemData_Status">SystemData_Status</a>, <a href="#signalrservice.azure.com/v1alpha1api20211001.SystemData_StatusARM">SystemData_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of SystemDataStatusCreatedByType. Use v1beta20211001.SystemDataStatusCreatedByType instead</p>
 </div>
 <table>
 <thead>
@@ -4160,6 +3880,7 @@ map[string]string
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.SystemData_Status">SystemData_Status</a>, <a href="#signalrservice.azure.com/v1alpha1api20211001.SystemData_StatusARM">SystemData_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of SystemDataStatusLastModifiedByType. Use v1beta20211001.SystemDataStatusLastModifiedByType instead</p>
 </div>
 <table>
 <thead>
@@ -4184,6 +3905,7 @@ map[string]string
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.PrivateEndpointConnection_Status_SignalR_SubResourceEmbedded">PrivateEndpointConnection_Status_SignalR_SubResourceEmbedded</a>, <a href="#signalrservice.azure.com/v1alpha1api20211001.SharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded">SharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded</a>, <a href="#signalrservice.azure.com/v1alpha1api20211001.SignalRResource_Status">SignalRResource_Status</a>)
 </p>
 <div>
+<p>Deprecated version of SystemData_Status. Use v1beta20211001.SystemData_Status instead</p>
 </div>
 <table>
 <thead>
@@ -4201,7 +3923,6 @@ string
 </em>
 </td>
 <td>
-<p>CreatedAt: The timestamp of resource creation (UTC).</p>
 </td>
 </tr>
 <tr>
@@ -4212,7 +3933,6 @@ string
 </em>
 </td>
 <td>
-<p>CreatedBy: The identity that created the resource.</p>
 </td>
 </tr>
 <tr>
@@ -4225,7 +3945,6 @@ SystemDataStatusCreatedByType
 </em>
 </td>
 <td>
-<p>CreatedByType: The type of identity that created the resource.</p>
 </td>
 </tr>
 <tr>
@@ -4236,7 +3955,6 @@ string
 </em>
 </td>
 <td>
-<p>LastModifiedAt: The timestamp of resource last modification (UTC)</p>
 </td>
 </tr>
 <tr>
@@ -4247,7 +3965,6 @@ string
 </em>
 </td>
 <td>
-<p>LastModifiedBy: The identity that last modified the resource.</p>
 </td>
 </tr>
 <tr>
@@ -4260,7 +3977,6 @@ SystemDataStatusLastModifiedByType
 </em>
 </td>
 <td>
-<p>LastModifiedByType: The type of identity that last modified the resource.</p>
 </td>
 </tr>
 </tbody>
@@ -4271,6 +3987,7 @@ SystemDataStatusLastModifiedByType
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.PrivateEndpointConnection_Status_SignalR_SubResourceEmbeddedARM">PrivateEndpointConnection_Status_SignalR_SubResourceEmbeddedARM</a>, <a href="#signalrservice.azure.com/v1alpha1api20211001.SharedPrivateLinkResource_Status_SignalR_SubResourceEmbeddedARM">SharedPrivateLinkResource_Status_SignalR_SubResourceEmbeddedARM</a>, <a href="#signalrservice.azure.com/v1alpha1api20211001.SignalRResource_StatusARM">SignalRResource_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of SystemData_Status. Use v1beta20211001.SystemData_Status instead</p>
 </div>
 <table>
 <thead>
@@ -4288,7 +4005,6 @@ string
 </em>
 </td>
 <td>
-<p>CreatedAt: The timestamp of resource creation (UTC).</p>
 </td>
 </tr>
 <tr>
@@ -4299,7 +4015,6 @@ string
 </em>
 </td>
 <td>
-<p>CreatedBy: The identity that created the resource.</p>
 </td>
 </tr>
 <tr>
@@ -4312,7 +4027,6 @@ SystemDataStatusCreatedByType
 </em>
 </td>
 <td>
-<p>CreatedByType: The type of identity that created the resource.</p>
 </td>
 </tr>
 <tr>
@@ -4323,7 +4037,6 @@ string
 </em>
 </td>
 <td>
-<p>LastModifiedAt: The timestamp of resource last modification (UTC)</p>
 </td>
 </tr>
 <tr>
@@ -4334,7 +4047,6 @@ string
 </em>
 </td>
 <td>
-<p>LastModifiedBy: The identity that last modified the resource.</p>
 </td>
 </tr>
 <tr>
@@ -4347,7 +4059,6 @@ SystemDataStatusLastModifiedByType
 </em>
 </td>
 <td>
-<p>LastModifiedByType: The type of identity that last modified the resource.</p>
 </td>
 </tr>
 </tbody>
@@ -4358,7 +4069,7 @@ SystemDataStatusLastModifiedByType
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.UpstreamTemplate">UpstreamTemplate</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/UpstreamAuthSettings">https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/UpstreamAuthSettings</a></p>
+<p>Deprecated version of UpstreamAuthSettings. Use v1beta20211001.UpstreamAuthSettings instead</p>
 </div>
 <table>
 <thead>
@@ -4378,7 +4089,6 @@ ManagedIdentitySettings
 </em>
 </td>
 <td>
-<p>ManagedIdentity: Managed identity settings for upstream.</p>
 </td>
 </tr>
 <tr>
@@ -4401,7 +4111,7 @@ UpstreamAuthSettingsType
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.UpstreamTemplateARM">UpstreamTemplateARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/UpstreamAuthSettings">https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/UpstreamAuthSettings</a></p>
+<p>Deprecated version of UpstreamAuthSettings. Use v1beta20211001.UpstreamAuthSettings instead</p>
 </div>
 <table>
 <thead>
@@ -4421,7 +4131,6 @@ ManagedIdentitySettingsARM
 </em>
 </td>
 <td>
-<p>ManagedIdentity: Managed identity settings for upstream.</p>
 </td>
 </tr>
 <tr>
@@ -4444,6 +4153,7 @@ UpstreamAuthSettingsType
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.UpstreamAuthSettings">UpstreamAuthSettings</a>, <a href="#signalrservice.azure.com/v1alpha1api20211001.UpstreamAuthSettingsARM">UpstreamAuthSettingsARM</a>)
 </p>
 <div>
+<p>Deprecated version of UpstreamAuthSettingsType. Use v1beta20211001.UpstreamAuthSettingsType instead</p>
 </div>
 <table>
 <thead>
@@ -4464,6 +4174,7 @@ UpstreamAuthSettingsType
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.UpstreamTemplate_Status">UpstreamTemplate_Status</a>)
 </p>
 <div>
+<p>Deprecated version of UpstreamAuthSettings_Status. Use v1beta20211001.UpstreamAuthSettings_Status instead</p>
 </div>
 <table>
 <thead>
@@ -4483,7 +4194,6 @@ ManagedIdentitySettings_Status
 </em>
 </td>
 <td>
-<p>ManagedIdentity: Gets or sets the managed identity settings. It&rsquo;s required if the auth type is set to ManagedIdentity.</p>
 </td>
 </tr>
 <tr>
@@ -4496,7 +4206,6 @@ UpstreamAuthType_Status
 </em>
 </td>
 <td>
-<p>Type: Gets or sets the type of auth. None or ManagedIdentity is supported now.</p>
 </td>
 </tr>
 </tbody>
@@ -4507,6 +4216,7 @@ UpstreamAuthType_Status
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.UpstreamTemplate_StatusARM">UpstreamTemplate_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of UpstreamAuthSettings_Status. Use v1beta20211001.UpstreamAuthSettings_Status instead</p>
 </div>
 <table>
 <thead>
@@ -4526,7 +4236,6 @@ ManagedIdentitySettings_StatusARM
 </em>
 </td>
 <td>
-<p>ManagedIdentity: Gets or sets the managed identity settings. It&rsquo;s required if the auth type is set to ManagedIdentity.</p>
 </td>
 </tr>
 <tr>
@@ -4539,7 +4248,6 @@ UpstreamAuthType_Status
 </em>
 </td>
 <td>
-<p>Type: Gets or sets the type of auth. None or ManagedIdentity is supported now.</p>
 </td>
 </tr>
 </tbody>
@@ -4550,6 +4258,7 @@ UpstreamAuthType_Status
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.UpstreamAuthSettings_Status">UpstreamAuthSettings_Status</a>, <a href="#signalrservice.azure.com/v1alpha1api20211001.UpstreamAuthSettings_StatusARM">UpstreamAuthSettings_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of UpstreamAuthType_Status. Use v1beta20211001.UpstreamAuthType_Status instead</p>
 </div>
 <table>
 <thead>
@@ -4570,7 +4279,7 @@ UpstreamAuthType_Status
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.ServerlessUpstreamSettings">ServerlessUpstreamSettings</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/UpstreamTemplate">https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/UpstreamTemplate</a></p>
+<p>Deprecated version of UpstreamTemplate. Use v1beta20211001.UpstreamTemplate instead</p>
 </div>
 <table>
 <thead>
@@ -4590,7 +4299,6 @@ UpstreamAuthSettings
 </em>
 </td>
 <td>
-<p>Auth: Upstream auth settings. If not set, no auth is used for upstream messages.</p>
 </td>
 </tr>
 <tr>
@@ -4601,12 +4309,6 @@ string
 </em>
 </td>
 <td>
-<p>CategoryPattern: Gets or sets the matching pattern for category names. If not set, it matches any category.
-There are 3 kind of patterns supported:
-1. &ldquo;*&rdquo;, it to matches any category name
-2. Combine multiple categories with &ldquo;,&rdquo;, for example &ldquo;connections,messages&rdquo;, it matches category &ldquo;connections&rdquo; and
-&ldquo;messages&rdquo;
-3. The single category name, for example, &ldquo;connections&rdquo;, it matches the category &ldquo;connections&rdquo;</p>
 </td>
 </tr>
 <tr>
@@ -4617,11 +4319,6 @@ string
 </em>
 </td>
 <td>
-<p>EventPattern: Gets or sets the matching pattern for event names. If not set, it matches any event.
-There are 3 kind of patterns supported:
-1. &ldquo;*&rdquo;, it to matches any event name
-2. Combine multiple events with &ldquo;,&rdquo;, for example &ldquo;connect,disconnect&rdquo;, it matches event &ldquo;connect&rdquo; and &ldquo;disconnect&rdquo;
-3. The single event name, for example, &ldquo;connect&rdquo;, it matches &ldquo;connect&rdquo;</p>
 </td>
 </tr>
 <tr>
@@ -4632,11 +4329,6 @@ string
 </em>
 </td>
 <td>
-<p>HubPattern: Gets or sets the matching pattern for hub names. If not set, it matches any hub.
-There are 3 kind of patterns supported:
-1. &ldquo;*&rdquo;, it to matches any hub name
-2. Combine multiple hubs with &ldquo;,&rdquo;, for example &ldquo;hub1,hub2&rdquo;, it matches &ldquo;hub1&rdquo; and &ldquo;hub2&rdquo;
-3. The single hub name, for example, &ldquo;hub1&rdquo;, it matches &ldquo;hub1&rdquo;</p>
 </td>
 </tr>
 <tr>
@@ -4647,10 +4339,6 @@ string
 </em>
 </td>
 <td>
-<p>UrlTemplate: Gets or sets the Upstream URL template. You can use 3 predefined parameters {hub}, {category} {event}
-inside the template, the value of the Upstream URL is dynamically calculated when the client request comes in.
-For example, if the urlTemplate is <code>http://example.com/{hub}/api/{event}</code>, with a client request from hub <code>chat</code>
-connects, it will first POST to this URL: <code>http://example.com/chat/api/connect</code>.</p>
 </td>
 </tr>
 </tbody>
@@ -4661,7 +4349,7 @@ connects, it will first POST to this URL: <code>http://example.com/chat/api/conn
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.ServerlessUpstreamSettingsARM">ServerlessUpstreamSettingsARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/UpstreamTemplate">https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/UpstreamTemplate</a></p>
+<p>Deprecated version of UpstreamTemplate. Use v1beta20211001.UpstreamTemplate instead</p>
 </div>
 <table>
 <thead>
@@ -4681,7 +4369,6 @@ UpstreamAuthSettingsARM
 </em>
 </td>
 <td>
-<p>Auth: Upstream auth settings. If not set, no auth is used for upstream messages.</p>
 </td>
 </tr>
 <tr>
@@ -4692,12 +4379,6 @@ string
 </em>
 </td>
 <td>
-<p>CategoryPattern: Gets or sets the matching pattern for category names. If not set, it matches any category.
-There are 3 kind of patterns supported:
-1. &ldquo;*&rdquo;, it to matches any category name
-2. Combine multiple categories with &ldquo;,&rdquo;, for example &ldquo;connections,messages&rdquo;, it matches category &ldquo;connections&rdquo; and
-&ldquo;messages&rdquo;
-3. The single category name, for example, &ldquo;connections&rdquo;, it matches the category &ldquo;connections&rdquo;</p>
 </td>
 </tr>
 <tr>
@@ -4708,11 +4389,6 @@ string
 </em>
 </td>
 <td>
-<p>EventPattern: Gets or sets the matching pattern for event names. If not set, it matches any event.
-There are 3 kind of patterns supported:
-1. &ldquo;*&rdquo;, it to matches any event name
-2. Combine multiple events with &ldquo;,&rdquo;, for example &ldquo;connect,disconnect&rdquo;, it matches event &ldquo;connect&rdquo; and &ldquo;disconnect&rdquo;
-3. The single event name, for example, &ldquo;connect&rdquo;, it matches &ldquo;connect&rdquo;</p>
 </td>
 </tr>
 <tr>
@@ -4723,11 +4399,6 @@ string
 </em>
 </td>
 <td>
-<p>HubPattern: Gets or sets the matching pattern for hub names. If not set, it matches any hub.
-There are 3 kind of patterns supported:
-1. &ldquo;*&rdquo;, it to matches any hub name
-2. Combine multiple hubs with &ldquo;,&rdquo;, for example &ldquo;hub1,hub2&rdquo;, it matches &ldquo;hub1&rdquo; and &ldquo;hub2&rdquo;
-3. The single hub name, for example, &ldquo;hub1&rdquo;, it matches &ldquo;hub1&rdquo;</p>
 </td>
 </tr>
 <tr>
@@ -4738,10 +4409,6 @@ string
 </em>
 </td>
 <td>
-<p>UrlTemplate: Gets or sets the Upstream URL template. You can use 3 predefined parameters {hub}, {category} {event}
-inside the template, the value of the Upstream URL is dynamically calculated when the client request comes in.
-For example, if the urlTemplate is <code>http://example.com/{hub}/api/{event}</code>, with a client request from hub <code>chat</code>
-connects, it will first POST to this URL: <code>http://example.com/chat/api/connect</code>.</p>
 </td>
 </tr>
 </tbody>
@@ -4752,6 +4419,7 @@ connects, it will first POST to this URL: <code>http://example.com/chat/api/conn
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.ServerlessUpstreamSettings_Status">ServerlessUpstreamSettings_Status</a>)
 </p>
 <div>
+<p>Deprecated version of UpstreamTemplate_Status. Use v1beta20211001.UpstreamTemplate_Status instead</p>
 </div>
 <table>
 <thead>
@@ -4771,7 +4439,6 @@ UpstreamAuthSettings_Status
 </em>
 </td>
 <td>
-<p>Auth: Gets or sets the auth settings for an upstream. If not set, no auth is used for upstream messages.</p>
 </td>
 </tr>
 <tr>
@@ -4782,12 +4449,6 @@ string
 </em>
 </td>
 <td>
-<p>CategoryPattern: Gets or sets the matching pattern for category names. If not set, it matches any category.
-There are 3 kind of patterns supported:
-1. &ldquo;*&rdquo;, it to matches any category name
-2. Combine multiple categories with &ldquo;,&rdquo;, for example &ldquo;connections,messages&rdquo;, it matches category &ldquo;connections&rdquo; and
-&ldquo;messages&rdquo;
-3. The single category name, for example, &ldquo;connections&rdquo;, it matches the category &ldquo;connections&rdquo;</p>
 </td>
 </tr>
 <tr>
@@ -4798,11 +4459,6 @@ string
 </em>
 </td>
 <td>
-<p>EventPattern: Gets or sets the matching pattern for event names. If not set, it matches any event.
-There are 3 kind of patterns supported:
-1. &ldquo;*&rdquo;, it to matches any event name
-2. Combine multiple events with &ldquo;,&rdquo;, for example &ldquo;connect,disconnect&rdquo;, it matches event &ldquo;connect&rdquo; and &ldquo;disconnect&rdquo;
-3. The single event name, for example, &ldquo;connect&rdquo;, it matches &ldquo;connect&rdquo;</p>
 </td>
 </tr>
 <tr>
@@ -4813,11 +4469,6 @@ string
 </em>
 </td>
 <td>
-<p>HubPattern: Gets or sets the matching pattern for hub names. If not set, it matches any hub.
-There are 3 kind of patterns supported:
-1. &ldquo;*&rdquo;, it to matches any hub name
-2. Combine multiple hubs with &ldquo;,&rdquo;, for example &ldquo;hub1,hub2&rdquo;, it matches &ldquo;hub1&rdquo; and &ldquo;hub2&rdquo;
-3. The single hub name, for example, &ldquo;hub1&rdquo;, it matches &ldquo;hub1&rdquo;</p>
 </td>
 </tr>
 <tr>
@@ -4828,10 +4479,6 @@ string
 </em>
 </td>
 <td>
-<p>UrlTemplate: Gets or sets the Upstream URL template. You can use 3 predefined parameters {hub}, {category} {event}
-inside the template, the value of the Upstream URL is dynamically calculated when the client request comes in.
-For example, if the urlTemplate is <code>http://example.com/{hub}/api/{event}</code>, with a client request from hub <code>chat</code>
-connects, it will first POST to this URL: <code>http://example.com/chat/api/connect</code>.</p>
 </td>
 </tr>
 </tbody>
@@ -4842,6 +4489,7 @@ connects, it will first POST to this URL: <code>http://example.com/chat/api/conn
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.ServerlessUpstreamSettings_StatusARM">ServerlessUpstreamSettings_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of UpstreamTemplate_Status. Use v1beta20211001.UpstreamTemplate_Status instead</p>
 </div>
 <table>
 <thead>
@@ -4861,7 +4509,6 @@ UpstreamAuthSettings_StatusARM
 </em>
 </td>
 <td>
-<p>Auth: Gets or sets the auth settings for an upstream. If not set, no auth is used for upstream messages.</p>
 </td>
 </tr>
 <tr>
@@ -4872,12 +4519,6 @@ string
 </em>
 </td>
 <td>
-<p>CategoryPattern: Gets or sets the matching pattern for category names. If not set, it matches any category.
-There are 3 kind of patterns supported:
-1. &ldquo;*&rdquo;, it to matches any category name
-2. Combine multiple categories with &ldquo;,&rdquo;, for example &ldquo;connections,messages&rdquo;, it matches category &ldquo;connections&rdquo; and
-&ldquo;messages&rdquo;
-3. The single category name, for example, &ldquo;connections&rdquo;, it matches the category &ldquo;connections&rdquo;</p>
 </td>
 </tr>
 <tr>
@@ -4888,11 +4529,6 @@ string
 </em>
 </td>
 <td>
-<p>EventPattern: Gets or sets the matching pattern for event names. If not set, it matches any event.
-There are 3 kind of patterns supported:
-1. &ldquo;*&rdquo;, it to matches any event name
-2. Combine multiple events with &ldquo;,&rdquo;, for example &ldquo;connect,disconnect&rdquo;, it matches event &ldquo;connect&rdquo; and &ldquo;disconnect&rdquo;
-3. The single event name, for example, &ldquo;connect&rdquo;, it matches &ldquo;connect&rdquo;</p>
 </td>
 </tr>
 <tr>
@@ -4903,11 +4539,6 @@ string
 </em>
 </td>
 <td>
-<p>HubPattern: Gets or sets the matching pattern for hub names. If not set, it matches any hub.
-There are 3 kind of patterns supported:
-1. &ldquo;*&rdquo;, it to matches any hub name
-2. Combine multiple hubs with &ldquo;,&rdquo;, for example &ldquo;hub1,hub2&rdquo;, it matches &ldquo;hub1&rdquo; and &ldquo;hub2&rdquo;
-3. The single hub name, for example, &ldquo;hub1&rdquo;, it matches &ldquo;hub1&rdquo;</p>
 </td>
 </tr>
 <tr>
@@ -4918,10 +4549,6 @@ string
 </em>
 </td>
 <td>
-<p>UrlTemplate: Gets or sets the Upstream URL template. You can use 3 predefined parameters {hub}, {category} {event}
-inside the template, the value of the Upstream URL is dynamically calculated when the client request comes in.
-For example, if the urlTemplate is <code>http://example.com/{hub}/api/{event}</code>, with a client request from hub <code>chat</code>
-connects, it will first POST to this URL: <code>http://example.com/chat/api/connect</code>.</p>
 </td>
 </tr>
 </tbody>
@@ -4932,6 +4559,7 @@ connects, it will first POST to this URL: <code>http://example.com/chat/api/conn
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.ManagedIdentity_Status">ManagedIdentity_Status</a>)
 </p>
 <div>
+<p>Deprecated version of UserAssignedIdentityProperty_Status. Use v1beta20211001.UserAssignedIdentityProperty_Status instead</p>
 </div>
 <table>
 <thead>
@@ -4949,7 +4577,6 @@ string
 </em>
 </td>
 <td>
-<p>ClientId: Get the client id for the user assigned identity</p>
 </td>
 </tr>
 <tr>
@@ -4960,7 +4587,6 @@ string
 </em>
 </td>
 <td>
-<p>PrincipalId: Get the principal id for the user assigned identity</p>
 </td>
 </tr>
 </tbody>
@@ -4971,6 +4597,7 @@ string
 (<em>Appears on:</em><a href="#signalrservice.azure.com/v1alpha1api20211001.ManagedIdentity_StatusARM">ManagedIdentity_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of UserAssignedIdentityProperty_Status. Use v1beta20211001.UserAssignedIdentityProperty_Status instead</p>
 </div>
 <table>
 <thead>
@@ -4988,7 +4615,6 @@ string
 </em>
 </td>
 <td>
-<p>ClientId: Get the client id for the user assigned identity</p>
 </td>
 </tr>
 <tr>
@@ -4999,7 +4625,6 @@ string
 </em>
 </td>
 <td>
-<p>PrincipalId: Get the principal id for the user assigned identity</p>
 </td>
 </tr>
 </tbody>
