@@ -20,7 +20,7 @@ below settings. Also, we can change the settings inside `values.yaml` file for A
 
 ### Deployment Yaml
 
-In the deployment yaml, we can turn OFF the metrics by omitting the `metrics-addr` flag. We can also change to use 
+In the deployment yaml, we can turn _**off**_ the metrics by omitting the `metrics-addr` flag. We can also change to use 
 a different metrics-addr by changing the default value of that same flag.
     
    ```
