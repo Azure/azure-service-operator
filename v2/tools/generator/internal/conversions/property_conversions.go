@@ -1130,12 +1130,12 @@ func assignEnumFromEnum(
 
 	return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, knownLocals *astmodel.KnownLocalsSet, ctx *astmodel.CodeGenerationContext) []dst.Stmt {
 		local := knownLocals.CreateSingularLocal(destinationEndpoint.Name(), "", "As"+destinationName.Name(), "Value")
-		result := []dst.Stmt{
-			astbuilder.ShortDeclaration(local, astbuilder.CallFunc(destinationName.Name(), reader)),
-		}
-
-		result = append(result, writer(dst.NewIdent(local))...)
-		return result
+		declare := astbuilder.ShortDeclaration(local, astbuilder.CallFunc(destinationName.Name(), reader))
+		write := writer(dst.NewIdent(local))
+		return astbuilder.Statements(
+			declare,
+			write,
+		)
 	}, nil
 }
 
