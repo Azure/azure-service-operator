@@ -11,4 +11,16 @@ spec:
   owner:
     name: aso-sample-rg
   accessTier: Hot
+  # Optional: Save the keys for the storage account into a Kubernetes secret
+  operatorSpec:
+    secrets:
+      key1:
+        name: storageaccount-secret
+        key: key1
+      key2:
+        name: storageaccount-secret
+        key: key2
+      blobEndpoint:
+        name: storageaccount-secret
+        key: blobEndpoint
   # supportsHttpsTrafficOnly: true
