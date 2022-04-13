@@ -463,7 +463,6 @@ tasks:
     cmds:
     - "helm install --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
       --set azureTenantID=$AZURE_TENANT_ID \
-      --set azureClientSecret=$AZURE_CLIENT_SECRET \
       --set azureClientID=$AZURE_CLIENT_ID \
       --set image.repository={{.LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE}} \
       asov2 -n {{.ASO_NAMESPACE}} --create-namespace ./charts/azure-service-operator/"
