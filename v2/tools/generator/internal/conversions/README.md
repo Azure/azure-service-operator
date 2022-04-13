@@ -484,7 +484,7 @@ We create a custom writer to store values into our at a given index.
         }
 ```
 
-Within our loop we create a copy of the item variable, to avoid aliasing between loops. We know for our sample case that an alias isn't necessary - but we don't know generally know what an conversions might do, so this is a safety precaution.
+Within our loop we create a copy of the item variable, to avoid aliasing between loops. We know for our sample case that an alias isn't necessary - but we don't know generally know what conversions might do, so this is a safety precaution.
 
 ``` go
         avoidAliasing := astbuilder.ShortDeclaration(itemId, dst.NewIdent(itemId))
