@@ -42,7 +42,7 @@ azureOperatorMode: ""
 # corresponding CRD yaml in the cart (and so no CRD in the k8s
 # repository).
 image:
-  repository: mcr.microsoft.com/k8s/azureserviceoperator:v2.0.0-alpha.6
+  repository: mcr.microsoft.com/k8s/azureserviceoperator:v2.0.0-beta.0
   kubeRBACProxy: gcr.io/kubebuilder/kube-rbac-proxy:v0.4.1 
 
 # 'metrics' define settings for the metrics from controller.
@@ -50,3 +50,6 @@ image:
 metrics:
   enable: true
   address: 127.0.0.1:8080
+
+# installCRDs determines if the CRDs subchart should be installed.
+installCRDs: true
