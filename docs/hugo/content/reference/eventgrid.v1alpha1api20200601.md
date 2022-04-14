@@ -12,7 +12,7 @@ Resource Types:
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.EventSubscriptionFilter">EventSubscriptionFilter</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/AdvancedFilter">https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/AdvancedFilter</a></p>
+<p>Deprecated version of AdvancedFilter. Use v1beta20200601.AdvancedFilter instead</p>
 </div>
 <table>
 <thead>
@@ -32,7 +32,6 @@ AdvancedFilter_BoolEquals
 </em>
 </td>
 <td>
-<p>BoolEquals: Mutually exclusive with all other properties</p>
 </td>
 </tr>
 <tr>
@@ -45,7 +44,6 @@ AdvancedFilter_NumberGreaterThan
 </em>
 </td>
 <td>
-<p>NumberGreaterThan: Mutually exclusive with all other properties</p>
 </td>
 </tr>
 <tr>
@@ -58,7 +56,6 @@ AdvancedFilter_NumberGreaterThanOrEquals
 </em>
 </td>
 <td>
-<p>NumberGreaterThanOrEquals: Mutually exclusive with all other properties</p>
 </td>
 </tr>
 <tr>
@@ -71,7 +68,6 @@ AdvancedFilter_NumberIn
 </em>
 </td>
 <td>
-<p>NumberIn: Mutually exclusive with all other properties</p>
 </td>
 </tr>
 <tr>
@@ -84,7 +80,6 @@ AdvancedFilter_NumberLessThan
 </em>
 </td>
 <td>
-<p>NumberLessThan: Mutually exclusive with all other properties</p>
 </td>
 </tr>
 <tr>
@@ -97,7 +92,6 @@ AdvancedFilter_NumberLessThanOrEquals
 </em>
 </td>
 <td>
-<p>NumberLessThanOrEquals: Mutually exclusive with all other properties</p>
 </td>
 </tr>
 <tr>
@@ -110,7 +104,6 @@ AdvancedFilter_NumberNotIn
 </em>
 </td>
 <td>
-<p>NumberNotIn: Mutually exclusive with all other properties</p>
 </td>
 </tr>
 <tr>
@@ -123,7 +116,6 @@ AdvancedFilter_StringBeginsWith
 </em>
 </td>
 <td>
-<p>StringBeginsWith: Mutually exclusive with all other properties</p>
 </td>
 </tr>
 <tr>
@@ -136,7 +128,6 @@ AdvancedFilter_StringContains
 </em>
 </td>
 <td>
-<p>StringContains: Mutually exclusive with all other properties</p>
 </td>
 </tr>
 <tr>
@@ -149,7 +140,6 @@ AdvancedFilter_StringEndsWith
 </em>
 </td>
 <td>
-<p>StringEndsWith: Mutually exclusive with all other properties</p>
 </td>
 </tr>
 <tr>
@@ -162,7 +152,6 @@ AdvancedFilter_StringIn
 </em>
 </td>
 <td>
-<p>StringIn: Mutually exclusive with all other properties</p>
 </td>
 </tr>
 <tr>
@@ -175,7 +164,6 @@ AdvancedFilter_StringNotIn
 </em>
 </td>
 <td>
-<p>StringNotIn: Mutually exclusive with all other properties</p>
 </td>
 </tr>
 </tbody>
@@ -186,7 +174,7 @@ AdvancedFilter_StringNotIn
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.EventSubscriptionFilterARM">EventSubscriptionFilterARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/AdvancedFilter">https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/AdvancedFilter</a></p>
+<p>Deprecated version of AdvancedFilter. Use v1beta20200601.AdvancedFilter instead</p>
 </div>
 <table>
 <thead>
@@ -206,7 +194,6 @@ AdvancedFilter_BoolEqualsARM
 </em>
 </td>
 <td>
-<p>BoolEquals: Mutually exclusive with all other properties</p>
 </td>
 </tr>
 <tr>
@@ -219,7 +206,6 @@ AdvancedFilter_NumberGreaterThanARM
 </em>
 </td>
 <td>
-<p>NumberGreaterThan: Mutually exclusive with all other properties</p>
 </td>
 </tr>
 <tr>
@@ -232,7 +218,6 @@ AdvancedFilter_NumberGreaterThanOrEqualsARM
 </em>
 </td>
 <td>
-<p>NumberGreaterThanOrEquals: Mutually exclusive with all other properties</p>
 </td>
 </tr>
 <tr>
@@ -245,7 +230,6 @@ AdvancedFilter_NumberInARM
 </em>
 </td>
 <td>
-<p>NumberIn: Mutually exclusive with all other properties</p>
 </td>
 </tr>
 <tr>
@@ -258,7 +242,6 @@ AdvancedFilter_NumberLessThanARM
 </em>
 </td>
 <td>
-<p>NumberLessThan: Mutually exclusive with all other properties</p>
 </td>
 </tr>
 <tr>
@@ -271,7 +254,6 @@ AdvancedFilter_NumberLessThanOrEqualsARM
 </em>
 </td>
 <td>
-<p>NumberLessThanOrEquals: Mutually exclusive with all other properties</p>
 </td>
 </tr>
 <tr>
@@ -284,7 +266,6 @@ AdvancedFilter_NumberNotInARM
 </em>
 </td>
 <td>
-<p>NumberNotIn: Mutually exclusive with all other properties</p>
 </td>
 </tr>
 <tr>
@@ -297,7 +278,6 @@ AdvancedFilter_StringBeginsWithARM
 </em>
 </td>
 <td>
-<p>StringBeginsWith: Mutually exclusive with all other properties</p>
 </td>
 </tr>
 <tr>
@@ -310,7 +290,6 @@ AdvancedFilter_StringContainsARM
 </em>
 </td>
 <td>
-<p>StringContains: Mutually exclusive with all other properties</p>
 </td>
 </tr>
 <tr>
@@ -323,7 +302,6 @@ AdvancedFilter_StringEndsWithARM
 </em>
 </td>
 <td>
-<p>StringEndsWith: Mutually exclusive with all other properties</p>
 </td>
 </tr>
 <tr>
@@ -336,7 +314,6 @@ AdvancedFilter_StringInARM
 </em>
 </td>
 <td>
-<p>StringIn: Mutually exclusive with all other properties</p>
 </td>
 </tr>
 <tr>
@@ -349,7 +326,6 @@ AdvancedFilter_StringNotInARM
 </em>
 </td>
 <td>
-<p>StringNotIn: Mutually exclusive with all other properties</p>
 </td>
 </tr>
 </tbody>
@@ -360,6 +336,8 @@ AdvancedFilter_StringNotInARM
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.AdvancedFilter_BoolEquals">AdvancedFilter_BoolEquals</a>, <a href="#eventgrid.azure.com/v1alpha1api20200601.AdvancedFilter_BoolEqualsARM">AdvancedFilter_BoolEqualsARM</a>)
 </p>
 <div>
+<p>Deprecated version of AdvancedFilterBoolEqualsOperatorType. Use v1beta20200601.AdvancedFilterBoolEqualsOperatorType
+instead</p>
 </div>
 <table>
 <thead>
@@ -378,6 +356,8 @@ AdvancedFilter_StringNotInARM
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.AdvancedFilter_NumberGreaterThan">AdvancedFilter_NumberGreaterThan</a>, <a href="#eventgrid.azure.com/v1alpha1api20200601.AdvancedFilter_NumberGreaterThanARM">AdvancedFilter_NumberGreaterThanARM</a>)
 </p>
 <div>
+<p>Deprecated version of AdvancedFilterNumberGreaterThanOperatorType. Use
+v1beta20200601.AdvancedFilterNumberGreaterThanOperatorType instead</p>
 </div>
 <table>
 <thead>
@@ -396,6 +376,8 @@ AdvancedFilter_StringNotInARM
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.AdvancedFilter_NumberGreaterThanOrEquals">AdvancedFilter_NumberGreaterThanOrEquals</a>, <a href="#eventgrid.azure.com/v1alpha1api20200601.AdvancedFilter_NumberGreaterThanOrEqualsARM">AdvancedFilter_NumberGreaterThanOrEqualsARM</a>)
 </p>
 <div>
+<p>Deprecated version of AdvancedFilterNumberGreaterThanOrEqualsOperatorType. Use
+v1beta20200601.AdvancedFilterNumberGreaterThanOrEqualsOperatorType instead</p>
 </div>
 <table>
 <thead>
@@ -414,6 +396,7 @@ AdvancedFilter_StringNotInARM
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.AdvancedFilter_NumberIn">AdvancedFilter_NumberIn</a>, <a href="#eventgrid.azure.com/v1alpha1api20200601.AdvancedFilter_NumberInARM">AdvancedFilter_NumberInARM</a>)
 </p>
 <div>
+<p>Deprecated version of AdvancedFilterNumberInOperatorType. Use v1beta20200601.AdvancedFilterNumberInOperatorType instead</p>
 </div>
 <table>
 <thead>
@@ -432,6 +415,8 @@ AdvancedFilter_StringNotInARM
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.AdvancedFilter_NumberLessThan">AdvancedFilter_NumberLessThan</a>, <a href="#eventgrid.azure.com/v1alpha1api20200601.AdvancedFilter_NumberLessThanARM">AdvancedFilter_NumberLessThanARM</a>)
 </p>
 <div>
+<p>Deprecated version of AdvancedFilterNumberLessThanOperatorType. Use
+v1beta20200601.AdvancedFilterNumberLessThanOperatorType instead</p>
 </div>
 <table>
 <thead>
@@ -450,6 +435,8 @@ AdvancedFilter_StringNotInARM
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.AdvancedFilter_NumberLessThanOrEquals">AdvancedFilter_NumberLessThanOrEquals</a>, <a href="#eventgrid.azure.com/v1alpha1api20200601.AdvancedFilter_NumberLessThanOrEqualsARM">AdvancedFilter_NumberLessThanOrEqualsARM</a>)
 </p>
 <div>
+<p>Deprecated version of AdvancedFilterNumberLessThanOrEqualsOperatorType. Use
+v1beta20200601.AdvancedFilterNumberLessThanOrEqualsOperatorType instead</p>
 </div>
 <table>
 <thead>
@@ -468,6 +455,8 @@ AdvancedFilter_StringNotInARM
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.AdvancedFilter_NumberNotIn">AdvancedFilter_NumberNotIn</a>, <a href="#eventgrid.azure.com/v1alpha1api20200601.AdvancedFilter_NumberNotInARM">AdvancedFilter_NumberNotInARM</a>)
 </p>
 <div>
+<p>Deprecated version of AdvancedFilterNumberNotInOperatorType. Use v1beta20200601.AdvancedFilterNumberNotInOperatorType
+instead</p>
 </div>
 <table>
 <thead>
@@ -486,6 +475,7 @@ AdvancedFilter_StringNotInARM
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.AdvancedFilter_Status">AdvancedFilter_Status</a>, <a href="#eventgrid.azure.com/v1alpha1api20200601.AdvancedFilter_StatusARM">AdvancedFilter_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of AdvancedFilterStatusOperatorType. Use v1beta20200601.AdvancedFilterStatusOperatorType instead</p>
 </div>
 <table>
 <thead>
@@ -526,6 +516,8 @@ AdvancedFilter_StringNotInARM
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.AdvancedFilter_StringBeginsWith">AdvancedFilter_StringBeginsWith</a>, <a href="#eventgrid.azure.com/v1alpha1api20200601.AdvancedFilter_StringBeginsWithARM">AdvancedFilter_StringBeginsWithARM</a>)
 </p>
 <div>
+<p>Deprecated version of AdvancedFilterStringBeginsWithOperatorType. Use
+v1beta20200601.AdvancedFilterStringBeginsWithOperatorType instead</p>
 </div>
 <table>
 <thead>
@@ -544,6 +536,8 @@ AdvancedFilter_StringNotInARM
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.AdvancedFilter_StringContains">AdvancedFilter_StringContains</a>, <a href="#eventgrid.azure.com/v1alpha1api20200601.AdvancedFilter_StringContainsARM">AdvancedFilter_StringContainsARM</a>)
 </p>
 <div>
+<p>Deprecated version of AdvancedFilterStringContainsOperatorType. Use
+v1beta20200601.AdvancedFilterStringContainsOperatorType instead</p>
 </div>
 <table>
 <thead>
@@ -562,6 +556,8 @@ AdvancedFilter_StringNotInARM
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.AdvancedFilter_StringEndsWith">AdvancedFilter_StringEndsWith</a>, <a href="#eventgrid.azure.com/v1alpha1api20200601.AdvancedFilter_StringEndsWithARM">AdvancedFilter_StringEndsWithARM</a>)
 </p>
 <div>
+<p>Deprecated version of AdvancedFilterStringEndsWithOperatorType. Use
+v1beta20200601.AdvancedFilterStringEndsWithOperatorType instead</p>
 </div>
 <table>
 <thead>
@@ -580,6 +576,7 @@ AdvancedFilter_StringNotInARM
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.AdvancedFilter_StringIn">AdvancedFilter_StringIn</a>, <a href="#eventgrid.azure.com/v1alpha1api20200601.AdvancedFilter_StringInARM">AdvancedFilter_StringInARM</a>)
 </p>
 <div>
+<p>Deprecated version of AdvancedFilterStringInOperatorType. Use v1beta20200601.AdvancedFilterStringInOperatorType instead</p>
 </div>
 <table>
 <thead>
@@ -598,6 +595,8 @@ AdvancedFilter_StringNotInARM
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.AdvancedFilter_StringNotIn">AdvancedFilter_StringNotIn</a>, <a href="#eventgrid.azure.com/v1alpha1api20200601.AdvancedFilter_StringNotInARM">AdvancedFilter_StringNotInARM</a>)
 </p>
 <div>
+<p>Deprecated version of AdvancedFilterStringNotInOperatorType. Use v1beta20200601.AdvancedFilterStringNotInOperatorType
+instead</p>
 </div>
 <table>
 <thead>
@@ -616,6 +615,7 @@ AdvancedFilter_StringNotInARM
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.AdvancedFilter">AdvancedFilter</a>)
 </p>
 <div>
+<p>Deprecated version of AdvancedFilter_BoolEquals. Use v1beta20200601.AdvancedFilter_BoolEquals instead</p>
 </div>
 <table>
 <thead>
@@ -633,7 +633,6 @@ string
 </em>
 </td>
 <td>
-<p>Key: The field/property in the event based on which you want to filter.</p>
 </td>
 </tr>
 <tr>
@@ -656,7 +655,6 @@ bool
 </em>
 </td>
 <td>
-<p>Value: The boolean filter value.</p>
 </td>
 </tr>
 </tbody>
@@ -667,6 +665,7 @@ bool
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.AdvancedFilterARM">AdvancedFilterARM</a>)
 </p>
 <div>
+<p>Deprecated version of AdvancedFilter_BoolEquals. Use v1beta20200601.AdvancedFilter_BoolEquals instead</p>
 </div>
 <table>
 <thead>
@@ -684,7 +683,6 @@ string
 </em>
 </td>
 <td>
-<p>Key: The field/property in the event based on which you want to filter.</p>
 </td>
 </tr>
 <tr>
@@ -707,7 +705,6 @@ bool
 </em>
 </td>
 <td>
-<p>Value: The boolean filter value.</p>
 </td>
 </tr>
 </tbody>
@@ -718,6 +715,7 @@ bool
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.AdvancedFilter">AdvancedFilter</a>)
 </p>
 <div>
+<p>Deprecated version of AdvancedFilter_NumberGreaterThan. Use v1beta20200601.AdvancedFilter_NumberGreaterThan instead</p>
 </div>
 <table>
 <thead>
@@ -735,7 +733,6 @@ string
 </em>
 </td>
 <td>
-<p>Key: The field/property in the event based on which you want to filter.</p>
 </td>
 </tr>
 <tr>
@@ -758,7 +755,6 @@ float64
 </em>
 </td>
 <td>
-<p>Value: The filter value.</p>
 </td>
 </tr>
 </tbody>
@@ -769,6 +765,7 @@ float64
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.AdvancedFilterARM">AdvancedFilterARM</a>)
 </p>
 <div>
+<p>Deprecated version of AdvancedFilter_NumberGreaterThan. Use v1beta20200601.AdvancedFilter_NumberGreaterThan instead</p>
 </div>
 <table>
 <thead>
@@ -786,7 +783,6 @@ string
 </em>
 </td>
 <td>
-<p>Key: The field/property in the event based on which you want to filter.</p>
 </td>
 </tr>
 <tr>
@@ -809,7 +805,6 @@ float64
 </em>
 </td>
 <td>
-<p>Value: The filter value.</p>
 </td>
 </tr>
 </tbody>
@@ -820,6 +815,7 @@ float64
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.AdvancedFilter">AdvancedFilter</a>)
 </p>
 <div>
+<p>Deprecated version of AdvancedFilter_NumberGreaterThanOrEquals. Use v1beta20200601.AdvancedFilter_NumberGreaterThanOrEquals instead</p>
 </div>
 <table>
 <thead>
@@ -837,7 +833,6 @@ string
 </em>
 </td>
 <td>
-<p>Key: The field/property in the event based on which you want to filter.</p>
 </td>
 </tr>
 <tr>
@@ -860,7 +855,6 @@ float64
 </em>
 </td>
 <td>
-<p>Value: The filter value.</p>
 </td>
 </tr>
 </tbody>
@@ -871,6 +865,7 @@ float64
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.AdvancedFilterARM">AdvancedFilterARM</a>)
 </p>
 <div>
+<p>Deprecated version of AdvancedFilter_NumberGreaterThanOrEquals. Use v1beta20200601.AdvancedFilter_NumberGreaterThanOrEquals instead</p>
 </div>
 <table>
 <thead>
@@ -888,7 +883,6 @@ string
 </em>
 </td>
 <td>
-<p>Key: The field/property in the event based on which you want to filter.</p>
 </td>
 </tr>
 <tr>
@@ -911,7 +905,6 @@ float64
 </em>
 </td>
 <td>
-<p>Value: The filter value.</p>
 </td>
 </tr>
 </tbody>
@@ -922,6 +915,7 @@ float64
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.AdvancedFilter">AdvancedFilter</a>)
 </p>
 <div>
+<p>Deprecated version of AdvancedFilter_NumberIn. Use v1beta20200601.AdvancedFilter_NumberIn instead</p>
 </div>
 <table>
 <thead>
@@ -939,7 +933,6 @@ string
 </em>
 </td>
 <td>
-<p>Key: The field/property in the event based on which you want to filter.</p>
 </td>
 </tr>
 <tr>
@@ -962,7 +955,6 @@ AdvancedFilterNumberInOperatorType
 </em>
 </td>
 <td>
-<p>Values: The set of filter values.</p>
 </td>
 </tr>
 </tbody>
@@ -973,6 +965,7 @@ AdvancedFilterNumberInOperatorType
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.AdvancedFilterARM">AdvancedFilterARM</a>)
 </p>
 <div>
+<p>Deprecated version of AdvancedFilter_NumberIn. Use v1beta20200601.AdvancedFilter_NumberIn instead</p>
 </div>
 <table>
 <thead>
@@ -990,7 +983,6 @@ string
 </em>
 </td>
 <td>
-<p>Key: The field/property in the event based on which you want to filter.</p>
 </td>
 </tr>
 <tr>
@@ -1013,7 +1005,6 @@ AdvancedFilterNumberInOperatorType
 </em>
 </td>
 <td>
-<p>Values: The set of filter values.</p>
 </td>
 </tr>
 </tbody>
@@ -1024,6 +1015,7 @@ AdvancedFilterNumberInOperatorType
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.AdvancedFilter">AdvancedFilter</a>)
 </p>
 <div>
+<p>Deprecated version of AdvancedFilter_NumberLessThan. Use v1beta20200601.AdvancedFilter_NumberLessThan instead</p>
 </div>
 <table>
 <thead>
@@ -1041,7 +1033,6 @@ string
 </em>
 </td>
 <td>
-<p>Key: The field/property in the event based on which you want to filter.</p>
 </td>
 </tr>
 <tr>
@@ -1064,7 +1055,6 @@ float64
 </em>
 </td>
 <td>
-<p>Value: The filter value.</p>
 </td>
 </tr>
 </tbody>
@@ -1075,6 +1065,7 @@ float64
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.AdvancedFilterARM">AdvancedFilterARM</a>)
 </p>
 <div>
+<p>Deprecated version of AdvancedFilter_NumberLessThan. Use v1beta20200601.AdvancedFilter_NumberLessThan instead</p>
 </div>
 <table>
 <thead>
@@ -1092,7 +1083,6 @@ string
 </em>
 </td>
 <td>
-<p>Key: The field/property in the event based on which you want to filter.</p>
 </td>
 </tr>
 <tr>
@@ -1115,7 +1105,6 @@ float64
 </em>
 </td>
 <td>
-<p>Value: The filter value.</p>
 </td>
 </tr>
 </tbody>
@@ -1126,6 +1115,7 @@ float64
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.AdvancedFilter">AdvancedFilter</a>)
 </p>
 <div>
+<p>Deprecated version of AdvancedFilter_NumberLessThanOrEquals. Use v1beta20200601.AdvancedFilter_NumberLessThanOrEquals instead</p>
 </div>
 <table>
 <thead>
@@ -1143,7 +1133,6 @@ string
 </em>
 </td>
 <td>
-<p>Key: The field/property in the event based on which you want to filter.</p>
 </td>
 </tr>
 <tr>
@@ -1166,7 +1155,6 @@ float64
 </em>
 </td>
 <td>
-<p>Value: The filter value.</p>
 </td>
 </tr>
 </tbody>
@@ -1177,6 +1165,7 @@ float64
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.AdvancedFilterARM">AdvancedFilterARM</a>)
 </p>
 <div>
+<p>Deprecated version of AdvancedFilter_NumberLessThanOrEquals. Use v1beta20200601.AdvancedFilter_NumberLessThanOrEquals instead</p>
 </div>
 <table>
 <thead>
@@ -1194,7 +1183,6 @@ string
 </em>
 </td>
 <td>
-<p>Key: The field/property in the event based on which you want to filter.</p>
 </td>
 </tr>
 <tr>
@@ -1217,7 +1205,6 @@ float64
 </em>
 </td>
 <td>
-<p>Value: The filter value.</p>
 </td>
 </tr>
 </tbody>
@@ -1228,6 +1215,7 @@ float64
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.AdvancedFilter">AdvancedFilter</a>)
 </p>
 <div>
+<p>Deprecated version of AdvancedFilter_NumberNotIn. Use v1beta20200601.AdvancedFilter_NumberNotIn instead</p>
 </div>
 <table>
 <thead>
@@ -1245,7 +1233,6 @@ string
 </em>
 </td>
 <td>
-<p>Key: The field/property in the event based on which you want to filter.</p>
 </td>
 </tr>
 <tr>
@@ -1268,7 +1255,6 @@ AdvancedFilterNumberNotInOperatorType
 </em>
 </td>
 <td>
-<p>Values: The set of filter values.</p>
 </td>
 </tr>
 </tbody>
@@ -1279,6 +1265,7 @@ AdvancedFilterNumberNotInOperatorType
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.AdvancedFilterARM">AdvancedFilterARM</a>)
 </p>
 <div>
+<p>Deprecated version of AdvancedFilter_NumberNotIn. Use v1beta20200601.AdvancedFilter_NumberNotIn instead</p>
 </div>
 <table>
 <thead>
@@ -1296,7 +1283,6 @@ string
 </em>
 </td>
 <td>
-<p>Key: The field/property in the event based on which you want to filter.</p>
 </td>
 </tr>
 <tr>
@@ -1319,7 +1305,6 @@ AdvancedFilterNumberNotInOperatorType
 </em>
 </td>
 <td>
-<p>Values: The set of filter values.</p>
 </td>
 </tr>
 </tbody>
@@ -1330,6 +1315,7 @@ AdvancedFilterNumberNotInOperatorType
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.EventSubscriptionFilter_Status">EventSubscriptionFilter_Status</a>)
 </p>
 <div>
+<p>Deprecated version of AdvancedFilter_Status. Use v1beta20200601.AdvancedFilter_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1347,7 +1333,6 @@ string
 </em>
 </td>
 <td>
-<p>Key: The field/property in the event based on which you want to filter.</p>
 </td>
 </tr>
 <tr>
@@ -1360,7 +1345,6 @@ AdvancedFilterStatusOperatorType
 </em>
 </td>
 <td>
-<p>OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.</p>
 </td>
 </tr>
 </tbody>
@@ -1371,6 +1355,7 @@ AdvancedFilterStatusOperatorType
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.EventSubscriptionFilter_StatusARM">EventSubscriptionFilter_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of AdvancedFilter_Status. Use v1beta20200601.AdvancedFilter_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1388,7 +1373,6 @@ string
 </em>
 </td>
 <td>
-<p>Key: The field/property in the event based on which you want to filter.</p>
 </td>
 </tr>
 <tr>
@@ -1401,7 +1385,6 @@ AdvancedFilterStatusOperatorType
 </em>
 </td>
 <td>
-<p>OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.</p>
 </td>
 </tr>
 </tbody>
@@ -1412,6 +1395,7 @@ AdvancedFilterStatusOperatorType
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.AdvancedFilter">AdvancedFilter</a>)
 </p>
 <div>
+<p>Deprecated version of AdvancedFilter_StringBeginsWith. Use v1beta20200601.AdvancedFilter_StringBeginsWith instead</p>
 </div>
 <table>
 <thead>
@@ -1429,7 +1413,6 @@ string
 </em>
 </td>
 <td>
-<p>Key: The field/property in the event based on which you want to filter.</p>
 </td>
 </tr>
 <tr>
@@ -1452,7 +1435,6 @@ AdvancedFilterStringBeginsWithOperatorType
 </em>
 </td>
 <td>
-<p>Values: The set of filter values.</p>
 </td>
 </tr>
 </tbody>
@@ -1463,6 +1445,7 @@ AdvancedFilterStringBeginsWithOperatorType
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.AdvancedFilterARM">AdvancedFilterARM</a>)
 </p>
 <div>
+<p>Deprecated version of AdvancedFilter_StringBeginsWith. Use v1beta20200601.AdvancedFilter_StringBeginsWith instead</p>
 </div>
 <table>
 <thead>
@@ -1480,7 +1463,6 @@ string
 </em>
 </td>
 <td>
-<p>Key: The field/property in the event based on which you want to filter.</p>
 </td>
 </tr>
 <tr>
@@ -1503,7 +1485,6 @@ AdvancedFilterStringBeginsWithOperatorType
 </em>
 </td>
 <td>
-<p>Values: The set of filter values.</p>
 </td>
 </tr>
 </tbody>
@@ -1514,6 +1495,7 @@ AdvancedFilterStringBeginsWithOperatorType
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.AdvancedFilter">AdvancedFilter</a>)
 </p>
 <div>
+<p>Deprecated version of AdvancedFilter_StringContains. Use v1beta20200601.AdvancedFilter_StringContains instead</p>
 </div>
 <table>
 <thead>
@@ -1531,7 +1513,6 @@ string
 </em>
 </td>
 <td>
-<p>Key: The field/property in the event based on which you want to filter.</p>
 </td>
 </tr>
 <tr>
@@ -1554,7 +1535,6 @@ AdvancedFilterStringContainsOperatorType
 </em>
 </td>
 <td>
-<p>Values: The set of filter values.</p>
 </td>
 </tr>
 </tbody>
@@ -1565,6 +1545,7 @@ AdvancedFilterStringContainsOperatorType
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.AdvancedFilterARM">AdvancedFilterARM</a>)
 </p>
 <div>
+<p>Deprecated version of AdvancedFilter_StringContains. Use v1beta20200601.AdvancedFilter_StringContains instead</p>
 </div>
 <table>
 <thead>
@@ -1582,7 +1563,6 @@ string
 </em>
 </td>
 <td>
-<p>Key: The field/property in the event based on which you want to filter.</p>
 </td>
 </tr>
 <tr>
@@ -1605,7 +1585,6 @@ AdvancedFilterStringContainsOperatorType
 </em>
 </td>
 <td>
-<p>Values: The set of filter values.</p>
 </td>
 </tr>
 </tbody>
@@ -1616,6 +1595,7 @@ AdvancedFilterStringContainsOperatorType
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.AdvancedFilter">AdvancedFilter</a>)
 </p>
 <div>
+<p>Deprecated version of AdvancedFilter_StringEndsWith. Use v1beta20200601.AdvancedFilter_StringEndsWith instead</p>
 </div>
 <table>
 <thead>
@@ -1633,7 +1613,6 @@ string
 </em>
 </td>
 <td>
-<p>Key: The field/property in the event based on which you want to filter.</p>
 </td>
 </tr>
 <tr>
@@ -1656,7 +1635,6 @@ AdvancedFilterStringEndsWithOperatorType
 </em>
 </td>
 <td>
-<p>Values: The set of filter values.</p>
 </td>
 </tr>
 </tbody>
@@ -1667,6 +1645,7 @@ AdvancedFilterStringEndsWithOperatorType
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.AdvancedFilterARM">AdvancedFilterARM</a>)
 </p>
 <div>
+<p>Deprecated version of AdvancedFilter_StringEndsWith. Use v1beta20200601.AdvancedFilter_StringEndsWith instead</p>
 </div>
 <table>
 <thead>
@@ -1684,7 +1663,6 @@ string
 </em>
 </td>
 <td>
-<p>Key: The field/property in the event based on which you want to filter.</p>
 </td>
 </tr>
 <tr>
@@ -1707,7 +1685,6 @@ AdvancedFilterStringEndsWithOperatorType
 </em>
 </td>
 <td>
-<p>Values: The set of filter values.</p>
 </td>
 </tr>
 </tbody>
@@ -1718,6 +1695,7 @@ AdvancedFilterStringEndsWithOperatorType
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.AdvancedFilter">AdvancedFilter</a>)
 </p>
 <div>
+<p>Deprecated version of AdvancedFilter_StringIn. Use v1beta20200601.AdvancedFilter_StringIn instead</p>
 </div>
 <table>
 <thead>
@@ -1735,7 +1713,6 @@ string
 </em>
 </td>
 <td>
-<p>Key: The field/property in the event based on which you want to filter.</p>
 </td>
 </tr>
 <tr>
@@ -1758,7 +1735,6 @@ AdvancedFilterStringInOperatorType
 </em>
 </td>
 <td>
-<p>Values: The set of filter values.</p>
 </td>
 </tr>
 </tbody>
@@ -1769,6 +1745,7 @@ AdvancedFilterStringInOperatorType
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.AdvancedFilterARM">AdvancedFilterARM</a>)
 </p>
 <div>
+<p>Deprecated version of AdvancedFilter_StringIn. Use v1beta20200601.AdvancedFilter_StringIn instead</p>
 </div>
 <table>
 <thead>
@@ -1786,7 +1763,6 @@ string
 </em>
 </td>
 <td>
-<p>Key: The field/property in the event based on which you want to filter.</p>
 </td>
 </tr>
 <tr>
@@ -1809,7 +1785,6 @@ AdvancedFilterStringInOperatorType
 </em>
 </td>
 <td>
-<p>Values: The set of filter values.</p>
 </td>
 </tr>
 </tbody>
@@ -1820,6 +1795,7 @@ AdvancedFilterStringInOperatorType
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.AdvancedFilter">AdvancedFilter</a>)
 </p>
 <div>
+<p>Deprecated version of AdvancedFilter_StringNotIn. Use v1beta20200601.AdvancedFilter_StringNotIn instead</p>
 </div>
 <table>
 <thead>
@@ -1837,7 +1813,6 @@ string
 </em>
 </td>
 <td>
-<p>Key: The field/property in the event based on which you want to filter.</p>
 </td>
 </tr>
 <tr>
@@ -1860,7 +1835,6 @@ AdvancedFilterStringNotInOperatorType
 </em>
 </td>
 <td>
-<p>Values: The set of filter values.</p>
 </td>
 </tr>
 </tbody>
@@ -1871,6 +1845,7 @@ AdvancedFilterStringNotInOperatorType
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.AdvancedFilterARM">AdvancedFilterARM</a>)
 </p>
 <div>
+<p>Deprecated version of AdvancedFilter_StringNotIn. Use v1beta20200601.AdvancedFilter_StringNotIn instead</p>
 </div>
 <table>
 <thead>
@@ -1888,7 +1863,6 @@ string
 </em>
 </td>
 <td>
-<p>Key: The field/property in the event based on which you want to filter.</p>
 </td>
 </tr>
 <tr>
@@ -1911,7 +1885,6 @@ AdvancedFilterStringNotInOperatorType
 </em>
 </td>
 <td>
-<p>Values: The set of filter values.</p>
 </td>
 </tr>
 </tbody>
@@ -1922,7 +1895,7 @@ AdvancedFilterStringNotInOperatorType
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.EventSubscriptionDestination">EventSubscriptionDestination</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/AzureFunctionEventSubscriptionDestination">https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/AzureFunctionEventSubscriptionDestination</a></p>
+<p>Deprecated version of AzureFunctionEventSubscriptionDestination. Use v1beta20200601.AzureFunctionEventSubscriptionDestination instead</p>
 </div>
 <table>
 <thead>
@@ -1954,7 +1927,6 @@ AzureFunctionEventSubscriptionDestinationProperties
 </em>
 </td>
 <td>
-<p>Properties: The properties that represent the Azure Function destination of an event subscription.</p>
 </td>
 </tr>
 </tbody>
@@ -1965,7 +1937,7 @@ AzureFunctionEventSubscriptionDestinationProperties
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.EventSubscriptionDestinationARM">EventSubscriptionDestinationARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/AzureFunctionEventSubscriptionDestination">https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/AzureFunctionEventSubscriptionDestination</a></p>
+<p>Deprecated version of AzureFunctionEventSubscriptionDestination. Use v1beta20200601.AzureFunctionEventSubscriptionDestination instead</p>
 </div>
 <table>
 <thead>
@@ -1997,7 +1969,6 @@ AzureFunctionEventSubscriptionDestinationPropertiesARM
 </em>
 </td>
 <td>
-<p>Properties: The properties that represent the Azure Function destination of an event subscription.</p>
 </td>
 </tr>
 </tbody>
@@ -2008,6 +1979,8 @@ AzureFunctionEventSubscriptionDestinationPropertiesARM
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.AzureFunctionEventSubscriptionDestination">AzureFunctionEventSubscriptionDestination</a>, <a href="#eventgrid.azure.com/v1alpha1api20200601.AzureFunctionEventSubscriptionDestinationARM">AzureFunctionEventSubscriptionDestinationARM</a>)
 </p>
 <div>
+<p>Deprecated version of AzureFunctionEventSubscriptionDestinationEndpointType. Use
+v1beta20200601.AzureFunctionEventSubscriptionDestinationEndpointType instead</p>
 </div>
 <table>
 <thead>
@@ -2026,7 +1999,7 @@ AzureFunctionEventSubscriptionDestinationPropertiesARM
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.AzureFunctionEventSubscriptionDestination">AzureFunctionEventSubscriptionDestination</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/AzureFunctionEventSubscriptionDestinationProperties">https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/AzureFunctionEventSubscriptionDestinationProperties</a></p>
+<p>Deprecated version of AzureFunctionEventSubscriptionDestinationProperties. Use v1beta20200601.AzureFunctionEventSubscriptionDestinationProperties instead</p>
 </div>
 <table>
 <thead>
@@ -2044,7 +2017,6 @@ int
 </em>
 </td>
 <td>
-<p>MaxEventsPerBatch: Maximum number of events per batch.</p>
 </td>
 </tr>
 <tr>
@@ -2055,7 +2027,6 @@ int
 </em>
 </td>
 <td>
-<p>PreferredBatchSizeInKilobytes: Preferred batch size in Kilobytes.</p>
 </td>
 </tr>
 <tr>
@@ -2068,8 +2039,6 @@ genruntime.ResourceReference
 </em>
 </td>
 <td>
-<p>ResourceReference: The Azure Resource Id that represents the endpoint of the Azure Function destination of an event
-subscription.</p>
 </td>
 </tr>
 </tbody>
@@ -2080,7 +2049,7 @@ subscription.</p>
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.AzureFunctionEventSubscriptionDestinationARM">AzureFunctionEventSubscriptionDestinationARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/AzureFunctionEventSubscriptionDestinationProperties">https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/AzureFunctionEventSubscriptionDestinationProperties</a></p>
+<p>Deprecated version of AzureFunctionEventSubscriptionDestinationProperties. Use v1beta20200601.AzureFunctionEventSubscriptionDestinationProperties instead</p>
 </div>
 <table>
 <thead>
@@ -2098,7 +2067,6 @@ int
 </em>
 </td>
 <td>
-<p>MaxEventsPerBatch: Maximum number of events per batch.</p>
 </td>
 </tr>
 <tr>
@@ -2109,7 +2077,6 @@ int
 </em>
 </td>
 <td>
-<p>PreferredBatchSizeInKilobytes: Preferred batch size in Kilobytes.</p>
 </td>
 </tr>
 <tr>
@@ -2130,6 +2097,8 @@ string
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.DeadLetterDestination_Status">DeadLetterDestination_Status</a>, <a href="#eventgrid.azure.com/v1alpha1api20200601.DeadLetterDestination_StatusARM">DeadLetterDestination_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of DeadLetterDestinationStatusEndpointType. Use
+v1beta20200601.DeadLetterDestinationStatusEndpointType instead</p>
 </div>
 <table>
 <thead>
@@ -2148,6 +2117,7 @@ string
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.EventSubscription_Status">EventSubscription_Status</a>)
 </p>
 <div>
+<p>Deprecated version of DeadLetterDestination_Status. Use v1beta20200601.DeadLetterDestination_Status instead</p>
 </div>
 <table>
 <thead>
@@ -2167,7 +2137,6 @@ DeadLetterDestinationStatusEndpointType
 </em>
 </td>
 <td>
-<p>EndpointType: Type of the endpoint for the dead letter destination</p>
 </td>
 </tr>
 </tbody>
@@ -2178,6 +2147,7 @@ DeadLetterDestinationStatusEndpointType
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.EventSubscriptionProperties_StatusARM">EventSubscriptionProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of DeadLetterDestination_Status. Use v1beta20200601.DeadLetterDestination_Status instead</p>
 </div>
 <table>
 <thead>
@@ -2197,7 +2167,6 @@ DeadLetterDestinationStatusEndpointType
 </em>
 </td>
 <td>
-<p>EndpointType: Type of the endpoint for the dead letter destination</p>
 </td>
 </tr>
 </tbody>
@@ -2205,7 +2174,7 @@ DeadLetterDestinationStatusEndpointType
 <h3 id="eventgrid.azure.com/v1alpha1api20200601.Domain">Domain
 </h3>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/resourceDefinitions/domains">https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/resourceDefinitions/domains</a></p>
+<p>Deprecated version of Domain. Use v1beta20200601.Domain instead</p>
 </div>
 <table>
 <thead>
@@ -2264,8 +2233,6 @@ doesn&rsquo;t have to be.</p>
 </em>
 </td>
 <td>
-<p>InboundIpRules: This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered
-only if PublicNetworkAccess is enabled.</p>
 </td>
 </tr>
 <tr>
@@ -2278,7 +2245,6 @@ DomainPropertiesInputSchema
 </em>
 </td>
 <td>
-<p>InputSchema: This determines the format that Event Grid should expect for incoming events published to the domain.</p>
 </td>
 </tr>
 <tr>
@@ -2291,9 +2257,6 @@ JsonInputSchemaMapping
 </em>
 </td>
 <td>
-<p>InputSchemaMapping: By default, Event Grid expects events to be in the Event Grid event schema. Specifying an input
-schema mapping enables publishing to Event Grid using a custom input schema. Currently, the only supported type of
-InputSchemaMapping is &lsquo;JsonInputSchemaMapping&rsquo;.</p>
 </td>
 </tr>
 <tr>
@@ -2304,7 +2267,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -2317,6 +2279,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -2329,9 +2294,6 @@ DomainPropertiesPublicNetworkAccess
 </em>
 </td>
 <td>
-<p>PublicNetworkAccess: This determines if traffic is allowed over public network. By default it is enabled.
-You can further restrict to specific IPs by configuring <seealso
-cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainProperties.InboundIpRules" />.</p>
 </td>
 </tr>
 <tr>
@@ -2342,7 +2304,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </table>
@@ -2368,7 +2329,7 @@ Domain_Status
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.Domains_SpecARM">Domains_SpecARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/DomainProperties">https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/DomainProperties</a></p>
+<p>Deprecated version of DomainProperties. Use v1beta20200601.DomainProperties instead</p>
 </div>
 <table>
 <thead>
@@ -2388,8 +2349,6 @@ Domain_Status
 </em>
 </td>
 <td>
-<p>InboundIpRules: This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered
-only if PublicNetworkAccess is enabled.</p>
 </td>
 </tr>
 <tr>
@@ -2402,7 +2361,6 @@ DomainPropertiesInputSchema
 </em>
 </td>
 <td>
-<p>InputSchema: This determines the format that Event Grid should expect for incoming events published to the domain.</p>
 </td>
 </tr>
 <tr>
@@ -2415,9 +2373,6 @@ JsonInputSchemaMappingARM
 </em>
 </td>
 <td>
-<p>InputSchemaMapping: By default, Event Grid expects events to be in the Event Grid event schema. Specifying an input
-schema mapping enables publishing to Event Grid using a custom input schema. Currently, the only supported type of
-InputSchemaMapping is &lsquo;JsonInputSchemaMapping&rsquo;.</p>
 </td>
 </tr>
 <tr>
@@ -2430,9 +2385,6 @@ DomainPropertiesPublicNetworkAccess
 </em>
 </td>
 <td>
-<p>PublicNetworkAccess: This determines if traffic is allowed over public network. By default it is enabled.
-You can further restrict to specific IPs by configuring <seealso
-cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainProperties.InboundIpRules" />.</p>
 </td>
 </tr>
 </tbody>
@@ -2443,6 +2395,7 @@ cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainPropertie
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.DomainPropertiesARM">DomainPropertiesARM</a>, <a href="#eventgrid.azure.com/v1alpha1api20200601.Domains_Spec">Domains_Spec</a>)
 </p>
 <div>
+<p>Deprecated version of DomainPropertiesInputSchema. Use v1beta20200601.DomainPropertiesInputSchema instead</p>
 </div>
 <table>
 <thead>
@@ -2465,6 +2418,7 @@ cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainPropertie
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.DomainPropertiesARM">DomainPropertiesARM</a>, <a href="#eventgrid.azure.com/v1alpha1api20200601.Domains_Spec">Domains_Spec</a>)
 </p>
 <div>
+<p>Deprecated version of DomainPropertiesPublicNetworkAccess. Use v1beta20200601.DomainPropertiesPublicNetworkAccess instead</p>
 </div>
 <table>
 <thead>
@@ -2485,6 +2439,7 @@ cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainPropertie
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.DomainProperties_StatusARM">DomainProperties_StatusARM</a>, <a href="#eventgrid.azure.com/v1alpha1api20200601.Domain_Status">Domain_Status</a>)
 </p>
 <div>
+<p>Deprecated version of DomainPropertiesStatusInputSchema. Use v1beta20200601.DomainPropertiesStatusInputSchema instead</p>
 </div>
 <table>
 <thead>
@@ -2507,6 +2462,8 @@ cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainPropertie
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.DomainProperties_StatusARM">DomainProperties_StatusARM</a>, <a href="#eventgrid.azure.com/v1alpha1api20200601.Domain_Status">Domain_Status</a>)
 </p>
 <div>
+<p>Deprecated version of DomainPropertiesStatusProvisioningState. Use
+v1beta20200601.DomainPropertiesStatusProvisioningState instead</p>
 </div>
 <table>
 <thead>
@@ -2535,6 +2492,8 @@ cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainPropertie
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.DomainProperties_StatusARM">DomainProperties_StatusARM</a>, <a href="#eventgrid.azure.com/v1alpha1api20200601.Domain_Status">Domain_Status</a>)
 </p>
 <div>
+<p>Deprecated version of DomainPropertiesStatusPublicNetworkAccess. Use
+v1beta20200601.DomainPropertiesStatusPublicNetworkAccess instead</p>
 </div>
 <table>
 <thead>
@@ -2555,6 +2514,7 @@ cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainPropertie
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.Domain_StatusARM">Domain_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of DomainProperties_Status. Use v1beta20200601.DomainProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -2572,7 +2532,6 @@ string
 </em>
 </td>
 <td>
-<p>Endpoint: Endpoint for the domain.</p>
 </td>
 </tr>
 <tr>
@@ -2585,8 +2544,6 @@ string
 </em>
 </td>
 <td>
-<p>InboundIpRules: This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered
-only if PublicNetworkAccess is enabled.</p>
 </td>
 </tr>
 <tr>
@@ -2599,7 +2556,6 @@ DomainPropertiesStatusInputSchema
 </em>
 </td>
 <td>
-<p>InputSchema: This determines the format that Event Grid should expect for incoming events published to the domain.</p>
 </td>
 </tr>
 <tr>
@@ -2612,7 +2568,6 @@ InputSchemaMapping_StatusARM
 </em>
 </td>
 <td>
-<p>InputSchemaMapping: Information about the InputSchemaMapping which specified the info about mapping event payload.</p>
 </td>
 </tr>
 <tr>
@@ -2623,7 +2578,6 @@ string
 </em>
 </td>
 <td>
-<p>MetricResourceId: Metric resource id for the domain.</p>
 </td>
 </tr>
 <tr>
@@ -2636,7 +2590,6 @@ string
 </em>
 </td>
 <td>
-<p>PrivateEndpointConnections: List of private endpoint connections.</p>
 </td>
 </tr>
 <tr>
@@ -2649,7 +2602,6 @@ DomainPropertiesStatusProvisioningState
 </em>
 </td>
 <td>
-<p>ProvisioningState: Provisioning state of the domain.</p>
 </td>
 </tr>
 <tr>
@@ -2662,9 +2614,6 @@ DomainPropertiesStatusPublicNetworkAccess
 </em>
 </td>
 <td>
-<p>PublicNetworkAccess: This determines if traffic is allowed over public network. By default it is enabled.
-You can further restrict to specific IPs by configuring <seealso
-cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainProperties.InboundIpRules" /></p>
 </td>
 </tr>
 </tbody>
@@ -2675,6 +2624,8 @@ cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainPropertie
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.DomainTopicProperties_StatusARM">DomainTopicProperties_StatusARM</a>, <a href="#eventgrid.azure.com/v1alpha1api20200601.DomainTopic_Status">DomainTopic_Status</a>)
 </p>
 <div>
+<p>Deprecated version of DomainTopicPropertiesStatusProvisioningState. Use
+v1beta20200601.DomainTopicPropertiesStatusProvisioningState instead</p>
 </div>
 <table>
 <thead>
@@ -2703,6 +2654,7 @@ cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainPropertie
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.DomainTopic_StatusARM">DomainTopic_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of DomainTopicProperties_Status. Use v1beta20200601.DomainTopicProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -2722,7 +2674,6 @@ DomainTopicPropertiesStatusProvisioningState
 </em>
 </td>
 <td>
-<p>ProvisioningState: Provisioning state of the domain topic.</p>
 </td>
 </tr>
 </tbody>
@@ -2733,6 +2684,7 @@ DomainTopicPropertiesStatusProvisioningState
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.DomainsTopic">DomainsTopic</a>)
 </p>
 <div>
+<p>Deprecated version of DomainTopic_Status. Use v1beta20200601.DomainTopic_Status instead</p>
 </div>
 <table>
 <thead>
@@ -2763,7 +2715,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Fully qualified identifier of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -2774,7 +2725,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Name of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -2787,7 +2737,6 @@ DomainTopicPropertiesStatusProvisioningState
 </em>
 </td>
 <td>
-<p>ProvisioningState: Provisioning state of the domain topic.</p>
 </td>
 </tr>
 <tr>
@@ -2800,7 +2749,6 @@ SystemData_Status
 </em>
 </td>
 <td>
-<p>SystemData: The system metadata relating to Domain Topic resource.</p>
 </td>
 </tr>
 <tr>
@@ -2811,7 +2759,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: Type of the resource.</p>
 </td>
 </tr>
 </tbody>
@@ -2819,6 +2766,7 @@ string
 <h3 id="eventgrid.azure.com/v1alpha1api20200601.DomainTopic_StatusARM">DomainTopic_StatusARM
 </h3>
 <div>
+<p>Deprecated version of DomainTopic_Status. Use v1beta20200601.DomainTopic_Status instead</p>
 </div>
 <table>
 <thead>
@@ -2836,7 +2784,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Fully qualified identifier of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -2847,7 +2794,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Name of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -2860,7 +2806,6 @@ DomainTopicProperties_StatusARM
 </em>
 </td>
 <td>
-<p>Properties: Properties of the Domain Topic.</p>
 </td>
 </tr>
 <tr>
@@ -2873,7 +2818,6 @@ SystemData_StatusARM
 </em>
 </td>
 <td>
-<p>SystemData: The system metadata relating to Domain Topic resource.</p>
 </td>
 </tr>
 <tr>
@@ -2884,7 +2828,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: Type of the resource.</p>
 </td>
 </tr>
 </tbody>
@@ -2895,6 +2838,7 @@ string
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.Domain">Domain</a>)
 </p>
 <div>
+<p>Deprecated version of Domain_Status. Use v1beta20200601.Domain_Status instead</p>
 </div>
 <table>
 <thead>
@@ -2925,7 +2869,6 @@ string
 </em>
 </td>
 <td>
-<p>Endpoint: Endpoint for the domain.</p>
 </td>
 </tr>
 <tr>
@@ -2936,7 +2879,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Fully qualified identifier of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -2949,8 +2891,6 @@ string
 </em>
 </td>
 <td>
-<p>InboundIpRules: This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered
-only if PublicNetworkAccess is enabled.</p>
 </td>
 </tr>
 <tr>
@@ -2963,7 +2903,6 @@ DomainPropertiesStatusInputSchema
 </em>
 </td>
 <td>
-<p>InputSchema: This determines the format that Event Grid should expect for incoming events published to the domain.</p>
 </td>
 </tr>
 <tr>
@@ -2976,7 +2915,6 @@ InputSchemaMapping_Status
 </em>
 </td>
 <td>
-<p>InputSchemaMapping: Information about the InputSchemaMapping which specified the info about mapping event payload.</p>
 </td>
 </tr>
 <tr>
@@ -2987,7 +2925,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -2998,7 +2935,6 @@ string
 </em>
 </td>
 <td>
-<p>MetricResourceId: Metric resource id for the domain.</p>
 </td>
 </tr>
 <tr>
@@ -3009,7 +2945,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Name of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -3022,7 +2957,6 @@ string
 </em>
 </td>
 <td>
-<p>PrivateEndpointConnections: List of private endpoint connections.</p>
 </td>
 </tr>
 <tr>
@@ -3035,7 +2969,6 @@ DomainPropertiesStatusProvisioningState
 </em>
 </td>
 <td>
-<p>ProvisioningState: Provisioning state of the domain.</p>
 </td>
 </tr>
 <tr>
@@ -3048,9 +2981,6 @@ DomainPropertiesStatusPublicNetworkAccess
 </em>
 </td>
 <td>
-<p>PublicNetworkAccess: This determines if traffic is allowed over public network. By default it is enabled.
-You can further restrict to specific IPs by configuring <seealso
-cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainProperties.InboundIpRules" /></p>
 </td>
 </tr>
 <tr>
@@ -3063,7 +2993,6 @@ SystemData_Status
 </em>
 </td>
 <td>
-<p>SystemData: The system metadata relating to Domain resource.</p>
 </td>
 </tr>
 <tr>
@@ -3074,7 +3003,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Tags of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -3085,7 +3013,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: Type of the resource.</p>
 </td>
 </tr>
 </tbody>
@@ -3093,6 +3020,7 @@ string
 <h3 id="eventgrid.azure.com/v1alpha1api20200601.Domain_StatusARM">Domain_StatusARM
 </h3>
 <div>
+<p>Deprecated version of Domain_Status. Use v1beta20200601.Domain_Status instead</p>
 </div>
 <table>
 <thead>
@@ -3110,7 +3038,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Fully qualified identifier of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -3121,7 +3048,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -3132,7 +3058,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Name of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -3145,7 +3070,6 @@ DomainProperties_StatusARM
 </em>
 </td>
 <td>
-<p>Properties: Properties of the domain.</p>
 </td>
 </tr>
 <tr>
@@ -3158,7 +3082,6 @@ SystemData_StatusARM
 </em>
 </td>
 <td>
-<p>SystemData: The system metadata relating to Domain resource.</p>
 </td>
 </tr>
 <tr>
@@ -3169,7 +3092,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Tags of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -3180,30 +3102,14 @@ string
 </em>
 </td>
 <td>
-<p>Type: Type of the resource.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="eventgrid.azure.com/v1alpha1api20200601.DomainsSpecAPIVersion">DomainsSpecAPIVersion
-(<code>string</code> alias)</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;2020-06-01&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
 <h3 id="eventgrid.azure.com/v1alpha1api20200601.DomainsTopic">DomainsTopic
 </h3>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/resourceDefinitions/domains_topics">https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/resourceDefinitions/domains_topics</a></p>
+<p>Deprecated version of DomainsTopic. Use v1beta20200601.DomainsTopic instead</p>
 </div>
 <table>
 <thead>
@@ -3260,7 +3166,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -3273,6 +3178,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a eventgrid.azure.com/Domain resource</p>
 </td>
 </tr>
 <tr>
@@ -3283,7 +3191,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </table>
@@ -3302,21 +3209,6 @@ DomainTopic_Status
 </td>
 </tr>
 </tbody>
-</table>
-<h3 id="eventgrid.azure.com/v1alpha1api20200601.DomainsTopicsSpecAPIVersion">DomainsTopicsSpecAPIVersion
-(<code>string</code> alias)</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;2020-06-01&#34;</p></td>
-<td></td>
-</tr></tbody>
 </table>
 <h3 id="eventgrid.azure.com/v1alpha1api20200601.DomainsTopics_Spec">DomainsTopics_Spec
 </h3>
@@ -3353,7 +3245,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -3366,6 +3257,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a eventgrid.azure.com/Domain resource</p>
 </td>
 </tr>
 <tr>
@@ -3376,7 +3270,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </tbody>
@@ -3384,6 +3277,7 @@ map[string]string
 <h3 id="eventgrid.azure.com/v1alpha1api20200601.DomainsTopics_SpecARM">DomainsTopics_SpecARM
 </h3>
 <div>
+<p>Deprecated version of DomainsTopics_Spec. Use v1beta20200601.DomainsTopics_Spec instead</p>
 </div>
 <table>
 <thead>
@@ -3401,7 +3295,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -3412,7 +3305,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Name of the domain topic.</p>
 </td>
 </tr>
 <tr>
@@ -3423,7 +3315,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </tbody>
@@ -3465,8 +3356,6 @@ doesn&rsquo;t have to be.</p>
 </em>
 </td>
 <td>
-<p>InboundIpRules: This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered
-only if PublicNetworkAccess is enabled.</p>
 </td>
 </tr>
 <tr>
@@ -3479,7 +3368,6 @@ DomainPropertiesInputSchema
 </em>
 </td>
 <td>
-<p>InputSchema: This determines the format that Event Grid should expect for incoming events published to the domain.</p>
 </td>
 </tr>
 <tr>
@@ -3492,9 +3380,6 @@ JsonInputSchemaMapping
 </em>
 </td>
 <td>
-<p>InputSchemaMapping: By default, Event Grid expects events to be in the Event Grid event schema. Specifying an input
-schema mapping enables publishing to Event Grid using a custom input schema. Currently, the only supported type of
-InputSchemaMapping is &lsquo;JsonInputSchemaMapping&rsquo;.</p>
 </td>
 </tr>
 <tr>
@@ -3505,7 +3390,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -3518,6 +3402,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -3530,9 +3417,6 @@ DomainPropertiesPublicNetworkAccess
 </em>
 </td>
 <td>
-<p>PublicNetworkAccess: This determines if traffic is allowed over public network. By default it is enabled.
-You can further restrict to specific IPs by configuring <seealso
-cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainProperties.InboundIpRules" />.</p>
 </td>
 </tr>
 <tr>
@@ -3543,7 +3427,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </tbody>
@@ -3551,6 +3434,7 @@ map[string]string
 <h3 id="eventgrid.azure.com/v1alpha1api20200601.Domains_SpecARM">Domains_SpecARM
 </h3>
 <div>
+<p>Deprecated version of Domains_Spec. Use v1beta20200601.Domains_Spec instead</p>
 </div>
 <table>
 <thead>
@@ -3568,7 +3452,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -3579,7 +3462,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Name of the resource</p>
 </td>
 </tr>
 <tr>
@@ -3592,7 +3474,6 @@ DomainPropertiesARM
 </em>
 </td>
 <td>
-<p>Properties: Properties of the Domain.</p>
 </td>
 </tr>
 <tr>
@@ -3603,7 +3484,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </tbody>
@@ -3614,7 +3494,7 @@ map[string]string
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.EventSubscriptionDestination">EventSubscriptionDestination</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/EventHubEventSubscriptionDestination">https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/EventHubEventSubscriptionDestination</a></p>
+<p>Deprecated version of EventHubEventSubscriptionDestination. Use v1beta20200601.EventHubEventSubscriptionDestination instead</p>
 </div>
 <table>
 <thead>
@@ -3646,7 +3526,6 @@ EventHubEventSubscriptionDestinationProperties
 </em>
 </td>
 <td>
-<p>Properties: The properties for a event hub destination.</p>
 </td>
 </tr>
 </tbody>
@@ -3657,7 +3536,7 @@ EventHubEventSubscriptionDestinationProperties
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.EventSubscriptionDestinationARM">EventSubscriptionDestinationARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/EventHubEventSubscriptionDestination">https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/EventHubEventSubscriptionDestination</a></p>
+<p>Deprecated version of EventHubEventSubscriptionDestination. Use v1beta20200601.EventHubEventSubscriptionDestination instead</p>
 </div>
 <table>
 <thead>
@@ -3689,7 +3568,6 @@ EventHubEventSubscriptionDestinationPropertiesARM
 </em>
 </td>
 <td>
-<p>Properties: The properties for a event hub destination.</p>
 </td>
 </tr>
 </tbody>
@@ -3700,6 +3578,8 @@ EventHubEventSubscriptionDestinationPropertiesARM
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.EventHubEventSubscriptionDestination">EventHubEventSubscriptionDestination</a>, <a href="#eventgrid.azure.com/v1alpha1api20200601.EventHubEventSubscriptionDestinationARM">EventHubEventSubscriptionDestinationARM</a>)
 </p>
 <div>
+<p>Deprecated version of EventHubEventSubscriptionDestinationEndpointType. Use
+v1beta20200601.EventHubEventSubscriptionDestinationEndpointType instead</p>
 </div>
 <table>
 <thead>
@@ -3718,7 +3598,7 @@ EventHubEventSubscriptionDestinationPropertiesARM
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.EventHubEventSubscriptionDestination">EventHubEventSubscriptionDestination</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/EventHubEventSubscriptionDestinationProperties">https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/EventHubEventSubscriptionDestinationProperties</a></p>
+<p>Deprecated version of EventHubEventSubscriptionDestinationProperties. Use v1beta20200601.EventHubEventSubscriptionDestinationProperties instead</p>
 </div>
 <table>
 <thead>
@@ -3738,8 +3618,6 @@ genruntime.ResourceReference
 </em>
 </td>
 <td>
-<p>ResourceReference: The Azure Resource Id that represents the endpoint of an Event Hub destination of an event
-subscription.</p>
 </td>
 </tr>
 </tbody>
@@ -3750,7 +3628,7 @@ subscription.</p>
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.EventHubEventSubscriptionDestinationARM">EventHubEventSubscriptionDestinationARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/EventHubEventSubscriptionDestinationProperties">https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/EventHubEventSubscriptionDestinationProperties</a></p>
+<p>Deprecated version of EventHubEventSubscriptionDestinationProperties. Use v1beta20200601.EventHubEventSubscriptionDestinationProperties instead</p>
 </div>
 <table>
 <thead>
@@ -3775,7 +3653,7 @@ string
 <h3 id="eventgrid.azure.com/v1alpha1api20200601.EventSubscription">EventSubscription
 </h3>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/unknown_resourceDefinitions/eventSubscriptions">https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/unknown_resourceDefinitions/eventSubscriptions</a></p>
+<p>Deprecated version of EventSubscription. Use v1beta20200601.EventSubscription instead</p>
 </div>
 <table>
 <thead>
@@ -3834,9 +3712,6 @@ StorageBlobDeadLetterDestination
 </em>
 </td>
 <td>
-<p>DeadLetterDestination: Information about the dead letter destination for an event subscription. To configure a
-deadletter destination, do not directly instantiate an object of this class. Instead, instantiate an object of a derived
-class. Currently, StorageBlobDeadLetterDestination is the only class that derives from this class.</p>
 </td>
 </tr>
 <tr>
@@ -3849,7 +3724,6 @@ EventSubscriptionDestination
 </em>
 </td>
 <td>
-<p>Destination: Information about the destination for an event subscription.</p>
 </td>
 </tr>
 <tr>
@@ -3862,7 +3736,6 @@ EventSubscriptionPropertiesEventDeliverySchema
 </em>
 </td>
 <td>
-<p>EventDeliverySchema: The event delivery schema for the event subscription.</p>
 </td>
 </tr>
 <tr>
@@ -3873,7 +3746,6 @@ string
 </em>
 </td>
 <td>
-<p>ExpirationTimeUtc: Expiration time of the event subscription.</p>
 </td>
 </tr>
 <tr>
@@ -3886,7 +3758,6 @@ EventSubscriptionFilter
 </em>
 </td>
 <td>
-<p>Filter: Filter for the Event Subscription.</p>
 </td>
 </tr>
 <tr>
@@ -3897,7 +3768,6 @@ EventSubscriptionFilter
 </em>
 </td>
 <td>
-<p>Labels: List of user defined labels.</p>
 </td>
 </tr>
 <tr>
@@ -3908,7 +3778,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -3921,6 +3790,9 @@ genruntime.ArbitraryOwnerReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. This resource is an
+extension resource, which means that any other Azure resource can be its owner.</p>
 </td>
 </tr>
 <tr>
@@ -3933,7 +3805,6 @@ RetryPolicy
 </em>
 </td>
 <td>
-<p>RetryPolicy: Information about the retry policy for an event subscription.</p>
 </td>
 </tr>
 <tr>
@@ -3944,7 +3815,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </table>
@@ -3970,7 +3840,7 @@ EventSubscription_Status
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.EventSubscriptions_Spec">EventSubscriptions_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/EventSubscriptionDestination">https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/EventSubscriptionDestination</a></p>
+<p>Deprecated version of EventSubscriptionDestination. Use v1beta20200601.EventSubscriptionDestination instead</p>
 </div>
 <table>
 <thead>
@@ -3990,7 +3860,6 @@ AzureFunctionEventSubscriptionDestination
 </em>
 </td>
 <td>
-<p>AzureFunction: Mutually exclusive with all other properties</p>
 </td>
 </tr>
 <tr>
@@ -4003,7 +3872,6 @@ EventHubEventSubscriptionDestination
 </em>
 </td>
 <td>
-<p>EventHub: Mutually exclusive with all other properties</p>
 </td>
 </tr>
 <tr>
@@ -4016,7 +3884,6 @@ HybridConnectionEventSubscriptionDestination
 </em>
 </td>
 <td>
-<p>HybridConnection: Mutually exclusive with all other properties</p>
 </td>
 </tr>
 <tr>
@@ -4029,7 +3896,6 @@ ServiceBusQueueEventSubscriptionDestination
 </em>
 </td>
 <td>
-<p>ServiceBusQueue: Mutually exclusive with all other properties</p>
 </td>
 </tr>
 <tr>
@@ -4042,7 +3908,6 @@ ServiceBusTopicEventSubscriptionDestination
 </em>
 </td>
 <td>
-<p>ServiceBusTopic: Mutually exclusive with all other properties</p>
 </td>
 </tr>
 <tr>
@@ -4055,7 +3920,6 @@ StorageQueueEventSubscriptionDestination
 </em>
 </td>
 <td>
-<p>StorageQueue: Mutually exclusive with all other properties</p>
 </td>
 </tr>
 <tr>
@@ -4068,7 +3932,6 @@ WebHookEventSubscriptionDestination
 </em>
 </td>
 <td>
-<p>WebHook: Mutually exclusive with all other properties</p>
 </td>
 </tr>
 </tbody>
@@ -4079,7 +3942,7 @@ WebHookEventSubscriptionDestination
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.EventSubscriptionPropertiesARM">EventSubscriptionPropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/EventSubscriptionDestination">https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/EventSubscriptionDestination</a></p>
+<p>Deprecated version of EventSubscriptionDestination. Use v1beta20200601.EventSubscriptionDestination instead</p>
 </div>
 <table>
 <thead>
@@ -4099,7 +3962,6 @@ AzureFunctionEventSubscriptionDestinationARM
 </em>
 </td>
 <td>
-<p>AzureFunction: Mutually exclusive with all other properties</p>
 </td>
 </tr>
 <tr>
@@ -4112,7 +3974,6 @@ EventHubEventSubscriptionDestinationARM
 </em>
 </td>
 <td>
-<p>EventHub: Mutually exclusive with all other properties</p>
 </td>
 </tr>
 <tr>
@@ -4125,7 +3986,6 @@ HybridConnectionEventSubscriptionDestinationARM
 </em>
 </td>
 <td>
-<p>HybridConnection: Mutually exclusive with all other properties</p>
 </td>
 </tr>
 <tr>
@@ -4138,7 +3998,6 @@ ServiceBusQueueEventSubscriptionDestinationARM
 </em>
 </td>
 <td>
-<p>ServiceBusQueue: Mutually exclusive with all other properties</p>
 </td>
 </tr>
 <tr>
@@ -4151,7 +4010,6 @@ ServiceBusTopicEventSubscriptionDestinationARM
 </em>
 </td>
 <td>
-<p>ServiceBusTopic: Mutually exclusive with all other properties</p>
 </td>
 </tr>
 <tr>
@@ -4164,7 +4022,6 @@ StorageQueueEventSubscriptionDestinationARM
 </em>
 </td>
 <td>
-<p>StorageQueue: Mutually exclusive with all other properties</p>
 </td>
 </tr>
 <tr>
@@ -4177,7 +4034,6 @@ WebHookEventSubscriptionDestinationARM
 </em>
 </td>
 <td>
-<p>WebHook: Mutually exclusive with all other properties</p>
 </td>
 </tr>
 </tbody>
@@ -4188,6 +4044,8 @@ WebHookEventSubscriptionDestinationARM
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.EventSubscriptionDestination_Status">EventSubscriptionDestination_Status</a>, <a href="#eventgrid.azure.com/v1alpha1api20200601.EventSubscriptionDestination_StatusARM">EventSubscriptionDestination_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of EventSubscriptionDestinationStatusEndpointType. Use
+v1beta20200601.EventSubscriptionDestinationStatusEndpointType instead</p>
 </div>
 <table>
 <thead>
@@ -4218,6 +4076,7 @@ WebHookEventSubscriptionDestinationARM
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.EventSubscription_Status">EventSubscription_Status</a>)
 </p>
 <div>
+<p>Deprecated version of EventSubscriptionDestination_Status. Use v1beta20200601.EventSubscriptionDestination_Status instead</p>
 </div>
 <table>
 <thead>
@@ -4237,7 +4096,6 @@ EventSubscriptionDestinationStatusEndpointType
 </em>
 </td>
 <td>
-<p>EndpointType: Type of the endpoint for the event subscription destination.</p>
 </td>
 </tr>
 </tbody>
@@ -4248,6 +4106,7 @@ EventSubscriptionDestinationStatusEndpointType
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.EventSubscriptionProperties_StatusARM">EventSubscriptionProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of EventSubscriptionDestination_Status. Use v1beta20200601.EventSubscriptionDestination_Status instead</p>
 </div>
 <table>
 <thead>
@@ -4267,7 +4126,6 @@ EventSubscriptionDestinationStatusEndpointType
 </em>
 </td>
 <td>
-<p>EndpointType: Type of the endpoint for the event subscription destination.</p>
 </td>
 </tr>
 </tbody>
@@ -4278,7 +4136,7 @@ EventSubscriptionDestinationStatusEndpointType
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.EventSubscriptions_Spec">EventSubscriptions_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/EventSubscriptionFilter">https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/EventSubscriptionFilter</a></p>
+<p>Deprecated version of EventSubscriptionFilter. Use v1beta20200601.EventSubscriptionFilter instead</p>
 </div>
 <table>
 <thead>
@@ -4298,7 +4156,6 @@ EventSubscriptionDestinationStatusEndpointType
 </em>
 </td>
 <td>
-<p>AdvancedFilters: An array of advanced filters that are used for filtering event subscriptions.</p>
 </td>
 </tr>
 <tr>
@@ -4309,8 +4166,6 @@ EventSubscriptionDestinationStatusEndpointType
 </em>
 </td>
 <td>
-<p>IncludedEventTypes: A list of applicable event types that need to be part of the event subscription. If it is desired to
-subscribe to all default event types, set the IncludedEventTypes to null.</p>
 </td>
 </tr>
 <tr>
@@ -4321,8 +4176,6 @@ bool
 </em>
 </td>
 <td>
-<p>IsSubjectCaseSensitive: Specifies if the SubjectBeginsWith and SubjectEndsWith properties of the filter
-should be compared in a case sensitive manner.</p>
 </td>
 </tr>
 <tr>
@@ -4333,9 +4186,6 @@ string
 </em>
 </td>
 <td>
-<p>SubjectBeginsWith: An optional string to filter events for an event subscription based on a resource path prefix.
-The format of this depends on the publisher of the events.
-Wildcard characters are not supported in this path.</p>
 </td>
 </tr>
 <tr>
@@ -4346,8 +4196,6 @@ string
 </em>
 </td>
 <td>
-<p>SubjectEndsWith: An optional string to filter events for an event subscription based on a resource path suffix.
-Wildcard characters are not supported in this path.</p>
 </td>
 </tr>
 </tbody>
@@ -4358,7 +4206,7 @@ Wildcard characters are not supported in this path.</p>
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.EventSubscriptionPropertiesARM">EventSubscriptionPropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/EventSubscriptionFilter">https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/EventSubscriptionFilter</a></p>
+<p>Deprecated version of EventSubscriptionFilter. Use v1beta20200601.EventSubscriptionFilter instead</p>
 </div>
 <table>
 <thead>
@@ -4378,7 +4226,6 @@ Wildcard characters are not supported in this path.</p>
 </em>
 </td>
 <td>
-<p>AdvancedFilters: An array of advanced filters that are used for filtering event subscriptions.</p>
 </td>
 </tr>
 <tr>
@@ -4389,8 +4236,6 @@ Wildcard characters are not supported in this path.</p>
 </em>
 </td>
 <td>
-<p>IncludedEventTypes: A list of applicable event types that need to be part of the event subscription. If it is desired to
-subscribe to all default event types, set the IncludedEventTypes to null.</p>
 </td>
 </tr>
 <tr>
@@ -4401,8 +4246,6 @@ bool
 </em>
 </td>
 <td>
-<p>IsSubjectCaseSensitive: Specifies if the SubjectBeginsWith and SubjectEndsWith properties of the filter
-should be compared in a case sensitive manner.</p>
 </td>
 </tr>
 <tr>
@@ -4413,9 +4256,6 @@ string
 </em>
 </td>
 <td>
-<p>SubjectBeginsWith: An optional string to filter events for an event subscription based on a resource path prefix.
-The format of this depends on the publisher of the events.
-Wildcard characters are not supported in this path.</p>
 </td>
 </tr>
 <tr>
@@ -4426,8 +4266,6 @@ string
 </em>
 </td>
 <td>
-<p>SubjectEndsWith: An optional string to filter events for an event subscription based on a resource path suffix.
-Wildcard characters are not supported in this path.</p>
 </td>
 </tr>
 </tbody>
@@ -4438,6 +4276,7 @@ Wildcard characters are not supported in this path.</p>
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.EventSubscription_Status">EventSubscription_Status</a>)
 </p>
 <div>
+<p>Deprecated version of EventSubscriptionFilter_Status. Use v1beta20200601.EventSubscriptionFilter_Status instead</p>
 </div>
 <table>
 <thead>
@@ -4457,7 +4296,6 @@ Wildcard characters are not supported in this path.</p>
 </em>
 </td>
 <td>
-<p>AdvancedFilters: An array of advanced filters that are used for filtering event subscriptions.</p>
 </td>
 </tr>
 <tr>
@@ -4468,8 +4306,6 @@ Wildcard characters are not supported in this path.</p>
 </em>
 </td>
 <td>
-<p>IncludedEventTypes: A list of applicable event types that need to be part of the event subscription. If it is desired to
-subscribe to all default event types, set the IncludedEventTypes to null.</p>
 </td>
 </tr>
 <tr>
@@ -4480,8 +4316,6 @@ bool
 </em>
 </td>
 <td>
-<p>IsSubjectCaseSensitive: Specifies if the SubjectBeginsWith and SubjectEndsWith properties of the filter
-should be compared in a case sensitive manner.</p>
 </td>
 </tr>
 <tr>
@@ -4492,9 +4326,6 @@ string
 </em>
 </td>
 <td>
-<p>SubjectBeginsWith: An optional string to filter events for an event subscription based on a resource path prefix.
-The format of this depends on the publisher of the events.
-Wildcard characters are not supported in this path.</p>
 </td>
 </tr>
 <tr>
@@ -4505,8 +4336,6 @@ string
 </em>
 </td>
 <td>
-<p>SubjectEndsWith: An optional string to filter events for an event subscription based on a resource path suffix.
-Wildcard characters are not supported in this path.</p>
 </td>
 </tr>
 </tbody>
@@ -4517,6 +4346,7 @@ Wildcard characters are not supported in this path.</p>
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.EventSubscriptionProperties_StatusARM">EventSubscriptionProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of EventSubscriptionFilter_Status. Use v1beta20200601.EventSubscriptionFilter_Status instead</p>
 </div>
 <table>
 <thead>
@@ -4536,7 +4366,6 @@ Wildcard characters are not supported in this path.</p>
 </em>
 </td>
 <td>
-<p>AdvancedFilters: An array of advanced filters that are used for filtering event subscriptions.</p>
 </td>
 </tr>
 <tr>
@@ -4547,8 +4376,6 @@ Wildcard characters are not supported in this path.</p>
 </em>
 </td>
 <td>
-<p>IncludedEventTypes: A list of applicable event types that need to be part of the event subscription. If it is desired to
-subscribe to all default event types, set the IncludedEventTypes to null.</p>
 </td>
 </tr>
 <tr>
@@ -4559,8 +4386,6 @@ bool
 </em>
 </td>
 <td>
-<p>IsSubjectCaseSensitive: Specifies if the SubjectBeginsWith and SubjectEndsWith properties of the filter
-should be compared in a case sensitive manner.</p>
 </td>
 </tr>
 <tr>
@@ -4571,9 +4396,6 @@ string
 </em>
 </td>
 <td>
-<p>SubjectBeginsWith: An optional string to filter events for an event subscription based on a resource path prefix.
-The format of this depends on the publisher of the events.
-Wildcard characters are not supported in this path.</p>
 </td>
 </tr>
 <tr>
@@ -4584,8 +4406,6 @@ string
 </em>
 </td>
 <td>
-<p>SubjectEndsWith: An optional string to filter events for an event subscription based on a resource path suffix.
-Wildcard characters are not supported in this path.</p>
 </td>
 </tr>
 </tbody>
@@ -4596,7 +4416,7 @@ Wildcard characters are not supported in this path.</p>
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.EventSubscriptions_SpecARM">EventSubscriptions_SpecARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/EventSubscriptionProperties">https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/EventSubscriptionProperties</a></p>
+<p>Deprecated version of EventSubscriptionProperties. Use v1beta20200601.EventSubscriptionProperties instead</p>
 </div>
 <table>
 <thead>
@@ -4616,9 +4436,6 @@ StorageBlobDeadLetterDestinationARM
 </em>
 </td>
 <td>
-<p>DeadLetterDestination: Information about the dead letter destination for an event subscription. To configure a
-deadletter destination, do not directly instantiate an object of this class. Instead, instantiate an object of a derived
-class. Currently, StorageBlobDeadLetterDestination is the only class that derives from this class.</p>
 </td>
 </tr>
 <tr>
@@ -4631,7 +4448,6 @@ EventSubscriptionDestinationARM
 </em>
 </td>
 <td>
-<p>Destination: Information about the destination for an event subscription.</p>
 </td>
 </tr>
 <tr>
@@ -4644,7 +4460,6 @@ EventSubscriptionPropertiesEventDeliverySchema
 </em>
 </td>
 <td>
-<p>EventDeliverySchema: The event delivery schema for the event subscription.</p>
 </td>
 </tr>
 <tr>
@@ -4655,7 +4470,6 @@ string
 </em>
 </td>
 <td>
-<p>ExpirationTimeUtc: Expiration time of the event subscription.</p>
 </td>
 </tr>
 <tr>
@@ -4668,7 +4482,6 @@ EventSubscriptionFilterARM
 </em>
 </td>
 <td>
-<p>Filter: Filter for the Event Subscription.</p>
 </td>
 </tr>
 <tr>
@@ -4679,7 +4492,6 @@ EventSubscriptionFilterARM
 </em>
 </td>
 <td>
-<p>Labels: List of user defined labels.</p>
 </td>
 </tr>
 <tr>
@@ -4692,7 +4504,6 @@ RetryPolicyARM
 </em>
 </td>
 <td>
-<p>RetryPolicy: Information about the retry policy for an event subscription.</p>
 </td>
 </tr>
 </tbody>
@@ -4703,6 +4514,8 @@ RetryPolicyARM
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.EventSubscriptionPropertiesARM">EventSubscriptionPropertiesARM</a>, <a href="#eventgrid.azure.com/v1alpha1api20200601.EventSubscriptions_Spec">EventSubscriptions_Spec</a>)
 </p>
 <div>
+<p>Deprecated version of EventSubscriptionPropertiesEventDeliverySchema. Use
+v1beta20200601.EventSubscriptionPropertiesEventDeliverySchema instead</p>
 </div>
 <table>
 <thead>
@@ -4725,6 +4538,8 @@ RetryPolicyARM
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.EventSubscriptionProperties_StatusARM">EventSubscriptionProperties_StatusARM</a>, <a href="#eventgrid.azure.com/v1alpha1api20200601.EventSubscription_Status">EventSubscription_Status</a>)
 </p>
 <div>
+<p>Deprecated version of EventSubscriptionPropertiesStatusEventDeliverySchema. Use
+v1beta20200601.EventSubscriptionPropertiesStatusEventDeliverySchema instead</p>
 </div>
 <table>
 <thead>
@@ -4747,6 +4562,8 @@ RetryPolicyARM
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.EventSubscriptionProperties_StatusARM">EventSubscriptionProperties_StatusARM</a>, <a href="#eventgrid.azure.com/v1alpha1api20200601.EventSubscription_Status">EventSubscription_Status</a>)
 </p>
 <div>
+<p>Deprecated version of EventSubscriptionPropertiesStatusProvisioningState. Use
+v1beta20200601.EventSubscriptionPropertiesStatusProvisioningState instead</p>
 </div>
 <table>
 <thead>
@@ -4777,6 +4594,7 @@ RetryPolicyARM
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.EventSubscription_StatusARM">EventSubscription_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of EventSubscriptionProperties_Status. Use v1beta20200601.EventSubscriptionProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -4796,7 +4614,6 @@ DeadLetterDestination_StatusARM
 </em>
 </td>
 <td>
-<p>DeadLetterDestination: The DeadLetter destination of the event subscription.</p>
 </td>
 </tr>
 <tr>
@@ -4809,7 +4626,6 @@ EventSubscriptionDestination_StatusARM
 </em>
 </td>
 <td>
-<p>Destination: Information about the destination where events have to be delivered for the event subscription.</p>
 </td>
 </tr>
 <tr>
@@ -4822,7 +4638,6 @@ EventSubscriptionPropertiesStatusEventDeliverySchema
 </em>
 </td>
 <td>
-<p>EventDeliverySchema: The event delivery schema for the event subscription.</p>
 </td>
 </tr>
 <tr>
@@ -4833,7 +4648,6 @@ string
 </em>
 </td>
 <td>
-<p>ExpirationTimeUtc: Expiration time of the event subscription.</p>
 </td>
 </tr>
 <tr>
@@ -4846,7 +4660,6 @@ EventSubscriptionFilter_StatusARM
 </em>
 </td>
 <td>
-<p>Filter: Information about the filter for the event subscription.</p>
 </td>
 </tr>
 <tr>
@@ -4857,7 +4670,6 @@ EventSubscriptionFilter_StatusARM
 </em>
 </td>
 <td>
-<p>Labels: List of user defined labels.</p>
 </td>
 </tr>
 <tr>
@@ -4870,7 +4682,6 @@ EventSubscriptionPropertiesStatusProvisioningState
 </em>
 </td>
 <td>
-<p>ProvisioningState: Provisioning state of the event subscription.</p>
 </td>
 </tr>
 <tr>
@@ -4883,8 +4694,6 @@ RetryPolicy_StatusARM
 </em>
 </td>
 <td>
-<p>RetryPolicy: The retry policy for events. This can be used to configure maximum number of delivery attempts and time to
-live for events.</p>
 </td>
 </tr>
 <tr>
@@ -4895,7 +4704,6 @@ string
 </em>
 </td>
 <td>
-<p>Topic: Name of the topic of the event subscription.</p>
 </td>
 </tr>
 </tbody>
@@ -4906,6 +4714,7 @@ string
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.EventSubscription">EventSubscription</a>)
 </p>
 <div>
+<p>Deprecated version of EventSubscription_Status. Use v1beta20200601.EventSubscription_Status instead</p>
 </div>
 <table>
 <thead>
@@ -4938,7 +4747,6 @@ DeadLetterDestination_Status
 </em>
 </td>
 <td>
-<p>DeadLetterDestination: The DeadLetter destination of the event subscription.</p>
 </td>
 </tr>
 <tr>
@@ -4951,7 +4759,6 @@ EventSubscriptionDestination_Status
 </em>
 </td>
 <td>
-<p>Destination: Information about the destination where events have to be delivered for the event subscription.</p>
 </td>
 </tr>
 <tr>
@@ -4964,7 +4771,6 @@ EventSubscriptionPropertiesStatusEventDeliverySchema
 </em>
 </td>
 <td>
-<p>EventDeliverySchema: The event delivery schema for the event subscription.</p>
 </td>
 </tr>
 <tr>
@@ -4975,7 +4781,6 @@ string
 </em>
 </td>
 <td>
-<p>ExpirationTimeUtc: Expiration time of the event subscription.</p>
 </td>
 </tr>
 <tr>
@@ -4988,7 +4793,6 @@ EventSubscriptionFilter_Status
 </em>
 </td>
 <td>
-<p>Filter: Information about the filter for the event subscription.</p>
 </td>
 </tr>
 <tr>
@@ -4999,7 +4803,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Fully qualified identifier of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -5010,7 +4813,6 @@ string
 </em>
 </td>
 <td>
-<p>Labels: List of user defined labels.</p>
 </td>
 </tr>
 <tr>
@@ -5021,7 +4823,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Name of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -5034,7 +4835,6 @@ EventSubscriptionPropertiesStatusProvisioningState
 </em>
 </td>
 <td>
-<p>ProvisioningState: Provisioning state of the event subscription.</p>
 </td>
 </tr>
 <tr>
@@ -5047,8 +4847,6 @@ RetryPolicy_Status
 </em>
 </td>
 <td>
-<p>RetryPolicy: The retry policy for events. This can be used to configure maximum number of delivery attempts and time to
-live for events.</p>
 </td>
 </tr>
 <tr>
@@ -5061,7 +4859,6 @@ SystemData_Status
 </em>
 </td>
 <td>
-<p>SystemData: The system metadata relating to Event Subscription resource.</p>
 </td>
 </tr>
 <tr>
@@ -5072,7 +4869,6 @@ string
 </em>
 </td>
 <td>
-<p>Topic: Name of the topic of the event subscription.</p>
 </td>
 </tr>
 <tr>
@@ -5083,7 +4879,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: Type of the resource.</p>
 </td>
 </tr>
 </tbody>
@@ -5091,6 +4886,7 @@ string
 <h3 id="eventgrid.azure.com/v1alpha1api20200601.EventSubscription_StatusARM">EventSubscription_StatusARM
 </h3>
 <div>
+<p>Deprecated version of EventSubscription_Status. Use v1beta20200601.EventSubscription_Status instead</p>
 </div>
 <table>
 <thead>
@@ -5108,7 +4904,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Fully qualified identifier of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -5119,7 +4914,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Name of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -5132,7 +4926,6 @@ EventSubscriptionProperties_StatusARM
 </em>
 </td>
 <td>
-<p>Properties: Properties of the event subscription.</p>
 </td>
 </tr>
 <tr>
@@ -5145,7 +4938,6 @@ SystemData_StatusARM
 </em>
 </td>
 <td>
-<p>SystemData: The system metadata relating to Event Subscription resource.</p>
 </td>
 </tr>
 <tr>
@@ -5156,25 +4948,9 @@ string
 </em>
 </td>
 <td>
-<p>Type: Type of the resource.</p>
 </td>
 </tr>
 </tbody>
-</table>
-<h3 id="eventgrid.azure.com/v1alpha1api20200601.EventSubscriptionsSpecAPIVersion">EventSubscriptionsSpecAPIVersion
-(<code>string</code> alias)</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;2020-06-01&#34;</p></td>
-<td></td>
-</tr></tbody>
 </table>
 <h3 id="eventgrid.azure.com/v1alpha1api20200601.EventSubscriptions_Spec">EventSubscriptions_Spec
 </h3>
@@ -5213,9 +4989,6 @@ StorageBlobDeadLetterDestination
 </em>
 </td>
 <td>
-<p>DeadLetterDestination: Information about the dead letter destination for an event subscription. To configure a
-deadletter destination, do not directly instantiate an object of this class. Instead, instantiate an object of a derived
-class. Currently, StorageBlobDeadLetterDestination is the only class that derives from this class.</p>
 </td>
 </tr>
 <tr>
@@ -5228,7 +5001,6 @@ EventSubscriptionDestination
 </em>
 </td>
 <td>
-<p>Destination: Information about the destination for an event subscription.</p>
 </td>
 </tr>
 <tr>
@@ -5241,7 +5013,6 @@ EventSubscriptionPropertiesEventDeliverySchema
 </em>
 </td>
 <td>
-<p>EventDeliverySchema: The event delivery schema for the event subscription.</p>
 </td>
 </tr>
 <tr>
@@ -5252,7 +5023,6 @@ string
 </em>
 </td>
 <td>
-<p>ExpirationTimeUtc: Expiration time of the event subscription.</p>
 </td>
 </tr>
 <tr>
@@ -5265,7 +5035,6 @@ EventSubscriptionFilter
 </em>
 </td>
 <td>
-<p>Filter: Filter for the Event Subscription.</p>
 </td>
 </tr>
 <tr>
@@ -5276,7 +5045,6 @@ EventSubscriptionFilter
 </em>
 </td>
 <td>
-<p>Labels: List of user defined labels.</p>
 </td>
 </tr>
 <tr>
@@ -5287,7 +5055,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -5300,6 +5067,9 @@ genruntime.ArbitraryOwnerReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. This resource is an
+extension resource, which means that any other Azure resource can be its owner.</p>
 </td>
 </tr>
 <tr>
@@ -5312,7 +5082,6 @@ RetryPolicy
 </em>
 </td>
 <td>
-<p>RetryPolicy: Information about the retry policy for an event subscription.</p>
 </td>
 </tr>
 <tr>
@@ -5323,7 +5092,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </tbody>
@@ -5331,6 +5099,7 @@ map[string]string
 <h3 id="eventgrid.azure.com/v1alpha1api20200601.EventSubscriptions_SpecARM">EventSubscriptions_SpecARM
 </h3>
 <div>
+<p>Deprecated version of EventSubscriptions_Spec. Use v1beta20200601.EventSubscriptions_Spec instead</p>
 </div>
 <table>
 <thead>
@@ -5348,7 +5117,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -5359,8 +5127,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Name of the event subscription. Event subscription names must be between 3 and 64 characters in length and should
-use alphanumeric letters only.</p>
 </td>
 </tr>
 <tr>
@@ -5373,7 +5139,6 @@ EventSubscriptionPropertiesARM
 </em>
 </td>
 <td>
-<p>Properties: Properties of the Event Subscription.</p>
 </td>
 </tr>
 <tr>
@@ -5384,7 +5149,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </tbody>
@@ -5395,7 +5159,7 @@ map[string]string
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.EventSubscriptionDestination">EventSubscriptionDestination</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/HybridConnectionEventSubscriptionDestination">https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/HybridConnectionEventSubscriptionDestination</a></p>
+<p>Deprecated version of HybridConnectionEventSubscriptionDestination. Use v1beta20200601.HybridConnectionEventSubscriptionDestination instead</p>
 </div>
 <table>
 <thead>
@@ -5427,7 +5191,6 @@ HybridConnectionEventSubscriptionDestinationProperties
 </em>
 </td>
 <td>
-<p>Properties: The properties for a hybrid connection destination.</p>
 </td>
 </tr>
 </tbody>
@@ -5438,7 +5201,7 @@ HybridConnectionEventSubscriptionDestinationProperties
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.EventSubscriptionDestinationARM">EventSubscriptionDestinationARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/HybridConnectionEventSubscriptionDestination">https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/HybridConnectionEventSubscriptionDestination</a></p>
+<p>Deprecated version of HybridConnectionEventSubscriptionDestination. Use v1beta20200601.HybridConnectionEventSubscriptionDestination instead</p>
 </div>
 <table>
 <thead>
@@ -5470,7 +5233,6 @@ HybridConnectionEventSubscriptionDestinationPropertiesARM
 </em>
 </td>
 <td>
-<p>Properties: The properties for a hybrid connection destination.</p>
 </td>
 </tr>
 </tbody>
@@ -5481,6 +5243,8 @@ HybridConnectionEventSubscriptionDestinationPropertiesARM
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.HybridConnectionEventSubscriptionDestination">HybridConnectionEventSubscriptionDestination</a>, <a href="#eventgrid.azure.com/v1alpha1api20200601.HybridConnectionEventSubscriptionDestinationARM">HybridConnectionEventSubscriptionDestinationARM</a>)
 </p>
 <div>
+<p>Deprecated version of HybridConnectionEventSubscriptionDestinationEndpointType. Use
+v1beta20200601.HybridConnectionEventSubscriptionDestinationEndpointType instead</p>
 </div>
 <table>
 <thead>
@@ -5499,7 +5263,7 @@ HybridConnectionEventSubscriptionDestinationPropertiesARM
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.HybridConnectionEventSubscriptionDestination">HybridConnectionEventSubscriptionDestination</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/HybridConnectionEventSubscriptionDestinationProperties">https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/HybridConnectionEventSubscriptionDestinationProperties</a></p>
+<p>Deprecated version of HybridConnectionEventSubscriptionDestinationProperties. Use v1beta20200601.HybridConnectionEventSubscriptionDestinationProperties instead</p>
 </div>
 <table>
 <thead>
@@ -5519,7 +5283,6 @@ genruntime.ResourceReference
 </em>
 </td>
 <td>
-<p>ResourceReference: The Azure Resource ID of an hybrid connection that is the destination of an event subscription.</p>
 </td>
 </tr>
 </tbody>
@@ -5530,7 +5293,7 @@ genruntime.ResourceReference
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.HybridConnectionEventSubscriptionDestinationARM">HybridConnectionEventSubscriptionDestinationARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/HybridConnectionEventSubscriptionDestinationProperties">https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/HybridConnectionEventSubscriptionDestinationProperties</a></p>
+<p>Deprecated version of HybridConnectionEventSubscriptionDestinationProperties. Use v1beta20200601.HybridConnectionEventSubscriptionDestinationProperties instead</p>
 </div>
 <table>
 <thead>
@@ -5558,7 +5321,7 @@ string
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.Domains_Spec">Domains_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/InboundIpRule">https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/InboundIpRule</a></p>
+<p>Deprecated version of InboundIpRule. Use v1beta20200601.InboundIpRule instead</p>
 </div>
 <table>
 <thead>
@@ -5578,7 +5341,6 @@ InboundIpRuleAction
 </em>
 </td>
 <td>
-<p>Action: Action to perform based on the match or no match of the IpMask.</p>
 </td>
 </tr>
 <tr>
@@ -5589,7 +5351,6 @@ string
 </em>
 </td>
 <td>
-<p>IpMask: IP Address in CIDR notation e.g., 10.0.0.0/8.</p>
 </td>
 </tr>
 </tbody>
@@ -5600,7 +5361,7 @@ string
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.DomainPropertiesARM">DomainPropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/InboundIpRule">https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/InboundIpRule</a></p>
+<p>Deprecated version of InboundIpRule. Use v1beta20200601.InboundIpRule instead</p>
 </div>
 <table>
 <thead>
@@ -5620,7 +5381,6 @@ InboundIpRuleAction
 </em>
 </td>
 <td>
-<p>Action: Action to perform based on the match or no match of the IpMask.</p>
 </td>
 </tr>
 <tr>
@@ -5631,7 +5391,6 @@ string
 </em>
 </td>
 <td>
-<p>IpMask: IP Address in CIDR notation e.g., 10.0.0.0/8.</p>
 </td>
 </tr>
 </tbody>
@@ -5642,6 +5401,7 @@ string
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.InboundIpRule">InboundIpRule</a>, <a href="#eventgrid.azure.com/v1alpha1api20200601.InboundIpRuleARM">InboundIpRuleARM</a>)
 </p>
 <div>
+<p>Deprecated version of InboundIpRuleAction. Use v1beta20200601.InboundIpRuleAction instead</p>
 </div>
 <table>
 <thead>
@@ -5660,6 +5420,7 @@ string
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.InboundIpRule_Status">InboundIpRule_Status</a>, <a href="#eventgrid.azure.com/v1alpha1api20200601.InboundIpRule_StatusARM">InboundIpRule_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of InboundIpRuleStatusAction. Use v1beta20200601.InboundIpRuleStatusAction instead</p>
 </div>
 <table>
 <thead>
@@ -5678,6 +5439,7 @@ string
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.Domain_Status">Domain_Status</a>, <a href="#eventgrid.azure.com/v1alpha1api20200601.Topic_Status">Topic_Status</a>)
 </p>
 <div>
+<p>Deprecated version of InboundIpRule_Status. Use v1beta20200601.InboundIpRule_Status instead</p>
 </div>
 <table>
 <thead>
@@ -5697,7 +5459,6 @@ InboundIpRuleStatusAction
 </em>
 </td>
 <td>
-<p>Action: Action to perform based on the match or no match of the IpMask.</p>
 </td>
 </tr>
 <tr>
@@ -5708,7 +5469,6 @@ string
 </em>
 </td>
 <td>
-<p>IpMask: IP Address in CIDR notation e.g., 10.0.0.0/8.</p>
 </td>
 </tr>
 </tbody>
@@ -5719,6 +5479,7 @@ string
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.DomainProperties_StatusARM">DomainProperties_StatusARM</a>, <a href="#eventgrid.azure.com/v1alpha1api20200601.TopicProperties_StatusARM">TopicProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of InboundIpRule_Status. Use v1beta20200601.InboundIpRule_Status instead</p>
 </div>
 <table>
 <thead>
@@ -5738,7 +5499,6 @@ InboundIpRuleStatusAction
 </em>
 </td>
 <td>
-<p>Action: Action to perform based on the match or no match of the IpMask.</p>
 </td>
 </tr>
 <tr>
@@ -5749,7 +5509,6 @@ string
 </em>
 </td>
 <td>
-<p>IpMask: IP Address in CIDR notation e.g., 10.0.0.0/8.</p>
 </td>
 </tr>
 </tbody>
@@ -5760,6 +5519,8 @@ string
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.InputSchemaMapping_Status">InputSchemaMapping_Status</a>, <a href="#eventgrid.azure.com/v1alpha1api20200601.InputSchemaMapping_StatusARM">InputSchemaMapping_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of InputSchemaMappingStatusInputSchemaMappingType. Use
+v1beta20200601.InputSchemaMappingStatusInputSchemaMappingType instead</p>
 </div>
 <table>
 <thead>
@@ -5778,6 +5539,7 @@ string
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.Domain_Status">Domain_Status</a>, <a href="#eventgrid.azure.com/v1alpha1api20200601.Topic_Status">Topic_Status</a>)
 </p>
 <div>
+<p>Deprecated version of InputSchemaMapping_Status. Use v1beta20200601.InputSchemaMapping_Status instead</p>
 </div>
 <table>
 <thead>
@@ -5797,7 +5559,6 @@ InputSchemaMappingStatusInputSchemaMappingType
 </em>
 </td>
 <td>
-<p>InputSchemaMappingType: Type of the custom mapping</p>
 </td>
 </tr>
 </tbody>
@@ -5808,6 +5569,7 @@ InputSchemaMappingStatusInputSchemaMappingType
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.DomainProperties_StatusARM">DomainProperties_StatusARM</a>, <a href="#eventgrid.azure.com/v1alpha1api20200601.TopicProperties_StatusARM">TopicProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of InputSchemaMapping_Status. Use v1beta20200601.InputSchemaMapping_Status instead</p>
 </div>
 <table>
 <thead>
@@ -5827,7 +5589,6 @@ InputSchemaMappingStatusInputSchemaMappingType
 </em>
 </td>
 <td>
-<p>InputSchemaMappingType: Type of the custom mapping</p>
 </td>
 </tr>
 </tbody>
@@ -5838,7 +5599,7 @@ InputSchemaMappingStatusInputSchemaMappingType
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.JsonInputSchemaMappingProperties">JsonInputSchemaMappingProperties</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/JsonField">https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/JsonField</a></p>
+<p>Deprecated version of JsonField. Use v1beta20200601.JsonField instead</p>
 </div>
 <table>
 <thead>
@@ -5856,7 +5617,6 @@ string
 </em>
 </td>
 <td>
-<p>SourceField: Name of a field in the input event schema that&rsquo;s to be used as the source of a mapping.</p>
 </td>
 </tr>
 </tbody>
@@ -5867,7 +5627,7 @@ string
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.JsonInputSchemaMappingPropertiesARM">JsonInputSchemaMappingPropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/JsonField">https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/JsonField</a></p>
+<p>Deprecated version of JsonField. Use v1beta20200601.JsonField instead</p>
 </div>
 <table>
 <thead>
@@ -5885,7 +5645,6 @@ string
 </em>
 </td>
 <td>
-<p>SourceField: Name of a field in the input event schema that&rsquo;s to be used as the source of a mapping.</p>
 </td>
 </tr>
 </tbody>
@@ -5896,7 +5655,7 @@ string
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.JsonInputSchemaMappingProperties">JsonInputSchemaMappingProperties</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/JsonFieldWithDefault">https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/JsonFieldWithDefault</a></p>
+<p>Deprecated version of JsonFieldWithDefault. Use v1beta20200601.JsonFieldWithDefault instead</p>
 </div>
 <table>
 <thead>
@@ -5914,8 +5673,6 @@ string
 </em>
 </td>
 <td>
-<p>DefaultValue: The default value to be used for mapping when a SourceField is not provided or if there&rsquo;s no property with
-the specified name in the published JSON event payload.</p>
 </td>
 </tr>
 <tr>
@@ -5926,7 +5683,6 @@ string
 </em>
 </td>
 <td>
-<p>SourceField: Name of a field in the input event schema that&rsquo;s to be used as the source of a mapping.</p>
 </td>
 </tr>
 </tbody>
@@ -5937,7 +5693,7 @@ string
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.JsonInputSchemaMappingPropertiesARM">JsonInputSchemaMappingPropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/JsonFieldWithDefault">https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/JsonFieldWithDefault</a></p>
+<p>Deprecated version of JsonFieldWithDefault. Use v1beta20200601.JsonFieldWithDefault instead</p>
 </div>
 <table>
 <thead>
@@ -5955,8 +5711,6 @@ string
 </em>
 </td>
 <td>
-<p>DefaultValue: The default value to be used for mapping when a SourceField is not provided or if there&rsquo;s no property with
-the specified name in the published JSON event payload.</p>
 </td>
 </tr>
 <tr>
@@ -5967,7 +5721,6 @@ string
 </em>
 </td>
 <td>
-<p>SourceField: Name of a field in the input event schema that&rsquo;s to be used as the source of a mapping.</p>
 </td>
 </tr>
 </tbody>
@@ -5978,7 +5731,7 @@ string
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.Domains_Spec">Domains_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/JsonInputSchemaMapping">https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/JsonInputSchemaMapping</a></p>
+<p>Deprecated version of JsonInputSchemaMapping. Use v1beta20200601.JsonInputSchemaMapping instead</p>
 </div>
 <table>
 <thead>
@@ -6010,8 +5763,6 @@ JsonInputSchemaMappingProperties
 </em>
 </td>
 <td>
-<p>Properties: This can be used to map properties of a source schema (or default values, for certain supported properties)
-to properties of the EventGridEvent schema.</p>
 </td>
 </tr>
 </tbody>
@@ -6022,7 +5773,7 @@ to properties of the EventGridEvent schema.</p>
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.DomainPropertiesARM">DomainPropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/JsonInputSchemaMapping">https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/JsonInputSchemaMapping</a></p>
+<p>Deprecated version of JsonInputSchemaMapping. Use v1beta20200601.JsonInputSchemaMapping instead</p>
 </div>
 <table>
 <thead>
@@ -6054,8 +5805,6 @@ JsonInputSchemaMappingPropertiesARM
 </em>
 </td>
 <td>
-<p>Properties: This can be used to map properties of a source schema (or default values, for certain supported properties)
-to properties of the EventGridEvent schema.</p>
 </td>
 </tr>
 </tbody>
@@ -6066,6 +5815,8 @@ to properties of the EventGridEvent schema.</p>
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.JsonInputSchemaMapping">JsonInputSchemaMapping</a>, <a href="#eventgrid.azure.com/v1alpha1api20200601.JsonInputSchemaMappingARM">JsonInputSchemaMappingARM</a>)
 </p>
 <div>
+<p>Deprecated version of JsonInputSchemaMappingInputSchemaMappingType. Use
+v1beta20200601.JsonInputSchemaMappingInputSchemaMappingType instead</p>
 </div>
 <table>
 <thead>
@@ -6084,7 +5835,7 @@ to properties of the EventGridEvent schema.</p>
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.JsonInputSchemaMapping">JsonInputSchemaMapping</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/JsonInputSchemaMappingProperties">https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/JsonInputSchemaMappingProperties</a></p>
+<p>Deprecated version of JsonInputSchemaMappingProperties. Use v1beta20200601.JsonInputSchemaMappingProperties instead</p>
 </div>
 <table>
 <thead>
@@ -6104,10 +5855,6 @@ JsonFieldWithDefault
 </em>
 </td>
 <td>
-<p>DataVersion: This is used to express the source of an input schema mapping for a single target field
-in the Event Grid Event schema. This is currently used in the mappings for the &lsquo;subject&rsquo;,
-&lsquo;eventtype&rsquo; and &lsquo;dataversion&rsquo; properties. This represents a field in the input event schema
-along with a default value to be used, and at least one of these two properties should be provided.</p>
 </td>
 </tr>
 <tr>
@@ -6120,9 +5867,6 @@ JsonField
 </em>
 </td>
 <td>
-<p>EventTime: This is used to express the source of an input schema mapping for a single target field in the Event Grid
-Event schema. This is currently used in the mappings for the &lsquo;id&rsquo;, &lsquo;topic&rsquo; and &lsquo;eventtime&rsquo; properties. This represents a
-field in the input event schema.</p>
 </td>
 </tr>
 <tr>
@@ -6135,10 +5879,6 @@ JsonFieldWithDefault
 </em>
 </td>
 <td>
-<p>EventType: This is used to express the source of an input schema mapping for a single target field
-in the Event Grid Event schema. This is currently used in the mappings for the &lsquo;subject&rsquo;,
-&lsquo;eventtype&rsquo; and &lsquo;dataversion&rsquo; properties. This represents a field in the input event schema
-along with a default value to be used, and at least one of these two properties should be provided.</p>
 </td>
 </tr>
 <tr>
@@ -6151,9 +5891,6 @@ JsonField
 </em>
 </td>
 <td>
-<p>Id: This is used to express the source of an input schema mapping for a single target field in the Event Grid Event
-schema. This is currently used in the mappings for the &lsquo;id&rsquo;, &lsquo;topic&rsquo; and &lsquo;eventtime&rsquo; properties. This represents a field
-in the input event schema.</p>
 </td>
 </tr>
 <tr>
@@ -6166,10 +5903,6 @@ JsonFieldWithDefault
 </em>
 </td>
 <td>
-<p>Subject: This is used to express the source of an input schema mapping for a single target field
-in the Event Grid Event schema. This is currently used in the mappings for the &lsquo;subject&rsquo;,
-&lsquo;eventtype&rsquo; and &lsquo;dataversion&rsquo; properties. This represents a field in the input event schema
-along with a default value to be used, and at least one of these two properties should be provided.</p>
 </td>
 </tr>
 <tr>
@@ -6182,9 +5915,6 @@ JsonField
 </em>
 </td>
 <td>
-<p>Topic: This is used to express the source of an input schema mapping for a single target field in the Event Grid Event
-schema. This is currently used in the mappings for the &lsquo;id&rsquo;, &lsquo;topic&rsquo; and &lsquo;eventtime&rsquo; properties. This represents a field
-in the input event schema.</p>
 </td>
 </tr>
 </tbody>
@@ -6195,7 +5925,7 @@ in the input event schema.</p>
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.JsonInputSchemaMappingARM">JsonInputSchemaMappingARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/JsonInputSchemaMappingProperties">https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/JsonInputSchemaMappingProperties</a></p>
+<p>Deprecated version of JsonInputSchemaMappingProperties. Use v1beta20200601.JsonInputSchemaMappingProperties instead</p>
 </div>
 <table>
 <thead>
@@ -6215,10 +5945,6 @@ JsonFieldWithDefaultARM
 </em>
 </td>
 <td>
-<p>DataVersion: This is used to express the source of an input schema mapping for a single target field
-in the Event Grid Event schema. This is currently used in the mappings for the &lsquo;subject&rsquo;,
-&lsquo;eventtype&rsquo; and &lsquo;dataversion&rsquo; properties. This represents a field in the input event schema
-along with a default value to be used, and at least one of these two properties should be provided.</p>
 </td>
 </tr>
 <tr>
@@ -6231,9 +5957,6 @@ JsonFieldARM
 </em>
 </td>
 <td>
-<p>EventTime: This is used to express the source of an input schema mapping for a single target field in the Event Grid
-Event schema. This is currently used in the mappings for the &lsquo;id&rsquo;, &lsquo;topic&rsquo; and &lsquo;eventtime&rsquo; properties. This represents a
-field in the input event schema.</p>
 </td>
 </tr>
 <tr>
@@ -6246,10 +5969,6 @@ JsonFieldWithDefaultARM
 </em>
 </td>
 <td>
-<p>EventType: This is used to express the source of an input schema mapping for a single target field
-in the Event Grid Event schema. This is currently used in the mappings for the &lsquo;subject&rsquo;,
-&lsquo;eventtype&rsquo; and &lsquo;dataversion&rsquo; properties. This represents a field in the input event schema
-along with a default value to be used, and at least one of these two properties should be provided.</p>
 </td>
 </tr>
 <tr>
@@ -6262,9 +5981,6 @@ JsonFieldARM
 </em>
 </td>
 <td>
-<p>Id: This is used to express the source of an input schema mapping for a single target field in the Event Grid Event
-schema. This is currently used in the mappings for the &lsquo;id&rsquo;, &lsquo;topic&rsquo; and &lsquo;eventtime&rsquo; properties. This represents a field
-in the input event schema.</p>
 </td>
 </tr>
 <tr>
@@ -6277,10 +5993,6 @@ JsonFieldWithDefaultARM
 </em>
 </td>
 <td>
-<p>Subject: This is used to express the source of an input schema mapping for a single target field
-in the Event Grid Event schema. This is currently used in the mappings for the &lsquo;subject&rsquo;,
-&lsquo;eventtype&rsquo; and &lsquo;dataversion&rsquo; properties. This represents a field in the input event schema
-along with a default value to be used, and at least one of these two properties should be provided.</p>
 </td>
 </tr>
 <tr>
@@ -6293,9 +6005,6 @@ JsonFieldARM
 </em>
 </td>
 <td>
-<p>Topic: This is used to express the source of an input schema mapping for a single target field in the Event Grid Event
-schema. This is currently used in the mappings for the &lsquo;id&rsquo;, &lsquo;topic&rsquo; and &lsquo;eventtime&rsquo; properties. This represents a field
-in the input event schema.</p>
 </td>
 </tr>
 </tbody>
@@ -6306,6 +6015,7 @@ in the input event schema.</p>
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.Domain_Status">Domain_Status</a>)
 </p>
 <div>
+<p>Deprecated version of PrivateEndpointConnection_Status_Domain_SubResourceEmbedded. Use v1beta20200601.PrivateEndpointConnection_Status_Domain_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -6323,7 +6033,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Fully qualified identifier of the resource.</p>
 </td>
 </tr>
 </tbody>
@@ -6334,6 +6043,7 @@ string
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.DomainProperties_StatusARM">DomainProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of PrivateEndpointConnection_Status_Domain_SubResourceEmbedded. Use v1beta20200601.PrivateEndpointConnection_Status_Domain_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -6351,7 +6061,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Fully qualified identifier of the resource.</p>
 </td>
 </tr>
 </tbody>
@@ -6362,6 +6071,7 @@ string
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.Topic_Status">Topic_Status</a>)
 </p>
 <div>
+<p>Deprecated version of PrivateEndpointConnection_Status_Topic_SubResourceEmbedded. Use v1beta20200601.PrivateEndpointConnection_Status_Topic_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -6379,7 +6089,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Fully qualified identifier of the resource.</p>
 </td>
 </tr>
 </tbody>
@@ -6390,6 +6099,7 @@ string
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.TopicProperties_StatusARM">TopicProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of PrivateEndpointConnection_Status_Topic_SubResourceEmbedded. Use v1beta20200601.PrivateEndpointConnection_Status_Topic_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -6407,7 +6117,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Fully qualified identifier of the resource.</p>
 </td>
 </tr>
 </tbody>
@@ -6418,7 +6127,7 @@ string
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.EventSubscriptions_Spec">EventSubscriptions_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/RetryPolicy">https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/RetryPolicy</a></p>
+<p>Deprecated version of RetryPolicy. Use v1beta20200601.RetryPolicy instead</p>
 </div>
 <table>
 <thead>
@@ -6436,7 +6145,6 @@ int
 </em>
 </td>
 <td>
-<p>EventTimeToLiveInMinutes: Time To Live (in minutes) for events.</p>
 </td>
 </tr>
 <tr>
@@ -6447,7 +6155,6 @@ int
 </em>
 </td>
 <td>
-<p>MaxDeliveryAttempts: Maximum number of delivery retry attempts for events.</p>
 </td>
 </tr>
 </tbody>
@@ -6458,7 +6165,7 @@ int
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.EventSubscriptionPropertiesARM">EventSubscriptionPropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/RetryPolicy">https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/RetryPolicy</a></p>
+<p>Deprecated version of RetryPolicy. Use v1beta20200601.RetryPolicy instead</p>
 </div>
 <table>
 <thead>
@@ -6476,7 +6183,6 @@ int
 </em>
 </td>
 <td>
-<p>EventTimeToLiveInMinutes: Time To Live (in minutes) for events.</p>
 </td>
 </tr>
 <tr>
@@ -6487,7 +6193,6 @@ int
 </em>
 </td>
 <td>
-<p>MaxDeliveryAttempts: Maximum number of delivery retry attempts for events.</p>
 </td>
 </tr>
 </tbody>
@@ -6498,6 +6203,7 @@ int
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.EventSubscription_Status">EventSubscription_Status</a>)
 </p>
 <div>
+<p>Deprecated version of RetryPolicy_Status. Use v1beta20200601.RetryPolicy_Status instead</p>
 </div>
 <table>
 <thead>
@@ -6515,7 +6221,6 @@ int
 </em>
 </td>
 <td>
-<p>EventTimeToLiveInMinutes: Time To Live (in minutes) for events.</p>
 </td>
 </tr>
 <tr>
@@ -6526,7 +6231,6 @@ int
 </em>
 </td>
 <td>
-<p>MaxDeliveryAttempts: Maximum number of delivery retry attempts for events.</p>
 </td>
 </tr>
 </tbody>
@@ -6537,6 +6241,7 @@ int
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.EventSubscriptionProperties_StatusARM">EventSubscriptionProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of RetryPolicy_Status. Use v1beta20200601.RetryPolicy_Status instead</p>
 </div>
 <table>
 <thead>
@@ -6554,7 +6259,6 @@ int
 </em>
 </td>
 <td>
-<p>EventTimeToLiveInMinutes: Time To Live (in minutes) for events.</p>
 </td>
 </tr>
 <tr>
@@ -6565,7 +6269,6 @@ int
 </em>
 </td>
 <td>
-<p>MaxDeliveryAttempts: Maximum number of delivery retry attempts for events.</p>
 </td>
 </tr>
 </tbody>
@@ -6576,7 +6279,7 @@ int
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.EventSubscriptionDestination">EventSubscriptionDestination</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/ServiceBusQueueEventSubscriptionDestination">https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/ServiceBusQueueEventSubscriptionDestination</a></p>
+<p>Deprecated version of ServiceBusQueueEventSubscriptionDestination. Use v1beta20200601.ServiceBusQueueEventSubscriptionDestination instead</p>
 </div>
 <table>
 <thead>
@@ -6608,7 +6311,6 @@ ServiceBusQueueEventSubscriptionDestinationProperties
 </em>
 </td>
 <td>
-<p>Properties: The properties that represent the Service Bus destination of an event subscription.</p>
 </td>
 </tr>
 </tbody>
@@ -6619,7 +6321,7 @@ ServiceBusQueueEventSubscriptionDestinationProperties
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.EventSubscriptionDestinationARM">EventSubscriptionDestinationARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/ServiceBusQueueEventSubscriptionDestination">https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/ServiceBusQueueEventSubscriptionDestination</a></p>
+<p>Deprecated version of ServiceBusQueueEventSubscriptionDestination. Use v1beta20200601.ServiceBusQueueEventSubscriptionDestination instead</p>
 </div>
 <table>
 <thead>
@@ -6651,7 +6353,6 @@ ServiceBusQueueEventSubscriptionDestinationPropertiesARM
 </em>
 </td>
 <td>
-<p>Properties: The properties that represent the Service Bus destination of an event subscription.</p>
 </td>
 </tr>
 </tbody>
@@ -6662,6 +6363,8 @@ ServiceBusQueueEventSubscriptionDestinationPropertiesARM
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.ServiceBusQueueEventSubscriptionDestination">ServiceBusQueueEventSubscriptionDestination</a>, <a href="#eventgrid.azure.com/v1alpha1api20200601.ServiceBusQueueEventSubscriptionDestinationARM">ServiceBusQueueEventSubscriptionDestinationARM</a>)
 </p>
 <div>
+<p>Deprecated version of ServiceBusQueueEventSubscriptionDestinationEndpointType. Use
+v1beta20200601.ServiceBusQueueEventSubscriptionDestinationEndpointType instead</p>
 </div>
 <table>
 <thead>
@@ -6680,7 +6383,7 @@ ServiceBusQueueEventSubscriptionDestinationPropertiesARM
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.ServiceBusQueueEventSubscriptionDestination">ServiceBusQueueEventSubscriptionDestination</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/ServiceBusQueueEventSubscriptionDestinationProperties">https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/ServiceBusQueueEventSubscriptionDestinationProperties</a></p>
+<p>Deprecated version of ServiceBusQueueEventSubscriptionDestinationProperties. Use v1beta20200601.ServiceBusQueueEventSubscriptionDestinationProperties instead</p>
 </div>
 <table>
 <thead>
@@ -6700,8 +6403,6 @@ genruntime.ResourceReference
 </em>
 </td>
 <td>
-<p>ResourceReference: The Azure Resource Id that represents the endpoint of the Service Bus destination of an event
-subscription.</p>
 </td>
 </tr>
 </tbody>
@@ -6712,7 +6413,7 @@ subscription.</p>
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.ServiceBusQueueEventSubscriptionDestinationARM">ServiceBusQueueEventSubscriptionDestinationARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/ServiceBusQueueEventSubscriptionDestinationProperties">https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/ServiceBusQueueEventSubscriptionDestinationProperties</a></p>
+<p>Deprecated version of ServiceBusQueueEventSubscriptionDestinationProperties. Use v1beta20200601.ServiceBusQueueEventSubscriptionDestinationProperties instead</p>
 </div>
 <table>
 <thead>
@@ -6740,7 +6441,7 @@ string
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.EventSubscriptionDestination">EventSubscriptionDestination</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/ServiceBusTopicEventSubscriptionDestination">https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/ServiceBusTopicEventSubscriptionDestination</a></p>
+<p>Deprecated version of ServiceBusTopicEventSubscriptionDestination. Use v1beta20200601.ServiceBusTopicEventSubscriptionDestination instead</p>
 </div>
 <table>
 <thead>
@@ -6772,7 +6473,6 @@ ServiceBusTopicEventSubscriptionDestinationProperties
 </em>
 </td>
 <td>
-<p>Properties: The properties that represent the Service Bus Topic destination of an event subscription.</p>
 </td>
 </tr>
 </tbody>
@@ -6783,7 +6483,7 @@ ServiceBusTopicEventSubscriptionDestinationProperties
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.EventSubscriptionDestinationARM">EventSubscriptionDestinationARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/ServiceBusTopicEventSubscriptionDestination">https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/ServiceBusTopicEventSubscriptionDestination</a></p>
+<p>Deprecated version of ServiceBusTopicEventSubscriptionDestination. Use v1beta20200601.ServiceBusTopicEventSubscriptionDestination instead</p>
 </div>
 <table>
 <thead>
@@ -6815,7 +6515,6 @@ ServiceBusTopicEventSubscriptionDestinationPropertiesARM
 </em>
 </td>
 <td>
-<p>Properties: The properties that represent the Service Bus Topic destination of an event subscription.</p>
 </td>
 </tr>
 </tbody>
@@ -6826,6 +6525,8 @@ ServiceBusTopicEventSubscriptionDestinationPropertiesARM
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.ServiceBusTopicEventSubscriptionDestination">ServiceBusTopicEventSubscriptionDestination</a>, <a href="#eventgrid.azure.com/v1alpha1api20200601.ServiceBusTopicEventSubscriptionDestinationARM">ServiceBusTopicEventSubscriptionDestinationARM</a>)
 </p>
 <div>
+<p>Deprecated version of ServiceBusTopicEventSubscriptionDestinationEndpointType. Use
+v1beta20200601.ServiceBusTopicEventSubscriptionDestinationEndpointType instead</p>
 </div>
 <table>
 <thead>
@@ -6844,7 +6545,7 @@ ServiceBusTopicEventSubscriptionDestinationPropertiesARM
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.ServiceBusTopicEventSubscriptionDestination">ServiceBusTopicEventSubscriptionDestination</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/ServiceBusTopicEventSubscriptionDestinationProperties">https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/ServiceBusTopicEventSubscriptionDestinationProperties</a></p>
+<p>Deprecated version of ServiceBusTopicEventSubscriptionDestinationProperties. Use v1beta20200601.ServiceBusTopicEventSubscriptionDestinationProperties instead</p>
 </div>
 <table>
 <thead>
@@ -6864,8 +6565,6 @@ genruntime.ResourceReference
 </em>
 </td>
 <td>
-<p>ResourceReference: The Azure Resource Id that represents the endpoint of the Service Bus Topic destination of an event
-subscription.</p>
 </td>
 </tr>
 </tbody>
@@ -6876,7 +6575,7 @@ subscription.</p>
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.ServiceBusTopicEventSubscriptionDestinationARM">ServiceBusTopicEventSubscriptionDestinationARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/ServiceBusTopicEventSubscriptionDestinationProperties">https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/ServiceBusTopicEventSubscriptionDestinationProperties</a></p>
+<p>Deprecated version of ServiceBusTopicEventSubscriptionDestinationProperties. Use v1beta20200601.ServiceBusTopicEventSubscriptionDestinationProperties instead</p>
 </div>
 <table>
 <thead>
@@ -6904,7 +6603,7 @@ string
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.EventSubscriptions_Spec">EventSubscriptions_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/StorageBlobDeadLetterDestination">https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/StorageBlobDeadLetterDestination</a></p>
+<p>Deprecated version of StorageBlobDeadLetterDestination. Use v1beta20200601.StorageBlobDeadLetterDestination instead</p>
 </div>
 <table>
 <thead>
@@ -6936,7 +6635,6 @@ StorageBlobDeadLetterDestinationProperties
 </em>
 </td>
 <td>
-<p>Properties: Properties of the storage blob based dead letter destination.</p>
 </td>
 </tr>
 </tbody>
@@ -6947,7 +6645,7 @@ StorageBlobDeadLetterDestinationProperties
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.EventSubscriptionPropertiesARM">EventSubscriptionPropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/StorageBlobDeadLetterDestination">https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/StorageBlobDeadLetterDestination</a></p>
+<p>Deprecated version of StorageBlobDeadLetterDestination. Use v1beta20200601.StorageBlobDeadLetterDestination instead</p>
 </div>
 <table>
 <thead>
@@ -6979,7 +6677,6 @@ StorageBlobDeadLetterDestinationPropertiesARM
 </em>
 </td>
 <td>
-<p>Properties: Properties of the storage blob based dead letter destination.</p>
 </td>
 </tr>
 </tbody>
@@ -6990,6 +6687,8 @@ StorageBlobDeadLetterDestinationPropertiesARM
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.StorageBlobDeadLetterDestination">StorageBlobDeadLetterDestination</a>, <a href="#eventgrid.azure.com/v1alpha1api20200601.StorageBlobDeadLetterDestinationARM">StorageBlobDeadLetterDestinationARM</a>)
 </p>
 <div>
+<p>Deprecated version of StorageBlobDeadLetterDestinationEndpointType. Use
+v1beta20200601.StorageBlobDeadLetterDestinationEndpointType instead</p>
 </div>
 <table>
 <thead>
@@ -7008,7 +6707,7 @@ StorageBlobDeadLetterDestinationPropertiesARM
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.StorageBlobDeadLetterDestination">StorageBlobDeadLetterDestination</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/StorageBlobDeadLetterDestinationProperties">https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/StorageBlobDeadLetterDestinationProperties</a></p>
+<p>Deprecated version of StorageBlobDeadLetterDestinationProperties. Use v1beta20200601.StorageBlobDeadLetterDestinationProperties instead</p>
 </div>
 <table>
 <thead>
@@ -7026,7 +6725,6 @@ string
 </em>
 </td>
 <td>
-<p>BlobContainerName: The name of the Storage blob container that is the destination of the deadletter events</p>
 </td>
 </tr>
 <tr>
@@ -7039,7 +6737,6 @@ genruntime.ResourceReference
 </em>
 </td>
 <td>
-<p>ResourceReference: The Azure Resource ID of the storage account that is the destination of the deadletter events</p>
 </td>
 </tr>
 </tbody>
@@ -7050,7 +6747,7 @@ genruntime.ResourceReference
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.StorageBlobDeadLetterDestinationARM">StorageBlobDeadLetterDestinationARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/StorageBlobDeadLetterDestinationProperties">https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/StorageBlobDeadLetterDestinationProperties</a></p>
+<p>Deprecated version of StorageBlobDeadLetterDestinationProperties. Use v1beta20200601.StorageBlobDeadLetterDestinationProperties instead</p>
 </div>
 <table>
 <thead>
@@ -7068,7 +6765,6 @@ string
 </em>
 </td>
 <td>
-<p>BlobContainerName: The name of the Storage blob container that is the destination of the deadletter events</p>
 </td>
 </tr>
 <tr>
@@ -7089,7 +6785,7 @@ string
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.EventSubscriptionDestination">EventSubscriptionDestination</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/StorageQueueEventSubscriptionDestination">https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/StorageQueueEventSubscriptionDestination</a></p>
+<p>Deprecated version of StorageQueueEventSubscriptionDestination. Use v1beta20200601.StorageQueueEventSubscriptionDestination instead</p>
 </div>
 <table>
 <thead>
@@ -7121,7 +6817,6 @@ StorageQueueEventSubscriptionDestinationProperties
 </em>
 </td>
 <td>
-<p>Properties: The properties for a storage queue destination.</p>
 </td>
 </tr>
 </tbody>
@@ -7132,7 +6827,7 @@ StorageQueueEventSubscriptionDestinationProperties
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.EventSubscriptionDestinationARM">EventSubscriptionDestinationARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/StorageQueueEventSubscriptionDestination">https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/StorageQueueEventSubscriptionDestination</a></p>
+<p>Deprecated version of StorageQueueEventSubscriptionDestination. Use v1beta20200601.StorageQueueEventSubscriptionDestination instead</p>
 </div>
 <table>
 <thead>
@@ -7164,7 +6859,6 @@ StorageQueueEventSubscriptionDestinationPropertiesARM
 </em>
 </td>
 <td>
-<p>Properties: The properties for a storage queue destination.</p>
 </td>
 </tr>
 </tbody>
@@ -7175,6 +6869,8 @@ StorageQueueEventSubscriptionDestinationPropertiesARM
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.StorageQueueEventSubscriptionDestination">StorageQueueEventSubscriptionDestination</a>, <a href="#eventgrid.azure.com/v1alpha1api20200601.StorageQueueEventSubscriptionDestinationARM">StorageQueueEventSubscriptionDestinationARM</a>)
 </p>
 <div>
+<p>Deprecated version of StorageQueueEventSubscriptionDestinationEndpointType. Use
+v1beta20200601.StorageQueueEventSubscriptionDestinationEndpointType instead</p>
 </div>
 <table>
 <thead>
@@ -7193,7 +6889,7 @@ StorageQueueEventSubscriptionDestinationPropertiesARM
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.StorageQueueEventSubscriptionDestination">StorageQueueEventSubscriptionDestination</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/StorageQueueEventSubscriptionDestinationProperties">https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/StorageQueueEventSubscriptionDestinationProperties</a></p>
+<p>Deprecated version of StorageQueueEventSubscriptionDestinationProperties. Use v1beta20200601.StorageQueueEventSubscriptionDestinationProperties instead</p>
 </div>
 <table>
 <thead>
@@ -7211,7 +6907,6 @@ string
 </em>
 </td>
 <td>
-<p>QueueName: The name of the Storage queue under a storage account that is the destination of an event subscription.</p>
 </td>
 </tr>
 <tr>
@@ -7224,8 +6919,6 @@ genruntime.ResourceReference
 </em>
 </td>
 <td>
-<p>ResourceReference: The Azure Resource ID of the storage account that contains the queue that is the destination of an
-event subscription.</p>
 </td>
 </tr>
 </tbody>
@@ -7236,7 +6929,7 @@ event subscription.</p>
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.StorageQueueEventSubscriptionDestinationARM">StorageQueueEventSubscriptionDestinationARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/StorageQueueEventSubscriptionDestinationProperties">https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/StorageQueueEventSubscriptionDestinationProperties</a></p>
+<p>Deprecated version of StorageQueueEventSubscriptionDestinationProperties. Use v1beta20200601.StorageQueueEventSubscriptionDestinationProperties instead</p>
 </div>
 <table>
 <thead>
@@ -7254,7 +6947,6 @@ string
 </em>
 </td>
 <td>
-<p>QueueName: The name of the Storage queue under a storage account that is the destination of an event subscription.</p>
 </td>
 </tr>
 <tr>
@@ -7275,6 +6967,7 @@ string
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.SystemData_Status">SystemData_Status</a>, <a href="#eventgrid.azure.com/v1alpha1api20200601.SystemData_StatusARM">SystemData_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of SystemDataStatusCreatedByType. Use v1beta20200601.SystemDataStatusCreatedByType instead</p>
 </div>
 <table>
 <thead>
@@ -7299,6 +6992,7 @@ string
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.SystemData_Status">SystemData_Status</a>, <a href="#eventgrid.azure.com/v1alpha1api20200601.SystemData_StatusARM">SystemData_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of SystemDataStatusLastModifiedByType. Use v1beta20200601.SystemDataStatusLastModifiedByType instead</p>
 </div>
 <table>
 <thead>
@@ -7323,6 +7017,7 @@ string
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.DomainTopic_Status">DomainTopic_Status</a>, <a href="#eventgrid.azure.com/v1alpha1api20200601.Domain_Status">Domain_Status</a>, <a href="#eventgrid.azure.com/v1alpha1api20200601.EventSubscription_Status">EventSubscription_Status</a>, <a href="#eventgrid.azure.com/v1alpha1api20200601.Topic_Status">Topic_Status</a>)
 </p>
 <div>
+<p>Deprecated version of SystemData_Status. Use v1beta20200601.SystemData_Status instead</p>
 </div>
 <table>
 <thead>
@@ -7340,7 +7035,6 @@ string
 </em>
 </td>
 <td>
-<p>CreatedAt: The timestamp of resource creation (UTC).</p>
 </td>
 </tr>
 <tr>
@@ -7351,7 +7045,6 @@ string
 </em>
 </td>
 <td>
-<p>CreatedBy: The identity that created the resource.</p>
 </td>
 </tr>
 <tr>
@@ -7364,7 +7057,6 @@ SystemDataStatusCreatedByType
 </em>
 </td>
 <td>
-<p>CreatedByType: The type of identity that created the resource.</p>
 </td>
 </tr>
 <tr>
@@ -7375,7 +7067,6 @@ string
 </em>
 </td>
 <td>
-<p>LastModifiedAt: The timestamp of resource last modification (UTC)</p>
 </td>
 </tr>
 <tr>
@@ -7386,7 +7077,6 @@ string
 </em>
 </td>
 <td>
-<p>LastModifiedBy: The identity that last modified the resource.</p>
 </td>
 </tr>
 <tr>
@@ -7399,7 +7089,6 @@ SystemDataStatusLastModifiedByType
 </em>
 </td>
 <td>
-<p>LastModifiedByType: The type of identity that last modified the resource.</p>
 </td>
 </tr>
 </tbody>
@@ -7410,6 +7099,7 @@ SystemDataStatusLastModifiedByType
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.DomainTopic_StatusARM">DomainTopic_StatusARM</a>, <a href="#eventgrid.azure.com/v1alpha1api20200601.Domain_StatusARM">Domain_StatusARM</a>, <a href="#eventgrid.azure.com/v1alpha1api20200601.EventSubscription_StatusARM">EventSubscription_StatusARM</a>, <a href="#eventgrid.azure.com/v1alpha1api20200601.Topic_StatusARM">Topic_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of SystemData_Status. Use v1beta20200601.SystemData_Status instead</p>
 </div>
 <table>
 <thead>
@@ -7427,7 +7117,6 @@ string
 </em>
 </td>
 <td>
-<p>CreatedAt: The timestamp of resource creation (UTC).</p>
 </td>
 </tr>
 <tr>
@@ -7438,7 +7127,6 @@ string
 </em>
 </td>
 <td>
-<p>CreatedBy: The identity that created the resource.</p>
 </td>
 </tr>
 <tr>
@@ -7451,7 +7139,6 @@ SystemDataStatusCreatedByType
 </em>
 </td>
 <td>
-<p>CreatedByType: The type of identity that created the resource.</p>
 </td>
 </tr>
 <tr>
@@ -7462,7 +7149,6 @@ string
 </em>
 </td>
 <td>
-<p>LastModifiedAt: The timestamp of resource last modification (UTC)</p>
 </td>
 </tr>
 <tr>
@@ -7473,7 +7159,6 @@ string
 </em>
 </td>
 <td>
-<p>LastModifiedBy: The identity that last modified the resource.</p>
 </td>
 </tr>
 <tr>
@@ -7486,7 +7171,6 @@ SystemDataStatusLastModifiedByType
 </em>
 </td>
 <td>
-<p>LastModifiedByType: The type of identity that last modified the resource.</p>
 </td>
 </tr>
 </tbody>
@@ -7494,7 +7178,7 @@ SystemDataStatusLastModifiedByType
 <h3 id="eventgrid.azure.com/v1alpha1api20200601.Topic">Topic
 </h3>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/resourceDefinitions/topics">https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/resourceDefinitions/topics</a></p>
+<p>Deprecated version of Topic. Use v1beta20200601.Topic instead</p>
 </div>
 <table>
 <thead>
@@ -7551,7 +7235,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -7564,6 +7247,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -7574,7 +7260,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </table>
@@ -7600,6 +7285,7 @@ Topic_Status
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.TopicProperties_StatusARM">TopicProperties_StatusARM</a>, <a href="#eventgrid.azure.com/v1alpha1api20200601.Topic_Status">Topic_Status</a>)
 </p>
 <div>
+<p>Deprecated version of TopicPropertiesStatusInputSchema. Use v1beta20200601.TopicPropertiesStatusInputSchema instead</p>
 </div>
 <table>
 <thead>
@@ -7622,6 +7308,8 @@ Topic_Status
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.TopicProperties_StatusARM">TopicProperties_StatusARM</a>, <a href="#eventgrid.azure.com/v1alpha1api20200601.Topic_Status">Topic_Status</a>)
 </p>
 <div>
+<p>Deprecated version of TopicPropertiesStatusProvisioningState. Use v1beta20200601.TopicPropertiesStatusProvisioningState
+instead</p>
 </div>
 <table>
 <thead>
@@ -7650,6 +7338,8 @@ Topic_Status
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.TopicProperties_StatusARM">TopicProperties_StatusARM</a>, <a href="#eventgrid.azure.com/v1alpha1api20200601.Topic_Status">Topic_Status</a>)
 </p>
 <div>
+<p>Deprecated version of TopicPropertiesStatusPublicNetworkAccess. Use
+v1beta20200601.TopicPropertiesStatusPublicNetworkAccess instead</p>
 </div>
 <table>
 <thead>
@@ -7670,6 +7360,7 @@ Topic_Status
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.Topic_StatusARM">Topic_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of TopicProperties_Status. Use v1beta20200601.TopicProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -7687,7 +7378,6 @@ string
 </em>
 </td>
 <td>
-<p>Endpoint: Endpoint for the topic.</p>
 </td>
 </tr>
 <tr>
@@ -7700,8 +7390,6 @@ string
 </em>
 </td>
 <td>
-<p>InboundIpRules: This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered
-only if PublicNetworkAccess is enabled.</p>
 </td>
 </tr>
 <tr>
@@ -7714,7 +7402,6 @@ TopicPropertiesStatusInputSchema
 </em>
 </td>
 <td>
-<p>InputSchema: This determines the format that Event Grid should expect for incoming events published to the topic.</p>
 </td>
 </tr>
 <tr>
@@ -7727,8 +7414,6 @@ InputSchemaMapping_StatusARM
 </em>
 </td>
 <td>
-<p>InputSchemaMapping: This enables publishing using custom event schemas. An InputSchemaMapping can be specified to map
-various properties of a source schema to various required properties of the EventGridEvent schema.</p>
 </td>
 </tr>
 <tr>
@@ -7739,7 +7424,6 @@ string
 </em>
 </td>
 <td>
-<p>MetricResourceId: Metric resource id for the topic.</p>
 </td>
 </tr>
 <tr>
@@ -7764,7 +7448,6 @@ TopicPropertiesStatusProvisioningState
 </em>
 </td>
 <td>
-<p>ProvisioningState: Provisioning state of the topic.</p>
 </td>
 </tr>
 <tr>
@@ -7777,9 +7460,6 @@ TopicPropertiesStatusPublicNetworkAccess
 </em>
 </td>
 <td>
-<p>PublicNetworkAccess: This determines if traffic is allowed over public network. By default it is enabled.
-You can further restrict to specific IPs by configuring <seealso
-cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.TopicProperties.InboundIpRules" /></p>
 </td>
 </tr>
 </tbody>
@@ -7790,6 +7470,7 @@ cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.TopicProperties
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.Topic">Topic</a>)
 </p>
 <div>
+<p>Deprecated version of Topic_Status. Use v1beta20200601.Topic_Status instead</p>
 </div>
 <table>
 <thead>
@@ -7820,7 +7501,6 @@ string
 </em>
 </td>
 <td>
-<p>Endpoint: Endpoint for the topic.</p>
 </td>
 </tr>
 <tr>
@@ -7831,7 +7511,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Fully qualified identifier of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -7844,8 +7523,6 @@ string
 </em>
 </td>
 <td>
-<p>InboundIpRules: This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered
-only if PublicNetworkAccess is enabled.</p>
 </td>
 </tr>
 <tr>
@@ -7858,7 +7535,6 @@ TopicPropertiesStatusInputSchema
 </em>
 </td>
 <td>
-<p>InputSchema: This determines the format that Event Grid should expect for incoming events published to the topic.</p>
 </td>
 </tr>
 <tr>
@@ -7871,8 +7547,6 @@ InputSchemaMapping_Status
 </em>
 </td>
 <td>
-<p>InputSchemaMapping: This enables publishing using custom event schemas. An InputSchemaMapping can be specified to map
-various properties of a source schema to various required properties of the EventGridEvent schema.</p>
 </td>
 </tr>
 <tr>
@@ -7883,7 +7557,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -7894,7 +7567,6 @@ string
 </em>
 </td>
 <td>
-<p>MetricResourceId: Metric resource id for the topic.</p>
 </td>
 </tr>
 <tr>
@@ -7905,7 +7577,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Name of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -7930,7 +7601,6 @@ TopicPropertiesStatusProvisioningState
 </em>
 </td>
 <td>
-<p>ProvisioningState: Provisioning state of the topic.</p>
 </td>
 </tr>
 <tr>
@@ -7943,9 +7613,6 @@ TopicPropertiesStatusPublicNetworkAccess
 </em>
 </td>
 <td>
-<p>PublicNetworkAccess: This determines if traffic is allowed over public network. By default it is enabled.
-You can further restrict to specific IPs by configuring <seealso
-cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.TopicProperties.InboundIpRules" /></p>
 </td>
 </tr>
 <tr>
@@ -7958,7 +7625,6 @@ SystemData_Status
 </em>
 </td>
 <td>
-<p>SystemData: The system metadata relating to Topic resource.</p>
 </td>
 </tr>
 <tr>
@@ -7969,7 +7635,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Tags of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -7980,7 +7645,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: Type of the resource.</p>
 </td>
 </tr>
 </tbody>
@@ -7988,6 +7652,7 @@ string
 <h3 id="eventgrid.azure.com/v1alpha1api20200601.Topic_StatusARM">Topic_StatusARM
 </h3>
 <div>
+<p>Deprecated version of Topic_Status. Use v1beta20200601.Topic_Status instead</p>
 </div>
 <table>
 <thead>
@@ -8005,7 +7670,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Fully qualified identifier of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -8016,7 +7680,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -8027,7 +7690,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Name of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -8040,7 +7702,6 @@ TopicProperties_StatusARM
 </em>
 </td>
 <td>
-<p>Properties: Properties of the topic.</p>
 </td>
 </tr>
 <tr>
@@ -8053,7 +7714,6 @@ SystemData_StatusARM
 </em>
 </td>
 <td>
-<p>SystemData: The system metadata relating to Topic resource.</p>
 </td>
 </tr>
 <tr>
@@ -8064,7 +7724,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Tags of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -8075,25 +7734,9 @@ string
 </em>
 </td>
 <td>
-<p>Type: Type of the resource.</p>
 </td>
 </tr>
 </tbody>
-</table>
-<h3 id="eventgrid.azure.com/v1alpha1api20200601.TopicsSpecAPIVersion">TopicsSpecAPIVersion
-(<code>string</code> alias)</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;2020-06-01&#34;</p></td>
-<td></td>
-</tr></tbody>
 </table>
 <h3 id="eventgrid.azure.com/v1alpha1api20200601.Topics_Spec">Topics_Spec
 </h3>
@@ -8130,7 +7773,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -8143,6 +7785,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -8153,7 +7798,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </tbody>
@@ -8161,6 +7805,7 @@ map[string]string
 <h3 id="eventgrid.azure.com/v1alpha1api20200601.Topics_SpecARM">Topics_SpecARM
 </h3>
 <div>
+<p>Deprecated version of Topics_Spec. Use v1beta20200601.Topics_Spec instead</p>
 </div>
 <table>
 <thead>
@@ -8178,7 +7823,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -8189,7 +7833,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Name of the resource</p>
 </td>
 </tr>
 <tr>
@@ -8200,7 +7843,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </tbody>
@@ -8211,7 +7853,7 @@ map[string]string
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.EventSubscriptionDestination">EventSubscriptionDestination</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/WebHookEventSubscriptionDestination">https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/WebHookEventSubscriptionDestination</a></p>
+<p>Deprecated version of WebHookEventSubscriptionDestination. Use v1beta20200601.WebHookEventSubscriptionDestination instead</p>
 </div>
 <table>
 <thead>
@@ -8243,7 +7885,6 @@ WebHookEventSubscriptionDestinationProperties
 </em>
 </td>
 <td>
-<p>Properties: Information about the webhook destination properties for an event subscription.</p>
 </td>
 </tr>
 </tbody>
@@ -8254,7 +7895,7 @@ WebHookEventSubscriptionDestinationProperties
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.EventSubscriptionDestinationARM">EventSubscriptionDestinationARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/WebHookEventSubscriptionDestination">https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/WebHookEventSubscriptionDestination</a></p>
+<p>Deprecated version of WebHookEventSubscriptionDestination. Use v1beta20200601.WebHookEventSubscriptionDestination instead</p>
 </div>
 <table>
 <thead>
@@ -8286,7 +7927,6 @@ WebHookEventSubscriptionDestinationPropertiesARM
 </em>
 </td>
 <td>
-<p>Properties: Information about the webhook destination properties for an event subscription.</p>
 </td>
 </tr>
 </tbody>
@@ -8297,6 +7937,8 @@ WebHookEventSubscriptionDestinationPropertiesARM
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.WebHookEventSubscriptionDestination">WebHookEventSubscriptionDestination</a>, <a href="#eventgrid.azure.com/v1alpha1api20200601.WebHookEventSubscriptionDestinationARM">WebHookEventSubscriptionDestinationARM</a>)
 </p>
 <div>
+<p>Deprecated version of WebHookEventSubscriptionDestinationEndpointType. Use
+v1beta20200601.WebHookEventSubscriptionDestinationEndpointType instead</p>
 </div>
 <table>
 <thead>
@@ -8315,7 +7957,7 @@ WebHookEventSubscriptionDestinationPropertiesARM
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.WebHookEventSubscriptionDestination">WebHookEventSubscriptionDestination</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/WebHookEventSubscriptionDestinationProperties">https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/WebHookEventSubscriptionDestinationProperties</a></p>
+<p>Deprecated version of WebHookEventSubscriptionDestinationProperties. Use v1beta20200601.WebHookEventSubscriptionDestinationProperties instead</p>
 </div>
 <table>
 <thead>
@@ -8333,8 +7975,6 @@ string
 </em>
 </td>
 <td>
-<p>AzureActiveDirectoryApplicationIdOrUri: The Azure Active Directory Application ID or URI to get the access token that
-will be included as the bearer token in delivery requests.</p>
 </td>
 </tr>
 <tr>
@@ -8345,8 +7985,6 @@ string
 </em>
 </td>
 <td>
-<p>AzureActiveDirectoryTenantId: The Azure Active Directory Tenant ID to get the access token that will be included as the
-bearer token in delivery requests.</p>
 </td>
 </tr>
 <tr>
@@ -8357,7 +7995,6 @@ string
 </em>
 </td>
 <td>
-<p>EndpointUrl: The URL that represents the endpoint of the destination of an event subscription.</p>
 </td>
 </tr>
 <tr>
@@ -8368,7 +8005,6 @@ int
 </em>
 </td>
 <td>
-<p>MaxEventsPerBatch: Maximum number of events per batch.</p>
 </td>
 </tr>
 <tr>
@@ -8379,7 +8015,6 @@ int
 </em>
 </td>
 <td>
-<p>PreferredBatchSizeInKilobytes: Preferred batch size in Kilobytes.</p>
 </td>
 </tr>
 </tbody>
@@ -8390,7 +8025,7 @@ int
 (<em>Appears on:</em><a href="#eventgrid.azure.com/v1alpha1api20200601.WebHookEventSubscriptionDestinationARM">WebHookEventSubscriptionDestinationARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/WebHookEventSubscriptionDestinationProperties">https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/WebHookEventSubscriptionDestinationProperties</a></p>
+<p>Deprecated version of WebHookEventSubscriptionDestinationProperties. Use v1beta20200601.WebHookEventSubscriptionDestinationProperties instead</p>
 </div>
 <table>
 <thead>
@@ -8408,8 +8043,6 @@ string
 </em>
 </td>
 <td>
-<p>AzureActiveDirectoryApplicationIdOrUri: The Azure Active Directory Application ID or URI to get the access token that
-will be included as the bearer token in delivery requests.</p>
 </td>
 </tr>
 <tr>
@@ -8420,8 +8053,6 @@ string
 </em>
 </td>
 <td>
-<p>AzureActiveDirectoryTenantId: The Azure Active Directory Tenant ID to get the access token that will be included as the
-bearer token in delivery requests.</p>
 </td>
 </tr>
 <tr>
@@ -8432,7 +8063,6 @@ string
 </em>
 </td>
 <td>
-<p>EndpointUrl: The URL that represents the endpoint of the destination of an event subscription.</p>
 </td>
 </tr>
 <tr>
@@ -8443,7 +8073,6 @@ int
 </em>
 </td>
 <td>
-<p>MaxEventsPerBatch: Maximum number of events per batch.</p>
 </td>
 </tr>
 <tr>
@@ -8454,7 +8083,6 @@ int
 </em>
 </td>
 <td>
-<p>PreferredBatchSizeInKilobytes: Preferred batch size in Kilobytes.</p>
 </td>
 </tr>
 </tbody>

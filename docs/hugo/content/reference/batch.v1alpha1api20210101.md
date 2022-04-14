@@ -12,7 +12,7 @@ Resource Types:
 (<em>Appears on:</em><a href="#batch.azure.com/v1alpha1api20210101.BatchAccounts_Spec">BatchAccounts_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-01-01/Microsoft.Batch.json#/definitions/AutoStorageBaseProperties">https://schema.management.azure.com/schemas/2021-01-01/Microsoft.Batch.json#/definitions/AutoStorageBaseProperties</a></p>
+<p>Deprecated version of AutoStorageBaseProperties. Use v1beta20210101.AutoStorageBaseProperties instead</p>
 </div>
 <table>
 <thead>
@@ -32,7 +32,6 @@ genruntime.ResourceReference
 </em>
 </td>
 <td>
-<p>StorageAccountReference: The resource ID of the storage account to be used for auto-storage account.</p>
 </td>
 </tr>
 </tbody>
@@ -43,7 +42,7 @@ genruntime.ResourceReference
 (<em>Appears on:</em><a href="#batch.azure.com/v1alpha1api20210101.BatchAccountCreatePropertiesARM">BatchAccountCreatePropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-01-01/Microsoft.Batch.json#/definitions/AutoStorageBaseProperties">https://schema.management.azure.com/schemas/2021-01-01/Microsoft.Batch.json#/definitions/AutoStorageBaseProperties</a></p>
+<p>Deprecated version of AutoStorageBaseProperties. Use v1beta20210101.AutoStorageBaseProperties instead</p>
 </div>
 <table>
 <thead>
@@ -71,6 +70,7 @@ string
 (<em>Appears on:</em><a href="#batch.azure.com/v1alpha1api20210101.BatchAccount_Status">BatchAccount_Status</a>)
 </p>
 <div>
+<p>Deprecated version of AutoStorageProperties_Status. Use v1beta20210101.AutoStorageProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -88,7 +88,6 @@ string
 </em>
 </td>
 <td>
-<p>LastKeySync: The UTC time at which storage keys were last synchronized with the Batch account.</p>
 </td>
 </tr>
 <tr>
@@ -99,7 +98,6 @@ string
 </em>
 </td>
 <td>
-<p>StorageAccountId: The resource ID of the storage account to be used for auto-storage account.</p>
 </td>
 </tr>
 </tbody>
@@ -110,6 +108,7 @@ string
 (<em>Appears on:</em><a href="#batch.azure.com/v1alpha1api20210101.BatchAccountProperties_StatusARM">BatchAccountProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of AutoStorageProperties_Status. Use v1beta20210101.AutoStorageProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -127,7 +126,6 @@ string
 </em>
 </td>
 <td>
-<p>LastKeySync: The UTC time at which storage keys were last synchronized with the Batch account.</p>
 </td>
 </tr>
 <tr>
@@ -138,7 +136,6 @@ string
 </em>
 </td>
 <td>
-<p>StorageAccountId: The resource ID of the storage account to be used for auto-storage account.</p>
 </td>
 </tr>
 </tbody>
@@ -146,7 +143,7 @@ string
 <h3 id="batch.azure.com/v1alpha1api20210101.BatchAccount">BatchAccount
 </h3>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-01-01/Microsoft.Batch.json#/resourceDefinitions/batchAccounts">https://schema.management.azure.com/schemas/2021-01-01/Microsoft.Batch.json#/resourceDefinitions/batchAccounts</a></p>
+<p>Deprecated version of BatchAccount. Use v1beta20210101.BatchAccount instead</p>
 </div>
 <table>
 <thead>
@@ -193,7 +190,6 @@ AutoStorageBaseProperties
 </em>
 </td>
 <td>
-<p>AutoStorage: The properties related to the auto-storage account.</p>
 </td>
 </tr>
 <tr>
@@ -218,8 +214,6 @@ EncryptionProperties
 </em>
 </td>
 <td>
-<p>Encryption: Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using
-a Microsoft managed key. For additional control, a customer-managed key can be used instead.</p>
 </td>
 </tr>
 <tr>
@@ -232,8 +226,6 @@ BatchAccountIdentity
 </em>
 </td>
 <td>
-<p>Identity: The identity of the Batch account, if configured. This is only used when the user specifies
-&lsquo;Microsoft.KeyVault&rsquo; as their Batch account encryption configuration.</p>
 </td>
 </tr>
 <tr>
@@ -246,7 +238,6 @@ KeyVaultReference
 </em>
 </td>
 <td>
-<p>KeyVaultReference: Identifies the Azure key vault associated with a Batch account.</p>
 </td>
 </tr>
 <tr>
@@ -257,7 +248,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The region in which to create the account.</p>
 </td>
 </tr>
 <tr>
@@ -270,6 +260,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -282,9 +275,6 @@ BatchAccountCreatePropertiesPoolAllocationMode
 </em>
 </td>
 <td>
-<p>PoolAllocationMode: The pool allocation mode also affects how clients may authenticate to the Batch Service API. If the
-mode is BatchService, clients may authenticate using access keys or Azure Active Directory. If the mode is
-UserSubscription, clients must use Azure Active Directory. The default is BatchService.</p>
 </td>
 </tr>
 <tr>
@@ -297,7 +287,6 @@ BatchAccountCreatePropertiesPublicNetworkAccess
 </em>
 </td>
 <td>
-<p>PublicNetworkAccess: If not specified, the default value is &lsquo;enabled&rsquo;.</p>
 </td>
 </tr>
 <tr>
@@ -308,7 +297,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: The user-specified tags associated with the account.</p>
 </td>
 </tr>
 </table>
@@ -334,7 +322,7 @@ BatchAccount_Status
 (<em>Appears on:</em><a href="#batch.azure.com/v1alpha1api20210101.BatchAccounts_SpecARM">BatchAccounts_SpecARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-01-01/Microsoft.Batch.json#/definitions/BatchAccountCreateProperties">https://schema.management.azure.com/schemas/2021-01-01/Microsoft.Batch.json#/definitions/BatchAccountCreateProperties</a></p>
+<p>Deprecated version of BatchAccountCreateProperties. Use v1beta20210101.BatchAccountCreateProperties instead</p>
 </div>
 <table>
 <thead>
@@ -354,7 +342,6 @@ AutoStorageBasePropertiesARM
 </em>
 </td>
 <td>
-<p>AutoStorage: The properties related to the auto-storage account.</p>
 </td>
 </tr>
 <tr>
@@ -367,8 +354,6 @@ EncryptionPropertiesARM
 </em>
 </td>
 <td>
-<p>Encryption: Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using
-a Microsoft managed key. For additional control, a customer-managed key can be used instead.</p>
 </td>
 </tr>
 <tr>
@@ -381,7 +366,6 @@ KeyVaultReferenceARM
 </em>
 </td>
 <td>
-<p>KeyVaultReference: Identifies the Azure key vault associated with a Batch account.</p>
 </td>
 </tr>
 <tr>
@@ -394,9 +378,6 @@ BatchAccountCreatePropertiesPoolAllocationMode
 </em>
 </td>
 <td>
-<p>PoolAllocationMode: The pool allocation mode also affects how clients may authenticate to the Batch Service API. If the
-mode is BatchService, clients may authenticate using access keys or Azure Active Directory. If the mode is
-UserSubscription, clients must use Azure Active Directory. The default is BatchService.</p>
 </td>
 </tr>
 <tr>
@@ -409,7 +390,6 @@ BatchAccountCreatePropertiesPublicNetworkAccess
 </em>
 </td>
 <td>
-<p>PublicNetworkAccess: If not specified, the default value is &lsquo;enabled&rsquo;.</p>
 </td>
 </tr>
 </tbody>
@@ -420,6 +400,8 @@ BatchAccountCreatePropertiesPublicNetworkAccess
 (<em>Appears on:</em><a href="#batch.azure.com/v1alpha1api20210101.BatchAccountCreatePropertiesARM">BatchAccountCreatePropertiesARM</a>, <a href="#batch.azure.com/v1alpha1api20210101.BatchAccounts_Spec">BatchAccounts_Spec</a>)
 </p>
 <div>
+<p>Deprecated version of BatchAccountCreatePropertiesPoolAllocationMode. Use
+v1beta20210101.BatchAccountCreatePropertiesPoolAllocationMode instead</p>
 </div>
 <table>
 <thead>
@@ -440,6 +422,8 @@ BatchAccountCreatePropertiesPublicNetworkAccess
 (<em>Appears on:</em><a href="#batch.azure.com/v1alpha1api20210101.BatchAccountCreatePropertiesARM">BatchAccountCreatePropertiesARM</a>, <a href="#batch.azure.com/v1alpha1api20210101.BatchAccounts_Spec">BatchAccounts_Spec</a>)
 </p>
 <div>
+<p>Deprecated version of BatchAccountCreatePropertiesPublicNetworkAccess. Use
+v1beta20210101.BatchAccountCreatePropertiesPublicNetworkAccess instead</p>
 </div>
 <table>
 <thead>
@@ -460,7 +444,7 @@ BatchAccountCreatePropertiesPublicNetworkAccess
 (<em>Appears on:</em><a href="#batch.azure.com/v1alpha1api20210101.BatchAccounts_Spec">BatchAccounts_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-01-01/Microsoft.Batch.json#/definitions/BatchAccountIdentity">https://schema.management.azure.com/schemas/2021-01-01/Microsoft.Batch.json#/definitions/BatchAccountIdentity</a></p>
+<p>Deprecated version of BatchAccountIdentity. Use v1beta20210101.BatchAccountIdentity instead</p>
 </div>
 <table>
 <thead>
@@ -480,7 +464,6 @@ BatchAccountIdentityType
 </em>
 </td>
 <td>
-<p>Type: The type of identity used for the Batch account.</p>
 </td>
 </tr>
 </tbody>
@@ -491,7 +474,7 @@ BatchAccountIdentityType
 (<em>Appears on:</em><a href="#batch.azure.com/v1alpha1api20210101.BatchAccounts_SpecARM">BatchAccounts_SpecARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-01-01/Microsoft.Batch.json#/definitions/BatchAccountIdentity">https://schema.management.azure.com/schemas/2021-01-01/Microsoft.Batch.json#/definitions/BatchAccountIdentity</a></p>
+<p>Deprecated version of BatchAccountIdentity. Use v1beta20210101.BatchAccountIdentity instead</p>
 </div>
 <table>
 <thead>
@@ -511,7 +494,6 @@ BatchAccountIdentityType
 </em>
 </td>
 <td>
-<p>Type: The type of identity used for the Batch account.</p>
 </td>
 </tr>
 </tbody>
@@ -522,6 +504,7 @@ BatchAccountIdentityType
 (<em>Appears on:</em><a href="#batch.azure.com/v1alpha1api20210101.BatchAccountIdentity_Status">BatchAccountIdentity_Status</a>, <a href="#batch.azure.com/v1alpha1api20210101.BatchAccountIdentity_StatusARM">BatchAccountIdentity_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of BatchAccountIdentityStatusType. Use v1beta20210101.BatchAccountIdentityStatusType instead</p>
 </div>
 <table>
 <thead>
@@ -544,6 +527,7 @@ BatchAccountIdentityType
 (<em>Appears on:</em><a href="#batch.azure.com/v1alpha1api20210101.BatchAccountIdentity">BatchAccountIdentity</a>, <a href="#batch.azure.com/v1alpha1api20210101.BatchAccountIdentityARM">BatchAccountIdentityARM</a>)
 </p>
 <div>
+<p>Deprecated version of BatchAccountIdentityType. Use v1beta20210101.BatchAccountIdentityType instead</p>
 </div>
 <table>
 <thead>
@@ -566,6 +550,7 @@ BatchAccountIdentityType
 (<em>Appears on:</em><a href="#batch.azure.com/v1alpha1api20210101.BatchAccount_Status">BatchAccount_Status</a>)
 </p>
 <div>
+<p>Deprecated version of BatchAccountIdentity_Status. Use v1beta20210101.BatchAccountIdentity_Status instead</p>
 </div>
 <table>
 <thead>
@@ -583,7 +568,6 @@ string
 </em>
 </td>
 <td>
-<p>PrincipalId: The principal id of the Batch account. This property will only be provided for a system assigned identity.</p>
 </td>
 </tr>
 <tr>
@@ -594,8 +578,6 @@ string
 </em>
 </td>
 <td>
-<p>TenantId: The tenant id associated with the Batch account. This property will only be provided for a system assigned
-identity.</p>
 </td>
 </tr>
 <tr>
@@ -608,7 +590,6 @@ BatchAccountIdentityStatusType
 </em>
 </td>
 <td>
-<p>Type: The type of identity used for the Batch account.</p>
 </td>
 </tr>
 <tr>
@@ -621,9 +602,6 @@ map[string]./api/batch/v1alpha1api20210101.BatchAccountIdentity_Status_UserAssig
 </em>
 </td>
 <td>
-<p>UserAssignedIdentities: The list of user identities associated with the Batch account. The user identity dictionary key
-references will be ARM resource ids in the form:
-&lsquo;/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}&rsquo;.</p>
 </td>
 </tr>
 </tbody>
@@ -634,6 +612,7 @@ references will be ARM resource ids in the form:
 (<em>Appears on:</em><a href="#batch.azure.com/v1alpha1api20210101.BatchAccount_StatusARM">BatchAccount_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of BatchAccountIdentity_Status. Use v1beta20210101.BatchAccountIdentity_Status instead</p>
 </div>
 <table>
 <thead>
@@ -651,7 +630,6 @@ string
 </em>
 </td>
 <td>
-<p>PrincipalId: The principal id of the Batch account. This property will only be provided for a system assigned identity.</p>
 </td>
 </tr>
 <tr>
@@ -662,8 +640,6 @@ string
 </em>
 </td>
 <td>
-<p>TenantId: The tenant id associated with the Batch account. This property will only be provided for a system assigned
-identity.</p>
 </td>
 </tr>
 <tr>
@@ -676,7 +652,6 @@ BatchAccountIdentityStatusType
 </em>
 </td>
 <td>
-<p>Type: The type of identity used for the Batch account.</p>
 </td>
 </tr>
 <tr>
@@ -689,9 +664,6 @@ map[string]./api/batch/v1alpha1api20210101.BatchAccountIdentity_Status_UserAssig
 </em>
 </td>
 <td>
-<p>UserAssignedIdentities: The list of user identities associated with the Batch account. The user identity dictionary key
-references will be ARM resource ids in the form:
-&lsquo;/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}&rsquo;.</p>
 </td>
 </tr>
 </tbody>
@@ -702,6 +674,7 @@ references will be ARM resource ids in the form:
 (<em>Appears on:</em><a href="#batch.azure.com/v1alpha1api20210101.BatchAccountIdentity_Status">BatchAccountIdentity_Status</a>)
 </p>
 <div>
+<p>Deprecated version of BatchAccountIdentity_Status_UserAssignedIdentities. Use v1beta20210101.BatchAccountIdentity_Status_UserAssignedIdentities instead</p>
 </div>
 <table>
 <thead>
@@ -719,7 +692,6 @@ string
 </em>
 </td>
 <td>
-<p>ClientId: The client id of user assigned identity.</p>
 </td>
 </tr>
 <tr>
@@ -730,7 +702,6 @@ string
 </em>
 </td>
 <td>
-<p>PrincipalId: The principal id of user assigned identity.</p>
 </td>
 </tr>
 </tbody>
@@ -741,6 +712,7 @@ string
 (<em>Appears on:</em><a href="#batch.azure.com/v1alpha1api20210101.BatchAccountIdentity_StatusARM">BatchAccountIdentity_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of BatchAccountIdentity_Status_UserAssignedIdentities. Use v1beta20210101.BatchAccountIdentity_Status_UserAssignedIdentities instead</p>
 </div>
 <table>
 <thead>
@@ -758,7 +730,6 @@ string
 </em>
 </td>
 <td>
-<p>ClientId: The client id of user assigned identity.</p>
 </td>
 </tr>
 <tr>
@@ -769,7 +740,6 @@ string
 </em>
 </td>
 <td>
-<p>PrincipalId: The principal id of user assigned identity.</p>
 </td>
 </tr>
 </tbody>
@@ -780,6 +750,8 @@ string
 (<em>Appears on:</em><a href="#batch.azure.com/v1alpha1api20210101.BatchAccountProperties_StatusARM">BatchAccountProperties_StatusARM</a>, <a href="#batch.azure.com/v1alpha1api20210101.BatchAccount_Status">BatchAccount_Status</a>)
 </p>
 <div>
+<p>Deprecated version of BatchAccountPropertiesStatusProvisioningState. Use
+v1beta20210101.BatchAccountPropertiesStatusProvisioningState instead</p>
 </div>
 <table>
 <thead>
@@ -808,6 +780,7 @@ string
 (<em>Appears on:</em><a href="#batch.azure.com/v1alpha1api20210101.BatchAccount_StatusARM">BatchAccount_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of BatchAccountProperties_Status. Use v1beta20210101.BatchAccountProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -825,7 +798,6 @@ string
 </em>
 </td>
 <td>
-<p>AccountEndpoint: The account endpoint used to interact with the Batch service.</p>
 </td>
 </tr>
 <tr>
@@ -858,8 +830,6 @@ int
 </em>
 </td>
 <td>
-<p>DedicatedCoreQuota: For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription
-so this value is not returned.</p>
 </td>
 </tr>
 <tr>
@@ -872,9 +842,6 @@ so this value is not returned.</p>
 </em>
 </td>
 <td>
-<p>DedicatedCoreQuotaPerVMFamily: A list of the dedicated core quota per Virtual Machine family for the Batch account. For
-accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not
-returned.</p>
 </td>
 </tr>
 <tr>
@@ -885,11 +852,6 @@ bool
 </em>
 </td>
 <td>
-<p>DedicatedCoreQuotaPerVMFamilyEnforced: Batch is transitioning its core quota system for dedicated cores to be enforced
-per Virtual Machine family. During this transitional phase, the dedicated core quota per Virtual Machine family may not
-yet be enforced. If this flag is false, dedicated core quota is enforced via the old dedicatedCoreQuota property on the
-account and does not consider Virtual Machine family. If this flag is true, dedicated core quota is enforced via the
-dedicatedCoreQuotaPerVMFamily property on the account, and the old dedicatedCoreQuota does not apply.</p>
 </td>
 </tr>
 <tr>
@@ -902,8 +864,6 @@ EncryptionProperties_StatusARM
 </em>
 </td>
 <td>
-<p>Encryption: Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using
-a Microsoft managed key. For additional control, a customer-managed key can be used instead.</p>
 </td>
 </tr>
 <tr>
@@ -926,8 +886,6 @@ int
 </em>
 </td>
 <td>
-<p>LowPriorityCoreQuota: For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription
-so this value is not returned.</p>
 </td>
 </tr>
 <tr>
@@ -962,7 +920,6 @@ int
 </em>
 </td>
 <td>
-<p>PrivateEndpointConnections: List of private endpoint connections associated with the Batch account</p>
 </td>
 </tr>
 <tr>
@@ -975,7 +932,6 @@ BatchAccountPropertiesStatusProvisioningState
 </em>
 </td>
 <td>
-<p>ProvisioningState: The provisioned state of the resource</p>
 </td>
 </tr>
 <tr>
@@ -988,7 +944,6 @@ PublicNetworkAccessType_Status
 </em>
 </td>
 <td>
-<p>PublicNetworkAccess: If not specified, the default value is &lsquo;enabled&rsquo;.</p>
 </td>
 </tr>
 </tbody>
@@ -999,6 +954,7 @@ PublicNetworkAccessType_Status
 (<em>Appears on:</em><a href="#batch.azure.com/v1alpha1api20210101.BatchAccount">BatchAccount</a>)
 </p>
 <div>
+<p>Deprecated version of BatchAccount_Status. Use v1beta20210101.BatchAccount_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1016,7 +972,6 @@ string
 </em>
 </td>
 <td>
-<p>AccountEndpoint: The account endpoint used to interact with the Batch service.</p>
 </td>
 </tr>
 <tr>
@@ -1062,8 +1017,6 @@ int
 </em>
 </td>
 <td>
-<p>DedicatedCoreQuota: For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription
-so this value is not returned.</p>
 </td>
 </tr>
 <tr>
@@ -1076,9 +1029,6 @@ so this value is not returned.</p>
 </em>
 </td>
 <td>
-<p>DedicatedCoreQuotaPerVMFamily: A list of the dedicated core quota per Virtual Machine family for the Batch account. For
-accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not
-returned.</p>
 </td>
 </tr>
 <tr>
@@ -1089,11 +1039,6 @@ bool
 </em>
 </td>
 <td>
-<p>DedicatedCoreQuotaPerVMFamilyEnforced: Batch is transitioning its core quota system for dedicated cores to be enforced
-per Virtual Machine family. During this transitional phase, the dedicated core quota per Virtual Machine family may not
-yet be enforced. If this flag is false, dedicated core quota is enforced via the old dedicatedCoreQuota property on the
-account and does not consider Virtual Machine family. If this flag is true, dedicated core quota is enforced via the
-dedicatedCoreQuotaPerVMFamily property on the account, and the old dedicatedCoreQuota does not apply.</p>
 </td>
 </tr>
 <tr>
@@ -1106,8 +1051,6 @@ EncryptionProperties_Status
 </em>
 </td>
 <td>
-<p>Encryption: Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using
-a Microsoft managed key. For additional control, a customer-managed key can be used instead.</p>
 </td>
 </tr>
 <tr>
@@ -1118,7 +1061,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: The ID of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -1131,7 +1073,6 @@ BatchAccountIdentity_Status
 </em>
 </td>
 <td>
-<p>Identity: The identity of the Batch account.</p>
 </td>
 </tr>
 <tr>
@@ -1154,7 +1095,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The location of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -1165,8 +1105,6 @@ int
 </em>
 </td>
 <td>
-<p>LowPriorityCoreQuota: For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription
-so this value is not returned.</p>
 </td>
 </tr>
 <tr>
@@ -1177,7 +1115,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -1212,7 +1149,6 @@ int
 </em>
 </td>
 <td>
-<p>PrivateEndpointConnections: List of private endpoint connections associated with the Batch account</p>
 </td>
 </tr>
 <tr>
@@ -1225,7 +1161,6 @@ BatchAccountPropertiesStatusProvisioningState
 </em>
 </td>
 <td>
-<p>ProvisioningState: The provisioned state of the resource</p>
 </td>
 </tr>
 <tr>
@@ -1238,7 +1173,6 @@ PublicNetworkAccessType_Status
 </em>
 </td>
 <td>
-<p>PublicNetworkAccess: If not specified, the default value is &lsquo;enabled&rsquo;.</p>
 </td>
 </tr>
 <tr>
@@ -1249,7 +1183,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: The tags of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -1260,7 +1193,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: The type of the resource.</p>
 </td>
 </tr>
 </tbody>
@@ -1268,6 +1200,7 @@ string
 <h3 id="batch.azure.com/v1alpha1api20210101.BatchAccount_StatusARM">BatchAccount_StatusARM
 </h3>
 <div>
+<p>Deprecated version of BatchAccount_Status. Use v1beta20210101.BatchAccount_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1285,7 +1218,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: The ID of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -1298,7 +1230,6 @@ BatchAccountIdentity_StatusARM
 </em>
 </td>
 <td>
-<p>Identity: The identity of the Batch account.</p>
 </td>
 </tr>
 <tr>
@@ -1309,7 +1240,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The location of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -1320,7 +1250,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -1333,7 +1262,6 @@ BatchAccountProperties_StatusARM
 </em>
 </td>
 <td>
-<p>Properties: The properties associated with the account.</p>
 </td>
 </tr>
 <tr>
@@ -1344,7 +1272,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: The tags of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -1355,25 +1282,9 @@ string
 </em>
 </td>
 <td>
-<p>Type: The type of the resource.</p>
 </td>
 </tr>
 </tbody>
-</table>
-<h3 id="batch.azure.com/v1alpha1api20210101.BatchAccountsSpecAPIVersion">BatchAccountsSpecAPIVersion
-(<code>string</code> alias)</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;2021-01-01&#34;</p></td>
-<td></td>
-</tr></tbody>
 </table>
 <h3 id="batch.azure.com/v1alpha1api20210101.BatchAccounts_Spec">BatchAccounts_Spec
 </h3>
@@ -1400,7 +1311,6 @@ AutoStorageBaseProperties
 </em>
 </td>
 <td>
-<p>AutoStorage: The properties related to the auto-storage account.</p>
 </td>
 </tr>
 <tr>
@@ -1425,8 +1335,6 @@ EncryptionProperties
 </em>
 </td>
 <td>
-<p>Encryption: Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using
-a Microsoft managed key. For additional control, a customer-managed key can be used instead.</p>
 </td>
 </tr>
 <tr>
@@ -1439,8 +1347,6 @@ BatchAccountIdentity
 </em>
 </td>
 <td>
-<p>Identity: The identity of the Batch account, if configured. This is only used when the user specifies
-&lsquo;Microsoft.KeyVault&rsquo; as their Batch account encryption configuration.</p>
 </td>
 </tr>
 <tr>
@@ -1453,7 +1359,6 @@ KeyVaultReference
 </em>
 </td>
 <td>
-<p>KeyVaultReference: Identifies the Azure key vault associated with a Batch account.</p>
 </td>
 </tr>
 <tr>
@@ -1464,7 +1369,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The region in which to create the account.</p>
 </td>
 </tr>
 <tr>
@@ -1477,6 +1381,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -1489,9 +1396,6 @@ BatchAccountCreatePropertiesPoolAllocationMode
 </em>
 </td>
 <td>
-<p>PoolAllocationMode: The pool allocation mode also affects how clients may authenticate to the Batch Service API. If the
-mode is BatchService, clients may authenticate using access keys or Azure Active Directory. If the mode is
-UserSubscription, clients must use Azure Active Directory. The default is BatchService.</p>
 </td>
 </tr>
 <tr>
@@ -1504,7 +1408,6 @@ BatchAccountCreatePropertiesPublicNetworkAccess
 </em>
 </td>
 <td>
-<p>PublicNetworkAccess: If not specified, the default value is &lsquo;enabled&rsquo;.</p>
 </td>
 </tr>
 <tr>
@@ -1515,7 +1418,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: The user-specified tags associated with the account.</p>
 </td>
 </tr>
 </tbody>
@@ -1523,6 +1425,7 @@ map[string]string
 <h3 id="batch.azure.com/v1alpha1api20210101.BatchAccounts_SpecARM">BatchAccounts_SpecARM
 </h3>
 <div>
+<p>Deprecated version of BatchAccounts_Spec. Use v1beta20210101.BatchAccounts_Spec instead</p>
 </div>
 <table>
 <thead>
@@ -1542,8 +1445,6 @@ BatchAccountIdentityARM
 </em>
 </td>
 <td>
-<p>Identity: The identity of the Batch account, if configured. This is only used when the user specifies
-&lsquo;Microsoft.KeyVault&rsquo; as their Batch account encryption configuration.</p>
 </td>
 </tr>
 <tr>
@@ -1554,7 +1455,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The region in which to create the account.</p>
 </td>
 </tr>
 <tr>
@@ -1565,10 +1465,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: A name for the Batch account which must be unique within the region. Batch account names must be between 3 and 24
-characters in length and must use only numbers and lowercase letters. This name is used as part of the DNS name that is
-used to access the Batch service in the region in which the account is created. For example:
-<a href="http://accountname.region.batch.azure.com/">http://accountname.region.batch.azure.com/</a>.</p>
 </td>
 </tr>
 <tr>
@@ -1581,7 +1477,6 @@ BatchAccountCreatePropertiesARM
 </em>
 </td>
 <td>
-<p>Properties: The properties of a Batch account.</p>
 </td>
 </tr>
 <tr>
@@ -1592,7 +1487,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: The user-specified tags associated with the account.</p>
 </td>
 </tr>
 </tbody>
@@ -1603,7 +1497,7 @@ map[string]string
 (<em>Appears on:</em><a href="#batch.azure.com/v1alpha1api20210101.BatchAccounts_Spec">BatchAccounts_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-01-01/Microsoft.Batch.json#/definitions/EncryptionProperties">https://schema.management.azure.com/schemas/2021-01-01/Microsoft.Batch.json#/definitions/EncryptionProperties</a></p>
+<p>Deprecated version of EncryptionProperties. Use v1beta20210101.EncryptionProperties instead</p>
 </div>
 <table>
 <thead>
@@ -1623,7 +1517,6 @@ EncryptionPropertiesKeySource
 </em>
 </td>
 <td>
-<p>KeySource: Type of the key source.</p>
 </td>
 </tr>
 <tr>
@@ -1636,7 +1529,6 @@ KeyVaultProperties
 </em>
 </td>
 <td>
-<p>KeyVaultProperties: KeyVault configuration when using an encryption KeySource of Microsoft.KeyVault.</p>
 </td>
 </tr>
 </tbody>
@@ -1647,7 +1539,7 @@ KeyVaultProperties
 (<em>Appears on:</em><a href="#batch.azure.com/v1alpha1api20210101.BatchAccountCreatePropertiesARM">BatchAccountCreatePropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-01-01/Microsoft.Batch.json#/definitions/EncryptionProperties">https://schema.management.azure.com/schemas/2021-01-01/Microsoft.Batch.json#/definitions/EncryptionProperties</a></p>
+<p>Deprecated version of EncryptionProperties. Use v1beta20210101.EncryptionProperties instead</p>
 </div>
 <table>
 <thead>
@@ -1667,7 +1559,6 @@ EncryptionPropertiesKeySource
 </em>
 </td>
 <td>
-<p>KeySource: Type of the key source.</p>
 </td>
 </tr>
 <tr>
@@ -1680,7 +1571,6 @@ KeyVaultPropertiesARM
 </em>
 </td>
 <td>
-<p>KeyVaultProperties: KeyVault configuration when using an encryption KeySource of Microsoft.KeyVault.</p>
 </td>
 </tr>
 </tbody>
@@ -1691,6 +1581,7 @@ KeyVaultPropertiesARM
 (<em>Appears on:</em><a href="#batch.azure.com/v1alpha1api20210101.EncryptionProperties">EncryptionProperties</a>, <a href="#batch.azure.com/v1alpha1api20210101.EncryptionPropertiesARM">EncryptionPropertiesARM</a>)
 </p>
 <div>
+<p>Deprecated version of EncryptionPropertiesKeySource. Use v1beta20210101.EncryptionPropertiesKeySource instead</p>
 </div>
 <table>
 <thead>
@@ -1711,6 +1602,7 @@ KeyVaultPropertiesARM
 (<em>Appears on:</em><a href="#batch.azure.com/v1alpha1api20210101.EncryptionProperties_Status">EncryptionProperties_Status</a>, <a href="#batch.azure.com/v1alpha1api20210101.EncryptionProperties_StatusARM">EncryptionProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of EncryptionPropertiesStatusKeySource. Use v1beta20210101.EncryptionPropertiesStatusKeySource instead</p>
 </div>
 <table>
 <thead>
@@ -1731,6 +1623,7 @@ KeyVaultPropertiesARM
 (<em>Appears on:</em><a href="#batch.azure.com/v1alpha1api20210101.BatchAccount_Status">BatchAccount_Status</a>)
 </p>
 <div>
+<p>Deprecated version of EncryptionProperties_Status. Use v1beta20210101.EncryptionProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1750,7 +1643,6 @@ EncryptionPropertiesStatusKeySource
 </em>
 </td>
 <td>
-<p>KeySource: Type of the key source.</p>
 </td>
 </tr>
 <tr>
@@ -1763,7 +1655,6 @@ KeyVaultProperties_Status
 </em>
 </td>
 <td>
-<p>KeyVaultProperties: Additional details when using Microsoft.KeyVault</p>
 </td>
 </tr>
 </tbody>
@@ -1774,6 +1665,7 @@ KeyVaultProperties_Status
 (<em>Appears on:</em><a href="#batch.azure.com/v1alpha1api20210101.BatchAccountProperties_StatusARM">BatchAccountProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of EncryptionProperties_Status. Use v1beta20210101.EncryptionProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1793,7 +1685,6 @@ EncryptionPropertiesStatusKeySource
 </em>
 </td>
 <td>
-<p>KeySource: Type of the key source.</p>
 </td>
 </tr>
 <tr>
@@ -1806,7 +1697,6 @@ KeyVaultProperties_StatusARM
 </em>
 </td>
 <td>
-<p>KeyVaultProperties: Additional details when using Microsoft.KeyVault</p>
 </td>
 </tr>
 </tbody>
@@ -1817,7 +1707,7 @@ KeyVaultProperties_StatusARM
 (<em>Appears on:</em><a href="#batch.azure.com/v1alpha1api20210101.EncryptionProperties">EncryptionProperties</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-01-01/Microsoft.Batch.json#/definitions/KeyVaultProperties">https://schema.management.azure.com/schemas/2021-01-01/Microsoft.Batch.json#/definitions/KeyVaultProperties</a></p>
+<p>Deprecated version of KeyVaultProperties. Use v1beta20210101.KeyVaultProperties instead</p>
 </div>
 <table>
 <thead>
@@ -1835,12 +1725,6 @@ string
 </em>
 </td>
 <td>
-<p>KeyIdentifier: Full path to the versioned secret. Example
-<a href="https://mykeyvault.vault.azure.net/keys/testkey/6e34a81fef704045975661e297a4c053">https://mykeyvault.vault.azure.net/keys/testkey/6e34a81fef704045975661e297a4c053</a>. To be usable the following
-prerequisites must be met:
-The Batch Account has a System Assigned identity
-The account identity has been granted Key/Get, Key/Unwrap and Key/Wrap permissions
-The KeyVault has soft-delete and purge protection enabled</p>
 </td>
 </tr>
 </tbody>
@@ -1851,7 +1735,7 @@ The KeyVault has soft-delete and purge protection enabled</p>
 (<em>Appears on:</em><a href="#batch.azure.com/v1alpha1api20210101.EncryptionPropertiesARM">EncryptionPropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-01-01/Microsoft.Batch.json#/definitions/KeyVaultProperties">https://schema.management.azure.com/schemas/2021-01-01/Microsoft.Batch.json#/definitions/KeyVaultProperties</a></p>
+<p>Deprecated version of KeyVaultProperties. Use v1beta20210101.KeyVaultProperties instead</p>
 </div>
 <table>
 <thead>
@@ -1869,12 +1753,6 @@ string
 </em>
 </td>
 <td>
-<p>KeyIdentifier: Full path to the versioned secret. Example
-<a href="https://mykeyvault.vault.azure.net/keys/testkey/6e34a81fef704045975661e297a4c053">https://mykeyvault.vault.azure.net/keys/testkey/6e34a81fef704045975661e297a4c053</a>. To be usable the following
-prerequisites must be met:
-The Batch Account has a System Assigned identity
-The account identity has been granted Key/Get, Key/Unwrap and Key/Wrap permissions
-The KeyVault has soft-delete and purge protection enabled</p>
 </td>
 </tr>
 </tbody>
@@ -1885,6 +1763,7 @@ The KeyVault has soft-delete and purge protection enabled</p>
 (<em>Appears on:</em><a href="#batch.azure.com/v1alpha1api20210101.EncryptionProperties_Status">EncryptionProperties_Status</a>)
 </p>
 <div>
+<p>Deprecated version of KeyVaultProperties_Status. Use v1beta20210101.KeyVaultProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1902,12 +1781,6 @@ string
 </em>
 </td>
 <td>
-<p>KeyIdentifier: Full path to the versioned secret. Example
-<a href="https://mykeyvault.vault.azure.net/keys/testkey/6e34a81fef704045975661e297a4c053">https://mykeyvault.vault.azure.net/keys/testkey/6e34a81fef704045975661e297a4c053</a>. To be usable the following
-prerequisites must be met:
-The Batch Account has a System Assigned identity
-The account identity has been granted Key/Get, Key/Unwrap and Key/Wrap permissions
-The KeyVault has soft-delete and purge protection enabled</p>
 </td>
 </tr>
 </tbody>
@@ -1918,6 +1791,7 @@ The KeyVault has soft-delete and purge protection enabled</p>
 (<em>Appears on:</em><a href="#batch.azure.com/v1alpha1api20210101.EncryptionProperties_StatusARM">EncryptionProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of KeyVaultProperties_Status. Use v1beta20210101.KeyVaultProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1935,12 +1809,6 @@ string
 </em>
 </td>
 <td>
-<p>KeyIdentifier: Full path to the versioned secret. Example
-<a href="https://mykeyvault.vault.azure.net/keys/testkey/6e34a81fef704045975661e297a4c053">https://mykeyvault.vault.azure.net/keys/testkey/6e34a81fef704045975661e297a4c053</a>. To be usable the following
-prerequisites must be met:
-The Batch Account has a System Assigned identity
-The account identity has been granted Key/Get, Key/Unwrap and Key/Wrap permissions
-The KeyVault has soft-delete and purge protection enabled</p>
 </td>
 </tr>
 </tbody>
@@ -1951,7 +1819,7 @@ The KeyVault has soft-delete and purge protection enabled</p>
 (<em>Appears on:</em><a href="#batch.azure.com/v1alpha1api20210101.BatchAccounts_Spec">BatchAccounts_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-01-01/Microsoft.Batch.json#/definitions/KeyVaultReference">https://schema.management.azure.com/schemas/2021-01-01/Microsoft.Batch.json#/definitions/KeyVaultReference</a></p>
+<p>Deprecated version of KeyVaultReference. Use v1beta20210101.KeyVaultReference instead</p>
 </div>
 <table>
 <thead>
@@ -1971,7 +1839,6 @@ genruntime.ResourceReference
 </em>
 </td>
 <td>
-<p>Reference: The resource ID of the Azure key vault associated with the Batch account.</p>
 </td>
 </tr>
 <tr>
@@ -1982,7 +1849,6 @@ string
 </em>
 </td>
 <td>
-<p>Url: The URL of the Azure key vault associated with the Batch account.</p>
 </td>
 </tr>
 </tbody>
@@ -1993,7 +1859,7 @@ string
 (<em>Appears on:</em><a href="#batch.azure.com/v1alpha1api20210101.BatchAccountCreatePropertiesARM">BatchAccountCreatePropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-01-01/Microsoft.Batch.json#/definitions/KeyVaultReference">https://schema.management.azure.com/schemas/2021-01-01/Microsoft.Batch.json#/definitions/KeyVaultReference</a></p>
+<p>Deprecated version of KeyVaultReference. Use v1beta20210101.KeyVaultReference instead</p>
 </div>
 <table>
 <thead>
@@ -2021,7 +1887,6 @@ string
 </em>
 </td>
 <td>
-<p>Url: The URL of the Azure key vault associated with the Batch account.</p>
 </td>
 </tr>
 </tbody>
@@ -2032,6 +1897,7 @@ string
 (<em>Appears on:</em><a href="#batch.azure.com/v1alpha1api20210101.BatchAccount_Status">BatchAccount_Status</a>)
 </p>
 <div>
+<p>Deprecated version of KeyVaultReference_Status. Use v1beta20210101.KeyVaultReference_Status instead</p>
 </div>
 <table>
 <thead>
@@ -2049,7 +1915,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: The resource ID of the Azure key vault associated with the Batch account.</p>
 </td>
 </tr>
 <tr>
@@ -2060,7 +1925,6 @@ string
 </em>
 </td>
 <td>
-<p>Url: The URL of the Azure key vault associated with the Batch account.</p>
 </td>
 </tr>
 </tbody>
@@ -2071,6 +1935,7 @@ string
 (<em>Appears on:</em><a href="#batch.azure.com/v1alpha1api20210101.BatchAccountProperties_StatusARM">BatchAccountProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of KeyVaultReference_Status. Use v1beta20210101.KeyVaultReference_Status instead</p>
 </div>
 <table>
 <thead>
@@ -2088,7 +1953,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: The resource ID of the Azure key vault associated with the Batch account.</p>
 </td>
 </tr>
 <tr>
@@ -2099,7 +1963,6 @@ string
 </em>
 </td>
 <td>
-<p>Url: The URL of the Azure key vault associated with the Batch account.</p>
 </td>
 </tr>
 </tbody>
@@ -2110,6 +1973,7 @@ string
 (<em>Appears on:</em><a href="#batch.azure.com/v1alpha1api20210101.BatchAccountProperties_StatusARM">BatchAccountProperties_StatusARM</a>, <a href="#batch.azure.com/v1alpha1api20210101.BatchAccount_Status">BatchAccount_Status</a>)
 </p>
 <div>
+<p>Deprecated version of PoolAllocationMode_Status. Use v1beta20210101.PoolAllocationMode_Status instead</p>
 </div>
 <table>
 <thead>
@@ -2130,6 +1994,8 @@ string
 (<em>Appears on:</em><a href="#batch.azure.com/v1alpha1api20210101.PrivateEndpointConnectionProperties_StatusARM">PrivateEndpointConnectionProperties_StatusARM</a>, <a href="#batch.azure.com/v1alpha1api20210101.PrivateEndpointConnection_Status">PrivateEndpointConnection_Status</a>)
 </p>
 <div>
+<p>Deprecated version of PrivateEndpointConnectionPropertiesStatusProvisioningState. Use
+v1beta20210101.PrivateEndpointConnectionPropertiesStatusProvisioningState instead</p>
 </div>
 <table>
 <thead>
@@ -2152,6 +2018,7 @@ string
 (<em>Appears on:</em><a href="#batch.azure.com/v1alpha1api20210101.PrivateEndpointConnection_StatusARM">PrivateEndpointConnection_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of PrivateEndpointConnectionProperties_Status. Use v1beta20210101.PrivateEndpointConnectionProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -2205,6 +2072,7 @@ PrivateEndpointConnectionPropertiesStatusProvisioningState
 (<em>Appears on:</em><a href="#batch.azure.com/v1alpha1api20210101.BatchAccount_Status">BatchAccount_Status</a>)
 </p>
 <div>
+<p>Deprecated version of PrivateEndpointConnection_Status. Use v1beta20210101.PrivateEndpointConnection_Status instead</p>
 </div>
 <table>
 <thead>
@@ -2222,7 +2090,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: The ETag of the resource, used for concurrency statements.</p>
 </td>
 </tr>
 <tr>
@@ -2233,7 +2100,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: The ID of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -2244,7 +2110,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -2291,7 +2156,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: The type of the resource.</p>
 </td>
 </tr>
 </tbody>
@@ -2302,6 +2166,7 @@ string
 (<em>Appears on:</em><a href="#batch.azure.com/v1alpha1api20210101.BatchAccountProperties_StatusARM">BatchAccountProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of PrivateEndpointConnection_Status. Use v1beta20210101.PrivateEndpointConnection_Status instead</p>
 </div>
 <table>
 <thead>
@@ -2319,7 +2184,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: The ETag of the resource, used for concurrency statements.</p>
 </td>
 </tr>
 <tr>
@@ -2330,7 +2194,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: The ID of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -2341,7 +2204,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -2354,7 +2216,6 @@ PrivateEndpointConnectionProperties_StatusARM
 </em>
 </td>
 <td>
-<p>Properties: The properties associated with the private endpoint connection.</p>
 </td>
 </tr>
 <tr>
@@ -2365,7 +2226,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: The type of the resource.</p>
 </td>
 </tr>
 </tbody>
@@ -2376,6 +2236,7 @@ string
 (<em>Appears on:</em><a href="#batch.azure.com/v1alpha1api20210101.PrivateEndpointConnection_Status">PrivateEndpointConnection_Status</a>)
 </p>
 <div>
+<p>Deprecated version of PrivateEndpoint_Status. Use v1beta20210101.PrivateEndpoint_Status instead</p>
 </div>
 <table>
 <thead>
@@ -2403,6 +2264,7 @@ string
 (<em>Appears on:</em><a href="#batch.azure.com/v1alpha1api20210101.PrivateEndpointConnectionProperties_StatusARM">PrivateEndpointConnectionProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of PrivateEndpoint_Status. Use v1beta20210101.PrivateEndpoint_Status instead</p>
 </div>
 <table>
 <thead>
@@ -2430,6 +2292,7 @@ string
 (<em>Appears on:</em><a href="#batch.azure.com/v1alpha1api20210101.PrivateEndpointConnection_Status">PrivateEndpointConnection_Status</a>)
 </p>
 <div>
+<p>Deprecated version of PrivateLinkServiceConnectionState_Status. Use v1beta20210101.PrivateLinkServiceConnectionState_Status instead</p>
 </div>
 <table>
 <thead>
@@ -2479,6 +2342,7 @@ PrivateLinkServiceConnectionStatus_Status
 (<em>Appears on:</em><a href="#batch.azure.com/v1alpha1api20210101.PrivateEndpointConnectionProperties_StatusARM">PrivateEndpointConnectionProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of PrivateLinkServiceConnectionState_Status. Use v1beta20210101.PrivateLinkServiceConnectionState_Status instead</p>
 </div>
 <table>
 <thead>
@@ -2528,6 +2392,8 @@ PrivateLinkServiceConnectionStatus_Status
 (<em>Appears on:</em><a href="#batch.azure.com/v1alpha1api20210101.PrivateLinkServiceConnectionState_Status">PrivateLinkServiceConnectionState_Status</a>, <a href="#batch.azure.com/v1alpha1api20210101.PrivateLinkServiceConnectionState_StatusARM">PrivateLinkServiceConnectionState_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of PrivateLinkServiceConnectionStatus_Status. Use
+v1beta20210101.PrivateLinkServiceConnectionStatus_Status instead</p>
 </div>
 <table>
 <thead>
@@ -2552,6 +2418,7 @@ PrivateLinkServiceConnectionStatus_Status
 (<em>Appears on:</em><a href="#batch.azure.com/v1alpha1api20210101.BatchAccountProperties_StatusARM">BatchAccountProperties_StatusARM</a>, <a href="#batch.azure.com/v1alpha1api20210101.BatchAccount_Status">BatchAccount_Status</a>)
 </p>
 <div>
+<p>Deprecated version of PublicNetworkAccessType_Status. Use v1beta20210101.PublicNetworkAccessType_Status instead</p>
 </div>
 <table>
 <thead>
@@ -2572,6 +2439,7 @@ PrivateLinkServiceConnectionStatus_Status
 (<em>Appears on:</em><a href="#batch.azure.com/v1alpha1api20210101.BatchAccount_Status">BatchAccount_Status</a>)
 </p>
 <div>
+<p>Deprecated version of VirtualMachineFamilyCoreQuota_Status. Use v1beta20210101.VirtualMachineFamilyCoreQuota_Status instead</p>
 </div>
 <table>
 <thead>
@@ -2589,7 +2457,6 @@ int
 </em>
 </td>
 <td>
-<p>CoreQuota: The core quota for the VM family for the Batch account.</p>
 </td>
 </tr>
 <tr>
@@ -2600,7 +2467,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The Virtual Machine family name.</p>
 </td>
 </tr>
 </tbody>
@@ -2611,6 +2477,7 @@ string
 (<em>Appears on:</em><a href="#batch.azure.com/v1alpha1api20210101.BatchAccountProperties_StatusARM">BatchAccountProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of VirtualMachineFamilyCoreQuota_Status. Use v1beta20210101.VirtualMachineFamilyCoreQuota_Status instead</p>
 </div>
 <table>
 <thead>
@@ -2628,7 +2495,6 @@ int
 </em>
 </td>
 <td>
-<p>CoreQuota: The core quota for the VM family for the Batch account.</p>
 </td>
 </tr>
 <tr>
@@ -2639,7 +2505,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The Virtual Machine family name.</p>
 </td>
 </tr>
 </tbody>

@@ -12,7 +12,7 @@ Resource Types:
 (<em>Appears on:</em><a href="#insights.azure.com/v1alpha1api20180501preview.WebTestPropertiesRequest">WebTestPropertiesRequest</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/HeaderField">https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/HeaderField</a></p>
+<p>Deprecated version of HeaderField. Use v1beta20180501preview.HeaderField instead</p>
 </div>
 <table>
 <thead>
@@ -30,7 +30,6 @@ string
 </em>
 </td>
 <td>
-<p>Key: The name of the header.</p>
 </td>
 </tr>
 <tr>
@@ -41,7 +40,6 @@ string
 </em>
 </td>
 <td>
-<p>Value: The value of the header.</p>
 </td>
 </tr>
 </tbody>
@@ -52,7 +50,7 @@ string
 (<em>Appears on:</em><a href="#insights.azure.com/v1alpha1api20180501preview.WebTestPropertiesRequestARM">WebTestPropertiesRequestARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/HeaderField">https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/HeaderField</a></p>
+<p>Deprecated version of HeaderField. Use v1beta20180501preview.HeaderField instead</p>
 </div>
 <table>
 <thead>
@@ -70,7 +68,6 @@ string
 </em>
 </td>
 <td>
-<p>Key: The name of the header.</p>
 </td>
 </tr>
 <tr>
@@ -81,7 +78,6 @@ string
 </em>
 </td>
 <td>
-<p>Value: The value of the header.</p>
 </td>
 </tr>
 </tbody>
@@ -92,6 +88,7 @@ string
 (<em>Appears on:</em><a href="#insights.azure.com/v1alpha1api20180501preview.WebTestProperties_Status_Request">WebTestProperties_Status_Request</a>)
 </p>
 <div>
+<p>Deprecated version of HeaderField_Status. Use v1beta20180501preview.HeaderField_Status instead</p>
 </div>
 <table>
 <thead>
@@ -109,7 +106,6 @@ string
 </em>
 </td>
 <td>
-<p>Key: The name of the header.</p>
 </td>
 </tr>
 <tr>
@@ -120,7 +116,6 @@ string
 </em>
 </td>
 <td>
-<p>Value: The value of the header.</p>
 </td>
 </tr>
 </tbody>
@@ -131,6 +126,7 @@ string
 (<em>Appears on:</em><a href="#insights.azure.com/v1alpha1api20180501preview.WebTestProperties_Status_RequestARM">WebTestProperties_Status_RequestARM</a>)
 </p>
 <div>
+<p>Deprecated version of HeaderField_Status. Use v1beta20180501preview.HeaderField_Status instead</p>
 </div>
 <table>
 <thead>
@@ -148,7 +144,6 @@ string
 </em>
 </td>
 <td>
-<p>Key: The name of the header.</p>
 </td>
 </tr>
 <tr>
@@ -159,7 +154,6 @@ string
 </em>
 </td>
 <td>
-<p>Value: The value of the header.</p>
 </td>
 </tr>
 </tbody>
@@ -170,7 +164,7 @@ string
 (<em>Appears on:</em><a href="#insights.azure.com/v1alpha1api20180501preview.Webtests_Spec">Webtests_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestGeolocation">https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestGeolocation</a></p>
+<p>Deprecated version of WebTestGeolocation. Use v1beta20180501preview.WebTestGeolocation instead</p>
 </div>
 <table>
 <thead>
@@ -188,7 +182,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Location ID for the WebTest to run from.</p>
 </td>
 </tr>
 </tbody>
@@ -199,7 +192,7 @@ string
 (<em>Appears on:</em><a href="#insights.azure.com/v1alpha1api20180501preview.WebTestPropertiesARM">WebTestPropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestGeolocation">https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestGeolocation</a></p>
+<p>Deprecated version of WebTestGeolocation. Use v1beta20180501preview.WebTestGeolocation instead</p>
 </div>
 <table>
 <thead>
@@ -217,7 +210,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Location ID for the WebTest to run from.</p>
 </td>
 </tr>
 </tbody>
@@ -228,6 +220,7 @@ string
 (<em>Appears on:</em><a href="#insights.azure.com/v1alpha1api20180501preview.WebTest_Status">WebTest_Status</a>)
 </p>
 <div>
+<p>Deprecated version of WebTestGeolocation_Status. Use v1beta20180501preview.WebTestGeolocation_Status instead</p>
 </div>
 <table>
 <thead>
@@ -245,7 +238,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Location ID for the WebTest to run from.</p>
 </td>
 </tr>
 </tbody>
@@ -256,6 +248,7 @@ string
 (<em>Appears on:</em><a href="#insights.azure.com/v1alpha1api20180501preview.WebTestProperties_StatusARM">WebTestProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of WebTestGeolocation_Status. Use v1beta20180501preview.WebTestGeolocation_Status instead</p>
 </div>
 <table>
 <thead>
@@ -273,7 +266,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Location ID for the WebTest to run from.</p>
 </td>
 </tr>
 </tbody>
@@ -284,7 +276,7 @@ string
 (<em>Appears on:</em><a href="#insights.azure.com/v1alpha1api20180501preview.Webtests_SpecARM">Webtests_SpecARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestProperties">https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestProperties</a></p>
+<p>Deprecated version of WebTestProperties. Use v1beta20180501preview.WebTestProperties instead</p>
 </div>
 <table>
 <thead>
@@ -304,7 +296,6 @@ WebTestPropertiesConfigurationARM
 </em>
 </td>
 <td>
-<p>Configuration: An XML configuration specification for a WebTest.</p>
 </td>
 </tr>
 <tr>
@@ -315,7 +306,6 @@ string
 </em>
 </td>
 <td>
-<p>Description: User defined description for this WebTest.</p>
 </td>
 </tr>
 <tr>
@@ -326,7 +316,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Is the test actively being monitored.</p>
 </td>
 </tr>
 <tr>
@@ -337,7 +326,6 @@ int
 </em>
 </td>
 <td>
-<p>Frequency: Interval in seconds between test runs for this WebTest. Default value is 300.</p>
 </td>
 </tr>
 <tr>
@@ -350,7 +338,6 @@ WebTestPropertiesKind
 </em>
 </td>
 <td>
-<p>Kind: The kind of web test this is, valid choices are ping, multistep, basic, and standard.</p>
 </td>
 </tr>
 <tr>
@@ -363,8 +350,6 @@ WebTestPropertiesKind
 </em>
 </td>
 <td>
-<p>Locations: A list of where to physically run the tests from to give global coverage for accessibility of your
-application.</p>
 </td>
 </tr>
 <tr>
@@ -375,7 +360,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: User defined name if this WebTest.</p>
 </td>
 </tr>
 <tr>
@@ -388,7 +372,6 @@ WebTestPropertiesRequestARM
 </em>
 </td>
 <td>
-<p>Request: The collection of request properties</p>
 </td>
 </tr>
 <tr>
@@ -399,7 +382,6 @@ bool
 </em>
 </td>
 <td>
-<p>RetryEnabled: Allow for retries should this WebTest fail.</p>
 </td>
 </tr>
 <tr>
@@ -410,7 +392,6 @@ string
 </em>
 </td>
 <td>
-<p>SyntheticMonitorId: Unique ID of this WebTest. This is typically the same value as the Name field.</p>
 </td>
 </tr>
 <tr>
@@ -421,7 +402,6 @@ int
 </em>
 </td>
 <td>
-<p>Timeout: Seconds until this WebTest will timeout and fail. Default value is 30.</p>
 </td>
 </tr>
 <tr>
@@ -434,7 +414,6 @@ WebTestPropertiesValidationRulesARM
 </em>
 </td>
 <td>
-<p>ValidationRules: The collection of validation rule properties</p>
 </td>
 </tr>
 </tbody>
@@ -445,7 +424,7 @@ WebTestPropertiesValidationRulesARM
 (<em>Appears on:</em><a href="#insights.azure.com/v1alpha1api20180501preview.Webtests_Spec">Webtests_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestPropertiesConfiguration">https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestPropertiesConfiguration</a></p>
+<p>Deprecated version of WebTestPropertiesConfiguration. Use v1beta20180501preview.WebTestPropertiesConfiguration instead</p>
 </div>
 <table>
 <thead>
@@ -463,7 +442,6 @@ string
 </em>
 </td>
 <td>
-<p>WebTest: The XML specification of a WebTest to run against an application.</p>
 </td>
 </tr>
 </tbody>
@@ -474,7 +452,7 @@ string
 (<em>Appears on:</em><a href="#insights.azure.com/v1alpha1api20180501preview.WebTestPropertiesARM">WebTestPropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestPropertiesConfiguration">https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestPropertiesConfiguration</a></p>
+<p>Deprecated version of WebTestPropertiesConfiguration. Use v1beta20180501preview.WebTestPropertiesConfiguration instead</p>
 </div>
 <table>
 <thead>
@@ -492,7 +470,6 @@ string
 </em>
 </td>
 <td>
-<p>WebTest: The XML specification of a WebTest to run against an application.</p>
 </td>
 </tr>
 </tbody>
@@ -503,6 +480,7 @@ string
 (<em>Appears on:</em><a href="#insights.azure.com/v1alpha1api20180501preview.WebTestPropertiesARM">WebTestPropertiesARM</a>, <a href="#insights.azure.com/v1alpha1api20180501preview.Webtests_Spec">Webtests_Spec</a>)
 </p>
 <div>
+<p>Deprecated version of WebTestPropertiesKind. Use v1beta20180501preview.WebTestPropertiesKind instead</p>
 </div>
 <table>
 <thead>
@@ -527,7 +505,7 @@ string
 (<em>Appears on:</em><a href="#insights.azure.com/v1alpha1api20180501preview.Webtests_Spec">Webtests_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestPropertiesRequest">https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestPropertiesRequest</a></p>
+<p>Deprecated version of WebTestPropertiesRequest. Use v1beta20180501preview.WebTestPropertiesRequest instead</p>
 </div>
 <table>
 <thead>
@@ -545,7 +523,6 @@ bool
 </em>
 </td>
 <td>
-<p>FollowRedirects: Follow redirects for this web test.</p>
 </td>
 </tr>
 <tr>
@@ -558,7 +535,6 @@ bool
 </em>
 </td>
 <td>
-<p>Headers: List of headers and their values to add to the WebTest call.</p>
 </td>
 </tr>
 <tr>
@@ -569,7 +545,6 @@ string
 </em>
 </td>
 <td>
-<p>HttpVerb: Http verb to use for this web test.</p>
 </td>
 </tr>
 <tr>
@@ -580,7 +555,6 @@ bool
 </em>
 </td>
 <td>
-<p>ParseDependentRequests: Parse Dependent request for this WebTest.</p>
 </td>
 </tr>
 <tr>
@@ -591,7 +565,6 @@ string
 </em>
 </td>
 <td>
-<p>RequestBody: Base64 encoded string body to send with this web test.</p>
 </td>
 </tr>
 <tr>
@@ -602,7 +575,6 @@ string
 </em>
 </td>
 <td>
-<p>RequestUrl: Url location to test.</p>
 </td>
 </tr>
 </tbody>
@@ -613,7 +585,7 @@ string
 (<em>Appears on:</em><a href="#insights.azure.com/v1alpha1api20180501preview.WebTestPropertiesARM">WebTestPropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestPropertiesRequest">https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestPropertiesRequest</a></p>
+<p>Deprecated version of WebTestPropertiesRequest. Use v1beta20180501preview.WebTestPropertiesRequest instead</p>
 </div>
 <table>
 <thead>
@@ -631,7 +603,6 @@ bool
 </em>
 </td>
 <td>
-<p>FollowRedirects: Follow redirects for this web test.</p>
 </td>
 </tr>
 <tr>
@@ -644,7 +615,6 @@ bool
 </em>
 </td>
 <td>
-<p>Headers: List of headers and their values to add to the WebTest call.</p>
 </td>
 </tr>
 <tr>
@@ -655,7 +625,6 @@ string
 </em>
 </td>
 <td>
-<p>HttpVerb: Http verb to use for this web test.</p>
 </td>
 </tr>
 <tr>
@@ -666,7 +635,6 @@ bool
 </em>
 </td>
 <td>
-<p>ParseDependentRequests: Parse Dependent request for this WebTest.</p>
 </td>
 </tr>
 <tr>
@@ -677,7 +645,6 @@ string
 </em>
 </td>
 <td>
-<p>RequestBody: Base64 encoded string body to send with this web test.</p>
 </td>
 </tr>
 <tr>
@@ -688,7 +655,6 @@ string
 </em>
 </td>
 <td>
-<p>RequestUrl: Url location to test.</p>
 </td>
 </tr>
 </tbody>
@@ -699,6 +665,7 @@ string
 (<em>Appears on:</em><a href="#insights.azure.com/v1alpha1api20180501preview.WebTestProperties_StatusARM">WebTestProperties_StatusARM</a>, <a href="#insights.azure.com/v1alpha1api20180501preview.WebTest_Status">WebTest_Status</a>)
 </p>
 <div>
+<p>Deprecated version of WebTestPropertiesStatusKind. Use v1beta20180501preview.WebTestPropertiesStatusKind instead</p>
 </div>
 <table>
 <thead>
@@ -723,7 +690,7 @@ string
 (<em>Appears on:</em><a href="#insights.azure.com/v1alpha1api20180501preview.Webtests_Spec">Webtests_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestPropertiesValidationRules">https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestPropertiesValidationRules</a></p>
+<p>Deprecated version of WebTestPropertiesValidationRules. Use v1beta20180501preview.WebTestPropertiesValidationRules instead</p>
 </div>
 <table>
 <thead>
@@ -743,7 +710,6 @@ WebTestPropertiesValidationRulesContentValidation
 </em>
 </td>
 <td>
-<p>ContentValidation: The collection of content validation properties</p>
 </td>
 </tr>
 <tr>
@@ -754,7 +720,6 @@ int
 </em>
 </td>
 <td>
-<p>ExpectedHttpStatusCode: Validate that the WebTest returns the http status code provided.</p>
 </td>
 </tr>
 <tr>
@@ -765,7 +730,6 @@ bool
 </em>
 </td>
 <td>
-<p>IgnoreHttpsStatusCode: When set, validation will ignore the status code.</p>
 </td>
 </tr>
 <tr>
@@ -776,8 +740,6 @@ int
 </em>
 </td>
 <td>
-<p>SSLCertRemainingLifetimeCheck: A number of days to check still remain before the the existing SSL cert expires.  Value
-must be positive and the SSLCheck must be set to true.</p>
 </td>
 </tr>
 <tr>
@@ -788,7 +750,6 @@ bool
 </em>
 </td>
 <td>
-<p>SSLCheck: Checks to see if the SSL cert is still valid.</p>
 </td>
 </tr>
 </tbody>
@@ -799,7 +760,7 @@ bool
 (<em>Appears on:</em><a href="#insights.azure.com/v1alpha1api20180501preview.WebTestPropertiesARM">WebTestPropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestPropertiesValidationRules">https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestPropertiesValidationRules</a></p>
+<p>Deprecated version of WebTestPropertiesValidationRules. Use v1beta20180501preview.WebTestPropertiesValidationRules instead</p>
 </div>
 <table>
 <thead>
@@ -819,7 +780,6 @@ WebTestPropertiesValidationRulesContentValidationARM
 </em>
 </td>
 <td>
-<p>ContentValidation: The collection of content validation properties</p>
 </td>
 </tr>
 <tr>
@@ -830,7 +790,6 @@ int
 </em>
 </td>
 <td>
-<p>ExpectedHttpStatusCode: Validate that the WebTest returns the http status code provided.</p>
 </td>
 </tr>
 <tr>
@@ -841,7 +800,6 @@ bool
 </em>
 </td>
 <td>
-<p>IgnoreHttpsStatusCode: When set, validation will ignore the status code.</p>
 </td>
 </tr>
 <tr>
@@ -852,8 +810,6 @@ int
 </em>
 </td>
 <td>
-<p>SSLCertRemainingLifetimeCheck: A number of days to check still remain before the the existing SSL cert expires.  Value
-must be positive and the SSLCheck must be set to true.</p>
 </td>
 </tr>
 <tr>
@@ -864,7 +820,6 @@ bool
 </em>
 </td>
 <td>
-<p>SSLCheck: Checks to see if the SSL cert is still valid.</p>
 </td>
 </tr>
 </tbody>
@@ -875,7 +830,7 @@ bool
 (<em>Appears on:</em><a href="#insights.azure.com/v1alpha1api20180501preview.WebTestPropertiesValidationRules">WebTestPropertiesValidationRules</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestPropertiesValidationRulesContentValidation">https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestPropertiesValidationRulesContentValidation</a></p>
+<p>Deprecated version of WebTestPropertiesValidationRulesContentValidation. Use v1beta20180501preview.WebTestPropertiesValidationRulesContentValidation instead</p>
 </div>
 <table>
 <thead>
@@ -893,7 +848,6 @@ string
 </em>
 </td>
 <td>
-<p>ContentMatch: Content to look for in the return of the WebTest.  Must not be null or empty.</p>
 </td>
 </tr>
 <tr>
@@ -904,7 +858,6 @@ bool
 </em>
 </td>
 <td>
-<p>IgnoreCase: When set, this value makes the ContentMatch validation case insensitive.</p>
 </td>
 </tr>
 <tr>
@@ -915,8 +868,6 @@ bool
 </em>
 </td>
 <td>
-<p>PassIfTextFound: When true, validation will pass if there is a match for the ContentMatch string.  If false, validation
-will fail if there is a match</p>
 </td>
 </tr>
 </tbody>
@@ -927,7 +878,7 @@ will fail if there is a match</p>
 (<em>Appears on:</em><a href="#insights.azure.com/v1alpha1api20180501preview.WebTestPropertiesValidationRulesARM">WebTestPropertiesValidationRulesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestPropertiesValidationRulesContentValidation">https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestPropertiesValidationRulesContentValidation</a></p>
+<p>Deprecated version of WebTestPropertiesValidationRulesContentValidation. Use v1beta20180501preview.WebTestPropertiesValidationRulesContentValidation instead</p>
 </div>
 <table>
 <thead>
@@ -945,7 +896,6 @@ string
 </em>
 </td>
 <td>
-<p>ContentMatch: Content to look for in the return of the WebTest.  Must not be null or empty.</p>
 </td>
 </tr>
 <tr>
@@ -956,7 +906,6 @@ bool
 </em>
 </td>
 <td>
-<p>IgnoreCase: When set, this value makes the ContentMatch validation case insensitive.</p>
 </td>
 </tr>
 <tr>
@@ -967,8 +916,6 @@ bool
 </em>
 </td>
 <td>
-<p>PassIfTextFound: When true, validation will pass if there is a match for the ContentMatch string.  If false, validation
-will fail if there is a match</p>
 </td>
 </tr>
 </tbody>
@@ -979,6 +926,7 @@ will fail if there is a match</p>
 (<em>Appears on:</em><a href="#insights.azure.com/v1alpha1api20180501preview.WebTest_StatusARM">WebTest_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of WebTestProperties_Status. Use v1beta20180501preview.WebTestProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -998,7 +946,6 @@ WebTestProperties_Status_ConfigurationARM
 </em>
 </td>
 <td>
-<p>Configuration: An XML configuration specification for a WebTest.</p>
 </td>
 </tr>
 <tr>
@@ -1009,7 +956,6 @@ string
 </em>
 </td>
 <td>
-<p>Description: User defined description for this WebTest.</p>
 </td>
 </tr>
 <tr>
@@ -1020,7 +966,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Is the test actively being monitored.</p>
 </td>
 </tr>
 <tr>
@@ -1031,7 +976,6 @@ int
 </em>
 </td>
 <td>
-<p>Frequency: Interval in seconds between test runs for this WebTest. Default value is 300.</p>
 </td>
 </tr>
 <tr>
@@ -1044,7 +988,6 @@ WebTestPropertiesStatusKind
 </em>
 </td>
 <td>
-<p>Kind: The kind of web test this is, valid choices are ping, multistep, basic, and standard.</p>
 </td>
 </tr>
 <tr>
@@ -1057,8 +1000,6 @@ WebTestPropertiesStatusKind
 </em>
 </td>
 <td>
-<p>Locations: A list of where to physically run the tests from to give global coverage for accessibility of your
-application.</p>
 </td>
 </tr>
 <tr>
@@ -1069,7 +1010,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: User defined name if this WebTest.</p>
 </td>
 </tr>
 <tr>
@@ -1080,9 +1020,6 @@ string
 </em>
 </td>
 <td>
-<p>ProvisioningState: Current state of this component, whether or not is has been provisioned within the resource group it
-is defined. Users cannot change this value but are able to read from it. Values will include Succeeded, Deploying,
-Canceled, and Failed.</p>
 </td>
 </tr>
 <tr>
@@ -1095,7 +1032,6 @@ WebTestProperties_Status_RequestARM
 </em>
 </td>
 <td>
-<p>Request: The collection of request properties</p>
 </td>
 </tr>
 <tr>
@@ -1106,7 +1042,6 @@ bool
 </em>
 </td>
 <td>
-<p>RetryEnabled: Allow for retries should this WebTest fail.</p>
 </td>
 </tr>
 <tr>
@@ -1117,7 +1052,6 @@ string
 </em>
 </td>
 <td>
-<p>SyntheticMonitorId: Unique ID of this WebTest. This is typically the same value as the Name field.</p>
 </td>
 </tr>
 <tr>
@@ -1128,7 +1062,6 @@ int
 </em>
 </td>
 <td>
-<p>Timeout: Seconds until this WebTest will timeout and fail. Default value is 30.</p>
 </td>
 </tr>
 <tr>
@@ -1141,7 +1074,6 @@ WebTestProperties_Status_ValidationRulesARM
 </em>
 </td>
 <td>
-<p>ValidationRules: The collection of validation rule properties</p>
 </td>
 </tr>
 </tbody>
@@ -1152,6 +1084,7 @@ WebTestProperties_Status_ValidationRulesARM
 (<em>Appears on:</em><a href="#insights.azure.com/v1alpha1api20180501preview.WebTest_Status">WebTest_Status</a>)
 </p>
 <div>
+<p>Deprecated version of WebTestProperties_Status_Configuration. Use v1beta20180501preview.WebTestProperties_Status_Configuration instead</p>
 </div>
 <table>
 <thead>
@@ -1169,7 +1102,6 @@ string
 </em>
 </td>
 <td>
-<p>WebTest: The XML specification of a WebTest to run against an application.</p>
 </td>
 </tr>
 </tbody>
@@ -1180,6 +1112,7 @@ string
 (<em>Appears on:</em><a href="#insights.azure.com/v1alpha1api20180501preview.WebTestProperties_StatusARM">WebTestProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of WebTestProperties_Status_Configuration. Use v1beta20180501preview.WebTestProperties_Status_Configuration instead</p>
 </div>
 <table>
 <thead>
@@ -1197,7 +1130,6 @@ string
 </em>
 </td>
 <td>
-<p>WebTest: The XML specification of a WebTest to run against an application.</p>
 </td>
 </tr>
 </tbody>
@@ -1208,6 +1140,7 @@ string
 (<em>Appears on:</em><a href="#insights.azure.com/v1alpha1api20180501preview.WebTest_Status">WebTest_Status</a>)
 </p>
 <div>
+<p>Deprecated version of WebTestProperties_Status_Request. Use v1beta20180501preview.WebTestProperties_Status_Request instead</p>
 </div>
 <table>
 <thead>
@@ -1225,7 +1158,6 @@ bool
 </em>
 </td>
 <td>
-<p>FollowRedirects: Follow redirects for this web test.</p>
 </td>
 </tr>
 <tr>
@@ -1238,7 +1170,6 @@ bool
 </em>
 </td>
 <td>
-<p>Headers: List of headers and their values to add to the WebTest call.</p>
 </td>
 </tr>
 <tr>
@@ -1249,7 +1180,6 @@ string
 </em>
 </td>
 <td>
-<p>HttpVerb: Http verb to use for this web test.</p>
 </td>
 </tr>
 <tr>
@@ -1260,7 +1190,6 @@ bool
 </em>
 </td>
 <td>
-<p>ParseDependentRequests: Parse Dependent request for this WebTest.</p>
 </td>
 </tr>
 <tr>
@@ -1271,7 +1200,6 @@ string
 </em>
 </td>
 <td>
-<p>RequestBody: Base64 encoded string body to send with this web test.</p>
 </td>
 </tr>
 <tr>
@@ -1282,7 +1210,6 @@ string
 </em>
 </td>
 <td>
-<p>RequestUrl: Url location to test.</p>
 </td>
 </tr>
 </tbody>
@@ -1293,6 +1220,7 @@ string
 (<em>Appears on:</em><a href="#insights.azure.com/v1alpha1api20180501preview.WebTestProperties_StatusARM">WebTestProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of WebTestProperties_Status_Request. Use v1beta20180501preview.WebTestProperties_Status_Request instead</p>
 </div>
 <table>
 <thead>
@@ -1310,7 +1238,6 @@ bool
 </em>
 </td>
 <td>
-<p>FollowRedirects: Follow redirects for this web test.</p>
 </td>
 </tr>
 <tr>
@@ -1323,7 +1250,6 @@ bool
 </em>
 </td>
 <td>
-<p>Headers: List of headers and their values to add to the WebTest call.</p>
 </td>
 </tr>
 <tr>
@@ -1334,7 +1260,6 @@ string
 </em>
 </td>
 <td>
-<p>HttpVerb: Http verb to use for this web test.</p>
 </td>
 </tr>
 <tr>
@@ -1345,7 +1270,6 @@ bool
 </em>
 </td>
 <td>
-<p>ParseDependentRequests: Parse Dependent request for this WebTest.</p>
 </td>
 </tr>
 <tr>
@@ -1356,7 +1280,6 @@ string
 </em>
 </td>
 <td>
-<p>RequestBody: Base64 encoded string body to send with this web test.</p>
 </td>
 </tr>
 <tr>
@@ -1367,7 +1290,6 @@ string
 </em>
 </td>
 <td>
-<p>RequestUrl: Url location to test.</p>
 </td>
 </tr>
 </tbody>
@@ -1378,6 +1300,7 @@ string
 (<em>Appears on:</em><a href="#insights.azure.com/v1alpha1api20180501preview.WebTest_Status">WebTest_Status</a>)
 </p>
 <div>
+<p>Deprecated version of WebTestProperties_Status_ValidationRules. Use v1beta20180501preview.WebTestProperties_Status_ValidationRules instead</p>
 </div>
 <table>
 <thead>
@@ -1397,7 +1320,6 @@ WebTestProperties_Status_ValidationRules_ContentValidation
 </em>
 </td>
 <td>
-<p>ContentValidation: The collection of content validation properties</p>
 </td>
 </tr>
 <tr>
@@ -1408,7 +1330,6 @@ int
 </em>
 </td>
 <td>
-<p>ExpectedHttpStatusCode: Validate that the WebTest returns the http status code provided.</p>
 </td>
 </tr>
 <tr>
@@ -1419,7 +1340,6 @@ bool
 </em>
 </td>
 <td>
-<p>IgnoreHttpsStatusCode: When set, validation will ignore the status code.</p>
 </td>
 </tr>
 <tr>
@@ -1430,8 +1350,6 @@ int
 </em>
 </td>
 <td>
-<p>SSLCertRemainingLifetimeCheck: A number of days to check still remain before the the existing SSL cert expires.  Value
-must be positive and the SSLCheck must be set to true.</p>
 </td>
 </tr>
 <tr>
@@ -1442,7 +1360,6 @@ bool
 </em>
 </td>
 <td>
-<p>SSLCheck: Checks to see if the SSL cert is still valid.</p>
 </td>
 </tr>
 </tbody>
@@ -1453,6 +1370,7 @@ bool
 (<em>Appears on:</em><a href="#insights.azure.com/v1alpha1api20180501preview.WebTestProperties_StatusARM">WebTestProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of WebTestProperties_Status_ValidationRules. Use v1beta20180501preview.WebTestProperties_Status_ValidationRules instead</p>
 </div>
 <table>
 <thead>
@@ -1472,7 +1390,6 @@ WebTestProperties_Status_ValidationRules_ContentValidationARM
 </em>
 </td>
 <td>
-<p>ContentValidation: The collection of content validation properties</p>
 </td>
 </tr>
 <tr>
@@ -1483,7 +1400,6 @@ int
 </em>
 </td>
 <td>
-<p>ExpectedHttpStatusCode: Validate that the WebTest returns the http status code provided.</p>
 </td>
 </tr>
 <tr>
@@ -1494,7 +1410,6 @@ bool
 </em>
 </td>
 <td>
-<p>IgnoreHttpsStatusCode: When set, validation will ignore the status code.</p>
 </td>
 </tr>
 <tr>
@@ -1505,8 +1420,6 @@ int
 </em>
 </td>
 <td>
-<p>SSLCertRemainingLifetimeCheck: A number of days to check still remain before the the existing SSL cert expires.  Value
-must be positive and the SSLCheck must be set to true.</p>
 </td>
 </tr>
 <tr>
@@ -1517,7 +1430,6 @@ bool
 </em>
 </td>
 <td>
-<p>SSLCheck: Checks to see if the SSL cert is still valid.</p>
 </td>
 </tr>
 </tbody>
@@ -1528,6 +1440,7 @@ bool
 (<em>Appears on:</em><a href="#insights.azure.com/v1alpha1api20180501preview.WebTestProperties_Status_ValidationRules">WebTestProperties_Status_ValidationRules</a>)
 </p>
 <div>
+<p>Deprecated version of WebTestProperties_Status_ValidationRules_ContentValidation. Use v1beta20180501preview.WebTestProperties_Status_ValidationRules_ContentValidation instead</p>
 </div>
 <table>
 <thead>
@@ -1545,7 +1458,6 @@ string
 </em>
 </td>
 <td>
-<p>ContentMatch: Content to look for in the return of the WebTest.  Must not be null or empty.</p>
 </td>
 </tr>
 <tr>
@@ -1556,7 +1468,6 @@ bool
 </em>
 </td>
 <td>
-<p>IgnoreCase: When set, this value makes the ContentMatch validation case insensitive.</p>
 </td>
 </tr>
 <tr>
@@ -1567,8 +1478,6 @@ bool
 </em>
 </td>
 <td>
-<p>PassIfTextFound: When true, validation will pass if there is a match for the ContentMatch string.  If false, validation
-will fail if there is a match</p>
 </td>
 </tr>
 </tbody>
@@ -1579,6 +1488,7 @@ will fail if there is a match</p>
 (<em>Appears on:</em><a href="#insights.azure.com/v1alpha1api20180501preview.WebTestProperties_Status_ValidationRulesARM">WebTestProperties_Status_ValidationRulesARM</a>)
 </p>
 <div>
+<p>Deprecated version of WebTestProperties_Status_ValidationRules_ContentValidation. Use v1beta20180501preview.WebTestProperties_Status_ValidationRules_ContentValidation instead</p>
 </div>
 <table>
 <thead>
@@ -1596,7 +1506,6 @@ string
 </em>
 </td>
 <td>
-<p>ContentMatch: Content to look for in the return of the WebTest.  Must not be null or empty.</p>
 </td>
 </tr>
 <tr>
@@ -1607,7 +1516,6 @@ bool
 </em>
 </td>
 <td>
-<p>IgnoreCase: When set, this value makes the ContentMatch validation case insensitive.</p>
 </td>
 </tr>
 <tr>
@@ -1618,8 +1526,6 @@ bool
 </em>
 </td>
 <td>
-<p>PassIfTextFound: When true, validation will pass if there is a match for the ContentMatch string.  If false, validation
-will fail if there is a match</p>
 </td>
 </tr>
 </tbody>
@@ -1630,6 +1536,7 @@ will fail if there is a match</p>
 (<em>Appears on:</em><a href="#insights.azure.com/v1alpha1api20180501preview.Webtest">Webtest</a>)
 </p>
 <div>
+<p>Deprecated version of WebTest_Status. Use v1beta20180501preview.WebTest_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1662,7 +1569,6 @@ WebTestProperties_Status_Configuration
 </em>
 </td>
 <td>
-<p>Configuration: An XML configuration specification for a WebTest.</p>
 </td>
 </tr>
 <tr>
@@ -1673,7 +1579,6 @@ string
 </em>
 </td>
 <td>
-<p>Description: User defined description for this WebTest.</p>
 </td>
 </tr>
 <tr>
@@ -1684,7 +1589,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Is the test actively being monitored.</p>
 </td>
 </tr>
 <tr>
@@ -1695,7 +1599,6 @@ int
 </em>
 </td>
 <td>
-<p>Frequency: Interval in seconds between test runs for this WebTest. Default value is 300.</p>
 </td>
 </tr>
 <tr>
@@ -1706,7 +1609,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Azure resource Id</p>
 </td>
 </tr>
 <tr>
@@ -1719,7 +1621,6 @@ WebTestPropertiesStatusKind
 </em>
 </td>
 <td>
-<p>Kind: The kind of web test this is, valid choices are ping, multistep, basic, and standard.</p>
 </td>
 </tr>
 <tr>
@@ -1730,7 +1631,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Resource location</p>
 </td>
 </tr>
 <tr>
@@ -1743,8 +1643,6 @@ string
 </em>
 </td>
 <td>
-<p>Locations: A list of where to physically run the tests from to give global coverage for accessibility of your
-application.</p>
 </td>
 </tr>
 <tr>
@@ -1755,7 +1653,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Azure resource name</p>
 </td>
 </tr>
 <tr>
@@ -1766,7 +1663,6 @@ string
 </em>
 </td>
 <td>
-<p>PropertiesName: User defined name if this WebTest.</p>
 </td>
 </tr>
 <tr>
@@ -1777,9 +1673,6 @@ string
 </em>
 </td>
 <td>
-<p>ProvisioningState: Current state of this component, whether or not is has been provisioned within the resource group it
-is defined. Users cannot change this value but are able to read from it. Values will include Succeeded, Deploying,
-Canceled, and Failed.</p>
 </td>
 </tr>
 <tr>
@@ -1792,7 +1685,6 @@ WebTestProperties_Status_Request
 </em>
 </td>
 <td>
-<p>Request: The collection of request properties</p>
 </td>
 </tr>
 <tr>
@@ -1803,7 +1695,6 @@ bool
 </em>
 </td>
 <td>
-<p>RetryEnabled: Allow for retries should this WebTest fail.</p>
 </td>
 </tr>
 <tr>
@@ -1814,7 +1705,6 @@ string
 </em>
 </td>
 <td>
-<p>SyntheticMonitorId: Unique ID of this WebTest. This is typically the same value as the Name field.</p>
 </td>
 </tr>
 <tr>
@@ -1827,7 +1717,6 @@ Kubernetes v1.JSON
 </em>
 </td>
 <td>
-<p>Tags: Resource tags</p>
 </td>
 </tr>
 <tr>
@@ -1838,7 +1727,6 @@ int
 </em>
 </td>
 <td>
-<p>Timeout: Seconds until this WebTest will timeout and fail. Default value is 30.</p>
 </td>
 </tr>
 <tr>
@@ -1849,7 +1737,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: Azure resource type</p>
 </td>
 </tr>
 <tr>
@@ -1862,7 +1749,6 @@ WebTestProperties_Status_ValidationRules
 </em>
 </td>
 <td>
-<p>ValidationRules: The collection of validation rule properties</p>
 </td>
 </tr>
 </tbody>
@@ -1870,6 +1756,7 @@ WebTestProperties_Status_ValidationRules
 <h3 id="insights.azure.com/v1alpha1api20180501preview.WebTest_StatusARM">WebTest_StatusARM
 </h3>
 <div>
+<p>Deprecated version of WebTest_Status. Use v1beta20180501preview.WebTest_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1887,7 +1774,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Azure resource Id</p>
 </td>
 </tr>
 <tr>
@@ -1898,7 +1784,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Resource location</p>
 </td>
 </tr>
 <tr>
@@ -1909,7 +1794,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Azure resource name</p>
 </td>
 </tr>
 <tr>
@@ -1922,7 +1806,6 @@ WebTestProperties_StatusARM
 </em>
 </td>
 <td>
-<p>Properties: Metadata describing a web test for an Azure resource.</p>
 </td>
 </tr>
 <tr>
@@ -1935,7 +1818,6 @@ Kubernetes v1.JSON
 </em>
 </td>
 <td>
-<p>Tags: Resource tags</p>
 </td>
 </tr>
 <tr>
@@ -1946,7 +1828,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: Azure resource type</p>
 </td>
 </tr>
 </tbody>
@@ -1954,7 +1835,7 @@ string
 <h3 id="insights.azure.com/v1alpha1api20180501preview.Webtest">Webtest
 </h3>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/resourceDefinitions/webtests">https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/resourceDefinitions/webtests</a></p>
+<p>Deprecated version of Webtest. Use v1beta20180501preview.Webtest instead</p>
 </div>
 <table>
 <thead>
@@ -2013,7 +1894,6 @@ WebTestPropertiesConfiguration
 </em>
 </td>
 <td>
-<p>Configuration: An XML configuration specification for a WebTest.</p>
 </td>
 </tr>
 <tr>
@@ -2024,7 +1904,6 @@ string
 </em>
 </td>
 <td>
-<p>Description: User defined description for this WebTest.</p>
 </td>
 </tr>
 <tr>
@@ -2035,7 +1914,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Is the test actively being monitored.</p>
 </td>
 </tr>
 <tr>
@@ -2046,7 +1924,6 @@ int
 </em>
 </td>
 <td>
-<p>Frequency: Interval in seconds between test runs for this WebTest. Default value is 300.</p>
 </td>
 </tr>
 <tr>
@@ -2059,7 +1936,6 @@ WebTestPropertiesKind
 </em>
 </td>
 <td>
-<p>Kind: The kind of web test this is, valid choices are ping, multistep, basic, and standard.</p>
 </td>
 </tr>
 <tr>
@@ -2070,7 +1946,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -2083,8 +1958,6 @@ string
 </em>
 </td>
 <td>
-<p>Locations: A list of where to physically run the tests from to give global coverage for accessibility of your
-application.</p>
 </td>
 </tr>
 <tr>
@@ -2095,7 +1968,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: User defined name if this WebTest.</p>
 </td>
 </tr>
 <tr>
@@ -2108,6 +1980,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -2120,7 +1995,6 @@ WebTestPropertiesRequest
 </em>
 </td>
 <td>
-<p>Request: The collection of request properties</p>
 </td>
 </tr>
 <tr>
@@ -2131,7 +2005,6 @@ bool
 </em>
 </td>
 <td>
-<p>RetryEnabled: Allow for retries should this WebTest fail.</p>
 </td>
 </tr>
 <tr>
@@ -2142,7 +2015,6 @@ string
 </em>
 </td>
 <td>
-<p>SyntheticMonitorId: Unique ID of this WebTest. This is typically the same value as the Name field.</p>
 </td>
 </tr>
 <tr>
@@ -2153,7 +2025,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 <tr>
@@ -2164,7 +2035,6 @@ int
 </em>
 </td>
 <td>
-<p>Timeout: Seconds until this WebTest will timeout and fail. Default value is 30.</p>
 </td>
 </tr>
 <tr>
@@ -2177,7 +2047,6 @@ WebTestPropertiesValidationRules
 </em>
 </td>
 <td>
-<p>ValidationRules: The collection of validation rule properties</p>
 </td>
 </tr>
 </table>
@@ -2196,21 +2065,6 @@ WebTest_Status
 </td>
 </tr>
 </tbody>
-</table>
-<h3 id="insights.azure.com/v1alpha1api20180501preview.WebtestsSpecAPIVersion">WebtestsSpecAPIVersion
-(<code>string</code> alias)</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;2018-05-01-preview&#34;</p></td>
-<td></td>
-</tr></tbody>
 </table>
 <h3 id="insights.azure.com/v1alpha1api20180501preview.Webtests_Spec">Webtests_Spec
 </h3>
@@ -2249,7 +2103,6 @@ WebTestPropertiesConfiguration
 </em>
 </td>
 <td>
-<p>Configuration: An XML configuration specification for a WebTest.</p>
 </td>
 </tr>
 <tr>
@@ -2260,7 +2113,6 @@ string
 </em>
 </td>
 <td>
-<p>Description: User defined description for this WebTest.</p>
 </td>
 </tr>
 <tr>
@@ -2271,7 +2123,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Is the test actively being monitored.</p>
 </td>
 </tr>
 <tr>
@@ -2282,7 +2133,6 @@ int
 </em>
 </td>
 <td>
-<p>Frequency: Interval in seconds between test runs for this WebTest. Default value is 300.</p>
 </td>
 </tr>
 <tr>
@@ -2295,7 +2145,6 @@ WebTestPropertiesKind
 </em>
 </td>
 <td>
-<p>Kind: The kind of web test this is, valid choices are ping, multistep, basic, and standard.</p>
 </td>
 </tr>
 <tr>
@@ -2306,7 +2155,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -2319,8 +2167,6 @@ string
 </em>
 </td>
 <td>
-<p>Locations: A list of where to physically run the tests from to give global coverage for accessibility of your
-application.</p>
 </td>
 </tr>
 <tr>
@@ -2331,7 +2177,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: User defined name if this WebTest.</p>
 </td>
 </tr>
 <tr>
@@ -2344,6 +2189,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -2356,7 +2204,6 @@ WebTestPropertiesRequest
 </em>
 </td>
 <td>
-<p>Request: The collection of request properties</p>
 </td>
 </tr>
 <tr>
@@ -2367,7 +2214,6 @@ bool
 </em>
 </td>
 <td>
-<p>RetryEnabled: Allow for retries should this WebTest fail.</p>
 </td>
 </tr>
 <tr>
@@ -2378,7 +2224,6 @@ string
 </em>
 </td>
 <td>
-<p>SyntheticMonitorId: Unique ID of this WebTest. This is typically the same value as the Name field.</p>
 </td>
 </tr>
 <tr>
@@ -2389,7 +2234,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 <tr>
@@ -2400,7 +2244,6 @@ int
 </em>
 </td>
 <td>
-<p>Timeout: Seconds until this WebTest will timeout and fail. Default value is 30.</p>
 </td>
 </tr>
 <tr>
@@ -2413,7 +2256,6 @@ WebTestPropertiesValidationRules
 </em>
 </td>
 <td>
-<p>ValidationRules: The collection of validation rule properties</p>
 </td>
 </tr>
 </tbody>
@@ -2421,6 +2263,7 @@ WebTestPropertiesValidationRules
 <h3 id="insights.azure.com/v1alpha1api20180501preview.Webtests_SpecARM">Webtests_SpecARM
 </h3>
 <div>
+<p>Deprecated version of Webtests_Spec. Use v1beta20180501preview.Webtests_Spec instead</p>
 </div>
 <table>
 <thead>
@@ -2438,7 +2281,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -2449,7 +2291,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the Application Insights WebTest resource.</p>
 </td>
 </tr>
 <tr>
@@ -2462,7 +2303,6 @@ WebTestPropertiesARM
 </em>
 </td>
 <td>
-<p>Properties: Metadata describing a web test for an Azure resource.</p>
 </td>
 </tr>
 <tr>
@@ -2473,7 +2313,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </tbody>
