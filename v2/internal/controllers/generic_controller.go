@@ -70,7 +70,7 @@ type Options struct {
 
 func (options *Options) setDefaults() {
 	// default logger to the controller-runtime logger
-	if options.Log == nil {
+	if options.Log == (logr.Logger{}) || options.Log == logr.Discard() {
 		options.Log = ctrl.Log
 	}
 }
@@ -103,8 +103,8 @@ func RegisterAll(
 	clientFactory arm.ARMClientFactory,
 	objs []*registration.StorageType,
 	extensions map[schema.GroupVersionKind]genruntime.ResourceExtension,
-	options Options) error {
-
+	options Options,
+) error {
 	options.setDefaults()
 
 	reconciledResourceLookup, err := MakeResourceStorageTypeLookup(mgr, objs)
@@ -142,8 +142,8 @@ func register(
 	clientFactory arm.ARMClientFactory,
 	info *registration.StorageType,
 	extensions map[schema.GroupVersionKind]genruntime.ResourceExtension,
-	options Options) error {
-
+	options Options,
+) error {
 	v, err := conversion.EnforcePtr(info.Obj)
 	if err != nil {
 		return errors.Wrap(err, "info.Obj was expected to be ptr but was not")
@@ -164,7 +164,7 @@ func register(
 	loggerFactory := func(mo genruntime.MetaObject) logr.Logger {
 		result := options.Log
 		if options.LoggerFactory != nil {
-			if factoryResult := options.LoggerFactory(mo); factoryResult != nil {
+			if factoryResult := options.LoggerFactory(mo); factoryResult != (logr.Logger{}) && factoryResult != logr.Discard() {
 				result = factoryResult
 			}
 		}
