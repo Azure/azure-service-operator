@@ -266,6 +266,17 @@ How to provide secrets to Azure #  Resources may have fields in their spec that 
       
       <guid>https://azure.github.io/azure-service-operator/reference/authorization.v1alpha1api20200801preview/</guid>
       <description>authorization.azure.com/v1alpha1api20200801preview  Package v1alpha1api20200801preview contains API Schema definitions for the authorization v1alpha1api20200801preview API group
+ Resource Types:  RoleAssignment   Deprecated version of RoleAssignment. Use v1beta20200801preview.RoleAssignment instead
+    Field Description      metadata  Kubernetes meta/v1.ObjectMeta     Refer to the Kubernetes API documentation for the fields of the metadata field.     spec  RoleAssignments_Spec          azureName  string    AzureName: The name of the resource in Azure.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://azure.github.io/azure-service-operator/reference/authorization.v1beta20200801preview/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/reference/authorization.v1beta20200801preview/</guid>
+      <description>authorization.azure.com/v1beta20200801preview  Package v1beta20200801preview contains API Schema definitions for the authorization v1beta20200801preview API group
  Resource Types:  RoleAssignment   Generated from: https://schema.management.azure.com/schemas/2020-08-01-preview/Microsoft.Authorization.Authz.json#/unknown_resourceDefinitions/roleAssignments
     Field Description      metadata  Kubernetes meta/v1.ObjectMeta     Refer to the Kubernetes API documentation for the fields of the metadata field.     spec  RoleAssignments_Spec          azureName  string    AzureName: The name of the resource in Azure.</description>
     </item>
@@ -277,6 +288,18 @@ How to provide secrets to Azure #  Resources may have fields in their spec that 
       
       <guid>https://azure.github.io/azure-service-operator/reference/batch.v1alpha1api20210101/</guid>
       <description>batch.azure.com/v1alpha1api20210101  Package v1alpha1api20210101 contains API Schema definitions for the batch v1alpha1api20210101 API group
+ Resource Types:  AutoStorageBaseProperties   (Appears on:BatchAccounts_Spec)  Deprecated version of AutoStorageBaseProperties. Use v1beta20210101.AutoStorageBaseProperties instead
+    Field Description      storageAccountReference  genruntime.ResourceReference         AutoStorageBasePropertiesARM   (Appears on:BatchAccountCreatePropertiesARM)  Deprecated version of AutoStorageBaseProperties. Use v1beta20210101.AutoStorageBaseProperties instead
+    Field Description      storageAccountId  string        AutoStorageProperties_Status   (Appears on:BatchAccount_Status)  Deprecated version of AutoStorageProperties_Status.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://azure.github.io/azure-service-operator/reference/batch.v1beta20210101/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/reference/batch.v1beta20210101/</guid>
+      <description>batch.azure.com/v1beta20210101  Package v1beta20210101 contains API Schema definitions for the batch v1beta20210101 API group
  Resource Types:  AutoStorageBaseProperties   (Appears on:BatchAccounts_Spec)  Generated from: https://schema.management.azure.com/schemas/2021-01-01/Microsoft.Batch.json#/definitions/AutoStorageBaseProperties
     Field Description      storageAccountReference  genruntime.ResourceReference     StorageAccountReference: The resource ID of the storage account to be used for auto-storage account.
     AutoStorageBasePropertiesARM   (Appears on:BatchAccountCreatePropertiesARM)  Generated from: https://schema.</description>
@@ -289,8 +312,9 @@ How to provide secrets to Azure #  Resources may have fields in their spec that 
       
       <guid>https://azure.github.io/azure-service-operator/reference/cache.v1alpha1api20201201/</guid>
       <description>cache.azure.com/v1alpha1api20201201  Package v1alpha1api20201201 contains API Schema definitions for the cache v1alpha1api20201201 API group
- Resource Types:  PrivateEndpointConnection_Status_SubResourceEmbedded   (Appears on:RedisResource_Status)      Field Description      id  string    Id: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-    PrivateEndpointConnection_Status_SubResourceEmbeddedARM   (Appears on:RedisProperties_StatusARM)      Field Description      id  string    Id: Fully qualified resource ID for the resource.</description>
+ Resource Types:  PrivateEndpointConnection_Status_SubResourceEmbedded   (Appears on:RedisResource_Status)  Deprecated version of PrivateEndpointConnection_Status_SubResourceEmbedded. Use v1beta20201201.PrivateEndpointConnection_Status_SubResourceEmbedded instead
+    Field Description      id  string        PrivateEndpointConnection_Status_SubResourceEmbeddedARM   (Appears on:RedisProperties_StatusARM)  Deprecated version of PrivateEndpointConnection_Status_SubResourceEmbedded. Use v1beta20201201.PrivateEndpointConnection_Status_SubResourceEmbedded instead
+    Field Description      id  string        Redis   Deprecated version of Redis.</description>
     </item>
     
     <item>
@@ -300,6 +324,29 @@ How to provide secrets to Azure #  Resources may have fields in their spec that 
       
       <guid>https://azure.github.io/azure-service-operator/reference/cache.v1alpha1api20210301/</guid>
       <description>cache.azure.com/v1alpha1api20210301  Package v1alpha1api20210301 contains API Schema definitions for the cache v1alpha1api20210301 API group
+ Resource Types:  ClusterPropertiesARM   (Appears on:RedisEnterprise_SpecARM)  Deprecated version of ClusterProperties. Use v1beta20210301.ClusterProperties instead
+    Field Description      minimumTlsVersion  ClusterPropertiesMinimumTlsVersion         ClusterPropertiesMinimumTlsVersion (string alias)  (Appears on:ClusterPropertiesARM, RedisEnterprise_Spec)  Deprecated version of ClusterPropertiesMinimumTlsVersion. Use v1beta20210301.ClusterPropertiesMinimumTlsVersion instead
+    Value Description   &amp;#34;1.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://azure.github.io/azure-service-operator/reference/cache.v1beta20201201/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/reference/cache.v1beta20201201/</guid>
+      <description>cache.azure.com/v1beta20201201  Package v1beta20201201 contains API Schema definitions for the cache v1beta20201201 API group
+ Resource Types:  PrivateEndpointConnection_Status_SubResourceEmbedded   (Appears on:RedisResource_Status)      Field Description      id  string    Id: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    PrivateEndpointConnection_Status_SubResourceEmbeddedARM   (Appears on:RedisProperties_StatusARM)      Field Description      id  string    Id: Fully qualified resource ID for the resource.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://azure.github.io/azure-service-operator/reference/cache.v1beta20210301/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/reference/cache.v1beta20210301/</guid>
+      <description>cache.azure.com/v1beta20210301  Package v1beta20210301 contains API Schema definitions for the cache v1beta20210301 API group
  Resource Types:  ClusterPropertiesARM   (Appears on:RedisEnterprise_SpecARM)  Generated from: https://schema.management.azure.com/schemas/2021-03-01/Microsoft.Cache.Enterprise.json#/definitions/ClusterProperties
     Field Description      minimumTlsVersion  ClusterPropertiesMinimumTlsVersion     MinimumTlsVersion: The minimum TLS version for the cluster to support, e.g. &amp;lsquo;1.2&amp;rsquo;.
     ClusterPropertiesMinimumTlsVersion (string alias)  (Appears on:ClusterPropertiesARM, RedisEnterprise_Spec)      Value Description   &amp;#34;1.</description>
@@ -312,9 +359,8 @@ How to provide secrets to Azure #  Resources may have fields in their spec that 
       
       <guid>https://azure.github.io/azure-service-operator/reference/compute.v1alpha1api20200930/</guid>
       <description>compute.azure.com/v1alpha1api20200930  Package v1alpha1api20200930 contains API Schema definitions for the compute v1alpha1api20200930 API group
- Resource Types:  CreationData   (Appears on:Disks_Spec, Snapshots_Spec)  Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/CreationData
-    Field Description      createOption  CreationDataCreateOption     CreateOption: This enumerates the possible sources of a disk&amp;rsquo;s creation.
-    galleryImageReference  ImageDiskReference     GalleryImageReference: The source image used for creating the disk.</description>
+ Resource Types:  CreationData   (Appears on:Disks_Spec, Snapshots_Spec)  Deprecated version of CreationData. Use v1beta20200930.CreationData instead
+    Field Description      createOption  CreationDataCreateOption         galleryImageReference  ImageDiskReference         imageReference  ImageDiskReference         logicalSectorSize  int        sourceResourceReference  genruntime.</description>
     </item>
     
     <item>
@@ -324,8 +370,9 @@ How to provide secrets to Azure #  Resources may have fields in their spec that 
       
       <guid>https://azure.github.io/azure-service-operator/reference/compute.v1alpha1api20201201/</guid>
       <description>compute.azure.com/v1alpha1api20201201  Package v1alpha1api20201201 contains API Schema definitions for the compute v1alpha1api20201201 API group
- Resource Types:  AdditionalCapabilities   (Appears on:VirtualMachineScaleSets_Spec, VirtualMachines_Spec)  Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/AdditionalCapabilities
-    Field Description      ultraSSDEnabled  bool    UltraSSDEnabled: The flag that enables or disables a capability to have one or more managed data disks with UltraSSD_LRS storage account type on the VM or VMSS.</description>
+ Resource Types:  AdditionalCapabilities   (Appears on:VirtualMachineScaleSets_Spec, VirtualMachines_Spec)  Deprecated version of AdditionalCapabilities. Use v1beta20201201.AdditionalCapabilities instead
+    Field Description      ultraSSDEnabled  bool        AdditionalCapabilitiesARM   (Appears on:VirtualMachineScaleSets_Spec_PropertiesARM, VirtualMachines_Spec_PropertiesARM)  Deprecated version of AdditionalCapabilities. Use v1beta20201201.AdditionalCapabilities instead
+    Field Description      ultraSSDEnabled  bool        AdditionalCapabilities_Status   (Appears on:VirtualMachineScaleSet_Status, VirtualMachine_Status)  Deprecated version of AdditionalCapabilities_Status.</description>
     </item>
     
     <item>
@@ -335,6 +382,41 @@ How to provide secrets to Azure #  Resources may have fields in their spec that 
       
       <guid>https://azure.github.io/azure-service-operator/reference/compute.v1alpha1api20210701/</guid>
       <description>compute.azure.com/v1alpha1api20210701  Package v1alpha1api20210701 contains API Schema definitions for the compute v1alpha1api20210701 API group
+ Resource Types:  DiskEncryptionSetParameters   (Appears on:ImageDataDisk, ImageOSDisk)  Deprecated version of DiskEncryptionSetParameters. Use v1beta20210701.DiskEncryptionSetParameters instead
+    Field Description      reference  genruntime.ResourceReference         DiskEncryptionSetParametersARM   (Appears on:ImageDataDiskARM, ImageOSDiskARM)  Deprecated version of DiskEncryptionSetParameters. Use v1beta20210701.DiskEncryptionSetParameters instead
+    Field Description      id  string        ExtendedLocation   (Appears on:Images_Spec)  Deprecated version of ExtendedLocation.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://azure.github.io/azure-service-operator/reference/compute.v1beta20200930/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/reference/compute.v1beta20200930/</guid>
+      <description>compute.azure.com/v1beta20200930  Package v1beta20200930 contains API Schema definitions for the compute v1beta20200930 API group
+ Resource Types:  CreationData   (Appears on:Disks_Spec, Snapshots_Spec)  Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/CreationData
+    Field Description      createOption  CreationDataCreateOption     CreateOption: This enumerates the possible sources of a disk&amp;rsquo;s creation.
+    galleryImageReference  ImageDiskReference     GalleryImageReference: The source image used for creating the disk.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://azure.github.io/azure-service-operator/reference/compute.v1beta20201201/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/reference/compute.v1beta20201201/</guid>
+      <description>compute.azure.com/v1beta20201201  Package v1beta20201201 contains API Schema definitions for the compute v1beta20201201 API group
+ Resource Types:  AdditionalCapabilities   (Appears on:VirtualMachineScaleSets_Spec, VirtualMachines_Spec)  Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/AdditionalCapabilities
+    Field Description      ultraSSDEnabled  bool    UltraSSDEnabled: The flag that enables or disables a capability to have one or more managed data disks with UltraSSD_LRS storage account type on the VM or VMSS.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://azure.github.io/azure-service-operator/reference/compute.v1beta20210701/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/reference/compute.v1beta20210701/</guid>
+      <description>compute.azure.com/v1beta20210701  Package v1beta20210701 contains API Schema definitions for the compute v1beta20210701 API group
  Resource Types:  DiskEncryptionSetParameters   (Appears on:ImageDataDisk, ImageOSDisk)  Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.Compute.json#/definitions/DiskEncryptionSetParameters
     Field Description      reference  genruntime.ResourceReference     Reference: Resource Id
     DiskEncryptionSetParametersARM   (Appears on:ImageDataDiskARM, ImageOSDiskARM)  Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.Compute.json#/definitions/DiskEncryptionSetParameters
@@ -348,6 +430,17 @@ How to provide secrets to Azure #  Resources may have fields in their spec that 
       
       <guid>https://azure.github.io/azure-service-operator/reference/containerregistry.v1alpha1api20210901/</guid>
       <description>containerregistry.azure.com/v1alpha1api20210901  Package v1alpha1api20210901 contains API Schema definitions for the containerregistry v1alpha1api20210901 API group
+ Resource Types:  EncryptionProperty   (Appears on:Registries_Spec)  Deprecated version of EncryptionProperty. Use v1beta20210901.EncryptionProperty instead
+    Field Description      keyVaultProperties  KeyVaultProperties         status  EncryptionPropertyStatus         EncryptionPropertyARM   (Appears on:RegistryPropertiesARM)  Deprecated version of EncryptionProperty.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://azure.github.io/azure-service-operator/reference/containerregistry.v1beta20210901/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/reference/containerregistry.v1beta20210901/</guid>
+      <description>containerregistry.azure.com/v1beta20210901  Package v1beta20210901 contains API Schema definitions for the containerregistry v1beta20210901 API group
  Resource Types:  EncryptionProperty   (Appears on:Registries_Spec)  Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/EncryptionProperty
     Field Description      keyVaultProperties  KeyVaultProperties         status  EncryptionPropertyStatus     Status: Indicates whether or not the encryption is enabled for container registry.
     EncryptionPropertyARM   (Appears on:RegistryPropertiesARM)  Generated from: https://schema.</description>
@@ -360,6 +453,20 @@ How to provide secrets to Azure #  Resources may have fields in their spec that 
       
       <guid>https://azure.github.io/azure-service-operator/reference/containerservice.v1alpha1api20210501/</guid>
       <description>containerservice.azure.com/v1alpha1api20210501  Package v1alpha1api20210501 contains API Schema definitions for the containerservice v1alpha1api20210501 API group
+ Resource Types:  AgentPoolMode_Status (string alias)  (Appears on:AgentPool_Status, ManagedClusterAgentPoolProfileProperties_StatusARM, ManagedClusterAgentPoolProfile_Status, ManagedClusterAgentPoolProfile_StatusARM)  Deprecated version of AgentPoolMode_Status. Use v1beta20210501.AgentPoolMode_Status instead
+    Value Description   &amp;#34;System&amp;#34;
+  &amp;#34;User&amp;#34;
+    AgentPoolType_Status (string alias)  (Appears on:AgentPool_Status, ManagedClusterAgentPoolProfileProperties_StatusARM, ManagedClusterAgentPoolProfile_Status, ManagedClusterAgentPoolProfile_StatusARM)  Deprecated version of AgentPoolType_Status. Use v1beta20210501.AgentPoolType_Status instead
+    Value Description   &amp;#34;AvailabilitySet&amp;#34;</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://azure.github.io/azure-service-operator/reference/containerservice.v1beta20210501/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/reference/containerservice.v1beta20210501/</guid>
+      <description>containerservice.azure.com/v1beta20210501  Package v1beta20210501 contains API Schema definitions for the containerservice v1beta20210501 API group
  Resource Types:  AgentPoolMode_Status (string alias)  (Appears on:AgentPool_Status, ManagedClusterAgentPoolProfileProperties_StatusARM, ManagedClusterAgentPoolProfile_Status, ManagedClusterAgentPoolProfile_StatusARM)      Value Description   &amp;#34;System&amp;#34;
   &amp;#34;User&amp;#34;
     AgentPoolType_Status (string alias)  (Appears on:AgentPool_Status, ManagedClusterAgentPoolProfileProperties_StatusARM, ManagedClusterAgentPoolProfile_Status, ManagedClusterAgentPoolProfile_StatusARM)      Value Description   &amp;#34;AvailabilitySet&amp;#34;
@@ -374,6 +481,17 @@ How to provide secrets to Azure #  Resources may have fields in their spec that 
       
       <guid>https://azure.github.io/azure-service-operator/reference/dbformysql.v1alpha1api20210501/</guid>
       <description>dbformysql.azure.com/v1alpha1api20210501  Package v1alpha1api20210501 contains API Schema definitions for the dbformysql v1alpha1api20210501 API group
+ Resource Types:  Backup   (Appears on:FlexibleServers_Spec)  Deprecated version of Backup. Use v1beta20210501.Backup instead
+    Field Description      backupRetentionDays  int        geoRedundantBackup  BackupGeoRedundantBackup         BackupARM   (Appears on:ServerPropertiesARM)  Deprecated version of Backup.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://azure.github.io/azure-service-operator/reference/dbformysql.v1beta20210501/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/reference/dbformysql.v1beta20210501/</guid>
+      <description>dbformysql.azure.com/v1beta20210501  Package v1beta20210501 contains API Schema definitions for the dbformysql v1beta20210501 API group
  Resource Types:  Backup   (Appears on:FlexibleServers_Spec)  Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Backup
     Field Description      backupRetentionDays  int    BackupRetentionDays: Backup retention days for the server.
     geoRedundantBackup  BackupGeoRedundantBackup     GeoRedundantBackup: Whether or not geo redundant backup is enabled.</description>
@@ -386,6 +504,17 @@ How to provide secrets to Azure #  Resources may have fields in their spec that 
       
       <guid>https://azure.github.io/azure-service-operator/reference/dbforpostgresql.v1alpha1api20210601/</guid>
       <description>dbforpostgresql.azure.com/v1alpha1api20210601  Package v1alpha1api20210601 contains API Schema definitions for the dbforpostgresql v1alpha1api20210601 API group
+ Resource Types:  Backup   (Appears on:FlexibleServers_Spec)  Deprecated version of Backup. Use v1beta20210601.Backup instead
+    Field Description      backupRetentionDays  int        geoRedundantBackup  BackupGeoRedundantBackup         BackupARM   (Appears on:ServerPropertiesARM)  Deprecated version of Backup.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://azure.github.io/azure-service-operator/reference/dbforpostgresql.v1beta20210601/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/reference/dbforpostgresql.v1beta20210601/</guid>
+      <description>dbforpostgresql.azure.com/v1beta20210601  Package v1beta20210601 contains API Schema definitions for the dbforpostgresql v1beta20210601 API group
  Resource Types:  Backup   (Appears on:FlexibleServers_Spec)  Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/Backup
     Field Description      backupRetentionDays  int    BackupRetentionDays: Backup retention days for the server.
     geoRedundantBackup  BackupGeoRedundantBackup     GeoRedundantBackup: A value indicating whether Geo-Redundant backup is enabled on the server.</description>
@@ -398,6 +527,18 @@ How to provide secrets to Azure #  Resources may have fields in their spec that 
       
       <guid>https://azure.github.io/azure-service-operator/reference/documentdb.v1alpha1api20210515/</guid>
       <description>documentdb.azure.com/v1alpha1api20210515  Package v1alpha1api20210515 contains API Schema definitions for the documentdb v1alpha1api20210515 API group
+ Resource Types:  AnalyticalStorageConfiguration   (Appears on:DatabaseAccounts_Spec)  Deprecated version of AnalyticalStorageConfiguration. Use v1beta20210515.AnalyticalStorageConfiguration instead
+    Field Description      schemaType  AnalyticalStorageConfigurationSchemaType         AnalyticalStorageConfigurationARM   (Appears on:DatabaseAccountCreateUpdatePropertiesARM)  Deprecated version of AnalyticalStorageConfiguration. Use v1beta20210515.AnalyticalStorageConfiguration instead
+    Field Description      schemaType  AnalyticalStorageConfigurationSchemaType         AnalyticalStorageConfigurationSchemaType (string alias)  (Appears on:AnalyticalStorageConfiguration, AnalyticalStorageConfigurationARM)  Deprecated version of AnalyticalStorageConfigurationSchemaType.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://azure.github.io/azure-service-operator/reference/documentdb.v1beta20210515/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/reference/documentdb.v1beta20210515/</guid>
+      <description>documentdb.azure.com/v1beta20210515  Package v1beta20210515 contains API Schema definitions for the documentdb v1beta20210515 API group
  Resource Types:  AnalyticalStorageConfiguration   (Appears on:DatabaseAccounts_Spec)  Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/AnalyticalStorageConfiguration
     Field Description      schemaType  AnalyticalStorageConfigurationSchemaType         AnalyticalStorageConfigurationARM   (Appears on:DatabaseAccountCreateUpdatePropertiesARM)  Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/AnalyticalStorageConfiguration
     Field Description      schemaType  AnalyticalStorageConfigurationSchemaType         AnalyticalStorageConfigurationSchemaType (string alias)  (Appears on:AnalyticalStorageConfiguration, AnalyticalStorageConfigurationARM)      Value Description   &amp;#34;FullFidelity&amp;#34;</description>
@@ -410,6 +551,17 @@ How to provide secrets to Azure #  Resources may have fields in their spec that 
       
       <guid>https://azure.github.io/azure-service-operator/reference/eventgrid.v1alpha1api20200601/</guid>
       <description>eventgrid.azure.com/v1alpha1api20200601  Package v1alpha1api20200601 contains API Schema definitions for the eventgrid v1alpha1api20200601 API group
+ Resource Types:  AdvancedFilter   (Appears on:EventSubscriptionFilter)  Deprecated version of AdvancedFilter. Use v1beta20200601.AdvancedFilter instead
+    Field Description      boolEqualsAdvancedFilter  AdvancedFilter_BoolEquals         numberGreaterThanAdvancedFilter  AdvancedFilter_NumberGreaterThan         numberGreaterThanOrEqualsAdvancedFilter  AdvancedFilter_NumberGreaterThanOrEquals         numberInAdvancedFilter  AdvancedFilter_NumberIn         numberLessThanAdvancedFilter  AdvancedFilter_NumberLessThan         numberLessThanOrEqualsAdvancedFilter  AdvancedFilter_NumberLessThanOrEquals         numberNotInAdvancedFilter  AdvancedFilter_NumberNotIn         stringBeginsWithAdvancedFilter  AdvancedFilter_StringBeginsWith         stringContainsAdvancedFilter  AdvancedFilter_StringContains         stringEndsWithAdvancedFilter  AdvancedFilter_StringEndsWith         stringInAdvancedFilter  AdvancedFilter_StringIn         stringNotInAdvancedFilter  AdvancedFilter_StringNotIn         AdvancedFilterARM   (Appears on:EventSubscriptionFilterARM)  Deprecated version of AdvancedFilter.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://azure.github.io/azure-service-operator/reference/eventgrid.v1beta20200601/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/reference/eventgrid.v1beta20200601/</guid>
+      <description>eventgrid.azure.com/v1beta20200601  Package v1beta20200601 contains API Schema definitions for the eventgrid v1beta20200601 API group
  Resource Types:  AdvancedFilter   (Appears on:EventSubscriptionFilter)  Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/AdvancedFilter
     Field Description      boolEqualsAdvancedFilter  AdvancedFilter_BoolEquals     BoolEquals: Mutually exclusive with all other properties
     numberGreaterThanAdvancedFilter  AdvancedFilter_NumberGreaterThan     NumberGreaterThan: Mutually exclusive with all other properties</description>
@@ -422,6 +574,17 @@ How to provide secrets to Azure #  Resources may have fields in their spec that 
       
       <guid>https://azure.github.io/azure-service-operator/reference/eventhub.v1alpha1api20211101/</guid>
       <description>eventhub.azure.com/v1alpha1api20211101  Package v1alpha1api20211101 contains API Schema definitions for the eventhub v1alpha1api20211101 API group
+ Resource Types:  AuthorizationRulePropertiesARM   (Appears on:NamespacesAuthorizationRules_SpecARM, NamespacesEventhubsAuthorizationRules_SpecARM)  Deprecated version of AuthorizationRuleProperties. Use v1beta20211101.AuthorizationRuleProperties instead
+    Field Description      rights  []AuthorizationRulePropertiesRights         AuthorizationRulePropertiesRights (string alias)  (Appears on:AuthorizationRulePropertiesARM, NamespacesAuthorizationRules_Spec, NamespacesEventhubsAuthorizationRules_Spec)  Deprecated version of AuthorizationRulePropertiesRights. Use v1beta20211101.AuthorizationRulePropertiesRights instead</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://azure.github.io/azure-service-operator/reference/eventhub.v1beta20211101/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/reference/eventhub.v1beta20211101/</guid>
+      <description>eventhub.azure.com/v1beta20211101  Package v1beta20211101 contains API Schema definitions for the eventhub v1beta20211101 API group
  Resource Types:  AuthorizationRulePropertiesARM   (Appears on:NamespacesAuthorizationRules_SpecARM, NamespacesEventhubsAuthorizationRules_SpecARM)  Generated from: https://schema.management.azure.com/schemas/2021-11-01/Microsoft.EventHub.json#/definitions/AuthorizationRuleProperties
     Field Description      rights  []AuthorizationRulePropertiesRights     Rights: The rights associated with the rule.
     AuthorizationRulePropertiesRights (string alias)  (Appears on:AuthorizationRulePropertiesARM, NamespacesAuthorizationRules_Spec, NamespacesEventhubsAuthorizationRules_Spec)      Value Description   &amp;#34;Listen&amp;#34;</description>
@@ -434,10 +597,8 @@ How to provide secrets to Azure #  Resources may have fields in their spec that 
       
       <guid>https://azure.github.io/azure-service-operator/reference/insights.v1alpha1api20180501preview/</guid>
       <description>insights.azure.com/v1alpha1api20180501preview  Package v1alpha1api20180501preview contains API Schema definitions for the insights v1alpha1api20180501preview API group
- Resource Types:  HeaderField   (Appears on:WebTestPropertiesRequest)  Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/HeaderField
-    Field Description      key  string    Key: The name of the header.
-    value  string    Value: The value of the header.
-    HeaderFieldARM   (Appears on:WebTestPropertiesRequestARM)  Generated from: https://schema.</description>
+ Resource Types:  HeaderField   (Appears on:WebTestPropertiesRequest)  Deprecated version of HeaderField. Use v1beta20180501preview.HeaderField instead
+    Field Description      key  string        value  string        HeaderFieldARM   (Appears on:WebTestPropertiesRequestARM)  Deprecated version of HeaderField.</description>
     </item>
     
     <item>
@@ -447,6 +608,30 @@ How to provide secrets to Azure #  Resources may have fields in their spec that 
       
       <guid>https://azure.github.io/azure-service-operator/reference/insights.v1alpha1api20200202/</guid>
       <description>insights.azure.com/v1alpha1api20200202  Package v1alpha1api20200202 contains API Schema definitions for the insights v1alpha1api20200202 API group
+ Resource Types:  ApplicationInsightsComponentPropertiesARM   (Appears on:Components_SpecARM)  Deprecated version of ApplicationInsightsComponentProperties. Use v1beta20200202.ApplicationInsightsComponentProperties instead
+    Field Description      Application_Type  ApplicationInsightsComponentPropertiesApplicationType         DisableIpMasking  bool        DisableLocalAuth  bool        Flow_Type  ApplicationInsightsComponentPropertiesFlowType         ForceCustomerStorageForProfiler  bool        HockeyAppId  string        ImmediatePurgeDataOn30Days  bool        IngestionMode  ApplicationInsightsComponentPropertiesIngestionMode         publicNetworkAccessForIngestion  ApplicationInsightsComponentPropertiesPublicNetworkAccessForIngestion         publicNetworkAccessForQuery  ApplicationInsightsComponentPropertiesPublicNetworkAccessForQuery         Request_Source  ApplicationInsightsComponentPropertiesRequestSource         RetentionInDays  int        SamplingPercentage  float64        workspaceResourceId  string        ApplicationInsightsComponentPropertiesApplicationType (string alias)  (Appears on:ApplicationInsightsComponentPropertiesARM, Components_Spec)  Deprecated version of ApplicationInsightsComponentPropertiesApplicationType.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://azure.github.io/azure-service-operator/reference/insights.v1beta20180501preview/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/reference/insights.v1beta20180501preview/</guid>
+      <description>insights.azure.com/v1beta20180501preview  Package v1beta20180501preview contains API Schema definitions for the insights v1beta20180501preview API group
+ Resource Types:  HeaderField   (Appears on:WebTestPropertiesRequest)  Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/HeaderField
+    Field Description      key  string    Key: The name of the header.
+    value  string    Value: The value of the header.
+    HeaderFieldARM   (Appears on:WebTestPropertiesRequestARM)  Generated from: https://schema.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://azure.github.io/azure-service-operator/reference/insights.v1beta20200202/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/reference/insights.v1beta20200202/</guid>
+      <description>insights.azure.com/v1beta20200202  Package v1beta20200202 contains API Schema definitions for the insights v1beta20200202 API group
  Resource Types:  ApplicationInsightsComponentPropertiesARM   (Appears on:Components_SpecARM)  Generated from: https://schema.management.azure.com/schemas/2020-02-02/Microsoft.Insights.Application.json#/definitions/ApplicationInsightsComponentProperties
     Field Description      Application_Type  ApplicationInsightsComponentPropertiesApplicationType     ApplicationType: Type of application being monitored.
     DisableIpMasking  bool    DisableIpMasking: Disable IP masking.
@@ -460,6 +645,18 @@ How to provide secrets to Azure #  Resources may have fields in their spec that 
       
       <guid>https://azure.github.io/azure-service-operator/reference/managedidentity.v1alpha1api20181130/</guid>
       <description>managedidentity.azure.com/v1alpha1api20181130  Package v1alpha1api20181130 contains API Schema definitions for the managedidentity v1alpha1api20181130 API group
+ Resource Types:  Identity_Status   (Appears on:UserAssignedIdentity)  Deprecated version of Identity_Status. Use v1beta20181130.Identity_Status instead
+    Field Description      clientId  string        conditions  []genruntime/conditions.Condition     Conditions: The observed state of the resource
+    id  string        location  string        name  string        principalId  string        tags  map[string]string        tenantId  string        type  string        Identity_StatusARM   Deprecated version of Identity_Status.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://azure.github.io/azure-service-operator/reference/managedidentity.v1beta20181130/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/reference/managedidentity.v1beta20181130/</guid>
+      <description>managedidentity.azure.com/v1beta20181130  Package v1beta20181130 contains API Schema definitions for the managedidentity v1beta20181130 API group
  Resource Types:  Identity_Status   (Appears on:UserAssignedIdentity)      Field Description      clientId  string    ClientId: The id of the app associated with the identity. This is a random generated UUID by MSI.
     conditions  []genruntime/conditions.Condition     Conditions: The observed state of the resource</description>
     </item>
@@ -471,6 +668,17 @@ How to provide secrets to Azure #  Resources may have fields in their spec that 
       
       <guid>https://azure.github.io/azure-service-operator/reference/network.v1alpha1api20201101/</guid>
       <description>network.azure.com/v1alpha1api20201101  Package v1alpha1api20201101 contains API Schema definitions for the network v1alpha1api20201101 API group
+ Resource Types:  AddressSpace   (Appears on:VirtualNetworkGateways_Spec, VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration, VirtualNetworksVirtualNetworkPeerings_Spec, VirtualNetworks_Spec)  Deprecated version of AddressSpace. Use v1beta20201101.AddressSpace instead
+    Field Description      addressPrefixes  []string        AddressSpaceARM   (Appears on:VirtualNetworkGateways_Spec_PropertiesARM, VirtualNetworkGateways_Spec_Properties_VpnClientConfigurationARM, VirtualNetworkPeeringPropertiesFormatARM, VirtualNetworks_Spec_PropertiesARM)  Deprecated version of AddressSpace. Use v1beta20201101.AddressSpace instead</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://azure.github.io/azure-service-operator/reference/network.v1beta20201101/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/reference/network.v1beta20201101/</guid>
+      <description>network.azure.com/v1beta20201101  Package v1beta20201101 contains API Schema definitions for the network v1beta20201101 API group
  Resource Types:  AddressSpace   (Appears on:VirtualNetworkGateways_Spec, VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration, VirtualNetworksVirtualNetworkPeerings_Spec, VirtualNetworks_Spec)  Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/AddressSpace
     Field Description      addressPrefixes  []string    AddressPrefixes: A list of address blocks reserved for this virtual network in CIDR notation.
     AddressSpaceARM   (Appears on:VirtualNetworkGateways_Spec_PropertiesARM, VirtualNetworkGateways_Spec_Properties_VpnClientConfigurationARM, VirtualNetworkPeeringPropertiesFormatARM, VirtualNetworks_Spec_PropertiesARM)  Generated from: https://schema.</description>
@@ -483,6 +691,17 @@ How to provide secrets to Azure #  Resources may have fields in their spec that 
       
       <guid>https://azure.github.io/azure-service-operator/reference/operationalinsights.v1alpha1api20210601/</guid>
       <description>operationalinsights.azure.com/v1alpha1api20210601  Package v1alpha1api20210601 contains API Schema definitions for the operationalinsights v1alpha1api20210601 API group
+ Resource Types:  PrivateLinkScopedResource_Status   (Appears on:Workspace_Status)  Deprecated version of PrivateLinkScopedResource_Status. Use v1beta20210601.PrivateLinkScopedResource_Status instead
+    Field Description      resourceId  string        scopeId  string        PrivateLinkScopedResource_StatusARM   (Appears on:WorkspaceProperties_StatusARM)  Deprecated version of PrivateLinkScopedResource_Status.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://azure.github.io/azure-service-operator/reference/operationalinsights.v1beta20210601/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/reference/operationalinsights.v1beta20210601/</guid>
+      <description>operationalinsights.azure.com/v1beta20210601  Package v1beta20210601 contains API Schema definitions for the operationalinsights v1beta20210601 API group
  Resource Types:  PrivateLinkScopedResource_Status   (Appears on:Workspace_Status)      Field Description      resourceId  string    ResourceId: The full resource Id of the private link scope resource.
     scopeId  string    ScopeId: The private link scope unique Identifier.
     PrivateLinkScopedResource_StatusARM   (Appears on:WorkspaceProperties_StatusARM)      Field Description      resourceId  string    ResourceId: The full resource Id of the private link scope resource.</description>
@@ -500,11 +719,32 @@ How to provide secrets to Azure #  Resources may have fields in their spec that 
     
     <item>
       <title></title>
+      <link>https://azure.github.io/azure-service-operator/reference/resources.v1beta20200601/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/reference/resources.v1beta20200601/</guid>
+      <description>resources.azure.com/v1beta20200601  Package v1beta20200601 contains API Schema definitions for the resources v1beta20200601 API group
+ Resource Types:  ResourceGroup       Field Description      metadata  Kubernetes meta/v1.ObjectMeta     Refer to the Kubernetes API documentation for the fields of the metadata field.     spec  ResourceGroupSpec          azureName  string    AzureName: The name of the resource in Azure.</description>
+    </item>
+    
+    <item>
+      <title></title>
       <link>https://azure.github.io/azure-service-operator/reference/servicebus.v1alpha1api20210101preview/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://azure.github.io/azure-service-operator/reference/servicebus.v1alpha1api20210101preview/</guid>
       <description>servicebus.azure.com/v1alpha1api20210101preview  Package v1alpha1api20210101preview contains API Schema definitions for the servicebus v1alpha1api20210101preview API group
+ Resource Types:  DictionaryValue_Status   (Appears on:Identity_Status)  Deprecated version of DictionaryValue_Status. Use v1beta20210101preview.DictionaryValue_Status instead
+    Field Description      clientId  string        principalId  string        DictionaryValue_StatusARM   (Appears on:Identity_StatusARM)  Deprecated version of DictionaryValue_Status.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://azure.github.io/azure-service-operator/reference/servicebus.v1beta20210101preview/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/reference/servicebus.v1beta20210101preview/</guid>
+      <description>servicebus.azure.com/v1beta20210101preview  Package v1beta20210101preview contains API Schema definitions for the servicebus v1beta20210101preview API group
  Resource Types:  DictionaryValue_Status   (Appears on:Identity_Status)      Field Description      clientId  string    ClientId: Client Id of user assigned identity
     principalId  string    PrincipalId: Principal Id of user assigned identity
     DictionaryValue_StatusARM   (Appears on:Identity_StatusARM)      Field Description      clientId  string    ClientId: Client Id of user assigned identity</description>
@@ -517,6 +757,20 @@ How to provide secrets to Azure #  Resources may have fields in their spec that 
       
       <guid>https://azure.github.io/azure-service-operator/reference/signalrservice.v1alpha1api20211001/</guid>
       <description>signalrservice.azure.com/v1alpha1api20211001  Package v1alpha1api20211001 contains API Schema definitions for the signalrservice v1alpha1api20211001 API group
+ Resource Types:  ACLAction_Status (string alias)  (Appears on:SignalRNetworkACLs_Status, SignalRNetworkACLs_StatusARM)  Deprecated version of ACLAction_Status. Use v1beta20211001.ACLAction_Status instead
+    Value Description   &amp;#34;Allow&amp;#34;
+  &amp;#34;Deny&amp;#34;
+    FeatureFlags_Status (string alias)  (Appears on:SignalRFeature_Status, SignalRFeature_StatusARM)  Deprecated version of FeatureFlags_Status. Use v1beta20211001.FeatureFlags_Status instead
+    Value Description   &amp;#34;EnableConnectivityLogs&amp;#34;</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://azure.github.io/azure-service-operator/reference/signalrservice.v1beta20211001/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/reference/signalrservice.v1beta20211001/</guid>
+      <description>signalrservice.azure.com/v1beta20211001  Package v1beta20211001 contains API Schema definitions for the signalrservice v1beta20211001 API group
  Resource Types:  ACLAction_Status (string alias)  (Appears on:SignalRNetworkACLs_Status, SignalRNetworkACLs_StatusARM)      Value Description   &amp;#34;Allow&amp;#34;
   &amp;#34;Deny&amp;#34;
     FeatureFlags_Status (string alias)  (Appears on:SignalRFeature_Status, SignalRFeature_StatusARM)      Value Description   &amp;#34;EnableConnectivityLogs&amp;#34;
@@ -533,6 +787,17 @@ How to provide secrets to Azure #  Resources may have fields in their spec that 
       
       <guid>https://azure.github.io/azure-service-operator/reference/storage.v1alpha1api20210401/</guid>
       <description>storage.azure.com/v1alpha1api20210401  Package v1alpha1api20210401 contains API Schema definitions for the storage v1alpha1api20210401 API group
+ Resource Types:  ActiveDirectoryProperties   (Appears on:AzureFilesIdentityBasedAuthentication)  Deprecated version of ActiveDirectoryProperties. Use v1beta20210401.ActiveDirectoryProperties instead
+    Field Description      azureStorageSid  string        domainGuid  string        domainName  string        domainSid  string        forestName  string        netBiosDomainName  string        ActiveDirectoryPropertiesARM   (Appears on:AzureFilesIdentityBasedAuthenticationARM)  Deprecated version of ActiveDirectoryProperties.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://azure.github.io/azure-service-operator/reference/storage.v1beta20210401/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/reference/storage.v1beta20210401/</guid>
+      <description>storage.azure.com/v1beta20210401  Package v1beta20210401 contains API Schema definitions for the storage v1beta20210401 API group
  Resource Types:  ActiveDirectoryProperties   (Appears on:AzureFilesIdentityBasedAuthentication)  Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ActiveDirectoryProperties
     Field Description      azureStorageSid  string    AzureStorageSid: Specifies the security identifier (SID) for Azure Storage.
     domainGuid  string    DomainGuid: Specifies the domain GUID.

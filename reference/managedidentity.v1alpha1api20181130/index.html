@@ -4,13 +4,15 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="managedidentity.azure.com/v1alpha1api20181130  Package v1alpha1api20181130 contains API Schema definitions for the managedidentity v1alpha1api20181130 API group
- Resource Types:  Identity_Status   (Appears on:UserAssignedIdentity)      Field Description      clientId  string    ClientId: The id of the app associated with the identity. This is a random generated UUID by MSI.
-    conditions  []genruntime/conditions.Condition     Conditions: The observed state of the resource">
+ Resource Types:  Identity_Status   (Appears on:UserAssignedIdentity)  Deprecated version of Identity_Status. Use v1beta20181130.Identity_Status instead
+    Field Description      clientId  string        conditions  []genruntime/conditions.Condition     Conditions: The observed state of the resource
+    id  string        location  string        name  string        principalId  string        tags  map[string]string        tenantId  string        type  string        Identity_StatusARM   Deprecated version of Identity_Status.">
 <meta name="theme-color" content="#FFFFFF">
 <meta name="color-scheme" content="light dark"><meta property="og:title" content="" />
 <meta property="og:description" content="managedidentity.azure.com/v1alpha1api20181130  Package v1alpha1api20181130 contains API Schema definitions for the managedidentity v1alpha1api20181130 API group
- Resource Types:  Identity_Status   (Appears on:UserAssignedIdentity)      Field Description      clientId  string    ClientId: The id of the app associated with the identity. This is a random generated UUID by MSI.
-    conditions  []genruntime/conditions.Condition     Conditions: The observed state of the resource" />
+ Resource Types:  Identity_Status   (Appears on:UserAssignedIdentity)  Deprecated version of Identity_Status. Use v1beta20181130.Identity_Status instead
+    Field Description      clientId  string        conditions  []genruntime/conditions.Condition     Conditions: The observed state of the resource
+    id  string        location  string        name  string        principalId  string        tags  map[string]string        tenantId  string        type  string        Identity_StatusARM   Deprecated version of Identity_Status." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/managedidentity.v1alpha1api20181130/" /><meta property="article:section" content="reference" />
 
@@ -21,7 +23,7 @@
 <link rel="icon" href="/azure-service-operator/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/azure-service-operator/book.min.46181bc93375ba932026e753b37c40e6ff8bb16a9ef770c78bcc663e4577b1ba.css" integrity="sha256-RhgbyTN1upMgJudTs3xA5v&#43;LsWqe93DHi8xmPkV3sbo=" crossorigin="anonymous">
   <script defer src="/azure-service-operator/flexsearch.min.js"></script>
-  <script defer src="/azure-service-operator/en.search.min.b24c16e276cb51a976efa9bc217b2de871505929942315307113b65632ad9916.js" integrity="sha256-skwW4nbLUal276m8IXst6HFQWSmUIxUwcRO2VjKtmRY=" crossorigin="anonymous"></script>
+  <script defer src="/azure-service-operator/en.search.min.ebd9824284ca77094dc26d7fce89debb0f523083556831b5edb2c2f8caf39657.js" integrity="sha256-69mCQoTKdwlNwm1/zoneuw9SMINVaDG17bLC&#43;Mrzllc=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -612,7 +614,33 @@ https://github.com/alex-shpak/hugo-book
   
 
   
+    <a href="https://azure.github.io/azure-service-operator/reference/authorization.v1beta20200801preview/" class="">Authorization.V1beta20200801preview</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
     <a href="https://azure.github.io/azure-service-operator/reference/batch.v1alpha1api20210101/" class="">Batch.V1alpha1api20210101</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/reference/batch.v1beta20210101/" class="">Batch.V1beta20210101</a>
   
 
         </li>
@@ -639,6 +667,32 @@ https://github.com/alex-shpak/hugo-book
 
   
     <a href="https://azure.github.io/azure-service-operator/reference/cache.v1alpha1api20210301/" class="">Cache.V1alpha1api20210301</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/reference/cache.v1beta20201201/" class="">Cache.V1beta20201201</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/reference/cache.v1beta20210301/" class="">Cache.V1beta20210301</a>
   
 
         </li>
@@ -690,7 +744,59 @@ https://github.com/alex-shpak/hugo-book
   
 
   
+    <a href="https://azure.github.io/azure-service-operator/reference/compute.v1beta20200930/" class="">Compute.V1beta20200930</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/reference/compute.v1beta20201201/" class="">Compute.V1beta20201201</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/reference/compute.v1beta20210701/" class="">Compute.V1beta20210701</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
     <a href="https://azure.github.io/azure-service-operator/reference/containerregistry.v1alpha1api20210901/" class="">Containerregistry.V1alpha1api20210901</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/reference/containerregistry.v1beta20210901/" class="">Containerregistry.V1beta20210901</a>
   
 
         </li>
@@ -716,7 +822,33 @@ https://github.com/alex-shpak/hugo-book
   
 
   
+    <a href="https://azure.github.io/azure-service-operator/reference/containerservice.v1beta20210501/" class="">Containerservice.V1beta20210501</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
     <a href="https://azure.github.io/azure-service-operator/reference/dbformysql.v1alpha1api20210501/" class="">Dbformysql.V1alpha1api20210501</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/reference/dbformysql.v1beta20210501/" class="">Dbformysql.V1beta20210501</a>
   
 
         </li>
@@ -742,7 +874,33 @@ https://github.com/alex-shpak/hugo-book
   
 
   
+    <a href="https://azure.github.io/azure-service-operator/reference/dbforpostgresql.v1beta20210601/" class="">Dbforpostgresql.V1beta20210601</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
     <a href="https://azure.github.io/azure-service-operator/reference/documentdb.v1alpha1api20210515/" class="">Documentdb.V1alpha1api20210515</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/reference/documentdb.v1beta20210515/" class="">Documentdb.V1beta20210515</a>
   
 
         </li>
@@ -768,7 +926,33 @@ https://github.com/alex-shpak/hugo-book
   
 
   
+    <a href="https://azure.github.io/azure-service-operator/reference/eventgrid.v1beta20200601/" class="">Eventgrid.V1beta20200601</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
     <a href="https://azure.github.io/azure-service-operator/reference/eventhub.v1alpha1api20211101/" class="">Eventhub.V1alpha1api20211101</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/reference/eventhub.v1beta20211101/" class="">Eventhub.V1beta20211101</a>
   
 
         </li>
@@ -807,7 +991,46 @@ https://github.com/alex-shpak/hugo-book
   
 
   
+    <a href="https://azure.github.io/azure-service-operator/reference/insights.v1beta20180501preview/" class="">Insights.V1beta20180501preview</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/reference/insights.v1beta20200202/" class="">Insights.V1beta20200202</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
     <a href="https://azure.github.io/azure-service-operator/reference/managedidentity.v1alpha1api20181130/" class=" active">Managedidentity.V1alpha1api20181130</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/reference/managedidentity.v1beta20181130/" class="">Managedidentity.V1beta20181130</a>
   
 
         </li>
@@ -833,7 +1056,33 @@ https://github.com/alex-shpak/hugo-book
   
 
   
+    <a href="https://azure.github.io/azure-service-operator/reference/network.v1beta20201101/" class="">Network.V1beta20201101</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
     <a href="https://azure.github.io/azure-service-operator/reference/operationalinsights.v1alpha1api20210601/" class="">Operationalinsights.V1alpha1api20210601</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/reference/operationalinsights.v1beta20210601/" class="">Operationalinsights.V1beta20210601</a>
   
 
         </li>
@@ -859,7 +1108,33 @@ https://github.com/alex-shpak/hugo-book
   
 
   
+    <a href="https://azure.github.io/azure-service-operator/reference/resources.v1beta20200601/" class="">Resources.V1beta20200601</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
     <a href="https://azure.github.io/azure-service-operator/reference/servicebus.v1alpha1api20210101preview/" class="">Servicebus.V1alpha1api20210101preview</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/reference/servicebus.v1beta20210101preview/" class="">Servicebus.V1beta20210101preview</a>
   
 
         </li>
@@ -885,7 +1160,33 @@ https://github.com/alex-shpak/hugo-book
   
 
   
+    <a href="https://azure.github.io/azure-service-operator/reference/signalrservice.v1beta20211001/" class="">Signalrservice.V1beta20211001</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
     <a href="https://azure.github.io/azure-service-operator/reference/storage.v1alpha1api20210401/" class="">Storage.V1alpha1api20210401</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/reference/storage.v1beta20210401/" class="">Storage.V1beta20210401</a>
   
 
         </li>
@@ -969,6 +1270,7 @@ Resource Types:
 (<em>Appears on:</em><a href="#managedidentity.azure.com/v1alpha1api20181130.UserAssignedIdentity">UserAssignedIdentity</a>)
 </p>
 <div>
+<p>Deprecated version of Identity_Status. Use v1beta20181130.Identity_Status instead</p>
 </div>
 <table>
 <thead>
@@ -986,7 +1288,6 @@ string
 </em>
 </td>
 <td>
-<p>ClientId: The id of the app associated with the identity. This is a random generated UUID by MSI.</p>
 </td>
 </tr>
 <tr>
@@ -1010,8 +1311,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}</p>
 </td>
 </tr>
 <tr>
@@ -1022,7 +1321,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The geo-location where the resource lives</p>
 </td>
 </tr>
 <tr>
@@ -1033,7 +1331,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource</p>
 </td>
 </tr>
 <tr>
@@ -1044,7 +1341,6 @@ string
 </em>
 </td>
 <td>
-<p>PrincipalId: The id of the service principal object associated with the created identity.</p>
 </td>
 </tr>
 <tr>
@@ -1055,7 +1351,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Resource tags.</p>
 </td>
 </tr>
 <tr>
@@ -1066,7 +1361,6 @@ string
 </em>
 </td>
 <td>
-<p>TenantId: The id of the tenant which the identity belongs to.</p>
 </td>
 </tr>
 <tr>
@@ -1077,7 +1371,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
 </td>
 </tr>
 </tbody>
@@ -1085,6 +1378,7 @@ string
 <h3 id="managedidentity.azure.com/v1alpha1api20181130.Identity_StatusARM">Identity_StatusARM
 </h3>
 <div>
+<p>Deprecated version of Identity_Status. Use v1beta20181130.Identity_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1102,8 +1396,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}</p>
 </td>
 </tr>
 <tr>
@@ -1114,7 +1406,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The geo-location where the resource lives</p>
 </td>
 </tr>
 <tr>
@@ -1125,7 +1416,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource</p>
 </td>
 </tr>
 <tr>
@@ -1138,7 +1428,6 @@ UserAssignedIdentityProperties_StatusARM
 </em>
 </td>
 <td>
-<p>Properties: The properties associated with the identity.</p>
 </td>
 </tr>
 <tr>
@@ -1149,7 +1438,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Resource tags.</p>
 </td>
 </tr>
 <tr>
@@ -1160,25 +1448,9 @@ string
 </em>
 </td>
 <td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
 </td>
 </tr>
 </tbody>
-</table>
-<h3 id="managedidentity.azure.com/v1alpha1api20181130.UserAssignedIdentitiesSpecAPIVersion">UserAssignedIdentitiesSpecAPIVersion
-(<code>string</code> alias)</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;2018-11-30&#34;</p></td>
-<td></td>
-</tr></tbody>
 </table>
 <h3 id="managedidentity.azure.com/v1alpha1api20181130.UserAssignedIdentities_Spec">UserAssignedIdentities_Spec
 </h3>
@@ -1215,7 +1487,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The Azure region where the identity lives.</p>
 </td>
 </tr>
 <tr>
@@ -1228,6 +1499,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -1238,7 +1512,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </tbody>
@@ -1246,6 +1519,7 @@ map[string]string
 <h3 id="managedidentity.azure.com/v1alpha1api20181130.UserAssignedIdentities_SpecARM">UserAssignedIdentities_SpecARM
 </h3>
 <div>
+<p>Deprecated version of UserAssignedIdentities_Spec. Use v1beta20181130.UserAssignedIdentities_Spec instead</p>
 </div>
 <table>
 <thead>
@@ -1263,7 +1537,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The Azure region where the identity lives.</p>
 </td>
 </tr>
 <tr>
@@ -1274,7 +1547,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the identity resource.</p>
 </td>
 </tr>
 <tr>
@@ -1285,7 +1557,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </tbody>
@@ -1293,7 +1564,7 @@ map[string]string
 <h3 id="managedidentity.azure.com/v1alpha1api20181130.UserAssignedIdentity">UserAssignedIdentity
 </h3>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2018-11-30/Microsoft.ManagedIdentity.json#/resourceDefinitions/userAssignedIdentities">https://schema.management.azure.com/schemas/2018-11-30/Microsoft.ManagedIdentity.json#/resourceDefinitions/userAssignedIdentities</a></p>
+<p>Deprecated version of UserAssignedIdentity. Use v1beta20181130.UserAssignedIdentity instead</p>
 </div>
 <table>
 <thead>
@@ -1350,7 +1621,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The Azure region where the identity lives.</p>
 </td>
 </tr>
 <tr>
@@ -1363,6 +1633,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -1373,7 +1646,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </table>
@@ -1399,6 +1671,7 @@ Identity_Status
 (<em>Appears on:</em><a href="#managedidentity.azure.com/v1alpha1api20181130.Identity_StatusARM">Identity_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of UserAssignedIdentityProperties_Status. Use v1beta20181130.UserAssignedIdentityProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1416,7 +1689,6 @@ string
 </em>
 </td>
 <td>
-<p>ClientId: The id of the app associated with the identity. This is a random generated UUID by MSI.</p>
 </td>
 </tr>
 <tr>
@@ -1427,7 +1699,6 @@ string
 </em>
 </td>
 <td>
-<p>PrincipalId: The id of the service principal object associated with the created identity.</p>
 </td>
 </tr>
 <tr>
@@ -1438,7 +1709,6 @@ string
 </em>
 </td>
 <td>
-<p>TenantId: The id of the tenant which the identity belongs to.</p>
 </td>
 </tr>
 </tbody>

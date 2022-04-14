@@ -1,0 +1,1759 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="resources.azure.com/v1beta20200601  Package v1beta20200601 contains API Schema definitions for the resources v1beta20200601 API group
+ Resource Types:  ResourceGroup       Field Description      metadata  Kubernetes meta/v1.ObjectMeta     Refer to the Kubernetes API documentation for the fields of the metadata field.     spec  ResourceGroupSpec          azureName  string    AzureName: The name of the resource in Azure.">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="" />
+<meta property="og:description" content="resources.azure.com/v1beta20200601  Package v1beta20200601 contains API Schema definitions for the resources v1beta20200601 API group
+ Resource Types:  ResourceGroup       Field Description      metadata  Kubernetes meta/v1.ObjectMeta     Refer to the Kubernetes API documentation for the fields of the metadata field.     spec  ResourceGroupSpec          azureName  string    AzureName: The name of the resource in Azure." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/resources.v1beta20200601/" /><meta property="article:section" content="reference" />
+
+
+
+<title>Resources.V1beta20200601 | Azure Service Operator</title>
+<link rel="manifest" href="/azure-service-operator/manifest.json">
+<link rel="icon" href="/azure-service-operator/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/azure-service-operator/book.min.46181bc93375ba932026e753b37c40e6ff8bb16a9ef770c78bcc663e4577b1ba.css" integrity="sha256-RhgbyTN1upMgJudTs3xA5v&#43;LsWqe93DHi8xmPkV3sbo=" crossorigin="anonymous">
+  <script defer src="/azure-service-operator/flexsearch.min.js"></script>
+  <script defer src="/azure-service-operator/en.search.min.ebd9824284ca77094dc26d7fce89debb0f523083556831b5edb2c2f8caf39657.js" integrity="sha256-69mCQoTKdwlNwm1/zoneuw9SMINVaDG17bLC&#43;Mrzllc=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/azure-service-operator/"><span>Azure Service Operator</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <span>User’s Guide</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/introduction/annotations/" class="">Annotations</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/introduction/authentication/" class="">Authentication</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/introduction/conditions/" class="">Conditions</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/introduction/diagnosing-problems/" class="">Diagnosing Problems</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/introduction/multitenant-deployment/" class="">Multitenant Deployment</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/introduction/secrets/" class="">Secrets</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/introduction/resources/" class="">Resources</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/introduction/installing-from-yaml/" class="">Installation: From YAML</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/introduction/tutorial-cosmosdb/" class="">Tutorial: CosmosDB to-do List</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/introduction/tutorial-postgresql/" class="">Tutorial: PostgreSQL Votes</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <span>For Contributors</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/contributing/contributing/" class="">Contributing</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/" class="">Add a New Code Generated Resource</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/contributing/create-a-new-release/" class="">Create a New Release</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/contributing/generator-overview/" class="">Generator Overview</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <span>Design &amp; Specifications</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/design/clarifying-object-structure/" class="">Clarifying Object Structure</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/design/crossplane/" class="">Crossplane</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/design/defaulter-validator/" class="">Defaulter Validator</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/design/resource-states/" class="">Resource States</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/design/secrets/" class="">Secrets</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/design/type-references-and-ownership/" class="">Type References and Ownership</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/design/versioning/" class="">Versioning</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <span>Case Studies</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/design/versioning/case-studies/chained-storage-versions/" class="">Chained Storage Versions</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/design/versioning/case-studies/fixed-storage-version/" class="">Fixed Storage Version</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/design/versioning/case-studies/rolling-storage-versions/" class="">Rolling Storage Versions</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/" class="">Architecture Decision Records</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-02-property-conversions/" class="">2021-02: Property Conversions</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-11-abstract-syntax-trees/" class="">2020-11: AST Library Choice</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-07-pipeline-architecture/" class="">2020-07: Pipeline Architecture</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-04-code-generation/" class="">2020-04: Why Code Generation?</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-06-api-version-recovery/" class="">Adr 2021 06 API Version Recovery</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-08-committing-generated-code/" class="">Adr 2021 08 Committing Generated Code</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2022-01-reconciler-extensions/" class="">Adr 2022 01 Reconciler Extensions</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2022-02-backward-compatibility/" class="">Adr 2022 02 Backward Compatibility</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <span>References</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/reference/authorization.v1alpha1api20200801preview/" class="">Authorization.V1alpha1api20200801preview</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/reference/authorization.v1beta20200801preview/" class="">Authorization.V1beta20200801preview</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/reference/batch.v1alpha1api20210101/" class="">Batch.V1alpha1api20210101</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/reference/batch.v1beta20210101/" class="">Batch.V1beta20210101</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/reference/cache.v1alpha1api20201201/" class="">Cache.V1alpha1api20201201</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/reference/cache.v1alpha1api20210301/" class="">Cache.V1alpha1api20210301</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/reference/cache.v1beta20201201/" class="">Cache.V1beta20201201</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/reference/cache.v1beta20210301/" class="">Cache.V1beta20210301</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/reference/compute.v1alpha1api20200930/" class="">Compute.V1alpha1api20200930</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/reference/compute.v1alpha1api20201201/" class="">Compute.V1alpha1api20201201</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/reference/compute.v1alpha1api20210701/" class="">Compute.V1alpha1api20210701</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/reference/compute.v1beta20200930/" class="">Compute.V1beta20200930</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/reference/compute.v1beta20201201/" class="">Compute.V1beta20201201</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/reference/compute.v1beta20210701/" class="">Compute.V1beta20210701</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/reference/containerregistry.v1alpha1api20210901/" class="">Containerregistry.V1alpha1api20210901</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/reference/containerregistry.v1beta20210901/" class="">Containerregistry.V1beta20210901</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/reference/containerservice.v1alpha1api20210501/" class="">Containerservice.V1alpha1api20210501</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/reference/containerservice.v1beta20210501/" class="">Containerservice.V1beta20210501</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/reference/dbformysql.v1alpha1api20210501/" class="">Dbformysql.V1alpha1api20210501</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/reference/dbformysql.v1beta20210501/" class="">Dbformysql.V1beta20210501</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/reference/dbforpostgresql.v1alpha1api20210601/" class="">Dbforpostgresql.V1alpha1api20210601</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/reference/dbforpostgresql.v1beta20210601/" class="">Dbforpostgresql.V1beta20210601</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/reference/documentdb.v1alpha1api20210515/" class="">Documentdb.V1alpha1api20210515</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/reference/documentdb.v1beta20210515/" class="">Documentdb.V1beta20210515</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/reference/eventgrid.v1alpha1api20200601/" class="">Eventgrid.V1alpha1api20200601</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/reference/eventgrid.v1beta20200601/" class="">Eventgrid.V1beta20200601</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/reference/eventhub.v1alpha1api20211101/" class="">Eventhub.V1alpha1api20211101</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/reference/eventhub.v1beta20211101/" class="">Eventhub.V1beta20211101</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/reference/insights.v1alpha1api20180501preview/" class="">Insights.V1alpha1api20180501preview</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/reference/insights.v1alpha1api20200202/" class="">Insights.V1alpha1api20200202</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/reference/insights.v1beta20180501preview/" class="">Insights.V1beta20180501preview</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/reference/insights.v1beta20200202/" class="">Insights.V1beta20200202</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/reference/managedidentity.v1alpha1api20181130/" class="">Managedidentity.V1alpha1api20181130</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/reference/managedidentity.v1beta20181130/" class="">Managedidentity.V1beta20181130</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/reference/network.v1alpha1api20201101/" class="">Network.V1alpha1api20201101</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/reference/network.v1beta20201101/" class="">Network.V1beta20201101</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/reference/operationalinsights.v1alpha1api20210601/" class="">Operationalinsights.V1alpha1api20210601</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/reference/operationalinsights.v1beta20210601/" class="">Operationalinsights.V1beta20210601</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/reference/resources.v1alpha1api20200601/" class="">Resources.V1alpha1api20200601</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/reference/resources.v1beta20200601/" class=" active">Resources.V1beta20200601</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/reference/servicebus.v1alpha1api20210101preview/" class="">Servicebus.V1alpha1api20210101preview</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/reference/servicebus.v1beta20210101preview/" class="">Servicebus.V1beta20210101preview</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/reference/signalrservice.v1alpha1api20211001/" class="">Signalrservice.V1alpha1api20211001</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/reference/signalrservice.v1beta20211001/" class="">Signalrservice.V1beta20211001</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/reference/storage.v1alpha1api20210401/" class="">Storage.V1alpha1api20210401</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/reference/storage.v1beta20210401/" class="">Storage.V1beta20210401</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var a=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(b){localStorage.setItem("menu.scrollTop",a.scrollTop)}),a.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/azure-service-operator/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Resources.V1beta20200601</strong>
+
+  <label for="toc-control">
+    
+    <img src="/azure-service-operator/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents"></nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h2 id="resources.azure.com/v1beta20200601">resources.azure.com/v1beta20200601</h2>
+<div>
+<p>Package v1beta20200601 contains API Schema definitions for the resources v1beta20200601 API group</p>
+</div>
+Resource Types:
+<ul></ul>
+<h3 id="resources.azure.com/v1beta20200601.ResourceGroup">ResourceGroup
+</h3>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>metadata</code><br/>
+<em>
+<a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta">
+Kubernetes meta/v1.ObjectMeta
+</a>
+</em>
+</td>
+<td>
+Refer to the Kubernetes API documentation for the fields of the
+<code>metadata</code> field.
+</td>
+</tr>
+<tr>
+<td>
+<code>spec</code><br/>
+<em>
+<a href="#resources.azure.com/v1beta20200601.ResourceGroupSpec">
+ResourceGroupSpec
+</a>
+</em>
+</td>
+<td>
+<br/>
+<br/>
+<table>
+<tr>
+<td>
+<code>azureName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AzureName: The name of the resource in Azure. This is often the same as the name
+of the resource in Kubernetes but it doesn&rsquo;t have to be.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>location</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Location is the Azure location for the group (eg westus2, southcentralus, etc&hellip;)</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>managedBy</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>ManagedBy is the management group responsible for managing this group</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tags</code><br/>
+<em>
+map[string]string
+</em>
+</td>
+<td>
+<p>Tags are user defined key value pairs</p>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td>
+<code>status</code><br/>
+<em>
+<a href="#resources.azure.com/v1beta20200601.ResourceGroupStatus">
+ResourceGroupStatus
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="resources.azure.com/v1beta20200601.ResourceGroupSpec">ResourceGroupSpec
+</h3>
+<p>
+(<em>Appears on:</em><a href="#resources.azure.com/v1beta20200601.ResourceGroup">ResourceGroup</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>azureName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AzureName: The name of the resource in Azure. This is often the same as the name
+of the resource in Kubernetes but it doesn&rsquo;t have to be.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>location</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Location is the Azure location for the group (eg westus2, southcentralus, etc&hellip;)</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>managedBy</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>ManagedBy is the management group responsible for managing this group</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tags</code><br/>
+<em>
+map[string]string
+</em>
+</td>
+<td>
+<p>Tags are user defined key value pairs</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="resources.azure.com/v1beta20200601.ResourceGroupSpecARM">ResourceGroupSpecARM
+</h3>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name: Name of the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>location</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Location is the Azure location for the group (eg westus2, southcentralus, etc&hellip;)</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>managedBy</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>ManagedBy is the management group responsible for managing this group</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tags</code><br/>
+<em>
+map[string]string
+</em>
+</td>
+<td>
+<p>Tags are user defined key value pairs</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="resources.azure.com/v1beta20200601.ResourceGroupStatus">ResourceGroupStatus
+</h3>
+<p>
+(<em>Appears on:</em><a href="#resources.azure.com/v1beta20200601.ResourceGroup">ResourceGroup</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>location</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>managedBy</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>ManagedBy is the management group responsible for managing this group</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tags</code><br/>
+<em>
+map[string]string
+</em>
+</td>
+<td>
+<p>Tags are user defined key value pairs</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>provisioningState</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>conditions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
+[]genruntime/conditions.Condition
+</a>
+</em>
+</td>
+<td>
+<p>Conditions describe the observed state of the resource</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="resources.azure.com/v1beta20200601.ResourceGroupStatusARM">ResourceGroupStatusARM
+</h3>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>location</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>managedBy</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>ManagedBy is the management group responsible for managing this group</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>tags</code><br/>
+<em>
+map[string]string
+</em>
+</td>
+<td>
+<p>Tags are user defined key value pairs</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>properties</code><br/>
+<em>
+<a href="#resources.azure.com/v1beta20200601.ResourceGroupStatusPropertiesARM">
+ResourceGroupStatusPropertiesARM
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="resources.azure.com/v1beta20200601.ResourceGroupStatusPropertiesARM">ResourceGroupStatusPropertiesARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#resources.azure.com/v1beta20200601.ResourceGroupStatusARM">ResourceGroupStatusARM</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>provisioningState</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="resources.azure.com/v1beta20200601.ResourceGroupType">ResourceGroupType
+(<code>string</code> alias)</h3>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Microsoft.Resources/resourceGroups&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<hr/>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function a(c){const a=window.getSelection(),b=document.createRange();b.selectNodeContents(c),a.removeAllRanges(),a.addRange(b)}document.querySelectorAll("pre code").forEach(b=>{b.addEventListener("click",function(c){a(b.parentElement),navigator.clipboard&&navigator.clipboard.writeText(b.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents"></nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
