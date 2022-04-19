@@ -13,6 +13,7 @@ import (
 	"github.com/pkg/errors"
 	"k8s.io/klog/v2"
 
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
@@ -38,7 +39,7 @@ func EnsureDefinitionsDoNotUseAnyTypes() *Stage {
 }
 
 func checkForAnyType(description string, packages []string) *Stage {
-	expectedPackages := astmodel.MakeStringSet()
+	expectedPackages := set.Make[string]()
 	for _, p := range packages {
 		expectedPackages.Add(p)
 	}
@@ -105,7 +106,7 @@ func packageName(name astmodel.TypeName) string {
 
 func collectBadPackages(
 	names []astmodel.TypeName,
-	expectedPackages astmodel.StringSet,
+	expectedPackages set.Set[string],
 ) ([]string, error) {
 	grouped := make(map[string][]string)
 	for _, name := range names {

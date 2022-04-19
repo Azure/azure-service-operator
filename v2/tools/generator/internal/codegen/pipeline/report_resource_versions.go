@@ -17,6 +17,7 @@ import (
 	"github.com/pkg/errors"
 	"k8s.io/klog/v2"
 
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/reporting"
@@ -38,7 +39,7 @@ func ReportResourceVersions(configuration *config.Configuration) *Stage {
 }
 
 type ResourceVersionsReport struct {
-	groups astmodel.StringSet                    // A set of all our groups
+	groups set.Set[string]                       // A set of all our groups
 	kinds  map[string]astmodel.TypeDefinitionSet // For each group, the set of all available resources
 	// A separate list of resources for each package
 	lists map[astmodel.PackageReference][]astmodel.TypeDefinition
@@ -46,7 +47,7 @@ type ResourceVersionsReport struct {
 
 func NewResourceVersionsReport(definitions astmodel.TypeDefinitionSet) *ResourceVersionsReport {
 	result := &ResourceVersionsReport{
-		groups: astmodel.MakeStringSet(),
+		groups: set.Make[string](),
 		kinds:  make(map[string]astmodel.TypeDefinitionSet),
 		lists:  make(map[astmodel.PackageReference][]astmodel.TypeDefinition),
 	}
@@ -92,26 +93,25 @@ func (report *ResourceVersionsReport) WriteTo(outputPath string, samplesURL stri
 	report.WriteToBuffer(&buffer, samplesURL)
 
 	if _, err := os.Stat(outputPath); os.IsNotExist(err) {
-		err = os.MkdirAll(outputPath, 0700)
+		err = os.MkdirAll(outputPath, 0o700)
 		if err != nil {
 			return errors.Wrapf(err, "Unable to create directory %q", outputPath)
 		}
 	}
 
 	destination := path.Join(outputPath, "resources.md")
-	return ioutil.WriteFile(destination, []byte(buffer.String()), 0600)
+	return ioutil.WriteFile(destination, []byte(buffer.String()), 0o600)
 }
 
 // WriteToBuffer creates the report in the provided buffer
 func (report *ResourceVersionsReport) WriteToBuffer(buffer *strings.Builder, samplesURL string) {
-
 	buffer.WriteString("# Supported Resources\n\n")
 	buffer.WriteString("These are the resources with Azure Service Operator support committed to our **main** branch, ")
 	buffer.WriteString("grouped by the originating ARM service. ")
 	buffer.WriteString("(Newly supported resources will appear in this list prior to inclusion in any ASO release.)\n\n")
 
 	// Sort groups into increasing order
-	groups := report.groups.AsSortedSlice()
+	groups := set.AsSortedSlice(report.groups)
 
 	for _, svc := range groups {
 		buffer.WriteString(fmt.Sprintf("## %s\n\n", strings.Title(svc)))
@@ -124,7 +124,8 @@ func (report *ResourceVersionsReport) WriteToBuffer(buffer *strings.Builder, sam
 func (report *ResourceVersionsReport) createTable(
 	resources astmodel.TypeDefinitionSet,
 	group string,
-	samplesURL string) *reporting.MarkdownTable {
+	samplesURL string,
+) *reporting.MarkdownTable {
 	const (
 		name       = "Resource"
 		armVersion = "ARM Version"

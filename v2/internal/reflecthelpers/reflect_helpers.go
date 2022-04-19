@@ -12,6 +12,7 @@ import (
 	"github.com/pkg/errors"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -62,30 +63,30 @@ func FindReferences(obj interface{}, t reflect.Type) (map[interface{}]struct{}, 
 }
 
 // FindResourceReferences finds all the genruntime.ResourceReference's on the provided object
-func FindResourceReferences(obj interface{}) (map[genruntime.ResourceReference]struct{}, error) {
+func FindResourceReferences(obj interface{}) (set.Set[genruntime.ResourceReference], error) {
 	untypedResult, err := FindReferences(obj, reflect.TypeOf(genruntime.ResourceReference{}))
 	if err != nil {
 		return nil, err
 	}
 
-	result := make(map[genruntime.ResourceReference]struct{})
+	result := set.Make[genruntime.ResourceReference]()
 	for k := range untypedResult {
-		result[k.(genruntime.ResourceReference)] = struct{}{}
+		result.Add(k.(genruntime.ResourceReference))
 	}
 
 	return result, nil
 }
 
 // FindSecretReferences finds all of the genruntime.SecretReference's on the provided object
-func FindSecretReferences(obj interface{}) (map[genruntime.SecretReference]struct{}, error) {
+func FindSecretReferences(obj interface{}) (set.Set[genruntime.SecretReference], error) {
 	untypedResult, err := FindReferences(obj, reflect.TypeOf(genruntime.SecretReference{}))
 	if err != nil {
 		return nil, err
 	}
 
-	result := make(map[genruntime.SecretReference]struct{})
+	result := set.Make[genruntime.SecretReference]()
 	for k := range untypedResult {
-		result[k.(genruntime.SecretReference)] = struct{}{}
+		result.Add(k.(genruntime.SecretReference))
 	}
 
 	return result, nil
