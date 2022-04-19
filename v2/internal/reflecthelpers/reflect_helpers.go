@@ -12,6 +12,7 @@ import (
 	"github.com/pkg/errors"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -85,7 +86,7 @@ func FindSecretReferences(obj interface{}) (set.Set[genruntime.SecretReference],
 
 	result := set.Make[genruntime.SecretReference]()
 	for k := range untypedResult {
-		result.Add(k.(genruntime.SecretReference)) 
+		result.Add(k.(genruntime.SecretReference))
 	}
 
 	return result, nil

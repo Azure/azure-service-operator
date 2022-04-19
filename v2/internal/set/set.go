@@ -55,8 +55,16 @@ func (set Set[t]) Copy() Set[t] {
 	return maps.Clone(set)
 }
 
+/* compiler crashes at the moment: https://github.com/golang/go/issues/51840
+
 func (set Set[t]) Equals(other Set[t]) bool {
 	return maps.Equal(set, other)
+}
+
+*/
+
+func AreEqual[t comparable](left, right Set[t]) bool {
+	return maps.Equal(left, right)
 }
 
 // Values returns a slice of all the values in the set

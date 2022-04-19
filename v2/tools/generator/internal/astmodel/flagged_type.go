@@ -128,7 +128,7 @@ func (ft *FlaggedType) Equals(t Type, overrides EqualityOverrides) bool {
 		return false
 	}
 
-	if !ft.flags.Equals(other.flags) {
+	if !set.AreEqual(ft.flags, other.flags) {
 		return false
 	}
 
