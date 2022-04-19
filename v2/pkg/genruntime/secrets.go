@@ -102,7 +102,6 @@ func makeKeyPair(dest *SecretDestination) secretKeyPair {
 // those secrets to overwrite one another.
 func ValidateSecretDestinations(destinations []*SecretDestination) error {
 	// Map of secret -> keys
-	// locations := make(map[string]map[string]struct{})
 	locations := set.Make[secretKeyPair]()
 
 	for _, dest := range destinations {
