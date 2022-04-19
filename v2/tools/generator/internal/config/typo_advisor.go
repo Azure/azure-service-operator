@@ -13,18 +13,18 @@ import (
 	"github.com/hbollon/go-edlib"
 	"github.com/pkg/errors"
 
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 )
 
 // TypoAdvisor is a utility that helps augment errors with guidance when mistakes are made in configuration.
 type TypoAdvisor struct {
 	lock  sync.RWMutex
-	terms astmodel.StringSet // set of terms we know to exist
+	terms set.StringSet // set of terms we know to exist
 }
 
 func NewTypoAdvisor() *TypoAdvisor {
 	return &TypoAdvisor{
-		terms: make(astmodel.StringSet),
+		terms: set.MakeStringSet(),
 	}
 }
 
@@ -54,7 +54,7 @@ func (advisor *TypoAdvisor) Wrapf(originalError error, typo string, format strin
 
 	suggestion, err := edlib.FuzzySearch(
 		strings.ToLower(typo),
-		advisor.terms.AsSortedSlice(),
+		set.AsSortedSlice(advisor.terms),
 		edlib.Levenshtein)
 	if err != nil {
 		// Can't offer a suggestion

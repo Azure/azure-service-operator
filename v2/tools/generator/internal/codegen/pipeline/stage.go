@@ -14,6 +14,7 @@ import (
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"k8s.io/klog/v2"
 
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
@@ -74,7 +75,7 @@ func NewLegacyStage(
 		})
 }
 
-var knownLegacyStages = astmodel.MakeStringSet(
+var knownLegacyStages = set.MakeStringSet(
 	"addCrossResourceReferences",
 	"addCrossplaneAtProviderProperty",
 	"addCrossplaneEmbeddedResourceSpec",

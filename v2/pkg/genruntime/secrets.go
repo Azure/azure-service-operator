@@ -8,6 +8,7 @@ package genruntime
 import (
 	"fmt"
 
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/pkg/errors"
 )
 
@@ -101,19 +102,20 @@ func makeKeyPair(dest *SecretDestination) secretKeyPair {
 // those secrets to overwrite one another.
 func ValidateSecretDestinations(destinations []*SecretDestination) error {
 	// Map of secret -> keys
-	//locations := make(map[string]map[string]struct{})
-	locations := make(map[secretKeyPair]struct{})
+	// locations := make(map[string]map[string]struct{})
+	locations := set.Make[secretKeyPair]()
 
 	for _, dest := range destinations {
 		if dest == nil {
 			continue
 		}
+
 		pair := makeKeyPair(dest)
-		if _, ok := locations[pair]; ok {
+		if locations.Contains(pair) {
 			return errors.Errorf("cannot write more than one secret to destination %s", dest.String())
 		}
 
-		locations[pair] = struct{}{}
+		locations.Add(pair)
 	}
 
 	return nil

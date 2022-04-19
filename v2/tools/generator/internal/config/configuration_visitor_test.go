@@ -10,6 +10,7 @@ import (
 
 	. "github.com/onsi/gomega"
 
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
 )
@@ -19,7 +20,7 @@ func TestConfigurationVisitor_WhenVisitingEveryType_VisitsExpectedTypes(t *testi
 	g := NewGomegaWithT(t)
 
 	omc := createTestObjectModelConfigurationForVisitor()
-	seen := astmodel.MakeStringSet()
+	seen := set.MakeStringSet()
 	visitor := NewEveryTypeConfigurationVisitor(
 		func(configuration *TypeConfiguration) error {
 			seen.Add(configuration.name)
@@ -37,7 +38,7 @@ func TestConfigurationVisitor_WhenVisitingASpecificType_VisitsExpectedType(t *te
 	g := NewGomegaWithT(t)
 
 	omc := createTestObjectModelConfigurationForVisitor()
-	seen := astmodel.MakeStringSet()
+	seen := set.MakeStringSet()
 	name := astmodel.MakeTypeName(test.Pkg2022, "Person")
 	visitor := NewSingleTypeConfigurationVisitor(
 		name,
@@ -56,7 +57,7 @@ func TestConfigurationVisitor_WhenVisitingEveryProperty_VisitsExpectedProperties
 	g := NewGomegaWithT(t)
 
 	omc := createTestObjectModelConfigurationForVisitor()
-	seen := astmodel.MakeStringSet()
+	seen := set.MakeStringSet()
 	visitor := NewEveryPropertyConfigurationVisitor(
 		func(configuration *PropertyConfiguration) error {
 			seen.Add(configuration.name)
@@ -77,7 +78,7 @@ func TestConfigurationVisitor_WhenVisitingASpecificProperty_VisitsExpectedProper
 	g := NewGomegaWithT(t)
 
 	omc := createTestObjectModelConfigurationForVisitor()
-	seen := astmodel.MakeStringSet()
+	seen := set.Make[string]()
 	name := astmodel.MakeTypeName(test.Pkg2022, "Person")
 	visitor := NewSinglePropertyConfigurationVisitor(
 		name,

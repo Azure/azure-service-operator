@@ -13,6 +13,7 @@ import (
 	"gopkg.in/yaml.v3"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
@@ -73,7 +74,7 @@ func (gc *GroupConfiguration) visitVersions(visitor *configurationVisitor) error
 	var errs []error
 
 	// All our versions are listed under multiple keys, so we hedge against processing them multiple times
-	versionsSeen := astmodel.MakeStringSet()
+	versionsSeen := set.MakeStringSet()
 	for _, v := range gc.versions {
 		if versionsSeen.Contains(v.name) {
 			continue
@@ -171,7 +172,7 @@ func (gc *GroupConfiguration) configuredVersions() []string {
 	var result []string
 
 	// All our versions are listed twice, under two different keys, so we hedge against processing them multiple times
-	versionsSeen := astmodel.MakeStringSet()
+	versionsSeen := set.MakeStringSet()
 	for _, v := range gc.versions {
 		if versionsSeen.Contains(v.name) {
 			continue

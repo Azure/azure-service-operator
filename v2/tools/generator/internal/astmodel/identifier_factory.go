@@ -10,6 +10,8 @@ import (
 	"strings"
 	"sync"
 	"unicode"
+
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 )
 
 // \W is all non-word characters (https://golang.org/pkg/regexp/syntax/)
@@ -39,7 +41,7 @@ type IdentifierFactory interface {
 type identifierFactory struct {
 	renames                   map[string]string
 	reservedWords             map[string]string
-	forbiddenReceiverSuffixes StringSet
+	forbiddenReceiverSuffixes set.StringSet
 
 	idCache       idCache
 	receiverCache map[string]string
@@ -224,12 +226,8 @@ func createReservedWords() map[string]string {
 }
 
 // createForbiddenReceiverSuffixes creates a case-sensitive list of words we don't want to use as receiver names
-func createForbiddenReceiverSuffixes() StringSet {
-	result := MakeStringSet()
-	result.Add("Status")
-	result.Add("Spec")
-	result.Add("ARM")
-	return result
+func createForbiddenReceiverSuffixes() set.StringSet {
+	return set.MakeStringSet("Status", "Spec", "ARM")
 }
 
 func (factory *identifierFactory) CreateGroupName(group string) string {

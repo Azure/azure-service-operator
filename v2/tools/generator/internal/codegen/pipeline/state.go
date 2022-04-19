@@ -9,16 +9,17 @@ import (
 	"github.com/pkg/errors"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/codegen/storage"
 )
 
 // State is an immutable instance that captures the information being passed along the pipeline
 type State struct {
-	definitions     astmodel.TypeDefinitionSet    // set of type definitions generated so far
-	conversionGraph *storage.ConversionGraph      // graph of transitions between packages in our conversion graph
-	stagesSeen      astmodel.StringSet            // set of ids of the stages already run
-	stagesExpected  map[string]astmodel.StringSet // set of ids of expected stages, each with a set of ids for the stages expecting them
+	definitions     astmodel.TypeDefinitionSet // set of type definitions generated so far
+	conversionGraph *storage.ConversionGraph   // graph of transitions between packages in our conversion graph
+	stagesSeen      set.StringSet              // set of ids of the stages already run
+	stagesExpected  map[string]set.StringSet   // set of ids of expected stages, each with a set of ids for the stages expecting them
 }
 
 /*
@@ -39,8 +40,8 @@ func NewState(definitions ...astmodel.TypeDefinitionSet) *State {
 	return &State{
 		definitions:     defs,
 		conversionGraph: nil,
-		stagesSeen:      astmodel.MakeStringSet(),
-		stagesExpected:  make(map[string]astmodel.StringSet),
+		stagesSeen:      set.MakeStringSet(),
+		stagesExpected:  make(map[string]set.StringSet),
 	}
 }
 
@@ -78,7 +79,7 @@ func (s *State) WithExpectation(earlierStage string, laterStage string) *State {
 		return result
 	}
 
-	set := astmodel.MakeStringSet(earlierStage)
+	set := set.MakeStringSet(earlierStage)
 	result.stagesExpected[laterStage] = set
 
 	return result
