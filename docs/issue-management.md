@@ -23,4 +23,10 @@ To ensure the team is not reviewing the same issues every week, a comment will b
 
 With the above regular review of old issues, we don't expect any issues to be flagged as `stale` by Stalebot.
 
-During each review of old issues, the team will also assess any issues tagged `stale`. Truly stale issues will be closed; others will be updated with a suitable comment.
+During each review of old issues, the team will also assess any issues tagged [`stale`](https://github.com/Azure/azure-service-operator/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc+label%3Astale). 
+
+```
+is:issue is:open sort:updated-desc label:stale 
+```
+
+Truly stale issues will be closed; others will be updated with a suitable comment.
