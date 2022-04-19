@@ -39,7 +39,7 @@ func EnsureDefinitionsDoNotUseAnyTypes() *Stage {
 }
 
 func checkForAnyType(description string, packages []string) *Stage {
-	expectedPackages := set.MakeStringSet()
+	expectedPackages := set.Make[string]()
 	for _, p := range packages {
 		expectedPackages.Add(p)
 	}
@@ -106,7 +106,7 @@ func packageName(name astmodel.TypeName) string {
 
 func collectBadPackages(
 	names []astmodel.TypeName,
-	expectedPackages set.StringSet,
+	expectedPackages set.Set[string],
 ) ([]string, error) {
 	grouped := make(map[string][]string)
 	for _, name := range names {

@@ -41,7 +41,7 @@ type IdentifierFactory interface {
 type identifierFactory struct {
 	renames                   map[string]string
 	reservedWords             map[string]string
-	forbiddenReceiverSuffixes set.StringSet
+	forbiddenReceiverSuffixes set.Set[string]
 
 	idCache       idCache
 	receiverCache map[string]string
@@ -226,8 +226,8 @@ func createReservedWords() map[string]string {
 }
 
 // createForbiddenReceiverSuffixes creates a case-sensitive list of words we don't want to use as receiver names
-func createForbiddenReceiverSuffixes() set.StringSet {
-	return set.MakeStringSet("Status", "Spec", "ARM")
+func createForbiddenReceiverSuffixes() set.Set[string] {
+	return set.Make("Status", "Spec", "ARM")
 }
 
 func (factory *identifierFactory) CreateGroupName(group string) string {

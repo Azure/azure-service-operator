@@ -20,7 +20,7 @@ func TestConfigurationVisitor_WhenVisitingEveryType_VisitsExpectedTypes(t *testi
 	g := NewGomegaWithT(t)
 
 	omc := createTestObjectModelConfigurationForVisitor()
-	seen := set.MakeStringSet()
+	seen := set.Make[string]()
 	visitor := NewEveryTypeConfigurationVisitor(
 		func(configuration *TypeConfiguration) error {
 			seen.Add(configuration.name)
@@ -38,7 +38,7 @@ func TestConfigurationVisitor_WhenVisitingASpecificType_VisitsExpectedType(t *te
 	g := NewGomegaWithT(t)
 
 	omc := createTestObjectModelConfigurationForVisitor()
-	seen := set.MakeStringSet()
+	seen := set.Make[string]()
 	name := astmodel.MakeTypeName(test.Pkg2022, "Person")
 	visitor := NewSingleTypeConfigurationVisitor(
 		name,
@@ -57,7 +57,7 @@ func TestConfigurationVisitor_WhenVisitingEveryProperty_VisitsExpectedProperties
 	g := NewGomegaWithT(t)
 
 	omc := createTestObjectModelConfigurationForVisitor()
-	seen := set.MakeStringSet()
+	seen := set.Make[string]()
 	visitor := NewEveryPropertyConfigurationVisitor(
 		func(configuration *PropertyConfiguration) error {
 			seen.Add(configuration.name)
@@ -94,7 +94,6 @@ func TestConfigurationVisitor_WhenVisitingASpecificProperty_VisitsExpectedProper
 }
 
 func createTestObjectModelConfigurationForVisitor() *ObjectModelConfiguration {
-
 	lastName := NewPropertyConfiguration("LastName")
 	firstName := NewPropertyConfiguration("FirstName")
 

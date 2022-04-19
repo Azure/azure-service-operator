@@ -39,7 +39,8 @@ type Stage struct {
 func NewStage(
 	id string,
 	description string,
-	action func(context.Context, *State) (*State, error)) *Stage {
+	action func(context.Context, *State) (*State, error),
+) *Stage {
 	return &Stage{
 		id:          id,
 		description: description,
@@ -53,8 +54,8 @@ func NewStage(
 func NewLegacyStage(
 	id string,
 	description string,
-	action func(context.Context, astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error)) *Stage {
-
+	action func(context.Context, astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error),
+) *Stage {
 	if !knownLegacyStages.Contains(id) {
 		msg := fmt.Sprintf(
 			"No new legacy stages (use NewStage instead): %s is not the id of a known legacy stage",
@@ -75,7 +76,7 @@ func NewLegacyStage(
 		})
 }
 
-var knownLegacyStages = set.MakeStringSet(
+var knownLegacyStages = set.Make(
 	"addCrossResourceReferences",
 	"addCrossplaneAtProviderProperty",
 	"addCrossplaneEmbeddedResourceSpec",
@@ -222,7 +223,6 @@ func (stage *Stage) checkPreconditions(state *State) error {
 
 // checkPrerequisites returns an error if the prerequisites of this stage have not been met
 func (stage *Stage) checkPrerequisites(state *State) error {
-
 	var errs []error
 	for _, prereq := range stage.prerequisites {
 		satisfied := state.stagesSeen.Contains(prereq)

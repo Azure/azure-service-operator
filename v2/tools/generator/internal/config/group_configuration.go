@@ -74,7 +74,7 @@ func (gc *GroupConfiguration) visitVersions(visitor *configurationVisitor) error
 	var errs []error
 
 	// All our versions are listed under multiple keys, so we hedge against processing them multiple times
-	versionsSeen := set.MakeStringSet()
+	versionsSeen := set.Make[string]()
 	for _, v := range gc.versions {
 		if versionsSeen.Contains(v.name) {
 			continue
@@ -172,7 +172,7 @@ func (gc *GroupConfiguration) configuredVersions() []string {
 	var result []string
 
 	// All our versions are listed twice, under two different keys, so we hedge against processing them multiple times
-	versionsSeen := set.MakeStringSet()
+	versionsSeen := set.Make[string]()
 	for _, v := range gc.versions {
 		if versionsSeen.Contains(v.name) {
 			continue

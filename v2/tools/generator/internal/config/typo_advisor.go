@@ -19,12 +19,12 @@ import (
 // TypoAdvisor is a utility that helps augment errors with guidance when mistakes are made in configuration.
 type TypoAdvisor struct {
 	lock  sync.RWMutex
-	terms set.StringSet // set of terms we know to exist
+	terms set.Set[string] // set of terms we know to exist
 }
 
 func NewTypoAdvisor() *TypoAdvisor {
 	return &TypoAdvisor{
-		terms: set.MakeStringSet(),
+		terms: set.Make[string](),
 	}
 }
 

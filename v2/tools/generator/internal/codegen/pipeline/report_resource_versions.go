@@ -39,7 +39,7 @@ func ReportResourceVersions(configuration *config.Configuration) *Stage {
 }
 
 type ResourceVersionsReport struct {
-	groups set.StringSet                         // A set of all our groups
+	groups set.Set[string]                       // A set of all our groups
 	kinds  map[string]astmodel.TypeDefinitionSet // For each group, the set of all available resources
 	// A separate list of resources for each package
 	lists map[astmodel.PackageReference][]astmodel.TypeDefinition
@@ -47,7 +47,7 @@ type ResourceVersionsReport struct {
 
 func NewResourceVersionsReport(definitions astmodel.TypeDefinitionSet) *ResourceVersionsReport {
 	result := &ResourceVersionsReport{
-		groups: set.MakeStringSet(),
+		groups: set.Make[string](),
 		kinds:  make(map[string]astmodel.TypeDefinitionSet),
 		lists:  make(map[astmodel.PackageReference][]astmodel.TypeDefinition),
 	}

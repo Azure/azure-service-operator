@@ -18,8 +18,8 @@ import (
 type State struct {
 	definitions     astmodel.TypeDefinitionSet // set of type definitions generated so far
 	conversionGraph *storage.ConversionGraph   // graph of transitions between packages in our conversion graph
-	stagesSeen      set.StringSet              // set of ids of the stages already run
-	stagesExpected  map[string]set.StringSet   // set of ids of expected stages, each with a set of ids for the stages expecting them
+	stagesSeen      set.Set[string]            // set of ids of the stages already run
+	stagesExpected  map[string]set.Set[string] // set of ids of expected stages, each with a set of ids for the stages expecting them
 }
 
 /*
@@ -40,8 +40,8 @@ func NewState(definitions ...astmodel.TypeDefinitionSet) *State {
 	return &State{
 		definitions:     defs,
 		conversionGraph: nil,
-		stagesSeen:      set.MakeStringSet(),
-		stagesExpected:  make(map[string]set.StringSet),
+		stagesSeen:      set.Make[string](),
+		stagesExpected:  make(map[string]set.Set[string]),
 	}
 }
 
@@ -79,7 +79,7 @@ func (s *State) WithExpectation(earlierStage string, laterStage string) *State {
 		return result
 	}
 
-	set := set.MakeStringSet(earlierStage)
+	set := set.Make(earlierStage)
 	result.stagesExpected[laterStage] = set
 
 	return result

@@ -11,15 +11,8 @@ import (
 	"golang.org/x/exp/slices"
 )
 
-type StringSet = Set[string]
-
 // Set provides a standard way to have a set of distinct things
 type Set[t comparable] map[t]struct{}
-
-// MakeStringSet creates a new set with the supplied strings
-func MakeStringSet(strings ...string) StringSet {
-	return Make(strings...)
-}
 
 // Make creates a new set with the given values
 func Make[t comparable](ts ...t) Set[t] {
