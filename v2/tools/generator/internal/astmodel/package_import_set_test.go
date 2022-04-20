@@ -14,7 +14,6 @@ import (
 var (
 	simpleTestRef            PackageReference = MakeExternalPackageReference("simple")
 	pathTestRef              PackageReference = MakeExternalPackageReference("package/path")
-	emailTestRef             PackageReference = MakeExternalPackageReference("email/v20180801")
 	simpleTestImport                          = NewPackageImport(simpleTestRef)
 	pathTestImport                            = NewPackageImport(pathTestRef)
 	simpleTestImportWithName                  = simpleTestImport.WithName("simple")
