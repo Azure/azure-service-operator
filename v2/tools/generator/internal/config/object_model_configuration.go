@@ -261,6 +261,34 @@ func (omc *ObjectModelConfiguration) VerifyIsResourceLifecycleOwnedByParentConsu
 	return visitor.Visit(omc)
 }
 
+// LookupSupportedFrom checks to see whether a specified type has its first ASO release configured, returning either
+// that release or a NotConfiguredError.
+func (omc *ObjectModelConfiguration) LookupSupportedFrom(name astmodel.TypeName) (string, error) {
+	var result string
+	visitor := NewSingleTypeConfigurationVisitor(
+		name,
+		func(configuration *TypeConfiguration) error {
+			var err error
+			result, err = configuration.LookupSupportedFrom()
+			return err
+		})
+	err := visitor.Visit(omc)
+	if err != nil {
+		return "", err
+	}
+
+	return result, nil
+}
+
+// VerifySupportedFromConsumed returns an error if any configured supportedFrom tag was not used, nil otherwise.
+func (omc *ObjectModelConfiguration) VerifySupportedFromConsumed() error {
+	visitor := NewEveryTypeConfigurationVisitor(
+		func(configuration *TypeConfiguration) error {
+			return configuration.VerifySupportedFromConsumed()
+		})
+	return visitor.Visit(omc)
+}
+
 // addGroup includes the provided GroupConfiguration in this model configuration
 func (omc *ObjectModelConfiguration) addGroup(name string, group *GroupConfiguration) {
 	if omc.groups == nil {
