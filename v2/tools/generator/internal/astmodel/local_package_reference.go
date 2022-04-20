@@ -138,19 +138,8 @@ func (pr LocalPackageReference) simplifiedApiVersion(version string) string {
 	return pr.simplify(version, apiVersionSimplifications)
 }
 
-var apiVersionSimplifications = map[string]string{
-	"alpha":   "a",
-	"beta":    "b",
-	"preview": "p",
-}
-
 func (pr LocalPackageReference) simplifiedGeneratorVersion(version string) string {
 	return pr.simplify(version, generatorVersionSimplifications)
-}
-
-var generatorVersionSimplifications = map[string]string{
-	"v1alpha1api": "alpha",
-	"v1beta":      "v",
 }
 
 func (pr LocalPackageReference) simplify(result string, simplifications map[string]string) string {

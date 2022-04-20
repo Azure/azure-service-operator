@@ -12,8 +12,9 @@ import (
 )
 
 // PackageImportSet represents a set of distinct PackageImport references
+
 type PackageImportSet struct {
-	imports         map[PackageReference]PackageImport
+	imports         map[PackageReference]PackageImport // Each potential package need only be referenced once, so we use a map for easy lookup
 	aliasesAssigned bool
 }
 

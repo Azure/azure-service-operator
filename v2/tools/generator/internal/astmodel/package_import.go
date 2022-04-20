@@ -104,6 +104,84 @@ func (pi PackageImport) VersionedNameForImport() string {
 
 // WithImportAlias creates a copy of this import with a name following the specified rules
 func (pi PackageImport) WithImportAlias(style PackageImportStyle) PackageImport {
-	alias := pi.packageReference.CreateImportAlias(style)
+	var alias string
+	switch ref := pi.packageReference.(type) {
+	case LocalPackageReference:
+		alias = pi.CreateImportAliasForLocalPackageReference(ref, style)
+	case StoragePackageReference:
+		alias = pi.CreateImportAliasForStoragePackageReference(ref, style)
+	default:
+		msg := fmt.Sprintf("cannot create import alias for external package reference %s", pi.packageReference)
+		panic(msg)
+	}
+
 	return pi.WithName(alias)
+}
+
+// CreateImportAliasForLocalPackageReference creates a custom alias for importing this reference
+// ref is the local package reference for which we want an alias
+// style is the kind of alias to generate
+func (pi PackageImport) CreateImportAliasForLocalPackageReference(
+	ref LocalPackageReference,
+	style PackageImportStyle) string {
+	switch style {
+	case VersionOnly:
+		return fmt.Sprintf(
+			"%s%s",
+			pi.simplifiedGeneratorVersion(ref.GeneratorVersion()),
+			pi.simplifiedApiVersion(ref.ApiVersion()))
+	case GroupOnly:
+		return ref.Group()
+	case GroupAndVersion:
+		return fmt.Sprintf(
+			"%s_%s%s",
+			ref.Group(),
+			pi.simplifiedGeneratorVersion(ref.GeneratorVersion()),
+			pi.simplifiedApiVersion(ref.ApiVersion()))
+	default:
+		panic(fmt.Sprintf("didn't expect PackageImportStyle %q", style))
+	}
+}
+
+// CreateImportAliasForStoragePackageReference creates a custom alias for importing this reference
+func (pi PackageImport) CreateImportAliasForStoragePackageReference(
+	ref StoragePackageReference,
+	style PackageImportStyle) string {
+	localImport := pi.CreateImportAliasForLocalPackageReference(ref.Local(), style)
+	switch style {
+	case VersionOnly:
+		return localImport + "s"
+	case GroupOnly:
+		return localImport
+	case GroupAndVersion:
+		return localImport + "s"
+	}
+
+	panic(fmt.Sprintf("didn't expect PackageImportStyle %q", style))
+}
+
+func (pi PackageImport) simplifiedApiVersion(version string) string {
+	return pi.simplify(version, apiVersionSimplifications)
+}
+
+var apiVersionSimplifications = map[string]string{
+	"alpha":   "a",
+	"beta":    "b",
+	"preview": "p",
+}
+
+func (pi PackageImport) simplifiedGeneratorVersion(version string) string {
+	return pi.simplify(version, generatorVersionSimplifications)
+}
+
+var generatorVersionSimplifications = map[string]string{
+	"v1alpha1api": "alpha",
+	"v1beta":      "v",
+}
+
+func (pi PackageImport) simplify(result string, simplifications map[string]string) string {
+	for l, s := range simplifications {
+		result = strings.Replace(result, l, s, -1)
+	}
+	return result
 }
