@@ -25,7 +25,9 @@ import (
 	mysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1beta20210501"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
 	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401"
+
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -427,7 +429,7 @@ func Test_ResolveSecrets_ReturnsExpectedSecretValue(t *testing.T) {
 	ref := genruntime.SecretReference{Name: secretName, Key: secretKey}
 	namespacedRef := ref.ToNamespacedRef(testNamespace)
 
-	resolvedSecrets, err := test.resolver.ResolveSecretReferences(ctx, map[genruntime.NamespacedSecretReference]struct{}{namespacedRef: {}})
+	resolvedSecrets, err := test.resolver.ResolveSecretReferences(ctx, set.Make(namespacedRef))
 	g.Expect(err).ToNot(HaveOccurred())
 
 	actualSecret, err := resolvedSecrets.LookupSecret(ref)
@@ -448,7 +450,7 @@ func Test_ResolveSecrets_ReturnsReferenceNotFound(t *testing.T) {
 	ref := genruntime.SecretReference{Name: secretName, Key: secretKey}
 	namespacedRef := ref.ToNamespacedRef(testNamespace)
 
-	_, err = test.resolver.ResolveSecretReferences(ctx, map[genruntime.NamespacedSecretReference]struct{}{namespacedRef: {}})
+	_, err = test.resolver.ResolveSecretReferences(ctx, set.Make(namespacedRef))
 	g.Expect(err).To(HaveOccurred())
 	g.Expect(errors.Unwrap(err)).To(BeAssignableToTypeOf(&resolver.SecretNotFound{}))
 }

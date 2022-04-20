@@ -10,10 +10,12 @@ import (
 	"strings"
 
 	"github.com/gobuffalo/flect"
+
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 )
 
 type KnownLocalsSet struct {
-	names     map[string]struct{}
+	names     set.Set[string]
 	idFactory IdentifierFactory
 }
 
@@ -21,7 +23,7 @@ type KnownLocalsSet struct {
 // idFactory is a reference to an identifier factory for creating valid Go identifiers
 func NewKnownLocalsSet(idFactory IdentifierFactory) *KnownLocalsSet {
 	return &KnownLocalsSet{
-		names:     make(map[string]struct{}),
+		names:     set.Make[string](),
 		idFactory: idFactory,
 	}
 }
@@ -41,7 +43,6 @@ func (locals *KnownLocalsSet) CreatePluralLocal(nameHint string, suffixes ...str
 // CreateLocal creates a new unique Go local variable with one of the specified suffixes.
 // Has to be deterministic, so we use an incrementing number to make them unique if necessary.
 func (locals *KnownLocalsSet) CreateLocal(nameHint string, suffixes ...string) string {
-
 	// Ensure we have a safe base case
 	if len(suffixes) == 0 {
 		suffixes = []string{""}
@@ -88,12 +89,12 @@ func (locals *KnownLocalsSet) TryCreateLocal(local string) bool {
 // successful (local hasn't been used before) or "" and false if not (local already exists)
 func (locals *KnownLocalsSet) tryCreateLocal(name string) (string, bool) {
 	id := locals.idFactory.CreateLocal(name)
-	if _, found := locals.names[id]; found {
+	if locals.names.Contains(id) {
 		// Failed to create the name
 		return "", false
 	}
 
-	locals.names[id] = struct{}{}
+	locals.names.Add(id)
 	return id, true
 }
 
@@ -101,25 +102,19 @@ func (locals *KnownLocalsSet) tryCreateLocal(name string) (string, bool) {
 func (locals *KnownLocalsSet) Add(identifiers ...string) {
 	for _, id := range identifiers {
 		name := locals.idFactory.CreateLocal(id)
-		locals.names[name] = struct{}{}
+		locals.names.Add(name)
 	}
 }
 
 // HasName returns true if the specified name exists in the set, false otherwise
 func (locals *KnownLocalsSet) HasName(name string) bool {
-	_, ok := locals.names[name]
-	return ok
+	return locals.names.Contains(name)
 }
 
 // Clone clones the KnownLocalsSet
 func (locals *KnownLocalsSet) Clone() *KnownLocalsSet {
-	names := make(map[string]struct{}, len(locals.names))
-	for n := range locals.names {
-		names[n] = struct{}{}
-	}
-
 	return &KnownLocalsSet{
 		idFactory: locals.idFactory,
-		names:     names,
+		names:     locals.names.Copy(),
 	}
 }
