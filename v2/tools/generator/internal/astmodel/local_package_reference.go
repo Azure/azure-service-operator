@@ -109,20 +109,6 @@ func (pr LocalPackageReference) ApiVersion() string {
 	return pr.apiVersion
 }
 
-// CreateImportAlias creates a custom alias for importing this reference
-func (pr LocalPackageReference) CreateImportAlias(style PackageImportStyle) string {
-	switch style {
-	case VersionOnly:
-		return fmt.Sprintf("%s%s", pr.simplifiedGeneratorVersion(pr.generatorVersion), pr.simplifiedApiVersion(pr.apiVersion))
-	case GroupOnly:
-		return pr.group
-	case GroupAndVersion:
-		return fmt.Sprintf("%s_%s%s", pr.group, pr.simplifiedGeneratorVersion(pr.generatorVersion), pr.simplifiedApiVersion(pr.apiVersion))
-	default:
-		panic(fmt.Sprintf("didn't expect PackageImportStyle %q", style))
-	}
-}
-
 // IsLocalPackageReference returns true if the supplied reference is a local one
 func IsLocalPackageReference(ref PackageReference) bool {
 	_, ok := ref.(LocalPackageReference)
@@ -132,21 +118,6 @@ func IsLocalPackageReference(ref PackageReference) bool {
 // GroupVersion returns the group and version of this local reference.
 func (pr LocalPackageReference) GroupVersion() (string, string, bool) {
 	return pr.group, pr.Version(), true
-}
-
-func (pr LocalPackageReference) simplifiedApiVersion(version string) string {
-	return pr.simplify(version, apiVersionSimplifications)
-}
-
-func (pr LocalPackageReference) simplifiedGeneratorVersion(version string) string {
-	return pr.simplify(version, generatorVersionSimplifications)
-}
-
-func (pr LocalPackageReference) simplify(result string, simplifications map[string]string) string {
-	for l, s := range simplifications {
-		result = strings.Replace(result, l, s, -1)
-	}
-	return result
 }
 
 // sanitizePackageName removes all non-alphanumeric characters and converts to lower case

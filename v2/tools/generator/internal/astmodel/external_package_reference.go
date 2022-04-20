@@ -58,8 +58,3 @@ func (pr ExternalPackageReference) String() string {
 func (pr ExternalPackageReference) GroupVersion() (string, string, bool) {
 	return "", "", false
 }
-
-// CreateImportAlias creates a custom alias for importing this reference
-func (pr ExternalPackageReference) CreateImportAlias(style PackageImportStyle) string {
-	panic(fmt.Sprintf("external package references don't support PackageImportStyle %q", style))
-}
