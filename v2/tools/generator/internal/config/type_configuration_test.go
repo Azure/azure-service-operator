@@ -38,6 +38,10 @@ func TestTypeConfiguration_WhenYAMLWellFormed_ReturnsExpectedResult(t *testing.T
 	azureGeneratedSecrets, ok := typeConfig.azureGeneratedSecrets.read()
 	g.Expect(azureGeneratedSecrets).To(HaveLen(2))
 	g.Expect(ok).To(BeTrue())
+
+	supportedFrom, ok := typeConfig.supportedFrom.read()
+	g.Expect(supportedFrom).To(Equal("beta.3"))
+	g.Expect(ok).To(BeTrue())
 }
 
 func TestTypeConfiguration_WhenYAMLBadlyFormed_ReturnsError(t *testing.T) {
@@ -50,6 +54,10 @@ func TestTypeConfiguration_WhenYAMLBadlyFormed_ReturnsError(t *testing.T) {
 	err := yaml.Unmarshal(yamlBytes, &typeConfig)
 	g.Expect(err).NotTo(Succeed())
 }
+
+/*
+ * Type Rename tests
+ */
 
 func TestTypeConfiguration_TypeRename_WhenRenameConfigured_ReturnsExpectedResult(t *testing.T) {
 	t.Parallel()
@@ -72,6 +80,7 @@ func TestTypeConfiguration_TypeRename_WhenRenameNotConfigured_ReturnsExpectedRes
 	g.Expect(name).To(Equal(""))
 	g.Expect(err).NotTo(Succeed())
 	g.Expect(err.Error()).To(ContainSubstring(typeConfig.name))
+	g.Expect(err.Error()).To(ContainSubstring(nameInNextVersionTag))
 }
 
 func TestTypeConfiguration_VerifyTypeRenameConsumed_WhenRenameUsed_ReturnsNoError(t *testing.T) {
@@ -94,6 +103,58 @@ func TestTypeConfiguration_VerifyTypeRenameConsumed_WhenRenameUnused_ReturnsExpe
 	typeConfig.nameInNextVersion.write("Party")
 
 	err := typeConfig.VerifyNameInNextVersionConsumed()
+	g.Expect(err).NotTo(BeNil())
+	g.Expect(err.Error()).To(ContainSubstring(typeConfig.name))
+}
+
+/*
+ * SupportedFrom tests
+ */
+
+func TestTypeConfiguration_LookupSupportedFrom_WhenConfigured_ReturnsExpectedResult(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+	typeConfig := NewTypeConfiguration("Person")
+	typeConfig.supportedFrom.write("beta.0")
+
+	from, err := typeConfig.LookupSupportedFrom()
+
+	g.Expect(from).To(Equal("beta.0"))
+	g.Expect(err).To(Succeed())
+}
+
+func TestTypeConfiguration_LookupSupportedFrom_WhenNotConfigured_ReturnsExpectedError(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+	typeConfig := NewTypeConfiguration("Person")
+
+	name, err := typeConfig.LookupSupportedFrom()
+	g.Expect(name).To(Equal(""))
+	g.Expect(err).NotTo(Succeed())
+	g.Expect(err.Error()).To(ContainSubstring(typeConfig.name))
+	g.Expect(err.Error()).To(ContainSubstring(supportedFromTag))
+}
+
+func TestTypeConfiguration_VerifySupportedFromConsumed_WhenConsumed_ReturnsNoError(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	typeConfig := NewTypeConfiguration("Person")
+	typeConfig.supportedFrom.write("beta.0")
+
+	_, err := typeConfig.LookupSupportedFrom()
+	g.Expect(err).To(Succeed())
+	g.Expect(typeConfig.VerifySupportedFromConsumed()).To(Succeed())
+}
+
+func TestTypeConfiguration_VerifySupportedFromConsumed_WhenNotConsumed_ReturnsExpectedError(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	typeConfig := NewTypeConfiguration("Person")
+	typeConfig.supportedFrom.write("beta.0")
+
+	err := typeConfig.VerifySupportedFromConsumed()
 	g.Expect(err).NotTo(BeNil())
 	g.Expect(err.Error()).To(ContainSubstring(typeConfig.name))
 }
