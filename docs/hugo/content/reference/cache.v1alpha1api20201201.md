@@ -12,6 +12,7 @@ Resource Types:
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20201201.RedisResource_Status">RedisResource_Status</a>)
 </p>
 <div>
+<p>Deprecated version of PrivateEndpointConnection_Status_SubResourceEmbedded. Use v1beta20201201.PrivateEndpointConnection_Status_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -29,8 +30,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}</p>
 </td>
 </tr>
 </tbody>
@@ -41,6 +40,7 @@ string
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20201201.RedisProperties_StatusARM">RedisProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of PrivateEndpointConnection_Status_SubResourceEmbedded. Use v1beta20201201.PrivateEndpointConnection_Status_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -58,8 +58,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}</p>
 </td>
 </tr>
 </tbody>
@@ -67,7 +65,7 @@ string
 <h3 id="cache.azure.com/v1alpha1api20201201.Redis">Redis
 </h3>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/resourceDefinitions/redis">https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/resourceDefinitions/redis</a></p>
+<p>Deprecated version of Redis. Use v1beta20201201.Redis instead</p>
 </div>
 <table>
 <thead>
@@ -124,7 +122,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableNonSslPort: Specifies whether the non-ssl Redis server port (6379) is enabled.</p>
 </td>
 </tr>
 <tr>
@@ -135,7 +132,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The geo-location where the resource lives</p>
 </td>
 </tr>
 <tr>
@@ -148,8 +144,6 @@ RedisCreatePropertiesMinimumTlsVersion
 </em>
 </td>
 <td>
-<p>MinimumTlsVersion: Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, &lsquo;1.0&rsquo;, &lsquo;1.1&rsquo;,
-&lsquo;1.2&rsquo;).</p>
 </td>
 </tr>
 <tr>
@@ -176,6 +170,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -188,9 +185,6 @@ RedisCreatePropertiesPublicNetworkAccess
 </em>
 </td>
 <td>
-<p>PublicNetworkAccess: Whether or not public endpoint access is allowed for this cache.  Value is optional but if passed
-in, must be &lsquo;Enabled&rsquo; or &lsquo;Disabled&rsquo;. If &lsquo;Disabled&rsquo;, private endpoints are the exclusive access method. Default value is
-&lsquo;Enabled&rsquo;.</p>
 </td>
 </tr>
 <tr>
@@ -201,9 +195,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>RedisConfiguration: All Redis Settings. Few possible keys:
-rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value
-etc.</p>
 </td>
 </tr>
 <tr>
@@ -214,7 +205,6 @@ string
 </em>
 </td>
 <td>
-<p>RedisVersion: Redis version. Only major version will be used in PUT/PATCH request with current valid values: (4, 6)</p>
 </td>
 </tr>
 <tr>
@@ -225,7 +215,6 @@ int
 </em>
 </td>
 <td>
-<p>ReplicasPerMaster: The number of replicas to be created per primary.</p>
 </td>
 </tr>
 <tr>
@@ -236,7 +225,6 @@ int
 </em>
 </td>
 <td>
-<p>ReplicasPerPrimary: The number of replicas to be created per primary.</p>
 </td>
 </tr>
 <tr>
@@ -247,7 +235,6 @@ int
 </em>
 </td>
 <td>
-<p>ShardCount: The number of shards to be created on a Premium Cluster Cache.</p>
 </td>
 </tr>
 <tr>
@@ -260,7 +247,6 @@ Sku
 </em>
 </td>
 <td>
-<p>Sku: SKU parameters supplied to the create Redis operation.</p>
 </td>
 </tr>
 <tr>
@@ -271,8 +257,6 @@ string
 </em>
 </td>
 <td>
-<p>StaticIP: Static IP address. Optionally, may be specified when deploying a Redis cache inside an existing Azure Virtual
-Network; auto assigned by default.</p>
 </td>
 </tr>
 <tr>
@@ -285,8 +269,6 @@ genruntime.ResourceReference
 </em>
 </td>
 <td>
-<p>SubnetReference: The full resource ID of a subnet in a virtual network to deploy the Redis cache in. Example format:
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1</p>
 </td>
 </tr>
 <tr>
@@ -297,7 +279,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 <tr>
@@ -308,7 +289,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>TenantSettings: A dictionary of tenant settings</p>
 </td>
 </tr>
 <tr>
@@ -319,7 +299,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Zones: A list of availability zones denoting where the resource needs to come from.</p>
 </td>
 </tr>
 </table>
@@ -345,7 +324,7 @@ RedisResource_Status
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20201201.Redis_SpecARM">Redis_SpecARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/definitions/RedisCreateProperties">https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/definitions/RedisCreateProperties</a></p>
+<p>Deprecated version of RedisCreateProperties. Use v1beta20201201.RedisCreateProperties instead</p>
 </div>
 <table>
 <thead>
@@ -363,7 +342,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableNonSslPort: Specifies whether the non-ssl Redis server port (6379) is enabled.</p>
 </td>
 </tr>
 <tr>
@@ -376,8 +354,6 @@ RedisCreatePropertiesMinimumTlsVersion
 </em>
 </td>
 <td>
-<p>MinimumTlsVersion: Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, &lsquo;1.0&rsquo;, &lsquo;1.1&rsquo;,
-&lsquo;1.2&rsquo;).</p>
 </td>
 </tr>
 <tr>
@@ -390,9 +366,6 @@ RedisCreatePropertiesPublicNetworkAccess
 </em>
 </td>
 <td>
-<p>PublicNetworkAccess: Whether or not public endpoint access is allowed for this cache.  Value is optional but if passed
-in, must be &lsquo;Enabled&rsquo; or &lsquo;Disabled&rsquo;. If &lsquo;Disabled&rsquo;, private endpoints are the exclusive access method. Default value is
-&lsquo;Enabled&rsquo;.</p>
 </td>
 </tr>
 <tr>
@@ -403,9 +376,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>RedisConfiguration: All Redis Settings. Few possible keys:
-rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value
-etc.</p>
 </td>
 </tr>
 <tr>
@@ -416,7 +386,6 @@ string
 </em>
 </td>
 <td>
-<p>RedisVersion: Redis version. Only major version will be used in PUT/PATCH request with current valid values: (4, 6)</p>
 </td>
 </tr>
 <tr>
@@ -427,7 +396,6 @@ int
 </em>
 </td>
 <td>
-<p>ReplicasPerMaster: The number of replicas to be created per primary.</p>
 </td>
 </tr>
 <tr>
@@ -438,7 +406,6 @@ int
 </em>
 </td>
 <td>
-<p>ReplicasPerPrimary: The number of replicas to be created per primary.</p>
 </td>
 </tr>
 <tr>
@@ -449,7 +416,6 @@ int
 </em>
 </td>
 <td>
-<p>ShardCount: The number of shards to be created on a Premium Cluster Cache.</p>
 </td>
 </tr>
 <tr>
@@ -462,7 +428,6 @@ SkuARM
 </em>
 </td>
 <td>
-<p>Sku: SKU parameters supplied to the create Redis operation.</p>
 </td>
 </tr>
 <tr>
@@ -473,8 +438,6 @@ string
 </em>
 </td>
 <td>
-<p>StaticIP: Static IP address. Optionally, may be specified when deploying a Redis cache inside an existing Azure Virtual
-Network; auto assigned by default.</p>
 </td>
 </tr>
 <tr>
@@ -495,7 +458,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>TenantSettings: A dictionary of tenant settings</p>
 </td>
 </tr>
 </tbody>
@@ -506,6 +468,8 @@ map[string]string
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20201201.RedisCreatePropertiesARM">RedisCreatePropertiesARM</a>, <a href="#cache.azure.com/v1alpha1api20201201.Redis_Spec">Redis_Spec</a>)
 </p>
 <div>
+<p>Deprecated version of RedisCreatePropertiesMinimumTlsVersion. Use v1beta20201201.RedisCreatePropertiesMinimumTlsVersion
+instead</p>
 </div>
 <table>
 <thead>
@@ -528,6 +492,8 @@ map[string]string
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20201201.RedisCreatePropertiesARM">RedisCreatePropertiesARM</a>, <a href="#cache.azure.com/v1alpha1api20201201.Redis_Spec">Redis_Spec</a>)
 </p>
 <div>
+<p>Deprecated version of RedisCreatePropertiesPublicNetworkAccess. Use
+v1beta20201201.RedisCreatePropertiesPublicNetworkAccess instead</p>
 </div>
 <table>
 <thead>
@@ -545,7 +511,7 @@ map[string]string
 <h3 id="cache.azure.com/v1alpha1api20201201.RedisFirewallRule">RedisFirewallRule
 </h3>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/resourceDefinitions/redis_firewallRules">https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/resourceDefinitions/redis_firewallRules</a></p>
+<p>Deprecated version of RedisFirewallRule. Use v1beta20201201.RedisFirewallRule instead</p>
 </div>
 <table>
 <thead>
@@ -602,7 +568,6 @@ string
 </em>
 </td>
 <td>
-<p>EndIP: highest IP address included in the range</p>
 </td>
 </tr>
 <tr>
@@ -613,7 +578,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -626,6 +590,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a cache.azure.com/Redis resource</p>
 </td>
 </tr>
 <tr>
@@ -636,7 +603,6 @@ string
 </em>
 </td>
 <td>
-<p>StartIP: lowest IP address included in the range</p>
 </td>
 </tr>
 <tr>
@@ -647,7 +613,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </table>
@@ -673,7 +638,7 @@ RedisFirewallRule_Status
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20201201.RedisFirewallRules_SpecARM">RedisFirewallRules_SpecARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/definitions/RedisFirewallRuleProperties">https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/definitions/RedisFirewallRuleProperties</a></p>
+<p>Deprecated version of RedisFirewallRuleProperties. Use v1beta20201201.RedisFirewallRuleProperties instead</p>
 </div>
 <table>
 <thead>
@@ -691,7 +656,6 @@ string
 </em>
 </td>
 <td>
-<p>EndIP: highest IP address included in the range</p>
 </td>
 </tr>
 <tr>
@@ -702,7 +666,6 @@ string
 </em>
 </td>
 <td>
-<p>StartIP: lowest IP address included in the range</p>
 </td>
 </tr>
 </tbody>
@@ -713,6 +676,7 @@ string
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20201201.RedisFirewallRule_StatusARM">RedisFirewallRule_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of RedisFirewallRuleProperties_Status. Use v1beta20201201.RedisFirewallRuleProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -730,7 +694,6 @@ string
 </em>
 </td>
 <td>
-<p>EndIP: highest IP address included in the range</p>
 </td>
 </tr>
 <tr>
@@ -741,7 +704,6 @@ string
 </em>
 </td>
 <td>
-<p>StartIP: lowest IP address included in the range</p>
 </td>
 </tr>
 </tbody>
@@ -752,6 +714,7 @@ string
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20201201.RedisFirewallRule">RedisFirewallRule</a>)
 </p>
 <div>
+<p>Deprecated version of RedisFirewallRule_Status. Use v1beta20201201.RedisFirewallRule_Status instead</p>
 </div>
 <table>
 <thead>
@@ -782,7 +745,6 @@ string
 </em>
 </td>
 <td>
-<p>EndIP: highest IP address included in the range</p>
 </td>
 </tr>
 <tr>
@@ -793,8 +755,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}</p>
 </td>
 </tr>
 <tr>
@@ -805,7 +765,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource</p>
 </td>
 </tr>
 <tr>
@@ -816,7 +775,6 @@ string
 </em>
 </td>
 <td>
-<p>StartIP: lowest IP address included in the range</p>
 </td>
 </tr>
 <tr>
@@ -827,7 +785,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
 </td>
 </tr>
 </tbody>
@@ -835,6 +792,7 @@ string
 <h3 id="cache.azure.com/v1alpha1api20201201.RedisFirewallRule_StatusARM">RedisFirewallRule_StatusARM
 </h3>
 <div>
+<p>Deprecated version of RedisFirewallRule_Status. Use v1beta20201201.RedisFirewallRule_Status instead</p>
 </div>
 <table>
 <thead>
@@ -852,8 +810,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}</p>
 </td>
 </tr>
 <tr>
@@ -864,7 +820,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource</p>
 </td>
 </tr>
 <tr>
@@ -877,7 +832,6 @@ RedisFirewallRuleProperties_StatusARM
 </em>
 </td>
 <td>
-<p>Properties: redis cache firewall rule properties</p>
 </td>
 </tr>
 <tr>
@@ -888,25 +842,9 @@ string
 </em>
 </td>
 <td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
 </td>
 </tr>
 </tbody>
-</table>
-<h3 id="cache.azure.com/v1alpha1api20201201.RedisFirewallRulesSpecAPIVersion">RedisFirewallRulesSpecAPIVersion
-(<code>string</code> alias)</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;2020-12-01&#34;</p></td>
-<td></td>
-</tr></tbody>
 </table>
 <h3 id="cache.azure.com/v1alpha1api20201201.RedisFirewallRules_Spec">RedisFirewallRules_Spec
 </h3>
@@ -943,7 +881,6 @@ string
 </em>
 </td>
 <td>
-<p>EndIP: highest IP address included in the range</p>
 </td>
 </tr>
 <tr>
@@ -954,7 +891,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -967,6 +903,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a cache.azure.com/Redis resource</p>
 </td>
 </tr>
 <tr>
@@ -977,7 +916,6 @@ string
 </em>
 </td>
 <td>
-<p>StartIP: lowest IP address included in the range</p>
 </td>
 </tr>
 <tr>
@@ -988,7 +926,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </tbody>
@@ -996,6 +933,7 @@ map[string]string
 <h3 id="cache.azure.com/v1alpha1api20201201.RedisFirewallRules_SpecARM">RedisFirewallRules_SpecARM
 </h3>
 <div>
+<p>Deprecated version of RedisFirewallRules_Spec. Use v1beta20201201.RedisFirewallRules_Spec instead</p>
 </div>
 <table>
 <thead>
@@ -1013,7 +951,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -1024,7 +961,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the firewall rule.</p>
 </td>
 </tr>
 <tr>
@@ -1037,7 +973,6 @@ RedisFirewallRulePropertiesARM
 </em>
 </td>
 <td>
-<p>Properties: Specifies a range of IP addresses permitted to connect to the cache</p>
 </td>
 </tr>
 <tr>
@@ -1048,7 +983,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </tbody>
@@ -1059,6 +993,7 @@ map[string]string
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20201201.RedisResource_Status">RedisResource_Status</a>)
 </p>
 <div>
+<p>Deprecated version of RedisInstanceDetails_Status. Use v1beta20201201.RedisInstanceDetails_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1076,7 +1011,6 @@ bool
 </em>
 </td>
 <td>
-<p>IsMaster: Specifies whether the instance is a primary node.</p>
 </td>
 </tr>
 <tr>
@@ -1087,7 +1021,6 @@ bool
 </em>
 </td>
 <td>
-<p>IsPrimary: Specifies whether the instance is a primary node.</p>
 </td>
 </tr>
 <tr>
@@ -1098,7 +1031,6 @@ int
 </em>
 </td>
 <td>
-<p>NonSslPort: If enableNonSslPort is true, provides Redis instance Non-SSL port.</p>
 </td>
 </tr>
 <tr>
@@ -1109,7 +1041,6 @@ int
 </em>
 </td>
 <td>
-<p>ShardId: If clustering is enabled, the Shard ID of Redis Instance</p>
 </td>
 </tr>
 <tr>
@@ -1120,7 +1051,6 @@ int
 </em>
 </td>
 <td>
-<p>SslPort: Redis instance SSL port.</p>
 </td>
 </tr>
 <tr>
@@ -1131,7 +1061,6 @@ string
 </em>
 </td>
 <td>
-<p>Zone: If the Cache uses availability zones, specifies availability zone where this instance is located.</p>
 </td>
 </tr>
 </tbody>
@@ -1142,6 +1071,7 @@ string
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20201201.RedisProperties_StatusARM">RedisProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of RedisInstanceDetails_Status. Use v1beta20201201.RedisInstanceDetails_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1159,7 +1089,6 @@ bool
 </em>
 </td>
 <td>
-<p>IsMaster: Specifies whether the instance is a primary node.</p>
 </td>
 </tr>
 <tr>
@@ -1170,7 +1099,6 @@ bool
 </em>
 </td>
 <td>
-<p>IsPrimary: Specifies whether the instance is a primary node.</p>
 </td>
 </tr>
 <tr>
@@ -1181,7 +1109,6 @@ int
 </em>
 </td>
 <td>
-<p>NonSslPort: If enableNonSslPort is true, provides Redis instance Non-SSL port.</p>
 </td>
 </tr>
 <tr>
@@ -1192,7 +1119,6 @@ int
 </em>
 </td>
 <td>
-<p>ShardId: If clustering is enabled, the Shard ID of Redis Instance</p>
 </td>
 </tr>
 <tr>
@@ -1203,7 +1129,6 @@ int
 </em>
 </td>
 <td>
-<p>SslPort: Redis instance SSL port.</p>
 </td>
 </tr>
 <tr>
@@ -1214,7 +1139,6 @@ string
 </em>
 </td>
 <td>
-<p>Zone: If the Cache uses availability zones, specifies availability zone where this instance is located.</p>
 </td>
 </tr>
 </tbody>
@@ -1222,7 +1146,7 @@ string
 <h3 id="cache.azure.com/v1alpha1api20201201.RedisLinkedServer">RedisLinkedServer
 </h3>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/resourceDefinitions/redis_linkedServers">https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/resourceDefinitions/redis_linkedServers</a></p>
+<p>Deprecated version of RedisLinkedServer. Use v1beta20201201.RedisLinkedServer instead</p>
 </div>
 <table>
 <thead>
@@ -1279,7 +1203,6 @@ string
 </em>
 </td>
 <td>
-<p>LinkedRedisCacheLocation: Location of the linked redis cache.</p>
 </td>
 </tr>
 <tr>
@@ -1292,7 +1215,6 @@ genruntime.ResourceReference
 </em>
 </td>
 <td>
-<p>LinkedRedisCacheReference: Fully qualified resourceId of the linked redis cache.</p>
 </td>
 </tr>
 <tr>
@@ -1303,7 +1225,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -1316,6 +1237,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a cache.azure.com/Redis resource</p>
 </td>
 </tr>
 <tr>
@@ -1328,7 +1252,6 @@ RedisLinkedServerCreatePropertiesServerRole
 </em>
 </td>
 <td>
-<p>ServerRole: Role of the linked server.</p>
 </td>
 </tr>
 <tr>
@@ -1339,7 +1262,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </table>
@@ -1365,7 +1287,7 @@ RedisLinkedServerWithProperties_Status
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20201201.RedisLinkedServers_SpecARM">RedisLinkedServers_SpecARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/definitions/RedisLinkedServerCreateProperties">https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/definitions/RedisLinkedServerCreateProperties</a></p>
+<p>Deprecated version of RedisLinkedServerCreateProperties. Use v1beta20201201.RedisLinkedServerCreateProperties instead</p>
 </div>
 <table>
 <thead>
@@ -1393,7 +1315,6 @@ string
 </em>
 </td>
 <td>
-<p>LinkedRedisCacheLocation: Location of the linked redis cache.</p>
 </td>
 </tr>
 <tr>
@@ -1406,7 +1327,6 @@ RedisLinkedServerCreatePropertiesServerRole
 </em>
 </td>
 <td>
-<p>ServerRole: Role of the linked server.</p>
 </td>
 </tr>
 </tbody>
@@ -1417,6 +1337,8 @@ RedisLinkedServerCreatePropertiesServerRole
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20201201.RedisLinkedServerCreatePropertiesARM">RedisLinkedServerCreatePropertiesARM</a>, <a href="#cache.azure.com/v1alpha1api20201201.RedisLinkedServers_Spec">RedisLinkedServers_Spec</a>)
 </p>
 <div>
+<p>Deprecated version of RedisLinkedServerCreatePropertiesServerRole. Use
+v1beta20201201.RedisLinkedServerCreatePropertiesServerRole instead</p>
 </div>
 <table>
 <thead>
@@ -1437,6 +1359,8 @@ RedisLinkedServerCreatePropertiesServerRole
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20201201.RedisLinkedServerProperties_StatusARM">RedisLinkedServerProperties_StatusARM</a>, <a href="#cache.azure.com/v1alpha1api20201201.RedisLinkedServerWithProperties_Status">RedisLinkedServerWithProperties_Status</a>)
 </p>
 <div>
+<p>Deprecated version of RedisLinkedServerPropertiesStatusServerRole. Use
+v1beta20201201.RedisLinkedServerPropertiesStatusServerRole instead</p>
 </div>
 <table>
 <thead>
@@ -1457,6 +1381,7 @@ RedisLinkedServerCreatePropertiesServerRole
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20201201.RedisLinkedServerWithProperties_StatusARM">RedisLinkedServerWithProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of RedisLinkedServerProperties_Status. Use v1beta20201201.RedisLinkedServerProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1474,7 +1399,6 @@ string
 </em>
 </td>
 <td>
-<p>LinkedRedisCacheId: Fully qualified resourceId of the linked redis cache.</p>
 </td>
 </tr>
 <tr>
@@ -1485,7 +1409,6 @@ string
 </em>
 </td>
 <td>
-<p>LinkedRedisCacheLocation: Location of the linked redis cache.</p>
 </td>
 </tr>
 <tr>
@@ -1496,7 +1419,6 @@ string
 </em>
 </td>
 <td>
-<p>ProvisioningState: Terminal state of the link between primary and secondary redis cache.</p>
 </td>
 </tr>
 <tr>
@@ -1509,7 +1431,6 @@ RedisLinkedServerPropertiesStatusServerRole
 </em>
 </td>
 <td>
-<p>ServerRole: Role of the linked server.</p>
 </td>
 </tr>
 </tbody>
@@ -1520,6 +1441,7 @@ RedisLinkedServerPropertiesStatusServerRole
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20201201.RedisLinkedServer">RedisLinkedServer</a>)
 </p>
 <div>
+<p>Deprecated version of RedisLinkedServerWithProperties_Status. Use v1beta20201201.RedisLinkedServerWithProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1550,8 +1472,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}</p>
 </td>
 </tr>
 <tr>
@@ -1562,7 +1482,6 @@ string
 </em>
 </td>
 <td>
-<p>LinkedRedisCacheId: Fully qualified resourceId of the linked redis cache.</p>
 </td>
 </tr>
 <tr>
@@ -1573,7 +1492,6 @@ string
 </em>
 </td>
 <td>
-<p>LinkedRedisCacheLocation: Location of the linked redis cache.</p>
 </td>
 </tr>
 <tr>
@@ -1584,7 +1502,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource</p>
 </td>
 </tr>
 <tr>
@@ -1595,7 +1512,6 @@ string
 </em>
 </td>
 <td>
-<p>ProvisioningState: Terminal state of the link between primary and secondary redis cache.</p>
 </td>
 </tr>
 <tr>
@@ -1608,7 +1524,6 @@ RedisLinkedServerPropertiesStatusServerRole
 </em>
 </td>
 <td>
-<p>ServerRole: Role of the linked server.</p>
 </td>
 </tr>
 <tr>
@@ -1619,7 +1534,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
 </td>
 </tr>
 </tbody>
@@ -1627,6 +1541,7 @@ string
 <h3 id="cache.azure.com/v1alpha1api20201201.RedisLinkedServerWithProperties_StatusARM">RedisLinkedServerWithProperties_StatusARM
 </h3>
 <div>
+<p>Deprecated version of RedisLinkedServerWithProperties_Status. Use v1beta20201201.RedisLinkedServerWithProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1644,8 +1559,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}</p>
 </td>
 </tr>
 <tr>
@@ -1656,7 +1569,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource</p>
 </td>
 </tr>
 <tr>
@@ -1669,7 +1581,6 @@ RedisLinkedServerProperties_StatusARM
 </em>
 </td>
 <td>
-<p>Properties: Properties of the linked server.</p>
 </td>
 </tr>
 <tr>
@@ -1680,7 +1591,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
 </td>
 </tr>
 </tbody>
@@ -1691,6 +1601,7 @@ string
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20201201.RedisResource_Status">RedisResource_Status</a>)
 </p>
 <div>
+<p>Deprecated version of RedisLinkedServer_Status. Use v1beta20201201.RedisLinkedServer_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1708,7 +1619,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Linked server Id.</p>
 </td>
 </tr>
 </tbody>
@@ -1719,6 +1629,7 @@ string
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20201201.RedisProperties_StatusARM">RedisProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of RedisLinkedServer_Status. Use v1beta20201201.RedisLinkedServer_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1736,25 +1647,9 @@ string
 </em>
 </td>
 <td>
-<p>Id: Linked server Id.</p>
 </td>
 </tr>
 </tbody>
-</table>
-<h3 id="cache.azure.com/v1alpha1api20201201.RedisLinkedServersSpecAPIVersion">RedisLinkedServersSpecAPIVersion
-(<code>string</code> alias)</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;2020-12-01&#34;</p></td>
-<td></td>
-</tr></tbody>
 </table>
 <h3 id="cache.azure.com/v1alpha1api20201201.RedisLinkedServers_Spec">RedisLinkedServers_Spec
 </h3>
@@ -1791,7 +1686,6 @@ string
 </em>
 </td>
 <td>
-<p>LinkedRedisCacheLocation: Location of the linked redis cache.</p>
 </td>
 </tr>
 <tr>
@@ -1804,7 +1698,6 @@ genruntime.ResourceReference
 </em>
 </td>
 <td>
-<p>LinkedRedisCacheReference: Fully qualified resourceId of the linked redis cache.</p>
 </td>
 </tr>
 <tr>
@@ -1815,7 +1708,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -1828,6 +1720,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a cache.azure.com/Redis resource</p>
 </td>
 </tr>
 <tr>
@@ -1840,7 +1735,6 @@ RedisLinkedServerCreatePropertiesServerRole
 </em>
 </td>
 <td>
-<p>ServerRole: Role of the linked server.</p>
 </td>
 </tr>
 <tr>
@@ -1851,7 +1745,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </tbody>
@@ -1859,6 +1752,7 @@ map[string]string
 <h3 id="cache.azure.com/v1alpha1api20201201.RedisLinkedServers_SpecARM">RedisLinkedServers_SpecARM
 </h3>
 <div>
+<p>Deprecated version of RedisLinkedServers_Spec. Use v1beta20201201.RedisLinkedServers_Spec instead</p>
 </div>
 <table>
 <thead>
@@ -1876,7 +1770,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -1887,7 +1780,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the linked server that is being added to the Redis cache.</p>
 </td>
 </tr>
 <tr>
@@ -1900,7 +1792,6 @@ RedisLinkedServerCreatePropertiesARM
 </em>
 </td>
 <td>
-<p>Properties: Create properties for a linked server</p>
 </td>
 </tr>
 <tr>
@@ -1911,7 +1802,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </tbody>
@@ -2034,7 +1924,7 @@ RedisOperatorSecrets
 <h3 id="cache.azure.com/v1alpha1api20201201.RedisPatchSchedule">RedisPatchSchedule
 </h3>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/resourceDefinitions/redis_patchSchedules">https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/resourceDefinitions/redis_patchSchedules</a></p>
+<p>Deprecated version of RedisPatchSchedule. Use v1beta20201201.RedisPatchSchedule instead</p>
 </div>
 <table>
 <thead>
@@ -2079,7 +1969,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -2092,6 +1981,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a cache.azure.com/Redis resource</p>
 </td>
 </tr>
 <tr>
@@ -2104,7 +1996,6 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
-<p>ScheduleEntries: List of patch schedules for a Redis cache.</p>
 </td>
 </tr>
 <tr>
@@ -2115,7 +2006,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </table>
@@ -2141,6 +2031,7 @@ RedisPatchSchedule_Status
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20201201.RedisPatchSchedule">RedisPatchSchedule</a>)
 </p>
 <div>
+<p>Deprecated version of RedisPatchSchedule_Status. Use v1beta20201201.RedisPatchSchedule_Status instead</p>
 </div>
 <table>
 <thead>
@@ -2171,8 +2062,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}</p>
 </td>
 </tr>
 <tr>
@@ -2183,7 +2072,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource</p>
 </td>
 </tr>
 <tr>
@@ -2196,7 +2084,6 @@ string
 </em>
 </td>
 <td>
-<p>ScheduleEntries: List of patch schedules for a Redis cache.</p>
 </td>
 </tr>
 <tr>
@@ -2207,7 +2094,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
 </td>
 </tr>
 </tbody>
@@ -2215,6 +2101,7 @@ string
 <h3 id="cache.azure.com/v1alpha1api20201201.RedisPatchSchedule_StatusARM">RedisPatchSchedule_StatusARM
 </h3>
 <div>
+<p>Deprecated version of RedisPatchSchedule_Status. Use v1beta20201201.RedisPatchSchedule_Status instead</p>
 </div>
 <table>
 <thead>
@@ -2232,8 +2119,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}</p>
 </td>
 </tr>
 <tr>
@@ -2244,7 +2129,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource</p>
 </td>
 </tr>
 <tr>
@@ -2257,7 +2141,6 @@ ScheduleEntries_StatusARM
 </em>
 </td>
 <td>
-<p>Properties: List of patch schedules for a Redis cache.</p>
 </td>
 </tr>
 <tr>
@@ -2268,25 +2151,9 @@ string
 </em>
 </td>
 <td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
 </td>
 </tr>
 </tbody>
-</table>
-<h3 id="cache.azure.com/v1alpha1api20201201.RedisPatchSchedulesSpecAPIVersion">RedisPatchSchedulesSpecAPIVersion
-(<code>string</code> alias)</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;2020-12-01&#34;</p></td>
-<td></td>
-</tr></tbody>
 </table>
 <h3 id="cache.azure.com/v1alpha1api20201201.RedisPatchSchedules_Spec">RedisPatchSchedules_Spec
 </h3>
@@ -2311,7 +2178,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -2324,6 +2190,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a cache.azure.com/Redis resource</p>
 </td>
 </tr>
 <tr>
@@ -2336,7 +2205,6 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
-<p>ScheduleEntries: List of patch schedules for a Redis cache.</p>
 </td>
 </tr>
 <tr>
@@ -2347,7 +2215,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </tbody>
@@ -2355,6 +2222,7 @@ map[string]string
 <h3 id="cache.azure.com/v1alpha1api20201201.RedisPatchSchedules_SpecARM">RedisPatchSchedules_SpecARM
 </h3>
 <div>
+<p>Deprecated version of RedisPatchSchedules_Spec. Use v1beta20201201.RedisPatchSchedules_Spec instead</p>
 </div>
 <table>
 <thead>
@@ -2372,7 +2240,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -2383,7 +2250,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Default string modeled as parameter for auto generation to work correctly.</p>
 </td>
 </tr>
 <tr>
@@ -2396,7 +2262,6 @@ ScheduleEntriesARM
 </em>
 </td>
 <td>
-<p>Properties: List of patch schedules for a Redis cache.</p>
 </td>
 </tr>
 <tr>
@@ -2407,7 +2272,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </tbody>
@@ -2418,6 +2282,8 @@ map[string]string
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20201201.RedisProperties_StatusARM">RedisProperties_StatusARM</a>, <a href="#cache.azure.com/v1alpha1api20201201.RedisResource_Status">RedisResource_Status</a>)
 </p>
 <div>
+<p>Deprecated version of RedisPropertiesStatusMinimumTlsVersion. Use v1beta20201201.RedisPropertiesStatusMinimumTlsVersion
+instead</p>
 </div>
 <table>
 <thead>
@@ -2440,6 +2306,8 @@ map[string]string
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20201201.RedisProperties_StatusARM">RedisProperties_StatusARM</a>, <a href="#cache.azure.com/v1alpha1api20201201.RedisResource_Status">RedisResource_Status</a>)
 </p>
 <div>
+<p>Deprecated version of RedisPropertiesStatusProvisioningState. Use v1beta20201201.RedisPropertiesStatusProvisioningState
+instead</p>
 </div>
 <table>
 <thead>
@@ -2480,6 +2348,8 @@ map[string]string
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20201201.RedisProperties_StatusARM">RedisProperties_StatusARM</a>, <a href="#cache.azure.com/v1alpha1api20201201.RedisResource_Status">RedisResource_Status</a>)
 </p>
 <div>
+<p>Deprecated version of RedisPropertiesStatusPublicNetworkAccess. Use
+v1beta20201201.RedisPropertiesStatusPublicNetworkAccess instead</p>
 </div>
 <table>
 <thead>
@@ -2500,6 +2370,7 @@ map[string]string
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20201201.RedisResource_StatusARM">RedisResource_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of RedisProperties_Status. Use v1beta20201201.RedisProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -2517,7 +2388,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableNonSslPort: Specifies whether the non-ssl Redis server port (6379) is enabled.</p>
 </td>
 </tr>
 <tr>
@@ -2528,7 +2398,6 @@ string
 </em>
 </td>
 <td>
-<p>HostName: Redis host name.</p>
 </td>
 </tr>
 <tr>
@@ -2541,7 +2410,6 @@ string
 </em>
 </td>
 <td>
-<p>Instances: List of the Redis instances associated with the cache</p>
 </td>
 </tr>
 <tr>
@@ -2554,7 +2422,6 @@ string
 </em>
 </td>
 <td>
-<p>LinkedServers: List of the linked servers associated with the cache</p>
 </td>
 </tr>
 <tr>
@@ -2567,8 +2434,6 @@ RedisPropertiesStatusMinimumTlsVersion
 </em>
 </td>
 <td>
-<p>MinimumTlsVersion: Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, &lsquo;1.0&rsquo;, &lsquo;1.1&rsquo;,
-&lsquo;1.2&rsquo;)</p>
 </td>
 </tr>
 <tr>
@@ -2579,7 +2444,6 @@ int
 </em>
 </td>
 <td>
-<p>Port: Redis non-SSL port.</p>
 </td>
 </tr>
 <tr>
@@ -2592,7 +2456,6 @@ int
 </em>
 </td>
 <td>
-<p>PrivateEndpointConnections: List of private endpoint connection associated with the specified redis cache</p>
 </td>
 </tr>
 <tr>
@@ -2605,7 +2468,6 @@ RedisPropertiesStatusProvisioningState
 </em>
 </td>
 <td>
-<p>ProvisioningState: Redis instance provisioning status.</p>
 </td>
 </tr>
 <tr>
@@ -2618,9 +2480,6 @@ RedisPropertiesStatusPublicNetworkAccess
 </em>
 </td>
 <td>
-<p>PublicNetworkAccess: Whether or not public endpoint access is allowed for this cache.  Value is optional but if passed
-in, must be &lsquo;Enabled&rsquo; or &lsquo;Disabled&rsquo;. If &lsquo;Disabled&rsquo;, private endpoints are the exclusive access method. Default value is
-&lsquo;Enabled&rsquo;</p>
 </td>
 </tr>
 <tr>
@@ -2631,9 +2490,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>RedisConfiguration: All Redis Settings. Few possible keys:
-rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value
-etc.</p>
 </td>
 </tr>
 <tr>
@@ -2644,7 +2500,6 @@ string
 </em>
 </td>
 <td>
-<p>RedisVersion: Redis version. Only major version will be used in PUT/PATCH request with current valid values: (4, 6)</p>
 </td>
 </tr>
 <tr>
@@ -2655,7 +2510,6 @@ int
 </em>
 </td>
 <td>
-<p>ReplicasPerMaster: The number of replicas to be created per primary.</p>
 </td>
 </tr>
 <tr>
@@ -2666,7 +2520,6 @@ int
 </em>
 </td>
 <td>
-<p>ReplicasPerPrimary: The number of replicas to be created per primary.</p>
 </td>
 </tr>
 <tr>
@@ -2677,7 +2530,6 @@ int
 </em>
 </td>
 <td>
-<p>ShardCount: The number of shards to be created on a Premium Cluster Cache.</p>
 </td>
 </tr>
 <tr>
@@ -2690,7 +2542,6 @@ Sku_StatusARM
 </em>
 </td>
 <td>
-<p>Sku: The SKU of the Redis cache to deploy.</p>
 </td>
 </tr>
 <tr>
@@ -2701,7 +2552,6 @@ int
 </em>
 </td>
 <td>
-<p>SslPort: Redis SSL port.</p>
 </td>
 </tr>
 <tr>
@@ -2712,8 +2562,6 @@ string
 </em>
 </td>
 <td>
-<p>StaticIP: Static IP address. Optionally, may be specified when deploying a Redis cache inside an existing Azure Virtual
-Network; auto assigned by default.</p>
 </td>
 </tr>
 <tr>
@@ -2724,8 +2572,6 @@ string
 </em>
 </td>
 <td>
-<p>SubnetId: The full resource ID of a subnet in a virtual network to deploy the Redis cache in. Example format:
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1</p>
 </td>
 </tr>
 <tr>
@@ -2736,7 +2582,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>TenantSettings: A dictionary of tenant settings</p>
 </td>
 </tr>
 </tbody>
@@ -2747,6 +2592,7 @@ map[string]string
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20201201.Redis">Redis</a>)
 </p>
 <div>
+<p>Deprecated version of RedisResource_Status. Use v1beta20201201.RedisResource_Status instead</p>
 </div>
 <table>
 <thead>
@@ -2777,7 +2623,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableNonSslPort: Specifies whether the non-ssl Redis server port (6379) is enabled.</p>
 </td>
 </tr>
 <tr>
@@ -2788,7 +2633,6 @@ string
 </em>
 </td>
 <td>
-<p>HostName: Redis host name.</p>
 </td>
 </tr>
 <tr>
@@ -2799,8 +2643,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}</p>
 </td>
 </tr>
 <tr>
@@ -2813,7 +2655,6 @@ string
 </em>
 </td>
 <td>
-<p>Instances: List of the Redis instances associated with the cache</p>
 </td>
 </tr>
 <tr>
@@ -2826,7 +2667,6 @@ string
 </em>
 </td>
 <td>
-<p>LinkedServers: List of the linked servers associated with the cache</p>
 </td>
 </tr>
 <tr>
@@ -2837,7 +2677,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The geo-location where the resource lives</p>
 </td>
 </tr>
 <tr>
@@ -2850,8 +2689,6 @@ RedisPropertiesStatusMinimumTlsVersion
 </em>
 </td>
 <td>
-<p>MinimumTlsVersion: Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, &lsquo;1.0&rsquo;, &lsquo;1.1&rsquo;,
-&lsquo;1.2&rsquo;)</p>
 </td>
 </tr>
 <tr>
@@ -2862,7 +2699,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource</p>
 </td>
 </tr>
 <tr>
@@ -2873,7 +2709,6 @@ int
 </em>
 </td>
 <td>
-<p>Port: Redis non-SSL port.</p>
 </td>
 </tr>
 <tr>
@@ -2886,7 +2721,6 @@ int
 </em>
 </td>
 <td>
-<p>PrivateEndpointConnections: List of private endpoint connection associated with the specified redis cache</p>
 </td>
 </tr>
 <tr>
@@ -2899,7 +2733,6 @@ RedisPropertiesStatusProvisioningState
 </em>
 </td>
 <td>
-<p>ProvisioningState: Redis instance provisioning status.</p>
 </td>
 </tr>
 <tr>
@@ -2912,9 +2745,6 @@ RedisPropertiesStatusPublicNetworkAccess
 </em>
 </td>
 <td>
-<p>PublicNetworkAccess: Whether or not public endpoint access is allowed for this cache.  Value is optional but if passed
-in, must be &lsquo;Enabled&rsquo; or &lsquo;Disabled&rsquo;. If &lsquo;Disabled&rsquo;, private endpoints are the exclusive access method. Default value is
-&lsquo;Enabled&rsquo;</p>
 </td>
 </tr>
 <tr>
@@ -2925,9 +2755,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>RedisConfiguration: All Redis Settings. Few possible keys:
-rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value
-etc.</p>
 </td>
 </tr>
 <tr>
@@ -2938,7 +2765,6 @@ string
 </em>
 </td>
 <td>
-<p>RedisVersion: Redis version. Only major version will be used in PUT/PATCH request with current valid values: (4, 6)</p>
 </td>
 </tr>
 <tr>
@@ -2949,7 +2775,6 @@ int
 </em>
 </td>
 <td>
-<p>ReplicasPerMaster: The number of replicas to be created per primary.</p>
 </td>
 </tr>
 <tr>
@@ -2960,7 +2785,6 @@ int
 </em>
 </td>
 <td>
-<p>ReplicasPerPrimary: The number of replicas to be created per primary.</p>
 </td>
 </tr>
 <tr>
@@ -2971,7 +2795,6 @@ int
 </em>
 </td>
 <td>
-<p>ShardCount: The number of shards to be created on a Premium Cluster Cache.</p>
 </td>
 </tr>
 <tr>
@@ -2984,7 +2807,6 @@ Sku_Status
 </em>
 </td>
 <td>
-<p>Sku: The SKU of the Redis cache to deploy.</p>
 </td>
 </tr>
 <tr>
@@ -2995,7 +2817,6 @@ int
 </em>
 </td>
 <td>
-<p>SslPort: Redis SSL port.</p>
 </td>
 </tr>
 <tr>
@@ -3006,8 +2827,6 @@ string
 </em>
 </td>
 <td>
-<p>StaticIP: Static IP address. Optionally, may be specified when deploying a Redis cache inside an existing Azure Virtual
-Network; auto assigned by default.</p>
 </td>
 </tr>
 <tr>
@@ -3018,8 +2837,6 @@ string
 </em>
 </td>
 <td>
-<p>SubnetId: The full resource ID of a subnet in a virtual network to deploy the Redis cache in. Example format:
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1</p>
 </td>
 </tr>
 <tr>
@@ -3030,7 +2847,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Resource tags.</p>
 </td>
 </tr>
 <tr>
@@ -3041,7 +2857,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>TenantSettings: A dictionary of tenant settings</p>
 </td>
 </tr>
 <tr>
@@ -3052,7 +2867,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
 </td>
 </tr>
 <tr>
@@ -3063,7 +2877,6 @@ string
 </em>
 </td>
 <td>
-<p>Zones: A list of availability zones denoting where the resource needs to come from.</p>
 </td>
 </tr>
 </tbody>
@@ -3071,6 +2884,7 @@ string
 <h3 id="cache.azure.com/v1alpha1api20201201.RedisResource_StatusARM">RedisResource_StatusARM
 </h3>
 <div>
+<p>Deprecated version of RedisResource_Status. Use v1beta20201201.RedisResource_Status instead</p>
 </div>
 <table>
 <thead>
@@ -3088,8 +2902,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}</p>
 </td>
 </tr>
 <tr>
@@ -3100,7 +2912,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The geo-location where the resource lives</p>
 </td>
 </tr>
 <tr>
@@ -3111,7 +2922,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource</p>
 </td>
 </tr>
 <tr>
@@ -3124,7 +2934,6 @@ RedisProperties_StatusARM
 </em>
 </td>
 <td>
-<p>Properties: Redis cache properties.</p>
 </td>
 </tr>
 <tr>
@@ -3135,7 +2944,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Resource tags.</p>
 </td>
 </tr>
 <tr>
@@ -3146,7 +2954,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
 </td>
 </tr>
 <tr>
@@ -3157,25 +2964,9 @@ string
 </em>
 </td>
 <td>
-<p>Zones: A list of availability zones denoting where the resource needs to come from.</p>
 </td>
 </tr>
 </tbody>
-</table>
-<h3 id="cache.azure.com/v1alpha1api20201201.RedisSpecAPIVersion">RedisSpecAPIVersion
-(<code>string</code> alias)</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;2020-12-01&#34;</p></td>
-<td></td>
-</tr></tbody>
 </table>
 <h3 id="cache.azure.com/v1alpha1api20201201.Redis_Spec">Redis_Spec
 </h3>
@@ -3212,7 +3003,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableNonSslPort: Specifies whether the non-ssl Redis server port (6379) is enabled.</p>
 </td>
 </tr>
 <tr>
@@ -3223,7 +3013,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The geo-location where the resource lives</p>
 </td>
 </tr>
 <tr>
@@ -3236,8 +3025,6 @@ RedisCreatePropertiesMinimumTlsVersion
 </em>
 </td>
 <td>
-<p>MinimumTlsVersion: Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, &lsquo;1.0&rsquo;, &lsquo;1.1&rsquo;,
-&lsquo;1.2&rsquo;).</p>
 </td>
 </tr>
 <tr>
@@ -3264,6 +3051,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -3276,9 +3066,6 @@ RedisCreatePropertiesPublicNetworkAccess
 </em>
 </td>
 <td>
-<p>PublicNetworkAccess: Whether or not public endpoint access is allowed for this cache.  Value is optional but if passed
-in, must be &lsquo;Enabled&rsquo; or &lsquo;Disabled&rsquo;. If &lsquo;Disabled&rsquo;, private endpoints are the exclusive access method. Default value is
-&lsquo;Enabled&rsquo;.</p>
 </td>
 </tr>
 <tr>
@@ -3289,9 +3076,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>RedisConfiguration: All Redis Settings. Few possible keys:
-rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value
-etc.</p>
 </td>
 </tr>
 <tr>
@@ -3302,7 +3086,6 @@ string
 </em>
 </td>
 <td>
-<p>RedisVersion: Redis version. Only major version will be used in PUT/PATCH request with current valid values: (4, 6)</p>
 </td>
 </tr>
 <tr>
@@ -3313,7 +3096,6 @@ int
 </em>
 </td>
 <td>
-<p>ReplicasPerMaster: The number of replicas to be created per primary.</p>
 </td>
 </tr>
 <tr>
@@ -3324,7 +3106,6 @@ int
 </em>
 </td>
 <td>
-<p>ReplicasPerPrimary: The number of replicas to be created per primary.</p>
 </td>
 </tr>
 <tr>
@@ -3335,7 +3116,6 @@ int
 </em>
 </td>
 <td>
-<p>ShardCount: The number of shards to be created on a Premium Cluster Cache.</p>
 </td>
 </tr>
 <tr>
@@ -3348,7 +3128,6 @@ Sku
 </em>
 </td>
 <td>
-<p>Sku: SKU parameters supplied to the create Redis operation.</p>
 </td>
 </tr>
 <tr>
@@ -3359,8 +3138,6 @@ string
 </em>
 </td>
 <td>
-<p>StaticIP: Static IP address. Optionally, may be specified when deploying a Redis cache inside an existing Azure Virtual
-Network; auto assigned by default.</p>
 </td>
 </tr>
 <tr>
@@ -3373,8 +3150,6 @@ genruntime.ResourceReference
 </em>
 </td>
 <td>
-<p>SubnetReference: The full resource ID of a subnet in a virtual network to deploy the Redis cache in. Example format:
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1</p>
 </td>
 </tr>
 <tr>
@@ -3385,7 +3160,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 <tr>
@@ -3396,7 +3170,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>TenantSettings: A dictionary of tenant settings</p>
 </td>
 </tr>
 <tr>
@@ -3407,7 +3180,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Zones: A list of availability zones denoting where the resource needs to come from.</p>
 </td>
 </tr>
 </tbody>
@@ -3415,6 +3187,7 @@ map[string]string
 <h3 id="cache.azure.com/v1alpha1api20201201.Redis_SpecARM">Redis_SpecARM
 </h3>
 <div>
+<p>Deprecated version of Redis_Spec. Use v1beta20201201.Redis_Spec instead</p>
 </div>
 <table>
 <thead>
@@ -3432,7 +3205,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The geo-location where the resource lives</p>
 </td>
 </tr>
 <tr>
@@ -3443,7 +3215,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the Redis cache.</p>
 </td>
 </tr>
 <tr>
@@ -3456,7 +3227,6 @@ RedisCreatePropertiesARM
 </em>
 </td>
 <td>
-<p>Properties: Properties supplied to Create Redis operation.</p>
 </td>
 </tr>
 <tr>
@@ -3467,7 +3237,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 <tr>
@@ -3478,7 +3247,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Zones: A list of availability zones denoting where the resource needs to come from.</p>
 </td>
 </tr>
 </tbody>
@@ -3489,7 +3257,7 @@ map[string]string
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20201201.RedisPatchSchedules_SpecARM">RedisPatchSchedules_SpecARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/definitions/ScheduleEntries">https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/definitions/ScheduleEntries</a></p>
+<p>Deprecated version of ScheduleEntries. Use v1beta20201201.ScheduleEntries instead</p>
 </div>
 <table>
 <thead>
@@ -3509,7 +3277,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>ScheduleEntries: List of patch schedules for a Redis cache.</p>
 </td>
 </tr>
 </tbody>
@@ -3520,6 +3287,7 @@ map[string]string
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20201201.RedisPatchSchedule_StatusARM">RedisPatchSchedule_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of ScheduleEntries_Status. Use v1beta20201201.ScheduleEntries_Status instead</p>
 </div>
 <table>
 <thead>
@@ -3539,7 +3307,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>ScheduleEntries: List of patch schedules for a Redis cache.</p>
 </td>
 </tr>
 </tbody>
@@ -3550,7 +3317,7 @@ map[string]string
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20201201.RedisPatchSchedules_Spec">RedisPatchSchedules_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/definitions/ScheduleEntry">https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/definitions/ScheduleEntry</a></p>
+<p>Deprecated version of ScheduleEntry. Use v1beta20201201.ScheduleEntry instead</p>
 </div>
 <table>
 <thead>
@@ -3570,7 +3337,6 @@ ScheduleEntryDayOfWeek
 </em>
 </td>
 <td>
-<p>DayOfWeek: Day of the week when a cache can be patched.</p>
 </td>
 </tr>
 <tr>
@@ -3581,7 +3347,6 @@ string
 </em>
 </td>
 <td>
-<p>MaintenanceWindow: ISO8601 timespan specifying how much time cache patching can take.</p>
 </td>
 </tr>
 <tr>
@@ -3592,7 +3357,6 @@ int
 </em>
 </td>
 <td>
-<p>StartHourUtc: Start hour after which cache patching can start.</p>
 </td>
 </tr>
 </tbody>
@@ -3603,7 +3367,7 @@ int
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20201201.ScheduleEntriesARM">ScheduleEntriesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/definitions/ScheduleEntry">https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/definitions/ScheduleEntry</a></p>
+<p>Deprecated version of ScheduleEntry. Use v1beta20201201.ScheduleEntry instead</p>
 </div>
 <table>
 <thead>
@@ -3623,7 +3387,6 @@ ScheduleEntryDayOfWeek
 </em>
 </td>
 <td>
-<p>DayOfWeek: Day of the week when a cache can be patched.</p>
 </td>
 </tr>
 <tr>
@@ -3634,7 +3397,6 @@ string
 </em>
 </td>
 <td>
-<p>MaintenanceWindow: ISO8601 timespan specifying how much time cache patching can take.</p>
 </td>
 </tr>
 <tr>
@@ -3645,7 +3407,6 @@ int
 </em>
 </td>
 <td>
-<p>StartHourUtc: Start hour after which cache patching can start.</p>
 </td>
 </tr>
 </tbody>
@@ -3656,6 +3417,7 @@ int
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20201201.ScheduleEntry">ScheduleEntry</a>, <a href="#cache.azure.com/v1alpha1api20201201.ScheduleEntryARM">ScheduleEntryARM</a>)
 </p>
 <div>
+<p>Deprecated version of ScheduleEntryDayOfWeek. Use v1beta20201201.ScheduleEntryDayOfWeek instead</p>
 </div>
 <table>
 <thead>
@@ -3690,6 +3452,7 @@ int
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20201201.ScheduleEntry_Status">ScheduleEntry_Status</a>, <a href="#cache.azure.com/v1alpha1api20201201.ScheduleEntry_StatusARM">ScheduleEntry_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of ScheduleEntryStatusDayOfWeek. Use v1beta20201201.ScheduleEntryStatusDayOfWeek instead</p>
 </div>
 <table>
 <thead>
@@ -3724,6 +3487,7 @@ int
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20201201.RedisPatchSchedule_Status">RedisPatchSchedule_Status</a>)
 </p>
 <div>
+<p>Deprecated version of ScheduleEntry_Status. Use v1beta20201201.ScheduleEntry_Status instead</p>
 </div>
 <table>
 <thead>
@@ -3743,7 +3507,6 @@ ScheduleEntryStatusDayOfWeek
 </em>
 </td>
 <td>
-<p>DayOfWeek: Day of the week when a cache can be patched.</p>
 </td>
 </tr>
 <tr>
@@ -3754,7 +3517,6 @@ string
 </em>
 </td>
 <td>
-<p>MaintenanceWindow: ISO8601 timespan specifying how much time cache patching can take.</p>
 </td>
 </tr>
 <tr>
@@ -3765,7 +3527,6 @@ int
 </em>
 </td>
 <td>
-<p>StartHourUtc: Start hour after which cache patching can start.</p>
 </td>
 </tr>
 </tbody>
@@ -3776,6 +3537,7 @@ int
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20201201.ScheduleEntries_StatusARM">ScheduleEntries_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of ScheduleEntry_Status. Use v1beta20201201.ScheduleEntry_Status instead</p>
 </div>
 <table>
 <thead>
@@ -3795,7 +3557,6 @@ ScheduleEntryStatusDayOfWeek
 </em>
 </td>
 <td>
-<p>DayOfWeek: Day of the week when a cache can be patched.</p>
 </td>
 </tr>
 <tr>
@@ -3806,7 +3567,6 @@ string
 </em>
 </td>
 <td>
-<p>MaintenanceWindow: ISO8601 timespan specifying how much time cache patching can take.</p>
 </td>
 </tr>
 <tr>
@@ -3817,7 +3577,6 @@ int
 </em>
 </td>
 <td>
-<p>StartHourUtc: Start hour after which cache patching can start.</p>
 </td>
 </tr>
 </tbody>
@@ -3828,7 +3587,7 @@ int
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20201201.Redis_Spec">Redis_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/definitions/Sku">https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/definitions/Sku</a></p>
+<p>Deprecated version of Sku. Use v1beta20201201.Sku instead</p>
 </div>
 <table>
 <thead>
@@ -3846,8 +3605,6 @@ int
 </em>
 </td>
 <td>
-<p>Capacity: The size of the Redis cache to deploy. Valid values: for C (Basic/Standard) family (0, 1, 2, 3, 4, 5, 6), for
-P (Premium) family (1, 2, 3, 4).</p>
 </td>
 </tr>
 <tr>
@@ -3860,7 +3617,6 @@ SkuFamily
 </em>
 </td>
 <td>
-<p>Family: The SKU family to use. Valid values: (C, P). (C = Basic/Standard, P = Premium).</p>
 </td>
 </tr>
 <tr>
@@ -3873,7 +3629,6 @@ SkuName
 </em>
 </td>
 <td>
-<p>Name: The type of Redis cache to deploy. Valid values: (Basic, Standard, Premium).</p>
 </td>
 </tr>
 </tbody>
@@ -3884,7 +3639,7 @@ SkuName
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20201201.RedisCreatePropertiesARM">RedisCreatePropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/definitions/Sku">https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/definitions/Sku</a></p>
+<p>Deprecated version of Sku. Use v1beta20201201.Sku instead</p>
 </div>
 <table>
 <thead>
@@ -3902,8 +3657,6 @@ int
 </em>
 </td>
 <td>
-<p>Capacity: The size of the Redis cache to deploy. Valid values: for C (Basic/Standard) family (0, 1, 2, 3, 4, 5, 6), for
-P (Premium) family (1, 2, 3, 4).</p>
 </td>
 </tr>
 <tr>
@@ -3916,7 +3669,6 @@ SkuFamily
 </em>
 </td>
 <td>
-<p>Family: The SKU family to use. Valid values: (C, P). (C = Basic/Standard, P = Premium).</p>
 </td>
 </tr>
 <tr>
@@ -3929,7 +3681,6 @@ SkuName
 </em>
 </td>
 <td>
-<p>Name: The type of Redis cache to deploy. Valid values: (Basic, Standard, Premium).</p>
 </td>
 </tr>
 </tbody>
@@ -3940,6 +3691,7 @@ SkuName
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20201201.Sku">Sku</a>, <a href="#cache.azure.com/v1alpha1api20201201.SkuARM">SkuARM</a>)
 </p>
 <div>
+<p>Deprecated version of SkuFamily. Use v1beta20201201.SkuFamily instead</p>
 </div>
 <table>
 <thead>
@@ -3960,6 +3712,7 @@ SkuName
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20201201.Sku">Sku</a>, <a href="#cache.azure.com/v1alpha1api20201201.SkuARM">SkuARM</a>)
 </p>
 <div>
+<p>Deprecated version of SkuName. Use v1beta20201201.SkuName instead</p>
 </div>
 <table>
 <thead>
@@ -3982,6 +3735,7 @@ SkuName
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20201201.Sku_Status">Sku_Status</a>, <a href="#cache.azure.com/v1alpha1api20201201.Sku_StatusARM">Sku_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of SkuStatusFamily. Use v1beta20201201.SkuStatusFamily instead</p>
 </div>
 <table>
 <thead>
@@ -4002,6 +3756,7 @@ SkuName
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20201201.Sku_Status">Sku_Status</a>, <a href="#cache.azure.com/v1alpha1api20201201.Sku_StatusARM">Sku_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of SkuStatusName. Use v1beta20201201.SkuStatusName instead</p>
 </div>
 <table>
 <thead>
@@ -4024,6 +3779,7 @@ SkuName
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20201201.RedisResource_Status">RedisResource_Status</a>)
 </p>
 <div>
+<p>Deprecated version of Sku_Status. Use v1beta20201201.Sku_Status instead</p>
 </div>
 <table>
 <thead>
@@ -4041,8 +3797,6 @@ int
 </em>
 </td>
 <td>
-<p>Capacity: The size of the Redis cache to deploy. Valid values: for C (Basic/Standard) family (0, 1, 2, 3, 4, 5, 6), for
-P (Premium) family (1, 2, 3, 4).</p>
 </td>
 </tr>
 <tr>
@@ -4055,7 +3809,6 @@ SkuStatusFamily
 </em>
 </td>
 <td>
-<p>Family: The SKU family to use. Valid values: (C, P). (C = Basic/Standard, P = Premium).</p>
 </td>
 </tr>
 <tr>
@@ -4068,7 +3821,6 @@ SkuStatusName
 </em>
 </td>
 <td>
-<p>Name: The type of Redis cache to deploy. Valid values: (Basic, Standard, Premium)</p>
 </td>
 </tr>
 </tbody>
@@ -4079,6 +3831,7 @@ SkuStatusName
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20201201.RedisProperties_StatusARM">RedisProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of Sku_Status. Use v1beta20201201.Sku_Status instead</p>
 </div>
 <table>
 <thead>
@@ -4096,8 +3849,6 @@ int
 </em>
 </td>
 <td>
-<p>Capacity: The size of the Redis cache to deploy. Valid values: for C (Basic/Standard) family (0, 1, 2, 3, 4, 5, 6), for
-P (Premium) family (1, 2, 3, 4).</p>
 </td>
 </tr>
 <tr>
@@ -4110,7 +3861,6 @@ SkuStatusFamily
 </em>
 </td>
 <td>
-<p>Family: The SKU family to use. Valid values: (C, P). (C = Basic/Standard, P = Premium).</p>
 </td>
 </tr>
 <tr>
@@ -4123,7 +3873,6 @@ SkuStatusName
 </em>
 </td>
 <td>
-<p>Name: The type of Redis cache to deploy. Valid values: (Basic, Standard, Premium)</p>
 </td>
 </tr>
 </tbody>

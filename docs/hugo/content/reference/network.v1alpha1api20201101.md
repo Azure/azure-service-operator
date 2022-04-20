@@ -12,7 +12,7 @@ Resource Types:
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGateways_Spec">VirtualNetworkGateways_Spec</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration">VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworksVirtualNetworkPeerings_Spec">VirtualNetworksVirtualNetworkPeerings_Spec</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworks_Spec">VirtualNetworks_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/AddressSpace">https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/AddressSpace</a></p>
+<p>Deprecated version of AddressSpace. Use v1beta20201101.AddressSpace instead</p>
 </div>
 <table>
 <thead>
@@ -30,7 +30,6 @@ Resource Types:
 </em>
 </td>
 <td>
-<p>AddressPrefixes: A list of address blocks reserved for this virtual network in CIDR notation.</p>
 </td>
 </tr>
 </tbody>
@@ -41,7 +40,7 @@ Resource Types:
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGateways_Spec_PropertiesARM">VirtualNetworkGateways_Spec_PropertiesARM</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGateways_Spec_Properties_VpnClientConfigurationARM">VirtualNetworkGateways_Spec_Properties_VpnClientConfigurationARM</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkPeeringPropertiesFormatARM">VirtualNetworkPeeringPropertiesFormatARM</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworks_Spec_PropertiesARM">VirtualNetworks_Spec_PropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/AddressSpace">https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/AddressSpace</a></p>
+<p>Deprecated version of AddressSpace. Use v1beta20201101.AddressSpace instead</p>
 </div>
 <table>
 <thead>
@@ -59,7 +58,6 @@ Resource Types:
 </em>
 </td>
 <td>
-<p>AddressPrefixes: A list of address blocks reserved for this virtual network in CIDR notation.</p>
 </td>
 </tr>
 </tbody>
@@ -70,6 +68,7 @@ Resource Types:
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGateway_Status">VirtualNetworkGateway_Status</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkPeering_Status">VirtualNetworkPeering_Status</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetwork_Status">VirtualNetwork_Status</a>, <a href="#network.azure.com/v1alpha1api20201101.VpnClientConfiguration_Status">VpnClientConfiguration_Status</a>)
 </p>
 <div>
+<p>Deprecated version of AddressSpace_Status. Use v1beta20201101.AddressSpace_Status instead</p>
 </div>
 <table>
 <thead>
@@ -87,7 +86,6 @@ Resource Types:
 </em>
 </td>
 <td>
-<p>AddressPrefixes: A list of address blocks reserved for this virtual network in CIDR notation.</p>
 </td>
 </tr>
 </tbody>
@@ -98,6 +96,7 @@ Resource Types:
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGatewayPropertiesFormat_StatusARM">VirtualNetworkGatewayPropertiesFormat_StatusARM</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkPeeringPropertiesFormat_StatusARM">VirtualNetworkPeeringPropertiesFormat_StatusARM</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkPropertiesFormat_StatusARM">VirtualNetworkPropertiesFormat_StatusARM</a>, <a href="#network.azure.com/v1alpha1api20201101.VpnClientConfiguration_StatusARM">VpnClientConfiguration_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of AddressSpace_Status. Use v1beta20201101.AddressSpace_Status instead</p>
 </div>
 <table>
 <thead>
@@ -115,7 +114,6 @@ Resource Types:
 </em>
 </td>
 <td>
-<p>AddressPrefixes: A list of address blocks reserved for this virtual network in CIDR notation.</p>
 </td>
 </tr>
 </tbody>
@@ -126,6 +124,7 @@ Resource Types:
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.ApplicationGatewayBackendAddressPool_Status_NetworkInterface_SubResourceEmbeddedARM">ApplicationGatewayBackendAddressPool_Status_NetworkInterface_SubResourceEmbeddedARM</a>)
 </p>
 <div>
+<p>Deprecated version of ApplicationGatewayBackendAddressPoolPropertiesFormat_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.ApplicationGatewayBackendAddressPoolPropertiesFormat_Status_NetworkInterface_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -145,7 +144,6 @@ Resource Types:
 </em>
 </td>
 <td>
-<p>BackendAddresses: Backend addresses.</p>
 </td>
 </tr>
 <tr>
@@ -158,7 +156,6 @@ ProvisioningState_Status
 </em>
 </td>
 <td>
-<p>ProvisioningState: The provisioning state of the backend address pool resource.</p>
 </td>
 </tr>
 </tbody>
@@ -169,6 +166,7 @@ ProvisioningState_Status
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResourceEmbedded">NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResourceEmbedded</a>)
 </p>
 <div>
+<p>Deprecated version of ApplicationGatewayBackendAddressPool_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.ApplicationGatewayBackendAddressPool_Status_NetworkInterface_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -188,7 +186,6 @@ ProvisioningState_Status
 </em>
 </td>
 <td>
-<p>BackendAddresses: Backend addresses.</p>
 </td>
 </tr>
 <tr>
@@ -199,7 +196,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A unique read-only string that changes whenever the resource is updated.</p>
 </td>
 </tr>
 <tr>
@@ -210,7 +206,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 <tr>
@@ -221,7 +216,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Name of the backend address pool that is unique within an Application Gateway.</p>
 </td>
 </tr>
 <tr>
@@ -234,7 +228,6 @@ ProvisioningState_Status
 </em>
 </td>
 <td>
-<p>ProvisioningState: The provisioning state of the backend address pool resource.</p>
 </td>
 </tr>
 <tr>
@@ -245,7 +238,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: Type of the resource.</p>
 </td>
 </tr>
 </tbody>
@@ -256,6 +248,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.NetworkInterfaceIPConfigurationPropertiesFormat_Status_NetworkInterface_SubResourceEmbeddedARM">NetworkInterfaceIPConfigurationPropertiesFormat_Status_NetworkInterface_SubResourceEmbeddedARM</a>)
 </p>
 <div>
+<p>Deprecated version of ApplicationGatewayBackendAddressPool_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.ApplicationGatewayBackendAddressPool_Status_NetworkInterface_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -273,7 +266,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A unique read-only string that changes whenever the resource is updated.</p>
 </td>
 </tr>
 <tr>
@@ -284,7 +276,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 <tr>
@@ -295,7 +286,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Name of the backend address pool that is unique within an Application Gateway.</p>
 </td>
 </tr>
 <tr>
@@ -308,7 +298,6 @@ ApplicationGatewayBackendAddressPoolPropertiesFormat_Status_NetworkInterface_Sub
 </em>
 </td>
 <td>
-<p>Properties: Properties of the application gateway backend address pool.</p>
 </td>
 </tr>
 <tr>
@@ -319,7 +308,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: Type of the resource.</p>
 </td>
 </tr>
 </tbody>
@@ -330,6 +318,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.ApplicationGatewayBackendAddressPool_Status_NetworkInterface_SubResourceEmbedded">ApplicationGatewayBackendAddressPool_Status_NetworkInterface_SubResourceEmbedded</a>)
 </p>
 <div>
+<p>Deprecated version of ApplicationGatewayBackendAddress_Status. Use v1beta20201101.ApplicationGatewayBackendAddress_Status instead</p>
 </div>
 <table>
 <thead>
@@ -347,7 +336,6 @@ string
 </em>
 </td>
 <td>
-<p>Fqdn: Fully qualified domain name (FQDN).</p>
 </td>
 </tr>
 <tr>
@@ -358,7 +346,6 @@ string
 </em>
 </td>
 <td>
-<p>IpAddress: IP address.</p>
 </td>
 </tr>
 </tbody>
@@ -369,6 +356,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.ApplicationGatewayBackendAddressPoolPropertiesFormat_Status_NetworkInterface_SubResourceEmbeddedARM">ApplicationGatewayBackendAddressPoolPropertiesFormat_Status_NetworkInterface_SubResourceEmbeddedARM</a>)
 </p>
 <div>
+<p>Deprecated version of ApplicationGatewayBackendAddress_Status. Use v1beta20201101.ApplicationGatewayBackendAddress_Status instead</p>
 </div>
 <table>
 <thead>
@@ -386,7 +374,6 @@ string
 </em>
 </td>
 <td>
-<p>Fqdn: Fully qualified domain name (FQDN).</p>
 </td>
 </tr>
 <tr>
@@ -397,7 +384,6 @@ string
 </em>
 </td>
 <td>
-<p>IpAddress: IP address.</p>
 </td>
 </tr>
 </tbody>
@@ -408,6 +394,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.ApplicationGatewayIPConfiguration_StatusARM">ApplicationGatewayIPConfiguration_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of ApplicationGatewayIPConfigurationPropertiesFormat_Status. Use v1beta20201101.ApplicationGatewayIPConfigurationPropertiesFormat_Status instead</p>
 </div>
 <table>
 <thead>
@@ -427,7 +414,6 @@ ProvisioningState_Status
 </em>
 </td>
 <td>
-<p>ProvisioningState: The provisioning state of the application gateway IP configuration resource.</p>
 </td>
 </tr>
 <tr>
@@ -440,7 +426,6 @@ SubResource_StatusARM
 </em>
 </td>
 <td>
-<p>Subnet: Reference to the subnet resource. A subnet from where application gateway gets its private address.</p>
 </td>
 </tr>
 </tbody>
@@ -451,6 +436,7 @@ SubResource_StatusARM
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded">Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded</a>)
 </p>
 <div>
+<p>Deprecated version of ApplicationGatewayIPConfiguration_Status. Use v1beta20201101.ApplicationGatewayIPConfiguration_Status instead</p>
 </div>
 <table>
 <thead>
@@ -468,7 +454,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A unique read-only string that changes whenever the resource is updated.</p>
 </td>
 </tr>
 <tr>
@@ -479,7 +464,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 <tr>
@@ -490,7 +474,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Name of the IP configuration that is unique within an Application Gateway.</p>
 </td>
 </tr>
 <tr>
@@ -503,7 +486,6 @@ ProvisioningState_Status
 </em>
 </td>
 <td>
-<p>ProvisioningState: The provisioning state of the application gateway IP configuration resource.</p>
 </td>
 </tr>
 <tr>
@@ -516,7 +498,6 @@ SubResource_Status
 </em>
 </td>
 <td>
-<p>Subnet: Reference to the subnet resource. A subnet from where application gateway gets its private address.</p>
 </td>
 </tr>
 <tr>
@@ -527,7 +508,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: Type of the resource.</p>
 </td>
 </tr>
 </tbody>
@@ -538,6 +518,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.SubnetPropertiesFormat_StatusARM">SubnetPropertiesFormat_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of ApplicationGatewayIPConfiguration_Status. Use v1beta20201101.ApplicationGatewayIPConfiguration_Status instead</p>
 </div>
 <table>
 <thead>
@@ -555,7 +536,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A unique read-only string that changes whenever the resource is updated.</p>
 </td>
 </tr>
 <tr>
@@ -566,7 +546,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 <tr>
@@ -577,7 +556,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Name of the IP configuration that is unique within an Application Gateway.</p>
 </td>
 </tr>
 <tr>
@@ -590,7 +568,6 @@ ApplicationGatewayIPConfigurationPropertiesFormat_StatusARM
 </em>
 </td>
 <td>
-<p>Properties: Properties of the application gateway IP configuration.</p>
 </td>
 </tr>
 <tr>
@@ -601,7 +578,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: Type of the resource.</p>
 </td>
 </tr>
 </tbody>
@@ -612,6 +588,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResourceEmbedded">NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResourceEmbedded</a>)
 </p>
 <div>
+<p>Deprecated version of ApplicationSecurityGroup_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.ApplicationSecurityGroup_Status_NetworkInterface_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -629,7 +606,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 </tbody>
@@ -640,6 +616,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.NetworkInterfaceIPConfigurationPropertiesFormat_Status_NetworkInterface_SubResourceEmbeddedARM">NetworkInterfaceIPConfigurationPropertiesFormat_Status_NetworkInterface_SubResourceEmbeddedARM</a>)
 </p>
 <div>
+<p>Deprecated version of ApplicationSecurityGroup_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.ApplicationSecurityGroup_Status_NetworkInterface_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -657,7 +634,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 </tbody>
@@ -668,6 +644,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded">SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded</a>)
 </p>
 <div>
+<p>Deprecated version of ApplicationSecurityGroup_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded. Use v1beta20201101.ApplicationSecurityGroup_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -685,7 +662,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 </tbody>
@@ -696,6 +672,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.SecurityRulePropertiesFormat_StatusARM">SecurityRulePropertiesFormat_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of ApplicationSecurityGroup_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded. Use v1beta20201101.ApplicationSecurityGroup_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -713,7 +690,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 </tbody>
@@ -724,6 +700,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.LoadBalancer_Status">LoadBalancer_Status</a>)
 </p>
 <div>
+<p>Deprecated version of BackendAddressPool_Status_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.BackendAddressPool_Status_LoadBalancer_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -741,7 +718,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 </tbody>
@@ -752,6 +728,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.LoadBalancerPropertiesFormat_StatusARM">LoadBalancerPropertiesFormat_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of BackendAddressPool_Status_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.BackendAddressPool_Status_LoadBalancer_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -769,7 +746,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 </tbody>
@@ -780,6 +756,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResourceEmbedded">NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResourceEmbedded</a>)
 </p>
 <div>
+<p>Deprecated version of BackendAddressPool_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.BackendAddressPool_Status_NetworkInterface_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -797,7 +774,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 </tbody>
@@ -808,6 +784,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.NetworkInterfaceIPConfigurationPropertiesFormat_Status_NetworkInterface_SubResourceEmbeddedARM">NetworkInterfaceIPConfigurationPropertiesFormat_Status_NetworkInterface_SubResourceEmbeddedARM</a>)
 </p>
 <div>
+<p>Deprecated version of BackendAddressPool_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.BackendAddressPool_Status_NetworkInterface_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -825,7 +802,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 </tbody>
@@ -836,7 +812,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGateways_Spec">VirtualNetworkGateways_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/BgpSettings">https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/BgpSettings</a></p>
+<p>Deprecated version of BgpSettings. Use v1beta20201101.BgpSettings instead</p>
 </div>
 <table>
 <thead>
@@ -854,7 +830,6 @@ uint32
 </em>
 </td>
 <td>
-<p>Asn: The BGP speaker&rsquo;s ASN.</p>
 </td>
 </tr>
 <tr>
@@ -865,7 +840,6 @@ string
 </em>
 </td>
 <td>
-<p>BgpPeeringAddress: The BGP peering address and BGP identifier of this BGP speaker.</p>
 </td>
 </tr>
 <tr>
@@ -878,7 +852,6 @@ string
 </em>
 </td>
 <td>
-<p>BgpPeeringAddresses: BGP peering address with IP configuration ID for virtual network gateway.</p>
 </td>
 </tr>
 <tr>
@@ -889,7 +862,6 @@ int
 </em>
 </td>
 <td>
-<p>PeerWeight: The weight added to routes learned from this BGP speaker.</p>
 </td>
 </tr>
 </tbody>
@@ -900,7 +872,7 @@ int
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGateways_Spec_PropertiesARM">VirtualNetworkGateways_Spec_PropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/BgpSettings">https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/BgpSettings</a></p>
+<p>Deprecated version of BgpSettings. Use v1beta20201101.BgpSettings instead</p>
 </div>
 <table>
 <thead>
@@ -918,7 +890,6 @@ uint32
 </em>
 </td>
 <td>
-<p>Asn: The BGP speaker&rsquo;s ASN.</p>
 </td>
 </tr>
 <tr>
@@ -929,7 +900,6 @@ string
 </em>
 </td>
 <td>
-<p>BgpPeeringAddress: The BGP peering address and BGP identifier of this BGP speaker.</p>
 </td>
 </tr>
 <tr>
@@ -942,7 +912,6 @@ string
 </em>
 </td>
 <td>
-<p>BgpPeeringAddresses: BGP peering address with IP configuration ID for virtual network gateway.</p>
 </td>
 </tr>
 <tr>
@@ -953,7 +922,6 @@ int
 </em>
 </td>
 <td>
-<p>PeerWeight: The weight added to routes learned from this BGP speaker.</p>
 </td>
 </tr>
 </tbody>
@@ -964,6 +932,7 @@ int
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGateway_Status">VirtualNetworkGateway_Status</a>)
 </p>
 <div>
+<p>Deprecated version of BgpSettings_Status. Use v1beta20201101.BgpSettings_Status instead</p>
 </div>
 <table>
 <thead>
@@ -981,7 +950,6 @@ uint32
 </em>
 </td>
 <td>
-<p>Asn: The BGP speaker&rsquo;s ASN.</p>
 </td>
 </tr>
 <tr>
@@ -992,7 +960,6 @@ string
 </em>
 </td>
 <td>
-<p>BgpPeeringAddress: The BGP peering address and BGP identifier of this BGP speaker.</p>
 </td>
 </tr>
 <tr>
@@ -1005,7 +972,6 @@ string
 </em>
 </td>
 <td>
-<p>BgpPeeringAddresses: BGP peering address with IP configuration ID for virtual network gateway.</p>
 </td>
 </tr>
 <tr>
@@ -1016,7 +982,6 @@ int
 </em>
 </td>
 <td>
-<p>PeerWeight: The weight added to routes learned from this BGP speaker.</p>
 </td>
 </tr>
 </tbody>
@@ -1027,6 +992,7 @@ int
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGatewayPropertiesFormat_StatusARM">VirtualNetworkGatewayPropertiesFormat_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of BgpSettings_Status. Use v1beta20201101.BgpSettings_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1044,7 +1010,6 @@ uint32
 </em>
 </td>
 <td>
-<p>Asn: The BGP speaker&rsquo;s ASN.</p>
 </td>
 </tr>
 <tr>
@@ -1055,7 +1020,6 @@ string
 </em>
 </td>
 <td>
-<p>BgpPeeringAddress: The BGP peering address and BGP identifier of this BGP speaker.</p>
 </td>
 </tr>
 <tr>
@@ -1068,7 +1032,6 @@ string
 </em>
 </td>
 <td>
-<p>BgpPeeringAddresses: BGP peering address with IP configuration ID for virtual network gateway.</p>
 </td>
 </tr>
 <tr>
@@ -1079,7 +1042,6 @@ int
 </em>
 </td>
 <td>
-<p>PeerWeight: The weight added to routes learned from this BGP speaker.</p>
 </td>
 </tr>
 </tbody>
@@ -1090,7 +1052,7 @@ int
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.PublicIPAddresses_Spec">PublicIPAddresses_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/DdosSettings">https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/DdosSettings</a></p>
+<p>Deprecated version of DdosSettings. Use v1beta20201101.DdosSettings instead</p>
 </div>
 <table>
 <thead>
@@ -1110,7 +1072,6 @@ SubResource
 </em>
 </td>
 <td>
-<p>DdosCustomPolicy: The DDoS custom policy associated with the public IP.</p>
 </td>
 </tr>
 <tr>
@@ -1121,7 +1082,6 @@ bool
 </em>
 </td>
 <td>
-<p>ProtectedIP: Enables DDoS protection on the public IP.</p>
 </td>
 </tr>
 <tr>
@@ -1134,8 +1094,6 @@ DdosSettingsProtectionCoverage
 </em>
 </td>
 <td>
-<p>ProtectionCoverage: The DDoS protection policy customizability of the public IP. Only standard coverage will have the
-ability to be customized.</p>
 </td>
 </tr>
 </tbody>
@@ -1146,7 +1104,7 @@ ability to be customized.</p>
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.PublicIPAddressPropertiesFormatARM">PublicIPAddressPropertiesFormatARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/DdosSettings">https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/DdosSettings</a></p>
+<p>Deprecated version of DdosSettings. Use v1beta20201101.DdosSettings instead</p>
 </div>
 <table>
 <thead>
@@ -1166,7 +1124,6 @@ SubResourceARM
 </em>
 </td>
 <td>
-<p>DdosCustomPolicy: The DDoS custom policy associated with the public IP.</p>
 </td>
 </tr>
 <tr>
@@ -1177,7 +1134,6 @@ bool
 </em>
 </td>
 <td>
-<p>ProtectedIP: Enables DDoS protection on the public IP.</p>
 </td>
 </tr>
 <tr>
@@ -1190,8 +1146,6 @@ DdosSettingsProtectionCoverage
 </em>
 </td>
 <td>
-<p>ProtectionCoverage: The DDoS protection policy customizability of the public IP. Only standard coverage will have the
-ability to be customized.</p>
 </td>
 </tr>
 </tbody>
@@ -1202,6 +1156,7 @@ ability to be customized.</p>
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.DdosSettings">DdosSettings</a>, <a href="#network.azure.com/v1alpha1api20201101.DdosSettingsARM">DdosSettingsARM</a>)
 </p>
 <div>
+<p>Deprecated version of DdosSettingsProtectionCoverage. Use v1beta20201101.DdosSettingsProtectionCoverage instead</p>
 </div>
 <table>
 <thead>
@@ -1222,6 +1177,8 @@ ability to be customized.</p>
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.DdosSettings_Status">DdosSettings_Status</a>, <a href="#network.azure.com/v1alpha1api20201101.DdosSettings_StatusARM">DdosSettings_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of DdosSettingsStatusProtectionCoverage. Use v1beta20201101.DdosSettingsStatusProtectionCoverage
+instead</p>
 </div>
 <table>
 <thead>
@@ -1242,6 +1199,7 @@ ability to be customized.</p>
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded">PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded</a>)
 </p>
 <div>
+<p>Deprecated version of DdosSettings_Status. Use v1beta20201101.DdosSettings_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1261,7 +1219,6 @@ SubResource_Status
 </em>
 </td>
 <td>
-<p>DdosCustomPolicy: The DDoS custom policy associated with the public IP.</p>
 </td>
 </tr>
 <tr>
@@ -1272,7 +1229,6 @@ bool
 </em>
 </td>
 <td>
-<p>ProtectedIP: Enables DDoS protection on the public IP.</p>
 </td>
 </tr>
 <tr>
@@ -1285,8 +1241,6 @@ DdosSettingsStatusProtectionCoverage
 </em>
 </td>
 <td>
-<p>ProtectionCoverage: The DDoS protection policy customizability of the public IP. Only standard coverage will have the
-ability to be customized.</p>
 </td>
 </tr>
 </tbody>
@@ -1297,6 +1251,7 @@ ability to be customized.</p>
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.PublicIPAddressPropertiesFormat_StatusARM">PublicIPAddressPropertiesFormat_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of DdosSettings_Status. Use v1beta20201101.DdosSettings_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1316,7 +1271,6 @@ SubResource_StatusARM
 </em>
 </td>
 <td>
-<p>DdosCustomPolicy: The DDoS custom policy associated with the public IP.</p>
 </td>
 </tr>
 <tr>
@@ -1327,7 +1281,6 @@ bool
 </em>
 </td>
 <td>
-<p>ProtectedIP: Enables DDoS protection on the public IP.</p>
 </td>
 </tr>
 <tr>
@@ -1340,8 +1293,6 @@ DdosSettingsStatusProtectionCoverage
 </em>
 </td>
 <td>
-<p>ProtectionCoverage: The DDoS protection policy customizability of the public IP. Only standard coverage will have the
-ability to be customized.</p>
 </td>
 </tr>
 </tbody>
@@ -1352,6 +1303,7 @@ ability to be customized.</p>
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded">Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded</a>)
 </p>
 <div>
+<p>Deprecated version of Delegation_Status. Use v1beta20201101.Delegation_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1369,7 +1321,6 @@ ability to be customized.</p>
 </em>
 </td>
 <td>
-<p>Actions: The actions permitted to the service upon delegation.</p>
 </td>
 </tr>
 <tr>
@@ -1380,7 +1331,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A unique read-only string that changes whenever the resource is updated.</p>
 </td>
 </tr>
 <tr>
@@ -1391,7 +1341,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 <tr>
@@ -1402,7 +1351,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource that is unique within a subnet. This name can be used to access the resource.</p>
 </td>
 </tr>
 <tr>
@@ -1415,7 +1363,6 @@ ProvisioningState_Status
 </em>
 </td>
 <td>
-<p>ProvisioningState: The provisioning state of the service delegation resource.</p>
 </td>
 </tr>
 <tr>
@@ -1426,7 +1373,6 @@ string
 </em>
 </td>
 <td>
-<p>ServiceName: The name of the service to whom the subnet should be delegated (e.g. Microsoft.Sql/servers).</p>
 </td>
 </tr>
 <tr>
@@ -1437,7 +1383,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: Resource type.</p>
 </td>
 </tr>
 </tbody>
@@ -1448,6 +1393,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.SubnetPropertiesFormat_StatusARM">SubnetPropertiesFormat_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of Delegation_Status. Use v1beta20201101.Delegation_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1465,7 +1411,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A unique read-only string that changes whenever the resource is updated.</p>
 </td>
 </tr>
 <tr>
@@ -1476,7 +1421,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 <tr>
@@ -1487,7 +1431,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource that is unique within a subnet. This name can be used to access the resource.</p>
 </td>
 </tr>
 <tr>
@@ -1500,7 +1443,6 @@ ServiceDelegationPropertiesFormat_StatusARM
 </em>
 </td>
 <td>
-<p>Properties: Properties of the subnet.</p>
 </td>
 </tr>
 <tr>
@@ -1511,7 +1453,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: Resource type.</p>
 </td>
 </tr>
 </tbody>
@@ -1522,6 +1463,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.IpsecPolicy_Status">IpsecPolicy_Status</a>, <a href="#network.azure.com/v1alpha1api20201101.IpsecPolicy_StatusARM">IpsecPolicy_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of DhGroup_Status. Use v1beta20201101.DhGroup_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1554,7 +1496,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworks_Spec">VirtualNetworks_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/DhcpOptions">https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/DhcpOptions</a></p>
+<p>Deprecated version of DhcpOptions. Use v1beta20201101.DhcpOptions instead</p>
 </div>
 <table>
 <thead>
@@ -1572,7 +1514,6 @@ string
 </em>
 </td>
 <td>
-<p>DnsServers: The list of DNS servers IP addresses.</p>
 </td>
 </tr>
 </tbody>
@@ -1583,7 +1524,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworks_Spec_PropertiesARM">VirtualNetworks_Spec_PropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/DhcpOptions">https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/DhcpOptions</a></p>
+<p>Deprecated version of DhcpOptions. Use v1beta20201101.DhcpOptions instead</p>
 </div>
 <table>
 <thead>
@@ -1601,7 +1542,6 @@ string
 </em>
 </td>
 <td>
-<p>DnsServers: The list of DNS servers IP addresses.</p>
 </td>
 </tr>
 </tbody>
@@ -1612,6 +1552,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetwork_Status">VirtualNetwork_Status</a>)
 </p>
 <div>
+<p>Deprecated version of DhcpOptions_Status. Use v1beta20201101.DhcpOptions_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1629,7 +1570,6 @@ string
 </em>
 </td>
 <td>
-<p>DnsServers: The list of DNS servers IP addresses.</p>
 </td>
 </tr>
 </tbody>
@@ -1640,6 +1580,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkPropertiesFormat_StatusARM">VirtualNetworkPropertiesFormat_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of DhcpOptions_Status. Use v1beta20201101.DhcpOptions_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1657,7 +1598,6 @@ string
 </em>
 </td>
 <td>
-<p>DnsServers: The list of DNS servers IP addresses.</p>
 </td>
 </tr>
 </tbody>
@@ -1668,7 +1608,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.LoadBalancers_Spec">LoadBalancers_Spec</a>, <a href="#network.azure.com/v1alpha1api20201101.NetworkInterfaces_Spec">NetworkInterfaces_Spec</a>, <a href="#network.azure.com/v1alpha1api20201101.PublicIPAddresses_Spec">PublicIPAddresses_Spec</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGateways_Spec">VirtualNetworkGateways_Spec</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworks_Spec">VirtualNetworks_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/ExtendedLocation">https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/ExtendedLocation</a></p>
+<p>Deprecated version of ExtendedLocation. Use v1beta20201101.ExtendedLocation instead</p>
 </div>
 <table>
 <thead>
@@ -1686,7 +1626,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the extended location.</p>
 </td>
 </tr>
 <tr>
@@ -1699,7 +1638,6 @@ ExtendedLocationType
 </em>
 </td>
 <td>
-<p>Type: The type of the extended location.</p>
 </td>
 </tr>
 </tbody>
@@ -1710,7 +1648,7 @@ ExtendedLocationType
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.LoadBalancers_SpecARM">LoadBalancers_SpecARM</a>, <a href="#network.azure.com/v1alpha1api20201101.NetworkInterfaces_SpecARM">NetworkInterfaces_SpecARM</a>, <a href="#network.azure.com/v1alpha1api20201101.PublicIPAddresses_SpecARM">PublicIPAddresses_SpecARM</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGateways_Spec_PropertiesARM">VirtualNetworkGateways_Spec_PropertiesARM</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworks_SpecARM">VirtualNetworks_SpecARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/ExtendedLocation">https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/ExtendedLocation</a></p>
+<p>Deprecated version of ExtendedLocation. Use v1beta20201101.ExtendedLocation instead</p>
 </div>
 <table>
 <thead>
@@ -1728,7 +1666,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the extended location.</p>
 </td>
 </tr>
 <tr>
@@ -1741,7 +1678,6 @@ ExtendedLocationType
 </em>
 </td>
 <td>
-<p>Type: The type of the extended location.</p>
 </td>
 </tr>
 </tbody>
@@ -1752,6 +1688,7 @@ ExtendedLocationType
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.ExtendedLocation">ExtendedLocation</a>, <a href="#network.azure.com/v1alpha1api20201101.ExtendedLocationARM">ExtendedLocationARM</a>)
 </p>
 <div>
+<p>Deprecated version of ExtendedLocationType. Use v1beta20201101.ExtendedLocationType instead</p>
 </div>
 <table>
 <thead>
@@ -1770,6 +1707,7 @@ ExtendedLocationType
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.ExtendedLocation_Status">ExtendedLocation_Status</a>, <a href="#network.azure.com/v1alpha1api20201101.ExtendedLocation_StatusARM">ExtendedLocation_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of ExtendedLocationType_Status. Use v1beta20201101.ExtendedLocationType_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1788,6 +1726,7 @@ ExtendedLocationType
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.LoadBalancer_Status">LoadBalancer_Status</a>, <a href="#network.azure.com/v1alpha1api20201101.NetworkInterface_Status_NetworkInterface_SubResourceEmbedded">NetworkInterface_Status_NetworkInterface_SubResourceEmbedded</a>, <a href="#network.azure.com/v1alpha1api20201101.NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded">NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded</a>, <a href="#network.azure.com/v1alpha1api20201101.PrivateEndpoint_Status_NetworkInterface_SubResourceEmbedded">PrivateEndpoint_Status_NetworkInterface_SubResourceEmbedded</a>, <a href="#network.azure.com/v1alpha1api20201101.PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded">PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded</a>, <a href="#network.azure.com/v1alpha1api20201101.PrivateLinkService_Status_NetworkInterface_SubResourceEmbedded">PrivateLinkService_Status_NetworkInterface_SubResourceEmbedded</a>, <a href="#network.azure.com/v1alpha1api20201101.PublicIPAddress_Status_LoadBalancer_SubResourceEmbedded">PublicIPAddress_Status_LoadBalancer_SubResourceEmbedded</a>, <a href="#network.azure.com/v1alpha1api20201101.PublicIPAddress_Status_NetworkInterface_SubResourceEmbedded">PublicIPAddress_Status_NetworkInterface_SubResourceEmbedded</a>, <a href="#network.azure.com/v1alpha1api20201101.PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded">PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded</a>, <a href="#network.azure.com/v1alpha1api20201101.PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded">PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGateway_Status">VirtualNetworkGateway_Status</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetwork_Status">VirtualNetwork_Status</a>)
 </p>
 <div>
+<p>Deprecated version of ExtendedLocation_Status. Use v1beta20201101.ExtendedLocation_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1805,7 +1744,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the extended location.</p>
 </td>
 </tr>
 <tr>
@@ -1818,7 +1756,6 @@ ExtendedLocationType_Status
 </em>
 </td>
 <td>
-<p>Type: The type of the extended location.</p>
 </td>
 </tr>
 </tbody>
@@ -1829,6 +1766,7 @@ ExtendedLocationType_Status
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.LoadBalancer_StatusARM">LoadBalancer_StatusARM</a>, <a href="#network.azure.com/v1alpha1api20201101.NetworkInterface_Status_NetworkInterface_SubResourceEmbeddedARM">NetworkInterface_Status_NetworkInterface_SubResourceEmbeddedARM</a>, <a href="#network.azure.com/v1alpha1api20201101.NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbeddedARM">NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbeddedARM</a>, <a href="#network.azure.com/v1alpha1api20201101.PrivateEndpoint_Status_NetworkInterface_SubResourceEmbeddedARM">PrivateEndpoint_Status_NetworkInterface_SubResourceEmbeddedARM</a>, <a href="#network.azure.com/v1alpha1api20201101.PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM">PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM</a>, <a href="#network.azure.com/v1alpha1api20201101.PrivateLinkService_Status_NetworkInterface_SubResourceEmbeddedARM">PrivateLinkService_Status_NetworkInterface_SubResourceEmbeddedARM</a>, <a href="#network.azure.com/v1alpha1api20201101.PublicIPAddress_Status_LoadBalancer_SubResourceEmbeddedARM">PublicIPAddress_Status_LoadBalancer_SubResourceEmbeddedARM</a>, <a href="#network.azure.com/v1alpha1api20201101.PublicIPAddress_Status_NetworkInterface_SubResourceEmbeddedARM">PublicIPAddress_Status_NetworkInterface_SubResourceEmbeddedARM</a>, <a href="#network.azure.com/v1alpha1api20201101.PublicIPAddress_Status_PublicIPAddress_SubResourceEmbeddedARM">PublicIPAddress_Status_PublicIPAddress_SubResourceEmbeddedARM</a>, <a href="#network.azure.com/v1alpha1api20201101.PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM">PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGateway_StatusARM">VirtualNetworkGateway_StatusARM</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetwork_StatusARM">VirtualNetwork_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of ExtendedLocation_Status. Use v1beta20201101.ExtendedLocation_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1846,7 +1784,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the extended location.</p>
 </td>
 </tr>
 <tr>
@@ -1859,7 +1796,6 @@ ExtendedLocationType_Status
 </em>
 </td>
 <td>
-<p>Type: The type of the extended location.</p>
 </td>
 </tr>
 </tbody>
@@ -1870,6 +1806,7 @@ ExtendedLocationType_Status
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded">NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded</a>)
 </p>
 <div>
+<p>Deprecated version of FlowLog_Status_SubResourceEmbedded. Use v1beta20201101.FlowLog_Status_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -1887,7 +1824,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 </tbody>
@@ -1898,6 +1834,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.NetworkSecurityGroupPropertiesFormat_StatusARM">NetworkSecurityGroupPropertiesFormat_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of FlowLog_Status_SubResourceEmbedded. Use v1beta20201101.FlowLog_Status_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -1915,7 +1852,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 </tbody>
@@ -1926,7 +1862,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.LoadBalancers_Spec_Properties_FrontendIPConfigurationsARM">LoadBalancers_Spec_Properties_FrontendIPConfigurationsARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/FrontendIPConfigurationPropertiesFormat">https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/FrontendIPConfigurationPropertiesFormat</a></p>
+<p>Deprecated version of FrontendIPConfigurationPropertiesFormat. Use v1beta20201101.FrontendIPConfigurationPropertiesFormat instead</p>
 </div>
 <table>
 <thead>
@@ -1944,7 +1880,6 @@ string
 </em>
 </td>
 <td>
-<p>PrivateIPAddress: The private IP address of the IP configuration.</p>
 </td>
 </tr>
 <tr>
@@ -1957,7 +1892,6 @@ FrontendIPConfigurationPropertiesFormatPrivateIPAddressVersion
 </em>
 </td>
 <td>
-<p>PrivateIPAddressVersion: Whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.</p>
 </td>
 </tr>
 <tr>
@@ -1970,7 +1904,6 @@ FrontendIPConfigurationPropertiesFormatPrivateIPAllocationMethod
 </em>
 </td>
 <td>
-<p>PrivateIPAllocationMethod: The Private IP allocation method.</p>
 </td>
 </tr>
 <tr>
@@ -1983,7 +1916,6 @@ SubResourceARM
 </em>
 </td>
 <td>
-<p>PublicIPAddress: The reference to the Public IP resource.</p>
 </td>
 </tr>
 <tr>
@@ -1996,7 +1928,6 @@ SubResourceARM
 </em>
 </td>
 <td>
-<p>PublicIPPrefix: The reference to the Public IP Prefix resource.</p>
 </td>
 </tr>
 <tr>
@@ -2009,7 +1940,6 @@ SubResourceARM
 </em>
 </td>
 <td>
-<p>Subnet: The reference to the subnet resource.</p>
 </td>
 </tr>
 </tbody>
@@ -2020,6 +1950,8 @@ SubResourceARM
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.FrontendIPConfigurationPropertiesFormatARM">FrontendIPConfigurationPropertiesFormatARM</a>, <a href="#network.azure.com/v1alpha1api20201101.LoadBalancers_Spec_Properties_FrontendIPConfigurations">LoadBalancers_Spec_Properties_FrontendIPConfigurations</a>)
 </p>
 <div>
+<p>Deprecated version of FrontendIPConfigurationPropertiesFormatPrivateIPAddressVersion. Use
+v1beta20201101.FrontendIPConfigurationPropertiesFormatPrivateIPAddressVersion instead</p>
 </div>
 <table>
 <thead>
@@ -2040,6 +1972,8 @@ SubResourceARM
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.FrontendIPConfigurationPropertiesFormatARM">FrontendIPConfigurationPropertiesFormatARM</a>, <a href="#network.azure.com/v1alpha1api20201101.LoadBalancers_Spec_Properties_FrontendIPConfigurations">LoadBalancers_Spec_Properties_FrontendIPConfigurations</a>)
 </p>
 <div>
+<p>Deprecated version of FrontendIPConfigurationPropertiesFormatPrivateIPAllocationMethod. Use
+v1beta20201101.FrontendIPConfigurationPropertiesFormatPrivateIPAllocationMethod instead</p>
 </div>
 <table>
 <thead>
@@ -2060,6 +1994,7 @@ SubResourceARM
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbeddedARM">FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbeddedARM</a>)
 </p>
 <div>
+<p>Deprecated version of FrontendIPConfigurationPropertiesFormat_Status_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.FrontendIPConfigurationPropertiesFormat_Status_LoadBalancer_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -2079,7 +2014,6 @@ SubResourceARM
 </em>
 </td>
 <td>
-<p>InboundNatPools: An array of references to inbound pools that use this frontend IP.</p>
 </td>
 </tr>
 <tr>
@@ -2092,7 +2026,6 @@ SubResourceARM
 </em>
 </td>
 <td>
-<p>InboundNatRules: An array of references to inbound rules that use this frontend IP.</p>
 </td>
 </tr>
 <tr>
@@ -2105,7 +2038,6 @@ SubResourceARM
 </em>
 </td>
 <td>
-<p>LoadBalancingRules: An array of references to load balancing rules that use this frontend IP.</p>
 </td>
 </tr>
 <tr>
@@ -2118,7 +2050,6 @@ SubResourceARM
 </em>
 </td>
 <td>
-<p>OutboundRules: An array of references to outbound rules that use this frontend IP.</p>
 </td>
 </tr>
 <tr>
@@ -2129,7 +2060,6 @@ string
 </em>
 </td>
 <td>
-<p>PrivateIPAddress: The private IP address of the IP configuration.</p>
 </td>
 </tr>
 <tr>
@@ -2142,7 +2072,6 @@ IPVersion_Status
 </em>
 </td>
 <td>
-<p>PrivateIPAddressVersion: Whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.</p>
 </td>
 </tr>
 <tr>
@@ -2155,7 +2084,6 @@ IPAllocationMethod_Status
 </em>
 </td>
 <td>
-<p>PrivateIPAllocationMethod: The Private IP allocation method.</p>
 </td>
 </tr>
 <tr>
@@ -2168,7 +2096,6 @@ ProvisioningState_Status
 </em>
 </td>
 <td>
-<p>ProvisioningState: The provisioning state of the frontend IP configuration resource.</p>
 </td>
 </tr>
 <tr>
@@ -2181,7 +2108,6 @@ PublicIPAddress_Status_LoadBalancer_SubResourceEmbeddedARM
 </em>
 </td>
 <td>
-<p>PublicIPAddress: The reference to the Public IP resource.</p>
 </td>
 </tr>
 <tr>
@@ -2194,7 +2120,6 @@ SubResource_StatusARM
 </em>
 </td>
 <td>
-<p>PublicIPPrefix: The reference to the Public IP Prefix resource.</p>
 </td>
 </tr>
 <tr>
@@ -2207,7 +2132,6 @@ Subnet_Status_LoadBalancer_SubResourceEmbeddedARM
 </em>
 </td>
 <td>
-<p>Subnet: The reference to the subnet resource.</p>
 </td>
 </tr>
 </tbody>
@@ -2218,6 +2142,7 @@ Subnet_Status_LoadBalancer_SubResourceEmbeddedARM
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.LoadBalancer_Status">LoadBalancer_Status</a>)
 </p>
 <div>
+<p>Deprecated version of FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -2235,7 +2160,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A unique read-only string that changes whenever the resource is updated.</p>
 </td>
 </tr>
 <tr>
@@ -2246,7 +2170,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 <tr>
@@ -2259,7 +2182,6 @@ string
 </em>
 </td>
 <td>
-<p>InboundNatPools: An array of references to inbound pools that use this frontend IP.</p>
 </td>
 </tr>
 <tr>
@@ -2272,7 +2194,6 @@ string
 </em>
 </td>
 <td>
-<p>InboundNatRules: An array of references to inbound rules that use this frontend IP.</p>
 </td>
 </tr>
 <tr>
@@ -2285,7 +2206,6 @@ string
 </em>
 </td>
 <td>
-<p>LoadBalancingRules: An array of references to load balancing rules that use this frontend IP.</p>
 </td>
 </tr>
 <tr>
@@ -2296,8 +2216,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource that is unique within the set of frontend IP configurations used by the load balancer.
-This name can be used to access the resource.</p>
 </td>
 </tr>
 <tr>
@@ -2310,7 +2228,6 @@ This name can be used to access the resource.</p>
 </em>
 </td>
 <td>
-<p>OutboundRules: An array of references to outbound rules that use this frontend IP.</p>
 </td>
 </tr>
 <tr>
@@ -2321,7 +2238,6 @@ string
 </em>
 </td>
 <td>
-<p>PrivateIPAddress: The private IP address of the IP configuration.</p>
 </td>
 </tr>
 <tr>
@@ -2334,7 +2250,6 @@ IPVersion_Status
 </em>
 </td>
 <td>
-<p>PrivateIPAddressVersion: Whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.</p>
 </td>
 </tr>
 <tr>
@@ -2347,7 +2262,6 @@ IPAllocationMethod_Status
 </em>
 </td>
 <td>
-<p>PrivateIPAllocationMethod: The Private IP allocation method.</p>
 </td>
 </tr>
 <tr>
@@ -2360,7 +2274,6 @@ ProvisioningState_Status
 </em>
 </td>
 <td>
-<p>ProvisioningState: The provisioning state of the frontend IP configuration resource.</p>
 </td>
 </tr>
 <tr>
@@ -2373,7 +2286,6 @@ PublicIPAddress_Status_LoadBalancer_SubResourceEmbedded
 </em>
 </td>
 <td>
-<p>PublicIPAddress: The reference to the Public IP resource.</p>
 </td>
 </tr>
 <tr>
@@ -2386,7 +2298,6 @@ SubResource_Status
 </em>
 </td>
 <td>
-<p>PublicIPPrefix: The reference to the Public IP Prefix resource.</p>
 </td>
 </tr>
 <tr>
@@ -2399,7 +2310,6 @@ Subnet_Status_LoadBalancer_SubResourceEmbedded
 </em>
 </td>
 <td>
-<p>Subnet: The reference to the subnet resource.</p>
 </td>
 </tr>
 <tr>
@@ -2410,7 +2320,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: Type of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -2421,7 +2330,6 @@ string
 </em>
 </td>
 <td>
-<p>Zones: A list of availability zones denoting the IP allocated for the resource needs to come from.</p>
 </td>
 </tr>
 </tbody>
@@ -2432,6 +2340,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.LoadBalancerPropertiesFormat_StatusARM">LoadBalancerPropertiesFormat_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -2449,7 +2358,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A unique read-only string that changes whenever the resource is updated.</p>
 </td>
 </tr>
 <tr>
@@ -2460,7 +2368,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 <tr>
@@ -2471,8 +2378,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource that is unique within the set of frontend IP configurations used by the load balancer.
-This name can be used to access the resource.</p>
 </td>
 </tr>
 <tr>
@@ -2485,7 +2390,6 @@ FrontendIPConfigurationPropertiesFormat_Status_LoadBalancer_SubResourceEmbeddedA
 </em>
 </td>
 <td>
-<p>Properties: Properties of the load balancer probe.</p>
 </td>
 </tr>
 <tr>
@@ -2496,7 +2400,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: Type of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -2507,7 +2410,6 @@ string
 </em>
 </td>
 <td>
-<p>Zones: A list of availability zones denoting the IP allocated for the resource needs to come from.</p>
 </td>
 </tr>
 </tbody>
@@ -2518,6 +2420,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.FrontendIPConfigurationPropertiesFormat_Status_LoadBalancer_SubResourceEmbeddedARM">FrontendIPConfigurationPropertiesFormat_Status_LoadBalancer_SubResourceEmbeddedARM</a>, <a href="#network.azure.com/v1alpha1api20201101.FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded">FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded</a>, <a href="#network.azure.com/v1alpha1api20201101.IPConfigurationPropertiesFormat_Status_PublicIPAddress_SubResourceEmbeddedARM">IPConfigurationPropertiesFormat_Status_PublicIPAddress_SubResourceEmbeddedARM</a>, <a href="#network.azure.com/v1alpha1api20201101.IPConfigurationPropertiesFormat_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM">IPConfigurationPropertiesFormat_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM</a>, <a href="#network.azure.com/v1alpha1api20201101.IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded">IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded</a>, <a href="#network.azure.com/v1alpha1api20201101.IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded">IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded</a>, <a href="#network.azure.com/v1alpha1api20201101.NetworkInterfaceIPConfigurationPropertiesFormat_Status_NetworkInterface_SubResourceEmbeddedARM">NetworkInterfaceIPConfigurationPropertiesFormat_Status_NetworkInterface_SubResourceEmbeddedARM</a>, <a href="#network.azure.com/v1alpha1api20201101.NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResourceEmbedded">NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResourceEmbedded</a>, <a href="#network.azure.com/v1alpha1api20201101.PublicIPAddressPropertiesFormat_StatusARM">PublicIPAddressPropertiesFormat_StatusARM</a>, <a href="#network.azure.com/v1alpha1api20201101.PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded">PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGatewayIPConfigurationPropertiesFormat_StatusARM">VirtualNetworkGatewayIPConfigurationPropertiesFormat_StatusARM</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGatewayIPConfiguration_Status">VirtualNetworkGatewayIPConfiguration_Status</a>)
 </p>
 <div>
+<p>Deprecated version of IPAllocationMethod_Status. Use v1beta20201101.IPAllocationMethod_Status instead</p>
 </div>
 <table>
 <thead>
@@ -2538,7 +2441,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.BgpSettings">BgpSettings</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/IPConfigurationBgpPeeringAddress">https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/IPConfigurationBgpPeeringAddress</a></p>
+<p>Deprecated version of IPConfigurationBgpPeeringAddress. Use v1beta20201101.IPConfigurationBgpPeeringAddress instead</p>
 </div>
 <table>
 <thead>
@@ -2556,7 +2459,6 @@ string
 </em>
 </td>
 <td>
-<p>CustomBgpIpAddresses: The list of custom BGP peering addresses which belong to IP configuration.</p>
 </td>
 </tr>
 <tr>
@@ -2567,7 +2469,6 @@ string
 </em>
 </td>
 <td>
-<p>IpconfigurationId: The ID of IP configuration which belongs to gateway.</p>
 </td>
 </tr>
 </tbody>
@@ -2578,7 +2479,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.BgpSettingsARM">BgpSettingsARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/IPConfigurationBgpPeeringAddress">https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/IPConfigurationBgpPeeringAddress</a></p>
+<p>Deprecated version of IPConfigurationBgpPeeringAddress. Use v1beta20201101.IPConfigurationBgpPeeringAddress instead</p>
 </div>
 <table>
 <thead>
@@ -2596,7 +2497,6 @@ string
 </em>
 </td>
 <td>
-<p>CustomBgpIpAddresses: The list of custom BGP peering addresses which belong to IP configuration.</p>
 </td>
 </tr>
 <tr>
@@ -2607,7 +2507,6 @@ string
 </em>
 </td>
 <td>
-<p>IpconfigurationId: The ID of IP configuration which belongs to gateway.</p>
 </td>
 </tr>
 </tbody>
@@ -2618,6 +2517,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.BgpSettings_Status">BgpSettings_Status</a>)
 </p>
 <div>
+<p>Deprecated version of IPConfigurationBgpPeeringAddress_Status. Use v1beta20201101.IPConfigurationBgpPeeringAddress_Status instead</p>
 </div>
 <table>
 <thead>
@@ -2635,7 +2535,6 @@ string
 </em>
 </td>
 <td>
-<p>CustomBgpIpAddresses: The list of custom BGP peering addresses which belong to IP configuration.</p>
 </td>
 </tr>
 <tr>
@@ -2646,7 +2545,6 @@ string
 </em>
 </td>
 <td>
-<p>DefaultBgpIpAddresses: The list of default BGP peering addresses which belong to IP configuration.</p>
 </td>
 </tr>
 <tr>
@@ -2657,7 +2555,6 @@ string
 </em>
 </td>
 <td>
-<p>IpconfigurationId: The ID of IP configuration which belongs to gateway.</p>
 </td>
 </tr>
 <tr>
@@ -2668,7 +2565,6 @@ string
 </em>
 </td>
 <td>
-<p>TunnelIpAddresses: The list of tunnel public IP addresses which belong to IP configuration.</p>
 </td>
 </tr>
 </tbody>
@@ -2679,6 +2575,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.BgpSettings_StatusARM">BgpSettings_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of IPConfigurationBgpPeeringAddress_Status. Use v1beta20201101.IPConfigurationBgpPeeringAddress_Status instead</p>
 </div>
 <table>
 <thead>
@@ -2696,7 +2593,6 @@ string
 </em>
 </td>
 <td>
-<p>CustomBgpIpAddresses: The list of custom BGP peering addresses which belong to IP configuration.</p>
 </td>
 </tr>
 <tr>
@@ -2707,7 +2603,6 @@ string
 </em>
 </td>
 <td>
-<p>DefaultBgpIpAddresses: The list of default BGP peering addresses which belong to IP configuration.</p>
 </td>
 </tr>
 <tr>
@@ -2718,7 +2613,6 @@ string
 </em>
 </td>
 <td>
-<p>IpconfigurationId: The ID of IP configuration which belongs to gateway.</p>
 </td>
 </tr>
 <tr>
@@ -2729,7 +2623,6 @@ string
 </em>
 </td>
 <td>
-<p>TunnelIpAddresses: The list of tunnel public IP addresses which belong to IP configuration.</p>
 </td>
 </tr>
 </tbody>
@@ -2740,6 +2633,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM">IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM</a>)
 </p>
 <div>
+<p>Deprecated version of IPConfigurationProfilePropertiesFormat_Status_VirtualNetworksSubnet_SubResourceEmbedded. Use v1beta20201101.IPConfigurationProfilePropertiesFormat_Status_VirtualNetworksSubnet_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -2759,7 +2653,6 @@ ProvisioningState_Status
 </em>
 </td>
 <td>
-<p>ProvisioningState: The provisioning state of the IP configuration profile resource.</p>
 </td>
 </tr>
 </tbody>
@@ -2770,6 +2663,7 @@ ProvisioningState_Status
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded">Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded</a>)
 </p>
 <div>
+<p>Deprecated version of IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded. Use v1beta20201101.IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -2787,7 +2681,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A unique read-only string that changes whenever the resource is updated.</p>
 </td>
 </tr>
 <tr>
@@ -2798,7 +2691,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 <tr>
@@ -2809,7 +2701,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource. This name can be used to access the resource.</p>
 </td>
 </tr>
 <tr>
@@ -2822,7 +2713,6 @@ ProvisioningState_Status
 </em>
 </td>
 <td>
-<p>ProvisioningState: The provisioning state of the IP configuration profile resource.</p>
 </td>
 </tr>
 <tr>
@@ -2833,7 +2723,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: Sub Resource type.</p>
 </td>
 </tr>
 </tbody>
@@ -2844,6 +2733,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.SubnetPropertiesFormat_StatusARM">SubnetPropertiesFormat_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded. Use v1beta20201101.IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -2861,7 +2751,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A unique read-only string that changes whenever the resource is updated.</p>
 </td>
 </tr>
 <tr>
@@ -2872,7 +2761,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 <tr>
@@ -2883,7 +2771,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource. This name can be used to access the resource.</p>
 </td>
 </tr>
 <tr>
@@ -2896,7 +2783,6 @@ IPConfigurationProfilePropertiesFormat_Status_VirtualNetworksSubnet_SubResourceE
 </em>
 </td>
 <td>
-<p>Properties: Properties of the IP configuration profile.</p>
 </td>
 </tr>
 <tr>
@@ -2907,7 +2793,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: Sub Resource type.</p>
 </td>
 </tr>
 </tbody>
@@ -2918,6 +2803,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.IPConfiguration_Status_PublicIPAddress_SubResourceEmbeddedARM">IPConfiguration_Status_PublicIPAddress_SubResourceEmbeddedARM</a>)
 </p>
 <div>
+<p>Deprecated version of IPConfigurationPropertiesFormat_Status_PublicIPAddress_SubResourceEmbedded. Use v1beta20201101.IPConfigurationPropertiesFormat_Status_PublicIPAddress_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -2935,7 +2821,6 @@ string
 </em>
 </td>
 <td>
-<p>PrivateIPAddress: The private IP address of the IP configuration.</p>
 </td>
 </tr>
 <tr>
@@ -2948,7 +2833,6 @@ IPAllocationMethod_Status
 </em>
 </td>
 <td>
-<p>PrivateIPAllocationMethod: The private IP address allocation method.</p>
 </td>
 </tr>
 <tr>
@@ -2961,7 +2845,6 @@ ProvisioningState_Status
 </em>
 </td>
 <td>
-<p>ProvisioningState: The provisioning state of the IP configuration resource.</p>
 </td>
 </tr>
 <tr>
@@ -2974,7 +2857,6 @@ Subnet_Status_PublicIPAddress_SubResourceEmbeddedARM
 </em>
 </td>
 <td>
-<p>Subnet: The reference to the subnet resource.</p>
 </td>
 </tr>
 </tbody>
@@ -2985,6 +2867,7 @@ Subnet_Status_PublicIPAddress_SubResourceEmbeddedARM
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM">IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM</a>)
 </p>
 <div>
+<p>Deprecated version of IPConfigurationPropertiesFormat_Status_VirtualNetworksSubnet_SubResourceEmbedded. Use v1beta20201101.IPConfigurationPropertiesFormat_Status_VirtualNetworksSubnet_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -3002,7 +2885,6 @@ string
 </em>
 </td>
 <td>
-<p>PrivateIPAddress: The private IP address of the IP configuration.</p>
 </td>
 </tr>
 <tr>
@@ -3015,7 +2897,6 @@ IPAllocationMethod_Status
 </em>
 </td>
 <td>
-<p>PrivateIPAllocationMethod: The private IP address allocation method.</p>
 </td>
 </tr>
 <tr>
@@ -3028,7 +2909,6 @@ ProvisioningState_Status
 </em>
 </td>
 <td>
-<p>ProvisioningState: The provisioning state of the IP configuration resource.</p>
 </td>
 </tr>
 <tr>
@@ -3041,7 +2921,6 @@ PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM
 </em>
 </td>
 <td>
-<p>PublicIPAddress: The reference to the public IP resource.</p>
 </td>
 </tr>
 </tbody>
@@ -3052,6 +2931,7 @@ PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded">PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded</a>)
 </p>
 <div>
+<p>Deprecated version of IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded. Use v1beta20201101.IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -3069,7 +2949,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A unique read-only string that changes whenever the resource is updated.</p>
 </td>
 </tr>
 <tr>
@@ -3080,7 +2959,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 <tr>
@@ -3091,7 +2969,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.</p>
 </td>
 </tr>
 <tr>
@@ -3102,7 +2979,6 @@ string
 </em>
 </td>
 <td>
-<p>PrivateIPAddress: The private IP address of the IP configuration.</p>
 </td>
 </tr>
 <tr>
@@ -3115,7 +2991,6 @@ IPAllocationMethod_Status
 </em>
 </td>
 <td>
-<p>PrivateIPAllocationMethod: The private IP address allocation method.</p>
 </td>
 </tr>
 <tr>
@@ -3128,7 +3003,6 @@ ProvisioningState_Status
 </em>
 </td>
 <td>
-<p>ProvisioningState: The provisioning state of the IP configuration resource.</p>
 </td>
 </tr>
 <tr>
@@ -3141,7 +3015,6 @@ Subnet_Status_PublicIPAddress_SubResourceEmbedded
 </em>
 </td>
 <td>
-<p>Subnet: The reference to the subnet resource.</p>
 </td>
 </tr>
 </tbody>
@@ -3152,6 +3025,7 @@ Subnet_Status_PublicIPAddress_SubResourceEmbedded
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.PublicIPAddressPropertiesFormat_StatusARM">PublicIPAddressPropertiesFormat_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded. Use v1beta20201101.IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -3169,7 +3043,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A unique read-only string that changes whenever the resource is updated.</p>
 </td>
 </tr>
 <tr>
@@ -3180,7 +3053,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 <tr>
@@ -3191,7 +3063,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.</p>
 </td>
 </tr>
 <tr>
@@ -3204,7 +3075,6 @@ IPConfigurationPropertiesFormat_Status_PublicIPAddress_SubResourceEmbeddedARM
 </em>
 </td>
 <td>
-<p>Properties: Properties of the IP configuration.</p>
 </td>
 </tr>
 </tbody>
@@ -3215,6 +3085,7 @@ IPConfigurationPropertiesFormat_Status_PublicIPAddress_SubResourceEmbeddedARM
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded">Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded</a>)
 </p>
 <div>
+<p>Deprecated version of IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded. Use v1beta20201101.IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -3232,7 +3103,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A unique read-only string that changes whenever the resource is updated.</p>
 </td>
 </tr>
 <tr>
@@ -3243,7 +3113,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 <tr>
@@ -3254,7 +3123,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.</p>
 </td>
 </tr>
 <tr>
@@ -3265,7 +3133,6 @@ string
 </em>
 </td>
 <td>
-<p>PrivateIPAddress: The private IP address of the IP configuration.</p>
 </td>
 </tr>
 <tr>
@@ -3278,7 +3145,6 @@ IPAllocationMethod_Status
 </em>
 </td>
 <td>
-<p>PrivateIPAllocationMethod: The private IP address allocation method.</p>
 </td>
 </tr>
 <tr>
@@ -3291,7 +3157,6 @@ ProvisioningState_Status
 </em>
 </td>
 <td>
-<p>ProvisioningState: The provisioning state of the IP configuration resource.</p>
 </td>
 </tr>
 <tr>
@@ -3304,7 +3169,6 @@ PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded
 </em>
 </td>
 <td>
-<p>PublicIPAddress: The reference to the public IP resource.</p>
 </td>
 </tr>
 </tbody>
@@ -3315,6 +3179,7 @@ PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.SubnetPropertiesFormat_StatusARM">SubnetPropertiesFormat_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded. Use v1beta20201101.IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -3332,7 +3197,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A unique read-only string that changes whenever the resource is updated.</p>
 </td>
 </tr>
 <tr>
@@ -3343,7 +3207,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 <tr>
@@ -3354,7 +3217,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.</p>
 </td>
 </tr>
 <tr>
@@ -3367,7 +3229,6 @@ IPConfigurationPropertiesFormat_Status_VirtualNetworksSubnet_SubResourceEmbedded
 </em>
 </td>
 <td>
-<p>Properties: Properties of the IP configuration.</p>
 </td>
 </tr>
 </tbody>
@@ -3378,6 +3239,7 @@ IPConfigurationPropertiesFormat_Status_VirtualNetworksSubnet_SubResourceEmbedded
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.FrontendIPConfigurationPropertiesFormat_Status_LoadBalancer_SubResourceEmbeddedARM">FrontendIPConfigurationPropertiesFormat_Status_LoadBalancer_SubResourceEmbeddedARM</a>, <a href="#network.azure.com/v1alpha1api20201101.FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded">FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded</a>, <a href="#network.azure.com/v1alpha1api20201101.NetworkInterfaceIPConfigurationPropertiesFormat_Status_NetworkInterface_SubResourceEmbeddedARM">NetworkInterfaceIPConfigurationPropertiesFormat_Status_NetworkInterface_SubResourceEmbeddedARM</a>, <a href="#network.azure.com/v1alpha1api20201101.NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResourceEmbedded">NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResourceEmbedded</a>, <a href="#network.azure.com/v1alpha1api20201101.PublicIPAddressPropertiesFormat_StatusARM">PublicIPAddressPropertiesFormat_StatusARM</a>, <a href="#network.azure.com/v1alpha1api20201101.PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded">PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded</a>)
 </p>
 <div>
+<p>Deprecated version of IPVersion_Status. Use v1beta20201101.IPVersion_Status instead</p>
 </div>
 <table>
 <thead>
@@ -3398,6 +3260,7 @@ IPConfigurationPropertiesFormat_Status_VirtualNetworksSubnet_SubResourceEmbedded
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.IpsecPolicy_Status">IpsecPolicy_Status</a>, <a href="#network.azure.com/v1alpha1api20201101.IpsecPolicy_StatusARM">IpsecPolicy_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of IkeEncryption_Status. Use v1beta20201101.IkeEncryption_Status instead</p>
 </div>
 <table>
 <thead>
@@ -3428,6 +3291,7 @@ IPConfigurationPropertiesFormat_Status_VirtualNetworksSubnet_SubResourceEmbedded
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.IpsecPolicy_Status">IpsecPolicy_Status</a>, <a href="#network.azure.com/v1alpha1api20201101.IpsecPolicy_StatusARM">IpsecPolicy_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of IkeIntegrity_Status. Use v1beta20201101.IkeIntegrity_Status instead</p>
 </div>
 <table>
 <thead>
@@ -3456,7 +3320,7 @@ IPConfigurationPropertiesFormat_Status_VirtualNetworksSubnet_SubResourceEmbedded
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.LoadBalancers_Spec_Properties_InboundNatPoolsARM">LoadBalancers_Spec_Properties_InboundNatPoolsARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/InboundNatPoolPropertiesFormat">https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/InboundNatPoolPropertiesFormat</a></p>
+<p>Deprecated version of InboundNatPoolPropertiesFormat. Use v1beta20201101.InboundNatPoolPropertiesFormat instead</p>
 </div>
 <table>
 <thead>
@@ -3474,7 +3338,6 @@ int
 </em>
 </td>
 <td>
-<p>BackendPort: The port used for internal connections on the endpoint. Acceptable values are between 1 and 65535.</p>
 </td>
 </tr>
 <tr>
@@ -3485,9 +3348,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableFloatingIP: Configures a virtual machine&rsquo;s endpoint for the floating IP capability required to configure a SQL
-AlwaysOn Availability Group. This setting is required when using the SQL AlwaysOn Availability Groups in SQL server.
-This setting can&rsquo;t be changed after you create the endpoint.</p>
 </td>
 </tr>
 <tr>
@@ -3498,8 +3358,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableTcpReset: Receive bidirectional TCP Reset on TCP flow idle timeout or unexpected connection termination. This
-element is only used when the protocol is set to TCP.</p>
 </td>
 </tr>
 <tr>
@@ -3512,7 +3370,6 @@ SubResourceARM
 </em>
 </td>
 <td>
-<p>FrontendIPConfiguration: A reference to frontend IP addresses.</p>
 </td>
 </tr>
 <tr>
@@ -3523,8 +3380,6 @@ int
 </em>
 </td>
 <td>
-<p>FrontendPortRangeEnd: The last port number in the range of external ports that will be used to provide Inbound Nat to
-NICs associated with a load balancer. Acceptable values range between 1 and 65535.</p>
 </td>
 </tr>
 <tr>
@@ -3535,8 +3390,6 @@ int
 </em>
 </td>
 <td>
-<p>FrontendPortRangeStart: The first port number in the range of external ports that will be used to provide Inbound Nat to
-NICs associated with a load balancer. Acceptable values range between 1 and 65534.</p>
 </td>
 </tr>
 <tr>
@@ -3547,8 +3400,6 @@ int
 </em>
 </td>
 <td>
-<p>IdleTimeoutInMinutes: The timeout for the TCP idle connection. The value can be set between 4 and 30 minutes. The
-default value is 4 minutes. This element is only used when the protocol is set to TCP.</p>
 </td>
 </tr>
 <tr>
@@ -3561,7 +3412,6 @@ InboundNatPoolPropertiesFormatProtocol
 </em>
 </td>
 <td>
-<p>Protocol: The reference to the transport protocol used by the inbound NAT pool.</p>
 </td>
 </tr>
 </tbody>
@@ -3572,6 +3422,8 @@ InboundNatPoolPropertiesFormatProtocol
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.InboundNatPoolPropertiesFormatARM">InboundNatPoolPropertiesFormatARM</a>, <a href="#network.azure.com/v1alpha1api20201101.LoadBalancers_Spec_Properties_InboundNatPools">LoadBalancers_Spec_Properties_InboundNatPools</a>)
 </p>
 <div>
+<p>Deprecated version of InboundNatPoolPropertiesFormatProtocol. Use v1beta20201101.InboundNatPoolPropertiesFormatProtocol
+instead</p>
 </div>
 <table>
 <thead>
@@ -3594,6 +3446,7 @@ InboundNatPoolPropertiesFormatProtocol
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.InboundNatPool_StatusARM">InboundNatPool_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of InboundNatPoolPropertiesFormat_Status. Use v1beta20201101.InboundNatPoolPropertiesFormat_Status instead</p>
 </div>
 <table>
 <thead>
@@ -3611,7 +3464,6 @@ int
 </em>
 </td>
 <td>
-<p>BackendPort: The port used for internal connections on the endpoint. Acceptable values are between 1 and 65535.</p>
 </td>
 </tr>
 <tr>
@@ -3622,9 +3474,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableFloatingIP: Configures a virtual machine&rsquo;s endpoint for the floating IP capability required to configure a SQL
-AlwaysOn Availability Group. This setting is required when using the SQL AlwaysOn Availability Groups in SQL server.
-This setting can&rsquo;t be changed after you create the endpoint.</p>
 </td>
 </tr>
 <tr>
@@ -3635,8 +3484,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableTcpReset: Receive bidirectional TCP Reset on TCP flow idle timeout or unexpected connection termination. This
-element is only used when the protocol is set to TCP.</p>
 </td>
 </tr>
 <tr>
@@ -3649,7 +3496,6 @@ SubResource_StatusARM
 </em>
 </td>
 <td>
-<p>FrontendIPConfiguration: A reference to frontend IP addresses.</p>
 </td>
 </tr>
 <tr>
@@ -3660,8 +3506,6 @@ int
 </em>
 </td>
 <td>
-<p>FrontendPortRangeEnd: The last port number in the range of external ports that will be used to provide Inbound Nat to
-NICs associated with a load balancer. Acceptable values range between 1 and 65535.</p>
 </td>
 </tr>
 <tr>
@@ -3672,8 +3516,6 @@ int
 </em>
 </td>
 <td>
-<p>FrontendPortRangeStart: The first port number in the range of external ports that will be used to provide Inbound Nat to
-NICs associated with a load balancer. Acceptable values range between 1 and 65534.</p>
 </td>
 </tr>
 <tr>
@@ -3684,8 +3526,6 @@ int
 </em>
 </td>
 <td>
-<p>IdleTimeoutInMinutes: The timeout for the TCP idle connection. The value can be set between 4 and 30 minutes. The
-default value is 4 minutes. This element is only used when the protocol is set to TCP.</p>
 </td>
 </tr>
 <tr>
@@ -3698,7 +3538,6 @@ TransportProtocol_Status
 </em>
 </td>
 <td>
-<p>Protocol: The reference to the transport protocol used by the inbound NAT pool.</p>
 </td>
 </tr>
 <tr>
@@ -3711,7 +3550,6 @@ ProvisioningState_Status
 </em>
 </td>
 <td>
-<p>ProvisioningState: The provisioning state of the inbound NAT pool resource.</p>
 </td>
 </tr>
 </tbody>
@@ -3722,6 +3560,7 @@ ProvisioningState_Status
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.LoadBalancer_Status">LoadBalancer_Status</a>)
 </p>
 <div>
+<p>Deprecated version of InboundNatPool_Status. Use v1beta20201101.InboundNatPool_Status instead</p>
 </div>
 <table>
 <thead>
@@ -3739,7 +3578,6 @@ int
 </em>
 </td>
 <td>
-<p>BackendPort: The port used for internal connections on the endpoint. Acceptable values are between 1 and 65535.</p>
 </td>
 </tr>
 <tr>
@@ -3750,9 +3588,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableFloatingIP: Configures a virtual machine&rsquo;s endpoint for the floating IP capability required to configure a SQL
-AlwaysOn Availability Group. This setting is required when using the SQL AlwaysOn Availability Groups in SQL server.
-This setting can&rsquo;t be changed after you create the endpoint.</p>
 </td>
 </tr>
 <tr>
@@ -3763,8 +3598,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableTcpReset: Receive bidirectional TCP Reset on TCP flow idle timeout or unexpected connection termination. This
-element is only used when the protocol is set to TCP.</p>
 </td>
 </tr>
 <tr>
@@ -3775,7 +3608,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A unique read-only string that changes whenever the resource is updated.</p>
 </td>
 </tr>
 <tr>
@@ -3788,7 +3620,6 @@ SubResource_Status
 </em>
 </td>
 <td>
-<p>FrontendIPConfiguration: A reference to frontend IP addresses.</p>
 </td>
 </tr>
 <tr>
@@ -3799,8 +3630,6 @@ int
 </em>
 </td>
 <td>
-<p>FrontendPortRangeEnd: The last port number in the range of external ports that will be used to provide Inbound Nat to
-NICs associated with a load balancer. Acceptable values range between 1 and 65535.</p>
 </td>
 </tr>
 <tr>
@@ -3811,8 +3640,6 @@ int
 </em>
 </td>
 <td>
-<p>FrontendPortRangeStart: The first port number in the range of external ports that will be used to provide Inbound Nat to
-NICs associated with a load balancer. Acceptable values range between 1 and 65534.</p>
 </td>
 </tr>
 <tr>
@@ -3823,7 +3650,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 <tr>
@@ -3834,8 +3660,6 @@ int
 </em>
 </td>
 <td>
-<p>IdleTimeoutInMinutes: The timeout for the TCP idle connection. The value can be set between 4 and 30 minutes. The
-default value is 4 minutes. This element is only used when the protocol is set to TCP.</p>
 </td>
 </tr>
 <tr>
@@ -3846,8 +3670,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource that is unique within the set of inbound NAT pools used by the load balancer. This name
-can be used to access the resource.</p>
 </td>
 </tr>
 <tr>
@@ -3860,7 +3682,6 @@ TransportProtocol_Status
 </em>
 </td>
 <td>
-<p>Protocol: The reference to the transport protocol used by the inbound NAT pool.</p>
 </td>
 </tr>
 <tr>
@@ -3873,7 +3694,6 @@ ProvisioningState_Status
 </em>
 </td>
 <td>
-<p>ProvisioningState: The provisioning state of the inbound NAT pool resource.</p>
 </td>
 </tr>
 <tr>
@@ -3884,7 +3704,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: Type of the resource.</p>
 </td>
 </tr>
 </tbody>
@@ -3895,6 +3714,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.LoadBalancerPropertiesFormat_StatusARM">LoadBalancerPropertiesFormat_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of InboundNatPool_Status. Use v1beta20201101.InboundNatPool_Status instead</p>
 </div>
 <table>
 <thead>
@@ -3912,7 +3732,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A unique read-only string that changes whenever the resource is updated.</p>
 </td>
 </tr>
 <tr>
@@ -3923,7 +3742,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 <tr>
@@ -3934,8 +3752,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource that is unique within the set of inbound NAT pools used by the load balancer. This name
-can be used to access the resource.</p>
 </td>
 </tr>
 <tr>
@@ -3948,7 +3764,6 @@ InboundNatPoolPropertiesFormat_StatusARM
 </em>
 </td>
 <td>
-<p>Properties: Properties of load balancer inbound nat pool.</p>
 </td>
 </tr>
 <tr>
@@ -3959,7 +3774,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: Type of the resource.</p>
 </td>
 </tr>
 </tbody>
@@ -3970,6 +3784,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.LoadBalancer_Status">LoadBalancer_Status</a>)
 </p>
 <div>
+<p>Deprecated version of InboundNatRule_Status_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.InboundNatRule_Status_LoadBalancer_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -3987,7 +3802,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 </tbody>
@@ -3998,6 +3812,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.LoadBalancerPropertiesFormat_StatusARM">LoadBalancerPropertiesFormat_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of InboundNatRule_Status_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.InboundNatRule_Status_LoadBalancer_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -4015,7 +3830,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 </tbody>
@@ -4026,6 +3840,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResourceEmbedded">NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResourceEmbedded</a>)
 </p>
 <div>
+<p>Deprecated version of InboundNatRule_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.InboundNatRule_Status_NetworkInterface_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -4043,7 +3858,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 </tbody>
@@ -4054,6 +3868,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.NetworkInterfaceIPConfigurationPropertiesFormat_Status_NetworkInterface_SubResourceEmbeddedARM">NetworkInterfaceIPConfigurationPropertiesFormat_Status_NetworkInterface_SubResourceEmbeddedARM</a>)
 </p>
 <div>
+<p>Deprecated version of InboundNatRule_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.InboundNatRule_Status_NetworkInterface_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -4071,7 +3886,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 </tbody>
@@ -4082,7 +3896,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.PublicIPAddresses_Spec">PublicIPAddresses_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/IpTag">https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/IpTag</a></p>
+<p>Deprecated version of IpTag. Use v1beta20201101.IpTag instead</p>
 </div>
 <table>
 <thead>
@@ -4100,7 +3914,6 @@ string
 </em>
 </td>
 <td>
-<p>IpTagType: The IP tag type. Example: FirstPartyUsage.</p>
 </td>
 </tr>
 <tr>
@@ -4111,7 +3924,6 @@ string
 </em>
 </td>
 <td>
-<p>Tag: The value of the IP tag associated with the public IP. Example: SQL.</p>
 </td>
 </tr>
 </tbody>
@@ -4122,7 +3934,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.PublicIPAddressPropertiesFormatARM">PublicIPAddressPropertiesFormatARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/IpTag">https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/IpTag</a></p>
+<p>Deprecated version of IpTag. Use v1beta20201101.IpTag instead</p>
 </div>
 <table>
 <thead>
@@ -4140,7 +3952,6 @@ string
 </em>
 </td>
 <td>
-<p>IpTagType: The IP tag type. Example: FirstPartyUsage.</p>
 </td>
 </tr>
 <tr>
@@ -4151,7 +3962,6 @@ string
 </em>
 </td>
 <td>
-<p>Tag: The value of the IP tag associated with the public IP. Example: SQL.</p>
 </td>
 </tr>
 </tbody>
@@ -4162,6 +3972,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded">PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded</a>)
 </p>
 <div>
+<p>Deprecated version of IpTag_Status. Use v1beta20201101.IpTag_Status instead</p>
 </div>
 <table>
 <thead>
@@ -4179,7 +3990,6 @@ string
 </em>
 </td>
 <td>
-<p>IpTagType: The IP tag type. Example: FirstPartyUsage.</p>
 </td>
 </tr>
 <tr>
@@ -4190,7 +4000,6 @@ string
 </em>
 </td>
 <td>
-<p>Tag: The value of the IP tag associated with the public IP. Example: SQL.</p>
 </td>
 </tr>
 </tbody>
@@ -4201,6 +4010,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.PublicIPAddressPropertiesFormat_StatusARM">PublicIPAddressPropertiesFormat_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of IpTag_Status. Use v1beta20201101.IpTag_Status instead</p>
 </div>
 <table>
 <thead>
@@ -4218,7 +4028,6 @@ string
 </em>
 </td>
 <td>
-<p>IpTagType: The IP tag type. Example: FirstPartyUsage.</p>
 </td>
 </tr>
 <tr>
@@ -4229,7 +4038,6 @@ string
 </em>
 </td>
 <td>
-<p>Tag: The value of the IP tag associated with the public IP. Example: SQL.</p>
 </td>
 </tr>
 </tbody>
@@ -4240,6 +4048,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.IpsecPolicy_Status">IpsecPolicy_Status</a>, <a href="#network.azure.com/v1alpha1api20201101.IpsecPolicy_StatusARM">IpsecPolicy_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of IpsecEncryption_Status. Use v1beta20201101.IpsecEncryption_Status instead</p>
 </div>
 <table>
 <thead>
@@ -4274,6 +4083,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.IpsecPolicy_Status">IpsecPolicy_Status</a>, <a href="#network.azure.com/v1alpha1api20201101.IpsecPolicy_StatusARM">IpsecPolicy_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of IpsecIntegrity_Status. Use v1beta20201101.IpsecIntegrity_Status instead</p>
 </div>
 <table>
 <thead>
@@ -4302,7 +4112,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration">VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/IpsecPolicy">https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/IpsecPolicy</a></p>
+<p>Deprecated version of IpsecPolicy. Use v1beta20201101.IpsecPolicy instead</p>
 </div>
 <table>
 <thead>
@@ -4322,7 +4132,6 @@ IpsecPolicyDhGroup
 </em>
 </td>
 <td>
-<p>DhGroup: The DH Group used in IKE Phase 1 for initial SA.</p>
 </td>
 </tr>
 <tr>
@@ -4335,7 +4144,6 @@ IpsecPolicyIkeEncryption
 </em>
 </td>
 <td>
-<p>IkeEncryption: The IKE encryption algorithm (IKE phase 2).</p>
 </td>
 </tr>
 <tr>
@@ -4348,7 +4156,6 @@ IpsecPolicyIkeIntegrity
 </em>
 </td>
 <td>
-<p>IkeIntegrity: The IKE integrity algorithm (IKE phase 2).</p>
 </td>
 </tr>
 <tr>
@@ -4361,7 +4168,6 @@ IpsecPolicyIpsecEncryption
 </em>
 </td>
 <td>
-<p>IpsecEncryption: The IPSec encryption algorithm (IKE phase 1).</p>
 </td>
 </tr>
 <tr>
@@ -4374,7 +4180,6 @@ IpsecPolicyIpsecIntegrity
 </em>
 </td>
 <td>
-<p>IpsecIntegrity: The IPSec integrity algorithm (IKE phase 1).</p>
 </td>
 </tr>
 <tr>
@@ -4387,7 +4192,6 @@ IpsecPolicyPfsGroup
 </em>
 </td>
 <td>
-<p>PfsGroup: The Pfs Group used in IKE Phase 2 for new child SA.</p>
 </td>
 </tr>
 <tr>
@@ -4398,8 +4202,6 @@ int
 </em>
 </td>
 <td>
-<p>SaDataSizeKilobytes: The IPSec Security Association (also called Quick Mode or Phase 2 SA) payload size in KB for a site
-to site VPN tunnel.</p>
 </td>
 </tr>
 <tr>
@@ -4410,8 +4212,6 @@ int
 </em>
 </td>
 <td>
-<p>SaLifeTimeSeconds: The IPSec Security Association (also called Quick Mode or Phase 2 SA) lifetime in seconds for a site
-to site VPN tunnel.</p>
 </td>
 </tr>
 </tbody>
@@ -4422,7 +4222,7 @@ to site VPN tunnel.</p>
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGateways_Spec_Properties_VpnClientConfigurationARM">VirtualNetworkGateways_Spec_Properties_VpnClientConfigurationARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/IpsecPolicy">https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/IpsecPolicy</a></p>
+<p>Deprecated version of IpsecPolicy. Use v1beta20201101.IpsecPolicy instead</p>
 </div>
 <table>
 <thead>
@@ -4442,7 +4242,6 @@ IpsecPolicyDhGroup
 </em>
 </td>
 <td>
-<p>DhGroup: The DH Group used in IKE Phase 1 for initial SA.</p>
 </td>
 </tr>
 <tr>
@@ -4455,7 +4254,6 @@ IpsecPolicyIkeEncryption
 </em>
 </td>
 <td>
-<p>IkeEncryption: The IKE encryption algorithm (IKE phase 2).</p>
 </td>
 </tr>
 <tr>
@@ -4468,7 +4266,6 @@ IpsecPolicyIkeIntegrity
 </em>
 </td>
 <td>
-<p>IkeIntegrity: The IKE integrity algorithm (IKE phase 2).</p>
 </td>
 </tr>
 <tr>
@@ -4481,7 +4278,6 @@ IpsecPolicyIpsecEncryption
 </em>
 </td>
 <td>
-<p>IpsecEncryption: The IPSec encryption algorithm (IKE phase 1).</p>
 </td>
 </tr>
 <tr>
@@ -4494,7 +4290,6 @@ IpsecPolicyIpsecIntegrity
 </em>
 </td>
 <td>
-<p>IpsecIntegrity: The IPSec integrity algorithm (IKE phase 1).</p>
 </td>
 </tr>
 <tr>
@@ -4507,7 +4302,6 @@ IpsecPolicyPfsGroup
 </em>
 </td>
 <td>
-<p>PfsGroup: The Pfs Group used in IKE Phase 2 for new child SA.</p>
 </td>
 </tr>
 <tr>
@@ -4518,8 +4312,6 @@ int
 </em>
 </td>
 <td>
-<p>SaDataSizeKilobytes: The IPSec Security Association (also called Quick Mode or Phase 2 SA) payload size in KB for a site
-to site VPN tunnel.</p>
 </td>
 </tr>
 <tr>
@@ -4530,8 +4322,6 @@ int
 </em>
 </td>
 <td>
-<p>SaLifeTimeSeconds: The IPSec Security Association (also called Quick Mode or Phase 2 SA) lifetime in seconds for a site
-to site VPN tunnel.</p>
 </td>
 </tr>
 </tbody>
@@ -4542,6 +4332,7 @@ to site VPN tunnel.</p>
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.IpsecPolicy">IpsecPolicy</a>, <a href="#network.azure.com/v1alpha1api20201101.IpsecPolicyARM">IpsecPolicyARM</a>)
 </p>
 <div>
+<p>Deprecated version of IpsecPolicyDhGroup. Use v1beta20201101.IpsecPolicyDhGroup instead</p>
 </div>
 <table>
 <thead>
@@ -4574,6 +4365,7 @@ to site VPN tunnel.</p>
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.IpsecPolicy">IpsecPolicy</a>, <a href="#network.azure.com/v1alpha1api20201101.IpsecPolicyARM">IpsecPolicyARM</a>)
 </p>
 <div>
+<p>Deprecated version of IpsecPolicyIkeEncryption. Use v1beta20201101.IpsecPolicyIkeEncryption instead</p>
 </div>
 <table>
 <thead>
@@ -4604,6 +4396,7 @@ to site VPN tunnel.</p>
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.IpsecPolicy">IpsecPolicy</a>, <a href="#network.azure.com/v1alpha1api20201101.IpsecPolicyARM">IpsecPolicyARM</a>)
 </p>
 <div>
+<p>Deprecated version of IpsecPolicyIkeIntegrity. Use v1beta20201101.IpsecPolicyIkeIntegrity instead</p>
 </div>
 <table>
 <thead>
@@ -4632,6 +4425,7 @@ to site VPN tunnel.</p>
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.IpsecPolicy">IpsecPolicy</a>, <a href="#network.azure.com/v1alpha1api20201101.IpsecPolicyARM">IpsecPolicyARM</a>)
 </p>
 <div>
+<p>Deprecated version of IpsecPolicyIpsecEncryption. Use v1beta20201101.IpsecPolicyIpsecEncryption instead</p>
 </div>
 <table>
 <thead>
@@ -4666,6 +4460,7 @@ to site VPN tunnel.</p>
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.IpsecPolicy">IpsecPolicy</a>, <a href="#network.azure.com/v1alpha1api20201101.IpsecPolicyARM">IpsecPolicyARM</a>)
 </p>
 <div>
+<p>Deprecated version of IpsecPolicyIpsecIntegrity. Use v1beta20201101.IpsecPolicyIpsecIntegrity instead</p>
 </div>
 <table>
 <thead>
@@ -4694,6 +4489,7 @@ to site VPN tunnel.</p>
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.IpsecPolicy">IpsecPolicy</a>, <a href="#network.azure.com/v1alpha1api20201101.IpsecPolicyARM">IpsecPolicyARM</a>)
 </p>
 <div>
+<p>Deprecated version of IpsecPolicyPfsGroup. Use v1beta20201101.IpsecPolicyPfsGroup instead</p>
 </div>
 <table>
 <thead>
@@ -4728,6 +4524,7 @@ to site VPN tunnel.</p>
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VpnClientConfiguration_Status">VpnClientConfiguration_Status</a>)
 </p>
 <div>
+<p>Deprecated version of IpsecPolicy_Status. Use v1beta20201101.IpsecPolicy_Status instead</p>
 </div>
 <table>
 <thead>
@@ -4747,7 +4544,6 @@ DhGroup_Status
 </em>
 </td>
 <td>
-<p>DhGroup: The DH Group used in IKE Phase 1 for initial SA.</p>
 </td>
 </tr>
 <tr>
@@ -4760,7 +4556,6 @@ IkeEncryption_Status
 </em>
 </td>
 <td>
-<p>IkeEncryption: The IKE encryption algorithm (IKE phase 2).</p>
 </td>
 </tr>
 <tr>
@@ -4773,7 +4568,6 @@ IkeIntegrity_Status
 </em>
 </td>
 <td>
-<p>IkeIntegrity: The IKE integrity algorithm (IKE phase 2).</p>
 </td>
 </tr>
 <tr>
@@ -4786,7 +4580,6 @@ IpsecEncryption_Status
 </em>
 </td>
 <td>
-<p>IpsecEncryption: The IPSec encryption algorithm (IKE phase 1).</p>
 </td>
 </tr>
 <tr>
@@ -4799,7 +4592,6 @@ IpsecIntegrity_Status
 </em>
 </td>
 <td>
-<p>IpsecIntegrity: The IPSec integrity algorithm (IKE phase 1).</p>
 </td>
 </tr>
 <tr>
@@ -4812,7 +4604,6 @@ PfsGroup_Status
 </em>
 </td>
 <td>
-<p>PfsGroup: The Pfs Group used in IKE Phase 2 for new child SA.</p>
 </td>
 </tr>
 <tr>
@@ -4823,8 +4614,6 @@ int
 </em>
 </td>
 <td>
-<p>SaDataSizeKilobytes: The IPSec Security Association (also called Quick Mode or Phase 2 SA) payload size in KB for a site
-to site VPN tunnel.</p>
 </td>
 </tr>
 <tr>
@@ -4835,8 +4624,6 @@ int
 </em>
 </td>
 <td>
-<p>SaLifeTimeSeconds: The IPSec Security Association (also called Quick Mode or Phase 2 SA) lifetime in seconds for a site
-to site VPN tunnel.</p>
 </td>
 </tr>
 </tbody>
@@ -4847,6 +4634,7 @@ to site VPN tunnel.</p>
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VpnClientConfiguration_StatusARM">VpnClientConfiguration_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of IpsecPolicy_Status. Use v1beta20201101.IpsecPolicy_Status instead</p>
 </div>
 <table>
 <thead>
@@ -4866,7 +4654,6 @@ DhGroup_Status
 </em>
 </td>
 <td>
-<p>DhGroup: The DH Group used in IKE Phase 1 for initial SA.</p>
 </td>
 </tr>
 <tr>
@@ -4879,7 +4666,6 @@ IkeEncryption_Status
 </em>
 </td>
 <td>
-<p>IkeEncryption: The IKE encryption algorithm (IKE phase 2).</p>
 </td>
 </tr>
 <tr>
@@ -4892,7 +4678,6 @@ IkeIntegrity_Status
 </em>
 </td>
 <td>
-<p>IkeIntegrity: The IKE integrity algorithm (IKE phase 2).</p>
 </td>
 </tr>
 <tr>
@@ -4905,7 +4690,6 @@ IpsecEncryption_Status
 </em>
 </td>
 <td>
-<p>IpsecEncryption: The IPSec encryption algorithm (IKE phase 1).</p>
 </td>
 </tr>
 <tr>
@@ -4918,7 +4702,6 @@ IpsecIntegrity_Status
 </em>
 </td>
 <td>
-<p>IpsecIntegrity: The IPSec integrity algorithm (IKE phase 1).</p>
 </td>
 </tr>
 <tr>
@@ -4931,7 +4714,6 @@ PfsGroup_Status
 </em>
 </td>
 <td>
-<p>PfsGroup: The Pfs Group used in IKE Phase 2 for new child SA.</p>
 </td>
 </tr>
 <tr>
@@ -4942,8 +4724,6 @@ int
 </em>
 </td>
 <td>
-<p>SaDataSizeKilobytes: The IPSec Security Association (also called Quick Mode or Phase 2 SA) payload size in KB for a site
-to site VPN tunnel.</p>
 </td>
 </tr>
 <tr>
@@ -4954,8 +4734,6 @@ int
 </em>
 </td>
 <td>
-<p>SaLifeTimeSeconds: The IPSec Security Association (also called Quick Mode or Phase 2 SA) lifetime in seconds for a site
-to site VPN tunnel.</p>
 </td>
 </tr>
 </tbody>
@@ -4963,7 +4741,7 @@ to site VPN tunnel.</p>
 <h3 id="network.azure.com/v1alpha1api20201101.LoadBalancer">LoadBalancer
 </h3>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/loadBalancers">https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/loadBalancers</a></p>
+<p>Deprecated version of LoadBalancer. Use v1beta20201101.LoadBalancer instead</p>
 </div>
 <table>
 <thead>
@@ -5022,7 +4800,6 @@ doesn&rsquo;t have to be.</p>
 </em>
 </td>
 <td>
-<p>BackendAddressPools: Collection of backend address pools used by a load balancer.</p>
 </td>
 </tr>
 <tr>
@@ -5035,7 +4812,6 @@ ExtendedLocation
 </em>
 </td>
 <td>
-<p>ExtendedLocation: The extended location of the load balancer.</p>
 </td>
 </tr>
 <tr>
@@ -5048,7 +4824,6 @@ ExtendedLocation
 </em>
 </td>
 <td>
-<p>FrontendIPConfigurations: Object representing the frontend IPs to be used for the load balancer.</p>
 </td>
 </tr>
 <tr>
@@ -5061,11 +4836,6 @@ ExtendedLocation
 </em>
 </td>
 <td>
-<p>InboundNatPools: Defines an external port range for inbound NAT to a single backend port on NICs associated with a load
-balancer. Inbound NAT rules are created automatically for each NIC associated with the Load Balancer using an external
-port from this range. Defining an Inbound NAT pool on your Load Balancer is mutually exclusive with defining inbound Nat
-rules. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual
-virtual machines cannot reference an inbound NAT pool. They have to reference individual inbound NAT rules.</p>
 </td>
 </tr>
 <tr>
@@ -5078,7 +4848,6 @@ virtual machines cannot reference an inbound NAT pool. They have to reference in
 </em>
 </td>
 <td>
-<p>LoadBalancingRules: Object collection representing the load balancing rules Gets the provisioning.</p>
 </td>
 </tr>
 <tr>
@@ -5089,7 +4858,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -5102,7 +4870,6 @@ string
 </em>
 </td>
 <td>
-<p>OutboundRules: The outbound rules.</p>
 </td>
 </tr>
 <tr>
@@ -5115,6 +4882,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -5127,7 +4897,6 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
-<p>Probes: Collection of probe objects used in the load balancer.</p>
 </td>
 </tr>
 <tr>
@@ -5140,7 +4909,6 @@ LoadBalancerSku
 </em>
 </td>
 <td>
-<p>Sku: The load balancer SKU.</p>
 </td>
 </tr>
 <tr>
@@ -5151,7 +4919,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </table>
@@ -5177,7 +4944,7 @@ LoadBalancer_Status
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddressesARM">LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddressesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/LoadBalancerBackendAddressPropertiesFormat">https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/LoadBalancerBackendAddressPropertiesFormat</a></p>
+<p>Deprecated version of LoadBalancerBackendAddressPropertiesFormat. Use v1beta20201101.LoadBalancerBackendAddressPropertiesFormat instead</p>
 </div>
 <table>
 <thead>
@@ -5195,7 +4962,6 @@ string
 </em>
 </td>
 <td>
-<p>IpAddress: IP Address belonging to the referenced virtual network.</p>
 </td>
 </tr>
 <tr>
@@ -5208,7 +4974,6 @@ SubResourceARM
 </em>
 </td>
 <td>
-<p>LoadBalancerFrontendIPConfiguration: Reference to the frontend ip address configuration defined in regional loadbalancer.</p>
 </td>
 </tr>
 <tr>
@@ -5221,7 +4986,6 @@ SubResourceARM
 </em>
 </td>
 <td>
-<p>Subnet: Reference to an existing subnet.</p>
 </td>
 </tr>
 <tr>
@@ -5234,7 +4998,6 @@ SubResourceARM
 </em>
 </td>
 <td>
-<p>VirtualNetwork: Reference to an existing virtual network.</p>
 </td>
 </tr>
 </tbody>
@@ -5245,6 +5008,7 @@ SubResourceARM
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.LoadBalancer_StatusARM">LoadBalancer_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of LoadBalancerPropertiesFormat_Status. Use v1beta20201101.LoadBalancerPropertiesFormat_Status instead</p>
 </div>
 <table>
 <thead>
@@ -5264,7 +5028,6 @@ SubResourceARM
 </em>
 </td>
 <td>
-<p>BackendAddressPools: Collection of backend address pools used by a load balancer.</p>
 </td>
 </tr>
 <tr>
@@ -5277,7 +5040,6 @@ SubResourceARM
 </em>
 </td>
 <td>
-<p>FrontendIPConfigurations: Object representing the frontend IPs to be used for the load balancer.</p>
 </td>
 </tr>
 <tr>
@@ -5290,11 +5052,6 @@ SubResourceARM
 </em>
 </td>
 <td>
-<p>InboundNatPools: Defines an external port range for inbound NAT to a single backend port on NICs associated with a load
-balancer. Inbound NAT rules are created automatically for each NIC associated with the Load Balancer using an external
-port from this range. Defining an Inbound NAT pool on your Load Balancer is mutually exclusive with defining inbound Nat
-rules. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual
-virtual machines cannot reference an inbound NAT pool. They have to reference individual inbound NAT rules.</p>
 </td>
 </tr>
 <tr>
@@ -5307,10 +5064,6 @@ virtual machines cannot reference an inbound NAT pool. They have to reference in
 </em>
 </td>
 <td>
-<p>InboundNatRules: Collection of inbound NAT Rules used by a load balancer. Defining inbound NAT rules on your load
-balancer is mutually exclusive with defining an inbound NAT pool. Inbound NAT pools are referenced from virtual machine
-scale sets. NICs that are associated with individual virtual machines cannot reference an Inbound NAT pool. They have to
-reference individual inbound NAT rules.</p>
 </td>
 </tr>
 <tr>
@@ -5323,7 +5076,6 @@ reference individual inbound NAT rules.</p>
 </em>
 </td>
 <td>
-<p>LoadBalancingRules: Object collection representing the load balancing rules Gets the provisioning.</p>
 </td>
 </tr>
 <tr>
@@ -5336,7 +5088,6 @@ reference individual inbound NAT rules.</p>
 </em>
 </td>
 <td>
-<p>OutboundRules: The outbound rules.</p>
 </td>
 </tr>
 <tr>
@@ -5349,7 +5100,6 @@ reference individual inbound NAT rules.</p>
 </em>
 </td>
 <td>
-<p>Probes: Collection of probe objects used in the load balancer.</p>
 </td>
 </tr>
 <tr>
@@ -5362,7 +5112,6 @@ ProvisioningState_Status
 </em>
 </td>
 <td>
-<p>ProvisioningState: The provisioning state of the load balancer resource.</p>
 </td>
 </tr>
 <tr>
@@ -5373,7 +5122,6 @@ string
 </em>
 </td>
 <td>
-<p>ResourceGuid: The resource GUID property of the load balancer resource.</p>
 </td>
 </tr>
 </tbody>
@@ -5384,7 +5132,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.LoadBalancers_Spec">LoadBalancers_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/LoadBalancerSku">https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/LoadBalancerSku</a></p>
+<p>Deprecated version of LoadBalancerSku. Use v1beta20201101.LoadBalancerSku instead</p>
 </div>
 <table>
 <thead>
@@ -5404,7 +5152,6 @@ LoadBalancerSkuName
 </em>
 </td>
 <td>
-<p>Name: Name of a load balancer SKU.</p>
 </td>
 </tr>
 <tr>
@@ -5417,7 +5164,6 @@ LoadBalancerSkuTier
 </em>
 </td>
 <td>
-<p>Tier: Tier of a load balancer SKU.</p>
 </td>
 </tr>
 </tbody>
@@ -5428,7 +5174,7 @@ LoadBalancerSkuTier
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.LoadBalancers_SpecARM">LoadBalancers_SpecARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/LoadBalancerSku">https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/LoadBalancerSku</a></p>
+<p>Deprecated version of LoadBalancerSku. Use v1beta20201101.LoadBalancerSku instead</p>
 </div>
 <table>
 <thead>
@@ -5448,7 +5194,6 @@ LoadBalancerSkuName
 </em>
 </td>
 <td>
-<p>Name: Name of a load balancer SKU.</p>
 </td>
 </tr>
 <tr>
@@ -5461,7 +5206,6 @@ LoadBalancerSkuTier
 </em>
 </td>
 <td>
-<p>Tier: Tier of a load balancer SKU.</p>
 </td>
 </tr>
 </tbody>
@@ -5472,6 +5216,7 @@ LoadBalancerSkuTier
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.LoadBalancerSku">LoadBalancerSku</a>, <a href="#network.azure.com/v1alpha1api20201101.LoadBalancerSkuARM">LoadBalancerSkuARM</a>)
 </p>
 <div>
+<p>Deprecated version of LoadBalancerSkuName. Use v1beta20201101.LoadBalancerSkuName instead</p>
 </div>
 <table>
 <thead>
@@ -5492,6 +5237,7 @@ LoadBalancerSkuTier
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.LoadBalancerSku_Status">LoadBalancerSku_Status</a>, <a href="#network.azure.com/v1alpha1api20201101.LoadBalancerSku_StatusARM">LoadBalancerSku_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of LoadBalancerSkuStatusName. Use v1beta20201101.LoadBalancerSkuStatusName instead</p>
 </div>
 <table>
 <thead>
@@ -5512,6 +5258,7 @@ LoadBalancerSkuTier
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.LoadBalancerSku_Status">LoadBalancerSku_Status</a>, <a href="#network.azure.com/v1alpha1api20201101.LoadBalancerSku_StatusARM">LoadBalancerSku_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of LoadBalancerSkuStatusTier. Use v1beta20201101.LoadBalancerSkuStatusTier instead</p>
 </div>
 <table>
 <thead>
@@ -5532,6 +5279,7 @@ LoadBalancerSkuTier
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.LoadBalancerSku">LoadBalancerSku</a>, <a href="#network.azure.com/v1alpha1api20201101.LoadBalancerSkuARM">LoadBalancerSkuARM</a>)
 </p>
 <div>
+<p>Deprecated version of LoadBalancerSkuTier. Use v1beta20201101.LoadBalancerSkuTier instead</p>
 </div>
 <table>
 <thead>
@@ -5552,6 +5300,7 @@ LoadBalancerSkuTier
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.LoadBalancer_Status">LoadBalancer_Status</a>)
 </p>
 <div>
+<p>Deprecated version of LoadBalancerSku_Status. Use v1beta20201101.LoadBalancerSku_Status instead</p>
 </div>
 <table>
 <thead>
@@ -5571,7 +5320,6 @@ LoadBalancerSkuStatusName
 </em>
 </td>
 <td>
-<p>Name: Name of a load balancer SKU.</p>
 </td>
 </tr>
 <tr>
@@ -5584,7 +5332,6 @@ LoadBalancerSkuStatusTier
 </em>
 </td>
 <td>
-<p>Tier: Tier of a load balancer SKU.</p>
 </td>
 </tr>
 </tbody>
@@ -5595,6 +5342,7 @@ LoadBalancerSkuStatusTier
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.LoadBalancer_StatusARM">LoadBalancer_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of LoadBalancerSku_Status. Use v1beta20201101.LoadBalancerSku_Status instead</p>
 </div>
 <table>
 <thead>
@@ -5614,7 +5362,6 @@ LoadBalancerSkuStatusName
 </em>
 </td>
 <td>
-<p>Name: Name of a load balancer SKU.</p>
 </td>
 </tr>
 <tr>
@@ -5627,7 +5374,6 @@ LoadBalancerSkuStatusTier
 </em>
 </td>
 <td>
-<p>Tier: Tier of a load balancer SKU.</p>
 </td>
 </tr>
 </tbody>
@@ -5638,6 +5384,7 @@ LoadBalancerSkuStatusTier
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.LoadBalancer">LoadBalancer</a>)
 </p>
 <div>
+<p>Deprecated version of LoadBalancer_Status. Use v1beta20201101.LoadBalancer_Status instead</p>
 </div>
 <table>
 <thead>
@@ -5657,7 +5404,6 @@ LoadBalancerSkuStatusTier
 </em>
 </td>
 <td>
-<p>BackendAddressPools: Collection of backend address pools used by a load balancer.</p>
 </td>
 </tr>
 <tr>
@@ -5681,7 +5427,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A unique read-only string that changes whenever the resource is updated.</p>
 </td>
 </tr>
 <tr>
@@ -5694,7 +5439,6 @@ ExtendedLocation_Status
 </em>
 </td>
 <td>
-<p>ExtendedLocation: The extended location of the load balancer.</p>
 </td>
 </tr>
 <tr>
@@ -5707,7 +5451,6 @@ ExtendedLocation_Status
 </em>
 </td>
 <td>
-<p>FrontendIPConfigurations: Object representing the frontend IPs to be used for the load balancer.</p>
 </td>
 </tr>
 <tr>
@@ -5718,7 +5461,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 <tr>
@@ -5731,11 +5473,6 @@ string
 </em>
 </td>
 <td>
-<p>InboundNatPools: Defines an external port range for inbound NAT to a single backend port on NICs associated with a load
-balancer. Inbound NAT rules are created automatically for each NIC associated with the Load Balancer using an external
-port from this range. Defining an Inbound NAT pool on your Load Balancer is mutually exclusive with defining inbound Nat
-rules. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual
-virtual machines cannot reference an inbound NAT pool. They have to reference individual inbound NAT rules.</p>
 </td>
 </tr>
 <tr>
@@ -5748,10 +5485,6 @@ virtual machines cannot reference an inbound NAT pool. They have to reference in
 </em>
 </td>
 <td>
-<p>InboundNatRules: Collection of inbound NAT Rules used by a load balancer. Defining inbound NAT rules on your load
-balancer is mutually exclusive with defining an inbound NAT pool. Inbound NAT pools are referenced from virtual machine
-scale sets. NICs that are associated with individual virtual machines cannot reference an Inbound NAT pool. They have to
-reference individual inbound NAT rules.</p>
 </td>
 </tr>
 <tr>
@@ -5764,7 +5497,6 @@ reference individual inbound NAT rules.</p>
 </em>
 </td>
 <td>
-<p>LoadBalancingRules: Object collection representing the load balancing rules Gets the provisioning.</p>
 </td>
 </tr>
 <tr>
@@ -5775,7 +5507,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Resource location.</p>
 </td>
 </tr>
 <tr>
@@ -5786,7 +5517,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Resource name.</p>
 </td>
 </tr>
 <tr>
@@ -5799,7 +5529,6 @@ string
 </em>
 </td>
 <td>
-<p>OutboundRules: The outbound rules.</p>
 </td>
 </tr>
 <tr>
@@ -5812,7 +5541,6 @@ string
 </em>
 </td>
 <td>
-<p>Probes: Collection of probe objects used in the load balancer.</p>
 </td>
 </tr>
 <tr>
@@ -5825,7 +5553,6 @@ ProvisioningState_Status
 </em>
 </td>
 <td>
-<p>ProvisioningState: The provisioning state of the load balancer resource.</p>
 </td>
 </tr>
 <tr>
@@ -5836,7 +5563,6 @@ string
 </em>
 </td>
 <td>
-<p>ResourceGuid: The resource GUID property of the load balancer resource.</p>
 </td>
 </tr>
 <tr>
@@ -5849,7 +5575,6 @@ LoadBalancerSku_Status
 </em>
 </td>
 <td>
-<p>Sku: The load balancer SKU.</p>
 </td>
 </tr>
 <tr>
@@ -5860,7 +5585,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Resource tags.</p>
 </td>
 </tr>
 <tr>
@@ -5871,7 +5595,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: Resource type.</p>
 </td>
 </tr>
 </tbody>
@@ -5879,6 +5602,7 @@ string
 <h3 id="network.azure.com/v1alpha1api20201101.LoadBalancer_StatusARM">LoadBalancer_StatusARM
 </h3>
 <div>
+<p>Deprecated version of LoadBalancer_Status. Use v1beta20201101.LoadBalancer_Status instead</p>
 </div>
 <table>
 <thead>
@@ -5896,7 +5620,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A unique read-only string that changes whenever the resource is updated.</p>
 </td>
 </tr>
 <tr>
@@ -5909,7 +5632,6 @@ ExtendedLocation_StatusARM
 </em>
 </td>
 <td>
-<p>ExtendedLocation: The extended location of the load balancer.</p>
 </td>
 </tr>
 <tr>
@@ -5920,7 +5642,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 <tr>
@@ -5931,7 +5652,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Resource location.</p>
 </td>
 </tr>
 <tr>
@@ -5942,7 +5662,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Resource name.</p>
 </td>
 </tr>
 <tr>
@@ -5955,7 +5674,6 @@ LoadBalancerPropertiesFormat_StatusARM
 </em>
 </td>
 <td>
-<p>Properties: Properties of load balancer.</p>
 </td>
 </tr>
 <tr>
@@ -5968,7 +5686,6 @@ LoadBalancerSku_StatusARM
 </em>
 </td>
 <td>
-<p>Sku: The load balancer SKU.</p>
 </td>
 </tr>
 <tr>
@@ -5979,7 +5696,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Resource tags.</p>
 </td>
 </tr>
 <tr>
@@ -5990,25 +5706,9 @@ string
 </em>
 </td>
 <td>
-<p>Type: Resource type.</p>
 </td>
 </tr>
 </tbody>
-</table>
-<h3 id="network.azure.com/v1alpha1api20201101.LoadBalancersSpecAPIVersion">LoadBalancersSpecAPIVersion
-(<code>string</code> alias)</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;2020-11-01&#34;</p></td>
-<td></td>
-</tr></tbody>
 </table>
 <h3 id="network.azure.com/v1alpha1api20201101.LoadBalancers_Spec">LoadBalancers_Spec
 </h3>
@@ -6047,7 +5747,6 @@ doesn&rsquo;t have to be.</p>
 </em>
 </td>
 <td>
-<p>BackendAddressPools: Collection of backend address pools used by a load balancer.</p>
 </td>
 </tr>
 <tr>
@@ -6060,7 +5759,6 @@ ExtendedLocation
 </em>
 </td>
 <td>
-<p>ExtendedLocation: The extended location of the load balancer.</p>
 </td>
 </tr>
 <tr>
@@ -6073,7 +5771,6 @@ ExtendedLocation
 </em>
 </td>
 <td>
-<p>FrontendIPConfigurations: Object representing the frontend IPs to be used for the load balancer.</p>
 </td>
 </tr>
 <tr>
@@ -6086,11 +5783,6 @@ ExtendedLocation
 </em>
 </td>
 <td>
-<p>InboundNatPools: Defines an external port range for inbound NAT to a single backend port on NICs associated with a load
-balancer. Inbound NAT rules are created automatically for each NIC associated with the Load Balancer using an external
-port from this range. Defining an Inbound NAT pool on your Load Balancer is mutually exclusive with defining inbound Nat
-rules. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual
-virtual machines cannot reference an inbound NAT pool. They have to reference individual inbound NAT rules.</p>
 </td>
 </tr>
 <tr>
@@ -6103,7 +5795,6 @@ virtual machines cannot reference an inbound NAT pool. They have to reference in
 </em>
 </td>
 <td>
-<p>LoadBalancingRules: Object collection representing the load balancing rules Gets the provisioning.</p>
 </td>
 </tr>
 <tr>
@@ -6114,7 +5805,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -6127,7 +5817,6 @@ string
 </em>
 </td>
 <td>
-<p>OutboundRules: The outbound rules.</p>
 </td>
 </tr>
 <tr>
@@ -6140,6 +5829,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -6152,7 +5844,6 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
-<p>Probes: Collection of probe objects used in the load balancer.</p>
 </td>
 </tr>
 <tr>
@@ -6165,7 +5856,6 @@ LoadBalancerSku
 </em>
 </td>
 <td>
-<p>Sku: The load balancer SKU.</p>
 </td>
 </tr>
 <tr>
@@ -6176,7 +5866,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </tbody>
@@ -6184,6 +5873,7 @@ map[string]string
 <h3 id="network.azure.com/v1alpha1api20201101.LoadBalancers_SpecARM">LoadBalancers_SpecARM
 </h3>
 <div>
+<p>Deprecated version of LoadBalancers_Spec. Use v1beta20201101.LoadBalancers_Spec instead</p>
 </div>
 <table>
 <thead>
@@ -6203,7 +5893,6 @@ ExtendedLocationARM
 </em>
 </td>
 <td>
-<p>ExtendedLocation: The extended location of the load balancer.</p>
 </td>
 </tr>
 <tr>
@@ -6214,7 +5903,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -6225,7 +5913,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Name of the resource</p>
 </td>
 </tr>
 <tr>
@@ -6238,7 +5925,6 @@ LoadBalancers_Spec_PropertiesARM
 </em>
 </td>
 <td>
-<p>Properties: Properties of load balancer.</p>
 </td>
 </tr>
 <tr>
@@ -6251,7 +5937,6 @@ LoadBalancerSkuARM
 </em>
 </td>
 <td>
-<p>Sku: The load balancer SKU.</p>
 </td>
 </tr>
 <tr>
@@ -6262,7 +5947,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </tbody>
@@ -6273,6 +5957,7 @@ map[string]string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.LoadBalancers_SpecARM">LoadBalancers_SpecARM</a>)
 </p>
 <div>
+<p>Deprecated version of LoadBalancers_Spec_Properties. Use v1beta20201101.LoadBalancers_Spec_Properties instead</p>
 </div>
 <table>
 <thead>
@@ -6292,7 +5977,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>BackendAddressPools: Collection of backend address pools used by a load balancer.</p>
 </td>
 </tr>
 <tr>
@@ -6305,7 +5989,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>FrontendIPConfigurations: Object representing the frontend IPs to be used for the load balancer.</p>
 </td>
 </tr>
 <tr>
@@ -6318,11 +6001,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>InboundNatPools: Defines an external port range for inbound NAT to a single backend port on NICs associated with a load
-balancer. Inbound NAT rules are created automatically for each NIC associated with the Load Balancer using an external
-port from this range. Defining an Inbound NAT pool on your Load Balancer is mutually exclusive with defining inbound Nat
-rules. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual
-virtual machines cannot reference an inbound NAT pool. They have to reference individual inbound NAT rules.</p>
 </td>
 </tr>
 <tr>
@@ -6335,7 +6013,6 @@ virtual machines cannot reference an inbound NAT pool. They have to reference in
 </em>
 </td>
 <td>
-<p>LoadBalancingRules: Object collection representing the load balancing rules Gets the provisioning.</p>
 </td>
 </tr>
 <tr>
@@ -6348,7 +6025,6 @@ virtual machines cannot reference an inbound NAT pool. They have to reference in
 </em>
 </td>
 <td>
-<p>OutboundRules: The outbound rules.</p>
 </td>
 </tr>
 <tr>
@@ -6361,7 +6037,6 @@ virtual machines cannot reference an inbound NAT pool. They have to reference in
 </em>
 </td>
 <td>
-<p>Probes: Collection of probe objects used in the load balancer.</p>
 </td>
 </tr>
 </tbody>
@@ -6372,6 +6047,7 @@ virtual machines cannot reference an inbound NAT pool. They have to reference in
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.LoadBalancers_Spec">LoadBalancers_Spec</a>)
 </p>
 <div>
+<p>Deprecated version of LoadBalancers_Spec_Properties_BackendAddressPools. Use v1beta20201101.LoadBalancers_Spec_Properties_BackendAddressPools instead</p>
 </div>
 <table>
 <thead>
@@ -6391,7 +6067,6 @@ virtual machines cannot reference an inbound NAT pool. They have to reference in
 </em>
 </td>
 <td>
-<p>LoadBalancerBackendAddresses: An array of backend addresses.</p>
 </td>
 </tr>
 <tr>
@@ -6402,7 +6077,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The location of the backend address pool.</p>
 </td>
 </tr>
 <tr>
@@ -6413,8 +6087,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource that is unique within the set of backend address pools used by the load balancer. This
-name can be used to access the resource.</p>
 </td>
 </tr>
 </tbody>
@@ -6425,6 +6097,7 @@ name can be used to access the resource.</p>
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.LoadBalancers_Spec_PropertiesARM">LoadBalancers_Spec_PropertiesARM</a>)
 </p>
 <div>
+<p>Deprecated version of LoadBalancers_Spec_Properties_BackendAddressPools. Use v1beta20201101.LoadBalancers_Spec_Properties_BackendAddressPools instead</p>
 </div>
 <table>
 <thead>
@@ -6442,8 +6115,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource that is unique within the set of backend address pools used by the load balancer. This
-name can be used to access the resource.</p>
 </td>
 </tr>
 <tr>
@@ -6456,7 +6127,6 @@ LoadBalancers_Spec_Properties_BackendAddressPools_PropertiesARM
 </em>
 </td>
 <td>
-<p>Properties: Properties of load balancer backend address pool.</p>
 </td>
 </tr>
 </tbody>
@@ -6467,6 +6137,7 @@ LoadBalancers_Spec_Properties_BackendAddressPools_PropertiesARM
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.LoadBalancers_Spec_Properties_BackendAddressPoolsARM">LoadBalancers_Spec_Properties_BackendAddressPoolsARM</a>)
 </p>
 <div>
+<p>Deprecated version of LoadBalancers_Spec_Properties_BackendAddressPools_Properties. Use v1beta20201101.LoadBalancers_Spec_Properties_BackendAddressPools_Properties instead</p>
 </div>
 <table>
 <thead>
@@ -6486,7 +6157,6 @@ LoadBalancers_Spec_Properties_BackendAddressPools_PropertiesARM
 </em>
 </td>
 <td>
-<p>LoadBalancerBackendAddresses: An array of backend addresses.</p>
 </td>
 </tr>
 <tr>
@@ -6497,7 +6167,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The location of the backend address pool.</p>
 </td>
 </tr>
 </tbody>
@@ -6508,6 +6177,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.LoadBalancers_Spec_Properties_BackendAddressPools">LoadBalancers_Spec_Properties_BackendAddressPools</a>)
 </p>
 <div>
+<p>Deprecated version of LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses. Use v1beta20201101.LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses instead</p>
 </div>
 <table>
 <thead>
@@ -6525,7 +6195,6 @@ string
 </em>
 </td>
 <td>
-<p>IpAddress: IP Address belonging to the referenced virtual network.</p>
 </td>
 </tr>
 <tr>
@@ -6538,7 +6207,6 @@ SubResource
 </em>
 </td>
 <td>
-<p>LoadBalancerFrontendIPConfiguration: Reference to the frontend ip address configuration defined in regional loadbalancer.</p>
 </td>
 </tr>
 <tr>
@@ -6549,7 +6217,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Name of the backend address.</p>
 </td>
 </tr>
 <tr>
@@ -6562,7 +6229,6 @@ SubResource
 </em>
 </td>
 <td>
-<p>Subnet: Reference to an existing subnet.</p>
 </td>
 </tr>
 <tr>
@@ -6575,7 +6241,6 @@ SubResource
 </em>
 </td>
 <td>
-<p>VirtualNetwork: Reference to an existing virtual network.</p>
 </td>
 </tr>
 </tbody>
@@ -6586,6 +6251,7 @@ SubResource
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.LoadBalancers_Spec_Properties_BackendAddressPools_PropertiesARM">LoadBalancers_Spec_Properties_BackendAddressPools_PropertiesARM</a>)
 </p>
 <div>
+<p>Deprecated version of LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses. Use v1beta20201101.LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses instead</p>
 </div>
 <table>
 <thead>
@@ -6603,7 +6269,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Name of the backend address.</p>
 </td>
 </tr>
 <tr>
@@ -6616,7 +6281,6 @@ LoadBalancerBackendAddressPropertiesFormatARM
 </em>
 </td>
 <td>
-<p>Properties: Properties of load balancer backend address pool.</p>
 </td>
 </tr>
 </tbody>
@@ -6627,6 +6291,7 @@ LoadBalancerBackendAddressPropertiesFormatARM
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.LoadBalancers_Spec">LoadBalancers_Spec</a>)
 </p>
 <div>
+<p>Deprecated version of LoadBalancers_Spec_Properties_FrontendIPConfigurations. Use v1beta20201101.LoadBalancers_Spec_Properties_FrontendIPConfigurations instead</p>
 </div>
 <table>
 <thead>
@@ -6644,8 +6309,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource that is unique within the set of frontend IP configurations used by the load balancer.
-This name can be used to access the resource.</p>
 </td>
 </tr>
 <tr>
@@ -6656,7 +6319,6 @@ string
 </em>
 </td>
 <td>
-<p>PrivateIPAddress: The private IP address of the IP configuration.</p>
 </td>
 </tr>
 <tr>
@@ -6669,7 +6331,6 @@ FrontendIPConfigurationPropertiesFormatPrivateIPAddressVersion
 </em>
 </td>
 <td>
-<p>PrivateIPAddressVersion: Whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.</p>
 </td>
 </tr>
 <tr>
@@ -6682,7 +6343,6 @@ FrontendIPConfigurationPropertiesFormatPrivateIPAllocationMethod
 </em>
 </td>
 <td>
-<p>PrivateIPAllocationMethod: The Private IP allocation method.</p>
 </td>
 </tr>
 <tr>
@@ -6695,7 +6355,6 @@ SubResource
 </em>
 </td>
 <td>
-<p>PublicIPAddress: The reference to the Public IP resource.</p>
 </td>
 </tr>
 <tr>
@@ -6708,7 +6367,6 @@ SubResource
 </em>
 </td>
 <td>
-<p>PublicIPPrefix: The reference to the Public IP Prefix resource.</p>
 </td>
 </tr>
 <tr>
@@ -6721,7 +6379,6 @@ SubResource
 </em>
 </td>
 <td>
-<p>Subnet: The reference to the subnet resource.</p>
 </td>
 </tr>
 <tr>
@@ -6732,7 +6389,6 @@ SubResource
 </em>
 </td>
 <td>
-<p>Zones: A list of availability zones denoting the IP allocated for the resource needs to come from.</p>
 </td>
 </tr>
 </tbody>
@@ -6743,6 +6399,7 @@ SubResource
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.LoadBalancers_Spec_PropertiesARM">LoadBalancers_Spec_PropertiesARM</a>)
 </p>
 <div>
+<p>Deprecated version of LoadBalancers_Spec_Properties_FrontendIPConfigurations. Use v1beta20201101.LoadBalancers_Spec_Properties_FrontendIPConfigurations instead</p>
 </div>
 <table>
 <thead>
@@ -6760,8 +6417,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource that is unique within the set of frontend IP configurations used by the load balancer.
-This name can be used to access the resource.</p>
 </td>
 </tr>
 <tr>
@@ -6774,7 +6429,6 @@ FrontendIPConfigurationPropertiesFormatARM
 </em>
 </td>
 <td>
-<p>Properties: Properties of the load balancer probe.</p>
 </td>
 </tr>
 <tr>
@@ -6785,7 +6439,6 @@ FrontendIPConfigurationPropertiesFormatARM
 </em>
 </td>
 <td>
-<p>Zones: A list of availability zones denoting the IP allocated for the resource needs to come from.</p>
 </td>
 </tr>
 </tbody>
@@ -6796,6 +6449,7 @@ FrontendIPConfigurationPropertiesFormatARM
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.LoadBalancers_Spec">LoadBalancers_Spec</a>)
 </p>
 <div>
+<p>Deprecated version of LoadBalancers_Spec_Properties_InboundNatPools. Use v1beta20201101.LoadBalancers_Spec_Properties_InboundNatPools instead</p>
 </div>
 <table>
 <thead>
@@ -6813,7 +6467,6 @@ int
 </em>
 </td>
 <td>
-<p>BackendPort: The port used for internal connections on the endpoint. Acceptable values are between 1 and 65535.</p>
 </td>
 </tr>
 <tr>
@@ -6824,9 +6477,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableFloatingIP: Configures a virtual machine&rsquo;s endpoint for the floating IP capability required to configure a SQL
-AlwaysOn Availability Group. This setting is required when using the SQL AlwaysOn Availability Groups in SQL server.
-This setting can&rsquo;t be changed after you create the endpoint.</p>
 </td>
 </tr>
 <tr>
@@ -6837,8 +6487,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableTcpReset: Receive bidirectional TCP Reset on TCP flow idle timeout or unexpected connection termination. This
-element is only used when the protocol is set to TCP.</p>
 </td>
 </tr>
 <tr>
@@ -6851,7 +6499,6 @@ SubResource
 </em>
 </td>
 <td>
-<p>FrontendIPConfiguration: A reference to frontend IP addresses.</p>
 </td>
 </tr>
 <tr>
@@ -6862,8 +6509,6 @@ int
 </em>
 </td>
 <td>
-<p>FrontendPortRangeEnd: The last port number in the range of external ports that will be used to provide Inbound Nat to
-NICs associated with a load balancer. Acceptable values range between 1 and 65535.</p>
 </td>
 </tr>
 <tr>
@@ -6874,8 +6519,6 @@ int
 </em>
 </td>
 <td>
-<p>FrontendPortRangeStart: The first port number in the range of external ports that will be used to provide Inbound Nat to
-NICs associated with a load balancer. Acceptable values range between 1 and 65534.</p>
 </td>
 </tr>
 <tr>
@@ -6886,8 +6529,6 @@ int
 </em>
 </td>
 <td>
-<p>IdleTimeoutInMinutes: The timeout for the TCP idle connection. The value can be set between 4 and 30 minutes. The
-default value is 4 minutes. This element is only used when the protocol is set to TCP.</p>
 </td>
 </tr>
 <tr>
@@ -6898,8 +6539,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource that is unique within the set of inbound NAT pools used by the load balancer. This name
-can be used to access the resource.</p>
 </td>
 </tr>
 <tr>
@@ -6912,7 +6551,6 @@ InboundNatPoolPropertiesFormatProtocol
 </em>
 </td>
 <td>
-<p>Protocol: The reference to the transport protocol used by the inbound NAT pool.</p>
 </td>
 </tr>
 </tbody>
@@ -6923,6 +6561,7 @@ InboundNatPoolPropertiesFormatProtocol
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.LoadBalancers_Spec_PropertiesARM">LoadBalancers_Spec_PropertiesARM</a>)
 </p>
 <div>
+<p>Deprecated version of LoadBalancers_Spec_Properties_InboundNatPools. Use v1beta20201101.LoadBalancers_Spec_Properties_InboundNatPools instead</p>
 </div>
 <table>
 <thead>
@@ -6940,8 +6579,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource that is unique within the set of inbound NAT pools used by the load balancer. This name
-can be used to access the resource.</p>
 </td>
 </tr>
 <tr>
@@ -6954,7 +6591,6 @@ InboundNatPoolPropertiesFormatARM
 </em>
 </td>
 <td>
-<p>Properties: Properties of load balancer inbound nat pool.</p>
 </td>
 </tr>
 </tbody>
@@ -6965,6 +6601,7 @@ InboundNatPoolPropertiesFormatARM
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.LoadBalancers_Spec">LoadBalancers_Spec</a>)
 </p>
 <div>
+<p>Deprecated version of LoadBalancers_Spec_Properties_LoadBalancingRules. Use v1beta20201101.LoadBalancers_Spec_Properties_LoadBalancingRules instead</p>
 </div>
 <table>
 <thead>
@@ -6984,8 +6621,6 @@ SubResource
 </em>
 </td>
 <td>
-<p>BackendAddressPool: A reference to a pool of DIPs. Inbound traffic is randomly load balanced across IPs in the backend
-IPs.</p>
 </td>
 </tr>
 <tr>
@@ -6996,8 +6631,6 @@ int
 </em>
 </td>
 <td>
-<p>BackendPort: The port used for internal connections on the endpoint. Acceptable values are between 0 and 65535. Note
-that value 0 enables &ldquo;Any Port&rdquo;.</p>
 </td>
 </tr>
 <tr>
@@ -7008,8 +6641,6 @@ bool
 </em>
 </td>
 <td>
-<p>DisableOutboundSnat: Configures SNAT for the VMs in the backend pool to use the publicIP address specified in the
-frontend of the load balancing rule.</p>
 </td>
 </tr>
 <tr>
@@ -7020,9 +6651,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableFloatingIP: Configures a virtual machine&rsquo;s endpoint for the floating IP capability required to configure a SQL
-AlwaysOn Availability Group. This setting is required when using the SQL AlwaysOn Availability Groups in SQL server.
-This setting can&rsquo;t be changed after you create the endpoint.</p>
 </td>
 </tr>
 <tr>
@@ -7033,8 +6661,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableTcpReset: Receive bidirectional TCP Reset on TCP flow idle timeout or unexpected connection termination. This
-element is only used when the protocol is set to TCP.</p>
 </td>
 </tr>
 <tr>
@@ -7047,7 +6673,6 @@ SubResource
 </em>
 </td>
 <td>
-<p>FrontendIPConfiguration: A reference to frontend IP addresses.</p>
 </td>
 </tr>
 <tr>
@@ -7058,8 +6683,6 @@ int
 </em>
 </td>
 <td>
-<p>FrontendPort: The port for the external endpoint. Port numbers for each rule must be unique within the Load Balancer.
-Acceptable values are between 0 and 65534. Note that value 0 enables &ldquo;Any Port&rdquo;.</p>
 </td>
 </tr>
 <tr>
@@ -7070,8 +6693,6 @@ int
 </em>
 </td>
 <td>
-<p>IdleTimeoutInMinutes: The timeout for the TCP idle connection. The value can be set between 4 and 30 minutes. The
-default value is 4 minutes. This element is only used when the protocol is set to TCP.</p>
 </td>
 </tr>
 <tr>
@@ -7084,7 +6705,6 @@ LoadBalancingRulePropertiesFormatLoadDistribution
 </em>
 </td>
 <td>
-<p>LoadDistribution: The load distribution policy for this rule.</p>
 </td>
 </tr>
 <tr>
@@ -7095,8 +6715,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource that is unique within the set of load balancing rules used by the load balancer. This
-name can be used to access the resource.</p>
 </td>
 </tr>
 <tr>
@@ -7109,7 +6727,6 @@ SubResource
 </em>
 </td>
 <td>
-<p>Probe: The reference to the load balancer probe used by the load balancing rule.</p>
 </td>
 </tr>
 <tr>
@@ -7122,7 +6739,6 @@ LoadBalancingRulePropertiesFormatProtocol
 </em>
 </td>
 <td>
-<p>Protocol: The reference to the transport protocol used by the load balancing rule.</p>
 </td>
 </tr>
 </tbody>
@@ -7133,6 +6749,7 @@ LoadBalancingRulePropertiesFormatProtocol
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.LoadBalancers_Spec_PropertiesARM">LoadBalancers_Spec_PropertiesARM</a>)
 </p>
 <div>
+<p>Deprecated version of LoadBalancers_Spec_Properties_LoadBalancingRules. Use v1beta20201101.LoadBalancers_Spec_Properties_LoadBalancingRules instead</p>
 </div>
 <table>
 <thead>
@@ -7150,8 +6767,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource that is unique within the set of load balancing rules used by the load balancer. This
-name can be used to access the resource.</p>
 </td>
 </tr>
 <tr>
@@ -7164,7 +6779,6 @@ LoadBalancingRulePropertiesFormatARM
 </em>
 </td>
 <td>
-<p>Properties: Properties of load balancer load balancing rule.</p>
 </td>
 </tr>
 </tbody>
@@ -7175,6 +6789,7 @@ LoadBalancingRulePropertiesFormatARM
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.LoadBalancers_Spec">LoadBalancers_Spec</a>)
 </p>
 <div>
+<p>Deprecated version of LoadBalancers_Spec_Properties_OutboundRules. Use v1beta20201101.LoadBalancers_Spec_Properties_OutboundRules instead</p>
 </div>
 <table>
 <thead>
@@ -7192,7 +6807,6 @@ int
 </em>
 </td>
 <td>
-<p>AllocatedOutboundPorts: The number of outbound ports to be used for NAT.</p>
 </td>
 </tr>
 <tr>
@@ -7205,8 +6819,6 @@ SubResource
 </em>
 </td>
 <td>
-<p>BackendAddressPool: A reference to a pool of DIPs. Outbound traffic is randomly load balanced across IPs in the backend
-IPs.</p>
 </td>
 </tr>
 <tr>
@@ -7217,8 +6829,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableTcpReset: Receive bidirectional TCP Reset on TCP flow idle timeout or unexpected connection termination. This
-element is only used when the protocol is set to TCP.</p>
 </td>
 </tr>
 <tr>
@@ -7231,7 +6841,6 @@ element is only used when the protocol is set to TCP.</p>
 </em>
 </td>
 <td>
-<p>FrontendIPConfigurations: The Frontend IP addresses of the load balancer.</p>
 </td>
 </tr>
 <tr>
@@ -7242,7 +6851,6 @@ int
 </em>
 </td>
 <td>
-<p>IdleTimeoutInMinutes: The timeout for the TCP idle connection.</p>
 </td>
 </tr>
 <tr>
@@ -7253,8 +6861,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource that is unique within the set of outbound rules used by the load balancer. This name can
-be used to access the resource.</p>
 </td>
 </tr>
 <tr>
@@ -7267,7 +6873,6 @@ OutboundRulePropertiesFormatProtocol
 </em>
 </td>
 <td>
-<p>Protocol: The protocol for the outbound rule in load balancer.</p>
 </td>
 </tr>
 </tbody>
@@ -7278,6 +6883,7 @@ OutboundRulePropertiesFormatProtocol
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.LoadBalancers_Spec_PropertiesARM">LoadBalancers_Spec_PropertiesARM</a>)
 </p>
 <div>
+<p>Deprecated version of LoadBalancers_Spec_Properties_OutboundRules. Use v1beta20201101.LoadBalancers_Spec_Properties_OutboundRules instead</p>
 </div>
 <table>
 <thead>
@@ -7295,8 +6901,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource that is unique within the set of outbound rules used by the load balancer. This name can
-be used to access the resource.</p>
 </td>
 </tr>
 <tr>
@@ -7309,7 +6913,6 @@ OutboundRulePropertiesFormatARM
 </em>
 </td>
 <td>
-<p>Properties: Properties of load balancer outbound rule.</p>
 </td>
 </tr>
 </tbody>
@@ -7320,6 +6923,7 @@ OutboundRulePropertiesFormatARM
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.LoadBalancers_Spec">LoadBalancers_Spec</a>)
 </p>
 <div>
+<p>Deprecated version of LoadBalancers_Spec_Properties_Probes. Use v1beta20201101.LoadBalancers_Spec_Properties_Probes instead</p>
 </div>
 <table>
 <thead>
@@ -7337,9 +6941,6 @@ int
 </em>
 </td>
 <td>
-<p>IntervalInSeconds: The interval, in seconds, for how frequently to probe the endpoint for health status. Typically, the
-interval is slightly less than half the allocated timeout period (in seconds) which allows two full probes before taking
-the instance out of rotation. The default value is 15, the minimum value is 5.</p>
 </td>
 </tr>
 <tr>
@@ -7350,8 +6951,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource that is unique within the set of probes used by the load balancer. This name can be used
-to access the resource.</p>
 </td>
 </tr>
 <tr>
@@ -7362,9 +6961,6 @@ int
 </em>
 </td>
 <td>
-<p>NumberOfProbes: The number of probes where if no response, will result in stopping further traffic from being delivered
-to the endpoint. This values allows endpoints to be taken out of rotation faster or slower than the typical times used
-in Azure.</p>
 </td>
 </tr>
 <tr>
@@ -7375,7 +6971,6 @@ int
 </em>
 </td>
 <td>
-<p>Port: The port for communicating the probe. Possible values range from 1 to 65535, inclusive.</p>
 </td>
 </tr>
 <tr>
@@ -7388,9 +6983,6 @@ ProbePropertiesFormatProtocol
 </em>
 </td>
 <td>
-<p>Protocol: The protocol of the end point. If &lsquo;Tcp&rsquo; is specified, a received ACK is required for the probe to be
-successful. If &lsquo;Http&rsquo; or &lsquo;Https&rsquo; is specified, a 200 OK response from the specifies URI is required for the probe to be
-successful.</p>
 </td>
 </tr>
 <tr>
@@ -7401,8 +6993,6 @@ string
 </em>
 </td>
 <td>
-<p>RequestPath: The URI used for requesting health status from the VM. Path is required if a protocol is set to http.
-Otherwise, it is not allowed. There is no default value.</p>
 </td>
 </tr>
 </tbody>
@@ -7413,6 +7003,7 @@ Otherwise, it is not allowed. There is no default value.</p>
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.LoadBalancers_Spec_PropertiesARM">LoadBalancers_Spec_PropertiesARM</a>)
 </p>
 <div>
+<p>Deprecated version of LoadBalancers_Spec_Properties_Probes. Use v1beta20201101.LoadBalancers_Spec_Properties_Probes instead</p>
 </div>
 <table>
 <thead>
@@ -7430,8 +7021,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource that is unique within the set of probes used by the load balancer. This name can be used
-to access the resource.</p>
 </td>
 </tr>
 <tr>
@@ -7444,7 +7033,6 @@ ProbePropertiesFormatARM
 </em>
 </td>
 <td>
-<p>Properties: Properties of load balancer probe.</p>
 </td>
 </tr>
 </tbody>
@@ -7455,7 +7043,7 @@ ProbePropertiesFormatARM
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.LoadBalancers_Spec_Properties_LoadBalancingRulesARM">LoadBalancers_Spec_Properties_LoadBalancingRulesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/LoadBalancingRulePropertiesFormat">https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/LoadBalancingRulePropertiesFormat</a></p>
+<p>Deprecated version of LoadBalancingRulePropertiesFormat. Use v1beta20201101.LoadBalancingRulePropertiesFormat instead</p>
 </div>
 <table>
 <thead>
@@ -7475,8 +7063,6 @@ SubResourceARM
 </em>
 </td>
 <td>
-<p>BackendAddressPool: A reference to a pool of DIPs. Inbound traffic is randomly load balanced across IPs in the backend
-IPs.</p>
 </td>
 </tr>
 <tr>
@@ -7487,8 +7073,6 @@ int
 </em>
 </td>
 <td>
-<p>BackendPort: The port used for internal connections on the endpoint. Acceptable values are between 0 and 65535. Note
-that value 0 enables &ldquo;Any Port&rdquo;.</p>
 </td>
 </tr>
 <tr>
@@ -7499,8 +7083,6 @@ bool
 </em>
 </td>
 <td>
-<p>DisableOutboundSnat: Configures SNAT for the VMs in the backend pool to use the publicIP address specified in the
-frontend of the load balancing rule.</p>
 </td>
 </tr>
 <tr>
@@ -7511,9 +7093,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableFloatingIP: Configures a virtual machine&rsquo;s endpoint for the floating IP capability required to configure a SQL
-AlwaysOn Availability Group. This setting is required when using the SQL AlwaysOn Availability Groups in SQL server.
-This setting can&rsquo;t be changed after you create the endpoint.</p>
 </td>
 </tr>
 <tr>
@@ -7524,8 +7103,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableTcpReset: Receive bidirectional TCP Reset on TCP flow idle timeout or unexpected connection termination. This
-element is only used when the protocol is set to TCP.</p>
 </td>
 </tr>
 <tr>
@@ -7538,7 +7115,6 @@ SubResourceARM
 </em>
 </td>
 <td>
-<p>FrontendIPConfiguration: A reference to frontend IP addresses.</p>
 </td>
 </tr>
 <tr>
@@ -7549,8 +7125,6 @@ int
 </em>
 </td>
 <td>
-<p>FrontendPort: The port for the external endpoint. Port numbers for each rule must be unique within the Load Balancer.
-Acceptable values are between 0 and 65534. Note that value 0 enables &ldquo;Any Port&rdquo;.</p>
 </td>
 </tr>
 <tr>
@@ -7561,8 +7135,6 @@ int
 </em>
 </td>
 <td>
-<p>IdleTimeoutInMinutes: The timeout for the TCP idle connection. The value can be set between 4 and 30 minutes. The
-default value is 4 minutes. This element is only used when the protocol is set to TCP.</p>
 </td>
 </tr>
 <tr>
@@ -7575,7 +7147,6 @@ LoadBalancingRulePropertiesFormatLoadDistribution
 </em>
 </td>
 <td>
-<p>LoadDistribution: The load distribution policy for this rule.</p>
 </td>
 </tr>
 <tr>
@@ -7588,7 +7159,6 @@ SubResourceARM
 </em>
 </td>
 <td>
-<p>Probe: The reference to the load balancer probe used by the load balancing rule.</p>
 </td>
 </tr>
 <tr>
@@ -7601,7 +7171,6 @@ LoadBalancingRulePropertiesFormatProtocol
 </em>
 </td>
 <td>
-<p>Protocol: The reference to the transport protocol used by the load balancing rule.</p>
 </td>
 </tr>
 </tbody>
@@ -7612,6 +7181,8 @@ LoadBalancingRulePropertiesFormatProtocol
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.LoadBalancers_Spec_Properties_LoadBalancingRules">LoadBalancers_Spec_Properties_LoadBalancingRules</a>, <a href="#network.azure.com/v1alpha1api20201101.LoadBalancingRulePropertiesFormatARM">LoadBalancingRulePropertiesFormatARM</a>)
 </p>
 <div>
+<p>Deprecated version of LoadBalancingRulePropertiesFormatLoadDistribution. Use
+v1beta20201101.LoadBalancingRulePropertiesFormatLoadDistribution instead</p>
 </div>
 <table>
 <thead>
@@ -7634,6 +7205,8 @@ LoadBalancingRulePropertiesFormatProtocol
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.LoadBalancers_Spec_Properties_LoadBalancingRules">LoadBalancers_Spec_Properties_LoadBalancingRules</a>, <a href="#network.azure.com/v1alpha1api20201101.LoadBalancingRulePropertiesFormatARM">LoadBalancingRulePropertiesFormatARM</a>)
 </p>
 <div>
+<p>Deprecated version of LoadBalancingRulePropertiesFormatProtocol. Use
+v1beta20201101.LoadBalancingRulePropertiesFormatProtocol instead</p>
 </div>
 <table>
 <thead>
@@ -7656,6 +7229,8 @@ LoadBalancingRulePropertiesFormatProtocol
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.LoadBalancingRulePropertiesFormat_StatusARM">LoadBalancingRulePropertiesFormat_StatusARM</a>, <a href="#network.azure.com/v1alpha1api20201101.LoadBalancingRule_Status">LoadBalancingRule_Status</a>)
 </p>
 <div>
+<p>Deprecated version of LoadBalancingRulePropertiesFormatStatusLoadDistribution. Use
+v1beta20201101.LoadBalancingRulePropertiesFormatStatusLoadDistribution instead</p>
 </div>
 <table>
 <thead>
@@ -7678,6 +7253,7 @@ LoadBalancingRulePropertiesFormatProtocol
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.LoadBalancingRule_StatusARM">LoadBalancingRule_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of LoadBalancingRulePropertiesFormat_Status. Use v1beta20201101.LoadBalancingRulePropertiesFormat_Status instead</p>
 </div>
 <table>
 <thead>
@@ -7697,8 +7273,6 @@ SubResource_StatusARM
 </em>
 </td>
 <td>
-<p>BackendAddressPool: A reference to a pool of DIPs. Inbound traffic is randomly load balanced across IPs in the backend
-IPs.</p>
 </td>
 </tr>
 <tr>
@@ -7709,8 +7283,6 @@ int
 </em>
 </td>
 <td>
-<p>BackendPort: The port used for internal connections on the endpoint. Acceptable values are between 0 and 65535. Note
-that value 0 enables &ldquo;Any Port&rdquo;.</p>
 </td>
 </tr>
 <tr>
@@ -7721,8 +7293,6 @@ bool
 </em>
 </td>
 <td>
-<p>DisableOutboundSnat: Configures SNAT for the VMs in the backend pool to use the publicIP address specified in the
-frontend of the load balancing rule.</p>
 </td>
 </tr>
 <tr>
@@ -7733,9 +7303,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableFloatingIP: Configures a virtual machine&rsquo;s endpoint for the floating IP capability required to configure a SQL
-AlwaysOn Availability Group. This setting is required when using the SQL AlwaysOn Availability Groups in SQL server.
-This setting can&rsquo;t be changed after you create the endpoint.</p>
 </td>
 </tr>
 <tr>
@@ -7746,8 +7313,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableTcpReset: Receive bidirectional TCP Reset on TCP flow idle timeout or unexpected connection termination. This
-element is only used when the protocol is set to TCP.</p>
 </td>
 </tr>
 <tr>
@@ -7760,7 +7325,6 @@ SubResource_StatusARM
 </em>
 </td>
 <td>
-<p>FrontendIPConfiguration: A reference to frontend IP addresses.</p>
 </td>
 </tr>
 <tr>
@@ -7771,8 +7335,6 @@ int
 </em>
 </td>
 <td>
-<p>FrontendPort: The port for the external endpoint. Port numbers for each rule must be unique within the Load Balancer.
-Acceptable values are between 0 and 65534. Note that value 0 enables &ldquo;Any Port&rdquo;.</p>
 </td>
 </tr>
 <tr>
@@ -7783,8 +7345,6 @@ int
 </em>
 </td>
 <td>
-<p>IdleTimeoutInMinutes: The timeout for the TCP idle connection. The value can be set between 4 and 30 minutes. The
-default value is 4 minutes. This element is only used when the protocol is set to TCP.</p>
 </td>
 </tr>
 <tr>
@@ -7797,7 +7357,6 @@ LoadBalancingRulePropertiesFormatStatusLoadDistribution
 </em>
 </td>
 <td>
-<p>LoadDistribution: The load distribution policy for this rule.</p>
 </td>
 </tr>
 <tr>
@@ -7810,7 +7369,6 @@ SubResource_StatusARM
 </em>
 </td>
 <td>
-<p>Probe: The reference to the load balancer probe used by the load balancing rule.</p>
 </td>
 </tr>
 <tr>
@@ -7823,7 +7381,6 @@ TransportProtocol_Status
 </em>
 </td>
 <td>
-<p>Protocol: The reference to the transport protocol used by the load balancing rule.</p>
 </td>
 </tr>
 <tr>
@@ -7836,7 +7393,6 @@ ProvisioningState_Status
 </em>
 </td>
 <td>
-<p>ProvisioningState: The provisioning state of the load balancing rule resource.</p>
 </td>
 </tr>
 </tbody>
@@ -7847,6 +7403,7 @@ ProvisioningState_Status
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.LoadBalancer_Status">LoadBalancer_Status</a>)
 </p>
 <div>
+<p>Deprecated version of LoadBalancingRule_Status. Use v1beta20201101.LoadBalancingRule_Status instead</p>
 </div>
 <table>
 <thead>
@@ -7866,8 +7423,6 @@ SubResource_Status
 </em>
 </td>
 <td>
-<p>BackendAddressPool: A reference to a pool of DIPs. Inbound traffic is randomly load balanced across IPs in the backend
-IPs.</p>
 </td>
 </tr>
 <tr>
@@ -7878,8 +7433,6 @@ int
 </em>
 </td>
 <td>
-<p>BackendPort: The port used for internal connections on the endpoint. Acceptable values are between 0 and 65535. Note
-that value 0 enables &ldquo;Any Port&rdquo;.</p>
 </td>
 </tr>
 <tr>
@@ -7890,8 +7443,6 @@ bool
 </em>
 </td>
 <td>
-<p>DisableOutboundSnat: Configures SNAT for the VMs in the backend pool to use the publicIP address specified in the
-frontend of the load balancing rule.</p>
 </td>
 </tr>
 <tr>
@@ -7902,9 +7453,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableFloatingIP: Configures a virtual machine&rsquo;s endpoint for the floating IP capability required to configure a SQL
-AlwaysOn Availability Group. This setting is required when using the SQL AlwaysOn Availability Groups in SQL server.
-This setting can&rsquo;t be changed after you create the endpoint.</p>
 </td>
 </tr>
 <tr>
@@ -7915,8 +7463,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableTcpReset: Receive bidirectional TCP Reset on TCP flow idle timeout or unexpected connection termination. This
-element is only used when the protocol is set to TCP.</p>
 </td>
 </tr>
 <tr>
@@ -7927,7 +7473,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A unique read-only string that changes whenever the resource is updated.</p>
 </td>
 </tr>
 <tr>
@@ -7940,7 +7485,6 @@ SubResource_Status
 </em>
 </td>
 <td>
-<p>FrontendIPConfiguration: A reference to frontend IP addresses.</p>
 </td>
 </tr>
 <tr>
@@ -7951,8 +7495,6 @@ int
 </em>
 </td>
 <td>
-<p>FrontendPort: The port for the external endpoint. Port numbers for each rule must be unique within the Load Balancer.
-Acceptable values are between 0 and 65534. Note that value 0 enables &ldquo;Any Port&rdquo;.</p>
 </td>
 </tr>
 <tr>
@@ -7963,7 +7505,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 <tr>
@@ -7974,8 +7515,6 @@ int
 </em>
 </td>
 <td>
-<p>IdleTimeoutInMinutes: The timeout for the TCP idle connection. The value can be set between 4 and 30 minutes. The
-default value is 4 minutes. This element is only used when the protocol is set to TCP.</p>
 </td>
 </tr>
 <tr>
@@ -7988,7 +7527,6 @@ LoadBalancingRulePropertiesFormatStatusLoadDistribution
 </em>
 </td>
 <td>
-<p>LoadDistribution: The load distribution policy for this rule.</p>
 </td>
 </tr>
 <tr>
@@ -7999,8 +7537,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource that is unique within the set of load balancing rules used by the load balancer. This
-name can be used to access the resource.</p>
 </td>
 </tr>
 <tr>
@@ -8013,7 +7549,6 @@ SubResource_Status
 </em>
 </td>
 <td>
-<p>Probe: The reference to the load balancer probe used by the load balancing rule.</p>
 </td>
 </tr>
 <tr>
@@ -8026,7 +7561,6 @@ TransportProtocol_Status
 </em>
 </td>
 <td>
-<p>Protocol: The reference to the transport protocol used by the load balancing rule.</p>
 </td>
 </tr>
 <tr>
@@ -8039,7 +7573,6 @@ ProvisioningState_Status
 </em>
 </td>
 <td>
-<p>ProvisioningState: The provisioning state of the load balancing rule resource.</p>
 </td>
 </tr>
 <tr>
@@ -8050,7 +7583,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: Type of the resource.</p>
 </td>
 </tr>
 </tbody>
@@ -8061,6 +7593,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.LoadBalancerPropertiesFormat_StatusARM">LoadBalancerPropertiesFormat_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of LoadBalancingRule_Status. Use v1beta20201101.LoadBalancingRule_Status instead</p>
 </div>
 <table>
 <thead>
@@ -8078,7 +7611,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A unique read-only string that changes whenever the resource is updated.</p>
 </td>
 </tr>
 <tr>
@@ -8089,7 +7621,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 <tr>
@@ -8100,8 +7631,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource that is unique within the set of load balancing rules used by the load balancer. This
-name can be used to access the resource.</p>
 </td>
 </tr>
 <tr>
@@ -8114,7 +7643,6 @@ LoadBalancingRulePropertiesFormat_StatusARM
 </em>
 </td>
 <td>
-<p>Properties: Properties of load balancer load balancing rule.</p>
 </td>
 </tr>
 <tr>
@@ -8125,7 +7653,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: Type of the resource.</p>
 </td>
 </tr>
 </tbody>
@@ -8136,6 +7663,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.NatGatewaySku_Status">NatGatewaySku_Status</a>, <a href="#network.azure.com/v1alpha1api20201101.NatGatewaySku_StatusARM">NatGatewaySku_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of NatGatewaySkuStatusName. Use v1beta20201101.NatGatewaySkuStatusName instead</p>
 </div>
 <table>
 <thead>
@@ -8154,6 +7682,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.NatGateway_Status_PublicIPAddress_SubResourceEmbedded">NatGateway_Status_PublicIPAddress_SubResourceEmbedded</a>)
 </p>
 <div>
+<p>Deprecated version of NatGatewaySku_Status. Use v1beta20201101.NatGatewaySku_Status instead</p>
 </div>
 <table>
 <thead>
@@ -8173,7 +7702,6 @@ NatGatewaySkuStatusName
 </em>
 </td>
 <td>
-<p>Name: Name of Nat Gateway SKU.</p>
 </td>
 </tr>
 </tbody>
@@ -8184,6 +7712,7 @@ NatGatewaySkuStatusName
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.NatGateway_Status_PublicIPAddress_SubResourceEmbeddedARM">NatGateway_Status_PublicIPAddress_SubResourceEmbeddedARM</a>)
 </p>
 <div>
+<p>Deprecated version of NatGatewaySku_Status. Use v1beta20201101.NatGatewaySku_Status instead</p>
 </div>
 <table>
 <thead>
@@ -8203,7 +7732,6 @@ NatGatewaySkuStatusName
 </em>
 </td>
 <td>
-<p>Name: Name of Nat Gateway SKU.</p>
 </td>
 </tr>
 </tbody>
@@ -8214,6 +7742,7 @@ NatGatewaySkuStatusName
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded">PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded</a>)
 </p>
 <div>
+<p>Deprecated version of NatGateway_Status_PublicIPAddress_SubResourceEmbedded. Use v1beta20201101.NatGateway_Status_PublicIPAddress_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -8231,7 +7760,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 <tr>
@@ -8244,7 +7772,6 @@ NatGatewaySku_Status
 </em>
 </td>
 <td>
-<p>Sku: The nat gateway SKU.</p>
 </td>
 </tr>
 <tr>
@@ -8255,7 +7782,6 @@ NatGatewaySku_Status
 </em>
 </td>
 <td>
-<p>Zones: A list of availability zones denoting the zone in which Nat Gateway should be deployed.</p>
 </td>
 </tr>
 </tbody>
@@ -8266,6 +7792,7 @@ NatGatewaySku_Status
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.PublicIPAddressPropertiesFormat_StatusARM">PublicIPAddressPropertiesFormat_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of NatGateway_Status_PublicIPAddress_SubResourceEmbedded. Use v1beta20201101.NatGateway_Status_PublicIPAddress_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -8283,7 +7810,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 <tr>
@@ -8296,7 +7822,6 @@ NatGatewaySku_StatusARM
 </em>
 </td>
 <td>
-<p>Sku: The nat gateway SKU.</p>
 </td>
 </tr>
 <tr>
@@ -8307,7 +7832,6 @@ NatGatewaySku_StatusARM
 </em>
 </td>
 <td>
-<p>Zones: A list of availability zones denoting the zone in which Nat Gateway should be deployed.</p>
 </td>
 </tr>
 </tbody>
@@ -8315,7 +7839,7 @@ NatGatewaySku_StatusARM
 <h3 id="network.azure.com/v1alpha1api20201101.NetworkInterface">NetworkInterface
 </h3>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/networkInterfaces">https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/networkInterfaces</a></p>
+<p>Deprecated version of NetworkInterface. Use v1beta20201101.NetworkInterface instead</p>
 </div>
 <table>
 <thead>
@@ -8374,7 +7898,6 @@ NetworkInterfaceDnsSettings
 </em>
 </td>
 <td>
-<p>DnsSettings: The DNS settings in network interface.</p>
 </td>
 </tr>
 <tr>
@@ -8385,7 +7908,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableAcceleratedNetworking: If the network interface is accelerated networking enabled.</p>
 </td>
 </tr>
 <tr>
@@ -8396,7 +7918,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableIPForwarding: Indicates whether IP forwarding is enabled on this network interface.</p>
 </td>
 </tr>
 <tr>
@@ -8409,7 +7930,6 @@ ExtendedLocation
 </em>
 </td>
 <td>
-<p>ExtendedLocation: The extended location of the network interface.</p>
 </td>
 </tr>
 <tr>
@@ -8422,7 +7942,6 @@ ExtendedLocation
 </em>
 </td>
 <td>
-<p>IpConfigurations: A list of IPConfigurations of the network interface.</p>
 </td>
 </tr>
 <tr>
@@ -8433,7 +7952,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -8446,7 +7964,6 @@ SubResource
 </em>
 </td>
 <td>
-<p>NetworkSecurityGroup: The reference to the NetworkSecurityGroup resource.</p>
 </td>
 </tr>
 <tr>
@@ -8459,6 +7976,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -8469,7 +7989,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </table>
@@ -8495,7 +8014,7 @@ NetworkInterface_Status_NetworkInterface_SubResourceEmbedded
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.NetworkInterfaces_Spec">NetworkInterfaces_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/NetworkInterfaceDnsSettings">https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/NetworkInterfaceDnsSettings</a></p>
+<p>Deprecated version of NetworkInterfaceDnsSettings. Use v1beta20201101.NetworkInterfaceDnsSettings instead</p>
 </div>
 <table>
 <thead>
@@ -8513,8 +8032,6 @@ NetworkInterface_Status_NetworkInterface_SubResourceEmbedded
 </em>
 </td>
 <td>
-<p>DnsServers: List of DNS servers IP addresses. Use &lsquo;AzureProvidedDNS&rsquo; to switch to azure provided DNS resolution.
-&lsquo;AzureProvidedDNS&rsquo; value cannot be combined with other IPs, it must be the only value in dnsServers collection.</p>
 </td>
 </tr>
 <tr>
@@ -8525,8 +8042,6 @@ string
 </em>
 </td>
 <td>
-<p>InternalDnsNameLabel: Relative DNS name for this NIC used for internal communications between VMs in the same virtual
-network.</p>
 </td>
 </tr>
 </tbody>
@@ -8537,7 +8052,7 @@ network.</p>
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.NetworkInterfaces_Spec_PropertiesARM">NetworkInterfaces_Spec_PropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/NetworkInterfaceDnsSettings">https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/NetworkInterfaceDnsSettings</a></p>
+<p>Deprecated version of NetworkInterfaceDnsSettings. Use v1beta20201101.NetworkInterfaceDnsSettings instead</p>
 </div>
 <table>
 <thead>
@@ -8555,8 +8070,6 @@ network.</p>
 </em>
 </td>
 <td>
-<p>DnsServers: List of DNS servers IP addresses. Use &lsquo;AzureProvidedDNS&rsquo; to switch to azure provided DNS resolution.
-&lsquo;AzureProvidedDNS&rsquo; value cannot be combined with other IPs, it must be the only value in dnsServers collection.</p>
 </td>
 </tr>
 <tr>
@@ -8567,8 +8080,6 @@ string
 </em>
 </td>
 <td>
-<p>InternalDnsNameLabel: Relative DNS name for this NIC used for internal communications between VMs in the same virtual
-network.</p>
 </td>
 </tr>
 </tbody>
@@ -8579,6 +8090,7 @@ network.</p>
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.NetworkInterface_Status_NetworkInterface_SubResourceEmbedded">NetworkInterface_Status_NetworkInterface_SubResourceEmbedded</a>)
 </p>
 <div>
+<p>Deprecated version of NetworkInterfaceDnsSettings_Status. Use v1beta20201101.NetworkInterfaceDnsSettings_Status instead</p>
 </div>
 <table>
 <thead>
@@ -8596,9 +8108,6 @@ network.</p>
 </em>
 </td>
 <td>
-<p>AppliedDnsServers: If the VM that uses this NIC is part of an Availability Set, then this list will have the union of
-all DNS servers from all NICs that are part of the Availability Set. This property is what is configured on each of
-those VMs.</p>
 </td>
 </tr>
 <tr>
@@ -8609,8 +8118,6 @@ those VMs.</p>
 </em>
 </td>
 <td>
-<p>DnsServers: List of DNS servers IP addresses. Use &lsquo;AzureProvidedDNS&rsquo; to switch to azure provided DNS resolution.
-&lsquo;AzureProvidedDNS&rsquo; value cannot be combined with other IPs, it must be the only value in dnsServers collection.</p>
 </td>
 </tr>
 <tr>
@@ -8621,8 +8128,6 @@ string
 </em>
 </td>
 <td>
-<p>InternalDnsNameLabel: Relative DNS name for this NIC used for internal communications between VMs in the same virtual
-network.</p>
 </td>
 </tr>
 <tr>
@@ -8633,8 +8138,6 @@ string
 </em>
 </td>
 <td>
-<p>InternalDomainNameSuffix: Even if internalDnsNameLabel is not specified, a DNS entry is created for the primary NIC of
-the VM. This DNS name can be constructed by concatenating the VM name with the value of internalDomainNameSuffix.</p>
 </td>
 </tr>
 <tr>
@@ -8645,7 +8148,6 @@ string
 </em>
 </td>
 <td>
-<p>InternalFqdn: Fully qualified DNS name supporting internal communications between VMs in the same virtual network.</p>
 </td>
 </tr>
 </tbody>
@@ -8656,6 +8158,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.NetworkInterfacePropertiesFormat_StatusARM">NetworkInterfacePropertiesFormat_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of NetworkInterfaceDnsSettings_Status. Use v1beta20201101.NetworkInterfaceDnsSettings_Status instead</p>
 </div>
 <table>
 <thead>
@@ -8673,9 +8176,6 @@ string
 </em>
 </td>
 <td>
-<p>AppliedDnsServers: If the VM that uses this NIC is part of an Availability Set, then this list will have the union of
-all DNS servers from all NICs that are part of the Availability Set. This property is what is configured on each of
-those VMs.</p>
 </td>
 </tr>
 <tr>
@@ -8686,8 +8186,6 @@ those VMs.</p>
 </em>
 </td>
 <td>
-<p>DnsServers: List of DNS servers IP addresses. Use &lsquo;AzureProvidedDNS&rsquo; to switch to azure provided DNS resolution.
-&lsquo;AzureProvidedDNS&rsquo; value cannot be combined with other IPs, it must be the only value in dnsServers collection.</p>
 </td>
 </tr>
 <tr>
@@ -8698,8 +8196,6 @@ string
 </em>
 </td>
 <td>
-<p>InternalDnsNameLabel: Relative DNS name for this NIC used for internal communications between VMs in the same virtual
-network.</p>
 </td>
 </tr>
 <tr>
@@ -8710,8 +8206,6 @@ string
 </em>
 </td>
 <td>
-<p>InternalDomainNameSuffix: Even if internalDnsNameLabel is not specified, a DNS entry is created for the primary NIC of
-the VM. This DNS name can be constructed by concatenating the VM name with the value of internalDomainNameSuffix.</p>
 </td>
 </tr>
 <tr>
@@ -8722,7 +8216,6 @@ string
 </em>
 </td>
 <td>
-<p>InternalFqdn: Fully qualified DNS name supporting internal communications between VMs in the same virtual network.</p>
 </td>
 </tr>
 </tbody>
@@ -8733,6 +8226,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResourceEmbedded">NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResourceEmbedded</a>)
 </p>
 <div>
+<p>Deprecated version of NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_Status. Use v1beta20201101.NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -8750,7 +8244,6 @@ string
 </em>
 </td>
 <td>
-<p>Fqdns: List of FQDNs for current private link connection.</p>
 </td>
 </tr>
 <tr>
@@ -8761,7 +8254,6 @@ string
 </em>
 </td>
 <td>
-<p>GroupId: The group ID for current private link connection.</p>
 </td>
 </tr>
 <tr>
@@ -8772,7 +8264,6 @@ string
 </em>
 </td>
 <td>
-<p>RequiredMemberName: The required member name for current private link connection.</p>
 </td>
 </tr>
 </tbody>
@@ -8783,6 +8274,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.NetworkInterfaceIPConfigurationPropertiesFormat_Status_NetworkInterface_SubResourceEmbeddedARM">NetworkInterfaceIPConfigurationPropertiesFormat_Status_NetworkInterface_SubResourceEmbeddedARM</a>)
 </p>
 <div>
+<p>Deprecated version of NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_Status. Use v1beta20201101.NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -8800,7 +8292,6 @@ string
 </em>
 </td>
 <td>
-<p>Fqdns: List of FQDNs for current private link connection.</p>
 </td>
 </tr>
 <tr>
@@ -8811,7 +8302,6 @@ string
 </em>
 </td>
 <td>
-<p>GroupId: The group ID for current private link connection.</p>
 </td>
 </tr>
 <tr>
@@ -8822,7 +8312,6 @@ string
 </em>
 </td>
 <td>
-<p>RequiredMemberName: The required member name for current private link connection.</p>
 </td>
 </tr>
 </tbody>
@@ -8833,7 +8322,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.NetworkInterfaces_Spec_Properties_IpConfigurationsARM">NetworkInterfaces_Spec_Properties_IpConfigurationsARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/NetworkInterfaceIPConfigurationPropertiesFormat">https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/NetworkInterfaceIPConfigurationPropertiesFormat</a></p>
+<p>Deprecated version of NetworkInterfaceIPConfigurationPropertiesFormat. Use v1beta20201101.NetworkInterfaceIPConfigurationPropertiesFormat instead</p>
 </div>
 <table>
 <thead>
@@ -8853,7 +8342,6 @@ string
 </em>
 </td>
 <td>
-<p>ApplicationGatewayBackendAddressPools: The reference to ApplicationGatewayBackendAddressPool resource.</p>
 </td>
 </tr>
 <tr>
@@ -8866,7 +8354,6 @@ string
 </em>
 </td>
 <td>
-<p>ApplicationSecurityGroups: Application security groups in which the IP configuration is included.</p>
 </td>
 </tr>
 <tr>
@@ -8879,7 +8366,6 @@ string
 </em>
 </td>
 <td>
-<p>LoadBalancerBackendAddressPools: The reference to LoadBalancerBackendAddressPool resource.</p>
 </td>
 </tr>
 <tr>
@@ -8892,7 +8378,6 @@ string
 </em>
 </td>
 <td>
-<p>LoadBalancerInboundNatRules: A list of references of LoadBalancerInboundNatRules.</p>
 </td>
 </tr>
 <tr>
@@ -8903,7 +8388,6 @@ bool
 </em>
 </td>
 <td>
-<p>Primary: Whether this is a primary customer address on the network interface.</p>
 </td>
 </tr>
 <tr>
@@ -8914,7 +8398,6 @@ string
 </em>
 </td>
 <td>
-<p>PrivateIPAddress: Private IP address of the IP configuration.</p>
 </td>
 </tr>
 <tr>
@@ -8927,7 +8410,6 @@ NetworkInterfaceIPConfigurationPropertiesFormatPrivateIPAddressVersion
 </em>
 </td>
 <td>
-<p>PrivateIPAddressVersion: Whether the specific IP configuration is IPv4 or IPv6. Default is IPv4.</p>
 </td>
 </tr>
 <tr>
@@ -8940,7 +8422,6 @@ NetworkInterfaceIPConfigurationPropertiesFormatPrivateIPAllocationMethod
 </em>
 </td>
 <td>
-<p>PrivateIPAllocationMethod: The private IP address allocation method.</p>
 </td>
 </tr>
 <tr>
@@ -8953,7 +8434,6 @@ SubResourceARM
 </em>
 </td>
 <td>
-<p>PublicIPAddress: Public IP address bound to the IP configuration.</p>
 </td>
 </tr>
 <tr>
@@ -8966,7 +8446,6 @@ SubResourceARM
 </em>
 </td>
 <td>
-<p>Subnet: Subnet bound to the IP configuration.</p>
 </td>
 </tr>
 <tr>
@@ -8979,7 +8458,6 @@ SubResourceARM
 </em>
 </td>
 <td>
-<p>VirtualNetworkTaps: The reference to Virtual Network Taps.</p>
 </td>
 </tr>
 </tbody>
@@ -8990,6 +8468,8 @@ SubResourceARM
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.NetworkInterfaceIPConfigurationPropertiesFormatARM">NetworkInterfaceIPConfigurationPropertiesFormatARM</a>, <a href="#network.azure.com/v1alpha1api20201101.NetworkInterfaces_Spec_Properties_IpConfigurations">NetworkInterfaces_Spec_Properties_IpConfigurations</a>)
 </p>
 <div>
+<p>Deprecated version of NetworkInterfaceIPConfigurationPropertiesFormatPrivateIPAddressVersion. Use
+v1beta20201101.NetworkInterfaceIPConfigurationPropertiesFormatPrivateIPAddressVersion instead</p>
 </div>
 <table>
 <thead>
@@ -9010,6 +8490,8 @@ SubResourceARM
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.NetworkInterfaceIPConfigurationPropertiesFormatARM">NetworkInterfaceIPConfigurationPropertiesFormatARM</a>, <a href="#network.azure.com/v1alpha1api20201101.NetworkInterfaces_Spec_Properties_IpConfigurations">NetworkInterfaces_Spec_Properties_IpConfigurations</a>)
 </p>
 <div>
+<p>Deprecated version of NetworkInterfaceIPConfigurationPropertiesFormatPrivateIPAllocationMethod. Use
+v1beta20201101.NetworkInterfaceIPConfigurationPropertiesFormatPrivateIPAllocationMethod instead</p>
 </div>
 <table>
 <thead>
@@ -9030,6 +8512,7 @@ SubResourceARM
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResourceEmbeddedARM">NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResourceEmbeddedARM</a>)
 </p>
 <div>
+<p>Deprecated version of NetworkInterfaceIPConfigurationPropertiesFormat_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.NetworkInterfaceIPConfigurationPropertiesFormat_Status_NetworkInterface_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -9049,7 +8532,6 @@ SubResourceARM
 </em>
 </td>
 <td>
-<p>ApplicationGatewayBackendAddressPools: The reference to ApplicationGatewayBackendAddressPool resource.</p>
 </td>
 </tr>
 <tr>
@@ -9062,7 +8544,6 @@ SubResourceARM
 </em>
 </td>
 <td>
-<p>ApplicationSecurityGroups: Application security groups in which the IP configuration is included.</p>
 </td>
 </tr>
 <tr>
@@ -9075,7 +8556,6 @@ SubResourceARM
 </em>
 </td>
 <td>
-<p>LoadBalancerBackendAddressPools: The reference to LoadBalancerBackendAddressPool resource.</p>
 </td>
 </tr>
 <tr>
@@ -9088,7 +8568,6 @@ SubResourceARM
 </em>
 </td>
 <td>
-<p>LoadBalancerInboundNatRules: A list of references of LoadBalancerInboundNatRules.</p>
 </td>
 </tr>
 <tr>
@@ -9099,7 +8578,6 @@ bool
 </em>
 </td>
 <td>
-<p>Primary: Whether this is a primary customer address on the network interface.</p>
 </td>
 </tr>
 <tr>
@@ -9110,7 +8588,6 @@ string
 </em>
 </td>
 <td>
-<p>PrivateIPAddress: Private IP address of the IP configuration.</p>
 </td>
 </tr>
 <tr>
@@ -9123,7 +8600,6 @@ IPVersion_Status
 </em>
 </td>
 <td>
-<p>PrivateIPAddressVersion: Whether the specific IP configuration is IPv4 or IPv6. Default is IPv4.</p>
 </td>
 </tr>
 <tr>
@@ -9136,7 +8612,6 @@ IPAllocationMethod_Status
 </em>
 </td>
 <td>
-<p>PrivateIPAllocationMethod: The private IP address allocation method.</p>
 </td>
 </tr>
 <tr>
@@ -9149,7 +8624,6 @@ NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_StatusARM
 </em>
 </td>
 <td>
-<p>PrivateLinkConnectionProperties: PrivateLinkConnection properties for the network interface.</p>
 </td>
 </tr>
 <tr>
@@ -9162,7 +8636,6 @@ ProvisioningState_Status
 </em>
 </td>
 <td>
-<p>ProvisioningState: The provisioning state of the network interface IP configuration.</p>
 </td>
 </tr>
 <tr>
@@ -9175,7 +8648,6 @@ PublicIPAddress_Status_NetworkInterface_SubResourceEmbeddedARM
 </em>
 </td>
 <td>
-<p>PublicIPAddress: Public IP address bound to the IP configuration.</p>
 </td>
 </tr>
 <tr>
@@ -9188,7 +8660,6 @@ Subnet_Status_NetworkInterface_SubResourceEmbeddedARM
 </em>
 </td>
 <td>
-<p>Subnet: Subnet bound to the IP configuration.</p>
 </td>
 </tr>
 <tr>
@@ -9201,7 +8672,6 @@ Subnet_Status_NetworkInterface_SubResourceEmbeddedARM
 </em>
 </td>
 <td>
-<p>VirtualNetworkTaps: The reference to Virtual Network Taps.</p>
 </td>
 </tr>
 </tbody>
@@ -9212,6 +8682,7 @@ Subnet_Status_NetworkInterface_SubResourceEmbeddedARM
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.NetworkInterface_Status_NetworkInterface_SubResourceEmbedded">NetworkInterface_Status_NetworkInterface_SubResourceEmbedded</a>)
 </p>
 <div>
+<p>Deprecated version of NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -9231,7 +8702,6 @@ Subnet_Status_NetworkInterface_SubResourceEmbeddedARM
 </em>
 </td>
 <td>
-<p>ApplicationGatewayBackendAddressPools: The reference to ApplicationGatewayBackendAddressPool resource.</p>
 </td>
 </tr>
 <tr>
@@ -9244,7 +8714,6 @@ Subnet_Status_NetworkInterface_SubResourceEmbeddedARM
 </em>
 </td>
 <td>
-<p>ApplicationSecurityGroups: Application security groups in which the IP configuration is included.</p>
 </td>
 </tr>
 <tr>
@@ -9255,7 +8724,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A unique read-only string that changes whenever the resource is updated.</p>
 </td>
 </tr>
 <tr>
@@ -9266,7 +8734,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 <tr>
@@ -9279,7 +8746,6 @@ string
 </em>
 </td>
 <td>
-<p>LoadBalancerBackendAddressPools: The reference to LoadBalancerBackendAddressPool resource.</p>
 </td>
 </tr>
 <tr>
@@ -9292,7 +8758,6 @@ string
 </em>
 </td>
 <td>
-<p>LoadBalancerInboundNatRules: A list of references of LoadBalancerInboundNatRules.</p>
 </td>
 </tr>
 <tr>
@@ -9303,7 +8768,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.</p>
 </td>
 </tr>
 <tr>
@@ -9314,7 +8778,6 @@ bool
 </em>
 </td>
 <td>
-<p>Primary: Whether this is a primary customer address on the network interface.</p>
 </td>
 </tr>
 <tr>
@@ -9325,7 +8788,6 @@ string
 </em>
 </td>
 <td>
-<p>PrivateIPAddress: Private IP address of the IP configuration.</p>
 </td>
 </tr>
 <tr>
@@ -9338,7 +8800,6 @@ IPVersion_Status
 </em>
 </td>
 <td>
-<p>PrivateIPAddressVersion: Whether the specific IP configuration is IPv4 or IPv6. Default is IPv4.</p>
 </td>
 </tr>
 <tr>
@@ -9351,7 +8812,6 @@ IPAllocationMethod_Status
 </em>
 </td>
 <td>
-<p>PrivateIPAllocationMethod: The private IP address allocation method.</p>
 </td>
 </tr>
 <tr>
@@ -9364,7 +8824,6 @@ NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_Status
 </em>
 </td>
 <td>
-<p>PrivateLinkConnectionProperties: PrivateLinkConnection properties for the network interface.</p>
 </td>
 </tr>
 <tr>
@@ -9377,7 +8836,6 @@ ProvisioningState_Status
 </em>
 </td>
 <td>
-<p>ProvisioningState: The provisioning state of the network interface IP configuration.</p>
 </td>
 </tr>
 <tr>
@@ -9390,7 +8848,6 @@ PublicIPAddress_Status_NetworkInterface_SubResourceEmbedded
 </em>
 </td>
 <td>
-<p>PublicIPAddress: Public IP address bound to the IP configuration.</p>
 </td>
 </tr>
 <tr>
@@ -9403,7 +8860,6 @@ Subnet_Status_NetworkInterface_SubResourceEmbedded
 </em>
 </td>
 <td>
-<p>Subnet: Subnet bound to the IP configuration.</p>
 </td>
 </tr>
 <tr>
@@ -9414,7 +8870,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: Resource type.</p>
 </td>
 </tr>
 <tr>
@@ -9427,7 +8882,6 @@ string
 </em>
 </td>
 <td>
-<p>VirtualNetworkTaps: The reference to Virtual Network Taps.</p>
 </td>
 </tr>
 </tbody>
@@ -9438,6 +8892,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.NetworkInterfacePropertiesFormat_StatusARM">NetworkInterfacePropertiesFormat_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -9455,7 +8910,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A unique read-only string that changes whenever the resource is updated.</p>
 </td>
 </tr>
 <tr>
@@ -9466,7 +8920,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 <tr>
@@ -9477,7 +8930,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.</p>
 </td>
 </tr>
 <tr>
@@ -9490,7 +8942,6 @@ NetworkInterfaceIPConfigurationPropertiesFormat_Status_NetworkInterface_SubResou
 </em>
 </td>
 <td>
-<p>Properties: Network interface IP configuration properties.</p>
 </td>
 </tr>
 <tr>
@@ -9501,7 +8952,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: Resource type.</p>
 </td>
 </tr>
 </tbody>
@@ -9512,6 +8962,8 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.NetworkInterfacePropertiesFormat_StatusARM">NetworkInterfacePropertiesFormat_StatusARM</a>, <a href="#network.azure.com/v1alpha1api20201101.NetworkInterface_Status_NetworkInterface_SubResourceEmbedded">NetworkInterface_Status_NetworkInterface_SubResourceEmbedded</a>)
 </p>
 <div>
+<p>Deprecated version of NetworkInterfacePropertiesFormatStatusMigrationPhase. Use
+v1beta20201101.NetworkInterfacePropertiesFormatStatusMigrationPhase instead</p>
 </div>
 <table>
 <thead>
@@ -9538,6 +8990,8 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.NetworkInterfacePropertiesFormat_StatusARM">NetworkInterfacePropertiesFormat_StatusARM</a>, <a href="#network.azure.com/v1alpha1api20201101.NetworkInterface_Status_NetworkInterface_SubResourceEmbedded">NetworkInterface_Status_NetworkInterface_SubResourceEmbedded</a>)
 </p>
 <div>
+<p>Deprecated version of NetworkInterfacePropertiesFormatStatusNicType. Use
+v1beta20201101.NetworkInterfacePropertiesFormatStatusNicType instead</p>
 </div>
 <table>
 <thead>
@@ -9558,6 +9012,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.NetworkInterface_Status_NetworkInterface_SubResourceEmbeddedARM">NetworkInterface_Status_NetworkInterface_SubResourceEmbeddedARM</a>)
 </p>
 <div>
+<p>Deprecated version of NetworkInterfacePropertiesFormat_Status. Use v1beta20201101.NetworkInterfacePropertiesFormat_Status instead</p>
 </div>
 <table>
 <thead>
@@ -9577,7 +9032,6 @@ NetworkInterfaceDnsSettings_StatusARM
 </em>
 </td>
 <td>
-<p>DnsSettings: The DNS settings in network interface.</p>
 </td>
 </tr>
 <tr>
@@ -9590,7 +9044,6 @@ SubResource_StatusARM
 </em>
 </td>
 <td>
-<p>DscpConfiguration: A reference to the dscp configuration to which the network interface is linked.</p>
 </td>
 </tr>
 <tr>
@@ -9601,7 +9054,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableAcceleratedNetworking: If the network interface is accelerated networking enabled.</p>
 </td>
 </tr>
 <tr>
@@ -9612,7 +9064,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableIPForwarding: Indicates whether IP forwarding is enabled on this network interface.</p>
 </td>
 </tr>
 <tr>
@@ -9623,7 +9074,6 @@ bool
 </em>
 </td>
 <td>
-<p>HostedWorkloads: A list of references to linked BareMetal resources.</p>
 </td>
 </tr>
 <tr>
@@ -9636,7 +9086,6 @@ bool
 </em>
 </td>
 <td>
-<p>IpConfigurations: A list of IPConfigurations of the network interface.</p>
 </td>
 </tr>
 <tr>
@@ -9647,7 +9096,6 @@ string
 </em>
 </td>
 <td>
-<p>MacAddress: The MAC address of the network interface.</p>
 </td>
 </tr>
 <tr>
@@ -9660,7 +9108,6 @@ NetworkInterfacePropertiesFormatStatusMigrationPhase
 </em>
 </td>
 <td>
-<p>MigrationPhase: Migration phase of Network Interface resource.</p>
 </td>
 </tr>
 <tr>
@@ -9673,7 +9120,6 @@ NetworkSecurityGroup_Status_NetworkInterface_SubResourceEmbeddedARM
 </em>
 </td>
 <td>
-<p>NetworkSecurityGroup: The reference to the NetworkSecurityGroup resource.</p>
 </td>
 </tr>
 <tr>
@@ -9686,7 +9132,6 @@ NetworkInterfacePropertiesFormatStatusNicType
 </em>
 </td>
 <td>
-<p>NicType: Type of Network Interface resource.</p>
 </td>
 </tr>
 <tr>
@@ -9697,7 +9142,6 @@ bool
 </em>
 </td>
 <td>
-<p>Primary: Whether this is a primary network interface on a virtual machine.</p>
 </td>
 </tr>
 <tr>
@@ -9710,7 +9154,6 @@ PrivateEndpoint_Status_NetworkInterface_SubResourceEmbeddedARM
 </em>
 </td>
 <td>
-<p>PrivateEndpoint: A reference to the private endpoint to which the network interface is linked.</p>
 </td>
 </tr>
 <tr>
@@ -9723,7 +9166,6 @@ PrivateLinkService_Status_NetworkInterface_SubResourceEmbeddedARM
 </em>
 </td>
 <td>
-<p>PrivateLinkService: Privatelinkservice of the network interface resource.</p>
 </td>
 </tr>
 <tr>
@@ -9736,7 +9178,6 @@ ProvisioningState_Status
 </em>
 </td>
 <td>
-<p>ProvisioningState: The provisioning state of the network interface resource.</p>
 </td>
 </tr>
 <tr>
@@ -9747,7 +9188,6 @@ string
 </em>
 </td>
 <td>
-<p>ResourceGuid: The resource GUID property of the network interface resource.</p>
 </td>
 </tr>
 <tr>
@@ -9760,7 +9200,6 @@ string
 </em>
 </td>
 <td>
-<p>TapConfigurations: A list of TapConfigurations of the network interface.</p>
 </td>
 </tr>
 <tr>
@@ -9773,7 +9212,6 @@ SubResource_StatusARM
 </em>
 </td>
 <td>
-<p>VirtualMachine: The reference to a virtual machine.</p>
 </td>
 </tr>
 </tbody>
@@ -9784,6 +9222,7 @@ SubResource_StatusARM
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.NetworkInterface_Status_NetworkInterface_SubResourceEmbedded">NetworkInterface_Status_NetworkInterface_SubResourceEmbedded</a>)
 </p>
 <div>
+<p>Deprecated version of NetworkInterfaceTapConfiguration_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.NetworkInterfaceTapConfiguration_Status_NetworkInterface_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -9801,7 +9240,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 </tbody>
@@ -9812,6 +9250,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.NetworkInterfacePropertiesFormat_StatusARM">NetworkInterfacePropertiesFormat_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of NetworkInterfaceTapConfiguration_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.NetworkInterfaceTapConfiguration_Status_NetworkInterface_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -9829,7 +9268,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 </tbody>
@@ -9840,6 +9278,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.NetworkInterface">NetworkInterface</a>)
 </p>
 <div>
+<p>Deprecated version of NetworkInterface_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.NetworkInterface_Status_NetworkInterface_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -9872,7 +9311,6 @@ NetworkInterfaceDnsSettings_Status
 </em>
 </td>
 <td>
-<p>DnsSettings: The DNS settings in network interface.</p>
 </td>
 </tr>
 <tr>
@@ -9885,7 +9323,6 @@ SubResource_Status
 </em>
 </td>
 <td>
-<p>DscpConfiguration: A reference to the dscp configuration to which the network interface is linked.</p>
 </td>
 </tr>
 <tr>
@@ -9896,7 +9333,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableAcceleratedNetworking: If the network interface is accelerated networking enabled.</p>
 </td>
 </tr>
 <tr>
@@ -9907,7 +9343,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableIPForwarding: Indicates whether IP forwarding is enabled on this network interface.</p>
 </td>
 </tr>
 <tr>
@@ -9918,7 +9353,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A unique read-only string that changes whenever the resource is updated.</p>
 </td>
 </tr>
 <tr>
@@ -9931,7 +9365,6 @@ ExtendedLocation_Status
 </em>
 </td>
 <td>
-<p>ExtendedLocation: The extended location of the network interface.</p>
 </td>
 </tr>
 <tr>
@@ -9942,7 +9375,6 @@ ExtendedLocation_Status
 </em>
 </td>
 <td>
-<p>HostedWorkloads: A list of references to linked BareMetal resources.</p>
 </td>
 </tr>
 <tr>
@@ -9953,7 +9385,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 <tr>
@@ -9966,7 +9397,6 @@ string
 </em>
 </td>
 <td>
-<p>IpConfigurations: A list of IPConfigurations of the network interface.</p>
 </td>
 </tr>
 <tr>
@@ -9977,7 +9407,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Resource location.</p>
 </td>
 </tr>
 <tr>
@@ -9988,7 +9417,6 @@ string
 </em>
 </td>
 <td>
-<p>MacAddress: The MAC address of the network interface.</p>
 </td>
 </tr>
 <tr>
@@ -10001,7 +9429,6 @@ NetworkInterfacePropertiesFormatStatusMigrationPhase
 </em>
 </td>
 <td>
-<p>MigrationPhase: Migration phase of Network Interface resource.</p>
 </td>
 </tr>
 <tr>
@@ -10012,7 +9439,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Resource name.</p>
 </td>
 </tr>
 <tr>
@@ -10025,7 +9451,6 @@ NetworkSecurityGroup_Status_NetworkInterface_SubResourceEmbedded
 </em>
 </td>
 <td>
-<p>NetworkSecurityGroup: The reference to the NetworkSecurityGroup resource.</p>
 </td>
 </tr>
 <tr>
@@ -10038,7 +9463,6 @@ NetworkInterfacePropertiesFormatStatusNicType
 </em>
 </td>
 <td>
-<p>NicType: Type of Network Interface resource.</p>
 </td>
 </tr>
 <tr>
@@ -10049,7 +9473,6 @@ bool
 </em>
 </td>
 <td>
-<p>Primary: Whether this is a primary network interface on a virtual machine.</p>
 </td>
 </tr>
 <tr>
@@ -10062,7 +9485,6 @@ PrivateEndpoint_Status_NetworkInterface_SubResourceEmbedded
 </em>
 </td>
 <td>
-<p>PrivateEndpoint: A reference to the private endpoint to which the network interface is linked.</p>
 </td>
 </tr>
 <tr>
@@ -10075,7 +9497,6 @@ PrivateLinkService_Status_NetworkInterface_SubResourceEmbedded
 </em>
 </td>
 <td>
-<p>PrivateLinkService: Privatelinkservice of the network interface resource.</p>
 </td>
 </tr>
 <tr>
@@ -10088,7 +9509,6 @@ ProvisioningState_Status
 </em>
 </td>
 <td>
-<p>ProvisioningState: The provisioning state of the network interface resource.</p>
 </td>
 </tr>
 <tr>
@@ -10099,7 +9519,6 @@ string
 </em>
 </td>
 <td>
-<p>ResourceGuid: The resource GUID property of the network interface resource.</p>
 </td>
 </tr>
 <tr>
@@ -10110,7 +9529,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Resource tags.</p>
 </td>
 </tr>
 <tr>
@@ -10123,7 +9541,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>TapConfigurations: A list of TapConfigurations of the network interface.</p>
 </td>
 </tr>
 <tr>
@@ -10134,7 +9551,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: Resource type.</p>
 </td>
 </tr>
 <tr>
@@ -10147,7 +9563,6 @@ SubResource_Status
 </em>
 </td>
 <td>
-<p>VirtualMachine: The reference to a virtual machine.</p>
 </td>
 </tr>
 </tbody>
@@ -10155,6 +9570,7 @@ SubResource_Status
 <h3 id="network.azure.com/v1alpha1api20201101.NetworkInterface_Status_NetworkInterface_SubResourceEmbeddedARM">NetworkInterface_Status_NetworkInterface_SubResourceEmbeddedARM
 </h3>
 <div>
+<p>Deprecated version of NetworkInterface_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.NetworkInterface_Status_NetworkInterface_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -10172,7 +9588,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A unique read-only string that changes whenever the resource is updated.</p>
 </td>
 </tr>
 <tr>
@@ -10185,7 +9600,6 @@ ExtendedLocation_StatusARM
 </em>
 </td>
 <td>
-<p>ExtendedLocation: The extended location of the network interface.</p>
 </td>
 </tr>
 <tr>
@@ -10196,7 +9610,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 <tr>
@@ -10207,7 +9620,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Resource location.</p>
 </td>
 </tr>
 <tr>
@@ -10218,7 +9630,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Resource name.</p>
 </td>
 </tr>
 <tr>
@@ -10231,7 +9642,6 @@ NetworkInterfacePropertiesFormat_StatusARM
 </em>
 </td>
 <td>
-<p>Properties: Properties of the network interface.</p>
 </td>
 </tr>
 <tr>
@@ -10242,7 +9652,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Resource tags.</p>
 </td>
 </tr>
 <tr>
@@ -10253,7 +9662,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: Resource type.</p>
 </td>
 </tr>
 </tbody>
@@ -10264,6 +9672,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded">NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded</a>)
 </p>
 <div>
+<p>Deprecated version of NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded. Use v1beta20201101.NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -10283,7 +9692,6 @@ ExtendedLocation_Status
 </em>
 </td>
 <td>
-<p>ExtendedLocation: The extended location of the network interface.</p>
 </td>
 </tr>
 <tr>
@@ -10294,7 +9702,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 </tbody>
@@ -10305,6 +9712,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.NetworkSecurityGroupPropertiesFormat_StatusARM">NetworkSecurityGroupPropertiesFormat_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded. Use v1beta20201101.NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -10324,7 +9732,6 @@ ExtendedLocation_StatusARM
 </em>
 </td>
 <td>
-<p>ExtendedLocation: The extended location of the network interface.</p>
 </td>
 </tr>
 <tr>
@@ -10335,25 +9742,9 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 </tbody>
-</table>
-<h3 id="network.azure.com/v1alpha1api20201101.NetworkInterfacesSpecAPIVersion">NetworkInterfacesSpecAPIVersion
-(<code>string</code> alias)</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;2020-11-01&#34;</p></td>
-<td></td>
-</tr></tbody>
 </table>
 <h3 id="network.azure.com/v1alpha1api20201101.NetworkInterfaces_Spec">NetworkInterfaces_Spec
 </h3>
@@ -10392,7 +9783,6 @@ NetworkInterfaceDnsSettings
 </em>
 </td>
 <td>
-<p>DnsSettings: The DNS settings in network interface.</p>
 </td>
 </tr>
 <tr>
@@ -10403,7 +9793,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableAcceleratedNetworking: If the network interface is accelerated networking enabled.</p>
 </td>
 </tr>
 <tr>
@@ -10414,7 +9803,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableIPForwarding: Indicates whether IP forwarding is enabled on this network interface.</p>
 </td>
 </tr>
 <tr>
@@ -10427,7 +9815,6 @@ ExtendedLocation
 </em>
 </td>
 <td>
-<p>ExtendedLocation: The extended location of the network interface.</p>
 </td>
 </tr>
 <tr>
@@ -10440,7 +9827,6 @@ ExtendedLocation
 </em>
 </td>
 <td>
-<p>IpConfigurations: A list of IPConfigurations of the network interface.</p>
 </td>
 </tr>
 <tr>
@@ -10451,7 +9837,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -10464,7 +9849,6 @@ SubResource
 </em>
 </td>
 <td>
-<p>NetworkSecurityGroup: The reference to the NetworkSecurityGroup resource.</p>
 </td>
 </tr>
 <tr>
@@ -10477,6 +9861,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -10487,7 +9874,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </tbody>
@@ -10495,6 +9881,7 @@ map[string]string
 <h3 id="network.azure.com/v1alpha1api20201101.NetworkInterfaces_SpecARM">NetworkInterfaces_SpecARM
 </h3>
 <div>
+<p>Deprecated version of NetworkInterfaces_Spec. Use v1beta20201101.NetworkInterfaces_Spec instead</p>
 </div>
 <table>
 <thead>
@@ -10514,7 +9901,6 @@ ExtendedLocationARM
 </em>
 </td>
 <td>
-<p>ExtendedLocation: The extended location of the network interface.</p>
 </td>
 </tr>
 <tr>
@@ -10525,7 +9911,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -10536,7 +9921,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Name of the resource</p>
 </td>
 </tr>
 <tr>
@@ -10549,7 +9933,6 @@ NetworkInterfaces_Spec_PropertiesARM
 </em>
 </td>
 <td>
-<p>Properties: Properties of the network interface.</p>
 </td>
 </tr>
 <tr>
@@ -10560,7 +9943,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </tbody>
@@ -10571,6 +9953,7 @@ map[string]string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.NetworkInterfaces_SpecARM">NetworkInterfaces_SpecARM</a>)
 </p>
 <div>
+<p>Deprecated version of NetworkInterfaces_Spec_Properties. Use v1beta20201101.NetworkInterfaces_Spec_Properties instead</p>
 </div>
 <table>
 <thead>
@@ -10590,7 +9973,6 @@ NetworkInterfaceDnsSettingsARM
 </em>
 </td>
 <td>
-<p>DnsSettings: The DNS settings in network interface.</p>
 </td>
 </tr>
 <tr>
@@ -10601,7 +9983,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableAcceleratedNetworking: If the network interface is accelerated networking enabled.</p>
 </td>
 </tr>
 <tr>
@@ -10612,7 +9993,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableIPForwarding: Indicates whether IP forwarding is enabled on this network interface.</p>
 </td>
 </tr>
 <tr>
@@ -10625,7 +10005,6 @@ bool
 </em>
 </td>
 <td>
-<p>IpConfigurations: A list of IPConfigurations of the network interface.</p>
 </td>
 </tr>
 <tr>
@@ -10638,7 +10017,6 @@ SubResourceARM
 </em>
 </td>
 <td>
-<p>NetworkSecurityGroup: The reference to the NetworkSecurityGroup resource.</p>
 </td>
 </tr>
 </tbody>
@@ -10649,6 +10027,7 @@ SubResourceARM
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.NetworkInterfaces_Spec">NetworkInterfaces_Spec</a>)
 </p>
 <div>
+<p>Deprecated version of NetworkInterfaces_Spec_Properties_IpConfigurations. Use v1beta20201101.NetworkInterfaces_Spec_Properties_IpConfigurations instead</p>
 </div>
 <table>
 <thead>
@@ -10668,7 +10047,6 @@ SubResourceARM
 </em>
 </td>
 <td>
-<p>ApplicationGatewayBackendAddressPools: The reference to ApplicationGatewayBackendAddressPool resource.</p>
 </td>
 </tr>
 <tr>
@@ -10681,7 +10059,6 @@ SubResourceARM
 </em>
 </td>
 <td>
-<p>ApplicationSecurityGroups: Application security groups in which the IP configuration is included.</p>
 </td>
 </tr>
 <tr>
@@ -10694,7 +10071,6 @@ SubResourceARM
 </em>
 </td>
 <td>
-<p>LoadBalancerBackendAddressPools: The reference to LoadBalancerBackendAddressPool resource.</p>
 </td>
 </tr>
 <tr>
@@ -10707,7 +10083,6 @@ SubResourceARM
 </em>
 </td>
 <td>
-<p>LoadBalancerInboundNatRules: A list of references of LoadBalancerInboundNatRules.</p>
 </td>
 </tr>
 <tr>
@@ -10718,7 +10093,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.</p>
 </td>
 </tr>
 <tr>
@@ -10729,7 +10103,6 @@ bool
 </em>
 </td>
 <td>
-<p>Primary: Whether this is a primary customer address on the network interface.</p>
 </td>
 </tr>
 <tr>
@@ -10740,7 +10113,6 @@ string
 </em>
 </td>
 <td>
-<p>PrivateIPAddress: Private IP address of the IP configuration.</p>
 </td>
 </tr>
 <tr>
@@ -10753,7 +10125,6 @@ NetworkInterfaceIPConfigurationPropertiesFormatPrivateIPAddressVersion
 </em>
 </td>
 <td>
-<p>PrivateIPAddressVersion: Whether the specific IP configuration is IPv4 or IPv6. Default is IPv4.</p>
 </td>
 </tr>
 <tr>
@@ -10766,7 +10137,6 @@ NetworkInterfaceIPConfigurationPropertiesFormatPrivateIPAllocationMethod
 </em>
 </td>
 <td>
-<p>PrivateIPAllocationMethod: The private IP address allocation method.</p>
 </td>
 </tr>
 <tr>
@@ -10779,7 +10149,6 @@ SubResource
 </em>
 </td>
 <td>
-<p>PublicIPAddress: Public IP address bound to the IP configuration.</p>
 </td>
 </tr>
 <tr>
@@ -10792,7 +10161,6 @@ SubResource
 </em>
 </td>
 <td>
-<p>Subnet: Subnet bound to the IP configuration.</p>
 </td>
 </tr>
 <tr>
@@ -10805,7 +10173,6 @@ SubResource
 </em>
 </td>
 <td>
-<p>VirtualNetworkTaps: The reference to Virtual Network Taps.</p>
 </td>
 </tr>
 </tbody>
@@ -10816,6 +10183,7 @@ SubResource
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.NetworkInterfaces_Spec_PropertiesARM">NetworkInterfaces_Spec_PropertiesARM</a>)
 </p>
 <div>
+<p>Deprecated version of NetworkInterfaces_Spec_Properties_IpConfigurations. Use v1beta20201101.NetworkInterfaces_Spec_Properties_IpConfigurations instead</p>
 </div>
 <table>
 <thead>
@@ -10833,7 +10201,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.</p>
 </td>
 </tr>
 <tr>
@@ -10846,7 +10213,6 @@ NetworkInterfaceIPConfigurationPropertiesFormatARM
 </em>
 </td>
 <td>
-<p>Properties: Network interface IP configuration properties.</p>
 </td>
 </tr>
 </tbody>
@@ -10854,7 +10220,7 @@ NetworkInterfaceIPConfigurationPropertiesFormatARM
 <h3 id="network.azure.com/v1alpha1api20201101.NetworkSecurityGroup">NetworkSecurityGroup
 </h3>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/networkSecurityGroups">https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/networkSecurityGroups</a></p>
+<p>Deprecated version of NetworkSecurityGroup. Use v1beta20201101.NetworkSecurityGroup instead</p>
 </div>
 <table>
 <thead>
@@ -10911,7 +10277,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -10924,6 +10289,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -10934,7 +10302,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </table>
@@ -10960,6 +10327,7 @@ NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbeddedARM">NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbeddedARM</a>)
 </p>
 <div>
+<p>Deprecated version of NetworkSecurityGroupPropertiesFormat_Status. Use v1beta20201101.NetworkSecurityGroupPropertiesFormat_Status instead</p>
 </div>
 <table>
 <thead>
@@ -10979,7 +10347,6 @@ NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded
 </em>
 </td>
 <td>
-<p>DefaultSecurityRules: The default security rules of network security group.</p>
 </td>
 </tr>
 <tr>
@@ -10992,7 +10359,6 @@ NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded
 </em>
 </td>
 <td>
-<p>FlowLogs: A collection of references to flow log resources.</p>
 </td>
 </tr>
 <tr>
@@ -11005,7 +10371,6 @@ NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded
 </em>
 </td>
 <td>
-<p>NetworkInterfaces: A collection of references to network interfaces.</p>
 </td>
 </tr>
 <tr>
@@ -11018,7 +10383,6 @@ ProvisioningState_Status
 </em>
 </td>
 <td>
-<p>ProvisioningState: The provisioning state of the network security group resource.</p>
 </td>
 </tr>
 <tr>
@@ -11029,7 +10393,6 @@ string
 </em>
 </td>
 <td>
-<p>ResourceGuid: The resource GUID property of the network security group resource.</p>
 </td>
 </tr>
 <tr>
@@ -11042,7 +10405,6 @@ string
 </em>
 </td>
 <td>
-<p>SecurityRules: A collection of security rules of the network security group.</p>
 </td>
 </tr>
 <tr>
@@ -11055,7 +10417,6 @@ string
 </em>
 </td>
 <td>
-<p>Subnets: A collection of references to subnets.</p>
 </td>
 </tr>
 </tbody>
@@ -11066,6 +10427,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.NetworkInterface_Status_NetworkInterface_SubResourceEmbedded">NetworkInterface_Status_NetworkInterface_SubResourceEmbedded</a>)
 </p>
 <div>
+<p>Deprecated version of NetworkSecurityGroup_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.NetworkSecurityGroup_Status_NetworkInterface_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -11083,7 +10445,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 </tbody>
@@ -11094,6 +10455,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.NetworkInterfacePropertiesFormat_StatusARM">NetworkInterfacePropertiesFormat_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of NetworkSecurityGroup_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.NetworkSecurityGroup_Status_NetworkInterface_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -11111,7 +10473,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 </tbody>
@@ -11122,6 +10483,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.NetworkSecurityGroup">NetworkSecurityGroup</a>)
 </p>
 <div>
+<p>Deprecated version of NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded. Use v1beta20201101.NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -11154,7 +10516,6 @@ string
 </em>
 </td>
 <td>
-<p>DefaultSecurityRules: The default security rules of network security group.</p>
 </td>
 </tr>
 <tr>
@@ -11165,7 +10526,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A unique read-only string that changes whenever the resource is updated.</p>
 </td>
 </tr>
 <tr>
@@ -11178,7 +10538,6 @@ string
 </em>
 </td>
 <td>
-<p>FlowLogs: A collection of references to flow log resources.</p>
 </td>
 </tr>
 <tr>
@@ -11189,7 +10548,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 <tr>
@@ -11200,7 +10558,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Resource location.</p>
 </td>
 </tr>
 <tr>
@@ -11211,7 +10568,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Resource name.</p>
 </td>
 </tr>
 <tr>
@@ -11224,7 +10580,6 @@ string
 </em>
 </td>
 <td>
-<p>NetworkInterfaces: A collection of references to network interfaces.</p>
 </td>
 </tr>
 <tr>
@@ -11237,7 +10592,6 @@ ProvisioningState_Status
 </em>
 </td>
 <td>
-<p>ProvisioningState: The provisioning state of the network security group resource.</p>
 </td>
 </tr>
 <tr>
@@ -11248,7 +10602,6 @@ string
 </em>
 </td>
 <td>
-<p>ResourceGuid: The resource GUID property of the network security group resource.</p>
 </td>
 </tr>
 <tr>
@@ -11261,7 +10614,6 @@ string
 </em>
 </td>
 <td>
-<p>SecurityRules: A collection of security rules of the network security group.</p>
 </td>
 </tr>
 <tr>
@@ -11274,7 +10626,6 @@ string
 </em>
 </td>
 <td>
-<p>Subnets: A collection of references to subnets.</p>
 </td>
 </tr>
 <tr>
@@ -11285,7 +10636,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Resource tags.</p>
 </td>
 </tr>
 <tr>
@@ -11296,7 +10646,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: Resource type.</p>
 </td>
 </tr>
 </tbody>
@@ -11304,6 +10653,7 @@ string
 <h3 id="network.azure.com/v1alpha1api20201101.NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbeddedARM">NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbeddedARM
 </h3>
 <div>
+<p>Deprecated version of NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded. Use v1beta20201101.NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -11321,7 +10671,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A unique read-only string that changes whenever the resource is updated.</p>
 </td>
 </tr>
 <tr>
@@ -11332,7 +10681,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 <tr>
@@ -11343,7 +10691,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Resource location.</p>
 </td>
 </tr>
 <tr>
@@ -11354,7 +10701,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Resource name.</p>
 </td>
 </tr>
 <tr>
@@ -11367,7 +10713,6 @@ NetworkSecurityGroupPropertiesFormat_StatusARM
 </em>
 </td>
 <td>
-<p>Properties: Properties of the network security group.</p>
 </td>
 </tr>
 <tr>
@@ -11378,7 +10723,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Resource tags.</p>
 </td>
 </tr>
 <tr>
@@ -11389,7 +10733,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: Resource type.</p>
 </td>
 </tr>
 </tbody>
@@ -11400,6 +10743,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded">Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded</a>)
 </p>
 <div>
+<p>Deprecated version of NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded. Use v1beta20201101.NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -11417,7 +10761,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 </tbody>
@@ -11428,6 +10771,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.SubnetPropertiesFormat_StatusARM">SubnetPropertiesFormat_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded. Use v1beta20201101.NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -11445,7 +10789,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 </tbody>
@@ -11453,7 +10796,7 @@ string
 <h3 id="network.azure.com/v1alpha1api20201101.NetworkSecurityGroupsSecurityRule">NetworkSecurityGroupsSecurityRule
 </h3>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/networkSecurityGroups_securityRules">https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/networkSecurityGroups_securityRules</a></p>
+<p>Deprecated version of NetworkSecurityGroupsSecurityRule. Use v1beta20201101.NetworkSecurityGroupsSecurityRule instead</p>
 </div>
 <table>
 <thead>
@@ -11500,7 +10843,6 @@ SecurityRulePropertiesFormatAccess
 </em>
 </td>
 <td>
-<p>Access: The network traffic is allowed or denied.</p>
 </td>
 </tr>
 <tr>
@@ -11523,7 +10865,6 @@ string
 </em>
 </td>
 <td>
-<p>Description: A description for this rule. Restricted to 140 chars.</p>
 </td>
 </tr>
 <tr>
@@ -11534,8 +10875,6 @@ string
 </em>
 </td>
 <td>
-<p>DestinationAddressPrefix: The destination address prefix. CIDR or destination IP range. Asterisk &lsquo;*&rsquo; can also be used to
-match all source IPs. Default tags such as &lsquo;VirtualNetwork&rsquo;, &lsquo;AzureLoadBalancer&rsquo; and &lsquo;Internet&rsquo; can also be used.</p>
 </td>
 </tr>
 <tr>
@@ -11546,7 +10885,6 @@ match all source IPs. Default tags such as &lsquo;VirtualNetwork&rsquo;, &lsquo;
 </em>
 </td>
 <td>
-<p>DestinationAddressPrefixes: The destination address prefixes. CIDR or destination IP ranges.</p>
 </td>
 </tr>
 <tr>
@@ -11559,7 +10897,6 @@ match all source IPs. Default tags such as &lsquo;VirtualNetwork&rsquo;, &lsquo;
 </em>
 </td>
 <td>
-<p>DestinationApplicationSecurityGroups: The application security group specified as destination.</p>
 </td>
 </tr>
 <tr>
@@ -11570,8 +10907,6 @@ string
 </em>
 </td>
 <td>
-<p>DestinationPortRange: The destination port or range. Integer or range between 0 and 65535. Asterisk &lsquo;*&rsquo; can also be used
-to match all ports.</p>
 </td>
 </tr>
 <tr>
@@ -11582,7 +10917,6 @@ to match all ports.</p>
 </em>
 </td>
 <td>
-<p>DestinationPortRanges: The destination port ranges.</p>
 </td>
 </tr>
 <tr>
@@ -11595,7 +10929,6 @@ SecurityRulePropertiesFormatDirection
 </em>
 </td>
 <td>
-<p>Direction: The direction of the rule. The direction specifies if rule will be evaluated on incoming or outgoing traffic.</p>
 </td>
 </tr>
 <tr>
@@ -11606,7 +10939,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -11619,6 +10951,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a network.azure.com/NetworkSecurityGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -11629,8 +10964,6 @@ int
 </em>
 </td>
 <td>
-<p>Priority: The priority of the rule. The value can be between 100 and 4096. The priority number must be unique for each
-rule in the collection. The lower the priority number, the higher the priority of the rule.</p>
 </td>
 </tr>
 <tr>
@@ -11643,7 +10976,6 @@ SecurityRulePropertiesFormatProtocol
 </em>
 </td>
 <td>
-<p>Protocol: Network protocol this rule applies to.</p>
 </td>
 </tr>
 <tr>
@@ -11654,9 +10986,6 @@ string
 </em>
 </td>
 <td>
-<p>SourceAddressPrefix: The CIDR or source IP range. Asterisk &lsquo;*&rsquo; can also be used to match all source IPs. Default tags
-such as &lsquo;VirtualNetwork&rsquo;, &lsquo;AzureLoadBalancer&rsquo; and &lsquo;Internet&rsquo; can also be used. If this is an ingress rule, specifies
-where network traffic originates from.</p>
 </td>
 </tr>
 <tr>
@@ -11667,7 +10996,6 @@ where network traffic originates from.</p>
 </em>
 </td>
 <td>
-<p>SourceAddressPrefixes: The CIDR or source IP ranges.</p>
 </td>
 </tr>
 <tr>
@@ -11680,7 +11008,6 @@ where network traffic originates from.</p>
 </em>
 </td>
 <td>
-<p>SourceApplicationSecurityGroups: The application security group specified as source.</p>
 </td>
 </tr>
 <tr>
@@ -11691,8 +11018,6 @@ string
 </em>
 </td>
 <td>
-<p>SourcePortRange: The source port or range. Integer or range between 0 and 65535. Asterisk &lsquo;*&rsquo; can also be used to match
-all ports.</p>
 </td>
 </tr>
 <tr>
@@ -11703,7 +11028,6 @@ all ports.</p>
 </em>
 </td>
 <td>
-<p>SourcePortRanges: The source port ranges.</p>
 </td>
 </tr>
 <tr>
@@ -11714,7 +11038,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </table>
@@ -11733,21 +11056,6 @@ SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded
 </td>
 </tr>
 </tbody>
-</table>
-<h3 id="network.azure.com/v1alpha1api20201101.NetworkSecurityGroupsSecurityRulesSpecAPIVersion">NetworkSecurityGroupsSecurityRulesSpecAPIVersion
-(<code>string</code> alias)</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;2020-11-01&#34;</p></td>
-<td></td>
-</tr></tbody>
 </table>
 <h3 id="network.azure.com/v1alpha1api20201101.NetworkSecurityGroupsSecurityRules_Spec">NetworkSecurityGroupsSecurityRules_Spec
 </h3>
@@ -11774,7 +11082,6 @@ SecurityRulePropertiesFormatAccess
 </em>
 </td>
 <td>
-<p>Access: The network traffic is allowed or denied.</p>
 </td>
 </tr>
 <tr>
@@ -11797,7 +11104,6 @@ string
 </em>
 </td>
 <td>
-<p>Description: A description for this rule. Restricted to 140 chars.</p>
 </td>
 </tr>
 <tr>
@@ -11808,8 +11114,6 @@ string
 </em>
 </td>
 <td>
-<p>DestinationAddressPrefix: The destination address prefix. CIDR or destination IP range. Asterisk &lsquo;*&rsquo; can also be used to
-match all source IPs. Default tags such as &lsquo;VirtualNetwork&rsquo;, &lsquo;AzureLoadBalancer&rsquo; and &lsquo;Internet&rsquo; can also be used.</p>
 </td>
 </tr>
 <tr>
@@ -11820,7 +11124,6 @@ match all source IPs. Default tags such as &lsquo;VirtualNetwork&rsquo;, &lsquo;
 </em>
 </td>
 <td>
-<p>DestinationAddressPrefixes: The destination address prefixes. CIDR or destination IP ranges.</p>
 </td>
 </tr>
 <tr>
@@ -11833,7 +11136,6 @@ match all source IPs. Default tags such as &lsquo;VirtualNetwork&rsquo;, &lsquo;
 </em>
 </td>
 <td>
-<p>DestinationApplicationSecurityGroups: The application security group specified as destination.</p>
 </td>
 </tr>
 <tr>
@@ -11844,8 +11146,6 @@ string
 </em>
 </td>
 <td>
-<p>DestinationPortRange: The destination port or range. Integer or range between 0 and 65535. Asterisk &lsquo;*&rsquo; can also be used
-to match all ports.</p>
 </td>
 </tr>
 <tr>
@@ -11856,7 +11156,6 @@ to match all ports.</p>
 </em>
 </td>
 <td>
-<p>DestinationPortRanges: The destination port ranges.</p>
 </td>
 </tr>
 <tr>
@@ -11869,7 +11168,6 @@ SecurityRulePropertiesFormatDirection
 </em>
 </td>
 <td>
-<p>Direction: The direction of the rule. The direction specifies if rule will be evaluated on incoming or outgoing traffic.</p>
 </td>
 </tr>
 <tr>
@@ -11880,7 +11178,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -11893,6 +11190,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a network.azure.com/NetworkSecurityGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -11903,8 +11203,6 @@ int
 </em>
 </td>
 <td>
-<p>Priority: The priority of the rule. The value can be between 100 and 4096. The priority number must be unique for each
-rule in the collection. The lower the priority number, the higher the priority of the rule.</p>
 </td>
 </tr>
 <tr>
@@ -11917,7 +11215,6 @@ SecurityRulePropertiesFormatProtocol
 </em>
 </td>
 <td>
-<p>Protocol: Network protocol this rule applies to.</p>
 </td>
 </tr>
 <tr>
@@ -11928,9 +11225,6 @@ string
 </em>
 </td>
 <td>
-<p>SourceAddressPrefix: The CIDR or source IP range. Asterisk &lsquo;*&rsquo; can also be used to match all source IPs. Default tags
-such as &lsquo;VirtualNetwork&rsquo;, &lsquo;AzureLoadBalancer&rsquo; and &lsquo;Internet&rsquo; can also be used. If this is an ingress rule, specifies
-where network traffic originates from.</p>
 </td>
 </tr>
 <tr>
@@ -11941,7 +11235,6 @@ where network traffic originates from.</p>
 </em>
 </td>
 <td>
-<p>SourceAddressPrefixes: The CIDR or source IP ranges.</p>
 </td>
 </tr>
 <tr>
@@ -11954,7 +11247,6 @@ where network traffic originates from.</p>
 </em>
 </td>
 <td>
-<p>SourceApplicationSecurityGroups: The application security group specified as source.</p>
 </td>
 </tr>
 <tr>
@@ -11965,8 +11257,6 @@ string
 </em>
 </td>
 <td>
-<p>SourcePortRange: The source port or range. Integer or range between 0 and 65535. Asterisk &lsquo;*&rsquo; can also be used to match
-all ports.</p>
 </td>
 </tr>
 <tr>
@@ -11977,7 +11267,6 @@ all ports.</p>
 </em>
 </td>
 <td>
-<p>SourcePortRanges: The source port ranges.</p>
 </td>
 </tr>
 <tr>
@@ -11988,7 +11277,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </tbody>
@@ -11996,6 +11284,7 @@ map[string]string
 <h3 id="network.azure.com/v1alpha1api20201101.NetworkSecurityGroupsSecurityRules_SpecARM">NetworkSecurityGroupsSecurityRules_SpecARM
 </h3>
 <div>
+<p>Deprecated version of NetworkSecurityGroupsSecurityRules_Spec. Use v1beta20201101.NetworkSecurityGroupsSecurityRules_Spec instead</p>
 </div>
 <table>
 <thead>
@@ -12013,7 +11302,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -12024,7 +11312,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Name of the resource</p>
 </td>
 </tr>
 <tr>
@@ -12037,7 +11324,6 @@ SecurityRulePropertiesFormatARM
 </em>
 </td>
 <td>
-<p>Properties: Properties of the security rule.</p>
 </td>
 </tr>
 <tr>
@@ -12048,25 +11334,9 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </tbody>
-</table>
-<h3 id="network.azure.com/v1alpha1api20201101.NetworkSecurityGroupsSpecAPIVersion">NetworkSecurityGroupsSpecAPIVersion
-(<code>string</code> alias)</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;2020-11-01&#34;</p></td>
-<td></td>
-</tr></tbody>
 </table>
 <h3 id="network.azure.com/v1alpha1api20201101.NetworkSecurityGroups_Spec">NetworkSecurityGroups_Spec
 </h3>
@@ -12103,7 +11373,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -12116,6 +11385,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -12126,7 +11398,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </tbody>
@@ -12134,6 +11405,7 @@ map[string]string
 <h3 id="network.azure.com/v1alpha1api20201101.NetworkSecurityGroups_SpecARM">NetworkSecurityGroups_SpecARM
 </h3>
 <div>
+<p>Deprecated version of NetworkSecurityGroups_Spec. Use v1beta20201101.NetworkSecurityGroups_Spec instead</p>
 </div>
 <table>
 <thead>
@@ -12151,7 +11423,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -12162,7 +11433,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Name of the resource</p>
 </td>
 </tr>
 <tr>
@@ -12173,7 +11443,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </tbody>
@@ -12184,7 +11453,7 @@ map[string]string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.LoadBalancers_Spec_Properties_OutboundRulesARM">LoadBalancers_Spec_Properties_OutboundRulesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/OutboundRulePropertiesFormat">https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/OutboundRulePropertiesFormat</a></p>
+<p>Deprecated version of OutboundRulePropertiesFormat. Use v1beta20201101.OutboundRulePropertiesFormat instead</p>
 </div>
 <table>
 <thead>
@@ -12202,7 +11471,6 @@ int
 </em>
 </td>
 <td>
-<p>AllocatedOutboundPorts: The number of outbound ports to be used for NAT.</p>
 </td>
 </tr>
 <tr>
@@ -12215,8 +11483,6 @@ SubResourceARM
 </em>
 </td>
 <td>
-<p>BackendAddressPool: A reference to a pool of DIPs. Outbound traffic is randomly load balanced across IPs in the backend
-IPs.</p>
 </td>
 </tr>
 <tr>
@@ -12227,8 +11493,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableTcpReset: Receive bidirectional TCP Reset on TCP flow idle timeout or unexpected connection termination. This
-element is only used when the protocol is set to TCP.</p>
 </td>
 </tr>
 <tr>
@@ -12241,7 +11505,6 @@ element is only used when the protocol is set to TCP.</p>
 </em>
 </td>
 <td>
-<p>FrontendIPConfigurations: The Frontend IP addresses of the load balancer.</p>
 </td>
 </tr>
 <tr>
@@ -12252,7 +11515,6 @@ int
 </em>
 </td>
 <td>
-<p>IdleTimeoutInMinutes: The timeout for the TCP idle connection.</p>
 </td>
 </tr>
 <tr>
@@ -12265,7 +11527,6 @@ OutboundRulePropertiesFormatProtocol
 </em>
 </td>
 <td>
-<p>Protocol: The protocol for the outbound rule in load balancer.</p>
 </td>
 </tr>
 </tbody>
@@ -12276,6 +11537,8 @@ OutboundRulePropertiesFormatProtocol
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.LoadBalancers_Spec_Properties_OutboundRules">LoadBalancers_Spec_Properties_OutboundRules</a>, <a href="#network.azure.com/v1alpha1api20201101.OutboundRulePropertiesFormatARM">OutboundRulePropertiesFormatARM</a>)
 </p>
 <div>
+<p>Deprecated version of OutboundRulePropertiesFormatProtocol. Use v1beta20201101.OutboundRulePropertiesFormatProtocol
+instead</p>
 </div>
 <table>
 <thead>
@@ -12298,6 +11561,8 @@ OutboundRulePropertiesFormatProtocol
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.OutboundRulePropertiesFormat_StatusARM">OutboundRulePropertiesFormat_StatusARM</a>, <a href="#network.azure.com/v1alpha1api20201101.OutboundRule_Status">OutboundRule_Status</a>)
 </p>
 <div>
+<p>Deprecated version of OutboundRulePropertiesFormatStatusProtocol. Use
+v1beta20201101.OutboundRulePropertiesFormatStatusProtocol instead</p>
 </div>
 <table>
 <thead>
@@ -12320,6 +11585,7 @@ OutboundRulePropertiesFormatProtocol
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.OutboundRule_StatusARM">OutboundRule_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of OutboundRulePropertiesFormat_Status. Use v1beta20201101.OutboundRulePropertiesFormat_Status instead</p>
 </div>
 <table>
 <thead>
@@ -12337,7 +11603,6 @@ int
 </em>
 </td>
 <td>
-<p>AllocatedOutboundPorts: The number of outbound ports to be used for NAT.</p>
 </td>
 </tr>
 <tr>
@@ -12350,8 +11615,6 @@ SubResource_StatusARM
 </em>
 </td>
 <td>
-<p>BackendAddressPool: A reference to a pool of DIPs. Outbound traffic is randomly load balanced across IPs in the backend
-IPs.</p>
 </td>
 </tr>
 <tr>
@@ -12362,8 +11625,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableTcpReset: Receive bidirectional TCP Reset on TCP flow idle timeout or unexpected connection termination. This
-element is only used when the protocol is set to TCP.</p>
 </td>
 </tr>
 <tr>
@@ -12376,7 +11637,6 @@ element is only used when the protocol is set to TCP.</p>
 </em>
 </td>
 <td>
-<p>FrontendIPConfigurations: The Frontend IP addresses of the load balancer.</p>
 </td>
 </tr>
 <tr>
@@ -12387,7 +11647,6 @@ int
 </em>
 </td>
 <td>
-<p>IdleTimeoutInMinutes: The timeout for the TCP idle connection.</p>
 </td>
 </tr>
 <tr>
@@ -12400,7 +11659,6 @@ OutboundRulePropertiesFormatStatusProtocol
 </em>
 </td>
 <td>
-<p>Protocol: The protocol for the outbound rule in load balancer.</p>
 </td>
 </tr>
 <tr>
@@ -12413,7 +11671,6 @@ ProvisioningState_Status
 </em>
 </td>
 <td>
-<p>ProvisioningState: The provisioning state of the outbound rule resource.</p>
 </td>
 </tr>
 </tbody>
@@ -12424,6 +11681,7 @@ ProvisioningState_Status
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.LoadBalancer_Status">LoadBalancer_Status</a>)
 </p>
 <div>
+<p>Deprecated version of OutboundRule_Status. Use v1beta20201101.OutboundRule_Status instead</p>
 </div>
 <table>
 <thead>
@@ -12441,7 +11699,6 @@ int
 </em>
 </td>
 <td>
-<p>AllocatedOutboundPorts: The number of outbound ports to be used for NAT.</p>
 </td>
 </tr>
 <tr>
@@ -12454,8 +11711,6 @@ SubResource_Status
 </em>
 </td>
 <td>
-<p>BackendAddressPool: A reference to a pool of DIPs. Outbound traffic is randomly load balanced across IPs in the backend
-IPs.</p>
 </td>
 </tr>
 <tr>
@@ -12466,8 +11721,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableTcpReset: Receive bidirectional TCP Reset on TCP flow idle timeout or unexpected connection termination. This
-element is only used when the protocol is set to TCP.</p>
 </td>
 </tr>
 <tr>
@@ -12478,7 +11731,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A unique read-only string that changes whenever the resource is updated.</p>
 </td>
 </tr>
 <tr>
@@ -12491,7 +11743,6 @@ string
 </em>
 </td>
 <td>
-<p>FrontendIPConfigurations: The Frontend IP addresses of the load balancer.</p>
 </td>
 </tr>
 <tr>
@@ -12502,7 +11753,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 <tr>
@@ -12513,7 +11763,6 @@ int
 </em>
 </td>
 <td>
-<p>IdleTimeoutInMinutes: The timeout for the TCP idle connection.</p>
 </td>
 </tr>
 <tr>
@@ -12524,8 +11773,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource that is unique within the set of outbound rules used by the load balancer. This name can
-be used to access the resource.</p>
 </td>
 </tr>
 <tr>
@@ -12538,7 +11785,6 @@ OutboundRulePropertiesFormatStatusProtocol
 </em>
 </td>
 <td>
-<p>Protocol: The protocol for the outbound rule in load balancer.</p>
 </td>
 </tr>
 <tr>
@@ -12551,7 +11797,6 @@ ProvisioningState_Status
 </em>
 </td>
 <td>
-<p>ProvisioningState: The provisioning state of the outbound rule resource.</p>
 </td>
 </tr>
 <tr>
@@ -12562,7 +11807,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: Type of the resource.</p>
 </td>
 </tr>
 </tbody>
@@ -12573,6 +11817,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.LoadBalancerPropertiesFormat_StatusARM">LoadBalancerPropertiesFormat_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of OutboundRule_Status. Use v1beta20201101.OutboundRule_Status instead</p>
 </div>
 <table>
 <thead>
@@ -12590,7 +11835,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A unique read-only string that changes whenever the resource is updated.</p>
 </td>
 </tr>
 <tr>
@@ -12601,7 +11845,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 <tr>
@@ -12612,8 +11855,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource that is unique within the set of outbound rules used by the load balancer. This name can
-be used to access the resource.</p>
 </td>
 </tr>
 <tr>
@@ -12626,7 +11867,6 @@ OutboundRulePropertiesFormat_StatusARM
 </em>
 </td>
 <td>
-<p>Properties: Properties of load balancer outbound rule.</p>
 </td>
 </tr>
 <tr>
@@ -12637,7 +11877,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: Type of the resource.</p>
 </td>
 </tr>
 </tbody>
@@ -12648,6 +11887,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.IpsecPolicy_Status">IpsecPolicy_Status</a>, <a href="#network.azure.com/v1alpha1api20201101.IpsecPolicy_StatusARM">IpsecPolicy_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of PfsGroup_Status. Use v1beta20201101.PfsGroup_Status instead</p>
 </div>
 <table>
 <thead>
@@ -12682,6 +11922,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.NetworkInterface_Status_NetworkInterface_SubResourceEmbedded">NetworkInterface_Status_NetworkInterface_SubResourceEmbedded</a>)
 </p>
 <div>
+<p>Deprecated version of PrivateEndpoint_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.PrivateEndpoint_Status_NetworkInterface_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -12701,7 +11942,6 @@ ExtendedLocation_Status
 </em>
 </td>
 <td>
-<p>ExtendedLocation: The extended location of the load balancer.</p>
 </td>
 </tr>
 <tr>
@@ -12712,7 +11952,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 </tbody>
@@ -12723,6 +11962,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.NetworkInterfacePropertiesFormat_StatusARM">NetworkInterfacePropertiesFormat_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of PrivateEndpoint_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.PrivateEndpoint_Status_NetworkInterface_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -12742,7 +11982,6 @@ ExtendedLocation_StatusARM
 </em>
 </td>
 <td>
-<p>ExtendedLocation: The extended location of the load balancer.</p>
 </td>
 </tr>
 <tr>
@@ -12753,7 +11992,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 </tbody>
@@ -12764,6 +12002,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded">Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded</a>)
 </p>
 <div>
+<p>Deprecated version of PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded. Use v1beta20201101.PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -12783,7 +12022,6 @@ ExtendedLocation_Status
 </em>
 </td>
 <td>
-<p>ExtendedLocation: The extended location of the load balancer.</p>
 </td>
 </tr>
 <tr>
@@ -12794,7 +12032,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 </tbody>
@@ -12805,6 +12042,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.SubnetPropertiesFormat_StatusARM">SubnetPropertiesFormat_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded. Use v1beta20201101.PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -12824,7 +12062,6 @@ ExtendedLocation_StatusARM
 </em>
 </td>
 <td>
-<p>ExtendedLocation: The extended location of the load balancer.</p>
 </td>
 </tr>
 <tr>
@@ -12835,7 +12072,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 </tbody>
@@ -12846,6 +12082,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.NetworkInterface_Status_NetworkInterface_SubResourceEmbedded">NetworkInterface_Status_NetworkInterface_SubResourceEmbedded</a>)
 </p>
 <div>
+<p>Deprecated version of PrivateLinkService_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.PrivateLinkService_Status_NetworkInterface_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -12865,7 +12102,6 @@ ExtendedLocation_Status
 </em>
 </td>
 <td>
-<p>ExtendedLocation: The extended location of the load balancer.</p>
 </td>
 </tr>
 <tr>
@@ -12876,7 +12112,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 </tbody>
@@ -12887,6 +12122,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.NetworkInterfacePropertiesFormat_StatusARM">NetworkInterfacePropertiesFormat_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of PrivateLinkService_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.PrivateLinkService_Status_NetworkInterface_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -12906,7 +12142,6 @@ ExtendedLocation_StatusARM
 </em>
 </td>
 <td>
-<p>ExtendedLocation: The extended location of the load balancer.</p>
 </td>
 </tr>
 <tr>
@@ -12917,7 +12152,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 </tbody>
@@ -12928,7 +12162,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.LoadBalancers_Spec_Properties_ProbesARM">LoadBalancers_Spec_Properties_ProbesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/ProbePropertiesFormat">https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/ProbePropertiesFormat</a></p>
+<p>Deprecated version of ProbePropertiesFormat. Use v1beta20201101.ProbePropertiesFormat instead</p>
 </div>
 <table>
 <thead>
@@ -12946,9 +12180,6 @@ int
 </em>
 </td>
 <td>
-<p>IntervalInSeconds: The interval, in seconds, for how frequently to probe the endpoint for health status. Typically, the
-interval is slightly less than half the allocated timeout period (in seconds) which allows two full probes before taking
-the instance out of rotation. The default value is 15, the minimum value is 5.</p>
 </td>
 </tr>
 <tr>
@@ -12959,9 +12190,6 @@ int
 </em>
 </td>
 <td>
-<p>NumberOfProbes: The number of probes where if no response, will result in stopping further traffic from being delivered
-to the endpoint. This values allows endpoints to be taken out of rotation faster or slower than the typical times used
-in Azure.</p>
 </td>
 </tr>
 <tr>
@@ -12972,7 +12200,6 @@ int
 </em>
 </td>
 <td>
-<p>Port: The port for communicating the probe. Possible values range from 1 to 65535, inclusive.</p>
 </td>
 </tr>
 <tr>
@@ -12985,9 +12212,6 @@ ProbePropertiesFormatProtocol
 </em>
 </td>
 <td>
-<p>Protocol: The protocol of the end point. If &lsquo;Tcp&rsquo; is specified, a received ACK is required for the probe to be
-successful. If &lsquo;Http&rsquo; or &lsquo;Https&rsquo; is specified, a 200 OK response from the specifies URI is required for the probe to be
-successful.</p>
 </td>
 </tr>
 <tr>
@@ -12998,8 +12222,6 @@ string
 </em>
 </td>
 <td>
-<p>RequestPath: The URI used for requesting health status from the VM. Path is required if a protocol is set to http.
-Otherwise, it is not allowed. There is no default value.</p>
 </td>
 </tr>
 </tbody>
@@ -13010,6 +12232,7 @@ Otherwise, it is not allowed. There is no default value.</p>
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.LoadBalancers_Spec_Properties_Probes">LoadBalancers_Spec_Properties_Probes</a>, <a href="#network.azure.com/v1alpha1api20201101.ProbePropertiesFormatARM">ProbePropertiesFormatARM</a>)
 </p>
 <div>
+<p>Deprecated version of ProbePropertiesFormatProtocol. Use v1beta20201101.ProbePropertiesFormatProtocol instead</p>
 </div>
 <table>
 <thead>
@@ -13032,6 +12255,7 @@ Otherwise, it is not allowed. There is no default value.</p>
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.ProbePropertiesFormat_StatusARM">ProbePropertiesFormat_StatusARM</a>, <a href="#network.azure.com/v1alpha1api20201101.Probe_Status">Probe_Status</a>)
 </p>
 <div>
+<p>Deprecated version of ProbePropertiesFormatStatusProtocol. Use v1beta20201101.ProbePropertiesFormatStatusProtocol instead</p>
 </div>
 <table>
 <thead>
@@ -13054,6 +12278,7 @@ Otherwise, it is not allowed. There is no default value.</p>
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.Probe_StatusARM">Probe_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of ProbePropertiesFormat_Status. Use v1beta20201101.ProbePropertiesFormat_Status instead</p>
 </div>
 <table>
 <thead>
@@ -13071,9 +12296,6 @@ int
 </em>
 </td>
 <td>
-<p>IntervalInSeconds: The interval, in seconds, for how frequently to probe the endpoint for health status. Typically, the
-interval is slightly less than half the allocated timeout period (in seconds) which allows two full probes before taking
-the instance out of rotation. The default value is 15, the minimum value is 5.</p>
 </td>
 </tr>
 <tr>
@@ -13086,7 +12308,6 @@ the instance out of rotation. The default value is 15, the minimum value is 5.</
 </em>
 </td>
 <td>
-<p>LoadBalancingRules: The load balancer rules that use this probe.</p>
 </td>
 </tr>
 <tr>
@@ -13097,9 +12318,6 @@ int
 </em>
 </td>
 <td>
-<p>NumberOfProbes: The number of probes where if no response, will result in stopping further traffic from being delivered
-to the endpoint. This values allows endpoints to be taken out of rotation faster or slower than the typical times used
-in Azure.</p>
 </td>
 </tr>
 <tr>
@@ -13110,7 +12328,6 @@ int
 </em>
 </td>
 <td>
-<p>Port: The port for communicating the probe. Possible values range from 1 to 65535, inclusive.</p>
 </td>
 </tr>
 <tr>
@@ -13123,9 +12340,6 @@ ProbePropertiesFormatStatusProtocol
 </em>
 </td>
 <td>
-<p>Protocol: The protocol of the end point. If &lsquo;Tcp&rsquo; is specified, a received ACK is required for the probe to be
-successful. If &lsquo;Http&rsquo; or &lsquo;Https&rsquo; is specified, a 200 OK response from the specifies URI is required for the probe to be
-successful.</p>
 </td>
 </tr>
 <tr>
@@ -13138,7 +12352,6 @@ ProvisioningState_Status
 </em>
 </td>
 <td>
-<p>ProvisioningState: The provisioning state of the probe resource.</p>
 </td>
 </tr>
 <tr>
@@ -13149,8 +12362,6 @@ string
 </em>
 </td>
 <td>
-<p>RequestPath: The URI used for requesting health status from the VM. Path is required if a protocol is set to http.
-Otherwise, it is not allowed. There is no default value.</p>
 </td>
 </tr>
 </tbody>
@@ -13161,6 +12372,7 @@ Otherwise, it is not allowed. There is no default value.</p>
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.LoadBalancer_Status">LoadBalancer_Status</a>)
 </p>
 <div>
+<p>Deprecated version of Probe_Status. Use v1beta20201101.Probe_Status instead</p>
 </div>
 <table>
 <thead>
@@ -13178,7 +12390,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A unique read-only string that changes whenever the resource is updated.</p>
 </td>
 </tr>
 <tr>
@@ -13189,7 +12400,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 <tr>
@@ -13200,9 +12410,6 @@ int
 </em>
 </td>
 <td>
-<p>IntervalInSeconds: The interval, in seconds, for how frequently to probe the endpoint for health status. Typically, the
-interval is slightly less than half the allocated timeout period (in seconds) which allows two full probes before taking
-the instance out of rotation. The default value is 15, the minimum value is 5.</p>
 </td>
 </tr>
 <tr>
@@ -13215,7 +12422,6 @@ the instance out of rotation. The default value is 15, the minimum value is 5.</
 </em>
 </td>
 <td>
-<p>LoadBalancingRules: The load balancer rules that use this probe.</p>
 </td>
 </tr>
 <tr>
@@ -13226,8 +12432,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource that is unique within the set of probes used by the load balancer. This name can be used
-to access the resource.</p>
 </td>
 </tr>
 <tr>
@@ -13238,9 +12442,6 @@ int
 </em>
 </td>
 <td>
-<p>NumberOfProbes: The number of probes where if no response, will result in stopping further traffic from being delivered
-to the endpoint. This values allows endpoints to be taken out of rotation faster or slower than the typical times used
-in Azure.</p>
 </td>
 </tr>
 <tr>
@@ -13251,7 +12452,6 @@ int
 </em>
 </td>
 <td>
-<p>Port: The port for communicating the probe. Possible values range from 1 to 65535, inclusive.</p>
 </td>
 </tr>
 <tr>
@@ -13264,9 +12464,6 @@ ProbePropertiesFormatStatusProtocol
 </em>
 </td>
 <td>
-<p>Protocol: The protocol of the end point. If &lsquo;Tcp&rsquo; is specified, a received ACK is required for the probe to be
-successful. If &lsquo;Http&rsquo; or &lsquo;Https&rsquo; is specified, a 200 OK response from the specifies URI is required for the probe to be
-successful.</p>
 </td>
 </tr>
 <tr>
@@ -13279,7 +12476,6 @@ ProvisioningState_Status
 </em>
 </td>
 <td>
-<p>ProvisioningState: The provisioning state of the probe resource.</p>
 </td>
 </tr>
 <tr>
@@ -13290,8 +12486,6 @@ string
 </em>
 </td>
 <td>
-<p>RequestPath: The URI used for requesting health status from the VM. Path is required if a protocol is set to http.
-Otherwise, it is not allowed. There is no default value.</p>
 </td>
 </tr>
 <tr>
@@ -13302,7 +12496,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: Type of the resource.</p>
 </td>
 </tr>
 </tbody>
@@ -13313,6 +12506,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.LoadBalancerPropertiesFormat_StatusARM">LoadBalancerPropertiesFormat_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of Probe_Status. Use v1beta20201101.Probe_Status instead</p>
 </div>
 <table>
 <thead>
@@ -13330,7 +12524,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A unique read-only string that changes whenever the resource is updated.</p>
 </td>
 </tr>
 <tr>
@@ -13341,7 +12534,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 <tr>
@@ -13352,8 +12544,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource that is unique within the set of probes used by the load balancer. This name can be used
-to access the resource.</p>
 </td>
 </tr>
 <tr>
@@ -13366,7 +12556,6 @@ ProbePropertiesFormat_StatusARM
 </em>
 </td>
 <td>
-<p>Properties: Properties of load balancer probe.</p>
 </td>
 </tr>
 <tr>
@@ -13377,7 +12566,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: Type of the resource.</p>
 </td>
 </tr>
 </tbody>
@@ -13388,6 +12576,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.ApplicationGatewayBackendAddressPoolPropertiesFormat_Status_NetworkInterface_SubResourceEmbeddedARM">ApplicationGatewayBackendAddressPoolPropertiesFormat_Status_NetworkInterface_SubResourceEmbeddedARM</a>, <a href="#network.azure.com/v1alpha1api20201101.ApplicationGatewayBackendAddressPool_Status_NetworkInterface_SubResourceEmbedded">ApplicationGatewayBackendAddressPool_Status_NetworkInterface_SubResourceEmbedded</a>, <a href="#network.azure.com/v1alpha1api20201101.ApplicationGatewayIPConfigurationPropertiesFormat_StatusARM">ApplicationGatewayIPConfigurationPropertiesFormat_StatusARM</a>, <a href="#network.azure.com/v1alpha1api20201101.ApplicationGatewayIPConfiguration_Status">ApplicationGatewayIPConfiguration_Status</a>, <a href="#network.azure.com/v1alpha1api20201101.Delegation_Status">Delegation_Status</a>, <a href="#network.azure.com/v1alpha1api20201101.FrontendIPConfigurationPropertiesFormat_Status_LoadBalancer_SubResourceEmbeddedARM">FrontendIPConfigurationPropertiesFormat_Status_LoadBalancer_SubResourceEmbeddedARM</a>, <a href="#network.azure.com/v1alpha1api20201101.FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded">FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded</a>, <a href="#network.azure.com/v1alpha1api20201101.IPConfigurationProfilePropertiesFormat_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM">IPConfigurationProfilePropertiesFormat_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM</a>, <a href="#network.azure.com/v1alpha1api20201101.IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded">IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded</a>, <a href="#network.azure.com/v1alpha1api20201101.IPConfigurationPropertiesFormat_Status_PublicIPAddress_SubResourceEmbeddedARM">IPConfigurationPropertiesFormat_Status_PublicIPAddress_SubResourceEmbeddedARM</a>, <a href="#network.azure.com/v1alpha1api20201101.IPConfigurationPropertiesFormat_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM">IPConfigurationPropertiesFormat_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM</a>, <a href="#network.azure.com/v1alpha1api20201101.IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded">IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded</a>, <a href="#network.azure.com/v1alpha1api20201101.IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded">IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded</a>, <a href="#network.azure.com/v1alpha1api20201101.InboundNatPoolPropertiesFormat_StatusARM">InboundNatPoolPropertiesFormat_StatusARM</a>, <a href="#network.azure.com/v1alpha1api20201101.InboundNatPool_Status">InboundNatPool_Status</a>, <a href="#network.azure.com/v1alpha1api20201101.LoadBalancerPropertiesFormat_StatusARM">LoadBalancerPropertiesFormat_StatusARM</a>, <a href="#network.azure.com/v1alpha1api20201101.LoadBalancer_Status">LoadBalancer_Status</a>, <a href="#network.azure.com/v1alpha1api20201101.LoadBalancingRulePropertiesFormat_StatusARM">LoadBalancingRulePropertiesFormat_StatusARM</a>, <a href="#network.azure.com/v1alpha1api20201101.LoadBalancingRule_Status">LoadBalancingRule_Status</a>, <a href="#network.azure.com/v1alpha1api20201101.NetworkInterfaceIPConfigurationPropertiesFormat_Status_NetworkInterface_SubResourceEmbeddedARM">NetworkInterfaceIPConfigurationPropertiesFormat_Status_NetworkInterface_SubResourceEmbeddedARM</a>, <a href="#network.azure.com/v1alpha1api20201101.NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResourceEmbedded">NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResourceEmbedded</a>, <a href="#network.azure.com/v1alpha1api20201101.NetworkInterfacePropertiesFormat_StatusARM">NetworkInterfacePropertiesFormat_StatusARM</a>, <a href="#network.azure.com/v1alpha1api20201101.NetworkInterface_Status_NetworkInterface_SubResourceEmbedded">NetworkInterface_Status_NetworkInterface_SubResourceEmbedded</a>, <a href="#network.azure.com/v1alpha1api20201101.NetworkSecurityGroupPropertiesFormat_StatusARM">NetworkSecurityGroupPropertiesFormat_StatusARM</a>, <a href="#network.azure.com/v1alpha1api20201101.NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded">NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded</a>, <a href="#network.azure.com/v1alpha1api20201101.OutboundRulePropertiesFormat_StatusARM">OutboundRulePropertiesFormat_StatusARM</a>, <a href="#network.azure.com/v1alpha1api20201101.OutboundRule_Status">OutboundRule_Status</a>, <a href="#network.azure.com/v1alpha1api20201101.ProbePropertiesFormat_StatusARM">ProbePropertiesFormat_StatusARM</a>, <a href="#network.azure.com/v1alpha1api20201101.Probe_Status">Probe_Status</a>, <a href="#network.azure.com/v1alpha1api20201101.PublicIPAddressPropertiesFormat_StatusARM">PublicIPAddressPropertiesFormat_StatusARM</a>, <a href="#network.azure.com/v1alpha1api20201101.PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded">PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded</a>, <a href="#network.azure.com/v1alpha1api20201101.ResourceNavigationLinkFormat_StatusARM">ResourceNavigationLinkFormat_StatusARM</a>, <a href="#network.azure.com/v1alpha1api20201101.ResourceNavigationLink_Status">ResourceNavigationLink_Status</a>, <a href="#network.azure.com/v1alpha1api20201101.SecurityRulePropertiesFormat_StatusARM">SecurityRulePropertiesFormat_StatusARM</a>, <a href="#network.azure.com/v1alpha1api20201101.SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded">SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded</a>, <a href="#network.azure.com/v1alpha1api20201101.ServiceAssociationLinkPropertiesFormat_StatusARM">ServiceAssociationLinkPropertiesFormat_StatusARM</a>, <a href="#network.azure.com/v1alpha1api20201101.ServiceAssociationLink_Status">ServiceAssociationLink_Status</a>, <a href="#network.azure.com/v1alpha1api20201101.ServiceDelegationPropertiesFormat_StatusARM">ServiceDelegationPropertiesFormat_StatusARM</a>, <a href="#network.azure.com/v1alpha1api20201101.ServiceEndpointPropertiesFormat_Status">ServiceEndpointPropertiesFormat_Status</a>, <a href="#network.azure.com/v1alpha1api20201101.ServiceEndpointPropertiesFormat_StatusARM">ServiceEndpointPropertiesFormat_StatusARM</a>, <a href="#network.azure.com/v1alpha1api20201101.SubnetPropertiesFormat_StatusARM">SubnetPropertiesFormat_StatusARM</a>, <a href="#network.azure.com/v1alpha1api20201101.Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded">Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGatewayIPConfigurationPropertiesFormat_StatusARM">VirtualNetworkGatewayIPConfigurationPropertiesFormat_StatusARM</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGatewayIPConfiguration_Status">VirtualNetworkGatewayIPConfiguration_Status</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGatewayPropertiesFormat_StatusARM">VirtualNetworkGatewayPropertiesFormat_StatusARM</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGateway_Status">VirtualNetworkGateway_Status</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkPeeringPropertiesFormat_StatusARM">VirtualNetworkPeeringPropertiesFormat_StatusARM</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkPeering_Status">VirtualNetworkPeering_Status</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkPropertiesFormat_StatusARM">VirtualNetworkPropertiesFormat_StatusARM</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetwork_Status">VirtualNetwork_Status</a>, <a href="#network.azure.com/v1alpha1api20201101.VpnClientRevokedCertificatePropertiesFormat_StatusARM">VpnClientRevokedCertificatePropertiesFormat_StatusARM</a>, <a href="#network.azure.com/v1alpha1api20201101.VpnClientRevokedCertificate_Status">VpnClientRevokedCertificate_Status</a>, <a href="#network.azure.com/v1alpha1api20201101.VpnClientRootCertificatePropertiesFormat_StatusARM">VpnClientRootCertificatePropertiesFormat_StatusARM</a>, <a href="#network.azure.com/v1alpha1api20201101.VpnClientRootCertificate_Status">VpnClientRootCertificate_Status</a>)
 </p>
 <div>
+<p>Deprecated version of ProvisioningState_Status. Use v1beta20201101.ProvisioningState_Status instead</p>
 </div>
 <table>
 <thead>
@@ -13409,7 +12598,7 @@ string
 <h3 id="network.azure.com/v1alpha1api20201101.PublicIPAddress">PublicIPAddress
 </h3>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/publicIPAddresses">https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/publicIPAddresses</a></p>
+<p>Deprecated version of PublicIPAddress. Use v1beta20201101.PublicIPAddress instead</p>
 </div>
 <table>
 <thead>
@@ -13468,7 +12657,6 @@ DdosSettings
 </em>
 </td>
 <td>
-<p>DdosSettings: The DDoS protection custom policy associated with the public IP address.</p>
 </td>
 </tr>
 <tr>
@@ -13481,7 +12669,6 @@ PublicIPAddressDnsSettings
 </em>
 </td>
 <td>
-<p>DnsSettings: The FQDN of the DNS record associated with the public IP address.</p>
 </td>
 </tr>
 <tr>
@@ -13494,7 +12681,6 @@ ExtendedLocation
 </em>
 </td>
 <td>
-<p>ExtendedLocation: The extended location of the public ip address.</p>
 </td>
 </tr>
 <tr>
@@ -13505,7 +12691,6 @@ int
 </em>
 </td>
 <td>
-<p>IdleTimeoutInMinutes: The idle timeout of the public IP address.</p>
 </td>
 </tr>
 <tr>
@@ -13516,7 +12701,6 @@ string
 </em>
 </td>
 <td>
-<p>IpAddress: The IP address associated with the public IP address resource.</p>
 </td>
 </tr>
 <tr>
@@ -13529,7 +12713,6 @@ string
 </em>
 </td>
 <td>
-<p>IpTags: The list of tags associated with the public IP address.</p>
 </td>
 </tr>
 <tr>
@@ -13540,7 +12723,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -13553,6 +12735,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -13565,7 +12750,6 @@ PublicIPAddressPropertiesFormatPublicIPAddressVersion
 </em>
 </td>
 <td>
-<p>PublicIPAddressVersion: The public IP address version.</p>
 </td>
 </tr>
 <tr>
@@ -13578,7 +12762,6 @@ PublicIPAddressPropertiesFormatPublicIPAllocationMethod
 </em>
 </td>
 <td>
-<p>PublicIPAllocationMethod: The public IP address allocation method.</p>
 </td>
 </tr>
 <tr>
@@ -13591,7 +12774,6 @@ SubResource
 </em>
 </td>
 <td>
-<p>PublicIPPrefix: The Public IP Prefix this Public IP Address should be allocated from.</p>
 </td>
 </tr>
 <tr>
@@ -13604,7 +12786,6 @@ PublicIPAddressSku
 </em>
 </td>
 <td>
-<p>Sku: The public IP address SKU.</p>
 </td>
 </tr>
 <tr>
@@ -13615,7 +12796,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 <tr>
@@ -13626,7 +12806,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Zones: A list of availability zones denoting the IP allocated for the resource needs to come from.</p>
 </td>
 </tr>
 </table>
@@ -13652,7 +12831,7 @@ PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.PublicIPAddresses_Spec">PublicIPAddresses_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/PublicIPAddressDnsSettings">https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/PublicIPAddressDnsSettings</a></p>
+<p>Deprecated version of PublicIPAddressDnsSettings. Use v1beta20201101.PublicIPAddressDnsSettings instead</p>
 </div>
 <table>
 <thead>
@@ -13670,9 +12849,6 @@ string
 </em>
 </td>
 <td>
-<p>DomainNameLabel: The domain name label. The concatenation of the domain name label and the regionalized DNS zone make up
-the fully qualified domain name associated with the public IP address. If a domain name label is specified, an A DNS
-record is created for the public IP in the Microsoft Azure DNS system.</p>
 </td>
 </tr>
 <tr>
@@ -13683,8 +12859,6 @@ string
 </em>
 </td>
 <td>
-<p>Fqdn: The Fully Qualified Domain Name of the A DNS record associated with the public IP. This is the concatenation of
-the domainNameLabel and the regionalized DNS zone.</p>
 </td>
 </tr>
 <tr>
@@ -13695,9 +12869,6 @@ string
 </em>
 </td>
 <td>
-<p>ReverseFqdn: The reverse FQDN. A user-visible, fully qualified domain name that resolves to this public IP address. If
-the reverseFqdn is specified, then a PTR DNS record is created pointing from the IP address in the in-addr.arpa domain
-to the reverse FQDN.</p>
 </td>
 </tr>
 </tbody>
@@ -13708,7 +12879,7 @@ to the reverse FQDN.</p>
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.PublicIPAddressPropertiesFormatARM">PublicIPAddressPropertiesFormatARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/PublicIPAddressDnsSettings">https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/PublicIPAddressDnsSettings</a></p>
+<p>Deprecated version of PublicIPAddressDnsSettings. Use v1beta20201101.PublicIPAddressDnsSettings instead</p>
 </div>
 <table>
 <thead>
@@ -13726,9 +12897,6 @@ string
 </em>
 </td>
 <td>
-<p>DomainNameLabel: The domain name label. The concatenation of the domain name label and the regionalized DNS zone make up
-the fully qualified domain name associated with the public IP address. If a domain name label is specified, an A DNS
-record is created for the public IP in the Microsoft Azure DNS system.</p>
 </td>
 </tr>
 <tr>
@@ -13739,8 +12907,6 @@ string
 </em>
 </td>
 <td>
-<p>Fqdn: The Fully Qualified Domain Name of the A DNS record associated with the public IP. This is the concatenation of
-the domainNameLabel and the regionalized DNS zone.</p>
 </td>
 </tr>
 <tr>
@@ -13751,9 +12917,6 @@ string
 </em>
 </td>
 <td>
-<p>ReverseFqdn: The reverse FQDN. A user-visible, fully qualified domain name that resolves to this public IP address. If
-the reverseFqdn is specified, then a PTR DNS record is created pointing from the IP address in the in-addr.arpa domain
-to the reverse FQDN.</p>
 </td>
 </tr>
 </tbody>
@@ -13764,6 +12927,7 @@ to the reverse FQDN.</p>
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded">PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded</a>)
 </p>
 <div>
+<p>Deprecated version of PublicIPAddressDnsSettings_Status. Use v1beta20201101.PublicIPAddressDnsSettings_Status instead</p>
 </div>
 <table>
 <thead>
@@ -13781,9 +12945,6 @@ string
 </em>
 </td>
 <td>
-<p>DomainNameLabel: The domain name label. The concatenation of the domain name label and the regionalized DNS zone make up
-the fully qualified domain name associated with the public IP address. If a domain name label is specified, an A DNS
-record is created for the public IP in the Microsoft Azure DNS system.</p>
 </td>
 </tr>
 <tr>
@@ -13794,8 +12955,6 @@ string
 </em>
 </td>
 <td>
-<p>Fqdn: The Fully Qualified Domain Name of the A DNS record associated with the public IP. This is the concatenation of
-the domainNameLabel and the regionalized DNS zone.</p>
 </td>
 </tr>
 <tr>
@@ -13806,9 +12965,6 @@ string
 </em>
 </td>
 <td>
-<p>ReverseFqdn: The reverse FQDN. A user-visible, fully qualified domain name that resolves to this public IP address. If
-the reverseFqdn is specified, then a PTR DNS record is created pointing from the IP address in the in-addr.arpa domain
-to the reverse FQDN.</p>
 </td>
 </tr>
 </tbody>
@@ -13819,6 +12975,7 @@ to the reverse FQDN.</p>
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.PublicIPAddressPropertiesFormat_StatusARM">PublicIPAddressPropertiesFormat_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of PublicIPAddressDnsSettings_Status. Use v1beta20201101.PublicIPAddressDnsSettings_Status instead</p>
 </div>
 <table>
 <thead>
@@ -13836,9 +12993,6 @@ string
 </em>
 </td>
 <td>
-<p>DomainNameLabel: The domain name label. The concatenation of the domain name label and the regionalized DNS zone make up
-the fully qualified domain name associated with the public IP address. If a domain name label is specified, an A DNS
-record is created for the public IP in the Microsoft Azure DNS system.</p>
 </td>
 </tr>
 <tr>
@@ -13849,8 +13003,6 @@ string
 </em>
 </td>
 <td>
-<p>Fqdn: The Fully Qualified Domain Name of the A DNS record associated with the public IP. This is the concatenation of
-the domainNameLabel and the regionalized DNS zone.</p>
 </td>
 </tr>
 <tr>
@@ -13861,9 +13013,6 @@ string
 </em>
 </td>
 <td>
-<p>ReverseFqdn: The reverse FQDN. A user-visible, fully qualified domain name that resolves to this public IP address. If
-the reverseFqdn is specified, then a PTR DNS record is created pointing from the IP address in the in-addr.arpa domain
-to the reverse FQDN.</p>
 </td>
 </tr>
 </tbody>
@@ -13874,7 +13023,7 @@ to the reverse FQDN.</p>
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.PublicIPAddresses_SpecARM">PublicIPAddresses_SpecARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/PublicIPAddressPropertiesFormat">https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/PublicIPAddressPropertiesFormat</a></p>
+<p>Deprecated version of PublicIPAddressPropertiesFormat. Use v1beta20201101.PublicIPAddressPropertiesFormat instead</p>
 </div>
 <table>
 <thead>
@@ -13894,7 +13043,6 @@ DdosSettingsARM
 </em>
 </td>
 <td>
-<p>DdosSettings: The DDoS protection custom policy associated with the public IP address.</p>
 </td>
 </tr>
 <tr>
@@ -13907,7 +13055,6 @@ PublicIPAddressDnsSettingsARM
 </em>
 </td>
 <td>
-<p>DnsSettings: The FQDN of the DNS record associated with the public IP address.</p>
 </td>
 </tr>
 <tr>
@@ -13918,7 +13065,6 @@ int
 </em>
 </td>
 <td>
-<p>IdleTimeoutInMinutes: The idle timeout of the public IP address.</p>
 </td>
 </tr>
 <tr>
@@ -13929,7 +13075,6 @@ string
 </em>
 </td>
 <td>
-<p>IpAddress: The IP address associated with the public IP address resource.</p>
 </td>
 </tr>
 <tr>
@@ -13942,7 +13087,6 @@ string
 </em>
 </td>
 <td>
-<p>IpTags: The list of tags associated with the public IP address.</p>
 </td>
 </tr>
 <tr>
@@ -13955,7 +13099,6 @@ PublicIPAddressPropertiesFormatPublicIPAddressVersion
 </em>
 </td>
 <td>
-<p>PublicIPAddressVersion: The public IP address version.</p>
 </td>
 </tr>
 <tr>
@@ -13968,7 +13111,6 @@ PublicIPAddressPropertiesFormatPublicIPAllocationMethod
 </em>
 </td>
 <td>
-<p>PublicIPAllocationMethod: The public IP address allocation method.</p>
 </td>
 </tr>
 <tr>
@@ -13981,7 +13123,6 @@ SubResourceARM
 </em>
 </td>
 <td>
-<p>PublicIPPrefix: The Public IP Prefix this Public IP Address should be allocated from.</p>
 </td>
 </tr>
 </tbody>
@@ -13992,6 +13133,8 @@ SubResourceARM
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.PublicIPAddressPropertiesFormatARM">PublicIPAddressPropertiesFormatARM</a>, <a href="#network.azure.com/v1alpha1api20201101.PublicIPAddresses_Spec">PublicIPAddresses_Spec</a>)
 </p>
 <div>
+<p>Deprecated version of PublicIPAddressPropertiesFormatPublicIPAddressVersion. Use
+v1beta20201101.PublicIPAddressPropertiesFormatPublicIPAddressVersion instead</p>
 </div>
 <table>
 <thead>
@@ -14012,6 +13155,8 @@ SubResourceARM
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.PublicIPAddressPropertiesFormatARM">PublicIPAddressPropertiesFormatARM</a>, <a href="#network.azure.com/v1alpha1api20201101.PublicIPAddresses_Spec">PublicIPAddresses_Spec</a>)
 </p>
 <div>
+<p>Deprecated version of PublicIPAddressPropertiesFormatPublicIPAllocationMethod. Use
+v1beta20201101.PublicIPAddressPropertiesFormatPublicIPAllocationMethod instead</p>
 </div>
 <table>
 <thead>
@@ -14032,6 +13177,8 @@ SubResourceARM
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.PublicIPAddressPropertiesFormat_StatusARM">PublicIPAddressPropertiesFormat_StatusARM</a>, <a href="#network.azure.com/v1alpha1api20201101.PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded">PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded</a>)
 </p>
 <div>
+<p>Deprecated version of PublicIPAddressPropertiesFormatStatusMigrationPhase. Use
+v1beta20201101.PublicIPAddressPropertiesFormatStatusMigrationPhase instead</p>
 </div>
 <table>
 <thead>
@@ -14058,6 +13205,7 @@ SubResourceARM
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.PublicIPAddress_Status_PublicIPAddress_SubResourceEmbeddedARM">PublicIPAddress_Status_PublicIPAddress_SubResourceEmbeddedARM</a>)
 </p>
 <div>
+<p>Deprecated version of PublicIPAddressPropertiesFormat_Status. Use v1beta20201101.PublicIPAddressPropertiesFormat_Status instead</p>
 </div>
 <table>
 <thead>
@@ -14077,7 +13225,6 @@ DdosSettings_StatusARM
 </em>
 </td>
 <td>
-<p>DdosSettings: The DDoS protection custom policy associated with the public IP address.</p>
 </td>
 </tr>
 <tr>
@@ -14090,7 +13237,6 @@ PublicIPAddressDnsSettings_StatusARM
 </em>
 </td>
 <td>
-<p>DnsSettings: The FQDN of the DNS record associated with the public IP address.</p>
 </td>
 </tr>
 <tr>
@@ -14101,7 +13247,6 @@ int
 </em>
 </td>
 <td>
-<p>IdleTimeoutInMinutes: The idle timeout of the public IP address.</p>
 </td>
 </tr>
 <tr>
@@ -14112,7 +13257,6 @@ string
 </em>
 </td>
 <td>
-<p>IpAddress: The IP address associated with the public IP address resource.</p>
 </td>
 </tr>
 <tr>
@@ -14125,7 +13269,6 @@ IPConfiguration_Status_PublicIPAddress_SubResourceEmbeddedARM
 </em>
 </td>
 <td>
-<p>IpConfiguration: The IP configuration associated with the public IP address.</p>
 </td>
 </tr>
 <tr>
@@ -14138,7 +13281,6 @@ IPConfiguration_Status_PublicIPAddress_SubResourceEmbeddedARM
 </em>
 </td>
 <td>
-<p>IpTags: The list of tags associated with the public IP address.</p>
 </td>
 </tr>
 <tr>
@@ -14151,7 +13293,6 @@ PublicIPAddressPropertiesFormatStatusMigrationPhase
 </em>
 </td>
 <td>
-<p>MigrationPhase: Migration phase of Public IP Address.</p>
 </td>
 </tr>
 <tr>
@@ -14164,7 +13305,6 @@ NatGateway_Status_PublicIPAddress_SubResourceEmbeddedARM
 </em>
 </td>
 <td>
-<p>NatGateway: The NatGateway for the Public IP address.</p>
 </td>
 </tr>
 <tr>
@@ -14177,7 +13317,6 @@ ProvisioningState_Status
 </em>
 </td>
 <td>
-<p>ProvisioningState: The provisioning state of the public IP address resource.</p>
 </td>
 </tr>
 <tr>
@@ -14190,7 +13329,6 @@ IPVersion_Status
 </em>
 </td>
 <td>
-<p>PublicIPAddressVersion: The public IP address version.</p>
 </td>
 </tr>
 <tr>
@@ -14203,7 +13341,6 @@ IPAllocationMethod_Status
 </em>
 </td>
 <td>
-<p>PublicIPAllocationMethod: The public IP address allocation method.</p>
 </td>
 </tr>
 <tr>
@@ -14216,7 +13353,6 @@ SubResource_StatusARM
 </em>
 </td>
 <td>
-<p>PublicIPPrefix: The Public IP Prefix this Public IP Address should be allocated from.</p>
 </td>
 </tr>
 <tr>
@@ -14227,7 +13363,6 @@ string
 </em>
 </td>
 <td>
-<p>ResourceGuid: The resource GUID property of the public IP address resource.</p>
 </td>
 </tr>
 </tbody>
@@ -14238,7 +13373,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.PublicIPAddresses_Spec">PublicIPAddresses_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/PublicIPAddressSku">https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/PublicIPAddressSku</a></p>
+<p>Deprecated version of PublicIPAddressSku. Use v1beta20201101.PublicIPAddressSku instead</p>
 </div>
 <table>
 <thead>
@@ -14258,7 +13393,6 @@ PublicIPAddressSkuName
 </em>
 </td>
 <td>
-<p>Name: Name of a public IP address SKU.</p>
 </td>
 </tr>
 <tr>
@@ -14271,7 +13405,6 @@ PublicIPAddressSkuTier
 </em>
 </td>
 <td>
-<p>Tier: Tier of a public IP address SKU.</p>
 </td>
 </tr>
 </tbody>
@@ -14282,7 +13415,7 @@ PublicIPAddressSkuTier
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.PublicIPAddresses_SpecARM">PublicIPAddresses_SpecARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/PublicIPAddressSku">https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/PublicIPAddressSku</a></p>
+<p>Deprecated version of PublicIPAddressSku. Use v1beta20201101.PublicIPAddressSku instead</p>
 </div>
 <table>
 <thead>
@@ -14302,7 +13435,6 @@ PublicIPAddressSkuName
 </em>
 </td>
 <td>
-<p>Name: Name of a public IP address SKU.</p>
 </td>
 </tr>
 <tr>
@@ -14315,7 +13447,6 @@ PublicIPAddressSkuTier
 </em>
 </td>
 <td>
-<p>Tier: Tier of a public IP address SKU.</p>
 </td>
 </tr>
 </tbody>
@@ -14326,6 +13457,7 @@ PublicIPAddressSkuTier
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.PublicIPAddressSku">PublicIPAddressSku</a>, <a href="#network.azure.com/v1alpha1api20201101.PublicIPAddressSkuARM">PublicIPAddressSkuARM</a>)
 </p>
 <div>
+<p>Deprecated version of PublicIPAddressSkuName. Use v1beta20201101.PublicIPAddressSkuName instead</p>
 </div>
 <table>
 <thead>
@@ -14346,6 +13478,7 @@ PublicIPAddressSkuTier
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.PublicIPAddressSku_Status">PublicIPAddressSku_Status</a>, <a href="#network.azure.com/v1alpha1api20201101.PublicIPAddressSku_StatusARM">PublicIPAddressSku_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of PublicIPAddressSkuStatusName. Use v1beta20201101.PublicIPAddressSkuStatusName instead</p>
 </div>
 <table>
 <thead>
@@ -14366,6 +13499,7 @@ PublicIPAddressSkuTier
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.PublicIPAddressSku_Status">PublicIPAddressSku_Status</a>, <a href="#network.azure.com/v1alpha1api20201101.PublicIPAddressSku_StatusARM">PublicIPAddressSku_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of PublicIPAddressSkuStatusTier. Use v1beta20201101.PublicIPAddressSkuStatusTier instead</p>
 </div>
 <table>
 <thead>
@@ -14386,6 +13520,7 @@ PublicIPAddressSkuTier
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.PublicIPAddressSku">PublicIPAddressSku</a>, <a href="#network.azure.com/v1alpha1api20201101.PublicIPAddressSkuARM">PublicIPAddressSkuARM</a>)
 </p>
 <div>
+<p>Deprecated version of PublicIPAddressSkuTier. Use v1beta20201101.PublicIPAddressSkuTier instead</p>
 </div>
 <table>
 <thead>
@@ -14406,6 +13541,7 @@ PublicIPAddressSkuTier
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.PublicIPAddress_Status_LoadBalancer_SubResourceEmbedded">PublicIPAddress_Status_LoadBalancer_SubResourceEmbedded</a>, <a href="#network.azure.com/v1alpha1api20201101.PublicIPAddress_Status_NetworkInterface_SubResourceEmbedded">PublicIPAddress_Status_NetworkInterface_SubResourceEmbedded</a>, <a href="#network.azure.com/v1alpha1api20201101.PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded">PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded</a>, <a href="#network.azure.com/v1alpha1api20201101.PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded">PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded</a>)
 </p>
 <div>
+<p>Deprecated version of PublicIPAddressSku_Status. Use v1beta20201101.PublicIPAddressSku_Status instead</p>
 </div>
 <table>
 <thead>
@@ -14425,7 +13561,6 @@ PublicIPAddressSkuStatusName
 </em>
 </td>
 <td>
-<p>Name: Name of a public IP address SKU.</p>
 </td>
 </tr>
 <tr>
@@ -14438,7 +13573,6 @@ PublicIPAddressSkuStatusTier
 </em>
 </td>
 <td>
-<p>Tier: Tier of a public IP address SKU.</p>
 </td>
 </tr>
 </tbody>
@@ -14449,6 +13583,7 @@ PublicIPAddressSkuStatusTier
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.PublicIPAddress_Status_LoadBalancer_SubResourceEmbeddedARM">PublicIPAddress_Status_LoadBalancer_SubResourceEmbeddedARM</a>, <a href="#network.azure.com/v1alpha1api20201101.PublicIPAddress_Status_NetworkInterface_SubResourceEmbeddedARM">PublicIPAddress_Status_NetworkInterface_SubResourceEmbeddedARM</a>, <a href="#network.azure.com/v1alpha1api20201101.PublicIPAddress_Status_PublicIPAddress_SubResourceEmbeddedARM">PublicIPAddress_Status_PublicIPAddress_SubResourceEmbeddedARM</a>, <a href="#network.azure.com/v1alpha1api20201101.PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM">PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM</a>)
 </p>
 <div>
+<p>Deprecated version of PublicIPAddressSku_Status. Use v1beta20201101.PublicIPAddressSku_Status instead</p>
 </div>
 <table>
 <thead>
@@ -14468,7 +13603,6 @@ PublicIPAddressSkuStatusName
 </em>
 </td>
 <td>
-<p>Name: Name of a public IP address SKU.</p>
 </td>
 </tr>
 <tr>
@@ -14481,7 +13615,6 @@ PublicIPAddressSkuStatusTier
 </em>
 </td>
 <td>
-<p>Tier: Tier of a public IP address SKU.</p>
 </td>
 </tr>
 </tbody>
@@ -14492,6 +13625,7 @@ PublicIPAddressSkuStatusTier
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded">FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded</a>)
 </p>
 <div>
+<p>Deprecated version of PublicIPAddress_Status_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.PublicIPAddress_Status_LoadBalancer_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -14511,7 +13645,6 @@ ExtendedLocation_Status
 </em>
 </td>
 <td>
-<p>ExtendedLocation: The extended location of the public ip address.</p>
 </td>
 </tr>
 <tr>
@@ -14522,7 +13655,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 <tr>
@@ -14535,7 +13667,6 @@ PublicIPAddressSku_Status
 </em>
 </td>
 <td>
-<p>Sku: The public IP address SKU.</p>
 </td>
 </tr>
 <tr>
@@ -14546,7 +13677,6 @@ PublicIPAddressSku_Status
 </em>
 </td>
 <td>
-<p>Zones: A list of availability zones denoting the IP allocated for the resource needs to come from.</p>
 </td>
 </tr>
 </tbody>
@@ -14557,6 +13687,7 @@ PublicIPAddressSku_Status
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.FrontendIPConfigurationPropertiesFormat_Status_LoadBalancer_SubResourceEmbeddedARM">FrontendIPConfigurationPropertiesFormat_Status_LoadBalancer_SubResourceEmbeddedARM</a>)
 </p>
 <div>
+<p>Deprecated version of PublicIPAddress_Status_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.PublicIPAddress_Status_LoadBalancer_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -14576,7 +13707,6 @@ ExtendedLocation_StatusARM
 </em>
 </td>
 <td>
-<p>ExtendedLocation: The extended location of the public ip address.</p>
 </td>
 </tr>
 <tr>
@@ -14587,7 +13717,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 <tr>
@@ -14600,7 +13729,6 @@ PublicIPAddressSku_StatusARM
 </em>
 </td>
 <td>
-<p>Sku: The public IP address SKU.</p>
 </td>
 </tr>
 <tr>
@@ -14611,7 +13739,6 @@ PublicIPAddressSku_StatusARM
 </em>
 </td>
 <td>
-<p>Zones: A list of availability zones denoting the IP allocated for the resource needs to come from.</p>
 </td>
 </tr>
 </tbody>
@@ -14622,6 +13749,7 @@ PublicIPAddressSku_StatusARM
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResourceEmbedded">NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResourceEmbedded</a>)
 </p>
 <div>
+<p>Deprecated version of PublicIPAddress_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.PublicIPAddress_Status_NetworkInterface_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -14641,7 +13769,6 @@ ExtendedLocation_Status
 </em>
 </td>
 <td>
-<p>ExtendedLocation: The extended location of the public ip address.</p>
 </td>
 </tr>
 <tr>
@@ -14652,7 +13779,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 <tr>
@@ -14665,7 +13791,6 @@ PublicIPAddressSku_Status
 </em>
 </td>
 <td>
-<p>Sku: The public IP address SKU.</p>
 </td>
 </tr>
 <tr>
@@ -14676,7 +13801,6 @@ PublicIPAddressSku_Status
 </em>
 </td>
 <td>
-<p>Zones: A list of availability zones denoting the IP allocated for the resource needs to come from.</p>
 </td>
 </tr>
 </tbody>
@@ -14687,6 +13811,7 @@ PublicIPAddressSku_Status
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.NetworkInterfaceIPConfigurationPropertiesFormat_Status_NetworkInterface_SubResourceEmbeddedARM">NetworkInterfaceIPConfigurationPropertiesFormat_Status_NetworkInterface_SubResourceEmbeddedARM</a>)
 </p>
 <div>
+<p>Deprecated version of PublicIPAddress_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.PublicIPAddress_Status_NetworkInterface_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -14706,7 +13831,6 @@ ExtendedLocation_StatusARM
 </em>
 </td>
 <td>
-<p>ExtendedLocation: The extended location of the public ip address.</p>
 </td>
 </tr>
 <tr>
@@ -14717,7 +13841,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 <tr>
@@ -14730,7 +13853,6 @@ PublicIPAddressSku_StatusARM
 </em>
 </td>
 <td>
-<p>Sku: The public IP address SKU.</p>
 </td>
 </tr>
 <tr>
@@ -14741,7 +13863,6 @@ PublicIPAddressSku_StatusARM
 </em>
 </td>
 <td>
-<p>Zones: A list of availability zones denoting the IP allocated for the resource needs to come from.</p>
 </td>
 </tr>
 </tbody>
@@ -14752,6 +13873,7 @@ PublicIPAddressSku_StatusARM
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.PublicIPAddress">PublicIPAddress</a>)
 </p>
 <div>
+<p>Deprecated version of PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded. Use v1beta20201101.PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -14784,7 +13906,6 @@ DdosSettings_Status
 </em>
 </td>
 <td>
-<p>DdosSettings: The DDoS protection custom policy associated with the public IP address.</p>
 </td>
 </tr>
 <tr>
@@ -14797,7 +13918,6 @@ PublicIPAddressDnsSettings_Status
 </em>
 </td>
 <td>
-<p>DnsSettings: The FQDN of the DNS record associated with the public IP address.</p>
 </td>
 </tr>
 <tr>
@@ -14808,7 +13928,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A unique read-only string that changes whenever the resource is updated.</p>
 </td>
 </tr>
 <tr>
@@ -14821,7 +13940,6 @@ ExtendedLocation_Status
 </em>
 </td>
 <td>
-<p>ExtendedLocation: The extended location of the public ip address.</p>
 </td>
 </tr>
 <tr>
@@ -14832,7 +13950,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 <tr>
@@ -14843,7 +13960,6 @@ int
 </em>
 </td>
 <td>
-<p>IdleTimeoutInMinutes: The idle timeout of the public IP address.</p>
 </td>
 </tr>
 <tr>
@@ -14854,7 +13970,6 @@ string
 </em>
 </td>
 <td>
-<p>IpAddress: The IP address associated with the public IP address resource.</p>
 </td>
 </tr>
 <tr>
@@ -14867,7 +13982,6 @@ IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded
 </em>
 </td>
 <td>
-<p>IpConfiguration: The IP configuration associated with the public IP address.</p>
 </td>
 </tr>
 <tr>
@@ -14880,7 +13994,6 @@ IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded
 </em>
 </td>
 <td>
-<p>IpTags: The list of tags associated with the public IP address.</p>
 </td>
 </tr>
 <tr>
@@ -14891,7 +14004,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Resource location.</p>
 </td>
 </tr>
 <tr>
@@ -14904,7 +14016,6 @@ PublicIPAddressPropertiesFormatStatusMigrationPhase
 </em>
 </td>
 <td>
-<p>MigrationPhase: Migration phase of Public IP Address.</p>
 </td>
 </tr>
 <tr>
@@ -14915,7 +14026,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Resource name.</p>
 </td>
 </tr>
 <tr>
@@ -14928,7 +14038,6 @@ NatGateway_Status_PublicIPAddress_SubResourceEmbedded
 </em>
 </td>
 <td>
-<p>NatGateway: The NatGateway for the Public IP address.</p>
 </td>
 </tr>
 <tr>
@@ -14941,7 +14050,6 @@ ProvisioningState_Status
 </em>
 </td>
 <td>
-<p>ProvisioningState: The provisioning state of the public IP address resource.</p>
 </td>
 </tr>
 <tr>
@@ -14954,7 +14062,6 @@ IPVersion_Status
 </em>
 </td>
 <td>
-<p>PublicIPAddressVersion: The public IP address version.</p>
 </td>
 </tr>
 <tr>
@@ -14967,7 +14074,6 @@ IPAllocationMethod_Status
 </em>
 </td>
 <td>
-<p>PublicIPAllocationMethod: The public IP address allocation method.</p>
 </td>
 </tr>
 <tr>
@@ -14980,7 +14086,6 @@ SubResource_Status
 </em>
 </td>
 <td>
-<p>PublicIPPrefix: The Public IP Prefix this Public IP Address should be allocated from.</p>
 </td>
 </tr>
 <tr>
@@ -14991,7 +14096,6 @@ string
 </em>
 </td>
 <td>
-<p>ResourceGuid: The resource GUID property of the public IP address resource.</p>
 </td>
 </tr>
 <tr>
@@ -15004,7 +14108,6 @@ PublicIPAddressSku_Status
 </em>
 </td>
 <td>
-<p>Sku: The public IP address SKU.</p>
 </td>
 </tr>
 <tr>
@@ -15015,7 +14118,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Resource tags.</p>
 </td>
 </tr>
 <tr>
@@ -15026,7 +14128,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: Resource type.</p>
 </td>
 </tr>
 <tr>
@@ -15037,7 +14138,6 @@ string
 </em>
 </td>
 <td>
-<p>Zones: A list of availability zones denoting the IP allocated for the resource needs to come from.</p>
 </td>
 </tr>
 </tbody>
@@ -15045,6 +14145,7 @@ string
 <h3 id="network.azure.com/v1alpha1api20201101.PublicIPAddress_Status_PublicIPAddress_SubResourceEmbeddedARM">PublicIPAddress_Status_PublicIPAddress_SubResourceEmbeddedARM
 </h3>
 <div>
+<p>Deprecated version of PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded. Use v1beta20201101.PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -15062,7 +14163,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A unique read-only string that changes whenever the resource is updated.</p>
 </td>
 </tr>
 <tr>
@@ -15075,7 +14175,6 @@ ExtendedLocation_StatusARM
 </em>
 </td>
 <td>
-<p>ExtendedLocation: The extended location of the public ip address.</p>
 </td>
 </tr>
 <tr>
@@ -15086,7 +14185,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 <tr>
@@ -15097,7 +14195,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Resource location.</p>
 </td>
 </tr>
 <tr>
@@ -15108,7 +14205,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Resource name.</p>
 </td>
 </tr>
 <tr>
@@ -15121,7 +14217,6 @@ PublicIPAddressPropertiesFormat_StatusARM
 </em>
 </td>
 <td>
-<p>Properties: Public IP address properties.</p>
 </td>
 </tr>
 <tr>
@@ -15134,7 +14229,6 @@ PublicIPAddressSku_StatusARM
 </em>
 </td>
 <td>
-<p>Sku: The public IP address SKU.</p>
 </td>
 </tr>
 <tr>
@@ -15145,7 +14239,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Resource tags.</p>
 </td>
 </tr>
 <tr>
@@ -15156,7 +14249,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: Resource type.</p>
 </td>
 </tr>
 <tr>
@@ -15167,7 +14259,6 @@ string
 </em>
 </td>
 <td>
-<p>Zones: A list of availability zones denoting the IP allocated for the resource needs to come from.</p>
 </td>
 </tr>
 </tbody>
@@ -15178,6 +14269,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded">IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded</a>)
 </p>
 <div>
+<p>Deprecated version of PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded. Use v1beta20201101.PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -15197,7 +14289,6 @@ ExtendedLocation_Status
 </em>
 </td>
 <td>
-<p>ExtendedLocation: The extended location of the public ip address.</p>
 </td>
 </tr>
 <tr>
@@ -15208,7 +14299,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 <tr>
@@ -15221,7 +14311,6 @@ PublicIPAddressSku_Status
 </em>
 </td>
 <td>
-<p>Sku: The public IP address SKU.</p>
 </td>
 </tr>
 <tr>
@@ -15232,7 +14321,6 @@ PublicIPAddressSku_Status
 </em>
 </td>
 <td>
-<p>Zones: A list of availability zones denoting the IP allocated for the resource needs to come from.</p>
 </td>
 </tr>
 </tbody>
@@ -15243,6 +14331,7 @@ PublicIPAddressSku_Status
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.IPConfigurationPropertiesFormat_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM">IPConfigurationPropertiesFormat_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM</a>)
 </p>
 <div>
+<p>Deprecated version of PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded. Use v1beta20201101.PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -15262,7 +14351,6 @@ ExtendedLocation_StatusARM
 </em>
 </td>
 <td>
-<p>ExtendedLocation: The extended location of the public ip address.</p>
 </td>
 </tr>
 <tr>
@@ -15273,7 +14361,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 <tr>
@@ -15286,7 +14373,6 @@ PublicIPAddressSku_StatusARM
 </em>
 </td>
 <td>
-<p>Sku: The public IP address SKU.</p>
 </td>
 </tr>
 <tr>
@@ -15297,25 +14383,9 @@ PublicIPAddressSku_StatusARM
 </em>
 </td>
 <td>
-<p>Zones: A list of availability zones denoting the IP allocated for the resource needs to come from.</p>
 </td>
 </tr>
 </tbody>
-</table>
-<h3 id="network.azure.com/v1alpha1api20201101.PublicIPAddressesSpecAPIVersion">PublicIPAddressesSpecAPIVersion
-(<code>string</code> alias)</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;2020-11-01&#34;</p></td>
-<td></td>
-</tr></tbody>
 </table>
 <h3 id="network.azure.com/v1alpha1api20201101.PublicIPAddresses_Spec">PublicIPAddresses_Spec
 </h3>
@@ -15354,7 +14424,6 @@ DdosSettings
 </em>
 </td>
 <td>
-<p>DdosSettings: The DDoS protection custom policy associated with the public IP address.</p>
 </td>
 </tr>
 <tr>
@@ -15367,7 +14436,6 @@ PublicIPAddressDnsSettings
 </em>
 </td>
 <td>
-<p>DnsSettings: The FQDN of the DNS record associated with the public IP address.</p>
 </td>
 </tr>
 <tr>
@@ -15380,7 +14448,6 @@ ExtendedLocation
 </em>
 </td>
 <td>
-<p>ExtendedLocation: The extended location of the public ip address.</p>
 </td>
 </tr>
 <tr>
@@ -15391,7 +14458,6 @@ int
 </em>
 </td>
 <td>
-<p>IdleTimeoutInMinutes: The idle timeout of the public IP address.</p>
 </td>
 </tr>
 <tr>
@@ -15402,7 +14468,6 @@ string
 </em>
 </td>
 <td>
-<p>IpAddress: The IP address associated with the public IP address resource.</p>
 </td>
 </tr>
 <tr>
@@ -15415,7 +14480,6 @@ string
 </em>
 </td>
 <td>
-<p>IpTags: The list of tags associated with the public IP address.</p>
 </td>
 </tr>
 <tr>
@@ -15426,7 +14490,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -15439,6 +14502,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -15451,7 +14517,6 @@ PublicIPAddressPropertiesFormatPublicIPAddressVersion
 </em>
 </td>
 <td>
-<p>PublicIPAddressVersion: The public IP address version.</p>
 </td>
 </tr>
 <tr>
@@ -15464,7 +14529,6 @@ PublicIPAddressPropertiesFormatPublicIPAllocationMethod
 </em>
 </td>
 <td>
-<p>PublicIPAllocationMethod: The public IP address allocation method.</p>
 </td>
 </tr>
 <tr>
@@ -15477,7 +14541,6 @@ SubResource
 </em>
 </td>
 <td>
-<p>PublicIPPrefix: The Public IP Prefix this Public IP Address should be allocated from.</p>
 </td>
 </tr>
 <tr>
@@ -15490,7 +14553,6 @@ PublicIPAddressSku
 </em>
 </td>
 <td>
-<p>Sku: The public IP address SKU.</p>
 </td>
 </tr>
 <tr>
@@ -15501,7 +14563,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 <tr>
@@ -15512,7 +14573,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Zones: A list of availability zones denoting the IP allocated for the resource needs to come from.</p>
 </td>
 </tr>
 </tbody>
@@ -15520,6 +14580,7 @@ map[string]string
 <h3 id="network.azure.com/v1alpha1api20201101.PublicIPAddresses_SpecARM">PublicIPAddresses_SpecARM
 </h3>
 <div>
+<p>Deprecated version of PublicIPAddresses_Spec. Use v1beta20201101.PublicIPAddresses_Spec instead</p>
 </div>
 <table>
 <thead>
@@ -15539,7 +14600,6 @@ ExtendedLocationARM
 </em>
 </td>
 <td>
-<p>ExtendedLocation: The extended location of the public ip address.</p>
 </td>
 </tr>
 <tr>
@@ -15550,7 +14610,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -15561,7 +14620,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Name of the resource</p>
 </td>
 </tr>
 <tr>
@@ -15574,7 +14632,6 @@ PublicIPAddressPropertiesFormatARM
 </em>
 </td>
 <td>
-<p>Properties: Public IP address properties.</p>
 </td>
 </tr>
 <tr>
@@ -15587,7 +14644,6 @@ PublicIPAddressSkuARM
 </em>
 </td>
 <td>
-<p>Sku: The public IP address SKU.</p>
 </td>
 </tr>
 <tr>
@@ -15598,7 +14654,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 <tr>
@@ -15609,7 +14664,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Zones: A list of availability zones denoting the IP allocated for the resource needs to come from.</p>
 </td>
 </tr>
 </tbody>
@@ -15620,7 +14674,7 @@ map[string]string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration">VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/RadiusServer">https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/RadiusServer</a></p>
+<p>Deprecated version of RadiusServer. Use v1beta20201101.RadiusServer instead</p>
 </div>
 <table>
 <thead>
@@ -15638,7 +14692,6 @@ string
 </em>
 </td>
 <td>
-<p>RadiusServerAddress: The address of this radius server.</p>
 </td>
 </tr>
 <tr>
@@ -15649,7 +14702,6 @@ int
 </em>
 </td>
 <td>
-<p>RadiusServerScore: The initial score assigned to this radius server.</p>
 </td>
 </tr>
 <tr>
@@ -15660,7 +14712,6 @@ string
 </em>
 </td>
 <td>
-<p>RadiusServerSecret: The secret used for this radius server.</p>
 </td>
 </tr>
 </tbody>
@@ -15671,7 +14722,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGateways_Spec_Properties_VpnClientConfigurationARM">VirtualNetworkGateways_Spec_Properties_VpnClientConfigurationARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/RadiusServer">https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/RadiusServer</a></p>
+<p>Deprecated version of RadiusServer. Use v1beta20201101.RadiusServer instead</p>
 </div>
 <table>
 <thead>
@@ -15689,7 +14740,6 @@ string
 </em>
 </td>
 <td>
-<p>RadiusServerAddress: The address of this radius server.</p>
 </td>
 </tr>
 <tr>
@@ -15700,7 +14750,6 @@ int
 </em>
 </td>
 <td>
-<p>RadiusServerScore: The initial score assigned to this radius server.</p>
 </td>
 </tr>
 <tr>
@@ -15711,7 +14760,6 @@ string
 </em>
 </td>
 <td>
-<p>RadiusServerSecret: The secret used for this radius server.</p>
 </td>
 </tr>
 </tbody>
@@ -15722,6 +14770,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VpnClientConfiguration_Status">VpnClientConfiguration_Status</a>)
 </p>
 <div>
+<p>Deprecated version of RadiusServer_Status. Use v1beta20201101.RadiusServer_Status instead</p>
 </div>
 <table>
 <thead>
@@ -15739,7 +14788,6 @@ string
 </em>
 </td>
 <td>
-<p>RadiusServerAddress: The address of this radius server.</p>
 </td>
 </tr>
 <tr>
@@ -15750,7 +14798,6 @@ int
 </em>
 </td>
 <td>
-<p>RadiusServerScore: The initial score assigned to this radius server.</p>
 </td>
 </tr>
 <tr>
@@ -15761,7 +14808,6 @@ string
 </em>
 </td>
 <td>
-<p>RadiusServerSecret: The secret used for this radius server.</p>
 </td>
 </tr>
 </tbody>
@@ -15772,6 +14818,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VpnClientConfiguration_StatusARM">VpnClientConfiguration_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of RadiusServer_Status. Use v1beta20201101.RadiusServer_Status instead</p>
 </div>
 <table>
 <thead>
@@ -15789,7 +14836,6 @@ string
 </em>
 </td>
 <td>
-<p>RadiusServerAddress: The address of this radius server.</p>
 </td>
 </tr>
 <tr>
@@ -15800,7 +14846,6 @@ int
 </em>
 </td>
 <td>
-<p>RadiusServerScore: The initial score assigned to this radius server.</p>
 </td>
 </tr>
 <tr>
@@ -15811,7 +14856,6 @@ string
 </em>
 </td>
 <td>
-<p>RadiusServerSecret: The secret used for this radius server.</p>
 </td>
 </tr>
 </tbody>
@@ -15822,6 +14866,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.ResourceNavigationLink_StatusARM">ResourceNavigationLink_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of ResourceNavigationLinkFormat_Status. Use v1beta20201101.ResourceNavigationLinkFormat_Status instead</p>
 </div>
 <table>
 <thead>
@@ -15839,7 +14884,6 @@ string
 </em>
 </td>
 <td>
-<p>Link: Link to the external resource.</p>
 </td>
 </tr>
 <tr>
@@ -15850,7 +14894,6 @@ string
 </em>
 </td>
 <td>
-<p>LinkedResourceType: Resource type of the linked resource.</p>
 </td>
 </tr>
 <tr>
@@ -15863,7 +14906,6 @@ ProvisioningState_Status
 </em>
 </td>
 <td>
-<p>ProvisioningState: The provisioning state of the resource navigation link resource.</p>
 </td>
 </tr>
 </tbody>
@@ -15874,6 +14916,7 @@ ProvisioningState_Status
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded">Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded</a>)
 </p>
 <div>
+<p>Deprecated version of ResourceNavigationLink_Status. Use v1beta20201101.ResourceNavigationLink_Status instead</p>
 </div>
 <table>
 <thead>
@@ -15891,7 +14934,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A unique read-only string that changes whenever the resource is updated.</p>
 </td>
 </tr>
 <tr>
@@ -15902,7 +14944,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource navigation link identifier.</p>
 </td>
 </tr>
 <tr>
@@ -15913,7 +14954,6 @@ string
 </em>
 </td>
 <td>
-<p>Link: Link to the external resource.</p>
 </td>
 </tr>
 <tr>
@@ -15924,7 +14964,6 @@ string
 </em>
 </td>
 <td>
-<p>LinkedResourceType: Resource type of the linked resource.</p>
 </td>
 </tr>
 <tr>
@@ -15935,7 +14974,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Name of the resource that is unique within a resource group. This name can be used to access the resource.</p>
 </td>
 </tr>
 <tr>
@@ -15948,7 +14986,6 @@ ProvisioningState_Status
 </em>
 </td>
 <td>
-<p>ProvisioningState: The provisioning state of the resource navigation link resource.</p>
 </td>
 </tr>
 <tr>
@@ -15959,7 +14996,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: Resource type.</p>
 </td>
 </tr>
 </tbody>
@@ -15970,6 +15006,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.SubnetPropertiesFormat_StatusARM">SubnetPropertiesFormat_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of ResourceNavigationLink_Status. Use v1beta20201101.ResourceNavigationLink_Status instead</p>
 </div>
 <table>
 <thead>
@@ -15987,7 +15024,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A unique read-only string that changes whenever the resource is updated.</p>
 </td>
 </tr>
 <tr>
@@ -15998,7 +15034,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource navigation link identifier.</p>
 </td>
 </tr>
 <tr>
@@ -16009,7 +15044,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Name of the resource that is unique within a resource group. This name can be used to access the resource.</p>
 </td>
 </tr>
 <tr>
@@ -16022,7 +15056,6 @@ ResourceNavigationLinkFormat_StatusARM
 </em>
 </td>
 <td>
-<p>Properties: Resource navigation link properties format.</p>
 </td>
 </tr>
 <tr>
@@ -16033,7 +15066,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: Resource type.</p>
 </td>
 </tr>
 </tbody>
@@ -16044,6 +15076,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded">Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded</a>)
 </p>
 <div>
+<p>Deprecated version of RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded. Use v1beta20201101.RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -16061,7 +15094,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 </tbody>
@@ -16072,6 +15104,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.SubnetPropertiesFormat_StatusARM">SubnetPropertiesFormat_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded. Use v1beta20201101.RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -16089,7 +15122,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 </tbody>
@@ -16100,6 +15132,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.SecurityRulePropertiesFormat_StatusARM">SecurityRulePropertiesFormat_StatusARM</a>, <a href="#network.azure.com/v1alpha1api20201101.SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded">SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded</a>)
 </p>
 <div>
+<p>Deprecated version of SecurityRuleAccess_Status. Use v1beta20201101.SecurityRuleAccess_Status instead</p>
 </div>
 <table>
 <thead>
@@ -16120,6 +15153,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.SecurityRulePropertiesFormat_StatusARM">SecurityRulePropertiesFormat_StatusARM</a>, <a href="#network.azure.com/v1alpha1api20201101.SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded">SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded</a>)
 </p>
 <div>
+<p>Deprecated version of SecurityRuleDirection_Status. Use v1beta20201101.SecurityRuleDirection_Status instead</p>
 </div>
 <table>
 <thead>
@@ -16140,7 +15174,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.NetworkSecurityGroupsSecurityRules_SpecARM">NetworkSecurityGroupsSecurityRules_SpecARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/SecurityRulePropertiesFormat">https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/SecurityRulePropertiesFormat</a></p>
+<p>Deprecated version of SecurityRulePropertiesFormat. Use v1beta20201101.SecurityRulePropertiesFormat instead</p>
 </div>
 <table>
 <thead>
@@ -16160,7 +15194,6 @@ SecurityRulePropertiesFormatAccess
 </em>
 </td>
 <td>
-<p>Access: The network traffic is allowed or denied.</p>
 </td>
 </tr>
 <tr>
@@ -16171,7 +15204,6 @@ string
 </em>
 </td>
 <td>
-<p>Description: A description for this rule. Restricted to 140 chars.</p>
 </td>
 </tr>
 <tr>
@@ -16182,8 +15214,6 @@ string
 </em>
 </td>
 <td>
-<p>DestinationAddressPrefix: The destination address prefix. CIDR or destination IP range. Asterisk &lsquo;*&rsquo; can also be used to
-match all source IPs. Default tags such as &lsquo;VirtualNetwork&rsquo;, &lsquo;AzureLoadBalancer&rsquo; and &lsquo;Internet&rsquo; can also be used.</p>
 </td>
 </tr>
 <tr>
@@ -16194,7 +15224,6 @@ match all source IPs. Default tags such as &lsquo;VirtualNetwork&rsquo;, &lsquo;
 </em>
 </td>
 <td>
-<p>DestinationAddressPrefixes: The destination address prefixes. CIDR or destination IP ranges.</p>
 </td>
 </tr>
 <tr>
@@ -16207,7 +15236,6 @@ match all source IPs. Default tags such as &lsquo;VirtualNetwork&rsquo;, &lsquo;
 </em>
 </td>
 <td>
-<p>DestinationApplicationSecurityGroups: The application security group specified as destination.</p>
 </td>
 </tr>
 <tr>
@@ -16218,8 +15246,6 @@ string
 </em>
 </td>
 <td>
-<p>DestinationPortRange: The destination port or range. Integer or range between 0 and 65535. Asterisk &lsquo;*&rsquo; can also be used
-to match all ports.</p>
 </td>
 </tr>
 <tr>
@@ -16230,7 +15256,6 @@ to match all ports.</p>
 </em>
 </td>
 <td>
-<p>DestinationPortRanges: The destination port ranges.</p>
 </td>
 </tr>
 <tr>
@@ -16243,7 +15268,6 @@ SecurityRulePropertiesFormatDirection
 </em>
 </td>
 <td>
-<p>Direction: The direction of the rule. The direction specifies if rule will be evaluated on incoming or outgoing traffic.</p>
 </td>
 </tr>
 <tr>
@@ -16254,8 +15278,6 @@ int
 </em>
 </td>
 <td>
-<p>Priority: The priority of the rule. The value can be between 100 and 4096. The priority number must be unique for each
-rule in the collection. The lower the priority number, the higher the priority of the rule.</p>
 </td>
 </tr>
 <tr>
@@ -16268,7 +15290,6 @@ SecurityRulePropertiesFormatProtocol
 </em>
 </td>
 <td>
-<p>Protocol: Network protocol this rule applies to.</p>
 </td>
 </tr>
 <tr>
@@ -16279,9 +15300,6 @@ string
 </em>
 </td>
 <td>
-<p>SourceAddressPrefix: The CIDR or source IP range. Asterisk &lsquo;*&rsquo; can also be used to match all source IPs. Default tags
-such as &lsquo;VirtualNetwork&rsquo;, &lsquo;AzureLoadBalancer&rsquo; and &lsquo;Internet&rsquo; can also be used. If this is an ingress rule, specifies
-where network traffic originates from.</p>
 </td>
 </tr>
 <tr>
@@ -16292,7 +15310,6 @@ where network traffic originates from.</p>
 </em>
 </td>
 <td>
-<p>SourceAddressPrefixes: The CIDR or source IP ranges.</p>
 </td>
 </tr>
 <tr>
@@ -16305,7 +15322,6 @@ where network traffic originates from.</p>
 </em>
 </td>
 <td>
-<p>SourceApplicationSecurityGroups: The application security group specified as source.</p>
 </td>
 </tr>
 <tr>
@@ -16316,8 +15332,6 @@ string
 </em>
 </td>
 <td>
-<p>SourcePortRange: The source port or range. Integer or range between 0 and 65535. Asterisk &lsquo;*&rsquo; can also be used to match
-all ports.</p>
 </td>
 </tr>
 <tr>
@@ -16328,7 +15342,6 @@ all ports.</p>
 </em>
 </td>
 <td>
-<p>SourcePortRanges: The source port ranges.</p>
 </td>
 </tr>
 </tbody>
@@ -16339,6 +15352,7 @@ all ports.</p>
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.NetworkSecurityGroupsSecurityRules_Spec">NetworkSecurityGroupsSecurityRules_Spec</a>, <a href="#network.azure.com/v1alpha1api20201101.SecurityRulePropertiesFormatARM">SecurityRulePropertiesFormatARM</a>)
 </p>
 <div>
+<p>Deprecated version of SecurityRulePropertiesFormatAccess. Use v1beta20201101.SecurityRulePropertiesFormatAccess instead</p>
 </div>
 <table>
 <thead>
@@ -16359,6 +15373,8 @@ all ports.</p>
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.NetworkSecurityGroupsSecurityRules_Spec">NetworkSecurityGroupsSecurityRules_Spec</a>, <a href="#network.azure.com/v1alpha1api20201101.SecurityRulePropertiesFormatARM">SecurityRulePropertiesFormatARM</a>)
 </p>
 <div>
+<p>Deprecated version of SecurityRulePropertiesFormatDirection. Use v1beta20201101.SecurityRulePropertiesFormatDirection
+instead</p>
 </div>
 <table>
 <thead>
@@ -16379,6 +15395,8 @@ all ports.</p>
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.NetworkSecurityGroupsSecurityRules_Spec">NetworkSecurityGroupsSecurityRules_Spec</a>, <a href="#network.azure.com/v1alpha1api20201101.SecurityRulePropertiesFormatARM">SecurityRulePropertiesFormatARM</a>)
 </p>
 <div>
+<p>Deprecated version of SecurityRulePropertiesFormatProtocol. Use v1beta20201101.SecurityRulePropertiesFormatProtocol
+instead</p>
 </div>
 <table>
 <thead>
@@ -16407,6 +15425,8 @@ all ports.</p>
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.SecurityRulePropertiesFormat_StatusARM">SecurityRulePropertiesFormat_StatusARM</a>, <a href="#network.azure.com/v1alpha1api20201101.SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded">SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded</a>)
 </p>
 <div>
+<p>Deprecated version of SecurityRulePropertiesFormatStatusProtocol. Use
+v1beta20201101.SecurityRulePropertiesFormatStatusProtocol instead</p>
 </div>
 <table>
 <thead>
@@ -16435,6 +15455,7 @@ all ports.</p>
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbeddedARM">SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbeddedARM</a>)
 </p>
 <div>
+<p>Deprecated version of SecurityRulePropertiesFormat_Status. Use v1beta20201101.SecurityRulePropertiesFormat_Status instead</p>
 </div>
 <table>
 <thead>
@@ -16454,7 +15475,6 @@ SecurityRuleAccess_Status
 </em>
 </td>
 <td>
-<p>Access: The network traffic is allowed or denied.</p>
 </td>
 </tr>
 <tr>
@@ -16465,7 +15485,6 @@ string
 </em>
 </td>
 <td>
-<p>Description: A description for this rule. Restricted to 140 chars.</p>
 </td>
 </tr>
 <tr>
@@ -16476,8 +15495,6 @@ string
 </em>
 </td>
 <td>
-<p>DestinationAddressPrefix: The destination address prefix. CIDR or destination IP range. Asterisk &lsquo;*&rsquo; can also be used to
-match all source IPs. Default tags such as &lsquo;VirtualNetwork&rsquo;, &lsquo;AzureLoadBalancer&rsquo; and &lsquo;Internet&rsquo; can also be used.</p>
 </td>
 </tr>
 <tr>
@@ -16488,7 +15505,6 @@ match all source IPs. Default tags such as &lsquo;VirtualNetwork&rsquo;, &lsquo;
 </em>
 </td>
 <td>
-<p>DestinationAddressPrefixes: The destination address prefixes. CIDR or destination IP ranges.</p>
 </td>
 </tr>
 <tr>
@@ -16501,7 +15517,6 @@ match all source IPs. Default tags such as &lsquo;VirtualNetwork&rsquo;, &lsquo;
 </em>
 </td>
 <td>
-<p>DestinationApplicationSecurityGroups: The application security group specified as destination.</p>
 </td>
 </tr>
 <tr>
@@ -16512,8 +15527,6 @@ string
 </em>
 </td>
 <td>
-<p>DestinationPortRange: The destination port or range. Integer or range between 0 and 65535. Asterisk &lsquo;*&rsquo; can also be used
-to match all ports.</p>
 </td>
 </tr>
 <tr>
@@ -16524,7 +15537,6 @@ to match all ports.</p>
 </em>
 </td>
 <td>
-<p>DestinationPortRanges: The destination port ranges.</p>
 </td>
 </tr>
 <tr>
@@ -16537,7 +15549,6 @@ SecurityRuleDirection_Status
 </em>
 </td>
 <td>
-<p>Direction: The direction of the rule. The direction specifies if rule will be evaluated on incoming or outgoing traffic.</p>
 </td>
 </tr>
 <tr>
@@ -16548,8 +15559,6 @@ int
 </em>
 </td>
 <td>
-<p>Priority: The priority of the rule. The value can be between 100 and 4096. The priority number must be unique for each
-rule in the collection. The lower the priority number, the higher the priority of the rule.</p>
 </td>
 </tr>
 <tr>
@@ -16562,7 +15571,6 @@ SecurityRulePropertiesFormatStatusProtocol
 </em>
 </td>
 <td>
-<p>Protocol: Network protocol this rule applies to.</p>
 </td>
 </tr>
 <tr>
@@ -16575,7 +15583,6 @@ ProvisioningState_Status
 </em>
 </td>
 <td>
-<p>ProvisioningState: The provisioning state of the security rule resource.</p>
 </td>
 </tr>
 <tr>
@@ -16586,9 +15593,6 @@ string
 </em>
 </td>
 <td>
-<p>SourceAddressPrefix: The CIDR or source IP range. Asterisk &lsquo;*&rsquo; can also be used to match all source IPs. Default tags
-such as &lsquo;VirtualNetwork&rsquo;, &lsquo;AzureLoadBalancer&rsquo; and &lsquo;Internet&rsquo; can also be used. If this is an ingress rule, specifies
-where network traffic originates from.</p>
 </td>
 </tr>
 <tr>
@@ -16599,7 +15603,6 @@ where network traffic originates from.</p>
 </em>
 </td>
 <td>
-<p>SourceAddressPrefixes: The CIDR or source IP ranges.</p>
 </td>
 </tr>
 <tr>
@@ -16612,7 +15615,6 @@ where network traffic originates from.</p>
 </em>
 </td>
 <td>
-<p>SourceApplicationSecurityGroups: The application security group specified as source.</p>
 </td>
 </tr>
 <tr>
@@ -16623,8 +15625,6 @@ string
 </em>
 </td>
 <td>
-<p>SourcePortRange: The source port or range. Integer or range between 0 and 65535. Asterisk &lsquo;*&rsquo; can also be used to match
-all ports.</p>
 </td>
 </tr>
 <tr>
@@ -16635,7 +15635,6 @@ all ports.</p>
 </em>
 </td>
 <td>
-<p>SourcePortRanges: The source port ranges.</p>
 </td>
 </tr>
 </tbody>
@@ -16646,6 +15645,7 @@ all ports.</p>
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded">NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded</a>)
 </p>
 <div>
+<p>Deprecated version of SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded. Use v1beta20201101.SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -16663,7 +15663,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 </tbody>
@@ -16674,6 +15673,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.NetworkSecurityGroupPropertiesFormat_StatusARM">NetworkSecurityGroupPropertiesFormat_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded. Use v1beta20201101.SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -16691,7 +15691,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 </tbody>
@@ -16702,6 +15701,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.NetworkSecurityGroupsSecurityRule">NetworkSecurityGroupsSecurityRule</a>)
 </p>
 <div>
+<p>Deprecated version of SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded. Use v1beta20201101.SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -16721,7 +15721,6 @@ SecurityRuleAccess_Status
 </em>
 </td>
 <td>
-<p>Access: The network traffic is allowed or denied.</p>
 </td>
 </tr>
 <tr>
@@ -16745,7 +15744,6 @@ string
 </em>
 </td>
 <td>
-<p>Description: A description for this rule. Restricted to 140 chars.</p>
 </td>
 </tr>
 <tr>
@@ -16756,8 +15754,6 @@ string
 </em>
 </td>
 <td>
-<p>DestinationAddressPrefix: The destination address prefix. CIDR or destination IP range. Asterisk &lsquo;*&rsquo; can also be used to
-match all source IPs. Default tags such as &lsquo;VirtualNetwork&rsquo;, &lsquo;AzureLoadBalancer&rsquo; and &lsquo;Internet&rsquo; can also be used.</p>
 </td>
 </tr>
 <tr>
@@ -16768,7 +15764,6 @@ match all source IPs. Default tags such as &lsquo;VirtualNetwork&rsquo;, &lsquo;
 </em>
 </td>
 <td>
-<p>DestinationAddressPrefixes: The destination address prefixes. CIDR or destination IP ranges.</p>
 </td>
 </tr>
 <tr>
@@ -16781,7 +15776,6 @@ match all source IPs. Default tags such as &lsquo;VirtualNetwork&rsquo;, &lsquo;
 </em>
 </td>
 <td>
-<p>DestinationApplicationSecurityGroups: The application security group specified as destination.</p>
 </td>
 </tr>
 <tr>
@@ -16792,8 +15786,6 @@ string
 </em>
 </td>
 <td>
-<p>DestinationPortRange: The destination port or range. Integer or range between 0 and 65535. Asterisk &lsquo;*&rsquo; can also be used
-to match all ports.</p>
 </td>
 </tr>
 <tr>
@@ -16804,7 +15796,6 @@ to match all ports.</p>
 </em>
 </td>
 <td>
-<p>DestinationPortRanges: The destination port ranges.</p>
 </td>
 </tr>
 <tr>
@@ -16817,7 +15808,6 @@ SecurityRuleDirection_Status
 </em>
 </td>
 <td>
-<p>Direction: The direction of the rule. The direction specifies if rule will be evaluated on incoming or outgoing traffic.</p>
 </td>
 </tr>
 <tr>
@@ -16828,7 +15818,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A unique read-only string that changes whenever the resource is updated.</p>
 </td>
 </tr>
 <tr>
@@ -16839,7 +15828,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 <tr>
@@ -16850,7 +15838,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.</p>
 </td>
 </tr>
 <tr>
@@ -16861,8 +15848,6 @@ int
 </em>
 </td>
 <td>
-<p>Priority: The priority of the rule. The value can be between 100 and 4096. The priority number must be unique for each
-rule in the collection. The lower the priority number, the higher the priority of the rule.</p>
 </td>
 </tr>
 <tr>
@@ -16875,7 +15860,6 @@ SecurityRulePropertiesFormatStatusProtocol
 </em>
 </td>
 <td>
-<p>Protocol: Network protocol this rule applies to.</p>
 </td>
 </tr>
 <tr>
@@ -16888,7 +15872,6 @@ ProvisioningState_Status
 </em>
 </td>
 <td>
-<p>ProvisioningState: The provisioning state of the security rule resource.</p>
 </td>
 </tr>
 <tr>
@@ -16899,9 +15882,6 @@ string
 </em>
 </td>
 <td>
-<p>SourceAddressPrefix: The CIDR or source IP range. Asterisk &lsquo;*&rsquo; can also be used to match all source IPs. Default tags
-such as &lsquo;VirtualNetwork&rsquo;, &lsquo;AzureLoadBalancer&rsquo; and &lsquo;Internet&rsquo; can also be used. If this is an ingress rule, specifies
-where network traffic originates from.</p>
 </td>
 </tr>
 <tr>
@@ -16912,7 +15892,6 @@ where network traffic originates from.</p>
 </em>
 </td>
 <td>
-<p>SourceAddressPrefixes: The CIDR or source IP ranges.</p>
 </td>
 </tr>
 <tr>
@@ -16925,7 +15904,6 @@ where network traffic originates from.</p>
 </em>
 </td>
 <td>
-<p>SourceApplicationSecurityGroups: The application security group specified as source.</p>
 </td>
 </tr>
 <tr>
@@ -16936,8 +15914,6 @@ string
 </em>
 </td>
 <td>
-<p>SourcePortRange: The source port or range. Integer or range between 0 and 65535. Asterisk &lsquo;*&rsquo; can also be used to match
-all ports.</p>
 </td>
 </tr>
 <tr>
@@ -16948,7 +15924,6 @@ all ports.</p>
 </em>
 </td>
 <td>
-<p>SourcePortRanges: The source port ranges.</p>
 </td>
 </tr>
 <tr>
@@ -16959,7 +15934,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: The type of the resource.</p>
 </td>
 </tr>
 </tbody>
@@ -16967,6 +15941,7 @@ string
 <h3 id="network.azure.com/v1alpha1api20201101.SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbeddedARM">SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbeddedARM
 </h3>
 <div>
+<p>Deprecated version of SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded. Use v1beta20201101.SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -16984,7 +15959,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A unique read-only string that changes whenever the resource is updated.</p>
 </td>
 </tr>
 <tr>
@@ -16995,7 +15969,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 <tr>
@@ -17006,7 +15979,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.</p>
 </td>
 </tr>
 <tr>
@@ -17019,7 +15991,6 @@ SecurityRulePropertiesFormat_StatusARM
 </em>
 </td>
 <td>
-<p>Properties: Properties of the security rule.</p>
 </td>
 </tr>
 <tr>
@@ -17030,7 +16001,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: The type of the resource.</p>
 </td>
 </tr>
 </tbody>
@@ -17041,6 +16011,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.ServiceAssociationLink_StatusARM">ServiceAssociationLink_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of ServiceAssociationLinkPropertiesFormat_Status. Use v1beta20201101.ServiceAssociationLinkPropertiesFormat_Status instead</p>
 </div>
 <table>
 <thead>
@@ -17058,7 +16029,6 @@ bool
 </em>
 </td>
 <td>
-<p>AllowDelete: If true, the resource can be deleted.</p>
 </td>
 </tr>
 <tr>
@@ -17069,7 +16039,6 @@ string
 </em>
 </td>
 <td>
-<p>Link: Link to the external resource.</p>
 </td>
 </tr>
 <tr>
@@ -17080,7 +16049,6 @@ string
 </em>
 </td>
 <td>
-<p>LinkedResourceType: Resource type of the linked resource.</p>
 </td>
 </tr>
 <tr>
@@ -17091,7 +16059,6 @@ string
 </em>
 </td>
 <td>
-<p>Locations: A list of locations.</p>
 </td>
 </tr>
 <tr>
@@ -17104,7 +16071,6 @@ ProvisioningState_Status
 </em>
 </td>
 <td>
-<p>ProvisioningState: The provisioning state of the service association link resource.</p>
 </td>
 </tr>
 </tbody>
@@ -17115,6 +16081,7 @@ ProvisioningState_Status
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded">Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded</a>)
 </p>
 <div>
+<p>Deprecated version of ServiceAssociationLink_Status. Use v1beta20201101.ServiceAssociationLink_Status instead</p>
 </div>
 <table>
 <thead>
@@ -17132,7 +16099,6 @@ bool
 </em>
 </td>
 <td>
-<p>AllowDelete: If true, the resource can be deleted.</p>
 </td>
 </tr>
 <tr>
@@ -17143,7 +16109,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A unique read-only string that changes whenever the resource is updated.</p>
 </td>
 </tr>
 <tr>
@@ -17154,7 +16119,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 <tr>
@@ -17165,7 +16129,6 @@ string
 </em>
 </td>
 <td>
-<p>Link: Link to the external resource.</p>
 </td>
 </tr>
 <tr>
@@ -17176,7 +16139,6 @@ string
 </em>
 </td>
 <td>
-<p>LinkedResourceType: Resource type of the linked resource.</p>
 </td>
 </tr>
 <tr>
@@ -17187,7 +16149,6 @@ string
 </em>
 </td>
 <td>
-<p>Locations: A list of locations.</p>
 </td>
 </tr>
 <tr>
@@ -17198,7 +16159,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Name of the resource that is unique within a resource group. This name can be used to access the resource.</p>
 </td>
 </tr>
 <tr>
@@ -17211,7 +16171,6 @@ ProvisioningState_Status
 </em>
 </td>
 <td>
-<p>ProvisioningState: The provisioning state of the service association link resource.</p>
 </td>
 </tr>
 <tr>
@@ -17222,7 +16181,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: Resource type.</p>
 </td>
 </tr>
 </tbody>
@@ -17233,6 +16191,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.SubnetPropertiesFormat_StatusARM">SubnetPropertiesFormat_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of ServiceAssociationLink_Status. Use v1beta20201101.ServiceAssociationLink_Status instead</p>
 </div>
 <table>
 <thead>
@@ -17250,7 +16209,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A unique read-only string that changes whenever the resource is updated.</p>
 </td>
 </tr>
 <tr>
@@ -17261,7 +16219,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 <tr>
@@ -17272,7 +16229,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Name of the resource that is unique within a resource group. This name can be used to access the resource.</p>
 </td>
 </tr>
 <tr>
@@ -17285,7 +16241,6 @@ ServiceAssociationLinkPropertiesFormat_StatusARM
 </em>
 </td>
 <td>
-<p>Properties: Resource navigation link properties format.</p>
 </td>
 </tr>
 <tr>
@@ -17296,7 +16251,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: Resource type.</p>
 </td>
 </tr>
 </tbody>
@@ -17307,7 +16261,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworksSubnets_Spec_Properties_DelegationsARM">VirtualNetworksSubnets_Spec_Properties_DelegationsARM</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworks_Spec_Properties_Subnets_Properties_DelegationsARM">VirtualNetworks_Spec_Properties_Subnets_Properties_DelegationsARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/ServiceDelegationPropertiesFormat">https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/ServiceDelegationPropertiesFormat</a></p>
+<p>Deprecated version of ServiceDelegationPropertiesFormat. Use v1beta20201101.ServiceDelegationPropertiesFormat instead</p>
 </div>
 <table>
 <thead>
@@ -17325,7 +16279,6 @@ string
 </em>
 </td>
 <td>
-<p>ServiceName: The name of the service to whom the subnet should be delegated (e.g. Microsoft.Sql/servers).</p>
 </td>
 </tr>
 </tbody>
@@ -17336,6 +16289,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.Delegation_StatusARM">Delegation_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of ServiceDelegationPropertiesFormat_Status. Use v1beta20201101.ServiceDelegationPropertiesFormat_Status instead</p>
 </div>
 <table>
 <thead>
@@ -17353,7 +16307,6 @@ string
 </em>
 </td>
 <td>
-<p>Actions: The actions permitted to the service upon delegation.</p>
 </td>
 </tr>
 <tr>
@@ -17366,7 +16319,6 @@ ProvisioningState_Status
 </em>
 </td>
 <td>
-<p>ProvisioningState: The provisioning state of the service delegation resource.</p>
 </td>
 </tr>
 <tr>
@@ -17377,7 +16329,6 @@ string
 </em>
 </td>
 <td>
-<p>ServiceName: The name of the service to whom the subnet should be delegated (e.g. Microsoft.Sql/servers).</p>
 </td>
 </tr>
 </tbody>
@@ -17388,6 +16339,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded">Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded</a>)
 </p>
 <div>
+<p>Deprecated version of ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded. Use v1beta20201101.ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -17405,7 +16357,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 <tr>
@@ -17416,7 +16367,6 @@ string
 </em>
 </td>
 <td>
-<p>Kind: Kind of service endpoint policy. This is metadata used for the Azure portal experience.</p>
 </td>
 </tr>
 </tbody>
@@ -17427,6 +16377,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.SubnetPropertiesFormat_StatusARM">SubnetPropertiesFormat_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded. Use v1beta20201101.ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -17444,7 +16395,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 <tr>
@@ -17455,7 +16405,6 @@ string
 </em>
 </td>
 <td>
-<p>Kind: Kind of service endpoint policy. This is metadata used for the Azure portal experience.</p>
 </td>
 </tr>
 </tbody>
@@ -17463,10 +16412,10 @@ string
 <h3 id="network.azure.com/v1alpha1api20201101.ServiceEndpointPropertiesFormat">ServiceEndpointPropertiesFormat
 </h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworksSubnets_Spec">VirtualNetworksSubnets_Spec</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworks_Spec_Properties_Subnets">VirtualNetworks_Spec_Properties_Subnets</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworksSubnets_Spec">VirtualNetworksSubnets_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/ServiceEndpointPropertiesFormat">https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/ServiceEndpointPropertiesFormat</a></p>
+<p>Deprecated version of ServiceEndpointPropertiesFormat. Use v1beta20201101.ServiceEndpointPropertiesFormat instead</p>
 </div>
 <table>
 <thead>
@@ -17484,7 +16433,6 @@ string
 </em>
 </td>
 <td>
-<p>Locations: A list of locations.</p>
 </td>
 </tr>
 <tr>
@@ -17495,7 +16443,6 @@ string
 </em>
 </td>
 <td>
-<p>Service: The type of the endpoint service.</p>
 </td>
 </tr>
 </tbody>
@@ -17506,7 +16453,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworksSubnets_Spec_PropertiesARM">VirtualNetworksSubnets_Spec_PropertiesARM</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworks_Spec_Properties_Subnets_PropertiesARM">VirtualNetworks_Spec_Properties_Subnets_PropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/ServiceEndpointPropertiesFormat">https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/ServiceEndpointPropertiesFormat</a></p>
+<p>Deprecated version of ServiceEndpointPropertiesFormat. Use v1beta20201101.ServiceEndpointPropertiesFormat instead</p>
 </div>
 <table>
 <thead>
@@ -17524,7 +16471,6 @@ string
 </em>
 </td>
 <td>
-<p>Locations: A list of locations.</p>
 </td>
 </tr>
 <tr>
@@ -17535,7 +16481,6 @@ string
 </em>
 </td>
 <td>
-<p>Service: The type of the endpoint service.</p>
 </td>
 </tr>
 </tbody>
@@ -17546,6 +16491,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded">Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded</a>)
 </p>
 <div>
+<p>Deprecated version of ServiceEndpointPropertiesFormat_Status. Use v1beta20201101.ServiceEndpointPropertiesFormat_Status instead</p>
 </div>
 <table>
 <thead>
@@ -17563,7 +16509,6 @@ string
 </em>
 </td>
 <td>
-<p>Locations: A list of locations.</p>
 </td>
 </tr>
 <tr>
@@ -17576,7 +16521,6 @@ ProvisioningState_Status
 </em>
 </td>
 <td>
-<p>ProvisioningState: The provisioning state of the service endpoint resource.</p>
 </td>
 </tr>
 <tr>
@@ -17587,7 +16531,6 @@ string
 </em>
 </td>
 <td>
-<p>Service: The type of the endpoint service.</p>
 </td>
 </tr>
 </tbody>
@@ -17598,6 +16541,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.SubnetPropertiesFormat_StatusARM">SubnetPropertiesFormat_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of ServiceEndpointPropertiesFormat_Status. Use v1beta20201101.ServiceEndpointPropertiesFormat_Status instead</p>
 </div>
 <table>
 <thead>
@@ -17615,7 +16559,6 @@ string
 </em>
 </td>
 <td>
-<p>Locations: A list of locations.</p>
 </td>
 </tr>
 <tr>
@@ -17628,7 +16571,6 @@ ProvisioningState_Status
 </em>
 </td>
 <td>
-<p>ProvisioningState: The provisioning state of the service endpoint resource.</p>
 </td>
 </tr>
 <tr>
@@ -17639,7 +16581,6 @@ string
 </em>
 </td>
 <td>
-<p>Service: The type of the endpoint service.</p>
 </td>
 </tr>
 </tbody>
@@ -17647,10 +16588,10 @@ string
 <h3 id="network.azure.com/v1alpha1api20201101.SubResource">SubResource
 </h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.DdosSettings">DdosSettings</a>, <a href="#network.azure.com/v1alpha1api20201101.LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses">LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses</a>, <a href="#network.azure.com/v1alpha1api20201101.LoadBalancers_Spec_Properties_FrontendIPConfigurations">LoadBalancers_Spec_Properties_FrontendIPConfigurations</a>, <a href="#network.azure.com/v1alpha1api20201101.LoadBalancers_Spec_Properties_InboundNatPools">LoadBalancers_Spec_Properties_InboundNatPools</a>, <a href="#network.azure.com/v1alpha1api20201101.LoadBalancers_Spec_Properties_LoadBalancingRules">LoadBalancers_Spec_Properties_LoadBalancingRules</a>, <a href="#network.azure.com/v1alpha1api20201101.LoadBalancers_Spec_Properties_OutboundRules">LoadBalancers_Spec_Properties_OutboundRules</a>, <a href="#network.azure.com/v1alpha1api20201101.NetworkInterfaces_Spec">NetworkInterfaces_Spec</a>, <a href="#network.azure.com/v1alpha1api20201101.NetworkInterfaces_Spec_Properties_IpConfigurations">NetworkInterfaces_Spec_Properties_IpConfigurations</a>, <a href="#network.azure.com/v1alpha1api20201101.NetworkSecurityGroupsSecurityRules_Spec">NetworkSecurityGroupsSecurityRules_Spec</a>, <a href="#network.azure.com/v1alpha1api20201101.PublicIPAddresses_Spec">PublicIPAddresses_Spec</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGateways_Spec">VirtualNetworkGateways_Spec</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGateways_Spec_Properties_IpConfigurations">VirtualNetworkGateways_Spec_Properties_IpConfigurations</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworksSubnets_Spec">VirtualNetworksSubnets_Spec</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworksVirtualNetworkPeerings_Spec">VirtualNetworksVirtualNetworkPeerings_Spec</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworks_Spec">VirtualNetworks_Spec</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworks_Spec_Properties_Subnets">VirtualNetworks_Spec_Properties_Subnets</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.DdosSettings">DdosSettings</a>, <a href="#network.azure.com/v1alpha1api20201101.LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses">LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses</a>, <a href="#network.azure.com/v1alpha1api20201101.LoadBalancers_Spec_Properties_FrontendIPConfigurations">LoadBalancers_Spec_Properties_FrontendIPConfigurations</a>, <a href="#network.azure.com/v1alpha1api20201101.LoadBalancers_Spec_Properties_InboundNatPools">LoadBalancers_Spec_Properties_InboundNatPools</a>, <a href="#network.azure.com/v1alpha1api20201101.LoadBalancers_Spec_Properties_LoadBalancingRules">LoadBalancers_Spec_Properties_LoadBalancingRules</a>, <a href="#network.azure.com/v1alpha1api20201101.LoadBalancers_Spec_Properties_OutboundRules">LoadBalancers_Spec_Properties_OutboundRules</a>, <a href="#network.azure.com/v1alpha1api20201101.NetworkInterfaces_Spec">NetworkInterfaces_Spec</a>, <a href="#network.azure.com/v1alpha1api20201101.NetworkInterfaces_Spec_Properties_IpConfigurations">NetworkInterfaces_Spec_Properties_IpConfigurations</a>, <a href="#network.azure.com/v1alpha1api20201101.NetworkSecurityGroupsSecurityRules_Spec">NetworkSecurityGroupsSecurityRules_Spec</a>, <a href="#network.azure.com/v1alpha1api20201101.PublicIPAddresses_Spec">PublicIPAddresses_Spec</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGateways_Spec">VirtualNetworkGateways_Spec</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGateways_Spec_Properties_IpConfigurations">VirtualNetworkGateways_Spec_Properties_IpConfigurations</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworksSubnets_Spec">VirtualNetworksSubnets_Spec</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworksVirtualNetworkPeerings_Spec">VirtualNetworksVirtualNetworkPeerings_Spec</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworks_Spec">VirtualNetworks_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/SubResource">https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/SubResource</a></p>
+<p>Deprecated version of SubResource. Use v1beta20201101.SubResource instead</p>
 </div>
 <table>
 <thead>
@@ -17670,7 +16611,6 @@ genruntime.ResourceReference
 </em>
 </td>
 <td>
-<p>Reference: Resource ID.</p>
 </td>
 </tr>
 </tbody>
@@ -17681,7 +16621,7 @@ genruntime.ResourceReference
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.DdosSettingsARM">DdosSettingsARM</a>, <a href="#network.azure.com/v1alpha1api20201101.FrontendIPConfigurationPropertiesFormatARM">FrontendIPConfigurationPropertiesFormatARM</a>, <a href="#network.azure.com/v1alpha1api20201101.InboundNatPoolPropertiesFormatARM">InboundNatPoolPropertiesFormatARM</a>, <a href="#network.azure.com/v1alpha1api20201101.LoadBalancerBackendAddressPropertiesFormatARM">LoadBalancerBackendAddressPropertiesFormatARM</a>, <a href="#network.azure.com/v1alpha1api20201101.LoadBalancingRulePropertiesFormatARM">LoadBalancingRulePropertiesFormatARM</a>, <a href="#network.azure.com/v1alpha1api20201101.NetworkInterfaceIPConfigurationPropertiesFormatARM">NetworkInterfaceIPConfigurationPropertiesFormatARM</a>, <a href="#network.azure.com/v1alpha1api20201101.NetworkInterfaces_Spec_PropertiesARM">NetworkInterfaces_Spec_PropertiesARM</a>, <a href="#network.azure.com/v1alpha1api20201101.OutboundRulePropertiesFormatARM">OutboundRulePropertiesFormatARM</a>, <a href="#network.azure.com/v1alpha1api20201101.PublicIPAddressPropertiesFormatARM">PublicIPAddressPropertiesFormatARM</a>, <a href="#network.azure.com/v1alpha1api20201101.SecurityRulePropertiesFormatARM">SecurityRulePropertiesFormatARM</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGatewayIPConfigurationPropertiesFormatARM">VirtualNetworkGatewayIPConfigurationPropertiesFormatARM</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGateways_Spec_PropertiesARM">VirtualNetworkGateways_Spec_PropertiesARM</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkPeeringPropertiesFormatARM">VirtualNetworkPeeringPropertiesFormatARM</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworksSubnets_Spec_PropertiesARM">VirtualNetworksSubnets_Spec_PropertiesARM</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworks_Spec_PropertiesARM">VirtualNetworks_Spec_PropertiesARM</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworks_Spec_Properties_Subnets_PropertiesARM">VirtualNetworks_Spec_Properties_Subnets_PropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/SubResource">https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/SubResource</a></p>
+<p>Deprecated version of SubResource. Use v1beta20201101.SubResource instead</p>
 </div>
 <table>
 <thead>
@@ -17709,6 +16649,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.ApplicationGatewayIPConfiguration_Status">ApplicationGatewayIPConfiguration_Status</a>, <a href="#network.azure.com/v1alpha1api20201101.DdosSettings_Status">DdosSettings_Status</a>, <a href="#network.azure.com/v1alpha1api20201101.FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded">FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded</a>, <a href="#network.azure.com/v1alpha1api20201101.InboundNatPool_Status">InboundNatPool_Status</a>, <a href="#network.azure.com/v1alpha1api20201101.LoadBalancingRule_Status">LoadBalancingRule_Status</a>, <a href="#network.azure.com/v1alpha1api20201101.NetworkInterface_Status_NetworkInterface_SubResourceEmbedded">NetworkInterface_Status_NetworkInterface_SubResourceEmbedded</a>, <a href="#network.azure.com/v1alpha1api20201101.OutboundRule_Status">OutboundRule_Status</a>, <a href="#network.azure.com/v1alpha1api20201101.Probe_Status">Probe_Status</a>, <a href="#network.azure.com/v1alpha1api20201101.PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded">PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded</a>, <a href="#network.azure.com/v1alpha1api20201101.Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded">Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGatewayIPConfiguration_Status">VirtualNetworkGatewayIPConfiguration_Status</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGateway_Status">VirtualNetworkGateway_Status</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkPeering_Status">VirtualNetworkPeering_Status</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetwork_Status">VirtualNetwork_Status</a>)
 </p>
 <div>
+<p>Deprecated version of SubResource_Status. Use v1beta20201101.SubResource_Status instead</p>
 </div>
 <table>
 <thead>
@@ -17726,7 +16667,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 </tbody>
@@ -17737,6 +16677,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.ApplicationGatewayIPConfigurationPropertiesFormat_StatusARM">ApplicationGatewayIPConfigurationPropertiesFormat_StatusARM</a>, <a href="#network.azure.com/v1alpha1api20201101.DdosSettings_StatusARM">DdosSettings_StatusARM</a>, <a href="#network.azure.com/v1alpha1api20201101.FrontendIPConfigurationPropertiesFormat_Status_LoadBalancer_SubResourceEmbeddedARM">FrontendIPConfigurationPropertiesFormat_Status_LoadBalancer_SubResourceEmbeddedARM</a>, <a href="#network.azure.com/v1alpha1api20201101.InboundNatPoolPropertiesFormat_StatusARM">InboundNatPoolPropertiesFormat_StatusARM</a>, <a href="#network.azure.com/v1alpha1api20201101.LoadBalancingRulePropertiesFormat_StatusARM">LoadBalancingRulePropertiesFormat_StatusARM</a>, <a href="#network.azure.com/v1alpha1api20201101.NetworkInterfacePropertiesFormat_StatusARM">NetworkInterfacePropertiesFormat_StatusARM</a>, <a href="#network.azure.com/v1alpha1api20201101.OutboundRulePropertiesFormat_StatusARM">OutboundRulePropertiesFormat_StatusARM</a>, <a href="#network.azure.com/v1alpha1api20201101.ProbePropertiesFormat_StatusARM">ProbePropertiesFormat_StatusARM</a>, <a href="#network.azure.com/v1alpha1api20201101.PublicIPAddressPropertiesFormat_StatusARM">PublicIPAddressPropertiesFormat_StatusARM</a>, <a href="#network.azure.com/v1alpha1api20201101.SubnetPropertiesFormat_StatusARM">SubnetPropertiesFormat_StatusARM</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGatewayIPConfigurationPropertiesFormat_StatusARM">VirtualNetworkGatewayIPConfigurationPropertiesFormat_StatusARM</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGatewayPropertiesFormat_StatusARM">VirtualNetworkGatewayPropertiesFormat_StatusARM</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkPeeringPropertiesFormat_StatusARM">VirtualNetworkPeeringPropertiesFormat_StatusARM</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkPropertiesFormat_StatusARM">VirtualNetworkPropertiesFormat_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of SubResource_Status. Use v1beta20201101.SubResource_Status instead</p>
 </div>
 <table>
 <thead>
@@ -17754,7 +16695,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 </tbody>
@@ -17765,6 +16705,8 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.SubnetPropertiesFormat_StatusARM">SubnetPropertiesFormat_StatusARM</a>, <a href="#network.azure.com/v1alpha1api20201101.Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded">Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded</a>)
 </p>
 <div>
+<p>Deprecated version of SubnetPropertiesFormatStatusPrivateEndpointNetworkPolicies. Use
+v1beta20201101.SubnetPropertiesFormatStatusPrivateEndpointNetworkPolicies instead</p>
 </div>
 <table>
 <thead>
@@ -17785,6 +16727,8 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.SubnetPropertiesFormat_StatusARM">SubnetPropertiesFormat_StatusARM</a>, <a href="#network.azure.com/v1alpha1api20201101.Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded">Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded</a>)
 </p>
 <div>
+<p>Deprecated version of SubnetPropertiesFormatStatusPrivateLinkServiceNetworkPolicies. Use
+v1beta20201101.SubnetPropertiesFormatStatusPrivateLinkServiceNetworkPolicies instead</p>
 </div>
 <table>
 <thead>
@@ -17805,6 +16749,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.Subnet_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM">Subnet_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM</a>)
 </p>
 <div>
+<p>Deprecated version of SubnetPropertiesFormat_Status. Use v1beta20201101.SubnetPropertiesFormat_Status instead</p>
 </div>
 <table>
 <thead>
@@ -17822,7 +16767,6 @@ string
 </em>
 </td>
 <td>
-<p>AddressPrefix: The address prefix for the subnet.</p>
 </td>
 </tr>
 <tr>
@@ -17833,7 +16777,6 @@ string
 </em>
 </td>
 <td>
-<p>AddressPrefixes: List of address prefixes for the subnet.</p>
 </td>
 </tr>
 <tr>
@@ -17846,7 +16789,6 @@ string
 </em>
 </td>
 <td>
-<p>ApplicationGatewayIpConfigurations: Application gateway IP configurations of virtual network resource.</p>
 </td>
 </tr>
 <tr>
@@ -17859,7 +16801,6 @@ string
 </em>
 </td>
 <td>
-<p>Delegations: An array of references to the delegations on the subnet.</p>
 </td>
 </tr>
 <tr>
@@ -17872,7 +16813,6 @@ string
 </em>
 </td>
 <td>
-<p>IpAllocations: Array of IpAllocation which reference this subnet.</p>
 </td>
 </tr>
 <tr>
@@ -17885,7 +16825,6 @@ string
 </em>
 </td>
 <td>
-<p>IpConfigurationProfiles: Array of IP configuration profiles which reference this subnet.</p>
 </td>
 </tr>
 <tr>
@@ -17898,7 +16837,6 @@ string
 </em>
 </td>
 <td>
-<p>IpConfigurations: An array of references to the network interface IP configurations using subnet.</p>
 </td>
 </tr>
 <tr>
@@ -17911,7 +16849,6 @@ SubResource_StatusARM
 </em>
 </td>
 <td>
-<p>NatGateway: Nat gateway associated with this subnet.</p>
 </td>
 </tr>
 <tr>
@@ -17924,7 +16861,6 @@ NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM
 </em>
 </td>
 <td>
-<p>NetworkSecurityGroup: The reference to the NetworkSecurityGroup resource.</p>
 </td>
 </tr>
 <tr>
@@ -17937,7 +16873,6 @@ SubnetPropertiesFormatStatusPrivateEndpointNetworkPolicies
 </em>
 </td>
 <td>
-<p>PrivateEndpointNetworkPolicies: Enable or Disable apply network policies on private end point in the subnet.</p>
 </td>
 </tr>
 <tr>
@@ -17950,7 +16885,6 @@ SubnetPropertiesFormatStatusPrivateEndpointNetworkPolicies
 </em>
 </td>
 <td>
-<p>PrivateEndpoints: An array of references to private endpoints.</p>
 </td>
 </tr>
 <tr>
@@ -17963,7 +16897,6 @@ SubnetPropertiesFormatStatusPrivateLinkServiceNetworkPolicies
 </em>
 </td>
 <td>
-<p>PrivateLinkServiceNetworkPolicies: Enable or Disable apply network policies on private link service in the subnet.</p>
 </td>
 </tr>
 <tr>
@@ -17976,7 +16909,6 @@ ProvisioningState_Status
 </em>
 </td>
 <td>
-<p>ProvisioningState: The provisioning state of the subnet resource.</p>
 </td>
 </tr>
 <tr>
@@ -17987,8 +16919,6 @@ string
 </em>
 </td>
 <td>
-<p>Purpose: A read-only string identifying the intention of use for this subnet based on delegations and other user-defined
-properties.</p>
 </td>
 </tr>
 <tr>
@@ -18001,7 +16931,6 @@ properties.</p>
 </em>
 </td>
 <td>
-<p>ResourceNavigationLinks: An array of references to the external resources using subnet.</p>
 </td>
 </tr>
 <tr>
@@ -18014,7 +16943,6 @@ RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM
 </em>
 </td>
 <td>
-<p>RouteTable: The reference to the RouteTable resource.</p>
 </td>
 </tr>
 <tr>
@@ -18027,7 +16955,6 @@ RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM
 </em>
 </td>
 <td>
-<p>ServiceAssociationLinks: An array of references to services injecting into this subnet.</p>
 </td>
 </tr>
 <tr>
@@ -18040,7 +16967,6 @@ RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM
 </em>
 </td>
 <td>
-<p>ServiceEndpointPolicies: An array of service endpoint policies.</p>
 </td>
 </tr>
 <tr>
@@ -18053,7 +16979,6 @@ RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM
 </em>
 </td>
 <td>
-<p>ServiceEndpoints: An array of service endpoints.</p>
 </td>
 </tr>
 </tbody>
@@ -18064,6 +16989,7 @@ RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded">FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded</a>)
 </p>
 <div>
+<p>Deprecated version of Subnet_Status_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.Subnet_Status_LoadBalancer_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -18081,7 +17007,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 </tbody>
@@ -18092,6 +17017,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.FrontendIPConfigurationPropertiesFormat_Status_LoadBalancer_SubResourceEmbeddedARM">FrontendIPConfigurationPropertiesFormat_Status_LoadBalancer_SubResourceEmbeddedARM</a>)
 </p>
 <div>
+<p>Deprecated version of Subnet_Status_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.Subnet_Status_LoadBalancer_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -18109,7 +17035,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 </tbody>
@@ -18120,6 +17045,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResourceEmbedded">NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResourceEmbedded</a>)
 </p>
 <div>
+<p>Deprecated version of Subnet_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.Subnet_Status_NetworkInterface_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -18137,7 +17063,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 </tbody>
@@ -18148,6 +17073,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.NetworkInterfaceIPConfigurationPropertiesFormat_Status_NetworkInterface_SubResourceEmbeddedARM">NetworkInterfaceIPConfigurationPropertiesFormat_Status_NetworkInterface_SubResourceEmbeddedARM</a>)
 </p>
 <div>
+<p>Deprecated version of Subnet_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.Subnet_Status_NetworkInterface_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -18165,7 +17091,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 </tbody>
@@ -18176,6 +17101,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded">NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded</a>)
 </p>
 <div>
+<p>Deprecated version of Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded. Use v1beta20201101.Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -18193,7 +17119,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 </tbody>
@@ -18204,6 +17129,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.NetworkSecurityGroupPropertiesFormat_StatusARM">NetworkSecurityGroupPropertiesFormat_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded. Use v1beta20201101.Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -18221,7 +17147,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 </tbody>
@@ -18232,6 +17157,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded">IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded</a>)
 </p>
 <div>
+<p>Deprecated version of Subnet_Status_PublicIPAddress_SubResourceEmbedded. Use v1beta20201101.Subnet_Status_PublicIPAddress_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -18249,7 +17175,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 </tbody>
@@ -18260,6 +17185,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.IPConfigurationPropertiesFormat_Status_PublicIPAddress_SubResourceEmbeddedARM">IPConfigurationPropertiesFormat_Status_PublicIPAddress_SubResourceEmbeddedARM</a>)
 </p>
 <div>
+<p>Deprecated version of Subnet_Status_PublicIPAddress_SubResourceEmbedded. Use v1beta20201101.Subnet_Status_PublicIPAddress_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -18277,63 +17203,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="network.azure.com/v1alpha1api20201101.Subnet_Status_VirtualNetwork_SubResourceEmbedded">Subnet_Status_VirtualNetwork_SubResourceEmbedded
-</h3>
-<p>
-(<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetwork_Status">VirtualNetwork_Status</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Resource ID.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="network.azure.com/v1alpha1api20201101.Subnet_Status_VirtualNetwork_SubResourceEmbeddedARM">Subnet_Status_VirtualNetwork_SubResourceEmbeddedARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkPropertiesFormat_StatusARM">VirtualNetworkPropertiesFormat_StatusARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 </tbody>
@@ -18344,6 +17213,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworksSubnet">VirtualNetworksSubnet</a>)
 </p>
 <div>
+<p>Deprecated version of Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded. Use v1beta20201101.Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -18361,7 +17231,6 @@ string
 </em>
 </td>
 <td>
-<p>AddressPrefix: The address prefix for the subnet.</p>
 </td>
 </tr>
 <tr>
@@ -18372,7 +17241,6 @@ string
 </em>
 </td>
 <td>
-<p>AddressPrefixes: List of address prefixes for the subnet.</p>
 </td>
 </tr>
 <tr>
@@ -18385,7 +17253,6 @@ string
 </em>
 </td>
 <td>
-<p>ApplicationGatewayIpConfigurations: Application gateway IP configurations of virtual network resource.</p>
 </td>
 </tr>
 <tr>
@@ -18411,7 +17278,6 @@ string
 </em>
 </td>
 <td>
-<p>Delegations: An array of references to the delegations on the subnet.</p>
 </td>
 </tr>
 <tr>
@@ -18422,7 +17288,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A unique read-only string that changes whenever the resource is updated.</p>
 </td>
 </tr>
 <tr>
@@ -18433,7 +17298,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 <tr>
@@ -18446,7 +17310,6 @@ string
 </em>
 </td>
 <td>
-<p>IpAllocations: Array of IpAllocation which reference this subnet.</p>
 </td>
 </tr>
 <tr>
@@ -18459,7 +17322,6 @@ string
 </em>
 </td>
 <td>
-<p>IpConfigurationProfiles: Array of IP configuration profiles which reference this subnet.</p>
 </td>
 </tr>
 <tr>
@@ -18472,7 +17334,6 @@ string
 </em>
 </td>
 <td>
-<p>IpConfigurations: An array of references to the network interface IP configurations using subnet.</p>
 </td>
 </tr>
 <tr>
@@ -18483,7 +17344,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.</p>
 </td>
 </tr>
 <tr>
@@ -18496,7 +17356,6 @@ SubResource_Status
 </em>
 </td>
 <td>
-<p>NatGateway: Nat gateway associated with this subnet.</p>
 </td>
 </tr>
 <tr>
@@ -18509,7 +17368,6 @@ NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded
 </em>
 </td>
 <td>
-<p>NetworkSecurityGroup: The reference to the NetworkSecurityGroup resource.</p>
 </td>
 </tr>
 <tr>
@@ -18522,7 +17380,6 @@ SubnetPropertiesFormatStatusPrivateEndpointNetworkPolicies
 </em>
 </td>
 <td>
-<p>PrivateEndpointNetworkPolicies: Enable or Disable apply network policies on private end point in the subnet.</p>
 </td>
 </tr>
 <tr>
@@ -18535,7 +17392,6 @@ SubnetPropertiesFormatStatusPrivateEndpointNetworkPolicies
 </em>
 </td>
 <td>
-<p>PrivateEndpoints: An array of references to private endpoints.</p>
 </td>
 </tr>
 <tr>
@@ -18548,7 +17404,6 @@ SubnetPropertiesFormatStatusPrivateLinkServiceNetworkPolicies
 </em>
 </td>
 <td>
-<p>PrivateLinkServiceNetworkPolicies: Enable or Disable apply network policies on private link service in the subnet.</p>
 </td>
 </tr>
 <tr>
@@ -18561,7 +17416,6 @@ ProvisioningState_Status
 </em>
 </td>
 <td>
-<p>ProvisioningState: The provisioning state of the subnet resource.</p>
 </td>
 </tr>
 <tr>
@@ -18572,8 +17426,6 @@ string
 </em>
 </td>
 <td>
-<p>Purpose: A read-only string identifying the intention of use for this subnet based on delegations and other user-defined
-properties.</p>
 </td>
 </tr>
 <tr>
@@ -18586,7 +17438,6 @@ properties.</p>
 </em>
 </td>
 <td>
-<p>ResourceNavigationLinks: An array of references to the external resources using subnet.</p>
 </td>
 </tr>
 <tr>
@@ -18599,7 +17450,6 @@ RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded
 </em>
 </td>
 <td>
-<p>RouteTable: The reference to the RouteTable resource.</p>
 </td>
 </tr>
 <tr>
@@ -18612,7 +17462,6 @@ RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded
 </em>
 </td>
 <td>
-<p>ServiceAssociationLinks: An array of references to services injecting into this subnet.</p>
 </td>
 </tr>
 <tr>
@@ -18625,7 +17474,6 @@ RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded
 </em>
 </td>
 <td>
-<p>ServiceEndpointPolicies: An array of service endpoint policies.</p>
 </td>
 </tr>
 <tr>
@@ -18638,7 +17486,6 @@ RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded
 </em>
 </td>
 <td>
-<p>ServiceEndpoints: An array of service endpoints.</p>
 </td>
 </tr>
 <tr>
@@ -18649,7 +17496,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: Resource type.</p>
 </td>
 </tr>
 </tbody>
@@ -18657,6 +17503,7 @@ string
 <h3 id="network.azure.com/v1alpha1api20201101.Subnet_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM">Subnet_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM
 </h3>
 <div>
+<p>Deprecated version of Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded. Use v1beta20201101.Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -18674,7 +17521,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A unique read-only string that changes whenever the resource is updated.</p>
 </td>
 </tr>
 <tr>
@@ -18685,7 +17531,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 <tr>
@@ -18696,7 +17541,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.</p>
 </td>
 </tr>
 <tr>
@@ -18709,7 +17553,6 @@ SubnetPropertiesFormat_StatusARM
 </em>
 </td>
 <td>
-<p>Properties: Properties of the subnet.</p>
 </td>
 </tr>
 <tr>
@@ -18720,7 +17563,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: Resource type.</p>
 </td>
 </tr>
 </tbody>
@@ -18731,6 +17573,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.InboundNatPoolPropertiesFormat_StatusARM">InboundNatPoolPropertiesFormat_StatusARM</a>, <a href="#network.azure.com/v1alpha1api20201101.InboundNatPool_Status">InboundNatPool_Status</a>, <a href="#network.azure.com/v1alpha1api20201101.LoadBalancingRulePropertiesFormat_StatusARM">LoadBalancingRulePropertiesFormat_StatusARM</a>, <a href="#network.azure.com/v1alpha1api20201101.LoadBalancingRule_Status">LoadBalancingRule_Status</a>)
 </p>
 <div>
+<p>Deprecated version of TransportProtocol_Status. Use v1beta20201101.TransportProtocol_Status instead</p>
 </div>
 <table>
 <thead>
@@ -18750,7 +17593,7 @@ string
 <h3 id="network.azure.com/v1alpha1api20201101.VirtualNetwork">VirtualNetwork
 </h3>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/virtualNetworks">https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/virtualNetworks</a></p>
+<p>Deprecated version of VirtualNetwork. Use v1beta20201101.VirtualNetwork instead</p>
 </div>
 <table>
 <thead>
@@ -18797,7 +17640,6 @@ AddressSpace
 </em>
 </td>
 <td>
-<p>AddressSpace: The AddressSpace that contains an array of IP address ranges that can be used by subnets.</p>
 </td>
 </tr>
 <tr>
@@ -18822,7 +17664,6 @@ VirtualNetworkBgpCommunities
 </em>
 </td>
 <td>
-<p>BgpCommunities: Bgp Communities sent over ExpressRoute with each route corresponding to a prefix in this VNET.</p>
 </td>
 </tr>
 <tr>
@@ -18835,7 +17676,6 @@ SubResource
 </em>
 </td>
 <td>
-<p>DdosProtectionPlan: The DDoS protection plan associated with the virtual network.</p>
 </td>
 </tr>
 <tr>
@@ -18848,7 +17688,6 @@ DhcpOptions
 </em>
 </td>
 <td>
-<p>DhcpOptions: The dhcpOptions that contains an array of DNS servers available to VMs deployed in the virtual network.</p>
 </td>
 </tr>
 <tr>
@@ -18859,8 +17698,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableDdosProtection: Indicates if DDoS protection is enabled for all the protected resources in the virtual network. It
-requires a DDoS protection plan associated with the resource.</p>
 </td>
 </tr>
 <tr>
@@ -18871,7 +17708,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableVmProtection: Indicates if VM protection is enabled for all the subnets in the virtual network.</p>
 </td>
 </tr>
 <tr>
@@ -18884,7 +17720,6 @@ ExtendedLocation
 </em>
 </td>
 <td>
-<p>ExtendedLocation: The extended location of the virtual network.</p>
 </td>
 </tr>
 <tr>
@@ -18897,7 +17732,6 @@ ExtendedLocation
 </em>
 </td>
 <td>
-<p>IpAllocations: Array of IpAllocation which reference this VNET.</p>
 </td>
 </tr>
 <tr>
@@ -18908,7 +17742,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -18921,19 +17754,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
-</td>
-</tr>
-<tr>
-<td>
-<code>subnets</code><br/>
-<em>
-<a href="#network.azure.com/v1alpha1api20201101.VirtualNetworks_Spec_Properties_Subnets">
-[]VirtualNetworks_Spec_Properties_Subnets
-</a>
-</em>
-</td>
-<td>
-<p>Subnets: A list of subnets in a Virtual Network.</p>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -18944,7 +17767,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </table>
@@ -18970,7 +17792,7 @@ VirtualNetwork_Status
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworksVirtualNetworkPeerings_Spec">VirtualNetworksVirtualNetworkPeerings_Spec</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworks_Spec">VirtualNetworks_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/VirtualNetworkBgpCommunities">https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/VirtualNetworkBgpCommunities</a></p>
+<p>Deprecated version of VirtualNetworkBgpCommunities. Use v1beta20201101.VirtualNetworkBgpCommunities instead</p>
 </div>
 <table>
 <thead>
@@ -18988,7 +17810,6 @@ string
 </em>
 </td>
 <td>
-<p>VirtualNetworkCommunity: The BGP community associated with the virtual network.</p>
 </td>
 </tr>
 </tbody>
@@ -18999,7 +17820,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkPeeringPropertiesFormatARM">VirtualNetworkPeeringPropertiesFormatARM</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworks_Spec_PropertiesARM">VirtualNetworks_Spec_PropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/VirtualNetworkBgpCommunities">https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/VirtualNetworkBgpCommunities</a></p>
+<p>Deprecated version of VirtualNetworkBgpCommunities. Use v1beta20201101.VirtualNetworkBgpCommunities instead</p>
 </div>
 <table>
 <thead>
@@ -19017,7 +17838,6 @@ string
 </em>
 </td>
 <td>
-<p>VirtualNetworkCommunity: The BGP community associated with the virtual network.</p>
 </td>
 </tr>
 </tbody>
@@ -19028,6 +17848,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkPeering_Status">VirtualNetworkPeering_Status</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetwork_Status">VirtualNetwork_Status</a>)
 </p>
 <div>
+<p>Deprecated version of VirtualNetworkBgpCommunities_Status. Use v1beta20201101.VirtualNetworkBgpCommunities_Status instead</p>
 </div>
 <table>
 <thead>
@@ -19045,7 +17866,6 @@ string
 </em>
 </td>
 <td>
-<p>RegionalCommunity: The BGP community associated with the region of the virtual network.</p>
 </td>
 </tr>
 <tr>
@@ -19056,7 +17876,6 @@ string
 </em>
 </td>
 <td>
-<p>VirtualNetworkCommunity: The BGP community associated with the virtual network.</p>
 </td>
 </tr>
 </tbody>
@@ -19067,6 +17886,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkPeeringPropertiesFormat_StatusARM">VirtualNetworkPeeringPropertiesFormat_StatusARM</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkPropertiesFormat_StatusARM">VirtualNetworkPropertiesFormat_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of VirtualNetworkBgpCommunities_Status. Use v1beta20201101.VirtualNetworkBgpCommunities_Status instead</p>
 </div>
 <table>
 <thead>
@@ -19084,7 +17904,6 @@ string
 </em>
 </td>
 <td>
-<p>RegionalCommunity: The BGP community associated with the region of the virtual network.</p>
 </td>
 </tr>
 <tr>
@@ -19095,7 +17914,6 @@ string
 </em>
 </td>
 <td>
-<p>VirtualNetworkCommunity: The BGP community associated with the virtual network.</p>
 </td>
 </tr>
 </tbody>
@@ -19103,7 +17921,7 @@ string
 <h3 id="network.azure.com/v1alpha1api20201101.VirtualNetworkGateway">VirtualNetworkGateway
 </h3>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/virtualNetworkGateways">https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/virtualNetworkGateways</a></p>
+<p>Deprecated version of VirtualNetworkGateway. Use v1beta20201101.VirtualNetworkGateway instead</p>
 </div>
 <table>
 <thead>
@@ -19148,7 +17966,6 @@ bool
 </em>
 </td>
 <td>
-<p>ActiveActive: ActiveActive flag.</p>
 </td>
 </tr>
 <tr>
@@ -19173,7 +17990,6 @@ BgpSettings
 </em>
 </td>
 <td>
-<p>BgpSettings: Virtual network gateway&rsquo;s BGP speaker settings.</p>
 </td>
 </tr>
 <tr>
@@ -19186,8 +18002,6 @@ AddressSpace
 </em>
 </td>
 <td>
-<p>CustomRoutes: The reference to the address space resource which represents the custom routes address space specified by
-the customer for virtual network gateway and VpnClient.</p>
 </td>
 </tr>
 <tr>
@@ -19198,7 +18012,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableBgp: Whether BGP is enabled for this virtual network gateway or not.</p>
 </td>
 </tr>
 <tr>
@@ -19209,7 +18022,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableDnsForwarding: Whether dns forwarding is enabled or not.</p>
 </td>
 </tr>
 <tr>
@@ -19220,7 +18032,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnablePrivateIpAddress: Whether private IP needs to be enabled on this gateway for connections or not.</p>
 </td>
 </tr>
 <tr>
@@ -19233,8 +18044,6 @@ SubResource
 </em>
 </td>
 <td>
-<p>GatewayDefaultSite: The reference to the LocalNetworkGateway resource which represents local network site having default
-routes. Assign Null value in case of removing existing default site setting.</p>
 </td>
 </tr>
 <tr>
@@ -19247,7 +18056,6 @@ VirtualNetworkGatewaysSpecPropertiesGatewayType
 </em>
 </td>
 <td>
-<p>GatewayType: The type of this virtual network gateway.</p>
 </td>
 </tr>
 <tr>
@@ -19260,7 +18068,6 @@ VirtualNetworkGatewaysSpecPropertiesGatewayType
 </em>
 </td>
 <td>
-<p>IpConfigurations: IP configurations for virtual network gateway.</p>
 </td>
 </tr>
 <tr>
@@ -19271,7 +18078,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -19284,6 +18090,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -19296,8 +18105,6 @@ VirtualNetworkGatewaySku
 </em>
 </td>
 <td>
-<p>Sku: The reference to the VirtualNetworkGatewaySku resource which represents the SKU selected for Virtual network
-gateway.</p>
 </td>
 </tr>
 <tr>
@@ -19308,7 +18115,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 <tr>
@@ -19321,8 +18127,6 @@ genruntime.ResourceReference
 </em>
 </td>
 <td>
-<p>VNetExtendedLocationResourceReference: MAS FIJI customer vnet resource id. VirtualNetworkGateway of type local gateway
-is associated with the customer vnet.</p>
 </td>
 </tr>
 <tr>
@@ -19335,7 +18139,6 @@ ExtendedLocation
 </em>
 </td>
 <td>
-<p>VirtualNetworkExtendedLocation: The extended location of type local virtual network gateway.</p>
 </td>
 </tr>
 <tr>
@@ -19348,8 +18151,6 @@ VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration
 </em>
 </td>
 <td>
-<p>VpnClientConfiguration: The reference to the VpnClientConfiguration resource which represents the P2S VpnClient
-configurations.</p>
 </td>
 </tr>
 <tr>
@@ -19362,7 +18163,6 @@ VirtualNetworkGatewaysSpecPropertiesVpnGatewayGeneration
 </em>
 </td>
 <td>
-<p>VpnGatewayGeneration: The generation for this VirtualNetworkGateway. Must be None if gatewayType is not VPN.</p>
 </td>
 </tr>
 <tr>
@@ -19375,7 +18175,6 @@ VirtualNetworkGatewaysSpecPropertiesVpnType
 </em>
 </td>
 <td>
-<p>VpnType: The type of this virtual network gateway.</p>
 </td>
 </tr>
 </table>
@@ -19401,7 +18200,7 @@ VirtualNetworkGateway_Status
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGateways_Spec_Properties_IpConfigurationsARM">VirtualNetworkGateways_Spec_Properties_IpConfigurationsARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/VirtualNetworkGatewayIPConfigurationPropertiesFormat">https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/VirtualNetworkGatewayIPConfigurationPropertiesFormat</a></p>
+<p>Deprecated version of VirtualNetworkGatewayIPConfigurationPropertiesFormat. Use v1beta20201101.VirtualNetworkGatewayIPConfigurationPropertiesFormat instead</p>
 </div>
 <table>
 <thead>
@@ -19421,7 +18220,6 @@ VirtualNetworkGatewayIPConfigurationPropertiesFormatPrivateIPAllocationMethod
 </em>
 </td>
 <td>
-<p>PrivateIPAllocationMethod: The private IP address allocation method.</p>
 </td>
 </tr>
 <tr>
@@ -19434,7 +18232,6 @@ SubResourceARM
 </em>
 </td>
 <td>
-<p>PublicIPAddress: The reference to the public IP resource.</p>
 </td>
 </tr>
 <tr>
@@ -19447,7 +18244,6 @@ SubResourceARM
 </em>
 </td>
 <td>
-<p>Subnet: The reference to the subnet resource.</p>
 </td>
 </tr>
 </tbody>
@@ -19458,6 +18254,8 @@ SubResourceARM
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGatewayIPConfigurationPropertiesFormatARM">VirtualNetworkGatewayIPConfigurationPropertiesFormatARM</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGateways_Spec_Properties_IpConfigurations">VirtualNetworkGateways_Spec_Properties_IpConfigurations</a>)
 </p>
 <div>
+<p>Deprecated version of VirtualNetworkGatewayIPConfigurationPropertiesFormatPrivateIPAllocationMethod. Use
+v1beta20201101.VirtualNetworkGatewayIPConfigurationPropertiesFormatPrivateIPAllocationMethod instead</p>
 </div>
 <table>
 <thead>
@@ -19478,6 +18276,7 @@ SubResourceARM
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGatewayIPConfiguration_StatusARM">VirtualNetworkGatewayIPConfiguration_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of VirtualNetworkGatewayIPConfigurationPropertiesFormat_Status. Use v1beta20201101.VirtualNetworkGatewayIPConfigurationPropertiesFormat_Status instead</p>
 </div>
 <table>
 <thead>
@@ -19495,7 +18294,6 @@ string
 </em>
 </td>
 <td>
-<p>PrivateIPAddress: Private IP Address for this gateway.</p>
 </td>
 </tr>
 <tr>
@@ -19508,7 +18306,6 @@ IPAllocationMethod_Status
 </em>
 </td>
 <td>
-<p>PrivateIPAllocationMethod: The private IP address allocation method.</p>
 </td>
 </tr>
 <tr>
@@ -19521,7 +18318,6 @@ ProvisioningState_Status
 </em>
 </td>
 <td>
-<p>ProvisioningState: The provisioning state of the virtual network gateway IP configuration resource.</p>
 </td>
 </tr>
 <tr>
@@ -19534,7 +18330,6 @@ SubResource_StatusARM
 </em>
 </td>
 <td>
-<p>PublicIPAddress: The reference to the public IP resource.</p>
 </td>
 </tr>
 <tr>
@@ -19547,7 +18342,6 @@ SubResource_StatusARM
 </em>
 </td>
 <td>
-<p>Subnet: The reference to the subnet resource.</p>
 </td>
 </tr>
 </tbody>
@@ -19558,6 +18352,7 @@ SubResource_StatusARM
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGateway_Status">VirtualNetworkGateway_Status</a>)
 </p>
 <div>
+<p>Deprecated version of VirtualNetworkGatewayIPConfiguration_Status. Use v1beta20201101.VirtualNetworkGatewayIPConfiguration_Status instead</p>
 </div>
 <table>
 <thead>
@@ -19575,7 +18370,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A unique read-only string that changes whenever the resource is updated.</p>
 </td>
 </tr>
 <tr>
@@ -19586,7 +18380,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 <tr>
@@ -19597,7 +18390,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.</p>
 </td>
 </tr>
 <tr>
@@ -19608,7 +18400,6 @@ string
 </em>
 </td>
 <td>
-<p>PrivateIPAddress: Private IP Address for this gateway.</p>
 </td>
 </tr>
 <tr>
@@ -19621,7 +18412,6 @@ IPAllocationMethod_Status
 </em>
 </td>
 <td>
-<p>PrivateIPAllocationMethod: The private IP address allocation method.</p>
 </td>
 </tr>
 <tr>
@@ -19634,7 +18424,6 @@ ProvisioningState_Status
 </em>
 </td>
 <td>
-<p>ProvisioningState: The provisioning state of the virtual network gateway IP configuration resource.</p>
 </td>
 </tr>
 <tr>
@@ -19647,7 +18436,6 @@ SubResource_Status
 </em>
 </td>
 <td>
-<p>PublicIPAddress: The reference to the public IP resource.</p>
 </td>
 </tr>
 <tr>
@@ -19660,7 +18448,6 @@ SubResource_Status
 </em>
 </td>
 <td>
-<p>Subnet: The reference to the subnet resource.</p>
 </td>
 </tr>
 </tbody>
@@ -19671,6 +18458,7 @@ SubResource_Status
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGatewayPropertiesFormat_StatusARM">VirtualNetworkGatewayPropertiesFormat_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of VirtualNetworkGatewayIPConfiguration_Status. Use v1beta20201101.VirtualNetworkGatewayIPConfiguration_Status instead</p>
 </div>
 <table>
 <thead>
@@ -19688,7 +18476,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A unique read-only string that changes whenever the resource is updated.</p>
 </td>
 </tr>
 <tr>
@@ -19699,7 +18486,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 <tr>
@@ -19710,7 +18496,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.</p>
 </td>
 </tr>
 <tr>
@@ -19723,7 +18508,6 @@ VirtualNetworkGatewayIPConfigurationPropertiesFormat_StatusARM
 </em>
 </td>
 <td>
-<p>Properties: Properties of the virtual network gateway ip configuration.</p>
 </td>
 </tr>
 </tbody>
@@ -19734,6 +18518,8 @@ VirtualNetworkGatewayIPConfigurationPropertiesFormat_StatusARM
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGatewayPropertiesFormat_StatusARM">VirtualNetworkGatewayPropertiesFormat_StatusARM</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGateway_Status">VirtualNetworkGateway_Status</a>)
 </p>
 <div>
+<p>Deprecated version of VirtualNetworkGatewayPropertiesFormatStatusGatewayType. Use
+v1beta20201101.VirtualNetworkGatewayPropertiesFormatStatusGatewayType instead</p>
 </div>
 <table>
 <thead>
@@ -19756,6 +18542,8 @@ VirtualNetworkGatewayIPConfigurationPropertiesFormat_StatusARM
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGatewayPropertiesFormat_StatusARM">VirtualNetworkGatewayPropertiesFormat_StatusARM</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGateway_Status">VirtualNetworkGateway_Status</a>)
 </p>
 <div>
+<p>Deprecated version of VirtualNetworkGatewayPropertiesFormatStatusVpnGatewayGeneration. Use
+v1beta20201101.VirtualNetworkGatewayPropertiesFormatStatusVpnGatewayGeneration instead</p>
 </div>
 <table>
 <thead>
@@ -19778,6 +18566,8 @@ VirtualNetworkGatewayIPConfigurationPropertiesFormat_StatusARM
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGatewayPropertiesFormat_StatusARM">VirtualNetworkGatewayPropertiesFormat_StatusARM</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGateway_Status">VirtualNetworkGateway_Status</a>)
 </p>
 <div>
+<p>Deprecated version of VirtualNetworkGatewayPropertiesFormatStatusVpnType. Use
+v1beta20201101.VirtualNetworkGatewayPropertiesFormatStatusVpnType instead</p>
 </div>
 <table>
 <thead>
@@ -19798,6 +18588,7 @@ VirtualNetworkGatewayIPConfigurationPropertiesFormat_StatusARM
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGateway_StatusARM">VirtualNetworkGateway_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of VirtualNetworkGatewayPropertiesFormat_Status. Use v1beta20201101.VirtualNetworkGatewayPropertiesFormat_Status instead</p>
 </div>
 <table>
 <thead>
@@ -19815,7 +18606,6 @@ bool
 </em>
 </td>
 <td>
-<p>ActiveActive: ActiveActive flag.</p>
 </td>
 </tr>
 <tr>
@@ -19828,7 +18618,6 @@ BgpSettings_StatusARM
 </em>
 </td>
 <td>
-<p>BgpSettings: Virtual network gateway&rsquo;s BGP speaker settings.</p>
 </td>
 </tr>
 <tr>
@@ -19841,8 +18630,6 @@ AddressSpace_StatusARM
 </em>
 </td>
 <td>
-<p>CustomRoutes: The reference to the address space resource which represents the custom routes address space specified by
-the customer for virtual network gateway and VpnClient.</p>
 </td>
 </tr>
 <tr>
@@ -19853,7 +18640,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableBgp: Whether BGP is enabled for this virtual network gateway or not.</p>
 </td>
 </tr>
 <tr>
@@ -19864,7 +18650,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableDnsForwarding: Whether dns forwarding is enabled or not.</p>
 </td>
 </tr>
 <tr>
@@ -19875,7 +18660,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnablePrivateIpAddress: Whether private IP needs to be enabled on this gateway for connections or not.</p>
 </td>
 </tr>
 <tr>
@@ -19888,8 +18672,6 @@ SubResource_StatusARM
 </em>
 </td>
 <td>
-<p>GatewayDefaultSite: The reference to the LocalNetworkGateway resource which represents local network site having default
-routes. Assign Null value in case of removing existing default site setting.</p>
 </td>
 </tr>
 <tr>
@@ -19902,7 +18684,6 @@ VirtualNetworkGatewayPropertiesFormatStatusGatewayType
 </em>
 </td>
 <td>
-<p>GatewayType: The type of this virtual network gateway.</p>
 </td>
 </tr>
 <tr>
@@ -19913,7 +18694,6 @@ string
 </em>
 </td>
 <td>
-<p>InboundDnsForwardingEndpoint: The IP address allocated by the gateway to which dns requests can be sent.</p>
 </td>
 </tr>
 <tr>
@@ -19926,7 +18706,6 @@ string
 </em>
 </td>
 <td>
-<p>IpConfigurations: IP configurations for virtual network gateway.</p>
 </td>
 </tr>
 <tr>
@@ -19939,7 +18718,6 @@ ProvisioningState_Status
 </em>
 </td>
 <td>
-<p>ProvisioningState: The provisioning state of the virtual network gateway resource.</p>
 </td>
 </tr>
 <tr>
@@ -19950,7 +18728,6 @@ string
 </em>
 </td>
 <td>
-<p>ResourceGuid: The resource GUID property of the virtual network gateway resource.</p>
 </td>
 </tr>
 <tr>
@@ -19963,8 +18740,6 @@ VirtualNetworkGatewaySku_StatusARM
 </em>
 </td>
 <td>
-<p>Sku: The reference to the VirtualNetworkGatewaySku resource which represents the SKU selected for Virtual network
-gateway.</p>
 </td>
 </tr>
 <tr>
@@ -19975,8 +18750,6 @@ string
 </em>
 </td>
 <td>
-<p>VNetExtendedLocationResourceId: Customer vnet resource id. VirtualNetworkGateway of type local gateway is associated
-with the customer vnet.</p>
 </td>
 </tr>
 <tr>
@@ -19989,8 +18762,6 @@ VpnClientConfiguration_StatusARM
 </em>
 </td>
 <td>
-<p>VpnClientConfiguration: The reference to the VpnClientConfiguration resource which represents the P2S VpnClient
-configurations.</p>
 </td>
 </tr>
 <tr>
@@ -20003,7 +18774,6 @@ VirtualNetworkGatewayPropertiesFormatStatusVpnGatewayGeneration
 </em>
 </td>
 <td>
-<p>VpnGatewayGeneration: The generation for this VirtualNetworkGateway. Must be None if gatewayType is not VPN.</p>
 </td>
 </tr>
 <tr>
@@ -20016,7 +18786,6 @@ VirtualNetworkGatewayPropertiesFormatStatusVpnType
 </em>
 </td>
 <td>
-<p>VpnType: The type of this virtual network gateway.</p>
 </td>
 </tr>
 </tbody>
@@ -20027,7 +18796,7 @@ VirtualNetworkGatewayPropertiesFormatStatusVpnType
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGateways_Spec">VirtualNetworkGateways_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/VirtualNetworkGatewaySku">https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/VirtualNetworkGatewaySku</a></p>
+<p>Deprecated version of VirtualNetworkGatewaySku. Use v1beta20201101.VirtualNetworkGatewaySku instead</p>
 </div>
 <table>
 <thead>
@@ -20047,7 +18816,6 @@ VirtualNetworkGatewaySkuName
 </em>
 </td>
 <td>
-<p>Name: Gateway SKU name.</p>
 </td>
 </tr>
 <tr>
@@ -20060,7 +18828,6 @@ VirtualNetworkGatewaySkuTier
 </em>
 </td>
 <td>
-<p>Tier: Gateway SKU tier.</p>
 </td>
 </tr>
 </tbody>
@@ -20071,7 +18838,7 @@ VirtualNetworkGatewaySkuTier
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGateways_Spec_PropertiesARM">VirtualNetworkGateways_Spec_PropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/VirtualNetworkGatewaySku">https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/VirtualNetworkGatewaySku</a></p>
+<p>Deprecated version of VirtualNetworkGatewaySku. Use v1beta20201101.VirtualNetworkGatewaySku instead</p>
 </div>
 <table>
 <thead>
@@ -20091,7 +18858,6 @@ VirtualNetworkGatewaySkuName
 </em>
 </td>
 <td>
-<p>Name: Gateway SKU name.</p>
 </td>
 </tr>
 <tr>
@@ -20104,7 +18870,6 @@ VirtualNetworkGatewaySkuTier
 </em>
 </td>
 <td>
-<p>Tier: Gateway SKU tier.</p>
 </td>
 </tr>
 </tbody>
@@ -20115,6 +18880,7 @@ VirtualNetworkGatewaySkuTier
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGatewaySku">VirtualNetworkGatewaySku</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGatewaySkuARM">VirtualNetworkGatewaySkuARM</a>)
 </p>
 <div>
+<p>Deprecated version of VirtualNetworkGatewaySkuName. Use v1beta20201101.VirtualNetworkGatewaySkuName instead</p>
 </div>
 <table>
 <thead>
@@ -20165,6 +18931,7 @@ VirtualNetworkGatewaySkuTier
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGatewaySku_Status">VirtualNetworkGatewaySku_Status</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGatewaySku_StatusARM">VirtualNetworkGatewaySku_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of VirtualNetworkGatewaySkuStatusName. Use v1beta20201101.VirtualNetworkGatewaySkuStatusName instead</p>
 </div>
 <table>
 <thead>
@@ -20215,6 +18982,7 @@ VirtualNetworkGatewaySkuTier
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGatewaySku_Status">VirtualNetworkGatewaySku_Status</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGatewaySku_StatusARM">VirtualNetworkGatewaySku_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of VirtualNetworkGatewaySkuStatusTier. Use v1beta20201101.VirtualNetworkGatewaySkuStatusTier instead</p>
 </div>
 <table>
 <thead>
@@ -20265,6 +19033,7 @@ VirtualNetworkGatewaySkuTier
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGatewaySku">VirtualNetworkGatewaySku</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGatewaySkuARM">VirtualNetworkGatewaySkuARM</a>)
 </p>
 <div>
+<p>Deprecated version of VirtualNetworkGatewaySkuTier. Use v1beta20201101.VirtualNetworkGatewaySkuTier instead</p>
 </div>
 <table>
 <thead>
@@ -20315,6 +19084,7 @@ VirtualNetworkGatewaySkuTier
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGateway_Status">VirtualNetworkGateway_Status</a>)
 </p>
 <div>
+<p>Deprecated version of VirtualNetworkGatewaySku_Status. Use v1beta20201101.VirtualNetworkGatewaySku_Status instead</p>
 </div>
 <table>
 <thead>
@@ -20332,7 +19102,6 @@ int
 </em>
 </td>
 <td>
-<p>Capacity: The capacity.</p>
 </td>
 </tr>
 <tr>
@@ -20345,7 +19114,6 @@ VirtualNetworkGatewaySkuStatusName
 </em>
 </td>
 <td>
-<p>Name: Gateway SKU name.</p>
 </td>
 </tr>
 <tr>
@@ -20358,7 +19126,6 @@ VirtualNetworkGatewaySkuStatusTier
 </em>
 </td>
 <td>
-<p>Tier: Gateway SKU tier.</p>
 </td>
 </tr>
 </tbody>
@@ -20369,6 +19136,7 @@ VirtualNetworkGatewaySkuStatusTier
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGatewayPropertiesFormat_StatusARM">VirtualNetworkGatewayPropertiesFormat_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of VirtualNetworkGatewaySku_Status. Use v1beta20201101.VirtualNetworkGatewaySku_Status instead</p>
 </div>
 <table>
 <thead>
@@ -20386,7 +19154,6 @@ int
 </em>
 </td>
 <td>
-<p>Capacity: The capacity.</p>
 </td>
 </tr>
 <tr>
@@ -20399,7 +19166,6 @@ VirtualNetworkGatewaySkuStatusName
 </em>
 </td>
 <td>
-<p>Name: Gateway SKU name.</p>
 </td>
 </tr>
 <tr>
@@ -20412,7 +19178,6 @@ VirtualNetworkGatewaySkuStatusTier
 </em>
 </td>
 <td>
-<p>Tier: Gateway SKU tier.</p>
 </td>
 </tr>
 </tbody>
@@ -20423,6 +19188,7 @@ VirtualNetworkGatewaySkuStatusTier
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGateway">VirtualNetworkGateway</a>)
 </p>
 <div>
+<p>Deprecated version of VirtualNetworkGateway_Status. Use v1beta20201101.VirtualNetworkGateway_Status instead</p>
 </div>
 <table>
 <thead>
@@ -20440,7 +19206,6 @@ bool
 </em>
 </td>
 <td>
-<p>ActiveActive: ActiveActive flag.</p>
 </td>
 </tr>
 <tr>
@@ -20453,7 +19218,6 @@ BgpSettings_Status
 </em>
 </td>
 <td>
-<p>BgpSettings: Virtual network gateway&rsquo;s BGP speaker settings.</p>
 </td>
 </tr>
 <tr>
@@ -20479,8 +19243,6 @@ AddressSpace_Status
 </em>
 </td>
 <td>
-<p>CustomRoutes: The reference to the address space resource which represents the custom routes address space specified by
-the customer for virtual network gateway and VpnClient.</p>
 </td>
 </tr>
 <tr>
@@ -20491,7 +19253,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableBgp: Whether BGP is enabled for this virtual network gateway or not.</p>
 </td>
 </tr>
 <tr>
@@ -20502,7 +19263,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableDnsForwarding: Whether dns forwarding is enabled or not.</p>
 </td>
 </tr>
 <tr>
@@ -20513,7 +19273,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnablePrivateIpAddress: Whether private IP needs to be enabled on this gateway for connections or not.</p>
 </td>
 </tr>
 <tr>
@@ -20524,7 +19283,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A unique read-only string that changes whenever the resource is updated.</p>
 </td>
 </tr>
 <tr>
@@ -20537,7 +19295,6 @@ ExtendedLocation_Status
 </em>
 </td>
 <td>
-<p>ExtendedLocation: The extended location of type local virtual network gateway.</p>
 </td>
 </tr>
 <tr>
@@ -20550,8 +19307,6 @@ SubResource_Status
 </em>
 </td>
 <td>
-<p>GatewayDefaultSite: The reference to the LocalNetworkGateway resource which represents local network site having default
-routes. Assign Null value in case of removing existing default site setting.</p>
 </td>
 </tr>
 <tr>
@@ -20564,7 +19319,6 @@ VirtualNetworkGatewayPropertiesFormatStatusGatewayType
 </em>
 </td>
 <td>
-<p>GatewayType: The type of this virtual network gateway.</p>
 </td>
 </tr>
 <tr>
@@ -20575,7 +19329,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 <tr>
@@ -20586,7 +19339,6 @@ string
 </em>
 </td>
 <td>
-<p>InboundDnsForwardingEndpoint: The IP address allocated by the gateway to which dns requests can be sent.</p>
 </td>
 </tr>
 <tr>
@@ -20599,7 +19351,6 @@ string
 </em>
 </td>
 <td>
-<p>IpConfigurations: IP configurations for virtual network gateway.</p>
 </td>
 </tr>
 <tr>
@@ -20610,7 +19361,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Resource location.</p>
 </td>
 </tr>
 <tr>
@@ -20621,7 +19371,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Resource name.</p>
 </td>
 </tr>
 <tr>
@@ -20634,7 +19383,6 @@ ProvisioningState_Status
 </em>
 </td>
 <td>
-<p>ProvisioningState: The provisioning state of the virtual network gateway resource.</p>
 </td>
 </tr>
 <tr>
@@ -20645,7 +19393,6 @@ string
 </em>
 </td>
 <td>
-<p>ResourceGuid: The resource GUID property of the virtual network gateway resource.</p>
 </td>
 </tr>
 <tr>
@@ -20658,8 +19405,6 @@ VirtualNetworkGatewaySku_Status
 </em>
 </td>
 <td>
-<p>Sku: The reference to the VirtualNetworkGatewaySku resource which represents the SKU selected for Virtual network
-gateway.</p>
 </td>
 </tr>
 <tr>
@@ -20670,7 +19415,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Resource tags.</p>
 </td>
 </tr>
 <tr>
@@ -20681,7 +19425,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: Resource type.</p>
 </td>
 </tr>
 <tr>
@@ -20692,8 +19435,6 @@ string
 </em>
 </td>
 <td>
-<p>VNetExtendedLocationResourceId: Customer vnet resource id. VirtualNetworkGateway of type local gateway is associated
-with the customer vnet.</p>
 </td>
 </tr>
 <tr>
@@ -20706,8 +19447,6 @@ VpnClientConfiguration_Status
 </em>
 </td>
 <td>
-<p>VpnClientConfiguration: The reference to the VpnClientConfiguration resource which represents the P2S VpnClient
-configurations.</p>
 </td>
 </tr>
 <tr>
@@ -20720,7 +19459,6 @@ VirtualNetworkGatewayPropertiesFormatStatusVpnGatewayGeneration
 </em>
 </td>
 <td>
-<p>VpnGatewayGeneration: The generation for this VirtualNetworkGateway. Must be None if gatewayType is not VPN.</p>
 </td>
 </tr>
 <tr>
@@ -20733,7 +19471,6 @@ VirtualNetworkGatewayPropertiesFormatStatusVpnType
 </em>
 </td>
 <td>
-<p>VpnType: The type of this virtual network gateway.</p>
 </td>
 </tr>
 </tbody>
@@ -20741,6 +19478,7 @@ VirtualNetworkGatewayPropertiesFormatStatusVpnType
 <h3 id="network.azure.com/v1alpha1api20201101.VirtualNetworkGateway_StatusARM">VirtualNetworkGateway_StatusARM
 </h3>
 <div>
+<p>Deprecated version of VirtualNetworkGateway_Status. Use v1beta20201101.VirtualNetworkGateway_Status instead</p>
 </div>
 <table>
 <thead>
@@ -20758,7 +19496,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A unique read-only string that changes whenever the resource is updated.</p>
 </td>
 </tr>
 <tr>
@@ -20771,7 +19508,6 @@ ExtendedLocation_StatusARM
 </em>
 </td>
 <td>
-<p>ExtendedLocation: The extended location of type local virtual network gateway.</p>
 </td>
 </tr>
 <tr>
@@ -20782,7 +19518,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 <tr>
@@ -20793,7 +19528,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Resource location.</p>
 </td>
 </tr>
 <tr>
@@ -20804,7 +19538,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Resource name.</p>
 </td>
 </tr>
 <tr>
@@ -20817,7 +19550,6 @@ VirtualNetworkGatewayPropertiesFormat_StatusARM
 </em>
 </td>
 <td>
-<p>Properties: Properties of the virtual network gateway.</p>
 </td>
 </tr>
 <tr>
@@ -20828,7 +19560,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Resource tags.</p>
 </td>
 </tr>
 <tr>
@@ -20839,25 +19570,9 @@ string
 </em>
 </td>
 <td>
-<p>Type: Resource type.</p>
 </td>
 </tr>
 </tbody>
-</table>
-<h3 id="network.azure.com/v1alpha1api20201101.VirtualNetworkGatewaysSpecAPIVersion">VirtualNetworkGatewaysSpecAPIVersion
-(<code>string</code> alias)</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;2020-11-01&#34;</p></td>
-<td></td>
-</tr></tbody>
 </table>
 <h3 id="network.azure.com/v1alpha1api20201101.VirtualNetworkGatewaysSpecPropertiesGatewayType">VirtualNetworkGatewaysSpecPropertiesGatewayType
 (<code>string</code> alias)</h3>
@@ -20865,6 +19580,8 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGateways_Spec">VirtualNetworkGateways_Spec</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGateways_Spec_PropertiesARM">VirtualNetworkGateways_Spec_PropertiesARM</a>)
 </p>
 <div>
+<p>Deprecated version of VirtualNetworkGatewaysSpecPropertiesGatewayType. Use
+v1beta20201101.VirtualNetworkGatewaysSpecPropertiesGatewayType instead</p>
 </div>
 <table>
 <thead>
@@ -20889,6 +19606,8 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration">VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGateways_Spec_Properties_VpnClientConfigurationARM">VirtualNetworkGateways_Spec_Properties_VpnClientConfigurationARM</a>)
 </p>
 <div>
+<p>Deprecated version of VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnAuthenticationTypes. Use
+v1beta20201101.VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnAuthenticationTypes instead</p>
 </div>
 <table>
 <thead>
@@ -20911,6 +19630,8 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration">VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGateways_Spec_Properties_VpnClientConfigurationARM">VirtualNetworkGateways_Spec_Properties_VpnClientConfigurationARM</a>)
 </p>
 <div>
+<p>Deprecated version of VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientProtocols. Use
+v1beta20201101.VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientProtocols instead</p>
 </div>
 <table>
 <thead>
@@ -20933,6 +19654,8 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGateways_Spec">VirtualNetworkGateways_Spec</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGateways_Spec_PropertiesARM">VirtualNetworkGateways_Spec_PropertiesARM</a>)
 </p>
 <div>
+<p>Deprecated version of VirtualNetworkGatewaysSpecPropertiesVpnGatewayGeneration. Use
+v1beta20201101.VirtualNetworkGatewaysSpecPropertiesVpnGatewayGeneration instead</p>
 </div>
 <table>
 <thead>
@@ -20955,6 +19678,8 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGateways_Spec">VirtualNetworkGateways_Spec</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGateways_Spec_PropertiesARM">VirtualNetworkGateways_Spec_PropertiesARM</a>)
 </p>
 <div>
+<p>Deprecated version of VirtualNetworkGatewaysSpecPropertiesVpnType. Use
+v1beta20201101.VirtualNetworkGatewaysSpecPropertiesVpnType instead</p>
 </div>
 <table>
 <thead>
@@ -20992,7 +19717,6 @@ bool
 </em>
 </td>
 <td>
-<p>ActiveActive: ActiveActive flag.</p>
 </td>
 </tr>
 <tr>
@@ -21017,7 +19741,6 @@ BgpSettings
 </em>
 </td>
 <td>
-<p>BgpSettings: Virtual network gateway&rsquo;s BGP speaker settings.</p>
 </td>
 </tr>
 <tr>
@@ -21030,8 +19753,6 @@ AddressSpace
 </em>
 </td>
 <td>
-<p>CustomRoutes: The reference to the address space resource which represents the custom routes address space specified by
-the customer for virtual network gateway and VpnClient.</p>
 </td>
 </tr>
 <tr>
@@ -21042,7 +19763,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableBgp: Whether BGP is enabled for this virtual network gateway or not.</p>
 </td>
 </tr>
 <tr>
@@ -21053,7 +19773,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableDnsForwarding: Whether dns forwarding is enabled or not.</p>
 </td>
 </tr>
 <tr>
@@ -21064,7 +19783,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnablePrivateIpAddress: Whether private IP needs to be enabled on this gateway for connections or not.</p>
 </td>
 </tr>
 <tr>
@@ -21077,8 +19795,6 @@ SubResource
 </em>
 </td>
 <td>
-<p>GatewayDefaultSite: The reference to the LocalNetworkGateway resource which represents local network site having default
-routes. Assign Null value in case of removing existing default site setting.</p>
 </td>
 </tr>
 <tr>
@@ -21091,7 +19807,6 @@ VirtualNetworkGatewaysSpecPropertiesGatewayType
 </em>
 </td>
 <td>
-<p>GatewayType: The type of this virtual network gateway.</p>
 </td>
 </tr>
 <tr>
@@ -21104,7 +19819,6 @@ VirtualNetworkGatewaysSpecPropertiesGatewayType
 </em>
 </td>
 <td>
-<p>IpConfigurations: IP configurations for virtual network gateway.</p>
 </td>
 </tr>
 <tr>
@@ -21115,7 +19829,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -21128,6 +19841,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -21140,8 +19856,6 @@ VirtualNetworkGatewaySku
 </em>
 </td>
 <td>
-<p>Sku: The reference to the VirtualNetworkGatewaySku resource which represents the SKU selected for Virtual network
-gateway.</p>
 </td>
 </tr>
 <tr>
@@ -21152,7 +19866,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 <tr>
@@ -21165,8 +19878,6 @@ genruntime.ResourceReference
 </em>
 </td>
 <td>
-<p>VNetExtendedLocationResourceReference: MAS FIJI customer vnet resource id. VirtualNetworkGateway of type local gateway
-is associated with the customer vnet.</p>
 </td>
 </tr>
 <tr>
@@ -21179,7 +19890,6 @@ ExtendedLocation
 </em>
 </td>
 <td>
-<p>VirtualNetworkExtendedLocation: The extended location of type local virtual network gateway.</p>
 </td>
 </tr>
 <tr>
@@ -21192,8 +19902,6 @@ VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration
 </em>
 </td>
 <td>
-<p>VpnClientConfiguration: The reference to the VpnClientConfiguration resource which represents the P2S VpnClient
-configurations.</p>
 </td>
 </tr>
 <tr>
@@ -21206,7 +19914,6 @@ VirtualNetworkGatewaysSpecPropertiesVpnGatewayGeneration
 </em>
 </td>
 <td>
-<p>VpnGatewayGeneration: The generation for this VirtualNetworkGateway. Must be None if gatewayType is not VPN.</p>
 </td>
 </tr>
 <tr>
@@ -21219,7 +19926,6 @@ VirtualNetworkGatewaysSpecPropertiesVpnType
 </em>
 </td>
 <td>
-<p>VpnType: The type of this virtual network gateway.</p>
 </td>
 </tr>
 </tbody>
@@ -21227,6 +19933,7 @@ VirtualNetworkGatewaysSpecPropertiesVpnType
 <h3 id="network.azure.com/v1alpha1api20201101.VirtualNetworkGateways_SpecARM">VirtualNetworkGateways_SpecARM
 </h3>
 <div>
+<p>Deprecated version of VirtualNetworkGateways_Spec. Use v1beta20201101.VirtualNetworkGateways_Spec instead</p>
 </div>
 <table>
 <thead>
@@ -21244,7 +19951,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -21255,7 +19961,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Name of the resource</p>
 </td>
 </tr>
 <tr>
@@ -21268,7 +19973,6 @@ VirtualNetworkGateways_Spec_PropertiesARM
 </em>
 </td>
 <td>
-<p>Properties: Properties of the virtual network gateway.</p>
 </td>
 </tr>
 <tr>
@@ -21279,7 +19983,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </tbody>
@@ -21290,6 +19993,7 @@ map[string]string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGateways_SpecARM">VirtualNetworkGateways_SpecARM</a>)
 </p>
 <div>
+<p>Deprecated version of VirtualNetworkGateways_Spec_Properties. Use v1beta20201101.VirtualNetworkGateways_Spec_Properties instead</p>
 </div>
 <table>
 <thead>
@@ -21307,7 +20011,6 @@ bool
 </em>
 </td>
 <td>
-<p>ActiveActive: ActiveActive flag.</p>
 </td>
 </tr>
 <tr>
@@ -21320,7 +20023,6 @@ BgpSettingsARM
 </em>
 </td>
 <td>
-<p>BgpSettings: Virtual network gateway&rsquo;s BGP speaker settings.</p>
 </td>
 </tr>
 <tr>
@@ -21333,8 +20035,6 @@ AddressSpaceARM
 </em>
 </td>
 <td>
-<p>CustomRoutes: The reference to the address space resource which represents the custom routes address space specified by
-the customer for virtual network gateway and VpnClient.</p>
 </td>
 </tr>
 <tr>
@@ -21345,7 +20045,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableBgp: Whether BGP is enabled for this virtual network gateway or not.</p>
 </td>
 </tr>
 <tr>
@@ -21356,7 +20055,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableDnsForwarding: Whether dns forwarding is enabled or not.</p>
 </td>
 </tr>
 <tr>
@@ -21367,7 +20065,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnablePrivateIpAddress: Whether private IP needs to be enabled on this gateway for connections or not.</p>
 </td>
 </tr>
 <tr>
@@ -21380,8 +20077,6 @@ SubResourceARM
 </em>
 </td>
 <td>
-<p>GatewayDefaultSite: The reference to the LocalNetworkGateway resource which represents local network site having default
-routes. Assign Null value in case of removing existing default site setting.</p>
 </td>
 </tr>
 <tr>
@@ -21394,7 +20089,6 @@ VirtualNetworkGatewaysSpecPropertiesGatewayType
 </em>
 </td>
 <td>
-<p>GatewayType: The type of this virtual network gateway.</p>
 </td>
 </tr>
 <tr>
@@ -21407,7 +20101,6 @@ VirtualNetworkGatewaysSpecPropertiesGatewayType
 </em>
 </td>
 <td>
-<p>IpConfigurations: IP configurations for virtual network gateway.</p>
 </td>
 </tr>
 <tr>
@@ -21420,8 +20113,6 @@ VirtualNetworkGatewaySkuARM
 </em>
 </td>
 <td>
-<p>Sku: The reference to the VirtualNetworkGatewaySku resource which represents the SKU selected for Virtual network
-gateway.</p>
 </td>
 </tr>
 <tr>
@@ -21444,7 +20135,6 @@ ExtendedLocationARM
 </em>
 </td>
 <td>
-<p>VirtualNetworkExtendedLocation: The extended location of type local virtual network gateway.</p>
 </td>
 </tr>
 <tr>
@@ -21457,8 +20147,6 @@ VirtualNetworkGateways_Spec_Properties_VpnClientConfigurationARM
 </em>
 </td>
 <td>
-<p>VpnClientConfiguration: The reference to the VpnClientConfiguration resource which represents the P2S VpnClient
-configurations.</p>
 </td>
 </tr>
 <tr>
@@ -21471,7 +20159,6 @@ VirtualNetworkGatewaysSpecPropertiesVpnGatewayGeneration
 </em>
 </td>
 <td>
-<p>VpnGatewayGeneration: The generation for this VirtualNetworkGateway. Must be None if gatewayType is not VPN.</p>
 </td>
 </tr>
 <tr>
@@ -21484,7 +20171,6 @@ VirtualNetworkGatewaysSpecPropertiesVpnType
 </em>
 </td>
 <td>
-<p>VpnType: The type of this virtual network gateway.</p>
 </td>
 </tr>
 </tbody>
@@ -21495,6 +20181,7 @@ VirtualNetworkGatewaysSpecPropertiesVpnType
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGateways_Spec">VirtualNetworkGateways_Spec</a>)
 </p>
 <div>
+<p>Deprecated version of VirtualNetworkGateways_Spec_Properties_IpConfigurations. Use v1beta20201101.VirtualNetworkGateways_Spec_Properties_IpConfigurations instead</p>
 </div>
 <table>
 <thead>
@@ -21512,7 +20199,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.</p>
 </td>
 </tr>
 <tr>
@@ -21525,7 +20211,6 @@ VirtualNetworkGatewayIPConfigurationPropertiesFormatPrivateIPAllocationMethod
 </em>
 </td>
 <td>
-<p>PrivateIPAllocationMethod: The private IP address allocation method.</p>
 </td>
 </tr>
 <tr>
@@ -21538,7 +20223,6 @@ SubResource
 </em>
 </td>
 <td>
-<p>PublicIPAddress: The reference to the public IP resource.</p>
 </td>
 </tr>
 <tr>
@@ -21551,7 +20235,6 @@ SubResource
 </em>
 </td>
 <td>
-<p>Subnet: The reference to the subnet resource.</p>
 </td>
 </tr>
 </tbody>
@@ -21562,6 +20245,7 @@ SubResource
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGateways_Spec_PropertiesARM">VirtualNetworkGateways_Spec_PropertiesARM</a>)
 </p>
 <div>
+<p>Deprecated version of VirtualNetworkGateways_Spec_Properties_IpConfigurations. Use v1beta20201101.VirtualNetworkGateways_Spec_Properties_IpConfigurations instead</p>
 </div>
 <table>
 <thead>
@@ -21579,7 +20263,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.</p>
 </td>
 </tr>
 <tr>
@@ -21592,7 +20275,6 @@ VirtualNetworkGatewayIPConfigurationPropertiesFormatARM
 </em>
 </td>
 <td>
-<p>Properties: Properties of the virtual network gateway ip configuration.</p>
 </td>
 </tr>
 </tbody>
@@ -21603,6 +20285,7 @@ VirtualNetworkGatewayIPConfigurationPropertiesFormatARM
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGateways_Spec">VirtualNetworkGateways_Spec</a>)
 </p>
 <div>
+<p>Deprecated version of VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration. Use v1beta20201101.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration instead</p>
 </div>
 <table>
 <thead>
@@ -21620,8 +20303,6 @@ string
 </em>
 </td>
 <td>
-<p>AadAudience: The AADAudience property of the VirtualNetworkGateway resource for vpn client connection used for AAD
-authentication.</p>
 </td>
 </tr>
 <tr>
@@ -21632,8 +20313,6 @@ string
 </em>
 </td>
 <td>
-<p>AadIssuer: The AADIssuer property of the VirtualNetworkGateway resource for vpn client connection used for AAD
-authentication.</p>
 </td>
 </tr>
 <tr>
@@ -21644,8 +20323,6 @@ string
 </em>
 </td>
 <td>
-<p>AadTenant: The AADTenant property of the VirtualNetworkGateway resource for vpn client connection used for AAD
-authentication.</p>
 </td>
 </tr>
 <tr>
@@ -21656,7 +20333,6 @@ string
 </em>
 </td>
 <td>
-<p>RadiusServerAddress: The radius server address property of the VirtualNetworkGateway resource for vpn client connection.</p>
 </td>
 </tr>
 <tr>
@@ -21667,7 +20343,6 @@ string
 </em>
 </td>
 <td>
-<p>RadiusServerSecret: The radius secret property of the VirtualNetworkGateway resource for vpn client connection.</p>
 </td>
 </tr>
 <tr>
@@ -21680,7 +20355,6 @@ string
 </em>
 </td>
 <td>
-<p>RadiusServers: The radiusServers property for multiple radius server configuration.</p>
 </td>
 </tr>
 <tr>
@@ -21693,7 +20367,6 @@ string
 </em>
 </td>
 <td>
-<p>VpnAuthenticationTypes: VPN authentication types for the virtual network gateway..</p>
 </td>
 </tr>
 <tr>
@@ -21706,7 +20379,6 @@ AddressSpace
 </em>
 </td>
 <td>
-<p>VpnClientAddressPool: The reference to the address space resource which represents Address space for P2S VpnClient.</p>
 </td>
 </tr>
 <tr>
@@ -21719,7 +20391,6 @@ AddressSpace
 </em>
 </td>
 <td>
-<p>VpnClientIpsecPolicies: VpnClientIpsecPolicies for virtual network gateway P2S client.</p>
 </td>
 </tr>
 <tr>
@@ -21732,7 +20403,6 @@ AddressSpace
 </em>
 </td>
 <td>
-<p>VpnClientProtocols: VpnClientProtocols for Virtual network gateway.</p>
 </td>
 </tr>
 <tr>
@@ -21745,7 +20415,6 @@ AddressSpace
 </em>
 </td>
 <td>
-<p>VpnClientRevokedCertificates: VpnClientRevokedCertificate for Virtual network gateway.</p>
 </td>
 </tr>
 <tr>
@@ -21758,7 +20427,6 @@ AddressSpace
 </em>
 </td>
 <td>
-<p>VpnClientRootCertificates: VpnClientRootCertificate for virtual network gateway.</p>
 </td>
 </tr>
 </tbody>
@@ -21769,6 +20437,7 @@ AddressSpace
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGateways_Spec_PropertiesARM">VirtualNetworkGateways_Spec_PropertiesARM</a>)
 </p>
 <div>
+<p>Deprecated version of VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration. Use v1beta20201101.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration instead</p>
 </div>
 <table>
 <thead>
@@ -21786,8 +20455,6 @@ string
 </em>
 </td>
 <td>
-<p>AadAudience: The AADAudience property of the VirtualNetworkGateway resource for vpn client connection used for AAD
-authentication.</p>
 </td>
 </tr>
 <tr>
@@ -21798,8 +20465,6 @@ string
 </em>
 </td>
 <td>
-<p>AadIssuer: The AADIssuer property of the VirtualNetworkGateway resource for vpn client connection used for AAD
-authentication.</p>
 </td>
 </tr>
 <tr>
@@ -21810,8 +20475,6 @@ string
 </em>
 </td>
 <td>
-<p>AadTenant: The AADTenant property of the VirtualNetworkGateway resource for vpn client connection used for AAD
-authentication.</p>
 </td>
 </tr>
 <tr>
@@ -21822,7 +20485,6 @@ string
 </em>
 </td>
 <td>
-<p>RadiusServerAddress: The radius server address property of the VirtualNetworkGateway resource for vpn client connection.</p>
 </td>
 </tr>
 <tr>
@@ -21833,7 +20495,6 @@ string
 </em>
 </td>
 <td>
-<p>RadiusServerSecret: The radius secret property of the VirtualNetworkGateway resource for vpn client connection.</p>
 </td>
 </tr>
 <tr>
@@ -21846,7 +20507,6 @@ string
 </em>
 </td>
 <td>
-<p>RadiusServers: The radiusServers property for multiple radius server configuration.</p>
 </td>
 </tr>
 <tr>
@@ -21859,7 +20519,6 @@ string
 </em>
 </td>
 <td>
-<p>VpnAuthenticationTypes: VPN authentication types for the virtual network gateway..</p>
 </td>
 </tr>
 <tr>
@@ -21872,7 +20531,6 @@ AddressSpaceARM
 </em>
 </td>
 <td>
-<p>VpnClientAddressPool: The reference to the address space resource which represents Address space for P2S VpnClient.</p>
 </td>
 </tr>
 <tr>
@@ -21885,7 +20543,6 @@ AddressSpaceARM
 </em>
 </td>
 <td>
-<p>VpnClientIpsecPolicies: VpnClientIpsecPolicies for virtual network gateway P2S client.</p>
 </td>
 </tr>
 <tr>
@@ -21898,7 +20555,6 @@ AddressSpaceARM
 </em>
 </td>
 <td>
-<p>VpnClientProtocols: VpnClientProtocols for Virtual network gateway.</p>
 </td>
 </tr>
 <tr>
@@ -21911,7 +20567,6 @@ AddressSpaceARM
 </em>
 </td>
 <td>
-<p>VpnClientRevokedCertificates: VpnClientRevokedCertificate for Virtual network gateway.</p>
 </td>
 </tr>
 <tr>
@@ -21924,7 +20579,6 @@ AddressSpaceARM
 </em>
 </td>
 <td>
-<p>VpnClientRootCertificates: VpnClientRootCertificate for virtual network gateway.</p>
 </td>
 </tr>
 </tbody>
@@ -21935,6 +20589,7 @@ AddressSpaceARM
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration">VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration</a>)
 </p>
 <div>
+<p>Deprecated version of VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates. Use v1beta20201101.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates instead</p>
 </div>
 <table>
 <thead>
@@ -21952,7 +20607,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.</p>
 </td>
 </tr>
 <tr>
@@ -21963,7 +20617,6 @@ string
 </em>
 </td>
 <td>
-<p>Thumbprint: The revoked VPN client certificate thumbprint.</p>
 </td>
 </tr>
 </tbody>
@@ -21974,6 +20627,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGateways_Spec_Properties_VpnClientConfigurationARM">VirtualNetworkGateways_Spec_Properties_VpnClientConfigurationARM</a>)
 </p>
 <div>
+<p>Deprecated version of VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates. Use v1beta20201101.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates instead</p>
 </div>
 <table>
 <thead>
@@ -21991,7 +20645,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.</p>
 </td>
 </tr>
 <tr>
@@ -22004,7 +20657,6 @@ VpnClientRevokedCertificatePropertiesFormatARM
 </em>
 </td>
 <td>
-<p>Properties: Properties of the vpn client revoked certificate.</p>
 </td>
 </tr>
 </tbody>
@@ -22015,6 +20667,7 @@ VpnClientRevokedCertificatePropertiesFormatARM
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration">VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration</a>)
 </p>
 <div>
+<p>Deprecated version of VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates. Use v1beta20201101.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates instead</p>
 </div>
 <table>
 <thead>
@@ -22032,7 +20685,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.</p>
 </td>
 </tr>
 <tr>
@@ -22043,7 +20695,6 @@ string
 </em>
 </td>
 <td>
-<p>PublicCertData: The certificate public data.</p>
 </td>
 </tr>
 </tbody>
@@ -22054,6 +20705,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGateways_Spec_Properties_VpnClientConfigurationARM">VirtualNetworkGateways_Spec_Properties_VpnClientConfigurationARM</a>)
 </p>
 <div>
+<p>Deprecated version of VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates. Use v1beta20201101.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates instead</p>
 </div>
 <table>
 <thead>
@@ -22071,7 +20723,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.</p>
 </td>
 </tr>
 <tr>
@@ -22084,7 +20735,6 @@ VpnClientRootCertificatePropertiesFormatARM
 </em>
 </td>
 <td>
-<p>Properties: Properties of the vpn client root certificate.</p>
 </td>
 </tr>
 </tbody>
@@ -22092,10 +20742,10 @@ VpnClientRootCertificatePropertiesFormatARM
 <h3 id="network.azure.com/v1alpha1api20201101.VirtualNetworkPeeringPropertiesFormatARM">VirtualNetworkPeeringPropertiesFormatARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworksVirtualNetworkPeerings_SpecARM">VirtualNetworksVirtualNetworkPeerings_SpecARM</a>)
+(<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworksVirtualNetworkPeerings_SpecARM">VirtualNetworksVirtualNetworkPeerings_SpecARM</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworks_Spec_Properties_VirtualNetworkPeeringsARM">VirtualNetworks_Spec_Properties_VirtualNetworkPeeringsARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/VirtualNetworkPeeringPropertiesFormat">https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/VirtualNetworkPeeringPropertiesFormat</a></p>
+<p>Deprecated version of VirtualNetworkPeeringPropertiesFormat. Use v1beta20201101.VirtualNetworkPeeringPropertiesFormat instead</p>
 </div>
 <table>
 <thead>
@@ -22113,8 +20763,6 @@ bool
 </em>
 </td>
 <td>
-<p>AllowForwardedTraffic: Whether the forwarded traffic from the VMs in the local virtual network will be
-allowed/disallowed in remote virtual network.</p>
 </td>
 </tr>
 <tr>
@@ -22125,7 +20773,6 @@ bool
 </em>
 </td>
 <td>
-<p>AllowGatewayTransit: If gateway links can be used in remote virtual networking to link to this virtual network.</p>
 </td>
 </tr>
 <tr>
@@ -22136,8 +20783,6 @@ bool
 </em>
 </td>
 <td>
-<p>AllowVirtualNetworkAccess: Whether the VMs in the local virtual network space would be able to access the VMs in remote
-virtual network space.</p>
 </td>
 </tr>
 <tr>
@@ -22150,7 +20795,6 @@ VirtualNetworkPeeringPropertiesFormatPeeringState
 </em>
 </td>
 <td>
-<p>PeeringState: The status of the virtual network peering.</p>
 </td>
 </tr>
 <tr>
@@ -22163,7 +20807,6 @@ AddressSpaceARM
 </em>
 </td>
 <td>
-<p>RemoteAddressSpace: The reference to the remote virtual network address space.</p>
 </td>
 </tr>
 <tr>
@@ -22176,7 +20819,6 @@ VirtualNetworkBgpCommunitiesARM
 </em>
 </td>
 <td>
-<p>RemoteBgpCommunities: The reference to the remote virtual network&rsquo;s Bgp Communities.</p>
 </td>
 </tr>
 <tr>
@@ -22189,9 +20831,6 @@ SubResourceARM
 </em>
 </td>
 <td>
-<p>RemoteVirtualNetwork: The reference to the remote virtual network. The remote virtual network can be in the same or
-different region (preview). See here to register for the preview and learn more
-(<a href="https://docs.microsoft.com/en-us/azure/virtual-network/virtual-network-create-peering">https://docs.microsoft.com/en-us/azure/virtual-network/virtual-network-create-peering</a>).</p>
 </td>
 </tr>
 <tr>
@@ -22202,10 +20841,6 @@ bool
 </em>
 </td>
 <td>
-<p>UseRemoteGateways: If remote gateways can be used on this virtual network. If the flag is set to true, and
-allowGatewayTransit on remote peering is also true, virtual network will use gateways of remote virtual network for
-transit. Only one peering can have this flag set to true. This flag cannot be set if virtual network already has a
-gateway.</p>
 </td>
 </tr>
 </tbody>
@@ -22216,6 +20851,8 @@ gateway.</p>
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkPeeringPropertiesFormatARM">VirtualNetworkPeeringPropertiesFormatARM</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworksVirtualNetworkPeerings_Spec">VirtualNetworksVirtualNetworkPeerings_Spec</a>)
 </p>
 <div>
+<p>Deprecated version of VirtualNetworkPeeringPropertiesFormatPeeringState. Use
+v1beta20201101.VirtualNetworkPeeringPropertiesFormatPeeringState instead</p>
 </div>
 <table>
 <thead>
@@ -22238,6 +20875,8 @@ gateway.</p>
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkPeeringPropertiesFormat_StatusARM">VirtualNetworkPeeringPropertiesFormat_StatusARM</a>, <a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkPeering_Status">VirtualNetworkPeering_Status</a>)
 </p>
 <div>
+<p>Deprecated version of VirtualNetworkPeeringPropertiesFormatStatusPeeringState. Use
+v1beta20201101.VirtualNetworkPeeringPropertiesFormatStatusPeeringState instead</p>
 </div>
 <table>
 <thead>
@@ -22260,6 +20899,7 @@ gateway.</p>
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkPeering_StatusARM">VirtualNetworkPeering_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of VirtualNetworkPeeringPropertiesFormat_Status. Use v1beta20201101.VirtualNetworkPeeringPropertiesFormat_Status instead</p>
 </div>
 <table>
 <thead>
@@ -22277,8 +20917,6 @@ bool
 </em>
 </td>
 <td>
-<p>AllowForwardedTraffic: Whether the forwarded traffic from the VMs in the local virtual network will be
-allowed/disallowed in remote virtual network.</p>
 </td>
 </tr>
 <tr>
@@ -22289,7 +20927,6 @@ bool
 </em>
 </td>
 <td>
-<p>AllowGatewayTransit: If gateway links can be used in remote virtual networking to link to this virtual network.</p>
 </td>
 </tr>
 <tr>
@@ -22300,8 +20937,6 @@ bool
 </em>
 </td>
 <td>
-<p>AllowVirtualNetworkAccess: Whether the VMs in the local virtual network space would be able to access the VMs in remote
-virtual network space.</p>
 </td>
 </tr>
 <tr>
@@ -22312,7 +20947,6 @@ bool
 </em>
 </td>
 <td>
-<p>DoNotVerifyRemoteGateways: If we need to verify the provisioning state of the remote gateway.</p>
 </td>
 </tr>
 <tr>
@@ -22325,7 +20959,6 @@ VirtualNetworkPeeringPropertiesFormatStatusPeeringState
 </em>
 </td>
 <td>
-<p>PeeringState: The status of the virtual network peering.</p>
 </td>
 </tr>
 <tr>
@@ -22338,7 +20971,6 @@ ProvisioningState_Status
 </em>
 </td>
 <td>
-<p>ProvisioningState: The provisioning state of the virtual network peering resource.</p>
 </td>
 </tr>
 <tr>
@@ -22351,7 +20983,6 @@ AddressSpace_StatusARM
 </em>
 </td>
 <td>
-<p>RemoteAddressSpace: The reference to the remote virtual network address space.</p>
 </td>
 </tr>
 <tr>
@@ -22364,7 +20995,6 @@ VirtualNetworkBgpCommunities_StatusARM
 </em>
 </td>
 <td>
-<p>RemoteBgpCommunities: The reference to the remote virtual network&rsquo;s Bgp Communities.</p>
 </td>
 </tr>
 <tr>
@@ -22377,9 +21007,6 @@ SubResource_StatusARM
 </em>
 </td>
 <td>
-<p>RemoteVirtualNetwork: The reference to the remote virtual network. The remote virtual network can be in the same or
-different region (preview). See here to register for the preview and learn more
-(<a href="https://docs.microsoft.com/en-us/azure/virtual-network/virtual-network-create-peering">https://docs.microsoft.com/en-us/azure/virtual-network/virtual-network-create-peering</a>).</p>
 </td>
 </tr>
 <tr>
@@ -22390,7 +21017,6 @@ string
 </em>
 </td>
 <td>
-<p>ResourceGuid: The resourceGuid property of the Virtual Network peering resource.</p>
 </td>
 </tr>
 <tr>
@@ -22401,10 +21027,6 @@ bool
 </em>
 </td>
 <td>
-<p>UseRemoteGateways: If remote gateways can be used on this virtual network. If the flag is set to true, and
-allowGatewayTransit on remote peering is also true, virtual network will use gateways of remote virtual network for
-transit. Only one peering can have this flag set to true. This flag cannot be set if virtual network already has a
-gateway.</p>
 </td>
 </tr>
 </tbody>
@@ -22415,6 +21037,7 @@ gateway.</p>
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworksVirtualNetworkPeering">VirtualNetworksVirtualNetworkPeering</a>)
 </p>
 <div>
+<p>Deprecated version of VirtualNetworkPeering_Status. Use v1beta20201101.VirtualNetworkPeering_Status instead</p>
 </div>
 <table>
 <thead>
@@ -22432,8 +21055,6 @@ bool
 </em>
 </td>
 <td>
-<p>AllowForwardedTraffic: Whether the forwarded traffic from the VMs in the local virtual network will be
-allowed/disallowed in remote virtual network.</p>
 </td>
 </tr>
 <tr>
@@ -22444,7 +21065,6 @@ bool
 </em>
 </td>
 <td>
-<p>AllowGatewayTransit: If gateway links can be used in remote virtual networking to link to this virtual network.</p>
 </td>
 </tr>
 <tr>
@@ -22455,8 +21075,6 @@ bool
 </em>
 </td>
 <td>
-<p>AllowVirtualNetworkAccess: Whether the VMs in the local virtual network space would be able to access the VMs in remote
-virtual network space.</p>
 </td>
 </tr>
 <tr>
@@ -22480,7 +21098,6 @@ bool
 </em>
 </td>
 <td>
-<p>DoNotVerifyRemoteGateways: If we need to verify the provisioning state of the remote gateway.</p>
 </td>
 </tr>
 <tr>
@@ -22491,7 +21108,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A unique read-only string that changes whenever the resource is updated.</p>
 </td>
 </tr>
 <tr>
@@ -22502,7 +21118,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 <tr>
@@ -22513,7 +21128,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.</p>
 </td>
 </tr>
 <tr>
@@ -22526,7 +21140,6 @@ VirtualNetworkPeeringPropertiesFormatStatusPeeringState
 </em>
 </td>
 <td>
-<p>PeeringState: The status of the virtual network peering.</p>
 </td>
 </tr>
 <tr>
@@ -22539,7 +21152,6 @@ ProvisioningState_Status
 </em>
 </td>
 <td>
-<p>ProvisioningState: The provisioning state of the virtual network peering resource.</p>
 </td>
 </tr>
 <tr>
@@ -22552,7 +21164,6 @@ AddressSpace_Status
 </em>
 </td>
 <td>
-<p>RemoteAddressSpace: The reference to the remote virtual network address space.</p>
 </td>
 </tr>
 <tr>
@@ -22565,7 +21176,6 @@ VirtualNetworkBgpCommunities_Status
 </em>
 </td>
 <td>
-<p>RemoteBgpCommunities: The reference to the remote virtual network&rsquo;s Bgp Communities.</p>
 </td>
 </tr>
 <tr>
@@ -22578,9 +21188,6 @@ SubResource_Status
 </em>
 </td>
 <td>
-<p>RemoteVirtualNetwork: The reference to the remote virtual network. The remote virtual network can be in the same or
-different region (preview). See here to register for the preview and learn more
-(<a href="https://docs.microsoft.com/en-us/azure/virtual-network/virtual-network-create-peering">https://docs.microsoft.com/en-us/azure/virtual-network/virtual-network-create-peering</a>).</p>
 </td>
 </tr>
 <tr>
@@ -22591,7 +21198,6 @@ string
 </em>
 </td>
 <td>
-<p>ResourceGuid: The resourceGuid property of the Virtual Network peering resource.</p>
 </td>
 </tr>
 <tr>
@@ -22602,7 +21208,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: Resource type.</p>
 </td>
 </tr>
 <tr>
@@ -22613,10 +21218,6 @@ bool
 </em>
 </td>
 <td>
-<p>UseRemoteGateways: If remote gateways can be used on this virtual network. If the flag is set to true, and
-allowGatewayTransit on remote peering is also true, virtual network will use gateways of remote virtual network for
-transit. Only one peering can have this flag set to true. This flag cannot be set if virtual network already has a
-gateway.</p>
 </td>
 </tr>
 </tbody>
@@ -22624,6 +21225,7 @@ gateway.</p>
 <h3 id="network.azure.com/v1alpha1api20201101.VirtualNetworkPeering_StatusARM">VirtualNetworkPeering_StatusARM
 </h3>
 <div>
+<p>Deprecated version of VirtualNetworkPeering_Status. Use v1beta20201101.VirtualNetworkPeering_Status instead</p>
 </div>
 <table>
 <thead>
@@ -22641,7 +21243,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A unique read-only string that changes whenever the resource is updated.</p>
 </td>
 </tr>
 <tr>
@@ -22652,7 +21253,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 <tr>
@@ -22663,7 +21263,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.</p>
 </td>
 </tr>
 <tr>
@@ -22676,7 +21275,6 @@ VirtualNetworkPeeringPropertiesFormat_StatusARM
 </em>
 </td>
 <td>
-<p>Properties: Properties of the virtual network peering.</p>
 </td>
 </tr>
 <tr>
@@ -22687,63 +21285,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: Resource type.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="network.azure.com/v1alpha1api20201101.VirtualNetworkPeering_Status_SubResourceEmbedded">VirtualNetworkPeering_Status_SubResourceEmbedded
-</h3>
-<p>
-(<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetwork_Status">VirtualNetwork_Status</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Resource ID.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="network.azure.com/v1alpha1api20201101.VirtualNetworkPeering_Status_SubResourceEmbeddedARM">VirtualNetworkPeering_Status_SubResourceEmbeddedARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkPropertiesFormat_StatusARM">VirtualNetworkPropertiesFormat_StatusARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 </tbody>
@@ -22754,6 +21295,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetwork_StatusARM">VirtualNetwork_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of VirtualNetworkPropertiesFormat_Status. Use v1beta20201101.VirtualNetworkPropertiesFormat_Status instead</p>
 </div>
 <table>
 <thead>
@@ -22773,7 +21315,6 @@ AddressSpace_StatusARM
 </em>
 </td>
 <td>
-<p>AddressSpace: The AddressSpace that contains an array of IP address ranges that can be used by subnets.</p>
 </td>
 </tr>
 <tr>
@@ -22786,7 +21327,6 @@ VirtualNetworkBgpCommunities_StatusARM
 </em>
 </td>
 <td>
-<p>BgpCommunities: Bgp Communities sent over ExpressRoute with each route corresponding to a prefix in this VNET.</p>
 </td>
 </tr>
 <tr>
@@ -22799,7 +21339,6 @@ SubResource_StatusARM
 </em>
 </td>
 <td>
-<p>DdosProtectionPlan: The DDoS protection plan associated with the virtual network.</p>
 </td>
 </tr>
 <tr>
@@ -22812,7 +21351,6 @@ DhcpOptions_StatusARM
 </em>
 </td>
 <td>
-<p>DhcpOptions: The dhcpOptions that contains an array of DNS servers available to VMs deployed in the virtual network.</p>
 </td>
 </tr>
 <tr>
@@ -22823,8 +21361,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableDdosProtection: Indicates if DDoS protection is enabled for all the protected resources in the virtual network. It
-requires a DDoS protection plan associated with the resource.</p>
 </td>
 </tr>
 <tr>
@@ -22835,7 +21371,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableVmProtection: Indicates if VM protection is enabled for all the subnets in the virtual network.</p>
 </td>
 </tr>
 <tr>
@@ -22848,7 +21383,6 @@ bool
 </em>
 </td>
 <td>
-<p>IpAllocations: Array of IpAllocation which reference this VNET.</p>
 </td>
 </tr>
 <tr>
@@ -22861,7 +21395,6 @@ ProvisioningState_Status
 </em>
 </td>
 <td>
-<p>ProvisioningState: The provisioning state of the virtual network resource.</p>
 </td>
 </tr>
 <tr>
@@ -22872,33 +21405,6 @@ string
 </em>
 </td>
 <td>
-<p>ResourceGuid: The resourceGuid property of the Virtual Network resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>subnets</code><br/>
-<em>
-<a href="#network.azure.com/v1alpha1api20201101.Subnet_Status_VirtualNetwork_SubResourceEmbeddedARM">
-[]Subnet_Status_VirtualNetwork_SubResourceEmbeddedARM
-</a>
-</em>
-</td>
-<td>
-<p>Subnets: A list of subnets in a Virtual Network.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>virtualNetworkPeerings</code><br/>
-<em>
-<a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkPeering_Status_SubResourceEmbeddedARM">
-[]VirtualNetworkPeering_Status_SubResourceEmbeddedARM
-</a>
-</em>
-</td>
-<td>
-<p>VirtualNetworkPeerings: A list of peerings in a Virtual Network.</p>
 </td>
 </tr>
 </tbody>
@@ -22909,6 +21415,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResourceEmbedded">NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResourceEmbedded</a>)
 </p>
 <div>
+<p>Deprecated version of VirtualNetworkTap_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.VirtualNetworkTap_Status_NetworkInterface_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -22926,7 +21433,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 </tbody>
@@ -22937,6 +21443,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.NetworkInterfaceIPConfigurationPropertiesFormat_Status_NetworkInterface_SubResourceEmbeddedARM">NetworkInterfaceIPConfigurationPropertiesFormat_Status_NetworkInterface_SubResourceEmbeddedARM</a>)
 </p>
 <div>
+<p>Deprecated version of VirtualNetworkTap_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.VirtualNetworkTap_Status_NetworkInterface_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -22954,7 +21461,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 </tbody>
@@ -22965,6 +21471,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetwork">VirtualNetwork</a>)
 </p>
 <div>
+<p>Deprecated version of VirtualNetwork_Status. Use v1beta20201101.VirtualNetwork_Status instead</p>
 </div>
 <table>
 <thead>
@@ -22984,7 +21491,6 @@ AddressSpace_Status
 </em>
 </td>
 <td>
-<p>AddressSpace: The AddressSpace that contains an array of IP address ranges that can be used by subnets.</p>
 </td>
 </tr>
 <tr>
@@ -22997,7 +21503,6 @@ VirtualNetworkBgpCommunities_Status
 </em>
 </td>
 <td>
-<p>BgpCommunities: Bgp Communities sent over ExpressRoute with each route corresponding to a prefix in this VNET.</p>
 </td>
 </tr>
 <tr>
@@ -23023,7 +21528,6 @@ SubResource_Status
 </em>
 </td>
 <td>
-<p>DdosProtectionPlan: The DDoS protection plan associated with the virtual network.</p>
 </td>
 </tr>
 <tr>
@@ -23036,7 +21540,6 @@ DhcpOptions_Status
 </em>
 </td>
 <td>
-<p>DhcpOptions: The dhcpOptions that contains an array of DNS servers available to VMs deployed in the virtual network.</p>
 </td>
 </tr>
 <tr>
@@ -23047,8 +21550,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableDdosProtection: Indicates if DDoS protection is enabled for all the protected resources in the virtual network. It
-requires a DDoS protection plan associated with the resource.</p>
 </td>
 </tr>
 <tr>
@@ -23059,7 +21560,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableVmProtection: Indicates if VM protection is enabled for all the subnets in the virtual network.</p>
 </td>
 </tr>
 <tr>
@@ -23070,7 +21570,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A unique read-only string that changes whenever the resource is updated.</p>
 </td>
 </tr>
 <tr>
@@ -23083,7 +21582,6 @@ ExtendedLocation_Status
 </em>
 </td>
 <td>
-<p>ExtendedLocation: The extended location of the virtual network.</p>
 </td>
 </tr>
 <tr>
@@ -23094,7 +21592,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 <tr>
@@ -23107,7 +21604,6 @@ string
 </em>
 </td>
 <td>
-<p>IpAllocations: Array of IpAllocation which reference this VNET.</p>
 </td>
 </tr>
 <tr>
@@ -23118,7 +21614,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Resource location.</p>
 </td>
 </tr>
 <tr>
@@ -23129,7 +21624,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Resource name.</p>
 </td>
 </tr>
 <tr>
@@ -23142,7 +21636,6 @@ ProvisioningState_Status
 </em>
 </td>
 <td>
-<p>ProvisioningState: The provisioning state of the virtual network resource.</p>
 </td>
 </tr>
 <tr>
@@ -23153,20 +21646,6 @@ string
 </em>
 </td>
 <td>
-<p>ResourceGuid: The resourceGuid property of the Virtual Network resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>subnets</code><br/>
-<em>
-<a href="#network.azure.com/v1alpha1api20201101.Subnet_Status_VirtualNetwork_SubResourceEmbedded">
-[]Subnet_Status_VirtualNetwork_SubResourceEmbedded
-</a>
-</em>
-</td>
-<td>
-<p>Subnets: A list of subnets in a Virtual Network.</p>
 </td>
 </tr>
 <tr>
@@ -23177,7 +21656,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Resource tags.</p>
 </td>
 </tr>
 <tr>
@@ -23188,20 +21666,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: Resource type.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>virtualNetworkPeerings</code><br/>
-<em>
-<a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkPeering_Status_SubResourceEmbedded">
-[]VirtualNetworkPeering_Status_SubResourceEmbedded
-</a>
-</em>
-</td>
-<td>
-<p>VirtualNetworkPeerings: A list of peerings in a Virtual Network.</p>
 </td>
 </tr>
 </tbody>
@@ -23209,6 +21673,7 @@ string
 <h3 id="network.azure.com/v1alpha1api20201101.VirtualNetwork_StatusARM">VirtualNetwork_StatusARM
 </h3>
 <div>
+<p>Deprecated version of VirtualNetwork_Status. Use v1beta20201101.VirtualNetwork_Status instead</p>
 </div>
 <table>
 <thead>
@@ -23226,7 +21691,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A unique read-only string that changes whenever the resource is updated.</p>
 </td>
 </tr>
 <tr>
@@ -23239,7 +21703,6 @@ ExtendedLocation_StatusARM
 </em>
 </td>
 <td>
-<p>ExtendedLocation: The extended location of the virtual network.</p>
 </td>
 </tr>
 <tr>
@@ -23250,7 +21713,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 <tr>
@@ -23261,7 +21723,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Resource location.</p>
 </td>
 </tr>
 <tr>
@@ -23272,7 +21733,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Resource name.</p>
 </td>
 </tr>
 <tr>
@@ -23285,7 +21745,6 @@ VirtualNetworkPropertiesFormat_StatusARM
 </em>
 </td>
 <td>
-<p>Properties: Properties of the virtual network.</p>
 </td>
 </tr>
 <tr>
@@ -23296,7 +21755,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Resource tags.</p>
 </td>
 </tr>
 <tr>
@@ -23307,30 +21765,14 @@ string
 </em>
 </td>
 <td>
-<p>Type: Resource type.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="network.azure.com/v1alpha1api20201101.VirtualNetworksSpecAPIVersion">VirtualNetworksSpecAPIVersion
-(<code>string</code> alias)</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;2020-11-01&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
 <h3 id="network.azure.com/v1alpha1api20201101.VirtualNetworksSubnet">VirtualNetworksSubnet
 </h3>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/virtualNetworks_subnets">https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/virtualNetworks_subnets</a></p>
+<p>Deprecated version of VirtualNetworksSubnet. Use v1beta20201101.VirtualNetworksSubnet instead</p>
 </div>
 <table>
 <thead>
@@ -23375,7 +21817,6 @@ string
 </em>
 </td>
 <td>
-<p>AddressPrefix: The address prefix for the subnet.</p>
 </td>
 </tr>
 <tr>
@@ -23386,7 +21827,6 @@ string
 </em>
 </td>
 <td>
-<p>AddressPrefixes: List of address prefixes for the subnet.</p>
 </td>
 </tr>
 <tr>
@@ -23411,7 +21851,6 @@ doesn&rsquo;t have to be.</p>
 </em>
 </td>
 <td>
-<p>Delegations: An array of references to the delegations on the subnet.</p>
 </td>
 </tr>
 <tr>
@@ -23424,18 +21863,6 @@ doesn&rsquo;t have to be.</p>
 </em>
 </td>
 <td>
-<p>IpAllocations: Array of IpAllocation which reference this subnet.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -23448,7 +21875,6 @@ SubResource
 </em>
 </td>
 <td>
-<p>NatGateway: Nat gateway associated with this subnet.</p>
 </td>
 </tr>
 <tr>
@@ -23461,7 +21887,6 @@ SubResource
 </em>
 </td>
 <td>
-<p>NetworkSecurityGroup: The reference to the NetworkSecurityGroup resource.</p>
 </td>
 </tr>
 <tr>
@@ -23474,6 +21899,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a network.azure.com/VirtualNetwork resource</p>
 </td>
 </tr>
 <tr>
@@ -23484,7 +21912,6 @@ string
 </em>
 </td>
 <td>
-<p>PrivateEndpointNetworkPolicies: Enable or Disable apply network policies on private end point in the subnet.</p>
 </td>
 </tr>
 <tr>
@@ -23495,7 +21922,6 @@ string
 </em>
 </td>
 <td>
-<p>PrivateLinkServiceNetworkPolicies: Enable or Disable apply network policies on private link service in the subnet.</p>
 </td>
 </tr>
 <tr>
@@ -23508,7 +21934,6 @@ SubResource
 </em>
 </td>
 <td>
-<p>RouteTable: The reference to the RouteTable resource.</p>
 </td>
 </tr>
 <tr>
@@ -23521,7 +21946,6 @@ SubResource
 </em>
 </td>
 <td>
-<p>ServiceEndpointPolicies: An array of service endpoint policies.</p>
 </td>
 </tr>
 <tr>
@@ -23534,18 +21958,6 @@ SubResource
 </em>
 </td>
 <td>
-<p>ServiceEndpoints: An array of service endpoints.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </table>
@@ -23564,21 +21976,6 @@ Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded
 </td>
 </tr>
 </tbody>
-</table>
-<h3 id="network.azure.com/v1alpha1api20201101.VirtualNetworksSubnetsSpecAPIVersion">VirtualNetworksSubnetsSpecAPIVersion
-(<code>string</code> alias)</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;2020-11-01&#34;</p></td>
-<td></td>
-</tr></tbody>
 </table>
 <h3 id="network.azure.com/v1alpha1api20201101.VirtualNetworksSubnets_Spec">VirtualNetworksSubnets_Spec
 </h3>
@@ -23603,7 +22000,6 @@ string
 </em>
 </td>
 <td>
-<p>AddressPrefix: The address prefix for the subnet.</p>
 </td>
 </tr>
 <tr>
@@ -23614,7 +22010,6 @@ string
 </em>
 </td>
 <td>
-<p>AddressPrefixes: List of address prefixes for the subnet.</p>
 </td>
 </tr>
 <tr>
@@ -23639,7 +22034,6 @@ doesn&rsquo;t have to be.</p>
 </em>
 </td>
 <td>
-<p>Delegations: An array of references to the delegations on the subnet.</p>
 </td>
 </tr>
 <tr>
@@ -23652,18 +22046,6 @@ doesn&rsquo;t have to be.</p>
 </em>
 </td>
 <td>
-<p>IpAllocations: Array of IpAllocation which reference this subnet.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -23676,7 +22058,6 @@ SubResource
 </em>
 </td>
 <td>
-<p>NatGateway: Nat gateway associated with this subnet.</p>
 </td>
 </tr>
 <tr>
@@ -23689,7 +22070,6 @@ SubResource
 </em>
 </td>
 <td>
-<p>NetworkSecurityGroup: The reference to the NetworkSecurityGroup resource.</p>
 </td>
 </tr>
 <tr>
@@ -23702,6 +22082,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a network.azure.com/VirtualNetwork resource</p>
 </td>
 </tr>
 <tr>
@@ -23712,7 +22095,6 @@ string
 </em>
 </td>
 <td>
-<p>PrivateEndpointNetworkPolicies: Enable or Disable apply network policies on private end point in the subnet.</p>
 </td>
 </tr>
 <tr>
@@ -23723,7 +22105,6 @@ string
 </em>
 </td>
 <td>
-<p>PrivateLinkServiceNetworkPolicies: Enable or Disable apply network policies on private link service in the subnet.</p>
 </td>
 </tr>
 <tr>
@@ -23736,7 +22117,6 @@ SubResource
 </em>
 </td>
 <td>
-<p>RouteTable: The reference to the RouteTable resource.</p>
 </td>
 </tr>
 <tr>
@@ -23749,7 +22129,6 @@ SubResource
 </em>
 </td>
 <td>
-<p>ServiceEndpointPolicies: An array of service endpoint policies.</p>
 </td>
 </tr>
 <tr>
@@ -23762,18 +22141,6 @@ SubResource
 </em>
 </td>
 <td>
-<p>ServiceEndpoints: An array of service endpoints.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </tbody>
@@ -23781,6 +22148,7 @@ map[string]string
 <h3 id="network.azure.com/v1alpha1api20201101.VirtualNetworksSubnets_SpecARM">VirtualNetworksSubnets_SpecARM
 </h3>
 <div>
+<p>Deprecated version of VirtualNetworksSubnets_Spec. Use v1beta20201101.VirtualNetworksSubnets_Spec instead</p>
 </div>
 <table>
 <thead>
@@ -23792,24 +22160,12 @@ map[string]string
 <tbody>
 <tr>
 <td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: Location to deploy resource to</p>
-</td>
-</tr>
-<tr>
-<td>
 <code>name</code><br/>
 <em>
 string
 </em>
 </td>
 <td>
-<p>Name: Name of the resource</p>
 </td>
 </tr>
 <tr>
@@ -23822,18 +22178,6 @@ VirtualNetworksSubnets_Spec_PropertiesARM
 </em>
 </td>
 <td>
-<p>Properties: Properties of the subnet.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </tbody>
@@ -23844,6 +22188,7 @@ map[string]string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworksSubnets_SpecARM">VirtualNetworksSubnets_SpecARM</a>)
 </p>
 <div>
+<p>Deprecated version of VirtualNetworksSubnets_Spec_Properties. Use v1beta20201101.VirtualNetworksSubnets_Spec_Properties instead</p>
 </div>
 <table>
 <thead>
@@ -23861,7 +22206,6 @@ string
 </em>
 </td>
 <td>
-<p>AddressPrefix: The address prefix for the subnet.</p>
 </td>
 </tr>
 <tr>
@@ -23872,7 +22216,6 @@ string
 </em>
 </td>
 <td>
-<p>AddressPrefixes: List of address prefixes for the subnet.</p>
 </td>
 </tr>
 <tr>
@@ -23885,7 +22228,6 @@ string
 </em>
 </td>
 <td>
-<p>Delegations: An array of references to the delegations on the subnet.</p>
 </td>
 </tr>
 <tr>
@@ -23898,7 +22240,6 @@ string
 </em>
 </td>
 <td>
-<p>IpAllocations: Array of IpAllocation which reference this subnet.</p>
 </td>
 </tr>
 <tr>
@@ -23911,7 +22252,6 @@ SubResourceARM
 </em>
 </td>
 <td>
-<p>NatGateway: Nat gateway associated with this subnet.</p>
 </td>
 </tr>
 <tr>
@@ -23924,7 +22264,6 @@ SubResourceARM
 </em>
 </td>
 <td>
-<p>NetworkSecurityGroup: The reference to the NetworkSecurityGroup resource.</p>
 </td>
 </tr>
 <tr>
@@ -23935,7 +22274,6 @@ string
 </em>
 </td>
 <td>
-<p>PrivateEndpointNetworkPolicies: Enable or Disable apply network policies on private end point in the subnet.</p>
 </td>
 </tr>
 <tr>
@@ -23946,7 +22284,6 @@ string
 </em>
 </td>
 <td>
-<p>PrivateLinkServiceNetworkPolicies: Enable or Disable apply network policies on private link service in the subnet.</p>
 </td>
 </tr>
 <tr>
@@ -23959,7 +22296,6 @@ SubResourceARM
 </em>
 </td>
 <td>
-<p>RouteTable: The reference to the RouteTable resource.</p>
 </td>
 </tr>
 <tr>
@@ -23972,7 +22308,6 @@ SubResourceARM
 </em>
 </td>
 <td>
-<p>ServiceEndpointPolicies: An array of service endpoint policies.</p>
 </td>
 </tr>
 <tr>
@@ -23985,7 +22320,6 @@ SubResourceARM
 </em>
 </td>
 <td>
-<p>ServiceEndpoints: An array of service endpoints.</p>
 </td>
 </tr>
 </tbody>
@@ -23996,6 +22330,7 @@ SubResourceARM
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworksSubnets_Spec">VirtualNetworksSubnets_Spec</a>)
 </p>
 <div>
+<p>Deprecated version of VirtualNetworksSubnets_Spec_Properties_Delegations. Use v1beta20201101.VirtualNetworksSubnets_Spec_Properties_Delegations instead</p>
 </div>
 <table>
 <thead>
@@ -24013,7 +22348,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource that is unique within a subnet. This name can be used to access the resource.</p>
 </td>
 </tr>
 <tr>
@@ -24024,7 +22358,6 @@ string
 </em>
 </td>
 <td>
-<p>ServiceName: The name of the service to whom the subnet should be delegated (e.g. Microsoft.Sql/servers).</p>
 </td>
 </tr>
 </tbody>
@@ -24035,6 +22368,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworksSubnets_Spec_PropertiesARM">VirtualNetworksSubnets_Spec_PropertiesARM</a>)
 </p>
 <div>
+<p>Deprecated version of VirtualNetworksSubnets_Spec_Properties_Delegations. Use v1beta20201101.VirtualNetworksSubnets_Spec_Properties_Delegations instead</p>
 </div>
 <table>
 <thead>
@@ -24052,7 +22386,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource that is unique within a subnet. This name can be used to access the resource.</p>
 </td>
 </tr>
 <tr>
@@ -24065,7 +22398,6 @@ ServiceDelegationPropertiesFormatARM
 </em>
 </td>
 <td>
-<p>Properties: Properties of the subnet.</p>
 </td>
 </tr>
 </tbody>
@@ -24073,7 +22405,7 @@ ServiceDelegationPropertiesFormatARM
 <h3 id="network.azure.com/v1alpha1api20201101.VirtualNetworksVirtualNetworkPeering">VirtualNetworksVirtualNetworkPeering
 </h3>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/virtualNetworks_virtualNetworkPeerings">https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/virtualNetworks_virtualNetworkPeerings</a></p>
+<p>Deprecated version of VirtualNetworksVirtualNetworkPeering. Use v1beta20201101.VirtualNetworksVirtualNetworkPeering instead</p>
 </div>
 <table>
 <thead>
@@ -24118,8 +22450,6 @@ bool
 </em>
 </td>
 <td>
-<p>AllowForwardedTraffic: Whether the forwarded traffic from the VMs in the local virtual network will be
-allowed/disallowed in remote virtual network.</p>
 </td>
 </tr>
 <tr>
@@ -24130,7 +22460,6 @@ bool
 </em>
 </td>
 <td>
-<p>AllowGatewayTransit: If gateway links can be used in remote virtual networking to link to this virtual network.</p>
 </td>
 </tr>
 <tr>
@@ -24141,8 +22470,6 @@ bool
 </em>
 </td>
 <td>
-<p>AllowVirtualNetworkAccess: Whether the VMs in the local virtual network space would be able to access the VMs in remote
-virtual network space.</p>
 </td>
 </tr>
 <tr>
@@ -24165,7 +22492,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -24178,6 +22504,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a network.azure.com/VirtualNetwork resource</p>
 </td>
 </tr>
 <tr>
@@ -24190,7 +22519,6 @@ VirtualNetworkPeeringPropertiesFormatPeeringState
 </em>
 </td>
 <td>
-<p>PeeringState: The status of the virtual network peering.</p>
 </td>
 </tr>
 <tr>
@@ -24203,7 +22531,6 @@ AddressSpace
 </em>
 </td>
 <td>
-<p>RemoteAddressSpace: The reference to the remote virtual network address space.</p>
 </td>
 </tr>
 <tr>
@@ -24216,7 +22543,6 @@ VirtualNetworkBgpCommunities
 </em>
 </td>
 <td>
-<p>RemoteBgpCommunities: The reference to the remote virtual network&rsquo;s Bgp Communities.</p>
 </td>
 </tr>
 <tr>
@@ -24229,9 +22555,6 @@ SubResource
 </em>
 </td>
 <td>
-<p>RemoteVirtualNetwork: The reference to the remote virtual network. The remote virtual network can be in the same or
-different region (preview). See here to register for the preview and learn more
-(<a href="https://docs.microsoft.com/en-us/azure/virtual-network/virtual-network-create-peering">https://docs.microsoft.com/en-us/azure/virtual-network/virtual-network-create-peering</a>).</p>
 </td>
 </tr>
 <tr>
@@ -24242,7 +22565,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 <tr>
@@ -24253,10 +22575,6 @@ bool
 </em>
 </td>
 <td>
-<p>UseRemoteGateways: If remote gateways can be used on this virtual network. If the flag is set to true, and
-allowGatewayTransit on remote peering is also true, virtual network will use gateways of remote virtual network for
-transit. Only one peering can have this flag set to true. This flag cannot be set if virtual network already has a
-gateway.</p>
 </td>
 </tr>
 </table>
@@ -24275,21 +22593,6 @@ VirtualNetworkPeering_Status
 </td>
 </tr>
 </tbody>
-</table>
-<h3 id="network.azure.com/v1alpha1api20201101.VirtualNetworksVirtualNetworkPeeringsSpecAPIVersion">VirtualNetworksVirtualNetworkPeeringsSpecAPIVersion
-(<code>string</code> alias)</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;2020-11-01&#34;</p></td>
-<td></td>
-</tr></tbody>
 </table>
 <h3 id="network.azure.com/v1alpha1api20201101.VirtualNetworksVirtualNetworkPeerings_Spec">VirtualNetworksVirtualNetworkPeerings_Spec
 </h3>
@@ -24314,8 +22617,6 @@ bool
 </em>
 </td>
 <td>
-<p>AllowForwardedTraffic: Whether the forwarded traffic from the VMs in the local virtual network will be
-allowed/disallowed in remote virtual network.</p>
 </td>
 </tr>
 <tr>
@@ -24326,7 +22627,6 @@ bool
 </em>
 </td>
 <td>
-<p>AllowGatewayTransit: If gateway links can be used in remote virtual networking to link to this virtual network.</p>
 </td>
 </tr>
 <tr>
@@ -24337,8 +22637,6 @@ bool
 </em>
 </td>
 <td>
-<p>AllowVirtualNetworkAccess: Whether the VMs in the local virtual network space would be able to access the VMs in remote
-virtual network space.</p>
 </td>
 </tr>
 <tr>
@@ -24361,7 +22659,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -24374,6 +22671,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a network.azure.com/VirtualNetwork resource</p>
 </td>
 </tr>
 <tr>
@@ -24386,7 +22686,6 @@ VirtualNetworkPeeringPropertiesFormatPeeringState
 </em>
 </td>
 <td>
-<p>PeeringState: The status of the virtual network peering.</p>
 </td>
 </tr>
 <tr>
@@ -24399,7 +22698,6 @@ AddressSpace
 </em>
 </td>
 <td>
-<p>RemoteAddressSpace: The reference to the remote virtual network address space.</p>
 </td>
 </tr>
 <tr>
@@ -24412,7 +22710,6 @@ VirtualNetworkBgpCommunities
 </em>
 </td>
 <td>
-<p>RemoteBgpCommunities: The reference to the remote virtual network&rsquo;s Bgp Communities.</p>
 </td>
 </tr>
 <tr>
@@ -24425,9 +22722,6 @@ SubResource
 </em>
 </td>
 <td>
-<p>RemoteVirtualNetwork: The reference to the remote virtual network. The remote virtual network can be in the same or
-different region (preview). See here to register for the preview and learn more
-(<a href="https://docs.microsoft.com/en-us/azure/virtual-network/virtual-network-create-peering">https://docs.microsoft.com/en-us/azure/virtual-network/virtual-network-create-peering</a>).</p>
 </td>
 </tr>
 <tr>
@@ -24438,7 +22732,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 <tr>
@@ -24449,10 +22742,6 @@ bool
 </em>
 </td>
 <td>
-<p>UseRemoteGateways: If remote gateways can be used on this virtual network. If the flag is set to true, and
-allowGatewayTransit on remote peering is also true, virtual network will use gateways of remote virtual network for
-transit. Only one peering can have this flag set to true. This flag cannot be set if virtual network already has a
-gateway.</p>
 </td>
 </tr>
 </tbody>
@@ -24460,6 +22749,7 @@ gateway.</p>
 <h3 id="network.azure.com/v1alpha1api20201101.VirtualNetworksVirtualNetworkPeerings_SpecARM">VirtualNetworksVirtualNetworkPeerings_SpecARM
 </h3>
 <div>
+<p>Deprecated version of VirtualNetworksVirtualNetworkPeerings_Spec. Use v1beta20201101.VirtualNetworksVirtualNetworkPeerings_Spec instead</p>
 </div>
 <table>
 <thead>
@@ -24477,7 +22767,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -24488,7 +22777,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Name of the resource</p>
 </td>
 </tr>
 <tr>
@@ -24501,7 +22789,6 @@ VirtualNetworkPeeringPropertiesFormatARM
 </em>
 </td>
 <td>
-<p>Properties: Properties of the virtual network peering.</p>
 </td>
 </tr>
 <tr>
@@ -24512,7 +22799,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </tbody>
@@ -24542,7 +22828,6 @@ AddressSpace
 </em>
 </td>
 <td>
-<p>AddressSpace: The AddressSpace that contains an array of IP address ranges that can be used by subnets.</p>
 </td>
 </tr>
 <tr>
@@ -24567,7 +22852,6 @@ VirtualNetworkBgpCommunities
 </em>
 </td>
 <td>
-<p>BgpCommunities: Bgp Communities sent over ExpressRoute with each route corresponding to a prefix in this VNET.</p>
 </td>
 </tr>
 <tr>
@@ -24580,7 +22864,6 @@ SubResource
 </em>
 </td>
 <td>
-<p>DdosProtectionPlan: The DDoS protection plan associated with the virtual network.</p>
 </td>
 </tr>
 <tr>
@@ -24593,7 +22876,6 @@ DhcpOptions
 </em>
 </td>
 <td>
-<p>DhcpOptions: The dhcpOptions that contains an array of DNS servers available to VMs deployed in the virtual network.</p>
 </td>
 </tr>
 <tr>
@@ -24604,8 +22886,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableDdosProtection: Indicates if DDoS protection is enabled for all the protected resources in the virtual network. It
-requires a DDoS protection plan associated with the resource.</p>
 </td>
 </tr>
 <tr>
@@ -24616,7 +22896,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableVmProtection: Indicates if VM protection is enabled for all the subnets in the virtual network.</p>
 </td>
 </tr>
 <tr>
@@ -24629,7 +22908,6 @@ ExtendedLocation
 </em>
 </td>
 <td>
-<p>ExtendedLocation: The extended location of the virtual network.</p>
 </td>
 </tr>
 <tr>
@@ -24642,7 +22920,6 @@ ExtendedLocation
 </em>
 </td>
 <td>
-<p>IpAllocations: Array of IpAllocation which reference this VNET.</p>
 </td>
 </tr>
 <tr>
@@ -24653,7 +22930,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -24666,19 +22942,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
-</td>
-</tr>
-<tr>
-<td>
-<code>subnets</code><br/>
-<em>
-<a href="#network.azure.com/v1alpha1api20201101.VirtualNetworks_Spec_Properties_Subnets">
-[]VirtualNetworks_Spec_Properties_Subnets
-</a>
-</em>
-</td>
-<td>
-<p>Subnets: A list of subnets in a Virtual Network.</p>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -24689,7 +22955,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </tbody>
@@ -24697,6 +22962,7 @@ map[string]string
 <h3 id="network.azure.com/v1alpha1api20201101.VirtualNetworks_SpecARM">VirtualNetworks_SpecARM
 </h3>
 <div>
+<p>Deprecated version of VirtualNetworks_Spec. Use v1beta20201101.VirtualNetworks_Spec instead</p>
 </div>
 <table>
 <thead>
@@ -24716,7 +22982,6 @@ ExtendedLocationARM
 </em>
 </td>
 <td>
-<p>ExtendedLocation: The extended location of the virtual network.</p>
 </td>
 </tr>
 <tr>
@@ -24727,7 +22992,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -24738,7 +23002,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Name of the resource</p>
 </td>
 </tr>
 <tr>
@@ -24751,7 +23014,6 @@ VirtualNetworks_Spec_PropertiesARM
 </em>
 </td>
 <td>
-<p>Properties: Properties of the virtual network.</p>
 </td>
 </tr>
 <tr>
@@ -24762,7 +23024,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </tbody>
@@ -24773,6 +23034,7 @@ map[string]string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworks_SpecARM">VirtualNetworks_SpecARM</a>)
 </p>
 <div>
+<p>Deprecated version of VirtualNetworks_Spec_Properties. Use v1beta20201101.VirtualNetworks_Spec_Properties instead</p>
 </div>
 <table>
 <thead>
@@ -24792,7 +23054,6 @@ AddressSpaceARM
 </em>
 </td>
 <td>
-<p>AddressSpace: The AddressSpace that contains an array of IP address ranges that can be used by subnets.</p>
 </td>
 </tr>
 <tr>
@@ -24805,7 +23066,6 @@ VirtualNetworkBgpCommunitiesARM
 </em>
 </td>
 <td>
-<p>BgpCommunities: Bgp Communities sent over ExpressRoute with each route corresponding to a prefix in this VNET.</p>
 </td>
 </tr>
 <tr>
@@ -24818,7 +23078,6 @@ SubResourceARM
 </em>
 </td>
 <td>
-<p>DdosProtectionPlan: The DDoS protection plan associated with the virtual network.</p>
 </td>
 </tr>
 <tr>
@@ -24831,7 +23090,6 @@ DhcpOptionsARM
 </em>
 </td>
 <td>
-<p>DhcpOptions: The dhcpOptions that contains an array of DNS servers available to VMs deployed in the virtual network.</p>
 </td>
 </tr>
 <tr>
@@ -24842,8 +23100,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableDdosProtection: Indicates if DDoS protection is enabled for all the protected resources in the virtual network. It
-requires a DDoS protection plan associated with the resource.</p>
 </td>
 </tr>
 <tr>
@@ -24854,7 +23110,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableVmProtection: Indicates if VM protection is enabled for all the subnets in the virtual network.</p>
 </td>
 </tr>
 <tr>
@@ -24867,7 +23122,6 @@ bool
 </em>
 </td>
 <td>
-<p>IpAllocations: Array of IpAllocation which reference this VNET.</p>
 </td>
 </tr>
 <tr>
@@ -24880,170 +23134,18 @@ bool
 </em>
 </td>
 <td>
-<p>Subnets: A list of subnets in a Virtual Network.</p>
 </td>
 </tr>
-</tbody>
-</table>
-<h3 id="network.azure.com/v1alpha1api20201101.VirtualNetworks_Spec_Properties_Subnets">VirtualNetworks_Spec_Properties_Subnets
-</h3>
-<p>
-(<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworks_Spec">VirtualNetworks_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
 <tr>
 <td>
-<code>addressPrefix</code><br/>
+<code>virtualNetworkPeerings</code><br/>
 <em>
-string
-</em>
-</td>
-<td>
-<p>AddressPrefix: The address prefix for the subnet.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>addressPrefixes</code><br/>
-<em>
-[]string
-</em>
-</td>
-<td>
-<p>AddressPrefixes: List of address prefixes for the subnet.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>delegations</code><br/>
-<em>
-<a href="#network.azure.com/v1alpha1api20201101.VirtualNetworks_Spec_Properties_Subnets_Properties_Delegations">
-[]VirtualNetworks_Spec_Properties_Subnets_Properties_Delegations
+<a href="#network.azure.com/v1alpha1api20201101.VirtualNetworks_Spec_Properties_VirtualNetworkPeeringsARM">
+[]VirtualNetworks_Spec_Properties_VirtualNetworkPeeringsARM
 </a>
 </em>
 </td>
 <td>
-<p>Delegations: An array of references to the delegations on the subnet.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>ipAllocations</code><br/>
-<em>
-<a href="#network.azure.com/v1alpha1api20201101.SubResource">
-[]SubResource
-</a>
-</em>
-</td>
-<td>
-<p>IpAllocations: Array of IpAllocation which reference this subnet.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>natGateway</code><br/>
-<em>
-<a href="#network.azure.com/v1alpha1api20201101.SubResource">
-SubResource
-</a>
-</em>
-</td>
-<td>
-<p>NatGateway: Nat gateway associated with this subnet.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>networkSecurityGroup</code><br/>
-<em>
-<a href="#network.azure.com/v1alpha1api20201101.SubResource">
-SubResource
-</a>
-</em>
-</td>
-<td>
-<p>NetworkSecurityGroup: The reference to the NetworkSecurityGroup resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>privateEndpointNetworkPolicies</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>PrivateEndpointNetworkPolicies: Enable or Disable apply network policies on private end point in the subnet.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>privateLinkServiceNetworkPolicies</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>PrivateLinkServiceNetworkPolicies: Enable or Disable apply network policies on private link service in the subnet.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>routeTable</code><br/>
-<em>
-<a href="#network.azure.com/v1alpha1api20201101.SubResource">
-SubResource
-</a>
-</em>
-</td>
-<td>
-<p>RouteTable: The reference to the RouteTable resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>serviceEndpointPolicies</code><br/>
-<em>
-<a href="#network.azure.com/v1alpha1api20201101.SubResource">
-[]SubResource
-</a>
-</em>
-</td>
-<td>
-<p>ServiceEndpointPolicies: An array of service endpoint policies.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>serviceEndpoints</code><br/>
-<em>
-<a href="#network.azure.com/v1alpha1api20201101.ServiceEndpointPropertiesFormat">
-[]ServiceEndpointPropertiesFormat
-</a>
-</em>
-</td>
-<td>
-<p>ServiceEndpoints: An array of service endpoints.</p>
 </td>
 </tr>
 </tbody>
@@ -25054,6 +23156,7 @@ SubResource
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworks_Spec_PropertiesARM">VirtualNetworks_Spec_PropertiesARM</a>)
 </p>
 <div>
+<p>Deprecated version of VirtualNetworks_Spec_Properties_Subnets. Use v1beta20201101.VirtualNetworks_Spec_Properties_Subnets instead</p>
 </div>
 <table>
 <thead>
@@ -25071,7 +23174,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.</p>
 </td>
 </tr>
 <tr>
@@ -25084,7 +23186,6 @@ VirtualNetworks_Spec_Properties_Subnets_PropertiesARM
 </em>
 </td>
 <td>
-<p>Properties: Properties of the subnet.</p>
 </td>
 </tr>
 </tbody>
@@ -25095,6 +23196,7 @@ VirtualNetworks_Spec_Properties_Subnets_PropertiesARM
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworks_Spec_Properties_SubnetsARM">VirtualNetworks_Spec_Properties_SubnetsARM</a>)
 </p>
 <div>
+<p>Deprecated version of VirtualNetworks_Spec_Properties_Subnets_Properties. Use v1beta20201101.VirtualNetworks_Spec_Properties_Subnets_Properties instead</p>
 </div>
 <table>
 <thead>
@@ -25112,7 +23214,6 @@ string
 </em>
 </td>
 <td>
-<p>AddressPrefix: The address prefix for the subnet.</p>
 </td>
 </tr>
 <tr>
@@ -25123,7 +23224,6 @@ string
 </em>
 </td>
 <td>
-<p>AddressPrefixes: List of address prefixes for the subnet.</p>
 </td>
 </tr>
 <tr>
@@ -25136,7 +23236,6 @@ string
 </em>
 </td>
 <td>
-<p>Delegations: An array of references to the delegations on the subnet.</p>
 </td>
 </tr>
 <tr>
@@ -25149,7 +23248,6 @@ string
 </em>
 </td>
 <td>
-<p>IpAllocations: Array of IpAllocation which reference this subnet.</p>
 </td>
 </tr>
 <tr>
@@ -25162,7 +23260,6 @@ SubResourceARM
 </em>
 </td>
 <td>
-<p>NatGateway: Nat gateway associated with this subnet.</p>
 </td>
 </tr>
 <tr>
@@ -25175,7 +23272,6 @@ SubResourceARM
 </em>
 </td>
 <td>
-<p>NetworkSecurityGroup: The reference to the NetworkSecurityGroup resource.</p>
 </td>
 </tr>
 <tr>
@@ -25186,7 +23282,6 @@ string
 </em>
 </td>
 <td>
-<p>PrivateEndpointNetworkPolicies: Enable or Disable apply network policies on private end point in the subnet.</p>
 </td>
 </tr>
 <tr>
@@ -25197,7 +23292,6 @@ string
 </em>
 </td>
 <td>
-<p>PrivateLinkServiceNetworkPolicies: Enable or Disable apply network policies on private link service in the subnet.</p>
 </td>
 </tr>
 <tr>
@@ -25210,7 +23304,6 @@ SubResourceARM
 </em>
 </td>
 <td>
-<p>RouteTable: The reference to the RouteTable resource.</p>
 </td>
 </tr>
 <tr>
@@ -25223,7 +23316,6 @@ SubResourceARM
 </em>
 </td>
 <td>
-<p>ServiceEndpointPolicies: An array of service endpoint policies.</p>
 </td>
 </tr>
 <tr>
@@ -25236,46 +23328,6 @@ SubResourceARM
 </em>
 </td>
 <td>
-<p>ServiceEndpoints: An array of service endpoints.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="network.azure.com/v1alpha1api20201101.VirtualNetworks_Spec_Properties_Subnets_Properties_Delegations">VirtualNetworks_Spec_Properties_Subnets_Properties_Delegations
-</h3>
-<p>
-(<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworks_Spec_Properties_Subnets">VirtualNetworks_Spec_Properties_Subnets</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The name of the resource that is unique within a subnet. This name can be used to access the resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>serviceName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ServiceName: The name of the service to whom the subnet should be delegated (e.g. Microsoft.Sql/servers).</p>
 </td>
 </tr>
 </tbody>
@@ -25286,6 +23338,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworks_Spec_Properties_Subnets_PropertiesARM">VirtualNetworks_Spec_Properties_Subnets_PropertiesARM</a>)
 </p>
 <div>
+<p>Deprecated version of VirtualNetworks_Spec_Properties_Subnets_Properties_Delegations. Use v1beta20201101.VirtualNetworks_Spec_Properties_Subnets_Properties_Delegations instead</p>
 </div>
 <table>
 <thead>
@@ -25303,7 +23356,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource that is unique within a subnet. This name can be used to access the resource.</p>
 </td>
 </tr>
 <tr>
@@ -25316,7 +23368,46 @@ ServiceDelegationPropertiesFormatARM
 </em>
 </td>
 <td>
-<p>Properties: Properties of the subnet.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network.azure.com/v1alpha1api20201101.VirtualNetworks_Spec_Properties_VirtualNetworkPeeringsARM">VirtualNetworks_Spec_Properties_VirtualNetworkPeeringsARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworks_Spec_PropertiesARM">VirtualNetworks_Spec_PropertiesARM</a>)
+</p>
+<div>
+<p>Deprecated version of VirtualNetworks_Spec_Properties_VirtualNetworkPeerings. Use v1beta20201101.VirtualNetworks_Spec_Properties_VirtualNetworkPeerings instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>properties</code><br/>
+<em>
+<a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkPeeringPropertiesFormatARM">
+VirtualNetworkPeeringPropertiesFormatARM
+</a>
+</em>
+</td>
+<td>
 </td>
 </tr>
 </tbody>
@@ -25327,6 +23418,8 @@ ServiceDelegationPropertiesFormatARM
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VpnClientConfiguration_Status">VpnClientConfiguration_Status</a>, <a href="#network.azure.com/v1alpha1api20201101.VpnClientConfiguration_StatusARM">VpnClientConfiguration_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of VpnClientConfigurationStatusVpnAuthenticationTypes. Use
+v1beta20201101.VpnClientConfigurationStatusVpnAuthenticationTypes instead</p>
 </div>
 <table>
 <thead>
@@ -25349,6 +23442,8 @@ ServiceDelegationPropertiesFormatARM
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VpnClientConfiguration_Status">VpnClientConfiguration_Status</a>, <a href="#network.azure.com/v1alpha1api20201101.VpnClientConfiguration_StatusARM">VpnClientConfiguration_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of VpnClientConfigurationStatusVpnClientProtocols. Use
+v1beta20201101.VpnClientConfigurationStatusVpnClientProtocols instead</p>
 </div>
 <table>
 <thead>
@@ -25371,6 +23466,7 @@ ServiceDelegationPropertiesFormatARM
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGateway_Status">VirtualNetworkGateway_Status</a>)
 </p>
 <div>
+<p>Deprecated version of VpnClientConfiguration_Status. Use v1beta20201101.VpnClientConfiguration_Status instead</p>
 </div>
 <table>
 <thead>
@@ -25388,8 +23484,6 @@ string
 </em>
 </td>
 <td>
-<p>AadAudience: The AADAudience property of the VirtualNetworkGateway resource for vpn client connection used for AAD
-authentication.</p>
 </td>
 </tr>
 <tr>
@@ -25400,8 +23494,6 @@ string
 </em>
 </td>
 <td>
-<p>AadIssuer: The AADIssuer property of the VirtualNetworkGateway resource for vpn client connection used for AAD
-authentication.</p>
 </td>
 </tr>
 <tr>
@@ -25412,8 +23504,6 @@ string
 </em>
 </td>
 <td>
-<p>AadTenant: The AADTenant property of the VirtualNetworkGateway resource for vpn client connection used for AAD
-authentication.</p>
 </td>
 </tr>
 <tr>
@@ -25424,7 +23514,6 @@ string
 </em>
 </td>
 <td>
-<p>RadiusServerAddress: The radius server address property of the VirtualNetworkGateway resource for vpn client connection.</p>
 </td>
 </tr>
 <tr>
@@ -25435,7 +23524,6 @@ string
 </em>
 </td>
 <td>
-<p>RadiusServerSecret: The radius secret property of the VirtualNetworkGateway resource for vpn client connection.</p>
 </td>
 </tr>
 <tr>
@@ -25448,7 +23536,6 @@ string
 </em>
 </td>
 <td>
-<p>RadiusServers: The radiusServers property for multiple radius server configuration.</p>
 </td>
 </tr>
 <tr>
@@ -25461,7 +23548,6 @@ string
 </em>
 </td>
 <td>
-<p>VpnAuthenticationTypes: VPN authentication types for the virtual network gateway..</p>
 </td>
 </tr>
 <tr>
@@ -25474,7 +23560,6 @@ AddressSpace_Status
 </em>
 </td>
 <td>
-<p>VpnClientAddressPool: The reference to the address space resource which represents Address space for P2S VpnClient.</p>
 </td>
 </tr>
 <tr>
@@ -25487,7 +23572,6 @@ AddressSpace_Status
 </em>
 </td>
 <td>
-<p>VpnClientIpsecPolicies: VpnClientIpsecPolicies for virtual network gateway P2S client.</p>
 </td>
 </tr>
 <tr>
@@ -25500,7 +23584,6 @@ AddressSpace_Status
 </em>
 </td>
 <td>
-<p>VpnClientProtocols: VpnClientProtocols for Virtual network gateway.</p>
 </td>
 </tr>
 <tr>
@@ -25513,7 +23596,6 @@ AddressSpace_Status
 </em>
 </td>
 <td>
-<p>VpnClientRevokedCertificates: VpnClientRevokedCertificate for Virtual network gateway.</p>
 </td>
 </tr>
 <tr>
@@ -25526,7 +23608,6 @@ AddressSpace_Status
 </em>
 </td>
 <td>
-<p>VpnClientRootCertificates: VpnClientRootCertificate for virtual network gateway.</p>
 </td>
 </tr>
 </tbody>
@@ -25537,6 +23618,7 @@ AddressSpace_Status
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGatewayPropertiesFormat_StatusARM">VirtualNetworkGatewayPropertiesFormat_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of VpnClientConfiguration_Status. Use v1beta20201101.VpnClientConfiguration_Status instead</p>
 </div>
 <table>
 <thead>
@@ -25554,8 +23636,6 @@ string
 </em>
 </td>
 <td>
-<p>AadAudience: The AADAudience property of the VirtualNetworkGateway resource for vpn client connection used for AAD
-authentication.</p>
 </td>
 </tr>
 <tr>
@@ -25566,8 +23646,6 @@ string
 </em>
 </td>
 <td>
-<p>AadIssuer: The AADIssuer property of the VirtualNetworkGateway resource for vpn client connection used for AAD
-authentication.</p>
 </td>
 </tr>
 <tr>
@@ -25578,8 +23656,6 @@ string
 </em>
 </td>
 <td>
-<p>AadTenant: The AADTenant property of the VirtualNetworkGateway resource for vpn client connection used for AAD
-authentication.</p>
 </td>
 </tr>
 <tr>
@@ -25590,7 +23666,6 @@ string
 </em>
 </td>
 <td>
-<p>RadiusServerAddress: The radius server address property of the VirtualNetworkGateway resource for vpn client connection.</p>
 </td>
 </tr>
 <tr>
@@ -25601,7 +23676,6 @@ string
 </em>
 </td>
 <td>
-<p>RadiusServerSecret: The radius secret property of the VirtualNetworkGateway resource for vpn client connection.</p>
 </td>
 </tr>
 <tr>
@@ -25614,7 +23688,6 @@ string
 </em>
 </td>
 <td>
-<p>RadiusServers: The radiusServers property for multiple radius server configuration.</p>
 </td>
 </tr>
 <tr>
@@ -25627,7 +23700,6 @@ string
 </em>
 </td>
 <td>
-<p>VpnAuthenticationTypes: VPN authentication types for the virtual network gateway..</p>
 </td>
 </tr>
 <tr>
@@ -25640,7 +23712,6 @@ AddressSpace_StatusARM
 </em>
 </td>
 <td>
-<p>VpnClientAddressPool: The reference to the address space resource which represents Address space for P2S VpnClient.</p>
 </td>
 </tr>
 <tr>
@@ -25653,7 +23724,6 @@ AddressSpace_StatusARM
 </em>
 </td>
 <td>
-<p>VpnClientIpsecPolicies: VpnClientIpsecPolicies for virtual network gateway P2S client.</p>
 </td>
 </tr>
 <tr>
@@ -25666,7 +23736,6 @@ AddressSpace_StatusARM
 </em>
 </td>
 <td>
-<p>VpnClientProtocols: VpnClientProtocols for Virtual network gateway.</p>
 </td>
 </tr>
 <tr>
@@ -25679,7 +23748,6 @@ AddressSpace_StatusARM
 </em>
 </td>
 <td>
-<p>VpnClientRevokedCertificates: VpnClientRevokedCertificate for Virtual network gateway.</p>
 </td>
 </tr>
 <tr>
@@ -25692,7 +23760,6 @@ AddressSpace_StatusARM
 </em>
 </td>
 <td>
-<p>VpnClientRootCertificates: VpnClientRootCertificate for virtual network gateway.</p>
 </td>
 </tr>
 </tbody>
@@ -25703,7 +23770,7 @@ AddressSpace_StatusARM
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificatesARM">VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificatesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/VpnClientRevokedCertificatePropertiesFormat">https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/VpnClientRevokedCertificatePropertiesFormat</a></p>
+<p>Deprecated version of VpnClientRevokedCertificatePropertiesFormat. Use v1beta20201101.VpnClientRevokedCertificatePropertiesFormat instead</p>
 </div>
 <table>
 <thead>
@@ -25721,7 +23788,6 @@ string
 </em>
 </td>
 <td>
-<p>Thumbprint: The revoked VPN client certificate thumbprint.</p>
 </td>
 </tr>
 </tbody>
@@ -25732,6 +23798,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VpnClientRevokedCertificate_StatusARM">VpnClientRevokedCertificate_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of VpnClientRevokedCertificatePropertiesFormat_Status. Use v1beta20201101.VpnClientRevokedCertificatePropertiesFormat_Status instead</p>
 </div>
 <table>
 <thead>
@@ -25751,7 +23818,6 @@ ProvisioningState_Status
 </em>
 </td>
 <td>
-<p>ProvisioningState: The provisioning state of the VPN client revoked certificate resource.</p>
 </td>
 </tr>
 <tr>
@@ -25762,7 +23828,6 @@ string
 </em>
 </td>
 <td>
-<p>Thumbprint: The revoked VPN client certificate thumbprint.</p>
 </td>
 </tr>
 </tbody>
@@ -25773,6 +23838,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VpnClientConfiguration_Status">VpnClientConfiguration_Status</a>)
 </p>
 <div>
+<p>Deprecated version of VpnClientRevokedCertificate_Status. Use v1beta20201101.VpnClientRevokedCertificate_Status instead</p>
 </div>
 <table>
 <thead>
@@ -25790,7 +23856,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A unique read-only string that changes whenever the resource is updated.</p>
 </td>
 </tr>
 <tr>
@@ -25801,7 +23866,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 <tr>
@@ -25812,7 +23876,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.</p>
 </td>
 </tr>
 <tr>
@@ -25825,7 +23888,6 @@ ProvisioningState_Status
 </em>
 </td>
 <td>
-<p>ProvisioningState: The provisioning state of the VPN client revoked certificate resource.</p>
 </td>
 </tr>
 <tr>
@@ -25836,7 +23898,6 @@ string
 </em>
 </td>
 <td>
-<p>Thumbprint: The revoked VPN client certificate thumbprint.</p>
 </td>
 </tr>
 </tbody>
@@ -25847,6 +23908,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VpnClientConfiguration_StatusARM">VpnClientConfiguration_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of VpnClientRevokedCertificate_Status. Use v1beta20201101.VpnClientRevokedCertificate_Status instead</p>
 </div>
 <table>
 <thead>
@@ -25864,7 +23926,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A unique read-only string that changes whenever the resource is updated.</p>
 </td>
 </tr>
 <tr>
@@ -25875,7 +23936,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 <tr>
@@ -25886,7 +23946,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.</p>
 </td>
 </tr>
 <tr>
@@ -25899,7 +23958,6 @@ VpnClientRevokedCertificatePropertiesFormat_StatusARM
 </em>
 </td>
 <td>
-<p>Properties: Properties of the vpn client revoked certificate.</p>
 </td>
 </tr>
 </tbody>
@@ -25910,7 +23968,7 @@ VpnClientRevokedCertificatePropertiesFormat_StatusARM
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificatesARM">VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificatesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/VpnClientRootCertificatePropertiesFormat">https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/VpnClientRootCertificatePropertiesFormat</a></p>
+<p>Deprecated version of VpnClientRootCertificatePropertiesFormat. Use v1beta20201101.VpnClientRootCertificatePropertiesFormat instead</p>
 </div>
 <table>
 <thead>
@@ -25928,7 +23986,6 @@ string
 </em>
 </td>
 <td>
-<p>PublicCertData: The certificate public data.</p>
 </td>
 </tr>
 </tbody>
@@ -25939,6 +23996,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VpnClientRootCertificate_StatusARM">VpnClientRootCertificate_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of VpnClientRootCertificatePropertiesFormat_Status. Use v1beta20201101.VpnClientRootCertificatePropertiesFormat_Status instead</p>
 </div>
 <table>
 <thead>
@@ -25958,7 +24016,6 @@ ProvisioningState_Status
 </em>
 </td>
 <td>
-<p>ProvisioningState: The provisioning state of the VPN client root certificate resource.</p>
 </td>
 </tr>
 <tr>
@@ -25969,7 +24026,6 @@ string
 </em>
 </td>
 <td>
-<p>PublicCertData: The certificate public data.</p>
 </td>
 </tr>
 </tbody>
@@ -25980,6 +24036,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VpnClientConfiguration_Status">VpnClientConfiguration_Status</a>)
 </p>
 <div>
+<p>Deprecated version of VpnClientRootCertificate_Status. Use v1beta20201101.VpnClientRootCertificate_Status instead</p>
 </div>
 <table>
 <thead>
@@ -25997,7 +24054,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A unique read-only string that changes whenever the resource is updated.</p>
 </td>
 </tr>
 <tr>
@@ -26008,7 +24064,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 <tr>
@@ -26019,7 +24074,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.</p>
 </td>
 </tr>
 <tr>
@@ -26032,7 +24086,6 @@ ProvisioningState_Status
 </em>
 </td>
 <td>
-<p>ProvisioningState: The provisioning state of the VPN client root certificate resource.</p>
 </td>
 </tr>
 <tr>
@@ -26043,7 +24096,6 @@ string
 </em>
 </td>
 <td>
-<p>PublicCertData: The certificate public data.</p>
 </td>
 </tr>
 </tbody>
@@ -26054,6 +24106,7 @@ string
 (<em>Appears on:</em><a href="#network.azure.com/v1alpha1api20201101.VpnClientConfiguration_StatusARM">VpnClientConfiguration_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of VpnClientRootCertificate_Status. Use v1beta20201101.VpnClientRootCertificate_Status instead</p>
 </div>
 <table>
 <thead>
@@ -26071,7 +24124,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A unique read-only string that changes whenever the resource is updated.</p>
 </td>
 </tr>
 <tr>
@@ -26082,7 +24134,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID.</p>
 </td>
 </tr>
 <tr>
@@ -26093,7 +24144,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.</p>
 </td>
 </tr>
 <tr>
@@ -26106,7 +24156,6 @@ VpnClientRootCertificatePropertiesFormat_StatusARM
 </em>
 </td>
 <td>
-<p>Properties: Properties of the vpn client root certificate.</p>
 </td>
 </tr>
 </tbody>

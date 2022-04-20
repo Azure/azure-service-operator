@@ -17,3 +17,18 @@ spec:
     maxmemory-delta: "10"
     maxmemory-policy: allkeys-lru
   redisVersion: "6"
+  # Optional: Save the connection details for this Redis into a Kubernetes secret
+  operatorSpec:
+    secrets:
+      primaryKey:
+        name: redis-secret
+        key: primaryKey
+      secondaryKey:
+        name: redis-secret
+        key: secondaryKey
+      hostName:
+        name: redis-secret
+        key: hostName
+      sslPort:
+        name: redis-secret
+        key: port

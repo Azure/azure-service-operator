@@ -12,7 +12,7 @@ Resource Types:
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccounts_Spec">DatabaseAccounts_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/AnalyticalStorageConfiguration">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/AnalyticalStorageConfiguration</a></p>
+<p>Deprecated version of AnalyticalStorageConfiguration. Use v1beta20210515.AnalyticalStorageConfiguration instead</p>
 </div>
 <table>
 <thead>
@@ -42,7 +42,7 @@ AnalyticalStorageConfigurationSchemaType
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountCreateUpdatePropertiesARM">DatabaseAccountCreateUpdatePropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/AnalyticalStorageConfiguration">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/AnalyticalStorageConfiguration</a></p>
+<p>Deprecated version of AnalyticalStorageConfiguration. Use v1beta20210515.AnalyticalStorageConfiguration instead</p>
 </div>
 <table>
 <thead>
@@ -72,6 +72,8 @@ AnalyticalStorageConfigurationSchemaType
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.AnalyticalStorageConfiguration">AnalyticalStorageConfiguration</a>, <a href="#documentdb.azure.com/v1alpha1api20210515.AnalyticalStorageConfigurationARM">AnalyticalStorageConfigurationARM</a>)
 </p>
 <div>
+<p>Deprecated version of AnalyticalStorageConfigurationSchemaType. Use
+v1beta20210515.AnalyticalStorageConfigurationSchemaType instead</p>
 </div>
 <table>
 <thead>
@@ -92,6 +94,7 @@ AnalyticalStorageConfigurationSchemaType
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountGetResults_Status">DatabaseAccountGetResults_Status</a>)
 </p>
 <div>
+<p>Deprecated version of AnalyticalStorageConfiguration_Status. Use v1beta20210515.AnalyticalStorageConfiguration_Status instead</p>
 </div>
 <table>
 <thead>
@@ -121,6 +124,7 @@ AnalyticalStorageSchemaType_Status
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountGetProperties_StatusARM">DatabaseAccountGetProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of AnalyticalStorageConfiguration_Status. Use v1beta20210515.AnalyticalStorageConfiguration_Status instead</p>
 </div>
 <table>
 <thead>
@@ -150,6 +154,7 @@ AnalyticalStorageSchemaType_Status
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.AnalyticalStorageConfiguration_Status">AnalyticalStorageConfiguration_Status</a>, <a href="#documentdb.azure.com/v1alpha1api20210515.AnalyticalStorageConfiguration_StatusARM">AnalyticalStorageConfiguration_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of AnalyticalStorageSchemaType_Status. Use v1beta20210515.AnalyticalStorageSchemaType_Status instead</p>
 </div>
 <table>
 <thead>
@@ -170,7 +175,7 @@ AnalyticalStorageSchemaType_Status
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccounts_Spec">DatabaseAccounts_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ApiProperties">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ApiProperties</a></p>
+<p>Deprecated version of ApiProperties. Use v1beta20210515.ApiProperties instead</p>
 </div>
 <table>
 <thead>
@@ -190,7 +195,6 @@ ApiPropertiesServerVersion
 </em>
 </td>
 <td>
-<p>ServerVersion: Describes the ServerVersion of an a MongoDB account.</p>
 </td>
 </tr>
 </tbody>
@@ -201,7 +205,7 @@ ApiPropertiesServerVersion
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountCreateUpdatePropertiesARM">DatabaseAccountCreateUpdatePropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ApiProperties">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ApiProperties</a></p>
+<p>Deprecated version of ApiProperties. Use v1beta20210515.ApiProperties instead</p>
 </div>
 <table>
 <thead>
@@ -221,7 +225,6 @@ ApiPropertiesServerVersion
 </em>
 </td>
 <td>
-<p>ServerVersion: Describes the ServerVersion of an a MongoDB account.</p>
 </td>
 </tr>
 </tbody>
@@ -232,6 +235,7 @@ ApiPropertiesServerVersion
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.ApiProperties">ApiProperties</a>, <a href="#documentdb.azure.com/v1alpha1api20210515.ApiPropertiesARM">ApiPropertiesARM</a>)
 </p>
 <div>
+<p>Deprecated version of ApiPropertiesServerVersion. Use v1beta20210515.ApiPropertiesServerVersion instead</p>
 </div>
 <table>
 <thead>
@@ -254,6 +258,7 @@ ApiPropertiesServerVersion
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.ApiProperties_Status">ApiProperties_Status</a>, <a href="#documentdb.azure.com/v1alpha1api20210515.ApiProperties_StatusARM">ApiProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of ApiPropertiesStatusServerVersion. Use v1beta20210515.ApiPropertiesStatusServerVersion instead</p>
 </div>
 <table>
 <thead>
@@ -276,6 +281,7 @@ ApiPropertiesServerVersion
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountGetResults_Status">DatabaseAccountGetResults_Status</a>)
 </p>
 <div>
+<p>Deprecated version of ApiProperties_Status. Use v1beta20210515.ApiProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -295,7 +301,6 @@ ApiPropertiesStatusServerVersion
 </em>
 </td>
 <td>
-<p>ServerVersion: Describes the ServerVersion of an a MongoDB account.</p>
 </td>
 </tr>
 </tbody>
@@ -306,6 +311,7 @@ ApiPropertiesStatusServerVersion
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountGetProperties_StatusARM">DatabaseAccountGetProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of ApiProperties_Status. Use v1beta20210515.ApiProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -325,7 +331,6 @@ ApiPropertiesStatusServerVersion
 </em>
 </td>
 <td>
-<p>ServerVersion: Describes the ServerVersion of an a MongoDB account.</p>
 </td>
 </tr>
 </tbody>
@@ -336,7 +341,7 @@ ApiPropertiesStatusServerVersion
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.AutoscaleSettingsResource">AutoscaleSettingsResource</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/AutoUpgradePolicyResource">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/AutoUpgradePolicyResource</a></p>
+<p>Deprecated version of AutoUpgradePolicyResource. Use v1beta20210515.AutoUpgradePolicyResource instead</p>
 </div>
 <table>
 <thead>
@@ -356,7 +361,6 @@ ThroughputPolicyResource
 </em>
 </td>
 <td>
-<p>ThroughputPolicy: Cosmos DB resource throughput policy</p>
 </td>
 </tr>
 </tbody>
@@ -367,7 +371,7 @@ ThroughputPolicyResource
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.AutoscaleSettingsResourceARM">AutoscaleSettingsResourceARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/AutoUpgradePolicyResource">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/AutoUpgradePolicyResource</a></p>
+<p>Deprecated version of AutoUpgradePolicyResource. Use v1beta20210515.AutoUpgradePolicyResource instead</p>
 </div>
 <table>
 <thead>
@@ -387,7 +391,6 @@ ThroughputPolicyResourceARM
 </em>
 </td>
 <td>
-<p>ThroughputPolicy: Cosmos DB resource throughput policy</p>
 </td>
 </tr>
 </tbody>
@@ -398,6 +401,7 @@ ThroughputPolicyResourceARM
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.AutoscaleSettingsResource_Status">AutoscaleSettingsResource_Status</a>)
 </p>
 <div>
+<p>Deprecated version of AutoUpgradePolicyResource_Status. Use v1beta20210515.AutoUpgradePolicyResource_Status instead</p>
 </div>
 <table>
 <thead>
@@ -417,7 +421,6 @@ ThroughputPolicyResource_Status
 </em>
 </td>
 <td>
-<p>ThroughputPolicy: Represents throughput policy which service must adhere to for auto-upgrade</p>
 </td>
 </tr>
 </tbody>
@@ -428,6 +431,7 @@ ThroughputPolicyResource_Status
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.AutoscaleSettingsResource_StatusARM">AutoscaleSettingsResource_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of AutoUpgradePolicyResource_Status. Use v1beta20210515.AutoUpgradePolicyResource_Status instead</p>
 </div>
 <table>
 <thead>
@@ -447,7 +451,6 @@ ThroughputPolicyResource_StatusARM
 </em>
 </td>
 <td>
-<p>ThroughputPolicy: Represents throughput policy which service must adhere to for auto-upgrade</p>
 </td>
 </tr>
 </tbody>
@@ -458,7 +461,7 @@ ThroughputPolicyResource_StatusARM
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.CreateUpdateOptions">CreateUpdateOptions</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/AutoscaleSettings">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/AutoscaleSettings</a></p>
+<p>Deprecated version of AutoscaleSettings. Use v1beta20210515.AutoscaleSettings instead</p>
 </div>
 <table>
 <thead>
@@ -476,7 +479,6 @@ int
 </em>
 </td>
 <td>
-<p>MaxThroughput: Represents maximum throughput, the resource can scale up to.</p>
 </td>
 </tr>
 </tbody>
@@ -487,7 +489,7 @@ int
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.CreateUpdateOptionsARM">CreateUpdateOptionsARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/AutoscaleSettings">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/AutoscaleSettings</a></p>
+<p>Deprecated version of AutoscaleSettings. Use v1beta20210515.AutoscaleSettings instead</p>
 </div>
 <table>
 <thead>
@@ -505,7 +507,6 @@ int
 </em>
 </td>
 <td>
-<p>MaxThroughput: Represents maximum throughput, the resource can scale up to.</p>
 </td>
 </tr>
 </tbody>
@@ -516,7 +517,7 @@ int
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.ThroughputSettingsResource">ThroughputSettingsResource</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/AutoscaleSettingsResource">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/AutoscaleSettingsResource</a></p>
+<p>Deprecated version of AutoscaleSettingsResource. Use v1beta20210515.AutoscaleSettingsResource instead</p>
 </div>
 <table>
 <thead>
@@ -536,7 +537,6 @@ AutoUpgradePolicyResource
 </em>
 </td>
 <td>
-<p>AutoUpgradePolicy: Cosmos DB resource auto-upgrade policy</p>
 </td>
 </tr>
 <tr>
@@ -547,7 +547,6 @@ int
 </em>
 </td>
 <td>
-<p>MaxThroughput: Represents maximum throughput container can scale up to.</p>
 </td>
 </tr>
 </tbody>
@@ -558,7 +557,7 @@ int
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.ThroughputSettingsResourceARM">ThroughputSettingsResourceARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/AutoscaleSettingsResource">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/AutoscaleSettingsResource</a></p>
+<p>Deprecated version of AutoscaleSettingsResource. Use v1beta20210515.AutoscaleSettingsResource instead</p>
 </div>
 <table>
 <thead>
@@ -578,7 +577,6 @@ AutoUpgradePolicyResourceARM
 </em>
 </td>
 <td>
-<p>AutoUpgradePolicy: Cosmos DB resource auto-upgrade policy</p>
 </td>
 </tr>
 <tr>
@@ -589,7 +587,6 @@ int
 </em>
 </td>
 <td>
-<p>MaxThroughput: Represents maximum throughput container can scale up to.</p>
 </td>
 </tr>
 </tbody>
@@ -600,6 +597,7 @@ int
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.ThroughputSettingsGetProperties_Status_Resource">ThroughputSettingsGetProperties_Status_Resource</a>)
 </p>
 <div>
+<p>Deprecated version of AutoscaleSettingsResource_Status. Use v1beta20210515.AutoscaleSettingsResource_Status instead</p>
 </div>
 <table>
 <thead>
@@ -619,7 +617,6 @@ AutoUpgradePolicyResource_Status
 </em>
 </td>
 <td>
-<p>AutoUpgradePolicy: Cosmos DB resource auto-upgrade policy</p>
 </td>
 </tr>
 <tr>
@@ -630,7 +627,6 @@ int
 </em>
 </td>
 <td>
-<p>MaxThroughput: Represents maximum throughput container can scale up to.</p>
 </td>
 </tr>
 <tr>
@@ -641,8 +637,6 @@ int
 </em>
 </td>
 <td>
-<p>TargetMaxThroughput: Represents target maximum throughput container can scale up to once offer is no longer in pending
-state.</p>
 </td>
 </tr>
 </tbody>
@@ -653,6 +647,7 @@ state.</p>
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.ThroughputSettingsGetProperties_Status_ResourceARM">ThroughputSettingsGetProperties_Status_ResourceARM</a>)
 </p>
 <div>
+<p>Deprecated version of AutoscaleSettingsResource_Status. Use v1beta20210515.AutoscaleSettingsResource_Status instead</p>
 </div>
 <table>
 <thead>
@@ -672,7 +667,6 @@ AutoUpgradePolicyResource_StatusARM
 </em>
 </td>
 <td>
-<p>AutoUpgradePolicy: Cosmos DB resource auto-upgrade policy</p>
 </td>
 </tr>
 <tr>
@@ -683,7 +677,6 @@ int
 </em>
 </td>
 <td>
-<p>MaxThroughput: Represents maximum throughput container can scale up to.</p>
 </td>
 </tr>
 <tr>
@@ -694,8 +687,6 @@ int
 </em>
 </td>
 <td>
-<p>TargetMaxThroughput: Represents target maximum throughput container can scale up to once offer is no longer in pending
-state.</p>
 </td>
 </tr>
 </tbody>
@@ -706,6 +697,7 @@ state.</p>
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.OptionsResource_Status">OptionsResource_Status</a>)
 </p>
 <div>
+<p>Deprecated version of AutoscaleSettings_Status. Use v1beta20210515.AutoscaleSettings_Status instead</p>
 </div>
 <table>
 <thead>
@@ -723,7 +715,6 @@ int
 </em>
 </td>
 <td>
-<p>MaxThroughput: Represents maximum throughput, the resource can scale up to.</p>
 </td>
 </tr>
 </tbody>
@@ -734,6 +725,7 @@ int
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.OptionsResource_StatusARM">OptionsResource_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of AutoscaleSettings_Status. Use v1beta20210515.AutoscaleSettings_Status instead</p>
 </div>
 <table>
 <thead>
@@ -751,7 +743,6 @@ int
 </em>
 </td>
 <td>
-<p>MaxThroughput: Represents maximum throughput, the resource can scale up to.</p>
 </td>
 </tr>
 </tbody>
@@ -762,7 +753,7 @@ int
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccounts_Spec">DatabaseAccounts_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/BackupPolicy">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/BackupPolicy</a></p>
+<p>Deprecated version of BackupPolicy. Use v1beta20210515.BackupPolicy instead</p>
 </div>
 <table>
 <thead>
@@ -782,7 +773,6 @@ ContinuousModeBackupPolicy
 </em>
 </td>
 <td>
-<p>Continuous: Mutually exclusive with all other properties</p>
 </td>
 </tr>
 <tr>
@@ -795,7 +785,6 @@ PeriodicModeBackupPolicy
 </em>
 </td>
 <td>
-<p>Periodic: Mutually exclusive with all other properties</p>
 </td>
 </tr>
 </tbody>
@@ -806,7 +795,7 @@ PeriodicModeBackupPolicy
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountCreateUpdatePropertiesARM">DatabaseAccountCreateUpdatePropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/BackupPolicy">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/BackupPolicy</a></p>
+<p>Deprecated version of BackupPolicy. Use v1beta20210515.BackupPolicy instead</p>
 </div>
 <table>
 <thead>
@@ -826,7 +815,6 @@ ContinuousModeBackupPolicyARM
 </em>
 </td>
 <td>
-<p>Continuous: Mutually exclusive with all other properties</p>
 </td>
 </tr>
 <tr>
@@ -839,7 +827,6 @@ PeriodicModeBackupPolicyARM
 </em>
 </td>
 <td>
-<p>Periodic: Mutually exclusive with all other properties</p>
 </td>
 </tr>
 </tbody>
@@ -850,6 +837,7 @@ PeriodicModeBackupPolicyARM
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.BackupPolicy_Status">BackupPolicy_Status</a>, <a href="#documentdb.azure.com/v1alpha1api20210515.BackupPolicy_StatusARM">BackupPolicy_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of BackupPolicyType_Status. Use v1beta20210515.BackupPolicyType_Status instead</p>
 </div>
 <table>
 <thead>
@@ -870,6 +858,7 @@ PeriodicModeBackupPolicyARM
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountGetResults_Status">DatabaseAccountGetResults_Status</a>)
 </p>
 <div>
+<p>Deprecated version of BackupPolicy_Status. Use v1beta20210515.BackupPolicy_Status instead</p>
 </div>
 <table>
 <thead>
@@ -899,6 +888,7 @@ BackupPolicyType_Status
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountGetProperties_StatusARM">DatabaseAccountGetProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of BackupPolicy_Status. Use v1beta20210515.BackupPolicy_Status instead</p>
 </div>
 <table>
 <thead>
@@ -928,7 +918,7 @@ BackupPolicyType_Status
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccounts_Spec">DatabaseAccounts_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/Capability">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/Capability</a></p>
+<p>Deprecated version of Capability. Use v1beta20210515.Capability instead</p>
 </div>
 <table>
 <thead>
@@ -946,8 +936,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Name of the Cosmos DB capability. For example, &ldquo;name&rdquo;: &ldquo;EnableCassandra&rdquo;. Current values also include
-&ldquo;EnableTable&rdquo; and &ldquo;EnableGremlin&rdquo;.</p>
 </td>
 </tr>
 </tbody>
@@ -958,7 +946,7 @@ string
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountCreateUpdatePropertiesARM">DatabaseAccountCreateUpdatePropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/Capability">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/Capability</a></p>
+<p>Deprecated version of Capability. Use v1beta20210515.Capability instead</p>
 </div>
 <table>
 <thead>
@@ -976,8 +964,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Name of the Cosmos DB capability. For example, &ldquo;name&rdquo;: &ldquo;EnableCassandra&rdquo;. Current values also include
-&ldquo;EnableTable&rdquo; and &ldquo;EnableGremlin&rdquo;.</p>
 </td>
 </tr>
 </tbody>
@@ -988,6 +974,7 @@ string
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountGetResults_Status">DatabaseAccountGetResults_Status</a>)
 </p>
 <div>
+<p>Deprecated version of Capability_Status. Use v1beta20210515.Capability_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1005,8 +992,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Name of the Cosmos DB capability. For example, &ldquo;name&rdquo;: &ldquo;EnableCassandra&rdquo;. Current values also include
-&ldquo;EnableTable&rdquo; and &ldquo;EnableGremlin&rdquo;.</p>
 </td>
 </tr>
 </tbody>
@@ -1017,6 +1002,7 @@ string
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountGetProperties_StatusARM">DatabaseAccountGetProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of Capability_Status. Use v1beta20210515.Capability_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1034,8 +1020,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Name of the Cosmos DB capability. For example, &ldquo;name&rdquo;: &ldquo;EnableCassandra&rdquo;. Current values also include
-&ldquo;EnableTable&rdquo; and &ldquo;EnableGremlin&rdquo;.</p>
 </td>
 </tr>
 </tbody>
@@ -1046,7 +1030,7 @@ string
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.IndexingPolicy">IndexingPolicy</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/CompositePath">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/CompositePath</a></p>
+<p>Deprecated version of CompositePath. Use v1beta20210515.CompositePath instead</p>
 </div>
 <table>
 <thead>
@@ -1066,7 +1050,6 @@ CompositePathOrder
 </em>
 </td>
 <td>
-<p>Order: Sort order for composite paths.</p>
 </td>
 </tr>
 <tr>
@@ -1077,8 +1060,6 @@ string
 </em>
 </td>
 <td>
-<p>Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
-(/path/*)</p>
 </td>
 </tr>
 </tbody>
@@ -1089,7 +1070,7 @@ string
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.IndexingPolicyARM">IndexingPolicyARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/CompositePath">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/CompositePath</a></p>
+<p>Deprecated version of CompositePath. Use v1beta20210515.CompositePath instead</p>
 </div>
 <table>
 <thead>
@@ -1109,7 +1090,6 @@ CompositePathOrder
 </em>
 </td>
 <td>
-<p>Order: Sort order for composite paths.</p>
 </td>
 </tr>
 <tr>
@@ -1120,8 +1100,6 @@ string
 </em>
 </td>
 <td>
-<p>Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
-(/path/*)</p>
 </td>
 </tr>
 </tbody>
@@ -1132,6 +1110,7 @@ string
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.CompositePath">CompositePath</a>, <a href="#documentdb.azure.com/v1alpha1api20210515.CompositePathARM">CompositePathARM</a>)
 </p>
 <div>
+<p>Deprecated version of CompositePathOrder. Use v1beta20210515.CompositePathOrder instead</p>
 </div>
 <table>
 <thead>
@@ -1152,6 +1131,7 @@ string
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.CompositePath_Status">CompositePath_Status</a>, <a href="#documentdb.azure.com/v1alpha1api20210515.CompositePath_StatusARM">CompositePath_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of CompositePathStatusOrder. Use v1beta20210515.CompositePathStatusOrder instead</p>
 </div>
 <table>
 <thead>
@@ -1172,6 +1152,7 @@ string
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.IndexingPolicy_Status">IndexingPolicy_Status</a>)
 </p>
 <div>
+<p>Deprecated version of CompositePath_Status. Use v1beta20210515.CompositePath_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1191,7 +1172,6 @@ CompositePathStatusOrder
 </em>
 </td>
 <td>
-<p>Order: Sort order for composite paths.</p>
 </td>
 </tr>
 <tr>
@@ -1202,8 +1182,6 @@ string
 </em>
 </td>
 <td>
-<p>Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
-(/path/*)</p>
 </td>
 </tr>
 </tbody>
@@ -1214,6 +1192,7 @@ string
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.IndexingPolicy_StatusARM">IndexingPolicy_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of CompositePath_Status. Use v1beta20210515.CompositePath_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1233,7 +1212,6 @@ CompositePathStatusOrder
 </em>
 </td>
 <td>
-<p>Order: Sort order for composite paths.</p>
 </td>
 </tr>
 <tr>
@@ -1244,8 +1222,6 @@ string
 </em>
 </td>
 <td>
-<p>Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
-(/path/*)</p>
 </td>
 </tr>
 </tbody>
@@ -1256,7 +1232,7 @@ string
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.SqlContainerResource">SqlContainerResource</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ConflictResolutionPolicy">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ConflictResolutionPolicy</a></p>
+<p>Deprecated version of ConflictResolutionPolicy. Use v1beta20210515.ConflictResolutionPolicy instead</p>
 </div>
 <table>
 <thead>
@@ -1274,7 +1250,6 @@ string
 </em>
 </td>
 <td>
-<p>ConflictResolutionPath: The conflict resolution path in the case of LastWriterWins mode.</p>
 </td>
 </tr>
 <tr>
@@ -1285,7 +1260,6 @@ string
 </em>
 </td>
 <td>
-<p>ConflictResolutionProcedure: The procedure to resolve conflicts in the case of custom mode.</p>
 </td>
 </tr>
 <tr>
@@ -1298,7 +1272,6 @@ ConflictResolutionPolicyMode
 </em>
 </td>
 <td>
-<p>Mode: Indicates the conflict resolution mode.</p>
 </td>
 </tr>
 </tbody>
@@ -1309,7 +1282,7 @@ ConflictResolutionPolicyMode
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.SqlContainerResourceARM">SqlContainerResourceARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ConflictResolutionPolicy">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ConflictResolutionPolicy</a></p>
+<p>Deprecated version of ConflictResolutionPolicy. Use v1beta20210515.ConflictResolutionPolicy instead</p>
 </div>
 <table>
 <thead>
@@ -1327,7 +1300,6 @@ string
 </em>
 </td>
 <td>
-<p>ConflictResolutionPath: The conflict resolution path in the case of LastWriterWins mode.</p>
 </td>
 </tr>
 <tr>
@@ -1338,7 +1310,6 @@ string
 </em>
 </td>
 <td>
-<p>ConflictResolutionProcedure: The procedure to resolve conflicts in the case of custom mode.</p>
 </td>
 </tr>
 <tr>
@@ -1351,7 +1322,6 @@ ConflictResolutionPolicyMode
 </em>
 </td>
 <td>
-<p>Mode: Indicates the conflict resolution mode.</p>
 </td>
 </tr>
 </tbody>
@@ -1362,6 +1332,7 @@ ConflictResolutionPolicyMode
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.ConflictResolutionPolicy">ConflictResolutionPolicy</a>, <a href="#documentdb.azure.com/v1alpha1api20210515.ConflictResolutionPolicyARM">ConflictResolutionPolicyARM</a>)
 </p>
 <div>
+<p>Deprecated version of ConflictResolutionPolicyMode. Use v1beta20210515.ConflictResolutionPolicyMode instead</p>
 </div>
 <table>
 <thead>
@@ -1382,6 +1353,7 @@ ConflictResolutionPolicyMode
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.ConflictResolutionPolicy_Status">ConflictResolutionPolicy_Status</a>, <a href="#documentdb.azure.com/v1alpha1api20210515.ConflictResolutionPolicy_StatusARM">ConflictResolutionPolicy_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of ConflictResolutionPolicyStatusMode. Use v1beta20210515.ConflictResolutionPolicyStatusMode instead</p>
 </div>
 <table>
 <thead>
@@ -1402,6 +1374,7 @@ ConflictResolutionPolicyMode
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.SqlContainerGetProperties_Status_Resource">SqlContainerGetProperties_Status_Resource</a>)
 </p>
 <div>
+<p>Deprecated version of ConflictResolutionPolicy_Status. Use v1beta20210515.ConflictResolutionPolicy_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1419,7 +1392,6 @@ string
 </em>
 </td>
 <td>
-<p>ConflictResolutionPath: The conflict resolution path in the case of LastWriterWins mode.</p>
 </td>
 </tr>
 <tr>
@@ -1430,7 +1402,6 @@ string
 </em>
 </td>
 <td>
-<p>ConflictResolutionProcedure: The procedure to resolve conflicts in the case of custom mode.</p>
 </td>
 </tr>
 <tr>
@@ -1443,7 +1414,6 @@ ConflictResolutionPolicyStatusMode
 </em>
 </td>
 <td>
-<p>Mode: Indicates the conflict resolution mode.</p>
 </td>
 </tr>
 </tbody>
@@ -1454,6 +1424,7 @@ ConflictResolutionPolicyStatusMode
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.SqlContainerGetProperties_Status_ResourceARM">SqlContainerGetProperties_Status_ResourceARM</a>)
 </p>
 <div>
+<p>Deprecated version of ConflictResolutionPolicy_Status. Use v1beta20210515.ConflictResolutionPolicy_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1471,7 +1442,6 @@ string
 </em>
 </td>
 <td>
-<p>ConflictResolutionPath: The conflict resolution path in the case of LastWriterWins mode.</p>
 </td>
 </tr>
 <tr>
@@ -1482,7 +1452,6 @@ string
 </em>
 </td>
 <td>
-<p>ConflictResolutionProcedure: The procedure to resolve conflicts in the case of custom mode.</p>
 </td>
 </tr>
 <tr>
@@ -1495,7 +1464,6 @@ ConflictResolutionPolicyStatusMode
 </em>
 </td>
 <td>
-<p>Mode: Indicates the conflict resolution mode.</p>
 </td>
 </tr>
 </tbody>
@@ -1506,6 +1474,7 @@ ConflictResolutionPolicyStatusMode
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountGetProperties_StatusARM">DatabaseAccountGetProperties_StatusARM</a>, <a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountGetResults_Status">DatabaseAccountGetResults_Status</a>)
 </p>
 <div>
+<p>Deprecated version of ConnectorOffer_Status. Use v1beta20210515.ConnectorOffer_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1524,7 +1493,7 @@ ConflictResolutionPolicyStatusMode
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccounts_Spec">DatabaseAccounts_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ConsistencyPolicy">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ConsistencyPolicy</a></p>
+<p>Deprecated version of ConsistencyPolicy. Use v1beta20210515.ConsistencyPolicy instead</p>
 </div>
 <table>
 <thead>
@@ -1544,7 +1513,6 @@ ConsistencyPolicyDefaultConsistencyLevel
 </em>
 </td>
 <td>
-<p>DefaultConsistencyLevel: The default consistency level and configuration settings of the Cosmos DB account.</p>
 </td>
 </tr>
 <tr>
@@ -1555,9 +1523,6 @@ int
 </em>
 </td>
 <td>
-<p>MaxIntervalInSeconds: When used with the Bounded Staleness consistency level, this value represents the time amount of
-staleness (in seconds) tolerated. Accepted range for this value is 5 - 86400. Required when defaultConsistencyPolicy is
-set to &lsquo;BoundedStaleness&rsquo;.</p>
 </td>
 </tr>
 <tr>
@@ -1568,9 +1533,6 @@ int
 </em>
 </td>
 <td>
-<p>MaxStalenessPrefix: When used with the Bounded Staleness consistency level, this value represents the number of stale
-requests tolerated. Accepted range for this value is 1 – 2,147,483,647. Required when defaultConsistencyPolicy is set
-to &lsquo;BoundedStaleness&rsquo;.</p>
 </td>
 </tr>
 </tbody>
@@ -1581,7 +1543,7 @@ to &lsquo;BoundedStaleness&rsquo;.</p>
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountCreateUpdatePropertiesARM">DatabaseAccountCreateUpdatePropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ConsistencyPolicy">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ConsistencyPolicy</a></p>
+<p>Deprecated version of ConsistencyPolicy. Use v1beta20210515.ConsistencyPolicy instead</p>
 </div>
 <table>
 <thead>
@@ -1601,7 +1563,6 @@ ConsistencyPolicyDefaultConsistencyLevel
 </em>
 </td>
 <td>
-<p>DefaultConsistencyLevel: The default consistency level and configuration settings of the Cosmos DB account.</p>
 </td>
 </tr>
 <tr>
@@ -1612,9 +1573,6 @@ int
 </em>
 </td>
 <td>
-<p>MaxIntervalInSeconds: When used with the Bounded Staleness consistency level, this value represents the time amount of
-staleness (in seconds) tolerated. Accepted range for this value is 5 - 86400. Required when defaultConsistencyPolicy is
-set to &lsquo;BoundedStaleness&rsquo;.</p>
 </td>
 </tr>
 <tr>
@@ -1625,9 +1583,6 @@ int
 </em>
 </td>
 <td>
-<p>MaxStalenessPrefix: When used with the Bounded Staleness consistency level, this value represents the number of stale
-requests tolerated. Accepted range for this value is 1 – 2,147,483,647. Required when defaultConsistencyPolicy is set
-to &lsquo;BoundedStaleness&rsquo;.</p>
 </td>
 </tr>
 </tbody>
@@ -1638,6 +1593,8 @@ to &lsquo;BoundedStaleness&rsquo;.</p>
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.ConsistencyPolicy">ConsistencyPolicy</a>, <a href="#documentdb.azure.com/v1alpha1api20210515.ConsistencyPolicyARM">ConsistencyPolicyARM</a>)
 </p>
 <div>
+<p>Deprecated version of ConsistencyPolicyDefaultConsistencyLevel. Use
+v1beta20210515.ConsistencyPolicyDefaultConsistencyLevel instead</p>
 </div>
 <table>
 <thead>
@@ -1664,6 +1621,8 @@ to &lsquo;BoundedStaleness&rsquo;.</p>
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.ConsistencyPolicy_Status">ConsistencyPolicy_Status</a>, <a href="#documentdb.azure.com/v1alpha1api20210515.ConsistencyPolicy_StatusARM">ConsistencyPolicy_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of ConsistencyPolicyStatusDefaultConsistencyLevel. Use
+v1beta20210515.ConsistencyPolicyStatusDefaultConsistencyLevel instead</p>
 </div>
 <table>
 <thead>
@@ -1690,6 +1649,7 @@ to &lsquo;BoundedStaleness&rsquo;.</p>
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountGetResults_Status">DatabaseAccountGetResults_Status</a>)
 </p>
 <div>
+<p>Deprecated version of ConsistencyPolicy_Status. Use v1beta20210515.ConsistencyPolicy_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1709,7 +1669,6 @@ ConsistencyPolicyStatusDefaultConsistencyLevel
 </em>
 </td>
 <td>
-<p>DefaultConsistencyLevel: The default consistency level and configuration settings of the Cosmos DB account.</p>
 </td>
 </tr>
 <tr>
@@ -1720,9 +1679,6 @@ int
 </em>
 </td>
 <td>
-<p>MaxIntervalInSeconds: When used with the Bounded Staleness consistency level, this value represents the time amount of
-staleness (in seconds) tolerated. Accepted range for this value is 5 - 86400. Required when defaultConsistencyPolicy is
-set to &lsquo;BoundedStaleness&rsquo;.</p>
 </td>
 </tr>
 <tr>
@@ -1733,9 +1689,6 @@ int
 </em>
 </td>
 <td>
-<p>MaxStalenessPrefix: When used with the Bounded Staleness consistency level, this value represents the number of stale
-requests tolerated. Accepted range for this value is 1 – 2,147,483,647. Required when defaultConsistencyPolicy is set
-to &lsquo;BoundedStaleness&rsquo;.</p>
 </td>
 </tr>
 </tbody>
@@ -1746,6 +1699,7 @@ to &lsquo;BoundedStaleness&rsquo;.</p>
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountGetProperties_StatusARM">DatabaseAccountGetProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of ConsistencyPolicy_Status. Use v1beta20210515.ConsistencyPolicy_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1765,7 +1719,6 @@ ConsistencyPolicyStatusDefaultConsistencyLevel
 </em>
 </td>
 <td>
-<p>DefaultConsistencyLevel: The default consistency level and configuration settings of the Cosmos DB account.</p>
 </td>
 </tr>
 <tr>
@@ -1776,9 +1729,6 @@ int
 </em>
 </td>
 <td>
-<p>MaxIntervalInSeconds: When used with the Bounded Staleness consistency level, this value represents the time amount of
-staleness (in seconds) tolerated. Accepted range for this value is 5 - 86400. Required when defaultConsistencyPolicy is
-set to &lsquo;BoundedStaleness&rsquo;.</p>
 </td>
 </tr>
 <tr>
@@ -1789,9 +1739,6 @@ int
 </em>
 </td>
 <td>
-<p>MaxStalenessPrefix: When used with the Bounded Staleness consistency level, this value represents the number of stale
-requests tolerated. Accepted range for this value is 1 – 2,147,483,647. Required when defaultConsistencyPolicy is set
-to &lsquo;BoundedStaleness&rsquo;.</p>
 </td>
 </tr>
 </tbody>
@@ -1802,7 +1749,7 @@ to &lsquo;BoundedStaleness&rsquo;.</p>
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.SqlContainerResource">SqlContainerResource</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ContainerPartitionKey">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ContainerPartitionKey</a></p>
+<p>Deprecated version of ContainerPartitionKey. Use v1beta20210515.ContainerPartitionKey instead</p>
 </div>
 <table>
 <thead>
@@ -1822,8 +1769,6 @@ ContainerPartitionKeyKind
 </em>
 </td>
 <td>
-<p>Kind: Indicates the kind of algorithm used for partitioning. For MultiHash, multiple partition keys (upto three maximum)
-are supported for container create.</p>
 </td>
 </tr>
 <tr>
@@ -1834,7 +1779,6 @@ are supported for container create.</p>
 </em>
 </td>
 <td>
-<p>Paths: List of paths using which data within the container can be partitioned</p>
 </td>
 </tr>
 <tr>
@@ -1845,7 +1789,6 @@ int
 </em>
 </td>
 <td>
-<p>Version: Indicates the version of the partition key definition</p>
 </td>
 </tr>
 </tbody>
@@ -1856,7 +1799,7 @@ int
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.SqlContainerResourceARM">SqlContainerResourceARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ContainerPartitionKey">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ContainerPartitionKey</a></p>
+<p>Deprecated version of ContainerPartitionKey. Use v1beta20210515.ContainerPartitionKey instead</p>
 </div>
 <table>
 <thead>
@@ -1876,8 +1819,6 @@ ContainerPartitionKeyKind
 </em>
 </td>
 <td>
-<p>Kind: Indicates the kind of algorithm used for partitioning. For MultiHash, multiple partition keys (upto three maximum)
-are supported for container create.</p>
 </td>
 </tr>
 <tr>
@@ -1888,7 +1829,6 @@ are supported for container create.</p>
 </em>
 </td>
 <td>
-<p>Paths: List of paths using which data within the container can be partitioned</p>
 </td>
 </tr>
 <tr>
@@ -1899,7 +1839,6 @@ int
 </em>
 </td>
 <td>
-<p>Version: Indicates the version of the partition key definition</p>
 </td>
 </tr>
 </tbody>
@@ -1910,6 +1849,7 @@ int
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.ContainerPartitionKey">ContainerPartitionKey</a>, <a href="#documentdb.azure.com/v1alpha1api20210515.ContainerPartitionKeyARM">ContainerPartitionKeyARM</a>)
 </p>
 <div>
+<p>Deprecated version of ContainerPartitionKeyKind. Use v1beta20210515.ContainerPartitionKeyKind instead</p>
 </div>
 <table>
 <thead>
@@ -1932,6 +1872,7 @@ int
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.ContainerPartitionKey_Status">ContainerPartitionKey_Status</a>, <a href="#documentdb.azure.com/v1alpha1api20210515.ContainerPartitionKey_StatusARM">ContainerPartitionKey_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of ContainerPartitionKeyStatusKind. Use v1beta20210515.ContainerPartitionKeyStatusKind instead</p>
 </div>
 <table>
 <thead>
@@ -1954,6 +1895,7 @@ int
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.SqlContainerGetProperties_Status_Resource">SqlContainerGetProperties_Status_Resource</a>)
 </p>
 <div>
+<p>Deprecated version of ContainerPartitionKey_Status. Use v1beta20210515.ContainerPartitionKey_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1973,8 +1915,6 @@ ContainerPartitionKeyStatusKind
 </em>
 </td>
 <td>
-<p>Kind: Indicates the kind of algorithm used for partitioning. For MultiHash, multiple partition keys (upto three maximum)
-are supported for container create</p>
 </td>
 </tr>
 <tr>
@@ -1985,7 +1925,6 @@ are supported for container create</p>
 </em>
 </td>
 <td>
-<p>Paths: List of paths using which data within the container can be partitioned</p>
 </td>
 </tr>
 <tr>
@@ -1996,7 +1935,6 @@ bool
 </em>
 </td>
 <td>
-<p>SystemKey: Indicates if the container is using a system generated partition key</p>
 </td>
 </tr>
 <tr>
@@ -2007,7 +1945,6 @@ int
 </em>
 </td>
 <td>
-<p>Version: Indicates the version of the partition key definition</p>
 </td>
 </tr>
 </tbody>
@@ -2018,6 +1955,7 @@ int
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.SqlContainerGetProperties_Status_ResourceARM">SqlContainerGetProperties_Status_ResourceARM</a>)
 </p>
 <div>
+<p>Deprecated version of ContainerPartitionKey_Status. Use v1beta20210515.ContainerPartitionKey_Status instead</p>
 </div>
 <table>
 <thead>
@@ -2037,8 +1975,6 @@ ContainerPartitionKeyStatusKind
 </em>
 </td>
 <td>
-<p>Kind: Indicates the kind of algorithm used for partitioning. For MultiHash, multiple partition keys (upto three maximum)
-are supported for container create</p>
 </td>
 </tr>
 <tr>
@@ -2049,7 +1985,6 @@ are supported for container create</p>
 </em>
 </td>
 <td>
-<p>Paths: List of paths using which data within the container can be partitioned</p>
 </td>
 </tr>
 <tr>
@@ -2060,7 +1995,6 @@ bool
 </em>
 </td>
 <td>
-<p>SystemKey: Indicates if the container is using a system generated partition key</p>
 </td>
 </tr>
 <tr>
@@ -2071,7 +2005,6 @@ int
 </em>
 </td>
 <td>
-<p>Version: Indicates the version of the partition key definition</p>
 </td>
 </tr>
 </tbody>
@@ -2082,7 +2015,7 @@ int
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.BackupPolicy">BackupPolicy</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ContinuousModeBackupPolicy">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ContinuousModeBackupPolicy</a></p>
+<p>Deprecated version of ContinuousModeBackupPolicy. Use v1beta20210515.ContinuousModeBackupPolicy instead</p>
 </div>
 <table>
 <thead>
@@ -2112,7 +2045,7 @@ ContinuousModeBackupPolicyType
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.BackupPolicyARM">BackupPolicyARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ContinuousModeBackupPolicy">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ContinuousModeBackupPolicy</a></p>
+<p>Deprecated version of ContinuousModeBackupPolicy. Use v1beta20210515.ContinuousModeBackupPolicy instead</p>
 </div>
 <table>
 <thead>
@@ -2142,6 +2075,7 @@ ContinuousModeBackupPolicyType
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.ContinuousModeBackupPolicy">ContinuousModeBackupPolicy</a>, <a href="#documentdb.azure.com/v1alpha1api20210515.ContinuousModeBackupPolicyARM">ContinuousModeBackupPolicyARM</a>)
 </p>
 <div>
+<p>Deprecated version of ContinuousModeBackupPolicyType. Use v1beta20210515.ContinuousModeBackupPolicyType instead</p>
 </div>
 <table>
 <thead>
@@ -2160,7 +2094,7 @@ ContinuousModeBackupPolicyType
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccounts_Spec">DatabaseAccounts_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/CorsPolicy">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/CorsPolicy</a></p>
+<p>Deprecated version of CorsPolicy. Use v1beta20210515.CorsPolicy instead</p>
 </div>
 <table>
 <thead>
@@ -2178,7 +2112,6 @@ string
 </em>
 </td>
 <td>
-<p>AllowedHeaders: The request headers that the origin domain may specify on the CORS request.</p>
 </td>
 </tr>
 <tr>
@@ -2189,7 +2122,6 @@ string
 </em>
 </td>
 <td>
-<p>AllowedMethods: The methods (HTTP request verbs) that the origin domain may use for a CORS request.</p>
 </td>
 </tr>
 <tr>
@@ -2200,7 +2132,6 @@ string
 </em>
 </td>
 <td>
-<p>AllowedOrigins: The origin domains that are permitted to make a request against the service via CORS.</p>
 </td>
 </tr>
 <tr>
@@ -2211,8 +2142,6 @@ string
 </em>
 </td>
 <td>
-<p>ExposedHeaders: The response headers that may be sent in the response to the CORS request and exposed by the browser to
-the request issuer.</p>
 </td>
 </tr>
 <tr>
@@ -2223,7 +2152,6 @@ int
 </em>
 </td>
 <td>
-<p>MaxAgeInSeconds: The maximum amount time that a browser should cache the preflight OPTIONS request.</p>
 </td>
 </tr>
 </tbody>
@@ -2234,7 +2162,7 @@ int
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountCreateUpdatePropertiesARM">DatabaseAccountCreateUpdatePropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/CorsPolicy">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/CorsPolicy</a></p>
+<p>Deprecated version of CorsPolicy. Use v1beta20210515.CorsPolicy instead</p>
 </div>
 <table>
 <thead>
@@ -2252,7 +2180,6 @@ string
 </em>
 </td>
 <td>
-<p>AllowedHeaders: The request headers that the origin domain may specify on the CORS request.</p>
 </td>
 </tr>
 <tr>
@@ -2263,7 +2190,6 @@ string
 </em>
 </td>
 <td>
-<p>AllowedMethods: The methods (HTTP request verbs) that the origin domain may use for a CORS request.</p>
 </td>
 </tr>
 <tr>
@@ -2274,7 +2200,6 @@ string
 </em>
 </td>
 <td>
-<p>AllowedOrigins: The origin domains that are permitted to make a request against the service via CORS.</p>
 </td>
 </tr>
 <tr>
@@ -2285,8 +2210,6 @@ string
 </em>
 </td>
 <td>
-<p>ExposedHeaders: The response headers that may be sent in the response to the CORS request and exposed by the browser to
-the request issuer.</p>
 </td>
 </tr>
 <tr>
@@ -2297,7 +2220,6 @@ int
 </em>
 </td>
 <td>
-<p>MaxAgeInSeconds: The maximum amount time that a browser should cache the preflight OPTIONS request.</p>
 </td>
 </tr>
 </tbody>
@@ -2308,6 +2230,7 @@ int
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountGetResults_Status">DatabaseAccountGetResults_Status</a>)
 </p>
 <div>
+<p>Deprecated version of CorsPolicy_Status. Use v1beta20210515.CorsPolicy_Status instead</p>
 </div>
 <table>
 <thead>
@@ -2325,7 +2248,6 @@ string
 </em>
 </td>
 <td>
-<p>AllowedHeaders: The request headers that the origin domain may specify on the CORS request.</p>
 </td>
 </tr>
 <tr>
@@ -2336,7 +2258,6 @@ string
 </em>
 </td>
 <td>
-<p>AllowedMethods: The methods (HTTP request verbs) that the origin domain may use for a CORS request.</p>
 </td>
 </tr>
 <tr>
@@ -2347,7 +2268,6 @@ string
 </em>
 </td>
 <td>
-<p>AllowedOrigins: The origin domains that are permitted to make a request against the service via CORS.</p>
 </td>
 </tr>
 <tr>
@@ -2358,8 +2278,6 @@ string
 </em>
 </td>
 <td>
-<p>ExposedHeaders: The response headers that may be sent in the response to the CORS request and exposed by the browser to
-the request issuer.</p>
 </td>
 </tr>
 <tr>
@@ -2370,7 +2288,6 @@ int
 </em>
 </td>
 <td>
-<p>MaxAgeInSeconds: The maximum amount time that a browser should cache the preflight OPTIONS request.</p>
 </td>
 </tr>
 </tbody>
@@ -2381,6 +2298,7 @@ int
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountGetProperties_StatusARM">DatabaseAccountGetProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of CorsPolicy_Status. Use v1beta20210515.CorsPolicy_Status instead</p>
 </div>
 <table>
 <thead>
@@ -2398,7 +2316,6 @@ string
 </em>
 </td>
 <td>
-<p>AllowedHeaders: The request headers that the origin domain may specify on the CORS request.</p>
 </td>
 </tr>
 <tr>
@@ -2409,7 +2326,6 @@ string
 </em>
 </td>
 <td>
-<p>AllowedMethods: The methods (HTTP request verbs) that the origin domain may use for a CORS request.</p>
 </td>
 </tr>
 <tr>
@@ -2420,7 +2336,6 @@ string
 </em>
 </td>
 <td>
-<p>AllowedOrigins: The origin domains that are permitted to make a request against the service via CORS.</p>
 </td>
 </tr>
 <tr>
@@ -2431,8 +2346,6 @@ string
 </em>
 </td>
 <td>
-<p>ExposedHeaders: The response headers that may be sent in the response to the CORS request and exposed by the browser to
-the request issuer.</p>
 </td>
 </tr>
 <tr>
@@ -2443,7 +2356,6 @@ int
 </em>
 </td>
 <td>
-<p>MaxAgeInSeconds: The maximum amount time that a browser should cache the preflight OPTIONS request.</p>
 </td>
 </tr>
 </tbody>
@@ -2454,7 +2366,7 @@ int
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountsMongodbDatabasesCollections_Spec">DatabaseAccountsMongodbDatabasesCollections_Spec</a>, <a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountsMongodbDatabases_Spec">DatabaseAccountsMongodbDatabases_Spec</a>, <a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec">DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec</a>, <a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountsSqlDatabasesContainersTriggers_Spec">DatabaseAccountsSqlDatabasesContainersTriggers_Spec</a>, <a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec">DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec</a>, <a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountsSqlDatabasesContainers_Spec">DatabaseAccountsSqlDatabasesContainers_Spec</a>, <a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountsSqlDatabases_Spec">DatabaseAccountsSqlDatabases_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/CreateUpdateOptions">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/CreateUpdateOptions</a></p>
+<p>Deprecated version of CreateUpdateOptions. Use v1beta20210515.CreateUpdateOptions instead</p>
 </div>
 <table>
 <thead>
@@ -2484,7 +2396,6 @@ int
 </em>
 </td>
 <td>
-<p>Throughput: Request Units per second. For example, &ldquo;throughput&rdquo;: 10000.</p>
 </td>
 </tr>
 </tbody>
@@ -2495,7 +2406,7 @@ int
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.MongoDBCollectionCreateUpdatePropertiesARM">MongoDBCollectionCreateUpdatePropertiesARM</a>, <a href="#documentdb.azure.com/v1alpha1api20210515.MongoDBDatabaseCreateUpdatePropertiesARM">MongoDBDatabaseCreateUpdatePropertiesARM</a>, <a href="#documentdb.azure.com/v1alpha1api20210515.SqlContainerCreateUpdatePropertiesARM">SqlContainerCreateUpdatePropertiesARM</a>, <a href="#documentdb.azure.com/v1alpha1api20210515.SqlDatabaseCreateUpdatePropertiesARM">SqlDatabaseCreateUpdatePropertiesARM</a>, <a href="#documentdb.azure.com/v1alpha1api20210515.SqlStoredProcedureCreateUpdatePropertiesARM">SqlStoredProcedureCreateUpdatePropertiesARM</a>, <a href="#documentdb.azure.com/v1alpha1api20210515.SqlTriggerCreateUpdatePropertiesARM">SqlTriggerCreateUpdatePropertiesARM</a>, <a href="#documentdb.azure.com/v1alpha1api20210515.SqlUserDefinedFunctionCreateUpdatePropertiesARM">SqlUserDefinedFunctionCreateUpdatePropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/CreateUpdateOptions">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/CreateUpdateOptions</a></p>
+<p>Deprecated version of CreateUpdateOptions. Use v1beta20210515.CreateUpdateOptions instead</p>
 </div>
 <table>
 <thead>
@@ -2525,7 +2436,6 @@ int
 </em>
 </td>
 <td>
-<p>Throughput: Request Units per second. For example, &ldquo;throughput&rdquo;: 10000.</p>
 </td>
 </tr>
 </tbody>
@@ -2533,7 +2443,7 @@ int
 <h3 id="documentdb.azure.com/v1alpha1api20210515.DatabaseAccount">DatabaseAccount
 </h3>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts</a></p>
+<p>Deprecated version of DatabaseAccount. Use v1beta20210515.DatabaseAccount instead</p>
 </div>
 <table>
 <thead>
@@ -2580,7 +2490,6 @@ AnalyticalStorageConfiguration
 </em>
 </td>
 <td>
-<p>AnalyticalStorageConfiguration: Analytical storage specific properties.</p>
 </td>
 </tr>
 <tr>
@@ -2617,7 +2526,6 @@ BackupPolicy
 </em>
 </td>
 <td>
-<p>BackupPolicy: The object representing the policy for taking backups on an account.</p>
 </td>
 </tr>
 <tr>
@@ -2630,7 +2538,6 @@ BackupPolicy
 </em>
 </td>
 <td>
-<p>Capabilities: List of Cosmos DB capabilities for the account</p>
 </td>
 </tr>
 <tr>
@@ -2643,7 +2550,6 @@ DatabaseAccountCreateUpdatePropertiesConnectorOffer
 </em>
 </td>
 <td>
-<p>ConnectorOffer: The cassandra connector offer type for the Cosmos DB database C* account.</p>
 </td>
 </tr>
 <tr>
@@ -2656,7 +2562,6 @@ ConsistencyPolicy
 </em>
 </td>
 <td>
-<p>ConsistencyPolicy: The consistency policy for the Cosmos DB database account.</p>
 </td>
 </tr>
 <tr>
@@ -2669,7 +2574,6 @@ ConsistencyPolicy
 </em>
 </td>
 <td>
-<p>Cors: The CORS policy for the Cosmos DB database account.</p>
 </td>
 </tr>
 <tr>
@@ -2682,7 +2586,6 @@ DatabaseAccountCreateUpdatePropertiesDatabaseAccountOfferType
 </em>
 </td>
 <td>
-<p>DatabaseAccountOfferType: The offer type for the database</p>
 </td>
 </tr>
 <tr>
@@ -2693,8 +2596,6 @@ string
 </em>
 </td>
 <td>
-<p>DefaultIdentity: The default identity for accessing key vault used in features like customer managed keys. The default
-identity needs to be explicitly set by the users. It can be &ldquo;FirstPartyIdentity&rdquo;, &ldquo;SystemAssignedIdentity&rdquo; and more.</p>
 </td>
 </tr>
 <tr>
@@ -2705,8 +2606,6 @@ bool
 </em>
 </td>
 <td>
-<p>DisableKeyBasedMetadataWriteAccess: Disable write operations on metadata resources (databases, containers, throughput)
-via account keys</p>
 </td>
 </tr>
 <tr>
@@ -2717,7 +2616,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableAnalyticalStorage: Flag to indicate whether to enable storage analytics.</p>
 </td>
 </tr>
 <tr>
@@ -2728,9 +2626,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableAutomaticFailover: Enables automatic failover of the write region in the rare event that the region is unavailable
-due to an outage. Automatic failover will result in a new write region for the account and is chosen based on the
-failover priorities configured for the account.</p>
 </td>
 </tr>
 <tr>
@@ -2741,7 +2636,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableCassandraConnector: Enables the cassandra connector on the Cosmos DB C* account</p>
 </td>
 </tr>
 <tr>
@@ -2752,7 +2646,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableFreeTier: Flag to indicate whether Free Tier is enabled.</p>
 </td>
 </tr>
 <tr>
@@ -2763,7 +2656,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableMultipleWriteLocations: Enables the account to write in multiple locations</p>
 </td>
 </tr>
 <tr>
@@ -2776,7 +2668,6 @@ ManagedServiceIdentity
 </em>
 </td>
 <td>
-<p>Identity: Identity for the resource.</p>
 </td>
 </tr>
 <tr>
@@ -2789,7 +2680,6 @@ ManagedServiceIdentity
 </em>
 </td>
 <td>
-<p>IpRules: Array of IpAddressOrRange objects.</p>
 </td>
 </tr>
 <tr>
@@ -2800,7 +2690,6 @@ bool
 </em>
 </td>
 <td>
-<p>IsVirtualNetworkFilterEnabled: Flag to indicate whether to enable/disable Virtual Network ACL rules.</p>
 </td>
 </tr>
 <tr>
@@ -2811,7 +2700,6 @@ string
 </em>
 </td>
 <td>
-<p>KeyVaultKeyUri: The URI of the key vault</p>
 </td>
 </tr>
 <tr>
@@ -2824,7 +2712,6 @@ DatabaseAccountsSpecKind
 </em>
 </td>
 <td>
-<p>Kind: Indicates the type of database account. This can only be set at database account creation.</p>
 </td>
 </tr>
 <tr>
@@ -2835,7 +2722,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The location of the resource group to which the resource belongs.</p>
 </td>
 </tr>
 <tr>
@@ -2848,7 +2734,6 @@ string
 </em>
 </td>
 <td>
-<p>Locations: An array that contains the georeplication locations enabled for the Cosmos DB account.</p>
 </td>
 </tr>
 <tr>
@@ -2861,7 +2746,6 @@ DatabaseAccountCreateUpdatePropertiesNetworkAclBypass
 </em>
 </td>
 <td>
-<p>NetworkAclBypass: Indicates what services are allowed to bypass firewall checks.</p>
 </td>
 </tr>
 <tr>
@@ -2872,7 +2756,6 @@ DatabaseAccountCreateUpdatePropertiesNetworkAclBypass
 </em>
 </td>
 <td>
-<p>NetworkAclBypassResourceIds: An array that contains the Resource Ids for Network Acl Bypass for the Cosmos DB account.</p>
 </td>
 </tr>
 <tr>
@@ -2899,6 +2782,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -2911,7 +2797,6 @@ DatabaseAccountCreateUpdatePropertiesPublicNetworkAccess
 </em>
 </td>
 <td>
-<p>PublicNetworkAccess: Whether requests from Public Network are allowed.</p>
 </td>
 </tr>
 <tr>
@@ -2922,11 +2807,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
-resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
-greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
-type is set with &ldquo;defaultExperience&rdquo;: &ldquo;Cassandra&rdquo;. Current &ldquo;defaultExperience&rdquo; values also include &ldquo;Table&rdquo;, &ldquo;Graph&rdquo;,
-&ldquo;DocumentDB&rdquo;, and &ldquo;MongoDB&rdquo;.</p>
 </td>
 </tr>
 <tr>
@@ -2939,7 +2819,6 @@ type is set with &ldquo;defaultExperience&rdquo;: &ldquo;Cassandra&rdquo;. Curre
 </em>
 </td>
 <td>
-<p>VirtualNetworkRules: List of Virtual Network ACL rules configured for the Cosmos DB account.</p>
 </td>
 </tr>
 </table>
@@ -2965,7 +2844,7 @@ DatabaseAccountGetResults_Status
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccounts_SpecARM">DatabaseAccounts_SpecARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/DatabaseAccountCreateUpdateProperties">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/DatabaseAccountCreateUpdateProperties</a></p>
+<p>Deprecated version of DatabaseAccountCreateUpdateProperties. Use v1beta20210515.DatabaseAccountCreateUpdateProperties instead</p>
 </div>
 <table>
 <thead>
@@ -2985,7 +2864,6 @@ AnalyticalStorageConfigurationARM
 </em>
 </td>
 <td>
-<p>AnalyticalStorageConfiguration: Analytical storage specific properties.</p>
 </td>
 </tr>
 <tr>
@@ -3010,7 +2888,6 @@ BackupPolicyARM
 </em>
 </td>
 <td>
-<p>BackupPolicy: The object representing the policy for taking backups on an account.</p>
 </td>
 </tr>
 <tr>
@@ -3023,7 +2900,6 @@ BackupPolicyARM
 </em>
 </td>
 <td>
-<p>Capabilities: List of Cosmos DB capabilities for the account</p>
 </td>
 </tr>
 <tr>
@@ -3036,7 +2912,6 @@ DatabaseAccountCreateUpdatePropertiesConnectorOffer
 </em>
 </td>
 <td>
-<p>ConnectorOffer: The cassandra connector offer type for the Cosmos DB database C* account.</p>
 </td>
 </tr>
 <tr>
@@ -3049,7 +2924,6 @@ ConsistencyPolicyARM
 </em>
 </td>
 <td>
-<p>ConsistencyPolicy: The consistency policy for the Cosmos DB database account.</p>
 </td>
 </tr>
 <tr>
@@ -3062,7 +2936,6 @@ ConsistencyPolicyARM
 </em>
 </td>
 <td>
-<p>Cors: The CORS policy for the Cosmos DB database account.</p>
 </td>
 </tr>
 <tr>
@@ -3075,7 +2948,6 @@ DatabaseAccountCreateUpdatePropertiesDatabaseAccountOfferType
 </em>
 </td>
 <td>
-<p>DatabaseAccountOfferType: The offer type for the database</p>
 </td>
 </tr>
 <tr>
@@ -3086,8 +2958,6 @@ string
 </em>
 </td>
 <td>
-<p>DefaultIdentity: The default identity for accessing key vault used in features like customer managed keys. The default
-identity needs to be explicitly set by the users. It can be &ldquo;FirstPartyIdentity&rdquo;, &ldquo;SystemAssignedIdentity&rdquo; and more.</p>
 </td>
 </tr>
 <tr>
@@ -3098,8 +2968,6 @@ bool
 </em>
 </td>
 <td>
-<p>DisableKeyBasedMetadataWriteAccess: Disable write operations on metadata resources (databases, containers, throughput)
-via account keys</p>
 </td>
 </tr>
 <tr>
@@ -3110,7 +2978,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableAnalyticalStorage: Flag to indicate whether to enable storage analytics.</p>
 </td>
 </tr>
 <tr>
@@ -3121,9 +2988,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableAutomaticFailover: Enables automatic failover of the write region in the rare event that the region is unavailable
-due to an outage. Automatic failover will result in a new write region for the account and is chosen based on the
-failover priorities configured for the account.</p>
 </td>
 </tr>
 <tr>
@@ -3134,7 +2998,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableCassandraConnector: Enables the cassandra connector on the Cosmos DB C* account</p>
 </td>
 </tr>
 <tr>
@@ -3145,7 +3008,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableFreeTier: Flag to indicate whether Free Tier is enabled.</p>
 </td>
 </tr>
 <tr>
@@ -3156,7 +3018,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableMultipleWriteLocations: Enables the account to write in multiple locations</p>
 </td>
 </tr>
 <tr>
@@ -3169,7 +3030,6 @@ bool
 </em>
 </td>
 <td>
-<p>IpRules: Array of IpAddressOrRange objects.</p>
 </td>
 </tr>
 <tr>
@@ -3180,7 +3040,6 @@ bool
 </em>
 </td>
 <td>
-<p>IsVirtualNetworkFilterEnabled: Flag to indicate whether to enable/disable Virtual Network ACL rules.</p>
 </td>
 </tr>
 <tr>
@@ -3191,7 +3050,6 @@ string
 </em>
 </td>
 <td>
-<p>KeyVaultKeyUri: The URI of the key vault</p>
 </td>
 </tr>
 <tr>
@@ -3204,7 +3062,6 @@ string
 </em>
 </td>
 <td>
-<p>Locations: An array that contains the georeplication locations enabled for the Cosmos DB account.</p>
 </td>
 </tr>
 <tr>
@@ -3217,7 +3074,6 @@ DatabaseAccountCreateUpdatePropertiesNetworkAclBypass
 </em>
 </td>
 <td>
-<p>NetworkAclBypass: Indicates what services are allowed to bypass firewall checks.</p>
 </td>
 </tr>
 <tr>
@@ -3228,7 +3084,6 @@ DatabaseAccountCreateUpdatePropertiesNetworkAclBypass
 </em>
 </td>
 <td>
-<p>NetworkAclBypassResourceIds: An array that contains the Resource Ids for Network Acl Bypass for the Cosmos DB account.</p>
 </td>
 </tr>
 <tr>
@@ -3241,7 +3096,6 @@ DatabaseAccountCreateUpdatePropertiesPublicNetworkAccess
 </em>
 </td>
 <td>
-<p>PublicNetworkAccess: Whether requests from Public Network are allowed.</p>
 </td>
 </tr>
 <tr>
@@ -3254,7 +3108,6 @@ DatabaseAccountCreateUpdatePropertiesPublicNetworkAccess
 </em>
 </td>
 <td>
-<p>VirtualNetworkRules: List of Virtual Network ACL rules configured for the Cosmos DB account.</p>
 </td>
 </tr>
 </tbody>
@@ -3265,6 +3118,8 @@ DatabaseAccountCreateUpdatePropertiesPublicNetworkAccess
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountCreateUpdatePropertiesARM">DatabaseAccountCreateUpdatePropertiesARM</a>, <a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccounts_Spec">DatabaseAccounts_Spec</a>)
 </p>
 <div>
+<p>Deprecated version of DatabaseAccountCreateUpdatePropertiesConnectorOffer. Use
+v1beta20210515.DatabaseAccountCreateUpdatePropertiesConnectorOffer instead</p>
 </div>
 <table>
 <thead>
@@ -3283,6 +3138,8 @@ DatabaseAccountCreateUpdatePropertiesPublicNetworkAccess
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountCreateUpdatePropertiesARM">DatabaseAccountCreateUpdatePropertiesARM</a>, <a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccounts_Spec">DatabaseAccounts_Spec</a>)
 </p>
 <div>
+<p>Deprecated version of DatabaseAccountCreateUpdatePropertiesDatabaseAccountOfferType. Use
+v1beta20210515.DatabaseAccountCreateUpdatePropertiesDatabaseAccountOfferType instead</p>
 </div>
 <table>
 <thead>
@@ -3301,6 +3158,8 @@ DatabaseAccountCreateUpdatePropertiesPublicNetworkAccess
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountCreateUpdatePropertiesARM">DatabaseAccountCreateUpdatePropertiesARM</a>, <a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccounts_Spec">DatabaseAccounts_Spec</a>)
 </p>
 <div>
+<p>Deprecated version of DatabaseAccountCreateUpdatePropertiesNetworkAclBypass. Use
+v1beta20210515.DatabaseAccountCreateUpdatePropertiesNetworkAclBypass instead</p>
 </div>
 <table>
 <thead>
@@ -3321,6 +3180,8 @@ DatabaseAccountCreateUpdatePropertiesPublicNetworkAccess
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountCreateUpdatePropertiesARM">DatabaseAccountCreateUpdatePropertiesARM</a>, <a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccounts_Spec">DatabaseAccounts_Spec</a>)
 </p>
 <div>
+<p>Deprecated version of DatabaseAccountCreateUpdatePropertiesPublicNetworkAccess. Use
+v1beta20210515.DatabaseAccountCreateUpdatePropertiesPublicNetworkAccess instead</p>
 </div>
 <table>
 <thead>
@@ -3341,6 +3202,7 @@ DatabaseAccountCreateUpdatePropertiesPublicNetworkAccess
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountGetResults_StatusARM">DatabaseAccountGetResults_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of DatabaseAccountGetProperties_Status. Use v1beta20210515.DatabaseAccountGetProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -3360,7 +3222,6 @@ AnalyticalStorageConfiguration_StatusARM
 </em>
 </td>
 <td>
-<p>AnalyticalStorageConfiguration: Analytical storage specific properties.</p>
 </td>
 </tr>
 <tr>
@@ -3373,7 +3234,6 @@ ApiProperties_StatusARM
 </em>
 </td>
 <td>
-<p>ApiProperties: API specific properties.</p>
 </td>
 </tr>
 <tr>
@@ -3386,7 +3246,6 @@ BackupPolicy_StatusARM
 </em>
 </td>
 <td>
-<p>BackupPolicy: The object representing the policy for taking backups on an account.</p>
 </td>
 </tr>
 <tr>
@@ -3399,7 +3258,6 @@ BackupPolicy_StatusARM
 </em>
 </td>
 <td>
-<p>Capabilities: List of Cosmos DB capabilities for the account</p>
 </td>
 </tr>
 <tr>
@@ -3412,7 +3270,6 @@ ConnectorOffer_Status
 </em>
 </td>
 <td>
-<p>ConnectorOffer: The cassandra connector offer type for the Cosmos DB database C* account.</p>
 </td>
 </tr>
 <tr>
@@ -3425,7 +3282,6 @@ ConsistencyPolicy_StatusARM
 </em>
 </td>
 <td>
-<p>ConsistencyPolicy: The consistency policy for the Cosmos DB database account.</p>
 </td>
 </tr>
 <tr>
@@ -3438,7 +3294,6 @@ ConsistencyPolicy_StatusARM
 </em>
 </td>
 <td>
-<p>Cors: The CORS policy for the Cosmos DB database account.</p>
 </td>
 </tr>
 <tr>
@@ -3451,7 +3306,6 @@ DatabaseAccountOfferType_Status
 </em>
 </td>
 <td>
-<p>DatabaseAccountOfferType: The offer type for the Cosmos DB database account. Default value: Standard.</p>
 </td>
 </tr>
 <tr>
@@ -3462,8 +3316,6 @@ string
 </em>
 </td>
 <td>
-<p>DefaultIdentity: The default identity for accessing key vault used in features like customer managed keys. The default
-identity needs to be explicitly set by the users. It can be &ldquo;FirstPartyIdentity&rdquo;, &ldquo;SystemAssignedIdentity&rdquo; and more.</p>
 </td>
 </tr>
 <tr>
@@ -3474,8 +3326,6 @@ bool
 </em>
 </td>
 <td>
-<p>DisableKeyBasedMetadataWriteAccess: Disable write operations on metadata resources (databases, containers, throughput)
-via account keys</p>
 </td>
 </tr>
 <tr>
@@ -3486,7 +3336,6 @@ string
 </em>
 </td>
 <td>
-<p>DocumentEndpoint: The connection endpoint for the Cosmos DB database account.</p>
 </td>
 </tr>
 <tr>
@@ -3497,7 +3346,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableAnalyticalStorage: Flag to indicate whether to enable storage analytics.</p>
 </td>
 </tr>
 <tr>
@@ -3508,9 +3356,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableAutomaticFailover: Enables automatic failover of the write region in the rare event that the region is unavailable
-due to an outage. Automatic failover will result in a new write region for the account and is chosen based on the
-failover priorities configured for the account.</p>
 </td>
 </tr>
 <tr>
@@ -3521,7 +3366,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableCassandraConnector: Enables the cassandra connector on the Cosmos DB C* account</p>
 </td>
 </tr>
 <tr>
@@ -3532,7 +3376,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableFreeTier: Flag to indicate whether Free Tier is enabled.</p>
 </td>
 </tr>
 <tr>
@@ -3543,7 +3386,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableMultipleWriteLocations: Enables the account to write in multiple locations</p>
 </td>
 </tr>
 <tr>
@@ -3556,7 +3398,6 @@ bool
 </em>
 </td>
 <td>
-<p>FailoverPolicies: An array that contains the regions ordered by their failover priorities.</p>
 </td>
 </tr>
 <tr>
@@ -3569,7 +3410,6 @@ bool
 </em>
 </td>
 <td>
-<p>IpRules: List of IpRules.</p>
 </td>
 </tr>
 <tr>
@@ -3580,7 +3420,6 @@ bool
 </em>
 </td>
 <td>
-<p>IsVirtualNetworkFilterEnabled: Flag to indicate whether to enable/disable Virtual Network ACL rules.</p>
 </td>
 </tr>
 <tr>
@@ -3591,7 +3430,6 @@ string
 </em>
 </td>
 <td>
-<p>KeyVaultKeyUri: The URI of the key vault</p>
 </td>
 </tr>
 <tr>
@@ -3604,7 +3442,6 @@ string
 </em>
 </td>
 <td>
-<p>Locations: An array that contains all of the locations enabled for the Cosmos DB account.</p>
 </td>
 </tr>
 <tr>
@@ -3617,7 +3454,6 @@ NetworkAclBypass_Status
 </em>
 </td>
 <td>
-<p>NetworkAclBypass: Indicates what services are allowed to bypass firewall checks.</p>
 </td>
 </tr>
 <tr>
@@ -3628,7 +3464,6 @@ NetworkAclBypass_Status
 </em>
 </td>
 <td>
-<p>NetworkAclBypassResourceIds: An array that contains the Resource Ids for Network Acl Bypass for the Cosmos DB account.</p>
 </td>
 </tr>
 <tr>
@@ -3641,7 +3476,6 @@ NetworkAclBypass_Status
 </em>
 </td>
 <td>
-<p>PrivateEndpointConnections: List of Private Endpoint Connections configured for the Cosmos DB account.</p>
 </td>
 </tr>
 <tr>
@@ -3664,7 +3498,6 @@ PublicNetworkAccess_Status
 </em>
 </td>
 <td>
-<p>PublicNetworkAccess: Whether requests from Public Network are allowed</p>
 </td>
 </tr>
 <tr>
@@ -3677,7 +3510,6 @@ PublicNetworkAccess_Status
 </em>
 </td>
 <td>
-<p>ReadLocations: An array that contains of the read locations enabled for the Cosmos DB account.</p>
 </td>
 </tr>
 <tr>
@@ -3690,7 +3522,6 @@ PublicNetworkAccess_Status
 </em>
 </td>
 <td>
-<p>VirtualNetworkRules: List of Virtual Network ACL rules configured for the Cosmos DB account.</p>
 </td>
 </tr>
 <tr>
@@ -3703,7 +3534,6 @@ PublicNetworkAccess_Status
 </em>
 </td>
 <td>
-<p>WriteLocations: An array that contains the write location for the Cosmos DB account.</p>
 </td>
 </tr>
 </tbody>
@@ -3714,6 +3544,7 @@ PublicNetworkAccess_Status
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountGetResults_Status">DatabaseAccountGetResults_Status</a>, <a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountGetResults_StatusARM">DatabaseAccountGetResults_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of DatabaseAccountGetResultsStatusKind. Use v1beta20210515.DatabaseAccountGetResultsStatusKind instead</p>
 </div>
 <table>
 <thead>
@@ -3736,6 +3567,7 @@ PublicNetworkAccess_Status
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccount">DatabaseAccount</a>)
 </p>
 <div>
+<p>Deprecated version of DatabaseAccountGetResults_Status. Use v1beta20210515.DatabaseAccountGetResults_Status instead</p>
 </div>
 <table>
 <thead>
@@ -3755,7 +3587,6 @@ AnalyticalStorageConfiguration_Status
 </em>
 </td>
 <td>
-<p>AnalyticalStorageConfiguration: Analytical storage specific properties.</p>
 </td>
 </tr>
 <tr>
@@ -3768,7 +3599,6 @@ ApiProperties_Status
 </em>
 </td>
 <td>
-<p>ApiProperties: API specific properties.</p>
 </td>
 </tr>
 <tr>
@@ -3781,7 +3611,6 @@ BackupPolicy_Status
 </em>
 </td>
 <td>
-<p>BackupPolicy: The object representing the policy for taking backups on an account.</p>
 </td>
 </tr>
 <tr>
@@ -3794,7 +3623,6 @@ BackupPolicy_Status
 </em>
 </td>
 <td>
-<p>Capabilities: List of Cosmos DB capabilities for the account</p>
 </td>
 </tr>
 <tr>
@@ -3820,7 +3648,6 @@ ConnectorOffer_Status
 </em>
 </td>
 <td>
-<p>ConnectorOffer: The cassandra connector offer type for the Cosmos DB database C* account.</p>
 </td>
 </tr>
 <tr>
@@ -3833,7 +3660,6 @@ ConsistencyPolicy_Status
 </em>
 </td>
 <td>
-<p>ConsistencyPolicy: The consistency policy for the Cosmos DB database account.</p>
 </td>
 </tr>
 <tr>
@@ -3846,7 +3672,6 @@ ConsistencyPolicy_Status
 </em>
 </td>
 <td>
-<p>Cors: The CORS policy for the Cosmos DB database account.</p>
 </td>
 </tr>
 <tr>
@@ -3859,7 +3684,6 @@ DatabaseAccountOfferType_Status
 </em>
 </td>
 <td>
-<p>DatabaseAccountOfferType: The offer type for the Cosmos DB database account. Default value: Standard.</p>
 </td>
 </tr>
 <tr>
@@ -3870,8 +3694,6 @@ string
 </em>
 </td>
 <td>
-<p>DefaultIdentity: The default identity for accessing key vault used in features like customer managed keys. The default
-identity needs to be explicitly set by the users. It can be &ldquo;FirstPartyIdentity&rdquo;, &ldquo;SystemAssignedIdentity&rdquo; and more.</p>
 </td>
 </tr>
 <tr>
@@ -3882,8 +3704,6 @@ bool
 </em>
 </td>
 <td>
-<p>DisableKeyBasedMetadataWriteAccess: Disable write operations on metadata resources (databases, containers, throughput)
-via account keys</p>
 </td>
 </tr>
 <tr>
@@ -3894,7 +3714,6 @@ string
 </em>
 </td>
 <td>
-<p>DocumentEndpoint: The connection endpoint for the Cosmos DB database account.</p>
 </td>
 </tr>
 <tr>
@@ -3905,7 +3724,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableAnalyticalStorage: Flag to indicate whether to enable storage analytics.</p>
 </td>
 </tr>
 <tr>
@@ -3916,9 +3734,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableAutomaticFailover: Enables automatic failover of the write region in the rare event that the region is unavailable
-due to an outage. Automatic failover will result in a new write region for the account and is chosen based on the
-failover priorities configured for the account.</p>
 </td>
 </tr>
 <tr>
@@ -3929,7 +3744,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableCassandraConnector: Enables the cassandra connector on the Cosmos DB C* account</p>
 </td>
 </tr>
 <tr>
@@ -3940,7 +3754,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableFreeTier: Flag to indicate whether Free Tier is enabled.</p>
 </td>
 </tr>
 <tr>
@@ -3951,7 +3764,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableMultipleWriteLocations: Enables the account to write in multiple locations</p>
 </td>
 </tr>
 <tr>
@@ -3964,7 +3776,6 @@ bool
 </em>
 </td>
 <td>
-<p>FailoverPolicies: An array that contains the regions ordered by their failover priorities.</p>
 </td>
 </tr>
 <tr>
@@ -3975,7 +3786,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: The unique resource identifier of the ARM resource.</p>
 </td>
 </tr>
 <tr>
@@ -4000,7 +3810,6 @@ ManagedServiceIdentity_Status
 </em>
 </td>
 <td>
-<p>IpRules: List of IpRules.</p>
 </td>
 </tr>
 <tr>
@@ -4011,7 +3820,6 @@ bool
 </em>
 </td>
 <td>
-<p>IsVirtualNetworkFilterEnabled: Flag to indicate whether to enable/disable Virtual Network ACL rules.</p>
 </td>
 </tr>
 <tr>
@@ -4022,7 +3830,6 @@ string
 </em>
 </td>
 <td>
-<p>KeyVaultKeyUri: The URI of the key vault</p>
 </td>
 </tr>
 <tr>
@@ -4035,7 +3842,6 @@ DatabaseAccountGetResultsStatusKind
 </em>
 </td>
 <td>
-<p>Kind: Indicates the type of database account. This can only be set at database account creation.</p>
 </td>
 </tr>
 <tr>
@@ -4046,7 +3852,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The location of the resource group to which the resource belongs.</p>
 </td>
 </tr>
 <tr>
@@ -4059,7 +3864,6 @@ string
 </em>
 </td>
 <td>
-<p>Locations: An array that contains all of the locations enabled for the Cosmos DB account.</p>
 </td>
 </tr>
 <tr>
@@ -4070,7 +3874,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the ARM resource.</p>
 </td>
 </tr>
 <tr>
@@ -4083,7 +3886,6 @@ NetworkAclBypass_Status
 </em>
 </td>
 <td>
-<p>NetworkAclBypass: Indicates what services are allowed to bypass firewall checks.</p>
 </td>
 </tr>
 <tr>
@@ -4094,7 +3896,6 @@ NetworkAclBypass_Status
 </em>
 </td>
 <td>
-<p>NetworkAclBypassResourceIds: An array that contains the Resource Ids for Network Acl Bypass for the Cosmos DB account.</p>
 </td>
 </tr>
 <tr>
@@ -4107,7 +3908,6 @@ NetworkAclBypass_Status
 </em>
 </td>
 <td>
-<p>PrivateEndpointConnections: List of Private Endpoint Connections configured for the Cosmos DB account.</p>
 </td>
 </tr>
 <tr>
@@ -4130,7 +3930,6 @@ PublicNetworkAccess_Status
 </em>
 </td>
 <td>
-<p>PublicNetworkAccess: Whether requests from Public Network are allowed</p>
 </td>
 </tr>
 <tr>
@@ -4143,7 +3942,6 @@ PublicNetworkAccess_Status
 </em>
 </td>
 <td>
-<p>ReadLocations: An array that contains of the read locations enabled for the Cosmos DB account.</p>
 </td>
 </tr>
 <tr>
@@ -4164,7 +3962,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: The type of Azure resource.</p>
 </td>
 </tr>
 <tr>
@@ -4177,7 +3974,6 @@ string
 </em>
 </td>
 <td>
-<p>VirtualNetworkRules: List of Virtual Network ACL rules configured for the Cosmos DB account.</p>
 </td>
 </tr>
 <tr>
@@ -4190,7 +3986,6 @@ string
 </em>
 </td>
 <td>
-<p>WriteLocations: An array that contains the write location for the Cosmos DB account.</p>
 </td>
 </tr>
 </tbody>
@@ -4198,6 +3993,7 @@ string
 <h3 id="documentdb.azure.com/v1alpha1api20210515.DatabaseAccountGetResults_StatusARM">DatabaseAccountGetResults_StatusARM
 </h3>
 <div>
+<p>Deprecated version of DatabaseAccountGetResults_Status. Use v1beta20210515.DatabaseAccountGetResults_Status instead</p>
 </div>
 <table>
 <thead>
@@ -4215,7 +4011,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: The unique resource identifier of the ARM resource.</p>
 </td>
 </tr>
 <tr>
@@ -4240,7 +4035,6 @@ DatabaseAccountGetResultsStatusKind
 </em>
 </td>
 <td>
-<p>Kind: Indicates the type of database account. This can only be set at database account creation.</p>
 </td>
 </tr>
 <tr>
@@ -4251,7 +4045,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The location of the resource group to which the resource belongs.</p>
 </td>
 </tr>
 <tr>
@@ -4262,7 +4055,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the ARM resource.</p>
 </td>
 </tr>
 <tr>
@@ -4295,7 +4087,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: The type of Azure resource.</p>
 </td>
 </tr>
 </tbody>
@@ -4306,6 +4097,7 @@ string
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountGetProperties_StatusARM">DatabaseAccountGetProperties_StatusARM</a>, <a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountGetResults_Status">DatabaseAccountGetResults_Status</a>)
 </p>
 <div>
+<p>Deprecated version of DatabaseAccountOfferType_Status. Use v1beta20210515.DatabaseAccountOfferType_Status instead</p>
 </div>
 <table>
 <thead>
@@ -4436,36 +4228,6 @@ DatabaseAccountOperatorSecrets
 </tr>
 </tbody>
 </table>
-<h3 id="documentdb.azure.com/v1alpha1api20210515.DatabaseAccountsMongodbDatabasesCollectionsSpecAPIVersion">DatabaseAccountsMongodbDatabasesCollectionsSpecAPIVersion
-(<code>string</code> alias)</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;2021-05-15&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="documentdb.azure.com/v1alpha1api20210515.DatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpecAPIVersion">DatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpecAPIVersion
-(<code>string</code> alias)</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;2021-05-15&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
 <h3 id="documentdb.azure.com/v1alpha1api20210515.DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec">DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec
 </h3>
 <p>
@@ -4489,7 +4251,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The location of the resource group to which the resource belongs.</p>
 </td>
 </tr>
 <tr>
@@ -4502,6 +4263,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a documentdb.azure.com/MongodbDatabaseCollection resource</p>
 </td>
 </tr>
 <tr>
@@ -4514,8 +4278,6 @@ ThroughputSettingsResource
 </em>
 </td>
 <td>
-<p>Resource: Cosmos DB resource throughput object. Either throughput is required or autoscaleSettings is required, but not
-both.</p>
 </td>
 </tr>
 <tr>
@@ -4526,11 +4288,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
-resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
-greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
-type is set with &ldquo;defaultExperience&rdquo;: &ldquo;Cassandra&rdquo;. Current &ldquo;defaultExperience&rdquo; values also include &ldquo;Table&rdquo;, &ldquo;Graph&rdquo;,
-&ldquo;DocumentDB&rdquo;, and &ldquo;MongoDB&rdquo;.</p>
 </td>
 </tr>
 </tbody>
@@ -4538,6 +4295,7 @@ type is set with &ldquo;defaultExperience&rdquo;: &ldquo;Cassandra&rdquo;. Curre
 <h3 id="documentdb.azure.com/v1alpha1api20210515.DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SpecARM">DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SpecARM
 </h3>
 <div>
+<p>Deprecated version of DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec. Use v1beta20210515.DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec instead</p>
 </div>
 <table>
 <thead>
@@ -4555,7 +4313,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The location of the resource group to which the resource belongs.</p>
 </td>
 </tr>
 <tr>
@@ -4566,7 +4323,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Name of the resource</p>
 </td>
 </tr>
 <tr>
@@ -4579,7 +4335,6 @@ ThroughputSettingsUpdatePropertiesARM
 </em>
 </td>
 <td>
-<p>Properties: Properties to update Azure Cosmos DB resource throughput.</p>
 </td>
 </tr>
 <tr>
@@ -4590,11 +4345,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
-resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
-greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
-type is set with &ldquo;defaultExperience&rdquo;: &ldquo;Cassandra&rdquo;. Current &ldquo;defaultExperience&rdquo; values also include &ldquo;Table&rdquo;, &ldquo;Graph&rdquo;,
-&ldquo;DocumentDB&rdquo;, and &ldquo;MongoDB&rdquo;.</p>
 </td>
 </tr>
 </tbody>
@@ -4634,7 +4384,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The location of the resource group to which the resource belongs.</p>
 </td>
 </tr>
 <tr>
@@ -4647,8 +4396,6 @@ CreateUpdateOptions
 </em>
 </td>
 <td>
-<p>Options: CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are &ldquo;If-Match&rdquo;,
-&ldquo;If-None-Match&rdquo;, &ldquo;Session-Token&rdquo; and &ldquo;Throughput&rdquo;</p>
 </td>
 </tr>
 <tr>
@@ -4661,6 +4408,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a documentdb.azure.com/MongodbDatabase resource</p>
 </td>
 </tr>
 <tr>
@@ -4673,7 +4423,6 @@ MongoDBCollectionResource
 </em>
 </td>
 <td>
-<p>Resource: Cosmos DB MongoDB collection resource object</p>
 </td>
 </tr>
 <tr>
@@ -4684,11 +4433,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
-resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
-greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
-type is set with &ldquo;defaultExperience&rdquo;: &ldquo;Cassandra&rdquo;. Current &ldquo;defaultExperience&rdquo; values also include &ldquo;Table&rdquo;, &ldquo;Graph&rdquo;,
-&ldquo;DocumentDB&rdquo;, and &ldquo;MongoDB&rdquo;.</p>
 </td>
 </tr>
 </tbody>
@@ -4696,6 +4440,7 @@ type is set with &ldquo;defaultExperience&rdquo;: &ldquo;Cassandra&rdquo;. Curre
 <h3 id="documentdb.azure.com/v1alpha1api20210515.DatabaseAccountsMongodbDatabasesCollections_SpecARM">DatabaseAccountsMongodbDatabasesCollections_SpecARM
 </h3>
 <div>
+<p>Deprecated version of DatabaseAccountsMongodbDatabasesCollections_Spec. Use v1beta20210515.DatabaseAccountsMongodbDatabasesCollections_Spec instead</p>
 </div>
 <table>
 <thead>
@@ -4713,7 +4458,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The location of the resource group to which the resource belongs.</p>
 </td>
 </tr>
 <tr>
@@ -4724,7 +4468,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Cosmos DB collection name.</p>
 </td>
 </tr>
 <tr>
@@ -4737,7 +4480,6 @@ MongoDBCollectionCreateUpdatePropertiesARM
 </em>
 </td>
 <td>
-<p>Properties: Properties to create and update Azure Cosmos DB MongoDB collection.</p>
 </td>
 </tr>
 <tr>
@@ -4748,44 +4490,9 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
-resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
-greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
-type is set with &ldquo;defaultExperience&rdquo;: &ldquo;Cassandra&rdquo;. Current &ldquo;defaultExperience&rdquo; values also include &ldquo;Table&rdquo;, &ldquo;Graph&rdquo;,
-&ldquo;DocumentDB&rdquo;, and &ldquo;MongoDB&rdquo;.</p>
 </td>
 </tr>
 </tbody>
-</table>
-<h3 id="documentdb.azure.com/v1alpha1api20210515.DatabaseAccountsMongodbDatabasesSpecAPIVersion">DatabaseAccountsMongodbDatabasesSpecAPIVersion
-(<code>string</code> alias)</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;2021-05-15&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="documentdb.azure.com/v1alpha1api20210515.DatabaseAccountsMongodbDatabasesThroughputSettingsSpecAPIVersion">DatabaseAccountsMongodbDatabasesThroughputSettingsSpecAPIVersion
-(<code>string</code> alias)</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;2021-05-15&#34;</p></td>
-<td></td>
-</tr></tbody>
 </table>
 <h3 id="documentdb.azure.com/v1alpha1api20210515.DatabaseAccountsMongodbDatabasesThroughputSettings_Spec">DatabaseAccountsMongodbDatabasesThroughputSettings_Spec
 </h3>
@@ -4810,7 +4517,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The location of the resource group to which the resource belongs.</p>
 </td>
 </tr>
 <tr>
@@ -4823,6 +4529,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a documentdb.azure.com/MongodbDatabase resource</p>
 </td>
 </tr>
 <tr>
@@ -4835,8 +4544,6 @@ ThroughputSettingsResource
 </em>
 </td>
 <td>
-<p>Resource: Cosmos DB resource throughput object. Either throughput is required or autoscaleSettings is required, but not
-both.</p>
 </td>
 </tr>
 <tr>
@@ -4847,11 +4554,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
-resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
-greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
-type is set with &ldquo;defaultExperience&rdquo;: &ldquo;Cassandra&rdquo;. Current &ldquo;defaultExperience&rdquo; values also include &ldquo;Table&rdquo;, &ldquo;Graph&rdquo;,
-&ldquo;DocumentDB&rdquo;, and &ldquo;MongoDB&rdquo;.</p>
 </td>
 </tr>
 </tbody>
@@ -4859,6 +4561,7 @@ type is set with &ldquo;defaultExperience&rdquo;: &ldquo;Cassandra&rdquo;. Curre
 <h3 id="documentdb.azure.com/v1alpha1api20210515.DatabaseAccountsMongodbDatabasesThroughputSettings_SpecARM">DatabaseAccountsMongodbDatabasesThroughputSettings_SpecARM
 </h3>
 <div>
+<p>Deprecated version of DatabaseAccountsMongodbDatabasesThroughputSettings_Spec. Use v1beta20210515.DatabaseAccountsMongodbDatabasesThroughputSettings_Spec instead</p>
 </div>
 <table>
 <thead>
@@ -4876,7 +4579,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The location of the resource group to which the resource belongs.</p>
 </td>
 </tr>
 <tr>
@@ -4887,7 +4589,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Name of the resource</p>
 </td>
 </tr>
 <tr>
@@ -4900,7 +4601,6 @@ ThroughputSettingsUpdatePropertiesARM
 </em>
 </td>
 <td>
-<p>Properties: Properties to update Azure Cosmos DB resource throughput.</p>
 </td>
 </tr>
 <tr>
@@ -4911,11 +4611,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
-resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
-greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
-type is set with &ldquo;defaultExperience&rdquo;: &ldquo;Cassandra&rdquo;. Current &ldquo;defaultExperience&rdquo; values also include &ldquo;Table&rdquo;, &ldquo;Graph&rdquo;,
-&ldquo;DocumentDB&rdquo;, and &ldquo;MongoDB&rdquo;.</p>
 </td>
 </tr>
 </tbody>
@@ -4955,7 +4650,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The location of the resource group to which the resource belongs.</p>
 </td>
 </tr>
 <tr>
@@ -4968,8 +4662,6 @@ CreateUpdateOptions
 </em>
 </td>
 <td>
-<p>Options: CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are &ldquo;If-Match&rdquo;,
-&ldquo;If-None-Match&rdquo;, &ldquo;Session-Token&rdquo; and &ldquo;Throughput&rdquo;</p>
 </td>
 </tr>
 <tr>
@@ -4982,6 +4674,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a documentdb.azure.com/DatabaseAccount resource</p>
 </td>
 </tr>
 <tr>
@@ -4994,7 +4689,6 @@ MongoDBDatabaseResource
 </em>
 </td>
 <td>
-<p>Resource: Cosmos DB MongoDB database resource object</p>
 </td>
 </tr>
 <tr>
@@ -5005,11 +4699,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
-resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
-greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
-type is set with &ldquo;defaultExperience&rdquo;: &ldquo;Cassandra&rdquo;. Current &ldquo;defaultExperience&rdquo; values also include &ldquo;Table&rdquo;, &ldquo;Graph&rdquo;,
-&ldquo;DocumentDB&rdquo;, and &ldquo;MongoDB&rdquo;.</p>
 </td>
 </tr>
 </tbody>
@@ -5017,6 +4706,7 @@ type is set with &ldquo;defaultExperience&rdquo;: &ldquo;Cassandra&rdquo;. Curre
 <h3 id="documentdb.azure.com/v1alpha1api20210515.DatabaseAccountsMongodbDatabases_SpecARM">DatabaseAccountsMongodbDatabases_SpecARM
 </h3>
 <div>
+<p>Deprecated version of DatabaseAccountsMongodbDatabases_Spec. Use v1beta20210515.DatabaseAccountsMongodbDatabases_Spec instead</p>
 </div>
 <table>
 <thead>
@@ -5034,7 +4724,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The location of the resource group to which the resource belongs.</p>
 </td>
 </tr>
 <tr>
@@ -5045,7 +4734,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Cosmos DB database name.</p>
 </td>
 </tr>
 <tr>
@@ -5058,7 +4746,6 @@ MongoDBDatabaseCreateUpdatePropertiesARM
 </em>
 </td>
 <td>
-<p>Properties: Properties to create and update Azure Cosmos DB MongoDB database.</p>
 </td>
 </tr>
 <tr>
@@ -5069,29 +4756,9 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
-resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
-greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
-type is set with &ldquo;defaultExperience&rdquo;: &ldquo;Cassandra&rdquo;. Current &ldquo;defaultExperience&rdquo; values also include &ldquo;Table&rdquo;, &ldquo;Graph&rdquo;,
-&ldquo;DocumentDB&rdquo;, and &ldquo;MongoDB&rdquo;.</p>
 </td>
 </tr>
 </tbody>
-</table>
-<h3 id="documentdb.azure.com/v1alpha1api20210515.DatabaseAccountsSpecAPIVersion">DatabaseAccountsSpecAPIVersion
-(<code>string</code> alias)</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;2021-05-15&#34;</p></td>
-<td></td>
-</tr></tbody>
 </table>
 <h3 id="documentdb.azure.com/v1alpha1api20210515.DatabaseAccountsSpecKind">DatabaseAccountsSpecKind
 (<code>string</code> alias)</h3>
@@ -5099,6 +4766,7 @@ type is set with &ldquo;defaultExperience&rdquo;: &ldquo;Cassandra&rdquo;. Curre
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccounts_Spec">DatabaseAccounts_Spec</a>, <a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccounts_SpecARM">DatabaseAccounts_SpecARM</a>)
 </p>
 <div>
+<p>Deprecated version of DatabaseAccountsSpecKind. Use v1beta20210515.DatabaseAccountsSpecKind instead</p>
 </div>
 <table>
 <thead>
@@ -5112,36 +4780,6 @@ type is set with &ldquo;defaultExperience&rdquo;: &ldquo;Cassandra&rdquo;. Curre
 </tr><tr><td><p>&#34;MongoDB&#34;</p></td>
 <td></td>
 </tr><tr><td><p>&#34;Parse&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="documentdb.azure.com/v1alpha1api20210515.DatabaseAccountsSqlDatabasesContainersSpecAPIVersion">DatabaseAccountsSqlDatabasesContainersSpecAPIVersion
-(<code>string</code> alias)</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;2021-05-15&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="documentdb.azure.com/v1alpha1api20210515.DatabaseAccountsSqlDatabasesContainersStoredProceduresSpecAPIVersion">DatabaseAccountsSqlDatabasesContainersStoredProceduresSpecAPIVersion
-(<code>string</code> alias)</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;2021-05-15&#34;</p></td>
 <td></td>
 </tr></tbody>
 </table>
@@ -5180,7 +4818,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The location of the resource group to which the resource belongs.</p>
 </td>
 </tr>
 <tr>
@@ -5193,8 +4830,6 @@ CreateUpdateOptions
 </em>
 </td>
 <td>
-<p>Options: CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are &ldquo;If-Match&rdquo;,
-&ldquo;If-None-Match&rdquo;, &ldquo;Session-Token&rdquo; and &ldquo;Throughput&rdquo;</p>
 </td>
 </tr>
 <tr>
@@ -5207,6 +4842,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a documentdb.azure.com/SqlDatabaseContainer resource</p>
 </td>
 </tr>
 <tr>
@@ -5219,7 +4857,6 @@ SqlStoredProcedureResource
 </em>
 </td>
 <td>
-<p>Resource: Cosmos DB SQL storedProcedure resource object</p>
 </td>
 </tr>
 <tr>
@@ -5230,11 +4867,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
-resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
-greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
-type is set with &ldquo;defaultExperience&rdquo;: &ldquo;Cassandra&rdquo;. Current &ldquo;defaultExperience&rdquo; values also include &ldquo;Table&rdquo;, &ldquo;Graph&rdquo;,
-&ldquo;DocumentDB&rdquo;, and &ldquo;MongoDB&rdquo;.</p>
 </td>
 </tr>
 </tbody>
@@ -5242,6 +4874,7 @@ type is set with &ldquo;defaultExperience&rdquo;: &ldquo;Cassandra&rdquo;. Curre
 <h3 id="documentdb.azure.com/v1alpha1api20210515.DatabaseAccountsSqlDatabasesContainersStoredProcedures_SpecARM">DatabaseAccountsSqlDatabasesContainersStoredProcedures_SpecARM
 </h3>
 <div>
+<p>Deprecated version of DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec. Use v1beta20210515.DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec instead</p>
 </div>
 <table>
 <thead>
@@ -5259,7 +4892,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The location of the resource group to which the resource belongs.</p>
 </td>
 </tr>
 <tr>
@@ -5270,7 +4902,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Cosmos DB storedProcedure name.</p>
 </td>
 </tr>
 <tr>
@@ -5283,7 +4914,6 @@ SqlStoredProcedureCreateUpdatePropertiesARM
 </em>
 </td>
 <td>
-<p>Properties: Properties to create and update Azure Cosmos DB storedProcedure.</p>
 </td>
 </tr>
 <tr>
@@ -5294,29 +4924,9 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
-resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
-greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
-type is set with &ldquo;defaultExperience&rdquo;: &ldquo;Cassandra&rdquo;. Current &ldquo;defaultExperience&rdquo; values also include &ldquo;Table&rdquo;, &ldquo;Graph&rdquo;,
-&ldquo;DocumentDB&rdquo;, and &ldquo;MongoDB&rdquo;.</p>
 </td>
 </tr>
 </tbody>
-</table>
-<h3 id="documentdb.azure.com/v1alpha1api20210515.DatabaseAccountsSqlDatabasesContainersThroughputSettingsSpecAPIVersion">DatabaseAccountsSqlDatabasesContainersThroughputSettingsSpecAPIVersion
-(<code>string</code> alias)</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;2021-05-15&#34;</p></td>
-<td></td>
-</tr></tbody>
 </table>
 <h3 id="documentdb.azure.com/v1alpha1api20210515.DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec">DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec
 </h3>
@@ -5341,7 +4951,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The location of the resource group to which the resource belongs.</p>
 </td>
 </tr>
 <tr>
@@ -5354,6 +4963,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a documentdb.azure.com/SqlDatabaseContainer resource</p>
 </td>
 </tr>
 <tr>
@@ -5366,8 +4978,6 @@ ThroughputSettingsResource
 </em>
 </td>
 <td>
-<p>Resource: Cosmos DB resource throughput object. Either throughput is required or autoscaleSettings is required, but not
-both.</p>
 </td>
 </tr>
 <tr>
@@ -5378,11 +4988,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
-resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
-greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
-type is set with &ldquo;defaultExperience&rdquo;: &ldquo;Cassandra&rdquo;. Current &ldquo;defaultExperience&rdquo; values also include &ldquo;Table&rdquo;, &ldquo;Graph&rdquo;,
-&ldquo;DocumentDB&rdquo;, and &ldquo;MongoDB&rdquo;.</p>
 </td>
 </tr>
 </tbody>
@@ -5390,6 +4995,7 @@ type is set with &ldquo;defaultExperience&rdquo;: &ldquo;Cassandra&rdquo;. Curre
 <h3 id="documentdb.azure.com/v1alpha1api20210515.DatabaseAccountsSqlDatabasesContainersThroughputSettings_SpecARM">DatabaseAccountsSqlDatabasesContainersThroughputSettings_SpecARM
 </h3>
 <div>
+<p>Deprecated version of DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec. Use v1beta20210515.DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec instead</p>
 </div>
 <table>
 <thead>
@@ -5407,7 +5013,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The location of the resource group to which the resource belongs.</p>
 </td>
 </tr>
 <tr>
@@ -5418,7 +5023,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Name of the resource</p>
 </td>
 </tr>
 <tr>
@@ -5431,7 +5035,6 @@ ThroughputSettingsUpdatePropertiesARM
 </em>
 </td>
 <td>
-<p>Properties: Properties to update Azure Cosmos DB resource throughput.</p>
 </td>
 </tr>
 <tr>
@@ -5442,29 +5045,9 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
-resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
-greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
-type is set with &ldquo;defaultExperience&rdquo;: &ldquo;Cassandra&rdquo;. Current &ldquo;defaultExperience&rdquo; values also include &ldquo;Table&rdquo;, &ldquo;Graph&rdquo;,
-&ldquo;DocumentDB&rdquo;, and &ldquo;MongoDB&rdquo;.</p>
 </td>
 </tr>
 </tbody>
-</table>
-<h3 id="documentdb.azure.com/v1alpha1api20210515.DatabaseAccountsSqlDatabasesContainersTriggersSpecAPIVersion">DatabaseAccountsSqlDatabasesContainersTriggersSpecAPIVersion
-(<code>string</code> alias)</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;2021-05-15&#34;</p></td>
-<td></td>
-</tr></tbody>
 </table>
 <h3 id="documentdb.azure.com/v1alpha1api20210515.DatabaseAccountsSqlDatabasesContainersTriggers_Spec">DatabaseAccountsSqlDatabasesContainersTriggers_Spec
 </h3>
@@ -5501,7 +5084,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The location of the resource group to which the resource belongs.</p>
 </td>
 </tr>
 <tr>
@@ -5514,8 +5096,6 @@ CreateUpdateOptions
 </em>
 </td>
 <td>
-<p>Options: CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are &ldquo;If-Match&rdquo;,
-&ldquo;If-None-Match&rdquo;, &ldquo;Session-Token&rdquo; and &ldquo;Throughput&rdquo;</p>
 </td>
 </tr>
 <tr>
@@ -5528,6 +5108,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a documentdb.azure.com/SqlDatabaseContainer resource</p>
 </td>
 </tr>
 <tr>
@@ -5540,7 +5123,6 @@ SqlTriggerResource
 </em>
 </td>
 <td>
-<p>Resource: Cosmos DB SQL trigger resource object</p>
 </td>
 </tr>
 <tr>
@@ -5551,11 +5133,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
-resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
-greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
-type is set with &ldquo;defaultExperience&rdquo;: &ldquo;Cassandra&rdquo;. Current &ldquo;defaultExperience&rdquo; values also include &ldquo;Table&rdquo;, &ldquo;Graph&rdquo;,
-&ldquo;DocumentDB&rdquo;, and &ldquo;MongoDB&rdquo;.</p>
 </td>
 </tr>
 </tbody>
@@ -5563,6 +5140,7 @@ type is set with &ldquo;defaultExperience&rdquo;: &ldquo;Cassandra&rdquo;. Curre
 <h3 id="documentdb.azure.com/v1alpha1api20210515.DatabaseAccountsSqlDatabasesContainersTriggers_SpecARM">DatabaseAccountsSqlDatabasesContainersTriggers_SpecARM
 </h3>
 <div>
+<p>Deprecated version of DatabaseAccountsSqlDatabasesContainersTriggers_Spec. Use v1beta20210515.DatabaseAccountsSqlDatabasesContainersTriggers_Spec instead</p>
 </div>
 <table>
 <thead>
@@ -5580,7 +5158,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The location of the resource group to which the resource belongs.</p>
 </td>
 </tr>
 <tr>
@@ -5591,7 +5168,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Cosmos DB trigger name.</p>
 </td>
 </tr>
 <tr>
@@ -5604,7 +5180,6 @@ SqlTriggerCreateUpdatePropertiesARM
 </em>
 </td>
 <td>
-<p>Properties: Properties to create and update Azure Cosmos DB trigger.</p>
 </td>
 </tr>
 <tr>
@@ -5615,29 +5190,9 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
-resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
-greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
-type is set with &ldquo;defaultExperience&rdquo;: &ldquo;Cassandra&rdquo;. Current &ldquo;defaultExperience&rdquo; values also include &ldquo;Table&rdquo;, &ldquo;Graph&rdquo;,
-&ldquo;DocumentDB&rdquo;, and &ldquo;MongoDB&rdquo;.</p>
 </td>
 </tr>
 </tbody>
-</table>
-<h3 id="documentdb.azure.com/v1alpha1api20210515.DatabaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpecAPIVersion">DatabaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpecAPIVersion
-(<code>string</code> alias)</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;2021-05-15&#34;</p></td>
-<td></td>
-</tr></tbody>
 </table>
 <h3 id="documentdb.azure.com/v1alpha1api20210515.DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec">DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec
 </h3>
@@ -5674,7 +5229,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The location of the resource group to which the resource belongs.</p>
 </td>
 </tr>
 <tr>
@@ -5687,8 +5241,6 @@ CreateUpdateOptions
 </em>
 </td>
 <td>
-<p>Options: CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are &ldquo;If-Match&rdquo;,
-&ldquo;If-None-Match&rdquo;, &ldquo;Session-Token&rdquo; and &ldquo;Throughput&rdquo;</p>
 </td>
 </tr>
 <tr>
@@ -5701,6 +5253,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a documentdb.azure.com/SqlDatabaseContainer resource</p>
 </td>
 </tr>
 <tr>
@@ -5713,7 +5268,6 @@ SqlUserDefinedFunctionResource
 </em>
 </td>
 <td>
-<p>Resource: Cosmos DB SQL userDefinedFunction resource object</p>
 </td>
 </tr>
 <tr>
@@ -5724,11 +5278,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
-resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
-greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
-type is set with &ldquo;defaultExperience&rdquo;: &ldquo;Cassandra&rdquo;. Current &ldquo;defaultExperience&rdquo; values also include &ldquo;Table&rdquo;, &ldquo;Graph&rdquo;,
-&ldquo;DocumentDB&rdquo;, and &ldquo;MongoDB&rdquo;.</p>
 </td>
 </tr>
 </tbody>
@@ -5736,6 +5285,7 @@ type is set with &ldquo;defaultExperience&rdquo;: &ldquo;Cassandra&rdquo;. Curre
 <h3 id="documentdb.azure.com/v1alpha1api20210515.DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SpecARM">DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SpecARM
 </h3>
 <div>
+<p>Deprecated version of DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec. Use v1beta20210515.DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec instead</p>
 </div>
 <table>
 <thead>
@@ -5753,7 +5303,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The location of the resource group to which the resource belongs.</p>
 </td>
 </tr>
 <tr>
@@ -5764,7 +5313,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Cosmos DB userDefinedFunction name.</p>
 </td>
 </tr>
 <tr>
@@ -5777,7 +5325,6 @@ SqlUserDefinedFunctionCreateUpdatePropertiesARM
 </em>
 </td>
 <td>
-<p>Properties: Properties to create and update Azure Cosmos DB userDefinedFunction.</p>
 </td>
 </tr>
 <tr>
@@ -5788,11 +5335,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
-resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
-greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
-type is set with &ldquo;defaultExperience&rdquo;: &ldquo;Cassandra&rdquo;. Current &ldquo;defaultExperience&rdquo; values also include &ldquo;Table&rdquo;, &ldquo;Graph&rdquo;,
-&ldquo;DocumentDB&rdquo;, and &ldquo;MongoDB&rdquo;.</p>
 </td>
 </tr>
 </tbody>
@@ -5832,7 +5374,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The location of the resource group to which the resource belongs.</p>
 </td>
 </tr>
 <tr>
@@ -5845,8 +5386,6 @@ CreateUpdateOptions
 </em>
 </td>
 <td>
-<p>Options: CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are &ldquo;If-Match&rdquo;,
-&ldquo;If-None-Match&rdquo;, &ldquo;Session-Token&rdquo; and &ldquo;Throughput&rdquo;</p>
 </td>
 </tr>
 <tr>
@@ -5859,6 +5398,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a documentdb.azure.com/SqlDatabase resource</p>
 </td>
 </tr>
 <tr>
@@ -5871,7 +5413,6 @@ SqlContainerResource
 </em>
 </td>
 <td>
-<p>Resource: Cosmos DB SQL container resource object</p>
 </td>
 </tr>
 <tr>
@@ -5882,11 +5423,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
-resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
-greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
-type is set with &ldquo;defaultExperience&rdquo;: &ldquo;Cassandra&rdquo;. Current &ldquo;defaultExperience&rdquo; values also include &ldquo;Table&rdquo;, &ldquo;Graph&rdquo;,
-&ldquo;DocumentDB&rdquo;, and &ldquo;MongoDB&rdquo;.</p>
 </td>
 </tr>
 </tbody>
@@ -5894,6 +5430,7 @@ type is set with &ldquo;defaultExperience&rdquo;: &ldquo;Cassandra&rdquo;. Curre
 <h3 id="documentdb.azure.com/v1alpha1api20210515.DatabaseAccountsSqlDatabasesContainers_SpecARM">DatabaseAccountsSqlDatabasesContainers_SpecARM
 </h3>
 <div>
+<p>Deprecated version of DatabaseAccountsSqlDatabasesContainers_Spec. Use v1beta20210515.DatabaseAccountsSqlDatabasesContainers_Spec instead</p>
 </div>
 <table>
 <thead>
@@ -5911,7 +5448,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The location of the resource group to which the resource belongs.</p>
 </td>
 </tr>
 <tr>
@@ -5922,7 +5458,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Cosmos DB container name.</p>
 </td>
 </tr>
 <tr>
@@ -5935,7 +5470,6 @@ SqlContainerCreateUpdatePropertiesARM
 </em>
 </td>
 <td>
-<p>Properties: Properties to create and update Azure Cosmos DB container.</p>
 </td>
 </tr>
 <tr>
@@ -5946,44 +5480,9 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
-resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
-greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
-type is set with &ldquo;defaultExperience&rdquo;: &ldquo;Cassandra&rdquo;. Current &ldquo;defaultExperience&rdquo; values also include &ldquo;Table&rdquo;, &ldquo;Graph&rdquo;,
-&ldquo;DocumentDB&rdquo;, and &ldquo;MongoDB&rdquo;.</p>
 </td>
 </tr>
 </tbody>
-</table>
-<h3 id="documentdb.azure.com/v1alpha1api20210515.DatabaseAccountsSqlDatabasesSpecAPIVersion">DatabaseAccountsSqlDatabasesSpecAPIVersion
-(<code>string</code> alias)</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;2021-05-15&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="documentdb.azure.com/v1alpha1api20210515.DatabaseAccountsSqlDatabasesThroughputSettingsSpecAPIVersion">DatabaseAccountsSqlDatabasesThroughputSettingsSpecAPIVersion
-(<code>string</code> alias)</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;2021-05-15&#34;</p></td>
-<td></td>
-</tr></tbody>
 </table>
 <h3 id="documentdb.azure.com/v1alpha1api20210515.DatabaseAccountsSqlDatabasesThroughputSettings_Spec">DatabaseAccountsSqlDatabasesThroughputSettings_Spec
 </h3>
@@ -6008,7 +5507,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The location of the resource group to which the resource belongs.</p>
 </td>
 </tr>
 <tr>
@@ -6021,6 +5519,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a documentdb.azure.com/SqlDatabase resource</p>
 </td>
 </tr>
 <tr>
@@ -6033,8 +5534,6 @@ ThroughputSettingsResource
 </em>
 </td>
 <td>
-<p>Resource: Cosmos DB resource throughput object. Either throughput is required or autoscaleSettings is required, but not
-both.</p>
 </td>
 </tr>
 <tr>
@@ -6045,11 +5544,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
-resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
-greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
-type is set with &ldquo;defaultExperience&rdquo;: &ldquo;Cassandra&rdquo;. Current &ldquo;defaultExperience&rdquo; values also include &ldquo;Table&rdquo;, &ldquo;Graph&rdquo;,
-&ldquo;DocumentDB&rdquo;, and &ldquo;MongoDB&rdquo;.</p>
 </td>
 </tr>
 </tbody>
@@ -6057,6 +5551,7 @@ type is set with &ldquo;defaultExperience&rdquo;: &ldquo;Cassandra&rdquo;. Curre
 <h3 id="documentdb.azure.com/v1alpha1api20210515.DatabaseAccountsSqlDatabasesThroughputSettings_SpecARM">DatabaseAccountsSqlDatabasesThroughputSettings_SpecARM
 </h3>
 <div>
+<p>Deprecated version of DatabaseAccountsSqlDatabasesThroughputSettings_Spec. Use v1beta20210515.DatabaseAccountsSqlDatabasesThroughputSettings_Spec instead</p>
 </div>
 <table>
 <thead>
@@ -6074,7 +5569,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The location of the resource group to which the resource belongs.</p>
 </td>
 </tr>
 <tr>
@@ -6085,7 +5579,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Name of the resource</p>
 </td>
 </tr>
 <tr>
@@ -6098,7 +5591,6 @@ ThroughputSettingsUpdatePropertiesARM
 </em>
 </td>
 <td>
-<p>Properties: Properties to update Azure Cosmos DB resource throughput.</p>
 </td>
 </tr>
 <tr>
@@ -6109,11 +5601,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
-resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
-greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
-type is set with &ldquo;defaultExperience&rdquo;: &ldquo;Cassandra&rdquo;. Current &ldquo;defaultExperience&rdquo; values also include &ldquo;Table&rdquo;, &ldquo;Graph&rdquo;,
-&ldquo;DocumentDB&rdquo;, and &ldquo;MongoDB&rdquo;.</p>
 </td>
 </tr>
 </tbody>
@@ -6153,7 +5640,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The location of the resource group to which the resource belongs.</p>
 </td>
 </tr>
 <tr>
@@ -6166,8 +5652,6 @@ CreateUpdateOptions
 </em>
 </td>
 <td>
-<p>Options: CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are &ldquo;If-Match&rdquo;,
-&ldquo;If-None-Match&rdquo;, &ldquo;Session-Token&rdquo; and &ldquo;Throughput&rdquo;</p>
 </td>
 </tr>
 <tr>
@@ -6180,6 +5664,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a documentdb.azure.com/DatabaseAccount resource</p>
 </td>
 </tr>
 <tr>
@@ -6192,7 +5679,6 @@ SqlDatabaseResource
 </em>
 </td>
 <td>
-<p>Resource: Cosmos DB SQL database resource object</p>
 </td>
 </tr>
 <tr>
@@ -6203,11 +5689,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
-resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
-greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
-type is set with &ldquo;defaultExperience&rdquo;: &ldquo;Cassandra&rdquo;. Current &ldquo;defaultExperience&rdquo; values also include &ldquo;Table&rdquo;, &ldquo;Graph&rdquo;,
-&ldquo;DocumentDB&rdquo;, and &ldquo;MongoDB&rdquo;.</p>
 </td>
 </tr>
 </tbody>
@@ -6215,6 +5696,7 @@ type is set with &ldquo;defaultExperience&rdquo;: &ldquo;Cassandra&rdquo;. Curre
 <h3 id="documentdb.azure.com/v1alpha1api20210515.DatabaseAccountsSqlDatabases_SpecARM">DatabaseAccountsSqlDatabases_SpecARM
 </h3>
 <div>
+<p>Deprecated version of DatabaseAccountsSqlDatabases_Spec. Use v1beta20210515.DatabaseAccountsSqlDatabases_Spec instead</p>
 </div>
 <table>
 <thead>
@@ -6232,7 +5714,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The location of the resource group to which the resource belongs.</p>
 </td>
 </tr>
 <tr>
@@ -6243,7 +5724,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Cosmos DB database name.</p>
 </td>
 </tr>
 <tr>
@@ -6256,7 +5736,6 @@ SqlDatabaseCreateUpdatePropertiesARM
 </em>
 </td>
 <td>
-<p>Properties: Properties to create and update Azure Cosmos DB SQL database.</p>
 </td>
 </tr>
 <tr>
@@ -6267,11 +5746,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
-resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
-greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
-type is set with &ldquo;defaultExperience&rdquo;: &ldquo;Cassandra&rdquo;. Current &ldquo;defaultExperience&rdquo; values also include &ldquo;Table&rdquo;, &ldquo;Graph&rdquo;,
-&ldquo;DocumentDB&rdquo;, and &ldquo;MongoDB&rdquo;.</p>
 </td>
 </tr>
 </tbody>
@@ -6301,7 +5775,6 @@ AnalyticalStorageConfiguration
 </em>
 </td>
 <td>
-<p>AnalyticalStorageConfiguration: Analytical storage specific properties.</p>
 </td>
 </tr>
 <tr>
@@ -6338,7 +5811,6 @@ BackupPolicy
 </em>
 </td>
 <td>
-<p>BackupPolicy: The object representing the policy for taking backups on an account.</p>
 </td>
 </tr>
 <tr>
@@ -6351,7 +5823,6 @@ BackupPolicy
 </em>
 </td>
 <td>
-<p>Capabilities: List of Cosmos DB capabilities for the account</p>
 </td>
 </tr>
 <tr>
@@ -6364,7 +5835,6 @@ DatabaseAccountCreateUpdatePropertiesConnectorOffer
 </em>
 </td>
 <td>
-<p>ConnectorOffer: The cassandra connector offer type for the Cosmos DB database C* account.</p>
 </td>
 </tr>
 <tr>
@@ -6377,7 +5847,6 @@ ConsistencyPolicy
 </em>
 </td>
 <td>
-<p>ConsistencyPolicy: The consistency policy for the Cosmos DB database account.</p>
 </td>
 </tr>
 <tr>
@@ -6390,7 +5859,6 @@ ConsistencyPolicy
 </em>
 </td>
 <td>
-<p>Cors: The CORS policy for the Cosmos DB database account.</p>
 </td>
 </tr>
 <tr>
@@ -6403,7 +5871,6 @@ DatabaseAccountCreateUpdatePropertiesDatabaseAccountOfferType
 </em>
 </td>
 <td>
-<p>DatabaseAccountOfferType: The offer type for the database</p>
 </td>
 </tr>
 <tr>
@@ -6414,8 +5881,6 @@ string
 </em>
 </td>
 <td>
-<p>DefaultIdentity: The default identity for accessing key vault used in features like customer managed keys. The default
-identity needs to be explicitly set by the users. It can be &ldquo;FirstPartyIdentity&rdquo;, &ldquo;SystemAssignedIdentity&rdquo; and more.</p>
 </td>
 </tr>
 <tr>
@@ -6426,8 +5891,6 @@ bool
 </em>
 </td>
 <td>
-<p>DisableKeyBasedMetadataWriteAccess: Disable write operations on metadata resources (databases, containers, throughput)
-via account keys</p>
 </td>
 </tr>
 <tr>
@@ -6438,7 +5901,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableAnalyticalStorage: Flag to indicate whether to enable storage analytics.</p>
 </td>
 </tr>
 <tr>
@@ -6449,9 +5911,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableAutomaticFailover: Enables automatic failover of the write region in the rare event that the region is unavailable
-due to an outage. Automatic failover will result in a new write region for the account and is chosen based on the
-failover priorities configured for the account.</p>
 </td>
 </tr>
 <tr>
@@ -6462,7 +5921,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableCassandraConnector: Enables the cassandra connector on the Cosmos DB C* account</p>
 </td>
 </tr>
 <tr>
@@ -6473,7 +5931,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableFreeTier: Flag to indicate whether Free Tier is enabled.</p>
 </td>
 </tr>
 <tr>
@@ -6484,7 +5941,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableMultipleWriteLocations: Enables the account to write in multiple locations</p>
 </td>
 </tr>
 <tr>
@@ -6497,7 +5953,6 @@ ManagedServiceIdentity
 </em>
 </td>
 <td>
-<p>Identity: Identity for the resource.</p>
 </td>
 </tr>
 <tr>
@@ -6510,7 +5965,6 @@ ManagedServiceIdentity
 </em>
 </td>
 <td>
-<p>IpRules: Array of IpAddressOrRange objects.</p>
 </td>
 </tr>
 <tr>
@@ -6521,7 +5975,6 @@ bool
 </em>
 </td>
 <td>
-<p>IsVirtualNetworkFilterEnabled: Flag to indicate whether to enable/disable Virtual Network ACL rules.</p>
 </td>
 </tr>
 <tr>
@@ -6532,7 +5985,6 @@ string
 </em>
 </td>
 <td>
-<p>KeyVaultKeyUri: The URI of the key vault</p>
 </td>
 </tr>
 <tr>
@@ -6545,7 +5997,6 @@ DatabaseAccountsSpecKind
 </em>
 </td>
 <td>
-<p>Kind: Indicates the type of database account. This can only be set at database account creation.</p>
 </td>
 </tr>
 <tr>
@@ -6556,7 +6007,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The location of the resource group to which the resource belongs.</p>
 </td>
 </tr>
 <tr>
@@ -6569,7 +6019,6 @@ string
 </em>
 </td>
 <td>
-<p>Locations: An array that contains the georeplication locations enabled for the Cosmos DB account.</p>
 </td>
 </tr>
 <tr>
@@ -6582,7 +6031,6 @@ DatabaseAccountCreateUpdatePropertiesNetworkAclBypass
 </em>
 </td>
 <td>
-<p>NetworkAclBypass: Indicates what services are allowed to bypass firewall checks.</p>
 </td>
 </tr>
 <tr>
@@ -6593,7 +6041,6 @@ DatabaseAccountCreateUpdatePropertiesNetworkAclBypass
 </em>
 </td>
 <td>
-<p>NetworkAclBypassResourceIds: An array that contains the Resource Ids for Network Acl Bypass for the Cosmos DB account.</p>
 </td>
 </tr>
 <tr>
@@ -6620,6 +6067,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -6632,7 +6082,6 @@ DatabaseAccountCreateUpdatePropertiesPublicNetworkAccess
 </em>
 </td>
 <td>
-<p>PublicNetworkAccess: Whether requests from Public Network are allowed.</p>
 </td>
 </tr>
 <tr>
@@ -6643,11 +6092,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
-resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
-greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
-type is set with &ldquo;defaultExperience&rdquo;: &ldquo;Cassandra&rdquo;. Current &ldquo;defaultExperience&rdquo; values also include &ldquo;Table&rdquo;, &ldquo;Graph&rdquo;,
-&ldquo;DocumentDB&rdquo;, and &ldquo;MongoDB&rdquo;.</p>
 </td>
 </tr>
 <tr>
@@ -6660,7 +6104,6 @@ type is set with &ldquo;defaultExperience&rdquo;: &ldquo;Cassandra&rdquo;. Curre
 </em>
 </td>
 <td>
-<p>VirtualNetworkRules: List of Virtual Network ACL rules configured for the Cosmos DB account.</p>
 </td>
 </tr>
 </tbody>
@@ -6668,6 +6111,7 @@ type is set with &ldquo;defaultExperience&rdquo;: &ldquo;Cassandra&rdquo;. Curre
 <h3 id="documentdb.azure.com/v1alpha1api20210515.DatabaseAccounts_SpecARM">DatabaseAccounts_SpecARM
 </h3>
 <div>
+<p>Deprecated version of DatabaseAccounts_Spec. Use v1beta20210515.DatabaseAccounts_Spec instead</p>
 </div>
 <table>
 <thead>
@@ -6687,7 +6131,6 @@ ManagedServiceIdentityARM
 </em>
 </td>
 <td>
-<p>Identity: Identity for the resource.</p>
 </td>
 </tr>
 <tr>
@@ -6700,7 +6143,6 @@ DatabaseAccountsSpecKind
 </em>
 </td>
 <td>
-<p>Kind: Indicates the type of database account. This can only be set at database account creation.</p>
 </td>
 </tr>
 <tr>
@@ -6711,7 +6153,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The location of the resource group to which the resource belongs.</p>
 </td>
 </tr>
 <tr>
@@ -6722,7 +6163,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Cosmos DB database account name.</p>
 </td>
 </tr>
 <tr>
@@ -6735,7 +6175,6 @@ DatabaseAccountCreateUpdatePropertiesARM
 </em>
 </td>
 <td>
-<p>Properties: Properties to create and update Azure Cosmos DB database accounts.</p>
 </td>
 </tr>
 <tr>
@@ -6746,11 +6185,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
-resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
-greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
-type is set with &ldquo;defaultExperience&rdquo;: &ldquo;Cassandra&rdquo;. Current &ldquo;defaultExperience&rdquo; values also include &ldquo;Table&rdquo;, &ldquo;Graph&rdquo;,
-&ldquo;DocumentDB&rdquo;, and &ldquo;MongoDB&rdquo;.</p>
 </td>
 </tr>
 </tbody>
@@ -6761,7 +6195,7 @@ type is set with &ldquo;defaultExperience&rdquo;: &ldquo;Cassandra&rdquo;. Curre
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.IndexingPolicy">IndexingPolicy</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ExcludedPath">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ExcludedPath</a></p>
+<p>Deprecated version of ExcludedPath. Use v1beta20210515.ExcludedPath instead</p>
 </div>
 <table>
 <thead>
@@ -6779,8 +6213,6 @@ string
 </em>
 </td>
 <td>
-<p>Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
-(/path/*)</p>
 </td>
 </tr>
 </tbody>
@@ -6791,7 +6223,7 @@ string
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.IndexingPolicyARM">IndexingPolicyARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ExcludedPath">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ExcludedPath</a></p>
+<p>Deprecated version of ExcludedPath. Use v1beta20210515.ExcludedPath instead</p>
 </div>
 <table>
 <thead>
@@ -6809,8 +6241,6 @@ string
 </em>
 </td>
 <td>
-<p>Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
-(/path/*)</p>
 </td>
 </tr>
 </tbody>
@@ -6821,6 +6251,7 @@ string
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.IndexingPolicy_Status">IndexingPolicy_Status</a>)
 </p>
 <div>
+<p>Deprecated version of ExcludedPath_Status. Use v1beta20210515.ExcludedPath_Status instead</p>
 </div>
 <table>
 <thead>
@@ -6838,8 +6269,6 @@ string
 </em>
 </td>
 <td>
-<p>Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
-(/path/*)</p>
 </td>
 </tr>
 </tbody>
@@ -6850,6 +6279,7 @@ string
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.IndexingPolicy_StatusARM">IndexingPolicy_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of ExcludedPath_Status. Use v1beta20210515.ExcludedPath_Status instead</p>
 </div>
 <table>
 <thead>
@@ -6867,8 +6297,6 @@ string
 </em>
 </td>
 <td>
-<p>Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
-(/path/*)</p>
 </td>
 </tr>
 </tbody>
@@ -6879,6 +6307,7 @@ string
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountGetResults_Status">DatabaseAccountGetResults_Status</a>)
 </p>
 <div>
+<p>Deprecated version of FailoverPolicy_Status. Use v1beta20210515.FailoverPolicy_Status instead</p>
 </div>
 <table>
 <thead>
@@ -6896,9 +6325,6 @@ int
 </em>
 </td>
 <td>
-<p>FailoverPriority: The failover priority of the region. A failover priority of 0 indicates a write region. The maximum
-value for a failover priority = (total number of regions - 1). Failover priority values must be unique for each of the
-regions in which the database account exists.</p>
 </td>
 </tr>
 <tr>
@@ -6909,8 +6335,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: The unique identifier of the region in which the database account replicates to. Example:
-&amp;lt;accountName&amp;gt;-&amp;lt;locationName&amp;gt;.</p>
 </td>
 </tr>
 <tr>
@@ -6921,7 +6345,6 @@ string
 </em>
 </td>
 <td>
-<p>LocationName: The name of the region in which the database account exists.</p>
 </td>
 </tr>
 </tbody>
@@ -6932,6 +6355,7 @@ string
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountGetProperties_StatusARM">DatabaseAccountGetProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of FailoverPolicy_Status. Use v1beta20210515.FailoverPolicy_Status instead</p>
 </div>
 <table>
 <thead>
@@ -6949,9 +6373,6 @@ int
 </em>
 </td>
 <td>
-<p>FailoverPriority: The failover priority of the region. A failover priority of 0 indicates a write region. The maximum
-value for a failover priority = (total number of regions - 1). Failover priority values must be unique for each of the
-regions in which the database account exists.</p>
 </td>
 </tr>
 <tr>
@@ -6962,8 +6383,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: The unique identifier of the region in which the database account replicates to. Example:
-&amp;lt;accountName&amp;gt;-&amp;lt;locationName&amp;gt;.</p>
 </td>
 </tr>
 <tr>
@@ -6974,7 +6393,6 @@ string
 </em>
 </td>
 <td>
-<p>LocationName: The name of the region in which the database account exists.</p>
 </td>
 </tr>
 </tbody>
@@ -6985,7 +6403,7 @@ string
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.IndexingPolicy">IndexingPolicy</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/IncludedPath">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/IncludedPath</a></p>
+<p>Deprecated version of IncludedPath. Use v1beta20210515.IncludedPath instead</p>
 </div>
 <table>
 <thead>
@@ -7005,7 +6423,6 @@ string
 </em>
 </td>
 <td>
-<p>Indexes: List of indexes for this path</p>
 </td>
 </tr>
 <tr>
@@ -7016,8 +6433,6 @@ string
 </em>
 </td>
 <td>
-<p>Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
-(/path/*)</p>
 </td>
 </tr>
 </tbody>
@@ -7028,7 +6443,7 @@ string
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.IndexingPolicyARM">IndexingPolicyARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/IncludedPath">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/IncludedPath</a></p>
+<p>Deprecated version of IncludedPath. Use v1beta20210515.IncludedPath instead</p>
 </div>
 <table>
 <thead>
@@ -7048,7 +6463,6 @@ string
 </em>
 </td>
 <td>
-<p>Indexes: List of indexes for this path</p>
 </td>
 </tr>
 <tr>
@@ -7059,8 +6473,6 @@ string
 </em>
 </td>
 <td>
-<p>Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
-(/path/*)</p>
 </td>
 </tr>
 </tbody>
@@ -7071,6 +6483,7 @@ string
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.IndexingPolicy_Status">IndexingPolicy_Status</a>)
 </p>
 <div>
+<p>Deprecated version of IncludedPath_Status. Use v1beta20210515.IncludedPath_Status instead</p>
 </div>
 <table>
 <thead>
@@ -7090,7 +6503,6 @@ string
 </em>
 </td>
 <td>
-<p>Indexes: List of indexes for this path</p>
 </td>
 </tr>
 <tr>
@@ -7101,8 +6513,6 @@ string
 </em>
 </td>
 <td>
-<p>Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
-(/path/*)</p>
 </td>
 </tr>
 </tbody>
@@ -7113,6 +6523,7 @@ string
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.IndexingPolicy_StatusARM">IndexingPolicy_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of IncludedPath_Status. Use v1beta20210515.IncludedPath_Status instead</p>
 </div>
 <table>
 <thead>
@@ -7132,7 +6543,6 @@ string
 </em>
 </td>
 <td>
-<p>Indexes: List of indexes for this path</p>
 </td>
 </tr>
 <tr>
@@ -7143,8 +6553,6 @@ string
 </em>
 </td>
 <td>
-<p>Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
-(/path/*)</p>
 </td>
 </tr>
 </tbody>
@@ -7155,7 +6563,7 @@ string
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.IncludedPath">IncludedPath</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/Indexes">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/Indexes</a></p>
+<p>Deprecated version of Indexes. Use v1beta20210515.Indexes instead</p>
 </div>
 <table>
 <thead>
@@ -7175,7 +6583,6 @@ IndexesDataType
 </em>
 </td>
 <td>
-<p>DataType: The datatype for which the indexing behavior is applied to.</p>
 </td>
 </tr>
 <tr>
@@ -7188,7 +6595,6 @@ IndexesKind
 </em>
 </td>
 <td>
-<p>Kind: Indicates the type of index.</p>
 </td>
 </tr>
 <tr>
@@ -7199,7 +6605,6 @@ int
 </em>
 </td>
 <td>
-<p>Precision: The precision of the index. -1 is maximum precision.</p>
 </td>
 </tr>
 </tbody>
@@ -7210,7 +6615,7 @@ int
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.IncludedPathARM">IncludedPathARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/Indexes">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/Indexes</a></p>
+<p>Deprecated version of Indexes. Use v1beta20210515.Indexes instead</p>
 </div>
 <table>
 <thead>
@@ -7230,7 +6635,6 @@ IndexesDataType
 </em>
 </td>
 <td>
-<p>DataType: The datatype for which the indexing behavior is applied to.</p>
 </td>
 </tr>
 <tr>
@@ -7243,7 +6647,6 @@ IndexesKind
 </em>
 </td>
 <td>
-<p>Kind: Indicates the type of index.</p>
 </td>
 </tr>
 <tr>
@@ -7254,7 +6657,6 @@ int
 </em>
 </td>
 <td>
-<p>Precision: The precision of the index. -1 is maximum precision.</p>
 </td>
 </tr>
 </tbody>
@@ -7265,6 +6667,7 @@ int
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.Indexes">Indexes</a>, <a href="#documentdb.azure.com/v1alpha1api20210515.IndexesARM">IndexesARM</a>)
 </p>
 <div>
+<p>Deprecated version of IndexesDataType. Use v1beta20210515.IndexesDataType instead</p>
 </div>
 <table>
 <thead>
@@ -7293,6 +6696,7 @@ int
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.Indexes">Indexes</a>, <a href="#documentdb.azure.com/v1alpha1api20210515.IndexesARM">IndexesARM</a>)
 </p>
 <div>
+<p>Deprecated version of IndexesKind. Use v1beta20210515.IndexesKind instead</p>
 </div>
 <table>
 <thead>
@@ -7315,6 +6719,7 @@ int
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.Indexes_Status">Indexes_Status</a>, <a href="#documentdb.azure.com/v1alpha1api20210515.Indexes_StatusARM">Indexes_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of IndexesStatusDataType. Use v1beta20210515.IndexesStatusDataType instead</p>
 </div>
 <table>
 <thead>
@@ -7343,6 +6748,7 @@ int
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.Indexes_Status">Indexes_Status</a>, <a href="#documentdb.azure.com/v1alpha1api20210515.Indexes_StatusARM">Indexes_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of IndexesStatusKind. Use v1beta20210515.IndexesStatusKind instead</p>
 </div>
 <table>
 <thead>
@@ -7365,6 +6771,7 @@ int
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.IncludedPath_Status">IncludedPath_Status</a>)
 </p>
 <div>
+<p>Deprecated version of Indexes_Status. Use v1beta20210515.Indexes_Status instead</p>
 </div>
 <table>
 <thead>
@@ -7384,7 +6791,6 @@ IndexesStatusDataType
 </em>
 </td>
 <td>
-<p>DataType: The datatype for which the indexing behavior is applied to.</p>
 </td>
 </tr>
 <tr>
@@ -7397,7 +6803,6 @@ IndexesStatusKind
 </em>
 </td>
 <td>
-<p>Kind: Indicates the type of index.</p>
 </td>
 </tr>
 <tr>
@@ -7408,7 +6813,6 @@ int
 </em>
 </td>
 <td>
-<p>Precision: The precision of the index. -1 is maximum precision.</p>
 </td>
 </tr>
 </tbody>
@@ -7419,6 +6823,7 @@ int
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.IncludedPath_StatusARM">IncludedPath_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of Indexes_Status. Use v1beta20210515.Indexes_Status instead</p>
 </div>
 <table>
 <thead>
@@ -7438,7 +6843,6 @@ IndexesStatusDataType
 </em>
 </td>
 <td>
-<p>DataType: The datatype for which the indexing behavior is applied to.</p>
 </td>
 </tr>
 <tr>
@@ -7451,7 +6855,6 @@ IndexesStatusKind
 </em>
 </td>
 <td>
-<p>Kind: Indicates the type of index.</p>
 </td>
 </tr>
 <tr>
@@ -7462,7 +6865,6 @@ int
 </em>
 </td>
 <td>
-<p>Precision: The precision of the index. -1 is maximum precision.</p>
 </td>
 </tr>
 </tbody>
@@ -7473,7 +6875,7 @@ int
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.SqlContainerResource">SqlContainerResource</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/IndexingPolicy">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/IndexingPolicy</a></p>
+<p>Deprecated version of IndexingPolicy. Use v1beta20210515.IndexingPolicy instead</p>
 </div>
 <table>
 <thead>
@@ -7491,7 +6893,6 @@ bool
 </em>
 </td>
 <td>
-<p>Automatic: Indicates if the indexing policy is automatic</p>
 </td>
 </tr>
 <tr>
@@ -7504,7 +6905,6 @@ bool
 </em>
 </td>
 <td>
-<p>CompositeIndexes: List of composite path list</p>
 </td>
 </tr>
 <tr>
@@ -7517,7 +6917,6 @@ bool
 </em>
 </td>
 <td>
-<p>ExcludedPaths: List of paths to exclude from indexing</p>
 </td>
 </tr>
 <tr>
@@ -7530,7 +6929,6 @@ bool
 </em>
 </td>
 <td>
-<p>IncludedPaths: List of paths to include in the indexing</p>
 </td>
 </tr>
 <tr>
@@ -7543,7 +6941,6 @@ IndexingPolicyIndexingMode
 </em>
 </td>
 <td>
-<p>IndexingMode: Indicates the indexing mode.</p>
 </td>
 </tr>
 <tr>
@@ -7556,7 +6953,6 @@ IndexingPolicyIndexingMode
 </em>
 </td>
 <td>
-<p>SpatialIndexes: List of spatial specifics</p>
 </td>
 </tr>
 </tbody>
@@ -7567,7 +6963,7 @@ IndexingPolicyIndexingMode
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.SqlContainerResourceARM">SqlContainerResourceARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/IndexingPolicy">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/IndexingPolicy</a></p>
+<p>Deprecated version of IndexingPolicy. Use v1beta20210515.IndexingPolicy instead</p>
 </div>
 <table>
 <thead>
@@ -7585,7 +6981,6 @@ bool
 </em>
 </td>
 <td>
-<p>Automatic: Indicates if the indexing policy is automatic</p>
 </td>
 </tr>
 <tr>
@@ -7598,7 +6993,6 @@ bool
 </em>
 </td>
 <td>
-<p>CompositeIndexes: List of composite path list</p>
 </td>
 </tr>
 <tr>
@@ -7611,7 +7005,6 @@ bool
 </em>
 </td>
 <td>
-<p>ExcludedPaths: List of paths to exclude from indexing</p>
 </td>
 </tr>
 <tr>
@@ -7624,7 +7017,6 @@ bool
 </em>
 </td>
 <td>
-<p>IncludedPaths: List of paths to include in the indexing</p>
 </td>
 </tr>
 <tr>
@@ -7637,7 +7029,6 @@ IndexingPolicyIndexingMode
 </em>
 </td>
 <td>
-<p>IndexingMode: Indicates the indexing mode.</p>
 </td>
 </tr>
 <tr>
@@ -7650,7 +7041,6 @@ IndexingPolicyIndexingMode
 </em>
 </td>
 <td>
-<p>SpatialIndexes: List of spatial specifics</p>
 </td>
 </tr>
 </tbody>
@@ -7661,6 +7051,7 @@ IndexingPolicyIndexingMode
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.IndexingPolicy">IndexingPolicy</a>, <a href="#documentdb.azure.com/v1alpha1api20210515.IndexingPolicyARM">IndexingPolicyARM</a>)
 </p>
 <div>
+<p>Deprecated version of IndexingPolicyIndexingMode. Use v1beta20210515.IndexingPolicyIndexingMode instead</p>
 </div>
 <table>
 <thead>
@@ -7683,6 +7074,7 @@ IndexingPolicyIndexingMode
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.IndexingPolicy_Status">IndexingPolicy_Status</a>, <a href="#documentdb.azure.com/v1alpha1api20210515.IndexingPolicy_StatusARM">IndexingPolicy_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of IndexingPolicyStatusIndexingMode. Use v1beta20210515.IndexingPolicyStatusIndexingMode instead</p>
 </div>
 <table>
 <thead>
@@ -7705,6 +7097,7 @@ IndexingPolicyIndexingMode
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.SqlContainerGetProperties_Status_Resource">SqlContainerGetProperties_Status_Resource</a>)
 </p>
 <div>
+<p>Deprecated version of IndexingPolicy_Status. Use v1beta20210515.IndexingPolicy_Status instead</p>
 </div>
 <table>
 <thead>
@@ -7722,7 +7115,6 @@ bool
 </em>
 </td>
 <td>
-<p>Automatic: Indicates if the indexing policy is automatic</p>
 </td>
 </tr>
 <tr>
@@ -7735,7 +7127,6 @@ bool
 </em>
 </td>
 <td>
-<p>CompositeIndexes: List of composite path list</p>
 </td>
 </tr>
 <tr>
@@ -7748,7 +7139,6 @@ bool
 </em>
 </td>
 <td>
-<p>ExcludedPaths: List of paths to exclude from indexing</p>
 </td>
 </tr>
 <tr>
@@ -7761,7 +7151,6 @@ bool
 </em>
 </td>
 <td>
-<p>IncludedPaths: List of paths to include in the indexing</p>
 </td>
 </tr>
 <tr>
@@ -7774,7 +7163,6 @@ IndexingPolicyStatusIndexingMode
 </em>
 </td>
 <td>
-<p>IndexingMode: Indicates the indexing mode.</p>
 </td>
 </tr>
 <tr>
@@ -7787,7 +7175,6 @@ IndexingPolicyStatusIndexingMode
 </em>
 </td>
 <td>
-<p>SpatialIndexes: List of spatial specifics</p>
 </td>
 </tr>
 </tbody>
@@ -7798,6 +7185,7 @@ IndexingPolicyStatusIndexingMode
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.SqlContainerGetProperties_Status_ResourceARM">SqlContainerGetProperties_Status_ResourceARM</a>)
 </p>
 <div>
+<p>Deprecated version of IndexingPolicy_Status. Use v1beta20210515.IndexingPolicy_Status instead</p>
 </div>
 <table>
 <thead>
@@ -7815,7 +7203,6 @@ bool
 </em>
 </td>
 <td>
-<p>Automatic: Indicates if the indexing policy is automatic</p>
 </td>
 </tr>
 <tr>
@@ -7828,7 +7215,6 @@ bool
 </em>
 </td>
 <td>
-<p>CompositeIndexes: List of composite path list</p>
 </td>
 </tr>
 <tr>
@@ -7841,7 +7227,6 @@ bool
 </em>
 </td>
 <td>
-<p>ExcludedPaths: List of paths to exclude from indexing</p>
 </td>
 </tr>
 <tr>
@@ -7854,7 +7239,6 @@ bool
 </em>
 </td>
 <td>
-<p>IncludedPaths: List of paths to include in the indexing</p>
 </td>
 </tr>
 <tr>
@@ -7867,7 +7251,6 @@ IndexingPolicyStatusIndexingMode
 </em>
 </td>
 <td>
-<p>IndexingMode: Indicates the indexing mode.</p>
 </td>
 </tr>
 <tr>
@@ -7880,7 +7263,6 @@ IndexingPolicyStatusIndexingMode
 </em>
 </td>
 <td>
-<p>SpatialIndexes: List of spatial specifics</p>
 </td>
 </tr>
 </tbody>
@@ -7891,7 +7273,7 @@ IndexingPolicyStatusIndexingMode
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccounts_Spec">DatabaseAccounts_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/IpAddressOrRange">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/IpAddressOrRange</a></p>
+<p>Deprecated version of IpAddressOrRange. Use v1beta20210515.IpAddressOrRange instead</p>
 </div>
 <table>
 <thead>
@@ -7909,10 +7291,6 @@ string
 </em>
 </td>
 <td>
-<p>IpAddressOrRange: A single IPv4 address or a single IPv4 address range in CIDR format. Provided IPs must be
-well-formatted and cannot be contained in one of the following ranges: 10.0.0.0/8, 100.64.0.0/10, 172.16.0.0/12,
-192.168.0.0/16, since these are not enforceable by the IP address filter. Example of valid inputs: “23.40.210.245”
-or “23.40.210.0/8”.</p>
 </td>
 </tr>
 </tbody>
@@ -7923,7 +7301,7 @@ or “23.40.210.0/8”.</p>
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountCreateUpdatePropertiesARM">DatabaseAccountCreateUpdatePropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/IpAddressOrRange">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/IpAddressOrRange</a></p>
+<p>Deprecated version of IpAddressOrRange. Use v1beta20210515.IpAddressOrRange instead</p>
 </div>
 <table>
 <thead>
@@ -7941,10 +7319,6 @@ string
 </em>
 </td>
 <td>
-<p>IpAddressOrRange: A single IPv4 address or a single IPv4 address range in CIDR format. Provided IPs must be
-well-formatted and cannot be contained in one of the following ranges: 10.0.0.0/8, 100.64.0.0/10, 172.16.0.0/12,
-192.168.0.0/16, since these are not enforceable by the IP address filter. Example of valid inputs: “23.40.210.245”
-or “23.40.210.0/8”.</p>
 </td>
 </tr>
 </tbody>
@@ -7955,6 +7329,7 @@ or “23.40.210.0/8”.</p>
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountGetResults_Status">DatabaseAccountGetResults_Status</a>)
 </p>
 <div>
+<p>Deprecated version of IpAddressOrRange_Status. Use v1beta20210515.IpAddressOrRange_Status instead</p>
 </div>
 <table>
 <thead>
@@ -7972,10 +7347,6 @@ string
 </em>
 </td>
 <td>
-<p>IpAddressOrRange: A single IPv4 address or a single IPv4 address range in CIDR format. Provided IPs must be
-well-formatted and cannot be contained in one of the following ranges: 10.0.0.0/8, 100.64.0.0/10, 172.16.0.0/12,
-192.168.0.0/16, since these are not enforceable by the IP address filter. Example of valid inputs: “23.40.210.245”
-or “23.40.210.0/8”.</p>
 </td>
 </tr>
 </tbody>
@@ -7986,6 +7357,7 @@ or “23.40.210.0/8”.</p>
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountGetProperties_StatusARM">DatabaseAccountGetProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of IpAddressOrRange_Status. Use v1beta20210515.IpAddressOrRange_Status instead</p>
 </div>
 <table>
 <thead>
@@ -8003,10 +7375,6 @@ string
 </em>
 </td>
 <td>
-<p>IpAddressOrRange: A single IPv4 address or a single IPv4 address range in CIDR format. Provided IPs must be
-well-formatted and cannot be contained in one of the following ranges: 10.0.0.0/8, 100.64.0.0/10, 172.16.0.0/12,
-192.168.0.0/16, since these are not enforceable by the IP address filter. Example of valid inputs: “23.40.210.245”
-or “23.40.210.0/8”.</p>
 </td>
 </tr>
 </tbody>
@@ -8017,7 +7385,7 @@ or “23.40.210.0/8”.</p>
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccounts_Spec">DatabaseAccounts_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/Location">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/Location</a></p>
+<p>Deprecated version of Location. Use v1beta20210515.Location instead</p>
 </div>
 <table>
 <thead>
@@ -8035,9 +7403,6 @@ int
 </em>
 </td>
 <td>
-<p>FailoverPriority: The failover priority of the region. A failover priority of 0 indicates a write region. The maximum
-value for a failover priority = (total number of regions - 1). Failover priority values must be unique for each of the
-regions in which the database account exists.</p>
 </td>
 </tr>
 <tr>
@@ -8048,7 +7413,6 @@ bool
 </em>
 </td>
 <td>
-<p>IsZoneRedundant: Flag to indicate whether or not this region is an AvailabilityZone region</p>
 </td>
 </tr>
 <tr>
@@ -8059,7 +7423,6 @@ string
 </em>
 </td>
 <td>
-<p>LocationName: The name of the region.</p>
 </td>
 </tr>
 </tbody>
@@ -8070,7 +7433,7 @@ string
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountCreateUpdatePropertiesARM">DatabaseAccountCreateUpdatePropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/Location">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/Location</a></p>
+<p>Deprecated version of Location. Use v1beta20210515.Location instead</p>
 </div>
 <table>
 <thead>
@@ -8088,9 +7451,6 @@ int
 </em>
 </td>
 <td>
-<p>FailoverPriority: The failover priority of the region. A failover priority of 0 indicates a write region. The maximum
-value for a failover priority = (total number of regions - 1). Failover priority values must be unique for each of the
-regions in which the database account exists.</p>
 </td>
 </tr>
 <tr>
@@ -8101,7 +7461,6 @@ bool
 </em>
 </td>
 <td>
-<p>IsZoneRedundant: Flag to indicate whether or not this region is an AvailabilityZone region</p>
 </td>
 </tr>
 <tr>
@@ -8112,7 +7471,6 @@ string
 </em>
 </td>
 <td>
-<p>LocationName: The name of the region.</p>
 </td>
 </tr>
 </tbody>
@@ -8123,6 +7481,7 @@ string
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountGetResults_Status">DatabaseAccountGetResults_Status</a>)
 </p>
 <div>
+<p>Deprecated version of Location_Status. Use v1beta20210515.Location_Status instead</p>
 </div>
 <table>
 <thead>
@@ -8140,8 +7499,6 @@ string
 </em>
 </td>
 <td>
-<p>DocumentEndpoint: The connection endpoint for the specific region. Example:
-https://&amp;lt;accountName&amp;gt;-&amp;lt;locationName&amp;gt;.documents.azure.com:443/</p>
 </td>
 </tr>
 <tr>
@@ -8152,9 +7509,6 @@ int
 </em>
 </td>
 <td>
-<p>FailoverPriority: The failover priority of the region. A failover priority of 0 indicates a write region. The maximum
-value for a failover priority = (total number of regions - 1). Failover priority values must be unique for each of the
-regions in which the database account exists.</p>
 </td>
 </tr>
 <tr>
@@ -8165,7 +7519,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: The unique identifier of the region within the database account. Example: &amp;lt;accountName&amp;gt;-&amp;lt;locationName&amp;gt;.</p>
 </td>
 </tr>
 <tr>
@@ -8176,7 +7529,6 @@ bool
 </em>
 </td>
 <td>
-<p>IsZoneRedundant: Flag to indicate whether or not this region is an AvailabilityZone region</p>
 </td>
 </tr>
 <tr>
@@ -8187,7 +7539,6 @@ string
 </em>
 </td>
 <td>
-<p>LocationName: The name of the region.</p>
 </td>
 </tr>
 <tr>
@@ -8208,6 +7559,7 @@ string
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountGetProperties_StatusARM">DatabaseAccountGetProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of Location_Status. Use v1beta20210515.Location_Status instead</p>
 </div>
 <table>
 <thead>
@@ -8225,8 +7577,6 @@ string
 </em>
 </td>
 <td>
-<p>DocumentEndpoint: The connection endpoint for the specific region. Example:
-https://&amp;lt;accountName&amp;gt;-&amp;lt;locationName&amp;gt;.documents.azure.com:443/</p>
 </td>
 </tr>
 <tr>
@@ -8237,9 +7587,6 @@ int
 </em>
 </td>
 <td>
-<p>FailoverPriority: The failover priority of the region. A failover priority of 0 indicates a write region. The maximum
-value for a failover priority = (total number of regions - 1). Failover priority values must be unique for each of the
-regions in which the database account exists.</p>
 </td>
 </tr>
 <tr>
@@ -8250,7 +7597,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: The unique identifier of the region within the database account. Example: &amp;lt;accountName&amp;gt;-&amp;lt;locationName&amp;gt;.</p>
 </td>
 </tr>
 <tr>
@@ -8261,7 +7607,6 @@ bool
 </em>
 </td>
 <td>
-<p>IsZoneRedundant: Flag to indicate whether or not this region is an AvailabilityZone region</p>
 </td>
 </tr>
 <tr>
@@ -8272,7 +7617,6 @@ string
 </em>
 </td>
 <td>
-<p>LocationName: The name of the region.</p>
 </td>
 </tr>
 <tr>
@@ -8293,7 +7637,7 @@ string
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccounts_Spec">DatabaseAccounts_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ManagedServiceIdentity">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ManagedServiceIdentity</a></p>
+<p>Deprecated version of ManagedServiceIdentity. Use v1beta20210515.ManagedServiceIdentity instead</p>
 </div>
 <table>
 <thead>
@@ -8313,8 +7657,6 @@ ManagedServiceIdentityType
 </em>
 </td>
 <td>
-<p>Type: The type of identity used for the resource. The type &lsquo;SystemAssigned,UserAssigned&rsquo; includes both an implicitly
-created identity and a set of user assigned identities. The type &lsquo;None&rsquo; will remove any identities from the service.</p>
 </td>
 </tr>
 </tbody>
@@ -8325,7 +7667,7 @@ created identity and a set of user assigned identities. The type &lsquo;None&rsq
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccounts_SpecARM">DatabaseAccounts_SpecARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ManagedServiceIdentity">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ManagedServiceIdentity</a></p>
+<p>Deprecated version of ManagedServiceIdentity. Use v1beta20210515.ManagedServiceIdentity instead</p>
 </div>
 <table>
 <thead>
@@ -8345,8 +7687,6 @@ ManagedServiceIdentityType
 </em>
 </td>
 <td>
-<p>Type: The type of identity used for the resource. The type &lsquo;SystemAssigned,UserAssigned&rsquo; includes both an implicitly
-created identity and a set of user assigned identities. The type &lsquo;None&rsquo; will remove any identities from the service.</p>
 </td>
 </tr>
 </tbody>
@@ -8357,6 +7697,7 @@ created identity and a set of user assigned identities. The type &lsquo;None&rsq
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.ManagedServiceIdentity_Status">ManagedServiceIdentity_Status</a>, <a href="#documentdb.azure.com/v1alpha1api20210515.ManagedServiceIdentity_StatusARM">ManagedServiceIdentity_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of ManagedServiceIdentityStatusType. Use v1beta20210515.ManagedServiceIdentityStatusType instead</p>
 </div>
 <table>
 <thead>
@@ -8381,6 +7722,7 @@ created identity and a set of user assigned identities. The type &lsquo;None&rsq
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.ManagedServiceIdentity">ManagedServiceIdentity</a>, <a href="#documentdb.azure.com/v1alpha1api20210515.ManagedServiceIdentityARM">ManagedServiceIdentityARM</a>)
 </p>
 <div>
+<p>Deprecated version of ManagedServiceIdentityType. Use v1beta20210515.ManagedServiceIdentityType instead</p>
 </div>
 <table>
 <thead>
@@ -8405,6 +7747,7 @@ created identity and a set of user assigned identities. The type &lsquo;None&rsq
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountGetResults_Status">DatabaseAccountGetResults_Status</a>)
 </p>
 <div>
+<p>Deprecated version of ManagedServiceIdentity_Status. Use v1beta20210515.ManagedServiceIdentity_Status instead</p>
 </div>
 <table>
 <thead>
@@ -8422,8 +7765,6 @@ string
 </em>
 </td>
 <td>
-<p>PrincipalId: The principal id of the system assigned identity. This property will only be provided for a system assigned
-identity.</p>
 </td>
 </tr>
 <tr>
@@ -8434,8 +7775,6 @@ string
 </em>
 </td>
 <td>
-<p>TenantId: The tenant id of the system assigned identity. This property will only be provided for a system assigned
-identity.</p>
 </td>
 </tr>
 <tr>
@@ -8448,8 +7787,6 @@ ManagedServiceIdentityStatusType
 </em>
 </td>
 <td>
-<p>Type: The type of identity used for the resource. The type &lsquo;SystemAssigned,UserAssigned&rsquo; includes both an implicitly
-created identity and a set of user assigned identities. The type &lsquo;None&rsquo; will remove any identities from the service.</p>
 </td>
 </tr>
 <tr>
@@ -8462,9 +7799,6 @@ map[string]./api/documentdb/v1alpha1api20210515.ManagedServiceIdentity_Status_Us
 </em>
 </td>
 <td>
-<p>UserAssignedIdentities: The list of user identities associated with resource. The user identity dictionary key
-references will be ARM resource ids in the form:
-&lsquo;/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}&rsquo;.</p>
 </td>
 </tr>
 </tbody>
@@ -8475,6 +7809,7 @@ references will be ARM resource ids in the form:
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountGetResults_StatusARM">DatabaseAccountGetResults_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of ManagedServiceIdentity_Status. Use v1beta20210515.ManagedServiceIdentity_Status instead</p>
 </div>
 <table>
 <thead>
@@ -8492,8 +7827,6 @@ string
 </em>
 </td>
 <td>
-<p>PrincipalId: The principal id of the system assigned identity. This property will only be provided for a system assigned
-identity.</p>
 </td>
 </tr>
 <tr>
@@ -8504,8 +7837,6 @@ string
 </em>
 </td>
 <td>
-<p>TenantId: The tenant id of the system assigned identity. This property will only be provided for a system assigned
-identity.</p>
 </td>
 </tr>
 <tr>
@@ -8518,8 +7849,6 @@ ManagedServiceIdentityStatusType
 </em>
 </td>
 <td>
-<p>Type: The type of identity used for the resource. The type &lsquo;SystemAssigned,UserAssigned&rsquo; includes both an implicitly
-created identity and a set of user assigned identities. The type &lsquo;None&rsquo; will remove any identities from the service.</p>
 </td>
 </tr>
 <tr>
@@ -8532,9 +7861,6 @@ map[string]./api/documentdb/v1alpha1api20210515.ManagedServiceIdentity_Status_Us
 </em>
 </td>
 <td>
-<p>UserAssignedIdentities: The list of user identities associated with resource. The user identity dictionary key
-references will be ARM resource ids in the form:
-&lsquo;/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}&rsquo;.</p>
 </td>
 </tr>
 </tbody>
@@ -8545,6 +7871,7 @@ references will be ARM resource ids in the form:
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.ManagedServiceIdentity_Status">ManagedServiceIdentity_Status</a>)
 </p>
 <div>
+<p>Deprecated version of ManagedServiceIdentity_Status_UserAssignedIdentities. Use v1beta20210515.ManagedServiceIdentity_Status_UserAssignedIdentities instead</p>
 </div>
 <table>
 <thead>
@@ -8562,7 +7889,6 @@ string
 </em>
 </td>
 <td>
-<p>ClientId: The client id of user assigned identity.</p>
 </td>
 </tr>
 <tr>
@@ -8573,7 +7899,6 @@ string
 </em>
 </td>
 <td>
-<p>PrincipalId: The principal id of user assigned identity.</p>
 </td>
 </tr>
 </tbody>
@@ -8584,6 +7909,7 @@ string
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.ManagedServiceIdentity_StatusARM">ManagedServiceIdentity_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of ManagedServiceIdentity_Status_UserAssignedIdentities. Use v1beta20210515.ManagedServiceIdentity_Status_UserAssignedIdentities instead</p>
 </div>
 <table>
 <thead>
@@ -8601,7 +7927,6 @@ string
 </em>
 </td>
 <td>
-<p>ClientId: The client id of user assigned identity.</p>
 </td>
 </tr>
 <tr>
@@ -8612,7 +7937,6 @@ string
 </em>
 </td>
 <td>
-<p>PrincipalId: The principal id of user assigned identity.</p>
 </td>
 </tr>
 </tbody>
@@ -8623,7 +7947,7 @@ string
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountsMongodbDatabasesCollections_SpecARM">DatabaseAccountsMongodbDatabasesCollections_SpecARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/MongoDBCollectionCreateUpdateProperties">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/MongoDBCollectionCreateUpdateProperties</a></p>
+<p>Deprecated version of MongoDBCollectionCreateUpdateProperties. Use v1beta20210515.MongoDBCollectionCreateUpdateProperties instead</p>
 </div>
 <table>
 <thead>
@@ -8643,8 +7967,6 @@ CreateUpdateOptionsARM
 </em>
 </td>
 <td>
-<p>Options: CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are &ldquo;If-Match&rdquo;,
-&ldquo;If-None-Match&rdquo;, &ldquo;Session-Token&rdquo; and &ldquo;Throughput&rdquo;</p>
 </td>
 </tr>
 <tr>
@@ -8657,7 +7979,6 @@ MongoDBCollectionResourceARM
 </em>
 </td>
 <td>
-<p>Resource: Cosmos DB MongoDB collection resource object</p>
 </td>
 </tr>
 </tbody>
@@ -8668,6 +7989,7 @@ MongoDBCollectionResourceARM
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.MongoDBCollectionGetResults_StatusARM">MongoDBCollectionGetResults_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of MongoDBCollectionGetProperties_Status. Use v1beta20210515.MongoDBCollectionGetProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -8709,6 +8031,7 @@ MongoDBCollectionGetProperties_Status_ResourceARM
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.MongoDBCollectionGetResults_Status">MongoDBCollectionGetResults_Status</a>)
 </p>
 <div>
+<p>Deprecated version of MongoDBCollectionGetProperties_Status_Resource. Use v1beta20210515.MongoDBCollectionGetProperties_Status_Resource instead</p>
 </div>
 <table>
 <thead>
@@ -8726,7 +8049,6 @@ int
 </em>
 </td>
 <td>
-<p>AnalyticalStorageTtl: Analytical TTL.</p>
 </td>
 </tr>
 <tr>
@@ -8737,7 +8059,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A system generated property representing the resource etag required for optimistic concurrency control.</p>
 </td>
 </tr>
 <tr>
@@ -8748,7 +8069,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Name of the Cosmos DB MongoDB collection</p>
 </td>
 </tr>
 <tr>
@@ -8761,7 +8081,6 @@ string
 </em>
 </td>
 <td>
-<p>Indexes: List of index keys</p>
 </td>
 </tr>
 <tr>
@@ -8772,7 +8091,6 @@ string
 </em>
 </td>
 <td>
-<p>Rid: A system generated property. A unique identifier.</p>
 </td>
 </tr>
 <tr>
@@ -8783,7 +8101,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>ShardKey: A key-value pair of shard keys to be applied for the request.</p>
 </td>
 </tr>
 <tr>
@@ -8794,7 +8111,6 @@ float64
 </em>
 </td>
 <td>
-<p>Ts: A system generated property that denotes the last updated timestamp of the resource.</p>
 </td>
 </tr>
 </tbody>
@@ -8805,6 +8121,7 @@ float64
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.MongoDBCollectionGetProperties_StatusARM">MongoDBCollectionGetProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of MongoDBCollectionGetProperties_Status_Resource. Use v1beta20210515.MongoDBCollectionGetProperties_Status_Resource instead</p>
 </div>
 <table>
 <thead>
@@ -8822,7 +8139,6 @@ int
 </em>
 </td>
 <td>
-<p>AnalyticalStorageTtl: Analytical TTL.</p>
 </td>
 </tr>
 <tr>
@@ -8833,7 +8149,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A system generated property representing the resource etag required for optimistic concurrency control.</p>
 </td>
 </tr>
 <tr>
@@ -8844,7 +8159,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Name of the Cosmos DB MongoDB collection</p>
 </td>
 </tr>
 <tr>
@@ -8857,7 +8171,6 @@ string
 </em>
 </td>
 <td>
-<p>Indexes: List of index keys</p>
 </td>
 </tr>
 <tr>
@@ -8868,7 +8181,6 @@ string
 </em>
 </td>
 <td>
-<p>Rid: A system generated property. A unique identifier.</p>
 </td>
 </tr>
 <tr>
@@ -8879,7 +8191,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>ShardKey: A key-value pair of shard keys to be applied for the request.</p>
 </td>
 </tr>
 <tr>
@@ -8890,7 +8201,6 @@ float64
 </em>
 </td>
 <td>
-<p>Ts: A system generated property that denotes the last updated timestamp of the resource.</p>
 </td>
 </tr>
 </tbody>
@@ -8901,6 +8211,7 @@ float64
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.MongodbDatabaseCollection">MongodbDatabaseCollection</a>)
 </p>
 <div>
+<p>Deprecated version of MongoDBCollectionGetResults_Status. Use v1beta20210515.MongoDBCollectionGetResults_Status instead</p>
 </div>
 <table>
 <thead>
@@ -8931,7 +8242,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: The unique resource identifier of the ARM resource.</p>
 </td>
 </tr>
 <tr>
@@ -8942,7 +8252,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The location of the resource group to which the resource belongs.</p>
 </td>
 </tr>
 <tr>
@@ -8953,7 +8262,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the ARM resource.</p>
 </td>
 </tr>
 <tr>
@@ -8998,7 +8306,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: The type of Azure resource.</p>
 </td>
 </tr>
 </tbody>
@@ -9006,6 +8313,7 @@ string
 <h3 id="documentdb.azure.com/v1alpha1api20210515.MongoDBCollectionGetResults_StatusARM">MongoDBCollectionGetResults_StatusARM
 </h3>
 <div>
+<p>Deprecated version of MongoDBCollectionGetResults_Status. Use v1beta20210515.MongoDBCollectionGetResults_Status instead</p>
 </div>
 <table>
 <thead>
@@ -9023,7 +8331,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: The unique resource identifier of the ARM resource.</p>
 </td>
 </tr>
 <tr>
@@ -9034,7 +8341,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The location of the resource group to which the resource belongs.</p>
 </td>
 </tr>
 <tr>
@@ -9045,7 +8351,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the ARM resource.</p>
 </td>
 </tr>
 <tr>
@@ -9058,7 +8363,6 @@ MongoDBCollectionGetProperties_StatusARM
 </em>
 </td>
 <td>
-<p>Properties: The properties of an Azure Cosmos DB MongoDB collection</p>
 </td>
 </tr>
 <tr>
@@ -9079,7 +8383,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: The type of Azure resource.</p>
 </td>
 </tr>
 </tbody>
@@ -9090,7 +8393,7 @@ string
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountsMongodbDatabasesCollections_Spec">DatabaseAccountsMongodbDatabasesCollections_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/MongoDBCollectionResource">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/MongoDBCollectionResource</a></p>
+<p>Deprecated version of MongoDBCollectionResource. Use v1beta20210515.MongoDBCollectionResource instead</p>
 </div>
 <table>
 <thead>
@@ -9108,7 +8411,6 @@ int
 </em>
 </td>
 <td>
-<p>AnalyticalStorageTtl: Analytical TTL.</p>
 </td>
 </tr>
 <tr>
@@ -9119,7 +8421,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Name of the Cosmos DB MongoDB collection</p>
 </td>
 </tr>
 <tr>
@@ -9132,7 +8433,6 @@ string
 </em>
 </td>
 <td>
-<p>Indexes: List of index keys</p>
 </td>
 </tr>
 <tr>
@@ -9143,7 +8443,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>ShardKey: The shard key and partition kind pair, only support &ldquo;Hash&rdquo; partition kind</p>
 </td>
 </tr>
 </tbody>
@@ -9154,7 +8453,7 @@ map[string]string
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.MongoDBCollectionCreateUpdatePropertiesARM">MongoDBCollectionCreateUpdatePropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/MongoDBCollectionResource">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/MongoDBCollectionResource</a></p>
+<p>Deprecated version of MongoDBCollectionResource. Use v1beta20210515.MongoDBCollectionResource instead</p>
 </div>
 <table>
 <thead>
@@ -9172,7 +8471,6 @@ int
 </em>
 </td>
 <td>
-<p>AnalyticalStorageTtl: Analytical TTL.</p>
 </td>
 </tr>
 <tr>
@@ -9183,7 +8481,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Name of the Cosmos DB MongoDB collection</p>
 </td>
 </tr>
 <tr>
@@ -9196,7 +8493,6 @@ string
 </em>
 </td>
 <td>
-<p>Indexes: List of index keys</p>
 </td>
 </tr>
 <tr>
@@ -9207,7 +8503,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>ShardKey: The shard key and partition kind pair, only support &ldquo;Hash&rdquo; partition kind</p>
 </td>
 </tr>
 </tbody>
@@ -9218,7 +8513,7 @@ map[string]string
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountsMongodbDatabases_SpecARM">DatabaseAccountsMongodbDatabases_SpecARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/MongoDBDatabaseCreateUpdateProperties">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/MongoDBDatabaseCreateUpdateProperties</a></p>
+<p>Deprecated version of MongoDBDatabaseCreateUpdateProperties. Use v1beta20210515.MongoDBDatabaseCreateUpdateProperties instead</p>
 </div>
 <table>
 <thead>
@@ -9238,8 +8533,6 @@ CreateUpdateOptionsARM
 </em>
 </td>
 <td>
-<p>Options: CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are &ldquo;If-Match&rdquo;,
-&ldquo;If-None-Match&rdquo;, &ldquo;Session-Token&rdquo; and &ldquo;Throughput&rdquo;</p>
 </td>
 </tr>
 <tr>
@@ -9252,7 +8545,6 @@ MongoDBDatabaseResourceARM
 </em>
 </td>
 <td>
-<p>Resource: Cosmos DB MongoDB database resource object</p>
 </td>
 </tr>
 </tbody>
@@ -9263,6 +8555,7 @@ MongoDBDatabaseResourceARM
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.MongoDBDatabaseGetResults_StatusARM">MongoDBDatabaseGetResults_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of MongoDBDatabaseGetProperties_Status. Use v1beta20210515.MongoDBDatabaseGetProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -9304,6 +8597,7 @@ MongoDBDatabaseGetProperties_Status_ResourceARM
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.MongoDBDatabaseGetResults_Status">MongoDBDatabaseGetResults_Status</a>)
 </p>
 <div>
+<p>Deprecated version of MongoDBDatabaseGetProperties_Status_Resource. Use v1beta20210515.MongoDBDatabaseGetProperties_Status_Resource instead</p>
 </div>
 <table>
 <thead>
@@ -9321,7 +8615,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A system generated property representing the resource etag required for optimistic concurrency control.</p>
 </td>
 </tr>
 <tr>
@@ -9332,7 +8625,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Name of the Cosmos DB MongoDB database</p>
 </td>
 </tr>
 <tr>
@@ -9343,7 +8635,6 @@ string
 </em>
 </td>
 <td>
-<p>Rid: A system generated property. A unique identifier.</p>
 </td>
 </tr>
 <tr>
@@ -9354,7 +8645,6 @@ float64
 </em>
 </td>
 <td>
-<p>Ts: A system generated property that denotes the last updated timestamp of the resource.</p>
 </td>
 </tr>
 </tbody>
@@ -9365,6 +8655,7 @@ float64
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.MongoDBDatabaseGetProperties_StatusARM">MongoDBDatabaseGetProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of MongoDBDatabaseGetProperties_Status_Resource. Use v1beta20210515.MongoDBDatabaseGetProperties_Status_Resource instead</p>
 </div>
 <table>
 <thead>
@@ -9382,7 +8673,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A system generated property representing the resource etag required for optimistic concurrency control.</p>
 </td>
 </tr>
 <tr>
@@ -9393,7 +8683,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Name of the Cosmos DB MongoDB database</p>
 </td>
 </tr>
 <tr>
@@ -9404,7 +8693,6 @@ string
 </em>
 </td>
 <td>
-<p>Rid: A system generated property. A unique identifier.</p>
 </td>
 </tr>
 <tr>
@@ -9415,7 +8703,6 @@ float64
 </em>
 </td>
 <td>
-<p>Ts: A system generated property that denotes the last updated timestamp of the resource.</p>
 </td>
 </tr>
 </tbody>
@@ -9426,6 +8713,7 @@ float64
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.MongodbDatabase">MongodbDatabase</a>)
 </p>
 <div>
+<p>Deprecated version of MongoDBDatabaseGetResults_Status. Use v1beta20210515.MongoDBDatabaseGetResults_Status instead</p>
 </div>
 <table>
 <thead>
@@ -9456,7 +8744,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: The unique resource identifier of the ARM resource.</p>
 </td>
 </tr>
 <tr>
@@ -9467,7 +8754,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The location of the resource group to which the resource belongs.</p>
 </td>
 </tr>
 <tr>
@@ -9478,7 +8764,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the ARM resource.</p>
 </td>
 </tr>
 <tr>
@@ -9523,7 +8808,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: The type of Azure resource.</p>
 </td>
 </tr>
 </tbody>
@@ -9531,6 +8815,7 @@ string
 <h3 id="documentdb.azure.com/v1alpha1api20210515.MongoDBDatabaseGetResults_StatusARM">MongoDBDatabaseGetResults_StatusARM
 </h3>
 <div>
+<p>Deprecated version of MongoDBDatabaseGetResults_Status. Use v1beta20210515.MongoDBDatabaseGetResults_Status instead</p>
 </div>
 <table>
 <thead>
@@ -9548,7 +8833,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: The unique resource identifier of the ARM resource.</p>
 </td>
 </tr>
 <tr>
@@ -9559,7 +8843,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The location of the resource group to which the resource belongs.</p>
 </td>
 </tr>
 <tr>
@@ -9570,7 +8853,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the ARM resource.</p>
 </td>
 </tr>
 <tr>
@@ -9583,7 +8865,6 @@ MongoDBDatabaseGetProperties_StatusARM
 </em>
 </td>
 <td>
-<p>Properties: The properties of an Azure Cosmos DB MongoDB database</p>
 </td>
 </tr>
 <tr>
@@ -9604,7 +8885,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: The type of Azure resource.</p>
 </td>
 </tr>
 </tbody>
@@ -9615,7 +8895,7 @@ string
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountsMongodbDatabases_Spec">DatabaseAccountsMongodbDatabases_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/MongoDBDatabaseResource">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/MongoDBDatabaseResource</a></p>
+<p>Deprecated version of MongoDBDatabaseResource. Use v1beta20210515.MongoDBDatabaseResource instead</p>
 </div>
 <table>
 <thead>
@@ -9633,7 +8913,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Name of the Cosmos DB MongoDB database</p>
 </td>
 </tr>
 </tbody>
@@ -9644,7 +8923,7 @@ string
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.MongoDBDatabaseCreateUpdatePropertiesARM">MongoDBDatabaseCreateUpdatePropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/MongoDBDatabaseResource">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/MongoDBDatabaseResource</a></p>
+<p>Deprecated version of MongoDBDatabaseResource. Use v1beta20210515.MongoDBDatabaseResource instead</p>
 </div>
 <table>
 <thead>
@@ -9662,7 +8941,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Name of the Cosmos DB MongoDB database</p>
 </td>
 </tr>
 </tbody>
@@ -9673,7 +8951,7 @@ string
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.MongoDBCollectionResource">MongoDBCollectionResource</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/MongoIndex">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/MongoIndex</a></p>
+<p>Deprecated version of MongoIndex. Use v1beta20210515.MongoIndex instead</p>
 </div>
 <table>
 <thead>
@@ -9693,7 +8971,6 @@ MongoIndexKeys
 </em>
 </td>
 <td>
-<p>Key: Cosmos DB MongoDB collection resource object</p>
 </td>
 </tr>
 <tr>
@@ -9706,7 +8983,6 @@ MongoIndexOptions
 </em>
 </td>
 <td>
-<p>Options: Cosmos DB MongoDB collection index options</p>
 </td>
 </tr>
 </tbody>
@@ -9717,7 +8993,7 @@ MongoIndexOptions
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.MongoDBCollectionResourceARM">MongoDBCollectionResourceARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/MongoIndex">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/MongoIndex</a></p>
+<p>Deprecated version of MongoIndex. Use v1beta20210515.MongoIndex instead</p>
 </div>
 <table>
 <thead>
@@ -9737,7 +9013,6 @@ MongoIndexKeysARM
 </em>
 </td>
 <td>
-<p>Key: Cosmos DB MongoDB collection resource object</p>
 </td>
 </tr>
 <tr>
@@ -9750,7 +9025,6 @@ MongoIndexOptionsARM
 </em>
 </td>
 <td>
-<p>Options: Cosmos DB MongoDB collection index options</p>
 </td>
 </tr>
 </tbody>
@@ -9761,7 +9035,7 @@ MongoIndexOptionsARM
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.MongoIndex">MongoIndex</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/MongoIndexKeys">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/MongoIndexKeys</a></p>
+<p>Deprecated version of MongoIndexKeys. Use v1beta20210515.MongoIndexKeys instead</p>
 </div>
 <table>
 <thead>
@@ -9779,7 +9053,6 @@ MongoIndexOptionsARM
 </em>
 </td>
 <td>
-<p>Keys: List of keys for each MongoDB collection in the Azure Cosmos DB service</p>
 </td>
 </tr>
 </tbody>
@@ -9790,7 +9063,7 @@ MongoIndexOptionsARM
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.MongoIndexARM">MongoIndexARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/MongoIndexKeys">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/MongoIndexKeys</a></p>
+<p>Deprecated version of MongoIndexKeys. Use v1beta20210515.MongoIndexKeys instead</p>
 </div>
 <table>
 <thead>
@@ -9808,7 +9081,6 @@ MongoIndexOptionsARM
 </em>
 </td>
 <td>
-<p>Keys: List of keys for each MongoDB collection in the Azure Cosmos DB service</p>
 </td>
 </tr>
 </tbody>
@@ -9819,6 +9091,7 @@ MongoIndexOptionsARM
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.MongoIndex_Status">MongoIndex_Status</a>)
 </p>
 <div>
+<p>Deprecated version of MongoIndexKeys_Status. Use v1beta20210515.MongoIndexKeys_Status instead</p>
 </div>
 <table>
 <thead>
@@ -9836,7 +9109,6 @@ MongoIndexOptionsARM
 </em>
 </td>
 <td>
-<p>Keys: List of keys for each MongoDB collection in the Azure Cosmos DB service</p>
 </td>
 </tr>
 </tbody>
@@ -9847,6 +9119,7 @@ MongoIndexOptionsARM
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.MongoIndex_StatusARM">MongoIndex_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of MongoIndexKeys_Status. Use v1beta20210515.MongoIndexKeys_Status instead</p>
 </div>
 <table>
 <thead>
@@ -9864,7 +9137,6 @@ MongoIndexOptionsARM
 </em>
 </td>
 <td>
-<p>Keys: List of keys for each MongoDB collection in the Azure Cosmos DB service</p>
 </td>
 </tr>
 </tbody>
@@ -9875,7 +9147,7 @@ MongoIndexOptionsARM
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.MongoIndex">MongoIndex</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/MongoIndexOptions">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/MongoIndexOptions</a></p>
+<p>Deprecated version of MongoIndexOptions. Use v1beta20210515.MongoIndexOptions instead</p>
 </div>
 <table>
 <thead>
@@ -9893,7 +9165,6 @@ int
 </em>
 </td>
 <td>
-<p>ExpireAfterSeconds: Expire after seconds</p>
 </td>
 </tr>
 <tr>
@@ -9904,7 +9175,6 @@ bool
 </em>
 </td>
 <td>
-<p>Unique: Is unique or not</p>
 </td>
 </tr>
 </tbody>
@@ -9915,7 +9185,7 @@ bool
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.MongoIndexARM">MongoIndexARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/MongoIndexOptions">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/MongoIndexOptions</a></p>
+<p>Deprecated version of MongoIndexOptions. Use v1beta20210515.MongoIndexOptions instead</p>
 </div>
 <table>
 <thead>
@@ -9933,7 +9203,6 @@ int
 </em>
 </td>
 <td>
-<p>ExpireAfterSeconds: Expire after seconds</p>
 </td>
 </tr>
 <tr>
@@ -9944,7 +9213,6 @@ bool
 </em>
 </td>
 <td>
-<p>Unique: Is unique or not</p>
 </td>
 </tr>
 </tbody>
@@ -9955,6 +9223,7 @@ bool
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.MongoIndex_Status">MongoIndex_Status</a>)
 </p>
 <div>
+<p>Deprecated version of MongoIndexOptions_Status. Use v1beta20210515.MongoIndexOptions_Status instead</p>
 </div>
 <table>
 <thead>
@@ -9972,7 +9241,6 @@ int
 </em>
 </td>
 <td>
-<p>ExpireAfterSeconds: Expire after seconds</p>
 </td>
 </tr>
 <tr>
@@ -9983,7 +9251,6 @@ bool
 </em>
 </td>
 <td>
-<p>Unique: Is unique or not</p>
 </td>
 </tr>
 </tbody>
@@ -9994,6 +9261,7 @@ bool
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.MongoIndex_StatusARM">MongoIndex_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of MongoIndexOptions_Status. Use v1beta20210515.MongoIndexOptions_Status instead</p>
 </div>
 <table>
 <thead>
@@ -10011,7 +9279,6 @@ int
 </em>
 </td>
 <td>
-<p>ExpireAfterSeconds: Expire after seconds</p>
 </td>
 </tr>
 <tr>
@@ -10022,7 +9289,6 @@ bool
 </em>
 </td>
 <td>
-<p>Unique: Is unique or not</p>
 </td>
 </tr>
 </tbody>
@@ -10033,6 +9299,7 @@ bool
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.MongoDBCollectionGetProperties_Status_Resource">MongoDBCollectionGetProperties_Status_Resource</a>)
 </p>
 <div>
+<p>Deprecated version of MongoIndex_Status. Use v1beta20210515.MongoIndex_Status instead</p>
 </div>
 <table>
 <thead>
@@ -10052,7 +9319,6 @@ MongoIndexKeys_Status
 </em>
 </td>
 <td>
-<p>Key: Cosmos DB MongoDB collection index keys</p>
 </td>
 </tr>
 <tr>
@@ -10065,7 +9331,6 @@ MongoIndexOptions_Status
 </em>
 </td>
 <td>
-<p>Options: Cosmos DB MongoDB collection index key options</p>
 </td>
 </tr>
 </tbody>
@@ -10076,6 +9341,7 @@ MongoIndexOptions_Status
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.MongoDBCollectionGetProperties_Status_ResourceARM">MongoDBCollectionGetProperties_Status_ResourceARM</a>)
 </p>
 <div>
+<p>Deprecated version of MongoIndex_Status. Use v1beta20210515.MongoIndex_Status instead</p>
 </div>
 <table>
 <thead>
@@ -10095,7 +9361,6 @@ MongoIndexKeys_StatusARM
 </em>
 </td>
 <td>
-<p>Key: Cosmos DB MongoDB collection index keys</p>
 </td>
 </tr>
 <tr>
@@ -10108,7 +9373,6 @@ MongoIndexOptions_StatusARM
 </em>
 </td>
 <td>
-<p>Options: Cosmos DB MongoDB collection index key options</p>
 </td>
 </tr>
 </tbody>
@@ -10116,7 +9380,7 @@ MongoIndexOptions_StatusARM
 <h3 id="documentdb.azure.com/v1alpha1api20210515.MongodbDatabase">MongodbDatabase
 </h3>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_mongodbDatabases">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_mongodbDatabases</a></p>
+<p>Deprecated version of MongodbDatabase. Use v1beta20210515.MongodbDatabase instead</p>
 </div>
 <table>
 <thead>
@@ -10173,7 +9437,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The location of the resource group to which the resource belongs.</p>
 </td>
 </tr>
 <tr>
@@ -10186,8 +9449,6 @@ CreateUpdateOptions
 </em>
 </td>
 <td>
-<p>Options: CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are &ldquo;If-Match&rdquo;,
-&ldquo;If-None-Match&rdquo;, &ldquo;Session-Token&rdquo; and &ldquo;Throughput&rdquo;</p>
 </td>
 </tr>
 <tr>
@@ -10200,6 +9461,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a documentdb.azure.com/DatabaseAccount resource</p>
 </td>
 </tr>
 <tr>
@@ -10212,7 +9476,6 @@ MongoDBDatabaseResource
 </em>
 </td>
 <td>
-<p>Resource: Cosmos DB MongoDB database resource object</p>
 </td>
 </tr>
 <tr>
@@ -10223,11 +9486,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
-resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
-greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
-type is set with &ldquo;defaultExperience&rdquo;: &ldquo;Cassandra&rdquo;. Current &ldquo;defaultExperience&rdquo; values also include &ldquo;Table&rdquo;, &ldquo;Graph&rdquo;,
-&ldquo;DocumentDB&rdquo;, and &ldquo;MongoDB&rdquo;.</p>
 </td>
 </tr>
 </table>
@@ -10250,7 +9508,7 @@ MongoDBDatabaseGetResults_Status
 <h3 id="documentdb.azure.com/v1alpha1api20210515.MongodbDatabaseCollection">MongodbDatabaseCollection
 </h3>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_mongodbDatabases_collections">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_mongodbDatabases_collections</a></p>
+<p>Deprecated version of MongodbDatabaseCollection. Use v1beta20210515.MongodbDatabaseCollection instead</p>
 </div>
 <table>
 <thead>
@@ -10307,7 +9565,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The location of the resource group to which the resource belongs.</p>
 </td>
 </tr>
 <tr>
@@ -10320,8 +9577,6 @@ CreateUpdateOptions
 </em>
 </td>
 <td>
-<p>Options: CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are &ldquo;If-Match&rdquo;,
-&ldquo;If-None-Match&rdquo;, &ldquo;Session-Token&rdquo; and &ldquo;Throughput&rdquo;</p>
 </td>
 </tr>
 <tr>
@@ -10334,6 +9589,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a documentdb.azure.com/MongodbDatabase resource</p>
 </td>
 </tr>
 <tr>
@@ -10346,7 +9604,6 @@ MongoDBCollectionResource
 </em>
 </td>
 <td>
-<p>Resource: Cosmos DB MongoDB collection resource object</p>
 </td>
 </tr>
 <tr>
@@ -10357,11 +9614,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
-resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
-greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
-type is set with &ldquo;defaultExperience&rdquo;: &ldquo;Cassandra&rdquo;. Current &ldquo;defaultExperience&rdquo; values also include &ldquo;Table&rdquo;, &ldquo;Graph&rdquo;,
-&ldquo;DocumentDB&rdquo;, and &ldquo;MongoDB&rdquo;.</p>
 </td>
 </tr>
 </table>
@@ -10384,7 +9636,7 @@ MongoDBCollectionGetResults_Status
 <h3 id="documentdb.azure.com/v1alpha1api20210515.MongodbDatabaseCollectionThroughputSetting">MongodbDatabaseCollectionThroughputSetting
 </h3>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_mongodbDatabases_collections_throughputSettings">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_mongodbDatabases_collections_throughputSettings</a></p>
+<p>Deprecated version of MongodbDatabaseCollectionThroughputSetting. Use v1beta20210515.MongodbDatabaseCollectionThroughputSetting instead</p>
 </div>
 <table>
 <thead>
@@ -10429,7 +9681,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The location of the resource group to which the resource belongs.</p>
 </td>
 </tr>
 <tr>
@@ -10442,6 +9693,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a documentdb.azure.com/MongodbDatabaseCollection resource</p>
 </td>
 </tr>
 <tr>
@@ -10454,8 +9708,6 @@ ThroughputSettingsResource
 </em>
 </td>
 <td>
-<p>Resource: Cosmos DB resource throughput object. Either throughput is required or autoscaleSettings is required, but not
-both.</p>
 </td>
 </tr>
 <tr>
@@ -10466,11 +9718,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
-resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
-greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
-type is set with &ldquo;defaultExperience&rdquo;: &ldquo;Cassandra&rdquo;. Current &ldquo;defaultExperience&rdquo; values also include &ldquo;Table&rdquo;, &ldquo;Graph&rdquo;,
-&ldquo;DocumentDB&rdquo;, and &ldquo;MongoDB&rdquo;.</p>
 </td>
 </tr>
 </table>
@@ -10493,7 +9740,7 @@ ThroughputSettingsGetResults_Status
 <h3 id="documentdb.azure.com/v1alpha1api20210515.MongodbDatabaseThroughputSetting">MongodbDatabaseThroughputSetting
 </h3>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_mongodbDatabases_throughputSettings">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_mongodbDatabases_throughputSettings</a></p>
+<p>Deprecated version of MongodbDatabaseThroughputSetting. Use v1beta20210515.MongodbDatabaseThroughputSetting instead</p>
 </div>
 <table>
 <thead>
@@ -10538,7 +9785,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The location of the resource group to which the resource belongs.</p>
 </td>
 </tr>
 <tr>
@@ -10551,6 +9797,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a documentdb.azure.com/MongodbDatabase resource</p>
 </td>
 </tr>
 <tr>
@@ -10563,8 +9812,6 @@ ThroughputSettingsResource
 </em>
 </td>
 <td>
-<p>Resource: Cosmos DB resource throughput object. Either throughput is required or autoscaleSettings is required, but not
-both.</p>
 </td>
 </tr>
 <tr>
@@ -10575,11 +9822,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
-resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
-greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
-type is set with &ldquo;defaultExperience&rdquo;: &ldquo;Cassandra&rdquo;. Current &ldquo;defaultExperience&rdquo; values also include &ldquo;Table&rdquo;, &ldquo;Graph&rdquo;,
-&ldquo;DocumentDB&rdquo;, and &ldquo;MongoDB&rdquo;.</p>
 </td>
 </tr>
 </table>
@@ -10605,6 +9847,7 @@ ThroughputSettingsGetResults_Status
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountGetProperties_StatusARM">DatabaseAccountGetProperties_StatusARM</a>, <a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountGetResults_Status">DatabaseAccountGetResults_Status</a>)
 </p>
 <div>
+<p>Deprecated version of NetworkAclBypass_Status. Use v1beta20210515.NetworkAclBypass_Status instead</p>
 </div>
 <table>
 <thead>
@@ -10625,6 +9868,7 @@ ThroughputSettingsGetResults_Status
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.MongoDBCollectionGetResults_Status">MongoDBCollectionGetResults_Status</a>, <a href="#documentdb.azure.com/v1alpha1api20210515.MongoDBDatabaseGetResults_Status">MongoDBDatabaseGetResults_Status</a>, <a href="#documentdb.azure.com/v1alpha1api20210515.SqlContainerGetResults_Status">SqlContainerGetResults_Status</a>, <a href="#documentdb.azure.com/v1alpha1api20210515.SqlDatabaseGetResults_Status">SqlDatabaseGetResults_Status</a>)
 </p>
 <div>
+<p>Deprecated version of OptionsResource_Status. Use v1beta20210515.OptionsResource_Status instead</p>
 </div>
 <table>
 <thead>
@@ -10644,7 +9888,6 @@ AutoscaleSettings_Status
 </em>
 </td>
 <td>
-<p>AutoscaleSettings: Specifies the Autoscale settings.</p>
 </td>
 </tr>
 <tr>
@@ -10655,8 +9898,6 @@ int
 </em>
 </td>
 <td>
-<p>Throughput: Value of the Cosmos DB resource throughput or autoscaleSettings. Use the ThroughputSetting resource when
-retrieving offer details.</p>
 </td>
 </tr>
 </tbody>
@@ -10667,6 +9908,7 @@ retrieving offer details.</p>
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.MongoDBCollectionGetProperties_StatusARM">MongoDBCollectionGetProperties_StatusARM</a>, <a href="#documentdb.azure.com/v1alpha1api20210515.MongoDBDatabaseGetProperties_StatusARM">MongoDBDatabaseGetProperties_StatusARM</a>, <a href="#documentdb.azure.com/v1alpha1api20210515.SqlContainerGetProperties_StatusARM">SqlContainerGetProperties_StatusARM</a>, <a href="#documentdb.azure.com/v1alpha1api20210515.SqlDatabaseGetProperties_StatusARM">SqlDatabaseGetProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of OptionsResource_Status. Use v1beta20210515.OptionsResource_Status instead</p>
 </div>
 <table>
 <thead>
@@ -10686,7 +9928,6 @@ AutoscaleSettings_StatusARM
 </em>
 </td>
 <td>
-<p>AutoscaleSettings: Specifies the Autoscale settings.</p>
 </td>
 </tr>
 <tr>
@@ -10697,8 +9938,6 @@ int
 </em>
 </td>
 <td>
-<p>Throughput: Value of the Cosmos DB resource throughput or autoscaleSettings. Use the ThroughputSetting resource when
-retrieving offer details.</p>
 </td>
 </tr>
 </tbody>
@@ -10709,7 +9948,7 @@ retrieving offer details.</p>
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.BackupPolicy">BackupPolicy</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/PeriodicModeBackupPolicy">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/PeriodicModeBackupPolicy</a></p>
+<p>Deprecated version of PeriodicModeBackupPolicy. Use v1beta20210515.PeriodicModeBackupPolicy instead</p>
 </div>
 <table>
 <thead>
@@ -10729,7 +9968,6 @@ PeriodicModeProperties
 </em>
 </td>
 <td>
-<p>PeriodicModeProperties: Configuration values for periodic mode backup</p>
 </td>
 </tr>
 <tr>
@@ -10752,7 +9990,7 @@ PeriodicModeBackupPolicyType
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.BackupPolicyARM">BackupPolicyARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/PeriodicModeBackupPolicy">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/PeriodicModeBackupPolicy</a></p>
+<p>Deprecated version of PeriodicModeBackupPolicy. Use v1beta20210515.PeriodicModeBackupPolicy instead</p>
 </div>
 <table>
 <thead>
@@ -10772,7 +10010,6 @@ PeriodicModePropertiesARM
 </em>
 </td>
 <td>
-<p>PeriodicModeProperties: Configuration values for periodic mode backup</p>
 </td>
 </tr>
 <tr>
@@ -10795,6 +10032,7 @@ PeriodicModeBackupPolicyType
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.PeriodicModeBackupPolicy">PeriodicModeBackupPolicy</a>, <a href="#documentdb.azure.com/v1alpha1api20210515.PeriodicModeBackupPolicyARM">PeriodicModeBackupPolicyARM</a>)
 </p>
 <div>
+<p>Deprecated version of PeriodicModeBackupPolicyType. Use v1beta20210515.PeriodicModeBackupPolicyType instead</p>
 </div>
 <table>
 <thead>
@@ -10813,7 +10051,7 @@ PeriodicModeBackupPolicyType
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.PeriodicModeBackupPolicy">PeriodicModeBackupPolicy</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/PeriodicModeProperties">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/PeriodicModeProperties</a></p>
+<p>Deprecated version of PeriodicModeProperties. Use v1beta20210515.PeriodicModeProperties instead</p>
 </div>
 <table>
 <thead>
@@ -10831,7 +10069,6 @@ int
 </em>
 </td>
 <td>
-<p>BackupIntervalInMinutes: An integer representing the interval in minutes between two backups</p>
 </td>
 </tr>
 <tr>
@@ -10842,7 +10079,6 @@ int
 </em>
 </td>
 <td>
-<p>BackupRetentionIntervalInHours: An integer representing the time (in hours) that each backup is retained</p>
 </td>
 </tr>
 </tbody>
@@ -10853,7 +10089,7 @@ int
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.PeriodicModeBackupPolicyARM">PeriodicModeBackupPolicyARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/PeriodicModeProperties">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/PeriodicModeProperties</a></p>
+<p>Deprecated version of PeriodicModeProperties. Use v1beta20210515.PeriodicModeProperties instead</p>
 </div>
 <table>
 <thead>
@@ -10871,7 +10107,6 @@ int
 </em>
 </td>
 <td>
-<p>BackupIntervalInMinutes: An integer representing the interval in minutes between two backups</p>
 </td>
 </tr>
 <tr>
@@ -10882,7 +10117,6 @@ int
 </em>
 </td>
 <td>
-<p>BackupRetentionIntervalInHours: An integer representing the time (in hours) that each backup is retained</p>
 </td>
 </tr>
 </tbody>
@@ -10893,6 +10127,7 @@ int
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountGetResults_Status">DatabaseAccountGetResults_Status</a>)
 </p>
 <div>
+<p>Deprecated version of PrivateEndpointConnection_Status_SubResourceEmbedded. Use v1beta20210515.PrivateEndpointConnection_Status_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -10910,8 +10145,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}</p>
 </td>
 </tr>
 </tbody>
@@ -10922,6 +10155,7 @@ string
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountGetProperties_StatusARM">DatabaseAccountGetProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of PrivateEndpointConnection_Status_SubResourceEmbedded. Use v1beta20210515.PrivateEndpointConnection_Status_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -10939,8 +10173,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}</p>
 </td>
 </tr>
 </tbody>
@@ -10951,6 +10183,7 @@ string
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountGetProperties_StatusARM">DatabaseAccountGetProperties_StatusARM</a>, <a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountGetResults_Status">DatabaseAccountGetResults_Status</a>)
 </p>
 <div>
+<p>Deprecated version of PublicNetworkAccess_Status. Use v1beta20210515.PublicNetworkAccess_Status instead</p>
 </div>
 <table>
 <thead>
@@ -10971,7 +10204,7 @@ string
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.IndexingPolicy">IndexingPolicy</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SpatialSpec">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SpatialSpec</a></p>
+<p>Deprecated version of SpatialSpec. Use v1beta20210515.SpatialSpec instead</p>
 </div>
 <table>
 <thead>
@@ -10989,8 +10222,6 @@ string
 </em>
 </td>
 <td>
-<p>Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
-(/path/*)</p>
 </td>
 </tr>
 <tr>
@@ -11003,7 +10234,6 @@ string
 </em>
 </td>
 <td>
-<p>Types: List of path&rsquo;s spatial type</p>
 </td>
 </tr>
 </tbody>
@@ -11014,7 +10244,7 @@ string
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.IndexingPolicyARM">IndexingPolicyARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SpatialSpec">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SpatialSpec</a></p>
+<p>Deprecated version of SpatialSpec. Use v1beta20210515.SpatialSpec instead</p>
 </div>
 <table>
 <thead>
@@ -11032,8 +10262,6 @@ string
 </em>
 </td>
 <td>
-<p>Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
-(/path/*)</p>
 </td>
 </tr>
 <tr>
@@ -11046,7 +10274,6 @@ string
 </em>
 </td>
 <td>
-<p>Types: List of path&rsquo;s spatial type</p>
 </td>
 </tr>
 </tbody>
@@ -11057,6 +10284,7 @@ string
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.SpatialSpec">SpatialSpec</a>, <a href="#documentdb.azure.com/v1alpha1api20210515.SpatialSpecARM">SpatialSpecARM</a>)
 </p>
 <div>
+<p>Deprecated version of SpatialSpecTypes. Use v1beta20210515.SpatialSpecTypes instead</p>
 </div>
 <table>
 <thead>
@@ -11081,6 +10309,7 @@ string
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.IndexingPolicy_Status">IndexingPolicy_Status</a>)
 </p>
 <div>
+<p>Deprecated version of SpatialSpec_Status. Use v1beta20210515.SpatialSpec_Status instead</p>
 </div>
 <table>
 <thead>
@@ -11098,8 +10327,6 @@ string
 </em>
 </td>
 <td>
-<p>Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
-(/path/*)</p>
 </td>
 </tr>
 <tr>
@@ -11112,7 +10339,6 @@ string
 </em>
 </td>
 <td>
-<p>Types: List of path&rsquo;s spatial type</p>
 </td>
 </tr>
 </tbody>
@@ -11123,6 +10349,7 @@ string
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.IndexingPolicy_StatusARM">IndexingPolicy_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of SpatialSpec_Status. Use v1beta20210515.SpatialSpec_Status instead</p>
 </div>
 <table>
 <thead>
@@ -11140,8 +10367,6 @@ string
 </em>
 </td>
 <td>
-<p>Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
-(/path/*)</p>
 </td>
 </tr>
 <tr>
@@ -11154,7 +10379,6 @@ string
 </em>
 </td>
 <td>
-<p>Types: List of path&rsquo;s spatial type</p>
 </td>
 </tr>
 </tbody>
@@ -11165,6 +10389,7 @@ string
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.SpatialSpec_Status">SpatialSpec_Status</a>, <a href="#documentdb.azure.com/v1alpha1api20210515.SpatialSpec_StatusARM">SpatialSpec_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of SpatialType_Status. Use v1beta20210515.SpatialType_Status instead</p>
 </div>
 <table>
 <thead>
@@ -11189,7 +10414,7 @@ string
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountsSqlDatabasesContainers_SpecARM">DatabaseAccountsSqlDatabasesContainers_SpecARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlContainerCreateUpdateProperties">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlContainerCreateUpdateProperties</a></p>
+<p>Deprecated version of SqlContainerCreateUpdateProperties. Use v1beta20210515.SqlContainerCreateUpdateProperties instead</p>
 </div>
 <table>
 <thead>
@@ -11209,8 +10434,6 @@ CreateUpdateOptionsARM
 </em>
 </td>
 <td>
-<p>Options: CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are &ldquo;If-Match&rdquo;,
-&ldquo;If-None-Match&rdquo;, &ldquo;Session-Token&rdquo; and &ldquo;Throughput&rdquo;</p>
 </td>
 </tr>
 <tr>
@@ -11223,7 +10446,6 @@ SqlContainerResourceARM
 </em>
 </td>
 <td>
-<p>Resource: Cosmos DB SQL container resource object</p>
 </td>
 </tr>
 </tbody>
@@ -11234,6 +10456,7 @@ SqlContainerResourceARM
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.SqlContainerGetResults_StatusARM">SqlContainerGetResults_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of SqlContainerGetProperties_Status. Use v1beta20210515.SqlContainerGetProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -11275,6 +10498,7 @@ SqlContainerGetProperties_Status_ResourceARM
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.SqlContainerGetResults_Status">SqlContainerGetResults_Status</a>)
 </p>
 <div>
+<p>Deprecated version of SqlContainerGetProperties_Status_Resource. Use v1beta20210515.SqlContainerGetProperties_Status_Resource instead</p>
 </div>
 <table>
 <thead>
@@ -11292,7 +10516,6 @@ int
 </em>
 </td>
 <td>
-<p>AnalyticalStorageTtl: Analytical TTL.</p>
 </td>
 </tr>
 <tr>
@@ -11305,7 +10528,6 @@ ConflictResolutionPolicy_Status
 </em>
 </td>
 <td>
-<p>ConflictResolutionPolicy: The conflict resolution policy for the container.</p>
 </td>
 </tr>
 <tr>
@@ -11316,7 +10538,6 @@ int
 </em>
 </td>
 <td>
-<p>DefaultTtl: Default time to live</p>
 </td>
 </tr>
 <tr>
@@ -11327,7 +10548,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A system generated property representing the resource etag required for optimistic concurrency control.</p>
 </td>
 </tr>
 <tr>
@@ -11338,7 +10558,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Name of the Cosmos DB SQL container</p>
 </td>
 </tr>
 <tr>
@@ -11351,8 +10570,6 @@ IndexingPolicy_Status
 </em>
 </td>
 <td>
-<p>IndexingPolicy: The configuration of the indexing policy. By default, the indexing is automatic for all document paths
-within the container</p>
 </td>
 </tr>
 <tr>
@@ -11365,7 +10582,6 @@ ContainerPartitionKey_Status
 </em>
 </td>
 <td>
-<p>PartitionKey: The configuration of the partition key to be used for partitioning data into multiple partitions</p>
 </td>
 </tr>
 <tr>
@@ -11376,7 +10592,6 @@ string
 </em>
 </td>
 <td>
-<p>Rid: A system generated property. A unique identifier.</p>
 </td>
 </tr>
 <tr>
@@ -11387,7 +10602,6 @@ float64
 </em>
 </td>
 <td>
-<p>Ts: A system generated property that denotes the last updated timestamp of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -11400,8 +10614,6 @@ UniqueKeyPolicy_Status
 </em>
 </td>
 <td>
-<p>UniqueKeyPolicy: The unique key policy configuration for specifying uniqueness constraints on documents in the
-collection in the Azure Cosmos DB service.</p>
 </td>
 </tr>
 </tbody>
@@ -11412,6 +10624,7 @@ collection in the Azure Cosmos DB service.</p>
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.SqlContainerGetProperties_StatusARM">SqlContainerGetProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of SqlContainerGetProperties_Status_Resource. Use v1beta20210515.SqlContainerGetProperties_Status_Resource instead</p>
 </div>
 <table>
 <thead>
@@ -11429,7 +10642,6 @@ int
 </em>
 </td>
 <td>
-<p>AnalyticalStorageTtl: Analytical TTL.</p>
 </td>
 </tr>
 <tr>
@@ -11442,7 +10654,6 @@ ConflictResolutionPolicy_StatusARM
 </em>
 </td>
 <td>
-<p>ConflictResolutionPolicy: The conflict resolution policy for the container.</p>
 </td>
 </tr>
 <tr>
@@ -11453,7 +10664,6 @@ int
 </em>
 </td>
 <td>
-<p>DefaultTtl: Default time to live</p>
 </td>
 </tr>
 <tr>
@@ -11464,7 +10674,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A system generated property representing the resource etag required for optimistic concurrency control.</p>
 </td>
 </tr>
 <tr>
@@ -11475,7 +10684,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Name of the Cosmos DB SQL container</p>
 </td>
 </tr>
 <tr>
@@ -11488,8 +10696,6 @@ IndexingPolicy_StatusARM
 </em>
 </td>
 <td>
-<p>IndexingPolicy: The configuration of the indexing policy. By default, the indexing is automatic for all document paths
-within the container</p>
 </td>
 </tr>
 <tr>
@@ -11502,7 +10708,6 @@ ContainerPartitionKey_StatusARM
 </em>
 </td>
 <td>
-<p>PartitionKey: The configuration of the partition key to be used for partitioning data into multiple partitions</p>
 </td>
 </tr>
 <tr>
@@ -11513,7 +10718,6 @@ string
 </em>
 </td>
 <td>
-<p>Rid: A system generated property. A unique identifier.</p>
 </td>
 </tr>
 <tr>
@@ -11524,7 +10728,6 @@ float64
 </em>
 </td>
 <td>
-<p>Ts: A system generated property that denotes the last updated timestamp of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -11537,8 +10740,6 @@ UniqueKeyPolicy_StatusARM
 </em>
 </td>
 <td>
-<p>UniqueKeyPolicy: The unique key policy configuration for specifying uniqueness constraints on documents in the
-collection in the Azure Cosmos DB service.</p>
 </td>
 </tr>
 </tbody>
@@ -11549,6 +10750,7 @@ collection in the Azure Cosmos DB service.</p>
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.SqlDatabaseContainer">SqlDatabaseContainer</a>)
 </p>
 <div>
+<p>Deprecated version of SqlContainerGetResults_Status. Use v1beta20210515.SqlContainerGetResults_Status instead</p>
 </div>
 <table>
 <thead>
@@ -11579,7 +10781,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: The unique resource identifier of the ARM resource.</p>
 </td>
 </tr>
 <tr>
@@ -11590,7 +10791,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The location of the resource group to which the resource belongs.</p>
 </td>
 </tr>
 <tr>
@@ -11601,7 +10801,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the ARM resource.</p>
 </td>
 </tr>
 <tr>
@@ -11646,7 +10845,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: The type of Azure resource.</p>
 </td>
 </tr>
 </tbody>
@@ -11654,6 +10852,7 @@ string
 <h3 id="documentdb.azure.com/v1alpha1api20210515.SqlContainerGetResults_StatusARM">SqlContainerGetResults_StatusARM
 </h3>
 <div>
+<p>Deprecated version of SqlContainerGetResults_Status. Use v1beta20210515.SqlContainerGetResults_Status instead</p>
 </div>
 <table>
 <thead>
@@ -11671,7 +10870,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: The unique resource identifier of the ARM resource.</p>
 </td>
 </tr>
 <tr>
@@ -11682,7 +10880,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The location of the resource group to which the resource belongs.</p>
 </td>
 </tr>
 <tr>
@@ -11693,7 +10890,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the ARM resource.</p>
 </td>
 </tr>
 <tr>
@@ -11706,7 +10902,6 @@ SqlContainerGetProperties_StatusARM
 </em>
 </td>
 <td>
-<p>Properties: The properties of an Azure Cosmos DB container</p>
 </td>
 </tr>
 <tr>
@@ -11727,7 +10922,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: The type of Azure resource.</p>
 </td>
 </tr>
 </tbody>
@@ -11738,7 +10932,7 @@ string
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountsSqlDatabasesContainers_Spec">DatabaseAccountsSqlDatabasesContainers_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlContainerResource">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlContainerResource</a></p>
+<p>Deprecated version of SqlContainerResource. Use v1beta20210515.SqlContainerResource instead</p>
 </div>
 <table>
 <thead>
@@ -11756,7 +10950,6 @@ int
 </em>
 </td>
 <td>
-<p>AnalyticalStorageTtl: Analytical TTL.</p>
 </td>
 </tr>
 <tr>
@@ -11769,7 +10962,6 @@ ConflictResolutionPolicy
 </em>
 </td>
 <td>
-<p>ConflictResolutionPolicy: The conflict resolution policy for the container.</p>
 </td>
 </tr>
 <tr>
@@ -11780,7 +10972,6 @@ int
 </em>
 </td>
 <td>
-<p>DefaultTtl: Default time to live</p>
 </td>
 </tr>
 <tr>
@@ -11791,7 +10982,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Name of the Cosmos DB SQL container</p>
 </td>
 </tr>
 <tr>
@@ -11804,7 +10994,6 @@ IndexingPolicy
 </em>
 </td>
 <td>
-<p>IndexingPolicy: Cosmos DB indexing policy</p>
 </td>
 </tr>
 <tr>
@@ -11817,7 +11006,6 @@ ContainerPartitionKey
 </em>
 </td>
 <td>
-<p>PartitionKey: The configuration of the partition key to be used for partitioning data into multiple partitions</p>
 </td>
 </tr>
 <tr>
@@ -11830,8 +11018,6 @@ UniqueKeyPolicy
 </em>
 </td>
 <td>
-<p>UniqueKeyPolicy: The unique key policy configuration for specifying uniqueness constraints on documents in the
-collection in the Azure Cosmos DB service.</p>
 </td>
 </tr>
 </tbody>
@@ -11842,7 +11028,7 @@ collection in the Azure Cosmos DB service.</p>
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.SqlContainerCreateUpdatePropertiesARM">SqlContainerCreateUpdatePropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlContainerResource">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlContainerResource</a></p>
+<p>Deprecated version of SqlContainerResource. Use v1beta20210515.SqlContainerResource instead</p>
 </div>
 <table>
 <thead>
@@ -11860,7 +11046,6 @@ int
 </em>
 </td>
 <td>
-<p>AnalyticalStorageTtl: Analytical TTL.</p>
 </td>
 </tr>
 <tr>
@@ -11873,7 +11058,6 @@ ConflictResolutionPolicyARM
 </em>
 </td>
 <td>
-<p>ConflictResolutionPolicy: The conflict resolution policy for the container.</p>
 </td>
 </tr>
 <tr>
@@ -11884,7 +11068,6 @@ int
 </em>
 </td>
 <td>
-<p>DefaultTtl: Default time to live</p>
 </td>
 </tr>
 <tr>
@@ -11895,7 +11078,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Name of the Cosmos DB SQL container</p>
 </td>
 </tr>
 <tr>
@@ -11908,7 +11090,6 @@ IndexingPolicyARM
 </em>
 </td>
 <td>
-<p>IndexingPolicy: Cosmos DB indexing policy</p>
 </td>
 </tr>
 <tr>
@@ -11921,7 +11102,6 @@ ContainerPartitionKeyARM
 </em>
 </td>
 <td>
-<p>PartitionKey: The configuration of the partition key to be used for partitioning data into multiple partitions</p>
 </td>
 </tr>
 <tr>
@@ -11934,8 +11114,6 @@ UniqueKeyPolicyARM
 </em>
 </td>
 <td>
-<p>UniqueKeyPolicy: The unique key policy configuration for specifying uniqueness constraints on documents in the
-collection in the Azure Cosmos DB service.</p>
 </td>
 </tr>
 </tbody>
@@ -11943,7 +11121,7 @@ collection in the Azure Cosmos DB service.</p>
 <h3 id="documentdb.azure.com/v1alpha1api20210515.SqlDatabase">SqlDatabase
 </h3>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases</a></p>
+<p>Deprecated version of SqlDatabase. Use v1beta20210515.SqlDatabase instead</p>
 </div>
 <table>
 <thead>
@@ -12000,7 +11178,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The location of the resource group to which the resource belongs.</p>
 </td>
 </tr>
 <tr>
@@ -12013,8 +11190,6 @@ CreateUpdateOptions
 </em>
 </td>
 <td>
-<p>Options: CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are &ldquo;If-Match&rdquo;,
-&ldquo;If-None-Match&rdquo;, &ldquo;Session-Token&rdquo; and &ldquo;Throughput&rdquo;</p>
 </td>
 </tr>
 <tr>
@@ -12027,6 +11202,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a documentdb.azure.com/DatabaseAccount resource</p>
 </td>
 </tr>
 <tr>
@@ -12039,7 +11217,6 @@ SqlDatabaseResource
 </em>
 </td>
 <td>
-<p>Resource: Cosmos DB SQL database resource object</p>
 </td>
 </tr>
 <tr>
@@ -12050,11 +11227,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
-resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
-greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
-type is set with &ldquo;defaultExperience&rdquo;: &ldquo;Cassandra&rdquo;. Current &ldquo;defaultExperience&rdquo; values also include &ldquo;Table&rdquo;, &ldquo;Graph&rdquo;,
-&ldquo;DocumentDB&rdquo;, and &ldquo;MongoDB&rdquo;.</p>
 </td>
 </tr>
 </table>
@@ -12077,7 +11249,7 @@ SqlDatabaseGetResults_Status
 <h3 id="documentdb.azure.com/v1alpha1api20210515.SqlDatabaseContainer">SqlDatabaseContainer
 </h3>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_containers">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_containers</a></p>
+<p>Deprecated version of SqlDatabaseContainer. Use v1beta20210515.SqlDatabaseContainer instead</p>
 </div>
 <table>
 <thead>
@@ -12134,7 +11306,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The location of the resource group to which the resource belongs.</p>
 </td>
 </tr>
 <tr>
@@ -12147,8 +11318,6 @@ CreateUpdateOptions
 </em>
 </td>
 <td>
-<p>Options: CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are &ldquo;If-Match&rdquo;,
-&ldquo;If-None-Match&rdquo;, &ldquo;Session-Token&rdquo; and &ldquo;Throughput&rdquo;</p>
 </td>
 </tr>
 <tr>
@@ -12161,6 +11330,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a documentdb.azure.com/SqlDatabase resource</p>
 </td>
 </tr>
 <tr>
@@ -12173,7 +11345,6 @@ SqlContainerResource
 </em>
 </td>
 <td>
-<p>Resource: Cosmos DB SQL container resource object</p>
 </td>
 </tr>
 <tr>
@@ -12184,11 +11355,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
-resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
-greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
-type is set with &ldquo;defaultExperience&rdquo;: &ldquo;Cassandra&rdquo;. Current &ldquo;defaultExperience&rdquo; values also include &ldquo;Table&rdquo;, &ldquo;Graph&rdquo;,
-&ldquo;DocumentDB&rdquo;, and &ldquo;MongoDB&rdquo;.</p>
 </td>
 </tr>
 </table>
@@ -12211,7 +11377,7 @@ SqlContainerGetResults_Status
 <h3 id="documentdb.azure.com/v1alpha1api20210515.SqlDatabaseContainerStoredProcedure">SqlDatabaseContainerStoredProcedure
 </h3>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_containers_storedProcedures">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_containers_storedProcedures</a></p>
+<p>Deprecated version of SqlDatabaseContainerStoredProcedure. Use v1beta20210515.SqlDatabaseContainerStoredProcedure instead</p>
 </div>
 <table>
 <thead>
@@ -12268,7 +11434,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The location of the resource group to which the resource belongs.</p>
 </td>
 </tr>
 <tr>
@@ -12281,8 +11446,6 @@ CreateUpdateOptions
 </em>
 </td>
 <td>
-<p>Options: CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are &ldquo;If-Match&rdquo;,
-&ldquo;If-None-Match&rdquo;, &ldquo;Session-Token&rdquo; and &ldquo;Throughput&rdquo;</p>
 </td>
 </tr>
 <tr>
@@ -12295,6 +11458,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a documentdb.azure.com/SqlDatabaseContainer resource</p>
 </td>
 </tr>
 <tr>
@@ -12307,7 +11473,6 @@ SqlStoredProcedureResource
 </em>
 </td>
 <td>
-<p>Resource: Cosmos DB SQL storedProcedure resource object</p>
 </td>
 </tr>
 <tr>
@@ -12318,11 +11483,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
-resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
-greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
-type is set with &ldquo;defaultExperience&rdquo;: &ldquo;Cassandra&rdquo;. Current &ldquo;defaultExperience&rdquo; values also include &ldquo;Table&rdquo;, &ldquo;Graph&rdquo;,
-&ldquo;DocumentDB&rdquo;, and &ldquo;MongoDB&rdquo;.</p>
 </td>
 </tr>
 </table>
@@ -12345,7 +11505,7 @@ SqlStoredProcedureGetResults_Status
 <h3 id="documentdb.azure.com/v1alpha1api20210515.SqlDatabaseContainerThroughputSetting">SqlDatabaseContainerThroughputSetting
 </h3>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_containers_throughputSettings">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_containers_throughputSettings</a></p>
+<p>Deprecated version of SqlDatabaseContainerThroughputSetting. Use v1beta20210515.SqlDatabaseContainerThroughputSetting instead</p>
 </div>
 <table>
 <thead>
@@ -12390,7 +11550,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The location of the resource group to which the resource belongs.</p>
 </td>
 </tr>
 <tr>
@@ -12403,6 +11562,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a documentdb.azure.com/SqlDatabaseContainer resource</p>
 </td>
 </tr>
 <tr>
@@ -12415,8 +11577,6 @@ ThroughputSettingsResource
 </em>
 </td>
 <td>
-<p>Resource: Cosmos DB resource throughput object. Either throughput is required or autoscaleSettings is required, but not
-both.</p>
 </td>
 </tr>
 <tr>
@@ -12427,11 +11587,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
-resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
-greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
-type is set with &ldquo;defaultExperience&rdquo;: &ldquo;Cassandra&rdquo;. Current &ldquo;defaultExperience&rdquo; values also include &ldquo;Table&rdquo;, &ldquo;Graph&rdquo;,
-&ldquo;DocumentDB&rdquo;, and &ldquo;MongoDB&rdquo;.</p>
 </td>
 </tr>
 </table>
@@ -12454,7 +11609,7 @@ ThroughputSettingsGetResults_Status
 <h3 id="documentdb.azure.com/v1alpha1api20210515.SqlDatabaseContainerTrigger">SqlDatabaseContainerTrigger
 </h3>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_containers_triggers">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_containers_triggers</a></p>
+<p>Deprecated version of SqlDatabaseContainerTrigger. Use v1beta20210515.SqlDatabaseContainerTrigger instead</p>
 </div>
 <table>
 <thead>
@@ -12511,7 +11666,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The location of the resource group to which the resource belongs.</p>
 </td>
 </tr>
 <tr>
@@ -12524,8 +11678,6 @@ CreateUpdateOptions
 </em>
 </td>
 <td>
-<p>Options: CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are &ldquo;If-Match&rdquo;,
-&ldquo;If-None-Match&rdquo;, &ldquo;Session-Token&rdquo; and &ldquo;Throughput&rdquo;</p>
 </td>
 </tr>
 <tr>
@@ -12538,6 +11690,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a documentdb.azure.com/SqlDatabaseContainer resource</p>
 </td>
 </tr>
 <tr>
@@ -12550,7 +11705,6 @@ SqlTriggerResource
 </em>
 </td>
 <td>
-<p>Resource: Cosmos DB SQL trigger resource object</p>
 </td>
 </tr>
 <tr>
@@ -12561,11 +11715,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
-resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
-greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
-type is set with &ldquo;defaultExperience&rdquo;: &ldquo;Cassandra&rdquo;. Current &ldquo;defaultExperience&rdquo; values also include &ldquo;Table&rdquo;, &ldquo;Graph&rdquo;,
-&ldquo;DocumentDB&rdquo;, and &ldquo;MongoDB&rdquo;.</p>
 </td>
 </tr>
 </table>
@@ -12588,7 +11737,7 @@ SqlTriggerGetResults_Status
 <h3 id="documentdb.azure.com/v1alpha1api20210515.SqlDatabaseContainerUserDefinedFunction">SqlDatabaseContainerUserDefinedFunction
 </h3>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_containers_userDefinedFunctions">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_containers_userDefinedFunctions</a></p>
+<p>Deprecated version of SqlDatabaseContainerUserDefinedFunction. Use v1beta20210515.SqlDatabaseContainerUserDefinedFunction instead</p>
 </div>
 <table>
 <thead>
@@ -12645,7 +11794,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The location of the resource group to which the resource belongs.</p>
 </td>
 </tr>
 <tr>
@@ -12658,8 +11806,6 @@ CreateUpdateOptions
 </em>
 </td>
 <td>
-<p>Options: CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are &ldquo;If-Match&rdquo;,
-&ldquo;If-None-Match&rdquo;, &ldquo;Session-Token&rdquo; and &ldquo;Throughput&rdquo;</p>
 </td>
 </tr>
 <tr>
@@ -12672,6 +11818,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a documentdb.azure.com/SqlDatabaseContainer resource</p>
 </td>
 </tr>
 <tr>
@@ -12684,7 +11833,6 @@ SqlUserDefinedFunctionResource
 </em>
 </td>
 <td>
-<p>Resource: Cosmos DB SQL userDefinedFunction resource object</p>
 </td>
 </tr>
 <tr>
@@ -12695,11 +11843,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
-resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
-greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
-type is set with &ldquo;defaultExperience&rdquo;: &ldquo;Cassandra&rdquo;. Current &ldquo;defaultExperience&rdquo; values also include &ldquo;Table&rdquo;, &ldquo;Graph&rdquo;,
-&ldquo;DocumentDB&rdquo;, and &ldquo;MongoDB&rdquo;.</p>
 </td>
 </tr>
 </table>
@@ -12725,7 +11868,7 @@ SqlUserDefinedFunctionGetResults_Status
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountsSqlDatabases_SpecARM">DatabaseAccountsSqlDatabases_SpecARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlDatabaseCreateUpdateProperties">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlDatabaseCreateUpdateProperties</a></p>
+<p>Deprecated version of SqlDatabaseCreateUpdateProperties. Use v1beta20210515.SqlDatabaseCreateUpdateProperties instead</p>
 </div>
 <table>
 <thead>
@@ -12745,8 +11888,6 @@ CreateUpdateOptionsARM
 </em>
 </td>
 <td>
-<p>Options: CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are &ldquo;If-Match&rdquo;,
-&ldquo;If-None-Match&rdquo;, &ldquo;Session-Token&rdquo; and &ldquo;Throughput&rdquo;</p>
 </td>
 </tr>
 <tr>
@@ -12759,7 +11900,6 @@ SqlDatabaseResourceARM
 </em>
 </td>
 <td>
-<p>Resource: Cosmos DB SQL database resource object</p>
 </td>
 </tr>
 </tbody>
@@ -12770,6 +11910,7 @@ SqlDatabaseResourceARM
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.SqlDatabaseGetResults_StatusARM">SqlDatabaseGetResults_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of SqlDatabaseGetProperties_Status. Use v1beta20210515.SqlDatabaseGetProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -12811,6 +11952,7 @@ SqlDatabaseGetProperties_Status_ResourceARM
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.SqlDatabaseGetResults_Status">SqlDatabaseGetResults_Status</a>)
 </p>
 <div>
+<p>Deprecated version of SqlDatabaseGetProperties_Status_Resource. Use v1beta20210515.SqlDatabaseGetProperties_Status_Resource instead</p>
 </div>
 <table>
 <thead>
@@ -12828,7 +11970,6 @@ string
 </em>
 </td>
 <td>
-<p>Colls: A system generated property that specified the addressable path of the collections resource.</p>
 </td>
 </tr>
 <tr>
@@ -12839,7 +11980,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A system generated property representing the resource etag required for optimistic concurrency control.</p>
 </td>
 </tr>
 <tr>
@@ -12850,7 +11990,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Name of the Cosmos DB SQL database</p>
 </td>
 </tr>
 <tr>
@@ -12861,7 +12000,6 @@ string
 </em>
 </td>
 <td>
-<p>Rid: A system generated property. A unique identifier.</p>
 </td>
 </tr>
 <tr>
@@ -12872,7 +12010,6 @@ float64
 </em>
 </td>
 <td>
-<p>Ts: A system generated property that denotes the last updated timestamp of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -12883,7 +12020,6 @@ string
 </em>
 </td>
 <td>
-<p>Users: A system generated property that specifies the addressable path of the users resource.</p>
 </td>
 </tr>
 </tbody>
@@ -12894,6 +12030,7 @@ string
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.SqlDatabaseGetProperties_StatusARM">SqlDatabaseGetProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of SqlDatabaseGetProperties_Status_Resource. Use v1beta20210515.SqlDatabaseGetProperties_Status_Resource instead</p>
 </div>
 <table>
 <thead>
@@ -12911,7 +12048,6 @@ string
 </em>
 </td>
 <td>
-<p>Colls: A system generated property that specified the addressable path of the collections resource.</p>
 </td>
 </tr>
 <tr>
@@ -12922,7 +12058,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A system generated property representing the resource etag required for optimistic concurrency control.</p>
 </td>
 </tr>
 <tr>
@@ -12933,7 +12068,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Name of the Cosmos DB SQL database</p>
 </td>
 </tr>
 <tr>
@@ -12944,7 +12078,6 @@ string
 </em>
 </td>
 <td>
-<p>Rid: A system generated property. A unique identifier.</p>
 </td>
 </tr>
 <tr>
@@ -12955,7 +12088,6 @@ float64
 </em>
 </td>
 <td>
-<p>Ts: A system generated property that denotes the last updated timestamp of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -12966,7 +12098,6 @@ string
 </em>
 </td>
 <td>
-<p>Users: A system generated property that specifies the addressable path of the users resource.</p>
 </td>
 </tr>
 </tbody>
@@ -12977,6 +12108,7 @@ string
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.SqlDatabase">SqlDatabase</a>)
 </p>
 <div>
+<p>Deprecated version of SqlDatabaseGetResults_Status. Use v1beta20210515.SqlDatabaseGetResults_Status instead</p>
 </div>
 <table>
 <thead>
@@ -13007,7 +12139,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: The unique resource identifier of the ARM resource.</p>
 </td>
 </tr>
 <tr>
@@ -13018,7 +12149,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The location of the resource group to which the resource belongs.</p>
 </td>
 </tr>
 <tr>
@@ -13029,7 +12159,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the ARM resource.</p>
 </td>
 </tr>
 <tr>
@@ -13074,7 +12203,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: The type of Azure resource.</p>
 </td>
 </tr>
 </tbody>
@@ -13082,6 +12210,7 @@ string
 <h3 id="documentdb.azure.com/v1alpha1api20210515.SqlDatabaseGetResults_StatusARM">SqlDatabaseGetResults_StatusARM
 </h3>
 <div>
+<p>Deprecated version of SqlDatabaseGetResults_Status. Use v1beta20210515.SqlDatabaseGetResults_Status instead</p>
 </div>
 <table>
 <thead>
@@ -13099,7 +12228,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: The unique resource identifier of the ARM resource.</p>
 </td>
 </tr>
 <tr>
@@ -13110,7 +12238,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The location of the resource group to which the resource belongs.</p>
 </td>
 </tr>
 <tr>
@@ -13121,7 +12248,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the ARM resource.</p>
 </td>
 </tr>
 <tr>
@@ -13134,7 +12260,6 @@ SqlDatabaseGetProperties_StatusARM
 </em>
 </td>
 <td>
-<p>Properties: The properties of an Azure Cosmos DB SQL database</p>
 </td>
 </tr>
 <tr>
@@ -13155,7 +12280,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: The type of Azure resource.</p>
 </td>
 </tr>
 </tbody>
@@ -13166,7 +12290,7 @@ string
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountsSqlDatabases_Spec">DatabaseAccountsSqlDatabases_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlDatabaseResource">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlDatabaseResource</a></p>
+<p>Deprecated version of SqlDatabaseResource. Use v1beta20210515.SqlDatabaseResource instead</p>
 </div>
 <table>
 <thead>
@@ -13184,7 +12308,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Name of the Cosmos DB SQL database</p>
 </td>
 </tr>
 </tbody>
@@ -13195,7 +12318,7 @@ string
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.SqlDatabaseCreateUpdatePropertiesARM">SqlDatabaseCreateUpdatePropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlDatabaseResource">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlDatabaseResource</a></p>
+<p>Deprecated version of SqlDatabaseResource. Use v1beta20210515.SqlDatabaseResource instead</p>
 </div>
 <table>
 <thead>
@@ -13213,7 +12336,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Name of the Cosmos DB SQL database</p>
 </td>
 </tr>
 </tbody>
@@ -13221,7 +12343,7 @@ string
 <h3 id="documentdb.azure.com/v1alpha1api20210515.SqlDatabaseThroughputSetting">SqlDatabaseThroughputSetting
 </h3>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_throughputSettings">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_throughputSettings</a></p>
+<p>Deprecated version of SqlDatabaseThroughputSetting. Use v1beta20210515.SqlDatabaseThroughputSetting instead</p>
 </div>
 <table>
 <thead>
@@ -13266,7 +12388,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The location of the resource group to which the resource belongs.</p>
 </td>
 </tr>
 <tr>
@@ -13279,6 +12400,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a documentdb.azure.com/SqlDatabase resource</p>
 </td>
 </tr>
 <tr>
@@ -13291,8 +12415,6 @@ ThroughputSettingsResource
 </em>
 </td>
 <td>
-<p>Resource: Cosmos DB resource throughput object. Either throughput is required or autoscaleSettings is required, but not
-both.</p>
 </td>
 </tr>
 <tr>
@@ -13303,11 +12425,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
-resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
-greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
-type is set with &ldquo;defaultExperience&rdquo;: &ldquo;Cassandra&rdquo;. Current &ldquo;defaultExperience&rdquo; values also include &ldquo;Table&rdquo;, &ldquo;Graph&rdquo;,
-&ldquo;DocumentDB&rdquo;, and &ldquo;MongoDB&rdquo;.</p>
 </td>
 </tr>
 </table>
@@ -13333,7 +12450,7 @@ ThroughputSettingsGetResults_Status
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountsSqlDatabasesContainersStoredProcedures_SpecARM">DatabaseAccountsSqlDatabasesContainersStoredProcedures_SpecARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlStoredProcedureCreateUpdateProperties">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlStoredProcedureCreateUpdateProperties</a></p>
+<p>Deprecated version of SqlStoredProcedureCreateUpdateProperties. Use v1beta20210515.SqlStoredProcedureCreateUpdateProperties instead</p>
 </div>
 <table>
 <thead>
@@ -13353,8 +12470,6 @@ CreateUpdateOptionsARM
 </em>
 </td>
 <td>
-<p>Options: CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are &ldquo;If-Match&rdquo;,
-&ldquo;If-None-Match&rdquo;, &ldquo;Session-Token&rdquo; and &ldquo;Throughput&rdquo;</p>
 </td>
 </tr>
 <tr>
@@ -13367,7 +12482,6 @@ SqlStoredProcedureResourceARM
 </em>
 </td>
 <td>
-<p>Resource: Cosmos DB SQL storedProcedure resource object</p>
 </td>
 </tr>
 </tbody>
@@ -13378,6 +12492,7 @@ SqlStoredProcedureResourceARM
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.SqlStoredProcedureGetResults_StatusARM">SqlStoredProcedureGetResults_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of SqlStoredProcedureGetProperties_Status. Use v1beta20210515.SqlStoredProcedureGetProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -13407,6 +12522,7 @@ SqlStoredProcedureGetProperties_Status_ResourceARM
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.SqlStoredProcedureGetResults_Status">SqlStoredProcedureGetResults_Status</a>)
 </p>
 <div>
+<p>Deprecated version of SqlStoredProcedureGetProperties_Status_Resource. Use v1beta20210515.SqlStoredProcedureGetProperties_Status_Resource instead</p>
 </div>
 <table>
 <thead>
@@ -13424,7 +12540,6 @@ string
 </em>
 </td>
 <td>
-<p>Body: Body of the Stored Procedure</p>
 </td>
 </tr>
 <tr>
@@ -13435,7 +12550,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A system generated property representing the resource etag required for optimistic concurrency control.</p>
 </td>
 </tr>
 <tr>
@@ -13446,7 +12560,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Name of the Cosmos DB SQL storedProcedure</p>
 </td>
 </tr>
 <tr>
@@ -13457,7 +12570,6 @@ string
 </em>
 </td>
 <td>
-<p>Rid: A system generated property. A unique identifier.</p>
 </td>
 </tr>
 <tr>
@@ -13468,7 +12580,6 @@ float64
 </em>
 </td>
 <td>
-<p>Ts: A system generated property that denotes the last updated timestamp of the resource.</p>
 </td>
 </tr>
 </tbody>
@@ -13479,6 +12590,7 @@ float64
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.SqlStoredProcedureGetProperties_StatusARM">SqlStoredProcedureGetProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of SqlStoredProcedureGetProperties_Status_Resource. Use v1beta20210515.SqlStoredProcedureGetProperties_Status_Resource instead</p>
 </div>
 <table>
 <thead>
@@ -13496,7 +12608,6 @@ string
 </em>
 </td>
 <td>
-<p>Body: Body of the Stored Procedure</p>
 </td>
 </tr>
 <tr>
@@ -13507,7 +12618,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A system generated property representing the resource etag required for optimistic concurrency control.</p>
 </td>
 </tr>
 <tr>
@@ -13518,7 +12628,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Name of the Cosmos DB SQL storedProcedure</p>
 </td>
 </tr>
 <tr>
@@ -13529,7 +12638,6 @@ string
 </em>
 </td>
 <td>
-<p>Rid: A system generated property. A unique identifier.</p>
 </td>
 </tr>
 <tr>
@@ -13540,7 +12648,6 @@ float64
 </em>
 </td>
 <td>
-<p>Ts: A system generated property that denotes the last updated timestamp of the resource.</p>
 </td>
 </tr>
 </tbody>
@@ -13551,6 +12658,7 @@ float64
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.SqlDatabaseContainerStoredProcedure">SqlDatabaseContainerStoredProcedure</a>)
 </p>
 <div>
+<p>Deprecated version of SqlStoredProcedureGetResults_Status. Use v1beta20210515.SqlStoredProcedureGetResults_Status instead</p>
 </div>
 <table>
 <thead>
@@ -13581,7 +12689,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: The unique resource identifier of the ARM resource.</p>
 </td>
 </tr>
 <tr>
@@ -13592,7 +12699,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The location of the resource group to which the resource belongs.</p>
 </td>
 </tr>
 <tr>
@@ -13603,7 +12709,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the ARM resource.</p>
 </td>
 </tr>
 <tr>
@@ -13636,7 +12741,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: The type of Azure resource.</p>
 </td>
 </tr>
 </tbody>
@@ -13644,6 +12748,7 @@ string
 <h3 id="documentdb.azure.com/v1alpha1api20210515.SqlStoredProcedureGetResults_StatusARM">SqlStoredProcedureGetResults_StatusARM
 </h3>
 <div>
+<p>Deprecated version of SqlStoredProcedureGetResults_Status. Use v1beta20210515.SqlStoredProcedureGetResults_Status instead</p>
 </div>
 <table>
 <thead>
@@ -13661,7 +12766,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: The unique resource identifier of the ARM resource.</p>
 </td>
 </tr>
 <tr>
@@ -13672,7 +12776,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The location of the resource group to which the resource belongs.</p>
 </td>
 </tr>
 <tr>
@@ -13683,7 +12786,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the ARM resource.</p>
 </td>
 </tr>
 <tr>
@@ -13696,7 +12798,6 @@ SqlStoredProcedureGetProperties_StatusARM
 </em>
 </td>
 <td>
-<p>Properties: The properties of an Azure Cosmos DB storedProcedure</p>
 </td>
 </tr>
 <tr>
@@ -13717,7 +12818,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: The type of Azure resource.</p>
 </td>
 </tr>
 </tbody>
@@ -13728,7 +12828,7 @@ string
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec">DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlStoredProcedureResource">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlStoredProcedureResource</a></p>
+<p>Deprecated version of SqlStoredProcedureResource. Use v1beta20210515.SqlStoredProcedureResource instead</p>
 </div>
 <table>
 <thead>
@@ -13746,7 +12846,6 @@ string
 </em>
 </td>
 <td>
-<p>Body: Body of the Stored Procedure</p>
 </td>
 </tr>
 <tr>
@@ -13757,7 +12856,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Name of the Cosmos DB SQL storedProcedure</p>
 </td>
 </tr>
 </tbody>
@@ -13768,7 +12866,7 @@ string
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.SqlStoredProcedureCreateUpdatePropertiesARM">SqlStoredProcedureCreateUpdatePropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlStoredProcedureResource">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlStoredProcedureResource</a></p>
+<p>Deprecated version of SqlStoredProcedureResource. Use v1beta20210515.SqlStoredProcedureResource instead</p>
 </div>
 <table>
 <thead>
@@ -13786,7 +12884,6 @@ string
 </em>
 </td>
 <td>
-<p>Body: Body of the Stored Procedure</p>
 </td>
 </tr>
 <tr>
@@ -13797,7 +12894,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Name of the Cosmos DB SQL storedProcedure</p>
 </td>
 </tr>
 </tbody>
@@ -13808,7 +12904,7 @@ string
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountsSqlDatabasesContainersTriggers_SpecARM">DatabaseAccountsSqlDatabasesContainersTriggers_SpecARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlTriggerCreateUpdateProperties">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlTriggerCreateUpdateProperties</a></p>
+<p>Deprecated version of SqlTriggerCreateUpdateProperties. Use v1beta20210515.SqlTriggerCreateUpdateProperties instead</p>
 </div>
 <table>
 <thead>
@@ -13828,8 +12924,6 @@ CreateUpdateOptionsARM
 </em>
 </td>
 <td>
-<p>Options: CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are &ldquo;If-Match&rdquo;,
-&ldquo;If-None-Match&rdquo;, &ldquo;Session-Token&rdquo; and &ldquo;Throughput&rdquo;</p>
 </td>
 </tr>
 <tr>
@@ -13842,7 +12936,6 @@ SqlTriggerResourceARM
 </em>
 </td>
 <td>
-<p>Resource: Cosmos DB SQL trigger resource object</p>
 </td>
 </tr>
 </tbody>
@@ -13853,6 +12946,8 @@ SqlTriggerResourceARM
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.SqlTriggerGetProperties_Status_Resource">SqlTriggerGetProperties_Status_Resource</a>, <a href="#documentdb.azure.com/v1alpha1api20210515.SqlTriggerGetProperties_Status_ResourceARM">SqlTriggerGetProperties_Status_ResourceARM</a>)
 </p>
 <div>
+<p>Deprecated version of SqlTriggerGetPropertiesStatusResourceTriggerOperation. Use
+v1beta20210515.SqlTriggerGetPropertiesStatusResourceTriggerOperation instead</p>
 </div>
 <table>
 <thead>
@@ -13879,6 +12974,8 @@ SqlTriggerResourceARM
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.SqlTriggerGetProperties_Status_Resource">SqlTriggerGetProperties_Status_Resource</a>, <a href="#documentdb.azure.com/v1alpha1api20210515.SqlTriggerGetProperties_Status_ResourceARM">SqlTriggerGetProperties_Status_ResourceARM</a>)
 </p>
 <div>
+<p>Deprecated version of SqlTriggerGetPropertiesStatusResourceTriggerType. Use
+v1beta20210515.SqlTriggerGetPropertiesStatusResourceTriggerType instead</p>
 </div>
 <table>
 <thead>
@@ -13899,6 +12996,7 @@ SqlTriggerResourceARM
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.SqlTriggerGetResults_StatusARM">SqlTriggerGetResults_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of SqlTriggerGetProperties_Status. Use v1beta20210515.SqlTriggerGetProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -13928,6 +13026,7 @@ SqlTriggerGetProperties_Status_ResourceARM
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.SqlTriggerGetResults_Status">SqlTriggerGetResults_Status</a>)
 </p>
 <div>
+<p>Deprecated version of SqlTriggerGetProperties_Status_Resource. Use v1beta20210515.SqlTriggerGetProperties_Status_Resource instead</p>
 </div>
 <table>
 <thead>
@@ -13945,7 +13044,6 @@ string
 </em>
 </td>
 <td>
-<p>Body: Body of the Trigger</p>
 </td>
 </tr>
 <tr>
@@ -13956,7 +13054,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A system generated property representing the resource etag required for optimistic concurrency control.</p>
 </td>
 </tr>
 <tr>
@@ -13967,7 +13064,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Name of the Cosmos DB SQL trigger</p>
 </td>
 </tr>
 <tr>
@@ -13978,7 +13074,6 @@ string
 </em>
 </td>
 <td>
-<p>Rid: A system generated property. A unique identifier.</p>
 </td>
 </tr>
 <tr>
@@ -13991,7 +13086,6 @@ SqlTriggerGetPropertiesStatusResourceTriggerOperation
 </em>
 </td>
 <td>
-<p>TriggerOperation: The operation the trigger is associated with</p>
 </td>
 </tr>
 <tr>
@@ -14004,7 +13098,6 @@ SqlTriggerGetPropertiesStatusResourceTriggerType
 </em>
 </td>
 <td>
-<p>TriggerType: Type of the Trigger</p>
 </td>
 </tr>
 <tr>
@@ -14015,7 +13108,6 @@ float64
 </em>
 </td>
 <td>
-<p>Ts: A system generated property that denotes the last updated timestamp of the resource.</p>
 </td>
 </tr>
 </tbody>
@@ -14026,6 +13118,7 @@ float64
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.SqlTriggerGetProperties_StatusARM">SqlTriggerGetProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of SqlTriggerGetProperties_Status_Resource. Use v1beta20210515.SqlTriggerGetProperties_Status_Resource instead</p>
 </div>
 <table>
 <thead>
@@ -14043,7 +13136,6 @@ string
 </em>
 </td>
 <td>
-<p>Body: Body of the Trigger</p>
 </td>
 </tr>
 <tr>
@@ -14054,7 +13146,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A system generated property representing the resource etag required for optimistic concurrency control.</p>
 </td>
 </tr>
 <tr>
@@ -14065,7 +13156,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Name of the Cosmos DB SQL trigger</p>
 </td>
 </tr>
 <tr>
@@ -14076,7 +13166,6 @@ string
 </em>
 </td>
 <td>
-<p>Rid: A system generated property. A unique identifier.</p>
 </td>
 </tr>
 <tr>
@@ -14089,7 +13178,6 @@ SqlTriggerGetPropertiesStatusResourceTriggerOperation
 </em>
 </td>
 <td>
-<p>TriggerOperation: The operation the trigger is associated with</p>
 </td>
 </tr>
 <tr>
@@ -14102,7 +13190,6 @@ SqlTriggerGetPropertiesStatusResourceTriggerType
 </em>
 </td>
 <td>
-<p>TriggerType: Type of the Trigger</p>
 </td>
 </tr>
 <tr>
@@ -14113,7 +13200,6 @@ float64
 </em>
 </td>
 <td>
-<p>Ts: A system generated property that denotes the last updated timestamp of the resource.</p>
 </td>
 </tr>
 </tbody>
@@ -14124,6 +13210,7 @@ float64
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.SqlDatabaseContainerTrigger">SqlDatabaseContainerTrigger</a>)
 </p>
 <div>
+<p>Deprecated version of SqlTriggerGetResults_Status. Use v1beta20210515.SqlTriggerGetResults_Status instead</p>
 </div>
 <table>
 <thead>
@@ -14154,7 +13241,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: The unique resource identifier of the ARM resource.</p>
 </td>
 </tr>
 <tr>
@@ -14165,7 +13251,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The location of the resource group to which the resource belongs.</p>
 </td>
 </tr>
 <tr>
@@ -14176,7 +13261,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the ARM resource.</p>
 </td>
 </tr>
 <tr>
@@ -14209,7 +13293,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: The type of Azure resource.</p>
 </td>
 </tr>
 </tbody>
@@ -14217,6 +13300,7 @@ string
 <h3 id="documentdb.azure.com/v1alpha1api20210515.SqlTriggerGetResults_StatusARM">SqlTriggerGetResults_StatusARM
 </h3>
 <div>
+<p>Deprecated version of SqlTriggerGetResults_Status. Use v1beta20210515.SqlTriggerGetResults_Status instead</p>
 </div>
 <table>
 <thead>
@@ -14234,7 +13318,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: The unique resource identifier of the ARM resource.</p>
 </td>
 </tr>
 <tr>
@@ -14245,7 +13328,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The location of the resource group to which the resource belongs.</p>
 </td>
 </tr>
 <tr>
@@ -14256,7 +13338,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the ARM resource.</p>
 </td>
 </tr>
 <tr>
@@ -14269,7 +13350,6 @@ SqlTriggerGetProperties_StatusARM
 </em>
 </td>
 <td>
-<p>Properties: The properties of an Azure Cosmos DB trigger</p>
 </td>
 </tr>
 <tr>
@@ -14290,7 +13370,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: The type of Azure resource.</p>
 </td>
 </tr>
 </tbody>
@@ -14301,7 +13380,7 @@ string
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountsSqlDatabasesContainersTriggers_Spec">DatabaseAccountsSqlDatabasesContainersTriggers_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlTriggerResource">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlTriggerResource</a></p>
+<p>Deprecated version of SqlTriggerResource. Use v1beta20210515.SqlTriggerResource instead</p>
 </div>
 <table>
 <thead>
@@ -14319,7 +13398,6 @@ string
 </em>
 </td>
 <td>
-<p>Body: Body of the Trigger</p>
 </td>
 </tr>
 <tr>
@@ -14330,7 +13408,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Name of the Cosmos DB SQL trigger</p>
 </td>
 </tr>
 <tr>
@@ -14343,7 +13420,6 @@ SqlTriggerResourceTriggerOperation
 </em>
 </td>
 <td>
-<p>TriggerOperation: The operation the trigger is associated with.</p>
 </td>
 </tr>
 <tr>
@@ -14356,7 +13432,6 @@ SqlTriggerResourceTriggerType
 </em>
 </td>
 <td>
-<p>TriggerType: Type of the Trigger.</p>
 </td>
 </tr>
 </tbody>
@@ -14367,7 +13442,7 @@ SqlTriggerResourceTriggerType
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.SqlTriggerCreateUpdatePropertiesARM">SqlTriggerCreateUpdatePropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlTriggerResource">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlTriggerResource</a></p>
+<p>Deprecated version of SqlTriggerResource. Use v1beta20210515.SqlTriggerResource instead</p>
 </div>
 <table>
 <thead>
@@ -14385,7 +13460,6 @@ string
 </em>
 </td>
 <td>
-<p>Body: Body of the Trigger</p>
 </td>
 </tr>
 <tr>
@@ -14396,7 +13470,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Name of the Cosmos DB SQL trigger</p>
 </td>
 </tr>
 <tr>
@@ -14409,7 +13482,6 @@ SqlTriggerResourceTriggerOperation
 </em>
 </td>
 <td>
-<p>TriggerOperation: The operation the trigger is associated with.</p>
 </td>
 </tr>
 <tr>
@@ -14422,7 +13494,6 @@ SqlTriggerResourceTriggerType
 </em>
 </td>
 <td>
-<p>TriggerType: Type of the Trigger.</p>
 </td>
 </tr>
 </tbody>
@@ -14433,6 +13504,7 @@ SqlTriggerResourceTriggerType
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.SqlTriggerResource">SqlTriggerResource</a>, <a href="#documentdb.azure.com/v1alpha1api20210515.SqlTriggerResourceARM">SqlTriggerResourceARM</a>)
 </p>
 <div>
+<p>Deprecated version of SqlTriggerResourceTriggerOperation. Use v1beta20210515.SqlTriggerResourceTriggerOperation instead</p>
 </div>
 <table>
 <thead>
@@ -14459,6 +13531,7 @@ SqlTriggerResourceTriggerType
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.SqlTriggerResource">SqlTriggerResource</a>, <a href="#documentdb.azure.com/v1alpha1api20210515.SqlTriggerResourceARM">SqlTriggerResourceARM</a>)
 </p>
 <div>
+<p>Deprecated version of SqlTriggerResourceTriggerType. Use v1beta20210515.SqlTriggerResourceTriggerType instead</p>
 </div>
 <table>
 <thead>
@@ -14479,7 +13552,7 @@ SqlTriggerResourceTriggerType
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SpecARM">DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SpecARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlUserDefinedFunctionCreateUpdateProperties">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlUserDefinedFunctionCreateUpdateProperties</a></p>
+<p>Deprecated version of SqlUserDefinedFunctionCreateUpdateProperties. Use v1beta20210515.SqlUserDefinedFunctionCreateUpdateProperties instead</p>
 </div>
 <table>
 <thead>
@@ -14499,8 +13572,6 @@ CreateUpdateOptionsARM
 </em>
 </td>
 <td>
-<p>Options: CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are &ldquo;If-Match&rdquo;,
-&ldquo;If-None-Match&rdquo;, &ldquo;Session-Token&rdquo; and &ldquo;Throughput&rdquo;</p>
 </td>
 </tr>
 <tr>
@@ -14513,7 +13584,6 @@ SqlUserDefinedFunctionResourceARM
 </em>
 </td>
 <td>
-<p>Resource: Cosmos DB SQL userDefinedFunction resource object</p>
 </td>
 </tr>
 </tbody>
@@ -14524,6 +13594,7 @@ SqlUserDefinedFunctionResourceARM
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.SqlUserDefinedFunctionGetResults_StatusARM">SqlUserDefinedFunctionGetResults_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of SqlUserDefinedFunctionGetProperties_Status. Use v1beta20210515.SqlUserDefinedFunctionGetProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -14553,6 +13624,7 @@ SqlUserDefinedFunctionGetProperties_Status_ResourceARM
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.SqlUserDefinedFunctionGetResults_Status">SqlUserDefinedFunctionGetResults_Status</a>)
 </p>
 <div>
+<p>Deprecated version of SqlUserDefinedFunctionGetProperties_Status_Resource. Use v1beta20210515.SqlUserDefinedFunctionGetProperties_Status_Resource instead</p>
 </div>
 <table>
 <thead>
@@ -14570,7 +13642,6 @@ string
 </em>
 </td>
 <td>
-<p>Body: Body of the User Defined Function</p>
 </td>
 </tr>
 <tr>
@@ -14581,7 +13652,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A system generated property representing the resource etag required for optimistic concurrency control.</p>
 </td>
 </tr>
 <tr>
@@ -14592,7 +13662,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Name of the Cosmos DB SQL userDefinedFunction</p>
 </td>
 </tr>
 <tr>
@@ -14603,7 +13672,6 @@ string
 </em>
 </td>
 <td>
-<p>Rid: A system generated property. A unique identifier.</p>
 </td>
 </tr>
 <tr>
@@ -14614,7 +13682,6 @@ float64
 </em>
 </td>
 <td>
-<p>Ts: A system generated property that denotes the last updated timestamp of the resource.</p>
 </td>
 </tr>
 </tbody>
@@ -14625,6 +13692,7 @@ float64
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.SqlUserDefinedFunctionGetProperties_StatusARM">SqlUserDefinedFunctionGetProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of SqlUserDefinedFunctionGetProperties_Status_Resource. Use v1beta20210515.SqlUserDefinedFunctionGetProperties_Status_Resource instead</p>
 </div>
 <table>
 <thead>
@@ -14642,7 +13710,6 @@ string
 </em>
 </td>
 <td>
-<p>Body: Body of the User Defined Function</p>
 </td>
 </tr>
 <tr>
@@ -14653,7 +13720,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A system generated property representing the resource etag required for optimistic concurrency control.</p>
 </td>
 </tr>
 <tr>
@@ -14664,7 +13730,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Name of the Cosmos DB SQL userDefinedFunction</p>
 </td>
 </tr>
 <tr>
@@ -14675,7 +13740,6 @@ string
 </em>
 </td>
 <td>
-<p>Rid: A system generated property. A unique identifier.</p>
 </td>
 </tr>
 <tr>
@@ -14686,7 +13750,6 @@ float64
 </em>
 </td>
 <td>
-<p>Ts: A system generated property that denotes the last updated timestamp of the resource.</p>
 </td>
 </tr>
 </tbody>
@@ -14697,6 +13760,7 @@ float64
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.SqlDatabaseContainerUserDefinedFunction">SqlDatabaseContainerUserDefinedFunction</a>)
 </p>
 <div>
+<p>Deprecated version of SqlUserDefinedFunctionGetResults_Status. Use v1beta20210515.SqlUserDefinedFunctionGetResults_Status instead</p>
 </div>
 <table>
 <thead>
@@ -14727,7 +13791,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: The unique resource identifier of the ARM resource.</p>
 </td>
 </tr>
 <tr>
@@ -14738,7 +13801,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The location of the resource group to which the resource belongs.</p>
 </td>
 </tr>
 <tr>
@@ -14749,7 +13811,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the ARM resource.</p>
 </td>
 </tr>
 <tr>
@@ -14782,7 +13843,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: The type of Azure resource.</p>
 </td>
 </tr>
 </tbody>
@@ -14790,6 +13850,7 @@ string
 <h3 id="documentdb.azure.com/v1alpha1api20210515.SqlUserDefinedFunctionGetResults_StatusARM">SqlUserDefinedFunctionGetResults_StatusARM
 </h3>
 <div>
+<p>Deprecated version of SqlUserDefinedFunctionGetResults_Status. Use v1beta20210515.SqlUserDefinedFunctionGetResults_Status instead</p>
 </div>
 <table>
 <thead>
@@ -14807,7 +13868,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: The unique resource identifier of the ARM resource.</p>
 </td>
 </tr>
 <tr>
@@ -14818,7 +13878,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The location of the resource group to which the resource belongs.</p>
 </td>
 </tr>
 <tr>
@@ -14829,7 +13888,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the ARM resource.</p>
 </td>
 </tr>
 <tr>
@@ -14842,7 +13900,6 @@ SqlUserDefinedFunctionGetProperties_StatusARM
 </em>
 </td>
 <td>
-<p>Properties: The properties of an Azure Cosmos DB userDefinedFunction</p>
 </td>
 </tr>
 <tr>
@@ -14863,7 +13920,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: The type of Azure resource.</p>
 </td>
 </tr>
 </tbody>
@@ -14874,7 +13930,7 @@ string
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec">DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlUserDefinedFunctionResource">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlUserDefinedFunctionResource</a></p>
+<p>Deprecated version of SqlUserDefinedFunctionResource. Use v1beta20210515.SqlUserDefinedFunctionResource instead</p>
 </div>
 <table>
 <thead>
@@ -14892,7 +13948,6 @@ string
 </em>
 </td>
 <td>
-<p>Body: Body of the User Defined Function</p>
 </td>
 </tr>
 <tr>
@@ -14903,7 +13958,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Name of the Cosmos DB SQL userDefinedFunction</p>
 </td>
 </tr>
 </tbody>
@@ -14914,7 +13968,7 @@ string
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.SqlUserDefinedFunctionCreateUpdatePropertiesARM">SqlUserDefinedFunctionCreateUpdatePropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlUserDefinedFunctionResource">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlUserDefinedFunctionResource</a></p>
+<p>Deprecated version of SqlUserDefinedFunctionResource. Use v1beta20210515.SqlUserDefinedFunctionResource instead</p>
 </div>
 <table>
 <thead>
@@ -14932,7 +13986,6 @@ string
 </em>
 </td>
 <td>
-<p>Body: Body of the User Defined Function</p>
 </td>
 </tr>
 <tr>
@@ -14943,7 +13996,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Name of the Cosmos DB SQL userDefinedFunction</p>
 </td>
 </tr>
 </tbody>
@@ -14954,7 +14006,7 @@ string
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.AutoUpgradePolicyResource">AutoUpgradePolicyResource</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ThroughputPolicyResource">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ThroughputPolicyResource</a></p>
+<p>Deprecated version of ThroughputPolicyResource. Use v1beta20210515.ThroughputPolicyResource instead</p>
 </div>
 <table>
 <thead>
@@ -14972,7 +14024,6 @@ int
 </em>
 </td>
 <td>
-<p>IncrementPercent: Represents the percentage by which throughput can increase every time throughput policy kicks in.</p>
 </td>
 </tr>
 <tr>
@@ -14983,7 +14034,6 @@ bool
 </em>
 </td>
 <td>
-<p>IsEnabled: Determines whether the ThroughputPolicy is active or not</p>
 </td>
 </tr>
 </tbody>
@@ -14994,7 +14044,7 @@ bool
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.AutoUpgradePolicyResourceARM">AutoUpgradePolicyResourceARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ThroughputPolicyResource">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ThroughputPolicyResource</a></p>
+<p>Deprecated version of ThroughputPolicyResource. Use v1beta20210515.ThroughputPolicyResource instead</p>
 </div>
 <table>
 <thead>
@@ -15012,7 +14062,6 @@ int
 </em>
 </td>
 <td>
-<p>IncrementPercent: Represents the percentage by which throughput can increase every time throughput policy kicks in.</p>
 </td>
 </tr>
 <tr>
@@ -15023,7 +14072,6 @@ bool
 </em>
 </td>
 <td>
-<p>IsEnabled: Determines whether the ThroughputPolicy is active or not</p>
 </td>
 </tr>
 </tbody>
@@ -15034,6 +14082,7 @@ bool
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.AutoUpgradePolicyResource_Status">AutoUpgradePolicyResource_Status</a>)
 </p>
 <div>
+<p>Deprecated version of ThroughputPolicyResource_Status. Use v1beta20210515.ThroughputPolicyResource_Status instead</p>
 </div>
 <table>
 <thead>
@@ -15051,7 +14100,6 @@ int
 </em>
 </td>
 <td>
-<p>IncrementPercent: Represents the percentage by which throughput can increase every time throughput policy kicks in.</p>
 </td>
 </tr>
 <tr>
@@ -15062,7 +14110,6 @@ bool
 </em>
 </td>
 <td>
-<p>IsEnabled: Determines whether the ThroughputPolicy is active or not</p>
 </td>
 </tr>
 </tbody>
@@ -15073,6 +14120,7 @@ bool
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.AutoUpgradePolicyResource_StatusARM">AutoUpgradePolicyResource_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of ThroughputPolicyResource_Status. Use v1beta20210515.ThroughputPolicyResource_Status instead</p>
 </div>
 <table>
 <thead>
@@ -15090,7 +14138,6 @@ int
 </em>
 </td>
 <td>
-<p>IncrementPercent: Represents the percentage by which throughput can increase every time throughput policy kicks in.</p>
 </td>
 </tr>
 <tr>
@@ -15101,7 +14148,6 @@ bool
 </em>
 </td>
 <td>
-<p>IsEnabled: Determines whether the ThroughputPolicy is active or not</p>
 </td>
 </tr>
 </tbody>
@@ -15112,6 +14158,7 @@ bool
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.ThroughputSettingsGetResults_StatusARM">ThroughputSettingsGetResults_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of ThroughputSettingsGetProperties_Status. Use v1beta20210515.ThroughputSettingsGetProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -15141,6 +14188,7 @@ ThroughputSettingsGetProperties_Status_ResourceARM
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.ThroughputSettingsGetResults_Status">ThroughputSettingsGetResults_Status</a>)
 </p>
 <div>
+<p>Deprecated version of ThroughputSettingsGetProperties_Status_Resource. Use v1beta20210515.ThroughputSettingsGetProperties_Status_Resource instead</p>
 </div>
 <table>
 <thead>
@@ -15160,8 +14208,6 @@ AutoscaleSettingsResource_Status
 </em>
 </td>
 <td>
-<p>AutoscaleSettings: Cosmos DB resource for autoscale settings. Either throughput is required or autoscaleSettings is
-required, but not both.</p>
 </td>
 </tr>
 <tr>
@@ -15172,7 +14218,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A system generated property representing the resource etag required for optimistic concurrency control.</p>
 </td>
 </tr>
 <tr>
@@ -15183,7 +14228,6 @@ string
 </em>
 </td>
 <td>
-<p>MinimumThroughput: The minimum throughput of the resource</p>
 </td>
 </tr>
 <tr>
@@ -15194,7 +14238,6 @@ string
 </em>
 </td>
 <td>
-<p>OfferReplacePending: The throughput replace is pending</p>
 </td>
 </tr>
 <tr>
@@ -15205,7 +14248,6 @@ string
 </em>
 </td>
 <td>
-<p>Rid: A system generated property. A unique identifier.</p>
 </td>
 </tr>
 <tr>
@@ -15216,8 +14258,6 @@ int
 </em>
 </td>
 <td>
-<p>Throughput: Value of the Cosmos DB resource throughput. Either throughput is required or autoscaleSettings is required,
-but not both.</p>
 </td>
 </tr>
 <tr>
@@ -15228,7 +14268,6 @@ float64
 </em>
 </td>
 <td>
-<p>Ts: A system generated property that denotes the last updated timestamp of the resource.</p>
 </td>
 </tr>
 </tbody>
@@ -15239,6 +14278,7 @@ float64
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.ThroughputSettingsGetProperties_StatusARM">ThroughputSettingsGetProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of ThroughputSettingsGetProperties_Status_Resource. Use v1beta20210515.ThroughputSettingsGetProperties_Status_Resource instead</p>
 </div>
 <table>
 <thead>
@@ -15258,8 +14298,6 @@ AutoscaleSettingsResource_StatusARM
 </em>
 </td>
 <td>
-<p>AutoscaleSettings: Cosmos DB resource for autoscale settings. Either throughput is required or autoscaleSettings is
-required, but not both.</p>
 </td>
 </tr>
 <tr>
@@ -15270,7 +14308,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: A system generated property representing the resource etag required for optimistic concurrency control.</p>
 </td>
 </tr>
 <tr>
@@ -15281,7 +14318,6 @@ string
 </em>
 </td>
 <td>
-<p>MinimumThroughput: The minimum throughput of the resource</p>
 </td>
 </tr>
 <tr>
@@ -15292,7 +14328,6 @@ string
 </em>
 </td>
 <td>
-<p>OfferReplacePending: The throughput replace is pending</p>
 </td>
 </tr>
 <tr>
@@ -15303,7 +14338,6 @@ string
 </em>
 </td>
 <td>
-<p>Rid: A system generated property. A unique identifier.</p>
 </td>
 </tr>
 <tr>
@@ -15314,8 +14348,6 @@ int
 </em>
 </td>
 <td>
-<p>Throughput: Value of the Cosmos DB resource throughput. Either throughput is required or autoscaleSettings is required,
-but not both.</p>
 </td>
 </tr>
 <tr>
@@ -15326,7 +14358,6 @@ float64
 </em>
 </td>
 <td>
-<p>Ts: A system generated property that denotes the last updated timestamp of the resource.</p>
 </td>
 </tr>
 </tbody>
@@ -15337,6 +14368,7 @@ float64
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.MongodbDatabaseCollectionThroughputSetting">MongodbDatabaseCollectionThroughputSetting</a>, <a href="#documentdb.azure.com/v1alpha1api20210515.MongodbDatabaseThroughputSetting">MongodbDatabaseThroughputSetting</a>, <a href="#documentdb.azure.com/v1alpha1api20210515.SqlDatabaseContainerThroughputSetting">SqlDatabaseContainerThroughputSetting</a>, <a href="#documentdb.azure.com/v1alpha1api20210515.SqlDatabaseThroughputSetting">SqlDatabaseThroughputSetting</a>)
 </p>
 <div>
+<p>Deprecated version of ThroughputSettingsGetResults_Status. Use v1beta20210515.ThroughputSettingsGetResults_Status instead</p>
 </div>
 <table>
 <thead>
@@ -15367,7 +14399,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: The unique resource identifier of the ARM resource.</p>
 </td>
 </tr>
 <tr>
@@ -15378,7 +14409,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The location of the resource group to which the resource belongs.</p>
 </td>
 </tr>
 <tr>
@@ -15389,7 +14419,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the ARM resource.</p>
 </td>
 </tr>
 <tr>
@@ -15422,7 +14451,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: The type of Azure resource.</p>
 </td>
 </tr>
 </tbody>
@@ -15430,6 +14458,7 @@ string
 <h3 id="documentdb.azure.com/v1alpha1api20210515.ThroughputSettingsGetResults_StatusARM">ThroughputSettingsGetResults_StatusARM
 </h3>
 <div>
+<p>Deprecated version of ThroughputSettingsGetResults_Status. Use v1beta20210515.ThroughputSettingsGetResults_Status instead</p>
 </div>
 <table>
 <thead>
@@ -15447,7 +14476,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: The unique resource identifier of the ARM resource.</p>
 </td>
 </tr>
 <tr>
@@ -15458,7 +14486,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The location of the resource group to which the resource belongs.</p>
 </td>
 </tr>
 <tr>
@@ -15469,7 +14496,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the ARM resource.</p>
 </td>
 </tr>
 <tr>
@@ -15482,7 +14508,6 @@ ThroughputSettingsGetProperties_StatusARM
 </em>
 </td>
 <td>
-<p>Properties: The properties of an Azure Cosmos DB resource throughput</p>
 </td>
 </tr>
 <tr>
@@ -15503,7 +14528,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: The type of Azure resource.</p>
 </td>
 </tr>
 </tbody>
@@ -15514,7 +14538,7 @@ string
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec">DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec</a>, <a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountsMongodbDatabasesThroughputSettings_Spec">DatabaseAccountsMongodbDatabasesThroughputSettings_Spec</a>, <a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec">DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec</a>, <a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountsSqlDatabasesThroughputSettings_Spec">DatabaseAccountsSqlDatabasesThroughputSettings_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ThroughputSettingsResource">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ThroughputSettingsResource</a></p>
+<p>Deprecated version of ThroughputSettingsResource. Use v1beta20210515.ThroughputSettingsResource instead</p>
 </div>
 <table>
 <thead>
@@ -15534,7 +14558,6 @@ AutoscaleSettingsResource
 </em>
 </td>
 <td>
-<p>AutoscaleSettings: Cosmos DB provisioned throughput settings object</p>
 </td>
 </tr>
 <tr>
@@ -15545,8 +14568,6 @@ int
 </em>
 </td>
 <td>
-<p>Throughput: Value of the Cosmos DB resource throughput. Either throughput is required or autoscaleSettings is required,
-but not both.</p>
 </td>
 </tr>
 </tbody>
@@ -15557,7 +14578,7 @@ but not both.</p>
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.ThroughputSettingsUpdatePropertiesARM">ThroughputSettingsUpdatePropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ThroughputSettingsResource">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ThroughputSettingsResource</a></p>
+<p>Deprecated version of ThroughputSettingsResource. Use v1beta20210515.ThroughputSettingsResource instead</p>
 </div>
 <table>
 <thead>
@@ -15577,7 +14598,6 @@ AutoscaleSettingsResourceARM
 </em>
 </td>
 <td>
-<p>AutoscaleSettings: Cosmos DB provisioned throughput settings object</p>
 </td>
 </tr>
 <tr>
@@ -15588,8 +14608,6 @@ int
 </em>
 </td>
 <td>
-<p>Throughput: Value of the Cosmos DB resource throughput. Either throughput is required or autoscaleSettings is required,
-but not both.</p>
 </td>
 </tr>
 </tbody>
@@ -15600,7 +14618,7 @@ but not both.</p>
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SpecARM">DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SpecARM</a>, <a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountsMongodbDatabasesThroughputSettings_SpecARM">DatabaseAccountsMongodbDatabasesThroughputSettings_SpecARM</a>, <a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountsSqlDatabasesContainersThroughputSettings_SpecARM">DatabaseAccountsSqlDatabasesContainersThroughputSettings_SpecARM</a>, <a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountsSqlDatabasesThroughputSettings_SpecARM">DatabaseAccountsSqlDatabasesThroughputSettings_SpecARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ThroughputSettingsUpdateProperties">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ThroughputSettingsUpdateProperties</a></p>
+<p>Deprecated version of ThroughputSettingsUpdateProperties. Use v1beta20210515.ThroughputSettingsUpdateProperties instead</p>
 </div>
 <table>
 <thead>
@@ -15620,8 +14638,6 @@ ThroughputSettingsResourceARM
 </em>
 </td>
 <td>
-<p>Resource: Cosmos DB resource throughput object. Either throughput is required or autoscaleSettings is required, but not
-both.</p>
 </td>
 </tr>
 </tbody>
@@ -15632,7 +14648,7 @@ both.</p>
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.UniqueKeyPolicy">UniqueKeyPolicy</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/UniqueKey">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/UniqueKey</a></p>
+<p>Deprecated version of UniqueKey. Use v1beta20210515.UniqueKey instead</p>
 </div>
 <table>
 <thead>
@@ -15650,7 +14666,6 @@ both.</p>
 </em>
 </td>
 <td>
-<p>Paths: List of paths must be unique for each document in the Azure Cosmos DB service</p>
 </td>
 </tr>
 </tbody>
@@ -15661,7 +14676,7 @@ both.</p>
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.UniqueKeyPolicyARM">UniqueKeyPolicyARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/UniqueKey">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/UniqueKey</a></p>
+<p>Deprecated version of UniqueKey. Use v1beta20210515.UniqueKey instead</p>
 </div>
 <table>
 <thead>
@@ -15679,7 +14694,6 @@ both.</p>
 </em>
 </td>
 <td>
-<p>Paths: List of paths must be unique for each document in the Azure Cosmos DB service</p>
 </td>
 </tr>
 </tbody>
@@ -15690,7 +14704,7 @@ both.</p>
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.SqlContainerResource">SqlContainerResource</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/UniqueKeyPolicy">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/UniqueKeyPolicy</a></p>
+<p>Deprecated version of UniqueKeyPolicy. Use v1beta20210515.UniqueKeyPolicy instead</p>
 </div>
 <table>
 <thead>
@@ -15710,8 +14724,6 @@ both.</p>
 </em>
 </td>
 <td>
-<p>UniqueKeys: List of unique keys on that enforces uniqueness constraint on documents in the collection in the Azure
-Cosmos DB service.</p>
 </td>
 </tr>
 </tbody>
@@ -15722,7 +14734,7 @@ Cosmos DB service.</p>
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.SqlContainerResourceARM">SqlContainerResourceARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/UniqueKeyPolicy">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/UniqueKeyPolicy</a></p>
+<p>Deprecated version of UniqueKeyPolicy. Use v1beta20210515.UniqueKeyPolicy instead</p>
 </div>
 <table>
 <thead>
@@ -15742,8 +14754,6 @@ Cosmos DB service.</p>
 </em>
 </td>
 <td>
-<p>UniqueKeys: List of unique keys on that enforces uniqueness constraint on documents in the collection in the Azure
-Cosmos DB service.</p>
 </td>
 </tr>
 </tbody>
@@ -15754,6 +14764,7 @@ Cosmos DB service.</p>
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.SqlContainerGetProperties_Status_Resource">SqlContainerGetProperties_Status_Resource</a>)
 </p>
 <div>
+<p>Deprecated version of UniqueKeyPolicy_Status. Use v1beta20210515.UniqueKeyPolicy_Status instead</p>
 </div>
 <table>
 <thead>
@@ -15773,8 +14784,6 @@ Cosmos DB service.</p>
 </em>
 </td>
 <td>
-<p>UniqueKeys: List of unique keys on that enforces uniqueness constraint on documents in the collection in the Azure
-Cosmos DB service.</p>
 </td>
 </tr>
 </tbody>
@@ -15785,6 +14794,7 @@ Cosmos DB service.</p>
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.SqlContainerGetProperties_Status_ResourceARM">SqlContainerGetProperties_Status_ResourceARM</a>)
 </p>
 <div>
+<p>Deprecated version of UniqueKeyPolicy_Status. Use v1beta20210515.UniqueKeyPolicy_Status instead</p>
 </div>
 <table>
 <thead>
@@ -15804,8 +14814,6 @@ Cosmos DB service.</p>
 </em>
 </td>
 <td>
-<p>UniqueKeys: List of unique keys on that enforces uniqueness constraint on documents in the collection in the Azure
-Cosmos DB service.</p>
 </td>
 </tr>
 </tbody>
@@ -15816,6 +14824,7 @@ Cosmos DB service.</p>
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.UniqueKeyPolicy_Status">UniqueKeyPolicy_Status</a>)
 </p>
 <div>
+<p>Deprecated version of UniqueKey_Status. Use v1beta20210515.UniqueKey_Status instead</p>
 </div>
 <table>
 <thead>
@@ -15833,7 +14842,6 @@ Cosmos DB service.</p>
 </em>
 </td>
 <td>
-<p>Paths: List of paths must be unique for each document in the Azure Cosmos DB service</p>
 </td>
 </tr>
 </tbody>
@@ -15844,6 +14852,7 @@ Cosmos DB service.</p>
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.UniqueKeyPolicy_StatusARM">UniqueKeyPolicy_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of UniqueKey_Status. Use v1beta20210515.UniqueKey_Status instead</p>
 </div>
 <table>
 <thead>
@@ -15861,7 +14870,6 @@ Cosmos DB service.</p>
 </em>
 </td>
 <td>
-<p>Paths: List of paths must be unique for each document in the Azure Cosmos DB service</p>
 </td>
 </tr>
 </tbody>
@@ -15872,7 +14880,7 @@ Cosmos DB service.</p>
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccounts_Spec">DatabaseAccounts_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/VirtualNetworkRule">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/VirtualNetworkRule</a></p>
+<p>Deprecated version of VirtualNetworkRule. Use v1beta20210515.VirtualNetworkRule instead</p>
 </div>
 <table>
 <thead>
@@ -15890,7 +14898,6 @@ bool
 </em>
 </td>
 <td>
-<p>IgnoreMissingVNetServiceEndpoint: Create firewall rule before the virtual network has vnet service endpoint enabled.</p>
 </td>
 </tr>
 <tr>
@@ -15903,8 +14910,6 @@ genruntime.ResourceReference
 </em>
 </td>
 <td>
-<p>Reference: Resource ID of a subnet, for example:
-/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}.</p>
 </td>
 </tr>
 </tbody>
@@ -15915,7 +14920,7 @@ genruntime.ResourceReference
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountCreateUpdatePropertiesARM">DatabaseAccountCreateUpdatePropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/VirtualNetworkRule">https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/VirtualNetworkRule</a></p>
+<p>Deprecated version of VirtualNetworkRule. Use v1beta20210515.VirtualNetworkRule instead</p>
 </div>
 <table>
 <thead>
@@ -15943,7 +14948,6 @@ bool
 </em>
 </td>
 <td>
-<p>IgnoreMissingVNetServiceEndpoint: Create firewall rule before the virtual network has vnet service endpoint enabled.</p>
 </td>
 </tr>
 </tbody>
@@ -15954,6 +14958,7 @@ bool
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountGetResults_Status">DatabaseAccountGetResults_Status</a>)
 </p>
 <div>
+<p>Deprecated version of VirtualNetworkRule_Status. Use v1beta20210515.VirtualNetworkRule_Status instead</p>
 </div>
 <table>
 <thead>
@@ -15971,8 +14976,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID of a subnet, for example:
-/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}.</p>
 </td>
 </tr>
 <tr>
@@ -15983,7 +14986,6 @@ bool
 </em>
 </td>
 <td>
-<p>IgnoreMissingVNetServiceEndpoint: Create firewall rule before the virtual network has vnet service endpoint enabled.</p>
 </td>
 </tr>
 </tbody>
@@ -15994,6 +14996,7 @@ bool
 (<em>Appears on:</em><a href="#documentdb.azure.com/v1alpha1api20210515.DatabaseAccountGetProperties_StatusARM">DatabaseAccountGetProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of VirtualNetworkRule_Status. Use v1beta20210515.VirtualNetworkRule_Status instead</p>
 </div>
 <table>
 <thead>
@@ -16011,8 +15014,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID of a subnet, for example:
-/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}.</p>
 </td>
 </tr>
 <tr>
@@ -16023,7 +15024,6 @@ bool
 </em>
 </td>
 <td>
-<p>IgnoreMissingVNetServiceEndpoint: Create firewall rule before the virtual network has vnet service endpoint enabled.</p>
 </td>
 </tr>
 </tbody>

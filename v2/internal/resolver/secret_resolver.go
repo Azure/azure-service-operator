@@ -13,6 +13,7 @@ import (
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/types"
 
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
@@ -20,7 +21,7 @@ import (
 // SecretResolver is a secret resolver
 type SecretResolver interface {
 	ResolveSecretReference(ctx context.Context, ref genruntime.NamespacedSecretReference) (string, error)
-	ResolveSecretReferences(ctx context.Context, refs map[genruntime.NamespacedSecretReference]struct{}) (genruntime.ResolvedSecrets, error)
+	ResolveSecretReferences(ctx context.Context, refs set.Set[genruntime.NamespacedSecretReference]) (genruntime.ResolvedSecrets, error)
 }
 
 // kubeSecretResolver resolves Kubernetes secrets
@@ -66,7 +67,7 @@ func (r *kubeSecretResolver) ResolveSecretReference(ctx context.Context, ref gen
 }
 
 // ResolveSecretReferences resolves all provided secret references
-func (r *kubeSecretResolver) ResolveSecretReferences(ctx context.Context, refs map[genruntime.NamespacedSecretReference]struct{}) (genruntime.ResolvedSecrets, error) {
+func (r *kubeSecretResolver) ResolveSecretReferences(ctx context.Context, refs set.Set[genruntime.NamespacedSecretReference]) (genruntime.ResolvedSecrets, error) {
 	result := make(map[genruntime.SecretReference]string)
 
 	for ref := range refs {

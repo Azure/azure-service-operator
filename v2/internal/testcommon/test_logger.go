@@ -17,15 +17,15 @@ import (
 // TODO: I'm not sure the best way to configure this so for now I'm just going to set it to 5
 var LogLevel = 5
 
-var _ logr.Logger = &TestLogger{}
+var _ logr.LogSink = &TestLogger{}
 
 func NewTestLogger(t *testing.T) logr.Logger {
-	return &TestLogger{
+	return logr.New(&TestLogger{
 		t:       t,
 		values:  nil,
 		enabled: true,
 		name:    "",
-	}
+	})
 }
 
 // TestLogger is a logr.Logger wrapper around t.Log, so that we can use it in the controller
@@ -35,6 +35,9 @@ type TestLogger struct {
 
 	enabled bool
 	name    string
+}
+
+func (_ TestLogger) Init(info logr.RuntimeInfo) {
 }
 
 // kvListFormat was adapted from the klog method of the same name and formats a keysAndValues list into
@@ -87,8 +90,8 @@ func (t *TestLogger) makeHeader() string {
 	return fmt.Sprintf("%s%s]%s", severity, timeStr, nameString)
 }
 
-func (t *TestLogger) Info(msg string, keysAndValues ...interface{}) {
-	if t.Enabled() {
+func (t *TestLogger) Info(level int, msg string, keysAndValues ...interface{}) {
+	if t.Enabled(level) {
 		t.t.Helper()
 
 		b := &bytes.Buffer{}
@@ -101,12 +104,12 @@ func (t *TestLogger) Info(msg string, keysAndValues ...interface{}) {
 	}
 }
 
-func (t *TestLogger) Enabled() bool {
+func (t *TestLogger) Enabled(_level int) bool {
 	return t.enabled
 }
 
 func (t *TestLogger) Error(err error, msg string, keysAndValues ...interface{}) {
-	if t.Enabled() {
+	if t.Enabled(0) {
 		b := &bytes.Buffer{}
 		header := t.makeHeader()
 		kvListFormat(b, t.values...)
@@ -119,21 +122,21 @@ func (t *TestLogger) Error(err error, msg string, keysAndValues ...interface{}) 
 func (t *TestLogger) V(level int) logr.Logger {
 	result := t.clone()
 	if level <= LogLevel {
-		return result
+		return logr.New(result)
 	}
 
 	result.enabled = false
-	return result
+	return logr.New(result)
 }
 
-func (t *TestLogger) WithValues(keysAndValues ...interface{}) logr.Logger {
+func (t *TestLogger) WithValues(keysAndValues ...interface{}) logr.LogSink {
 	result := t.clone()
 	result.values = append(result.values, keysAndValues...)
 
 	return result
 }
 
-func (t *TestLogger) WithName(name string) logr.Logger {
+func (t *TestLogger) WithName(name string) logr.LogSink {
 	result := t.clone()
 	result.name = name
 	return result
