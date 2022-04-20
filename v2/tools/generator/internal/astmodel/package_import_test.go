@@ -110,47 +110,6 @@ func TestPackageImport_Equals(t *testing.T) {
 }
 
 /*
- * ServiceNameForImport() tests
- */
-
-func TestPackageImport_ServiceNameForImport_GivenImport_ReturnsExpectedName(t *testing.T) {
-	t.Parallel()
-
-	cases := []struct {
-		name     string
-		ref      PackageReference
-		expected string
-	}{
-		{
-			"Batch",
-			MakeExternalPackageReference("github.com/Azure/azure-service-operator/v2/api/batch/v201700401"),
-			"batch",
-		},
-		{
-			"Storage",
-			MakeExternalPackageReference("github.com/Azure/azure-service-operator/v2/api/storage/v20200101"),
-			"storage",
-		},
-		{
-			"StorSimple",
-			MakeExternalPackageReference("github.com/Azure/azure-service-operator/v2/api/storsimple.1200/v20161001"),
-			"storsimple1200",
-		},
-	}
-
-	for _, c := range cases {
-		c := c
-		t.Run(c.name, func(t *testing.T) {
-			t.Parallel()
-			g := NewGomegaWithT(t)
-			imp := NewPackageImport(c.ref)
-			name := imp.ServiceNameForImport()
-			g.Expect(name).To(Equal(c.expected))
-		})
-	}
-}
-
-/*
  * CreateImportAlias Tests
  */
 

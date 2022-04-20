@@ -133,12 +133,7 @@ func (r *ResourceRegistrationFile) generateImports() *astmodel.PackageImportSet 
 	typeSet := append(r.resources, r.storageVersionResources...)
 	typeSet = append(typeSet, r.resourceExtensions...)
 	for _, typeName := range typeSet {
-		// Because versions always end in a date specifier such as "v20180801"
-		// they are not unique. We must build a unique name for each package so that
-		// there are no import conflicts.
-		imp := astmodel.NewPackageImport(typeName.PackageReference)
-		imp = imp.WithName(imp.VersionedNameForImport())
-		requiredImports.AddImport(imp)
+		requiredImports.AddImportOfReference(typeName.PackageReference)
 	}
 
 	// We require these imports

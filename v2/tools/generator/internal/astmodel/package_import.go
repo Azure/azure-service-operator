@@ -77,31 +77,6 @@ func (pi PackageImport) String() string {
 	return pi.packageReference.String()
 }
 
-// TODO: There's an assumption here that this package is a local package, or at least a package that has a format
-// TODO: similar to one
-// ServiceNameForImport extracts a name for the service for use to disambiguate imports
-// E.g. for microsoft.batch/v201700401, extract "batch"
-//      for microsoft.storage/v20200101 extract "storage"
-//      for microsoft.storsimple.1200 extract "storsimple1200" and so on
-func (pi PackageImport) ServiceNameForImport() string {
-	pathBits := strings.Split(pi.packageReference.PackagePath(), "/")
-	index := len(pathBits) - 1
-	if index > 0 {
-		index--
-	}
-
-	result := strings.Replace(pathBits[index], ".", "", -1)
-	return result
-}
-
-// Create a versioned name based on the service for use to disambiguate imports
-// E.g. for microsoft.batch/v201700401, extract "batchv201700401"
-//      for microsoft.storage/v20200101 extract "storagev20200101" and so on
-func (pi PackageImport) VersionedNameForImport() string {
-	service := pi.ServiceNameForImport()
-	return service + pi.packageReference.PackageName()
-}
-
 // WithImportAlias creates a copy of this import with a name following the specified rules
 func (pi PackageImport) WithImportAlias(style PackageImportStyle) PackageImport {
 	var alias string
