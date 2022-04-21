@@ -4,7 +4,7 @@
 package v1beta20201201storage
 
 import (
-	"github.com/Azure/azure-service-operator/v2/api/compute/v1beta20210701storage"
+	v20210701s "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20210701storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
@@ -296,7 +296,7 @@ type ExtendedLocation struct {
 }
 
 // AssignPropertiesFromExtendedLocation populates our ExtendedLocation from the provided source ExtendedLocation
-func (location *ExtendedLocation) AssignPropertiesFromExtendedLocation(source *v1beta20210701storage.ExtendedLocation) error {
+func (location *ExtendedLocation) AssignPropertiesFromExtendedLocation(source *v20210701s.ExtendedLocation) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -318,7 +318,7 @@ func (location *ExtendedLocation) AssignPropertiesFromExtendedLocation(source *v
 }
 
 // AssignPropertiesToExtendedLocation populates the provided destination ExtendedLocation from our ExtendedLocation
-func (location *ExtendedLocation) AssignPropertiesToExtendedLocation(destination *v1beta20210701storage.ExtendedLocation) error {
+func (location *ExtendedLocation) AssignPropertiesToExtendedLocation(destination *v20210701s.ExtendedLocation) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(location.PropertyBag)
 
@@ -347,7 +347,7 @@ type ExtendedLocation_Status struct {
 }
 
 // AssignPropertiesFromExtendedLocationStatus populates our ExtendedLocation_Status from the provided source ExtendedLocation_Status
-func (location *ExtendedLocation_Status) AssignPropertiesFromExtendedLocationStatus(source *v1beta20210701storage.ExtendedLocation_Status) error {
+func (location *ExtendedLocation_Status) AssignPropertiesFromExtendedLocationStatus(source *v20210701s.ExtendedLocation_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -369,7 +369,7 @@ func (location *ExtendedLocation_Status) AssignPropertiesFromExtendedLocationSta
 }
 
 // AssignPropertiesToExtendedLocationStatus populates the provided destination ExtendedLocation_Status from our ExtendedLocation_Status
-func (location *ExtendedLocation_Status) AssignPropertiesToExtendedLocationStatus(destination *v1beta20210701storage.ExtendedLocation_Status) error {
+func (location *ExtendedLocation_Status) AssignPropertiesToExtendedLocationStatus(destination *v20210701s.ExtendedLocation_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(location.PropertyBag)
 
@@ -501,7 +501,7 @@ type SubResource struct {
 }
 
 // AssignPropertiesFromSubResource populates our SubResource from the provided source SubResource
-func (resource *SubResource) AssignPropertiesFromSubResource(source *v1beta20210701storage.SubResource) error {
+func (resource *SubResource) AssignPropertiesFromSubResource(source *v20210701s.SubResource) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -525,7 +525,7 @@ func (resource *SubResource) AssignPropertiesFromSubResource(source *v1beta20210
 }
 
 // AssignPropertiesToSubResource populates the provided destination SubResource from our SubResource
-func (resource *SubResource) AssignPropertiesToSubResource(destination *v1beta20210701storage.SubResource) error {
+func (resource *SubResource) AssignPropertiesToSubResource(destination *v20210701s.SubResource) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(resource.PropertyBag)
 
@@ -555,7 +555,7 @@ type SubResource_Status struct {
 }
 
 // AssignPropertiesFromSubResourceStatus populates our SubResource_Status from the provided source SubResource_Status
-func (resource *SubResource_Status) AssignPropertiesFromSubResourceStatus(source *v1beta20210701storage.SubResource_Status) error {
+func (resource *SubResource_Status) AssignPropertiesFromSubResourceStatus(source *v20210701s.SubResource_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -574,7 +574,7 @@ func (resource *SubResource_Status) AssignPropertiesFromSubResourceStatus(source
 }
 
 // AssignPropertiesToSubResourceStatus populates the provided destination SubResource_Status from our SubResource_Status
-func (resource *SubResource_Status) AssignPropertiesToSubResourceStatus(destination *v1beta20210701storage.SubResource_Status) error {
+func (resource *SubResource_Status) AssignPropertiesToSubResourceStatus(destination *v20210701s.SubResource_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(resource.PropertyBag)
 
@@ -1137,7 +1137,7 @@ type DiskEncryptionSetParameters struct {
 }
 
 // AssignPropertiesFromDiskEncryptionSetParameters populates our DiskEncryptionSetParameters from the provided source DiskEncryptionSetParameters
-func (parameters *DiskEncryptionSetParameters) AssignPropertiesFromDiskEncryptionSetParameters(source *v1beta20210701storage.DiskEncryptionSetParameters) error {
+func (parameters *DiskEncryptionSetParameters) AssignPropertiesFromDiskEncryptionSetParameters(source *v20210701s.DiskEncryptionSetParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1161,7 +1161,7 @@ func (parameters *DiskEncryptionSetParameters) AssignPropertiesFromDiskEncryptio
 }
 
 // AssignPropertiesToDiskEncryptionSetParameters populates the provided destination DiskEncryptionSetParameters from our DiskEncryptionSetParameters
-func (parameters *DiskEncryptionSetParameters) AssignPropertiesToDiskEncryptionSetParameters(destination *v1beta20210701storage.DiskEncryptionSetParameters) error {
+func (parameters *DiskEncryptionSetParameters) AssignPropertiesToDiskEncryptionSetParameters(destination *v20210701s.DiskEncryptionSetParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
 

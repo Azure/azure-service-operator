@@ -5,7 +5,7 @@ package v1alpha1api20210501storage
 
 import (
 	"fmt"
-	"github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501storage"
+	v20210501s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
@@ -45,7 +45,7 @@ var _ conversion.Convertible = &ManagedClustersAgentPool{}
 
 // ConvertFrom populates our ManagedClustersAgentPool from the provided hub ManagedClustersAgentPool
 func (pool *ManagedClustersAgentPool) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1beta20210501storage.ManagedClustersAgentPool)
+	source, ok := hub.(*v20210501s.ManagedClustersAgentPool)
 	if !ok {
 		return fmt.Errorf("expected containerservice/v1beta20210501storage/ManagedClustersAgentPool but received %T instead", hub)
 	}
@@ -55,7 +55,7 @@ func (pool *ManagedClustersAgentPool) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub ManagedClustersAgentPool from our ManagedClustersAgentPool
 func (pool *ManagedClustersAgentPool) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1beta20210501storage.ManagedClustersAgentPool)
+	destination, ok := hub.(*v20210501s.ManagedClustersAgentPool)
 	if !ok {
 		return fmt.Errorf("expected containerservice/v1beta20210501storage/ManagedClustersAgentPool but received %T instead", hub)
 	}
@@ -130,7 +130,7 @@ func (pool *ManagedClustersAgentPool) SetStatus(status genruntime.ConvertibleSta
 }
 
 // AssignPropertiesFromManagedClustersAgentPool populates our ManagedClustersAgentPool from the provided source ManagedClustersAgentPool
-func (pool *ManagedClustersAgentPool) AssignPropertiesFromManagedClustersAgentPool(source *v1beta20210501storage.ManagedClustersAgentPool) error {
+func (pool *ManagedClustersAgentPool) AssignPropertiesFromManagedClustersAgentPool(source *v20210501s.ManagedClustersAgentPool) error {
 
 	// ObjectMeta
 	pool.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -156,13 +156,13 @@ func (pool *ManagedClustersAgentPool) AssignPropertiesFromManagedClustersAgentPo
 }
 
 // AssignPropertiesToManagedClustersAgentPool populates the provided destination ManagedClustersAgentPool from our ManagedClustersAgentPool
-func (pool *ManagedClustersAgentPool) AssignPropertiesToManagedClustersAgentPool(destination *v1beta20210501storage.ManagedClustersAgentPool) error {
+func (pool *ManagedClustersAgentPool) AssignPropertiesToManagedClustersAgentPool(destination *v20210501s.ManagedClustersAgentPool) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *pool.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1beta20210501storage.ManagedClustersAgentPools_Spec
+	var spec v20210501s.ManagedClustersAgentPools_Spec
 	err := pool.Spec.AssignPropertiesToManagedClustersAgentPoolsSpec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToManagedClustersAgentPoolsSpec() to populate field Spec")
@@ -170,7 +170,7 @@ func (pool *ManagedClustersAgentPool) AssignPropertiesToManagedClustersAgentPool
 	destination.Spec = spec
 
 	// Status
-	var status v1beta20210501storage.AgentPool_Status
+	var status v20210501s.AgentPool_Status
 	err = pool.Status.AssignPropertiesToAgentPoolStatus(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToAgentPoolStatus() to populate field Status")
@@ -249,14 +249,14 @@ var _ genruntime.ConvertibleStatus = &AgentPool_Status{}
 
 // ConvertStatusFrom populates our AgentPool_Status from the provided source
 func (pool *AgentPool_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v1beta20210501storage.AgentPool_Status)
+	src, ok := source.(*v20210501s.AgentPool_Status)
 	if ok {
 		// Populate our instance from source
 		return pool.AssignPropertiesFromAgentPoolStatus(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1beta20210501storage.AgentPool_Status{}
+	src = &v20210501s.AgentPool_Status{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -273,14 +273,14 @@ func (pool *AgentPool_Status) ConvertStatusFrom(source genruntime.ConvertibleSta
 
 // ConvertStatusTo populates the provided destination from our AgentPool_Status
 func (pool *AgentPool_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v1beta20210501storage.AgentPool_Status)
+	dst, ok := destination.(*v20210501s.AgentPool_Status)
 	if ok {
 		// Populate destination from our instance
 		return pool.AssignPropertiesToAgentPoolStatus(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1beta20210501storage.AgentPool_Status{}
+	dst = &v20210501s.AgentPool_Status{}
 	err := pool.AssignPropertiesToAgentPoolStatus(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -296,7 +296,7 @@ func (pool *AgentPool_Status) ConvertStatusTo(destination genruntime.Convertible
 }
 
 // AssignPropertiesFromAgentPoolStatus populates our AgentPool_Status from the provided source AgentPool_Status
-func (pool *AgentPool_Status) AssignPropertiesFromAgentPoolStatus(source *v1beta20210501storage.AgentPool_Status) error {
+func (pool *AgentPool_Status) AssignPropertiesFromAgentPoolStatus(source *v20210501s.AgentPool_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -498,7 +498,7 @@ func (pool *AgentPool_Status) AssignPropertiesFromAgentPoolStatus(source *v1beta
 }
 
 // AssignPropertiesToAgentPoolStatus populates the provided destination AgentPool_Status from our AgentPool_Status
-func (pool *AgentPool_Status) AssignPropertiesToAgentPoolStatus(destination *v1beta20210501storage.AgentPool_Status) error {
+func (pool *AgentPool_Status) AssignPropertiesToAgentPoolStatus(destination *v20210501s.AgentPool_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(pool.PropertyBag)
 
@@ -559,7 +559,7 @@ func (pool *AgentPool_Status) AssignPropertiesToAgentPoolStatus(destination *v1b
 
 	// KubeletConfig
 	if pool.KubeletConfig != nil {
-		var kubeletConfig v1beta20210501storage.KubeletConfig_Status
+		var kubeletConfig v20210501s.KubeletConfig_Status
 		err := pool.KubeletConfig.AssignPropertiesToKubeletConfigStatus(&kubeletConfig)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToKubeletConfigStatus() to populate field KubeletConfig")
@@ -574,7 +574,7 @@ func (pool *AgentPool_Status) AssignPropertiesToAgentPoolStatus(destination *v1b
 
 	// LinuxOSConfig
 	if pool.LinuxOSConfig != nil {
-		var linuxOSConfig v1beta20210501storage.LinuxOSConfig_Status
+		var linuxOSConfig v20210501s.LinuxOSConfig_Status
 		err := pool.LinuxOSConfig.AssignPropertiesToLinuxOSConfigStatus(&linuxOSConfig)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToLinuxOSConfigStatus() to populate field LinuxOSConfig")
@@ -631,7 +631,7 @@ func (pool *AgentPool_Status) AssignPropertiesToAgentPoolStatus(destination *v1b
 
 	// PowerState
 	if pool.PowerState != nil {
-		var powerState v1beta20210501storage.PowerState_Status
+		var powerState v20210501s.PowerState_Status
 		err := pool.PowerState.AssignPropertiesToPowerStateStatus(&powerState)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToPowerStateStatus() to populate field PowerState")
@@ -672,7 +672,7 @@ func (pool *AgentPool_Status) AssignPropertiesToAgentPoolStatus(destination *v1b
 
 	// UpgradeSettings
 	if pool.UpgradeSettings != nil {
-		var upgradeSetting v1beta20210501storage.AgentPoolUpgradeSettings_Status
+		var upgradeSetting v20210501s.AgentPoolUpgradeSettings_Status
 		err := pool.UpgradeSettings.AssignPropertiesToAgentPoolUpgradeSettingsStatus(&upgradeSetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToAgentPoolUpgradeSettingsStatus() to populate field UpgradeSettings")
@@ -753,14 +753,14 @@ var _ genruntime.ConvertibleSpec = &ManagedClustersAgentPools_Spec{}
 
 // ConvertSpecFrom populates our ManagedClustersAgentPools_Spec from the provided source
 func (pools *ManagedClustersAgentPools_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1beta20210501storage.ManagedClustersAgentPools_Spec)
+	src, ok := source.(*v20210501s.ManagedClustersAgentPools_Spec)
 	if ok {
 		// Populate our instance from source
 		return pools.AssignPropertiesFromManagedClustersAgentPoolsSpec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1beta20210501storage.ManagedClustersAgentPools_Spec{}
+	src = &v20210501s.ManagedClustersAgentPools_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -777,14 +777,14 @@ func (pools *ManagedClustersAgentPools_Spec) ConvertSpecFrom(source genruntime.C
 
 // ConvertSpecTo populates the provided destination from our ManagedClustersAgentPools_Spec
 func (pools *ManagedClustersAgentPools_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1beta20210501storage.ManagedClustersAgentPools_Spec)
+	dst, ok := destination.(*v20210501s.ManagedClustersAgentPools_Spec)
 	if ok {
 		// Populate destination from our instance
 		return pools.AssignPropertiesToManagedClustersAgentPoolsSpec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1beta20210501storage.ManagedClustersAgentPools_Spec{}
+	dst = &v20210501s.ManagedClustersAgentPools_Spec{}
 	err := pools.AssignPropertiesToManagedClustersAgentPoolsSpec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -800,7 +800,7 @@ func (pools *ManagedClustersAgentPools_Spec) ConvertSpecTo(destination genruntim
 }
 
 // AssignPropertiesFromManagedClustersAgentPoolsSpec populates our ManagedClustersAgentPools_Spec from the provided source ManagedClustersAgentPools_Spec
-func (pools *ManagedClustersAgentPools_Spec) AssignPropertiesFromManagedClustersAgentPoolsSpec(source *v1beta20210501storage.ManagedClustersAgentPools_Spec) error {
+func (pools *ManagedClustersAgentPools_Spec) AssignPropertiesFromManagedClustersAgentPoolsSpec(source *v20210501s.ManagedClustersAgentPools_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1004,7 +1004,7 @@ func (pools *ManagedClustersAgentPools_Spec) AssignPropertiesFromManagedClusters
 }
 
 // AssignPropertiesToManagedClustersAgentPoolsSpec populates the provided destination ManagedClustersAgentPools_Spec from our ManagedClustersAgentPools_Spec
-func (pools *ManagedClustersAgentPools_Spec) AssignPropertiesToManagedClustersAgentPoolsSpec(destination *v1beta20210501storage.ManagedClustersAgentPools_Spec) error {
+func (pools *ManagedClustersAgentPools_Spec) AssignPropertiesToManagedClustersAgentPoolsSpec(destination *v20210501s.ManagedClustersAgentPools_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(pools.PropertyBag)
 
@@ -1062,7 +1062,7 @@ func (pools *ManagedClustersAgentPools_Spec) AssignPropertiesToManagedClustersAg
 
 	// KubeletConfig
 	if pools.KubeletConfig != nil {
-		var kubeletConfig v1beta20210501storage.KubeletConfig
+		var kubeletConfig v20210501s.KubeletConfig
 		err := pools.KubeletConfig.AssignPropertiesToKubeletConfig(&kubeletConfig)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToKubeletConfig() to populate field KubeletConfig")
@@ -1077,7 +1077,7 @@ func (pools *ManagedClustersAgentPools_Spec) AssignPropertiesToManagedClustersAg
 
 	// LinuxOSConfig
 	if pools.LinuxOSConfig != nil {
-		var linuxOSConfig v1beta20210501storage.LinuxOSConfig
+		var linuxOSConfig v20210501s.LinuxOSConfig
 		err := pools.LinuxOSConfig.AssignPropertiesToLinuxOSConfig(&linuxOSConfig)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToLinuxOSConfig() to populate field LinuxOSConfig")
@@ -1175,7 +1175,7 @@ func (pools *ManagedClustersAgentPools_Spec) AssignPropertiesToManagedClustersAg
 
 	// UpgradeSettings
 	if pools.UpgradeSettings != nil {
-		var upgradeSetting v1beta20210501storage.AgentPoolUpgradeSettings
+		var upgradeSetting v20210501s.AgentPoolUpgradeSettings
 		err := pools.UpgradeSettings.AssignPropertiesToAgentPoolUpgradeSettings(&upgradeSetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToAgentPoolUpgradeSettings() to populate field UpgradeSettings")
@@ -1215,7 +1215,7 @@ type AgentPoolUpgradeSettings struct {
 }
 
 // AssignPropertiesFromAgentPoolUpgradeSettings populates our AgentPoolUpgradeSettings from the provided source AgentPoolUpgradeSettings
-func (settings *AgentPoolUpgradeSettings) AssignPropertiesFromAgentPoolUpgradeSettings(source *v1beta20210501storage.AgentPoolUpgradeSettings) error {
+func (settings *AgentPoolUpgradeSettings) AssignPropertiesFromAgentPoolUpgradeSettings(source *v20210501s.AgentPoolUpgradeSettings) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1234,7 +1234,7 @@ func (settings *AgentPoolUpgradeSettings) AssignPropertiesFromAgentPoolUpgradeSe
 }
 
 // AssignPropertiesToAgentPoolUpgradeSettings populates the provided destination AgentPoolUpgradeSettings from our AgentPoolUpgradeSettings
-func (settings *AgentPoolUpgradeSettings) AssignPropertiesToAgentPoolUpgradeSettings(destination *v1beta20210501storage.AgentPoolUpgradeSettings) error {
+func (settings *AgentPoolUpgradeSettings) AssignPropertiesToAgentPoolUpgradeSettings(destination *v20210501s.AgentPoolUpgradeSettings) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(settings.PropertyBag)
 
@@ -1260,7 +1260,7 @@ type AgentPoolUpgradeSettings_Status struct {
 }
 
 // AssignPropertiesFromAgentPoolUpgradeSettingsStatus populates our AgentPoolUpgradeSettings_Status from the provided source AgentPoolUpgradeSettings_Status
-func (settings *AgentPoolUpgradeSettings_Status) AssignPropertiesFromAgentPoolUpgradeSettingsStatus(source *v1beta20210501storage.AgentPoolUpgradeSettings_Status) error {
+func (settings *AgentPoolUpgradeSettings_Status) AssignPropertiesFromAgentPoolUpgradeSettingsStatus(source *v20210501s.AgentPoolUpgradeSettings_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1279,7 +1279,7 @@ func (settings *AgentPoolUpgradeSettings_Status) AssignPropertiesFromAgentPoolUp
 }
 
 // AssignPropertiesToAgentPoolUpgradeSettingsStatus populates the provided destination AgentPoolUpgradeSettings_Status from our AgentPoolUpgradeSettings_Status
-func (settings *AgentPoolUpgradeSettings_Status) AssignPropertiesToAgentPoolUpgradeSettingsStatus(destination *v1beta20210501storage.AgentPoolUpgradeSettings_Status) error {
+func (settings *AgentPoolUpgradeSettings_Status) AssignPropertiesToAgentPoolUpgradeSettingsStatus(destination *v20210501s.AgentPoolUpgradeSettings_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(settings.PropertyBag)
 
@@ -1315,7 +1315,7 @@ type KubeletConfig struct {
 }
 
 // AssignPropertiesFromKubeletConfig populates our KubeletConfig from the provided source KubeletConfig
-func (config *KubeletConfig) AssignPropertiesFromKubeletConfig(source *v1beta20210501storage.KubeletConfig) error {
+func (config *KubeletConfig) AssignPropertiesFromKubeletConfig(source *v20210501s.KubeletConfig) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1374,7 +1374,7 @@ func (config *KubeletConfig) AssignPropertiesFromKubeletConfig(source *v1beta202
 }
 
 // AssignPropertiesToKubeletConfig populates the provided destination KubeletConfig from our KubeletConfig
-func (config *KubeletConfig) AssignPropertiesToKubeletConfig(destination *v1beta20210501storage.KubeletConfig) error {
+func (config *KubeletConfig) AssignPropertiesToKubeletConfig(destination *v20210501s.KubeletConfig) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(config.PropertyBag)
 
@@ -1450,7 +1450,7 @@ type KubeletConfig_Status struct {
 }
 
 // AssignPropertiesFromKubeletConfigStatus populates our KubeletConfig_Status from the provided source KubeletConfig_Status
-func (config *KubeletConfig_Status) AssignPropertiesFromKubeletConfigStatus(source *v1beta20210501storage.KubeletConfig_Status) error {
+func (config *KubeletConfig_Status) AssignPropertiesFromKubeletConfigStatus(source *v20210501s.KubeletConfig_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1509,7 +1509,7 @@ func (config *KubeletConfig_Status) AssignPropertiesFromKubeletConfigStatus(sour
 }
 
 // AssignPropertiesToKubeletConfigStatus populates the provided destination KubeletConfig_Status from our KubeletConfig_Status
-func (config *KubeletConfig_Status) AssignPropertiesToKubeletConfigStatus(destination *v1beta20210501storage.KubeletConfig_Status) error {
+func (config *KubeletConfig_Status) AssignPropertiesToKubeletConfigStatus(destination *v20210501s.KubeletConfig_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(config.PropertyBag)
 
@@ -1578,7 +1578,7 @@ type LinuxOSConfig struct {
 }
 
 // AssignPropertiesFromLinuxOSConfig populates our LinuxOSConfig from the provided source LinuxOSConfig
-func (config *LinuxOSConfig) AssignPropertiesFromLinuxOSConfig(source *v1beta20210501storage.LinuxOSConfig) error {
+func (config *LinuxOSConfig) AssignPropertiesFromLinuxOSConfig(source *v20210501s.LinuxOSConfig) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1615,7 +1615,7 @@ func (config *LinuxOSConfig) AssignPropertiesFromLinuxOSConfig(source *v1beta202
 }
 
 // AssignPropertiesToLinuxOSConfig populates the provided destination LinuxOSConfig from our LinuxOSConfig
-func (config *LinuxOSConfig) AssignPropertiesToLinuxOSConfig(destination *v1beta20210501storage.LinuxOSConfig) error {
+func (config *LinuxOSConfig) AssignPropertiesToLinuxOSConfig(destination *v20210501s.LinuxOSConfig) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(config.PropertyBag)
 
@@ -1624,7 +1624,7 @@ func (config *LinuxOSConfig) AssignPropertiesToLinuxOSConfig(destination *v1beta
 
 	// Sysctls
 	if config.Sysctls != nil {
-		var sysctl v1beta20210501storage.SysctlConfig
+		var sysctl v20210501s.SysctlConfig
 		err := config.Sysctls.AssignPropertiesToSysctlConfig(&sysctl)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSysctlConfig() to populate field Sysctls")
@@ -1662,7 +1662,7 @@ type LinuxOSConfig_Status struct {
 }
 
 // AssignPropertiesFromLinuxOSConfigStatus populates our LinuxOSConfig_Status from the provided source LinuxOSConfig_Status
-func (config *LinuxOSConfig_Status) AssignPropertiesFromLinuxOSConfigStatus(source *v1beta20210501storage.LinuxOSConfig_Status) error {
+func (config *LinuxOSConfig_Status) AssignPropertiesFromLinuxOSConfigStatus(source *v20210501s.LinuxOSConfig_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1699,7 +1699,7 @@ func (config *LinuxOSConfig_Status) AssignPropertiesFromLinuxOSConfigStatus(sour
 }
 
 // AssignPropertiesToLinuxOSConfigStatus populates the provided destination LinuxOSConfig_Status from our LinuxOSConfig_Status
-func (config *LinuxOSConfig_Status) AssignPropertiesToLinuxOSConfigStatus(destination *v1beta20210501storage.LinuxOSConfig_Status) error {
+func (config *LinuxOSConfig_Status) AssignPropertiesToLinuxOSConfigStatus(destination *v20210501s.LinuxOSConfig_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(config.PropertyBag)
 
@@ -1708,7 +1708,7 @@ func (config *LinuxOSConfig_Status) AssignPropertiesToLinuxOSConfigStatus(destin
 
 	// Sysctls
 	if config.Sysctls != nil {
-		var sysctl v1beta20210501storage.SysctlConfig_Status
+		var sysctl v20210501s.SysctlConfig_Status
 		err := config.Sysctls.AssignPropertiesToSysctlConfigStatus(&sysctl)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSysctlConfigStatus() to populate field Sysctls")
@@ -1770,7 +1770,7 @@ type SysctlConfig struct {
 }
 
 // AssignPropertiesFromSysctlConfig populates our SysctlConfig from the provided source SysctlConfig
-func (config *SysctlConfig) AssignPropertiesFromSysctlConfig(source *v1beta20210501storage.SysctlConfig) error {
+func (config *SysctlConfig) AssignPropertiesFromSysctlConfig(source *v20210501s.SysctlConfig) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1875,7 +1875,7 @@ func (config *SysctlConfig) AssignPropertiesFromSysctlConfig(source *v1beta20210
 }
 
 // AssignPropertiesToSysctlConfig populates the provided destination SysctlConfig from our SysctlConfig
-func (config *SysctlConfig) AssignPropertiesToSysctlConfig(destination *v1beta20210501storage.SysctlConfig) error {
+func (config *SysctlConfig) AssignPropertiesToSysctlConfig(destination *v20210501s.SysctlConfig) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(config.PropertyBag)
 
@@ -2014,7 +2014,7 @@ type SysctlConfig_Status struct {
 }
 
 // AssignPropertiesFromSysctlConfigStatus populates our SysctlConfig_Status from the provided source SysctlConfig_Status
-func (config *SysctlConfig_Status) AssignPropertiesFromSysctlConfigStatus(source *v1beta20210501storage.SysctlConfig_Status) error {
+func (config *SysctlConfig_Status) AssignPropertiesFromSysctlConfigStatus(source *v20210501s.SysctlConfig_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2119,7 +2119,7 @@ func (config *SysctlConfig_Status) AssignPropertiesFromSysctlConfigStatus(source
 }
 
 // AssignPropertiesToSysctlConfigStatus populates the provided destination SysctlConfig_Status from our SysctlConfig_Status
-func (config *SysctlConfig_Status) AssignPropertiesToSysctlConfigStatus(destination *v1beta20210501storage.SysctlConfig_Status) error {
+func (config *SysctlConfig_Status) AssignPropertiesToSysctlConfigStatus(destination *v20210501s.SysctlConfig_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(config.PropertyBag)
 

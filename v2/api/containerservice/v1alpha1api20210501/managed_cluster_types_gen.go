@@ -5,7 +5,7 @@ package v1alpha1api20210501
 
 import (
 	"fmt"
-	"github.com/Azure/azure-service-operator/v2/api/containerservice/v1alpha1api20210501storage"
+	alpha20210501s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1alpha1api20210501storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -50,7 +50,7 @@ var _ conversion.Convertible = &ManagedCluster{}
 // ConvertFrom populates our ManagedCluster from the provided hub ManagedCluster
 func (cluster *ManagedCluster) ConvertFrom(hub conversion.Hub) error {
 	// intermediate variable for conversion
-	var source v1alpha1api20210501storage.ManagedCluster
+	var source alpha20210501s.ManagedCluster
 
 	err := source.ConvertFrom(hub)
 	if err != nil {
@@ -68,7 +68,7 @@ func (cluster *ManagedCluster) ConvertFrom(hub conversion.Hub) error {
 // ConvertTo populates the provided hub ManagedCluster from our ManagedCluster
 func (cluster *ManagedCluster) ConvertTo(hub conversion.Hub) error {
 	// intermediate variable for conversion
-	var destination v1alpha1api20210501storage.ManagedCluster
+	var destination alpha20210501s.ManagedCluster
 	err := cluster.AssignPropertiesToManagedCluster(&destination)
 	if err != nil {
 		return errors.Wrap(err, "converting to destination from cluster")
@@ -254,7 +254,7 @@ func (cluster *ManagedCluster) validateResourceReferences() error {
 }
 
 // AssignPropertiesFromManagedCluster populates our ManagedCluster from the provided source ManagedCluster
-func (cluster *ManagedCluster) AssignPropertiesFromManagedCluster(source *v1alpha1api20210501storage.ManagedCluster) error {
+func (cluster *ManagedCluster) AssignPropertiesFromManagedCluster(source *alpha20210501s.ManagedCluster) error {
 
 	// ObjectMeta
 	cluster.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -280,13 +280,13 @@ func (cluster *ManagedCluster) AssignPropertiesFromManagedCluster(source *v1alph
 }
 
 // AssignPropertiesToManagedCluster populates the provided destination ManagedCluster from our ManagedCluster
-func (cluster *ManagedCluster) AssignPropertiesToManagedCluster(destination *v1alpha1api20210501storage.ManagedCluster) error {
+func (cluster *ManagedCluster) AssignPropertiesToManagedCluster(destination *alpha20210501s.ManagedCluster) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *cluster.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1alpha1api20210501storage.ManagedClusters_Spec
+	var spec alpha20210501s.ManagedClusters_Spec
 	err := cluster.Spec.AssignPropertiesToManagedClustersSpec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToManagedClustersSpec() to populate field Spec")
@@ -294,7 +294,7 @@ func (cluster *ManagedCluster) AssignPropertiesToManagedCluster(destination *v1a
 	destination.Spec = spec
 
 	// Status
-	var status v1alpha1api20210501storage.ManagedCluster_Status
+	var status alpha20210501s.ManagedCluster_Status
 	err = cluster.Status.AssignPropertiesToManagedClusterStatus(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToManagedClusterStatus() to populate field Status")
@@ -369,14 +369,14 @@ var _ genruntime.ConvertibleStatus = &ManagedCluster_Status{}
 
 // ConvertStatusFrom populates our ManagedCluster_Status from the provided source
 func (cluster *ManagedCluster_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v1alpha1api20210501storage.ManagedCluster_Status)
+	src, ok := source.(*alpha20210501s.ManagedCluster_Status)
 	if ok {
 		// Populate our instance from source
 		return cluster.AssignPropertiesFromManagedClusterStatus(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1alpha1api20210501storage.ManagedCluster_Status{}
+	src = &alpha20210501s.ManagedCluster_Status{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -393,14 +393,14 @@ func (cluster *ManagedCluster_Status) ConvertStatusFrom(source genruntime.Conver
 
 // ConvertStatusTo populates the provided destination from our ManagedCluster_Status
 func (cluster *ManagedCluster_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v1alpha1api20210501storage.ManagedCluster_Status)
+	dst, ok := destination.(*alpha20210501s.ManagedCluster_Status)
 	if ok {
 		// Populate destination from our instance
 		return cluster.AssignPropertiesToManagedClusterStatus(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1alpha1api20210501storage.ManagedCluster_Status{}
+	dst = &alpha20210501s.ManagedCluster_Status{}
 	err := cluster.AssignPropertiesToManagedClusterStatus(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -816,7 +816,7 @@ func (cluster *ManagedCluster_Status) PopulateFromARM(owner genruntime.Arbitrary
 }
 
 // AssignPropertiesFromManagedClusterStatus populates our ManagedCluster_Status from the provided source ManagedCluster_Status
-func (cluster *ManagedCluster_Status) AssignPropertiesFromManagedClusterStatus(source *v1alpha1api20210501storage.ManagedCluster_Status) error {
+func (cluster *ManagedCluster_Status) AssignPropertiesFromManagedClusterStatus(source *alpha20210501s.ManagedCluster_Status) error {
 
 	// AadProfile
 	if source.AadProfile != nil {
@@ -1115,13 +1115,13 @@ func (cluster *ManagedCluster_Status) AssignPropertiesFromManagedClusterStatus(s
 }
 
 // AssignPropertiesToManagedClusterStatus populates the provided destination ManagedCluster_Status from our ManagedCluster_Status
-func (cluster *ManagedCluster_Status) AssignPropertiesToManagedClusterStatus(destination *v1alpha1api20210501storage.ManagedCluster_Status) error {
+func (cluster *ManagedCluster_Status) AssignPropertiesToManagedClusterStatus(destination *alpha20210501s.ManagedCluster_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AadProfile
 	if cluster.AadProfile != nil {
-		var aadProfile v1alpha1api20210501storage.ManagedClusterAADProfile_Status
+		var aadProfile alpha20210501s.ManagedClusterAADProfile_Status
 		err := cluster.AadProfile.AssignPropertiesToManagedClusterAADProfileStatus(&aadProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToManagedClusterAADProfileStatus() to populate field AadProfile")
@@ -1141,11 +1141,11 @@ func (cluster *ManagedCluster_Status) AssignPropertiesToManagedClusterStatus(des
 
 	// AgentPoolProfiles
 	if cluster.AgentPoolProfiles != nil {
-		agentPoolProfileList := make([]v1alpha1api20210501storage.ManagedClusterAgentPoolProfile_Status, len(cluster.AgentPoolProfiles))
+		agentPoolProfileList := make([]alpha20210501s.ManagedClusterAgentPoolProfile_Status, len(cluster.AgentPoolProfiles))
 		for agentPoolProfileIndex, agentPoolProfileItem := range cluster.AgentPoolProfiles {
 			// Shadow the loop variable to avoid aliasing
 			agentPoolProfileItem := agentPoolProfileItem
-			var agentPoolProfile v1alpha1api20210501storage.ManagedClusterAgentPoolProfile_Status
+			var agentPoolProfile alpha20210501s.ManagedClusterAgentPoolProfile_Status
 			err := agentPoolProfileItem.AssignPropertiesToManagedClusterAgentPoolProfileStatus(&agentPoolProfile)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToManagedClusterAgentPoolProfileStatus() to populate field AgentPoolProfiles")
@@ -1159,7 +1159,7 @@ func (cluster *ManagedCluster_Status) AssignPropertiesToManagedClusterStatus(des
 
 	// ApiServerAccessProfile
 	if cluster.ApiServerAccessProfile != nil {
-		var apiServerAccessProfile v1alpha1api20210501storage.ManagedClusterAPIServerAccessProfile_Status
+		var apiServerAccessProfile alpha20210501s.ManagedClusterAPIServerAccessProfile_Status
 		err := cluster.ApiServerAccessProfile.AssignPropertiesToManagedClusterAPIServerAccessProfileStatus(&apiServerAccessProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToManagedClusterAPIServerAccessProfileStatus() to populate field ApiServerAccessProfile")
@@ -1171,7 +1171,7 @@ func (cluster *ManagedCluster_Status) AssignPropertiesToManagedClusterStatus(des
 
 	// AutoScalerProfile
 	if cluster.AutoScalerProfile != nil {
-		var autoScalerProfile v1alpha1api20210501storage.ManagedClusterProperties_Status_AutoScalerProfile
+		var autoScalerProfile alpha20210501s.ManagedClusterProperties_Status_AutoScalerProfile
 		err := cluster.AutoScalerProfile.AssignPropertiesToManagedClusterPropertiesStatusAutoScalerProfile(&autoScalerProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToManagedClusterPropertiesStatusAutoScalerProfile() to populate field AutoScalerProfile")
@@ -1183,7 +1183,7 @@ func (cluster *ManagedCluster_Status) AssignPropertiesToManagedClusterStatus(des
 
 	// AutoUpgradeProfile
 	if cluster.AutoUpgradeProfile != nil {
-		var autoUpgradeProfile v1alpha1api20210501storage.ManagedClusterAutoUpgradeProfile_Status
+		var autoUpgradeProfile alpha20210501s.ManagedClusterAutoUpgradeProfile_Status
 		err := cluster.AutoUpgradeProfile.AssignPropertiesToManagedClusterAutoUpgradeProfileStatus(&autoUpgradeProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToManagedClusterAutoUpgradeProfileStatus() to populate field AutoUpgradeProfile")
@@ -1231,7 +1231,7 @@ func (cluster *ManagedCluster_Status) AssignPropertiesToManagedClusterStatus(des
 
 	// ExtendedLocation
 	if cluster.ExtendedLocation != nil {
-		var extendedLocation v1alpha1api20210501storage.ExtendedLocation_Status
+		var extendedLocation alpha20210501s.ExtendedLocation_Status
 		err := cluster.ExtendedLocation.AssignPropertiesToExtendedLocationStatus(&extendedLocation)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocationStatus() to populate field ExtendedLocation")
@@ -1249,7 +1249,7 @@ func (cluster *ManagedCluster_Status) AssignPropertiesToManagedClusterStatus(des
 
 	// HttpProxyConfig
 	if cluster.HttpProxyConfig != nil {
-		var httpProxyConfig v1alpha1api20210501storage.ManagedClusterHTTPProxyConfig_Status
+		var httpProxyConfig alpha20210501s.ManagedClusterHTTPProxyConfig_Status
 		err := cluster.HttpProxyConfig.AssignPropertiesToManagedClusterHTTPProxyConfigStatus(&httpProxyConfig)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToManagedClusterHTTPProxyConfigStatus() to populate field HttpProxyConfig")
@@ -1264,7 +1264,7 @@ func (cluster *ManagedCluster_Status) AssignPropertiesToManagedClusterStatus(des
 
 	// Identity
 	if cluster.Identity != nil {
-		var identity v1alpha1api20210501storage.ManagedClusterIdentity_Status
+		var identity alpha20210501s.ManagedClusterIdentity_Status
 		err := cluster.Identity.AssignPropertiesToManagedClusterIdentityStatus(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToManagedClusterIdentityStatus() to populate field Identity")
@@ -1287,7 +1287,7 @@ func (cluster *ManagedCluster_Status) AssignPropertiesToManagedClusterStatus(des
 
 	// LinuxProfile
 	if cluster.LinuxProfile != nil {
-		var linuxProfile v1alpha1api20210501storage.ContainerServiceLinuxProfile_Status
+		var linuxProfile alpha20210501s.ContainerServiceLinuxProfile_Status
 		err := cluster.LinuxProfile.AssignPropertiesToContainerServiceLinuxProfileStatus(&linuxProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToContainerServiceLinuxProfileStatus() to populate field LinuxProfile")
@@ -1308,7 +1308,7 @@ func (cluster *ManagedCluster_Status) AssignPropertiesToManagedClusterStatus(des
 
 	// NetworkProfile
 	if cluster.NetworkProfile != nil {
-		var networkProfile v1alpha1api20210501storage.ContainerServiceNetworkProfile_Status
+		var networkProfile alpha20210501s.ContainerServiceNetworkProfile_Status
 		err := cluster.NetworkProfile.AssignPropertiesToContainerServiceNetworkProfileStatus(&networkProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToContainerServiceNetworkProfileStatus() to populate field NetworkProfile")
@@ -1323,7 +1323,7 @@ func (cluster *ManagedCluster_Status) AssignPropertiesToManagedClusterStatus(des
 
 	// PodIdentityProfile
 	if cluster.PodIdentityProfile != nil {
-		var podIdentityProfile v1alpha1api20210501storage.ManagedClusterPodIdentityProfile_Status
+		var podIdentityProfile alpha20210501s.ManagedClusterPodIdentityProfile_Status
 		err := cluster.PodIdentityProfile.AssignPropertiesToManagedClusterPodIdentityProfileStatus(&podIdentityProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToManagedClusterPodIdentityProfileStatus() to populate field PodIdentityProfile")
@@ -1335,7 +1335,7 @@ func (cluster *ManagedCluster_Status) AssignPropertiesToManagedClusterStatus(des
 
 	// PowerState
 	if cluster.PowerState != nil {
-		var powerState v1alpha1api20210501storage.PowerState_Status
+		var powerState alpha20210501s.PowerState_Status
 		err := cluster.PowerState.AssignPropertiesToPowerStateStatus(&powerState)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToPowerStateStatus() to populate field PowerState")
@@ -1350,11 +1350,11 @@ func (cluster *ManagedCluster_Status) AssignPropertiesToManagedClusterStatus(des
 
 	// PrivateLinkResources
 	if cluster.PrivateLinkResources != nil {
-		privateLinkResourceList := make([]v1alpha1api20210501storage.PrivateLinkResource_Status, len(cluster.PrivateLinkResources))
+		privateLinkResourceList := make([]alpha20210501s.PrivateLinkResource_Status, len(cluster.PrivateLinkResources))
 		for privateLinkResourceIndex, privateLinkResourceItem := range cluster.PrivateLinkResources {
 			// Shadow the loop variable to avoid aliasing
 			privateLinkResourceItem := privateLinkResourceItem
-			var privateLinkResource v1alpha1api20210501storage.PrivateLinkResource_Status
+			var privateLinkResource alpha20210501s.PrivateLinkResource_Status
 			err := privateLinkResourceItem.AssignPropertiesToPrivateLinkResourceStatus(&privateLinkResource)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToPrivateLinkResourceStatus() to populate field PrivateLinkResources")
@@ -1371,7 +1371,7 @@ func (cluster *ManagedCluster_Status) AssignPropertiesToManagedClusterStatus(des
 
 	// ServicePrincipalProfile
 	if cluster.ServicePrincipalProfile != nil {
-		var servicePrincipalProfile v1alpha1api20210501storage.ManagedClusterServicePrincipalProfile_Status
+		var servicePrincipalProfile alpha20210501s.ManagedClusterServicePrincipalProfile_Status
 		err := cluster.ServicePrincipalProfile.AssignPropertiesToManagedClusterServicePrincipalProfileStatus(&servicePrincipalProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToManagedClusterServicePrincipalProfileStatus() to populate field ServicePrincipalProfile")
@@ -1383,7 +1383,7 @@ func (cluster *ManagedCluster_Status) AssignPropertiesToManagedClusterStatus(des
 
 	// Sku
 	if cluster.Sku != nil {
-		var sku v1alpha1api20210501storage.ManagedClusterSKU_Status
+		var sku alpha20210501s.ManagedClusterSKU_Status
 		err := cluster.Sku.AssignPropertiesToManagedClusterSKUStatus(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToManagedClusterSKUStatus() to populate field Sku")
@@ -1401,7 +1401,7 @@ func (cluster *ManagedCluster_Status) AssignPropertiesToManagedClusterStatus(des
 
 	// WindowsProfile
 	if cluster.WindowsProfile != nil {
-		var windowsProfile v1alpha1api20210501storage.ManagedClusterWindowsProfile_Status
+		var windowsProfile alpha20210501s.ManagedClusterWindowsProfile_Status
 		err := cluster.WindowsProfile.AssignPropertiesToManagedClusterWindowsProfileStatus(&windowsProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToManagedClusterWindowsProfileStatus() to populate field WindowsProfile")
@@ -2037,14 +2037,14 @@ var _ genruntime.ConvertibleSpec = &ManagedClusters_Spec{}
 
 // ConvertSpecFrom populates our ManagedClusters_Spec from the provided source
 func (clusters *ManagedClusters_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1alpha1api20210501storage.ManagedClusters_Spec)
+	src, ok := source.(*alpha20210501s.ManagedClusters_Spec)
 	if ok {
 		// Populate our instance from source
 		return clusters.AssignPropertiesFromManagedClustersSpec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1alpha1api20210501storage.ManagedClusters_Spec{}
+	src = &alpha20210501s.ManagedClusters_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -2061,14 +2061,14 @@ func (clusters *ManagedClusters_Spec) ConvertSpecFrom(source genruntime.Converti
 
 // ConvertSpecTo populates the provided destination from our ManagedClusters_Spec
 func (clusters *ManagedClusters_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1alpha1api20210501storage.ManagedClusters_Spec)
+	dst, ok := destination.(*alpha20210501s.ManagedClusters_Spec)
 	if ok {
 		// Populate destination from our instance
 		return clusters.AssignPropertiesToManagedClustersSpec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1alpha1api20210501storage.ManagedClusters_Spec{}
+	dst = &alpha20210501s.ManagedClusters_Spec{}
 	err := clusters.AssignPropertiesToManagedClustersSpec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -2084,7 +2084,7 @@ func (clusters *ManagedClusters_Spec) ConvertSpecTo(destination genruntime.Conve
 }
 
 // AssignPropertiesFromManagedClustersSpec populates our ManagedClusters_Spec from the provided source ManagedClusters_Spec
-func (clusters *ManagedClusters_Spec) AssignPropertiesFromManagedClustersSpec(source *v1alpha1api20210501storage.ManagedClusters_Spec) error {
+func (clusters *ManagedClusters_Spec) AssignPropertiesFromManagedClustersSpec(source *alpha20210501s.ManagedClusters_Spec) error {
 
 	// AadProfile
 	if source.AadProfile != nil {
@@ -2380,13 +2380,13 @@ func (clusters *ManagedClusters_Spec) AssignPropertiesFromManagedClustersSpec(so
 }
 
 // AssignPropertiesToManagedClustersSpec populates the provided destination ManagedClusters_Spec from our ManagedClusters_Spec
-func (clusters *ManagedClusters_Spec) AssignPropertiesToManagedClustersSpec(destination *v1alpha1api20210501storage.ManagedClusters_Spec) error {
+func (clusters *ManagedClusters_Spec) AssignPropertiesToManagedClustersSpec(destination *alpha20210501s.ManagedClusters_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AadProfile
 	if clusters.AadProfile != nil {
-		var aadProfile v1alpha1api20210501storage.ManagedClusterAADProfile
+		var aadProfile alpha20210501s.ManagedClusterAADProfile
 		err := clusters.AadProfile.AssignPropertiesToManagedClusterAADProfile(&aadProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToManagedClusterAADProfile() to populate field AadProfile")
@@ -2398,11 +2398,11 @@ func (clusters *ManagedClusters_Spec) AssignPropertiesToManagedClustersSpec(dest
 
 	// AddonProfiles
 	if clusters.AddonProfiles != nil {
-		addonProfileMap := make(map[string]v1alpha1api20210501storage.ManagedClusterAddonProfile, len(clusters.AddonProfiles))
+		addonProfileMap := make(map[string]alpha20210501s.ManagedClusterAddonProfile, len(clusters.AddonProfiles))
 		for addonProfileKey, addonProfileValue := range clusters.AddonProfiles {
 			// Shadow the loop variable to avoid aliasing
 			addonProfileValue := addonProfileValue
-			var addonProfile v1alpha1api20210501storage.ManagedClusterAddonProfile
+			var addonProfile alpha20210501s.ManagedClusterAddonProfile
 			err := addonProfileValue.AssignPropertiesToManagedClusterAddonProfile(&addonProfile)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToManagedClusterAddonProfile() to populate field AddonProfiles")
@@ -2416,11 +2416,11 @@ func (clusters *ManagedClusters_Spec) AssignPropertiesToManagedClustersSpec(dest
 
 	// AgentPoolProfiles
 	if clusters.AgentPoolProfiles != nil {
-		agentPoolProfileList := make([]v1alpha1api20210501storage.ManagedClusterAgentPoolProfile, len(clusters.AgentPoolProfiles))
+		agentPoolProfileList := make([]alpha20210501s.ManagedClusterAgentPoolProfile, len(clusters.AgentPoolProfiles))
 		for agentPoolProfileIndex, agentPoolProfileItem := range clusters.AgentPoolProfiles {
 			// Shadow the loop variable to avoid aliasing
 			agentPoolProfileItem := agentPoolProfileItem
-			var agentPoolProfile v1alpha1api20210501storage.ManagedClusterAgentPoolProfile
+			var agentPoolProfile alpha20210501s.ManagedClusterAgentPoolProfile
 			err := agentPoolProfileItem.AssignPropertiesToManagedClusterAgentPoolProfile(&agentPoolProfile)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToManagedClusterAgentPoolProfile() to populate field AgentPoolProfiles")
@@ -2434,7 +2434,7 @@ func (clusters *ManagedClusters_Spec) AssignPropertiesToManagedClustersSpec(dest
 
 	// ApiServerAccessProfile
 	if clusters.ApiServerAccessProfile != nil {
-		var apiServerAccessProfile v1alpha1api20210501storage.ManagedClusterAPIServerAccessProfile
+		var apiServerAccessProfile alpha20210501s.ManagedClusterAPIServerAccessProfile
 		err := clusters.ApiServerAccessProfile.AssignPropertiesToManagedClusterAPIServerAccessProfile(&apiServerAccessProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToManagedClusterAPIServerAccessProfile() to populate field ApiServerAccessProfile")
@@ -2446,7 +2446,7 @@ func (clusters *ManagedClusters_Spec) AssignPropertiesToManagedClustersSpec(dest
 
 	// AutoScalerProfile
 	if clusters.AutoScalerProfile != nil {
-		var autoScalerProfile v1alpha1api20210501storage.ManagedClusterPropertiesAutoScalerProfile
+		var autoScalerProfile alpha20210501s.ManagedClusterPropertiesAutoScalerProfile
 		err := clusters.AutoScalerProfile.AssignPropertiesToManagedClusterPropertiesAutoScalerProfile(&autoScalerProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToManagedClusterPropertiesAutoScalerProfile() to populate field AutoScalerProfile")
@@ -2458,7 +2458,7 @@ func (clusters *ManagedClusters_Spec) AssignPropertiesToManagedClustersSpec(dest
 
 	// AutoUpgradeProfile
 	if clusters.AutoUpgradeProfile != nil {
-		var autoUpgradeProfile v1alpha1api20210501storage.ManagedClusterAutoUpgradeProfile
+		var autoUpgradeProfile alpha20210501s.ManagedClusterAutoUpgradeProfile
 		err := clusters.AutoUpgradeProfile.AssignPropertiesToManagedClusterAutoUpgradeProfile(&autoUpgradeProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToManagedClusterAutoUpgradeProfile() to populate field AutoUpgradeProfile")
@@ -2508,7 +2508,7 @@ func (clusters *ManagedClusters_Spec) AssignPropertiesToManagedClustersSpec(dest
 
 	// ExtendedLocation
 	if clusters.ExtendedLocation != nil {
-		var extendedLocation v1alpha1api20210501storage.ExtendedLocation
+		var extendedLocation alpha20210501s.ExtendedLocation
 		err := clusters.ExtendedLocation.AssignPropertiesToExtendedLocation(&extendedLocation)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocation() to populate field ExtendedLocation")
@@ -2523,7 +2523,7 @@ func (clusters *ManagedClusters_Spec) AssignPropertiesToManagedClustersSpec(dest
 
 	// HttpProxyConfig
 	if clusters.HttpProxyConfig != nil {
-		var httpProxyConfig v1alpha1api20210501storage.ManagedClusterHTTPProxyConfig
+		var httpProxyConfig alpha20210501s.ManagedClusterHTTPProxyConfig
 		err := clusters.HttpProxyConfig.AssignPropertiesToManagedClusterHTTPProxyConfig(&httpProxyConfig)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToManagedClusterHTTPProxyConfig() to populate field HttpProxyConfig")
@@ -2535,7 +2535,7 @@ func (clusters *ManagedClusters_Spec) AssignPropertiesToManagedClustersSpec(dest
 
 	// Identity
 	if clusters.Identity != nil {
-		var identity v1alpha1api20210501storage.ManagedClusterIdentity
+		var identity alpha20210501s.ManagedClusterIdentity
 		err := clusters.Identity.AssignPropertiesToManagedClusterIdentity(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToManagedClusterIdentity() to populate field Identity")
@@ -2547,11 +2547,11 @@ func (clusters *ManagedClusters_Spec) AssignPropertiesToManagedClustersSpec(dest
 
 	// IdentityProfile
 	if clusters.IdentityProfile != nil {
-		identityProfileMap := make(map[string]v1alpha1api20210501storage.Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties, len(clusters.IdentityProfile))
+		identityProfileMap := make(map[string]alpha20210501s.Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties, len(clusters.IdentityProfile))
 		for identityProfileKey, identityProfileValue := range clusters.IdentityProfile {
 			// Shadow the loop variable to avoid aliasing
 			identityProfileValue := identityProfileValue
-			var identityProfile v1alpha1api20210501storage.Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties
+			var identityProfile alpha20210501s.Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties
 			err := identityProfileValue.AssignPropertiesToComponentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties(&identityProfile)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToComponentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties() to populate field IdentityProfile")
@@ -2568,7 +2568,7 @@ func (clusters *ManagedClusters_Spec) AssignPropertiesToManagedClustersSpec(dest
 
 	// LinuxProfile
 	if clusters.LinuxProfile != nil {
-		var linuxProfile v1alpha1api20210501storage.ContainerServiceLinuxProfile
+		var linuxProfile alpha20210501s.ContainerServiceLinuxProfile
 		err := clusters.LinuxProfile.AssignPropertiesToContainerServiceLinuxProfile(&linuxProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToContainerServiceLinuxProfile() to populate field LinuxProfile")
@@ -2583,7 +2583,7 @@ func (clusters *ManagedClusters_Spec) AssignPropertiesToManagedClustersSpec(dest
 
 	// NetworkProfile
 	if clusters.NetworkProfile != nil {
-		var networkProfile v1alpha1api20210501storage.ContainerServiceNetworkProfile
+		var networkProfile alpha20210501s.ContainerServiceNetworkProfile
 		err := clusters.NetworkProfile.AssignPropertiesToContainerServiceNetworkProfile(&networkProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToContainerServiceNetworkProfile() to populate field NetworkProfile")
@@ -2609,7 +2609,7 @@ func (clusters *ManagedClusters_Spec) AssignPropertiesToManagedClustersSpec(dest
 
 	// PodIdentityProfile
 	if clusters.PodIdentityProfile != nil {
-		var podIdentityProfile v1alpha1api20210501storage.ManagedClusterPodIdentityProfile
+		var podIdentityProfile alpha20210501s.ManagedClusterPodIdentityProfile
 		err := clusters.PodIdentityProfile.AssignPropertiesToManagedClusterPodIdentityProfile(&podIdentityProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToManagedClusterPodIdentityProfile() to populate field PodIdentityProfile")
@@ -2621,11 +2621,11 @@ func (clusters *ManagedClusters_Spec) AssignPropertiesToManagedClustersSpec(dest
 
 	// PrivateLinkResources
 	if clusters.PrivateLinkResources != nil {
-		privateLinkResourceList := make([]v1alpha1api20210501storage.PrivateLinkResource, len(clusters.PrivateLinkResources))
+		privateLinkResourceList := make([]alpha20210501s.PrivateLinkResource, len(clusters.PrivateLinkResources))
 		for privateLinkResourceIndex, privateLinkResourceItem := range clusters.PrivateLinkResources {
 			// Shadow the loop variable to avoid aliasing
 			privateLinkResourceItem := privateLinkResourceItem
-			var privateLinkResource v1alpha1api20210501storage.PrivateLinkResource
+			var privateLinkResource alpha20210501s.PrivateLinkResource
 			err := privateLinkResourceItem.AssignPropertiesToPrivateLinkResource(&privateLinkResource)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToPrivateLinkResource() to populate field PrivateLinkResources")
@@ -2639,7 +2639,7 @@ func (clusters *ManagedClusters_Spec) AssignPropertiesToManagedClustersSpec(dest
 
 	// ServicePrincipalProfile
 	if clusters.ServicePrincipalProfile != nil {
-		var servicePrincipalProfile v1alpha1api20210501storage.ManagedClusterServicePrincipalProfile
+		var servicePrincipalProfile alpha20210501s.ManagedClusterServicePrincipalProfile
 		err := clusters.ServicePrincipalProfile.AssignPropertiesToManagedClusterServicePrincipalProfile(&servicePrincipalProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToManagedClusterServicePrincipalProfile() to populate field ServicePrincipalProfile")
@@ -2651,7 +2651,7 @@ func (clusters *ManagedClusters_Spec) AssignPropertiesToManagedClustersSpec(dest
 
 	// Sku
 	if clusters.Sku != nil {
-		var sku v1alpha1api20210501storage.ManagedClusterSKU
+		var sku alpha20210501s.ManagedClusterSKU
 		err := clusters.Sku.AssignPropertiesToManagedClusterSKU(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToManagedClusterSKU() to populate field Sku")
@@ -2666,7 +2666,7 @@ func (clusters *ManagedClusters_Spec) AssignPropertiesToManagedClustersSpec(dest
 
 	// WindowsProfile
 	if clusters.WindowsProfile != nil {
-		var windowsProfile v1alpha1api20210501storage.ManagedClusterWindowsProfile
+		var windowsProfile alpha20210501s.ManagedClusterWindowsProfile
 		err := clusters.WindowsProfile.AssignPropertiesToManagedClusterWindowsProfile(&windowsProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToManagedClusterWindowsProfile() to populate field WindowsProfile")
@@ -2766,7 +2766,7 @@ func (etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproper
 }
 
 // AssignPropertiesFromComponentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties populates our Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties from the provided source Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties
-func (etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties *Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties) AssignPropertiesFromComponentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties(source *v1alpha1api20210501storage.Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties) error {
+func (etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties *Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties) AssignPropertiesFromComponentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties(source *alpha20210501s.Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties) error {
 
 	// ClientId
 	etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties.ClientId = genruntime.ClonePointerToString(source.ClientId)
@@ -2787,7 +2787,7 @@ func (etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproper
 }
 
 // AssignPropertiesToComponentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties populates the provided destination Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties from our Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties
-func (etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties *Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties) AssignPropertiesToComponentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties(destination *v1alpha1api20210501storage.Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties) error {
+func (etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties *Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties) AssignPropertiesToComponentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties(destination *alpha20210501s.Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2887,7 +2887,7 @@ func (profile *ContainerServiceLinuxProfile) PopulateFromARM(owner genruntime.Ar
 }
 
 // AssignPropertiesFromContainerServiceLinuxProfile populates our ContainerServiceLinuxProfile from the provided source ContainerServiceLinuxProfile
-func (profile *ContainerServiceLinuxProfile) AssignPropertiesFromContainerServiceLinuxProfile(source *v1alpha1api20210501storage.ContainerServiceLinuxProfile) error {
+func (profile *ContainerServiceLinuxProfile) AssignPropertiesFromContainerServiceLinuxProfile(source *alpha20210501s.ContainerServiceLinuxProfile) error {
 
 	// AdminUsername
 	if source.AdminUsername != nil {
@@ -2914,7 +2914,7 @@ func (profile *ContainerServiceLinuxProfile) AssignPropertiesFromContainerServic
 }
 
 // AssignPropertiesToContainerServiceLinuxProfile populates the provided destination ContainerServiceLinuxProfile from our ContainerServiceLinuxProfile
-func (profile *ContainerServiceLinuxProfile) AssignPropertiesToContainerServiceLinuxProfile(destination *v1alpha1api20210501storage.ContainerServiceLinuxProfile) error {
+func (profile *ContainerServiceLinuxProfile) AssignPropertiesToContainerServiceLinuxProfile(destination *alpha20210501s.ContainerServiceLinuxProfile) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2928,7 +2928,7 @@ func (profile *ContainerServiceLinuxProfile) AssignPropertiesToContainerServiceL
 
 	// Ssh
 	if profile.Ssh != nil {
-		var ssh v1alpha1api20210501storage.ContainerServiceSshConfiguration
+		var ssh alpha20210501s.ContainerServiceSshConfiguration
 		err := profile.Ssh.AssignPropertiesToContainerServiceSshConfiguration(&ssh)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToContainerServiceSshConfiguration() to populate field Ssh")
@@ -2991,7 +2991,7 @@ func (profile *ContainerServiceLinuxProfile_Status) PopulateFromARM(owner genrun
 }
 
 // AssignPropertiesFromContainerServiceLinuxProfileStatus populates our ContainerServiceLinuxProfile_Status from the provided source ContainerServiceLinuxProfile_Status
-func (profile *ContainerServiceLinuxProfile_Status) AssignPropertiesFromContainerServiceLinuxProfileStatus(source *v1alpha1api20210501storage.ContainerServiceLinuxProfile_Status) error {
+func (profile *ContainerServiceLinuxProfile_Status) AssignPropertiesFromContainerServiceLinuxProfileStatus(source *alpha20210501s.ContainerServiceLinuxProfile_Status) error {
 
 	// AdminUsername
 	profile.AdminUsername = genruntime.ClonePointerToString(source.AdminUsername)
@@ -3013,7 +3013,7 @@ func (profile *ContainerServiceLinuxProfile_Status) AssignPropertiesFromContaine
 }
 
 // AssignPropertiesToContainerServiceLinuxProfileStatus populates the provided destination ContainerServiceLinuxProfile_Status from our ContainerServiceLinuxProfile_Status
-func (profile *ContainerServiceLinuxProfile_Status) AssignPropertiesToContainerServiceLinuxProfileStatus(destination *v1alpha1api20210501storage.ContainerServiceLinuxProfile_Status) error {
+func (profile *ContainerServiceLinuxProfile_Status) AssignPropertiesToContainerServiceLinuxProfileStatus(destination *alpha20210501s.ContainerServiceLinuxProfile_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3022,7 +3022,7 @@ func (profile *ContainerServiceLinuxProfile_Status) AssignPropertiesToContainerS
 
 	// Ssh
 	if profile.Ssh != nil {
-		var ssh v1alpha1api20210501storage.ContainerServiceSshConfiguration_Status
+		var ssh alpha20210501s.ContainerServiceSshConfiguration_Status
 		err := profile.Ssh.AssignPropertiesToContainerServiceSshConfigurationStatus(&ssh)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToContainerServiceSshConfigurationStatus() to populate field Ssh")
@@ -3221,7 +3221,7 @@ func (profile *ContainerServiceNetworkProfile) PopulateFromARM(owner genruntime.
 }
 
 // AssignPropertiesFromContainerServiceNetworkProfile populates our ContainerServiceNetworkProfile from the provided source ContainerServiceNetworkProfile
-func (profile *ContainerServiceNetworkProfile) AssignPropertiesFromContainerServiceNetworkProfile(source *v1alpha1api20210501storage.ContainerServiceNetworkProfile) error {
+func (profile *ContainerServiceNetworkProfile) AssignPropertiesFromContainerServiceNetworkProfile(source *alpha20210501s.ContainerServiceNetworkProfile) error {
 
 	// DnsServiceIP
 	if source.DnsServiceIP != nil {
@@ -3312,7 +3312,7 @@ func (profile *ContainerServiceNetworkProfile) AssignPropertiesFromContainerServ
 }
 
 // AssignPropertiesToContainerServiceNetworkProfile populates the provided destination ContainerServiceNetworkProfile from our ContainerServiceNetworkProfile
-func (profile *ContainerServiceNetworkProfile) AssignPropertiesToContainerServiceNetworkProfile(destination *v1alpha1api20210501storage.ContainerServiceNetworkProfile) error {
+func (profile *ContainerServiceNetworkProfile) AssignPropertiesToContainerServiceNetworkProfile(destination *alpha20210501s.ContainerServiceNetworkProfile) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3334,7 +3334,7 @@ func (profile *ContainerServiceNetworkProfile) AssignPropertiesToContainerServic
 
 	// LoadBalancerProfile
 	if profile.LoadBalancerProfile != nil {
-		var loadBalancerProfile v1alpha1api20210501storage.ManagedClusterLoadBalancerProfile
+		var loadBalancerProfile alpha20210501s.ManagedClusterLoadBalancerProfile
 		err := profile.LoadBalancerProfile.AssignPropertiesToManagedClusterLoadBalancerProfile(&loadBalancerProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToManagedClusterLoadBalancerProfile() to populate field LoadBalancerProfile")
@@ -3509,7 +3509,7 @@ func (profile *ContainerServiceNetworkProfile_Status) PopulateFromARM(owner genr
 }
 
 // AssignPropertiesFromContainerServiceNetworkProfileStatus populates our ContainerServiceNetworkProfile_Status from the provided source ContainerServiceNetworkProfile_Status
-func (profile *ContainerServiceNetworkProfile_Status) AssignPropertiesFromContainerServiceNetworkProfileStatus(source *v1alpha1api20210501storage.ContainerServiceNetworkProfile_Status) error {
+func (profile *ContainerServiceNetworkProfile_Status) AssignPropertiesFromContainerServiceNetworkProfileStatus(source *alpha20210501s.ContainerServiceNetworkProfile_Status) error {
 
 	// DnsServiceIP
 	profile.DnsServiceIP = genruntime.ClonePointerToString(source.DnsServiceIP)
@@ -3580,7 +3580,7 @@ func (profile *ContainerServiceNetworkProfile_Status) AssignPropertiesFromContai
 }
 
 // AssignPropertiesToContainerServiceNetworkProfileStatus populates the provided destination ContainerServiceNetworkProfile_Status from our ContainerServiceNetworkProfile_Status
-func (profile *ContainerServiceNetworkProfile_Status) AssignPropertiesToContainerServiceNetworkProfileStatus(destination *v1alpha1api20210501storage.ContainerServiceNetworkProfile_Status) error {
+func (profile *ContainerServiceNetworkProfile_Status) AssignPropertiesToContainerServiceNetworkProfileStatus(destination *alpha20210501s.ContainerServiceNetworkProfile_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3592,7 +3592,7 @@ func (profile *ContainerServiceNetworkProfile_Status) AssignPropertiesToContaine
 
 	// LoadBalancerProfile
 	if profile.LoadBalancerProfile != nil {
-		var loadBalancerProfile v1alpha1api20210501storage.ManagedClusterLoadBalancerProfile_Status
+		var loadBalancerProfile alpha20210501s.ManagedClusterLoadBalancerProfile_Status
 		err := profile.LoadBalancerProfile.AssignPropertiesToManagedClusterLoadBalancerProfileStatus(&loadBalancerProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToManagedClusterLoadBalancerProfileStatus() to populate field LoadBalancerProfile")
@@ -3717,7 +3717,7 @@ func (location *ExtendedLocation) PopulateFromARM(owner genruntime.ArbitraryOwne
 }
 
 // AssignPropertiesFromExtendedLocation populates our ExtendedLocation from the provided source ExtendedLocation
-func (location *ExtendedLocation) AssignPropertiesFromExtendedLocation(source *v1alpha1api20210501storage.ExtendedLocation) error {
+func (location *ExtendedLocation) AssignPropertiesFromExtendedLocation(source *alpha20210501s.ExtendedLocation) error {
 
 	// Name
 	location.Name = genruntime.ClonePointerToString(source.Name)
@@ -3735,7 +3735,7 @@ func (location *ExtendedLocation) AssignPropertiesFromExtendedLocation(source *v
 }
 
 // AssignPropertiesToExtendedLocation populates the provided destination ExtendedLocation from our ExtendedLocation
-func (location *ExtendedLocation) AssignPropertiesToExtendedLocation(destination *v1alpha1api20210501storage.ExtendedLocation) error {
+func (location *ExtendedLocation) AssignPropertiesToExtendedLocation(destination *alpha20210501s.ExtendedLocation) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3798,7 +3798,7 @@ func (location *ExtendedLocation_Status) PopulateFromARM(owner genruntime.Arbitr
 }
 
 // AssignPropertiesFromExtendedLocationStatus populates our ExtendedLocation_Status from the provided source ExtendedLocation_Status
-func (location *ExtendedLocation_Status) AssignPropertiesFromExtendedLocationStatus(source *v1alpha1api20210501storage.ExtendedLocation_Status) error {
+func (location *ExtendedLocation_Status) AssignPropertiesFromExtendedLocationStatus(source *alpha20210501s.ExtendedLocation_Status) error {
 
 	// Name
 	location.Name = genruntime.ClonePointerToString(source.Name)
@@ -3816,7 +3816,7 @@ func (location *ExtendedLocation_Status) AssignPropertiesFromExtendedLocationSta
 }
 
 // AssignPropertiesToExtendedLocationStatus populates the provided destination ExtendedLocation_Status from our ExtendedLocation_Status
-func (location *ExtendedLocation_Status) AssignPropertiesToExtendedLocationStatus(destination *v1alpha1api20210501storage.ExtendedLocation_Status) error {
+func (location *ExtendedLocation_Status) AssignPropertiesToExtendedLocationStatus(destination *alpha20210501s.ExtendedLocation_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3963,7 +3963,7 @@ func (profile *ManagedClusterAADProfile) PopulateFromARM(owner genruntime.Arbitr
 }
 
 // AssignPropertiesFromManagedClusterAADProfile populates our ManagedClusterAADProfile from the provided source ManagedClusterAADProfile
-func (profile *ManagedClusterAADProfile) AssignPropertiesFromManagedClusterAADProfile(source *v1alpha1api20210501storage.ManagedClusterAADProfile) error {
+func (profile *ManagedClusterAADProfile) AssignPropertiesFromManagedClusterAADProfile(source *alpha20210501s.ManagedClusterAADProfile) error {
 
 	// AdminGroupObjectIDs
 	profile.AdminGroupObjectIDs = genruntime.CloneSliceOfString(source.AdminGroupObjectIDs)
@@ -4001,7 +4001,7 @@ func (profile *ManagedClusterAADProfile) AssignPropertiesFromManagedClusterAADPr
 }
 
 // AssignPropertiesToManagedClusterAADProfile populates the provided destination ManagedClusterAADProfile from our ManagedClusterAADProfile
-func (profile *ManagedClusterAADProfile) AssignPropertiesToManagedClusterAADProfile(destination *v1alpha1api20210501storage.ManagedClusterAADProfile) error {
+func (profile *ManagedClusterAADProfile) AssignPropertiesToManagedClusterAADProfile(destination *alpha20210501s.ManagedClusterAADProfile) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4118,7 +4118,7 @@ func (profile *ManagedClusterAADProfile_Status) PopulateFromARM(owner genruntime
 }
 
 // AssignPropertiesFromManagedClusterAADProfileStatus populates our ManagedClusterAADProfile_Status from the provided source ManagedClusterAADProfile_Status
-func (profile *ManagedClusterAADProfile_Status) AssignPropertiesFromManagedClusterAADProfileStatus(source *v1alpha1api20210501storage.ManagedClusterAADProfile_Status) error {
+func (profile *ManagedClusterAADProfile_Status) AssignPropertiesFromManagedClusterAADProfileStatus(source *alpha20210501s.ManagedClusterAADProfile_Status) error {
 
 	// AdminGroupObjectIDs
 	profile.AdminGroupObjectIDs = genruntime.CloneSliceOfString(source.AdminGroupObjectIDs)
@@ -4156,7 +4156,7 @@ func (profile *ManagedClusterAADProfile_Status) AssignPropertiesFromManagedClust
 }
 
 // AssignPropertiesToManagedClusterAADProfileStatus populates the provided destination ManagedClusterAADProfile_Status from our ManagedClusterAADProfile_Status
-func (profile *ManagedClusterAADProfile_Status) AssignPropertiesToManagedClusterAADProfileStatus(destination *v1alpha1api20210501storage.ManagedClusterAADProfile_Status) error {
+func (profile *ManagedClusterAADProfile_Status) AssignPropertiesToManagedClusterAADProfileStatus(destination *alpha20210501s.ManagedClusterAADProfile_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4284,7 +4284,7 @@ func (profile *ManagedClusterAPIServerAccessProfile) PopulateFromARM(owner genru
 }
 
 // AssignPropertiesFromManagedClusterAPIServerAccessProfile populates our ManagedClusterAPIServerAccessProfile from the provided source ManagedClusterAPIServerAccessProfile
-func (profile *ManagedClusterAPIServerAccessProfile) AssignPropertiesFromManagedClusterAPIServerAccessProfile(source *v1alpha1api20210501storage.ManagedClusterAPIServerAccessProfile) error {
+func (profile *ManagedClusterAPIServerAccessProfile) AssignPropertiesFromManagedClusterAPIServerAccessProfile(source *alpha20210501s.ManagedClusterAPIServerAccessProfile) error {
 
 	// AuthorizedIPRanges
 	profile.AuthorizedIPRanges = genruntime.CloneSliceOfString(source.AuthorizedIPRanges)
@@ -4313,7 +4313,7 @@ func (profile *ManagedClusterAPIServerAccessProfile) AssignPropertiesFromManaged
 }
 
 // AssignPropertiesToManagedClusterAPIServerAccessProfile populates the provided destination ManagedClusterAPIServerAccessProfile from our ManagedClusterAPIServerAccessProfile
-func (profile *ManagedClusterAPIServerAccessProfile) AssignPropertiesToManagedClusterAPIServerAccessProfile(destination *v1alpha1api20210501storage.ManagedClusterAPIServerAccessProfile) error {
+func (profile *ManagedClusterAPIServerAccessProfile) AssignPropertiesToManagedClusterAPIServerAccessProfile(destination *alpha20210501s.ManagedClusterAPIServerAccessProfile) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4400,7 +4400,7 @@ func (profile *ManagedClusterAPIServerAccessProfile_Status) PopulateFromARM(owne
 }
 
 // AssignPropertiesFromManagedClusterAPIServerAccessProfileStatus populates our ManagedClusterAPIServerAccessProfile_Status from the provided source ManagedClusterAPIServerAccessProfile_Status
-func (profile *ManagedClusterAPIServerAccessProfile_Status) AssignPropertiesFromManagedClusterAPIServerAccessProfileStatus(source *v1alpha1api20210501storage.ManagedClusterAPIServerAccessProfile_Status) error {
+func (profile *ManagedClusterAPIServerAccessProfile_Status) AssignPropertiesFromManagedClusterAPIServerAccessProfileStatus(source *alpha20210501s.ManagedClusterAPIServerAccessProfile_Status) error {
 
 	// AuthorizedIPRanges
 	profile.AuthorizedIPRanges = genruntime.CloneSliceOfString(source.AuthorizedIPRanges)
@@ -4429,7 +4429,7 @@ func (profile *ManagedClusterAPIServerAccessProfile_Status) AssignPropertiesFrom
 }
 
 // AssignPropertiesToManagedClusterAPIServerAccessProfileStatus populates the provided destination ManagedClusterAPIServerAccessProfile_Status from our ManagedClusterAPIServerAccessProfile_Status
-func (profile *ManagedClusterAPIServerAccessProfile_Status) AssignPropertiesToManagedClusterAPIServerAccessProfileStatus(destination *v1alpha1api20210501storage.ManagedClusterAPIServerAccessProfile_Status) error {
+func (profile *ManagedClusterAPIServerAccessProfile_Status) AssignPropertiesToManagedClusterAPIServerAccessProfileStatus(destination *alpha20210501s.ManagedClusterAPIServerAccessProfile_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4530,7 +4530,7 @@ func (profile *ManagedClusterAddonProfile) PopulateFromARM(owner genruntime.Arbi
 }
 
 // AssignPropertiesFromManagedClusterAddonProfile populates our ManagedClusterAddonProfile from the provided source ManagedClusterAddonProfile
-func (profile *ManagedClusterAddonProfile) AssignPropertiesFromManagedClusterAddonProfile(source *v1alpha1api20210501storage.ManagedClusterAddonProfile) error {
+func (profile *ManagedClusterAddonProfile) AssignPropertiesFromManagedClusterAddonProfile(source *alpha20210501s.ManagedClusterAddonProfile) error {
 
 	// Config
 	profile.Config = genruntime.CloneMapOfStringToString(source.Config)
@@ -4548,7 +4548,7 @@ func (profile *ManagedClusterAddonProfile) AssignPropertiesFromManagedClusterAdd
 }
 
 // AssignPropertiesToManagedClusterAddonProfile populates the provided destination ManagedClusterAddonProfile from our ManagedClusterAddonProfile
-func (profile *ManagedClusterAddonProfile) AssignPropertiesToManagedClusterAddonProfile(destination *v1alpha1api20210501storage.ManagedClusterAddonProfile) error {
+func (profile *ManagedClusterAddonProfile) AssignPropertiesToManagedClusterAddonProfile(destination *alpha20210501s.ManagedClusterAddonProfile) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5085,7 +5085,7 @@ func (profile *ManagedClusterAgentPoolProfile) PopulateFromARM(owner genruntime.
 }
 
 // AssignPropertiesFromManagedClusterAgentPoolProfile populates our ManagedClusterAgentPoolProfile from the provided source ManagedClusterAgentPoolProfile
-func (profile *ManagedClusterAgentPoolProfile) AssignPropertiesFromManagedClusterAgentPoolProfile(source *v1alpha1api20210501storage.ManagedClusterAgentPoolProfile) error {
+func (profile *ManagedClusterAgentPoolProfile) AssignPropertiesFromManagedClusterAgentPoolProfile(source *alpha20210501s.ManagedClusterAgentPoolProfile) error {
 
 	// AvailabilityZones
 	profile.AvailabilityZones = genruntime.CloneSliceOfString(source.AvailabilityZones)
@@ -5321,7 +5321,7 @@ func (profile *ManagedClusterAgentPoolProfile) AssignPropertiesFromManagedCluste
 }
 
 // AssignPropertiesToManagedClusterAgentPoolProfile populates the provided destination ManagedClusterAgentPoolProfile from our ManagedClusterAgentPoolProfile
-func (profile *ManagedClusterAgentPoolProfile) AssignPropertiesToManagedClusterAgentPoolProfile(destination *v1alpha1api20210501storage.ManagedClusterAgentPoolProfile) error {
+func (profile *ManagedClusterAgentPoolProfile) AssignPropertiesToManagedClusterAgentPoolProfile(destination *alpha20210501s.ManagedClusterAgentPoolProfile) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5381,7 +5381,7 @@ func (profile *ManagedClusterAgentPoolProfile) AssignPropertiesToManagedClusterA
 
 	// KubeletConfig
 	if profile.KubeletConfig != nil {
-		var kubeletConfig v1alpha1api20210501storage.KubeletConfig
+		var kubeletConfig alpha20210501s.KubeletConfig
 		err := profile.KubeletConfig.AssignPropertiesToKubeletConfig(&kubeletConfig)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToKubeletConfig() to populate field KubeletConfig")
@@ -5401,7 +5401,7 @@ func (profile *ManagedClusterAgentPoolProfile) AssignPropertiesToManagedClusterA
 
 	// LinuxOSConfig
 	if profile.LinuxOSConfig != nil {
-		var linuxOSConfig v1alpha1api20210501storage.LinuxOSConfig
+		var linuxOSConfig alpha20210501s.LinuxOSConfig
 		err := profile.LinuxOSConfig.AssignPropertiesToLinuxOSConfig(&linuxOSConfig)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToLinuxOSConfig() to populate field LinuxOSConfig")
@@ -5533,7 +5533,7 @@ func (profile *ManagedClusterAgentPoolProfile) AssignPropertiesToManagedClusterA
 
 	// UpgradeSettings
 	if profile.UpgradeSettings != nil {
-		var upgradeSetting v1alpha1api20210501storage.AgentPoolUpgradeSettings
+		var upgradeSetting alpha20210501s.AgentPoolUpgradeSettings
 		err := profile.UpgradeSettings.AssignPropertiesToAgentPoolUpgradeSettings(&upgradeSetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToAgentPoolUpgradeSettings() to populate field UpgradeSettings")
@@ -5869,7 +5869,7 @@ func (profile *ManagedClusterAgentPoolProfile_Status) PopulateFromARM(owner genr
 }
 
 // AssignPropertiesFromManagedClusterAgentPoolProfileStatus populates our ManagedClusterAgentPoolProfile_Status from the provided source ManagedClusterAgentPoolProfile_Status
-func (profile *ManagedClusterAgentPoolProfile_Status) AssignPropertiesFromManagedClusterAgentPoolProfileStatus(source *v1alpha1api20210501storage.ManagedClusterAgentPoolProfile_Status) error {
+func (profile *ManagedClusterAgentPoolProfile_Status) AssignPropertiesFromManagedClusterAgentPoolProfileStatus(source *alpha20210501s.ManagedClusterAgentPoolProfile_Status) error {
 
 	// AvailabilityZones
 	profile.AvailabilityZones = genruntime.CloneSliceOfString(source.AvailabilityZones)
@@ -6098,7 +6098,7 @@ func (profile *ManagedClusterAgentPoolProfile_Status) AssignPropertiesFromManage
 }
 
 // AssignPropertiesToManagedClusterAgentPoolProfileStatus populates the provided destination ManagedClusterAgentPoolProfile_Status from our ManagedClusterAgentPoolProfile_Status
-func (profile *ManagedClusterAgentPoolProfile_Status) AssignPropertiesToManagedClusterAgentPoolProfileStatus(destination *v1alpha1api20210501storage.ManagedClusterAgentPoolProfile_Status) error {
+func (profile *ManagedClusterAgentPoolProfile_Status) AssignPropertiesToManagedClusterAgentPoolProfileStatus(destination *alpha20210501s.ManagedClusterAgentPoolProfile_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6158,7 +6158,7 @@ func (profile *ManagedClusterAgentPoolProfile_Status) AssignPropertiesToManagedC
 
 	// KubeletConfig
 	if profile.KubeletConfig != nil {
-		var kubeletConfig v1alpha1api20210501storage.KubeletConfig_Status
+		var kubeletConfig alpha20210501s.KubeletConfig_Status
 		err := profile.KubeletConfig.AssignPropertiesToKubeletConfigStatus(&kubeletConfig)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToKubeletConfigStatus() to populate field KubeletConfig")
@@ -6178,7 +6178,7 @@ func (profile *ManagedClusterAgentPoolProfile_Status) AssignPropertiesToManagedC
 
 	// LinuxOSConfig
 	if profile.LinuxOSConfig != nil {
-		var linuxOSConfig v1alpha1api20210501storage.LinuxOSConfig_Status
+		var linuxOSConfig alpha20210501s.LinuxOSConfig_Status
 		err := profile.LinuxOSConfig.AssignPropertiesToLinuxOSConfigStatus(&linuxOSConfig)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToLinuxOSConfigStatus() to populate field LinuxOSConfig")
@@ -6255,7 +6255,7 @@ func (profile *ManagedClusterAgentPoolProfile_Status) AssignPropertiesToManagedC
 
 	// PowerState
 	if profile.PowerState != nil {
-		var powerState v1alpha1api20210501storage.PowerState_Status
+		var powerState alpha20210501s.PowerState_Status
 		err := profile.PowerState.AssignPropertiesToPowerStateStatus(&powerState)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToPowerStateStatus() to populate field PowerState")
@@ -6308,7 +6308,7 @@ func (profile *ManagedClusterAgentPoolProfile_Status) AssignPropertiesToManagedC
 
 	// UpgradeSettings
 	if profile.UpgradeSettings != nil {
-		var upgradeSetting v1alpha1api20210501storage.AgentPoolUpgradeSettings_Status
+		var upgradeSetting alpha20210501s.AgentPoolUpgradeSettings_Status
 		err := profile.UpgradeSettings.AssignPropertiesToAgentPoolUpgradeSettingsStatus(&upgradeSetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToAgentPoolUpgradeSettingsStatus() to populate field UpgradeSettings")
@@ -6380,7 +6380,7 @@ func (profile *ManagedClusterAutoUpgradeProfile) PopulateFromARM(owner genruntim
 }
 
 // AssignPropertiesFromManagedClusterAutoUpgradeProfile populates our ManagedClusterAutoUpgradeProfile from the provided source ManagedClusterAutoUpgradeProfile
-func (profile *ManagedClusterAutoUpgradeProfile) AssignPropertiesFromManagedClusterAutoUpgradeProfile(source *v1alpha1api20210501storage.ManagedClusterAutoUpgradeProfile) error {
+func (profile *ManagedClusterAutoUpgradeProfile) AssignPropertiesFromManagedClusterAutoUpgradeProfile(source *alpha20210501s.ManagedClusterAutoUpgradeProfile) error {
 
 	// UpgradeChannel
 	if source.UpgradeChannel != nil {
@@ -6395,7 +6395,7 @@ func (profile *ManagedClusterAutoUpgradeProfile) AssignPropertiesFromManagedClus
 }
 
 // AssignPropertiesToManagedClusterAutoUpgradeProfile populates the provided destination ManagedClusterAutoUpgradeProfile from our ManagedClusterAutoUpgradeProfile
-func (profile *ManagedClusterAutoUpgradeProfile) AssignPropertiesToManagedClusterAutoUpgradeProfile(destination *v1alpha1api20210501storage.ManagedClusterAutoUpgradeProfile) error {
+func (profile *ManagedClusterAutoUpgradeProfile) AssignPropertiesToManagedClusterAutoUpgradeProfile(destination *alpha20210501s.ManagedClusterAutoUpgradeProfile) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6448,7 +6448,7 @@ func (profile *ManagedClusterAutoUpgradeProfile_Status) PopulateFromARM(owner ge
 }
 
 // AssignPropertiesFromManagedClusterAutoUpgradeProfileStatus populates our ManagedClusterAutoUpgradeProfile_Status from the provided source ManagedClusterAutoUpgradeProfile_Status
-func (profile *ManagedClusterAutoUpgradeProfile_Status) AssignPropertiesFromManagedClusterAutoUpgradeProfileStatus(source *v1alpha1api20210501storage.ManagedClusterAutoUpgradeProfile_Status) error {
+func (profile *ManagedClusterAutoUpgradeProfile_Status) AssignPropertiesFromManagedClusterAutoUpgradeProfileStatus(source *alpha20210501s.ManagedClusterAutoUpgradeProfile_Status) error {
 
 	// UpgradeChannel
 	if source.UpgradeChannel != nil {
@@ -6463,7 +6463,7 @@ func (profile *ManagedClusterAutoUpgradeProfile_Status) AssignPropertiesFromMana
 }
 
 // AssignPropertiesToManagedClusterAutoUpgradeProfileStatus populates the provided destination ManagedClusterAutoUpgradeProfile_Status from our ManagedClusterAutoUpgradeProfile_Status
-func (profile *ManagedClusterAutoUpgradeProfile_Status) AssignPropertiesToManagedClusterAutoUpgradeProfileStatus(destination *v1alpha1api20210501storage.ManagedClusterAutoUpgradeProfile_Status) error {
+func (profile *ManagedClusterAutoUpgradeProfile_Status) AssignPropertiesToManagedClusterAutoUpgradeProfileStatus(destination *alpha20210501s.ManagedClusterAutoUpgradeProfile_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6568,7 +6568,7 @@ func (config *ManagedClusterHTTPProxyConfig) PopulateFromARM(owner genruntime.Ar
 }
 
 // AssignPropertiesFromManagedClusterHTTPProxyConfig populates our ManagedClusterHTTPProxyConfig from the provided source ManagedClusterHTTPProxyConfig
-func (config *ManagedClusterHTTPProxyConfig) AssignPropertiesFromManagedClusterHTTPProxyConfig(source *v1alpha1api20210501storage.ManagedClusterHTTPProxyConfig) error {
+func (config *ManagedClusterHTTPProxyConfig) AssignPropertiesFromManagedClusterHTTPProxyConfig(source *alpha20210501s.ManagedClusterHTTPProxyConfig) error {
 
 	// HttpProxy
 	config.HttpProxy = genruntime.ClonePointerToString(source.HttpProxy)
@@ -6587,7 +6587,7 @@ func (config *ManagedClusterHTTPProxyConfig) AssignPropertiesFromManagedClusterH
 }
 
 // AssignPropertiesToManagedClusterHTTPProxyConfig populates the provided destination ManagedClusterHTTPProxyConfig from our ManagedClusterHTTPProxyConfig
-func (config *ManagedClusterHTTPProxyConfig) AssignPropertiesToManagedClusterHTTPProxyConfig(destination *v1alpha1api20210501storage.ManagedClusterHTTPProxyConfig) error {
+func (config *ManagedClusterHTTPProxyConfig) AssignPropertiesToManagedClusterHTTPProxyConfig(destination *alpha20210501s.ManagedClusterHTTPProxyConfig) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6664,7 +6664,7 @@ func (config *ManagedClusterHTTPProxyConfig_Status) PopulateFromARM(owner genrun
 }
 
 // AssignPropertiesFromManagedClusterHTTPProxyConfigStatus populates our ManagedClusterHTTPProxyConfig_Status from the provided source ManagedClusterHTTPProxyConfig_Status
-func (config *ManagedClusterHTTPProxyConfig_Status) AssignPropertiesFromManagedClusterHTTPProxyConfigStatus(source *v1alpha1api20210501storage.ManagedClusterHTTPProxyConfig_Status) error {
+func (config *ManagedClusterHTTPProxyConfig_Status) AssignPropertiesFromManagedClusterHTTPProxyConfigStatus(source *alpha20210501s.ManagedClusterHTTPProxyConfig_Status) error {
 
 	// HttpProxy
 	config.HttpProxy = genruntime.ClonePointerToString(source.HttpProxy)
@@ -6683,7 +6683,7 @@ func (config *ManagedClusterHTTPProxyConfig_Status) AssignPropertiesFromManagedC
 }
 
 // AssignPropertiesToManagedClusterHTTPProxyConfigStatus populates the provided destination ManagedClusterHTTPProxyConfig_Status from our ManagedClusterHTTPProxyConfig_Status
-func (config *ManagedClusterHTTPProxyConfig_Status) AssignPropertiesToManagedClusterHTTPProxyConfigStatus(destination *v1alpha1api20210501storage.ManagedClusterHTTPProxyConfig_Status) error {
+func (config *ManagedClusterHTTPProxyConfig_Status) AssignPropertiesToManagedClusterHTTPProxyConfigStatus(destination *alpha20210501s.ManagedClusterHTTPProxyConfig_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6772,7 +6772,7 @@ func (identity *ManagedClusterIdentity) PopulateFromARM(owner genruntime.Arbitra
 }
 
 // AssignPropertiesFromManagedClusterIdentity populates our ManagedClusterIdentity from the provided source ManagedClusterIdentity
-func (identity *ManagedClusterIdentity) AssignPropertiesFromManagedClusterIdentity(source *v1alpha1api20210501storage.ManagedClusterIdentity) error {
+func (identity *ManagedClusterIdentity) AssignPropertiesFromManagedClusterIdentity(source *alpha20210501s.ManagedClusterIdentity) error {
 
 	// Type
 	if source.Type != nil {
@@ -6800,7 +6800,7 @@ func (identity *ManagedClusterIdentity) AssignPropertiesFromManagedClusterIdenti
 }
 
 // AssignPropertiesToManagedClusterIdentity populates the provided destination ManagedClusterIdentity from our ManagedClusterIdentity
-func (identity *ManagedClusterIdentity) AssignPropertiesToManagedClusterIdentity(destination *v1alpha1api20210501storage.ManagedClusterIdentity) error {
+func (identity *ManagedClusterIdentity) AssignPropertiesToManagedClusterIdentity(destination *alpha20210501s.ManagedClusterIdentity) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6894,7 +6894,7 @@ func (identity *ManagedClusterIdentity_Status) PopulateFromARM(owner genruntime.
 }
 
 // AssignPropertiesFromManagedClusterIdentityStatus populates our ManagedClusterIdentity_Status from the provided source ManagedClusterIdentity_Status
-func (identity *ManagedClusterIdentity_Status) AssignPropertiesFromManagedClusterIdentityStatus(source *v1alpha1api20210501storage.ManagedClusterIdentity_Status) error {
+func (identity *ManagedClusterIdentity_Status) AssignPropertiesFromManagedClusterIdentityStatus(source *alpha20210501s.ManagedClusterIdentity_Status) error {
 
 	// PrincipalId
 	identity.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
@@ -6933,7 +6933,7 @@ func (identity *ManagedClusterIdentity_Status) AssignPropertiesFromManagedCluste
 }
 
 // AssignPropertiesToManagedClusterIdentityStatus populates the provided destination ManagedClusterIdentity_Status from our ManagedClusterIdentity_Status
-func (identity *ManagedClusterIdentity_Status) AssignPropertiesToManagedClusterIdentityStatus(destination *v1alpha1api20210501storage.ManagedClusterIdentity_Status) error {
+func (identity *ManagedClusterIdentity_Status) AssignPropertiesToManagedClusterIdentityStatus(destination *alpha20210501s.ManagedClusterIdentity_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6953,11 +6953,11 @@ func (identity *ManagedClusterIdentity_Status) AssignPropertiesToManagedClusterI
 
 	// UserAssignedIdentities
 	if identity.UserAssignedIdentities != nil {
-		userAssignedIdentityMap := make(map[string]v1alpha1api20210501storage.ManagedClusterIdentity_Status_UserAssignedIdentities, len(identity.UserAssignedIdentities))
+		userAssignedIdentityMap := make(map[string]alpha20210501s.ManagedClusterIdentity_Status_UserAssignedIdentities, len(identity.UserAssignedIdentities))
 		for userAssignedIdentityKey, userAssignedIdentityValue := range identity.UserAssignedIdentities {
 			// Shadow the loop variable to avoid aliasing
 			userAssignedIdentityValue := userAssignedIdentityValue
-			var userAssignedIdentity v1alpha1api20210501storage.ManagedClusterIdentity_Status_UserAssignedIdentities
+			var userAssignedIdentity alpha20210501s.ManagedClusterIdentity_Status_UserAssignedIdentities
 			err := userAssignedIdentityValue.AssignPropertiesToManagedClusterIdentityStatusUserAssignedIdentities(&userAssignedIdentity)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToManagedClusterIdentityStatusUserAssignedIdentities() to populate field UserAssignedIdentities")
@@ -7078,7 +7078,7 @@ func (profile *ManagedClusterPodIdentityProfile) PopulateFromARM(owner genruntim
 }
 
 // AssignPropertiesFromManagedClusterPodIdentityProfile populates our ManagedClusterPodIdentityProfile from the provided source ManagedClusterPodIdentityProfile
-func (profile *ManagedClusterPodIdentityProfile) AssignPropertiesFromManagedClusterPodIdentityProfile(source *v1alpha1api20210501storage.ManagedClusterPodIdentityProfile) error {
+func (profile *ManagedClusterPodIdentityProfile) AssignPropertiesFromManagedClusterPodIdentityProfile(source *alpha20210501s.ManagedClusterPodIdentityProfile) error {
 
 	// AllowNetworkPluginKubenet
 	if source.AllowNetworkPluginKubenet != nil {
@@ -7137,7 +7137,7 @@ func (profile *ManagedClusterPodIdentityProfile) AssignPropertiesFromManagedClus
 }
 
 // AssignPropertiesToManagedClusterPodIdentityProfile populates the provided destination ManagedClusterPodIdentityProfile from our ManagedClusterPodIdentityProfile
-func (profile *ManagedClusterPodIdentityProfile) AssignPropertiesToManagedClusterPodIdentityProfile(destination *v1alpha1api20210501storage.ManagedClusterPodIdentityProfile) error {
+func (profile *ManagedClusterPodIdentityProfile) AssignPropertiesToManagedClusterPodIdentityProfile(destination *alpha20210501s.ManagedClusterPodIdentityProfile) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -7159,11 +7159,11 @@ func (profile *ManagedClusterPodIdentityProfile) AssignPropertiesToManagedCluste
 
 	// UserAssignedIdentities
 	if profile.UserAssignedIdentities != nil {
-		userAssignedIdentityList := make([]v1alpha1api20210501storage.ManagedClusterPodIdentity, len(profile.UserAssignedIdentities))
+		userAssignedIdentityList := make([]alpha20210501s.ManagedClusterPodIdentity, len(profile.UserAssignedIdentities))
 		for userAssignedIdentityIndex, userAssignedIdentityItem := range profile.UserAssignedIdentities {
 			// Shadow the loop variable to avoid aliasing
 			userAssignedIdentityItem := userAssignedIdentityItem
-			var userAssignedIdentity v1alpha1api20210501storage.ManagedClusterPodIdentity
+			var userAssignedIdentity alpha20210501s.ManagedClusterPodIdentity
 			err := userAssignedIdentityItem.AssignPropertiesToManagedClusterPodIdentity(&userAssignedIdentity)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToManagedClusterPodIdentity() to populate field UserAssignedIdentities")
@@ -7177,11 +7177,11 @@ func (profile *ManagedClusterPodIdentityProfile) AssignPropertiesToManagedCluste
 
 	// UserAssignedIdentityExceptions
 	if profile.UserAssignedIdentityExceptions != nil {
-		userAssignedIdentityExceptionList := make([]v1alpha1api20210501storage.ManagedClusterPodIdentityException, len(profile.UserAssignedIdentityExceptions))
+		userAssignedIdentityExceptionList := make([]alpha20210501s.ManagedClusterPodIdentityException, len(profile.UserAssignedIdentityExceptions))
 		for userAssignedIdentityExceptionIndex, userAssignedIdentityExceptionItem := range profile.UserAssignedIdentityExceptions {
 			// Shadow the loop variable to avoid aliasing
 			userAssignedIdentityExceptionItem := userAssignedIdentityExceptionItem
-			var userAssignedIdentityException v1alpha1api20210501storage.ManagedClusterPodIdentityException
+			var userAssignedIdentityException alpha20210501s.ManagedClusterPodIdentityException
 			err := userAssignedIdentityExceptionItem.AssignPropertiesToManagedClusterPodIdentityException(&userAssignedIdentityException)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToManagedClusterPodIdentityException() to populate field UserAssignedIdentityExceptions")
@@ -7263,7 +7263,7 @@ func (profile *ManagedClusterPodIdentityProfile_Status) PopulateFromARM(owner ge
 }
 
 // AssignPropertiesFromManagedClusterPodIdentityProfileStatus populates our ManagedClusterPodIdentityProfile_Status from the provided source ManagedClusterPodIdentityProfile_Status
-func (profile *ManagedClusterPodIdentityProfile_Status) AssignPropertiesFromManagedClusterPodIdentityProfileStatus(source *v1alpha1api20210501storage.ManagedClusterPodIdentityProfile_Status) error {
+func (profile *ManagedClusterPodIdentityProfile_Status) AssignPropertiesFromManagedClusterPodIdentityProfileStatus(source *alpha20210501s.ManagedClusterPodIdentityProfile_Status) error {
 
 	// AllowNetworkPluginKubenet
 	if source.AllowNetworkPluginKubenet != nil {
@@ -7322,7 +7322,7 @@ func (profile *ManagedClusterPodIdentityProfile_Status) AssignPropertiesFromMana
 }
 
 // AssignPropertiesToManagedClusterPodIdentityProfileStatus populates the provided destination ManagedClusterPodIdentityProfile_Status from our ManagedClusterPodIdentityProfile_Status
-func (profile *ManagedClusterPodIdentityProfile_Status) AssignPropertiesToManagedClusterPodIdentityProfileStatus(destination *v1alpha1api20210501storage.ManagedClusterPodIdentityProfile_Status) error {
+func (profile *ManagedClusterPodIdentityProfile_Status) AssignPropertiesToManagedClusterPodIdentityProfileStatus(destination *alpha20210501s.ManagedClusterPodIdentityProfile_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -7344,11 +7344,11 @@ func (profile *ManagedClusterPodIdentityProfile_Status) AssignPropertiesToManage
 
 	// UserAssignedIdentities
 	if profile.UserAssignedIdentities != nil {
-		userAssignedIdentityList := make([]v1alpha1api20210501storage.ManagedClusterPodIdentity_Status, len(profile.UserAssignedIdentities))
+		userAssignedIdentityList := make([]alpha20210501s.ManagedClusterPodIdentity_Status, len(profile.UserAssignedIdentities))
 		for userAssignedIdentityIndex, userAssignedIdentityItem := range profile.UserAssignedIdentities {
 			// Shadow the loop variable to avoid aliasing
 			userAssignedIdentityItem := userAssignedIdentityItem
-			var userAssignedIdentity v1alpha1api20210501storage.ManagedClusterPodIdentity_Status
+			var userAssignedIdentity alpha20210501s.ManagedClusterPodIdentity_Status
 			err := userAssignedIdentityItem.AssignPropertiesToManagedClusterPodIdentityStatus(&userAssignedIdentity)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToManagedClusterPodIdentityStatus() to populate field UserAssignedIdentities")
@@ -7362,11 +7362,11 @@ func (profile *ManagedClusterPodIdentityProfile_Status) AssignPropertiesToManage
 
 	// UserAssignedIdentityExceptions
 	if profile.UserAssignedIdentityExceptions != nil {
-		userAssignedIdentityExceptionList := make([]v1alpha1api20210501storage.ManagedClusterPodIdentityException_Status, len(profile.UserAssignedIdentityExceptions))
+		userAssignedIdentityExceptionList := make([]alpha20210501s.ManagedClusterPodIdentityException_Status, len(profile.UserAssignedIdentityExceptions))
 		for userAssignedIdentityExceptionIndex, userAssignedIdentityExceptionItem := range profile.UserAssignedIdentityExceptions {
 			// Shadow the loop variable to avoid aliasing
 			userAssignedIdentityExceptionItem := userAssignedIdentityExceptionItem
-			var userAssignedIdentityException v1alpha1api20210501storage.ManagedClusterPodIdentityException_Status
+			var userAssignedIdentityException alpha20210501s.ManagedClusterPodIdentityException_Status
 			err := userAssignedIdentityExceptionItem.AssignPropertiesToManagedClusterPodIdentityExceptionStatus(&userAssignedIdentityException)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToManagedClusterPodIdentityExceptionStatus() to populate field UserAssignedIdentityExceptions")
@@ -7642,7 +7642,7 @@ func (profile *ManagedClusterPropertiesAutoScalerProfile) PopulateFromARM(owner 
 }
 
 // AssignPropertiesFromManagedClusterPropertiesAutoScalerProfile populates our ManagedClusterPropertiesAutoScalerProfile from the provided source ManagedClusterPropertiesAutoScalerProfile
-func (profile *ManagedClusterPropertiesAutoScalerProfile) AssignPropertiesFromManagedClusterPropertiesAutoScalerProfile(source *v1alpha1api20210501storage.ManagedClusterPropertiesAutoScalerProfile) error {
+func (profile *ManagedClusterPropertiesAutoScalerProfile) AssignPropertiesFromManagedClusterPropertiesAutoScalerProfile(source *alpha20210501s.ManagedClusterPropertiesAutoScalerProfile) error {
 
 	// BalanceSimilarNodeGroups
 	profile.BalanceSimilarNodeGroups = genruntime.ClonePointerToString(source.BalanceSimilarNodeGroups)
@@ -7705,7 +7705,7 @@ func (profile *ManagedClusterPropertiesAutoScalerProfile) AssignPropertiesFromMa
 }
 
 // AssignPropertiesToManagedClusterPropertiesAutoScalerProfile populates the provided destination ManagedClusterPropertiesAutoScalerProfile from our ManagedClusterPropertiesAutoScalerProfile
-func (profile *ManagedClusterPropertiesAutoScalerProfile) AssignPropertiesToManagedClusterPropertiesAutoScalerProfile(destination *v1alpha1api20210501storage.ManagedClusterPropertiesAutoScalerProfile) error {
+func (profile *ManagedClusterPropertiesAutoScalerProfile) AssignPropertiesToManagedClusterPropertiesAutoScalerProfile(destination *alpha20210501s.ManagedClusterPropertiesAutoScalerProfile) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -7918,7 +7918,7 @@ func (profile *ManagedClusterProperties_Status_AutoScalerProfile) PopulateFromAR
 }
 
 // AssignPropertiesFromManagedClusterPropertiesStatusAutoScalerProfile populates our ManagedClusterProperties_Status_AutoScalerProfile from the provided source ManagedClusterProperties_Status_AutoScalerProfile
-func (profile *ManagedClusterProperties_Status_AutoScalerProfile) AssignPropertiesFromManagedClusterPropertiesStatusAutoScalerProfile(source *v1alpha1api20210501storage.ManagedClusterProperties_Status_AutoScalerProfile) error {
+func (profile *ManagedClusterProperties_Status_AutoScalerProfile) AssignPropertiesFromManagedClusterPropertiesStatusAutoScalerProfile(source *alpha20210501s.ManagedClusterProperties_Status_AutoScalerProfile) error {
 
 	// BalanceSimilarNodeGroups
 	profile.BalanceSimilarNodeGroups = genruntime.ClonePointerToString(source.BalanceSimilarNodeGroups)
@@ -7981,7 +7981,7 @@ func (profile *ManagedClusterProperties_Status_AutoScalerProfile) AssignProperti
 }
 
 // AssignPropertiesToManagedClusterPropertiesStatusAutoScalerProfile populates the provided destination ManagedClusterProperties_Status_AutoScalerProfile from our ManagedClusterProperties_Status_AutoScalerProfile
-func (profile *ManagedClusterProperties_Status_AutoScalerProfile) AssignPropertiesToManagedClusterPropertiesStatusAutoScalerProfile(destination *v1alpha1api20210501storage.ManagedClusterProperties_Status_AutoScalerProfile) error {
+func (profile *ManagedClusterProperties_Status_AutoScalerProfile) AssignPropertiesToManagedClusterPropertiesStatusAutoScalerProfile(destination *alpha20210501s.ManagedClusterProperties_Status_AutoScalerProfile) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -8110,7 +8110,7 @@ func (clusterSKU *ManagedClusterSKU) PopulateFromARM(owner genruntime.ArbitraryO
 }
 
 // AssignPropertiesFromManagedClusterSKU populates our ManagedClusterSKU from the provided source ManagedClusterSKU
-func (clusterSKU *ManagedClusterSKU) AssignPropertiesFromManagedClusterSKU(source *v1alpha1api20210501storage.ManagedClusterSKU) error {
+func (clusterSKU *ManagedClusterSKU) AssignPropertiesFromManagedClusterSKU(source *alpha20210501s.ManagedClusterSKU) error {
 
 	// Name
 	if source.Name != nil {
@@ -8133,7 +8133,7 @@ func (clusterSKU *ManagedClusterSKU) AssignPropertiesFromManagedClusterSKU(sourc
 }
 
 // AssignPropertiesToManagedClusterSKU populates the provided destination ManagedClusterSKU from our ManagedClusterSKU
-func (clusterSKU *ManagedClusterSKU) AssignPropertiesToManagedClusterSKU(destination *v1alpha1api20210501storage.ManagedClusterSKU) error {
+func (clusterSKU *ManagedClusterSKU) AssignPropertiesToManagedClusterSKU(destination *alpha20210501s.ManagedClusterSKU) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -8201,7 +8201,7 @@ func (clusterSKU *ManagedClusterSKU_Status) PopulateFromARM(owner genruntime.Arb
 }
 
 // AssignPropertiesFromManagedClusterSKUStatus populates our ManagedClusterSKU_Status from the provided source ManagedClusterSKU_Status
-func (clusterSKU *ManagedClusterSKU_Status) AssignPropertiesFromManagedClusterSKUStatus(source *v1alpha1api20210501storage.ManagedClusterSKU_Status) error {
+func (clusterSKU *ManagedClusterSKU_Status) AssignPropertiesFromManagedClusterSKUStatus(source *alpha20210501s.ManagedClusterSKU_Status) error {
 
 	// Name
 	if source.Name != nil {
@@ -8224,7 +8224,7 @@ func (clusterSKU *ManagedClusterSKU_Status) AssignPropertiesFromManagedClusterSK
 }
 
 // AssignPropertiesToManagedClusterSKUStatus populates the provided destination ManagedClusterSKU_Status from our ManagedClusterSKU_Status
-func (clusterSKU *ManagedClusterSKU_Status) AssignPropertiesToManagedClusterSKUStatus(destination *v1alpha1api20210501storage.ManagedClusterSKU_Status) error {
+func (clusterSKU *ManagedClusterSKU_Status) AssignPropertiesToManagedClusterSKUStatus(destination *alpha20210501s.ManagedClusterSKU_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -8314,7 +8314,7 @@ func (profile *ManagedClusterServicePrincipalProfile) PopulateFromARM(owner genr
 }
 
 // AssignPropertiesFromManagedClusterServicePrincipalProfile populates our ManagedClusterServicePrincipalProfile from the provided source ManagedClusterServicePrincipalProfile
-func (profile *ManagedClusterServicePrincipalProfile) AssignPropertiesFromManagedClusterServicePrincipalProfile(source *v1alpha1api20210501storage.ManagedClusterServicePrincipalProfile) error {
+func (profile *ManagedClusterServicePrincipalProfile) AssignPropertiesFromManagedClusterServicePrincipalProfile(source *alpha20210501s.ManagedClusterServicePrincipalProfile) error {
 
 	// ClientId
 	profile.ClientId = genruntime.ClonePointerToString(source.ClientId)
@@ -8327,7 +8327,7 @@ func (profile *ManagedClusterServicePrincipalProfile) AssignPropertiesFromManage
 }
 
 // AssignPropertiesToManagedClusterServicePrincipalProfile populates the provided destination ManagedClusterServicePrincipalProfile from our ManagedClusterServicePrincipalProfile
-func (profile *ManagedClusterServicePrincipalProfile) AssignPropertiesToManagedClusterServicePrincipalProfile(destination *v1alpha1api20210501storage.ManagedClusterServicePrincipalProfile) error {
+func (profile *ManagedClusterServicePrincipalProfile) AssignPropertiesToManagedClusterServicePrincipalProfile(destination *alpha20210501s.ManagedClusterServicePrincipalProfile) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -8385,7 +8385,7 @@ func (profile *ManagedClusterServicePrincipalProfile_Status) PopulateFromARM(own
 }
 
 // AssignPropertiesFromManagedClusterServicePrincipalProfileStatus populates our ManagedClusterServicePrincipalProfile_Status from the provided source ManagedClusterServicePrincipalProfile_Status
-func (profile *ManagedClusterServicePrincipalProfile_Status) AssignPropertiesFromManagedClusterServicePrincipalProfileStatus(source *v1alpha1api20210501storage.ManagedClusterServicePrincipalProfile_Status) error {
+func (profile *ManagedClusterServicePrincipalProfile_Status) AssignPropertiesFromManagedClusterServicePrincipalProfileStatus(source *alpha20210501s.ManagedClusterServicePrincipalProfile_Status) error {
 
 	// ClientId
 	profile.ClientId = genruntime.ClonePointerToString(source.ClientId)
@@ -8398,7 +8398,7 @@ func (profile *ManagedClusterServicePrincipalProfile_Status) AssignPropertiesFro
 }
 
 // AssignPropertiesToManagedClusterServicePrincipalProfileStatus populates the provided destination ManagedClusterServicePrincipalProfile_Status from our ManagedClusterServicePrincipalProfile_Status
-func (profile *ManagedClusterServicePrincipalProfile_Status) AssignPropertiesToManagedClusterServicePrincipalProfileStatus(destination *v1alpha1api20210501storage.ManagedClusterServicePrincipalProfile_Status) error {
+func (profile *ManagedClusterServicePrincipalProfile_Status) AssignPropertiesToManagedClusterServicePrincipalProfileStatus(destination *alpha20210501s.ManagedClusterServicePrincipalProfile_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -8505,7 +8505,7 @@ func (profile *ManagedClusterWindowsProfile) PopulateFromARM(owner genruntime.Ar
 }
 
 // AssignPropertiesFromManagedClusterWindowsProfile populates our ManagedClusterWindowsProfile from the provided source ManagedClusterWindowsProfile
-func (profile *ManagedClusterWindowsProfile) AssignPropertiesFromManagedClusterWindowsProfile(source *v1alpha1api20210501storage.ManagedClusterWindowsProfile) error {
+func (profile *ManagedClusterWindowsProfile) AssignPropertiesFromManagedClusterWindowsProfile(source *alpha20210501s.ManagedClusterWindowsProfile) error {
 
 	// AdminPassword
 	profile.AdminPassword = genruntime.ClonePointerToString(source.AdminPassword)
@@ -8534,7 +8534,7 @@ func (profile *ManagedClusterWindowsProfile) AssignPropertiesFromManagedClusterW
 }
 
 // AssignPropertiesToManagedClusterWindowsProfile populates the provided destination ManagedClusterWindowsProfile from our ManagedClusterWindowsProfile
-func (profile *ManagedClusterWindowsProfile) AssignPropertiesToManagedClusterWindowsProfile(destination *v1alpha1api20210501storage.ManagedClusterWindowsProfile) error {
+func (profile *ManagedClusterWindowsProfile) AssignPropertiesToManagedClusterWindowsProfile(destination *alpha20210501s.ManagedClusterWindowsProfile) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -8622,7 +8622,7 @@ func (profile *ManagedClusterWindowsProfile_Status) PopulateFromARM(owner genrun
 }
 
 // AssignPropertiesFromManagedClusterWindowsProfileStatus populates our ManagedClusterWindowsProfile_Status from the provided source ManagedClusterWindowsProfile_Status
-func (profile *ManagedClusterWindowsProfile_Status) AssignPropertiesFromManagedClusterWindowsProfileStatus(source *v1alpha1api20210501storage.ManagedClusterWindowsProfile_Status) error {
+func (profile *ManagedClusterWindowsProfile_Status) AssignPropertiesFromManagedClusterWindowsProfileStatus(source *alpha20210501s.ManagedClusterWindowsProfile_Status) error {
 
 	// AdminPassword
 	profile.AdminPassword = genruntime.ClonePointerToString(source.AdminPassword)
@@ -8651,7 +8651,7 @@ func (profile *ManagedClusterWindowsProfile_Status) AssignPropertiesFromManagedC
 }
 
 // AssignPropertiesToManagedClusterWindowsProfileStatus populates the provided destination ManagedClusterWindowsProfile_Status from our ManagedClusterWindowsProfile_Status
-func (profile *ManagedClusterWindowsProfile_Status) AssignPropertiesToManagedClusterWindowsProfileStatus(destination *v1alpha1api20210501storage.ManagedClusterWindowsProfile_Status) error {
+func (profile *ManagedClusterWindowsProfile_Status) AssignPropertiesToManagedClusterWindowsProfileStatus(destination *alpha20210501s.ManagedClusterWindowsProfile_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -8718,7 +8718,7 @@ func (state *PowerState_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 }
 
 // AssignPropertiesFromPowerStateStatus populates our PowerState_Status from the provided source PowerState_Status
-func (state *PowerState_Status) AssignPropertiesFromPowerStateStatus(source *v1alpha1api20210501storage.PowerState_Status) error {
+func (state *PowerState_Status) AssignPropertiesFromPowerStateStatus(source *alpha20210501s.PowerState_Status) error {
 
 	// Code
 	if source.Code != nil {
@@ -8733,7 +8733,7 @@ func (state *PowerState_Status) AssignPropertiesFromPowerStateStatus(source *v1a
 }
 
 // AssignPropertiesToPowerStateStatus populates the provided destination PowerState_Status from our PowerState_Status
-func (state *PowerState_Status) AssignPropertiesToPowerStateStatus(destination *v1alpha1api20210501storage.PowerState_Status) error {
+func (state *PowerState_Status) AssignPropertiesToPowerStateStatus(destination *alpha20210501s.PowerState_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -8851,7 +8851,7 @@ func (resource *PrivateLinkResource) PopulateFromARM(owner genruntime.ArbitraryO
 }
 
 // AssignPropertiesFromPrivateLinkResource populates our PrivateLinkResource from the provided source PrivateLinkResource
-func (resource *PrivateLinkResource) AssignPropertiesFromPrivateLinkResource(source *v1alpha1api20210501storage.PrivateLinkResource) error {
+func (resource *PrivateLinkResource) AssignPropertiesFromPrivateLinkResource(source *alpha20210501s.PrivateLinkResource) error {
 
 	// GroupId
 	resource.GroupId = genruntime.ClonePointerToString(source.GroupId)
@@ -8878,7 +8878,7 @@ func (resource *PrivateLinkResource) AssignPropertiesFromPrivateLinkResource(sou
 }
 
 // AssignPropertiesToPrivateLinkResource populates the provided destination PrivateLinkResource from our PrivateLinkResource
-func (resource *PrivateLinkResource) AssignPropertiesToPrivateLinkResource(destination *v1alpha1api20210501storage.PrivateLinkResource) error {
+func (resource *PrivateLinkResource) AssignPropertiesToPrivateLinkResource(destination *alpha20210501s.PrivateLinkResource) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -8977,7 +8977,7 @@ func (resource *PrivateLinkResource_Status) PopulateFromARM(owner genruntime.Arb
 }
 
 // AssignPropertiesFromPrivateLinkResourceStatus populates our PrivateLinkResource_Status from the provided source PrivateLinkResource_Status
-func (resource *PrivateLinkResource_Status) AssignPropertiesFromPrivateLinkResourceStatus(source *v1alpha1api20210501storage.PrivateLinkResource_Status) error {
+func (resource *PrivateLinkResource_Status) AssignPropertiesFromPrivateLinkResourceStatus(source *alpha20210501s.PrivateLinkResource_Status) error {
 
 	// GroupId
 	resource.GroupId = genruntime.ClonePointerToString(source.GroupId)
@@ -9002,7 +9002,7 @@ func (resource *PrivateLinkResource_Status) AssignPropertiesFromPrivateLinkResou
 }
 
 // AssignPropertiesToPrivateLinkResourceStatus populates the provided destination PrivateLinkResource_Status from our PrivateLinkResource_Status
-func (resource *PrivateLinkResource_Status) AssignPropertiesToPrivateLinkResourceStatus(destination *v1alpha1api20210501storage.PrivateLinkResource_Status) error {
+func (resource *PrivateLinkResource_Status) AssignPropertiesToPrivateLinkResourceStatus(destination *alpha20210501s.PrivateLinkResource_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -9183,7 +9183,7 @@ func (configuration *ContainerServiceSshConfiguration) PopulateFromARM(owner gen
 }
 
 // AssignPropertiesFromContainerServiceSshConfiguration populates our ContainerServiceSshConfiguration from the provided source ContainerServiceSshConfiguration
-func (configuration *ContainerServiceSshConfiguration) AssignPropertiesFromContainerServiceSshConfiguration(source *v1alpha1api20210501storage.ContainerServiceSshConfiguration) error {
+func (configuration *ContainerServiceSshConfiguration) AssignPropertiesFromContainerServiceSshConfiguration(source *alpha20210501s.ContainerServiceSshConfiguration) error {
 
 	// PublicKeys
 	if source.PublicKeys != nil {
@@ -9208,17 +9208,17 @@ func (configuration *ContainerServiceSshConfiguration) AssignPropertiesFromConta
 }
 
 // AssignPropertiesToContainerServiceSshConfiguration populates the provided destination ContainerServiceSshConfiguration from our ContainerServiceSshConfiguration
-func (configuration *ContainerServiceSshConfiguration) AssignPropertiesToContainerServiceSshConfiguration(destination *v1alpha1api20210501storage.ContainerServiceSshConfiguration) error {
+func (configuration *ContainerServiceSshConfiguration) AssignPropertiesToContainerServiceSshConfiguration(destination *alpha20210501s.ContainerServiceSshConfiguration) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// PublicKeys
 	if configuration.PublicKeys != nil {
-		publicKeyList := make([]v1alpha1api20210501storage.ContainerServiceSshPublicKey, len(configuration.PublicKeys))
+		publicKeyList := make([]alpha20210501s.ContainerServiceSshPublicKey, len(configuration.PublicKeys))
 		for publicKeyIndex, publicKeyItem := range configuration.PublicKeys {
 			// Shadow the loop variable to avoid aliasing
 			publicKeyItem := publicKeyItem
-			var publicKey v1alpha1api20210501storage.ContainerServiceSshPublicKey
+			var publicKey alpha20210501s.ContainerServiceSshPublicKey
 			err := publicKeyItem.AssignPropertiesToContainerServiceSshPublicKey(&publicKey)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToContainerServiceSshPublicKey() to populate field PublicKeys")
@@ -9275,7 +9275,7 @@ func (configuration *ContainerServiceSshConfiguration_Status) PopulateFromARM(ow
 }
 
 // AssignPropertiesFromContainerServiceSshConfigurationStatus populates our ContainerServiceSshConfiguration_Status from the provided source ContainerServiceSshConfiguration_Status
-func (configuration *ContainerServiceSshConfiguration_Status) AssignPropertiesFromContainerServiceSshConfigurationStatus(source *v1alpha1api20210501storage.ContainerServiceSshConfiguration_Status) error {
+func (configuration *ContainerServiceSshConfiguration_Status) AssignPropertiesFromContainerServiceSshConfigurationStatus(source *alpha20210501s.ContainerServiceSshConfiguration_Status) error {
 
 	// PublicKeys
 	if source.PublicKeys != nil {
@@ -9300,17 +9300,17 @@ func (configuration *ContainerServiceSshConfiguration_Status) AssignPropertiesFr
 }
 
 // AssignPropertiesToContainerServiceSshConfigurationStatus populates the provided destination ContainerServiceSshConfiguration_Status from our ContainerServiceSshConfiguration_Status
-func (configuration *ContainerServiceSshConfiguration_Status) AssignPropertiesToContainerServiceSshConfigurationStatus(destination *v1alpha1api20210501storage.ContainerServiceSshConfiguration_Status) error {
+func (configuration *ContainerServiceSshConfiguration_Status) AssignPropertiesToContainerServiceSshConfigurationStatus(destination *alpha20210501s.ContainerServiceSshConfiguration_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// PublicKeys
 	if configuration.PublicKeys != nil {
-		publicKeyList := make([]v1alpha1api20210501storage.ContainerServiceSshPublicKey_Status, len(configuration.PublicKeys))
+		publicKeyList := make([]alpha20210501s.ContainerServiceSshPublicKey_Status, len(configuration.PublicKeys))
 		for publicKeyIndex, publicKeyItem := range configuration.PublicKeys {
 			// Shadow the loop variable to avoid aliasing
 			publicKeyItem := publicKeyItem
-			var publicKey v1alpha1api20210501storage.ContainerServiceSshPublicKey_Status
+			var publicKey alpha20210501s.ContainerServiceSshPublicKey_Status
 			err := publicKeyItem.AssignPropertiesToContainerServiceSshPublicKeyStatus(&publicKey)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToContainerServiceSshPublicKeyStatus() to populate field PublicKeys")
@@ -9485,7 +9485,7 @@ func (identities *ManagedClusterIdentity_Status_UserAssignedIdentities) Populate
 }
 
 // AssignPropertiesFromManagedClusterIdentityStatusUserAssignedIdentities populates our ManagedClusterIdentity_Status_UserAssignedIdentities from the provided source ManagedClusterIdentity_Status_UserAssignedIdentities
-func (identities *ManagedClusterIdentity_Status_UserAssignedIdentities) AssignPropertiesFromManagedClusterIdentityStatusUserAssignedIdentities(source *v1alpha1api20210501storage.ManagedClusterIdentity_Status_UserAssignedIdentities) error {
+func (identities *ManagedClusterIdentity_Status_UserAssignedIdentities) AssignPropertiesFromManagedClusterIdentityStatusUserAssignedIdentities(source *alpha20210501s.ManagedClusterIdentity_Status_UserAssignedIdentities) error {
 
 	// ClientId
 	identities.ClientId = genruntime.ClonePointerToString(source.ClientId)
@@ -9498,7 +9498,7 @@ func (identities *ManagedClusterIdentity_Status_UserAssignedIdentities) AssignPr
 }
 
 // AssignPropertiesToManagedClusterIdentityStatusUserAssignedIdentities populates the provided destination ManagedClusterIdentity_Status_UserAssignedIdentities from our ManagedClusterIdentity_Status_UserAssignedIdentities
-func (identities *ManagedClusterIdentity_Status_UserAssignedIdentities) AssignPropertiesToManagedClusterIdentityStatusUserAssignedIdentities(destination *v1alpha1api20210501storage.ManagedClusterIdentity_Status_UserAssignedIdentities) error {
+func (identities *ManagedClusterIdentity_Status_UserAssignedIdentities) AssignPropertiesToManagedClusterIdentityStatusUserAssignedIdentities(destination *alpha20210501s.ManagedClusterIdentity_Status_UserAssignedIdentities) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -9668,7 +9668,7 @@ func (profile *ManagedClusterLoadBalancerProfile) PopulateFromARM(owner genrunti
 }
 
 // AssignPropertiesFromManagedClusterLoadBalancerProfile populates our ManagedClusterLoadBalancerProfile from the provided source ManagedClusterLoadBalancerProfile
-func (profile *ManagedClusterLoadBalancerProfile) AssignPropertiesFromManagedClusterLoadBalancerProfile(source *v1alpha1api20210501storage.ManagedClusterLoadBalancerProfile) error {
+func (profile *ManagedClusterLoadBalancerProfile) AssignPropertiesFromManagedClusterLoadBalancerProfile(source *alpha20210501s.ManagedClusterLoadBalancerProfile) error {
 
 	// AllocatedOutboundPorts
 	if source.AllocatedOutboundPorts != nil {
@@ -9745,7 +9745,7 @@ func (profile *ManagedClusterLoadBalancerProfile) AssignPropertiesFromManagedClu
 }
 
 // AssignPropertiesToManagedClusterLoadBalancerProfile populates the provided destination ManagedClusterLoadBalancerProfile from our ManagedClusterLoadBalancerProfile
-func (profile *ManagedClusterLoadBalancerProfile) AssignPropertiesToManagedClusterLoadBalancerProfile(destination *v1alpha1api20210501storage.ManagedClusterLoadBalancerProfile) error {
+func (profile *ManagedClusterLoadBalancerProfile) AssignPropertiesToManagedClusterLoadBalancerProfile(destination *alpha20210501s.ManagedClusterLoadBalancerProfile) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -9759,11 +9759,11 @@ func (profile *ManagedClusterLoadBalancerProfile) AssignPropertiesToManagedClust
 
 	// EffectiveOutboundIPs
 	if profile.EffectiveOutboundIPs != nil {
-		effectiveOutboundIPList := make([]v1alpha1api20210501storage.ResourceReference, len(profile.EffectiveOutboundIPs))
+		effectiveOutboundIPList := make([]alpha20210501s.ResourceReference, len(profile.EffectiveOutboundIPs))
 		for effectiveOutboundIPIndex, effectiveOutboundIPItem := range profile.EffectiveOutboundIPs {
 			// Shadow the loop variable to avoid aliasing
 			effectiveOutboundIPItem := effectiveOutboundIPItem
-			var effectiveOutboundIP v1alpha1api20210501storage.ResourceReference
+			var effectiveOutboundIP alpha20210501s.ResourceReference
 			err := effectiveOutboundIPItem.AssignPropertiesToResourceReference(&effectiveOutboundIP)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToResourceReference() to populate field EffectiveOutboundIPs")
@@ -9785,7 +9785,7 @@ func (profile *ManagedClusterLoadBalancerProfile) AssignPropertiesToManagedClust
 
 	// ManagedOutboundIPs
 	if profile.ManagedOutboundIPs != nil {
-		var managedOutboundIP v1alpha1api20210501storage.ManagedClusterLoadBalancerProfileManagedOutboundIPs
+		var managedOutboundIP alpha20210501s.ManagedClusterLoadBalancerProfileManagedOutboundIPs
 		err := profile.ManagedOutboundIPs.AssignPropertiesToManagedClusterLoadBalancerProfileManagedOutboundIPs(&managedOutboundIP)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToManagedClusterLoadBalancerProfileManagedOutboundIPs() to populate field ManagedOutboundIPs")
@@ -9797,7 +9797,7 @@ func (profile *ManagedClusterLoadBalancerProfile) AssignPropertiesToManagedClust
 
 	// OutboundIPPrefixes
 	if profile.OutboundIPPrefixes != nil {
-		var outboundIPPrefix v1alpha1api20210501storage.ManagedClusterLoadBalancerProfileOutboundIPPrefixes
+		var outboundIPPrefix alpha20210501s.ManagedClusterLoadBalancerProfileOutboundIPPrefixes
 		err := profile.OutboundIPPrefixes.AssignPropertiesToManagedClusterLoadBalancerProfileOutboundIPPrefixes(&outboundIPPrefix)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToManagedClusterLoadBalancerProfileOutboundIPPrefixes() to populate field OutboundIPPrefixes")
@@ -9809,7 +9809,7 @@ func (profile *ManagedClusterLoadBalancerProfile) AssignPropertiesToManagedClust
 
 	// OutboundIPs
 	if profile.OutboundIPs != nil {
-		var outboundIP v1alpha1api20210501storage.ManagedClusterLoadBalancerProfileOutboundIPs
+		var outboundIP alpha20210501s.ManagedClusterLoadBalancerProfileOutboundIPs
 		err := profile.OutboundIPs.AssignPropertiesToManagedClusterLoadBalancerProfileOutboundIPs(&outboundIP)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToManagedClusterLoadBalancerProfileOutboundIPs() to populate field OutboundIPs")
@@ -9914,7 +9914,7 @@ func (profile *ManagedClusterLoadBalancerProfile_Status) PopulateFromARM(owner g
 }
 
 // AssignPropertiesFromManagedClusterLoadBalancerProfileStatus populates our ManagedClusterLoadBalancerProfile_Status from the provided source ManagedClusterLoadBalancerProfile_Status
-func (profile *ManagedClusterLoadBalancerProfile_Status) AssignPropertiesFromManagedClusterLoadBalancerProfileStatus(source *v1alpha1api20210501storage.ManagedClusterLoadBalancerProfile_Status) error {
+func (profile *ManagedClusterLoadBalancerProfile_Status) AssignPropertiesFromManagedClusterLoadBalancerProfileStatus(source *alpha20210501s.ManagedClusterLoadBalancerProfile_Status) error {
 
 	// AllocatedOutboundPorts
 	profile.AllocatedOutboundPorts = genruntime.ClonePointerToInt(source.AllocatedOutboundPorts)
@@ -9981,7 +9981,7 @@ func (profile *ManagedClusterLoadBalancerProfile_Status) AssignPropertiesFromMan
 }
 
 // AssignPropertiesToManagedClusterLoadBalancerProfileStatus populates the provided destination ManagedClusterLoadBalancerProfile_Status from our ManagedClusterLoadBalancerProfile_Status
-func (profile *ManagedClusterLoadBalancerProfile_Status) AssignPropertiesToManagedClusterLoadBalancerProfileStatus(destination *v1alpha1api20210501storage.ManagedClusterLoadBalancerProfile_Status) error {
+func (profile *ManagedClusterLoadBalancerProfile_Status) AssignPropertiesToManagedClusterLoadBalancerProfileStatus(destination *alpha20210501s.ManagedClusterLoadBalancerProfile_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -9990,11 +9990,11 @@ func (profile *ManagedClusterLoadBalancerProfile_Status) AssignPropertiesToManag
 
 	// EffectiveOutboundIPs
 	if profile.EffectiveOutboundIPs != nil {
-		effectiveOutboundIPList := make([]v1alpha1api20210501storage.ResourceReference_Status, len(profile.EffectiveOutboundIPs))
+		effectiveOutboundIPList := make([]alpha20210501s.ResourceReference_Status, len(profile.EffectiveOutboundIPs))
 		for effectiveOutboundIPIndex, effectiveOutboundIPItem := range profile.EffectiveOutboundIPs {
 			// Shadow the loop variable to avoid aliasing
 			effectiveOutboundIPItem := effectiveOutboundIPItem
-			var effectiveOutboundIP v1alpha1api20210501storage.ResourceReference_Status
+			var effectiveOutboundIP alpha20210501s.ResourceReference_Status
 			err := effectiveOutboundIPItem.AssignPropertiesToResourceReferenceStatus(&effectiveOutboundIP)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToResourceReferenceStatus() to populate field EffectiveOutboundIPs")
@@ -10011,7 +10011,7 @@ func (profile *ManagedClusterLoadBalancerProfile_Status) AssignPropertiesToManag
 
 	// ManagedOutboundIPs
 	if profile.ManagedOutboundIPs != nil {
-		var managedOutboundIP v1alpha1api20210501storage.ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPs
+		var managedOutboundIP alpha20210501s.ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPs
 		err := profile.ManagedOutboundIPs.AssignPropertiesToManagedClusterLoadBalancerProfileStatusManagedOutboundIPs(&managedOutboundIP)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToManagedClusterLoadBalancerProfileStatusManagedOutboundIPs() to populate field ManagedOutboundIPs")
@@ -10023,7 +10023,7 @@ func (profile *ManagedClusterLoadBalancerProfile_Status) AssignPropertiesToManag
 
 	// OutboundIPPrefixes
 	if profile.OutboundIPPrefixes != nil {
-		var outboundIPPrefix v1alpha1api20210501storage.ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixes
+		var outboundIPPrefix alpha20210501s.ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixes
 		err := profile.OutboundIPPrefixes.AssignPropertiesToManagedClusterLoadBalancerProfileStatusOutboundIPPrefixes(&outboundIPPrefix)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToManagedClusterLoadBalancerProfileStatusOutboundIPPrefixes() to populate field OutboundIPPrefixes")
@@ -10035,7 +10035,7 @@ func (profile *ManagedClusterLoadBalancerProfile_Status) AssignPropertiesToManag
 
 	// OutboundIPs
 	if profile.OutboundIPs != nil {
-		var outboundIP v1alpha1api20210501storage.ManagedClusterLoadBalancerProfile_Status_OutboundIPs
+		var outboundIP alpha20210501s.ManagedClusterLoadBalancerProfile_Status_OutboundIPs
 		err := profile.OutboundIPs.AssignPropertiesToManagedClusterLoadBalancerProfileStatusOutboundIPs(&outboundIP)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToManagedClusterLoadBalancerProfileStatusOutboundIPs() to populate field OutboundIPs")
@@ -10155,7 +10155,7 @@ func (identity *ManagedClusterPodIdentity) PopulateFromARM(owner genruntime.Arbi
 }
 
 // AssignPropertiesFromManagedClusterPodIdentity populates our ManagedClusterPodIdentity from the provided source ManagedClusterPodIdentity
-func (identity *ManagedClusterPodIdentity) AssignPropertiesFromManagedClusterPodIdentity(source *v1alpha1api20210501storage.ManagedClusterPodIdentity) error {
+func (identity *ManagedClusterPodIdentity) AssignPropertiesFromManagedClusterPodIdentity(source *alpha20210501s.ManagedClusterPodIdentity) error {
 
 	// BindingSelector
 	identity.BindingSelector = genruntime.ClonePointerToString(source.BindingSelector)
@@ -10183,7 +10183,7 @@ func (identity *ManagedClusterPodIdentity) AssignPropertiesFromManagedClusterPod
 }
 
 // AssignPropertiesToManagedClusterPodIdentity populates the provided destination ManagedClusterPodIdentity from our ManagedClusterPodIdentity
-func (identity *ManagedClusterPodIdentity) AssignPropertiesToManagedClusterPodIdentity(destination *v1alpha1api20210501storage.ManagedClusterPodIdentity) error {
+func (identity *ManagedClusterPodIdentity) AssignPropertiesToManagedClusterPodIdentity(destination *alpha20210501s.ManagedClusterPodIdentity) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -10192,7 +10192,7 @@ func (identity *ManagedClusterPodIdentity) AssignPropertiesToManagedClusterPodId
 
 	// Identity
 	if identity.Identity != nil {
-		var identityLocal v1alpha1api20210501storage.UserAssignedIdentity
+		var identityLocal alpha20210501s.UserAssignedIdentity
 		err := identity.Identity.AssignPropertiesToUserAssignedIdentity(&identityLocal)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToUserAssignedIdentity() to populate field Identity")
@@ -10299,7 +10299,7 @@ func (exception *ManagedClusterPodIdentityException) PopulateFromARM(owner genru
 }
 
 // AssignPropertiesFromManagedClusterPodIdentityException populates our ManagedClusterPodIdentityException from the provided source ManagedClusterPodIdentityException
-func (exception *ManagedClusterPodIdentityException) AssignPropertiesFromManagedClusterPodIdentityException(source *v1alpha1api20210501storage.ManagedClusterPodIdentityException) error {
+func (exception *ManagedClusterPodIdentityException) AssignPropertiesFromManagedClusterPodIdentityException(source *alpha20210501s.ManagedClusterPodIdentityException) error {
 
 	// Name
 	exception.Name = genruntime.ClonePointerToString(source.Name)
@@ -10315,7 +10315,7 @@ func (exception *ManagedClusterPodIdentityException) AssignPropertiesFromManaged
 }
 
 // AssignPropertiesToManagedClusterPodIdentityException populates the provided destination ManagedClusterPodIdentityException from our ManagedClusterPodIdentityException
-func (exception *ManagedClusterPodIdentityException) AssignPropertiesToManagedClusterPodIdentityException(destination *v1alpha1api20210501storage.ManagedClusterPodIdentityException) error {
+func (exception *ManagedClusterPodIdentityException) AssignPropertiesToManagedClusterPodIdentityException(destination *alpha20210501s.ManagedClusterPodIdentityException) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -10385,7 +10385,7 @@ func (exception *ManagedClusterPodIdentityException_Status) PopulateFromARM(owne
 }
 
 // AssignPropertiesFromManagedClusterPodIdentityExceptionStatus populates our ManagedClusterPodIdentityException_Status from the provided source ManagedClusterPodIdentityException_Status
-func (exception *ManagedClusterPodIdentityException_Status) AssignPropertiesFromManagedClusterPodIdentityExceptionStatus(source *v1alpha1api20210501storage.ManagedClusterPodIdentityException_Status) error {
+func (exception *ManagedClusterPodIdentityException_Status) AssignPropertiesFromManagedClusterPodIdentityExceptionStatus(source *alpha20210501s.ManagedClusterPodIdentityException_Status) error {
 
 	// Name
 	exception.Name = genruntime.ClonePointerToString(source.Name)
@@ -10401,7 +10401,7 @@ func (exception *ManagedClusterPodIdentityException_Status) AssignPropertiesFrom
 }
 
 // AssignPropertiesToManagedClusterPodIdentityExceptionStatus populates the provided destination ManagedClusterPodIdentityException_Status from our ManagedClusterPodIdentityException_Status
-func (exception *ManagedClusterPodIdentityException_Status) AssignPropertiesToManagedClusterPodIdentityExceptionStatus(destination *v1alpha1api20210501storage.ManagedClusterPodIdentityException_Status) error {
+func (exception *ManagedClusterPodIdentityException_Status) AssignPropertiesToManagedClusterPodIdentityExceptionStatus(destination *alpha20210501s.ManagedClusterPodIdentityException_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -10500,7 +10500,7 @@ func (identity *ManagedClusterPodIdentity_Status) PopulateFromARM(owner genrunti
 }
 
 // AssignPropertiesFromManagedClusterPodIdentityStatus populates our ManagedClusterPodIdentity_Status from the provided source ManagedClusterPodIdentity_Status
-func (identity *ManagedClusterPodIdentity_Status) AssignPropertiesFromManagedClusterPodIdentityStatus(source *v1alpha1api20210501storage.ManagedClusterPodIdentity_Status) error {
+func (identity *ManagedClusterPodIdentity_Status) AssignPropertiesFromManagedClusterPodIdentityStatus(source *alpha20210501s.ManagedClusterPodIdentity_Status) error {
 
 	// BindingSelector
 	identity.BindingSelector = genruntime.ClonePointerToString(source.BindingSelector)
@@ -10548,7 +10548,7 @@ func (identity *ManagedClusterPodIdentity_Status) AssignPropertiesFromManagedClu
 }
 
 // AssignPropertiesToManagedClusterPodIdentityStatus populates the provided destination ManagedClusterPodIdentity_Status from our ManagedClusterPodIdentity_Status
-func (identity *ManagedClusterPodIdentity_Status) AssignPropertiesToManagedClusterPodIdentityStatus(destination *v1alpha1api20210501storage.ManagedClusterPodIdentity_Status) error {
+func (identity *ManagedClusterPodIdentity_Status) AssignPropertiesToManagedClusterPodIdentityStatus(destination *alpha20210501s.ManagedClusterPodIdentity_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -10557,7 +10557,7 @@ func (identity *ManagedClusterPodIdentity_Status) AssignPropertiesToManagedClust
 
 	// Identity
 	if identity.Identity != nil {
-		var identityLocal v1alpha1api20210501storage.UserAssignedIdentity_Status
+		var identityLocal alpha20210501s.UserAssignedIdentity_Status
 		err := identity.Identity.AssignPropertiesToUserAssignedIdentityStatus(&identityLocal)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToUserAssignedIdentityStatus() to populate field Identity")
@@ -10575,7 +10575,7 @@ func (identity *ManagedClusterPodIdentity_Status) AssignPropertiesToManagedClust
 
 	// ProvisioningInfo
 	if identity.ProvisioningInfo != nil {
-		var provisioningInfo v1alpha1api20210501storage.ManagedClusterPodIdentity_Status_ProvisioningInfo
+		var provisioningInfo alpha20210501s.ManagedClusterPodIdentity_Status_ProvisioningInfo
 		err := identity.ProvisioningInfo.AssignPropertiesToManagedClusterPodIdentityStatusProvisioningInfo(&provisioningInfo)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToManagedClusterPodIdentityStatusProvisioningInfo() to populate field ProvisioningInfo")
@@ -10692,7 +10692,7 @@ func (publicKey *ContainerServiceSshPublicKey) PopulateFromARM(owner genruntime.
 }
 
 // AssignPropertiesFromContainerServiceSshPublicKey populates our ContainerServiceSshPublicKey from the provided source ContainerServiceSshPublicKey
-func (publicKey *ContainerServiceSshPublicKey) AssignPropertiesFromContainerServiceSshPublicKey(source *v1alpha1api20210501storage.ContainerServiceSshPublicKey) error {
+func (publicKey *ContainerServiceSshPublicKey) AssignPropertiesFromContainerServiceSshPublicKey(source *alpha20210501s.ContainerServiceSshPublicKey) error {
 
 	// KeyData
 	publicKey.KeyData = genruntime.ClonePointerToString(source.KeyData)
@@ -10702,7 +10702,7 @@ func (publicKey *ContainerServiceSshPublicKey) AssignPropertiesFromContainerServ
 }
 
 // AssignPropertiesToContainerServiceSshPublicKey populates the provided destination ContainerServiceSshPublicKey from our ContainerServiceSshPublicKey
-func (publicKey *ContainerServiceSshPublicKey) AssignPropertiesToContainerServiceSshPublicKey(destination *v1alpha1api20210501storage.ContainerServiceSshPublicKey) error {
+func (publicKey *ContainerServiceSshPublicKey) AssignPropertiesToContainerServiceSshPublicKey(destination *alpha20210501s.ContainerServiceSshPublicKey) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -10750,7 +10750,7 @@ func (publicKey *ContainerServiceSshPublicKey_Status) PopulateFromARM(owner genr
 }
 
 // AssignPropertiesFromContainerServiceSshPublicKeyStatus populates our ContainerServiceSshPublicKey_Status from the provided source ContainerServiceSshPublicKey_Status
-func (publicKey *ContainerServiceSshPublicKey_Status) AssignPropertiesFromContainerServiceSshPublicKeyStatus(source *v1alpha1api20210501storage.ContainerServiceSshPublicKey_Status) error {
+func (publicKey *ContainerServiceSshPublicKey_Status) AssignPropertiesFromContainerServiceSshPublicKeyStatus(source *alpha20210501s.ContainerServiceSshPublicKey_Status) error {
 
 	// KeyData
 	publicKey.KeyData = genruntime.ClonePointerToString(source.KeyData)
@@ -10760,7 +10760,7 @@ func (publicKey *ContainerServiceSshPublicKey_Status) AssignPropertiesFromContai
 }
 
 // AssignPropertiesToContainerServiceSshPublicKeyStatus populates the provided destination ContainerServiceSshPublicKey_Status from our ContainerServiceSshPublicKey_Status
-func (publicKey *ContainerServiceSshPublicKey_Status) AssignPropertiesToContainerServiceSshPublicKeyStatus(destination *v1alpha1api20210501storage.ContainerServiceSshPublicKey_Status) error {
+func (publicKey *ContainerServiceSshPublicKey_Status) AssignPropertiesToContainerServiceSshPublicKeyStatus(destination *alpha20210501s.ContainerServiceSshPublicKey_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -10825,7 +10825,7 @@ func (iPs *ManagedClusterLoadBalancerProfileManagedOutboundIPs) PopulateFromARM(
 }
 
 // AssignPropertiesFromManagedClusterLoadBalancerProfileManagedOutboundIPs populates our ManagedClusterLoadBalancerProfileManagedOutboundIPs from the provided source ManagedClusterLoadBalancerProfileManagedOutboundIPs
-func (iPs *ManagedClusterLoadBalancerProfileManagedOutboundIPs) AssignPropertiesFromManagedClusterLoadBalancerProfileManagedOutboundIPs(source *v1alpha1api20210501storage.ManagedClusterLoadBalancerProfileManagedOutboundIPs) error {
+func (iPs *ManagedClusterLoadBalancerProfileManagedOutboundIPs) AssignPropertiesFromManagedClusterLoadBalancerProfileManagedOutboundIPs(source *alpha20210501s.ManagedClusterLoadBalancerProfileManagedOutboundIPs) error {
 
 	// Count
 	if source.Count != nil {
@@ -10840,7 +10840,7 @@ func (iPs *ManagedClusterLoadBalancerProfileManagedOutboundIPs) AssignProperties
 }
 
 // AssignPropertiesToManagedClusterLoadBalancerProfileManagedOutboundIPs populates the provided destination ManagedClusterLoadBalancerProfileManagedOutboundIPs from our ManagedClusterLoadBalancerProfileManagedOutboundIPs
-func (iPs *ManagedClusterLoadBalancerProfileManagedOutboundIPs) AssignPropertiesToManagedClusterLoadBalancerProfileManagedOutboundIPs(destination *v1alpha1api20210501storage.ManagedClusterLoadBalancerProfileManagedOutboundIPs) error {
+func (iPs *ManagedClusterLoadBalancerProfileManagedOutboundIPs) AssignPropertiesToManagedClusterLoadBalancerProfileManagedOutboundIPs(destination *alpha20210501s.ManagedClusterLoadBalancerProfileManagedOutboundIPs) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -10915,7 +10915,7 @@ func (prefixes *ManagedClusterLoadBalancerProfileOutboundIPPrefixes) PopulateFro
 }
 
 // AssignPropertiesFromManagedClusterLoadBalancerProfileOutboundIPPrefixes populates our ManagedClusterLoadBalancerProfileOutboundIPPrefixes from the provided source ManagedClusterLoadBalancerProfileOutboundIPPrefixes
-func (prefixes *ManagedClusterLoadBalancerProfileOutboundIPPrefixes) AssignPropertiesFromManagedClusterLoadBalancerProfileOutboundIPPrefixes(source *v1alpha1api20210501storage.ManagedClusterLoadBalancerProfileOutboundIPPrefixes) error {
+func (prefixes *ManagedClusterLoadBalancerProfileOutboundIPPrefixes) AssignPropertiesFromManagedClusterLoadBalancerProfileOutboundIPPrefixes(source *alpha20210501s.ManagedClusterLoadBalancerProfileOutboundIPPrefixes) error {
 
 	// PublicIPPrefixes
 	if source.PublicIPPrefixes != nil {
@@ -10940,17 +10940,17 @@ func (prefixes *ManagedClusterLoadBalancerProfileOutboundIPPrefixes) AssignPrope
 }
 
 // AssignPropertiesToManagedClusterLoadBalancerProfileOutboundIPPrefixes populates the provided destination ManagedClusterLoadBalancerProfileOutboundIPPrefixes from our ManagedClusterLoadBalancerProfileOutboundIPPrefixes
-func (prefixes *ManagedClusterLoadBalancerProfileOutboundIPPrefixes) AssignPropertiesToManagedClusterLoadBalancerProfileOutboundIPPrefixes(destination *v1alpha1api20210501storage.ManagedClusterLoadBalancerProfileOutboundIPPrefixes) error {
+func (prefixes *ManagedClusterLoadBalancerProfileOutboundIPPrefixes) AssignPropertiesToManagedClusterLoadBalancerProfileOutboundIPPrefixes(destination *alpha20210501s.ManagedClusterLoadBalancerProfileOutboundIPPrefixes) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// PublicIPPrefixes
 	if prefixes.PublicIPPrefixes != nil {
-		publicIPPrefixList := make([]v1alpha1api20210501storage.ResourceReference, len(prefixes.PublicIPPrefixes))
+		publicIPPrefixList := make([]alpha20210501s.ResourceReference, len(prefixes.PublicIPPrefixes))
 		for publicIPPrefixIndex, publicIPPrefixItem := range prefixes.PublicIPPrefixes {
 			// Shadow the loop variable to avoid aliasing
 			publicIPPrefixItem := publicIPPrefixItem
-			var publicIPPrefix v1alpha1api20210501storage.ResourceReference
+			var publicIPPrefix alpha20210501s.ResourceReference
 			err := publicIPPrefixItem.AssignPropertiesToResourceReference(&publicIPPrefix)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToResourceReference() to populate field PublicIPPrefixes")
@@ -11025,7 +11025,7 @@ func (iPs *ManagedClusterLoadBalancerProfileOutboundIPs) PopulateFromARM(owner g
 }
 
 // AssignPropertiesFromManagedClusterLoadBalancerProfileOutboundIPs populates our ManagedClusterLoadBalancerProfileOutboundIPs from the provided source ManagedClusterLoadBalancerProfileOutboundIPs
-func (iPs *ManagedClusterLoadBalancerProfileOutboundIPs) AssignPropertiesFromManagedClusterLoadBalancerProfileOutboundIPs(source *v1alpha1api20210501storage.ManagedClusterLoadBalancerProfileOutboundIPs) error {
+func (iPs *ManagedClusterLoadBalancerProfileOutboundIPs) AssignPropertiesFromManagedClusterLoadBalancerProfileOutboundIPs(source *alpha20210501s.ManagedClusterLoadBalancerProfileOutboundIPs) error {
 
 	// PublicIPs
 	if source.PublicIPs != nil {
@@ -11050,17 +11050,17 @@ func (iPs *ManagedClusterLoadBalancerProfileOutboundIPs) AssignPropertiesFromMan
 }
 
 // AssignPropertiesToManagedClusterLoadBalancerProfileOutboundIPs populates the provided destination ManagedClusterLoadBalancerProfileOutboundIPs from our ManagedClusterLoadBalancerProfileOutboundIPs
-func (iPs *ManagedClusterLoadBalancerProfileOutboundIPs) AssignPropertiesToManagedClusterLoadBalancerProfileOutboundIPs(destination *v1alpha1api20210501storage.ManagedClusterLoadBalancerProfileOutboundIPs) error {
+func (iPs *ManagedClusterLoadBalancerProfileOutboundIPs) AssignPropertiesToManagedClusterLoadBalancerProfileOutboundIPs(destination *alpha20210501s.ManagedClusterLoadBalancerProfileOutboundIPs) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// PublicIPs
 	if iPs.PublicIPs != nil {
-		publicIPList := make([]v1alpha1api20210501storage.ResourceReference, len(iPs.PublicIPs))
+		publicIPList := make([]alpha20210501s.ResourceReference, len(iPs.PublicIPs))
 		for publicIPIndex, publicIPItem := range iPs.PublicIPs {
 			// Shadow the loop variable to avoid aliasing
 			publicIPItem := publicIPItem
-			var publicIP v1alpha1api20210501storage.ResourceReference
+			var publicIP alpha20210501s.ResourceReference
 			err := publicIPItem.AssignPropertiesToResourceReference(&publicIP)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToResourceReference() to populate field PublicIPs")
@@ -11113,7 +11113,7 @@ func (iPs *ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPs) Populate
 }
 
 // AssignPropertiesFromManagedClusterLoadBalancerProfileStatusManagedOutboundIPs populates our ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPs from the provided source ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPs
-func (iPs *ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPs) AssignPropertiesFromManagedClusterLoadBalancerProfileStatusManagedOutboundIPs(source *v1alpha1api20210501storage.ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPs) error {
+func (iPs *ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPs) AssignPropertiesFromManagedClusterLoadBalancerProfileStatusManagedOutboundIPs(source *alpha20210501s.ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPs) error {
 
 	// Count
 	iPs.Count = genruntime.ClonePointerToInt(source.Count)
@@ -11123,7 +11123,7 @@ func (iPs *ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPs) AssignPr
 }
 
 // AssignPropertiesToManagedClusterLoadBalancerProfileStatusManagedOutboundIPs populates the provided destination ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPs from our ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPs
-func (iPs *ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPs) AssignPropertiesToManagedClusterLoadBalancerProfileStatusManagedOutboundIPs(destination *v1alpha1api20210501storage.ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPs) error {
+func (iPs *ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPs) AssignPropertiesToManagedClusterLoadBalancerProfileStatusManagedOutboundIPs(destination *alpha20210501s.ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPs) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -11175,7 +11175,7 @@ func (prefixes *ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixes) Pop
 }
 
 // AssignPropertiesFromManagedClusterLoadBalancerProfileStatusOutboundIPPrefixes populates our ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixes from the provided source ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixes
-func (prefixes *ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixes) AssignPropertiesFromManagedClusterLoadBalancerProfileStatusOutboundIPPrefixes(source *v1alpha1api20210501storage.ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixes) error {
+func (prefixes *ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixes) AssignPropertiesFromManagedClusterLoadBalancerProfileStatusOutboundIPPrefixes(source *alpha20210501s.ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixes) error {
 
 	// PublicIPPrefixes
 	if source.PublicIPPrefixes != nil {
@@ -11200,17 +11200,17 @@ func (prefixes *ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixes) Ass
 }
 
 // AssignPropertiesToManagedClusterLoadBalancerProfileStatusOutboundIPPrefixes populates the provided destination ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixes from our ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixes
-func (prefixes *ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixes) AssignPropertiesToManagedClusterLoadBalancerProfileStatusOutboundIPPrefixes(destination *v1alpha1api20210501storage.ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixes) error {
+func (prefixes *ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixes) AssignPropertiesToManagedClusterLoadBalancerProfileStatusOutboundIPPrefixes(destination *alpha20210501s.ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixes) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// PublicIPPrefixes
 	if prefixes.PublicIPPrefixes != nil {
-		publicIPPrefixList := make([]v1alpha1api20210501storage.ResourceReference_Status, len(prefixes.PublicIPPrefixes))
+		publicIPPrefixList := make([]alpha20210501s.ResourceReference_Status, len(prefixes.PublicIPPrefixes))
 		for publicIPPrefixIndex, publicIPPrefixItem := range prefixes.PublicIPPrefixes {
 			// Shadow the loop variable to avoid aliasing
 			publicIPPrefixItem := publicIPPrefixItem
-			var publicIPPrefix v1alpha1api20210501storage.ResourceReference_Status
+			var publicIPPrefix alpha20210501s.ResourceReference_Status
 			err := publicIPPrefixItem.AssignPropertiesToResourceReferenceStatus(&publicIPPrefix)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToResourceReferenceStatus() to populate field PublicIPPrefixes")
@@ -11267,7 +11267,7 @@ func (iPs *ManagedClusterLoadBalancerProfile_Status_OutboundIPs) PopulateFromARM
 }
 
 // AssignPropertiesFromManagedClusterLoadBalancerProfileStatusOutboundIPs populates our ManagedClusterLoadBalancerProfile_Status_OutboundIPs from the provided source ManagedClusterLoadBalancerProfile_Status_OutboundIPs
-func (iPs *ManagedClusterLoadBalancerProfile_Status_OutboundIPs) AssignPropertiesFromManagedClusterLoadBalancerProfileStatusOutboundIPs(source *v1alpha1api20210501storage.ManagedClusterLoadBalancerProfile_Status_OutboundIPs) error {
+func (iPs *ManagedClusterLoadBalancerProfile_Status_OutboundIPs) AssignPropertiesFromManagedClusterLoadBalancerProfileStatusOutboundIPs(source *alpha20210501s.ManagedClusterLoadBalancerProfile_Status_OutboundIPs) error {
 
 	// PublicIPs
 	if source.PublicIPs != nil {
@@ -11292,17 +11292,17 @@ func (iPs *ManagedClusterLoadBalancerProfile_Status_OutboundIPs) AssignPropertie
 }
 
 // AssignPropertiesToManagedClusterLoadBalancerProfileStatusOutboundIPs populates the provided destination ManagedClusterLoadBalancerProfile_Status_OutboundIPs from our ManagedClusterLoadBalancerProfile_Status_OutboundIPs
-func (iPs *ManagedClusterLoadBalancerProfile_Status_OutboundIPs) AssignPropertiesToManagedClusterLoadBalancerProfileStatusOutboundIPs(destination *v1alpha1api20210501storage.ManagedClusterLoadBalancerProfile_Status_OutboundIPs) error {
+func (iPs *ManagedClusterLoadBalancerProfile_Status_OutboundIPs) AssignPropertiesToManagedClusterLoadBalancerProfileStatusOutboundIPs(destination *alpha20210501s.ManagedClusterLoadBalancerProfile_Status_OutboundIPs) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// PublicIPs
 	if iPs.PublicIPs != nil {
-		publicIPList := make([]v1alpha1api20210501storage.ResourceReference_Status, len(iPs.PublicIPs))
+		publicIPList := make([]alpha20210501s.ResourceReference_Status, len(iPs.PublicIPs))
 		for publicIPIndex, publicIPItem := range iPs.PublicIPs {
 			// Shadow the loop variable to avoid aliasing
 			publicIPItem := publicIPItem
-			var publicIP v1alpha1api20210501storage.ResourceReference_Status
+			var publicIP alpha20210501s.ResourceReference_Status
 			err := publicIPItem.AssignPropertiesToResourceReferenceStatus(&publicIP)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToResourceReferenceStatus() to populate field PublicIPs")
@@ -11371,7 +11371,7 @@ func (info *ManagedClusterPodIdentity_Status_ProvisioningInfo) PopulateFromARM(o
 }
 
 // AssignPropertiesFromManagedClusterPodIdentityStatusProvisioningInfo populates our ManagedClusterPodIdentity_Status_ProvisioningInfo from the provided source ManagedClusterPodIdentity_Status_ProvisioningInfo
-func (info *ManagedClusterPodIdentity_Status_ProvisioningInfo) AssignPropertiesFromManagedClusterPodIdentityStatusProvisioningInfo(source *v1alpha1api20210501storage.ManagedClusterPodIdentity_Status_ProvisioningInfo) error {
+func (info *ManagedClusterPodIdentity_Status_ProvisioningInfo) AssignPropertiesFromManagedClusterPodIdentityStatusProvisioningInfo(source *alpha20210501s.ManagedClusterPodIdentity_Status_ProvisioningInfo) error {
 
 	// Error
 	if source.Error != nil {
@@ -11390,13 +11390,13 @@ func (info *ManagedClusterPodIdentity_Status_ProvisioningInfo) AssignPropertiesF
 }
 
 // AssignPropertiesToManagedClusterPodIdentityStatusProvisioningInfo populates the provided destination ManagedClusterPodIdentity_Status_ProvisioningInfo from our ManagedClusterPodIdentity_Status_ProvisioningInfo
-func (info *ManagedClusterPodIdentity_Status_ProvisioningInfo) AssignPropertiesToManagedClusterPodIdentityStatusProvisioningInfo(destination *v1alpha1api20210501storage.ManagedClusterPodIdentity_Status_ProvisioningInfo) error {
+func (info *ManagedClusterPodIdentity_Status_ProvisioningInfo) AssignPropertiesToManagedClusterPodIdentityStatusProvisioningInfo(destination *alpha20210501s.ManagedClusterPodIdentity_Status_ProvisioningInfo) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Error
 	if info.Error != nil {
-		var error v1alpha1api20210501storage.ManagedClusterPodIdentityProvisioningError_Status
+		var error alpha20210501s.ManagedClusterPodIdentityProvisioningError_Status
 		err := info.Error.AssignPropertiesToManagedClusterPodIdentityProvisioningErrorStatus(&error)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToManagedClusterPodIdentityProvisioningErrorStatus() to populate field Error")
@@ -11462,7 +11462,7 @@ func (reference *ResourceReference) PopulateFromARM(owner genruntime.ArbitraryOw
 }
 
 // AssignPropertiesFromResourceReference populates our ResourceReference from the provided source ResourceReference
-func (reference *ResourceReference) AssignPropertiesFromResourceReference(source *v1alpha1api20210501storage.ResourceReference) error {
+func (reference *ResourceReference) AssignPropertiesFromResourceReference(source *alpha20210501s.ResourceReference) error {
 
 	// Reference
 	if source.Reference != nil {
@@ -11477,7 +11477,7 @@ func (reference *ResourceReference) AssignPropertiesFromResourceReference(source
 }
 
 // AssignPropertiesToResourceReference populates the provided destination ResourceReference from our ResourceReference
-func (reference *ResourceReference) AssignPropertiesToResourceReference(destination *v1alpha1api20210501storage.ResourceReference) error {
+func (reference *ResourceReference) AssignPropertiesToResourceReference(destination *alpha20210501s.ResourceReference) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -11530,7 +11530,7 @@ func (reference *ResourceReference_Status) PopulateFromARM(owner genruntime.Arbi
 }
 
 // AssignPropertiesFromResourceReferenceStatus populates our ResourceReference_Status from the provided source ResourceReference_Status
-func (reference *ResourceReference_Status) AssignPropertiesFromResourceReferenceStatus(source *v1alpha1api20210501storage.ResourceReference_Status) error {
+func (reference *ResourceReference_Status) AssignPropertiesFromResourceReferenceStatus(source *alpha20210501s.ResourceReference_Status) error {
 
 	// Id
 	reference.Id = genruntime.ClonePointerToString(source.Id)
@@ -11540,7 +11540,7 @@ func (reference *ResourceReference_Status) AssignPropertiesFromResourceReference
 }
 
 // AssignPropertiesToResourceReferenceStatus populates the provided destination ResourceReference_Status from our ResourceReference_Status
-func (reference *ResourceReference_Status) AssignPropertiesToResourceReferenceStatus(destination *v1alpha1api20210501storage.ResourceReference_Status) error {
+func (reference *ResourceReference_Status) AssignPropertiesToResourceReferenceStatus(destination *alpha20210501s.ResourceReference_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -11629,7 +11629,7 @@ func (identity *UserAssignedIdentity) PopulateFromARM(owner genruntime.Arbitrary
 }
 
 // AssignPropertiesFromUserAssignedIdentity populates our UserAssignedIdentity from the provided source UserAssignedIdentity
-func (identity *UserAssignedIdentity) AssignPropertiesFromUserAssignedIdentity(source *v1alpha1api20210501storage.UserAssignedIdentity) error {
+func (identity *UserAssignedIdentity) AssignPropertiesFromUserAssignedIdentity(source *alpha20210501s.UserAssignedIdentity) error {
 
 	// ClientId
 	identity.ClientId = genruntime.ClonePointerToString(source.ClientId)
@@ -11650,7 +11650,7 @@ func (identity *UserAssignedIdentity) AssignPropertiesFromUserAssignedIdentity(s
 }
 
 // AssignPropertiesToUserAssignedIdentity populates the provided destination UserAssignedIdentity from our UserAssignedIdentity
-func (identity *UserAssignedIdentity) AssignPropertiesToUserAssignedIdentity(destination *v1alpha1api20210501storage.UserAssignedIdentity) error {
+func (identity *UserAssignedIdentity) AssignPropertiesToUserAssignedIdentity(destination *alpha20210501s.UserAssignedIdentity) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -11723,7 +11723,7 @@ func (identity *UserAssignedIdentity_Status) PopulateFromARM(owner genruntime.Ar
 }
 
 // AssignPropertiesFromUserAssignedIdentityStatus populates our UserAssignedIdentity_Status from the provided source UserAssignedIdentity_Status
-func (identity *UserAssignedIdentity_Status) AssignPropertiesFromUserAssignedIdentityStatus(source *v1alpha1api20210501storage.UserAssignedIdentity_Status) error {
+func (identity *UserAssignedIdentity_Status) AssignPropertiesFromUserAssignedIdentityStatus(source *alpha20210501s.UserAssignedIdentity_Status) error {
 
 	// ClientId
 	identity.ClientId = genruntime.ClonePointerToString(source.ClientId)
@@ -11739,7 +11739,7 @@ func (identity *UserAssignedIdentity_Status) AssignPropertiesFromUserAssignedIde
 }
 
 // AssignPropertiesToUserAssignedIdentityStatus populates the provided destination UserAssignedIdentity_Status from our UserAssignedIdentity_Status
-func (identity *UserAssignedIdentity_Status) AssignPropertiesToUserAssignedIdentityStatus(destination *v1alpha1api20210501storage.UserAssignedIdentity_Status) error {
+func (identity *UserAssignedIdentity_Status) AssignPropertiesToUserAssignedIdentityStatus(destination *alpha20210501s.UserAssignedIdentity_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -11798,7 +11798,7 @@ func (error *ManagedClusterPodIdentityProvisioningError_Status) PopulateFromARM(
 }
 
 // AssignPropertiesFromManagedClusterPodIdentityProvisioningErrorStatus populates our ManagedClusterPodIdentityProvisioningError_Status from the provided source ManagedClusterPodIdentityProvisioningError_Status
-func (error *ManagedClusterPodIdentityProvisioningError_Status) AssignPropertiesFromManagedClusterPodIdentityProvisioningErrorStatus(source *v1alpha1api20210501storage.ManagedClusterPodIdentityProvisioningError_Status) error {
+func (error *ManagedClusterPodIdentityProvisioningError_Status) AssignPropertiesFromManagedClusterPodIdentityProvisioningErrorStatus(source *alpha20210501s.ManagedClusterPodIdentityProvisioningError_Status) error {
 
 	// Error
 	if source.Error != nil {
@@ -11817,13 +11817,13 @@ func (error *ManagedClusterPodIdentityProvisioningError_Status) AssignProperties
 }
 
 // AssignPropertiesToManagedClusterPodIdentityProvisioningErrorStatus populates the provided destination ManagedClusterPodIdentityProvisioningError_Status from our ManagedClusterPodIdentityProvisioningError_Status
-func (error *ManagedClusterPodIdentityProvisioningError_Status) AssignPropertiesToManagedClusterPodIdentityProvisioningErrorStatus(destination *v1alpha1api20210501storage.ManagedClusterPodIdentityProvisioningError_Status) error {
+func (error *ManagedClusterPodIdentityProvisioningError_Status) AssignPropertiesToManagedClusterPodIdentityProvisioningErrorStatus(destination *alpha20210501s.ManagedClusterPodIdentityProvisioningError_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Error
 	if error.Error != nil {
-		var errorLocal v1alpha1api20210501storage.ManagedClusterPodIdentityProvisioningErrorBody_Status
+		var errorLocal alpha20210501s.ManagedClusterPodIdentityProvisioningErrorBody_Status
 		err := error.Error.AssignPropertiesToManagedClusterPodIdentityProvisioningErrorBodyStatus(&errorLocal)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToManagedClusterPodIdentityProvisioningErrorBodyStatus() to populate field Error")
@@ -11899,7 +11899,7 @@ func (body *ManagedClusterPodIdentityProvisioningErrorBody_Status) PopulateFromA
 }
 
 // AssignPropertiesFromManagedClusterPodIdentityProvisioningErrorBodyStatus populates our ManagedClusterPodIdentityProvisioningErrorBody_Status from the provided source ManagedClusterPodIdentityProvisioningErrorBody_Status
-func (body *ManagedClusterPodIdentityProvisioningErrorBody_Status) AssignPropertiesFromManagedClusterPodIdentityProvisioningErrorBodyStatus(source *v1alpha1api20210501storage.ManagedClusterPodIdentityProvisioningErrorBody_Status) error {
+func (body *ManagedClusterPodIdentityProvisioningErrorBody_Status) AssignPropertiesFromManagedClusterPodIdentityProvisioningErrorBodyStatus(source *alpha20210501s.ManagedClusterPodIdentityProvisioningErrorBody_Status) error {
 
 	// Code
 	body.Code = genruntime.ClonePointerToString(source.Code)
@@ -11933,7 +11933,7 @@ func (body *ManagedClusterPodIdentityProvisioningErrorBody_Status) AssignPropert
 }
 
 // AssignPropertiesToManagedClusterPodIdentityProvisioningErrorBodyStatus populates the provided destination ManagedClusterPodIdentityProvisioningErrorBody_Status from our ManagedClusterPodIdentityProvisioningErrorBody_Status
-func (body *ManagedClusterPodIdentityProvisioningErrorBody_Status) AssignPropertiesToManagedClusterPodIdentityProvisioningErrorBodyStatus(destination *v1alpha1api20210501storage.ManagedClusterPodIdentityProvisioningErrorBody_Status) error {
+func (body *ManagedClusterPodIdentityProvisioningErrorBody_Status) AssignPropertiesToManagedClusterPodIdentityProvisioningErrorBodyStatus(destination *alpha20210501s.ManagedClusterPodIdentityProvisioningErrorBody_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -11942,11 +11942,11 @@ func (body *ManagedClusterPodIdentityProvisioningErrorBody_Status) AssignPropert
 
 	// Details
 	if body.Details != nil {
-		detailList := make([]v1alpha1api20210501storage.ManagedClusterPodIdentityProvisioningErrorBody_Status_Unrolled, len(body.Details))
+		detailList := make([]alpha20210501s.ManagedClusterPodIdentityProvisioningErrorBody_Status_Unrolled, len(body.Details))
 		for detailIndex, detailItem := range body.Details {
 			// Shadow the loop variable to avoid aliasing
 			detailItem := detailItem
-			var detail v1alpha1api20210501storage.ManagedClusterPodIdentityProvisioningErrorBody_Status_Unrolled
+			var detail alpha20210501s.ManagedClusterPodIdentityProvisioningErrorBody_Status_Unrolled
 			err := detailItem.AssignPropertiesToManagedClusterPodIdentityProvisioningErrorBodyStatusUnrolled(&detail)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToManagedClusterPodIdentityProvisioningErrorBodyStatusUnrolled() to populate field Details")
@@ -12019,7 +12019,7 @@ func (unrolled *ManagedClusterPodIdentityProvisioningErrorBody_Status_Unrolled) 
 }
 
 // AssignPropertiesFromManagedClusterPodIdentityProvisioningErrorBodyStatusUnrolled populates our ManagedClusterPodIdentityProvisioningErrorBody_Status_Unrolled from the provided source ManagedClusterPodIdentityProvisioningErrorBody_Status_Unrolled
-func (unrolled *ManagedClusterPodIdentityProvisioningErrorBody_Status_Unrolled) AssignPropertiesFromManagedClusterPodIdentityProvisioningErrorBodyStatusUnrolled(source *v1alpha1api20210501storage.ManagedClusterPodIdentityProvisioningErrorBody_Status_Unrolled) error {
+func (unrolled *ManagedClusterPodIdentityProvisioningErrorBody_Status_Unrolled) AssignPropertiesFromManagedClusterPodIdentityProvisioningErrorBodyStatusUnrolled(source *alpha20210501s.ManagedClusterPodIdentityProvisioningErrorBody_Status_Unrolled) error {
 
 	// Code
 	unrolled.Code = genruntime.ClonePointerToString(source.Code)
@@ -12035,7 +12035,7 @@ func (unrolled *ManagedClusterPodIdentityProvisioningErrorBody_Status_Unrolled) 
 }
 
 // AssignPropertiesToManagedClusterPodIdentityProvisioningErrorBodyStatusUnrolled populates the provided destination ManagedClusterPodIdentityProvisioningErrorBody_Status_Unrolled from our ManagedClusterPodIdentityProvisioningErrorBody_Status_Unrolled
-func (unrolled *ManagedClusterPodIdentityProvisioningErrorBody_Status_Unrolled) AssignPropertiesToManagedClusterPodIdentityProvisioningErrorBodyStatusUnrolled(destination *v1alpha1api20210501storage.ManagedClusterPodIdentityProvisioningErrorBody_Status_Unrolled) error {
+func (unrolled *ManagedClusterPodIdentityProvisioningErrorBody_Status_Unrolled) AssignPropertiesToManagedClusterPodIdentityProvisioningErrorBodyStatusUnrolled(destination *alpha20210501s.ManagedClusterPodIdentityProvisioningErrorBody_Status_Unrolled) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

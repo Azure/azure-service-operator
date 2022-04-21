@@ -9,7 +9,6 @@ import (
 	"go/token"
 
 	"github.com/dave/dst"
-	"k8s.io/klog/v2"
 )
 
 // TestFileDefinition defines the content of a test file we're generating
@@ -101,8 +100,8 @@ func (file *TestFileDefinition) TestCaseCount() int {
 
 // disambiguates any conflicts
 func (file *TestFileDefinition) generateImports() *PackageImportSet {
-	var requiredImports = NewPackageImportSet()
 
+	var requiredImports = NewPackageImportSet()
 	for _, s := range file.definitions {
 		definer, ok := s.Type().(TestCaseContainer)
 		if !ok {
@@ -117,20 +116,6 @@ func (file *TestFileDefinition) generateImports() *PackageImportSet {
 	// Don't need to import the current package
 	selfImport := NewPackageImport(file.packageReference)
 	requiredImports.Remove(selfImport)
-
-	// Force local imports to have explicit names based on the service
-	for _, imp := range requiredImports.AsSlice() {
-		if IsLocalPackageReference(imp.packageReference) && !imp.HasExplicitName() {
-			name := imp.ServiceNameForImport()
-			requiredImports.AddImport(imp.WithName(name))
-		}
-	}
-
-	// Resolve any conflicts and report any that couldn't be fixed up automatically
-	err := requiredImports.ResolveConflicts()
-	if err != nil {
-		klog.Errorf("File %s: %s", file.packageReference, err)
-	}
 
 	return requiredImports
 }

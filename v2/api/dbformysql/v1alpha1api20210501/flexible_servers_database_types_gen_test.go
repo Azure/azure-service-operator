@@ -5,8 +5,8 @@ package v1alpha1api20210501
 
 import (
 	"encoding/json"
-	"github.com/Azure/azure-service-operator/v2/api/dbformysql/v1alpha1api20210501storage"
-	"github.com/Azure/azure-service-operator/v2/api/dbformysql/v1beta20210501storage"
+	alpha20210501s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1alpha1api20210501storage"
+	v20210501s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1beta20210501storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForFlexibleServersDatabase(subject FlexibleServers
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1beta20210501storage.FlexibleServersDatabase
+	var hub v20210501s.FlexibleServersDatabase
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForFlexibleServersDatabase(subject FlexibleServers
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20210501storage.FlexibleServersDatabase
+	var other alpha20210501s.FlexibleServersDatabase
 	err := copied.AssignPropertiesToFlexibleServersDatabase(&other)
 	if err != nil {
 		return err.Error()
@@ -181,7 +181,7 @@ func RunPropertyAssignmentTestForDatabaseStatus(subject Database_Status) string 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20210501storage.Database_Status
+	var other alpha20210501s.Database_Status
 	err := copied.AssignPropertiesToDatabaseStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -300,7 +300,7 @@ func RunPropertyAssignmentTestForFlexibleServersDatabasesSpec(subject FlexibleSe
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20210501storage.FlexibleServersDatabases_Spec
+	var other alpha20210501s.FlexibleServersDatabases_Spec
 	err := copied.AssignPropertiesToFlexibleServersDatabasesSpec(&other)
 	if err != nil {
 		return err.Error()

@@ -4,7 +4,7 @@
  package v20200101
  
 +import (
-+	person "github.com/Azure/azure-service-operator/testing/person/v20211231"
++	v20211231 "github.com/Azure/azure-service-operator/testing/person/v20211231"
 +	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 +	"github.com/pkg/errors"
 +)
@@ -22,14 +22,14 @@
  
 +// ConvertSpecFrom populates our Person_Spec from the provided source
 +func (person *Person_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-+	src, ok := source.(*person.Person_Spec)
++	src, ok := source.(*v20211231.Person_Spec)
 +	if ok {
 +		// Populate our instance from source
 +		return person.AssignPropertiesFromPersonSpec(src)
 +	}
 +
 +	// Convert to an intermediate form
-+	src = &person.Person_Spec{}
++	src = &v20211231.Person_Spec{}
 +	err := src.ConvertSpecFrom(source)
 +	if err != nil {
 +		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -46,14 +46,14 @@
 +
 +// ConvertSpecTo populates the provided destination from our Person_Spec
 +func (person *Person_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-+	dst, ok := destination.(*person.Person_Spec)
++	dst, ok := destination.(*v20211231.Person_Spec)
 +	if ok {
 +		// Populate destination from our instance
 +		return person.AssignPropertiesToPersonSpec(dst)
 +	}
 +
 +	// Convert to an intermediate form
-+	dst = &person.Person_Spec{}
++	dst = &v20211231.Person_Spec{}
 +	err := person.AssignPropertiesToPersonSpec(dst)
 +	if err != nil {
 +		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")

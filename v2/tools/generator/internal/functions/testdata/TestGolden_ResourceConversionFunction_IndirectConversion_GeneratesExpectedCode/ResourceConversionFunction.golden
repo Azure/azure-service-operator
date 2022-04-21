@@ -5,7 +5,7 @@
  
 -import metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 +import (
-+	personv20211231 "github.com/Azure/azure-service-operator/testing/person/v20211231"
++	v20211231 "github.com/Azure/azure-service-operator/testing/person/v20211231"
 +	"github.com/pkg/errors"
 +	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 +	"sigs.k8s.io/controller-runtime/pkg/conversion"
@@ -23,7 +23,7 @@
 +// ConvertFrom populates our Person from the provided hub Person
 +func (person *Person) ConvertFrom(hub conversion.Hub) error {
 +	// intermediate variable for conversion
-+	var source personv20211231.Person
++	var source v20211231.Person
 +
 +	err := source.ConvertFrom(hub)
 +	if err != nil {
@@ -41,7 +41,7 @@
 +// ConvertTo populates the provided hub Person from our Person
 +func (person *Person) ConvertTo(hub conversion.Hub) error {
 +	// intermediate variable for conversion
-+	var destination personv20211231.Person
++	var destination v20211231.Person
 +	err := person.AssignPropertiesToPerson(&destination)
 +	if err != nil {
 +		return errors.Wrap(err, "converting to destination from person")

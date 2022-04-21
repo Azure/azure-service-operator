@@ -4,10 +4,10 @@
 package customizations
 
 import (
-	eventgridv1alpha1api20200601 "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1alpha1api20200601"
-	"github.com/Azure/azure-service-operator/v2/api/eventgrid/v1alpha1api20200601storage"
-	eventgridv1beta20200601 "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601"
-	"github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601storage"
+	alpha20200601 "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1alpha1api20200601"
+	alpha20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1alpha1api20200601storage"
+	v20200601 "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601"
+	v20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -17,8 +17,8 @@ type DomainExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *DomainExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&eventgridv1alpha1api20200601.Domain{},
-		&v1alpha1api20200601storage.Domain{},
-		&eventgridv1beta20200601.Domain{},
-		&v1beta20200601storage.Domain{}}
+		&alpha20200601.Domain{},
+		&alpha20200601s.Domain{},
+		&v20200601.Domain{},
+		&v20200601s.Domain{}}
 }

@@ -5,7 +5,7 @@ package v1beta20201101
 
 import (
 	"encoding/json"
-	"github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage"
+	v20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -35,7 +35,7 @@ func RunResourceConversionTestForVirtualNetworkGateway(subject VirtualNetworkGat
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1beta20201101storage.VirtualNetworkGateway
+	var hub v20201101s.VirtualNetworkGateway
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -77,7 +77,7 @@ func RunPropertyAssignmentTestForVirtualNetworkGateway(subject VirtualNetworkGat
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20201101storage.VirtualNetworkGateway
+	var other v20201101s.VirtualNetworkGateway
 	err := copied.AssignPropertiesToVirtualNetworkGateway(&other)
 	if err != nil {
 		return err.Error()
@@ -180,7 +180,7 @@ func RunPropertyAssignmentTestForVirtualNetworkGatewayStatus(subject VirtualNetw
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20201101storage.VirtualNetworkGateway_Status
+	var other v20201101s.VirtualNetworkGateway_Status
 	err := copied.AssignPropertiesToVirtualNetworkGatewayStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -322,7 +322,7 @@ func RunPropertyAssignmentTestForVirtualNetworkGatewaysSpec(subject VirtualNetwo
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20201101storage.VirtualNetworkGateways_Spec
+	var other v20201101s.VirtualNetworkGateways_Spec
 	err := copied.AssignPropertiesToVirtualNetworkGatewaysSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -457,7 +457,7 @@ func RunPropertyAssignmentTestForBgpSettings(subject BgpSettings) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20201101storage.BgpSettings
+	var other v20201101s.BgpSettings
 	err := copied.AssignPropertiesToBgpSettings(&other)
 	if err != nil {
 		return err.Error()
@@ -574,7 +574,7 @@ func RunPropertyAssignmentTestForBgpSettingsStatus(subject BgpSettings_Status) s
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20201101storage.BgpSettings_Status
+	var other v20201101s.BgpSettings_Status
 	err := copied.AssignPropertiesToBgpSettingsStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -691,7 +691,7 @@ func RunPropertyAssignmentTestForVirtualNetworkGatewayIPConfigurationStatus(subj
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20201101storage.VirtualNetworkGatewayIPConfiguration_Status
+	var other v20201101s.VirtualNetworkGatewayIPConfiguration_Status
 	err := copied.AssignPropertiesToVirtualNetworkGatewayIPConfigurationStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -817,7 +817,7 @@ func RunPropertyAssignmentTestForVirtualNetworkGatewaySku(subject VirtualNetwork
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20201101storage.VirtualNetworkGatewaySku
+	var other v20201101s.VirtualNetworkGatewaySku
 	err := copied.AssignPropertiesToVirtualNetworkGatewaySku(&other)
 	if err != nil {
 		return err.Error()
@@ -954,7 +954,7 @@ func RunPropertyAssignmentTestForVirtualNetworkGatewaySkuStatus(subject VirtualN
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20201101storage.VirtualNetworkGatewaySku_Status
+	var other v20201101s.VirtualNetworkGatewaySku_Status
 	err := copied.AssignPropertiesToVirtualNetworkGatewaySkuStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -1092,7 +1092,7 @@ func RunPropertyAssignmentTestForVirtualNetworkGatewaysSpecPropertiesIpConfigura
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20201101storage.VirtualNetworkGateways_Spec_Properties_IpConfigurations
+	var other v20201101s.VirtualNetworkGateways_Spec_Properties_IpConfigurations
 	err := copied.AssignPropertiesToVirtualNetworkGatewaysSpecPropertiesIpConfigurations(&other)
 	if err != nil {
 		return err.Error()
@@ -1210,7 +1210,7 @@ func RunPropertyAssignmentTestForVirtualNetworkGatewaysSpecPropertiesVpnClientCo
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20201101storage.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration
+	var other v20201101s.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration
 	err := copied.AssignPropertiesToVirtualNetworkGatewaysSpecPropertiesVpnClientConfiguration(&other)
 	if err != nil {
 		return err.Error()
@@ -1336,7 +1336,7 @@ func RunPropertyAssignmentTestForVpnClientConfigurationStatus(subject VpnClientC
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20201101storage.VpnClientConfiguration_Status
+	var other v20201101s.VpnClientConfiguration_Status
 	err := copied.AssignPropertiesToVpnClientConfigurationStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -1462,7 +1462,7 @@ func RunPropertyAssignmentTestForIPConfigurationBgpPeeringAddress(subject IPConf
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20201101storage.IPConfigurationBgpPeeringAddress
+	var other v20201101s.IPConfigurationBgpPeeringAddress
 	err := copied.AssignPropertiesToIPConfigurationBgpPeeringAddress(&other)
 	if err != nil {
 		return err.Error()
@@ -1565,7 +1565,7 @@ func RunPropertyAssignmentTestForIPConfigurationBgpPeeringAddressStatus(subject 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20201101storage.IPConfigurationBgpPeeringAddress_Status
+	var other v20201101s.IPConfigurationBgpPeeringAddress_Status
 	err := copied.AssignPropertiesToIPConfigurationBgpPeeringAddressStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -1670,7 +1670,7 @@ func RunPropertyAssignmentTestForIpsecPolicy(subject IpsecPolicy) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20201101storage.IpsecPolicy
+	var other v20201101s.IpsecPolicy
 	err := copied.AssignPropertiesToIpsecPolicy(&other)
 	if err != nil {
 		return err.Error()
@@ -1823,7 +1823,7 @@ func RunPropertyAssignmentTestForIpsecPolicyStatus(subject IpsecPolicy_Status) s
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20201101storage.IpsecPolicy_Status
+	var other v20201101s.IpsecPolicy_Status
 	err := copied.AssignPropertiesToIpsecPolicyStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -1976,7 +1976,7 @@ func RunPropertyAssignmentTestForRadiusServer(subject RadiusServer) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20201101storage.RadiusServer
+	var other v20201101s.RadiusServer
 	err := copied.AssignPropertiesToRadiusServer(&other)
 	if err != nil {
 		return err.Error()
@@ -2079,7 +2079,7 @@ func RunPropertyAssignmentTestForRadiusServerStatus(subject RadiusServer_Status)
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20201101storage.RadiusServer_Status
+	var other v20201101s.RadiusServer_Status
 	err := copied.AssignPropertiesToRadiusServerStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -2182,7 +2182,7 @@ func RunPropertyAssignmentTestForVirtualNetworkGatewaysSpecPropertiesVpnClientCo
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20201101storage.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates
+	var other v20201101s.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates
 	err := copied.AssignPropertiesToVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificates(&other)
 	if err != nil {
 		return err.Error()
@@ -2286,7 +2286,7 @@ func RunPropertyAssignmentTestForVirtualNetworkGatewaysSpecPropertiesVpnClientCo
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20201101storage.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates
+	var other v20201101s.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates
 	err := copied.AssignPropertiesToVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificates(&other)
 	if err != nil {
 		return err.Error()
@@ -2390,7 +2390,7 @@ func RunPropertyAssignmentTestForVpnClientRevokedCertificateStatus(subject VpnCl
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20201101storage.VpnClientRevokedCertificate_Status
+	var other v20201101s.VpnClientRevokedCertificate_Status
 	err := copied.AssignPropertiesToVpnClientRevokedCertificateStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -2500,7 +2500,7 @@ func RunPropertyAssignmentTestForVpnClientRootCertificateStatus(subject VpnClien
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20201101storage.VpnClientRootCertificate_Status
+	var other v20201101s.VpnClientRootCertificate_Status
 	err := copied.AssignPropertiesToVpnClientRootCertificateStatus(&other)
 	if err != nil {
 		return err.Error()

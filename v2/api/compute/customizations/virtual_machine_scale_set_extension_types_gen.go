@@ -4,10 +4,10 @@
 package customizations
 
 import (
-	computev1alpha1api20201201 "github.com/Azure/azure-service-operator/v2/api/compute/v1alpha1api20201201"
-	"github.com/Azure/azure-service-operator/v2/api/compute/v1alpha1api20201201storage"
-	computev1beta20201201 "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201"
-	"github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201storage"
+	alpha20201201 "github.com/Azure/azure-service-operator/v2/api/compute/v1alpha1api20201201"
+	alpha20201201s "github.com/Azure/azure-service-operator/v2/api/compute/v1alpha1api20201201storage"
+	v20201201 "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201"
+	v20201201s "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -17,8 +17,8 @@ type VirtualMachineScaleSetExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *VirtualMachineScaleSetExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&computev1alpha1api20201201.VirtualMachineScaleSet{},
-		&v1alpha1api20201201storage.VirtualMachineScaleSet{},
-		&computev1beta20201201.VirtualMachineScaleSet{},
-		&v1beta20201201storage.VirtualMachineScaleSet{}}
+		&alpha20201201.VirtualMachineScaleSet{},
+		&alpha20201201s.VirtualMachineScaleSet{},
+		&v20201201.VirtualMachineScaleSet{},
+		&v20201201s.VirtualMachineScaleSet{}}
 }

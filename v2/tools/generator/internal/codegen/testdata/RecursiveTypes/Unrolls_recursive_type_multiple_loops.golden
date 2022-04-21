@@ -4,7 +4,7 @@
 package v1beta20200101
 
 import (
-	"github.com/Azure/azure-service-operator/testing/test/v1beta20200101storage"
+	v20200101s "github.com/Azure/azure-service-operator/testing/test/v1beta20200101storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/pkg/errors"
 )
@@ -15,7 +15,7 @@ type Test struct {
 }
 
 // AssignPropertiesFromTest populates our Test from the provided source Test
-func (test *Test) AssignPropertiesFromTest(source *v1beta20200101storage.Test) error {
+func (test *Test) AssignPropertiesFromTest(source *v20200101s.Test) error {
 
 	// Error
 	if source.Error != nil {
@@ -34,13 +34,13 @@ func (test *Test) AssignPropertiesFromTest(source *v1beta20200101storage.Test) e
 }
 
 // AssignPropertiesToTest populates the provided destination Test from our Test
-func (test *Test) AssignPropertiesToTest(destination *v1beta20200101storage.Test) error {
+func (test *Test) AssignPropertiesToTest(destination *v20200101s.Test) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Error
 	if test.Error != nil {
-		var error v1beta20200101storage.Error
+		var error v20200101s.Error
 		err := test.Error.AssignPropertiesToError(&error)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToError() to populate field Error")
@@ -69,7 +69,7 @@ type Error struct {
 }
 
 // AssignPropertiesFromError populates our Error from the provided source Error
-func (error *Error) AssignPropertiesFromError(source *v1beta20200101storage.Error) error {
+func (error *Error) AssignPropertiesFromError(source *v20200101s.Error) error {
 
 	// Error1
 	if source.Error1 != nil {
@@ -103,13 +103,13 @@ func (error *Error) AssignPropertiesFromError(source *v1beta20200101storage.Erro
 }
 
 // AssignPropertiesToError populates the provided destination Error from our Error
-func (error *Error) AssignPropertiesToError(destination *v1beta20200101storage.Error) error {
+func (error *Error) AssignPropertiesToError(destination *v20200101s.Error) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Error1
 	if error.Error1 != nil {
-		var error1 v1beta20200101storage.Error_Unrolled
+		var error1 v20200101s.Error_Unrolled
 		err := error.Error1.AssignPropertiesToErrorUnrolled(&error1)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToErrorUnrolled() to populate field Error1")
@@ -121,7 +121,7 @@ func (error *Error) AssignPropertiesToError(destination *v1beta20200101storage.E
 
 	// Error2
 	if error.Error2 != nil {
-		var error2 v1beta20200101storage.Error_Unrolled
+		var error2 v20200101s.Error_Unrolled
 		err := error.Error2.AssignPropertiesToErrorUnrolled(&error2)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToErrorUnrolled() to populate field Error2")
@@ -150,7 +150,7 @@ type Error_Unrolled struct {
 }
 
 // AssignPropertiesFromErrorUnrolled populates our Error_Unrolled from the provided source Error_Unrolled
-func (unrolled *Error_Unrolled) AssignPropertiesFromErrorUnrolled(source *v1beta20200101storage.Error_Unrolled) error {
+func (unrolled *Error_Unrolled) AssignPropertiesFromErrorUnrolled(source *v20200101s.Error_Unrolled) error {
 
 	// Name
 	unrolled.Name = genruntime.ClonePointerToString(source.Name)
@@ -160,7 +160,7 @@ func (unrolled *Error_Unrolled) AssignPropertiesFromErrorUnrolled(source *v1beta
 }
 
 // AssignPropertiesToErrorUnrolled populates the provided destination Error_Unrolled from our Error_Unrolled
-func (unrolled *Error_Unrolled) AssignPropertiesToErrorUnrolled(destination *v1beta20200101storage.Error_Unrolled) error {
+func (unrolled *Error_Unrolled) AssignPropertiesToErrorUnrolled(destination *v20200101s.Error_Unrolled) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

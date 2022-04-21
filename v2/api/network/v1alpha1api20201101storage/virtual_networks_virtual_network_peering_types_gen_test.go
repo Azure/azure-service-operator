@@ -5,7 +5,7 @@ package v1alpha1api20201101storage
 
 import (
 	"encoding/json"
-	"github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage"
+	v20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -35,7 +35,7 @@ func RunResourceConversionTestForVirtualNetworksVirtualNetworkPeering(subject Vi
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1beta20201101storage.VirtualNetworksVirtualNetworkPeering
+	var hub v20201101s.VirtualNetworksVirtualNetworkPeering
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -77,7 +77,7 @@ func RunPropertyAssignmentTestForVirtualNetworksVirtualNetworkPeering(subject Vi
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20201101storage.VirtualNetworksVirtualNetworkPeering
+	var other v20201101s.VirtualNetworksVirtualNetworkPeering
 	err := copied.AssignPropertiesToVirtualNetworksVirtualNetworkPeering(&other)
 	if err != nil {
 		return err.Error()
@@ -180,7 +180,7 @@ func RunPropertyAssignmentTestForVirtualNetworkPeeringStatus(subject VirtualNetw
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20201101storage.VirtualNetworkPeering_Status
+	var other v20201101s.VirtualNetworkPeering_Status
 	err := copied.AssignPropertiesToVirtualNetworkPeeringStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -309,7 +309,7 @@ func RunPropertyAssignmentTestForVirtualNetworksVirtualNetworkPeeringsSpec(subje
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20201101storage.VirtualNetworksVirtualNetworkPeerings_Spec
+	var other v20201101s.VirtualNetworksVirtualNetworkPeerings_Spec
 	err := copied.AssignPropertiesToVirtualNetworksVirtualNetworkPeeringsSpec(&other)
 	if err != nil {
 		return err.Error()

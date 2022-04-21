@@ -6,6 +6,7 @@
 package astmodel
 
 import (
+	"strings"
 	"testing"
 
 	. "github.com/onsi/gomega"
@@ -13,6 +14,8 @@ import (
 
 func makeTestLocalPackageReference(group string, version string) LocalPackageReference {
 	// We use a fixed path and version prefixes to ensure consistency across testing
+	// For convenience, we tolerate the prefix already being present
+	version = strings.TrimPrefix(version, "v")
 	return MakeLocalPackageReference("github.com/Azure/azure-service-operator/v2/api", group, "v", version)
 }
 
