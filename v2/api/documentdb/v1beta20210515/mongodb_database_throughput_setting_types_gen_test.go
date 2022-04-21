@@ -5,7 +5,7 @@ package v1beta20210515
 
 import (
 	"encoding/json"
-	"github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage"
+	v20210515s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -35,7 +35,7 @@ func RunResourceConversionTestForMongodbDatabaseThroughputSetting(subject Mongod
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1beta20210515storage.MongodbDatabaseThroughputSetting
+	var hub v20210515s.MongodbDatabaseThroughputSetting
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -77,7 +77,7 @@ func RunPropertyAssignmentTestForMongodbDatabaseThroughputSetting(subject Mongod
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210515storage.MongodbDatabaseThroughputSetting
+	var other v20210515s.MongodbDatabaseThroughputSetting
 	err := copied.AssignPropertiesToMongodbDatabaseThroughputSetting(&other)
 	if err != nil {
 		return err.Error()
@@ -180,7 +180,7 @@ func RunPropertyAssignmentTestForDatabaseAccountsMongodbDatabasesThroughputSetti
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210515storage.DatabaseAccountsMongodbDatabasesThroughputSettings_Spec
+	var other v20210515s.DatabaseAccountsMongodbDatabasesThroughputSettings_Spec
 	err := copied.AssignPropertiesToDatabaseAccountsMongodbDatabasesThroughputSettingsSpec(&other)
 	if err != nil {
 		return err.Error()

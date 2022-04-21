@@ -5,7 +5,7 @@ package v1alpha1api20211001storage
 
 import (
 	"fmt"
-	"github.com/Azure/azure-service-operator/v2/api/signalrservice/v1beta20211001storage"
+	v20211001s "github.com/Azure/azure-service-operator/v2/api/signalrservice/v1beta20211001storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
@@ -46,7 +46,7 @@ var _ conversion.Convertible = &SignalR{}
 
 // ConvertFrom populates our SignalR from the provided hub SignalR
 func (signalR *SignalR) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1beta20211001storage.SignalR)
+	source, ok := hub.(*v20211001s.SignalR)
 	if !ok {
 		return fmt.Errorf("expected signalrservice/v1beta20211001storage/SignalR but received %T instead", hub)
 	}
@@ -56,7 +56,7 @@ func (signalR *SignalR) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub SignalR from our SignalR
 func (signalR *SignalR) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1beta20211001storage.SignalR)
+	destination, ok := hub.(*v20211001s.SignalR)
 	if !ok {
 		return fmt.Errorf("expected signalrservice/v1beta20211001storage/SignalR but received %T instead", hub)
 	}
@@ -131,7 +131,7 @@ func (signalR *SignalR) SetStatus(status genruntime.ConvertibleStatus) error {
 }
 
 // AssignPropertiesFromSignalR populates our SignalR from the provided source SignalR
-func (signalR *SignalR) AssignPropertiesFromSignalR(source *v1beta20211001storage.SignalR) error {
+func (signalR *SignalR) AssignPropertiesFromSignalR(source *v20211001s.SignalR) error {
 
 	// ObjectMeta
 	signalR.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -157,13 +157,13 @@ func (signalR *SignalR) AssignPropertiesFromSignalR(source *v1beta20211001storag
 }
 
 // AssignPropertiesToSignalR populates the provided destination SignalR from our SignalR
-func (signalR *SignalR) AssignPropertiesToSignalR(destination *v1beta20211001storage.SignalR) error {
+func (signalR *SignalR) AssignPropertiesToSignalR(destination *v20211001s.SignalR) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *signalR.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1beta20211001storage.SignalR_Spec
+	var spec v20211001s.SignalR_Spec
 	err := signalR.Spec.AssignPropertiesToSignalRSpec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToSignalRSpec() to populate field Spec")
@@ -171,7 +171,7 @@ func (signalR *SignalR) AssignPropertiesToSignalR(destination *v1beta20211001sto
 	destination.Spec = spec
 
 	// Status
-	var status v1beta20211001storage.SignalRResource_Status
+	var status v20211001s.SignalRResource_Status
 	err = signalR.Status.AssignPropertiesToSignalRResourceStatus(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToSignalRResourceStatus() to populate field Status")
@@ -238,14 +238,14 @@ var _ genruntime.ConvertibleStatus = &SignalRResource_Status{}
 
 // ConvertStatusFrom populates our SignalRResource_Status from the provided source
 func (resource *SignalRResource_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v1beta20211001storage.SignalRResource_Status)
+	src, ok := source.(*v20211001s.SignalRResource_Status)
 	if ok {
 		// Populate our instance from source
 		return resource.AssignPropertiesFromSignalRResourceStatus(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1beta20211001storage.SignalRResource_Status{}
+	src = &v20211001s.SignalRResource_Status{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -262,14 +262,14 @@ func (resource *SignalRResource_Status) ConvertStatusFrom(source genruntime.Conv
 
 // ConvertStatusTo populates the provided destination from our SignalRResource_Status
 func (resource *SignalRResource_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v1beta20211001storage.SignalRResource_Status)
+	dst, ok := destination.(*v20211001s.SignalRResource_Status)
 	if ok {
 		// Populate destination from our instance
 		return resource.AssignPropertiesToSignalRResourceStatus(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1beta20211001storage.SignalRResource_Status{}
+	dst = &v20211001s.SignalRResource_Status{}
 	err := resource.AssignPropertiesToSignalRResourceStatus(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -285,7 +285,7 @@ func (resource *SignalRResource_Status) ConvertStatusTo(destination genruntime.C
 }
 
 // AssignPropertiesFromSignalRResourceStatus populates our SignalRResource_Status from the provided source SignalRResource_Status
-func (resource *SignalRResource_Status) AssignPropertiesFromSignalRResourceStatus(source *v1beta20211001storage.SignalRResource_Status) error {
+func (resource *SignalRResource_Status) AssignPropertiesFromSignalRResourceStatus(source *v20211001s.SignalRResource_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -512,7 +512,7 @@ func (resource *SignalRResource_Status) AssignPropertiesFromSignalRResourceStatu
 }
 
 // AssignPropertiesToSignalRResourceStatus populates the provided destination SignalRResource_Status from our SignalRResource_Status
-func (resource *SignalRResource_Status) AssignPropertiesToSignalRResourceStatus(destination *v1beta20211001storage.SignalRResource_Status) error {
+func (resource *SignalRResource_Status) AssignPropertiesToSignalRResourceStatus(destination *v20211001s.SignalRResource_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(resource.PropertyBag)
 
@@ -521,7 +521,7 @@ func (resource *SignalRResource_Status) AssignPropertiesToSignalRResourceStatus(
 
 	// Cors
 	if resource.Cors != nil {
-		var cor v1beta20211001storage.SignalRCorsSettings_Status
+		var cor v20211001s.SignalRCorsSettings_Status
 		err := resource.Cors.AssignPropertiesToSignalRCorsSettingsStatus(&cor)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSignalRCorsSettingsStatus() to populate field Cors")
@@ -552,11 +552,11 @@ func (resource *SignalRResource_Status) AssignPropertiesToSignalRResourceStatus(
 
 	// Features
 	if resource.Features != nil {
-		featureList := make([]v1beta20211001storage.SignalRFeature_Status, len(resource.Features))
+		featureList := make([]v20211001s.SignalRFeature_Status, len(resource.Features))
 		for featureIndex, featureItem := range resource.Features {
 			// Shadow the loop variable to avoid aliasing
 			featureItem := featureItem
-			var feature v1beta20211001storage.SignalRFeature_Status
+			var feature v20211001s.SignalRFeature_Status
 			err := featureItem.AssignPropertiesToSignalRFeatureStatus(&feature)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToSignalRFeatureStatus() to populate field Features")
@@ -579,7 +579,7 @@ func (resource *SignalRResource_Status) AssignPropertiesToSignalRResourceStatus(
 
 	// Identity
 	if resource.Identity != nil {
-		var identity v1beta20211001storage.ManagedIdentity_Status
+		var identity v20211001s.ManagedIdentity_Status
 		err := resource.Identity.AssignPropertiesToManagedIdentityStatus(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToManagedIdentityStatus() to populate field Identity")
@@ -600,7 +600,7 @@ func (resource *SignalRResource_Status) AssignPropertiesToSignalRResourceStatus(
 
 	// NetworkACLs
 	if resource.NetworkACLs != nil {
-		var networkACL v1beta20211001storage.SignalRNetworkACLs_Status
+		var networkACL v20211001s.SignalRNetworkACLs_Status
 		err := resource.NetworkACLs.AssignPropertiesToSignalRNetworkACLsStatus(&networkACL)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSignalRNetworkACLsStatus() to populate field NetworkACLs")
@@ -612,11 +612,11 @@ func (resource *SignalRResource_Status) AssignPropertiesToSignalRResourceStatus(
 
 	// PrivateEndpointConnections
 	if resource.PrivateEndpointConnections != nil {
-		privateEndpointConnectionList := make([]v1beta20211001storage.PrivateEndpointConnection_Status_SignalR_SubResourceEmbedded, len(resource.PrivateEndpointConnections))
+		privateEndpointConnectionList := make([]v20211001s.PrivateEndpointConnection_Status_SignalR_SubResourceEmbedded, len(resource.PrivateEndpointConnections))
 		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range resource.PrivateEndpointConnections {
 			// Shadow the loop variable to avoid aliasing
 			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection v1beta20211001storage.PrivateEndpointConnection_Status_SignalR_SubResourceEmbedded
+			var privateEndpointConnection v20211001s.PrivateEndpointConnection_Status_SignalR_SubResourceEmbedded
 			err := privateEndpointConnectionItem.AssignPropertiesToPrivateEndpointConnectionStatusSignalRSubResourceEmbedded(&privateEndpointConnection)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToPrivateEndpointConnectionStatusSignalRSubResourceEmbedded() to populate field PrivateEndpointConnections")
@@ -639,7 +639,7 @@ func (resource *SignalRResource_Status) AssignPropertiesToSignalRResourceStatus(
 
 	// ResourceLogConfiguration
 	if resource.ResourceLogConfiguration != nil {
-		var resourceLogConfiguration v1beta20211001storage.ResourceLogConfiguration_Status
+		var resourceLogConfiguration v20211001s.ResourceLogConfiguration_Status
 		err := resource.ResourceLogConfiguration.AssignPropertiesToResourceLogConfigurationStatus(&resourceLogConfiguration)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToResourceLogConfigurationStatus() to populate field ResourceLogConfiguration")
@@ -654,11 +654,11 @@ func (resource *SignalRResource_Status) AssignPropertiesToSignalRResourceStatus(
 
 	// SharedPrivateLinkResources
 	if resource.SharedPrivateLinkResources != nil {
-		sharedPrivateLinkResourceList := make([]v1beta20211001storage.SharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded, len(resource.SharedPrivateLinkResources))
+		sharedPrivateLinkResourceList := make([]v20211001s.SharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded, len(resource.SharedPrivateLinkResources))
 		for sharedPrivateLinkResourceIndex, sharedPrivateLinkResourceItem := range resource.SharedPrivateLinkResources {
 			// Shadow the loop variable to avoid aliasing
 			sharedPrivateLinkResourceItem := sharedPrivateLinkResourceItem
-			var sharedPrivateLinkResource v1beta20211001storage.SharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded
+			var sharedPrivateLinkResource v20211001s.SharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded
 			err := sharedPrivateLinkResourceItem.AssignPropertiesToSharedPrivateLinkResourceStatusSignalRSubResourceEmbedded(&sharedPrivateLinkResource)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToSharedPrivateLinkResourceStatusSignalRSubResourceEmbedded() to populate field SharedPrivateLinkResources")
@@ -672,7 +672,7 @@ func (resource *SignalRResource_Status) AssignPropertiesToSignalRResourceStatus(
 
 	// Sku
 	if resource.Sku != nil {
-		var sku v1beta20211001storage.ResourceSku_Status
+		var sku v20211001s.ResourceSku_Status
 		err := resource.Sku.AssignPropertiesToResourceSkuStatus(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToResourceSkuStatus() to populate field Sku")
@@ -684,7 +684,7 @@ func (resource *SignalRResource_Status) AssignPropertiesToSignalRResourceStatus(
 
 	// SystemData
 	if resource.SystemData != nil {
-		var systemDatum v1beta20211001storage.SystemData_Status
+		var systemDatum v20211001s.SystemData_Status
 		err := resource.SystemData.AssignPropertiesToSystemDataStatus(&systemDatum)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSystemDataStatus() to populate field SystemData")
@@ -699,7 +699,7 @@ func (resource *SignalRResource_Status) AssignPropertiesToSignalRResourceStatus(
 
 	// Tls
 	if resource.Tls != nil {
-		var tl v1beta20211001storage.SignalRTlsSettings_Status
+		var tl v20211001s.SignalRTlsSettings_Status
 		err := resource.Tls.AssignPropertiesToSignalRTlsSettingsStatus(&tl)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSignalRTlsSettingsStatus() to populate field Tls")
@@ -714,7 +714,7 @@ func (resource *SignalRResource_Status) AssignPropertiesToSignalRResourceStatus(
 
 	// Upstream
 	if resource.Upstream != nil {
-		var upstream v1beta20211001storage.ServerlessUpstreamSettings_Status
+		var upstream v20211001s.ServerlessUpstreamSettings_Status
 		err := resource.Upstream.AssignPropertiesToServerlessUpstreamSettingsStatus(&upstream)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToServerlessUpstreamSettingsStatus() to populate field Upstream")
@@ -771,14 +771,14 @@ var _ genruntime.ConvertibleSpec = &SignalR_Spec{}
 
 // ConvertSpecFrom populates our SignalR_Spec from the provided source
 func (signalR *SignalR_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1beta20211001storage.SignalR_Spec)
+	src, ok := source.(*v20211001s.SignalR_Spec)
 	if ok {
 		// Populate our instance from source
 		return signalR.AssignPropertiesFromSignalRSpec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1beta20211001storage.SignalR_Spec{}
+	src = &v20211001s.SignalR_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -795,14 +795,14 @@ func (signalR *SignalR_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) 
 
 // ConvertSpecTo populates the provided destination from our SignalR_Spec
 func (signalR *SignalR_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1beta20211001storage.SignalR_Spec)
+	dst, ok := destination.(*v20211001s.SignalR_Spec)
 	if ok {
 		// Populate destination from our instance
 		return signalR.AssignPropertiesToSignalRSpec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1beta20211001storage.SignalR_Spec{}
+	dst = &v20211001s.SignalR_Spec{}
 	err := signalR.AssignPropertiesToSignalRSpec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -818,7 +818,7 @@ func (signalR *SignalR_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpe
 }
 
 // AssignPropertiesFromSignalRSpec populates our SignalR_Spec from the provided source SignalR_Spec
-func (signalR *SignalR_Spec) AssignPropertiesFromSignalRSpec(source *v1beta20211001storage.SignalR_Spec) error {
+func (signalR *SignalR_Spec) AssignPropertiesFromSignalRSpec(source *v20211001s.SignalR_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -978,7 +978,7 @@ func (signalR *SignalR_Spec) AssignPropertiesFromSignalRSpec(source *v1beta20211
 }
 
 // AssignPropertiesToSignalRSpec populates the provided destination SignalR_Spec from our SignalR_Spec
-func (signalR *SignalR_Spec) AssignPropertiesToSignalRSpec(destination *v1beta20211001storage.SignalR_Spec) error {
+func (signalR *SignalR_Spec) AssignPropertiesToSignalRSpec(destination *v20211001s.SignalR_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(signalR.PropertyBag)
 
@@ -987,7 +987,7 @@ func (signalR *SignalR_Spec) AssignPropertiesToSignalRSpec(destination *v1beta20
 
 	// Cors
 	if signalR.Cors != nil {
-		var cor v1beta20211001storage.SignalRCorsSettings
+		var cor v20211001s.SignalRCorsSettings
 		err := signalR.Cors.AssignPropertiesToSignalRCorsSettings(&cor)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSignalRCorsSettings() to populate field Cors")
@@ -1015,11 +1015,11 @@ func (signalR *SignalR_Spec) AssignPropertiesToSignalRSpec(destination *v1beta20
 
 	// Features
 	if signalR.Features != nil {
-		featureList := make([]v1beta20211001storage.SignalRFeature, len(signalR.Features))
+		featureList := make([]v20211001s.SignalRFeature, len(signalR.Features))
 		for featureIndex, featureItem := range signalR.Features {
 			// Shadow the loop variable to avoid aliasing
 			featureItem := featureItem
-			var feature v1beta20211001storage.SignalRFeature
+			var feature v20211001s.SignalRFeature
 			err := featureItem.AssignPropertiesToSignalRFeature(&feature)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToSignalRFeature() to populate field Features")
@@ -1033,7 +1033,7 @@ func (signalR *SignalR_Spec) AssignPropertiesToSignalRSpec(destination *v1beta20
 
 	// Identity
 	if signalR.Identity != nil {
-		var identity v1beta20211001storage.ManagedIdentity
+		var identity v20211001s.ManagedIdentity
 		err := signalR.Identity.AssignPropertiesToManagedIdentity(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToManagedIdentity() to populate field Identity")
@@ -1051,7 +1051,7 @@ func (signalR *SignalR_Spec) AssignPropertiesToSignalRSpec(destination *v1beta20
 
 	// NetworkACLs
 	if signalR.NetworkACLs != nil {
-		var networkACL v1beta20211001storage.SignalRNetworkACLs
+		var networkACL v20211001s.SignalRNetworkACLs
 		err := signalR.NetworkACLs.AssignPropertiesToSignalRNetworkACLs(&networkACL)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSignalRNetworkACLs() to populate field NetworkACLs")
@@ -1077,7 +1077,7 @@ func (signalR *SignalR_Spec) AssignPropertiesToSignalRSpec(destination *v1beta20
 
 	// ResourceLogConfiguration
 	if signalR.ResourceLogConfiguration != nil {
-		var resourceLogConfiguration v1beta20211001storage.ResourceLogConfiguration
+		var resourceLogConfiguration v20211001s.ResourceLogConfiguration
 		err := signalR.ResourceLogConfiguration.AssignPropertiesToResourceLogConfiguration(&resourceLogConfiguration)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToResourceLogConfiguration() to populate field ResourceLogConfiguration")
@@ -1089,7 +1089,7 @@ func (signalR *SignalR_Spec) AssignPropertiesToSignalRSpec(destination *v1beta20
 
 	// Sku
 	if signalR.Sku != nil {
-		var sku v1beta20211001storage.ResourceSku
+		var sku v20211001s.ResourceSku
 		err := signalR.Sku.AssignPropertiesToResourceSku(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToResourceSku() to populate field Sku")
@@ -1104,7 +1104,7 @@ func (signalR *SignalR_Spec) AssignPropertiesToSignalRSpec(destination *v1beta20
 
 	// Tls
 	if signalR.Tls != nil {
-		var tl v1beta20211001storage.SignalRTlsSettings
+		var tl v20211001s.SignalRTlsSettings
 		err := signalR.Tls.AssignPropertiesToSignalRTlsSettings(&tl)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSignalRTlsSettings() to populate field Tls")
@@ -1116,7 +1116,7 @@ func (signalR *SignalR_Spec) AssignPropertiesToSignalRSpec(destination *v1beta20
 
 	// Upstream
 	if signalR.Upstream != nil {
-		var upstream v1beta20211001storage.ServerlessUpstreamSettings
+		var upstream v20211001s.ServerlessUpstreamSettings
 		err := signalR.Upstream.AssignPropertiesToServerlessUpstreamSettings(&upstream)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToServerlessUpstreamSettings() to populate field Upstream")
@@ -1146,7 +1146,7 @@ type ManagedIdentity struct {
 }
 
 // AssignPropertiesFromManagedIdentity populates our ManagedIdentity from the provided source ManagedIdentity
-func (identity *ManagedIdentity) AssignPropertiesFromManagedIdentity(source *v1beta20211001storage.ManagedIdentity) error {
+func (identity *ManagedIdentity) AssignPropertiesFromManagedIdentity(source *v20211001s.ManagedIdentity) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1178,7 +1178,7 @@ func (identity *ManagedIdentity) AssignPropertiesFromManagedIdentity(source *v1b
 }
 
 // AssignPropertiesToManagedIdentity populates the provided destination ManagedIdentity from our ManagedIdentity
-func (identity *ManagedIdentity) AssignPropertiesToManagedIdentity(destination *v1beta20211001storage.ManagedIdentity) error {
+func (identity *ManagedIdentity) AssignPropertiesToManagedIdentity(destination *v20211001s.ManagedIdentity) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(identity.PropertyBag)
 
@@ -1220,7 +1220,7 @@ type ManagedIdentity_Status struct {
 }
 
 // AssignPropertiesFromManagedIdentityStatus populates our ManagedIdentity_Status from the provided source ManagedIdentity_Status
-func (identity *ManagedIdentity_Status) AssignPropertiesFromManagedIdentityStatus(source *v1beta20211001storage.ManagedIdentity_Status) error {
+func (identity *ManagedIdentity_Status) AssignPropertiesFromManagedIdentityStatus(source *v20211001s.ManagedIdentity_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1263,7 +1263,7 @@ func (identity *ManagedIdentity_Status) AssignPropertiesFromManagedIdentityStatu
 }
 
 // AssignPropertiesToManagedIdentityStatus populates the provided destination ManagedIdentity_Status from our ManagedIdentity_Status
-func (identity *ManagedIdentity_Status) AssignPropertiesToManagedIdentityStatus(destination *v1beta20211001storage.ManagedIdentity_Status) error {
+func (identity *ManagedIdentity_Status) AssignPropertiesToManagedIdentityStatus(destination *v20211001s.ManagedIdentity_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(identity.PropertyBag)
 
@@ -1278,11 +1278,11 @@ func (identity *ManagedIdentity_Status) AssignPropertiesToManagedIdentityStatus(
 
 	// UserAssignedIdentities
 	if identity.UserAssignedIdentities != nil {
-		userAssignedIdentityMap := make(map[string]v1beta20211001storage.UserAssignedIdentityProperty_Status, len(identity.UserAssignedIdentities))
+		userAssignedIdentityMap := make(map[string]v20211001s.UserAssignedIdentityProperty_Status, len(identity.UserAssignedIdentities))
 		for userAssignedIdentityKey, userAssignedIdentityValue := range identity.UserAssignedIdentities {
 			// Shadow the loop variable to avoid aliasing
 			userAssignedIdentityValue := userAssignedIdentityValue
-			var userAssignedIdentity v1beta20211001storage.UserAssignedIdentityProperty_Status
+			var userAssignedIdentity v20211001s.UserAssignedIdentityProperty_Status
 			err := userAssignedIdentityValue.AssignPropertiesToUserAssignedIdentityPropertyStatus(&userAssignedIdentity)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToUserAssignedIdentityPropertyStatus() to populate field UserAssignedIdentities")
@@ -1314,7 +1314,7 @@ type PrivateEndpointConnection_Status_SignalR_SubResourceEmbedded struct {
 }
 
 // AssignPropertiesFromPrivateEndpointConnectionStatusSignalRSubResourceEmbedded populates our PrivateEndpointConnection_Status_SignalR_SubResourceEmbedded from the provided source PrivateEndpointConnection_Status_SignalR_SubResourceEmbedded
-func (embedded *PrivateEndpointConnection_Status_SignalR_SubResourceEmbedded) AssignPropertiesFromPrivateEndpointConnectionStatusSignalRSubResourceEmbedded(source *v1beta20211001storage.PrivateEndpointConnection_Status_SignalR_SubResourceEmbedded) error {
+func (embedded *PrivateEndpointConnection_Status_SignalR_SubResourceEmbedded) AssignPropertiesFromPrivateEndpointConnectionStatusSignalRSubResourceEmbedded(source *v20211001s.PrivateEndpointConnection_Status_SignalR_SubResourceEmbedded) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1345,7 +1345,7 @@ func (embedded *PrivateEndpointConnection_Status_SignalR_SubResourceEmbedded) As
 }
 
 // AssignPropertiesToPrivateEndpointConnectionStatusSignalRSubResourceEmbedded populates the provided destination PrivateEndpointConnection_Status_SignalR_SubResourceEmbedded from our PrivateEndpointConnection_Status_SignalR_SubResourceEmbedded
-func (embedded *PrivateEndpointConnection_Status_SignalR_SubResourceEmbedded) AssignPropertiesToPrivateEndpointConnectionStatusSignalRSubResourceEmbedded(destination *v1beta20211001storage.PrivateEndpointConnection_Status_SignalR_SubResourceEmbedded) error {
+func (embedded *PrivateEndpointConnection_Status_SignalR_SubResourceEmbedded) AssignPropertiesToPrivateEndpointConnectionStatusSignalRSubResourceEmbedded(destination *v20211001s.PrivateEndpointConnection_Status_SignalR_SubResourceEmbedded) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(embedded.PropertyBag)
 
@@ -1354,7 +1354,7 @@ func (embedded *PrivateEndpointConnection_Status_SignalR_SubResourceEmbedded) As
 
 	// SystemData
 	if embedded.SystemData != nil {
-		var systemDatum v1beta20211001storage.SystemData_Status
+		var systemDatum v20211001s.SystemData_Status
 		err := embedded.SystemData.AssignPropertiesToSystemDataStatus(&systemDatum)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSystemDataStatus() to populate field SystemData")
@@ -1383,7 +1383,7 @@ type ResourceLogConfiguration struct {
 }
 
 // AssignPropertiesFromResourceLogConfiguration populates our ResourceLogConfiguration from the provided source ResourceLogConfiguration
-func (configuration *ResourceLogConfiguration) AssignPropertiesFromResourceLogConfiguration(source *v1beta20211001storage.ResourceLogConfiguration) error {
+func (configuration *ResourceLogConfiguration) AssignPropertiesFromResourceLogConfiguration(source *v20211001s.ResourceLogConfiguration) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1417,17 +1417,17 @@ func (configuration *ResourceLogConfiguration) AssignPropertiesFromResourceLogCo
 }
 
 // AssignPropertiesToResourceLogConfiguration populates the provided destination ResourceLogConfiguration from our ResourceLogConfiguration
-func (configuration *ResourceLogConfiguration) AssignPropertiesToResourceLogConfiguration(destination *v1beta20211001storage.ResourceLogConfiguration) error {
+func (configuration *ResourceLogConfiguration) AssignPropertiesToResourceLogConfiguration(destination *v20211001s.ResourceLogConfiguration) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(configuration.PropertyBag)
 
 	// Categories
 	if configuration.Categories != nil {
-		categoryList := make([]v1beta20211001storage.ResourceLogCategory, len(configuration.Categories))
+		categoryList := make([]v20211001s.ResourceLogCategory, len(configuration.Categories))
 		for categoryIndex, categoryItem := range configuration.Categories {
 			// Shadow the loop variable to avoid aliasing
 			categoryItem := categoryItem
-			var category v1beta20211001storage.ResourceLogCategory
+			var category v20211001s.ResourceLogCategory
 			err := categoryItem.AssignPropertiesToResourceLogCategory(&category)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToResourceLogCategory() to populate field Categories")
@@ -1458,7 +1458,7 @@ type ResourceLogConfiguration_Status struct {
 }
 
 // AssignPropertiesFromResourceLogConfigurationStatus populates our ResourceLogConfiguration_Status from the provided source ResourceLogConfiguration_Status
-func (configuration *ResourceLogConfiguration_Status) AssignPropertiesFromResourceLogConfigurationStatus(source *v1beta20211001storage.ResourceLogConfiguration_Status) error {
+func (configuration *ResourceLogConfiguration_Status) AssignPropertiesFromResourceLogConfigurationStatus(source *v20211001s.ResourceLogConfiguration_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1492,17 +1492,17 @@ func (configuration *ResourceLogConfiguration_Status) AssignPropertiesFromResour
 }
 
 // AssignPropertiesToResourceLogConfigurationStatus populates the provided destination ResourceLogConfiguration_Status from our ResourceLogConfiguration_Status
-func (configuration *ResourceLogConfiguration_Status) AssignPropertiesToResourceLogConfigurationStatus(destination *v1beta20211001storage.ResourceLogConfiguration_Status) error {
+func (configuration *ResourceLogConfiguration_Status) AssignPropertiesToResourceLogConfigurationStatus(destination *v20211001s.ResourceLogConfiguration_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(configuration.PropertyBag)
 
 	// Categories
 	if configuration.Categories != nil {
-		categoryList := make([]v1beta20211001storage.ResourceLogCategory_Status, len(configuration.Categories))
+		categoryList := make([]v20211001s.ResourceLogCategory_Status, len(configuration.Categories))
 		for categoryIndex, categoryItem := range configuration.Categories {
 			// Shadow the loop variable to avoid aliasing
 			categoryItem := categoryItem
-			var category v1beta20211001storage.ResourceLogCategory_Status
+			var category v20211001s.ResourceLogCategory_Status
 			err := categoryItem.AssignPropertiesToResourceLogCategoryStatus(&category)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToResourceLogCategoryStatus() to populate field Categories")
@@ -1535,7 +1535,7 @@ type ResourceSku struct {
 }
 
 // AssignPropertiesFromResourceSku populates our ResourceSku from the provided source ResourceSku
-func (resourceSku *ResourceSku) AssignPropertiesFromResourceSku(source *v1beta20211001storage.ResourceSku) error {
+func (resourceSku *ResourceSku) AssignPropertiesFromResourceSku(source *v20211001s.ResourceSku) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1560,7 +1560,7 @@ func (resourceSku *ResourceSku) AssignPropertiesFromResourceSku(source *v1beta20
 }
 
 // AssignPropertiesToResourceSku populates the provided destination ResourceSku from our ResourceSku
-func (resourceSku *ResourceSku) AssignPropertiesToResourceSku(destination *v1beta20211001storage.ResourceSku) error {
+func (resourceSku *ResourceSku) AssignPropertiesToResourceSku(destination *v20211001s.ResourceSku) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(resourceSku.PropertyBag)
 
@@ -1596,7 +1596,7 @@ type ResourceSku_Status struct {
 }
 
 // AssignPropertiesFromResourceSkuStatus populates our ResourceSku_Status from the provided source ResourceSku_Status
-func (resourceSku *ResourceSku_Status) AssignPropertiesFromResourceSkuStatus(source *v1beta20211001storage.ResourceSku_Status) error {
+func (resourceSku *ResourceSku_Status) AssignPropertiesFromResourceSkuStatus(source *v20211001s.ResourceSku_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1627,7 +1627,7 @@ func (resourceSku *ResourceSku_Status) AssignPropertiesFromResourceSkuStatus(sou
 }
 
 // AssignPropertiesToResourceSkuStatus populates the provided destination ResourceSku_Status from our ResourceSku_Status
-func (resourceSku *ResourceSku_Status) AssignPropertiesToResourceSkuStatus(destination *v1beta20211001storage.ResourceSku_Status) error {
+func (resourceSku *ResourceSku_Status) AssignPropertiesToResourceSkuStatus(destination *v20211001s.ResourceSku_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(resourceSku.PropertyBag)
 
@@ -1665,7 +1665,7 @@ type ServerlessUpstreamSettings struct {
 }
 
 // AssignPropertiesFromServerlessUpstreamSettings populates our ServerlessUpstreamSettings from the provided source ServerlessUpstreamSettings
-func (settings *ServerlessUpstreamSettings) AssignPropertiesFromServerlessUpstreamSettings(source *v1beta20211001storage.ServerlessUpstreamSettings) error {
+func (settings *ServerlessUpstreamSettings) AssignPropertiesFromServerlessUpstreamSettings(source *v20211001s.ServerlessUpstreamSettings) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1699,17 +1699,17 @@ func (settings *ServerlessUpstreamSettings) AssignPropertiesFromServerlessUpstre
 }
 
 // AssignPropertiesToServerlessUpstreamSettings populates the provided destination ServerlessUpstreamSettings from our ServerlessUpstreamSettings
-func (settings *ServerlessUpstreamSettings) AssignPropertiesToServerlessUpstreamSettings(destination *v1beta20211001storage.ServerlessUpstreamSettings) error {
+func (settings *ServerlessUpstreamSettings) AssignPropertiesToServerlessUpstreamSettings(destination *v20211001s.ServerlessUpstreamSettings) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(settings.PropertyBag)
 
 	// Templates
 	if settings.Templates != nil {
-		templateList := make([]v1beta20211001storage.UpstreamTemplate, len(settings.Templates))
+		templateList := make([]v20211001s.UpstreamTemplate, len(settings.Templates))
 		for templateIndex, templateItem := range settings.Templates {
 			// Shadow the loop variable to avoid aliasing
 			templateItem := templateItem
-			var template v1beta20211001storage.UpstreamTemplate
+			var template v20211001s.UpstreamTemplate
 			err := templateItem.AssignPropertiesToUpstreamTemplate(&template)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToUpstreamTemplate() to populate field Templates")
@@ -1740,7 +1740,7 @@ type ServerlessUpstreamSettings_Status struct {
 }
 
 // AssignPropertiesFromServerlessUpstreamSettingsStatus populates our ServerlessUpstreamSettings_Status from the provided source ServerlessUpstreamSettings_Status
-func (settings *ServerlessUpstreamSettings_Status) AssignPropertiesFromServerlessUpstreamSettingsStatus(source *v1beta20211001storage.ServerlessUpstreamSettings_Status) error {
+func (settings *ServerlessUpstreamSettings_Status) AssignPropertiesFromServerlessUpstreamSettingsStatus(source *v20211001s.ServerlessUpstreamSettings_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1774,17 +1774,17 @@ func (settings *ServerlessUpstreamSettings_Status) AssignPropertiesFromServerles
 }
 
 // AssignPropertiesToServerlessUpstreamSettingsStatus populates the provided destination ServerlessUpstreamSettings_Status from our ServerlessUpstreamSettings_Status
-func (settings *ServerlessUpstreamSettings_Status) AssignPropertiesToServerlessUpstreamSettingsStatus(destination *v1beta20211001storage.ServerlessUpstreamSettings_Status) error {
+func (settings *ServerlessUpstreamSettings_Status) AssignPropertiesToServerlessUpstreamSettingsStatus(destination *v20211001s.ServerlessUpstreamSettings_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(settings.PropertyBag)
 
 	// Templates
 	if settings.Templates != nil {
-		templateList := make([]v1beta20211001storage.UpstreamTemplate_Status, len(settings.Templates))
+		templateList := make([]v20211001s.UpstreamTemplate_Status, len(settings.Templates))
 		for templateIndex, templateItem := range settings.Templates {
 			// Shadow the loop variable to avoid aliasing
 			templateItem := templateItem
-			var template v1beta20211001storage.UpstreamTemplate_Status
+			var template v20211001s.UpstreamTemplate_Status
 			err := templateItem.AssignPropertiesToUpstreamTemplateStatus(&template)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToUpstreamTemplateStatus() to populate field Templates")
@@ -1816,7 +1816,7 @@ type SharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded struct {
 }
 
 // AssignPropertiesFromSharedPrivateLinkResourceStatusSignalRSubResourceEmbedded populates our SharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded from the provided source SharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded
-func (embedded *SharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded) AssignPropertiesFromSharedPrivateLinkResourceStatusSignalRSubResourceEmbedded(source *v1beta20211001storage.SharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded) error {
+func (embedded *SharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded) AssignPropertiesFromSharedPrivateLinkResourceStatusSignalRSubResourceEmbedded(source *v20211001s.SharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1847,7 +1847,7 @@ func (embedded *SharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded) As
 }
 
 // AssignPropertiesToSharedPrivateLinkResourceStatusSignalRSubResourceEmbedded populates the provided destination SharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded from our SharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded
-func (embedded *SharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded) AssignPropertiesToSharedPrivateLinkResourceStatusSignalRSubResourceEmbedded(destination *v1beta20211001storage.SharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded) error {
+func (embedded *SharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded) AssignPropertiesToSharedPrivateLinkResourceStatusSignalRSubResourceEmbedded(destination *v20211001s.SharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(embedded.PropertyBag)
 
@@ -1856,7 +1856,7 @@ func (embedded *SharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded) As
 
 	// SystemData
 	if embedded.SystemData != nil {
-		var systemDatum v1beta20211001storage.SystemData_Status
+		var systemDatum v20211001s.SystemData_Status
 		err := embedded.SystemData.AssignPropertiesToSystemDataStatus(&systemDatum)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSystemDataStatus() to populate field SystemData")
@@ -1885,7 +1885,7 @@ type SignalRCorsSettings struct {
 }
 
 // AssignPropertiesFromSignalRCorsSettings populates our SignalRCorsSettings from the provided source SignalRCorsSettings
-func (settings *SignalRCorsSettings) AssignPropertiesFromSignalRCorsSettings(source *v1beta20211001storage.SignalRCorsSettings) error {
+func (settings *SignalRCorsSettings) AssignPropertiesFromSignalRCorsSettings(source *v20211001s.SignalRCorsSettings) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1904,7 +1904,7 @@ func (settings *SignalRCorsSettings) AssignPropertiesFromSignalRCorsSettings(sou
 }
 
 // AssignPropertiesToSignalRCorsSettings populates the provided destination SignalRCorsSettings from our SignalRCorsSettings
-func (settings *SignalRCorsSettings) AssignPropertiesToSignalRCorsSettings(destination *v1beta20211001storage.SignalRCorsSettings) error {
+func (settings *SignalRCorsSettings) AssignPropertiesToSignalRCorsSettings(destination *v20211001s.SignalRCorsSettings) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(settings.PropertyBag)
 
@@ -1930,7 +1930,7 @@ type SignalRCorsSettings_Status struct {
 }
 
 // AssignPropertiesFromSignalRCorsSettingsStatus populates our SignalRCorsSettings_Status from the provided source SignalRCorsSettings_Status
-func (settings *SignalRCorsSettings_Status) AssignPropertiesFromSignalRCorsSettingsStatus(source *v1beta20211001storage.SignalRCorsSettings_Status) error {
+func (settings *SignalRCorsSettings_Status) AssignPropertiesFromSignalRCorsSettingsStatus(source *v20211001s.SignalRCorsSettings_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1949,7 +1949,7 @@ func (settings *SignalRCorsSettings_Status) AssignPropertiesFromSignalRCorsSetti
 }
 
 // AssignPropertiesToSignalRCorsSettingsStatus populates the provided destination SignalRCorsSettings_Status from our SignalRCorsSettings_Status
-func (settings *SignalRCorsSettings_Status) AssignPropertiesToSignalRCorsSettingsStatus(destination *v1beta20211001storage.SignalRCorsSettings_Status) error {
+func (settings *SignalRCorsSettings_Status) AssignPropertiesToSignalRCorsSettingsStatus(destination *v20211001s.SignalRCorsSettings_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(settings.PropertyBag)
 
@@ -1977,7 +1977,7 @@ type SignalRFeature struct {
 }
 
 // AssignPropertiesFromSignalRFeature populates our SignalRFeature from the provided source SignalRFeature
-func (feature *SignalRFeature) AssignPropertiesFromSignalRFeature(source *v1beta20211001storage.SignalRFeature) error {
+func (feature *SignalRFeature) AssignPropertiesFromSignalRFeature(source *v20211001s.SignalRFeature) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2002,7 +2002,7 @@ func (feature *SignalRFeature) AssignPropertiesFromSignalRFeature(source *v1beta
 }
 
 // AssignPropertiesToSignalRFeature populates the provided destination SignalRFeature from our SignalRFeature
-func (feature *SignalRFeature) AssignPropertiesToSignalRFeature(destination *v1beta20211001storage.SignalRFeature) error {
+func (feature *SignalRFeature) AssignPropertiesToSignalRFeature(destination *v20211001s.SignalRFeature) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(feature.PropertyBag)
 
@@ -2036,7 +2036,7 @@ type SignalRFeature_Status struct {
 }
 
 // AssignPropertiesFromSignalRFeatureStatus populates our SignalRFeature_Status from the provided source SignalRFeature_Status
-func (feature *SignalRFeature_Status) AssignPropertiesFromSignalRFeatureStatus(source *v1beta20211001storage.SignalRFeature_Status) error {
+func (feature *SignalRFeature_Status) AssignPropertiesFromSignalRFeatureStatus(source *v20211001s.SignalRFeature_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2061,7 +2061,7 @@ func (feature *SignalRFeature_Status) AssignPropertiesFromSignalRFeatureStatus(s
 }
 
 // AssignPropertiesToSignalRFeatureStatus populates the provided destination SignalRFeature_Status from our SignalRFeature_Status
-func (feature *SignalRFeature_Status) AssignPropertiesToSignalRFeatureStatus(destination *v1beta20211001storage.SignalRFeature_Status) error {
+func (feature *SignalRFeature_Status) AssignPropertiesToSignalRFeatureStatus(destination *v20211001s.SignalRFeature_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(feature.PropertyBag)
 
@@ -2095,7 +2095,7 @@ type SignalRNetworkACLs struct {
 }
 
 // AssignPropertiesFromSignalRNetworkACLs populates our SignalRNetworkACLs from the provided source SignalRNetworkACLs
-func (acLs *SignalRNetworkACLs) AssignPropertiesFromSignalRNetworkACLs(source *v1beta20211001storage.SignalRNetworkACLs) error {
+func (acLs *SignalRNetworkACLs) AssignPropertiesFromSignalRNetworkACLs(source *v20211001s.SignalRNetworkACLs) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2144,7 +2144,7 @@ func (acLs *SignalRNetworkACLs) AssignPropertiesFromSignalRNetworkACLs(source *v
 }
 
 // AssignPropertiesToSignalRNetworkACLs populates the provided destination SignalRNetworkACLs from our SignalRNetworkACLs
-func (acLs *SignalRNetworkACLs) AssignPropertiesToSignalRNetworkACLs(destination *v1beta20211001storage.SignalRNetworkACLs) error {
+func (acLs *SignalRNetworkACLs) AssignPropertiesToSignalRNetworkACLs(destination *v20211001s.SignalRNetworkACLs) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(acLs.PropertyBag)
 
@@ -2153,11 +2153,11 @@ func (acLs *SignalRNetworkACLs) AssignPropertiesToSignalRNetworkACLs(destination
 
 	// PrivateEndpoints
 	if acLs.PrivateEndpoints != nil {
-		privateEndpointList := make([]v1beta20211001storage.PrivateEndpointACL, len(acLs.PrivateEndpoints))
+		privateEndpointList := make([]v20211001s.PrivateEndpointACL, len(acLs.PrivateEndpoints))
 		for privateEndpointIndex, privateEndpointItem := range acLs.PrivateEndpoints {
 			// Shadow the loop variable to avoid aliasing
 			privateEndpointItem := privateEndpointItem
-			var privateEndpoint v1beta20211001storage.PrivateEndpointACL
+			var privateEndpoint v20211001s.PrivateEndpointACL
 			err := privateEndpointItem.AssignPropertiesToPrivateEndpointACL(&privateEndpoint)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToPrivateEndpointACL() to populate field PrivateEndpoints")
@@ -2171,7 +2171,7 @@ func (acLs *SignalRNetworkACLs) AssignPropertiesToSignalRNetworkACLs(destination
 
 	// PublicNetwork
 	if acLs.PublicNetwork != nil {
-		var publicNetwork v1beta20211001storage.NetworkACL
+		var publicNetwork v20211001s.NetworkACL
 		err := acLs.PublicNetwork.AssignPropertiesToNetworkACL(&publicNetwork)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToNetworkACL() to populate field PublicNetwork")
@@ -2202,7 +2202,7 @@ type SignalRNetworkACLs_Status struct {
 }
 
 // AssignPropertiesFromSignalRNetworkACLsStatus populates our SignalRNetworkACLs_Status from the provided source SignalRNetworkACLs_Status
-func (acLs *SignalRNetworkACLs_Status) AssignPropertiesFromSignalRNetworkACLsStatus(source *v1beta20211001storage.SignalRNetworkACLs_Status) error {
+func (acLs *SignalRNetworkACLs_Status) AssignPropertiesFromSignalRNetworkACLsStatus(source *v20211001s.SignalRNetworkACLs_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2251,7 +2251,7 @@ func (acLs *SignalRNetworkACLs_Status) AssignPropertiesFromSignalRNetworkACLsSta
 }
 
 // AssignPropertiesToSignalRNetworkACLsStatus populates the provided destination SignalRNetworkACLs_Status from our SignalRNetworkACLs_Status
-func (acLs *SignalRNetworkACLs_Status) AssignPropertiesToSignalRNetworkACLsStatus(destination *v1beta20211001storage.SignalRNetworkACLs_Status) error {
+func (acLs *SignalRNetworkACLs_Status) AssignPropertiesToSignalRNetworkACLsStatus(destination *v20211001s.SignalRNetworkACLs_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(acLs.PropertyBag)
 
@@ -2260,11 +2260,11 @@ func (acLs *SignalRNetworkACLs_Status) AssignPropertiesToSignalRNetworkACLsStatu
 
 	// PrivateEndpoints
 	if acLs.PrivateEndpoints != nil {
-		privateEndpointList := make([]v1beta20211001storage.PrivateEndpointACL_Status, len(acLs.PrivateEndpoints))
+		privateEndpointList := make([]v20211001s.PrivateEndpointACL_Status, len(acLs.PrivateEndpoints))
 		for privateEndpointIndex, privateEndpointItem := range acLs.PrivateEndpoints {
 			// Shadow the loop variable to avoid aliasing
 			privateEndpointItem := privateEndpointItem
-			var privateEndpoint v1beta20211001storage.PrivateEndpointACL_Status
+			var privateEndpoint v20211001s.PrivateEndpointACL_Status
 			err := privateEndpointItem.AssignPropertiesToPrivateEndpointACLStatus(&privateEndpoint)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToPrivateEndpointACLStatus() to populate field PrivateEndpoints")
@@ -2278,7 +2278,7 @@ func (acLs *SignalRNetworkACLs_Status) AssignPropertiesToSignalRNetworkACLsStatu
 
 	// PublicNetwork
 	if acLs.PublicNetwork != nil {
-		var publicNetwork v1beta20211001storage.NetworkACL_Status
+		var publicNetwork v20211001s.NetworkACL_Status
 		err := acLs.PublicNetwork.AssignPropertiesToNetworkACLStatus(&publicNetwork)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToNetworkACLStatus() to populate field PublicNetwork")
@@ -2307,7 +2307,7 @@ type SignalRTlsSettings struct {
 }
 
 // AssignPropertiesFromSignalRTlsSettings populates our SignalRTlsSettings from the provided source SignalRTlsSettings
-func (settings *SignalRTlsSettings) AssignPropertiesFromSignalRTlsSettings(source *v1beta20211001storage.SignalRTlsSettings) error {
+func (settings *SignalRTlsSettings) AssignPropertiesFromSignalRTlsSettings(source *v20211001s.SignalRTlsSettings) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2331,7 +2331,7 @@ func (settings *SignalRTlsSettings) AssignPropertiesFromSignalRTlsSettings(sourc
 }
 
 // AssignPropertiesToSignalRTlsSettings populates the provided destination SignalRTlsSettings from our SignalRTlsSettings
-func (settings *SignalRTlsSettings) AssignPropertiesToSignalRTlsSettings(destination *v1beta20211001storage.SignalRTlsSettings) error {
+func (settings *SignalRTlsSettings) AssignPropertiesToSignalRTlsSettings(destination *v20211001s.SignalRTlsSettings) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(settings.PropertyBag)
 
@@ -2362,7 +2362,7 @@ type SignalRTlsSettings_Status struct {
 }
 
 // AssignPropertiesFromSignalRTlsSettingsStatus populates our SignalRTlsSettings_Status from the provided source SignalRTlsSettings_Status
-func (settings *SignalRTlsSettings_Status) AssignPropertiesFromSignalRTlsSettingsStatus(source *v1beta20211001storage.SignalRTlsSettings_Status) error {
+func (settings *SignalRTlsSettings_Status) AssignPropertiesFromSignalRTlsSettingsStatus(source *v20211001s.SignalRTlsSettings_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2386,7 +2386,7 @@ func (settings *SignalRTlsSettings_Status) AssignPropertiesFromSignalRTlsSetting
 }
 
 // AssignPropertiesToSignalRTlsSettingsStatus populates the provided destination SignalRTlsSettings_Status from our SignalRTlsSettings_Status
-func (settings *SignalRTlsSettings_Status) AssignPropertiesToSignalRTlsSettingsStatus(destination *v1beta20211001storage.SignalRTlsSettings_Status) error {
+func (settings *SignalRTlsSettings_Status) AssignPropertiesToSignalRTlsSettingsStatus(destination *v20211001s.SignalRTlsSettings_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(settings.PropertyBag)
 
@@ -2422,7 +2422,7 @@ type SystemData_Status struct {
 }
 
 // AssignPropertiesFromSystemDataStatus populates our SystemData_Status from the provided source SystemData_Status
-func (data *SystemData_Status) AssignPropertiesFromSystemDataStatus(source *v1beta20211001storage.SystemData_Status) error {
+func (data *SystemData_Status) AssignPropertiesFromSystemDataStatus(source *v20211001s.SystemData_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2456,7 +2456,7 @@ func (data *SystemData_Status) AssignPropertiesFromSystemDataStatus(source *v1be
 }
 
 // AssignPropertiesToSystemDataStatus populates the provided destination SystemData_Status from our SystemData_Status
-func (data *SystemData_Status) AssignPropertiesToSystemDataStatus(destination *v1beta20211001storage.SystemData_Status) error {
+func (data *SystemData_Status) AssignPropertiesToSystemDataStatus(destination *v20211001s.SystemData_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(data.PropertyBag)
 
@@ -2498,7 +2498,7 @@ type NetworkACL struct {
 }
 
 // AssignPropertiesFromNetworkACL populates our NetworkACL from the provided source NetworkACL
-func (networkACL *NetworkACL) AssignPropertiesFromNetworkACL(source *v1beta20211001storage.NetworkACL) error {
+func (networkACL *NetworkACL) AssignPropertiesFromNetworkACL(source *v20211001s.NetworkACL) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2520,7 +2520,7 @@ func (networkACL *NetworkACL) AssignPropertiesFromNetworkACL(source *v1beta20211
 }
 
 // AssignPropertiesToNetworkACL populates the provided destination NetworkACL from our NetworkACL
-func (networkACL *NetworkACL) AssignPropertiesToNetworkACL(destination *v1beta20211001storage.NetworkACL) error {
+func (networkACL *NetworkACL) AssignPropertiesToNetworkACL(destination *v20211001s.NetworkACL) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(networkACL.PropertyBag)
 
@@ -2550,7 +2550,7 @@ type NetworkACL_Status struct {
 }
 
 // AssignPropertiesFromNetworkACLStatus populates our NetworkACL_Status from the provided source NetworkACL_Status
-func (networkACL *NetworkACL_Status) AssignPropertiesFromNetworkACLStatus(source *v1beta20211001storage.NetworkACL_Status) error {
+func (networkACL *NetworkACL_Status) AssignPropertiesFromNetworkACLStatus(source *v20211001s.NetworkACL_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2572,7 +2572,7 @@ func (networkACL *NetworkACL_Status) AssignPropertiesFromNetworkACLStatus(source
 }
 
 // AssignPropertiesToNetworkACLStatus populates the provided destination NetworkACL_Status from our NetworkACL_Status
-func (networkACL *NetworkACL_Status) AssignPropertiesToNetworkACLStatus(destination *v1beta20211001storage.NetworkACL_Status) error {
+func (networkACL *NetworkACL_Status) AssignPropertiesToNetworkACLStatus(destination *v20211001s.NetworkACL_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(networkACL.PropertyBag)
 
@@ -2603,7 +2603,7 @@ type PrivateEndpointACL struct {
 }
 
 // AssignPropertiesFromPrivateEndpointACL populates our PrivateEndpointACL from the provided source PrivateEndpointACL
-func (endpointACL *PrivateEndpointACL) AssignPropertiesFromPrivateEndpointACL(source *v1beta20211001storage.PrivateEndpointACL) error {
+func (endpointACL *PrivateEndpointACL) AssignPropertiesFromPrivateEndpointACL(source *v20211001s.PrivateEndpointACL) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2628,7 +2628,7 @@ func (endpointACL *PrivateEndpointACL) AssignPropertiesFromPrivateEndpointACL(so
 }
 
 // AssignPropertiesToPrivateEndpointACL populates the provided destination PrivateEndpointACL from our PrivateEndpointACL
-func (endpointACL *PrivateEndpointACL) AssignPropertiesToPrivateEndpointACL(destination *v1beta20211001storage.PrivateEndpointACL) error {
+func (endpointACL *PrivateEndpointACL) AssignPropertiesToPrivateEndpointACL(destination *v20211001s.PrivateEndpointACL) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(endpointACL.PropertyBag)
 
@@ -2662,7 +2662,7 @@ type PrivateEndpointACL_Status struct {
 }
 
 // AssignPropertiesFromPrivateEndpointACLStatus populates our PrivateEndpointACL_Status from the provided source PrivateEndpointACL_Status
-func (endpointACL *PrivateEndpointACL_Status) AssignPropertiesFromPrivateEndpointACLStatus(source *v1beta20211001storage.PrivateEndpointACL_Status) error {
+func (endpointACL *PrivateEndpointACL_Status) AssignPropertiesFromPrivateEndpointACLStatus(source *v20211001s.PrivateEndpointACL_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2687,7 +2687,7 @@ func (endpointACL *PrivateEndpointACL_Status) AssignPropertiesFromPrivateEndpoin
 }
 
 // AssignPropertiesToPrivateEndpointACLStatus populates the provided destination PrivateEndpointACL_Status from our PrivateEndpointACL_Status
-func (endpointACL *PrivateEndpointACL_Status) AssignPropertiesToPrivateEndpointACLStatus(destination *v1beta20211001storage.PrivateEndpointACL_Status) error {
+func (endpointACL *PrivateEndpointACL_Status) AssignPropertiesToPrivateEndpointACLStatus(destination *v20211001s.PrivateEndpointACL_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(endpointACL.PropertyBag)
 
@@ -2720,7 +2720,7 @@ type ResourceLogCategory struct {
 }
 
 // AssignPropertiesFromResourceLogCategory populates our ResourceLogCategory from the provided source ResourceLogCategory
-func (category *ResourceLogCategory) AssignPropertiesFromResourceLogCategory(source *v1beta20211001storage.ResourceLogCategory) error {
+func (category *ResourceLogCategory) AssignPropertiesFromResourceLogCategory(source *v20211001s.ResourceLogCategory) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2742,7 +2742,7 @@ func (category *ResourceLogCategory) AssignPropertiesFromResourceLogCategory(sou
 }
 
 // AssignPropertiesToResourceLogCategory populates the provided destination ResourceLogCategory from our ResourceLogCategory
-func (category *ResourceLogCategory) AssignPropertiesToResourceLogCategory(destination *v1beta20211001storage.ResourceLogCategory) error {
+func (category *ResourceLogCategory) AssignPropertiesToResourceLogCategory(destination *v20211001s.ResourceLogCategory) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(category.PropertyBag)
 
@@ -2772,7 +2772,7 @@ type ResourceLogCategory_Status struct {
 }
 
 // AssignPropertiesFromResourceLogCategoryStatus populates our ResourceLogCategory_Status from the provided source ResourceLogCategory_Status
-func (category *ResourceLogCategory_Status) AssignPropertiesFromResourceLogCategoryStatus(source *v1beta20211001storage.ResourceLogCategory_Status) error {
+func (category *ResourceLogCategory_Status) AssignPropertiesFromResourceLogCategoryStatus(source *v20211001s.ResourceLogCategory_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2794,7 +2794,7 @@ func (category *ResourceLogCategory_Status) AssignPropertiesFromResourceLogCateg
 }
 
 // AssignPropertiesToResourceLogCategoryStatus populates the provided destination ResourceLogCategory_Status from our ResourceLogCategory_Status
-func (category *ResourceLogCategory_Status) AssignPropertiesToResourceLogCategoryStatus(destination *v1beta20211001storage.ResourceLogCategory_Status) error {
+func (category *ResourceLogCategory_Status) AssignPropertiesToResourceLogCategoryStatus(destination *v20211001s.ResourceLogCategory_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(category.PropertyBag)
 
@@ -2827,7 +2827,7 @@ type UpstreamTemplate struct {
 }
 
 // AssignPropertiesFromUpstreamTemplate populates our UpstreamTemplate from the provided source UpstreamTemplate
-func (template *UpstreamTemplate) AssignPropertiesFromUpstreamTemplate(source *v1beta20211001storage.UpstreamTemplate) error {
+func (template *UpstreamTemplate) AssignPropertiesFromUpstreamTemplate(source *v20211001s.UpstreamTemplate) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2867,13 +2867,13 @@ func (template *UpstreamTemplate) AssignPropertiesFromUpstreamTemplate(source *v
 }
 
 // AssignPropertiesToUpstreamTemplate populates the provided destination UpstreamTemplate from our UpstreamTemplate
-func (template *UpstreamTemplate) AssignPropertiesToUpstreamTemplate(destination *v1beta20211001storage.UpstreamTemplate) error {
+func (template *UpstreamTemplate) AssignPropertiesToUpstreamTemplate(destination *v20211001s.UpstreamTemplate) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(template.PropertyBag)
 
 	// Auth
 	if template.Auth != nil {
-		var auth v1beta20211001storage.UpstreamAuthSettings
+		var auth v20211001s.UpstreamAuthSettings
 		err := template.Auth.AssignPropertiesToUpstreamAuthSettings(&auth)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToUpstreamAuthSettings() to populate field Auth")
@@ -2918,7 +2918,7 @@ type UpstreamTemplate_Status struct {
 }
 
 // AssignPropertiesFromUpstreamTemplateStatus populates our UpstreamTemplate_Status from the provided source UpstreamTemplate_Status
-func (template *UpstreamTemplate_Status) AssignPropertiesFromUpstreamTemplateStatus(source *v1beta20211001storage.UpstreamTemplate_Status) error {
+func (template *UpstreamTemplate_Status) AssignPropertiesFromUpstreamTemplateStatus(source *v20211001s.UpstreamTemplate_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2958,13 +2958,13 @@ func (template *UpstreamTemplate_Status) AssignPropertiesFromUpstreamTemplateSta
 }
 
 // AssignPropertiesToUpstreamTemplateStatus populates the provided destination UpstreamTemplate_Status from our UpstreamTemplate_Status
-func (template *UpstreamTemplate_Status) AssignPropertiesToUpstreamTemplateStatus(destination *v1beta20211001storage.UpstreamTemplate_Status) error {
+func (template *UpstreamTemplate_Status) AssignPropertiesToUpstreamTemplateStatus(destination *v20211001s.UpstreamTemplate_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(template.PropertyBag)
 
 	// Auth
 	if template.Auth != nil {
-		var auth v1beta20211001storage.UpstreamAuthSettings_Status
+		var auth v20211001s.UpstreamAuthSettings_Status
 		err := template.Auth.AssignPropertiesToUpstreamAuthSettingsStatus(&auth)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToUpstreamAuthSettingsStatus() to populate field Auth")
@@ -3006,7 +3006,7 @@ type UserAssignedIdentityProperty_Status struct {
 }
 
 // AssignPropertiesFromUserAssignedIdentityPropertyStatus populates our UserAssignedIdentityProperty_Status from the provided source UserAssignedIdentityProperty_Status
-func (property *UserAssignedIdentityProperty_Status) AssignPropertiesFromUserAssignedIdentityPropertyStatus(source *v1beta20211001storage.UserAssignedIdentityProperty_Status) error {
+func (property *UserAssignedIdentityProperty_Status) AssignPropertiesFromUserAssignedIdentityPropertyStatus(source *v20211001s.UserAssignedIdentityProperty_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -3028,7 +3028,7 @@ func (property *UserAssignedIdentityProperty_Status) AssignPropertiesFromUserAss
 }
 
 // AssignPropertiesToUserAssignedIdentityPropertyStatus populates the provided destination UserAssignedIdentityProperty_Status from our UserAssignedIdentityProperty_Status
-func (property *UserAssignedIdentityProperty_Status) AssignPropertiesToUserAssignedIdentityPropertyStatus(destination *v1beta20211001storage.UserAssignedIdentityProperty_Status) error {
+func (property *UserAssignedIdentityProperty_Status) AssignPropertiesToUserAssignedIdentityPropertyStatus(destination *v20211001s.UserAssignedIdentityProperty_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(property.PropertyBag)
 
@@ -3058,7 +3058,7 @@ type UpstreamAuthSettings struct {
 }
 
 // AssignPropertiesFromUpstreamAuthSettings populates our UpstreamAuthSettings from the provided source UpstreamAuthSettings
-func (settings *UpstreamAuthSettings) AssignPropertiesFromUpstreamAuthSettings(source *v1beta20211001storage.UpstreamAuthSettings) error {
+func (settings *UpstreamAuthSettings) AssignPropertiesFromUpstreamAuthSettings(source *v20211001s.UpstreamAuthSettings) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -3089,13 +3089,13 @@ func (settings *UpstreamAuthSettings) AssignPropertiesFromUpstreamAuthSettings(s
 }
 
 // AssignPropertiesToUpstreamAuthSettings populates the provided destination UpstreamAuthSettings from our UpstreamAuthSettings
-func (settings *UpstreamAuthSettings) AssignPropertiesToUpstreamAuthSettings(destination *v1beta20211001storage.UpstreamAuthSettings) error {
+func (settings *UpstreamAuthSettings) AssignPropertiesToUpstreamAuthSettings(destination *v20211001s.UpstreamAuthSettings) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(settings.PropertyBag)
 
 	// ManagedIdentity
 	if settings.ManagedIdentity != nil {
-		var managedIdentity v1beta20211001storage.ManagedIdentitySettings
+		var managedIdentity v20211001s.ManagedIdentitySettings
 		err := settings.ManagedIdentity.AssignPropertiesToManagedIdentitySettings(&managedIdentity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToManagedIdentitySettings() to populate field ManagedIdentity")
@@ -3128,7 +3128,7 @@ type UpstreamAuthSettings_Status struct {
 }
 
 // AssignPropertiesFromUpstreamAuthSettingsStatus populates our UpstreamAuthSettings_Status from the provided source UpstreamAuthSettings_Status
-func (settings *UpstreamAuthSettings_Status) AssignPropertiesFromUpstreamAuthSettingsStatus(source *v1beta20211001storage.UpstreamAuthSettings_Status) error {
+func (settings *UpstreamAuthSettings_Status) AssignPropertiesFromUpstreamAuthSettingsStatus(source *v20211001s.UpstreamAuthSettings_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -3159,13 +3159,13 @@ func (settings *UpstreamAuthSettings_Status) AssignPropertiesFromUpstreamAuthSet
 }
 
 // AssignPropertiesToUpstreamAuthSettingsStatus populates the provided destination UpstreamAuthSettings_Status from our UpstreamAuthSettings_Status
-func (settings *UpstreamAuthSettings_Status) AssignPropertiesToUpstreamAuthSettingsStatus(destination *v1beta20211001storage.UpstreamAuthSettings_Status) error {
+func (settings *UpstreamAuthSettings_Status) AssignPropertiesToUpstreamAuthSettingsStatus(destination *v20211001s.UpstreamAuthSettings_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(settings.PropertyBag)
 
 	// ManagedIdentity
 	if settings.ManagedIdentity != nil {
-		var managedIdentity v1beta20211001storage.ManagedIdentitySettings_Status
+		var managedIdentity v20211001s.ManagedIdentitySettings_Status
 		err := settings.ManagedIdentity.AssignPropertiesToManagedIdentitySettingsStatus(&managedIdentity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToManagedIdentitySettingsStatus() to populate field ManagedIdentity")
@@ -3197,7 +3197,7 @@ type ManagedIdentitySettings struct {
 }
 
 // AssignPropertiesFromManagedIdentitySettings populates our ManagedIdentitySettings from the provided source ManagedIdentitySettings
-func (settings *ManagedIdentitySettings) AssignPropertiesFromManagedIdentitySettings(source *v1beta20211001storage.ManagedIdentitySettings) error {
+func (settings *ManagedIdentitySettings) AssignPropertiesFromManagedIdentitySettings(source *v20211001s.ManagedIdentitySettings) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -3216,7 +3216,7 @@ func (settings *ManagedIdentitySettings) AssignPropertiesFromManagedIdentitySett
 }
 
 // AssignPropertiesToManagedIdentitySettings populates the provided destination ManagedIdentitySettings from our ManagedIdentitySettings
-func (settings *ManagedIdentitySettings) AssignPropertiesToManagedIdentitySettings(destination *v1beta20211001storage.ManagedIdentitySettings) error {
+func (settings *ManagedIdentitySettings) AssignPropertiesToManagedIdentitySettings(destination *v20211001s.ManagedIdentitySettings) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(settings.PropertyBag)
 
@@ -3242,7 +3242,7 @@ type ManagedIdentitySettings_Status struct {
 }
 
 // AssignPropertiesFromManagedIdentitySettingsStatus populates our ManagedIdentitySettings_Status from the provided source ManagedIdentitySettings_Status
-func (settings *ManagedIdentitySettings_Status) AssignPropertiesFromManagedIdentitySettingsStatus(source *v1beta20211001storage.ManagedIdentitySettings_Status) error {
+func (settings *ManagedIdentitySettings_Status) AssignPropertiesFromManagedIdentitySettingsStatus(source *v20211001s.ManagedIdentitySettings_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -3261,7 +3261,7 @@ func (settings *ManagedIdentitySettings_Status) AssignPropertiesFromManagedIdent
 }
 
 // AssignPropertiesToManagedIdentitySettingsStatus populates the provided destination ManagedIdentitySettings_Status from our ManagedIdentitySettings_Status
-func (settings *ManagedIdentitySettings_Status) AssignPropertiesToManagedIdentitySettingsStatus(destination *v1beta20211001storage.ManagedIdentitySettings_Status) error {
+func (settings *ManagedIdentitySettings_Status) AssignPropertiesToManagedIdentitySettingsStatus(destination *v20211001s.ManagedIdentitySettings_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(settings.PropertyBag)
 

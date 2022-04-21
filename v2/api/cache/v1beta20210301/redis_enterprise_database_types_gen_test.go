@@ -5,7 +5,7 @@ package v1beta20210301
 
 import (
 	"encoding/json"
-	"github.com/Azure/azure-service-operator/v2/api/cache/v1beta20210301storage"
+	v20210301s "github.com/Azure/azure-service-operator/v2/api/cache/v1beta20210301storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -35,7 +35,7 @@ func RunResourceConversionTestForRedisEnterpriseDatabase(subject RedisEnterprise
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1beta20210301storage.RedisEnterpriseDatabase
+	var hub v20210301s.RedisEnterpriseDatabase
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -77,7 +77,7 @@ func RunPropertyAssignmentTestForRedisEnterpriseDatabase(subject RedisEnterprise
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210301storage.RedisEnterpriseDatabase
+	var other v20210301s.RedisEnterpriseDatabase
 	err := copied.AssignPropertiesToRedisEnterpriseDatabase(&other)
 	if err != nil {
 		return err.Error()
@@ -180,7 +180,7 @@ func RunPropertyAssignmentTestForDatabaseStatus(subject Database_Status) string 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210301storage.Database_Status
+	var other v20210301s.Database_Status
 	err := copied.AssignPropertiesToDatabaseStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -330,7 +330,7 @@ func RunPropertyAssignmentTestForRedisEnterpriseDatabasesSpec(subject RedisEnter
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210301storage.RedisEnterpriseDatabases_Spec
+	var other v20210301s.RedisEnterpriseDatabases_Spec
 	err := copied.AssignPropertiesToRedisEnterpriseDatabasesSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -461,7 +461,7 @@ func RunPropertyAssignmentTestForModule(subject Module) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210301storage.Module
+	var other v20210301s.Module
 	err := copied.AssignPropertiesToModule(&other)
 	if err != nil {
 		return err.Error()
@@ -563,7 +563,7 @@ func RunPropertyAssignmentTestForModuleStatus(subject Module_Status) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210301storage.Module_Status
+	var other v20210301s.Module_Status
 	err := copied.AssignPropertiesToModuleStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -666,7 +666,7 @@ func RunPropertyAssignmentTestForPersistence(subject Persistence) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210301storage.Persistence
+	var other v20210301s.Persistence
 	err := copied.AssignPropertiesToPersistence(&other)
 	if err != nil {
 		return err.Error()
@@ -770,7 +770,7 @@ func RunPropertyAssignmentTestForPersistenceStatus(subject Persistence_Status) s
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210301storage.Persistence_Status
+	var other v20210301s.Persistence_Status
 	err := copied.AssignPropertiesToPersistenceStatus(&other)
 	if err != nil {
 		return err.Error()

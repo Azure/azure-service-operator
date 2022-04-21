@@ -5,8 +5,8 @@ package v1alpha1api20201201
 
 import (
 	"encoding/json"
-	"github.com/Azure/azure-service-operator/v2/api/cache/v1alpha1api20201201storage"
-	"github.com/Azure/azure-service-operator/v2/api/cache/v1beta20201201storage"
+	alpha20201201s "github.com/Azure/azure-service-operator/v2/api/cache/v1alpha1api20201201storage"
+	v20201201s "github.com/Azure/azure-service-operator/v2/api/cache/v1beta20201201storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForRedisPatchSchedule(subject RedisPatchSchedule) 
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1beta20201201storage.RedisPatchSchedule
+	var hub v20201201s.RedisPatchSchedule
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForRedisPatchSchedule(subject RedisPatchSchedule) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20201201storage.RedisPatchSchedule
+	var other alpha20201201s.RedisPatchSchedule
 	err := copied.AssignPropertiesToRedisPatchSchedule(&other)
 	if err != nil {
 		return err.Error()
@@ -180,7 +180,7 @@ func RunPropertyAssignmentTestForRedisPatchScheduleStatus(subject RedisPatchSche
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20201201storage.RedisPatchSchedule_Status
+	var other alpha20201201s.RedisPatchSchedule_Status
 	err := copied.AssignPropertiesToRedisPatchScheduleStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -298,7 +298,7 @@ func RunPropertyAssignmentTestForRedisPatchSchedulesSpec(subject RedisPatchSched
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20201201storage.RedisPatchSchedules_Spec
+	var other alpha20201201s.RedisPatchSchedules_Spec
 	err := copied.AssignPropertiesToRedisPatchSchedulesSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -415,7 +415,7 @@ func RunPropertyAssignmentTestForScheduleEntry(subject ScheduleEntry) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20201201storage.ScheduleEntry
+	var other alpha20201201s.ScheduleEntry
 	err := copied.AssignPropertiesToScheduleEntry(&other)
 	if err != nil {
 		return err.Error()
@@ -527,7 +527,7 @@ func RunPropertyAssignmentTestForScheduleEntryStatus(subject ScheduleEntry_Statu
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20201201storage.ScheduleEntry_Status
+	var other alpha20201201s.ScheduleEntry_Status
 	err := copied.AssignPropertiesToScheduleEntryStatus(&other)
 	if err != nil {
 		return err.Error()

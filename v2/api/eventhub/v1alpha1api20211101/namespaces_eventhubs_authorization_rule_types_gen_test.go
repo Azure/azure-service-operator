@@ -5,8 +5,8 @@ package v1alpha1api20211101
 
 import (
 	"encoding/json"
-	"github.com/Azure/azure-service-operator/v2/api/eventhub/v1alpha1api20211101storage"
-	"github.com/Azure/azure-service-operator/v2/api/eventhub/v1beta20211101storage"
+	alpha20211101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v1alpha1api20211101storage"
+	v20211101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v1beta20211101storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForNamespacesEventhubsAuthorizationRule(subject Na
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1beta20211101storage.NamespacesEventhubsAuthorizationRule
+	var hub v20211101s.NamespacesEventhubsAuthorizationRule
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForNamespacesEventhubsAuthorizationRule(subject Na
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20211101storage.NamespacesEventhubsAuthorizationRule
+	var other alpha20211101s.NamespacesEventhubsAuthorizationRule
 	err := copied.AssignPropertiesToNamespacesEventhubsAuthorizationRule(&other)
 	if err != nil {
 		return err.Error()
@@ -181,7 +181,7 @@ func RunPropertyAssignmentTestForNamespacesEventhubsAuthorizationRulesSpec(subje
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20211101storage.NamespacesEventhubsAuthorizationRules_Spec
+	var other alpha20211101s.NamespacesEventhubsAuthorizationRules_Spec
 	err := copied.AssignPropertiesToNamespacesEventhubsAuthorizationRulesSpec(&other)
 	if err != nil {
 		return err.Error()

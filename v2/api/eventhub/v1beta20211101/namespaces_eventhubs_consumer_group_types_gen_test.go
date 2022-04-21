@@ -5,7 +5,7 @@ package v1beta20211101
 
 import (
 	"encoding/json"
-	"github.com/Azure/azure-service-operator/v2/api/eventhub/v1beta20211101storage"
+	v20211101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v1beta20211101storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -35,7 +35,7 @@ func RunResourceConversionTestForNamespacesEventhubsConsumerGroup(subject Namesp
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1beta20211101storage.NamespacesEventhubsConsumerGroup
+	var hub v20211101s.NamespacesEventhubsConsumerGroup
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -77,7 +77,7 @@ func RunPropertyAssignmentTestForNamespacesEventhubsConsumerGroup(subject Namesp
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20211101storage.NamespacesEventhubsConsumerGroup
+	var other v20211101s.NamespacesEventhubsConsumerGroup
 	err := copied.AssignPropertiesToNamespacesEventhubsConsumerGroup(&other)
 	if err != nil {
 		return err.Error()
@@ -180,7 +180,7 @@ func RunPropertyAssignmentTestForConsumerGroupStatus(subject ConsumerGroup_Statu
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20211101storage.ConsumerGroup_Status
+	var other v20211101s.ConsumerGroup_Status
 	err := copied.AssignPropertiesToConsumerGroupStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -302,7 +302,7 @@ func RunPropertyAssignmentTestForNamespacesEventhubsConsumergroupsSpec(subject N
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20211101storage.NamespacesEventhubsConsumergroups_Spec
+	var other v20211101s.NamespacesEventhubsConsumergroups_Spec
 	err := copied.AssignPropertiesToNamespacesEventhubsConsumergroupsSpec(&other)
 	if err != nil {
 		return err.Error()

@@ -5,8 +5,8 @@ package v1alpha1api20200601
 
 import (
 	"encoding/json"
-	"github.com/Azure/azure-service-operator/v2/api/eventgrid/v1alpha1api20200601storage"
-	"github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601storage"
+	alpha20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1alpha1api20200601storage"
+	v20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForDomain(subject Domain) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1beta20200601storage.Domain
+	var hub v20200601s.Domain
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForDomain(subject Domain) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20200601storage.Domain
+	var other alpha20200601s.Domain
 	err := copied.AssignPropertiesToDomain(&other)
 	if err != nil {
 		return err.Error()
@@ -180,7 +180,7 @@ func RunPropertyAssignmentTestForDomainStatus(subject Domain_Status) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20200601storage.Domain_Status
+	var other alpha20200601s.Domain_Status
 	err := copied.AssignPropertiesToDomainStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -313,7 +313,7 @@ func RunPropertyAssignmentTestForDomainsSpec(subject Domains_Spec) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20200601storage.Domains_Spec
+	var other alpha20200601s.Domains_Spec
 	err := copied.AssignPropertiesToDomainsSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -433,7 +433,7 @@ func RunPropertyAssignmentTestForInboundIpRule(subject InboundIpRule) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20200601storage.InboundIpRule
+	var other alpha20200601s.InboundIpRule
 	err := copied.AssignPropertiesToInboundIpRule(&other)
 	if err != nil {
 		return err.Error()
@@ -535,7 +535,7 @@ func RunPropertyAssignmentTestForInboundIpRuleStatus(subject InboundIpRule_Statu
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20200601storage.InboundIpRule_Status
+	var other alpha20200601s.InboundIpRule_Status
 	err := copied.AssignPropertiesToInboundIpRuleStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -638,7 +638,7 @@ func RunPropertyAssignmentTestForInputSchemaMappingStatus(subject InputSchemaMap
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20200601storage.InputSchemaMapping_Status
+	var other alpha20200601s.InputSchemaMapping_Status
 	err := copied.AssignPropertiesToInputSchemaMappingStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -740,7 +740,7 @@ func RunPropertyAssignmentTestForJsonInputSchemaMapping(subject JsonInputSchemaM
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20200601storage.JsonInputSchemaMapping
+	var other alpha20200601s.JsonInputSchemaMapping
 	err := copied.AssignPropertiesToJsonInputSchemaMapping(&other)
 	if err != nil {
 		return err.Error()
@@ -856,7 +856,7 @@ func RunPropertyAssignmentTestForPrivateEndpointConnectionStatusDomainSubResourc
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20200601storage.PrivateEndpointConnection_Status_Domain_SubResourceEmbedded
+	var other alpha20200601s.PrivateEndpointConnection_Status_Domain_SubResourceEmbedded
 	err := copied.AssignPropertiesToPrivateEndpointConnectionStatusDomainSubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -958,7 +958,7 @@ func RunPropertyAssignmentTestForSystemDataStatus(subject SystemData_Status) str
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20200601storage.SystemData_Status
+	var other alpha20200601s.SystemData_Status
 	err := copied.AssignPropertiesToSystemDataStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -1072,7 +1072,7 @@ func RunPropertyAssignmentTestForJsonInputSchemaMappingProperties(subject JsonIn
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20200601storage.JsonInputSchemaMappingProperties
+	var other alpha20200601s.JsonInputSchemaMappingProperties
 	err := copied.AssignPropertiesToJsonInputSchemaMappingProperties(&other)
 	if err != nil {
 		return err.Error()
@@ -1179,7 +1179,7 @@ func RunPropertyAssignmentTestForJsonField(subject JsonField) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20200601storage.JsonField
+	var other alpha20200601s.JsonField
 	err := copied.AssignPropertiesToJsonField(&other)
 	if err != nil {
 		return err.Error()
@@ -1280,7 +1280,7 @@ func RunPropertyAssignmentTestForJsonFieldWithDefault(subject JsonFieldWithDefau
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20200601storage.JsonFieldWithDefault
+	var other alpha20200601s.JsonFieldWithDefault
 	err := copied.AssignPropertiesToJsonFieldWithDefault(&other)
 	if err != nil {
 		return err.Error()

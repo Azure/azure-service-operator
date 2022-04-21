@@ -5,8 +5,8 @@ package v1alpha1api20210701
 
 import (
 	"encoding/json"
-	"github.com/Azure/azure-service-operator/v2/api/compute/v1alpha1api20210701storage"
-	"github.com/Azure/azure-service-operator/v2/api/compute/v1beta20210701storage"
+	alpha20210701s "github.com/Azure/azure-service-operator/v2/api/compute/v1alpha1api20210701storage"
+	v20210701s "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20210701storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForImage(subject Image) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1beta20210701storage.Image
+	var hub v20210701s.Image
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForImage(subject Image) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20210701storage.Image
+	var other alpha20210701s.Image
 	err := copied.AssignPropertiesToImage(&other)
 	if err != nil {
 		return err.Error()
@@ -180,7 +180,7 @@ func RunPropertyAssignmentTestForImageStatus(subject Image_Status) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20210701storage.Image_Status
+	var other alpha20210701s.Image_Status
 	err := copied.AssignPropertiesToImageStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -303,7 +303,7 @@ func RunPropertyAssignmentTestForImagesSpec(subject Images_Spec) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20210701storage.Images_Spec
+	var other alpha20210701s.Images_Spec
 	err := copied.AssignPropertiesToImagesSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -423,7 +423,7 @@ func RunPropertyAssignmentTestForExtendedLocation(subject ExtendedLocation) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20210701storage.ExtendedLocation
+	var other alpha20210701s.ExtendedLocation
 	err := copied.AssignPropertiesToExtendedLocation(&other)
 	if err != nil {
 		return err.Error()
@@ -525,7 +525,7 @@ func RunPropertyAssignmentTestForExtendedLocationStatus(subject ExtendedLocation
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20210701storage.ExtendedLocation_Status
+	var other alpha20210701s.ExtendedLocation_Status
 	err := copied.AssignPropertiesToExtendedLocationStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -628,7 +628,7 @@ func RunPropertyAssignmentTestForImageStorageProfile(subject ImageStorageProfile
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20210701storage.ImageStorageProfile
+	var other alpha20210701s.ImageStorageProfile
 	err := copied.AssignPropertiesToImageStorageProfile(&other)
 	if err != nil {
 		return err.Error()
@@ -745,7 +745,7 @@ func RunPropertyAssignmentTestForImageStorageProfileStatus(subject ImageStorageP
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20210701storage.ImageStorageProfile_Status
+	var other alpha20210701s.ImageStorageProfile_Status
 	err := copied.AssignPropertiesToImageStorageProfileStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -862,7 +862,7 @@ func RunPropertyAssignmentTestForSubResource(subject SubResource) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20210701storage.SubResource
+	var other alpha20210701s.SubResource
 	err := copied.AssignPropertiesToSubResource(&other)
 	if err != nil {
 		return err.Error()
@@ -957,7 +957,7 @@ func RunPropertyAssignmentTestForSubResourceStatus(subject SubResource_Status) s
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20210701storage.SubResource_Status
+	var other alpha20210701s.SubResource_Status
 	err := copied.AssignPropertiesToSubResourceStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -1058,7 +1058,7 @@ func RunPropertyAssignmentTestForImageDataDisk(subject ImageDataDisk) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20210701storage.ImageDataDisk
+	var other alpha20210701s.ImageDataDisk
 	err := copied.AssignPropertiesToImageDataDisk(&other)
 	if err != nil {
 		return err.Error()
@@ -1185,7 +1185,7 @@ func RunPropertyAssignmentTestForImageDataDiskStatus(subject ImageDataDisk_Statu
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20210701storage.ImageDataDisk_Status
+	var other alpha20210701s.ImageDataDisk_Status
 	err := copied.AssignPropertiesToImageDataDiskStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -1313,7 +1313,7 @@ func RunPropertyAssignmentTestForImageOSDisk(subject ImageOSDisk) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20210701storage.ImageOSDisk
+	var other alpha20210701s.ImageOSDisk
 	err := copied.AssignPropertiesToImageOSDisk(&other)
 	if err != nil {
 		return err.Error()
@@ -1441,7 +1441,7 @@ func RunPropertyAssignmentTestForImageOSDiskStatus(subject ImageOSDisk_Status) s
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20210701storage.ImageOSDisk_Status
+	var other alpha20210701s.ImageOSDisk_Status
 	err := copied.AssignPropertiesToImageOSDiskStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -1569,7 +1569,7 @@ func RunPropertyAssignmentTestForDiskEncryptionSetParameters(subject DiskEncrypt
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20210701storage.DiskEncryptionSetParameters
+	var other alpha20210701s.DiskEncryptionSetParameters
 	err := copied.AssignPropertiesToDiskEncryptionSetParameters(&other)
 	if err != nil {
 		return err.Error()

@@ -5,8 +5,8 @@ package v1alpha1api20181130
 
 import (
 	"encoding/json"
-	"github.com/Azure/azure-service-operator/v2/api/managedidentity/v1alpha1api20181130storage"
-	"github.com/Azure/azure-service-operator/v2/api/managedidentity/v1beta20181130storage"
+	alpha20181130s "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1alpha1api20181130storage"
+	v20181130s "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1beta20181130storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForUserAssignedIdentity(subject UserAssignedIdenti
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1beta20181130storage.UserAssignedIdentity
+	var hub v20181130s.UserAssignedIdentity
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForUserAssignedIdentity(subject UserAssignedIdenti
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20181130storage.UserAssignedIdentity
+	var other alpha20181130s.UserAssignedIdentity
 	err := copied.AssignPropertiesToUserAssignedIdentity(&other)
 	if err != nil {
 		return err.Error()
@@ -181,7 +181,7 @@ func RunPropertyAssignmentTestForIdentityStatus(subject Identity_Status) string 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20181130storage.Identity_Status
+	var other alpha20181130s.Identity_Status
 	err := copied.AssignPropertiesToIdentityStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -289,7 +289,7 @@ func RunPropertyAssignmentTestForUserAssignedIdentitiesSpec(subject UserAssigned
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20181130storage.UserAssignedIdentities_Spec
+	var other alpha20181130s.UserAssignedIdentities_Spec
 	err := copied.AssignPropertiesToUserAssignedIdentitiesSpec(&other)
 	if err != nil {
 		return err.Error()

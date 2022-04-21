@@ -5,7 +5,7 @@ package v1alpha1api20201201storage
 
 import (
 	"encoding/json"
-	"github.com/Azure/azure-service-operator/v2/api/cache/v1beta20201201storage"
+	v20201201s "github.com/Azure/azure-service-operator/v2/api/cache/v1beta20201201storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -35,7 +35,7 @@ func RunResourceConversionTestForRedisFirewallRule(subject RedisFirewallRule) st
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1beta20201201storage.RedisFirewallRule
+	var hub v20201201s.RedisFirewallRule
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -77,7 +77,7 @@ func RunPropertyAssignmentTestForRedisFirewallRule(subject RedisFirewallRule) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20201201storage.RedisFirewallRule
+	var other v20201201s.RedisFirewallRule
 	err := copied.AssignPropertiesToRedisFirewallRule(&other)
 	if err != nil {
 		return err.Error()
@@ -179,7 +179,7 @@ func RunPropertyAssignmentTestForRedisFirewallRuleStatus(subject RedisFirewallRu
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20201201storage.RedisFirewallRule_Status
+	var other v20201201s.RedisFirewallRule_Status
 	err := copied.AssignPropertiesToRedisFirewallRuleStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -285,7 +285,7 @@ func RunPropertyAssignmentTestForRedisFirewallRulesSpec(subject RedisFirewallRul
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20201201storage.RedisFirewallRules_Spec
+	var other v20201201s.RedisFirewallRules_Spec
 	err := copied.AssignPropertiesToRedisFirewallRulesSpec(&other)
 	if err != nil {
 		return err.Error()

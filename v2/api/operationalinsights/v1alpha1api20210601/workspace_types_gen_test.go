@@ -5,8 +5,8 @@ package v1alpha1api20210601
 
 import (
 	"encoding/json"
-	"github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1alpha1api20210601storage"
-	"github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1beta20210601storage"
+	alpha20210601s "github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1alpha1api20210601storage"
+	v20210601s "github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1beta20210601storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForWorkspace(subject Workspace) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1beta20210601storage.Workspace
+	var hub v20210601s.Workspace
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForWorkspace(subject Workspace) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20210601storage.Workspace
+	var other alpha20210601s.Workspace
 	err := copied.AssignPropertiesToWorkspace(&other)
 	if err != nil {
 		return err.Error()
@@ -180,7 +180,7 @@ func RunPropertyAssignmentTestForWorkspaceStatus(subject Workspace_Status) strin
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20210601storage.Workspace_Status
+	var other alpha20210601s.Workspace_Status
 	err := copied.AssignPropertiesToWorkspaceStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -318,7 +318,7 @@ func RunPropertyAssignmentTestForWorkspacesSpec(subject Workspaces_Spec) string 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20210601storage.Workspaces_Spec
+	var other alpha20210601s.Workspaces_Spec
 	err := copied.AssignPropertiesToWorkspacesSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -450,7 +450,7 @@ func RunPropertyAssignmentTestForPrivateLinkScopedResourceStatus(subject Private
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20210601storage.PrivateLinkScopedResource_Status
+	var other alpha20210601s.PrivateLinkScopedResource_Status
 	err := copied.AssignPropertiesToPrivateLinkScopedResourceStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -553,7 +553,7 @@ func RunPropertyAssignmentTestForWorkspaceCapping(subject WorkspaceCapping) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20210601storage.WorkspaceCapping
+	var other alpha20210601s.WorkspaceCapping
 	err := copied.AssignPropertiesToWorkspaceCapping(&other)
 	if err != nil {
 		return err.Error()
@@ -654,7 +654,7 @@ func RunPropertyAssignmentTestForWorkspaceCappingStatus(subject WorkspaceCapping
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20210601storage.WorkspaceCapping_Status
+	var other alpha20210601s.WorkspaceCapping_Status
 	err := copied.AssignPropertiesToWorkspaceCappingStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -764,7 +764,7 @@ func RunPropertyAssignmentTestForWorkspaceFeatures(subject WorkspaceFeatures) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20210601storage.WorkspaceFeatures
+	var other alpha20210601s.WorkspaceFeatures
 	err := copied.AssignPropertiesToWorkspaceFeatures(&other)
 	if err != nil {
 		return err.Error()
@@ -868,7 +868,7 @@ func RunPropertyAssignmentTestForWorkspaceFeaturesStatus(subject WorkspaceFeatur
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20210601storage.WorkspaceFeatures_Status
+	var other alpha20210601s.WorkspaceFeatures_Status
 	err := copied.AssignPropertiesToWorkspaceFeaturesStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -974,7 +974,7 @@ func RunPropertyAssignmentTestForWorkspaceSku(subject WorkspaceSku) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20210601storage.WorkspaceSku
+	var other alpha20210601s.WorkspaceSku
 	err := copied.AssignPropertiesToWorkspaceSku(&other)
 	if err != nil {
 		return err.Error()
@@ -1084,7 +1084,7 @@ func RunPropertyAssignmentTestForWorkspaceSkuStatus(subject WorkspaceSku_Status)
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20210601storage.WorkspaceSku_Status
+	var other alpha20210601s.WorkspaceSku_Status
 	err := copied.AssignPropertiesToWorkspaceSkuStatus(&other)
 	if err != nil {
 		return err.Error()
