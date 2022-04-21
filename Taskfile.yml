@@ -70,6 +70,7 @@ tasks:
   build-docs-site:
     dir: docs/hugo
     cmds:
+    - cp themes/_variables.scss themes/book/assets/
     - hugo 
     # - htmltest 
     # disabled pending: https://github.com/wjdp/htmltest/issues/45
