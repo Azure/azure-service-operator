@@ -12,7 +12,7 @@ Resource Types:
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.AzureFilesIdentityBasedAuthentication">AzureFilesIdentityBasedAuthentication</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ActiveDirectoryProperties">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ActiveDirectoryProperties</a></p>
+<p>Deprecated version of ActiveDirectoryProperties. Use v1beta20210401.ActiveDirectoryProperties instead</p>
 </div>
 <table>
 <thead>
@@ -30,7 +30,6 @@ string
 </em>
 </td>
 <td>
-<p>AzureStorageSid: Specifies the security identifier (SID) for Azure Storage.</p>
 </td>
 </tr>
 <tr>
@@ -41,7 +40,6 @@ string
 </em>
 </td>
 <td>
-<p>DomainGuid: Specifies the domain GUID.</p>
 </td>
 </tr>
 <tr>
@@ -52,7 +50,6 @@ string
 </em>
 </td>
 <td>
-<p>DomainName: Specifies the primary domain that the AD DNS server is authoritative for.</p>
 </td>
 </tr>
 <tr>
@@ -63,7 +60,6 @@ string
 </em>
 </td>
 <td>
-<p>DomainSid: Specifies the security identifier (SID).</p>
 </td>
 </tr>
 <tr>
@@ -74,7 +70,6 @@ string
 </em>
 </td>
 <td>
-<p>ForestName: Specifies the Active Directory forest to get.</p>
 </td>
 </tr>
 <tr>
@@ -85,7 +80,6 @@ string
 </em>
 </td>
 <td>
-<p>NetBiosDomainName: Specifies the NetBIOS domain name.</p>
 </td>
 </tr>
 </tbody>
@@ -96,7 +90,7 @@ string
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.AzureFilesIdentityBasedAuthenticationARM">AzureFilesIdentityBasedAuthenticationARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ActiveDirectoryProperties">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ActiveDirectoryProperties</a></p>
+<p>Deprecated version of ActiveDirectoryProperties. Use v1beta20210401.ActiveDirectoryProperties instead</p>
 </div>
 <table>
 <thead>
@@ -114,7 +108,6 @@ string
 </em>
 </td>
 <td>
-<p>AzureStorageSid: Specifies the security identifier (SID) for Azure Storage.</p>
 </td>
 </tr>
 <tr>
@@ -125,7 +118,6 @@ string
 </em>
 </td>
 <td>
-<p>DomainGuid: Specifies the domain GUID.</p>
 </td>
 </tr>
 <tr>
@@ -136,7 +128,6 @@ string
 </em>
 </td>
 <td>
-<p>DomainName: Specifies the primary domain that the AD DNS server is authoritative for.</p>
 </td>
 </tr>
 <tr>
@@ -147,7 +138,6 @@ string
 </em>
 </td>
 <td>
-<p>DomainSid: Specifies the security identifier (SID).</p>
 </td>
 </tr>
 <tr>
@@ -158,7 +148,6 @@ string
 </em>
 </td>
 <td>
-<p>ForestName: Specifies the Active Directory forest to get.</p>
 </td>
 </tr>
 <tr>
@@ -169,7 +158,6 @@ string
 </em>
 </td>
 <td>
-<p>NetBiosDomainName: Specifies the NetBIOS domain name.</p>
 </td>
 </tr>
 </tbody>
@@ -180,6 +168,7 @@ string
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.AzureFilesIdentityBasedAuthentication_Status">AzureFilesIdentityBasedAuthentication_Status</a>)
 </p>
 <div>
+<p>Deprecated version of ActiveDirectoryProperties_Status. Use v1beta20210401.ActiveDirectoryProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -197,7 +186,6 @@ string
 </em>
 </td>
 <td>
-<p>AzureStorageSid: Specifies the security identifier (SID) for Azure Storage.</p>
 </td>
 </tr>
 <tr>
@@ -208,7 +196,6 @@ string
 </em>
 </td>
 <td>
-<p>DomainGuid: Specifies the domain GUID.</p>
 </td>
 </tr>
 <tr>
@@ -219,7 +206,6 @@ string
 </em>
 </td>
 <td>
-<p>DomainName: Specifies the primary domain that the AD DNS server is authoritative for.</p>
 </td>
 </tr>
 <tr>
@@ -230,7 +216,6 @@ string
 </em>
 </td>
 <td>
-<p>DomainSid: Specifies the security identifier (SID).</p>
 </td>
 </tr>
 <tr>
@@ -241,7 +226,6 @@ string
 </em>
 </td>
 <td>
-<p>ForestName: Specifies the Active Directory forest to get.</p>
 </td>
 </tr>
 <tr>
@@ -252,7 +236,6 @@ string
 </em>
 </td>
 <td>
-<p>NetBiosDomainName: Specifies the NetBIOS domain name.</p>
 </td>
 </tr>
 </tbody>
@@ -263,6 +246,7 @@ string
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.AzureFilesIdentityBasedAuthentication_StatusARM">AzureFilesIdentityBasedAuthentication_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of ActiveDirectoryProperties_Status. Use v1beta20210401.ActiveDirectoryProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -280,7 +264,6 @@ string
 </em>
 </td>
 <td>
-<p>AzureStorageSid: Specifies the security identifier (SID) for Azure Storage.</p>
 </td>
 </tr>
 <tr>
@@ -291,7 +274,6 @@ string
 </em>
 </td>
 <td>
-<p>DomainGuid: Specifies the domain GUID.</p>
 </td>
 </tr>
 <tr>
@@ -302,7 +284,6 @@ string
 </em>
 </td>
 <td>
-<p>DomainName: Specifies the primary domain that the AD DNS server is authoritative for.</p>
 </td>
 </tr>
 <tr>
@@ -313,7 +294,6 @@ string
 </em>
 </td>
 <td>
-<p>DomainSid: Specifies the security identifier (SID).</p>
 </td>
 </tr>
 <tr>
@@ -324,7 +304,6 @@ string
 </em>
 </td>
 <td>
-<p>ForestName: Specifies the Active Directory forest to get.</p>
 </td>
 </tr>
 <tr>
@@ -335,7 +314,6 @@ string
 </em>
 </td>
 <td>
-<p>NetBiosDomainName: Specifies the NetBIOS domain name.</p>
 </td>
 </tr>
 </tbody>
@@ -346,7 +324,7 @@ string
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccounts_Spec">StorageAccounts_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/AzureFilesIdentityBasedAuthentication">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/AzureFilesIdentityBasedAuthentication</a></p>
+<p>Deprecated version of AzureFilesIdentityBasedAuthentication. Use v1beta20210401.AzureFilesIdentityBasedAuthentication instead</p>
 </div>
 <table>
 <thead>
@@ -366,7 +344,6 @@ ActiveDirectoryProperties
 </em>
 </td>
 <td>
-<p>ActiveDirectoryProperties: Settings properties for Active Directory (AD).</p>
 </td>
 </tr>
 <tr>
@@ -379,7 +356,6 @@ AzureFilesIdentityBasedAuthenticationDefaultSharePermission
 </em>
 </td>
 <td>
-<p>DefaultSharePermission: Default share permission for users using Kerberos authentication if RBAC role is not assigned.</p>
 </td>
 </tr>
 <tr>
@@ -392,7 +368,6 @@ AzureFilesIdentityBasedAuthenticationDirectoryServiceOptions
 </em>
 </td>
 <td>
-<p>DirectoryServiceOptions: Indicates the directory service used.</p>
 </td>
 </tr>
 </tbody>
@@ -403,7 +378,7 @@ AzureFilesIdentityBasedAuthenticationDirectoryServiceOptions
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccountPropertiesCreateParametersARM">StorageAccountPropertiesCreateParametersARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/AzureFilesIdentityBasedAuthentication">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/AzureFilesIdentityBasedAuthentication</a></p>
+<p>Deprecated version of AzureFilesIdentityBasedAuthentication. Use v1beta20210401.AzureFilesIdentityBasedAuthentication instead</p>
 </div>
 <table>
 <thead>
@@ -423,7 +398,6 @@ ActiveDirectoryPropertiesARM
 </em>
 </td>
 <td>
-<p>ActiveDirectoryProperties: Settings properties for Active Directory (AD).</p>
 </td>
 </tr>
 <tr>
@@ -436,7 +410,6 @@ AzureFilesIdentityBasedAuthenticationDefaultSharePermission
 </em>
 </td>
 <td>
-<p>DefaultSharePermission: Default share permission for users using Kerberos authentication if RBAC role is not assigned.</p>
 </td>
 </tr>
 <tr>
@@ -449,7 +422,6 @@ AzureFilesIdentityBasedAuthenticationDirectoryServiceOptions
 </em>
 </td>
 <td>
-<p>DirectoryServiceOptions: Indicates the directory service used.</p>
 </td>
 </tr>
 </tbody>
@@ -460,6 +432,8 @@ AzureFilesIdentityBasedAuthenticationDirectoryServiceOptions
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.AzureFilesIdentityBasedAuthentication">AzureFilesIdentityBasedAuthentication</a>, <a href="#storage.azure.com/v1alpha1api20210401.AzureFilesIdentityBasedAuthenticationARM">AzureFilesIdentityBasedAuthenticationARM</a>)
 </p>
 <div>
+<p>Deprecated version of AzureFilesIdentityBasedAuthenticationDefaultSharePermission. Use
+v1beta20210401.AzureFilesIdentityBasedAuthenticationDefaultSharePermission instead</p>
 </div>
 <table>
 <thead>
@@ -486,6 +460,8 @@ AzureFilesIdentityBasedAuthenticationDirectoryServiceOptions
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.AzureFilesIdentityBasedAuthentication">AzureFilesIdentityBasedAuthentication</a>, <a href="#storage.azure.com/v1alpha1api20210401.AzureFilesIdentityBasedAuthenticationARM">AzureFilesIdentityBasedAuthenticationARM</a>)
 </p>
 <div>
+<p>Deprecated version of AzureFilesIdentityBasedAuthenticationDirectoryServiceOptions. Use
+v1beta20210401.AzureFilesIdentityBasedAuthenticationDirectoryServiceOptions instead</p>
 </div>
 <table>
 <thead>
@@ -508,6 +484,8 @@ AzureFilesIdentityBasedAuthenticationDirectoryServiceOptions
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.AzureFilesIdentityBasedAuthentication_Status">AzureFilesIdentityBasedAuthentication_Status</a>, <a href="#storage.azure.com/v1alpha1api20210401.AzureFilesIdentityBasedAuthentication_StatusARM">AzureFilesIdentityBasedAuthentication_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermission. Use
+v1beta20210401.AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermission instead</p>
 </div>
 <table>
 <thead>
@@ -534,6 +512,8 @@ AzureFilesIdentityBasedAuthenticationDirectoryServiceOptions
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.AzureFilesIdentityBasedAuthentication_Status">AzureFilesIdentityBasedAuthentication_Status</a>, <a href="#storage.azure.com/v1alpha1api20210401.AzureFilesIdentityBasedAuthentication_StatusARM">AzureFilesIdentityBasedAuthentication_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptions. Use
+v1beta20210401.AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptions instead</p>
 </div>
 <table>
 <thead>
@@ -556,6 +536,7 @@ AzureFilesIdentityBasedAuthenticationDirectoryServiceOptions
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccount_Status">StorageAccount_Status</a>)
 </p>
 <div>
+<p>Deprecated version of AzureFilesIdentityBasedAuthentication_Status. Use v1beta20210401.AzureFilesIdentityBasedAuthentication_Status instead</p>
 </div>
 <table>
 <thead>
@@ -575,7 +556,6 @@ ActiveDirectoryProperties_Status
 </em>
 </td>
 <td>
-<p>ActiveDirectoryProperties: Required if choose AD.</p>
 </td>
 </tr>
 <tr>
@@ -588,7 +568,6 @@ AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermission
 </em>
 </td>
 <td>
-<p>DefaultSharePermission: Default share permission for users using Kerberos authentication if RBAC role is not assigned.</p>
 </td>
 </tr>
 <tr>
@@ -601,7 +580,6 @@ AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptions
 </em>
 </td>
 <td>
-<p>DirectoryServiceOptions: Indicates the directory service used.</p>
 </td>
 </tr>
 </tbody>
@@ -612,6 +590,7 @@ AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptions
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccountProperties_StatusARM">StorageAccountProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of AzureFilesIdentityBasedAuthentication_Status. Use v1beta20210401.AzureFilesIdentityBasedAuthentication_Status instead</p>
 </div>
 <table>
 <thead>
@@ -631,7 +610,6 @@ ActiveDirectoryProperties_StatusARM
 </em>
 </td>
 <td>
-<p>ActiveDirectoryProperties: Required if choose AD.</p>
 </td>
 </tr>
 <tr>
@@ -644,7 +622,6 @@ AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermission
 </em>
 </td>
 <td>
-<p>DefaultSharePermission: Default share permission for users using Kerberos authentication if RBAC role is not assigned.</p>
 </td>
 </tr>
 <tr>
@@ -657,7 +634,6 @@ AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptions
 </em>
 </td>
 <td>
-<p>DirectoryServiceOptions: Indicates the directory service used.</p>
 </td>
 </tr>
 </tbody>
@@ -668,6 +644,7 @@ AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptions
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccountsBlobServicesContainer">StorageAccountsBlobServicesContainer</a>)
 </p>
 <div>
+<p>Deprecated version of BlobContainer_Status. Use v1beta20210401.BlobContainer_Status instead</p>
 </div>
 <table>
 <thead>
@@ -698,7 +675,6 @@ string
 </em>
 </td>
 <td>
-<p>DefaultEncryptionScope: Default the container to use specified encryption scope for all writes.</p>
 </td>
 </tr>
 <tr>
@@ -709,7 +685,6 @@ bool
 </em>
 </td>
 <td>
-<p>Deleted: Indicates whether the blob container was deleted.</p>
 </td>
 </tr>
 <tr>
@@ -720,7 +695,6 @@ string
 </em>
 </td>
 <td>
-<p>DeletedTime: Blob container deletion time.</p>
 </td>
 </tr>
 <tr>
@@ -731,7 +705,6 @@ bool
 </em>
 </td>
 <td>
-<p>DenyEncryptionScopeOverride: Block override of encryption scope from the container default.</p>
 </td>
 </tr>
 <tr>
@@ -742,7 +715,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: Resource Etag.</p>
 </td>
 </tr>
 <tr>
@@ -753,9 +725,6 @@ bool
 </em>
 </td>
 <td>
-<p>HasImmutabilityPolicy: The hasImmutabilityPolicy public property is set to true by SRP if ImmutabilityPolicy has been
-created for this container. The hasImmutabilityPolicy public property is set to false by SRP if ImmutabilityPolicy has
-not been created for this container.</p>
 </td>
 </tr>
 <tr>
@@ -766,9 +735,6 @@ bool
 </em>
 </td>
 <td>
-<p>HasLegalHold: The hasLegalHold public property is set to true by SRP if there are at least one existing tag. The
-hasLegalHold public property is set to false by SRP if all existing legal hold tags are cleared out. There can be a
-maximum of 1000 blob containers with hasLegalHold=true for a given account.</p>
 </td>
 </tr>
 <tr>
@@ -779,8 +745,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}</p>
 </td>
 </tr>
 <tr>
@@ -793,7 +757,6 @@ ImmutabilityPolicyProperties_Status
 </em>
 </td>
 <td>
-<p>ImmutabilityPolicy: The ImmutabilityPolicy property of the container.</p>
 </td>
 </tr>
 <tr>
@@ -806,8 +769,6 @@ ImmutableStorageWithVersioning_Status
 </em>
 </td>
 <td>
-<p>ImmutableStorageWithVersioning: The object level immutability property of the container. The property is immutable and
-can only be set to true at the container creation time. Existing containers must undergo a migration process.</p>
 </td>
 </tr>
 <tr>
@@ -818,7 +779,6 @@ string
 </em>
 </td>
 <td>
-<p>LastModifiedTime: Returns the date and time the container was last modified.</p>
 </td>
 </tr>
 <tr>
@@ -831,8 +791,6 @@ ContainerPropertiesStatusLeaseDuration
 </em>
 </td>
 <td>
-<p>LeaseDuration: Specifies whether the lease on a container is of infinite or fixed duration, only when the container is
-leased.</p>
 </td>
 </tr>
 <tr>
@@ -845,7 +803,6 @@ ContainerPropertiesStatusLeaseState
 </em>
 </td>
 <td>
-<p>LeaseState: Lease state of the container.</p>
 </td>
 </tr>
 <tr>
@@ -858,7 +815,6 @@ ContainerPropertiesStatusLeaseStatus
 </em>
 </td>
 <td>
-<p>LeaseStatus: The lease status of the container.</p>
 </td>
 </tr>
 <tr>
@@ -871,7 +827,6 @@ LegalHoldProperties_Status
 </em>
 </td>
 <td>
-<p>LegalHold: The LegalHold property of the container.</p>
 </td>
 </tr>
 <tr>
@@ -882,7 +837,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Metadata: A name-value pair to associate with the container as metadata.</p>
 </td>
 </tr>
 <tr>
@@ -893,7 +847,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource</p>
 </td>
 </tr>
 <tr>
@@ -906,7 +859,6 @@ ContainerPropertiesStatusPublicAccess
 </em>
 </td>
 <td>
-<p>PublicAccess: Specifies whether data in the container may be accessed publicly and the level of access.</p>
 </td>
 </tr>
 <tr>
@@ -917,7 +869,6 @@ int
 </em>
 </td>
 <td>
-<p>RemainingRetentionDays: Remaining retention days for soft deleted blob container.</p>
 </td>
 </tr>
 <tr>
@@ -928,7 +879,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
 </td>
 </tr>
 <tr>
@@ -939,7 +889,6 @@ string
 </em>
 </td>
 <td>
-<p>Version: The version of the deleted blob container.</p>
 </td>
 </tr>
 </tbody>
@@ -947,6 +896,7 @@ string
 <h3 id="storage.azure.com/v1alpha1api20210401.BlobContainer_StatusARM">BlobContainer_StatusARM
 </h3>
 <div>
+<p>Deprecated version of BlobContainer_Status. Use v1beta20210401.BlobContainer_Status instead</p>
 </div>
 <table>
 <thead>
@@ -964,7 +914,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: Resource Etag.</p>
 </td>
 </tr>
 <tr>
@@ -975,8 +924,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}</p>
 </td>
 </tr>
 <tr>
@@ -987,7 +934,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource</p>
 </td>
 </tr>
 <tr>
@@ -1000,7 +946,6 @@ ContainerProperties_StatusARM
 </em>
 </td>
 <td>
-<p>Properties: Properties of the blob container.</p>
 </td>
 </tr>
 <tr>
@@ -1011,7 +956,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
 </td>
 </tr>
 </tbody>
@@ -1022,6 +966,7 @@ string
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.BlobRestoreStatus_Status">BlobRestoreStatus_Status</a>)
 </p>
 <div>
+<p>Deprecated version of BlobRestoreParameters_Status. Use v1beta20210401.BlobRestoreParameters_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1041,7 +986,6 @@ string
 </em>
 </td>
 <td>
-<p>BlobRanges: Blob ranges to restore.</p>
 </td>
 </tr>
 <tr>
@@ -1052,7 +996,6 @@ string
 </em>
 </td>
 <td>
-<p>TimeToRestore: Restore blob to the specified time.</p>
 </td>
 </tr>
 </tbody>
@@ -1063,6 +1006,7 @@ string
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.BlobRestoreStatus_StatusARM">BlobRestoreStatus_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of BlobRestoreParameters_Status. Use v1beta20210401.BlobRestoreParameters_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1082,7 +1026,6 @@ string
 </em>
 </td>
 <td>
-<p>BlobRanges: Blob ranges to restore.</p>
 </td>
 </tr>
 <tr>
@@ -1093,7 +1036,6 @@ string
 </em>
 </td>
 <td>
-<p>TimeToRestore: Restore blob to the specified time.</p>
 </td>
 </tr>
 </tbody>
@@ -1104,6 +1046,7 @@ string
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.BlobRestoreParameters_Status">BlobRestoreParameters_Status</a>)
 </p>
 <div>
+<p>Deprecated version of BlobRestoreRange_Status. Use v1beta20210401.BlobRestoreRange_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1121,7 +1064,6 @@ string
 </em>
 </td>
 <td>
-<p>EndRange: Blob end range. This is exclusive. Empty means account end.</p>
 </td>
 </tr>
 <tr>
@@ -1132,7 +1074,6 @@ string
 </em>
 </td>
 <td>
-<p>StartRange: Blob start range. This is inclusive. Empty means account start.</p>
 </td>
 </tr>
 </tbody>
@@ -1143,6 +1084,7 @@ string
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.BlobRestoreParameters_StatusARM">BlobRestoreParameters_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of BlobRestoreRange_Status. Use v1beta20210401.BlobRestoreRange_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1160,7 +1102,6 @@ string
 </em>
 </td>
 <td>
-<p>EndRange: Blob end range. This is exclusive. Empty means account end.</p>
 </td>
 </tr>
 <tr>
@@ -1171,7 +1112,6 @@ string
 </em>
 </td>
 <td>
-<p>StartRange: Blob start range. This is inclusive. Empty means account start.</p>
 </td>
 </tr>
 </tbody>
@@ -1182,6 +1122,7 @@ string
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.BlobRestoreStatus_Status">BlobRestoreStatus_Status</a>, <a href="#storage.azure.com/v1alpha1api20210401.BlobRestoreStatus_StatusARM">BlobRestoreStatus_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of BlobRestoreStatusStatusStatus. Use v1beta20210401.BlobRestoreStatusStatusStatus instead</p>
 </div>
 <table>
 <thead>
@@ -1204,6 +1145,7 @@ string
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccount_Status">StorageAccount_Status</a>)
 </p>
 <div>
+<p>Deprecated version of BlobRestoreStatus_Status. Use v1beta20210401.BlobRestoreStatus_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1221,7 +1163,6 @@ string
 </em>
 </td>
 <td>
-<p>FailureReason: Failure reason when blob restore is failed.</p>
 </td>
 </tr>
 <tr>
@@ -1234,7 +1175,6 @@ BlobRestoreParameters_Status
 </em>
 </td>
 <td>
-<p>Parameters: Blob restore request parameters.</p>
 </td>
 </tr>
 <tr>
@@ -1245,7 +1185,6 @@ string
 </em>
 </td>
 <td>
-<p>RestoreId: Id for tracking blob restore request.</p>
 </td>
 </tr>
 <tr>
@@ -1258,8 +1197,6 @@ BlobRestoreStatusStatusStatus
 </em>
 </td>
 <td>
-<p>Status: The status of blob restore progress. Possible values are: - InProgress: Indicates that blob restore is ongoing.
-- Complete: Indicates that blob restore has been completed successfully. - Failed: Indicates that blob restore is failed.</p>
 </td>
 </tr>
 </tbody>
@@ -1270,6 +1207,7 @@ BlobRestoreStatusStatusStatus
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccountProperties_StatusARM">StorageAccountProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of BlobRestoreStatus_Status. Use v1beta20210401.BlobRestoreStatus_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1287,7 +1225,6 @@ string
 </em>
 </td>
 <td>
-<p>FailureReason: Failure reason when blob restore is failed.</p>
 </td>
 </tr>
 <tr>
@@ -1300,7 +1237,6 @@ BlobRestoreParameters_StatusARM
 </em>
 </td>
 <td>
-<p>Parameters: Blob restore request parameters.</p>
 </td>
 </tr>
 <tr>
@@ -1311,7 +1247,6 @@ string
 </em>
 </td>
 <td>
-<p>RestoreId: Id for tracking blob restore request.</p>
 </td>
 </tr>
 <tr>
@@ -1324,8 +1259,6 @@ BlobRestoreStatusStatusStatus
 </em>
 </td>
 <td>
-<p>Status: The status of blob restore progress. Possible values are: - InProgress: Indicates that blob restore is ongoing.
-- Complete: Indicates that blob restore has been completed successfully. - Failed: Indicates that blob restore is failed.</p>
 </td>
 </tr>
 </tbody>
@@ -1336,7 +1269,7 @@ BlobRestoreStatusStatusStatus
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccountsBlobServices_SpecARM">StorageAccountsBlobServices_SpecARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/BlobServicePropertiesProperties">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/BlobServicePropertiesProperties</a></p>
+<p>Deprecated version of BlobServicePropertiesProperties. Use v1beta20210401.BlobServicePropertiesProperties instead</p>
 </div>
 <table>
 <thead>
@@ -1354,7 +1287,6 @@ bool
 </em>
 </td>
 <td>
-<p>AutomaticSnapshotPolicyEnabled: Deprecated in favor of isVersioningEnabled property.</p>
 </td>
 </tr>
 <tr>
@@ -1367,7 +1299,6 @@ ChangeFeedARM
 </em>
 </td>
 <td>
-<p>ChangeFeed: The blob service properties for change feed events.</p>
 </td>
 </tr>
 <tr>
@@ -1380,7 +1311,6 @@ DeleteRetentionPolicyARM
 </em>
 </td>
 <td>
-<p>ContainerDeleteRetentionPolicy: The service properties for soft delete.</p>
 </td>
 </tr>
 <tr>
@@ -1393,7 +1323,6 @@ CorsRulesARM
 </em>
 </td>
 <td>
-<p>Cors: Sets the CORS rules. You can include up to five CorsRule elements in the request.</p>
 </td>
 </tr>
 <tr>
@@ -1404,8 +1333,6 @@ string
 </em>
 </td>
 <td>
-<p>DefaultServiceVersion: DefaultServiceVersion indicates the default version to use for requests to the Blob service if an
-incoming request’s version is not specified. Possible values include version 2008-10-27 and all more recent versions.</p>
 </td>
 </tr>
 <tr>
@@ -1418,7 +1345,6 @@ DeleteRetentionPolicyARM
 </em>
 </td>
 <td>
-<p>DeleteRetentionPolicy: The service properties for soft delete.</p>
 </td>
 </tr>
 <tr>
@@ -1429,7 +1355,6 @@ bool
 </em>
 </td>
 <td>
-<p>IsVersioningEnabled: Versioning is enabled if set to true.</p>
 </td>
 </tr>
 <tr>
@@ -1442,7 +1367,6 @@ LastAccessTimeTrackingPolicyARM
 </em>
 </td>
 <td>
-<p>LastAccessTimeTrackingPolicy: The blob service properties for Last access time based tracking policy.</p>
 </td>
 </tr>
 <tr>
@@ -1455,7 +1379,6 @@ RestorePolicyPropertiesARM
 </em>
 </td>
 <td>
-<p>RestorePolicy: The blob service properties for blob restore policy</p>
 </td>
 </tr>
 </tbody>
@@ -1466,6 +1389,7 @@ RestorePolicyPropertiesARM
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccountsBlobService">StorageAccountsBlobService</a>)
 </p>
 <div>
+<p>Deprecated version of BlobServiceProperties_Status. Use v1beta20210401.BlobServiceProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1483,7 +1407,6 @@ bool
 </em>
 </td>
 <td>
-<p>AutomaticSnapshotPolicyEnabled: Deprecated in favor of isVersioningEnabled property.</p>
 </td>
 </tr>
 <tr>
@@ -1496,7 +1419,6 @@ ChangeFeed_Status
 </em>
 </td>
 <td>
-<p>ChangeFeed: The blob service properties for change feed events.</p>
 </td>
 </tr>
 <tr>
@@ -1522,7 +1444,6 @@ DeleteRetentionPolicy_Status
 </em>
 </td>
 <td>
-<p>ContainerDeleteRetentionPolicy: The blob service properties for container soft delete.</p>
 </td>
 </tr>
 <tr>
@@ -1535,9 +1456,6 @@ CorsRules_Status
 </em>
 </td>
 <td>
-<p>Cors: Specifies CORS rules for the Blob service. You can include up to five CorsRule elements in the request. If no
-CorsRule elements are included in the request body, all CORS rules will be deleted, and CORS will be disabled for the
-Blob service.</p>
 </td>
 </tr>
 <tr>
@@ -1548,8 +1466,6 @@ string
 </em>
 </td>
 <td>
-<p>DefaultServiceVersion: DefaultServiceVersion indicates the default version to use for requests to the Blob service if an
-incoming request’s version is not specified. Possible values include version 2008-10-27 and all more recent versions.</p>
 </td>
 </tr>
 <tr>
@@ -1562,7 +1478,6 @@ DeleteRetentionPolicy_Status
 </em>
 </td>
 <td>
-<p>DeleteRetentionPolicy: The blob service properties for blob soft delete.</p>
 </td>
 </tr>
 <tr>
@@ -1573,8 +1488,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}</p>
 </td>
 </tr>
 <tr>
@@ -1585,7 +1498,6 @@ bool
 </em>
 </td>
 <td>
-<p>IsVersioningEnabled: Versioning is enabled if set to true.</p>
 </td>
 </tr>
 <tr>
@@ -1598,7 +1510,6 @@ LastAccessTimeTrackingPolicy_Status
 </em>
 </td>
 <td>
-<p>LastAccessTimeTrackingPolicy: The blob service property to configure last access time based tracking policy.</p>
 </td>
 </tr>
 <tr>
@@ -1609,7 +1520,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource</p>
 </td>
 </tr>
 <tr>
@@ -1622,7 +1532,6 @@ RestorePolicyProperties_Status
 </em>
 </td>
 <td>
-<p>RestorePolicy: The blob service properties for blob restore policy.</p>
 </td>
 </tr>
 <tr>
@@ -1635,7 +1544,6 @@ Sku_Status
 </em>
 </td>
 <td>
-<p>Sku: Sku name and tier.</p>
 </td>
 </tr>
 <tr>
@@ -1646,7 +1554,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
 </td>
 </tr>
 </tbody>
@@ -1654,6 +1561,7 @@ string
 <h3 id="storage.azure.com/v1alpha1api20210401.BlobServiceProperties_StatusARM">BlobServiceProperties_StatusARM
 </h3>
 <div>
+<p>Deprecated version of BlobServiceProperties_Status. Use v1beta20210401.BlobServiceProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1671,8 +1579,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}</p>
 </td>
 </tr>
 <tr>
@@ -1683,7 +1589,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource</p>
 </td>
 </tr>
 <tr>
@@ -1696,7 +1601,6 @@ BlobServiceProperties_Status_PropertiesARM
 </em>
 </td>
 <td>
-<p>Properties: The properties of a storage account’s Blob service.</p>
 </td>
 </tr>
 <tr>
@@ -1709,7 +1613,6 @@ Sku_StatusARM
 </em>
 </td>
 <td>
-<p>Sku: Sku name and tier.</p>
 </td>
 </tr>
 <tr>
@@ -1720,7 +1623,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
 </td>
 </tr>
 </tbody>
@@ -1731,6 +1633,7 @@ string
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.BlobServiceProperties_StatusARM">BlobServiceProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of BlobServiceProperties_Status_Properties. Use v1beta20210401.BlobServiceProperties_Status_Properties instead</p>
 </div>
 <table>
 <thead>
@@ -1748,7 +1651,6 @@ bool
 </em>
 </td>
 <td>
-<p>AutomaticSnapshotPolicyEnabled: Deprecated in favor of isVersioningEnabled property.</p>
 </td>
 </tr>
 <tr>
@@ -1761,7 +1663,6 @@ ChangeFeed_StatusARM
 </em>
 </td>
 <td>
-<p>ChangeFeed: The blob service properties for change feed events.</p>
 </td>
 </tr>
 <tr>
@@ -1774,7 +1675,6 @@ DeleteRetentionPolicy_StatusARM
 </em>
 </td>
 <td>
-<p>ContainerDeleteRetentionPolicy: The blob service properties for container soft delete.</p>
 </td>
 </tr>
 <tr>
@@ -1787,9 +1687,6 @@ CorsRules_StatusARM
 </em>
 </td>
 <td>
-<p>Cors: Specifies CORS rules for the Blob service. You can include up to five CorsRule elements in the request. If no
-CorsRule elements are included in the request body, all CORS rules will be deleted, and CORS will be disabled for the
-Blob service.</p>
 </td>
 </tr>
 <tr>
@@ -1800,8 +1697,6 @@ string
 </em>
 </td>
 <td>
-<p>DefaultServiceVersion: DefaultServiceVersion indicates the default version to use for requests to the Blob service if an
-incoming request’s version is not specified. Possible values include version 2008-10-27 and all more recent versions.</p>
 </td>
 </tr>
 <tr>
@@ -1814,7 +1709,6 @@ DeleteRetentionPolicy_StatusARM
 </em>
 </td>
 <td>
-<p>DeleteRetentionPolicy: The blob service properties for blob soft delete.</p>
 </td>
 </tr>
 <tr>
@@ -1825,7 +1719,6 @@ bool
 </em>
 </td>
 <td>
-<p>IsVersioningEnabled: Versioning is enabled if set to true.</p>
 </td>
 </tr>
 <tr>
@@ -1838,7 +1731,6 @@ LastAccessTimeTrackingPolicy_StatusARM
 </em>
 </td>
 <td>
-<p>LastAccessTimeTrackingPolicy: The blob service property to configure last access time based tracking policy.</p>
 </td>
 </tr>
 <tr>
@@ -1851,7 +1743,6 @@ RestorePolicyProperties_StatusARM
 </em>
 </td>
 <td>
-<p>RestorePolicy: The blob service properties for blob restore policy.</p>
 </td>
 </tr>
 </tbody>
@@ -1862,7 +1753,7 @@ RestorePolicyProperties_StatusARM
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccountsBlobServices_Spec">StorageAccountsBlobServices_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ChangeFeed">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ChangeFeed</a></p>
+<p>Deprecated version of ChangeFeed. Use v1beta20210401.ChangeFeed instead</p>
 </div>
 <table>
 <thead>
@@ -1880,7 +1771,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Indicates whether change feed event logging is enabled for the Blob service.</p>
 </td>
 </tr>
 <tr>
@@ -1891,8 +1781,6 @@ int
 </em>
 </td>
 <td>
-<p>RetentionInDays: Indicates the duration of changeFeed retention in days. Minimum value is 1 day and maximum value is
-146000 days (400 years). A null value indicates an infinite retention of the change feed.</p>
 </td>
 </tr>
 </tbody>
@@ -1903,7 +1791,7 @@ int
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.BlobServicePropertiesPropertiesARM">BlobServicePropertiesPropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ChangeFeed">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ChangeFeed</a></p>
+<p>Deprecated version of ChangeFeed. Use v1beta20210401.ChangeFeed instead</p>
 </div>
 <table>
 <thead>
@@ -1921,7 +1809,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Indicates whether change feed event logging is enabled for the Blob service.</p>
 </td>
 </tr>
 <tr>
@@ -1932,8 +1819,6 @@ int
 </em>
 </td>
 <td>
-<p>RetentionInDays: Indicates the duration of changeFeed retention in days. Minimum value is 1 day and maximum value is
-146000 days (400 years). A null value indicates an infinite retention of the change feed.</p>
 </td>
 </tr>
 </tbody>
@@ -1944,6 +1829,7 @@ int
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.BlobServiceProperties_Status">BlobServiceProperties_Status</a>)
 </p>
 <div>
+<p>Deprecated version of ChangeFeed_Status. Use v1beta20210401.ChangeFeed_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1961,7 +1847,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Indicates whether change feed event logging is enabled for the Blob service.</p>
 </td>
 </tr>
 <tr>
@@ -1972,8 +1857,6 @@ int
 </em>
 </td>
 <td>
-<p>RetentionInDays: Indicates the duration of changeFeed retention in days. Minimum value is 1 day and maximum value is
-146000 days (400 years). A null value indicates an infinite retention of the change feed.</p>
 </td>
 </tr>
 </tbody>
@@ -1984,6 +1867,7 @@ int
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.BlobServiceProperties_Status_PropertiesARM">BlobServiceProperties_Status_PropertiesARM</a>)
 </p>
 <div>
+<p>Deprecated version of ChangeFeed_Status. Use v1beta20210401.ChangeFeed_Status instead</p>
 </div>
 <table>
 <thead>
@@ -2001,7 +1885,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Indicates whether change feed event logging is enabled for the Blob service.</p>
 </td>
 </tr>
 <tr>
@@ -2012,8 +1895,6 @@ int
 </em>
 </td>
 <td>
-<p>RetentionInDays: Indicates the duration of changeFeed retention in days. Minimum value is 1 day and maximum value is
-146000 days (400 years). A null value indicates an infinite retention of the change feed.</p>
 </td>
 </tr>
 </tbody>
@@ -2024,7 +1905,7 @@ int
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccountsBlobServicesContainers_SpecARM">StorageAccountsBlobServicesContainers_SpecARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ContainerProperties">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ContainerProperties</a></p>
+<p>Deprecated version of ContainerProperties. Use v1beta20210401.ContainerProperties instead</p>
 </div>
 <table>
 <thead>
@@ -2042,7 +1923,6 @@ string
 </em>
 </td>
 <td>
-<p>DefaultEncryptionScope: Default the container to use specified encryption scope for all writes.</p>
 </td>
 </tr>
 <tr>
@@ -2053,7 +1933,6 @@ bool
 </em>
 </td>
 <td>
-<p>DenyEncryptionScopeOverride: Block override of encryption scope from the container default.</p>
 </td>
 </tr>
 <tr>
@@ -2066,7 +1945,6 @@ ImmutableStorageWithVersioningARM
 </em>
 </td>
 <td>
-<p>ImmutableStorageWithVersioning: Object level immutability properties of the container.</p>
 </td>
 </tr>
 <tr>
@@ -2077,7 +1955,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Metadata: A name-value pair to associate with the container as metadata.</p>
 </td>
 </tr>
 <tr>
@@ -2090,7 +1967,6 @@ ContainerPropertiesPublicAccess
 </em>
 </td>
 <td>
-<p>PublicAccess: Specifies whether data in the container may be accessed publicly and the level of access.</p>
 </td>
 </tr>
 </tbody>
@@ -2101,6 +1977,7 @@ ContainerPropertiesPublicAccess
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ContainerPropertiesARM">ContainerPropertiesARM</a>, <a href="#storage.azure.com/v1alpha1api20210401.StorageAccountsBlobServicesContainers_Spec">StorageAccountsBlobServicesContainers_Spec</a>)
 </p>
 <div>
+<p>Deprecated version of ContainerPropertiesPublicAccess. Use v1beta20210401.ContainerPropertiesPublicAccess instead</p>
 </div>
 <table>
 <thead>
@@ -2123,6 +2000,8 @@ ContainerPropertiesPublicAccess
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.BlobContainer_Status">BlobContainer_Status</a>, <a href="#storage.azure.com/v1alpha1api20210401.ContainerProperties_StatusARM">ContainerProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of ContainerPropertiesStatusLeaseDuration. Use v1beta20210401.ContainerPropertiesStatusLeaseDuration
+instead</p>
 </div>
 <table>
 <thead>
@@ -2143,6 +2022,7 @@ ContainerPropertiesPublicAccess
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.BlobContainer_Status">BlobContainer_Status</a>, <a href="#storage.azure.com/v1alpha1api20210401.ContainerProperties_StatusARM">ContainerProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of ContainerPropertiesStatusLeaseState. Use v1beta20210401.ContainerPropertiesStatusLeaseState instead</p>
 </div>
 <table>
 <thead>
@@ -2169,6 +2049,8 @@ ContainerPropertiesPublicAccess
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.BlobContainer_Status">BlobContainer_Status</a>, <a href="#storage.azure.com/v1alpha1api20210401.ContainerProperties_StatusARM">ContainerProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of ContainerPropertiesStatusLeaseStatus. Use v1beta20210401.ContainerPropertiesStatusLeaseStatus
+instead</p>
 </div>
 <table>
 <thead>
@@ -2189,6 +2071,8 @@ ContainerPropertiesPublicAccess
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.BlobContainer_Status">BlobContainer_Status</a>, <a href="#storage.azure.com/v1alpha1api20210401.ContainerProperties_StatusARM">ContainerProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of ContainerPropertiesStatusPublicAccess. Use v1beta20210401.ContainerPropertiesStatusPublicAccess
+instead</p>
 </div>
 <table>
 <thead>
@@ -2211,6 +2095,7 @@ ContainerPropertiesPublicAccess
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.BlobContainer_StatusARM">BlobContainer_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of ContainerProperties_Status. Use v1beta20210401.ContainerProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -2228,7 +2113,6 @@ string
 </em>
 </td>
 <td>
-<p>DefaultEncryptionScope: Default the container to use specified encryption scope for all writes.</p>
 </td>
 </tr>
 <tr>
@@ -2239,7 +2123,6 @@ bool
 </em>
 </td>
 <td>
-<p>Deleted: Indicates whether the blob container was deleted.</p>
 </td>
 </tr>
 <tr>
@@ -2250,7 +2133,6 @@ string
 </em>
 </td>
 <td>
-<p>DeletedTime: Blob container deletion time.</p>
 </td>
 </tr>
 <tr>
@@ -2261,7 +2143,6 @@ bool
 </em>
 </td>
 <td>
-<p>DenyEncryptionScopeOverride: Block override of encryption scope from the container default.</p>
 </td>
 </tr>
 <tr>
@@ -2272,9 +2153,6 @@ bool
 </em>
 </td>
 <td>
-<p>HasImmutabilityPolicy: The hasImmutabilityPolicy public property is set to true by SRP if ImmutabilityPolicy has been
-created for this container. The hasImmutabilityPolicy public property is set to false by SRP if ImmutabilityPolicy has
-not been created for this container.</p>
 </td>
 </tr>
 <tr>
@@ -2285,9 +2163,6 @@ bool
 </em>
 </td>
 <td>
-<p>HasLegalHold: The hasLegalHold public property is set to true by SRP if there are at least one existing tag. The
-hasLegalHold public property is set to false by SRP if all existing legal hold tags are cleared out. There can be a
-maximum of 1000 blob containers with hasLegalHold=true for a given account.</p>
 </td>
 </tr>
 <tr>
@@ -2300,7 +2175,6 @@ ImmutabilityPolicyProperties_StatusARM
 </em>
 </td>
 <td>
-<p>ImmutabilityPolicy: The ImmutabilityPolicy property of the container.</p>
 </td>
 </tr>
 <tr>
@@ -2313,8 +2187,6 @@ ImmutableStorageWithVersioning_StatusARM
 </em>
 </td>
 <td>
-<p>ImmutableStorageWithVersioning: The object level immutability property of the container. The property is immutable and
-can only be set to true at the container creation time. Existing containers must undergo a migration process.</p>
 </td>
 </tr>
 <tr>
@@ -2325,7 +2197,6 @@ string
 </em>
 </td>
 <td>
-<p>LastModifiedTime: Returns the date and time the container was last modified.</p>
 </td>
 </tr>
 <tr>
@@ -2338,8 +2209,6 @@ ContainerPropertiesStatusLeaseDuration
 </em>
 </td>
 <td>
-<p>LeaseDuration: Specifies whether the lease on a container is of infinite or fixed duration, only when the container is
-leased.</p>
 </td>
 </tr>
 <tr>
@@ -2352,7 +2221,6 @@ ContainerPropertiesStatusLeaseState
 </em>
 </td>
 <td>
-<p>LeaseState: Lease state of the container.</p>
 </td>
 </tr>
 <tr>
@@ -2365,7 +2233,6 @@ ContainerPropertiesStatusLeaseStatus
 </em>
 </td>
 <td>
-<p>LeaseStatus: The lease status of the container.</p>
 </td>
 </tr>
 <tr>
@@ -2378,7 +2245,6 @@ LegalHoldProperties_StatusARM
 </em>
 </td>
 <td>
-<p>LegalHold: The LegalHold property of the container.</p>
 </td>
 </tr>
 <tr>
@@ -2389,7 +2255,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Metadata: A name-value pair to associate with the container as metadata.</p>
 </td>
 </tr>
 <tr>
@@ -2402,7 +2267,6 @@ ContainerPropertiesStatusPublicAccess
 </em>
 </td>
 <td>
-<p>PublicAccess: Specifies whether data in the container may be accessed publicly and the level of access.</p>
 </td>
 </tr>
 <tr>
@@ -2413,7 +2277,6 @@ int
 </em>
 </td>
 <td>
-<p>RemainingRetentionDays: Remaining retention days for soft deleted blob container.</p>
 </td>
 </tr>
 <tr>
@@ -2424,7 +2287,6 @@ string
 </em>
 </td>
 <td>
-<p>Version: The version of the deleted blob container.</p>
 </td>
 </tr>
 </tbody>
@@ -2435,7 +2297,7 @@ string
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.CorsRules">CorsRules</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/CorsRule">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/CorsRule</a></p>
+<p>Deprecated version of CorsRule. Use v1beta20210401.CorsRule instead</p>
 </div>
 <table>
 <thead>
@@ -2453,8 +2315,6 @@ string
 </em>
 </td>
 <td>
-<p>AllowedHeaders: Required if CorsRule element is present. A list of headers allowed to be part of the cross-origin
-request.</p>
 </td>
 </tr>
 <tr>
@@ -2467,8 +2327,6 @@ request.</p>
 </em>
 </td>
 <td>
-<p>AllowedMethods: Required if CorsRule element is present. A list of HTTP methods that are allowed to be executed by the
-origin.</p>
 </td>
 </tr>
 <tr>
@@ -2479,8 +2337,6 @@ origin.</p>
 </em>
 </td>
 <td>
-<p>AllowedOrigins: Required if CorsRule element is present. A list of origin domains that will be allowed via CORS, or &ldquo;*&rdquo;
-to allow all domains</p>
 </td>
 </tr>
 <tr>
@@ -2491,7 +2347,6 @@ to allow all domains</p>
 </em>
 </td>
 <td>
-<p>ExposedHeaders: Required if CorsRule element is present. A list of response headers to expose to CORS clients.</p>
 </td>
 </tr>
 <tr>
@@ -2502,8 +2357,6 @@ int
 </em>
 </td>
 <td>
-<p>MaxAgeInSeconds: Required if CorsRule element is present. The number of seconds that the client/browser should cache a
-preflight response.</p>
 </td>
 </tr>
 </tbody>
@@ -2514,7 +2367,7 @@ preflight response.</p>
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.CorsRulesARM">CorsRulesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/CorsRule">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/CorsRule</a></p>
+<p>Deprecated version of CorsRule. Use v1beta20210401.CorsRule instead</p>
 </div>
 <table>
 <thead>
@@ -2532,8 +2385,6 @@ preflight response.</p>
 </em>
 </td>
 <td>
-<p>AllowedHeaders: Required if CorsRule element is present. A list of headers allowed to be part of the cross-origin
-request.</p>
 </td>
 </tr>
 <tr>
@@ -2546,8 +2397,6 @@ request.</p>
 </em>
 </td>
 <td>
-<p>AllowedMethods: Required if CorsRule element is present. A list of HTTP methods that are allowed to be executed by the
-origin.</p>
 </td>
 </tr>
 <tr>
@@ -2558,8 +2407,6 @@ origin.</p>
 </em>
 </td>
 <td>
-<p>AllowedOrigins: Required if CorsRule element is present. A list of origin domains that will be allowed via CORS, or &ldquo;*&rdquo;
-to allow all domains</p>
 </td>
 </tr>
 <tr>
@@ -2570,7 +2417,6 @@ to allow all domains</p>
 </em>
 </td>
 <td>
-<p>ExposedHeaders: Required if CorsRule element is present. A list of response headers to expose to CORS clients.</p>
 </td>
 </tr>
 <tr>
@@ -2581,8 +2427,6 @@ int
 </em>
 </td>
 <td>
-<p>MaxAgeInSeconds: Required if CorsRule element is present. The number of seconds that the client/browser should cache a
-preflight response.</p>
 </td>
 </tr>
 </tbody>
@@ -2593,6 +2437,7 @@ preflight response.</p>
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.CorsRule">CorsRule</a>, <a href="#storage.azure.com/v1alpha1api20210401.CorsRuleARM">CorsRuleARM</a>)
 </p>
 <div>
+<p>Deprecated version of CorsRuleAllowedMethods. Use v1beta20210401.CorsRuleAllowedMethods instead</p>
 </div>
 <table>
 <thead>
@@ -2623,6 +2468,7 @@ preflight response.</p>
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.CorsRule_Status">CorsRule_Status</a>, <a href="#storage.azure.com/v1alpha1api20210401.CorsRule_StatusARM">CorsRule_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of CorsRuleStatusAllowedMethods. Use v1beta20210401.CorsRuleStatusAllowedMethods instead</p>
 </div>
 <table>
 <thead>
@@ -2653,6 +2499,7 @@ preflight response.</p>
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.CorsRules_Status">CorsRules_Status</a>)
 </p>
 <div>
+<p>Deprecated version of CorsRule_Status. Use v1beta20210401.CorsRule_Status instead</p>
 </div>
 <table>
 <thead>
@@ -2670,8 +2517,6 @@ preflight response.</p>
 </em>
 </td>
 <td>
-<p>AllowedHeaders: Required if CorsRule element is present. A list of headers allowed to be part of the cross-origin
-request.</p>
 </td>
 </tr>
 <tr>
@@ -2684,8 +2529,6 @@ request.</p>
 </em>
 </td>
 <td>
-<p>AllowedMethods: Required if CorsRule element is present. A list of HTTP methods that are allowed to be executed by the
-origin.</p>
 </td>
 </tr>
 <tr>
@@ -2696,8 +2539,6 @@ origin.</p>
 </em>
 </td>
 <td>
-<p>AllowedOrigins: Required if CorsRule element is present. A list of origin domains that will be allowed via CORS, or &ldquo;*&rdquo;
-to allow all domains</p>
 </td>
 </tr>
 <tr>
@@ -2708,7 +2549,6 @@ to allow all domains</p>
 </em>
 </td>
 <td>
-<p>ExposedHeaders: Required if CorsRule element is present. A list of response headers to expose to CORS clients.</p>
 </td>
 </tr>
 <tr>
@@ -2719,8 +2559,6 @@ int
 </em>
 </td>
 <td>
-<p>MaxAgeInSeconds: Required if CorsRule element is present. The number of seconds that the client/browser should cache a
-preflight response.</p>
 </td>
 </tr>
 </tbody>
@@ -2731,6 +2569,7 @@ preflight response.</p>
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.CorsRules_StatusARM">CorsRules_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of CorsRule_Status. Use v1beta20210401.CorsRule_Status instead</p>
 </div>
 <table>
 <thead>
@@ -2748,8 +2587,6 @@ preflight response.</p>
 </em>
 </td>
 <td>
-<p>AllowedHeaders: Required if CorsRule element is present. A list of headers allowed to be part of the cross-origin
-request.</p>
 </td>
 </tr>
 <tr>
@@ -2762,8 +2599,6 @@ request.</p>
 </em>
 </td>
 <td>
-<p>AllowedMethods: Required if CorsRule element is present. A list of HTTP methods that are allowed to be executed by the
-origin.</p>
 </td>
 </tr>
 <tr>
@@ -2774,8 +2609,6 @@ origin.</p>
 </em>
 </td>
 <td>
-<p>AllowedOrigins: Required if CorsRule element is present. A list of origin domains that will be allowed via CORS, or &ldquo;*&rdquo;
-to allow all domains</p>
 </td>
 </tr>
 <tr>
@@ -2786,7 +2619,6 @@ to allow all domains</p>
 </em>
 </td>
 <td>
-<p>ExposedHeaders: Required if CorsRule element is present. A list of response headers to expose to CORS clients.</p>
 </td>
 </tr>
 <tr>
@@ -2797,8 +2629,6 @@ int
 </em>
 </td>
 <td>
-<p>MaxAgeInSeconds: Required if CorsRule element is present. The number of seconds that the client/browser should cache a
-preflight response.</p>
 </td>
 </tr>
 </tbody>
@@ -2809,7 +2639,7 @@ preflight response.</p>
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccountsBlobServices_Spec">StorageAccountsBlobServices_Spec</a>, <a href="#storage.azure.com/v1alpha1api20210401.StorageAccountsQueueServices_Spec">StorageAccountsQueueServices_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/CorsRules">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/CorsRules</a></p>
+<p>Deprecated version of CorsRules. Use v1beta20210401.CorsRules instead</p>
 </div>
 <table>
 <thead>
@@ -2829,7 +2659,6 @@ preflight response.</p>
 </em>
 </td>
 <td>
-<p>CorsRules: The List of CORS rules. You can include up to five CorsRule elements in the request.</p>
 </td>
 </tr>
 </tbody>
@@ -2840,7 +2669,7 @@ preflight response.</p>
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.BlobServicePropertiesPropertiesARM">BlobServicePropertiesPropertiesARM</a>, <a href="#storage.azure.com/v1alpha1api20210401.QueueServicePropertiesPropertiesARM">QueueServicePropertiesPropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/CorsRules">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/CorsRules</a></p>
+<p>Deprecated version of CorsRules. Use v1beta20210401.CorsRules instead</p>
 </div>
 <table>
 <thead>
@@ -2860,7 +2689,6 @@ preflight response.</p>
 </em>
 </td>
 <td>
-<p>CorsRules: The List of CORS rules. You can include up to five CorsRule elements in the request.</p>
 </td>
 </tr>
 </tbody>
@@ -2871,6 +2699,7 @@ preflight response.</p>
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.BlobServiceProperties_Status">BlobServiceProperties_Status</a>, <a href="#storage.azure.com/v1alpha1api20210401.QueueServiceProperties_Status">QueueServiceProperties_Status</a>)
 </p>
 <div>
+<p>Deprecated version of CorsRules_Status. Use v1beta20210401.CorsRules_Status instead</p>
 </div>
 <table>
 <thead>
@@ -2890,7 +2719,6 @@ preflight response.</p>
 </em>
 </td>
 <td>
-<p>CorsRules: The List of CORS rules. You can include up to five CorsRule elements in the request.</p>
 </td>
 </tr>
 </tbody>
@@ -2901,6 +2729,7 @@ preflight response.</p>
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.BlobServiceProperties_Status_PropertiesARM">BlobServiceProperties_Status_PropertiesARM</a>, <a href="#storage.azure.com/v1alpha1api20210401.QueueServiceProperties_Status_PropertiesARM">QueueServiceProperties_Status_PropertiesARM</a>)
 </p>
 <div>
+<p>Deprecated version of CorsRules_Status. Use v1beta20210401.CorsRules_Status instead</p>
 </div>
 <table>
 <thead>
@@ -2920,7 +2749,6 @@ preflight response.</p>
 </em>
 </td>
 <td>
-<p>CorsRules: The List of CORS rules. You can include up to five CorsRule elements in the request.</p>
 </td>
 </tr>
 </tbody>
@@ -2931,7 +2759,7 @@ preflight response.</p>
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccounts_Spec">StorageAccounts_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/CustomDomain">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/CustomDomain</a></p>
+<p>Deprecated version of CustomDomain. Use v1beta20210401.CustomDomain instead</p>
 </div>
 <table>
 <thead>
@@ -2949,7 +2777,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Gets or sets the custom domain name assigned to the storage account. Name is the CNAME source.</p>
 </td>
 </tr>
 <tr>
@@ -2960,8 +2787,6 @@ bool
 </em>
 </td>
 <td>
-<p>UseSubDomainName: Indicates whether indirect CName validation is enabled. Default value is false. This should only be
-set on updates.</p>
 </td>
 </tr>
 </tbody>
@@ -2972,7 +2797,7 @@ set on updates.</p>
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccountPropertiesCreateParametersARM">StorageAccountPropertiesCreateParametersARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/CustomDomain">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/CustomDomain</a></p>
+<p>Deprecated version of CustomDomain. Use v1beta20210401.CustomDomain instead</p>
 </div>
 <table>
 <thead>
@@ -2990,7 +2815,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Gets or sets the custom domain name assigned to the storage account. Name is the CNAME source.</p>
 </td>
 </tr>
 <tr>
@@ -3001,8 +2825,6 @@ bool
 </em>
 </td>
 <td>
-<p>UseSubDomainName: Indicates whether indirect CName validation is enabled. Default value is false. This should only be
-set on updates.</p>
 </td>
 </tr>
 </tbody>
@@ -3013,6 +2835,7 @@ set on updates.</p>
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccount_Status">StorageAccount_Status</a>)
 </p>
 <div>
+<p>Deprecated version of CustomDomain_Status. Use v1beta20210401.CustomDomain_Status instead</p>
 </div>
 <table>
 <thead>
@@ -3030,7 +2853,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Gets or sets the custom domain name assigned to the storage account. Name is the CNAME source.</p>
 </td>
 </tr>
 <tr>
@@ -3041,8 +2863,6 @@ bool
 </em>
 </td>
 <td>
-<p>UseSubDomainName: Indicates whether indirect CName validation is enabled. Default value is false. This should only be
-set on updates.</p>
 </td>
 </tr>
 </tbody>
@@ -3053,6 +2873,7 @@ set on updates.</p>
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccountProperties_StatusARM">StorageAccountProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of CustomDomain_Status. Use v1beta20210401.CustomDomain_Status instead</p>
 </div>
 <table>
 <thead>
@@ -3070,7 +2891,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Gets or sets the custom domain name assigned to the storage account. Name is the CNAME source.</p>
 </td>
 </tr>
 <tr>
@@ -3081,8 +2901,270 @@ bool
 </em>
 </td>
 <td>
-<p>UseSubDomainName: Indicates whether indirect CName validation is enabled. Default value is false. This should only be
-set on updates.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.DateAfterCreation">DateAfterCreation
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicySnapShot">ManagementPolicySnapShot</a>, <a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyVersion">ManagementPolicyVersion</a>)
+</p>
+<div>
+<p>Deprecated version of DateAfterCreation. Use v1beta20210401.DateAfterCreation instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>daysAfterCreationGreaterThan</code><br/>
+<em>
+int
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.DateAfterCreationARM">DateAfterCreationARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicySnapShotARM">ManagementPolicySnapShotARM</a>, <a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyVersionARM">ManagementPolicyVersionARM</a>)
+</p>
+<div>
+<p>Deprecated version of DateAfterCreation. Use v1beta20210401.DateAfterCreation instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>daysAfterCreationGreaterThan</code><br/>
+<em>
+int
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.DateAfterCreation_Status">DateAfterCreation_Status
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicySnapShot_Status">ManagementPolicySnapShot_Status</a>, <a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyVersion_Status">ManagementPolicyVersion_Status</a>)
+</p>
+<div>
+<p>Deprecated version of DateAfterCreation_Status. Use v1beta20210401.DateAfterCreation_Status instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>daysAfterCreationGreaterThan</code><br/>
+<em>
+float64
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.DateAfterCreation_StatusARM">DateAfterCreation_StatusARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicySnapShot_StatusARM">ManagementPolicySnapShot_StatusARM</a>, <a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyVersion_StatusARM">ManagementPolicyVersion_StatusARM</a>)
+</p>
+<div>
+<p>Deprecated version of DateAfterCreation_Status. Use v1beta20210401.DateAfterCreation_Status instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>daysAfterCreationGreaterThan</code><br/>
+<em>
+float64
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.DateAfterModification">DateAfterModification
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyBaseBlob">ManagementPolicyBaseBlob</a>)
+</p>
+<div>
+<p>Deprecated version of DateAfterModification. Use v1beta20210401.DateAfterModification instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>daysAfterLastAccessTimeGreaterThan</code><br/>
+<em>
+int
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>daysAfterModificationGreaterThan</code><br/>
+<em>
+int
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.DateAfterModificationARM">DateAfterModificationARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyBaseBlobARM">ManagementPolicyBaseBlobARM</a>)
+</p>
+<div>
+<p>Deprecated version of DateAfterModification. Use v1beta20210401.DateAfterModification instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>daysAfterLastAccessTimeGreaterThan</code><br/>
+<em>
+int
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>daysAfterModificationGreaterThan</code><br/>
+<em>
+int
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.DateAfterModification_Status">DateAfterModification_Status
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyBaseBlob_Status">ManagementPolicyBaseBlob_Status</a>)
+</p>
+<div>
+<p>Deprecated version of DateAfterModification_Status. Use v1beta20210401.DateAfterModification_Status instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>daysAfterLastAccessTimeGreaterThan</code><br/>
+<em>
+float64
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>daysAfterModificationGreaterThan</code><br/>
+<em>
+float64
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.DateAfterModification_StatusARM">DateAfterModification_StatusARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyBaseBlob_StatusARM">ManagementPolicyBaseBlob_StatusARM</a>)
+</p>
+<div>
+<p>Deprecated version of DateAfterModification_Status. Use v1beta20210401.DateAfterModification_Status instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>daysAfterLastAccessTimeGreaterThan</code><br/>
+<em>
+float64
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>daysAfterModificationGreaterThan</code><br/>
+<em>
+float64
+</em>
+</td>
+<td>
 </td>
 </tr>
 </tbody>
@@ -3093,7 +3175,7 @@ set on updates.</p>
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccountsBlobServices_Spec">StorageAccountsBlobServices_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/DeleteRetentionPolicy">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/DeleteRetentionPolicy</a></p>
+<p>Deprecated version of DeleteRetentionPolicy. Use v1beta20210401.DeleteRetentionPolicy instead</p>
 </div>
 <table>
 <thead>
@@ -3111,8 +3193,6 @@ int
 </em>
 </td>
 <td>
-<p>Days: Indicates the number of days that the deleted item should be retained. The minimum specified value can be 1 and
-the maximum value can be 365.</p>
 </td>
 </tr>
 <tr>
@@ -3123,7 +3203,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Indicates whether DeleteRetentionPolicy is enabled.</p>
 </td>
 </tr>
 </tbody>
@@ -3134,7 +3213,7 @@ bool
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.BlobServicePropertiesPropertiesARM">BlobServicePropertiesPropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/DeleteRetentionPolicy">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/DeleteRetentionPolicy</a></p>
+<p>Deprecated version of DeleteRetentionPolicy. Use v1beta20210401.DeleteRetentionPolicy instead</p>
 </div>
 <table>
 <thead>
@@ -3152,8 +3231,6 @@ int
 </em>
 </td>
 <td>
-<p>Days: Indicates the number of days that the deleted item should be retained. The minimum specified value can be 1 and
-the maximum value can be 365.</p>
 </td>
 </tr>
 <tr>
@@ -3164,7 +3241,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Indicates whether DeleteRetentionPolicy is enabled.</p>
 </td>
 </tr>
 </tbody>
@@ -3175,6 +3251,7 @@ bool
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.BlobServiceProperties_Status">BlobServiceProperties_Status</a>)
 </p>
 <div>
+<p>Deprecated version of DeleteRetentionPolicy_Status. Use v1beta20210401.DeleteRetentionPolicy_Status instead</p>
 </div>
 <table>
 <thead>
@@ -3192,8 +3269,6 @@ int
 </em>
 </td>
 <td>
-<p>Days: Indicates the number of days that the deleted item should be retained. The minimum specified value can be 1 and
-the maximum value can be 365.</p>
 </td>
 </tr>
 <tr>
@@ -3204,7 +3279,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Indicates whether DeleteRetentionPolicy is enabled.</p>
 </td>
 </tr>
 </tbody>
@@ -3215,6 +3289,7 @@ bool
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.BlobServiceProperties_Status_PropertiesARM">BlobServiceProperties_Status_PropertiesARM</a>)
 </p>
 <div>
+<p>Deprecated version of DeleteRetentionPolicy_Status. Use v1beta20210401.DeleteRetentionPolicy_Status instead</p>
 </div>
 <table>
 <thead>
@@ -3232,8 +3307,6 @@ int
 </em>
 </td>
 <td>
-<p>Days: Indicates the number of days that the deleted item should be retained. The minimum specified value can be 1 and
-the maximum value can be 365.</p>
 </td>
 </tr>
 <tr>
@@ -3244,7 +3317,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Indicates whether DeleteRetentionPolicy is enabled.</p>
 </td>
 </tr>
 </tbody>
@@ -3255,7 +3327,7 @@ bool
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccounts_Spec">StorageAccounts_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/Encryption">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/Encryption</a></p>
+<p>Deprecated version of Encryption. Use v1beta20210401.Encryption instead</p>
 </div>
 <table>
 <thead>
@@ -3275,7 +3347,6 @@ EncryptionIdentity
 </em>
 </td>
 <td>
-<p>Identity: Encryption identity for the storage account.</p>
 </td>
 </tr>
 <tr>
@@ -3288,8 +3359,6 @@ EncryptionKeySource
 </em>
 </td>
 <td>
-<p>KeySource: The encryption keySource (provider). Possible values (case-insensitive):  Microsoft.Storage,
-Microsoft.Keyvault.</p>
 </td>
 </tr>
 <tr>
@@ -3302,7 +3371,6 @@ KeyVaultProperties
 </em>
 </td>
 <td>
-<p>Keyvaultproperties: Properties of key vault.</p>
 </td>
 </tr>
 <tr>
@@ -3313,8 +3381,6 @@ bool
 </em>
 </td>
 <td>
-<p>RequireInfrastructureEncryption: A boolean indicating whether or not the service applies a secondary layer of encryption
-with platform managed keys for data at rest.</p>
 </td>
 </tr>
 <tr>
@@ -3327,7 +3393,6 @@ EncryptionServices
 </em>
 </td>
 <td>
-<p>Services: A list of services that support encryption.</p>
 </td>
 </tr>
 </tbody>
@@ -3338,7 +3403,7 @@ EncryptionServices
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccountPropertiesCreateParametersARM">StorageAccountPropertiesCreateParametersARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/Encryption">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/Encryption</a></p>
+<p>Deprecated version of Encryption. Use v1beta20210401.Encryption instead</p>
 </div>
 <table>
 <thead>
@@ -3358,7 +3423,6 @@ EncryptionIdentityARM
 </em>
 </td>
 <td>
-<p>Identity: Encryption identity for the storage account.</p>
 </td>
 </tr>
 <tr>
@@ -3371,8 +3435,6 @@ EncryptionKeySource
 </em>
 </td>
 <td>
-<p>KeySource: The encryption keySource (provider). Possible values (case-insensitive):  Microsoft.Storage,
-Microsoft.Keyvault.</p>
 </td>
 </tr>
 <tr>
@@ -3385,7 +3447,6 @@ KeyVaultPropertiesARM
 </em>
 </td>
 <td>
-<p>Keyvaultproperties: Properties of key vault.</p>
 </td>
 </tr>
 <tr>
@@ -3396,8 +3457,6 @@ bool
 </em>
 </td>
 <td>
-<p>RequireInfrastructureEncryption: A boolean indicating whether or not the service applies a secondary layer of encryption
-with platform managed keys for data at rest.</p>
 </td>
 </tr>
 <tr>
@@ -3410,7 +3469,6 @@ EncryptionServicesARM
 </em>
 </td>
 <td>
-<p>Services: A list of services that support encryption.</p>
 </td>
 </tr>
 </tbody>
@@ -3421,7 +3479,7 @@ EncryptionServicesARM
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.Encryption">Encryption</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/EncryptionIdentity">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/EncryptionIdentity</a></p>
+<p>Deprecated version of EncryptionIdentity. Use v1beta20210401.EncryptionIdentity instead</p>
 </div>
 <table>
 <thead>
@@ -3441,8 +3499,6 @@ genruntime.ResourceReference
 </em>
 </td>
 <td>
-<p>UserAssignedIdentityReference: Resource identifier of the UserAssigned identity to be associated with server-side
-encryption on the storage account.</p>
 </td>
 </tr>
 </tbody>
@@ -3453,7 +3509,7 @@ encryption on the storage account.</p>
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.EncryptionARM">EncryptionARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/EncryptionIdentity">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/EncryptionIdentity</a></p>
+<p>Deprecated version of EncryptionIdentity. Use v1beta20210401.EncryptionIdentity instead</p>
 </div>
 <table>
 <thead>
@@ -3481,6 +3537,7 @@ string
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.Encryption_Status">Encryption_Status</a>)
 </p>
 <div>
+<p>Deprecated version of EncryptionIdentity_Status. Use v1beta20210401.EncryptionIdentity_Status instead</p>
 </div>
 <table>
 <thead>
@@ -3498,8 +3555,6 @@ string
 </em>
 </td>
 <td>
-<p>UserAssignedIdentity: Resource identifier of the UserAssigned identity to be associated with server-side encryption on
-the storage account.</p>
 </td>
 </tr>
 </tbody>
@@ -3510,6 +3565,7 @@ the storage account.</p>
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.Encryption_StatusARM">Encryption_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of EncryptionIdentity_Status. Use v1beta20210401.EncryptionIdentity_Status instead</p>
 </div>
 <table>
 <thead>
@@ -3527,8 +3583,6 @@ string
 </em>
 </td>
 <td>
-<p>UserAssignedIdentity: Resource identifier of the UserAssigned identity to be associated with server-side encryption on
-the storage account.</p>
 </td>
 </tr>
 </tbody>
@@ -3539,6 +3593,7 @@ the storage account.</p>
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.Encryption">Encryption</a>, <a href="#storage.azure.com/v1alpha1api20210401.EncryptionARM">EncryptionARM</a>)
 </p>
 <div>
+<p>Deprecated version of EncryptionKeySource. Use v1beta20210401.EncryptionKeySource instead</p>
 </div>
 <table>
 <thead>
@@ -3559,7 +3614,7 @@ the storage account.</p>
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.EncryptionServices">EncryptionServices</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/EncryptionService">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/EncryptionService</a></p>
+<p>Deprecated version of EncryptionService. Use v1beta20210401.EncryptionService instead</p>
 </div>
 <table>
 <thead>
@@ -3577,7 +3632,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: A boolean indicating whether or not the service encrypts the data as it is stored.</p>
 </td>
 </tr>
 <tr>
@@ -3590,8 +3644,6 @@ EncryptionServiceKeyType
 </em>
 </td>
 <td>
-<p>KeyType: Encryption key type to be used for the encryption service. &lsquo;Account&rsquo; key type implies that an account-scoped
-encryption key will be used. &lsquo;Service&rsquo; key type implies that a default service key is used.</p>
 </td>
 </tr>
 </tbody>
@@ -3602,7 +3654,7 @@ encryption key will be used. &lsquo;Service&rsquo; key type implies that a defau
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.EncryptionServicesARM">EncryptionServicesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/EncryptionService">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/EncryptionService</a></p>
+<p>Deprecated version of EncryptionService. Use v1beta20210401.EncryptionService instead</p>
 </div>
 <table>
 <thead>
@@ -3620,7 +3672,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: A boolean indicating whether or not the service encrypts the data as it is stored.</p>
 </td>
 </tr>
 <tr>
@@ -3633,8 +3684,6 @@ EncryptionServiceKeyType
 </em>
 </td>
 <td>
-<p>KeyType: Encryption key type to be used for the encryption service. &lsquo;Account&rsquo; key type implies that an account-scoped
-encryption key will be used. &lsquo;Service&rsquo; key type implies that a default service key is used.</p>
 </td>
 </tr>
 </tbody>
@@ -3645,6 +3694,7 @@ encryption key will be used. &lsquo;Service&rsquo; key type implies that a defau
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.EncryptionService">EncryptionService</a>, <a href="#storage.azure.com/v1alpha1api20210401.EncryptionServiceARM">EncryptionServiceARM</a>)
 </p>
 <div>
+<p>Deprecated version of EncryptionServiceKeyType. Use v1beta20210401.EncryptionServiceKeyType instead</p>
 </div>
 <table>
 <thead>
@@ -3665,6 +3715,7 @@ encryption key will be used. &lsquo;Service&rsquo; key type implies that a defau
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.EncryptionService_Status">EncryptionService_Status</a>, <a href="#storage.azure.com/v1alpha1api20210401.EncryptionService_StatusARM">EncryptionService_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of EncryptionServiceStatusKeyType. Use v1beta20210401.EncryptionServiceStatusKeyType instead</p>
 </div>
 <table>
 <thead>
@@ -3685,6 +3736,7 @@ encryption key will be used. &lsquo;Service&rsquo; key type implies that a defau
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.EncryptionServices_Status">EncryptionServices_Status</a>)
 </p>
 <div>
+<p>Deprecated version of EncryptionService_Status. Use v1beta20210401.EncryptionService_Status instead</p>
 </div>
 <table>
 <thead>
@@ -3702,7 +3754,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: A boolean indicating whether or not the service encrypts the data as it is stored.</p>
 </td>
 </tr>
 <tr>
@@ -3715,8 +3766,6 @@ EncryptionServiceStatusKeyType
 </em>
 </td>
 <td>
-<p>KeyType: Encryption key type to be used for the encryption service. &lsquo;Account&rsquo; key type implies that an account-scoped
-encryption key will be used. &lsquo;Service&rsquo; key type implies that a default service key is used.</p>
 </td>
 </tr>
 <tr>
@@ -3727,9 +3776,6 @@ string
 </em>
 </td>
 <td>
-<p>LastEnabledTime: Gets a rough estimate of the date/time when the encryption was last enabled by the user. Only returned
-when encryption is enabled. There might be some unencrypted blobs which were written after this time, as it is just a
-rough estimate.</p>
 </td>
 </tr>
 </tbody>
@@ -3740,6 +3786,7 @@ rough estimate.</p>
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.EncryptionServices_StatusARM">EncryptionServices_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of EncryptionService_Status. Use v1beta20210401.EncryptionService_Status instead</p>
 </div>
 <table>
 <thead>
@@ -3757,7 +3804,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: A boolean indicating whether or not the service encrypts the data as it is stored.</p>
 </td>
 </tr>
 <tr>
@@ -3770,8 +3816,6 @@ EncryptionServiceStatusKeyType
 </em>
 </td>
 <td>
-<p>KeyType: Encryption key type to be used for the encryption service. &lsquo;Account&rsquo; key type implies that an account-scoped
-encryption key will be used. &lsquo;Service&rsquo; key type implies that a default service key is used.</p>
 </td>
 </tr>
 <tr>
@@ -3782,9 +3826,6 @@ string
 </em>
 </td>
 <td>
-<p>LastEnabledTime: Gets a rough estimate of the date/time when the encryption was last enabled by the user. Only returned
-when encryption is enabled. There might be some unencrypted blobs which were written after this time, as it is just a
-rough estimate.</p>
 </td>
 </tr>
 </tbody>
@@ -3795,7 +3836,7 @@ rough estimate.</p>
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.Encryption">Encryption</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/EncryptionServices">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/EncryptionServices</a></p>
+<p>Deprecated version of EncryptionServices. Use v1beta20210401.EncryptionServices instead</p>
 </div>
 <table>
 <thead>
@@ -3815,7 +3856,6 @@ EncryptionService
 </em>
 </td>
 <td>
-<p>Blob: A service that allows server-side encryption to be used.</p>
 </td>
 </tr>
 <tr>
@@ -3828,7 +3868,6 @@ EncryptionService
 </em>
 </td>
 <td>
-<p>File: A service that allows server-side encryption to be used.</p>
 </td>
 </tr>
 <tr>
@@ -3841,7 +3880,6 @@ EncryptionService
 </em>
 </td>
 <td>
-<p>Queue: A service that allows server-side encryption to be used.</p>
 </td>
 </tr>
 <tr>
@@ -3854,7 +3892,6 @@ EncryptionService
 </em>
 </td>
 <td>
-<p>Table: A service that allows server-side encryption to be used.</p>
 </td>
 </tr>
 </tbody>
@@ -3865,7 +3902,7 @@ EncryptionService
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.EncryptionARM">EncryptionARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/EncryptionServices">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/EncryptionServices</a></p>
+<p>Deprecated version of EncryptionServices. Use v1beta20210401.EncryptionServices instead</p>
 </div>
 <table>
 <thead>
@@ -3885,7 +3922,6 @@ EncryptionServiceARM
 </em>
 </td>
 <td>
-<p>Blob: A service that allows server-side encryption to be used.</p>
 </td>
 </tr>
 <tr>
@@ -3898,7 +3934,6 @@ EncryptionServiceARM
 </em>
 </td>
 <td>
-<p>File: A service that allows server-side encryption to be used.</p>
 </td>
 </tr>
 <tr>
@@ -3911,7 +3946,6 @@ EncryptionServiceARM
 </em>
 </td>
 <td>
-<p>Queue: A service that allows server-side encryption to be used.</p>
 </td>
 </tr>
 <tr>
@@ -3924,7 +3958,6 @@ EncryptionServiceARM
 </em>
 </td>
 <td>
-<p>Table: A service that allows server-side encryption to be used.</p>
 </td>
 </tr>
 </tbody>
@@ -3935,6 +3968,7 @@ EncryptionServiceARM
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.Encryption_Status">Encryption_Status</a>)
 </p>
 <div>
+<p>Deprecated version of EncryptionServices_Status. Use v1beta20210401.EncryptionServices_Status instead</p>
 </div>
 <table>
 <thead>
@@ -3954,7 +3988,6 @@ EncryptionService_Status
 </em>
 </td>
 <td>
-<p>Blob: The encryption function of the blob storage service.</p>
 </td>
 </tr>
 <tr>
@@ -3967,7 +4000,6 @@ EncryptionService_Status
 </em>
 </td>
 <td>
-<p>File: The encryption function of the file storage service.</p>
 </td>
 </tr>
 <tr>
@@ -3980,7 +4012,6 @@ EncryptionService_Status
 </em>
 </td>
 <td>
-<p>Queue: The encryption function of the queue storage service.</p>
 </td>
 </tr>
 <tr>
@@ -3993,7 +4024,6 @@ EncryptionService_Status
 </em>
 </td>
 <td>
-<p>Table: The encryption function of the table storage service.</p>
 </td>
 </tr>
 </tbody>
@@ -4004,6 +4034,7 @@ EncryptionService_Status
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.Encryption_StatusARM">Encryption_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of EncryptionServices_Status. Use v1beta20210401.EncryptionServices_Status instead</p>
 </div>
 <table>
 <thead>
@@ -4023,7 +4054,6 @@ EncryptionService_StatusARM
 </em>
 </td>
 <td>
-<p>Blob: The encryption function of the blob storage service.</p>
 </td>
 </tr>
 <tr>
@@ -4036,7 +4066,6 @@ EncryptionService_StatusARM
 </em>
 </td>
 <td>
-<p>File: The encryption function of the file storage service.</p>
 </td>
 </tr>
 <tr>
@@ -4049,7 +4078,6 @@ EncryptionService_StatusARM
 </em>
 </td>
 <td>
-<p>Queue: The encryption function of the queue storage service.</p>
 </td>
 </tr>
 <tr>
@@ -4062,7 +4090,6 @@ EncryptionService_StatusARM
 </em>
 </td>
 <td>
-<p>Table: The encryption function of the table storage service.</p>
 </td>
 </tr>
 </tbody>
@@ -4073,6 +4100,7 @@ EncryptionService_StatusARM
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.Encryption_Status">Encryption_Status</a>, <a href="#storage.azure.com/v1alpha1api20210401.Encryption_StatusARM">Encryption_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of EncryptionStatusKeySource. Use v1beta20210401.EncryptionStatusKeySource instead</p>
 </div>
 <table>
 <thead>
@@ -4093,6 +4121,7 @@ EncryptionService_StatusARM
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccount_Status">StorageAccount_Status</a>)
 </p>
 <div>
+<p>Deprecated version of Encryption_Status. Use v1beta20210401.Encryption_Status instead</p>
 </div>
 <table>
 <thead>
@@ -4112,7 +4141,6 @@ EncryptionIdentity_Status
 </em>
 </td>
 <td>
-<p>Identity: The identity to be used with service-side encryption at rest.</p>
 </td>
 </tr>
 <tr>
@@ -4125,8 +4153,6 @@ EncryptionStatusKeySource
 </em>
 </td>
 <td>
-<p>KeySource: The encryption keySource (provider). Possible values (case-insensitive):  Microsoft.Storage,
-Microsoft.Keyvault</p>
 </td>
 </tr>
 <tr>
@@ -4139,7 +4165,6 @@ KeyVaultProperties_Status
 </em>
 </td>
 <td>
-<p>Keyvaultproperties: Properties provided by key vault.</p>
 </td>
 </tr>
 <tr>
@@ -4150,8 +4175,6 @@ bool
 </em>
 </td>
 <td>
-<p>RequireInfrastructureEncryption: A boolean indicating whether or not the service applies a secondary layer of encryption
-with platform managed keys for data at rest.</p>
 </td>
 </tr>
 <tr>
@@ -4164,7 +4187,6 @@ EncryptionServices_Status
 </em>
 </td>
 <td>
-<p>Services: List of services which support encryption.</p>
 </td>
 </tr>
 </tbody>
@@ -4175,6 +4197,7 @@ EncryptionServices_Status
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccountProperties_StatusARM">StorageAccountProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of Encryption_Status. Use v1beta20210401.Encryption_Status instead</p>
 </div>
 <table>
 <thead>
@@ -4194,7 +4217,6 @@ EncryptionIdentity_StatusARM
 </em>
 </td>
 <td>
-<p>Identity: The identity to be used with service-side encryption at rest.</p>
 </td>
 </tr>
 <tr>
@@ -4207,8 +4229,6 @@ EncryptionStatusKeySource
 </em>
 </td>
 <td>
-<p>KeySource: The encryption keySource (provider). Possible values (case-insensitive):  Microsoft.Storage,
-Microsoft.Keyvault</p>
 </td>
 </tr>
 <tr>
@@ -4221,7 +4241,6 @@ KeyVaultProperties_StatusARM
 </em>
 </td>
 <td>
-<p>Keyvaultproperties: Properties provided by key vault.</p>
 </td>
 </tr>
 <tr>
@@ -4232,8 +4251,6 @@ bool
 </em>
 </td>
 <td>
-<p>RequireInfrastructureEncryption: A boolean indicating whether or not the service applies a secondary layer of encryption
-with platform managed keys for data at rest.</p>
 </td>
 </tr>
 <tr>
@@ -4246,7 +4263,6 @@ EncryptionServices_StatusARM
 </em>
 </td>
 <td>
-<p>Services: List of services which support encryption.</p>
 </td>
 </tr>
 </tbody>
@@ -4257,6 +4273,7 @@ EncryptionServices_StatusARM
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccount_Status">StorageAccount_Status</a>)
 </p>
 <div>
+<p>Deprecated version of Endpoints_Status. Use v1beta20210401.Endpoints_Status instead</p>
 </div>
 <table>
 <thead>
@@ -4274,7 +4291,6 @@ string
 </em>
 </td>
 <td>
-<p>Blob: Gets the blob endpoint.</p>
 </td>
 </tr>
 <tr>
@@ -4285,7 +4301,6 @@ string
 </em>
 </td>
 <td>
-<p>Dfs: Gets the dfs endpoint.</p>
 </td>
 </tr>
 <tr>
@@ -4296,7 +4311,6 @@ string
 </em>
 </td>
 <td>
-<p>File: Gets the file endpoint.</p>
 </td>
 </tr>
 <tr>
@@ -4309,7 +4323,6 @@ StorageAccountInternetEndpoints_Status
 </em>
 </td>
 <td>
-<p>InternetEndpoints: Gets the internet routing storage endpoints</p>
 </td>
 </tr>
 <tr>
@@ -4322,7 +4335,6 @@ StorageAccountMicrosoftEndpoints_Status
 </em>
 </td>
 <td>
-<p>MicrosoftEndpoints: Gets the microsoft routing storage endpoints.</p>
 </td>
 </tr>
 <tr>
@@ -4333,7 +4345,6 @@ string
 </em>
 </td>
 <td>
-<p>Queue: Gets the queue endpoint.</p>
 </td>
 </tr>
 <tr>
@@ -4344,7 +4355,6 @@ string
 </em>
 </td>
 <td>
-<p>Table: Gets the table endpoint.</p>
 </td>
 </tr>
 <tr>
@@ -4355,7 +4365,6 @@ string
 </em>
 </td>
 <td>
-<p>Web: Gets the web endpoint.</p>
 </td>
 </tr>
 </tbody>
@@ -4366,6 +4375,7 @@ string
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccountProperties_StatusARM">StorageAccountProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of Endpoints_Status. Use v1beta20210401.Endpoints_Status instead</p>
 </div>
 <table>
 <thead>
@@ -4383,7 +4393,6 @@ string
 </em>
 </td>
 <td>
-<p>Blob: Gets the blob endpoint.</p>
 </td>
 </tr>
 <tr>
@@ -4394,7 +4403,6 @@ string
 </em>
 </td>
 <td>
-<p>Dfs: Gets the dfs endpoint.</p>
 </td>
 </tr>
 <tr>
@@ -4405,7 +4413,6 @@ string
 </em>
 </td>
 <td>
-<p>File: Gets the file endpoint.</p>
 </td>
 </tr>
 <tr>
@@ -4418,7 +4425,6 @@ StorageAccountInternetEndpoints_StatusARM
 </em>
 </td>
 <td>
-<p>InternetEndpoints: Gets the internet routing storage endpoints</p>
 </td>
 </tr>
 <tr>
@@ -4431,7 +4437,6 @@ StorageAccountMicrosoftEndpoints_StatusARM
 </em>
 </td>
 <td>
-<p>MicrosoftEndpoints: Gets the microsoft routing storage endpoints.</p>
 </td>
 </tr>
 <tr>
@@ -4442,7 +4447,6 @@ string
 </em>
 </td>
 <td>
-<p>Queue: Gets the queue endpoint.</p>
 </td>
 </tr>
 <tr>
@@ -4453,7 +4457,6 @@ string
 </em>
 </td>
 <td>
-<p>Table: Gets the table endpoint.</p>
 </td>
 </tr>
 <tr>
@@ -4464,7 +4467,6 @@ string
 </em>
 </td>
 <td>
-<p>Web: Gets the web endpoint.</p>
 </td>
 </tr>
 </tbody>
@@ -4475,7 +4477,7 @@ string
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccounts_Spec">StorageAccounts_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ExtendedLocation">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ExtendedLocation</a></p>
+<p>Deprecated version of ExtendedLocation. Use v1beta20210401.ExtendedLocation instead</p>
 </div>
 <table>
 <thead>
@@ -4493,7 +4495,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the extended location.</p>
 </td>
 </tr>
 <tr>
@@ -4506,7 +4507,6 @@ ExtendedLocationType
 </em>
 </td>
 <td>
-<p>Type: The type of the extended location.</p>
 </td>
 </tr>
 </tbody>
@@ -4517,7 +4517,7 @@ ExtendedLocationType
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccounts_SpecARM">StorageAccounts_SpecARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ExtendedLocation">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ExtendedLocation</a></p>
+<p>Deprecated version of ExtendedLocation. Use v1beta20210401.ExtendedLocation instead</p>
 </div>
 <table>
 <thead>
@@ -4535,7 +4535,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the extended location.</p>
 </td>
 </tr>
 <tr>
@@ -4548,7 +4547,6 @@ ExtendedLocationType
 </em>
 </td>
 <td>
-<p>Type: The type of the extended location.</p>
 </td>
 </tr>
 </tbody>
@@ -4559,6 +4557,7 @@ ExtendedLocationType
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ExtendedLocation">ExtendedLocation</a>, <a href="#storage.azure.com/v1alpha1api20210401.ExtendedLocationARM">ExtendedLocationARM</a>)
 </p>
 <div>
+<p>Deprecated version of ExtendedLocationType. Use v1beta20210401.ExtendedLocationType instead</p>
 </div>
 <table>
 <thead>
@@ -4577,6 +4576,7 @@ ExtendedLocationType
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ExtendedLocation_Status">ExtendedLocation_Status</a>, <a href="#storage.azure.com/v1alpha1api20210401.ExtendedLocation_StatusARM">ExtendedLocation_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of ExtendedLocationType_Status. Use v1beta20210401.ExtendedLocationType_Status instead</p>
 </div>
 <table>
 <thead>
@@ -4595,6 +4595,7 @@ ExtendedLocationType
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccount_Status">StorageAccount_Status</a>)
 </p>
 <div>
+<p>Deprecated version of ExtendedLocation_Status. Use v1beta20210401.ExtendedLocation_Status instead</p>
 </div>
 <table>
 <thead>
@@ -4612,7 +4613,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the extended location.</p>
 </td>
 </tr>
 <tr>
@@ -4625,7 +4625,6 @@ ExtendedLocationType_Status
 </em>
 </td>
 <td>
-<p>Type: The type of the extended location.</p>
 </td>
 </tr>
 </tbody>
@@ -4636,6 +4635,7 @@ ExtendedLocationType_Status
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccount_StatusARM">StorageAccount_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of ExtendedLocation_Status. Use v1beta20210401.ExtendedLocation_Status instead</p>
 </div>
 <table>
 <thead>
@@ -4653,7 +4653,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the extended location.</p>
 </td>
 </tr>
 <tr>
@@ -4666,7 +4665,6 @@ ExtendedLocationType_Status
 </em>
 </td>
 <td>
-<p>Type: The type of the extended location.</p>
 </td>
 </tr>
 </tbody>
@@ -4677,6 +4675,7 @@ ExtendedLocationType_Status
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.GeoReplicationStats_Status">GeoReplicationStats_Status</a>, <a href="#storage.azure.com/v1alpha1api20210401.GeoReplicationStats_StatusARM">GeoReplicationStats_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of GeoReplicationStatsStatusStatus. Use v1beta20210401.GeoReplicationStatsStatusStatus instead</p>
 </div>
 <table>
 <thead>
@@ -4699,6 +4698,7 @@ ExtendedLocationType_Status
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccount_Status">StorageAccount_Status</a>)
 </p>
 <div>
+<p>Deprecated version of GeoReplicationStats_Status. Use v1beta20210401.GeoReplicationStats_Status instead</p>
 </div>
 <table>
 <thead>
@@ -4716,7 +4716,6 @@ bool
 </em>
 </td>
 <td>
-<p>CanFailover: A boolean flag which indicates whether or not account failover is supported for the account.</p>
 </td>
 </tr>
 <tr>
@@ -4727,9 +4726,6 @@ string
 </em>
 </td>
 <td>
-<p>LastSyncTime: All primary writes preceding this UTC date/time value are guaranteed to be available for read operations.
-Primary writes following this point in time may or may not be available for reads. Element may be default value if value
-of LastSyncTime is not available, this can happen if secondary is offline or we are in bootstrap.</p>
 </td>
 </tr>
 <tr>
@@ -4742,10 +4738,6 @@ GeoReplicationStatsStatusStatus
 </em>
 </td>
 <td>
-<p>Status: The status of the secondary location. Possible values are: - Live: Indicates that the secondary location is
-active and operational. - Bootstrap: Indicates initial synchronization from the primary location to the secondary
-location is in progress.This typically occurs when replication is first enabled. - Unavailable: Indicates that the
-secondary location is temporarily unavailable.</p>
 </td>
 </tr>
 </tbody>
@@ -4756,6 +4748,7 @@ secondary location is temporarily unavailable.</p>
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccountProperties_StatusARM">StorageAccountProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of GeoReplicationStats_Status. Use v1beta20210401.GeoReplicationStats_Status instead</p>
 </div>
 <table>
 <thead>
@@ -4773,7 +4766,6 @@ bool
 </em>
 </td>
 <td>
-<p>CanFailover: A boolean flag which indicates whether or not account failover is supported for the account.</p>
 </td>
 </tr>
 <tr>
@@ -4784,9 +4776,6 @@ string
 </em>
 </td>
 <td>
-<p>LastSyncTime: All primary writes preceding this UTC date/time value are guaranteed to be available for read operations.
-Primary writes following this point in time may or may not be available for reads. Element may be default value if value
-of LastSyncTime is not available, this can happen if secondary is offline or we are in bootstrap.</p>
 </td>
 </tr>
 <tr>
@@ -4799,10 +4788,6 @@ GeoReplicationStatsStatusStatus
 </em>
 </td>
 <td>
-<p>Status: The status of the secondary location. Possible values are: - Live: Indicates that the secondary location is
-active and operational. - Bootstrap: Indicates initial synchronization from the primary location to the secondary
-location is in progress.This typically occurs when replication is first enabled. - Unavailable: Indicates that the
-secondary location is temporarily unavailable.</p>
 </td>
 </tr>
 </tbody>
@@ -4813,7 +4798,7 @@ secondary location is temporarily unavailable.</p>
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.NetworkRuleSet">NetworkRuleSet</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/IPRule">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/IPRule</a></p>
+<p>Deprecated version of IPRule. Use v1beta20210401.IPRule instead</p>
 </div>
 <table>
 <thead>
@@ -4833,7 +4818,6 @@ IPRuleAction
 </em>
 </td>
 <td>
-<p>Action: The action of IP ACL rule.</p>
 </td>
 </tr>
 <tr>
@@ -4844,7 +4828,6 @@ string
 </em>
 </td>
 <td>
-<p>Value: Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed.</p>
 </td>
 </tr>
 </tbody>
@@ -4855,7 +4838,7 @@ string
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.NetworkRuleSetARM">NetworkRuleSetARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/IPRule">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/IPRule</a></p>
+<p>Deprecated version of IPRule. Use v1beta20210401.IPRule instead</p>
 </div>
 <table>
 <thead>
@@ -4875,7 +4858,6 @@ IPRuleAction
 </em>
 </td>
 <td>
-<p>Action: The action of IP ACL rule.</p>
 </td>
 </tr>
 <tr>
@@ -4886,7 +4868,6 @@ string
 </em>
 </td>
 <td>
-<p>Value: Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed.</p>
 </td>
 </tr>
 </tbody>
@@ -4897,6 +4878,7 @@ string
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.IPRule">IPRule</a>, <a href="#storage.azure.com/v1alpha1api20210401.IPRuleARM">IPRuleARM</a>)
 </p>
 <div>
+<p>Deprecated version of IPRuleAction. Use v1beta20210401.IPRuleAction instead</p>
 </div>
 <table>
 <thead>
@@ -4915,6 +4897,7 @@ string
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.IPRule_Status">IPRule_Status</a>, <a href="#storage.azure.com/v1alpha1api20210401.IPRule_StatusARM">IPRule_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of IPRuleStatusAction. Use v1beta20210401.IPRuleStatusAction instead</p>
 </div>
 <table>
 <thead>
@@ -4933,6 +4916,7 @@ string
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.NetworkRuleSet_Status">NetworkRuleSet_Status</a>)
 </p>
 <div>
+<p>Deprecated version of IPRule_Status. Use v1beta20210401.IPRule_Status instead</p>
 </div>
 <table>
 <thead>
@@ -4952,7 +4936,6 @@ IPRuleStatusAction
 </em>
 </td>
 <td>
-<p>Action: The action of IP ACL rule.</p>
 </td>
 </tr>
 <tr>
@@ -4963,7 +4946,6 @@ string
 </em>
 </td>
 <td>
-<p>Value: Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed.</p>
 </td>
 </tr>
 </tbody>
@@ -4974,6 +4956,7 @@ string
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.NetworkRuleSet_StatusARM">NetworkRuleSet_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of IPRule_Status. Use v1beta20210401.IPRule_Status instead</p>
 </div>
 <table>
 <thead>
@@ -4993,7 +4976,6 @@ IPRuleStatusAction
 </em>
 </td>
 <td>
-<p>Action: The action of IP ACL rule.</p>
 </td>
 </tr>
 <tr>
@@ -5004,7 +4986,6 @@ string
 </em>
 </td>
 <td>
-<p>Value: Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed.</p>
 </td>
 </tr>
 </tbody>
@@ -5015,7 +4996,7 @@ string
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccounts_Spec">StorageAccounts_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/Identity">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/Identity</a></p>
+<p>Deprecated version of Identity. Use v1beta20210401.Identity instead</p>
 </div>
 <table>
 <thead>
@@ -5035,7 +5016,6 @@ IdentityType
 </em>
 </td>
 <td>
-<p>Type: The identity type.</p>
 </td>
 </tr>
 </tbody>
@@ -5046,7 +5026,7 @@ IdentityType
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccounts_SpecARM">StorageAccounts_SpecARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/Identity">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/Identity</a></p>
+<p>Deprecated version of Identity. Use v1beta20210401.Identity instead</p>
 </div>
 <table>
 <thead>
@@ -5066,7 +5046,6 @@ IdentityType
 </em>
 </td>
 <td>
-<p>Type: The identity type.</p>
 </td>
 </tr>
 </tbody>
@@ -5077,6 +5056,7 @@ IdentityType
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.Identity_Status">Identity_Status</a>, <a href="#storage.azure.com/v1alpha1api20210401.Identity_StatusARM">Identity_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of IdentityStatusType. Use v1beta20210401.IdentityStatusType instead</p>
 </div>
 <table>
 <thead>
@@ -5101,6 +5081,7 @@ IdentityType
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.Identity">Identity</a>, <a href="#storage.azure.com/v1alpha1api20210401.IdentityARM">IdentityARM</a>)
 </p>
 <div>
+<p>Deprecated version of IdentityType. Use v1beta20210401.IdentityType instead</p>
 </div>
 <table>
 <thead>
@@ -5125,6 +5106,7 @@ IdentityType
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccount_Status">StorageAccount_Status</a>)
 </p>
 <div>
+<p>Deprecated version of Identity_Status. Use v1beta20210401.Identity_Status instead</p>
 </div>
 <table>
 <thead>
@@ -5142,7 +5124,6 @@ string
 </em>
 </td>
 <td>
-<p>PrincipalId: The principal ID of resource identity.</p>
 </td>
 </tr>
 <tr>
@@ -5153,7 +5134,6 @@ string
 </em>
 </td>
 <td>
-<p>TenantId: The tenant ID of resource.</p>
 </td>
 </tr>
 <tr>
@@ -5166,7 +5146,6 @@ IdentityStatusType
 </em>
 </td>
 <td>
-<p>Type: The identity type.</p>
 </td>
 </tr>
 <tr>
@@ -5179,9 +5158,6 @@ map[string]./api/storage/v1alpha1api20210401.UserAssignedIdentity_Status
 </em>
 </td>
 <td>
-<p>UserAssignedIdentities: Gets or sets a list of key value pairs that describe the set of User Assigned identities that
-will be used with this storage account. The key is the ARM resource identifier of the identity. Only 1 User Assigned
-identity is permitted here.</p>
 </td>
 </tr>
 </tbody>
@@ -5192,6 +5168,7 @@ identity is permitted here.</p>
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccount_StatusARM">StorageAccount_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of Identity_Status. Use v1beta20210401.Identity_Status instead</p>
 </div>
 <table>
 <thead>
@@ -5209,7 +5186,6 @@ string
 </em>
 </td>
 <td>
-<p>PrincipalId: The principal ID of resource identity.</p>
 </td>
 </tr>
 <tr>
@@ -5220,7 +5196,6 @@ string
 </em>
 </td>
 <td>
-<p>TenantId: The tenant ID of resource.</p>
 </td>
 </tr>
 <tr>
@@ -5233,7 +5208,6 @@ IdentityStatusType
 </em>
 </td>
 <td>
-<p>Type: The identity type.</p>
 </td>
 </tr>
 <tr>
@@ -5246,9 +5220,6 @@ map[string]./api/storage/v1alpha1api20210401.UserAssignedIdentity_StatusARM
 </em>
 </td>
 <td>
-<p>UserAssignedIdentities: Gets or sets a list of key value pairs that describe the set of User Assigned identities that
-will be used with this storage account. The key is the ARM resource identifier of the identity. Only 1 User Assigned
-identity is permitted here.</p>
 </td>
 </tr>
 </tbody>
@@ -5259,6 +5230,7 @@ identity is permitted here.</p>
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.BlobContainer_Status">BlobContainer_Status</a>)
 </p>
 <div>
+<p>Deprecated version of ImmutabilityPolicyProperties_Status. Use v1beta20210401.ImmutabilityPolicyProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -5276,10 +5248,6 @@ bool
 </em>
 </td>
 <td>
-<p>AllowProtectedAppendWrites: This property can only be changed for unlocked time-based retention policies. When enabled,
-new blocks can be written to an append blob while maintaining immutability protection and compliance. Only new blocks
-can be added and any existing blocks cannot be modified or deleted. This property cannot be changed with
-ExtendImmutabilityPolicy API</p>
 </td>
 </tr>
 <tr>
@@ -5290,7 +5258,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: ImmutabilityPolicy Etag.</p>
 </td>
 </tr>
 <tr>
@@ -5301,8 +5268,6 @@ int
 </em>
 </td>
 <td>
-<p>ImmutabilityPeriodSinceCreationInDays: The immutability period for the blobs in the container since the policy creation,
-in days.</p>
 </td>
 </tr>
 <tr>
@@ -5315,7 +5280,6 @@ ImmutabilityPolicyPropertyStatusState
 </em>
 </td>
 <td>
-<p>State: The ImmutabilityPolicy state of a blob container, possible values include: Locked and Unlocked.</p>
 </td>
 </tr>
 <tr>
@@ -5328,7 +5292,6 @@ ImmutabilityPolicyPropertyStatusState
 </em>
 </td>
 <td>
-<p>UpdateHistory: The ImmutabilityPolicy update history of the blob container.</p>
 </td>
 </tr>
 </tbody>
@@ -5339,6 +5302,7 @@ ImmutabilityPolicyPropertyStatusState
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ContainerProperties_StatusARM">ContainerProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of ImmutabilityPolicyProperties_Status. Use v1beta20210401.ImmutabilityPolicyProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -5356,7 +5320,6 @@ string
 </em>
 </td>
 <td>
-<p>Etag: ImmutabilityPolicy Etag.</p>
 </td>
 </tr>
 <tr>
@@ -5369,7 +5332,6 @@ ImmutabilityPolicyProperty_StatusARM
 </em>
 </td>
 <td>
-<p>Properties: The properties of an ImmutabilityPolicy of a blob container.</p>
 </td>
 </tr>
 <tr>
@@ -5382,7 +5344,6 @@ ImmutabilityPolicyProperty_StatusARM
 </em>
 </td>
 <td>
-<p>UpdateHistory: The ImmutabilityPolicy update history of the blob container.</p>
 </td>
 </tr>
 </tbody>
@@ -5393,6 +5354,8 @@ ImmutabilityPolicyProperty_StatusARM
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ImmutabilityPolicyProperties_Status">ImmutabilityPolicyProperties_Status</a>, <a href="#storage.azure.com/v1alpha1api20210401.ImmutabilityPolicyProperty_StatusARM">ImmutabilityPolicyProperty_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of ImmutabilityPolicyPropertyStatusState. Use v1beta20210401.ImmutabilityPolicyPropertyStatusState
+instead</p>
 </div>
 <table>
 <thead>
@@ -5413,6 +5376,7 @@ ImmutabilityPolicyProperty_StatusARM
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ImmutabilityPolicyProperties_StatusARM">ImmutabilityPolicyProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of ImmutabilityPolicyProperty_Status. Use v1beta20210401.ImmutabilityPolicyProperty_Status instead</p>
 </div>
 <table>
 <thead>
@@ -5430,10 +5394,6 @@ bool
 </em>
 </td>
 <td>
-<p>AllowProtectedAppendWrites: This property can only be changed for unlocked time-based retention policies. When enabled,
-new blocks can be written to an append blob while maintaining immutability protection and compliance. Only new blocks
-can be added and any existing blocks cannot be modified or deleted. This property cannot be changed with
-ExtendImmutabilityPolicy API</p>
 </td>
 </tr>
 <tr>
@@ -5444,8 +5404,6 @@ int
 </em>
 </td>
 <td>
-<p>ImmutabilityPeriodSinceCreationInDays: The immutability period for the blobs in the container since the policy creation,
-in days.</p>
 </td>
 </tr>
 <tr>
@@ -5458,7 +5416,6 @@ ImmutabilityPolicyPropertyStatusState
 </em>
 </td>
 <td>
-<p>State: The ImmutabilityPolicy state of a blob container, possible values include: Locked and Unlocked.</p>
 </td>
 </tr>
 </tbody>
@@ -5469,7 +5426,7 @@ ImmutabilityPolicyPropertyStatusState
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccountsBlobServicesContainers_Spec">StorageAccountsBlobServicesContainers_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ImmutableStorageWithVersioning">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ImmutableStorageWithVersioning</a></p>
+<p>Deprecated version of ImmutableStorageWithVersioning. Use v1beta20210401.ImmutableStorageWithVersioning instead</p>
 </div>
 <table>
 <thead>
@@ -5487,7 +5444,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: This is an immutable property, when set to true it enables object level immutability at the container level.</p>
 </td>
 </tr>
 </tbody>
@@ -5498,7 +5454,7 @@ bool
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ContainerPropertiesARM">ContainerPropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ImmutableStorageWithVersioning">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ImmutableStorageWithVersioning</a></p>
+<p>Deprecated version of ImmutableStorageWithVersioning. Use v1beta20210401.ImmutableStorageWithVersioning instead</p>
 </div>
 <table>
 <thead>
@@ -5516,7 +5472,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: This is an immutable property, when set to true it enables object level immutability at the container level.</p>
 </td>
 </tr>
 </tbody>
@@ -5527,6 +5482,8 @@ bool
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ImmutableStorageWithVersioning_Status">ImmutableStorageWithVersioning_Status</a>, <a href="#storage.azure.com/v1alpha1api20210401.ImmutableStorageWithVersioning_StatusARM">ImmutableStorageWithVersioning_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of ImmutableStorageWithVersioningStatusMigrationState. Use
+v1beta20210401.ImmutableStorageWithVersioningStatusMigrationState instead</p>
 </div>
 <table>
 <thead>
@@ -5547,6 +5504,7 @@ bool
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.BlobContainer_Status">BlobContainer_Status</a>)
 </p>
 <div>
+<p>Deprecated version of ImmutableStorageWithVersioning_Status. Use v1beta20210401.ImmutableStorageWithVersioning_Status instead</p>
 </div>
 <table>
 <thead>
@@ -5564,7 +5522,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: This is an immutable property, when set to true it enables object level immutability at the container level.</p>
 </td>
 </tr>
 <tr>
@@ -5577,7 +5534,6 @@ ImmutableStorageWithVersioningStatusMigrationState
 </em>
 </td>
 <td>
-<p>MigrationState: This property denotes the container level immutability to object level immutability migration state.</p>
 </td>
 </tr>
 <tr>
@@ -5588,7 +5544,6 @@ string
 </em>
 </td>
 <td>
-<p>TimeStamp: Returns the date and time the object level immutability was enabled.</p>
 </td>
 </tr>
 </tbody>
@@ -5599,6 +5554,7 @@ string
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ContainerProperties_StatusARM">ContainerProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of ImmutableStorageWithVersioning_Status. Use v1beta20210401.ImmutableStorageWithVersioning_Status instead</p>
 </div>
 <table>
 <thead>
@@ -5616,7 +5572,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: This is an immutable property, when set to true it enables object level immutability at the container level.</p>
 </td>
 </tr>
 <tr>
@@ -5629,7 +5584,6 @@ ImmutableStorageWithVersioningStatusMigrationState
 </em>
 </td>
 <td>
-<p>MigrationState: This property denotes the container level immutability to object level immutability migration state.</p>
 </td>
 </tr>
 <tr>
@@ -5640,7 +5594,6 @@ string
 </em>
 </td>
 <td>
-<p>TimeStamp: Returns the date and time the object level immutability was enabled.</p>
 </td>
 </tr>
 </tbody>
@@ -5651,6 +5604,7 @@ string
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccount_Status">StorageAccount_Status</a>)
 </p>
 <div>
+<p>Deprecated version of KeyCreationTime_Status. Use v1beta20210401.KeyCreationTime_Status instead</p>
 </div>
 <table>
 <thead>
@@ -5688,6 +5642,7 @@ string
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccountProperties_StatusARM">StorageAccountProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of KeyCreationTime_Status. Use v1beta20210401.KeyCreationTime_Status instead</p>
 </div>
 <table>
 <thead>
@@ -5725,7 +5680,7 @@ string
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccounts_Spec">StorageAccounts_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/KeyPolicy">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/KeyPolicy</a></p>
+<p>Deprecated version of KeyPolicy. Use v1beta20210401.KeyPolicy instead</p>
 </div>
 <table>
 <thead>
@@ -5743,7 +5698,6 @@ int
 </em>
 </td>
 <td>
-<p>KeyExpirationPeriodInDays: The key expiration period in days.</p>
 </td>
 </tr>
 </tbody>
@@ -5754,7 +5708,7 @@ int
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccountPropertiesCreateParametersARM">StorageAccountPropertiesCreateParametersARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/KeyPolicy">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/KeyPolicy</a></p>
+<p>Deprecated version of KeyPolicy. Use v1beta20210401.KeyPolicy instead</p>
 </div>
 <table>
 <thead>
@@ -5772,7 +5726,6 @@ int
 </em>
 </td>
 <td>
-<p>KeyExpirationPeriodInDays: The key expiration period in days.</p>
 </td>
 </tr>
 </tbody>
@@ -5783,6 +5736,7 @@ int
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccount_Status">StorageAccount_Status</a>)
 </p>
 <div>
+<p>Deprecated version of KeyPolicy_Status. Use v1beta20210401.KeyPolicy_Status instead</p>
 </div>
 <table>
 <thead>
@@ -5800,7 +5754,6 @@ int
 </em>
 </td>
 <td>
-<p>KeyExpirationPeriodInDays: The key expiration period in days.</p>
 </td>
 </tr>
 </tbody>
@@ -5811,6 +5764,7 @@ int
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccountProperties_StatusARM">StorageAccountProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of KeyPolicy_Status. Use v1beta20210401.KeyPolicy_Status instead</p>
 </div>
 <table>
 <thead>
@@ -5828,7 +5782,6 @@ int
 </em>
 </td>
 <td>
-<p>KeyExpirationPeriodInDays: The key expiration period in days.</p>
 </td>
 </tr>
 </tbody>
@@ -5839,7 +5792,7 @@ int
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.Encryption">Encryption</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/KeyVaultProperties">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/KeyVaultProperties</a></p>
+<p>Deprecated version of KeyVaultProperties. Use v1beta20210401.KeyVaultProperties instead</p>
 </div>
 <table>
 <thead>
@@ -5857,7 +5810,6 @@ string
 </em>
 </td>
 <td>
-<p>Keyname: The name of KeyVault key.</p>
 </td>
 </tr>
 <tr>
@@ -5868,7 +5820,6 @@ string
 </em>
 </td>
 <td>
-<p>Keyvaulturi: The Uri of KeyVault.</p>
 </td>
 </tr>
 <tr>
@@ -5879,7 +5830,6 @@ string
 </em>
 </td>
 <td>
-<p>Keyversion: The version of KeyVault key.</p>
 </td>
 </tr>
 </tbody>
@@ -5890,7 +5840,7 @@ string
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.EncryptionARM">EncryptionARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/KeyVaultProperties">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/KeyVaultProperties</a></p>
+<p>Deprecated version of KeyVaultProperties. Use v1beta20210401.KeyVaultProperties instead</p>
 </div>
 <table>
 <thead>
@@ -5908,7 +5858,6 @@ string
 </em>
 </td>
 <td>
-<p>Keyname: The name of KeyVault key.</p>
 </td>
 </tr>
 <tr>
@@ -5919,7 +5868,6 @@ string
 </em>
 </td>
 <td>
-<p>Keyvaulturi: The Uri of KeyVault.</p>
 </td>
 </tr>
 <tr>
@@ -5930,7 +5878,6 @@ string
 </em>
 </td>
 <td>
-<p>Keyversion: The version of KeyVault key.</p>
 </td>
 </tr>
 </tbody>
@@ -5941,6 +5888,7 @@ string
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.Encryption_Status">Encryption_Status</a>)
 </p>
 <div>
+<p>Deprecated version of KeyVaultProperties_Status. Use v1beta20210401.KeyVaultProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -5958,7 +5906,6 @@ string
 </em>
 </td>
 <td>
-<p>CurrentVersionedKeyIdentifier: The object identifier of the current versioned Key Vault Key in use.</p>
 </td>
 </tr>
 <tr>
@@ -5969,7 +5916,6 @@ string
 </em>
 </td>
 <td>
-<p>Keyname: The name of KeyVault key.</p>
 </td>
 </tr>
 <tr>
@@ -5980,7 +5926,6 @@ string
 </em>
 </td>
 <td>
-<p>Keyvaulturi: The Uri of KeyVault.</p>
 </td>
 </tr>
 <tr>
@@ -5991,7 +5936,6 @@ string
 </em>
 </td>
 <td>
-<p>Keyversion: The version of KeyVault key.</p>
 </td>
 </tr>
 <tr>
@@ -6002,7 +5946,6 @@ string
 </em>
 </td>
 <td>
-<p>LastKeyRotationTimestamp: Timestamp of last rotation of the Key Vault Key.</p>
 </td>
 </tr>
 </tbody>
@@ -6013,6 +5956,7 @@ string
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.Encryption_StatusARM">Encryption_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of KeyVaultProperties_Status. Use v1beta20210401.KeyVaultProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -6030,7 +5974,6 @@ string
 </em>
 </td>
 <td>
-<p>CurrentVersionedKeyIdentifier: The object identifier of the current versioned Key Vault Key in use.</p>
 </td>
 </tr>
 <tr>
@@ -6041,7 +5984,6 @@ string
 </em>
 </td>
 <td>
-<p>Keyname: The name of KeyVault key.</p>
 </td>
 </tr>
 <tr>
@@ -6052,7 +5994,6 @@ string
 </em>
 </td>
 <td>
-<p>Keyvaulturi: The Uri of KeyVault.</p>
 </td>
 </tr>
 <tr>
@@ -6063,7 +6004,6 @@ string
 </em>
 </td>
 <td>
-<p>Keyversion: The version of KeyVault key.</p>
 </td>
 </tr>
 <tr>
@@ -6074,7 +6014,6 @@ string
 </em>
 </td>
 <td>
-<p>LastKeyRotationTimestamp: Timestamp of last rotation of the Key Vault Key.</p>
 </td>
 </tr>
 </tbody>
@@ -6085,7 +6024,7 @@ string
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccountsBlobServices_Spec">StorageAccountsBlobServices_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/LastAccessTimeTrackingPolicy">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/LastAccessTimeTrackingPolicy</a></p>
+<p>Deprecated version of LastAccessTimeTrackingPolicy. Use v1beta20210401.LastAccessTimeTrackingPolicy instead</p>
 </div>
 <table>
 <thead>
@@ -6103,8 +6042,6 @@ string
 </em>
 </td>
 <td>
-<p>BlobType: An array of predefined supported blob types. Only blockBlob is the supported value. This field is currently
-read only</p>
 </td>
 </tr>
 <tr>
@@ -6115,7 +6052,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enable: When set to true last access time based tracking is enabled.</p>
 </td>
 </tr>
 <tr>
@@ -6128,7 +6064,6 @@ LastAccessTimeTrackingPolicyName
 </em>
 </td>
 <td>
-<p>Name: Name of the policy. The valid value is AccessTimeTracking. This field is currently read only.</p>
 </td>
 </tr>
 <tr>
@@ -6139,8 +6074,6 @@ int
 </em>
 </td>
 <td>
-<p>TrackingGranularityInDays: The field specifies blob object tracking granularity in days, typically how often the blob
-object should be tracked.This field is currently read only with value as 1</p>
 </td>
 </tr>
 </tbody>
@@ -6151,7 +6084,7 @@ object should be tracked.This field is currently read only with value as 1</p>
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.BlobServicePropertiesPropertiesARM">BlobServicePropertiesPropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/LastAccessTimeTrackingPolicy">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/LastAccessTimeTrackingPolicy</a></p>
+<p>Deprecated version of LastAccessTimeTrackingPolicy. Use v1beta20210401.LastAccessTimeTrackingPolicy instead</p>
 </div>
 <table>
 <thead>
@@ -6169,8 +6102,6 @@ object should be tracked.This field is currently read only with value as 1</p>
 </em>
 </td>
 <td>
-<p>BlobType: An array of predefined supported blob types. Only blockBlob is the supported value. This field is currently
-read only</p>
 </td>
 </tr>
 <tr>
@@ -6181,7 +6112,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enable: When set to true last access time based tracking is enabled.</p>
 </td>
 </tr>
 <tr>
@@ -6194,7 +6124,6 @@ LastAccessTimeTrackingPolicyName
 </em>
 </td>
 <td>
-<p>Name: Name of the policy. The valid value is AccessTimeTracking. This field is currently read only.</p>
 </td>
 </tr>
 <tr>
@@ -6205,8 +6134,6 @@ int
 </em>
 </td>
 <td>
-<p>TrackingGranularityInDays: The field specifies blob object tracking granularity in days, typically how often the blob
-object should be tracked.This field is currently read only with value as 1</p>
 </td>
 </tr>
 </tbody>
@@ -6217,6 +6144,7 @@ object should be tracked.This field is currently read only with value as 1</p>
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.LastAccessTimeTrackingPolicy">LastAccessTimeTrackingPolicy</a>, <a href="#storage.azure.com/v1alpha1api20210401.LastAccessTimeTrackingPolicyARM">LastAccessTimeTrackingPolicyARM</a>)
 </p>
 <div>
+<p>Deprecated version of LastAccessTimeTrackingPolicyName. Use v1beta20210401.LastAccessTimeTrackingPolicyName instead</p>
 </div>
 <table>
 <thead>
@@ -6235,6 +6163,8 @@ object should be tracked.This field is currently read only with value as 1</p>
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.LastAccessTimeTrackingPolicy_Status">LastAccessTimeTrackingPolicy_Status</a>, <a href="#storage.azure.com/v1alpha1api20210401.LastAccessTimeTrackingPolicy_StatusARM">LastAccessTimeTrackingPolicy_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of LastAccessTimeTrackingPolicyStatusName. Use v1beta20210401.LastAccessTimeTrackingPolicyStatusName
+instead</p>
 </div>
 <table>
 <thead>
@@ -6253,6 +6183,7 @@ object should be tracked.This field is currently read only with value as 1</p>
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.BlobServiceProperties_Status">BlobServiceProperties_Status</a>)
 </p>
 <div>
+<p>Deprecated version of LastAccessTimeTrackingPolicy_Status. Use v1beta20210401.LastAccessTimeTrackingPolicy_Status instead</p>
 </div>
 <table>
 <thead>
@@ -6270,8 +6201,6 @@ object should be tracked.This field is currently read only with value as 1</p>
 </em>
 </td>
 <td>
-<p>BlobType: An array of predefined supported blob types. Only blockBlob is the supported value. This field is currently
-read only</p>
 </td>
 </tr>
 <tr>
@@ -6282,7 +6211,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enable: When set to true last access time based tracking is enabled.</p>
 </td>
 </tr>
 <tr>
@@ -6295,7 +6223,6 @@ LastAccessTimeTrackingPolicyStatusName
 </em>
 </td>
 <td>
-<p>Name: Name of the policy. The valid value is AccessTimeTracking. This field is currently read only</p>
 </td>
 </tr>
 <tr>
@@ -6306,8 +6233,6 @@ int
 </em>
 </td>
 <td>
-<p>TrackingGranularityInDays: The field specifies blob object tracking granularity in days, typically how often the blob
-object should be tracked.This field is currently read only with value as 1</p>
 </td>
 </tr>
 </tbody>
@@ -6318,6 +6243,7 @@ object should be tracked.This field is currently read only with value as 1</p>
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.BlobServiceProperties_Status_PropertiesARM">BlobServiceProperties_Status_PropertiesARM</a>)
 </p>
 <div>
+<p>Deprecated version of LastAccessTimeTrackingPolicy_Status. Use v1beta20210401.LastAccessTimeTrackingPolicy_Status instead</p>
 </div>
 <table>
 <thead>
@@ -6335,8 +6261,6 @@ object should be tracked.This field is currently read only with value as 1</p>
 </em>
 </td>
 <td>
-<p>BlobType: An array of predefined supported blob types. Only blockBlob is the supported value. This field is currently
-read only</p>
 </td>
 </tr>
 <tr>
@@ -6347,7 +6271,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enable: When set to true last access time based tracking is enabled.</p>
 </td>
 </tr>
 <tr>
@@ -6360,7 +6283,6 @@ LastAccessTimeTrackingPolicyStatusName
 </em>
 </td>
 <td>
-<p>Name: Name of the policy. The valid value is AccessTimeTracking. This field is currently read only</p>
 </td>
 </tr>
 <tr>
@@ -6371,8 +6293,6 @@ int
 </em>
 </td>
 <td>
-<p>TrackingGranularityInDays: The field specifies blob object tracking granularity in days, typically how often the blob
-object should be tracked.This field is currently read only with value as 1</p>
 </td>
 </tr>
 </tbody>
@@ -6383,6 +6303,7 @@ object should be tracked.This field is currently read only with value as 1</p>
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.BlobContainer_Status">BlobContainer_Status</a>)
 </p>
 <div>
+<p>Deprecated version of LegalHoldProperties_Status. Use v1beta20210401.LegalHoldProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -6400,9 +6321,6 @@ bool
 </em>
 </td>
 <td>
-<p>HasLegalHold: The hasLegalHold public property is set to true by SRP if there are at least one existing tag. The
-hasLegalHold public property is set to false by SRP if all existing legal hold tags are cleared out. There can be a
-maximum of 1000 blob containers with hasLegalHold=true for a given account.</p>
 </td>
 </tr>
 <tr>
@@ -6415,7 +6333,6 @@ maximum of 1000 blob containers with hasLegalHold=true for a given account.</p>
 </em>
 </td>
 <td>
-<p>Tags: The list of LegalHold tags of a blob container.</p>
 </td>
 </tr>
 </tbody>
@@ -6426,6 +6343,7 @@ maximum of 1000 blob containers with hasLegalHold=true for a given account.</p>
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ContainerProperties_StatusARM">ContainerProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of LegalHoldProperties_Status. Use v1beta20210401.LegalHoldProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -6443,9 +6361,6 @@ bool
 </em>
 </td>
 <td>
-<p>HasLegalHold: The hasLegalHold public property is set to true by SRP if there are at least one existing tag. The
-hasLegalHold public property is set to false by SRP if all existing legal hold tags are cleared out. There can be a
-maximum of 1000 blob containers with hasLegalHold=true for a given account.</p>
 </td>
 </tr>
 <tr>
@@ -6458,7 +6373,1894 @@ maximum of 1000 blob containers with hasLegalHold=true for a given account.</p>
 </em>
 </td>
 <td>
-<p>Tags: The list of LegalHold tags of a blob container.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicyAction">ManagementPolicyAction
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyDefinition">ManagementPolicyDefinition</a>)
+</p>
+<div>
+<p>Deprecated version of ManagementPolicyAction. Use v1beta20210401.ManagementPolicyAction instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>baseBlob</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyBaseBlob">
+ManagementPolicyBaseBlob
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>snapshot</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicySnapShot">
+ManagementPolicySnapShot
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>version</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyVersion">
+ManagementPolicyVersion
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicyActionARM">ManagementPolicyActionARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyDefinitionARM">ManagementPolicyDefinitionARM</a>)
+</p>
+<div>
+<p>Deprecated version of ManagementPolicyAction. Use v1beta20210401.ManagementPolicyAction instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>baseBlob</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyBaseBlobARM">
+ManagementPolicyBaseBlobARM
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>snapshot</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicySnapShotARM">
+ManagementPolicySnapShotARM
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>version</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyVersionARM">
+ManagementPolicyVersionARM
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicyAction_Status">ManagementPolicyAction_Status
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyDefinition_Status">ManagementPolicyDefinition_Status</a>)
+</p>
+<div>
+<p>Deprecated version of ManagementPolicyAction_Status. Use v1beta20210401.ManagementPolicyAction_Status instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>baseBlob</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyBaseBlob_Status">
+ManagementPolicyBaseBlob_Status
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>snapshot</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicySnapShot_Status">
+ManagementPolicySnapShot_Status
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>version</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyVersion_Status">
+ManagementPolicyVersion_Status
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicyAction_StatusARM">ManagementPolicyAction_StatusARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyDefinition_StatusARM">ManagementPolicyDefinition_StatusARM</a>)
+</p>
+<div>
+<p>Deprecated version of ManagementPolicyAction_Status. Use v1beta20210401.ManagementPolicyAction_Status instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>baseBlob</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyBaseBlob_StatusARM">
+ManagementPolicyBaseBlob_StatusARM
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>snapshot</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicySnapShot_StatusARM">
+ManagementPolicySnapShot_StatusARM
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>version</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyVersion_StatusARM">
+ManagementPolicyVersion_StatusARM
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicyBaseBlob">ManagementPolicyBaseBlob
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyAction">ManagementPolicyAction</a>)
+</p>
+<div>
+<p>Deprecated version of ManagementPolicyBaseBlob. Use v1beta20210401.ManagementPolicyBaseBlob instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>delete</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterModification">
+DateAfterModification
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>enableAutoTierToHotFromCool</code><br/>
+<em>
+bool
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>tierToArchive</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterModification">
+DateAfterModification
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>tierToCool</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterModification">
+DateAfterModification
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicyBaseBlobARM">ManagementPolicyBaseBlobARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyActionARM">ManagementPolicyActionARM</a>)
+</p>
+<div>
+<p>Deprecated version of ManagementPolicyBaseBlob. Use v1beta20210401.ManagementPolicyBaseBlob instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>delete</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterModificationARM">
+DateAfterModificationARM
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>enableAutoTierToHotFromCool</code><br/>
+<em>
+bool
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>tierToArchive</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterModificationARM">
+DateAfterModificationARM
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>tierToCool</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterModificationARM">
+DateAfterModificationARM
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicyBaseBlob_Status">ManagementPolicyBaseBlob_Status
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyAction_Status">ManagementPolicyAction_Status</a>)
+</p>
+<div>
+<p>Deprecated version of ManagementPolicyBaseBlob_Status. Use v1beta20210401.ManagementPolicyBaseBlob_Status instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>delete</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterModification_Status">
+DateAfterModification_Status
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>enableAutoTierToHotFromCool</code><br/>
+<em>
+bool
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>tierToArchive</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterModification_Status">
+DateAfterModification_Status
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>tierToCool</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterModification_Status">
+DateAfterModification_Status
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicyBaseBlob_StatusARM">ManagementPolicyBaseBlob_StatusARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyAction_StatusARM">ManagementPolicyAction_StatusARM</a>)
+</p>
+<div>
+<p>Deprecated version of ManagementPolicyBaseBlob_Status. Use v1beta20210401.ManagementPolicyBaseBlob_Status instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>delete</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterModification_StatusARM">
+DateAfterModification_StatusARM
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>enableAutoTierToHotFromCool</code><br/>
+<em>
+bool
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>tierToArchive</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterModification_StatusARM">
+DateAfterModification_StatusARM
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>tierToCool</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterModification_StatusARM">
+DateAfterModification_StatusARM
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicyDefinition">ManagementPolicyDefinition
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyRule">ManagementPolicyRule</a>)
+</p>
+<div>
+<p>Deprecated version of ManagementPolicyDefinition. Use v1beta20210401.ManagementPolicyDefinition instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>actions</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyAction">
+ManagementPolicyAction
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>filters</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyFilter">
+ManagementPolicyFilter
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicyDefinitionARM">ManagementPolicyDefinitionARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyRuleARM">ManagementPolicyRuleARM</a>)
+</p>
+<div>
+<p>Deprecated version of ManagementPolicyDefinition. Use v1beta20210401.ManagementPolicyDefinition instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>actions</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyActionARM">
+ManagementPolicyActionARM
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>filters</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyFilterARM">
+ManagementPolicyFilterARM
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicyDefinition_Status">ManagementPolicyDefinition_Status
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyRule_Status">ManagementPolicyRule_Status</a>)
+</p>
+<div>
+<p>Deprecated version of ManagementPolicyDefinition_Status. Use v1beta20210401.ManagementPolicyDefinition_Status instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>actions</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyAction_Status">
+ManagementPolicyAction_Status
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>filters</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyFilter_Status">
+ManagementPolicyFilter_Status
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicyDefinition_StatusARM">ManagementPolicyDefinition_StatusARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyRule_StatusARM">ManagementPolicyRule_StatusARM</a>)
+</p>
+<div>
+<p>Deprecated version of ManagementPolicyDefinition_Status. Use v1beta20210401.ManagementPolicyDefinition_Status instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>actions</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyAction_StatusARM">
+ManagementPolicyAction_StatusARM
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>filters</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyFilter_StatusARM">
+ManagementPolicyFilter_StatusARM
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicyFilter">ManagementPolicyFilter
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyDefinition">ManagementPolicyDefinition</a>)
+</p>
+<div>
+<p>Deprecated version of ManagementPolicyFilter. Use v1beta20210401.ManagementPolicyFilter instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>blobIndexMatch</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.TagFilter">
+[]TagFilter
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>blobTypes</code><br/>
+<em>
+[]string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>prefixMatch</code><br/>
+<em>
+[]string
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicyFilterARM">ManagementPolicyFilterARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyDefinitionARM">ManagementPolicyDefinitionARM</a>)
+</p>
+<div>
+<p>Deprecated version of ManagementPolicyFilter. Use v1beta20210401.ManagementPolicyFilter instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>blobIndexMatch</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.TagFilterARM">
+[]TagFilterARM
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>blobTypes</code><br/>
+<em>
+[]string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>prefixMatch</code><br/>
+<em>
+[]string
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicyFilter_Status">ManagementPolicyFilter_Status
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyDefinition_Status">ManagementPolicyDefinition_Status</a>)
+</p>
+<div>
+<p>Deprecated version of ManagementPolicyFilter_Status. Use v1beta20210401.ManagementPolicyFilter_Status instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>blobIndexMatch</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.TagFilter_Status">
+[]TagFilter_Status
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>blobTypes</code><br/>
+<em>
+[]string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>prefixMatch</code><br/>
+<em>
+[]string
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicyFilter_StatusARM">ManagementPolicyFilter_StatusARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyDefinition_StatusARM">ManagementPolicyDefinition_StatusARM</a>)
+</p>
+<div>
+<p>Deprecated version of ManagementPolicyFilter_Status. Use v1beta20210401.ManagementPolicyFilter_Status instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>blobIndexMatch</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.TagFilter_StatusARM">
+[]TagFilter_StatusARM
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>blobTypes</code><br/>
+<em>
+[]string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>prefixMatch</code><br/>
+<em>
+[]string
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicyPropertiesARM">ManagementPolicyPropertiesARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccountsManagementPolicies_SpecARM">StorageAccountsManagementPolicies_SpecARM</a>)
+</p>
+<div>
+<p>Deprecated version of ManagementPolicyProperties. Use v1beta20210401.ManagementPolicyProperties instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>policy</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicySchemaARM">
+ManagementPolicySchemaARM
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicyProperties_StatusARM">ManagementPolicyProperties_StatusARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicy_StatusARM">ManagementPolicy_StatusARM</a>)
+</p>
+<div>
+<p>Deprecated version of ManagementPolicyProperties_Status. Use v1beta20210401.ManagementPolicyProperties_Status instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>lastModifiedTime</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>policy</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicySchema_StatusARM">
+ManagementPolicySchema_StatusARM
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicyRule">ManagementPolicyRule
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicySchema">ManagementPolicySchema</a>)
+</p>
+<div>
+<p>Deprecated version of ManagementPolicyRule. Use v1beta20210401.ManagementPolicyRule instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>definition</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyDefinition">
+ManagementPolicyDefinition
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>enabled</code><br/>
+<em>
+bool
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyRuleType">
+ManagementPolicyRuleType
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicyRuleARM">ManagementPolicyRuleARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicySchemaARM">ManagementPolicySchemaARM</a>)
+</p>
+<div>
+<p>Deprecated version of ManagementPolicyRule. Use v1beta20210401.ManagementPolicyRule instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>definition</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyDefinitionARM">
+ManagementPolicyDefinitionARM
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>enabled</code><br/>
+<em>
+bool
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyRuleType">
+ManagementPolicyRuleType
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicyRuleStatusType">ManagementPolicyRuleStatusType
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyRule_Status">ManagementPolicyRule_Status</a>, <a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyRule_StatusARM">ManagementPolicyRule_StatusARM</a>)
+</p>
+<div>
+<p>Deprecated version of ManagementPolicyRuleStatusType. Use v1beta20210401.ManagementPolicyRuleStatusType instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Lifecycle&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicyRuleType">ManagementPolicyRuleType
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyRule">ManagementPolicyRule</a>, <a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyRuleARM">ManagementPolicyRuleARM</a>)
+</p>
+<div>
+<p>Deprecated version of ManagementPolicyRuleType. Use v1beta20210401.ManagementPolicyRuleType instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Lifecycle&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicyRule_Status">ManagementPolicyRule_Status
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicySchema_Status">ManagementPolicySchema_Status</a>)
+</p>
+<div>
+<p>Deprecated version of ManagementPolicyRule_Status. Use v1beta20210401.ManagementPolicyRule_Status instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>definition</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyDefinition_Status">
+ManagementPolicyDefinition_Status
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>enabled</code><br/>
+<em>
+bool
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyRuleStatusType">
+ManagementPolicyRuleStatusType
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicyRule_StatusARM">ManagementPolicyRule_StatusARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicySchema_StatusARM">ManagementPolicySchema_StatusARM</a>)
+</p>
+<div>
+<p>Deprecated version of ManagementPolicyRule_Status. Use v1beta20210401.ManagementPolicyRule_Status instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>definition</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyDefinition_StatusARM">
+ManagementPolicyDefinition_StatusARM
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>enabled</code><br/>
+<em>
+bool
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyRuleStatusType">
+ManagementPolicyRuleStatusType
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicySchema">ManagementPolicySchema
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccountsManagementPolicies_Spec">StorageAccountsManagementPolicies_Spec</a>)
+</p>
+<div>
+<p>Deprecated version of ManagementPolicySchema. Use v1beta20210401.ManagementPolicySchema instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>rules</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyRule">
+[]ManagementPolicyRule
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicySchemaARM">ManagementPolicySchemaARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyPropertiesARM">ManagementPolicyPropertiesARM</a>)
+</p>
+<div>
+<p>Deprecated version of ManagementPolicySchema. Use v1beta20210401.ManagementPolicySchema instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>rules</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyRuleARM">
+[]ManagementPolicyRuleARM
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicySchema_Status">ManagementPolicySchema_Status
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicy_Status">ManagementPolicy_Status</a>)
+</p>
+<div>
+<p>Deprecated version of ManagementPolicySchema_Status. Use v1beta20210401.ManagementPolicySchema_Status instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>rules</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyRule_Status">
+[]ManagementPolicyRule_Status
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicySchema_StatusARM">ManagementPolicySchema_StatusARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyProperties_StatusARM">ManagementPolicyProperties_StatusARM</a>)
+</p>
+<div>
+<p>Deprecated version of ManagementPolicySchema_Status. Use v1beta20210401.ManagementPolicySchema_Status instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>rules</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyRule_StatusARM">
+[]ManagementPolicyRule_StatusARM
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicySnapShot">ManagementPolicySnapShot
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyAction">ManagementPolicyAction</a>)
+</p>
+<div>
+<p>Deprecated version of ManagementPolicySnapShot. Use v1beta20210401.ManagementPolicySnapShot instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>delete</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterCreation">
+DateAfterCreation
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>tierToArchive</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterCreation">
+DateAfterCreation
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>tierToCool</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterCreation">
+DateAfterCreation
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicySnapShotARM">ManagementPolicySnapShotARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyActionARM">ManagementPolicyActionARM</a>)
+</p>
+<div>
+<p>Deprecated version of ManagementPolicySnapShot. Use v1beta20210401.ManagementPolicySnapShot instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>delete</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterCreationARM">
+DateAfterCreationARM
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>tierToArchive</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterCreationARM">
+DateAfterCreationARM
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>tierToCool</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterCreationARM">
+DateAfterCreationARM
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicySnapShot_Status">ManagementPolicySnapShot_Status
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyAction_Status">ManagementPolicyAction_Status</a>)
+</p>
+<div>
+<p>Deprecated version of ManagementPolicySnapShot_Status. Use v1beta20210401.ManagementPolicySnapShot_Status instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>delete</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterCreation_Status">
+DateAfterCreation_Status
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>tierToArchive</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterCreation_Status">
+DateAfterCreation_Status
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>tierToCool</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterCreation_Status">
+DateAfterCreation_Status
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicySnapShot_StatusARM">ManagementPolicySnapShot_StatusARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyAction_StatusARM">ManagementPolicyAction_StatusARM</a>)
+</p>
+<div>
+<p>Deprecated version of ManagementPolicySnapShot_Status. Use v1beta20210401.ManagementPolicySnapShot_Status instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>delete</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterCreation_StatusARM">
+DateAfterCreation_StatusARM
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>tierToArchive</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterCreation_StatusARM">
+DateAfterCreation_StatusARM
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>tierToCool</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterCreation_StatusARM">
+DateAfterCreation_StatusARM
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicyVersion">ManagementPolicyVersion
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyAction">ManagementPolicyAction</a>)
+</p>
+<div>
+<p>Deprecated version of ManagementPolicyVersion. Use v1beta20210401.ManagementPolicyVersion instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>delete</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterCreation">
+DateAfterCreation
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>tierToArchive</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterCreation">
+DateAfterCreation
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>tierToCool</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterCreation">
+DateAfterCreation
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicyVersionARM">ManagementPolicyVersionARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyActionARM">ManagementPolicyActionARM</a>)
+</p>
+<div>
+<p>Deprecated version of ManagementPolicyVersion. Use v1beta20210401.ManagementPolicyVersion instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>delete</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterCreationARM">
+DateAfterCreationARM
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>tierToArchive</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterCreationARM">
+DateAfterCreationARM
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>tierToCool</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterCreationARM">
+DateAfterCreationARM
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicyVersion_Status">ManagementPolicyVersion_Status
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyAction_Status">ManagementPolicyAction_Status</a>)
+</p>
+<div>
+<p>Deprecated version of ManagementPolicyVersion_Status. Use v1beta20210401.ManagementPolicyVersion_Status instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>delete</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterCreation_Status">
+DateAfterCreation_Status
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>tierToArchive</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterCreation_Status">
+DateAfterCreation_Status
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>tierToCool</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterCreation_Status">
+DateAfterCreation_Status
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicyVersion_StatusARM">ManagementPolicyVersion_StatusARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyAction_StatusARM">ManagementPolicyAction_StatusARM</a>)
+</p>
+<div>
+<p>Deprecated version of ManagementPolicyVersion_Status. Use v1beta20210401.ManagementPolicyVersion_Status instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>delete</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterCreation_StatusARM">
+DateAfterCreation_StatusARM
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>tierToArchive</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterCreation_StatusARM">
+DateAfterCreation_StatusARM
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>tierToCool</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.DateAfterCreation_StatusARM">
+DateAfterCreation_StatusARM
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicy_Status">ManagementPolicy_Status
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccountsManagementPolicy">StorageAccountsManagementPolicy</a>)
+</p>
+<div>
+<p>Deprecated version of ManagementPolicy_Status. Use v1beta20210401.ManagementPolicy_Status instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>conditions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
+[]genruntime/conditions.Condition
+</a>
+</em>
+</td>
+<td>
+<p>Conditions: The observed state of the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>lastModifiedTime</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>policy</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicySchema_Status">
+ManagementPolicySchema_Status
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.ManagementPolicy_StatusARM">ManagementPolicy_StatusARM
+</h3>
+<div>
+<p>Deprecated version of ManagementPolicy_Status. Use v1beta20210401.ManagementPolicy_Status instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>properties</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyProperties_StatusARM">
+ManagementPolicyProperties_StatusARM
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
 </td>
 </tr>
 </tbody>
@@ -6469,7 +8271,7 @@ maximum of 1000 blob containers with hasLegalHold=true for a given account.</p>
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccounts_Spec">StorageAccounts_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/NetworkRuleSet">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/NetworkRuleSet</a></p>
+<p>Deprecated version of NetworkRuleSet. Use v1beta20210401.NetworkRuleSet instead</p>
 </div>
 <table>
 <thead>
@@ -6489,8 +8291,6 @@ NetworkRuleSetBypass
 </em>
 </td>
 <td>
-<p>Bypass: Specifies whether traffic is bypassed for Logging/Metrics/AzureServices. Possible values are any combination of
-Logging|Metrics|AzureServices (For example, &ldquo;Logging, Metrics&rdquo;), or None to bypass none of those traffics.</p>
 </td>
 </tr>
 <tr>
@@ -6503,7 +8303,6 @@ NetworkRuleSetDefaultAction
 </em>
 </td>
 <td>
-<p>DefaultAction: Specifies the default action of allow or deny when no other rules match.</p>
 </td>
 </tr>
 <tr>
@@ -6516,7 +8315,6 @@ NetworkRuleSetDefaultAction
 </em>
 </td>
 <td>
-<p>IpRules: Sets the IP ACL rules</p>
 </td>
 </tr>
 <tr>
@@ -6529,7 +8327,6 @@ NetworkRuleSetDefaultAction
 </em>
 </td>
 <td>
-<p>ResourceAccessRules: Sets the resource access rules</p>
 </td>
 </tr>
 <tr>
@@ -6542,7 +8339,6 @@ NetworkRuleSetDefaultAction
 </em>
 </td>
 <td>
-<p>VirtualNetworkRules: Sets the virtual network rules</p>
 </td>
 </tr>
 </tbody>
@@ -6553,7 +8349,7 @@ NetworkRuleSetDefaultAction
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccountPropertiesCreateParametersARM">StorageAccountPropertiesCreateParametersARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/NetworkRuleSet">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/NetworkRuleSet</a></p>
+<p>Deprecated version of NetworkRuleSet. Use v1beta20210401.NetworkRuleSet instead</p>
 </div>
 <table>
 <thead>
@@ -6573,8 +8369,6 @@ NetworkRuleSetBypass
 </em>
 </td>
 <td>
-<p>Bypass: Specifies whether traffic is bypassed for Logging/Metrics/AzureServices. Possible values are any combination of
-Logging|Metrics|AzureServices (For example, &ldquo;Logging, Metrics&rdquo;), or None to bypass none of those traffics.</p>
 </td>
 </tr>
 <tr>
@@ -6587,7 +8381,6 @@ NetworkRuleSetDefaultAction
 </em>
 </td>
 <td>
-<p>DefaultAction: Specifies the default action of allow or deny when no other rules match.</p>
 </td>
 </tr>
 <tr>
@@ -6600,7 +8393,6 @@ NetworkRuleSetDefaultAction
 </em>
 </td>
 <td>
-<p>IpRules: Sets the IP ACL rules</p>
 </td>
 </tr>
 <tr>
@@ -6613,7 +8405,6 @@ NetworkRuleSetDefaultAction
 </em>
 </td>
 <td>
-<p>ResourceAccessRules: Sets the resource access rules</p>
 </td>
 </tr>
 <tr>
@@ -6626,7 +8417,6 @@ NetworkRuleSetDefaultAction
 </em>
 </td>
 <td>
-<p>VirtualNetworkRules: Sets the virtual network rules</p>
 </td>
 </tr>
 </tbody>
@@ -6637,6 +8427,7 @@ NetworkRuleSetDefaultAction
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.NetworkRuleSet">NetworkRuleSet</a>, <a href="#storage.azure.com/v1alpha1api20210401.NetworkRuleSetARM">NetworkRuleSetARM</a>)
 </p>
 <div>
+<p>Deprecated version of NetworkRuleSetBypass. Use v1beta20210401.NetworkRuleSetBypass instead</p>
 </div>
 <table>
 <thead>
@@ -6661,6 +8452,7 @@ NetworkRuleSetDefaultAction
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.NetworkRuleSet">NetworkRuleSet</a>, <a href="#storage.azure.com/v1alpha1api20210401.NetworkRuleSetARM">NetworkRuleSetARM</a>)
 </p>
 <div>
+<p>Deprecated version of NetworkRuleSetDefaultAction. Use v1beta20210401.NetworkRuleSetDefaultAction instead</p>
 </div>
 <table>
 <thead>
@@ -6681,6 +8473,7 @@ NetworkRuleSetDefaultAction
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.NetworkRuleSet_Status">NetworkRuleSet_Status</a>, <a href="#storage.azure.com/v1alpha1api20210401.NetworkRuleSet_StatusARM">NetworkRuleSet_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of NetworkRuleSetStatusBypass. Use v1beta20210401.NetworkRuleSetStatusBypass instead</p>
 </div>
 <table>
 <thead>
@@ -6705,6 +8498,7 @@ NetworkRuleSetDefaultAction
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.NetworkRuleSet_Status">NetworkRuleSet_Status</a>, <a href="#storage.azure.com/v1alpha1api20210401.NetworkRuleSet_StatusARM">NetworkRuleSet_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of NetworkRuleSetStatusDefaultAction. Use v1beta20210401.NetworkRuleSetStatusDefaultAction instead</p>
 </div>
 <table>
 <thead>
@@ -6725,6 +8519,7 @@ NetworkRuleSetDefaultAction
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccount_Status">StorageAccount_Status</a>)
 </p>
 <div>
+<p>Deprecated version of NetworkRuleSet_Status. Use v1beta20210401.NetworkRuleSet_Status instead</p>
 </div>
 <table>
 <thead>
@@ -6744,8 +8539,6 @@ NetworkRuleSetStatusBypass
 </em>
 </td>
 <td>
-<p>Bypass: Specifies whether traffic is bypassed for Logging/Metrics/AzureServices. Possible values are any combination of
-Logging|Metrics|AzureServices (For example, &ldquo;Logging, Metrics&rdquo;), or None to bypass none of those traffics.</p>
 </td>
 </tr>
 <tr>
@@ -6758,7 +8551,6 @@ NetworkRuleSetStatusDefaultAction
 </em>
 </td>
 <td>
-<p>DefaultAction: Specifies the default action of allow or deny when no other rules match.</p>
 </td>
 </tr>
 <tr>
@@ -6771,7 +8563,6 @@ NetworkRuleSetStatusDefaultAction
 </em>
 </td>
 <td>
-<p>IpRules: Sets the IP ACL rules</p>
 </td>
 </tr>
 <tr>
@@ -6784,7 +8575,6 @@ NetworkRuleSetStatusDefaultAction
 </em>
 </td>
 <td>
-<p>ResourceAccessRules: Sets the resource access rules</p>
 </td>
 </tr>
 <tr>
@@ -6797,7 +8587,6 @@ NetworkRuleSetStatusDefaultAction
 </em>
 </td>
 <td>
-<p>VirtualNetworkRules: Sets the virtual network rules</p>
 </td>
 </tr>
 </tbody>
@@ -6808,6 +8597,7 @@ NetworkRuleSetStatusDefaultAction
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccountProperties_StatusARM">StorageAccountProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of NetworkRuleSet_Status. Use v1beta20210401.NetworkRuleSet_Status instead</p>
 </div>
 <table>
 <thead>
@@ -6827,8 +8617,6 @@ NetworkRuleSetStatusBypass
 </em>
 </td>
 <td>
-<p>Bypass: Specifies whether traffic is bypassed for Logging/Metrics/AzureServices. Possible values are any combination of
-Logging|Metrics|AzureServices (For example, &ldquo;Logging, Metrics&rdquo;), or None to bypass none of those traffics.</p>
 </td>
 </tr>
 <tr>
@@ -6841,7 +8629,6 @@ NetworkRuleSetStatusDefaultAction
 </em>
 </td>
 <td>
-<p>DefaultAction: Specifies the default action of allow or deny when no other rules match.</p>
 </td>
 </tr>
 <tr>
@@ -6854,7 +8641,6 @@ NetworkRuleSetStatusDefaultAction
 </em>
 </td>
 <td>
-<p>IpRules: Sets the IP ACL rules</p>
 </td>
 </tr>
 <tr>
@@ -6867,7 +8653,6 @@ NetworkRuleSetStatusDefaultAction
 </em>
 </td>
 <td>
-<p>ResourceAccessRules: Sets the resource access rules</p>
 </td>
 </tr>
 <tr>
@@ -6880,7 +8665,6 @@ NetworkRuleSetStatusDefaultAction
 </em>
 </td>
 <td>
-<p>VirtualNetworkRules: Sets the virtual network rules</p>
 </td>
 </tr>
 </tbody>
@@ -6891,6 +8675,7 @@ NetworkRuleSetStatusDefaultAction
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccount_Status">StorageAccount_Status</a>)
 </p>
 <div>
+<p>Deprecated version of PrivateEndpointConnection_Status_SubResourceEmbedded. Use v1beta20210401.PrivateEndpointConnection_Status_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -6908,8 +8693,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}</p>
 </td>
 </tr>
 </tbody>
@@ -6920,6 +8703,7 @@ string
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccountProperties_StatusARM">StorageAccountProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of PrivateEndpointConnection_Status_SubResourceEmbedded. Use v1beta20210401.PrivateEndpointConnection_Status_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -6937,8 +8721,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}</p>
 </td>
 </tr>
 </tbody>
@@ -6949,7 +8731,7 @@ string
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccountsQueueServicesQueues_SpecARM">StorageAccountsQueueServicesQueues_SpecARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/QueueProperties">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/QueueProperties</a></p>
+<p>Deprecated version of QueueProperties. Use v1beta20210401.QueueProperties instead</p>
 </div>
 <table>
 <thead>
@@ -6967,7 +8749,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Metadata: A name-value pair that represents queue metadata.</p>
 </td>
 </tr>
 </tbody>
@@ -6978,6 +8759,7 @@ map[string]string
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageQueue_StatusARM">StorageQueue_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of QueueProperties_Status. Use v1beta20210401.QueueProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -6995,8 +8777,6 @@ int
 </em>
 </td>
 <td>
-<p>ApproximateMessageCount: Integer indicating an approximate number of messages in the queue. This number is not lower
-than the actual number of messages in the queue, but could be higher.</p>
 </td>
 </tr>
 <tr>
@@ -7007,7 +8787,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Metadata: A name-value pair that represents queue metadata.</p>
 </td>
 </tr>
 </tbody>
@@ -7018,7 +8797,7 @@ map[string]string
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccountsQueueServices_SpecARM">StorageAccountsQueueServices_SpecARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/QueueServicePropertiesProperties">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/QueueServicePropertiesProperties</a></p>
+<p>Deprecated version of QueueServicePropertiesProperties. Use v1beta20210401.QueueServicePropertiesProperties instead</p>
 </div>
 <table>
 <thead>
@@ -7038,7 +8817,6 @@ CorsRulesARM
 </em>
 </td>
 <td>
-<p>Cors: Sets the CORS rules. You can include up to five CorsRule elements in the request.</p>
 </td>
 </tr>
 </tbody>
@@ -7049,6 +8827,7 @@ CorsRulesARM
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccountsQueueService">StorageAccountsQueueService</a>)
 </p>
 <div>
+<p>Deprecated version of QueueServiceProperties_Status. Use v1beta20210401.QueueServiceProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -7081,9 +8860,6 @@ CorsRules_Status
 </em>
 </td>
 <td>
-<p>Cors: Specifies CORS rules for the Queue service. You can include up to five CorsRule elements in the request. If no
-CorsRule elements are included in the request body, all CORS rules will be deleted, and CORS will be disabled for the
-Queue service.</p>
 </td>
 </tr>
 <tr>
@@ -7094,8 +8870,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}</p>
 </td>
 </tr>
 <tr>
@@ -7106,7 +8880,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource</p>
 </td>
 </tr>
 <tr>
@@ -7117,7 +8890,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
 </td>
 </tr>
 </tbody>
@@ -7125,6 +8897,7 @@ string
 <h3 id="storage.azure.com/v1alpha1api20210401.QueueServiceProperties_StatusARM">QueueServiceProperties_StatusARM
 </h3>
 <div>
+<p>Deprecated version of QueueServiceProperties_Status. Use v1beta20210401.QueueServiceProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -7142,8 +8915,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}</p>
 </td>
 </tr>
 <tr>
@@ -7154,7 +8925,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource</p>
 </td>
 </tr>
 <tr>
@@ -7167,7 +8937,6 @@ QueueServiceProperties_Status_PropertiesARM
 </em>
 </td>
 <td>
-<p>Properties: The properties of a storage account’s Queue service.</p>
 </td>
 </tr>
 <tr>
@@ -7178,7 +8947,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
 </td>
 </tr>
 </tbody>
@@ -7189,6 +8957,7 @@ string
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.QueueServiceProperties_StatusARM">QueueServiceProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of QueueServiceProperties_Status_Properties. Use v1beta20210401.QueueServiceProperties_Status_Properties instead</p>
 </div>
 <table>
 <thead>
@@ -7208,9 +8977,6 @@ CorsRules_StatusARM
 </em>
 </td>
 <td>
-<p>Cors: Specifies CORS rules for the Queue service. You can include up to five CorsRule elements in the request. If no
-CorsRule elements are included in the request body, all CORS rules will be deleted, and CORS will be disabled for the
-Queue service.</p>
 </td>
 </tr>
 </tbody>
@@ -7221,7 +8987,7 @@ Queue service.</p>
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.NetworkRuleSet">NetworkRuleSet</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ResourceAccessRule">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ResourceAccessRule</a></p>
+<p>Deprecated version of ResourceAccessRule. Use v1beta20210401.ResourceAccessRule instead</p>
 </div>
 <table>
 <thead>
@@ -7241,7 +9007,6 @@ genruntime.ResourceReference
 </em>
 </td>
 <td>
-<p>ResourceReference: Resource Id</p>
 </td>
 </tr>
 <tr>
@@ -7252,7 +9017,6 @@ string
 </em>
 </td>
 <td>
-<p>TenantId: Tenant Id</p>
 </td>
 </tr>
 </tbody>
@@ -7263,7 +9027,7 @@ string
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.NetworkRuleSetARM">NetworkRuleSetARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ResourceAccessRule">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ResourceAccessRule</a></p>
+<p>Deprecated version of ResourceAccessRule. Use v1beta20210401.ResourceAccessRule instead</p>
 </div>
 <table>
 <thead>
@@ -7291,7 +9055,6 @@ string
 </em>
 </td>
 <td>
-<p>TenantId: Tenant Id</p>
 </td>
 </tr>
 </tbody>
@@ -7302,6 +9065,7 @@ string
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.NetworkRuleSet_Status">NetworkRuleSet_Status</a>)
 </p>
 <div>
+<p>Deprecated version of ResourceAccessRule_Status. Use v1beta20210401.ResourceAccessRule_Status instead</p>
 </div>
 <table>
 <thead>
@@ -7319,7 +9083,6 @@ string
 </em>
 </td>
 <td>
-<p>ResourceId: Resource Id</p>
 </td>
 </tr>
 <tr>
@@ -7330,7 +9093,6 @@ string
 </em>
 </td>
 <td>
-<p>TenantId: Tenant Id</p>
 </td>
 </tr>
 </tbody>
@@ -7341,6 +9103,7 @@ string
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.NetworkRuleSet_StatusARM">NetworkRuleSet_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of ResourceAccessRule_Status. Use v1beta20210401.ResourceAccessRule_Status instead</p>
 </div>
 <table>
 <thead>
@@ -7358,7 +9121,6 @@ string
 </em>
 </td>
 <td>
-<p>ResourceId: Resource Id</p>
 </td>
 </tr>
 <tr>
@@ -7369,7 +9131,6 @@ string
 </em>
 </td>
 <td>
-<p>TenantId: Tenant Id</p>
 </td>
 </tr>
 </tbody>
@@ -7380,7 +9141,7 @@ string
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccountsBlobServices_Spec">StorageAccountsBlobServices_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/RestorePolicyProperties">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/RestorePolicyProperties</a></p>
+<p>Deprecated version of RestorePolicyProperties. Use v1beta20210401.RestorePolicyProperties instead</p>
 </div>
 <table>
 <thead>
@@ -7398,7 +9159,6 @@ int
 </em>
 </td>
 <td>
-<p>Days: how long this blob can be restored. It should be great than zero and less than DeleteRetentionPolicy.days.</p>
 </td>
 </tr>
 <tr>
@@ -7409,7 +9169,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Blob restore is enabled if set to true.</p>
 </td>
 </tr>
 </tbody>
@@ -7420,7 +9179,7 @@ bool
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.BlobServicePropertiesPropertiesARM">BlobServicePropertiesPropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/RestorePolicyProperties">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/RestorePolicyProperties</a></p>
+<p>Deprecated version of RestorePolicyProperties. Use v1beta20210401.RestorePolicyProperties instead</p>
 </div>
 <table>
 <thead>
@@ -7438,7 +9197,6 @@ int
 </em>
 </td>
 <td>
-<p>Days: how long this blob can be restored. It should be great than zero and less than DeleteRetentionPolicy.days.</p>
 </td>
 </tr>
 <tr>
@@ -7449,7 +9207,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Blob restore is enabled if set to true.</p>
 </td>
 </tr>
 </tbody>
@@ -7460,6 +9217,7 @@ bool
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.BlobServiceProperties_Status">BlobServiceProperties_Status</a>)
 </p>
 <div>
+<p>Deprecated version of RestorePolicyProperties_Status. Use v1beta20210401.RestorePolicyProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -7477,7 +9235,6 @@ int
 </em>
 </td>
 <td>
-<p>Days: how long this blob can be restored. It should be great than zero and less than DeleteRetentionPolicy.days.</p>
 </td>
 </tr>
 <tr>
@@ -7488,7 +9245,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Blob restore is enabled if set to true.</p>
 </td>
 </tr>
 <tr>
@@ -7499,7 +9255,6 @@ string
 </em>
 </td>
 <td>
-<p>LastEnabledTime: Deprecated in favor of minRestoreTime property.</p>
 </td>
 </tr>
 <tr>
@@ -7510,7 +9265,6 @@ string
 </em>
 </td>
 <td>
-<p>MinRestoreTime: Returns the minimum date and time that the restore can be started.</p>
 </td>
 </tr>
 </tbody>
@@ -7521,6 +9275,7 @@ string
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.BlobServiceProperties_Status_PropertiesARM">BlobServiceProperties_Status_PropertiesARM</a>)
 </p>
 <div>
+<p>Deprecated version of RestorePolicyProperties_Status. Use v1beta20210401.RestorePolicyProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -7538,7 +9293,6 @@ int
 </em>
 </td>
 <td>
-<p>Days: how long this blob can be restored. It should be great than zero and less than DeleteRetentionPolicy.days.</p>
 </td>
 </tr>
 <tr>
@@ -7549,7 +9303,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Blob restore is enabled if set to true.</p>
 </td>
 </tr>
 <tr>
@@ -7560,7 +9313,6 @@ string
 </em>
 </td>
 <td>
-<p>LastEnabledTime: Deprecated in favor of minRestoreTime property.</p>
 </td>
 </tr>
 <tr>
@@ -7571,7 +9323,6 @@ string
 </em>
 </td>
 <td>
-<p>MinRestoreTime: Returns the minimum date and time that the restore can be started.</p>
 </td>
 </tr>
 </tbody>
@@ -7582,7 +9333,7 @@ string
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccounts_Spec">StorageAccounts_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/RoutingPreference">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/RoutingPreference</a></p>
+<p>Deprecated version of RoutingPreference. Use v1beta20210401.RoutingPreference instead</p>
 </div>
 <table>
 <thead>
@@ -7600,7 +9351,6 @@ bool
 </em>
 </td>
 <td>
-<p>PublishInternetEndpoints: A boolean flag which indicates whether internet routing storage endpoints are to be published</p>
 </td>
 </tr>
 <tr>
@@ -7611,7 +9361,6 @@ bool
 </em>
 </td>
 <td>
-<p>PublishMicrosoftEndpoints: A boolean flag which indicates whether microsoft routing storage endpoints are to be published</p>
 </td>
 </tr>
 <tr>
@@ -7624,7 +9373,6 @@ RoutingPreferenceRoutingChoice
 </em>
 </td>
 <td>
-<p>RoutingChoice: Routing Choice defines the kind of network routing opted by the user.</p>
 </td>
 </tr>
 </tbody>
@@ -7635,7 +9383,7 @@ RoutingPreferenceRoutingChoice
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccountPropertiesCreateParametersARM">StorageAccountPropertiesCreateParametersARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/RoutingPreference">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/RoutingPreference</a></p>
+<p>Deprecated version of RoutingPreference. Use v1beta20210401.RoutingPreference instead</p>
 </div>
 <table>
 <thead>
@@ -7653,7 +9401,6 @@ bool
 </em>
 </td>
 <td>
-<p>PublishInternetEndpoints: A boolean flag which indicates whether internet routing storage endpoints are to be published</p>
 </td>
 </tr>
 <tr>
@@ -7664,7 +9411,6 @@ bool
 </em>
 </td>
 <td>
-<p>PublishMicrosoftEndpoints: A boolean flag which indicates whether microsoft routing storage endpoints are to be published</p>
 </td>
 </tr>
 <tr>
@@ -7677,7 +9423,6 @@ RoutingPreferenceRoutingChoice
 </em>
 </td>
 <td>
-<p>RoutingChoice: Routing Choice defines the kind of network routing opted by the user.</p>
 </td>
 </tr>
 </tbody>
@@ -7688,6 +9433,7 @@ RoutingPreferenceRoutingChoice
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.RoutingPreference">RoutingPreference</a>, <a href="#storage.azure.com/v1alpha1api20210401.RoutingPreferenceARM">RoutingPreferenceARM</a>)
 </p>
 <div>
+<p>Deprecated version of RoutingPreferenceRoutingChoice. Use v1beta20210401.RoutingPreferenceRoutingChoice instead</p>
 </div>
 <table>
 <thead>
@@ -7708,6 +9454,8 @@ RoutingPreferenceRoutingChoice
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.RoutingPreference_Status">RoutingPreference_Status</a>, <a href="#storage.azure.com/v1alpha1api20210401.RoutingPreference_StatusARM">RoutingPreference_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of RoutingPreferenceStatusRoutingChoice. Use v1beta20210401.RoutingPreferenceStatusRoutingChoice
+instead</p>
 </div>
 <table>
 <thead>
@@ -7728,6 +9476,7 @@ RoutingPreferenceRoutingChoice
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccount_Status">StorageAccount_Status</a>)
 </p>
 <div>
+<p>Deprecated version of RoutingPreference_Status. Use v1beta20210401.RoutingPreference_Status instead</p>
 </div>
 <table>
 <thead>
@@ -7745,7 +9494,6 @@ bool
 </em>
 </td>
 <td>
-<p>PublishInternetEndpoints: A boolean flag which indicates whether internet routing storage endpoints are to be published</p>
 </td>
 </tr>
 <tr>
@@ -7756,7 +9504,6 @@ bool
 </em>
 </td>
 <td>
-<p>PublishMicrosoftEndpoints: A boolean flag which indicates whether microsoft routing storage endpoints are to be published</p>
 </td>
 </tr>
 <tr>
@@ -7769,7 +9516,6 @@ RoutingPreferenceStatusRoutingChoice
 </em>
 </td>
 <td>
-<p>RoutingChoice: Routing Choice defines the kind of network routing opted by the user.</p>
 </td>
 </tr>
 </tbody>
@@ -7780,6 +9526,7 @@ RoutingPreferenceStatusRoutingChoice
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccountProperties_StatusARM">StorageAccountProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of RoutingPreference_Status. Use v1beta20210401.RoutingPreference_Status instead</p>
 </div>
 <table>
 <thead>
@@ -7797,7 +9544,6 @@ bool
 </em>
 </td>
 <td>
-<p>PublishInternetEndpoints: A boolean flag which indicates whether internet routing storage endpoints are to be published</p>
 </td>
 </tr>
 <tr>
@@ -7808,7 +9554,6 @@ bool
 </em>
 </td>
 <td>
-<p>PublishMicrosoftEndpoints: A boolean flag which indicates whether microsoft routing storage endpoints are to be published</p>
 </td>
 </tr>
 <tr>
@@ -7821,7 +9566,6 @@ RoutingPreferenceStatusRoutingChoice
 </em>
 </td>
 <td>
-<p>RoutingChoice: Routing Choice defines the kind of network routing opted by the user.</p>
 </td>
 </tr>
 </tbody>
@@ -7832,7 +9576,7 @@ RoutingPreferenceStatusRoutingChoice
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccounts_Spec">StorageAccounts_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/SasPolicy">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/SasPolicy</a></p>
+<p>Deprecated version of SasPolicy. Use v1beta20210401.SasPolicy instead</p>
 </div>
 <table>
 <thead>
@@ -7852,7 +9596,6 @@ SasPolicyExpirationAction
 </em>
 </td>
 <td>
-<p>ExpirationAction: The SAS expiration action. Can only be Log.</p>
 </td>
 </tr>
 <tr>
@@ -7863,7 +9606,6 @@ string
 </em>
 </td>
 <td>
-<p>SasExpirationPeriod: The SAS expiration period, DD.HH:MM:SS.</p>
 </td>
 </tr>
 </tbody>
@@ -7874,7 +9616,7 @@ string
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccountPropertiesCreateParametersARM">StorageAccountPropertiesCreateParametersARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/SasPolicy">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/SasPolicy</a></p>
+<p>Deprecated version of SasPolicy. Use v1beta20210401.SasPolicy instead</p>
 </div>
 <table>
 <thead>
@@ -7894,7 +9636,6 @@ SasPolicyExpirationAction
 </em>
 </td>
 <td>
-<p>ExpirationAction: The SAS expiration action. Can only be Log.</p>
 </td>
 </tr>
 <tr>
@@ -7905,7 +9646,6 @@ string
 </em>
 </td>
 <td>
-<p>SasExpirationPeriod: The SAS expiration period, DD.HH:MM:SS.</p>
 </td>
 </tr>
 </tbody>
@@ -7916,6 +9656,7 @@ string
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.SasPolicy">SasPolicy</a>, <a href="#storage.azure.com/v1alpha1api20210401.SasPolicyARM">SasPolicyARM</a>)
 </p>
 <div>
+<p>Deprecated version of SasPolicyExpirationAction. Use v1beta20210401.SasPolicyExpirationAction instead</p>
 </div>
 <table>
 <thead>
@@ -7934,6 +9675,7 @@ string
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.SasPolicy_Status">SasPolicy_Status</a>, <a href="#storage.azure.com/v1alpha1api20210401.SasPolicy_StatusARM">SasPolicy_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of SasPolicyStatusExpirationAction. Use v1beta20210401.SasPolicyStatusExpirationAction instead</p>
 </div>
 <table>
 <thead>
@@ -7952,6 +9694,7 @@ string
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccount_Status">StorageAccount_Status</a>)
 </p>
 <div>
+<p>Deprecated version of SasPolicy_Status. Use v1beta20210401.SasPolicy_Status instead</p>
 </div>
 <table>
 <thead>
@@ -7971,7 +9714,6 @@ SasPolicyStatusExpirationAction
 </em>
 </td>
 <td>
-<p>ExpirationAction: The SAS expiration action. Can only be Log.</p>
 </td>
 </tr>
 <tr>
@@ -7982,7 +9724,6 @@ string
 </em>
 </td>
 <td>
-<p>SasExpirationPeriod: The SAS expiration period, DD.HH:MM:SS.</p>
 </td>
 </tr>
 </tbody>
@@ -7993,6 +9734,7 @@ string
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccountProperties_StatusARM">StorageAccountProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of SasPolicy_Status. Use v1beta20210401.SasPolicy_Status instead</p>
 </div>
 <table>
 <thead>
@@ -8012,7 +9754,6 @@ SasPolicyStatusExpirationAction
 </em>
 </td>
 <td>
-<p>ExpirationAction: The SAS expiration action. Can only be Log.</p>
 </td>
 </tr>
 <tr>
@@ -8023,7 +9764,6 @@ string
 </em>
 </td>
 <td>
-<p>SasExpirationPeriod: The SAS expiration period, DD.HH:MM:SS.</p>
 </td>
 </tr>
 </tbody>
@@ -8034,7 +9774,7 @@ string
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccounts_Spec">StorageAccounts_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/Sku">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/Sku</a></p>
+<p>Deprecated version of Sku. Use v1beta20210401.Sku instead</p>
 </div>
 <table>
 <thead>
@@ -8076,7 +9816,7 @@ SkuTier
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccounts_SpecARM">StorageAccounts_SpecARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/Sku">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/Sku</a></p>
+<p>Deprecated version of Sku. Use v1beta20210401.Sku instead</p>
 </div>
 <table>
 <thead>
@@ -8118,6 +9858,7 @@ SkuTier
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.Sku">Sku</a>, <a href="#storage.azure.com/v1alpha1api20210401.SkuARM">SkuARM</a>)
 </p>
 <div>
+<p>Deprecated version of SkuName. Use v1beta20210401.SkuName instead</p>
 </div>
 <table>
 <thead>
@@ -8150,6 +9891,7 @@ SkuTier
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.Sku_Status">Sku_Status</a>, <a href="#storage.azure.com/v1alpha1api20210401.Sku_StatusARM">Sku_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of SkuName_Status. Use v1beta20210401.SkuName_Status instead</p>
 </div>
 <table>
 <thead>
@@ -8182,6 +9924,7 @@ SkuTier
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.Sku">Sku</a>, <a href="#storage.azure.com/v1alpha1api20210401.SkuARM">SkuARM</a>)
 </p>
 <div>
+<p>Deprecated version of SkuTier. Use v1beta20210401.SkuTier instead</p>
 </div>
 <table>
 <thead>
@@ -8202,6 +9945,7 @@ SkuTier
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.BlobServiceProperties_Status">BlobServiceProperties_Status</a>, <a href="#storage.azure.com/v1alpha1api20210401.StorageAccount_Status">StorageAccount_Status</a>)
 </p>
 <div>
+<p>Deprecated version of Sku_Status. Use v1beta20210401.Sku_Status instead</p>
 </div>
 <table>
 <thead>
@@ -8243,6 +9987,7 @@ Tier_Status
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.BlobServiceProperties_StatusARM">BlobServiceProperties_StatusARM</a>, <a href="#storage.azure.com/v1alpha1api20210401.StorageAccount_StatusARM">StorageAccount_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of Sku_Status. Use v1beta20210401.Sku_Status instead</p>
 </div>
 <table>
 <thead>
@@ -8281,7 +10026,7 @@ Tier_Status
 <h3 id="storage.azure.com/v1alpha1api20210401.StorageAccount">StorageAccount
 </h3>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/resourceDefinitions/storageAccounts">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/resourceDefinitions/storageAccounts</a></p>
+<p>Deprecated version of StorageAccount. Use v1beta20210401.StorageAccount instead</p>
 </div>
 <table>
 <thead>
@@ -8328,7 +10073,6 @@ StorageAccountPropertiesCreateParametersAccessTier
 </em>
 </td>
 <td>
-<p>AccessTier: Required for storage accounts where kind = BlobStorage. The access tier used for billing.</p>
 </td>
 </tr>
 <tr>
@@ -8339,8 +10083,6 @@ bool
 </em>
 </td>
 <td>
-<p>AllowBlobPublicAccess: Allow or disallow public access to all blobs or containers in the storage account. The default
-interpretation is true for this property.</p>
 </td>
 </tr>
 <tr>
@@ -8351,8 +10093,6 @@ bool
 </em>
 </td>
 <td>
-<p>AllowCrossTenantReplication: Allow or disallow cross AAD tenant object replication. The default interpretation is true
-for this property.</p>
 </td>
 </tr>
 <tr>
@@ -8363,9 +10103,6 @@ bool
 </em>
 </td>
 <td>
-<p>AllowSharedKeyAccess: Indicates whether the storage account permits requests to be authorized with the account access
-key via Shared Key. If false, then all requests, including shared access signatures, must be authorized with Azure
-Active Directory (Azure AD). The default value is null, which is equivalent to true.</p>
 </td>
 </tr>
 <tr>
@@ -8378,7 +10115,6 @@ AzureFilesIdentityBasedAuthentication
 </em>
 </td>
 <td>
-<p>AzureFilesIdentityBasedAuthentication: Settings for Azure Files identity based authentication.</p>
 </td>
 </tr>
 <tr>
@@ -8403,7 +10139,6 @@ CustomDomain
 </em>
 </td>
 <td>
-<p>CustomDomain: The custom domain assigned to this storage account. This can be set via Update.</p>
 </td>
 </tr>
 <tr>
@@ -8416,7 +10151,6 @@ Encryption
 </em>
 </td>
 <td>
-<p>Encryption: The encryption settings on the storage account.</p>
 </td>
 </tr>
 <tr>
@@ -8429,7 +10163,6 @@ ExtendedLocation
 </em>
 </td>
 <td>
-<p>ExtendedLocation: The complex type of the extended location.</p>
 </td>
 </tr>
 <tr>
@@ -8442,7 +10175,6 @@ Identity
 </em>
 </td>
 <td>
-<p>Identity: Identity for the resource.</p>
 </td>
 </tr>
 <tr>
@@ -8453,7 +10185,6 @@ bool
 </em>
 </td>
 <td>
-<p>IsHnsEnabled: Account HierarchicalNamespace enabled if sets to true.</p>
 </td>
 </tr>
 <tr>
@@ -8464,7 +10195,6 @@ bool
 </em>
 </td>
 <td>
-<p>IsNfsV3Enabled: NFS 3.0 protocol support enabled if set to true.</p>
 </td>
 </tr>
 <tr>
@@ -8477,7 +10207,6 @@ KeyPolicy
 </em>
 </td>
 <td>
-<p>KeyPolicy: KeyPolicy assigned to the storage account.</p>
 </td>
 </tr>
 <tr>
@@ -8490,7 +10219,6 @@ StorageAccountsSpecKind
 </em>
 </td>
 <td>
-<p>Kind: Required. Indicates the type of storage account.</p>
 </td>
 </tr>
 <tr>
@@ -8503,7 +10231,6 @@ StorageAccountPropertiesCreateParametersLargeFileSharesState
 </em>
 </td>
 <td>
-<p>LargeFileSharesState: Allow large file shares if sets to Enabled. It cannot be disabled once it is enabled.</p>
 </td>
 </tr>
 <tr>
@@ -8514,9 +10241,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Required. Gets or sets the location of the resource. This will be one of the supported and registered Azure
-Geo Regions (e.g. West US, East US, Southeast Asia, etc.). The geo region of a resource cannot be changed once it is
-created, but if an identical geo region is specified on update, the request will succeed.</p>
 </td>
 </tr>
 <tr>
@@ -8529,8 +10253,6 @@ StorageAccountPropertiesCreateParametersMinimumTlsVersion
 </em>
 </td>
 <td>
-<p>MinimumTlsVersion: Set the minimum TLS version to be permitted on requests to storage. The default interpretation is TLS
-1.0 for this property.</p>
 </td>
 </tr>
 <tr>
@@ -8543,7 +10265,6 @@ NetworkRuleSet
 </em>
 </td>
 <td>
-<p>NetworkAcls: Network rule set</p>
 </td>
 </tr>
 <tr>
@@ -8570,6 +10291,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -8582,8 +10306,6 @@ RoutingPreference
 </em>
 </td>
 <td>
-<p>RoutingPreference: Routing preference defines the type of network, either microsoft or internet routing to be used to
-deliver the user data, the default option is microsoft routing</p>
 </td>
 </tr>
 <tr>
@@ -8596,7 +10318,6 @@ SasPolicy
 </em>
 </td>
 <td>
-<p>SasPolicy: SasPolicy assigned to the storage account.</p>
 </td>
 </tr>
 <tr>
@@ -8609,7 +10330,6 @@ Sku
 </em>
 </td>
 <td>
-<p>Sku: The SKU of the storage account.</p>
 </td>
 </tr>
 <tr>
@@ -8620,8 +10340,6 @@ bool
 </em>
 </td>
 <td>
-<p>SupportsHttpsTrafficOnly: Allows https traffic only to storage service if sets to true. The default value is true since
-API version 2019-04-01.</p>
 </td>
 </tr>
 <tr>
@@ -8632,9 +10350,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Gets or sets a list of key value pairs that describe the resource. These tags can be used for viewing and grouping
-this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key
-with a length no greater than 128 characters and a value with a length no greater than 256 characters.</p>
 </td>
 </tr>
 </table>
@@ -8660,6 +10375,7 @@ StorageAccount_Status
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.Endpoints_Status">Endpoints_Status</a>)
 </p>
 <div>
+<p>Deprecated version of StorageAccountInternetEndpoints_Status. Use v1beta20210401.StorageAccountInternetEndpoints_Status instead</p>
 </div>
 <table>
 <thead>
@@ -8677,7 +10393,6 @@ string
 </em>
 </td>
 <td>
-<p>Blob: Gets the blob endpoint.</p>
 </td>
 </tr>
 <tr>
@@ -8688,7 +10403,6 @@ string
 </em>
 </td>
 <td>
-<p>Dfs: Gets the dfs endpoint.</p>
 </td>
 </tr>
 <tr>
@@ -8699,7 +10413,6 @@ string
 </em>
 </td>
 <td>
-<p>File: Gets the file endpoint.</p>
 </td>
 </tr>
 <tr>
@@ -8710,7 +10423,6 @@ string
 </em>
 </td>
 <td>
-<p>Web: Gets the web endpoint.</p>
 </td>
 </tr>
 </tbody>
@@ -8721,6 +10433,7 @@ string
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.Endpoints_StatusARM">Endpoints_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of StorageAccountInternetEndpoints_Status. Use v1beta20210401.StorageAccountInternetEndpoints_Status instead</p>
 </div>
 <table>
 <thead>
@@ -8738,7 +10451,6 @@ string
 </em>
 </td>
 <td>
-<p>Blob: Gets the blob endpoint.</p>
 </td>
 </tr>
 <tr>
@@ -8749,7 +10461,6 @@ string
 </em>
 </td>
 <td>
-<p>Dfs: Gets the dfs endpoint.</p>
 </td>
 </tr>
 <tr>
@@ -8760,7 +10471,6 @@ string
 </em>
 </td>
 <td>
-<p>File: Gets the file endpoint.</p>
 </td>
 </tr>
 <tr>
@@ -8771,7 +10481,6 @@ string
 </em>
 </td>
 <td>
-<p>Web: Gets the web endpoint.</p>
 </td>
 </tr>
 </tbody>
@@ -8782,6 +10491,7 @@ string
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.Endpoints_Status">Endpoints_Status</a>)
 </p>
 <div>
+<p>Deprecated version of StorageAccountMicrosoftEndpoints_Status. Use v1beta20210401.StorageAccountMicrosoftEndpoints_Status instead</p>
 </div>
 <table>
 <thead>
@@ -8799,7 +10509,6 @@ string
 </em>
 </td>
 <td>
-<p>Blob: Gets the blob endpoint.</p>
 </td>
 </tr>
 <tr>
@@ -8810,7 +10519,6 @@ string
 </em>
 </td>
 <td>
-<p>Dfs: Gets the dfs endpoint.</p>
 </td>
 </tr>
 <tr>
@@ -8821,7 +10529,6 @@ string
 </em>
 </td>
 <td>
-<p>File: Gets the file endpoint.</p>
 </td>
 </tr>
 <tr>
@@ -8832,7 +10539,6 @@ string
 </em>
 </td>
 <td>
-<p>Queue: Gets the queue endpoint.</p>
 </td>
 </tr>
 <tr>
@@ -8843,7 +10549,6 @@ string
 </em>
 </td>
 <td>
-<p>Table: Gets the table endpoint.</p>
 </td>
 </tr>
 <tr>
@@ -8854,7 +10559,6 @@ string
 </em>
 </td>
 <td>
-<p>Web: Gets the web endpoint.</p>
 </td>
 </tr>
 </tbody>
@@ -8865,6 +10569,7 @@ string
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.Endpoints_StatusARM">Endpoints_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of StorageAccountMicrosoftEndpoints_Status. Use v1beta20210401.StorageAccountMicrosoftEndpoints_Status instead</p>
 </div>
 <table>
 <thead>
@@ -8882,7 +10587,6 @@ string
 </em>
 </td>
 <td>
-<p>Blob: Gets the blob endpoint.</p>
 </td>
 </tr>
 <tr>
@@ -8893,7 +10597,6 @@ string
 </em>
 </td>
 <td>
-<p>Dfs: Gets the dfs endpoint.</p>
 </td>
 </tr>
 <tr>
@@ -8904,7 +10607,6 @@ string
 </em>
 </td>
 <td>
-<p>File: Gets the file endpoint.</p>
 </td>
 </tr>
 <tr>
@@ -8915,7 +10617,6 @@ string
 </em>
 </td>
 <td>
-<p>Queue: Gets the queue endpoint.</p>
 </td>
 </tr>
 <tr>
@@ -8926,7 +10627,6 @@ string
 </em>
 </td>
 <td>
-<p>Table: Gets the table endpoint.</p>
 </td>
 </tr>
 <tr>
@@ -8937,7 +10637,6 @@ string
 </em>
 </td>
 <td>
-<p>Web: Gets the web endpoint.</p>
 </td>
 </tr>
 </tbody>
@@ -9106,7 +10805,7 @@ StorageAccountOperatorSecrets
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccounts_SpecARM">StorageAccounts_SpecARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/StorageAccountPropertiesCreateParameters">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/StorageAccountPropertiesCreateParameters</a></p>
+<p>Deprecated version of StorageAccountPropertiesCreateParameters. Use v1beta20210401.StorageAccountPropertiesCreateParameters instead</p>
 </div>
 <table>
 <thead>
@@ -9126,7 +10825,6 @@ StorageAccountPropertiesCreateParametersAccessTier
 </em>
 </td>
 <td>
-<p>AccessTier: Required for storage accounts where kind = BlobStorage. The access tier used for billing.</p>
 </td>
 </tr>
 <tr>
@@ -9137,8 +10835,6 @@ bool
 </em>
 </td>
 <td>
-<p>AllowBlobPublicAccess: Allow or disallow public access to all blobs or containers in the storage account. The default
-interpretation is true for this property.</p>
 </td>
 </tr>
 <tr>
@@ -9149,8 +10845,6 @@ bool
 </em>
 </td>
 <td>
-<p>AllowCrossTenantReplication: Allow or disallow cross AAD tenant object replication. The default interpretation is true
-for this property.</p>
 </td>
 </tr>
 <tr>
@@ -9161,9 +10855,6 @@ bool
 </em>
 </td>
 <td>
-<p>AllowSharedKeyAccess: Indicates whether the storage account permits requests to be authorized with the account access
-key via Shared Key. If false, then all requests, including shared access signatures, must be authorized with Azure
-Active Directory (Azure AD). The default value is null, which is equivalent to true.</p>
 </td>
 </tr>
 <tr>
@@ -9176,7 +10867,6 @@ AzureFilesIdentityBasedAuthenticationARM
 </em>
 </td>
 <td>
-<p>AzureFilesIdentityBasedAuthentication: Settings for Azure Files identity based authentication.</p>
 </td>
 </tr>
 <tr>
@@ -9189,7 +10879,6 @@ CustomDomainARM
 </em>
 </td>
 <td>
-<p>CustomDomain: The custom domain assigned to this storage account. This can be set via Update.</p>
 </td>
 </tr>
 <tr>
@@ -9202,7 +10891,6 @@ EncryptionARM
 </em>
 </td>
 <td>
-<p>Encryption: The encryption settings on the storage account.</p>
 </td>
 </tr>
 <tr>
@@ -9213,7 +10901,6 @@ bool
 </em>
 </td>
 <td>
-<p>IsHnsEnabled: Account HierarchicalNamespace enabled if sets to true.</p>
 </td>
 </tr>
 <tr>
@@ -9224,7 +10911,6 @@ bool
 </em>
 </td>
 <td>
-<p>IsNfsV3Enabled: NFS 3.0 protocol support enabled if set to true.</p>
 </td>
 </tr>
 <tr>
@@ -9237,7 +10923,6 @@ KeyPolicyARM
 </em>
 </td>
 <td>
-<p>KeyPolicy: KeyPolicy assigned to the storage account.</p>
 </td>
 </tr>
 <tr>
@@ -9250,7 +10935,6 @@ StorageAccountPropertiesCreateParametersLargeFileSharesState
 </em>
 </td>
 <td>
-<p>LargeFileSharesState: Allow large file shares if sets to Enabled. It cannot be disabled once it is enabled.</p>
 </td>
 </tr>
 <tr>
@@ -9263,8 +10947,6 @@ StorageAccountPropertiesCreateParametersMinimumTlsVersion
 </em>
 </td>
 <td>
-<p>MinimumTlsVersion: Set the minimum TLS version to be permitted on requests to storage. The default interpretation is TLS
-1.0 for this property.</p>
 </td>
 </tr>
 <tr>
@@ -9277,7 +10959,6 @@ NetworkRuleSetARM
 </em>
 </td>
 <td>
-<p>NetworkAcls: Network rule set</p>
 </td>
 </tr>
 <tr>
@@ -9290,8 +10971,6 @@ RoutingPreferenceARM
 </em>
 </td>
 <td>
-<p>RoutingPreference: Routing preference defines the type of network, either microsoft or internet routing to be used to
-deliver the user data, the default option is microsoft routing</p>
 </td>
 </tr>
 <tr>
@@ -9304,7 +10983,6 @@ SasPolicyARM
 </em>
 </td>
 <td>
-<p>SasPolicy: SasPolicy assigned to the storage account.</p>
 </td>
 </tr>
 <tr>
@@ -9315,8 +10993,6 @@ bool
 </em>
 </td>
 <td>
-<p>SupportsHttpsTrafficOnly: Allows https traffic only to storage service if sets to true. The default value is true since
-API version 2019-04-01.</p>
 </td>
 </tr>
 </tbody>
@@ -9327,6 +11003,8 @@ API version 2019-04-01.</p>
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccountPropertiesCreateParametersARM">StorageAccountPropertiesCreateParametersARM</a>, <a href="#storage.azure.com/v1alpha1api20210401.StorageAccounts_Spec">StorageAccounts_Spec</a>)
 </p>
 <div>
+<p>Deprecated version of StorageAccountPropertiesCreateParametersAccessTier. Use
+v1beta20210401.StorageAccountPropertiesCreateParametersAccessTier instead</p>
 </div>
 <table>
 <thead>
@@ -9347,6 +11025,8 @@ API version 2019-04-01.</p>
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccountPropertiesCreateParametersARM">StorageAccountPropertiesCreateParametersARM</a>, <a href="#storage.azure.com/v1alpha1api20210401.StorageAccounts_Spec">StorageAccounts_Spec</a>)
 </p>
 <div>
+<p>Deprecated version of StorageAccountPropertiesCreateParametersLargeFileSharesState. Use
+v1beta20210401.StorageAccountPropertiesCreateParametersLargeFileSharesState instead</p>
 </div>
 <table>
 <thead>
@@ -9367,6 +11047,8 @@ API version 2019-04-01.</p>
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccountPropertiesCreateParametersARM">StorageAccountPropertiesCreateParametersARM</a>, <a href="#storage.azure.com/v1alpha1api20210401.StorageAccounts_Spec">StorageAccounts_Spec</a>)
 </p>
 <div>
+<p>Deprecated version of StorageAccountPropertiesCreateParametersMinimumTlsVersion. Use
+v1beta20210401.StorageAccountPropertiesCreateParametersMinimumTlsVersion instead</p>
 </div>
 <table>
 <thead>
@@ -9389,6 +11071,8 @@ API version 2019-04-01.</p>
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccountProperties_StatusARM">StorageAccountProperties_StatusARM</a>, <a href="#storage.azure.com/v1alpha1api20210401.StorageAccount_Status">StorageAccount_Status</a>)
 </p>
 <div>
+<p>Deprecated version of StorageAccountPropertiesStatusAccessTier. Use
+v1beta20210401.StorageAccountPropertiesStatusAccessTier instead</p>
 </div>
 <table>
 <thead>
@@ -9409,6 +11093,8 @@ API version 2019-04-01.</p>
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccountProperties_StatusARM">StorageAccountProperties_StatusARM</a>, <a href="#storage.azure.com/v1alpha1api20210401.StorageAccount_Status">StorageAccount_Status</a>)
 </p>
 <div>
+<p>Deprecated version of StorageAccountPropertiesStatusLargeFileSharesState. Use
+v1beta20210401.StorageAccountPropertiesStatusLargeFileSharesState instead</p>
 </div>
 <table>
 <thead>
@@ -9429,6 +11115,8 @@ API version 2019-04-01.</p>
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccountProperties_StatusARM">StorageAccountProperties_StatusARM</a>, <a href="#storage.azure.com/v1alpha1api20210401.StorageAccount_Status">StorageAccount_Status</a>)
 </p>
 <div>
+<p>Deprecated version of StorageAccountPropertiesStatusMinimumTlsVersion. Use
+v1beta20210401.StorageAccountPropertiesStatusMinimumTlsVersion instead</p>
 </div>
 <table>
 <thead>
@@ -9451,6 +11139,8 @@ API version 2019-04-01.</p>
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccountProperties_StatusARM">StorageAccountProperties_StatusARM</a>, <a href="#storage.azure.com/v1alpha1api20210401.StorageAccount_Status">StorageAccount_Status</a>)
 </p>
 <div>
+<p>Deprecated version of StorageAccountPropertiesStatusProvisioningState. Use
+v1beta20210401.StorageAccountPropertiesStatusProvisioningState instead</p>
 </div>
 <table>
 <thead>
@@ -9473,6 +11163,8 @@ API version 2019-04-01.</p>
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccountProperties_StatusARM">StorageAccountProperties_StatusARM</a>, <a href="#storage.azure.com/v1alpha1api20210401.StorageAccount_Status">StorageAccount_Status</a>)
 </p>
 <div>
+<p>Deprecated version of StorageAccountPropertiesStatusStatusOfPrimary. Use
+v1beta20210401.StorageAccountPropertiesStatusStatusOfPrimary instead</p>
 </div>
 <table>
 <thead>
@@ -9493,6 +11185,8 @@ API version 2019-04-01.</p>
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccountProperties_StatusARM">StorageAccountProperties_StatusARM</a>, <a href="#storage.azure.com/v1alpha1api20210401.StorageAccount_Status">StorageAccount_Status</a>)
 </p>
 <div>
+<p>Deprecated version of StorageAccountPropertiesStatusStatusOfSecondary. Use
+v1beta20210401.StorageAccountPropertiesStatusStatusOfSecondary instead</p>
 </div>
 <table>
 <thead>
@@ -9513,6 +11207,7 @@ API version 2019-04-01.</p>
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccount_StatusARM">StorageAccount_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of StorageAccountProperties_Status. Use v1beta20210401.StorageAccountProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -9532,7 +11227,6 @@ StorageAccountPropertiesStatusAccessTier
 </em>
 </td>
 <td>
-<p>AccessTier: Required for storage accounts where kind = BlobStorage. The access tier used for billing.</p>
 </td>
 </tr>
 <tr>
@@ -9543,8 +11237,6 @@ bool
 </em>
 </td>
 <td>
-<p>AllowBlobPublicAccess: Allow or disallow public access to all blobs or containers in the storage account. The default
-interpretation is true for this property.</p>
 </td>
 </tr>
 <tr>
@@ -9555,8 +11247,6 @@ bool
 </em>
 </td>
 <td>
-<p>AllowCrossTenantReplication: Allow or disallow cross AAD tenant object replication. The default interpretation is true
-for this property.</p>
 </td>
 </tr>
 <tr>
@@ -9567,9 +11257,6 @@ bool
 </em>
 </td>
 <td>
-<p>AllowSharedKeyAccess: Indicates whether the storage account permits requests to be authorized with the account access
-key via Shared Key. If false, then all requests, including shared access signatures, must be authorized with Azure
-Active Directory (Azure AD). The default value is null, which is equivalent to true.</p>
 </td>
 </tr>
 <tr>
@@ -9582,7 +11269,6 @@ AzureFilesIdentityBasedAuthentication_StatusARM
 </em>
 </td>
 <td>
-<p>AzureFilesIdentityBasedAuthentication: Provides the identity based authentication settings for Azure Files.</p>
 </td>
 </tr>
 <tr>
@@ -9595,7 +11281,6 @@ BlobRestoreStatus_StatusARM
 </em>
 </td>
 <td>
-<p>BlobRestoreStatus: Blob restore status</p>
 </td>
 </tr>
 <tr>
@@ -9606,7 +11291,6 @@ string
 </em>
 </td>
 <td>
-<p>CreationTime: Gets the creation date and time of the storage account in UTC.</p>
 </td>
 </tr>
 <tr>
@@ -9619,7 +11303,6 @@ CustomDomain_StatusARM
 </em>
 </td>
 <td>
-<p>CustomDomain: Gets the custom domain the user assigned to this storage account.</p>
 </td>
 </tr>
 <tr>
@@ -9632,7 +11315,6 @@ Encryption_StatusARM
 </em>
 </td>
 <td>
-<p>Encryption: Gets the encryption settings on the account. If unspecified, the account is unencrypted.</p>
 </td>
 </tr>
 <tr>
@@ -9643,7 +11325,6 @@ bool
 </em>
 </td>
 <td>
-<p>FailoverInProgress: If the failover is in progress, the value will be true, otherwise, it will be null.</p>
 </td>
 </tr>
 <tr>
@@ -9656,7 +11337,6 @@ GeoReplicationStats_StatusARM
 </em>
 </td>
 <td>
-<p>GeoReplicationStats: Geo Replication Stats</p>
 </td>
 </tr>
 <tr>
@@ -9667,7 +11347,6 @@ bool
 </em>
 </td>
 <td>
-<p>IsHnsEnabled: Account HierarchicalNamespace enabled if sets to true.</p>
 </td>
 </tr>
 <tr>
@@ -9678,7 +11357,6 @@ bool
 </em>
 </td>
 <td>
-<p>IsNfsV3Enabled: NFS 3.0 protocol support enabled if set to true.</p>
 </td>
 </tr>
 <tr>
@@ -9691,7 +11369,6 @@ KeyCreationTime_StatusARM
 </em>
 </td>
 <td>
-<p>KeyCreationTime: Storage account keys creation time.</p>
 </td>
 </tr>
 <tr>
@@ -9704,7 +11381,6 @@ KeyPolicy_StatusARM
 </em>
 </td>
 <td>
-<p>KeyPolicy: KeyPolicy assigned to the storage account.</p>
 </td>
 </tr>
 <tr>
@@ -9717,7 +11393,6 @@ StorageAccountPropertiesStatusLargeFileSharesState
 </em>
 </td>
 <td>
-<p>LargeFileSharesState: Allow large file shares if sets to Enabled. It cannot be disabled once it is enabled.</p>
 </td>
 </tr>
 <tr>
@@ -9728,9 +11403,6 @@ string
 </em>
 </td>
 <td>
-<p>LastGeoFailoverTime: Gets the timestamp of the most recent instance of a failover to the secondary location. Only the
-most recent timestamp is retained. This element is not returned if there has never been a failover instance. Only
-available if the accountType is Standard_GRS or Standard_RAGRS.</p>
 </td>
 </tr>
 <tr>
@@ -9743,8 +11415,6 @@ StorageAccountPropertiesStatusMinimumTlsVersion
 </em>
 </td>
 <td>
-<p>MinimumTlsVersion: Set the minimum TLS version to be permitted on requests to storage. The default interpretation is TLS
-1.0 for this property.</p>
 </td>
 </tr>
 <tr>
@@ -9757,7 +11427,6 @@ NetworkRuleSet_StatusARM
 </em>
 </td>
 <td>
-<p>NetworkAcls: Network rule set</p>
 </td>
 </tr>
 <tr>
@@ -9770,8 +11439,6 @@ Endpoints_StatusARM
 </em>
 </td>
 <td>
-<p>PrimaryEndpoints: Gets the URLs that are used to perform a retrieval of a public blob, queue, or table object. Note that
-Standard_ZRS and Premium_LRS accounts only return the blob endpoint.</p>
 </td>
 </tr>
 <tr>
@@ -9782,7 +11449,6 @@ string
 </em>
 </td>
 <td>
-<p>PrimaryLocation: Gets the location of the primary data center for the storage account.</p>
 </td>
 </tr>
 <tr>
@@ -9795,7 +11461,6 @@ string
 </em>
 </td>
 <td>
-<p>PrivateEndpointConnections: List of private endpoint connection associated with the specified storage account</p>
 </td>
 </tr>
 <tr>
@@ -9808,7 +11473,6 @@ StorageAccountPropertiesStatusProvisioningState
 </em>
 </td>
 <td>
-<p>ProvisioningState: Gets the status of the storage account at the time the operation was called.</p>
 </td>
 </tr>
 <tr>
@@ -9821,7 +11485,6 @@ RoutingPreference_StatusARM
 </em>
 </td>
 <td>
-<p>RoutingPreference: Maintains information about the network routing choice opted by the user for data transfer</p>
 </td>
 </tr>
 <tr>
@@ -9834,7 +11497,6 @@ SasPolicy_StatusARM
 </em>
 </td>
 <td>
-<p>SasPolicy: SasPolicy assigned to the storage account.</p>
 </td>
 </tr>
 <tr>
@@ -9847,8 +11509,6 @@ Endpoints_StatusARM
 </em>
 </td>
 <td>
-<p>SecondaryEndpoints: Gets the URLs that are used to perform a retrieval of a public blob, queue, or table object from the
-secondary location of the storage account. Only available if the SKU name is Standard_RAGRS.</p>
 </td>
 </tr>
 <tr>
@@ -9859,8 +11519,6 @@ string
 </em>
 </td>
 <td>
-<p>SecondaryLocation: Gets the location of the geo-replicated secondary for the storage account. Only available if the
-accountType is Standard_GRS or Standard_RAGRS.</p>
 </td>
 </tr>
 <tr>
@@ -9873,8 +11531,6 @@ StorageAccountPropertiesStatusStatusOfPrimary
 </em>
 </td>
 <td>
-<p>StatusOfPrimary: Gets the status indicating whether the primary location of the storage account is available or
-unavailable.</p>
 </td>
 </tr>
 <tr>
@@ -9887,8 +11543,6 @@ StorageAccountPropertiesStatusStatusOfSecondary
 </em>
 </td>
 <td>
-<p>StatusOfSecondary: Gets the status indicating whether the secondary location of the storage account is available or
-unavailable. Only available if the SKU name is Standard_GRS or Standard_RAGRS.</p>
 </td>
 </tr>
 <tr>
@@ -9899,7 +11553,6 @@ bool
 </em>
 </td>
 <td>
-<p>SupportsHttpsTrafficOnly: Allows https traffic only to storage service if sets to true.</p>
 </td>
 </tr>
 </tbody>
@@ -9910,6 +11563,7 @@ bool
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccount_Status">StorageAccount_Status</a>, <a href="#storage.azure.com/v1alpha1api20210401.StorageAccount_StatusARM">StorageAccount_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of StorageAccountStatusKind. Use v1beta20210401.StorageAccountStatusKind instead</p>
 </div>
 <table>
 <thead>
@@ -9936,6 +11590,7 @@ bool
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccount">StorageAccount</a>)
 </p>
 <div>
+<p>Deprecated version of StorageAccount_Status. Use v1beta20210401.StorageAccount_Status instead</p>
 </div>
 <table>
 <thead>
@@ -9955,7 +11610,6 @@ StorageAccountPropertiesStatusAccessTier
 </em>
 </td>
 <td>
-<p>AccessTier: Required for storage accounts where kind = BlobStorage. The access tier used for billing.</p>
 </td>
 </tr>
 <tr>
@@ -9966,8 +11620,6 @@ bool
 </em>
 </td>
 <td>
-<p>AllowBlobPublicAccess: Allow or disallow public access to all blobs or containers in the storage account. The default
-interpretation is true for this property.</p>
 </td>
 </tr>
 <tr>
@@ -9978,8 +11630,6 @@ bool
 </em>
 </td>
 <td>
-<p>AllowCrossTenantReplication: Allow or disallow cross AAD tenant object replication. The default interpretation is true
-for this property.</p>
 </td>
 </tr>
 <tr>
@@ -9990,9 +11640,6 @@ bool
 </em>
 </td>
 <td>
-<p>AllowSharedKeyAccess: Indicates whether the storage account permits requests to be authorized with the account access
-key via Shared Key. If false, then all requests, including shared access signatures, must be authorized with Azure
-Active Directory (Azure AD). The default value is null, which is equivalent to true.</p>
 </td>
 </tr>
 <tr>
@@ -10005,7 +11652,6 @@ AzureFilesIdentityBasedAuthentication_Status
 </em>
 </td>
 <td>
-<p>AzureFilesIdentityBasedAuthentication: Provides the identity based authentication settings for Azure Files.</p>
 </td>
 </tr>
 <tr>
@@ -10018,7 +11664,6 @@ BlobRestoreStatus_Status
 </em>
 </td>
 <td>
-<p>BlobRestoreStatus: Blob restore status</p>
 </td>
 </tr>
 <tr>
@@ -10042,7 +11687,6 @@ string
 </em>
 </td>
 <td>
-<p>CreationTime: Gets the creation date and time of the storage account in UTC.</p>
 </td>
 </tr>
 <tr>
@@ -10055,7 +11699,6 @@ CustomDomain_Status
 </em>
 </td>
 <td>
-<p>CustomDomain: Gets the custom domain the user assigned to this storage account.</p>
 </td>
 </tr>
 <tr>
@@ -10068,7 +11711,6 @@ Encryption_Status
 </em>
 </td>
 <td>
-<p>Encryption: Gets the encryption settings on the account. If unspecified, the account is unencrypted.</p>
 </td>
 </tr>
 <tr>
@@ -10081,7 +11723,6 @@ ExtendedLocation_Status
 </em>
 </td>
 <td>
-<p>ExtendedLocation: The extendedLocation of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -10092,7 +11733,6 @@ bool
 </em>
 </td>
 <td>
-<p>FailoverInProgress: If the failover is in progress, the value will be true, otherwise, it will be null.</p>
 </td>
 </tr>
 <tr>
@@ -10105,7 +11745,6 @@ GeoReplicationStats_Status
 </em>
 </td>
 <td>
-<p>GeoReplicationStats: Geo Replication Stats</p>
 </td>
 </tr>
 <tr>
@@ -10116,8 +11755,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}</p>
 </td>
 </tr>
 <tr>
@@ -10130,7 +11767,6 @@ Identity_Status
 </em>
 </td>
 <td>
-<p>Identity: The identity of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -10141,7 +11777,6 @@ bool
 </em>
 </td>
 <td>
-<p>IsHnsEnabled: Account HierarchicalNamespace enabled if sets to true.</p>
 </td>
 </tr>
 <tr>
@@ -10152,7 +11787,6 @@ bool
 </em>
 </td>
 <td>
-<p>IsNfsV3Enabled: NFS 3.0 protocol support enabled if set to true.</p>
 </td>
 </tr>
 <tr>
@@ -10165,7 +11799,6 @@ KeyCreationTime_Status
 </em>
 </td>
 <td>
-<p>KeyCreationTime: Storage account keys creation time.</p>
 </td>
 </tr>
 <tr>
@@ -10178,7 +11811,6 @@ KeyPolicy_Status
 </em>
 </td>
 <td>
-<p>KeyPolicy: KeyPolicy assigned to the storage account.</p>
 </td>
 </tr>
 <tr>
@@ -10191,7 +11823,6 @@ StorageAccountStatusKind
 </em>
 </td>
 <td>
-<p>Kind: Gets the Kind.</p>
 </td>
 </tr>
 <tr>
@@ -10204,7 +11835,6 @@ StorageAccountPropertiesStatusLargeFileSharesState
 </em>
 </td>
 <td>
-<p>LargeFileSharesState: Allow large file shares if sets to Enabled. It cannot be disabled once it is enabled.</p>
 </td>
 </tr>
 <tr>
@@ -10215,9 +11845,6 @@ string
 </em>
 </td>
 <td>
-<p>LastGeoFailoverTime: Gets the timestamp of the most recent instance of a failover to the secondary location. Only the
-most recent timestamp is retained. This element is not returned if there has never been a failover instance. Only
-available if the accountType is Standard_GRS or Standard_RAGRS.</p>
 </td>
 </tr>
 <tr>
@@ -10228,7 +11855,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The geo-location where the resource lives</p>
 </td>
 </tr>
 <tr>
@@ -10241,8 +11867,6 @@ StorageAccountPropertiesStatusMinimumTlsVersion
 </em>
 </td>
 <td>
-<p>MinimumTlsVersion: Set the minimum TLS version to be permitted on requests to storage. The default interpretation is TLS
-1.0 for this property.</p>
 </td>
 </tr>
 <tr>
@@ -10253,7 +11877,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource</p>
 </td>
 </tr>
 <tr>
@@ -10266,7 +11889,6 @@ NetworkRuleSet_Status
 </em>
 </td>
 <td>
-<p>NetworkAcls: Network rule set</p>
 </td>
 </tr>
 <tr>
@@ -10279,8 +11901,6 @@ Endpoints_Status
 </em>
 </td>
 <td>
-<p>PrimaryEndpoints: Gets the URLs that are used to perform a retrieval of a public blob, queue, or table object. Note that
-Standard_ZRS and Premium_LRS accounts only return the blob endpoint.</p>
 </td>
 </tr>
 <tr>
@@ -10291,7 +11911,6 @@ string
 </em>
 </td>
 <td>
-<p>PrimaryLocation: Gets the location of the primary data center for the storage account.</p>
 </td>
 </tr>
 <tr>
@@ -10304,7 +11923,6 @@ string
 </em>
 </td>
 <td>
-<p>PrivateEndpointConnections: List of private endpoint connection associated with the specified storage account</p>
 </td>
 </tr>
 <tr>
@@ -10317,7 +11935,6 @@ StorageAccountPropertiesStatusProvisioningState
 </em>
 </td>
 <td>
-<p>ProvisioningState: Gets the status of the storage account at the time the operation was called.</p>
 </td>
 </tr>
 <tr>
@@ -10330,7 +11947,6 @@ RoutingPreference_Status
 </em>
 </td>
 <td>
-<p>RoutingPreference: Maintains information about the network routing choice opted by the user for data transfer</p>
 </td>
 </tr>
 <tr>
@@ -10343,7 +11959,6 @@ SasPolicy_Status
 </em>
 </td>
 <td>
-<p>SasPolicy: SasPolicy assigned to the storage account.</p>
 </td>
 </tr>
 <tr>
@@ -10356,8 +11971,6 @@ Endpoints_Status
 </em>
 </td>
 <td>
-<p>SecondaryEndpoints: Gets the URLs that are used to perform a retrieval of a public blob, queue, or table object from the
-secondary location of the storage account. Only available if the SKU name is Standard_RAGRS.</p>
 </td>
 </tr>
 <tr>
@@ -10368,8 +11981,6 @@ string
 </em>
 </td>
 <td>
-<p>SecondaryLocation: Gets the location of the geo-replicated secondary for the storage account. Only available if the
-accountType is Standard_GRS or Standard_RAGRS.</p>
 </td>
 </tr>
 <tr>
@@ -10382,7 +11993,6 @@ Sku_Status
 </em>
 </td>
 <td>
-<p>Sku: Gets the SKU.</p>
 </td>
 </tr>
 <tr>
@@ -10395,8 +12005,6 @@ StorageAccountPropertiesStatusStatusOfPrimary
 </em>
 </td>
 <td>
-<p>StatusOfPrimary: Gets the status indicating whether the primary location of the storage account is available or
-unavailable.</p>
 </td>
 </tr>
 <tr>
@@ -10409,8 +12017,6 @@ StorageAccountPropertiesStatusStatusOfSecondary
 </em>
 </td>
 <td>
-<p>StatusOfSecondary: Gets the status indicating whether the secondary location of the storage account is available or
-unavailable. Only available if the SKU name is Standard_GRS or Standard_RAGRS.</p>
 </td>
 </tr>
 <tr>
@@ -10421,7 +12027,6 @@ bool
 </em>
 </td>
 <td>
-<p>SupportsHttpsTrafficOnly: Allows https traffic only to storage service if sets to true.</p>
 </td>
 </tr>
 <tr>
@@ -10432,7 +12037,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Resource tags.</p>
 </td>
 </tr>
 <tr>
@@ -10443,7 +12047,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
 </td>
 </tr>
 </tbody>
@@ -10451,6 +12054,7 @@ string
 <h3 id="storage.azure.com/v1alpha1api20210401.StorageAccount_StatusARM">StorageAccount_StatusARM
 </h3>
 <div>
+<p>Deprecated version of StorageAccount_Status. Use v1beta20210401.StorageAccount_Status instead</p>
 </div>
 <table>
 <thead>
@@ -10470,7 +12074,6 @@ ExtendedLocation_StatusARM
 </em>
 </td>
 <td>
-<p>ExtendedLocation: The extendedLocation of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -10481,8 +12084,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}</p>
 </td>
 </tr>
 <tr>
@@ -10495,7 +12096,6 @@ Identity_StatusARM
 </em>
 </td>
 <td>
-<p>Identity: The identity of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -10508,7 +12108,6 @@ StorageAccountStatusKind
 </em>
 </td>
 <td>
-<p>Kind: Gets the Kind.</p>
 </td>
 </tr>
 <tr>
@@ -10519,7 +12118,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The geo-location where the resource lives</p>
 </td>
 </tr>
 <tr>
@@ -10530,7 +12128,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource</p>
 </td>
 </tr>
 <tr>
@@ -10543,7 +12140,6 @@ StorageAccountProperties_StatusARM
 </em>
 </td>
 <td>
-<p>Properties: Properties of the storage account.</p>
 </td>
 </tr>
 <tr>
@@ -10556,7 +12152,6 @@ Sku_StatusARM
 </em>
 </td>
 <td>
-<p>Sku: Gets the SKU.</p>
 </td>
 </tr>
 <tr>
@@ -10567,7 +12162,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Resource tags.</p>
 </td>
 </tr>
 <tr>
@@ -10578,7 +12172,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
 </td>
 </tr>
 </tbody>
@@ -10586,7 +12179,7 @@ string
 <h3 id="storage.azure.com/v1alpha1api20210401.StorageAccountsBlobService">StorageAccountsBlobService
 </h3>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/resourceDefinitions/storageAccounts_blobServices">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/resourceDefinitions/storageAccounts_blobServices</a></p>
+<p>Deprecated version of StorageAccountsBlobService. Use v1beta20210401.StorageAccountsBlobService instead</p>
 </div>
 <table>
 <thead>
@@ -10631,7 +12224,6 @@ bool
 </em>
 </td>
 <td>
-<p>AutomaticSnapshotPolicyEnabled: Deprecated in favor of isVersioningEnabled property.</p>
 </td>
 </tr>
 <tr>
@@ -10644,7 +12236,6 @@ ChangeFeed
 </em>
 </td>
 <td>
-<p>ChangeFeed: The blob service properties for change feed events.</p>
 </td>
 </tr>
 <tr>
@@ -10657,7 +12248,6 @@ DeleteRetentionPolicy
 </em>
 </td>
 <td>
-<p>ContainerDeleteRetentionPolicy: The service properties for soft delete.</p>
 </td>
 </tr>
 <tr>
@@ -10670,7 +12260,6 @@ CorsRules
 </em>
 </td>
 <td>
-<p>Cors: Sets the CORS rules. You can include up to five CorsRule elements in the request.</p>
 </td>
 </tr>
 <tr>
@@ -10681,8 +12270,6 @@ string
 </em>
 </td>
 <td>
-<p>DefaultServiceVersion: DefaultServiceVersion indicates the default version to use for requests to the Blob service if an
-incoming request’s version is not specified. Possible values include version 2008-10-27 and all more recent versions.</p>
 </td>
 </tr>
 <tr>
@@ -10695,7 +12282,6 @@ DeleteRetentionPolicy
 </em>
 </td>
 <td>
-<p>DeleteRetentionPolicy: The service properties for soft delete.</p>
 </td>
 </tr>
 <tr>
@@ -10706,7 +12292,6 @@ bool
 </em>
 </td>
 <td>
-<p>IsVersioningEnabled: Versioning is enabled if set to true.</p>
 </td>
 </tr>
 <tr>
@@ -10719,7 +12304,6 @@ LastAccessTimeTrackingPolicy
 </em>
 </td>
 <td>
-<p>LastAccessTimeTrackingPolicy: The blob service properties for Last access time based tracking policy.</p>
 </td>
 </tr>
 <tr>
@@ -10730,7 +12314,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -10743,6 +12326,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a storage.azure.com/StorageAccount resource</p>
 </td>
 </tr>
 <tr>
@@ -10755,7 +12341,6 @@ RestorePolicyProperties
 </em>
 </td>
 <td>
-<p>RestorePolicy: The blob service properties for blob restore policy</p>
 </td>
 </tr>
 <tr>
@@ -10766,7 +12351,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </table>
@@ -10789,7 +12373,7 @@ BlobServiceProperties_Status
 <h3 id="storage.azure.com/v1alpha1api20210401.StorageAccountsBlobServicesContainer">StorageAccountsBlobServicesContainer
 </h3>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/resourceDefinitions/storageAccounts_blobServices_containers">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/resourceDefinitions/storageAccounts_blobServices_containers</a></p>
+<p>Deprecated version of StorageAccountsBlobServicesContainer. Use v1beta20210401.StorageAccountsBlobServicesContainer instead</p>
 </div>
 <table>
 <thead>
@@ -10846,7 +12430,6 @@ string
 </em>
 </td>
 <td>
-<p>DefaultEncryptionScope: Default the container to use specified encryption scope for all writes.</p>
 </td>
 </tr>
 <tr>
@@ -10857,7 +12440,6 @@ bool
 </em>
 </td>
 <td>
-<p>DenyEncryptionScopeOverride: Block override of encryption scope from the container default.</p>
 </td>
 </tr>
 <tr>
@@ -10870,7 +12452,6 @@ ImmutableStorageWithVersioning
 </em>
 </td>
 <td>
-<p>ImmutableStorageWithVersioning: Object level immutability properties of the container.</p>
 </td>
 </tr>
 <tr>
@@ -10881,7 +12462,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -10892,7 +12472,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Metadata: A name-value pair to associate with the container as metadata.</p>
 </td>
 </tr>
 <tr>
@@ -10905,6 +12484,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a storage.azure.com/StorageAccountsBlobService resource</p>
 </td>
 </tr>
 <tr>
@@ -10917,7 +12499,6 @@ ContainerPropertiesPublicAccess
 </em>
 </td>
 <td>
-<p>PublicAccess: Specifies whether data in the container may be accessed publicly and the level of access.</p>
 </td>
 </tr>
 <tr>
@@ -10928,7 +12509,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </table>
@@ -10947,21 +12527,6 @@ BlobContainer_Status
 </td>
 </tr>
 </tbody>
-</table>
-<h3 id="storage.azure.com/v1alpha1api20210401.StorageAccountsBlobServicesContainersSpecAPIVersion">StorageAccountsBlobServicesContainersSpecAPIVersion
-(<code>string</code> alias)</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;2021-04-01&#34;</p></td>
-<td></td>
-</tr></tbody>
 </table>
 <h3 id="storage.azure.com/v1alpha1api20210401.StorageAccountsBlobServicesContainers_Spec">StorageAccountsBlobServicesContainers_Spec
 </h3>
@@ -10998,7 +12563,6 @@ string
 </em>
 </td>
 <td>
-<p>DefaultEncryptionScope: Default the container to use specified encryption scope for all writes.</p>
 </td>
 </tr>
 <tr>
@@ -11009,7 +12573,6 @@ bool
 </em>
 </td>
 <td>
-<p>DenyEncryptionScopeOverride: Block override of encryption scope from the container default.</p>
 </td>
 </tr>
 <tr>
@@ -11022,7 +12585,6 @@ ImmutableStorageWithVersioning
 </em>
 </td>
 <td>
-<p>ImmutableStorageWithVersioning: Object level immutability properties of the container.</p>
 </td>
 </tr>
 <tr>
@@ -11033,7 +12595,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -11044,7 +12605,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Metadata: A name-value pair to associate with the container as metadata.</p>
 </td>
 </tr>
 <tr>
@@ -11057,6 +12617,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a storage.azure.com/StorageAccountsBlobService resource</p>
 </td>
 </tr>
 <tr>
@@ -11069,7 +12632,6 @@ ContainerPropertiesPublicAccess
 </em>
 </td>
 <td>
-<p>PublicAccess: Specifies whether data in the container may be accessed publicly and the level of access.</p>
 </td>
 </tr>
 <tr>
@@ -11080,7 +12642,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </tbody>
@@ -11088,6 +12649,7 @@ map[string]string
 <h3 id="storage.azure.com/v1alpha1api20210401.StorageAccountsBlobServicesContainers_SpecARM">StorageAccountsBlobServicesContainers_SpecARM
 </h3>
 <div>
+<p>Deprecated version of StorageAccountsBlobServicesContainers_Spec. Use v1beta20210401.StorageAccountsBlobServicesContainers_Spec instead</p>
 </div>
 <table>
 <thead>
@@ -11105,7 +12667,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -11116,9 +12677,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the blob container within the specified storage account. Blob container names must be between 3 and 63
-characters in length and use numbers, lower-case letters and dash (-) only. Every dash (-) character must be immediately
-preceded and followed by a letter or number.</p>
 </td>
 </tr>
 <tr>
@@ -11131,7 +12689,6 @@ ContainerPropertiesARM
 </em>
 </td>
 <td>
-<p>Properties: The properties of a container.</p>
 </td>
 </tr>
 <tr>
@@ -11142,25 +12699,9 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </tbody>
-</table>
-<h3 id="storage.azure.com/v1alpha1api20210401.StorageAccountsBlobServicesSpecAPIVersion">StorageAccountsBlobServicesSpecAPIVersion
-(<code>string</code> alias)</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;2021-04-01&#34;</p></td>
-<td></td>
-</tr></tbody>
 </table>
 <h3 id="storage.azure.com/v1alpha1api20210401.StorageAccountsBlobServices_Spec">StorageAccountsBlobServices_Spec
 </h3>
@@ -11185,7 +12726,6 @@ bool
 </em>
 </td>
 <td>
-<p>AutomaticSnapshotPolicyEnabled: Deprecated in favor of isVersioningEnabled property.</p>
 </td>
 </tr>
 <tr>
@@ -11198,7 +12738,6 @@ ChangeFeed
 </em>
 </td>
 <td>
-<p>ChangeFeed: The blob service properties for change feed events.</p>
 </td>
 </tr>
 <tr>
@@ -11211,7 +12750,6 @@ DeleteRetentionPolicy
 </em>
 </td>
 <td>
-<p>ContainerDeleteRetentionPolicy: The service properties for soft delete.</p>
 </td>
 </tr>
 <tr>
@@ -11224,7 +12762,6 @@ CorsRules
 </em>
 </td>
 <td>
-<p>Cors: Sets the CORS rules. You can include up to five CorsRule elements in the request.</p>
 </td>
 </tr>
 <tr>
@@ -11235,8 +12772,6 @@ string
 </em>
 </td>
 <td>
-<p>DefaultServiceVersion: DefaultServiceVersion indicates the default version to use for requests to the Blob service if an
-incoming request’s version is not specified. Possible values include version 2008-10-27 and all more recent versions.</p>
 </td>
 </tr>
 <tr>
@@ -11249,7 +12784,6 @@ DeleteRetentionPolicy
 </em>
 </td>
 <td>
-<p>DeleteRetentionPolicy: The service properties for soft delete.</p>
 </td>
 </tr>
 <tr>
@@ -11260,7 +12794,6 @@ bool
 </em>
 </td>
 <td>
-<p>IsVersioningEnabled: Versioning is enabled if set to true.</p>
 </td>
 </tr>
 <tr>
@@ -11273,7 +12806,6 @@ LastAccessTimeTrackingPolicy
 </em>
 </td>
 <td>
-<p>LastAccessTimeTrackingPolicy: The blob service properties for Last access time based tracking policy.</p>
 </td>
 </tr>
 <tr>
@@ -11284,7 +12816,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -11297,6 +12828,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a storage.azure.com/StorageAccount resource</p>
 </td>
 </tr>
 <tr>
@@ -11309,7 +12843,6 @@ RestorePolicyProperties
 </em>
 </td>
 <td>
-<p>RestorePolicy: The blob service properties for blob restore policy</p>
 </td>
 </tr>
 <tr>
@@ -11320,7 +12853,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </tbody>
@@ -11328,6 +12860,7 @@ map[string]string
 <h3 id="storage.azure.com/v1alpha1api20210401.StorageAccountsBlobServices_SpecARM">StorageAccountsBlobServices_SpecARM
 </h3>
 <div>
+<p>Deprecated version of StorageAccountsBlobServices_Spec. Use v1beta20210401.StorageAccountsBlobServices_Spec instead</p>
 </div>
 <table>
 <thead>
@@ -11345,7 +12878,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -11356,7 +12888,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the blob Service within the specified storage account. Blob Service Name must be &lsquo;default&rsquo;</p>
 </td>
 </tr>
 <tr>
@@ -11369,7 +12900,6 @@ BlobServicePropertiesPropertiesARM
 </em>
 </td>
 <td>
-<p>Properties: The properties of a storage account’s Blob service.</p>
 </td>
 </tr>
 <tr>
@@ -11380,7 +12910,201 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.StorageAccountsManagementPolicies_Spec">StorageAccountsManagementPolicies_Spec
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccountsManagementPolicy">StorageAccountsManagementPolicy</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>owner</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a storage.azure.com/StorageAccount resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>policy</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicySchema">
+ManagementPolicySchema
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>tags</code><br/>
+<em>
+map[string]string
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.StorageAccountsManagementPolicies_SpecARM">StorageAccountsManagementPolicies_SpecARM
+</h3>
+<div>
+<p>Deprecated version of StorageAccountsManagementPolicies_Spec. Use v1beta20210401.StorageAccountsManagementPolicies_Spec instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>properties</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyPropertiesARM">
+ManagementPolicyPropertiesARM
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>tags</code><br/>
+<em>
+map[string]string
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.StorageAccountsManagementPolicy">StorageAccountsManagementPolicy
+</h3>
+<div>
+<p>Deprecated version of StorageAccountsManagementPolicy. Use v1beta20210401.StorageAccountsManagementPolicy instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>metadata</code><br/>
+<em>
+<a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta">
+Kubernetes meta/v1.ObjectMeta
+</a>
+</em>
+</td>
+<td>
+Refer to the Kubernetes API documentation for the fields of the
+<code>metadata</code> field.
+</td>
+</tr>
+<tr>
+<td>
+<code>spec</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.StorageAccountsManagementPolicies_Spec">
+StorageAccountsManagementPolicies_Spec
+</a>
+</em>
+</td>
+<td>
+<br/>
+<br/>
+<table>
+<tr>
+<td>
+<code>owner</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a storage.azure.com/StorageAccount resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>policy</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicySchema">
+ManagementPolicySchema
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>tags</code><br/>
+<em>
+map[string]string
+</em>
+</td>
+<td>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td>
+<code>status</code><br/>
+<em>
+<a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicy_Status">
+ManagementPolicy_Status
+</a>
+</em>
+</td>
+<td>
 </td>
 </tr>
 </tbody>
@@ -11388,7 +13112,7 @@ map[string]string
 <h3 id="storage.azure.com/v1alpha1api20210401.StorageAccountsQueueService">StorageAccountsQueueService
 </h3>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/resourceDefinitions/storageAccounts_queueServices">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/resourceDefinitions/storageAccounts_queueServices</a></p>
+<p>Deprecated version of StorageAccountsQueueService. Use v1beta20210401.StorageAccountsQueueService instead</p>
 </div>
 <table>
 <thead>
@@ -11435,7 +13159,6 @@ CorsRules
 </em>
 </td>
 <td>
-<p>Cors: Sets the CORS rules. You can include up to five CorsRule elements in the request.</p>
 </td>
 </tr>
 <tr>
@@ -11446,7 +13169,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -11459,6 +13181,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a storage.azure.com/StorageAccount resource</p>
 </td>
 </tr>
 <tr>
@@ -11469,7 +13194,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </table>
@@ -11492,7 +13216,7 @@ QueueServiceProperties_Status
 <h3 id="storage.azure.com/v1alpha1api20210401.StorageAccountsQueueServicesQueue">StorageAccountsQueueServicesQueue
 </h3>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/resourceDefinitions/storageAccounts_queueServices_queues">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/resourceDefinitions/storageAccounts_queueServices_queues</a></p>
+<p>Deprecated version of StorageAccountsQueueServicesQueue. Use v1beta20210401.StorageAccountsQueueServicesQueue instead</p>
 </div>
 <table>
 <thead>
@@ -11549,7 +13273,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -11560,7 +13283,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Metadata: A name-value pair that represents queue metadata.</p>
 </td>
 </tr>
 <tr>
@@ -11573,6 +13295,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a storage.azure.com/StorageAccountsQueueService resource</p>
 </td>
 </tr>
 <tr>
@@ -11583,7 +13308,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </table>
@@ -11602,21 +13326,6 @@ StorageQueue_Status
 </td>
 </tr>
 </tbody>
-</table>
-<h3 id="storage.azure.com/v1alpha1api20210401.StorageAccountsQueueServicesQueuesSpecAPIVersion">StorageAccountsQueueServicesQueuesSpecAPIVersion
-(<code>string</code> alias)</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;2021-04-01&#34;</p></td>
-<td></td>
-</tr></tbody>
 </table>
 <h3 id="storage.azure.com/v1alpha1api20210401.StorageAccountsQueueServicesQueues_Spec">StorageAccountsQueueServicesQueues_Spec
 </h3>
@@ -11653,7 +13362,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -11664,7 +13372,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Metadata: A name-value pair that represents queue metadata.</p>
 </td>
 </tr>
 <tr>
@@ -11677,6 +13384,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a storage.azure.com/StorageAccountsQueueService resource</p>
 </td>
 </tr>
 <tr>
@@ -11687,7 +13397,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </tbody>
@@ -11695,6 +13404,7 @@ map[string]string
 <h3 id="storage.azure.com/v1alpha1api20210401.StorageAccountsQueueServicesQueues_SpecARM">StorageAccountsQueueServicesQueues_SpecARM
 </h3>
 <div>
+<p>Deprecated version of StorageAccountsQueueServicesQueues_Spec. Use v1beta20210401.StorageAccountsQueueServicesQueues_Spec instead</p>
 </div>
 <table>
 <thead>
@@ -11712,7 +13422,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -11723,9 +13432,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: A queue name must be unique within a storage account and must be between 3 and 63 characters.The name must
-comprise of lowercase alphanumeric and dash(-) characters only, it should begin and end with an alphanumeric character
-and it cannot have two consecutive dash(-) characters.</p>
 </td>
 </tr>
 <tr>
@@ -11748,25 +13454,9 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </tbody>
-</table>
-<h3 id="storage.azure.com/v1alpha1api20210401.StorageAccountsQueueServicesSpecAPIVersion">StorageAccountsQueueServicesSpecAPIVersion
-(<code>string</code> alias)</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;2021-04-01&#34;</p></td>
-<td></td>
-</tr></tbody>
 </table>
 <h3 id="storage.azure.com/v1alpha1api20210401.StorageAccountsQueueServices_Spec">StorageAccountsQueueServices_Spec
 </h3>
@@ -11793,7 +13483,6 @@ CorsRules
 </em>
 </td>
 <td>
-<p>Cors: Sets the CORS rules. You can include up to five CorsRule elements in the request.</p>
 </td>
 </tr>
 <tr>
@@ -11804,7 +13493,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -11817,6 +13505,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a storage.azure.com/StorageAccount resource</p>
 </td>
 </tr>
 <tr>
@@ -11827,7 +13518,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </tbody>
@@ -11835,6 +13525,7 @@ map[string]string
 <h3 id="storage.azure.com/v1alpha1api20210401.StorageAccountsQueueServices_SpecARM">StorageAccountsQueueServices_SpecARM
 </h3>
 <div>
+<p>Deprecated version of StorageAccountsQueueServices_Spec. Use v1beta20210401.StorageAccountsQueueServices_Spec instead</p>
 </div>
 <table>
 <thead>
@@ -11852,7 +13543,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -11863,7 +13553,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the Queue Service within the specified storage account. Queue Service Name must be &lsquo;default&rsquo;</p>
 </td>
 </tr>
 <tr>
@@ -11876,7 +13565,6 @@ QueueServicePropertiesPropertiesARM
 </em>
 </td>
 <td>
-<p>Properties: The properties of a storage account’s Queue service.</p>
 </td>
 </tr>
 <tr>
@@ -11887,25 +13575,9 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </tbody>
-</table>
-<h3 id="storage.azure.com/v1alpha1api20210401.StorageAccountsSpecAPIVersion">StorageAccountsSpecAPIVersion
-(<code>string</code> alias)</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;2021-04-01&#34;</p></td>
-<td></td>
-</tr></tbody>
 </table>
 <h3 id="storage.azure.com/v1alpha1api20210401.StorageAccountsSpecKind">StorageAccountsSpecKind
 (<code>string</code> alias)</h3>
@@ -11913,6 +13585,7 @@ map[string]string
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccounts_Spec">StorageAccounts_Spec</a>, <a href="#storage.azure.com/v1alpha1api20210401.StorageAccounts_SpecARM">StorageAccounts_SpecARM</a>)
 </p>
 <div>
+<p>Deprecated version of StorageAccountsSpecKind. Use v1beta20210401.StorageAccountsSpecKind instead</p>
 </div>
 <table>
 <thead>
@@ -11958,7 +13631,6 @@ StorageAccountPropertiesCreateParametersAccessTier
 </em>
 </td>
 <td>
-<p>AccessTier: Required for storage accounts where kind = BlobStorage. The access tier used for billing.</p>
 </td>
 </tr>
 <tr>
@@ -11969,8 +13641,6 @@ bool
 </em>
 </td>
 <td>
-<p>AllowBlobPublicAccess: Allow or disallow public access to all blobs or containers in the storage account. The default
-interpretation is true for this property.</p>
 </td>
 </tr>
 <tr>
@@ -11981,8 +13651,6 @@ bool
 </em>
 </td>
 <td>
-<p>AllowCrossTenantReplication: Allow or disallow cross AAD tenant object replication. The default interpretation is true
-for this property.</p>
 </td>
 </tr>
 <tr>
@@ -11993,9 +13661,6 @@ bool
 </em>
 </td>
 <td>
-<p>AllowSharedKeyAccess: Indicates whether the storage account permits requests to be authorized with the account access
-key via Shared Key. If false, then all requests, including shared access signatures, must be authorized with Azure
-Active Directory (Azure AD). The default value is null, which is equivalent to true.</p>
 </td>
 </tr>
 <tr>
@@ -12008,7 +13673,6 @@ AzureFilesIdentityBasedAuthentication
 </em>
 </td>
 <td>
-<p>AzureFilesIdentityBasedAuthentication: Settings for Azure Files identity based authentication.</p>
 </td>
 </tr>
 <tr>
@@ -12033,7 +13697,6 @@ CustomDomain
 </em>
 </td>
 <td>
-<p>CustomDomain: The custom domain assigned to this storage account. This can be set via Update.</p>
 </td>
 </tr>
 <tr>
@@ -12046,7 +13709,6 @@ Encryption
 </em>
 </td>
 <td>
-<p>Encryption: The encryption settings on the storage account.</p>
 </td>
 </tr>
 <tr>
@@ -12059,7 +13721,6 @@ ExtendedLocation
 </em>
 </td>
 <td>
-<p>ExtendedLocation: The complex type of the extended location.</p>
 </td>
 </tr>
 <tr>
@@ -12072,7 +13733,6 @@ Identity
 </em>
 </td>
 <td>
-<p>Identity: Identity for the resource.</p>
 </td>
 </tr>
 <tr>
@@ -12083,7 +13743,6 @@ bool
 </em>
 </td>
 <td>
-<p>IsHnsEnabled: Account HierarchicalNamespace enabled if sets to true.</p>
 </td>
 </tr>
 <tr>
@@ -12094,7 +13753,6 @@ bool
 </em>
 </td>
 <td>
-<p>IsNfsV3Enabled: NFS 3.0 protocol support enabled if set to true.</p>
 </td>
 </tr>
 <tr>
@@ -12107,7 +13765,6 @@ KeyPolicy
 </em>
 </td>
 <td>
-<p>KeyPolicy: KeyPolicy assigned to the storage account.</p>
 </td>
 </tr>
 <tr>
@@ -12120,7 +13777,6 @@ StorageAccountsSpecKind
 </em>
 </td>
 <td>
-<p>Kind: Required. Indicates the type of storage account.</p>
 </td>
 </tr>
 <tr>
@@ -12133,7 +13789,6 @@ StorageAccountPropertiesCreateParametersLargeFileSharesState
 </em>
 </td>
 <td>
-<p>LargeFileSharesState: Allow large file shares if sets to Enabled. It cannot be disabled once it is enabled.</p>
 </td>
 </tr>
 <tr>
@@ -12144,9 +13799,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Required. Gets or sets the location of the resource. This will be one of the supported and registered Azure
-Geo Regions (e.g. West US, East US, Southeast Asia, etc.). The geo region of a resource cannot be changed once it is
-created, but if an identical geo region is specified on update, the request will succeed.</p>
 </td>
 </tr>
 <tr>
@@ -12159,8 +13811,6 @@ StorageAccountPropertiesCreateParametersMinimumTlsVersion
 </em>
 </td>
 <td>
-<p>MinimumTlsVersion: Set the minimum TLS version to be permitted on requests to storage. The default interpretation is TLS
-1.0 for this property.</p>
 </td>
 </tr>
 <tr>
@@ -12173,7 +13823,6 @@ NetworkRuleSet
 </em>
 </td>
 <td>
-<p>NetworkAcls: Network rule set</p>
 </td>
 </tr>
 <tr>
@@ -12200,6 +13849,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -12212,8 +13864,6 @@ RoutingPreference
 </em>
 </td>
 <td>
-<p>RoutingPreference: Routing preference defines the type of network, either microsoft or internet routing to be used to
-deliver the user data, the default option is microsoft routing</p>
 </td>
 </tr>
 <tr>
@@ -12226,7 +13876,6 @@ SasPolicy
 </em>
 </td>
 <td>
-<p>SasPolicy: SasPolicy assigned to the storage account.</p>
 </td>
 </tr>
 <tr>
@@ -12239,7 +13888,6 @@ Sku
 </em>
 </td>
 <td>
-<p>Sku: The SKU of the storage account.</p>
 </td>
 </tr>
 <tr>
@@ -12250,8 +13898,6 @@ bool
 </em>
 </td>
 <td>
-<p>SupportsHttpsTrafficOnly: Allows https traffic only to storage service if sets to true. The default value is true since
-API version 2019-04-01.</p>
 </td>
 </tr>
 <tr>
@@ -12262,9 +13908,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Gets or sets a list of key value pairs that describe the resource. These tags can be used for viewing and grouping
-this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key
-with a length no greater than 128 characters and a value with a length no greater than 256 characters.</p>
 </td>
 </tr>
 </tbody>
@@ -12272,6 +13915,7 @@ with a length no greater than 128 characters and a value with a length no greate
 <h3 id="storage.azure.com/v1alpha1api20210401.StorageAccounts_SpecARM">StorageAccounts_SpecARM
 </h3>
 <div>
+<p>Deprecated version of StorageAccounts_Spec. Use v1beta20210401.StorageAccounts_Spec instead</p>
 </div>
 <table>
 <thead>
@@ -12291,7 +13935,6 @@ ExtendedLocationARM
 </em>
 </td>
 <td>
-<p>ExtendedLocation: The complex type of the extended location.</p>
 </td>
 </tr>
 <tr>
@@ -12304,7 +13947,6 @@ IdentityARM
 </em>
 </td>
 <td>
-<p>Identity: Identity for the resource.</p>
 </td>
 </tr>
 <tr>
@@ -12317,7 +13959,6 @@ StorageAccountsSpecKind
 </em>
 </td>
 <td>
-<p>Kind: Required. Indicates the type of storage account.</p>
 </td>
 </tr>
 <tr>
@@ -12328,9 +13969,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Required. Gets or sets the location of the resource. This will be one of the supported and registered Azure
-Geo Regions (e.g. West US, East US, Southeast Asia, etc.). The geo region of a resource cannot be changed once it is
-created, but if an identical geo region is specified on update, the request will succeed.</p>
 </td>
 </tr>
 <tr>
@@ -12341,8 +13979,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the storage account within the specified resource group. Storage account names must be between 3 and
-24 characters in length and use numbers and lower-case letters only.</p>
 </td>
 </tr>
 <tr>
@@ -12355,7 +13991,6 @@ StorageAccountPropertiesCreateParametersARM
 </em>
 </td>
 <td>
-<p>Properties: The parameters used to create the storage account.</p>
 </td>
 </tr>
 <tr>
@@ -12368,7 +14003,6 @@ SkuARM
 </em>
 </td>
 <td>
-<p>Sku: The SKU of the storage account.</p>
 </td>
 </tr>
 <tr>
@@ -12379,9 +14013,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Gets or sets a list of key value pairs that describe the resource. These tags can be used for viewing and grouping
-this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key
-with a length no greater than 128 characters and a value with a length no greater than 256 characters.</p>
 </td>
 </tr>
 </tbody>
@@ -12392,6 +14023,7 @@ with a length no greater than 128 characters and a value with a length no greate
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.StorageAccountsQueueServicesQueue">StorageAccountsQueueServicesQueue</a>)
 </p>
 <div>
+<p>Deprecated version of StorageQueue_Status. Use v1beta20210401.StorageQueue_Status instead</p>
 </div>
 <table>
 <thead>
@@ -12409,8 +14041,6 @@ int
 </em>
 </td>
 <td>
-<p>ApproximateMessageCount: Integer indicating an approximate number of messages in the queue. This number is not lower
-than the actual number of messages in the queue, but could be higher.</p>
 </td>
 </tr>
 <tr>
@@ -12434,8 +14064,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}</p>
 </td>
 </tr>
 <tr>
@@ -12446,7 +14074,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Metadata: A name-value pair that represents queue metadata.</p>
 </td>
 </tr>
 <tr>
@@ -12457,7 +14084,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource</p>
 </td>
 </tr>
 <tr>
@@ -12468,7 +14094,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
 </td>
 </tr>
 </tbody>
@@ -12476,6 +14101,7 @@ string
 <h3 id="storage.azure.com/v1alpha1api20210401.StorageQueue_StatusARM">StorageQueue_StatusARM
 </h3>
 <div>
+<p>Deprecated version of StorageQueue_Status. Use v1beta20210401.StorageQueue_Status instead</p>
 </div>
 <table>
 <thead>
@@ -12493,8 +14119,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}</p>
 </td>
 </tr>
 <tr>
@@ -12505,7 +14129,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource</p>
 </td>
 </tr>
 <tr>
@@ -12518,7 +14141,6 @@ QueueProperties_StatusARM
 </em>
 </td>
 <td>
-<p>Properties: Queue resource properties.</p>
 </td>
 </tr>
 <tr>
@@ -12529,7 +14151,198 @@ string
 </em>
 </td>
 <td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.TagFilter">TagFilter
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyFilter">ManagementPolicyFilter</a>)
+</p>
+<div>
+<p>Deprecated version of TagFilter. Use v1beta20210401.TagFilter instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>op</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>value</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.TagFilterARM">TagFilterARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyFilterARM">ManagementPolicyFilterARM</a>)
+</p>
+<div>
+<p>Deprecated version of TagFilter. Use v1beta20210401.TagFilter instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>op</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>value</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.TagFilter_Status">TagFilter_Status
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyFilter_Status">ManagementPolicyFilter_Status</a>)
+</p>
+<div>
+<p>Deprecated version of TagFilter_Status. Use v1beta20210401.TagFilter_Status instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>op</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>value</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage.azure.com/v1alpha1api20210401.TagFilter_StatusARM">TagFilter_StatusARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ManagementPolicyFilter_StatusARM">ManagementPolicyFilter_StatusARM</a>)
+</p>
+<div>
+<p>Deprecated version of TagFilter_Status. Use v1beta20210401.TagFilter_Status instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>op</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>value</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
 </td>
 </tr>
 </tbody>
@@ -12540,6 +14353,7 @@ string
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.LegalHoldProperties_Status">LegalHoldProperties_Status</a>)
 </p>
 <div>
+<p>Deprecated version of TagProperty_Status. Use v1beta20210401.TagProperty_Status instead</p>
 </div>
 <table>
 <thead>
@@ -12557,7 +14371,6 @@ string
 </em>
 </td>
 <td>
-<p>ObjectIdentifier: Returns the Object ID of the user who added the tag.</p>
 </td>
 </tr>
 <tr>
@@ -12568,7 +14381,6 @@ string
 </em>
 </td>
 <td>
-<p>Tag: The tag value.</p>
 </td>
 </tr>
 <tr>
@@ -12579,7 +14391,6 @@ string
 </em>
 </td>
 <td>
-<p>TenantId: Returns the Tenant ID that issued the token for the user who added the tag.</p>
 </td>
 </tr>
 <tr>
@@ -12590,7 +14401,6 @@ string
 </em>
 </td>
 <td>
-<p>Timestamp: Returns the date and time the tag was added.</p>
 </td>
 </tr>
 <tr>
@@ -12601,7 +14411,6 @@ string
 </em>
 </td>
 <td>
-<p>Upn: Returns the User Principal Name of the user who added the tag.</p>
 </td>
 </tr>
 </tbody>
@@ -12612,6 +14421,7 @@ string
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.LegalHoldProperties_StatusARM">LegalHoldProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of TagProperty_Status. Use v1beta20210401.TagProperty_Status instead</p>
 </div>
 <table>
 <thead>
@@ -12629,7 +14439,6 @@ string
 </em>
 </td>
 <td>
-<p>ObjectIdentifier: Returns the Object ID of the user who added the tag.</p>
 </td>
 </tr>
 <tr>
@@ -12640,7 +14449,6 @@ string
 </em>
 </td>
 <td>
-<p>Tag: The tag value.</p>
 </td>
 </tr>
 <tr>
@@ -12651,7 +14459,6 @@ string
 </em>
 </td>
 <td>
-<p>TenantId: Returns the Tenant ID that issued the token for the user who added the tag.</p>
 </td>
 </tr>
 <tr>
@@ -12662,7 +14469,6 @@ string
 </em>
 </td>
 <td>
-<p>Timestamp: Returns the date and time the tag was added.</p>
 </td>
 </tr>
 <tr>
@@ -12673,7 +14479,6 @@ string
 </em>
 </td>
 <td>
-<p>Upn: Returns the User Principal Name of the user who added the tag.</p>
 </td>
 </tr>
 </tbody>
@@ -12684,6 +14489,7 @@ string
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.Sku_Status">Sku_Status</a>, <a href="#storage.azure.com/v1alpha1api20210401.Sku_StatusARM">Sku_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of Tier_Status. Use v1beta20210401.Tier_Status instead</p>
 </div>
 <table>
 <thead>
@@ -12704,6 +14510,7 @@ string
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.UpdateHistoryProperty_Status">UpdateHistoryProperty_Status</a>, <a href="#storage.azure.com/v1alpha1api20210401.UpdateHistoryProperty_StatusARM">UpdateHistoryProperty_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of UpdateHistoryPropertyStatusUpdate. Use v1beta20210401.UpdateHistoryPropertyStatusUpdate instead</p>
 </div>
 <table>
 <thead>
@@ -12726,6 +14533,7 @@ string
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ImmutabilityPolicyProperties_Status">ImmutabilityPolicyProperties_Status</a>)
 </p>
 <div>
+<p>Deprecated version of UpdateHistoryProperty_Status. Use v1beta20210401.UpdateHistoryProperty_Status instead</p>
 </div>
 <table>
 <thead>
@@ -12743,8 +14551,6 @@ int
 </em>
 </td>
 <td>
-<p>ImmutabilityPeriodSinceCreationInDays: The immutability period for the blobs in the container since the policy creation,
-in days.</p>
 </td>
 </tr>
 <tr>
@@ -12755,7 +14561,6 @@ string
 </em>
 </td>
 <td>
-<p>ObjectIdentifier: Returns the Object ID of the user who updated the ImmutabilityPolicy.</p>
 </td>
 </tr>
 <tr>
@@ -12766,7 +14571,6 @@ string
 </em>
 </td>
 <td>
-<p>TenantId: Returns the Tenant ID that issued the token for the user who updated the ImmutabilityPolicy.</p>
 </td>
 </tr>
 <tr>
@@ -12777,7 +14581,6 @@ string
 </em>
 </td>
 <td>
-<p>Timestamp: Returns the date and time the ImmutabilityPolicy was updated.</p>
 </td>
 </tr>
 <tr>
@@ -12790,7 +14593,6 @@ UpdateHistoryPropertyStatusUpdate
 </em>
 </td>
 <td>
-<p>Update: The ImmutabilityPolicy update type of a blob container, possible values include: put, lock and extend.</p>
 </td>
 </tr>
 <tr>
@@ -12801,7 +14603,6 @@ string
 </em>
 </td>
 <td>
-<p>Upn: Returns the User Principal Name of the user who updated the ImmutabilityPolicy.</p>
 </td>
 </tr>
 </tbody>
@@ -12812,6 +14613,7 @@ string
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.ImmutabilityPolicyProperties_StatusARM">ImmutabilityPolicyProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of UpdateHistoryProperty_Status. Use v1beta20210401.UpdateHistoryProperty_Status instead</p>
 </div>
 <table>
 <thead>
@@ -12829,8 +14631,6 @@ int
 </em>
 </td>
 <td>
-<p>ImmutabilityPeriodSinceCreationInDays: The immutability period for the blobs in the container since the policy creation,
-in days.</p>
 </td>
 </tr>
 <tr>
@@ -12841,7 +14641,6 @@ string
 </em>
 </td>
 <td>
-<p>ObjectIdentifier: Returns the Object ID of the user who updated the ImmutabilityPolicy.</p>
 </td>
 </tr>
 <tr>
@@ -12852,7 +14651,6 @@ string
 </em>
 </td>
 <td>
-<p>TenantId: Returns the Tenant ID that issued the token for the user who updated the ImmutabilityPolicy.</p>
 </td>
 </tr>
 <tr>
@@ -12863,7 +14661,6 @@ string
 </em>
 </td>
 <td>
-<p>Timestamp: Returns the date and time the ImmutabilityPolicy was updated.</p>
 </td>
 </tr>
 <tr>
@@ -12876,7 +14673,6 @@ UpdateHistoryPropertyStatusUpdate
 </em>
 </td>
 <td>
-<p>Update: The ImmutabilityPolicy update type of a blob container, possible values include: put, lock and extend.</p>
 </td>
 </tr>
 <tr>
@@ -12887,7 +14683,6 @@ string
 </em>
 </td>
 <td>
-<p>Upn: Returns the User Principal Name of the user who updated the ImmutabilityPolicy.</p>
 </td>
 </tr>
 </tbody>
@@ -12898,6 +14693,7 @@ string
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.Identity_Status">Identity_Status</a>)
 </p>
 <div>
+<p>Deprecated version of UserAssignedIdentity_Status. Use v1beta20210401.UserAssignedIdentity_Status instead</p>
 </div>
 <table>
 <thead>
@@ -12915,7 +14711,6 @@ string
 </em>
 </td>
 <td>
-<p>ClientId: The client ID of the identity.</p>
 </td>
 </tr>
 <tr>
@@ -12926,7 +14721,6 @@ string
 </em>
 </td>
 <td>
-<p>PrincipalId: The principal ID of the identity.</p>
 </td>
 </tr>
 </tbody>
@@ -12937,6 +14731,7 @@ string
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.Identity_StatusARM">Identity_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of UserAssignedIdentity_Status. Use v1beta20210401.UserAssignedIdentity_Status instead</p>
 </div>
 <table>
 <thead>
@@ -12954,7 +14749,6 @@ string
 </em>
 </td>
 <td>
-<p>ClientId: The client ID of the identity.</p>
 </td>
 </tr>
 <tr>
@@ -12965,7 +14759,6 @@ string
 </em>
 </td>
 <td>
-<p>PrincipalId: The principal ID of the identity.</p>
 </td>
 </tr>
 </tbody>
@@ -12976,7 +14769,7 @@ string
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.NetworkRuleSet">NetworkRuleSet</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/VirtualNetworkRule">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/VirtualNetworkRule</a></p>
+<p>Deprecated version of VirtualNetworkRule. Use v1beta20210401.VirtualNetworkRule instead</p>
 </div>
 <table>
 <thead>
@@ -12996,7 +14789,6 @@ VirtualNetworkRuleAction
 </em>
 </td>
 <td>
-<p>Action: The action of virtual network rule.</p>
 </td>
 </tr>
 <tr>
@@ -13009,8 +14801,6 @@ genruntime.ResourceReference
 </em>
 </td>
 <td>
-<p>Reference: Resource ID of a subnet, for example:
-/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}.</p>
 </td>
 </tr>
 <tr>
@@ -13023,7 +14813,6 @@ VirtualNetworkRuleState
 </em>
 </td>
 <td>
-<p>State: Gets the state of virtual network rule.</p>
 </td>
 </tr>
 </tbody>
@@ -13034,7 +14823,7 @@ VirtualNetworkRuleState
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.NetworkRuleSetARM">NetworkRuleSetARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/VirtualNetworkRule">https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/VirtualNetworkRule</a></p>
+<p>Deprecated version of VirtualNetworkRule. Use v1beta20210401.VirtualNetworkRule instead</p>
 </div>
 <table>
 <thead>
@@ -13054,7 +14843,6 @@ VirtualNetworkRuleAction
 </em>
 </td>
 <td>
-<p>Action: The action of virtual network rule.</p>
 </td>
 </tr>
 <tr>
@@ -13077,7 +14865,6 @@ VirtualNetworkRuleState
 </em>
 </td>
 <td>
-<p>State: Gets the state of virtual network rule.</p>
 </td>
 </tr>
 </tbody>
@@ -13088,6 +14875,7 @@ VirtualNetworkRuleState
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.VirtualNetworkRule">VirtualNetworkRule</a>, <a href="#storage.azure.com/v1alpha1api20210401.VirtualNetworkRuleARM">VirtualNetworkRuleARM</a>)
 </p>
 <div>
+<p>Deprecated version of VirtualNetworkRuleAction. Use v1beta20210401.VirtualNetworkRuleAction instead</p>
 </div>
 <table>
 <thead>
@@ -13106,6 +14894,7 @@ VirtualNetworkRuleState
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.VirtualNetworkRule">VirtualNetworkRule</a>, <a href="#storage.azure.com/v1alpha1api20210401.VirtualNetworkRuleARM">VirtualNetworkRuleARM</a>)
 </p>
 <div>
+<p>Deprecated version of VirtualNetworkRuleState. Use v1beta20210401.VirtualNetworkRuleState instead</p>
 </div>
 <table>
 <thead>
@@ -13132,6 +14921,7 @@ VirtualNetworkRuleState
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.VirtualNetworkRule_Status">VirtualNetworkRule_Status</a>, <a href="#storage.azure.com/v1alpha1api20210401.VirtualNetworkRule_StatusARM">VirtualNetworkRule_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of VirtualNetworkRuleStatusAction. Use v1beta20210401.VirtualNetworkRuleStatusAction instead</p>
 </div>
 <table>
 <thead>
@@ -13150,6 +14940,7 @@ VirtualNetworkRuleState
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.VirtualNetworkRule_Status">VirtualNetworkRule_Status</a>, <a href="#storage.azure.com/v1alpha1api20210401.VirtualNetworkRule_StatusARM">VirtualNetworkRule_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of VirtualNetworkRuleStatusState. Use v1beta20210401.VirtualNetworkRuleStatusState instead</p>
 </div>
 <table>
 <thead>
@@ -13176,6 +14967,7 @@ VirtualNetworkRuleState
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.NetworkRuleSet_Status">NetworkRuleSet_Status</a>)
 </p>
 <div>
+<p>Deprecated version of VirtualNetworkRule_Status. Use v1beta20210401.VirtualNetworkRule_Status instead</p>
 </div>
 <table>
 <thead>
@@ -13195,7 +14987,6 @@ VirtualNetworkRuleStatusAction
 </em>
 </td>
 <td>
-<p>Action: The action of virtual network rule.</p>
 </td>
 </tr>
 <tr>
@@ -13206,8 +14997,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID of a subnet, for example:
-/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}.</p>
 </td>
 </tr>
 <tr>
@@ -13220,7 +15009,6 @@ VirtualNetworkRuleStatusState
 </em>
 </td>
 <td>
-<p>State: Gets the state of virtual network rule.</p>
 </td>
 </tr>
 </tbody>
@@ -13231,6 +15019,7 @@ VirtualNetworkRuleStatusState
 (<em>Appears on:</em><a href="#storage.azure.com/v1alpha1api20210401.NetworkRuleSet_StatusARM">NetworkRuleSet_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of VirtualNetworkRule_Status. Use v1beta20210401.VirtualNetworkRule_Status instead</p>
 </div>
 <table>
 <thead>
@@ -13250,7 +15039,6 @@ VirtualNetworkRuleStatusAction
 </em>
 </td>
 <td>
-<p>Action: The action of virtual network rule.</p>
 </td>
 </tr>
 <tr>
@@ -13261,8 +15049,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource ID of a subnet, for example:
-/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}.</p>
 </td>
 </tr>
 <tr>
@@ -13275,7 +15061,6 @@ VirtualNetworkRuleStatusState
 </em>
 </td>
 <td>
-<p>State: Gets the state of virtual network rule.</p>
 </td>
 </tr>
 </tbody>

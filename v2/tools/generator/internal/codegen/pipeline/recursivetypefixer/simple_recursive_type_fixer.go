@@ -9,6 +9,7 @@ import (
 	"github.com/pkg/errors"
 	"k8s.io/klog/v2"
 
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
@@ -68,16 +69,14 @@ func (s *SimpleRecursiveTypeFixer) unrollObjectTypeProperty(ot *astmodel.ObjectT
 	// quick scan for others. This is to deal with situations where there are multiple properties we need to remove.
 	// Without this check, we end up generating N different types (each with 1 property removed) which isn't allowed
 	// because types with the same name must match structurally when we go to add them to the type collection later.
-	toRemove := map[astmodel.PropertyName]struct{}{
-		prop.PropertyName(): {},
-	}
+	toRemove := set.Make(prop.PropertyName())
 	for _, p := range ot.Properties().AsSlice() {
 		if _, ok := toRemove[p.PropertyName()]; ok {
 			continue
 		}
 
 		if isPropertyMatchingTypeName(name, p) {
-			toRemove[p.PropertyName()] = struct{}{}
+			toRemove.Add(p.PropertyName())
 		}
 	}
 

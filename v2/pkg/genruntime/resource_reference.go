@@ -12,6 +12,8 @@ import (
 
 	"github.com/pkg/errors"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
+
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 )
 
 // KnownResourceReference is a resource reference to a known type.
@@ -160,7 +162,7 @@ func (ref ResourceReference) Copy() ResourceReference {
 }
 
 // ValidateResourceReferences calls Validate on each ResourceReference
-func ValidateResourceReferences(refs map[ResourceReference]struct{}) error {
+func ValidateResourceReferences(refs set.Set[ResourceReference]) error {
 	var errs []error
 	for ref := range refs {
 		errs = append(errs, ref.Validate())
