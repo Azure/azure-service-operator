@@ -12,6 +12,7 @@ Resource Types:
 (<em>Appears on:</em><a href="#managedidentity.azure.com/v1alpha1api20181130.UserAssignedIdentity">UserAssignedIdentity</a>)
 </p>
 <div>
+<p>Deprecated version of Identity_Status. Use v1beta20181130.Identity_Status instead</p>
 </div>
 <table>
 <thead>
@@ -29,7 +30,6 @@ string
 </em>
 </td>
 <td>
-<p>ClientId: The id of the app associated with the identity. This is a random generated UUID by MSI.</p>
 </td>
 </tr>
 <tr>
@@ -53,8 +53,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}</p>
 </td>
 </tr>
 <tr>
@@ -65,7 +63,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The geo-location where the resource lives</p>
 </td>
 </tr>
 <tr>
@@ -76,7 +73,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource</p>
 </td>
 </tr>
 <tr>
@@ -87,7 +83,6 @@ string
 </em>
 </td>
 <td>
-<p>PrincipalId: The id of the service principal object associated with the created identity.</p>
 </td>
 </tr>
 <tr>
@@ -98,7 +93,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Resource tags.</p>
 </td>
 </tr>
 <tr>
@@ -109,7 +103,6 @@ string
 </em>
 </td>
 <td>
-<p>TenantId: The id of the tenant which the identity belongs to.</p>
 </td>
 </tr>
 <tr>
@@ -120,7 +113,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
 </td>
 </tr>
 </tbody>
@@ -128,6 +120,7 @@ string
 <h3 id="managedidentity.azure.com/v1alpha1api20181130.Identity_StatusARM">Identity_StatusARM
 </h3>
 <div>
+<p>Deprecated version of Identity_Status. Use v1beta20181130.Identity_Status instead</p>
 </div>
 <table>
 <thead>
@@ -145,8 +138,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}</p>
 </td>
 </tr>
 <tr>
@@ -157,7 +148,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The geo-location where the resource lives</p>
 </td>
 </tr>
 <tr>
@@ -168,7 +158,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource</p>
 </td>
 </tr>
 <tr>
@@ -181,7 +170,6 @@ UserAssignedIdentityProperties_StatusARM
 </em>
 </td>
 <td>
-<p>Properties: The properties associated with the identity.</p>
 </td>
 </tr>
 <tr>
@@ -192,7 +180,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Resource tags.</p>
 </td>
 </tr>
 <tr>
@@ -203,25 +190,9 @@ string
 </em>
 </td>
 <td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
 </td>
 </tr>
 </tbody>
-</table>
-<h3 id="managedidentity.azure.com/v1alpha1api20181130.UserAssignedIdentitiesSpecAPIVersion">UserAssignedIdentitiesSpecAPIVersion
-(<code>string</code> alias)</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;2018-11-30&#34;</p></td>
-<td></td>
-</tr></tbody>
 </table>
 <h3 id="managedidentity.azure.com/v1alpha1api20181130.UserAssignedIdentities_Spec">UserAssignedIdentities_Spec
 </h3>
@@ -258,7 +229,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The Azure region where the identity lives.</p>
 </td>
 </tr>
 <tr>
@@ -271,6 +241,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -281,7 +254,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </tbody>
@@ -289,6 +261,7 @@ map[string]string
 <h3 id="managedidentity.azure.com/v1alpha1api20181130.UserAssignedIdentities_SpecARM">UserAssignedIdentities_SpecARM
 </h3>
 <div>
+<p>Deprecated version of UserAssignedIdentities_Spec. Use v1beta20181130.UserAssignedIdentities_Spec instead</p>
 </div>
 <table>
 <thead>
@@ -306,7 +279,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The Azure region where the identity lives.</p>
 </td>
 </tr>
 <tr>
@@ -317,7 +289,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the identity resource.</p>
 </td>
 </tr>
 <tr>
@@ -328,7 +299,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </tbody>
@@ -336,7 +306,7 @@ map[string]string
 <h3 id="managedidentity.azure.com/v1alpha1api20181130.UserAssignedIdentity">UserAssignedIdentity
 </h3>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2018-11-30/Microsoft.ManagedIdentity.json#/resourceDefinitions/userAssignedIdentities">https://schema.management.azure.com/schemas/2018-11-30/Microsoft.ManagedIdentity.json#/resourceDefinitions/userAssignedIdentities</a></p>
+<p>Deprecated version of UserAssignedIdentity. Use v1beta20181130.UserAssignedIdentity instead</p>
 </div>
 <table>
 <thead>
@@ -393,7 +363,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The Azure region where the identity lives.</p>
 </td>
 </tr>
 <tr>
@@ -406,6 +375,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -416,7 +388,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </table>
@@ -442,6 +413,7 @@ Identity_Status
 (<em>Appears on:</em><a href="#managedidentity.azure.com/v1alpha1api20181130.Identity_StatusARM">Identity_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of UserAssignedIdentityProperties_Status. Use v1beta20181130.UserAssignedIdentityProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -459,7 +431,6 @@ string
 </em>
 </td>
 <td>
-<p>ClientId: The id of the app associated with the identity. This is a random generated UUID by MSI.</p>
 </td>
 </tr>
 <tr>
@@ -470,7 +441,6 @@ string
 </em>
 </td>
 <td>
-<p>PrincipalId: The id of the service principal object associated with the created identity.</p>
 </td>
 </tr>
 <tr>
@@ -481,7 +451,6 @@ string
 </em>
 </td>
 <td>
-<p>TenantId: The id of the tenant which the identity belongs to.</p>
 </td>
 </tr>
 </tbody>

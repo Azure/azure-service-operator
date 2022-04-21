@@ -12,7 +12,7 @@ Resource Types:
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.Disks_Spec">Disks_Spec</a>, <a href="#compute.azure.com/v1alpha1api20200930.Snapshots_Spec">Snapshots_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/CreationData">https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/CreationData</a></p>
+<p>Deprecated version of CreationData. Use v1beta20200930.CreationData instead</p>
 </div>
 <table>
 <thead>
@@ -32,7 +32,6 @@ CreationDataCreateOption
 </em>
 </td>
 <td>
-<p>CreateOption: This enumerates the possible sources of a disk&rsquo;s creation.</p>
 </td>
 </tr>
 <tr>
@@ -45,7 +44,6 @@ ImageDiskReference
 </em>
 </td>
 <td>
-<p>GalleryImageReference: The source image used for creating the disk.</p>
 </td>
 </tr>
 <tr>
@@ -58,7 +56,6 @@ ImageDiskReference
 </em>
 </td>
 <td>
-<p>ImageReference: The source image used for creating the disk.</p>
 </td>
 </tr>
 <tr>
@@ -69,7 +66,6 @@ int
 </em>
 </td>
 <td>
-<p>LogicalSectorSize: Logical sector size in bytes for Ultra disks. Supported values are 512 ad 4096. 4096 is the default.</p>
 </td>
 </tr>
 <tr>
@@ -82,7 +78,6 @@ genruntime.ResourceReference
 </em>
 </td>
 <td>
-<p>SourceResourceReference: If createOption is Copy, this is the ARM id of the source snapshot or disk.</p>
 </td>
 </tr>
 <tr>
@@ -93,7 +88,6 @@ string
 </em>
 </td>
 <td>
-<p>SourceUri: If createOption is Import, this is the URI of a blob to be imported into a managed disk.</p>
 </td>
 </tr>
 <tr>
@@ -104,8 +98,6 @@ string
 </em>
 </td>
 <td>
-<p>StorageAccountId: Required if createOption is Import. The Azure Resource Manager identifier of the storage account
-containing the blob to import as a disk.</p>
 </td>
 </tr>
 <tr>
@@ -116,9 +108,6 @@ int
 </em>
 </td>
 <td>
-<p>UploadSizeBytes: If createOption is Upload, this is the size of the contents of the upload including the VHD footer.
-This value should be between 20972032 (20 MiB + 512 bytes for the VHD footer) and 35183298347520 bytes (32 TiB + 512
-bytes for the VHD footer).</p>
 </td>
 </tr>
 </tbody>
@@ -129,7 +118,7 @@ bytes for the VHD footer).</p>
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.DiskPropertiesARM">DiskPropertiesARM</a>, <a href="#compute.azure.com/v1alpha1api20200930.SnapshotPropertiesARM">SnapshotPropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/CreationData">https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/CreationData</a></p>
+<p>Deprecated version of CreationData. Use v1beta20200930.CreationData instead</p>
 </div>
 <table>
 <thead>
@@ -149,7 +138,6 @@ CreationDataCreateOption
 </em>
 </td>
 <td>
-<p>CreateOption: This enumerates the possible sources of a disk&rsquo;s creation.</p>
 </td>
 </tr>
 <tr>
@@ -162,7 +150,6 @@ ImageDiskReferenceARM
 </em>
 </td>
 <td>
-<p>GalleryImageReference: The source image used for creating the disk.</p>
 </td>
 </tr>
 <tr>
@@ -175,7 +162,6 @@ ImageDiskReferenceARM
 </em>
 </td>
 <td>
-<p>ImageReference: The source image used for creating the disk.</p>
 </td>
 </tr>
 <tr>
@@ -186,7 +172,6 @@ int
 </em>
 </td>
 <td>
-<p>LogicalSectorSize: Logical sector size in bytes for Ultra disks. Supported values are 512 ad 4096. 4096 is the default.</p>
 </td>
 </tr>
 <tr>
@@ -207,7 +192,6 @@ string
 </em>
 </td>
 <td>
-<p>SourceUri: If createOption is Import, this is the URI of a blob to be imported into a managed disk.</p>
 </td>
 </tr>
 <tr>
@@ -218,8 +202,6 @@ string
 </em>
 </td>
 <td>
-<p>StorageAccountId: Required if createOption is Import. The Azure Resource Manager identifier of the storage account
-containing the blob to import as a disk.</p>
 </td>
 </tr>
 <tr>
@@ -230,9 +212,6 @@ int
 </em>
 </td>
 <td>
-<p>UploadSizeBytes: If createOption is Upload, this is the size of the contents of the upload including the VHD footer.
-This value should be between 20972032 (20 MiB + 512 bytes for the VHD footer) and 35183298347520 bytes (32 TiB + 512
-bytes for the VHD footer).</p>
 </td>
 </tr>
 </tbody>
@@ -243,6 +222,7 @@ bytes for the VHD footer).</p>
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.CreationData">CreationData</a>, <a href="#compute.azure.com/v1alpha1api20200930.CreationDataARM">CreationDataARM</a>)
 </p>
 <div>
+<p>Deprecated version of CreationDataCreateOption. Use v1beta20200930.CreationDataCreateOption instead</p>
 </div>
 <table>
 <thead>
@@ -273,6 +253,7 @@ bytes for the VHD footer).</p>
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.CreationData_Status">CreationData_Status</a>, <a href="#compute.azure.com/v1alpha1api20200930.CreationData_StatusARM">CreationData_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of CreationDataStatusCreateOption. Use v1beta20200930.CreationDataStatusCreateOption instead</p>
 </div>
 <table>
 <thead>
@@ -303,6 +284,7 @@ bytes for the VHD footer).</p>
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.Disk_Status">Disk_Status</a>, <a href="#compute.azure.com/v1alpha1api20200930.Snapshot_Status">Snapshot_Status</a>)
 </p>
 <div>
+<p>Deprecated version of CreationData_Status. Use v1beta20200930.CreationData_Status instead</p>
 </div>
 <table>
 <thead>
@@ -322,7 +304,6 @@ CreationDataStatusCreateOption
 </em>
 </td>
 <td>
-<p>CreateOption: This enumerates the possible sources of a disk&rsquo;s creation.</p>
 </td>
 </tr>
 <tr>
@@ -335,8 +316,6 @@ ImageDiskReference_Status
 </em>
 </td>
 <td>
-<p>GalleryImageReference: Required if creating from a Gallery Image. The id of the ImageDiskReference will be the ARM id of
-the shared galley image version from which to create a disk.</p>
 </td>
 </tr>
 <tr>
@@ -349,7 +328,6 @@ ImageDiskReference_Status
 </em>
 </td>
 <td>
-<p>ImageReference: Disk source information.</p>
 </td>
 </tr>
 <tr>
@@ -360,7 +338,6 @@ int
 </em>
 </td>
 <td>
-<p>LogicalSectorSize: Logical sector size in bytes for Ultra disks. Supported values are 512 ad 4096. 4096 is the default.</p>
 </td>
 </tr>
 <tr>
@@ -371,7 +348,6 @@ string
 </em>
 </td>
 <td>
-<p>SourceResourceId: If createOption is Copy, this is the ARM id of the source snapshot or disk.</p>
 </td>
 </tr>
 <tr>
@@ -382,7 +358,6 @@ string
 </em>
 </td>
 <td>
-<p>SourceUniqueId: If this field is set, this is the unique id identifying the source of this resource.</p>
 </td>
 </tr>
 <tr>
@@ -393,7 +368,6 @@ string
 </em>
 </td>
 <td>
-<p>SourceUri: If createOption is Import, this is the URI of a blob to be imported into a managed disk.</p>
 </td>
 </tr>
 <tr>
@@ -404,8 +378,6 @@ string
 </em>
 </td>
 <td>
-<p>StorageAccountId: Required if createOption is Import. The Azure Resource Manager identifier of the storage account
-containing the blob to import as a disk.</p>
 </td>
 </tr>
 <tr>
@@ -416,9 +388,6 @@ int
 </em>
 </td>
 <td>
-<p>UploadSizeBytes: If createOption is Upload, this is the size of the contents of the upload including the VHD footer.
-This value should be between 20972032 (20 MiB + 512 bytes for the VHD footer) and 35183298347520 bytes (32 TiB + 512
-bytes for the VHD footer).</p>
 </td>
 </tr>
 </tbody>
@@ -429,6 +398,7 @@ bytes for the VHD footer).</p>
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.DiskProperties_StatusARM">DiskProperties_StatusARM</a>, <a href="#compute.azure.com/v1alpha1api20200930.SnapshotProperties_StatusARM">SnapshotProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of CreationData_Status. Use v1beta20200930.CreationData_Status instead</p>
 </div>
 <table>
 <thead>
@@ -448,7 +418,6 @@ CreationDataStatusCreateOption
 </em>
 </td>
 <td>
-<p>CreateOption: This enumerates the possible sources of a disk&rsquo;s creation.</p>
 </td>
 </tr>
 <tr>
@@ -461,8 +430,6 @@ ImageDiskReference_StatusARM
 </em>
 </td>
 <td>
-<p>GalleryImageReference: Required if creating from a Gallery Image. The id of the ImageDiskReference will be the ARM id of
-the shared galley image version from which to create a disk.</p>
 </td>
 </tr>
 <tr>
@@ -475,7 +442,6 @@ ImageDiskReference_StatusARM
 </em>
 </td>
 <td>
-<p>ImageReference: Disk source information.</p>
 </td>
 </tr>
 <tr>
@@ -486,7 +452,6 @@ int
 </em>
 </td>
 <td>
-<p>LogicalSectorSize: Logical sector size in bytes for Ultra disks. Supported values are 512 ad 4096. 4096 is the default.</p>
 </td>
 </tr>
 <tr>
@@ -497,7 +462,6 @@ string
 </em>
 </td>
 <td>
-<p>SourceResourceId: If createOption is Copy, this is the ARM id of the source snapshot or disk.</p>
 </td>
 </tr>
 <tr>
@@ -508,7 +472,6 @@ string
 </em>
 </td>
 <td>
-<p>SourceUniqueId: If this field is set, this is the unique id identifying the source of this resource.</p>
 </td>
 </tr>
 <tr>
@@ -519,7 +482,6 @@ string
 </em>
 </td>
 <td>
-<p>SourceUri: If createOption is Import, this is the URI of a blob to be imported into a managed disk.</p>
 </td>
 </tr>
 <tr>
@@ -530,8 +492,6 @@ string
 </em>
 </td>
 <td>
-<p>StorageAccountId: Required if createOption is Import. The Azure Resource Manager identifier of the storage account
-containing the blob to import as a disk.</p>
 </td>
 </tr>
 <tr>
@@ -542,9 +502,6 @@ int
 </em>
 </td>
 <td>
-<p>UploadSizeBytes: If createOption is Upload, this is the size of the contents of the upload including the VHD footer.
-This value should be between 20972032 (20 MiB + 512 bytes for the VHD footer) and 35183298347520 bytes (32 TiB + 512
-bytes for the VHD footer).</p>
 </td>
 </tr>
 </tbody>
@@ -552,7 +509,7 @@ bytes for the VHD footer).</p>
 <h3 id="compute.azure.com/v1alpha1api20200930.Disk">Disk
 </h3>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/resourceDefinitions/disks">https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/resourceDefinitions/disks</a></p>
+<p>Deprecated version of Disk. Use v1beta20200930.Disk instead</p>
 </div>
 <table>
 <thead>
@@ -609,8 +566,6 @@ bool
 </em>
 </td>
 <td>
-<p>BurstingEnabled: Set to true to enable bursting beyond the provisioned performance target of the disk. Bursting is
-disabled by default. Does not apply to Ultra disks.</p>
 </td>
 </tr>
 <tr>
@@ -623,7 +578,6 @@ CreationData
 </em>
 </td>
 <td>
-<p>CreationData: Data used when creating a disk.</p>
 </td>
 </tr>
 <tr>
@@ -636,7 +590,6 @@ genruntime.ResourceReference
 </em>
 </td>
 <td>
-<p>DiskAccessReference: ARM id of the DiskAccess resource for using private endpoints on disks.</p>
 </td>
 </tr>
 <tr>
@@ -647,8 +600,6 @@ int
 </em>
 </td>
 <td>
-<p>DiskIOPSReadOnly: The total number of IOPS that will be allowed across all VMs mounting the shared disk as ReadOnly. One
-operation can transfer between 4k and 256k bytes.</p>
 </td>
 </tr>
 <tr>
@@ -659,8 +610,6 @@ int
 </em>
 </td>
 <td>
-<p>DiskIOPSReadWrite: The number of IOPS allowed for this disk; only settable for UltraSSD disks. One operation can
-transfer between 4k and 256k bytes.</p>
 </td>
 </tr>
 <tr>
@@ -671,8 +620,6 @@ int
 </em>
 </td>
 <td>
-<p>DiskMBpsReadOnly: The total throughput (MBps) that will be allowed across all VMs mounting the shared disk as ReadOnly.
-MBps means millions of bytes per second - MB here uses the ISO notation, of powers of 10.</p>
 </td>
 </tr>
 <tr>
@@ -683,8 +630,6 @@ int
 </em>
 </td>
 <td>
-<p>DiskMBpsReadWrite: The bandwidth allowed for this disk; only settable for UltraSSD disks. MBps means millions of bytes
-per second - MB here uses the ISO notation, of powers of 10.</p>
 </td>
 </tr>
 <tr>
@@ -695,9 +640,6 @@ int
 </em>
 </td>
 <td>
-<p>DiskSizeGB: If creationData.createOption is Empty, this field is mandatory and it indicates the size of the disk to
-create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only
-allowed if the disk is not attached to a running VM, and can only increase the disk&rsquo;s size.</p>
 </td>
 </tr>
 <tr>
@@ -710,7 +652,6 @@ Encryption
 </em>
 </td>
 <td>
-<p>Encryption: Encryption at rest settings for disk or snapshot</p>
 </td>
 </tr>
 <tr>
@@ -723,7 +664,6 @@ EncryptionSettingsCollection
 </em>
 </td>
 <td>
-<p>EncryptionSettingsCollection: Encryption settings for disk or snapshot</p>
 </td>
 </tr>
 <tr>
@@ -736,7 +676,6 @@ ExtendedLocation
 </em>
 </td>
 <td>
-<p>ExtendedLocation: The complex type of the extended location.</p>
 </td>
 </tr>
 <tr>
@@ -749,7 +688,6 @@ DiskPropertiesHyperVGeneration
 </em>
 </td>
 <td>
-<p>HyperVGeneration: The hypervisor generation of the Virtual Machine. Applicable to OS disks only.</p>
 </td>
 </tr>
 <tr>
@@ -760,7 +698,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -771,8 +708,6 @@ int
 </em>
 </td>
 <td>
-<p>MaxShares: The maximum number of VMs that can attach to the disk at the same time. Value greater than one indicates a
-disk that can be mounted on multiple VMs at the same time.</p>
 </td>
 </tr>
 <tr>
@@ -797,7 +732,6 @@ DiskPropertiesOsType
 </em>
 </td>
 <td>
-<p>OsType: The Operating System type.</p>
 </td>
 </tr>
 <tr>
@@ -810,6 +744,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -822,7 +759,6 @@ PurchasePlan
 </em>
 </td>
 <td>
-<p>PurchasePlan: Used for establishing the purchase context of any 3rd Party artifact through MarketPlace.</p>
 </td>
 </tr>
 <tr>
@@ -835,7 +771,6 @@ DiskSku
 </em>
 </td>
 <td>
-<p>Sku: The disks sku name. Can be Standard_LRS, Premium_LRS, StandardSSD_LRS, or UltraSSD_LRS.</p>
 </td>
 </tr>
 <tr>
@@ -846,7 +781,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 <tr>
@@ -857,8 +791,6 @@ string
 </em>
 </td>
 <td>
-<p>Tier: Performance tier of the disk (e.g, P4, S10) as described here:
-<a href="https://azure.microsoft.com/en-us/pricing/details/managed-disks/">https://azure.microsoft.com/en-us/pricing/details/managed-disks/</a>. Does not apply to Ultra disks.</p>
 </td>
 </tr>
 <tr>
@@ -869,7 +801,6 @@ string
 </em>
 </td>
 <td>
-<p>Zones: The Logical zone list for Disk.</p>
 </td>
 </tr>
 </table>
@@ -895,7 +826,7 @@ Disk_Status
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.Disks_SpecARM">Disks_SpecARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/DiskProperties">https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/DiskProperties</a></p>
+<p>Deprecated version of DiskProperties. Use v1beta20200930.DiskProperties instead</p>
 </div>
 <table>
 <thead>
@@ -913,8 +844,6 @@ bool
 </em>
 </td>
 <td>
-<p>BurstingEnabled: Set to true to enable bursting beyond the provisioned performance target of the disk. Bursting is
-disabled by default. Does not apply to Ultra disks.</p>
 </td>
 </tr>
 <tr>
@@ -927,7 +856,6 @@ CreationDataARM
 </em>
 </td>
 <td>
-<p>CreationData: Data used when creating a disk.</p>
 </td>
 </tr>
 <tr>
@@ -948,8 +876,6 @@ int
 </em>
 </td>
 <td>
-<p>DiskIOPSReadOnly: The total number of IOPS that will be allowed across all VMs mounting the shared disk as ReadOnly. One
-operation can transfer between 4k and 256k bytes.</p>
 </td>
 </tr>
 <tr>
@@ -960,8 +886,6 @@ int
 </em>
 </td>
 <td>
-<p>DiskIOPSReadWrite: The number of IOPS allowed for this disk; only settable for UltraSSD disks. One operation can
-transfer between 4k and 256k bytes.</p>
 </td>
 </tr>
 <tr>
@@ -972,8 +896,6 @@ int
 </em>
 </td>
 <td>
-<p>DiskMBpsReadOnly: The total throughput (MBps) that will be allowed across all VMs mounting the shared disk as ReadOnly.
-MBps means millions of bytes per second - MB here uses the ISO notation, of powers of 10.</p>
 </td>
 </tr>
 <tr>
@@ -984,8 +906,6 @@ int
 </em>
 </td>
 <td>
-<p>DiskMBpsReadWrite: The bandwidth allowed for this disk; only settable for UltraSSD disks. MBps means millions of bytes
-per second - MB here uses the ISO notation, of powers of 10.</p>
 </td>
 </tr>
 <tr>
@@ -996,9 +916,6 @@ int
 </em>
 </td>
 <td>
-<p>DiskSizeGB: If creationData.createOption is Empty, this field is mandatory and it indicates the size of the disk to
-create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only
-allowed if the disk is not attached to a running VM, and can only increase the disk&rsquo;s size.</p>
 </td>
 </tr>
 <tr>
@@ -1011,7 +928,6 @@ EncryptionARM
 </em>
 </td>
 <td>
-<p>Encryption: Encryption at rest settings for disk or snapshot</p>
 </td>
 </tr>
 <tr>
@@ -1024,7 +940,6 @@ EncryptionSettingsCollectionARM
 </em>
 </td>
 <td>
-<p>EncryptionSettingsCollection: Encryption settings for disk or snapshot</p>
 </td>
 </tr>
 <tr>
@@ -1037,7 +952,6 @@ DiskPropertiesHyperVGeneration
 </em>
 </td>
 <td>
-<p>HyperVGeneration: The hypervisor generation of the Virtual Machine. Applicable to OS disks only.</p>
 </td>
 </tr>
 <tr>
@@ -1048,8 +962,6 @@ int
 </em>
 </td>
 <td>
-<p>MaxShares: The maximum number of VMs that can attach to the disk at the same time. Value greater than one indicates a
-disk that can be mounted on multiple VMs at the same time.</p>
 </td>
 </tr>
 <tr>
@@ -1074,7 +986,6 @@ DiskPropertiesOsType
 </em>
 </td>
 <td>
-<p>OsType: The Operating System type.</p>
 </td>
 </tr>
 <tr>
@@ -1087,7 +998,6 @@ PurchasePlanARM
 </em>
 </td>
 <td>
-<p>PurchasePlan: Used for establishing the purchase context of any 3rd Party artifact through MarketPlace.</p>
 </td>
 </tr>
 <tr>
@@ -1098,8 +1008,6 @@ string
 </em>
 </td>
 <td>
-<p>Tier: Performance tier of the disk (e.g, P4, S10) as described here:
-<a href="https://azure.microsoft.com/en-us/pricing/details/managed-disks/">https://azure.microsoft.com/en-us/pricing/details/managed-disks/</a>. Does not apply to Ultra disks.</p>
 </td>
 </tr>
 </tbody>
@@ -1110,6 +1018,7 @@ string
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.DiskPropertiesARM">DiskPropertiesARM</a>, <a href="#compute.azure.com/v1alpha1api20200930.Disks_Spec">Disks_Spec</a>)
 </p>
 <div>
+<p>Deprecated version of DiskPropertiesHyperVGeneration. Use v1beta20200930.DiskPropertiesHyperVGeneration instead</p>
 </div>
 <table>
 <thead>
@@ -1130,6 +1039,7 @@ string
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.DiskPropertiesARM">DiskPropertiesARM</a>, <a href="#compute.azure.com/v1alpha1api20200930.Disks_Spec">Disks_Spec</a>)
 </p>
 <div>
+<p>Deprecated version of DiskPropertiesNetworkAccessPolicy. Use v1beta20200930.DiskPropertiesNetworkAccessPolicy instead</p>
 </div>
 <table>
 <thead>
@@ -1152,6 +1062,7 @@ string
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.DiskPropertiesARM">DiskPropertiesARM</a>, <a href="#compute.azure.com/v1alpha1api20200930.Disks_Spec">Disks_Spec</a>)
 </p>
 <div>
+<p>Deprecated version of DiskPropertiesOsType. Use v1beta20200930.DiskPropertiesOsType instead</p>
 </div>
 <table>
 <thead>
@@ -1172,6 +1083,8 @@ string
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.DiskProperties_StatusARM">DiskProperties_StatusARM</a>, <a href="#compute.azure.com/v1alpha1api20200930.Disk_Status">Disk_Status</a>)
 </p>
 <div>
+<p>Deprecated version of DiskPropertiesStatusHyperVGeneration. Use v1beta20200930.DiskPropertiesStatusHyperVGeneration
+instead</p>
 </div>
 <table>
 <thead>
@@ -1192,6 +1105,7 @@ string
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.DiskProperties_StatusARM">DiskProperties_StatusARM</a>, <a href="#compute.azure.com/v1alpha1api20200930.Disk_Status">Disk_Status</a>)
 </p>
 <div>
+<p>Deprecated version of DiskPropertiesStatusOsType. Use v1beta20200930.DiskPropertiesStatusOsType instead</p>
 </div>
 <table>
 <thead>
@@ -1212,6 +1126,7 @@ string
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.Disk_StatusARM">Disk_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of DiskProperties_Status. Use v1beta20200930.DiskProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1229,8 +1144,6 @@ bool
 </em>
 </td>
 <td>
-<p>BurstingEnabled: Set to true to enable bursting beyond the provisioned performance target of the disk. Bursting is
-disabled by default. Does not apply to Ultra disks.</p>
 </td>
 </tr>
 <tr>
@@ -1243,7 +1156,6 @@ CreationData_StatusARM
 </em>
 </td>
 <td>
-<p>CreationData: Disk source information. CreationData information cannot be changed after the disk has been created.</p>
 </td>
 </tr>
 <tr>
@@ -1254,7 +1166,6 @@ string
 </em>
 </td>
 <td>
-<p>DiskAccessId: ARM id of the DiskAccess resource for using private endpoints on disks.</p>
 </td>
 </tr>
 <tr>
@@ -1265,8 +1176,6 @@ int
 </em>
 </td>
 <td>
-<p>DiskIOPSReadOnly: The total number of IOPS that will be allowed across all VMs mounting the shared disk as ReadOnly. One
-operation can transfer between 4k and 256k bytes.</p>
 </td>
 </tr>
 <tr>
@@ -1277,8 +1186,6 @@ int
 </em>
 </td>
 <td>
-<p>DiskIOPSReadWrite: The number of IOPS allowed for this disk; only settable for UltraSSD disks. One operation can
-transfer between 4k and 256k bytes.</p>
 </td>
 </tr>
 <tr>
@@ -1289,8 +1196,6 @@ int
 </em>
 </td>
 <td>
-<p>DiskMBpsReadOnly: The total throughput (MBps) that will be allowed across all VMs mounting the shared disk as ReadOnly.
-MBps means millions of bytes per second - MB here uses the ISO notation, of powers of 10.</p>
 </td>
 </tr>
 <tr>
@@ -1301,8 +1206,6 @@ int
 </em>
 </td>
 <td>
-<p>DiskMBpsReadWrite: The bandwidth allowed for this disk; only settable for UltraSSD disks. MBps means millions of bytes
-per second - MB here uses the ISO notation, of powers of 10.</p>
 </td>
 </tr>
 <tr>
@@ -1313,7 +1216,6 @@ int
 </em>
 </td>
 <td>
-<p>DiskSizeBytes: The size of the disk in bytes. This field is read only.</p>
 </td>
 </tr>
 <tr>
@@ -1324,9 +1226,6 @@ int
 </em>
 </td>
 <td>
-<p>DiskSizeGB: If creationData.createOption is Empty, this field is mandatory and it indicates the size of the disk to
-create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only
-allowed if the disk is not attached to a running VM, and can only increase the disk&rsquo;s size.</p>
 </td>
 </tr>
 <tr>
@@ -1339,7 +1238,6 @@ DiskState_Status
 </em>
 </td>
 <td>
-<p>DiskState: The state of the disk.</p>
 </td>
 </tr>
 <tr>
@@ -1352,7 +1250,6 @@ Encryption_StatusARM
 </em>
 </td>
 <td>
-<p>Encryption: Encryption property can be used to encrypt data at rest with customer managed keys or platform managed keys.</p>
 </td>
 </tr>
 <tr>
@@ -1365,8 +1262,6 @@ EncryptionSettingsCollection_StatusARM
 </em>
 </td>
 <td>
-<p>EncryptionSettingsCollection: Encryption settings collection used for Azure Disk Encryption, can contain multiple
-encryption settings per disk or snapshot.</p>
 </td>
 </tr>
 <tr>
@@ -1379,7 +1274,6 @@ DiskPropertiesStatusHyperVGeneration
 </em>
 </td>
 <td>
-<p>HyperVGeneration: The hypervisor generation of the Virtual Machine. Applicable to OS disks only.</p>
 </td>
 </tr>
 <tr>
@@ -1390,8 +1284,6 @@ int
 </em>
 </td>
 <td>
-<p>MaxShares: The maximum number of VMs that can attach to the disk at the same time. Value greater than one indicates a
-disk that can be mounted on multiple VMs at the same time.</p>
 </td>
 </tr>
 <tr>
@@ -1416,7 +1308,6 @@ DiskPropertiesStatusOsType
 </em>
 </td>
 <td>
-<p>OsType: The Operating System type.</p>
 </td>
 </tr>
 <tr>
@@ -1427,7 +1318,6 @@ string
 </em>
 </td>
 <td>
-<p>ProvisioningState: The disk provisioning state.</p>
 </td>
 </tr>
 <tr>
@@ -1440,8 +1330,6 @@ PurchasePlan_StatusARM
 </em>
 </td>
 <td>
-<p>PurchasePlan: Purchase plan information for the the image from which the OS disk was created. E.g. - {name:
-2019-Datacenter, publisher: MicrosoftWindowsServer, product: WindowsServer}</p>
 </td>
 </tr>
 <tr>
@@ -1454,8 +1342,6 @@ PurchasePlan_StatusARM
 </em>
 </td>
 <td>
-<p>ShareInfo: Details of the list of all VMs that have the disk attached. maxShares should be set to a value greater than
-one for disks to allow attaching them to multiple VMs.</p>
 </td>
 </tr>
 <tr>
@@ -1466,8 +1352,6 @@ string
 </em>
 </td>
 <td>
-<p>Tier: Performance tier of the disk (e.g, P4, S10) as described here:
-<a href="https://azure.microsoft.com/en-us/pricing/details/managed-disks/">https://azure.microsoft.com/en-us/pricing/details/managed-disks/</a>. Does not apply to Ultra disks.</p>
 </td>
 </tr>
 <tr>
@@ -1478,7 +1362,6 @@ string
 </em>
 </td>
 <td>
-<p>TimeCreated: The time when the disk was created.</p>
 </td>
 </tr>
 <tr>
@@ -1489,7 +1372,6 @@ string
 </em>
 </td>
 <td>
-<p>UniqueId: Unique Guid identifying the resource.</p>
 </td>
 </tr>
 </tbody>
@@ -1500,7 +1382,7 @@ string
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.Disks_Spec">Disks_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/DiskSku">https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/DiskSku</a></p>
+<p>Deprecated version of DiskSku. Use v1beta20200930.DiskSku instead</p>
 </div>
 <table>
 <thead>
@@ -1520,7 +1402,6 @@ DiskSkuName
 </em>
 </td>
 <td>
-<p>Name: The sku name.</p>
 </td>
 </tr>
 </tbody>
@@ -1531,7 +1412,7 @@ DiskSkuName
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.Disks_SpecARM">Disks_SpecARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/DiskSku">https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/DiskSku</a></p>
+<p>Deprecated version of DiskSku. Use v1beta20200930.DiskSku instead</p>
 </div>
 <table>
 <thead>
@@ -1551,7 +1432,6 @@ DiskSkuName
 </em>
 </td>
 <td>
-<p>Name: The sku name.</p>
 </td>
 </tr>
 </tbody>
@@ -1562,6 +1442,7 @@ DiskSkuName
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.DiskSku">DiskSku</a>, <a href="#compute.azure.com/v1alpha1api20200930.DiskSkuARM">DiskSkuARM</a>)
 </p>
 <div>
+<p>Deprecated version of DiskSkuName. Use v1beta20200930.DiskSkuName instead</p>
 </div>
 <table>
 <thead>
@@ -1586,6 +1467,7 @@ DiskSkuName
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.DiskSku_Status">DiskSku_Status</a>, <a href="#compute.azure.com/v1alpha1api20200930.DiskSku_StatusARM">DiskSku_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of DiskSkuStatusName. Use v1beta20200930.DiskSkuStatusName instead</p>
 </div>
 <table>
 <thead>
@@ -1610,6 +1492,7 @@ DiskSkuName
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.Disk_Status">Disk_Status</a>)
 </p>
 <div>
+<p>Deprecated version of DiskSku_Status. Use v1beta20200930.DiskSku_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1629,7 +1512,6 @@ DiskSkuStatusName
 </em>
 </td>
 <td>
-<p>Name: The sku name.</p>
 </td>
 </tr>
 <tr>
@@ -1640,7 +1522,6 @@ string
 </em>
 </td>
 <td>
-<p>Tier: The sku tier.</p>
 </td>
 </tr>
 </tbody>
@@ -1651,6 +1532,7 @@ string
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.Disk_StatusARM">Disk_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of DiskSku_Status. Use v1beta20200930.DiskSku_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1670,7 +1552,6 @@ DiskSkuStatusName
 </em>
 </td>
 <td>
-<p>Name: The sku name.</p>
 </td>
 </tr>
 <tr>
@@ -1681,7 +1562,6 @@ string
 </em>
 </td>
 <td>
-<p>Tier: The sku tier.</p>
 </td>
 </tr>
 </tbody>
@@ -1692,6 +1572,7 @@ string
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.DiskProperties_StatusARM">DiskProperties_StatusARM</a>, <a href="#compute.azure.com/v1alpha1api20200930.Disk_Status">Disk_Status</a>, <a href="#compute.azure.com/v1alpha1api20200930.SnapshotProperties_StatusARM">SnapshotProperties_StatusARM</a>, <a href="#compute.azure.com/v1alpha1api20200930.Snapshot_Status">Snapshot_Status</a>)
 </p>
 <div>
+<p>Deprecated version of DiskState_Status. Use v1beta20200930.DiskState_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1720,6 +1601,7 @@ string
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.Disk">Disk</a>)
 </p>
 <div>
+<p>Deprecated version of Disk_Status. Use v1beta20200930.Disk_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1737,8 +1619,6 @@ bool
 </em>
 </td>
 <td>
-<p>BurstingEnabled: Set to true to enable bursting beyond the provisioned performance target of the disk. Bursting is
-disabled by default. Does not apply to Ultra disks.</p>
 </td>
 </tr>
 <tr>
@@ -1764,7 +1644,6 @@ CreationData_Status
 </em>
 </td>
 <td>
-<p>CreationData: Disk source information. CreationData information cannot be changed after the disk has been created.</p>
 </td>
 </tr>
 <tr>
@@ -1775,7 +1654,6 @@ string
 </em>
 </td>
 <td>
-<p>DiskAccessId: ARM id of the DiskAccess resource for using private endpoints on disks.</p>
 </td>
 </tr>
 <tr>
@@ -1786,8 +1664,6 @@ int
 </em>
 </td>
 <td>
-<p>DiskIOPSReadOnly: The total number of IOPS that will be allowed across all VMs mounting the shared disk as ReadOnly. One
-operation can transfer between 4k and 256k bytes.</p>
 </td>
 </tr>
 <tr>
@@ -1798,8 +1674,6 @@ int
 </em>
 </td>
 <td>
-<p>DiskIOPSReadWrite: The number of IOPS allowed for this disk; only settable for UltraSSD disks. One operation can
-transfer between 4k and 256k bytes.</p>
 </td>
 </tr>
 <tr>
@@ -1810,8 +1684,6 @@ int
 </em>
 </td>
 <td>
-<p>DiskMBpsReadOnly: The total throughput (MBps) that will be allowed across all VMs mounting the shared disk as ReadOnly.
-MBps means millions of bytes per second - MB here uses the ISO notation, of powers of 10.</p>
 </td>
 </tr>
 <tr>
@@ -1822,8 +1694,6 @@ int
 </em>
 </td>
 <td>
-<p>DiskMBpsReadWrite: The bandwidth allowed for this disk; only settable for UltraSSD disks. MBps means millions of bytes
-per second - MB here uses the ISO notation, of powers of 10.</p>
 </td>
 </tr>
 <tr>
@@ -1834,7 +1704,6 @@ int
 </em>
 </td>
 <td>
-<p>DiskSizeBytes: The size of the disk in bytes. This field is read only.</p>
 </td>
 </tr>
 <tr>
@@ -1845,9 +1714,6 @@ int
 </em>
 </td>
 <td>
-<p>DiskSizeGB: If creationData.createOption is Empty, this field is mandatory and it indicates the size of the disk to
-create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only
-allowed if the disk is not attached to a running VM, and can only increase the disk&rsquo;s size.</p>
 </td>
 </tr>
 <tr>
@@ -1860,7 +1726,6 @@ DiskState_Status
 </em>
 </td>
 <td>
-<p>DiskState: The state of the disk.</p>
 </td>
 </tr>
 <tr>
@@ -1873,7 +1738,6 @@ Encryption_Status
 </em>
 </td>
 <td>
-<p>Encryption: Encryption property can be used to encrypt data at rest with customer managed keys or platform managed keys.</p>
 </td>
 </tr>
 <tr>
@@ -1886,8 +1750,6 @@ EncryptionSettingsCollection_Status
 </em>
 </td>
 <td>
-<p>EncryptionSettingsCollection: Encryption settings collection used for Azure Disk Encryption, can contain multiple
-encryption settings per disk or snapshot.</p>
 </td>
 </tr>
 <tr>
@@ -1900,7 +1762,6 @@ ExtendedLocation_Status
 </em>
 </td>
 <td>
-<p>ExtendedLocation: The extended location where the disk will be created. Extended location cannot be changed.</p>
 </td>
 </tr>
 <tr>
@@ -1913,7 +1774,6 @@ DiskPropertiesStatusHyperVGeneration
 </em>
 </td>
 <td>
-<p>HyperVGeneration: The hypervisor generation of the Virtual Machine. Applicable to OS disks only.</p>
 </td>
 </tr>
 <tr>
@@ -1924,7 +1784,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource Id</p>
 </td>
 </tr>
 <tr>
@@ -1935,7 +1794,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Resource location</p>
 </td>
 </tr>
 <tr>
@@ -1946,7 +1804,6 @@ string
 </em>
 </td>
 <td>
-<p>ManagedBy: A relative URI containing the ID of the VM that has the disk attached.</p>
 </td>
 </tr>
 <tr>
@@ -1957,8 +1814,6 @@ string
 </em>
 </td>
 <td>
-<p>ManagedByExtended: List of relative URIs containing the IDs of the VMs that have the disk attached. maxShares should be
-set to a value greater than one for disks to allow attaching them to multiple VMs.</p>
 </td>
 </tr>
 <tr>
@@ -1969,8 +1824,6 @@ int
 </em>
 </td>
 <td>
-<p>MaxShares: The maximum number of VMs that can attach to the disk at the same time. Value greater than one indicates a
-disk that can be mounted on multiple VMs at the same time.</p>
 </td>
 </tr>
 <tr>
@@ -1981,7 +1834,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Resource name</p>
 </td>
 </tr>
 <tr>
@@ -2006,7 +1858,6 @@ DiskPropertiesStatusOsType
 </em>
 </td>
 <td>
-<p>OsType: The Operating System type.</p>
 </td>
 </tr>
 <tr>
@@ -2017,7 +1868,6 @@ string
 </em>
 </td>
 <td>
-<p>ProvisioningState: The disk provisioning state.</p>
 </td>
 </tr>
 <tr>
@@ -2030,8 +1880,6 @@ PurchasePlan_Status
 </em>
 </td>
 <td>
-<p>PurchasePlan: Purchase plan information for the the image from which the OS disk was created. E.g. - {name:
-2019-Datacenter, publisher: MicrosoftWindowsServer, product: WindowsServer}</p>
 </td>
 </tr>
 <tr>
@@ -2044,8 +1892,6 @@ PurchasePlan_Status
 </em>
 </td>
 <td>
-<p>ShareInfo: Details of the list of all VMs that have the disk attached. maxShares should be set to a value greater than
-one for disks to allow attaching them to multiple VMs.</p>
 </td>
 </tr>
 <tr>
@@ -2068,7 +1914,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Resource tags</p>
 </td>
 </tr>
 <tr>
@@ -2079,8 +1924,6 @@ string
 </em>
 </td>
 <td>
-<p>Tier: Performance tier of the disk (e.g, P4, S10) as described here:
-<a href="https://azure.microsoft.com/en-us/pricing/details/managed-disks/">https://azure.microsoft.com/en-us/pricing/details/managed-disks/</a>. Does not apply to Ultra disks.</p>
 </td>
 </tr>
 <tr>
@@ -2091,7 +1934,6 @@ string
 </em>
 </td>
 <td>
-<p>TimeCreated: The time when the disk was created.</p>
 </td>
 </tr>
 <tr>
@@ -2102,7 +1944,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: Resource type</p>
 </td>
 </tr>
 <tr>
@@ -2113,7 +1954,6 @@ string
 </em>
 </td>
 <td>
-<p>UniqueId: Unique Guid identifying the resource.</p>
 </td>
 </tr>
 <tr>
@@ -2124,7 +1964,6 @@ string
 </em>
 </td>
 <td>
-<p>Zones: The Logical zone list for Disk.</p>
 </td>
 </tr>
 </tbody>
@@ -2132,6 +1971,7 @@ string
 <h3 id="compute.azure.com/v1alpha1api20200930.Disk_StatusARM">Disk_StatusARM
 </h3>
 <div>
+<p>Deprecated version of Disk_Status. Use v1beta20200930.Disk_Status instead</p>
 </div>
 <table>
 <thead>
@@ -2151,7 +1991,6 @@ ExtendedLocation_StatusARM
 </em>
 </td>
 <td>
-<p>ExtendedLocation: The extended location where the disk will be created. Extended location cannot be changed.</p>
 </td>
 </tr>
 <tr>
@@ -2162,7 +2001,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource Id</p>
 </td>
 </tr>
 <tr>
@@ -2173,7 +2011,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Resource location</p>
 </td>
 </tr>
 <tr>
@@ -2184,7 +2021,6 @@ string
 </em>
 </td>
 <td>
-<p>ManagedBy: A relative URI containing the ID of the VM that has the disk attached.</p>
 </td>
 </tr>
 <tr>
@@ -2195,8 +2031,6 @@ string
 </em>
 </td>
 <td>
-<p>ManagedByExtended: List of relative URIs containing the IDs of the VMs that have the disk attached. maxShares should be
-set to a value greater than one for disks to allow attaching them to multiple VMs.</p>
 </td>
 </tr>
 <tr>
@@ -2207,7 +2041,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Resource name</p>
 </td>
 </tr>
 <tr>
@@ -2242,7 +2075,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Resource tags</p>
 </td>
 </tr>
 <tr>
@@ -2253,7 +2085,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: Resource type</p>
 </td>
 </tr>
 <tr>
@@ -2264,25 +2095,9 @@ string
 </em>
 </td>
 <td>
-<p>Zones: The Logical zone list for Disk.</p>
 </td>
 </tr>
 </tbody>
-</table>
-<h3 id="compute.azure.com/v1alpha1api20200930.DisksSpecAPIVersion">DisksSpecAPIVersion
-(<code>string</code> alias)</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;2020-09-30&#34;</p></td>
-<td></td>
-</tr></tbody>
 </table>
 <h3 id="compute.azure.com/v1alpha1api20200930.Disks_Spec">Disks_Spec
 </h3>
@@ -2319,8 +2134,6 @@ bool
 </em>
 </td>
 <td>
-<p>BurstingEnabled: Set to true to enable bursting beyond the provisioned performance target of the disk. Bursting is
-disabled by default. Does not apply to Ultra disks.</p>
 </td>
 </tr>
 <tr>
@@ -2333,7 +2146,6 @@ CreationData
 </em>
 </td>
 <td>
-<p>CreationData: Data used when creating a disk.</p>
 </td>
 </tr>
 <tr>
@@ -2346,7 +2158,6 @@ genruntime.ResourceReference
 </em>
 </td>
 <td>
-<p>DiskAccessReference: ARM id of the DiskAccess resource for using private endpoints on disks.</p>
 </td>
 </tr>
 <tr>
@@ -2357,8 +2168,6 @@ int
 </em>
 </td>
 <td>
-<p>DiskIOPSReadOnly: The total number of IOPS that will be allowed across all VMs mounting the shared disk as ReadOnly. One
-operation can transfer between 4k and 256k bytes.</p>
 </td>
 </tr>
 <tr>
@@ -2369,8 +2178,6 @@ int
 </em>
 </td>
 <td>
-<p>DiskIOPSReadWrite: The number of IOPS allowed for this disk; only settable for UltraSSD disks. One operation can
-transfer between 4k and 256k bytes.</p>
 </td>
 </tr>
 <tr>
@@ -2381,8 +2188,6 @@ int
 </em>
 </td>
 <td>
-<p>DiskMBpsReadOnly: The total throughput (MBps) that will be allowed across all VMs mounting the shared disk as ReadOnly.
-MBps means millions of bytes per second - MB here uses the ISO notation, of powers of 10.</p>
 </td>
 </tr>
 <tr>
@@ -2393,8 +2198,6 @@ int
 </em>
 </td>
 <td>
-<p>DiskMBpsReadWrite: The bandwidth allowed for this disk; only settable for UltraSSD disks. MBps means millions of bytes
-per second - MB here uses the ISO notation, of powers of 10.</p>
 </td>
 </tr>
 <tr>
@@ -2405,9 +2208,6 @@ int
 </em>
 </td>
 <td>
-<p>DiskSizeGB: If creationData.createOption is Empty, this field is mandatory and it indicates the size of the disk to
-create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only
-allowed if the disk is not attached to a running VM, and can only increase the disk&rsquo;s size.</p>
 </td>
 </tr>
 <tr>
@@ -2420,7 +2220,6 @@ Encryption
 </em>
 </td>
 <td>
-<p>Encryption: Encryption at rest settings for disk or snapshot</p>
 </td>
 </tr>
 <tr>
@@ -2433,7 +2232,6 @@ EncryptionSettingsCollection
 </em>
 </td>
 <td>
-<p>EncryptionSettingsCollection: Encryption settings for disk or snapshot</p>
 </td>
 </tr>
 <tr>
@@ -2446,7 +2244,6 @@ ExtendedLocation
 </em>
 </td>
 <td>
-<p>ExtendedLocation: The complex type of the extended location.</p>
 </td>
 </tr>
 <tr>
@@ -2459,7 +2256,6 @@ DiskPropertiesHyperVGeneration
 </em>
 </td>
 <td>
-<p>HyperVGeneration: The hypervisor generation of the Virtual Machine. Applicable to OS disks only.</p>
 </td>
 </tr>
 <tr>
@@ -2470,7 +2266,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -2481,8 +2276,6 @@ int
 </em>
 </td>
 <td>
-<p>MaxShares: The maximum number of VMs that can attach to the disk at the same time. Value greater than one indicates a
-disk that can be mounted on multiple VMs at the same time.</p>
 </td>
 </tr>
 <tr>
@@ -2507,7 +2300,6 @@ DiskPropertiesOsType
 </em>
 </td>
 <td>
-<p>OsType: The Operating System type.</p>
 </td>
 </tr>
 <tr>
@@ -2520,6 +2312,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -2532,7 +2327,6 @@ PurchasePlan
 </em>
 </td>
 <td>
-<p>PurchasePlan: Used for establishing the purchase context of any 3rd Party artifact through MarketPlace.</p>
 </td>
 </tr>
 <tr>
@@ -2545,7 +2339,6 @@ DiskSku
 </em>
 </td>
 <td>
-<p>Sku: The disks sku name. Can be Standard_LRS, Premium_LRS, StandardSSD_LRS, or UltraSSD_LRS.</p>
 </td>
 </tr>
 <tr>
@@ -2556,7 +2349,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 <tr>
@@ -2567,8 +2359,6 @@ string
 </em>
 </td>
 <td>
-<p>Tier: Performance tier of the disk (e.g, P4, S10) as described here:
-<a href="https://azure.microsoft.com/en-us/pricing/details/managed-disks/">https://azure.microsoft.com/en-us/pricing/details/managed-disks/</a>. Does not apply to Ultra disks.</p>
 </td>
 </tr>
 <tr>
@@ -2579,7 +2369,6 @@ string
 </em>
 </td>
 <td>
-<p>Zones: The Logical zone list for Disk.</p>
 </td>
 </tr>
 </tbody>
@@ -2587,6 +2376,7 @@ string
 <h3 id="compute.azure.com/v1alpha1api20200930.Disks_SpecARM">Disks_SpecARM
 </h3>
 <div>
+<p>Deprecated version of Disks_Spec. Use v1beta20200930.Disks_Spec instead</p>
 </div>
 <table>
 <thead>
@@ -2606,7 +2396,6 @@ ExtendedLocationARM
 </em>
 </td>
 <td>
-<p>ExtendedLocation: The complex type of the extended location.</p>
 </td>
 </tr>
 <tr>
@@ -2617,7 +2406,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -2628,8 +2416,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the managed disk that is being created. The name can&rsquo;t be changed after the disk is created. Supported
-characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.</p>
 </td>
 </tr>
 <tr>
@@ -2642,7 +2428,6 @@ DiskPropertiesARM
 </em>
 </td>
 <td>
-<p>Properties: Disk resource properties.</p>
 </td>
 </tr>
 <tr>
@@ -2655,7 +2440,6 @@ DiskSkuARM
 </em>
 </td>
 <td>
-<p>Sku: The disks sku name. Can be Standard_LRS, Premium_LRS, StandardSSD_LRS, or UltraSSD_LRS.</p>
 </td>
 </tr>
 <tr>
@@ -2666,7 +2450,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 <tr>
@@ -2677,7 +2460,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Zones: The Logical zone list for Disk.</p>
 </td>
 </tr>
 </tbody>
@@ -2688,7 +2470,7 @@ map[string]string
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.Disks_Spec">Disks_Spec</a>, <a href="#compute.azure.com/v1alpha1api20200930.Snapshots_Spec">Snapshots_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/Encryption">https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/Encryption</a></p>
+<p>Deprecated version of Encryption. Use v1beta20200930.Encryption instead</p>
 </div>
 <table>
 <thead>
@@ -2708,7 +2490,6 @@ genruntime.ResourceReference
 </em>
 </td>
 <td>
-<p>DiskEncryptionSetReference: ResourceId of the disk encryption set to use for enabling encryption at rest.</p>
 </td>
 </tr>
 <tr>
@@ -2731,7 +2512,7 @@ EncryptionType
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.DiskPropertiesARM">DiskPropertiesARM</a>, <a href="#compute.azure.com/v1alpha1api20200930.SnapshotPropertiesARM">SnapshotPropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/Encryption">https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/Encryption</a></p>
+<p>Deprecated version of Encryption. Use v1beta20200930.Encryption instead</p>
 </div>
 <table>
 <thead>
@@ -2771,7 +2552,7 @@ EncryptionType
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.Disks_Spec">Disks_Spec</a>, <a href="#compute.azure.com/v1alpha1api20200930.Snapshots_Spec">Snapshots_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/EncryptionSettingsCollection">https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/EncryptionSettingsCollection</a></p>
+<p>Deprecated version of EncryptionSettingsCollection. Use v1beta20200930.EncryptionSettingsCollection instead</p>
 </div>
 <table>
 <thead>
@@ -2789,9 +2570,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Set this flag to true and provide DiskEncryptionKey and optional KeyEncryptionKey to enable encryption. Set
-this flag to false and remove DiskEncryptionKey and KeyEncryptionKey to disable encryption. If EncryptionSettings is
-null in the request object, the existing settings remain unchanged.</p>
 </td>
 </tr>
 <tr>
@@ -2804,7 +2582,6 @@ null in the request object, the existing settings remain unchanged.</p>
 </em>
 </td>
 <td>
-<p>EncryptionSettings: A collection of encryption settings, one for each disk volume.</p>
 </td>
 </tr>
 <tr>
@@ -2815,8 +2592,6 @@ string
 </em>
 </td>
 <td>
-<p>EncryptionSettingsVersion: Describes what type of encryption is used for the disks. Once this field is set, it cannot be
-overwritten. &lsquo;1.0&rsquo; corresponds to Azure Disk Encryption with AAD app.&lsquo;1.1&rsquo; corresponds to Azure Disk Encryption.</p>
 </td>
 </tr>
 </tbody>
@@ -2827,7 +2602,7 @@ overwritten. &lsquo;1.0&rsquo; corresponds to Azure Disk Encryption with AAD app
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.DiskPropertiesARM">DiskPropertiesARM</a>, <a href="#compute.azure.com/v1alpha1api20200930.SnapshotPropertiesARM">SnapshotPropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/EncryptionSettingsCollection">https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/EncryptionSettingsCollection</a></p>
+<p>Deprecated version of EncryptionSettingsCollection. Use v1beta20200930.EncryptionSettingsCollection instead</p>
 </div>
 <table>
 <thead>
@@ -2845,9 +2620,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Set this flag to true and provide DiskEncryptionKey and optional KeyEncryptionKey to enable encryption. Set
-this flag to false and remove DiskEncryptionKey and KeyEncryptionKey to disable encryption. If EncryptionSettings is
-null in the request object, the existing settings remain unchanged.</p>
 </td>
 </tr>
 <tr>
@@ -2860,7 +2632,6 @@ null in the request object, the existing settings remain unchanged.</p>
 </em>
 </td>
 <td>
-<p>EncryptionSettings: A collection of encryption settings, one for each disk volume.</p>
 </td>
 </tr>
 <tr>
@@ -2871,8 +2642,6 @@ string
 </em>
 </td>
 <td>
-<p>EncryptionSettingsVersion: Describes what type of encryption is used for the disks. Once this field is set, it cannot be
-overwritten. &lsquo;1.0&rsquo; corresponds to Azure Disk Encryption with AAD app.&lsquo;1.1&rsquo; corresponds to Azure Disk Encryption.</p>
 </td>
 </tr>
 </tbody>
@@ -2883,6 +2652,7 @@ overwritten. &lsquo;1.0&rsquo; corresponds to Azure Disk Encryption with AAD app
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.Disk_Status">Disk_Status</a>, <a href="#compute.azure.com/v1alpha1api20200930.Snapshot_Status">Snapshot_Status</a>)
 </p>
 <div>
+<p>Deprecated version of EncryptionSettingsCollection_Status. Use v1beta20200930.EncryptionSettingsCollection_Status instead</p>
 </div>
 <table>
 <thead>
@@ -2900,9 +2670,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Set this flag to true and provide DiskEncryptionKey and optional KeyEncryptionKey to enable encryption. Set
-this flag to false and remove DiskEncryptionKey and KeyEncryptionKey to disable encryption. If EncryptionSettings is
-null in the request object, the existing settings remain unchanged.</p>
 </td>
 </tr>
 <tr>
@@ -2915,7 +2682,6 @@ null in the request object, the existing settings remain unchanged.</p>
 </em>
 </td>
 <td>
-<p>EncryptionSettings: A collection of encryption settings, one for each disk volume.</p>
 </td>
 </tr>
 <tr>
@@ -2926,8 +2692,6 @@ string
 </em>
 </td>
 <td>
-<p>EncryptionSettingsVersion: Describes what type of encryption is used for the disks. Once this field is set, it cannot be
-overwritten. &lsquo;1.0&rsquo; corresponds to Azure Disk Encryption with AAD app.&lsquo;1.1&rsquo; corresponds to Azure Disk Encryption.</p>
 </td>
 </tr>
 </tbody>
@@ -2938,6 +2702,7 @@ overwritten. &lsquo;1.0&rsquo; corresponds to Azure Disk Encryption with AAD app
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.DiskProperties_StatusARM">DiskProperties_StatusARM</a>, <a href="#compute.azure.com/v1alpha1api20200930.SnapshotProperties_StatusARM">SnapshotProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of EncryptionSettingsCollection_Status. Use v1beta20200930.EncryptionSettingsCollection_Status instead</p>
 </div>
 <table>
 <thead>
@@ -2955,9 +2720,6 @@ bool
 </em>
 </td>
 <td>
-<p>Enabled: Set this flag to true and provide DiskEncryptionKey and optional KeyEncryptionKey to enable encryption. Set
-this flag to false and remove DiskEncryptionKey and KeyEncryptionKey to disable encryption. If EncryptionSettings is
-null in the request object, the existing settings remain unchanged.</p>
 </td>
 </tr>
 <tr>
@@ -2970,7 +2732,6 @@ null in the request object, the existing settings remain unchanged.</p>
 </em>
 </td>
 <td>
-<p>EncryptionSettings: A collection of encryption settings, one for each disk volume.</p>
 </td>
 </tr>
 <tr>
@@ -2981,8 +2742,6 @@ string
 </em>
 </td>
 <td>
-<p>EncryptionSettingsVersion: Describes what type of encryption is used for the disks. Once this field is set, it cannot be
-overwritten. &lsquo;1.0&rsquo; corresponds to Azure Disk Encryption with AAD app.&lsquo;1.1&rsquo; corresponds to Azure Disk Encryption.</p>
 </td>
 </tr>
 </tbody>
@@ -2993,7 +2752,7 @@ overwritten. &lsquo;1.0&rsquo; corresponds to Azure Disk Encryption with AAD app
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.EncryptionSettingsCollection">EncryptionSettingsCollection</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/EncryptionSettingsElement">https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/EncryptionSettingsElement</a></p>
+<p>Deprecated version of EncryptionSettingsElement. Use v1beta20200930.EncryptionSettingsElement instead</p>
 </div>
 <table>
 <thead>
@@ -3013,7 +2772,6 @@ KeyVaultAndSecretReference
 </em>
 </td>
 <td>
-<p>DiskEncryptionKey: Key Vault Secret Url and vault id of the encryption key</p>
 </td>
 </tr>
 <tr>
@@ -3026,8 +2784,6 @@ KeyVaultAndKeyReference
 </em>
 </td>
 <td>
-<p>KeyEncryptionKey: Key Vault Key Url and vault id of KeK, KeK is optional and when provided is used to unwrap the
-encryptionKey</p>
 </td>
 </tr>
 </tbody>
@@ -3038,7 +2794,7 @@ encryptionKey</p>
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.EncryptionSettingsCollectionARM">EncryptionSettingsCollectionARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/EncryptionSettingsElement">https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/EncryptionSettingsElement</a></p>
+<p>Deprecated version of EncryptionSettingsElement. Use v1beta20200930.EncryptionSettingsElement instead</p>
 </div>
 <table>
 <thead>
@@ -3058,7 +2814,6 @@ KeyVaultAndSecretReferenceARM
 </em>
 </td>
 <td>
-<p>DiskEncryptionKey: Key Vault Secret Url and vault id of the encryption key</p>
 </td>
 </tr>
 <tr>
@@ -3071,8 +2826,6 @@ KeyVaultAndKeyReferenceARM
 </em>
 </td>
 <td>
-<p>KeyEncryptionKey: Key Vault Key Url and vault id of KeK, KeK is optional and when provided is used to unwrap the
-encryptionKey</p>
 </td>
 </tr>
 </tbody>
@@ -3083,6 +2836,7 @@ encryptionKey</p>
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.EncryptionSettingsCollection_Status">EncryptionSettingsCollection_Status</a>)
 </p>
 <div>
+<p>Deprecated version of EncryptionSettingsElement_Status. Use v1beta20200930.EncryptionSettingsElement_Status instead</p>
 </div>
 <table>
 <thead>
@@ -3102,7 +2856,6 @@ KeyVaultAndSecretReference_Status
 </em>
 </td>
 <td>
-<p>DiskEncryptionKey: Key Vault Secret Url and vault id of the disk encryption key</p>
 </td>
 </tr>
 <tr>
@@ -3115,8 +2868,6 @@ KeyVaultAndKeyReference_Status
 </em>
 </td>
 <td>
-<p>KeyEncryptionKey: Key Vault Key Url and vault id of the key encryption key. KeyEncryptionKey is optional and when
-provided is used to unwrap the disk encryption key.</p>
 </td>
 </tr>
 </tbody>
@@ -3127,6 +2878,7 @@ provided is used to unwrap the disk encryption key.</p>
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.EncryptionSettingsCollection_StatusARM">EncryptionSettingsCollection_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of EncryptionSettingsElement_Status. Use v1beta20200930.EncryptionSettingsElement_Status instead</p>
 </div>
 <table>
 <thead>
@@ -3146,7 +2898,6 @@ KeyVaultAndSecretReference_StatusARM
 </em>
 </td>
 <td>
-<p>DiskEncryptionKey: Key Vault Secret Url and vault id of the disk encryption key</p>
 </td>
 </tr>
 <tr>
@@ -3159,8 +2910,6 @@ KeyVaultAndKeyReference_StatusARM
 </em>
 </td>
 <td>
-<p>KeyEncryptionKey: Key Vault Key Url and vault id of the key encryption key. KeyEncryptionKey is optional and when
-provided is used to unwrap the disk encryption key.</p>
 </td>
 </tr>
 </tbody>
@@ -3171,6 +2920,7 @@ provided is used to unwrap the disk encryption key.</p>
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.Encryption">Encryption</a>, <a href="#compute.azure.com/v1alpha1api20200930.EncryptionARM">EncryptionARM</a>)
 </p>
 <div>
+<p>Deprecated version of EncryptionType. Use v1beta20200930.EncryptionType instead</p>
 </div>
 <table>
 <thead>
@@ -3193,6 +2943,7 @@ provided is used to unwrap the disk encryption key.</p>
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.Encryption_Status">Encryption_Status</a>, <a href="#compute.azure.com/v1alpha1api20200930.Encryption_StatusARM">Encryption_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of EncryptionType_Status. Use v1beta20200930.EncryptionType_Status instead</p>
 </div>
 <table>
 <thead>
@@ -3215,6 +2966,7 @@ provided is used to unwrap the disk encryption key.</p>
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.Disk_Status">Disk_Status</a>, <a href="#compute.azure.com/v1alpha1api20200930.Snapshot_Status">Snapshot_Status</a>)
 </p>
 <div>
+<p>Deprecated version of Encryption_Status. Use v1beta20200930.Encryption_Status instead</p>
 </div>
 <table>
 <thead>
@@ -3232,7 +2984,6 @@ string
 </em>
 </td>
 <td>
-<p>DiskEncryptionSetId: ResourceId of the disk encryption set to use for enabling encryption at rest.</p>
 </td>
 </tr>
 <tr>
@@ -3255,6 +3006,7 @@ EncryptionType_Status
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.DiskProperties_StatusARM">DiskProperties_StatusARM</a>, <a href="#compute.azure.com/v1alpha1api20200930.SnapshotProperties_StatusARM">SnapshotProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of Encryption_Status. Use v1beta20200930.Encryption_Status instead</p>
 </div>
 <table>
 <thead>
@@ -3272,7 +3024,6 @@ string
 </em>
 </td>
 <td>
-<p>DiskEncryptionSetId: ResourceId of the disk encryption set to use for enabling encryption at rest.</p>
 </td>
 </tr>
 <tr>
@@ -3295,7 +3046,7 @@ EncryptionType_Status
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.Disks_Spec">Disks_Spec</a>, <a href="#compute.azure.com/v1alpha1api20200930.Snapshots_Spec">Snapshots_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/ExtendedLocation">https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/ExtendedLocation</a></p>
+<p>Deprecated version of ExtendedLocation. Use v1beta20200930.ExtendedLocation instead</p>
 </div>
 <table>
 <thead>
@@ -3313,7 +3064,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the extended location.</p>
 </td>
 </tr>
 <tr>
@@ -3326,7 +3076,6 @@ ExtendedLocationType
 </em>
 </td>
 <td>
-<p>Type: The type of the extended location.</p>
 </td>
 </tr>
 </tbody>
@@ -3337,7 +3086,7 @@ ExtendedLocationType
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.Disks_SpecARM">Disks_SpecARM</a>, <a href="#compute.azure.com/v1alpha1api20200930.Snapshots_SpecARM">Snapshots_SpecARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/ExtendedLocation">https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/ExtendedLocation</a></p>
+<p>Deprecated version of ExtendedLocation. Use v1beta20200930.ExtendedLocation instead</p>
 </div>
 <table>
 <thead>
@@ -3355,7 +3104,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the extended location.</p>
 </td>
 </tr>
 <tr>
@@ -3368,7 +3116,6 @@ ExtendedLocationType
 </em>
 </td>
 <td>
-<p>Type: The type of the extended location.</p>
 </td>
 </tr>
 </tbody>
@@ -3379,6 +3126,7 @@ ExtendedLocationType
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.ExtendedLocation">ExtendedLocation</a>, <a href="#compute.azure.com/v1alpha1api20200930.ExtendedLocationARM">ExtendedLocationARM</a>)
 </p>
 <div>
+<p>Deprecated version of ExtendedLocationType. Use v1beta20200930.ExtendedLocationType instead</p>
 </div>
 <table>
 <thead>
@@ -3397,6 +3145,7 @@ ExtendedLocationType
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.ExtendedLocation_Status">ExtendedLocation_Status</a>, <a href="#compute.azure.com/v1alpha1api20200930.ExtendedLocation_StatusARM">ExtendedLocation_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of ExtendedLocationType_Status. Use v1beta20200930.ExtendedLocationType_Status instead</p>
 </div>
 <table>
 <thead>
@@ -3415,6 +3164,7 @@ ExtendedLocationType
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.Disk_Status">Disk_Status</a>, <a href="#compute.azure.com/v1alpha1api20200930.Snapshot_Status">Snapshot_Status</a>)
 </p>
 <div>
+<p>Deprecated version of ExtendedLocation_Status. Use v1beta20200930.ExtendedLocation_Status instead</p>
 </div>
 <table>
 <thead>
@@ -3432,7 +3182,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the extended location.</p>
 </td>
 </tr>
 <tr>
@@ -3445,7 +3194,6 @@ ExtendedLocationType_Status
 </em>
 </td>
 <td>
-<p>Type: The type of the extended location.</p>
 </td>
 </tr>
 </tbody>
@@ -3456,6 +3204,7 @@ ExtendedLocationType_Status
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.Disk_StatusARM">Disk_StatusARM</a>, <a href="#compute.azure.com/v1alpha1api20200930.Snapshot_StatusARM">Snapshot_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of ExtendedLocation_Status. Use v1beta20200930.ExtendedLocation_Status instead</p>
 </div>
 <table>
 <thead>
@@ -3473,7 +3222,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the extended location.</p>
 </td>
 </tr>
 <tr>
@@ -3486,7 +3234,6 @@ ExtendedLocationType_Status
 </em>
 </td>
 <td>
-<p>Type: The type of the extended location.</p>
 </td>
 </tr>
 </tbody>
@@ -3497,7 +3244,7 @@ ExtendedLocationType_Status
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.CreationData">CreationData</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/ImageDiskReference">https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/ImageDiskReference</a></p>
+<p>Deprecated version of ImageDiskReference. Use v1beta20200930.ImageDiskReference instead</p>
 </div>
 <table>
 <thead>
@@ -3515,8 +3262,6 @@ int
 </em>
 </td>
 <td>
-<p>Lun: If the disk is created from an image&rsquo;s data disk, this is an index that indicates which of the data disks in the
-image to use. For OS disks, this field is null.</p>
 </td>
 </tr>
 <tr>
@@ -3529,7 +3274,6 @@ genruntime.ResourceReference
 </em>
 </td>
 <td>
-<p>Reference: A relative uri containing either a Platform Image Repository or user image reference.</p>
 </td>
 </tr>
 </tbody>
@@ -3540,7 +3284,7 @@ genruntime.ResourceReference
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.CreationDataARM">CreationDataARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/ImageDiskReference">https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/ImageDiskReference</a></p>
+<p>Deprecated version of ImageDiskReference. Use v1beta20200930.ImageDiskReference instead</p>
 </div>
 <table>
 <thead>
@@ -3568,8 +3312,6 @@ int
 </em>
 </td>
 <td>
-<p>Lun: If the disk is created from an image&rsquo;s data disk, this is an index that indicates which of the data disks in the
-image to use. For OS disks, this field is null.</p>
 </td>
 </tr>
 </tbody>
@@ -3580,6 +3322,7 @@ image to use. For OS disks, this field is null.</p>
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.CreationData_Status">CreationData_Status</a>)
 </p>
 <div>
+<p>Deprecated version of ImageDiskReference_Status. Use v1beta20200930.ImageDiskReference_Status instead</p>
 </div>
 <table>
 <thead>
@@ -3597,7 +3340,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: A relative uri containing either a Platform Image Repository or user image reference.</p>
 </td>
 </tr>
 <tr>
@@ -3608,8 +3350,6 @@ int
 </em>
 </td>
 <td>
-<p>Lun: If the disk is created from an image&rsquo;s data disk, this is an index that indicates which of the data disks in the
-image to use. For OS disks, this field is null.</p>
 </td>
 </tr>
 </tbody>
@@ -3620,6 +3360,7 @@ image to use. For OS disks, this field is null.</p>
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.CreationData_StatusARM">CreationData_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of ImageDiskReference_Status. Use v1beta20200930.ImageDiskReference_Status instead</p>
 </div>
 <table>
 <thead>
@@ -3637,7 +3378,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: A relative uri containing either a Platform Image Repository or user image reference.</p>
 </td>
 </tr>
 <tr>
@@ -3648,8 +3388,6 @@ int
 </em>
 </td>
 <td>
-<p>Lun: If the disk is created from an image&rsquo;s data disk, this is an index that indicates which of the data disks in the
-image to use. For OS disks, this field is null.</p>
 </td>
 </tr>
 </tbody>
@@ -3660,7 +3398,7 @@ image to use. For OS disks, this field is null.</p>
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.EncryptionSettingsElement">EncryptionSettingsElement</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/KeyVaultAndKeyReference">https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/KeyVaultAndKeyReference</a></p>
+<p>Deprecated version of KeyVaultAndKeyReference. Use v1beta20200930.KeyVaultAndKeyReference instead</p>
 </div>
 <table>
 <thead>
@@ -3678,7 +3416,6 @@ string
 </em>
 </td>
 <td>
-<p>KeyUrl: Url pointing to a key or secret in KeyVault</p>
 </td>
 </tr>
 <tr>
@@ -3691,8 +3428,6 @@ SourceVault
 </em>
 </td>
 <td>
-<p>SourceVault: The vault id is an Azure Resource Manager Resource id in the form
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}</p>
 </td>
 </tr>
 </tbody>
@@ -3703,7 +3438,7 @@ SourceVault
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.EncryptionSettingsElementARM">EncryptionSettingsElementARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/KeyVaultAndKeyReference">https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/KeyVaultAndKeyReference</a></p>
+<p>Deprecated version of KeyVaultAndKeyReference. Use v1beta20200930.KeyVaultAndKeyReference instead</p>
 </div>
 <table>
 <thead>
@@ -3721,7 +3456,6 @@ string
 </em>
 </td>
 <td>
-<p>KeyUrl: Url pointing to a key or secret in KeyVault</p>
 </td>
 </tr>
 <tr>
@@ -3734,8 +3468,6 @@ SourceVaultARM
 </em>
 </td>
 <td>
-<p>SourceVault: The vault id is an Azure Resource Manager Resource id in the form
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}</p>
 </td>
 </tr>
 </tbody>
@@ -3746,6 +3478,7 @@ SourceVaultARM
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.EncryptionSettingsElement_Status">EncryptionSettingsElement_Status</a>)
 </p>
 <div>
+<p>Deprecated version of KeyVaultAndKeyReference_Status. Use v1beta20200930.KeyVaultAndKeyReference_Status instead</p>
 </div>
 <table>
 <thead>
@@ -3763,7 +3496,6 @@ string
 </em>
 </td>
 <td>
-<p>KeyUrl: Url pointing to a key or secret in KeyVault</p>
 </td>
 </tr>
 <tr>
@@ -3776,7 +3508,6 @@ SourceVault_Status
 </em>
 </td>
 <td>
-<p>SourceVault: Resource id of the KeyVault containing the key or secret</p>
 </td>
 </tr>
 </tbody>
@@ -3787,6 +3518,7 @@ SourceVault_Status
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.EncryptionSettingsElement_StatusARM">EncryptionSettingsElement_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of KeyVaultAndKeyReference_Status. Use v1beta20200930.KeyVaultAndKeyReference_Status instead</p>
 </div>
 <table>
 <thead>
@@ -3804,7 +3536,6 @@ string
 </em>
 </td>
 <td>
-<p>KeyUrl: Url pointing to a key or secret in KeyVault</p>
 </td>
 </tr>
 <tr>
@@ -3817,7 +3548,6 @@ SourceVault_StatusARM
 </em>
 </td>
 <td>
-<p>SourceVault: Resource id of the KeyVault containing the key or secret</p>
 </td>
 </tr>
 </tbody>
@@ -3828,7 +3558,7 @@ SourceVault_StatusARM
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.EncryptionSettingsElement">EncryptionSettingsElement</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/KeyVaultAndSecretReference">https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/KeyVaultAndSecretReference</a></p>
+<p>Deprecated version of KeyVaultAndSecretReference. Use v1beta20200930.KeyVaultAndSecretReference instead</p>
 </div>
 <table>
 <thead>
@@ -3846,7 +3576,6 @@ string
 </em>
 </td>
 <td>
-<p>SecretUrl: Url pointing to a key or secret in KeyVault</p>
 </td>
 </tr>
 <tr>
@@ -3859,8 +3588,6 @@ SourceVault
 </em>
 </td>
 <td>
-<p>SourceVault: The vault id is an Azure Resource Manager Resource id in the form
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}</p>
 </td>
 </tr>
 </tbody>
@@ -3871,7 +3598,7 @@ SourceVault
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.EncryptionSettingsElementARM">EncryptionSettingsElementARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/KeyVaultAndSecretReference">https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/KeyVaultAndSecretReference</a></p>
+<p>Deprecated version of KeyVaultAndSecretReference. Use v1beta20200930.KeyVaultAndSecretReference instead</p>
 </div>
 <table>
 <thead>
@@ -3889,7 +3616,6 @@ string
 </em>
 </td>
 <td>
-<p>SecretUrl: Url pointing to a key or secret in KeyVault</p>
 </td>
 </tr>
 <tr>
@@ -3902,8 +3628,6 @@ SourceVaultARM
 </em>
 </td>
 <td>
-<p>SourceVault: The vault id is an Azure Resource Manager Resource id in the form
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}</p>
 </td>
 </tr>
 </tbody>
@@ -3914,6 +3638,7 @@ SourceVaultARM
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.EncryptionSettingsElement_Status">EncryptionSettingsElement_Status</a>)
 </p>
 <div>
+<p>Deprecated version of KeyVaultAndSecretReference_Status. Use v1beta20200930.KeyVaultAndSecretReference_Status instead</p>
 </div>
 <table>
 <thead>
@@ -3931,7 +3656,6 @@ string
 </em>
 </td>
 <td>
-<p>SecretUrl: Url pointing to a key or secret in KeyVault</p>
 </td>
 </tr>
 <tr>
@@ -3944,7 +3668,6 @@ SourceVault_Status
 </em>
 </td>
 <td>
-<p>SourceVault: Resource id of the KeyVault containing the key or secret</p>
 </td>
 </tr>
 </tbody>
@@ -3955,6 +3678,7 @@ SourceVault_Status
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.EncryptionSettingsElement_StatusARM">EncryptionSettingsElement_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of KeyVaultAndSecretReference_Status. Use v1beta20200930.KeyVaultAndSecretReference_Status instead</p>
 </div>
 <table>
 <thead>
@@ -3972,7 +3696,6 @@ string
 </em>
 </td>
 <td>
-<p>SecretUrl: Url pointing to a key or secret in KeyVault</p>
 </td>
 </tr>
 <tr>
@@ -3985,7 +3708,6 @@ SourceVault_StatusARM
 </em>
 </td>
 <td>
-<p>SourceVault: Resource id of the KeyVault containing the key or secret</p>
 </td>
 </tr>
 </tbody>
@@ -3996,6 +3718,7 @@ SourceVault_StatusARM
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.DiskProperties_StatusARM">DiskProperties_StatusARM</a>, <a href="#compute.azure.com/v1alpha1api20200930.Disk_Status">Disk_Status</a>, <a href="#compute.azure.com/v1alpha1api20200930.SnapshotProperties_StatusARM">SnapshotProperties_StatusARM</a>, <a href="#compute.azure.com/v1alpha1api20200930.Snapshot_Status">Snapshot_Status</a>)
 </p>
 <div>
+<p>Deprecated version of NetworkAccessPolicy_Status. Use v1beta20200930.NetworkAccessPolicy_Status instead</p>
 </div>
 <table>
 <thead>
@@ -4018,7 +3741,7 @@ SourceVault_StatusARM
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.Disks_Spec">Disks_Spec</a>, <a href="#compute.azure.com/v1alpha1api20200930.Snapshots_Spec">Snapshots_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/PurchasePlan">https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/PurchasePlan</a></p>
+<p>Deprecated version of PurchasePlan. Use v1beta20200930.PurchasePlan instead</p>
 </div>
 <table>
 <thead>
@@ -4036,7 +3759,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The plan ID.</p>
 </td>
 </tr>
 <tr>
@@ -4047,8 +3769,6 @@ string
 </em>
 </td>
 <td>
-<p>Product: Specifies the product of the image from the marketplace. This is the same value as Offer under the
-imageReference element.</p>
 </td>
 </tr>
 <tr>
@@ -4059,7 +3779,6 @@ string
 </em>
 </td>
 <td>
-<p>PromotionCode: The Offer Promotion Code.</p>
 </td>
 </tr>
 <tr>
@@ -4070,7 +3789,6 @@ string
 </em>
 </td>
 <td>
-<p>Publisher: The publisher ID.</p>
 </td>
 </tr>
 </tbody>
@@ -4081,7 +3799,7 @@ string
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.DiskPropertiesARM">DiskPropertiesARM</a>, <a href="#compute.azure.com/v1alpha1api20200930.SnapshotPropertiesARM">SnapshotPropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/PurchasePlan">https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/PurchasePlan</a></p>
+<p>Deprecated version of PurchasePlan. Use v1beta20200930.PurchasePlan instead</p>
 </div>
 <table>
 <thead>
@@ -4099,7 +3817,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The plan ID.</p>
 </td>
 </tr>
 <tr>
@@ -4110,8 +3827,6 @@ string
 </em>
 </td>
 <td>
-<p>Product: Specifies the product of the image from the marketplace. This is the same value as Offer under the
-imageReference element.</p>
 </td>
 </tr>
 <tr>
@@ -4122,7 +3837,6 @@ string
 </em>
 </td>
 <td>
-<p>PromotionCode: The Offer Promotion Code.</p>
 </td>
 </tr>
 <tr>
@@ -4133,7 +3847,6 @@ string
 </em>
 </td>
 <td>
-<p>Publisher: The publisher ID.</p>
 </td>
 </tr>
 </tbody>
@@ -4144,6 +3857,7 @@ string
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.Disk_Status">Disk_Status</a>, <a href="#compute.azure.com/v1alpha1api20200930.Snapshot_Status">Snapshot_Status</a>)
 </p>
 <div>
+<p>Deprecated version of PurchasePlan_Status. Use v1beta20200930.PurchasePlan_Status instead</p>
 </div>
 <table>
 <thead>
@@ -4161,7 +3875,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The plan ID.</p>
 </td>
 </tr>
 <tr>
@@ -4172,8 +3885,6 @@ string
 </em>
 </td>
 <td>
-<p>Product: Specifies the product of the image from the marketplace. This is the same value as Offer under the
-imageReference element.</p>
 </td>
 </tr>
 <tr>
@@ -4184,7 +3895,6 @@ string
 </em>
 </td>
 <td>
-<p>PromotionCode: The Offer Promotion Code.</p>
 </td>
 </tr>
 <tr>
@@ -4195,7 +3905,6 @@ string
 </em>
 </td>
 <td>
-<p>Publisher: The publisher ID.</p>
 </td>
 </tr>
 </tbody>
@@ -4206,6 +3915,7 @@ string
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.DiskProperties_StatusARM">DiskProperties_StatusARM</a>, <a href="#compute.azure.com/v1alpha1api20200930.SnapshotProperties_StatusARM">SnapshotProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of PurchasePlan_Status. Use v1beta20200930.PurchasePlan_Status instead</p>
 </div>
 <table>
 <thead>
@@ -4223,7 +3933,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The plan ID.</p>
 </td>
 </tr>
 <tr>
@@ -4234,8 +3943,6 @@ string
 </em>
 </td>
 <td>
-<p>Product: Specifies the product of the image from the marketplace. This is the same value as Offer under the
-imageReference element.</p>
 </td>
 </tr>
 <tr>
@@ -4246,7 +3953,6 @@ string
 </em>
 </td>
 <td>
-<p>PromotionCode: The Offer Promotion Code.</p>
 </td>
 </tr>
 <tr>
@@ -4257,7 +3963,6 @@ string
 </em>
 </td>
 <td>
-<p>Publisher: The publisher ID.</p>
 </td>
 </tr>
 </tbody>
@@ -4268,6 +3973,7 @@ string
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.Disk_Status">Disk_Status</a>)
 </p>
 <div>
+<p>Deprecated version of ShareInfoElement_Status. Use v1beta20200930.ShareInfoElement_Status instead</p>
 </div>
 <table>
 <thead>
@@ -4285,7 +3991,6 @@ string
 </em>
 </td>
 <td>
-<p>VmUri: A relative URI containing the ID of the VM that has the disk attached.</p>
 </td>
 </tr>
 </tbody>
@@ -4296,6 +4001,7 @@ string
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.DiskProperties_StatusARM">DiskProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of ShareInfoElement_Status. Use v1beta20200930.ShareInfoElement_Status instead</p>
 </div>
 <table>
 <thead>
@@ -4313,7 +4019,6 @@ string
 </em>
 </td>
 <td>
-<p>VmUri: A relative URI containing the ID of the VM that has the disk attached.</p>
 </td>
 </tr>
 </tbody>
@@ -4321,7 +4026,7 @@ string
 <h3 id="compute.azure.com/v1alpha1api20200930.Snapshot">Snapshot
 </h3>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/resourceDefinitions/snapshots">https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/resourceDefinitions/snapshots</a></p>
+<p>Deprecated version of Snapshot. Use v1beta20200930.Snapshot instead</p>
 </div>
 <table>
 <thead>
@@ -4380,7 +4085,6 @@ CreationData
 </em>
 </td>
 <td>
-<p>CreationData: Data used when creating a disk.</p>
 </td>
 </tr>
 <tr>
@@ -4393,7 +4097,6 @@ genruntime.ResourceReference
 </em>
 </td>
 <td>
-<p>DiskAccessReference: ARM id of the DiskAccess resource for using private endpoints on disks.</p>
 </td>
 </tr>
 <tr>
@@ -4404,9 +4107,6 @@ int
 </em>
 </td>
 <td>
-<p>DiskSizeGB: If creationData.createOption is Empty, this field is mandatory and it indicates the size of the disk to
-create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only
-allowed if the disk is not attached to a running VM, and can only increase the disk&rsquo;s size.</p>
 </td>
 </tr>
 <tr>
@@ -4419,7 +4119,6 @@ SnapshotPropertiesDiskState
 </em>
 </td>
 <td>
-<p>DiskState: The state of the snapshot.</p>
 </td>
 </tr>
 <tr>
@@ -4432,7 +4131,6 @@ Encryption
 </em>
 </td>
 <td>
-<p>Encryption: Encryption at rest settings for disk or snapshot</p>
 </td>
 </tr>
 <tr>
@@ -4445,7 +4143,6 @@ EncryptionSettingsCollection
 </em>
 </td>
 <td>
-<p>EncryptionSettingsCollection: Encryption settings for disk or snapshot</p>
 </td>
 </tr>
 <tr>
@@ -4458,7 +4155,6 @@ ExtendedLocation
 </em>
 </td>
 <td>
-<p>ExtendedLocation: The complex type of the extended location.</p>
 </td>
 </tr>
 <tr>
@@ -4471,7 +4167,6 @@ SnapshotPropertiesHyperVGeneration
 </em>
 </td>
 <td>
-<p>HyperVGeneration: The hypervisor generation of the Virtual Machine. Applicable to OS disks only.</p>
 </td>
 </tr>
 <tr>
@@ -4482,8 +4177,6 @@ bool
 </em>
 </td>
 <td>
-<p>Incremental: Whether a snapshot is incremental. Incremental snapshots on the same disk occupy less space than full
-snapshots and can be diffed.</p>
 </td>
 </tr>
 <tr>
@@ -4494,7 +4187,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -4519,7 +4211,6 @@ SnapshotPropertiesOsType
 </em>
 </td>
 <td>
-<p>OsType: The Operating System type.</p>
 </td>
 </tr>
 <tr>
@@ -4532,6 +4223,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -4544,7 +4238,6 @@ PurchasePlan
 </em>
 </td>
 <td>
-<p>PurchasePlan: Used for establishing the purchase context of any 3rd Party artifact through MarketPlace.</p>
 </td>
 </tr>
 <tr>
@@ -4557,8 +4250,6 @@ SnapshotSku
 </em>
 </td>
 <td>
-<p>Sku: The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS. This is an optional parameter for
-incremental snapshot and the default behavior is the SKU will be set to the same sku as the previous snapshot</p>
 </td>
 </tr>
 <tr>
@@ -4569,7 +4260,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </table>
@@ -4595,7 +4285,7 @@ Snapshot_Status
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.Snapshots_SpecARM">Snapshots_SpecARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/SnapshotProperties">https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/SnapshotProperties</a></p>
+<p>Deprecated version of SnapshotProperties. Use v1beta20200930.SnapshotProperties instead</p>
 </div>
 <table>
 <thead>
@@ -4615,7 +4305,6 @@ CreationDataARM
 </em>
 </td>
 <td>
-<p>CreationData: Data used when creating a disk.</p>
 </td>
 </tr>
 <tr>
@@ -4636,9 +4325,6 @@ int
 </em>
 </td>
 <td>
-<p>DiskSizeGB: If creationData.createOption is Empty, this field is mandatory and it indicates the size of the disk to
-create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only
-allowed if the disk is not attached to a running VM, and can only increase the disk&rsquo;s size.</p>
 </td>
 </tr>
 <tr>
@@ -4651,7 +4337,6 @@ SnapshotPropertiesDiskState
 </em>
 </td>
 <td>
-<p>DiskState: The state of the snapshot.</p>
 </td>
 </tr>
 <tr>
@@ -4664,7 +4349,6 @@ EncryptionARM
 </em>
 </td>
 <td>
-<p>Encryption: Encryption at rest settings for disk or snapshot</p>
 </td>
 </tr>
 <tr>
@@ -4677,7 +4361,6 @@ EncryptionSettingsCollectionARM
 </em>
 </td>
 <td>
-<p>EncryptionSettingsCollection: Encryption settings for disk or snapshot</p>
 </td>
 </tr>
 <tr>
@@ -4690,7 +4373,6 @@ SnapshotPropertiesHyperVGeneration
 </em>
 </td>
 <td>
-<p>HyperVGeneration: The hypervisor generation of the Virtual Machine. Applicable to OS disks only.</p>
 </td>
 </tr>
 <tr>
@@ -4701,8 +4383,6 @@ bool
 </em>
 </td>
 <td>
-<p>Incremental: Whether a snapshot is incremental. Incremental snapshots on the same disk occupy less space than full
-snapshots and can be diffed.</p>
 </td>
 </tr>
 <tr>
@@ -4727,7 +4407,6 @@ SnapshotPropertiesOsType
 </em>
 </td>
 <td>
-<p>OsType: The Operating System type.</p>
 </td>
 </tr>
 <tr>
@@ -4740,7 +4419,6 @@ PurchasePlanARM
 </em>
 </td>
 <td>
-<p>PurchasePlan: Used for establishing the purchase context of any 3rd Party artifact through MarketPlace.</p>
 </td>
 </tr>
 </tbody>
@@ -4751,6 +4429,7 @@ PurchasePlanARM
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.SnapshotPropertiesARM">SnapshotPropertiesARM</a>, <a href="#compute.azure.com/v1alpha1api20200930.Snapshots_Spec">Snapshots_Spec</a>)
 </p>
 <div>
+<p>Deprecated version of SnapshotPropertiesDiskState. Use v1beta20200930.SnapshotPropertiesDiskState instead</p>
 </div>
 <table>
 <thead>
@@ -4779,6 +4458,7 @@ PurchasePlanARM
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.SnapshotPropertiesARM">SnapshotPropertiesARM</a>, <a href="#compute.azure.com/v1alpha1api20200930.Snapshots_Spec">Snapshots_Spec</a>)
 </p>
 <div>
+<p>Deprecated version of SnapshotPropertiesHyperVGeneration. Use v1beta20200930.SnapshotPropertiesHyperVGeneration instead</p>
 </div>
 <table>
 <thead>
@@ -4799,6 +4479,8 @@ PurchasePlanARM
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.SnapshotPropertiesARM">SnapshotPropertiesARM</a>, <a href="#compute.azure.com/v1alpha1api20200930.Snapshots_Spec">Snapshots_Spec</a>)
 </p>
 <div>
+<p>Deprecated version of SnapshotPropertiesNetworkAccessPolicy. Use v1beta20200930.SnapshotPropertiesNetworkAccessPolicy
+instead</p>
 </div>
 <table>
 <thead>
@@ -4821,6 +4503,7 @@ PurchasePlanARM
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.SnapshotPropertiesARM">SnapshotPropertiesARM</a>, <a href="#compute.azure.com/v1alpha1api20200930.Snapshots_Spec">Snapshots_Spec</a>)
 </p>
 <div>
+<p>Deprecated version of SnapshotPropertiesOsType. Use v1beta20200930.SnapshotPropertiesOsType instead</p>
 </div>
 <table>
 <thead>
@@ -4841,6 +4524,8 @@ PurchasePlanARM
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.SnapshotProperties_StatusARM">SnapshotProperties_StatusARM</a>, <a href="#compute.azure.com/v1alpha1api20200930.Snapshot_Status">Snapshot_Status</a>)
 </p>
 <div>
+<p>Deprecated version of SnapshotPropertiesStatusHyperVGeneration. Use
+v1beta20200930.SnapshotPropertiesStatusHyperVGeneration instead</p>
 </div>
 <table>
 <thead>
@@ -4861,6 +4546,7 @@ PurchasePlanARM
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.SnapshotProperties_StatusARM">SnapshotProperties_StatusARM</a>, <a href="#compute.azure.com/v1alpha1api20200930.Snapshot_Status">Snapshot_Status</a>)
 </p>
 <div>
+<p>Deprecated version of SnapshotPropertiesStatusOsType. Use v1beta20200930.SnapshotPropertiesStatusOsType instead</p>
 </div>
 <table>
 <thead>
@@ -4881,6 +4567,7 @@ PurchasePlanARM
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.Snapshot_StatusARM">Snapshot_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of SnapshotProperties_Status. Use v1beta20200930.SnapshotProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -4900,7 +4587,6 @@ CreationData_StatusARM
 </em>
 </td>
 <td>
-<p>CreationData: Disk source information. CreationData information cannot be changed after the disk has been created.</p>
 </td>
 </tr>
 <tr>
@@ -4911,7 +4597,6 @@ string
 </em>
 </td>
 <td>
-<p>DiskAccessId: ARM id of the DiskAccess resource for using private endpoints on disks.</p>
 </td>
 </tr>
 <tr>
@@ -4922,7 +4607,6 @@ int
 </em>
 </td>
 <td>
-<p>DiskSizeBytes: The size of the disk in bytes. This field is read only.</p>
 </td>
 </tr>
 <tr>
@@ -4933,9 +4617,6 @@ int
 </em>
 </td>
 <td>
-<p>DiskSizeGB: If creationData.createOption is Empty, this field is mandatory and it indicates the size of the disk to
-create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only
-allowed if the disk is not attached to a running VM, and can only increase the disk&rsquo;s size.</p>
 </td>
 </tr>
 <tr>
@@ -4948,7 +4629,6 @@ DiskState_Status
 </em>
 </td>
 <td>
-<p>DiskState: The state of the snapshot.</p>
 </td>
 </tr>
 <tr>
@@ -4961,7 +4641,6 @@ Encryption_StatusARM
 </em>
 </td>
 <td>
-<p>Encryption: Encryption property can be used to encrypt data at rest with customer managed keys or platform managed keys.</p>
 </td>
 </tr>
 <tr>
@@ -4974,8 +4653,6 @@ EncryptionSettingsCollection_StatusARM
 </em>
 </td>
 <td>
-<p>EncryptionSettingsCollection: Encryption settings collection used be Azure Disk Encryption, can contain multiple
-encryption settings per disk or snapshot.</p>
 </td>
 </tr>
 <tr>
@@ -4988,7 +4665,6 @@ SnapshotPropertiesStatusHyperVGeneration
 </em>
 </td>
 <td>
-<p>HyperVGeneration: The hypervisor generation of the Virtual Machine. Applicable to OS disks only.</p>
 </td>
 </tr>
 <tr>
@@ -4999,8 +4675,6 @@ bool
 </em>
 </td>
 <td>
-<p>Incremental: Whether a snapshot is incremental. Incremental snapshots on the same disk occupy less space than full
-snapshots and can be diffed.</p>
 </td>
 </tr>
 <tr>
@@ -5025,7 +4699,6 @@ SnapshotPropertiesStatusOsType
 </em>
 </td>
 <td>
-<p>OsType: The Operating System type.</p>
 </td>
 </tr>
 <tr>
@@ -5036,7 +4709,6 @@ string
 </em>
 </td>
 <td>
-<p>ProvisioningState: The disk provisioning state.</p>
 </td>
 </tr>
 <tr>
@@ -5049,7 +4721,6 @@ PurchasePlan_StatusARM
 </em>
 </td>
 <td>
-<p>PurchasePlan: Purchase plan information for the image from which the source disk for the snapshot was originally created.</p>
 </td>
 </tr>
 <tr>
@@ -5060,7 +4731,6 @@ string
 </em>
 </td>
 <td>
-<p>TimeCreated: The time when the snapshot was created.</p>
 </td>
 </tr>
 <tr>
@@ -5071,7 +4741,6 @@ string
 </em>
 </td>
 <td>
-<p>UniqueId: Unique Guid identifying the resource.</p>
 </td>
 </tr>
 </tbody>
@@ -5082,7 +4751,7 @@ string
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.Snapshots_Spec">Snapshots_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/SnapshotSku">https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/SnapshotSku</a></p>
+<p>Deprecated version of SnapshotSku. Use v1beta20200930.SnapshotSku instead</p>
 </div>
 <table>
 <thead>
@@ -5102,7 +4771,6 @@ SnapshotSkuName
 </em>
 </td>
 <td>
-<p>Name: The sku name.</p>
 </td>
 </tr>
 </tbody>
@@ -5113,7 +4781,7 @@ SnapshotSkuName
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.Snapshots_SpecARM">Snapshots_SpecARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/SnapshotSku">https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/SnapshotSku</a></p>
+<p>Deprecated version of SnapshotSku. Use v1beta20200930.SnapshotSku instead</p>
 </div>
 <table>
 <thead>
@@ -5133,7 +4801,6 @@ SnapshotSkuName
 </em>
 </td>
 <td>
-<p>Name: The sku name.</p>
 </td>
 </tr>
 </tbody>
@@ -5144,6 +4811,7 @@ SnapshotSkuName
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.SnapshotSku">SnapshotSku</a>, <a href="#compute.azure.com/v1alpha1api20200930.SnapshotSkuARM">SnapshotSkuARM</a>)
 </p>
 <div>
+<p>Deprecated version of SnapshotSkuName. Use v1beta20200930.SnapshotSkuName instead</p>
 </div>
 <table>
 <thead>
@@ -5166,6 +4834,7 @@ SnapshotSkuName
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.SnapshotSku_Status">SnapshotSku_Status</a>, <a href="#compute.azure.com/v1alpha1api20200930.SnapshotSku_StatusARM">SnapshotSku_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of SnapshotSkuStatusName. Use v1beta20200930.SnapshotSkuStatusName instead</p>
 </div>
 <table>
 <thead>
@@ -5188,6 +4857,7 @@ SnapshotSkuName
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.Snapshot_Status">Snapshot_Status</a>)
 </p>
 <div>
+<p>Deprecated version of SnapshotSku_Status. Use v1beta20200930.SnapshotSku_Status instead</p>
 </div>
 <table>
 <thead>
@@ -5207,7 +4877,6 @@ SnapshotSkuStatusName
 </em>
 </td>
 <td>
-<p>Name: The sku name.</p>
 </td>
 </tr>
 <tr>
@@ -5218,7 +4887,6 @@ string
 </em>
 </td>
 <td>
-<p>Tier: The sku tier.</p>
 </td>
 </tr>
 </tbody>
@@ -5229,6 +4897,7 @@ string
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.Snapshot_StatusARM">Snapshot_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of SnapshotSku_Status. Use v1beta20200930.SnapshotSku_Status instead</p>
 </div>
 <table>
 <thead>
@@ -5248,7 +4917,6 @@ SnapshotSkuStatusName
 </em>
 </td>
 <td>
-<p>Name: The sku name.</p>
 </td>
 </tr>
 <tr>
@@ -5259,7 +4927,6 @@ string
 </em>
 </td>
 <td>
-<p>Tier: The sku tier.</p>
 </td>
 </tr>
 </tbody>
@@ -5270,6 +4937,7 @@ string
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.Snapshot">Snapshot</a>)
 </p>
 <div>
+<p>Deprecated version of Snapshot_Status. Use v1beta20200930.Snapshot_Status instead</p>
 </div>
 <table>
 <thead>
@@ -5302,7 +4970,6 @@ CreationData_Status
 </em>
 </td>
 <td>
-<p>CreationData: Disk source information. CreationData information cannot be changed after the disk has been created.</p>
 </td>
 </tr>
 <tr>
@@ -5313,7 +4980,6 @@ string
 </em>
 </td>
 <td>
-<p>DiskAccessId: ARM id of the DiskAccess resource for using private endpoints on disks.</p>
 </td>
 </tr>
 <tr>
@@ -5324,7 +4990,6 @@ int
 </em>
 </td>
 <td>
-<p>DiskSizeBytes: The size of the disk in bytes. This field is read only.</p>
 </td>
 </tr>
 <tr>
@@ -5335,9 +5000,6 @@ int
 </em>
 </td>
 <td>
-<p>DiskSizeGB: If creationData.createOption is Empty, this field is mandatory and it indicates the size of the disk to
-create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only
-allowed if the disk is not attached to a running VM, and can only increase the disk&rsquo;s size.</p>
 </td>
 </tr>
 <tr>
@@ -5350,7 +5012,6 @@ DiskState_Status
 </em>
 </td>
 <td>
-<p>DiskState: The state of the snapshot.</p>
 </td>
 </tr>
 <tr>
@@ -5363,7 +5024,6 @@ Encryption_Status
 </em>
 </td>
 <td>
-<p>Encryption: Encryption property can be used to encrypt data at rest with customer managed keys or platform managed keys.</p>
 </td>
 </tr>
 <tr>
@@ -5376,8 +5036,6 @@ EncryptionSettingsCollection_Status
 </em>
 </td>
 <td>
-<p>EncryptionSettingsCollection: Encryption settings collection used be Azure Disk Encryption, can contain multiple
-encryption settings per disk or snapshot.</p>
 </td>
 </tr>
 <tr>
@@ -5390,7 +5048,6 @@ ExtendedLocation_Status
 </em>
 </td>
 <td>
-<p>ExtendedLocation: The extended location where the snapshot will be created. Extended location cannot be changed.</p>
 </td>
 </tr>
 <tr>
@@ -5403,7 +5060,6 @@ SnapshotPropertiesStatusHyperVGeneration
 </em>
 </td>
 <td>
-<p>HyperVGeneration: The hypervisor generation of the Virtual Machine. Applicable to OS disks only.</p>
 </td>
 </tr>
 <tr>
@@ -5414,7 +5070,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource Id</p>
 </td>
 </tr>
 <tr>
@@ -5425,8 +5080,6 @@ bool
 </em>
 </td>
 <td>
-<p>Incremental: Whether a snapshot is incremental. Incremental snapshots on the same disk occupy less space than full
-snapshots and can be diffed.</p>
 </td>
 </tr>
 <tr>
@@ -5437,7 +5090,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Resource location</p>
 </td>
 </tr>
 <tr>
@@ -5448,7 +5100,6 @@ string
 </em>
 </td>
 <td>
-<p>ManagedBy: Unused. Always Null.</p>
 </td>
 </tr>
 <tr>
@@ -5459,7 +5110,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Resource name</p>
 </td>
 </tr>
 <tr>
@@ -5484,7 +5134,6 @@ SnapshotPropertiesStatusOsType
 </em>
 </td>
 <td>
-<p>OsType: The Operating System type.</p>
 </td>
 </tr>
 <tr>
@@ -5495,7 +5144,6 @@ string
 </em>
 </td>
 <td>
-<p>ProvisioningState: The disk provisioning state.</p>
 </td>
 </tr>
 <tr>
@@ -5508,7 +5156,6 @@ PurchasePlan_Status
 </em>
 </td>
 <td>
-<p>PurchasePlan: Purchase plan information for the image from which the source disk for the snapshot was originally created.</p>
 </td>
 </tr>
 <tr>
@@ -5531,7 +5178,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Resource tags</p>
 </td>
 </tr>
 <tr>
@@ -5542,7 +5188,6 @@ string
 </em>
 </td>
 <td>
-<p>TimeCreated: The time when the snapshot was created.</p>
 </td>
 </tr>
 <tr>
@@ -5553,7 +5198,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: Resource type</p>
 </td>
 </tr>
 <tr>
@@ -5564,7 +5208,6 @@ string
 </em>
 </td>
 <td>
-<p>UniqueId: Unique Guid identifying the resource.</p>
 </td>
 </tr>
 </tbody>
@@ -5572,6 +5215,7 @@ string
 <h3 id="compute.azure.com/v1alpha1api20200930.Snapshot_StatusARM">Snapshot_StatusARM
 </h3>
 <div>
+<p>Deprecated version of Snapshot_Status. Use v1beta20200930.Snapshot_Status instead</p>
 </div>
 <table>
 <thead>
@@ -5591,7 +5235,6 @@ ExtendedLocation_StatusARM
 </em>
 </td>
 <td>
-<p>ExtendedLocation: The extended location where the snapshot will be created. Extended location cannot be changed.</p>
 </td>
 </tr>
 <tr>
@@ -5602,7 +5245,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource Id</p>
 </td>
 </tr>
 <tr>
@@ -5613,7 +5255,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Resource location</p>
 </td>
 </tr>
 <tr>
@@ -5624,7 +5265,6 @@ string
 </em>
 </td>
 <td>
-<p>ManagedBy: Unused. Always Null.</p>
 </td>
 </tr>
 <tr>
@@ -5635,7 +5275,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Resource name</p>
 </td>
 </tr>
 <tr>
@@ -5670,7 +5309,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Resource tags</p>
 </td>
 </tr>
 <tr>
@@ -5681,25 +5319,9 @@ string
 </em>
 </td>
 <td>
-<p>Type: Resource type</p>
 </td>
 </tr>
 </tbody>
-</table>
-<h3 id="compute.azure.com/v1alpha1api20200930.SnapshotsSpecAPIVersion">SnapshotsSpecAPIVersion
-(<code>string</code> alias)</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;2020-09-30&#34;</p></td>
-<td></td>
-</tr></tbody>
 </table>
 <h3 id="compute.azure.com/v1alpha1api20200930.Snapshots_Spec">Snapshots_Spec
 </h3>
@@ -5738,7 +5360,6 @@ CreationData
 </em>
 </td>
 <td>
-<p>CreationData: Data used when creating a disk.</p>
 </td>
 </tr>
 <tr>
@@ -5751,7 +5372,6 @@ genruntime.ResourceReference
 </em>
 </td>
 <td>
-<p>DiskAccessReference: ARM id of the DiskAccess resource for using private endpoints on disks.</p>
 </td>
 </tr>
 <tr>
@@ -5762,9 +5382,6 @@ int
 </em>
 </td>
 <td>
-<p>DiskSizeGB: If creationData.createOption is Empty, this field is mandatory and it indicates the size of the disk to
-create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only
-allowed if the disk is not attached to a running VM, and can only increase the disk&rsquo;s size.</p>
 </td>
 </tr>
 <tr>
@@ -5777,7 +5394,6 @@ SnapshotPropertiesDiskState
 </em>
 </td>
 <td>
-<p>DiskState: The state of the snapshot.</p>
 </td>
 </tr>
 <tr>
@@ -5790,7 +5406,6 @@ Encryption
 </em>
 </td>
 <td>
-<p>Encryption: Encryption at rest settings for disk or snapshot</p>
 </td>
 </tr>
 <tr>
@@ -5803,7 +5418,6 @@ EncryptionSettingsCollection
 </em>
 </td>
 <td>
-<p>EncryptionSettingsCollection: Encryption settings for disk or snapshot</p>
 </td>
 </tr>
 <tr>
@@ -5816,7 +5430,6 @@ ExtendedLocation
 </em>
 </td>
 <td>
-<p>ExtendedLocation: The complex type of the extended location.</p>
 </td>
 </tr>
 <tr>
@@ -5829,7 +5442,6 @@ SnapshotPropertiesHyperVGeneration
 </em>
 </td>
 <td>
-<p>HyperVGeneration: The hypervisor generation of the Virtual Machine. Applicable to OS disks only.</p>
 </td>
 </tr>
 <tr>
@@ -5840,8 +5452,6 @@ bool
 </em>
 </td>
 <td>
-<p>Incremental: Whether a snapshot is incremental. Incremental snapshots on the same disk occupy less space than full
-snapshots and can be diffed.</p>
 </td>
 </tr>
 <tr>
@@ -5852,7 +5462,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -5877,7 +5486,6 @@ SnapshotPropertiesOsType
 </em>
 </td>
 <td>
-<p>OsType: The Operating System type.</p>
 </td>
 </tr>
 <tr>
@@ -5890,6 +5498,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -5902,7 +5513,6 @@ PurchasePlan
 </em>
 </td>
 <td>
-<p>PurchasePlan: Used for establishing the purchase context of any 3rd Party artifact through MarketPlace.</p>
 </td>
 </tr>
 <tr>
@@ -5915,8 +5525,6 @@ SnapshotSku
 </em>
 </td>
 <td>
-<p>Sku: The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS. This is an optional parameter for
-incremental snapshot and the default behavior is the SKU will be set to the same sku as the previous snapshot</p>
 </td>
 </tr>
 <tr>
@@ -5927,7 +5535,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </tbody>
@@ -5935,6 +5542,7 @@ map[string]string
 <h3 id="compute.azure.com/v1alpha1api20200930.Snapshots_SpecARM">Snapshots_SpecARM
 </h3>
 <div>
+<p>Deprecated version of Snapshots_Spec. Use v1beta20200930.Snapshots_Spec instead</p>
 </div>
 <table>
 <thead>
@@ -5954,7 +5562,6 @@ ExtendedLocationARM
 </em>
 </td>
 <td>
-<p>ExtendedLocation: The complex type of the extended location.</p>
 </td>
 </tr>
 <tr>
@@ -5965,7 +5572,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -5976,8 +5582,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the snapshot that is being created. The name can&rsquo;t be changed after the snapshot is created. Supported
-characters for the name are a-z, A-Z, 0-9 and _. The max name length is 80 characters.</p>
 </td>
 </tr>
 <tr>
@@ -5990,7 +5594,6 @@ SnapshotPropertiesARM
 </em>
 </td>
 <td>
-<p>Properties: Snapshot resource properties.</p>
 </td>
 </tr>
 <tr>
@@ -6003,8 +5606,6 @@ SnapshotSkuARM
 </em>
 </td>
 <td>
-<p>Sku: The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS. This is an optional parameter for
-incremental snapshot and the default behavior is the SKU will be set to the same sku as the previous snapshot</p>
 </td>
 </tr>
 <tr>
@@ -6015,7 +5616,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </tbody>
@@ -6026,7 +5626,7 @@ map[string]string
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.KeyVaultAndKeyReference">KeyVaultAndKeyReference</a>, <a href="#compute.azure.com/v1alpha1api20200930.KeyVaultAndSecretReference">KeyVaultAndSecretReference</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/SourceVault">https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/SourceVault</a></p>
+<p>Deprecated version of SourceVault. Use v1beta20200930.SourceVault instead</p>
 </div>
 <table>
 <thead>
@@ -6046,7 +5646,6 @@ genruntime.ResourceReference
 </em>
 </td>
 <td>
-<p>Reference: Resource Id</p>
 </td>
 </tr>
 </tbody>
@@ -6057,7 +5656,7 @@ genruntime.ResourceReference
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.KeyVaultAndKeyReferenceARM">KeyVaultAndKeyReferenceARM</a>, <a href="#compute.azure.com/v1alpha1api20200930.KeyVaultAndSecretReferenceARM">KeyVaultAndSecretReferenceARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/SourceVault">https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/SourceVault</a></p>
+<p>Deprecated version of SourceVault. Use v1beta20200930.SourceVault instead</p>
 </div>
 <table>
 <thead>
@@ -6085,6 +5684,7 @@ string
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.KeyVaultAndKeyReference_Status">KeyVaultAndKeyReference_Status</a>, <a href="#compute.azure.com/v1alpha1api20200930.KeyVaultAndSecretReference_Status">KeyVaultAndSecretReference_Status</a>)
 </p>
 <div>
+<p>Deprecated version of SourceVault_Status. Use v1beta20200930.SourceVault_Status instead</p>
 </div>
 <table>
 <thead>
@@ -6102,7 +5702,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource Id</p>
 </td>
 </tr>
 </tbody>
@@ -6113,6 +5712,7 @@ string
 (<em>Appears on:</em><a href="#compute.azure.com/v1alpha1api20200930.KeyVaultAndKeyReference_StatusARM">KeyVaultAndKeyReference_StatusARM</a>, <a href="#compute.azure.com/v1alpha1api20200930.KeyVaultAndSecretReference_StatusARM">KeyVaultAndSecretReference_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of SourceVault_Status. Use v1beta20200930.SourceVault_Status instead</p>
 </div>
 <table>
 <thead>
@@ -6130,7 +5730,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource Id</p>
 </td>
 </tr>
 </tbody>

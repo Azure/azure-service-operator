@@ -12,6 +12,7 @@ Resource Types:
 (<em>Appears on:</em><a href="#servicebus.azure.com/v1alpha1api20210101preview.Identity_Status">Identity_Status</a>)
 </p>
 <div>
+<p>Deprecated version of DictionaryValue_Status. Use v1beta20210101preview.DictionaryValue_Status instead</p>
 </div>
 <table>
 <thead>
@@ -29,7 +30,6 @@ string
 </em>
 </td>
 <td>
-<p>ClientId: Client Id of user assigned identity</p>
 </td>
 </tr>
 <tr>
@@ -40,7 +40,6 @@ string
 </em>
 </td>
 <td>
-<p>PrincipalId: Principal Id of user assigned identity</p>
 </td>
 </tr>
 </tbody>
@@ -51,6 +50,7 @@ string
 (<em>Appears on:</em><a href="#servicebus.azure.com/v1alpha1api20210101preview.Identity_StatusARM">Identity_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of DictionaryValue_Status. Use v1beta20210101preview.DictionaryValue_Status instead</p>
 </div>
 <table>
 <thead>
@@ -68,7 +68,6 @@ string
 </em>
 </td>
 <td>
-<p>ClientId: Client Id of user assigned identity</p>
 </td>
 </tr>
 <tr>
@@ -79,7 +78,6 @@ string
 </em>
 </td>
 <td>
-<p>PrincipalId: Principal Id of user assigned identity</p>
 </td>
 </tr>
 </tbody>
@@ -90,7 +88,7 @@ string
 (<em>Appears on:</em><a href="#servicebus.azure.com/v1alpha1api20210101preview.Namespaces_Spec">Namespaces_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/Encryption">https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/Encryption</a></p>
+<p>Deprecated version of Encryption. Use v1beta20210101preview.Encryption instead</p>
 </div>
 <table>
 <thead>
@@ -110,7 +108,6 @@ EncryptionKeySource
 </em>
 </td>
 <td>
-<p>KeySource: Enumerates the possible value of keySource for Encryption.</p>
 </td>
 </tr>
 <tr>
@@ -123,7 +120,6 @@ EncryptionKeySource
 </em>
 </td>
 <td>
-<p>KeyVaultProperties: Properties of KeyVault</p>
 </td>
 </tr>
 <tr>
@@ -134,7 +130,6 @@ bool
 </em>
 </td>
 <td>
-<p>RequireInfrastructureEncryption: Enable Infrastructure Encryption (Double Encryption)</p>
 </td>
 </tr>
 </tbody>
@@ -145,7 +140,7 @@ bool
 (<em>Appears on:</em><a href="#servicebus.azure.com/v1alpha1api20210101preview.Namespaces_Spec_PropertiesARM">Namespaces_Spec_PropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/Encryption">https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/Encryption</a></p>
+<p>Deprecated version of Encryption. Use v1beta20210101preview.Encryption instead</p>
 </div>
 <table>
 <thead>
@@ -165,7 +160,6 @@ EncryptionKeySource
 </em>
 </td>
 <td>
-<p>KeySource: Enumerates the possible value of keySource for Encryption.</p>
 </td>
 </tr>
 <tr>
@@ -178,7 +172,6 @@ EncryptionKeySource
 </em>
 </td>
 <td>
-<p>KeyVaultProperties: Properties of KeyVault</p>
 </td>
 </tr>
 <tr>
@@ -189,7 +182,6 @@ bool
 </em>
 </td>
 <td>
-<p>RequireInfrastructureEncryption: Enable Infrastructure Encryption (Double Encryption)</p>
 </td>
 </tr>
 </tbody>
@@ -200,6 +192,7 @@ bool
 (<em>Appears on:</em><a href="#servicebus.azure.com/v1alpha1api20210101preview.Encryption">Encryption</a>, <a href="#servicebus.azure.com/v1alpha1api20210101preview.EncryptionARM">EncryptionARM</a>)
 </p>
 <div>
+<p>Deprecated version of EncryptionKeySource. Use v1beta20210101preview.EncryptionKeySource instead</p>
 </div>
 <table>
 <thead>
@@ -218,6 +211,7 @@ bool
 (<em>Appears on:</em><a href="#servicebus.azure.com/v1alpha1api20210101preview.Encryption_Status">Encryption_Status</a>, <a href="#servicebus.azure.com/v1alpha1api20210101preview.Encryption_StatusARM">Encryption_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of EncryptionStatusKeySource. Use v1beta20210101preview.EncryptionStatusKeySource instead</p>
 </div>
 <table>
 <thead>
@@ -236,6 +230,7 @@ bool
 (<em>Appears on:</em><a href="#servicebus.azure.com/v1alpha1api20210101preview.SBNamespace_Status">SBNamespace_Status</a>)
 </p>
 <div>
+<p>Deprecated version of Encryption_Status. Use v1beta20210101preview.Encryption_Status instead</p>
 </div>
 <table>
 <thead>
@@ -255,7 +250,6 @@ EncryptionStatusKeySource
 </em>
 </td>
 <td>
-<p>KeySource: Enumerates the possible value of keySource for Encryption</p>
 </td>
 </tr>
 <tr>
@@ -268,7 +262,6 @@ EncryptionStatusKeySource
 </em>
 </td>
 <td>
-<p>KeyVaultProperties: Properties of KeyVault</p>
 </td>
 </tr>
 <tr>
@@ -279,7 +272,6 @@ bool
 </em>
 </td>
 <td>
-<p>RequireInfrastructureEncryption: Enable Infrastructure Encryption (Double Encryption)</p>
 </td>
 </tr>
 </tbody>
@@ -290,6 +282,7 @@ bool
 (<em>Appears on:</em><a href="#servicebus.azure.com/v1alpha1api20210101preview.SBNamespaceProperties_StatusARM">SBNamespaceProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of Encryption_Status. Use v1beta20210101preview.Encryption_Status instead</p>
 </div>
 <table>
 <thead>
@@ -309,7 +302,6 @@ EncryptionStatusKeySource
 </em>
 </td>
 <td>
-<p>KeySource: Enumerates the possible value of keySource for Encryption</p>
 </td>
 </tr>
 <tr>
@@ -322,7 +314,6 @@ EncryptionStatusKeySource
 </em>
 </td>
 <td>
-<p>KeyVaultProperties: Properties of KeyVault</p>
 </td>
 </tr>
 <tr>
@@ -333,7 +324,6 @@ bool
 </em>
 </td>
 <td>
-<p>RequireInfrastructureEncryption: Enable Infrastructure Encryption (Double Encryption)</p>
 </td>
 </tr>
 </tbody>
@@ -344,6 +334,7 @@ bool
 (<em>Appears on:</em><a href="#servicebus.azure.com/v1alpha1api20210101preview.SBQueueProperties_StatusARM">SBQueueProperties_StatusARM</a>, <a href="#servicebus.azure.com/v1alpha1api20210101preview.SBQueue_Status">SBQueue_Status</a>, <a href="#servicebus.azure.com/v1alpha1api20210101preview.SBTopicProperties_StatusARM">SBTopicProperties_StatusARM</a>, <a href="#servicebus.azure.com/v1alpha1api20210101preview.SBTopic_Status">SBTopic_Status</a>)
 </p>
 <div>
+<p>Deprecated version of EntityStatus_Status. Use v1beta20210101preview.EntityStatus_Status instead</p>
 </div>
 <table>
 <thead>
@@ -378,7 +369,7 @@ bool
 (<em>Appears on:</em><a href="#servicebus.azure.com/v1alpha1api20210101preview.Namespaces_Spec">Namespaces_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/Identity">https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/Identity</a></p>
+<p>Deprecated version of Identity. Use v1beta20210101preview.Identity instead</p>
 </div>
 <table>
 <thead>
@@ -398,7 +389,6 @@ IdentityType
 </em>
 </td>
 <td>
-<p>Type: Type of managed service identity.</p>
 </td>
 </tr>
 </tbody>
@@ -409,7 +399,7 @@ IdentityType
 (<em>Appears on:</em><a href="#servicebus.azure.com/v1alpha1api20210101preview.Namespaces_SpecARM">Namespaces_SpecARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/Identity">https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/Identity</a></p>
+<p>Deprecated version of Identity. Use v1beta20210101preview.Identity instead</p>
 </div>
 <table>
 <thead>
@@ -429,7 +419,6 @@ IdentityType
 </em>
 </td>
 <td>
-<p>Type: Type of managed service identity.</p>
 </td>
 </tr>
 </tbody>
@@ -440,6 +429,7 @@ IdentityType
 (<em>Appears on:</em><a href="#servicebus.azure.com/v1alpha1api20210101preview.Identity_Status">Identity_Status</a>, <a href="#servicebus.azure.com/v1alpha1api20210101preview.Identity_StatusARM">Identity_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of IdentityStatusType. Use v1beta20210101preview.IdentityStatusType instead</p>
 </div>
 <table>
 <thead>
@@ -464,6 +454,7 @@ IdentityType
 (<em>Appears on:</em><a href="#servicebus.azure.com/v1alpha1api20210101preview.Identity">Identity</a>, <a href="#servicebus.azure.com/v1alpha1api20210101preview.IdentityARM">IdentityARM</a>)
 </p>
 <div>
+<p>Deprecated version of IdentityType. Use v1beta20210101preview.IdentityType instead</p>
 </div>
 <table>
 <thead>
@@ -488,6 +479,7 @@ IdentityType
 (<em>Appears on:</em><a href="#servicebus.azure.com/v1alpha1api20210101preview.SBNamespace_Status">SBNamespace_Status</a>)
 </p>
 <div>
+<p>Deprecated version of Identity_Status. Use v1beta20210101preview.Identity_Status instead</p>
 </div>
 <table>
 <thead>
@@ -505,7 +497,6 @@ string
 </em>
 </td>
 <td>
-<p>PrincipalId: ObjectId from the KeyVault</p>
 </td>
 </tr>
 <tr>
@@ -516,7 +507,6 @@ string
 </em>
 </td>
 <td>
-<p>TenantId: TenantId from the KeyVault</p>
 </td>
 </tr>
 <tr>
@@ -529,7 +519,6 @@ IdentityStatusType
 </em>
 </td>
 <td>
-<p>Type: Type of managed service identity.</p>
 </td>
 </tr>
 <tr>
@@ -542,7 +531,6 @@ map[string]./api/servicebus/v1alpha1api20210101preview.DictionaryValue_Status
 </em>
 </td>
 <td>
-<p>UserAssignedIdentities: Properties for User Assigned Identities</p>
 </td>
 </tr>
 </tbody>
@@ -553,6 +541,7 @@ map[string]./api/servicebus/v1alpha1api20210101preview.DictionaryValue_Status
 (<em>Appears on:</em><a href="#servicebus.azure.com/v1alpha1api20210101preview.SBNamespace_StatusARM">SBNamespace_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of Identity_Status. Use v1beta20210101preview.Identity_Status instead</p>
 </div>
 <table>
 <thead>
@@ -570,7 +559,6 @@ string
 </em>
 </td>
 <td>
-<p>PrincipalId: ObjectId from the KeyVault</p>
 </td>
 </tr>
 <tr>
@@ -581,7 +569,6 @@ string
 </em>
 </td>
 <td>
-<p>TenantId: TenantId from the KeyVault</p>
 </td>
 </tr>
 <tr>
@@ -594,7 +581,6 @@ IdentityStatusType
 </em>
 </td>
 <td>
-<p>Type: Type of managed service identity.</p>
 </td>
 </tr>
 <tr>
@@ -607,7 +593,6 @@ map[string]./api/servicebus/v1alpha1api20210101preview.DictionaryValue_StatusARM
 </em>
 </td>
 <td>
-<p>UserAssignedIdentities: Properties for User Assigned Identities</p>
 </td>
 </tr>
 </tbody>
@@ -618,7 +603,7 @@ map[string]./api/servicebus/v1alpha1api20210101preview.DictionaryValue_StatusARM
 (<em>Appears on:</em><a href="#servicebus.azure.com/v1alpha1api20210101preview.Encryption">Encryption</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/KeyVaultProperties">https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/KeyVaultProperties</a></p>
+<p>Deprecated version of KeyVaultProperties. Use v1beta20210101preview.KeyVaultProperties instead</p>
 </div>
 <table>
 <thead>
@@ -648,7 +633,6 @@ string
 </em>
 </td>
 <td>
-<p>KeyName: Name of the Key from KeyVault</p>
 </td>
 </tr>
 <tr>
@@ -659,7 +643,6 @@ string
 </em>
 </td>
 <td>
-<p>KeyVaultUri: Uri of KeyVault</p>
 </td>
 </tr>
 <tr>
@@ -670,7 +653,6 @@ string
 </em>
 </td>
 <td>
-<p>KeyVersion: Version of KeyVault</p>
 </td>
 </tr>
 </tbody>
@@ -681,7 +663,7 @@ string
 (<em>Appears on:</em><a href="#servicebus.azure.com/v1alpha1api20210101preview.EncryptionARM">EncryptionARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/KeyVaultProperties">https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/KeyVaultProperties</a></p>
+<p>Deprecated version of KeyVaultProperties. Use v1beta20210101preview.KeyVaultProperties instead</p>
 </div>
 <table>
 <thead>
@@ -711,7 +693,6 @@ string
 </em>
 </td>
 <td>
-<p>KeyName: Name of the Key from KeyVault</p>
 </td>
 </tr>
 <tr>
@@ -722,7 +703,6 @@ string
 </em>
 </td>
 <td>
-<p>KeyVaultUri: Uri of KeyVault</p>
 </td>
 </tr>
 <tr>
@@ -733,7 +713,6 @@ string
 </em>
 </td>
 <td>
-<p>KeyVersion: Version of KeyVault</p>
 </td>
 </tr>
 </tbody>
@@ -744,6 +723,7 @@ string
 (<em>Appears on:</em><a href="#servicebus.azure.com/v1alpha1api20210101preview.Encryption_Status">Encryption_Status</a>)
 </p>
 <div>
+<p>Deprecated version of KeyVaultProperties_Status. Use v1beta20210101preview.KeyVaultProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -773,7 +753,6 @@ string
 </em>
 </td>
 <td>
-<p>KeyName: Name of the Key from KeyVault</p>
 </td>
 </tr>
 <tr>
@@ -784,7 +763,6 @@ string
 </em>
 </td>
 <td>
-<p>KeyVaultUri: Uri of KeyVault</p>
 </td>
 </tr>
 <tr>
@@ -795,7 +773,6 @@ string
 </em>
 </td>
 <td>
-<p>KeyVersion: Version of KeyVault</p>
 </td>
 </tr>
 </tbody>
@@ -806,6 +783,7 @@ string
 (<em>Appears on:</em><a href="#servicebus.azure.com/v1alpha1api20210101preview.Encryption_StatusARM">Encryption_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of KeyVaultProperties_Status. Use v1beta20210101preview.KeyVaultProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -835,7 +813,6 @@ string
 </em>
 </td>
 <td>
-<p>KeyName: Name of the Key from KeyVault</p>
 </td>
 </tr>
 <tr>
@@ -846,7 +823,6 @@ string
 </em>
 </td>
 <td>
-<p>KeyVaultUri: Uri of KeyVault</p>
 </td>
 </tr>
 <tr>
@@ -857,7 +833,6 @@ string
 </em>
 </td>
 <td>
-<p>KeyVersion: Version of KeyVault</p>
 </td>
 </tr>
 </tbody>
@@ -868,6 +843,7 @@ string
 (<em>Appears on:</em><a href="#servicebus.azure.com/v1alpha1api20210101preview.SBQueue_Status">SBQueue_Status</a>, <a href="#servicebus.azure.com/v1alpha1api20210101preview.SBTopic_Status">SBTopic_Status</a>)
 </p>
 <div>
+<p>Deprecated version of MessageCountDetails_Status. Use v1beta20210101preview.MessageCountDetails_Status instead</p>
 </div>
 <table>
 <thead>
@@ -885,7 +861,6 @@ int
 </em>
 </td>
 <td>
-<p>ActiveMessageCount: Number of active messages in the queue, topic, or subscription.</p>
 </td>
 </tr>
 <tr>
@@ -896,7 +871,6 @@ int
 </em>
 </td>
 <td>
-<p>DeadLetterMessageCount: Number of messages that are dead lettered.</p>
 </td>
 </tr>
 <tr>
@@ -907,7 +881,6 @@ int
 </em>
 </td>
 <td>
-<p>ScheduledMessageCount: Number of scheduled messages.</p>
 </td>
 </tr>
 <tr>
@@ -918,7 +891,6 @@ int
 </em>
 </td>
 <td>
-<p>TransferDeadLetterMessageCount: Number of messages transferred into dead letters.</p>
 </td>
 </tr>
 <tr>
@@ -929,7 +901,6 @@ int
 </em>
 </td>
 <td>
-<p>TransferMessageCount: Number of messages transferred to another queue, topic, or subscription.</p>
 </td>
 </tr>
 </tbody>
@@ -940,6 +911,7 @@ int
 (<em>Appears on:</em><a href="#servicebus.azure.com/v1alpha1api20210101preview.SBQueueProperties_StatusARM">SBQueueProperties_StatusARM</a>, <a href="#servicebus.azure.com/v1alpha1api20210101preview.SBTopicProperties_StatusARM">SBTopicProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of MessageCountDetails_Status. Use v1beta20210101preview.MessageCountDetails_Status instead</p>
 </div>
 <table>
 <thead>
@@ -957,7 +929,6 @@ int
 </em>
 </td>
 <td>
-<p>ActiveMessageCount: Number of active messages in the queue, topic, or subscription.</p>
 </td>
 </tr>
 <tr>
@@ -968,7 +939,6 @@ int
 </em>
 </td>
 <td>
-<p>DeadLetterMessageCount: Number of messages that are dead lettered.</p>
 </td>
 </tr>
 <tr>
@@ -979,7 +949,6 @@ int
 </em>
 </td>
 <td>
-<p>ScheduledMessageCount: Number of scheduled messages.</p>
 </td>
 </tr>
 <tr>
@@ -990,7 +959,6 @@ int
 </em>
 </td>
 <td>
-<p>TransferDeadLetterMessageCount: Number of messages transferred into dead letters.</p>
 </td>
 </tr>
 <tr>
@@ -1001,7 +969,6 @@ int
 </em>
 </td>
 <td>
-<p>TransferMessageCount: Number of messages transferred to another queue, topic, or subscription.</p>
 </td>
 </tr>
 </tbody>
@@ -1009,7 +976,7 @@ int
 <h3 id="servicebus.azure.com/v1alpha1api20210101preview.Namespace">Namespace
 </h3>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/resourceDefinitions/namespaces">https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/resourceDefinitions/namespaces</a></p>
+<p>Deprecated version of Namespace. Use v1beta20210101preview.Namespace instead</p>
 </div>
 <table>
 <thead>
@@ -1068,7 +1035,6 @@ Encryption
 </em>
 </td>
 <td>
-<p>Encryption: Properties to configure Encryption</p>
 </td>
 </tr>
 <tr>
@@ -1081,7 +1047,6 @@ Identity
 </em>
 </td>
 <td>
-<p>Identity: Properties to configure User Assigned Identities for Bring your Own Keys</p>
 </td>
 </tr>
 <tr>
@@ -1092,7 +1057,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The Geo-location where the resource lives</p>
 </td>
 </tr>
 <tr>
@@ -1105,6 +1069,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -1117,7 +1084,6 @@ SBSku
 </em>
 </td>
 <td>
-<p>Sku: SKU of the namespace.</p>
 </td>
 </tr>
 <tr>
@@ -1128,7 +1094,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 <tr>
@@ -1139,7 +1104,6 @@ bool
 </em>
 </td>
 <td>
-<p>ZoneRedundant: Enabling this property creates a Premium Service Bus Namespace in regions supported availability zones.</p>
 </td>
 </tr>
 </table>
@@ -1162,7 +1126,7 @@ SBNamespace_Status
 <h3 id="servicebus.azure.com/v1alpha1api20210101preview.NamespacesQueue">NamespacesQueue
 </h3>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/resourceDefinitions/namespaces_queues">https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/resourceDefinitions/namespaces_queues</a></p>
+<p>Deprecated version of NamespacesQueue. Use v1beta20210101preview.NamespacesQueue instead</p>
 </div>
 <table>
 <thead>
@@ -1207,8 +1171,6 @@ string
 </em>
 </td>
 <td>
-<p>AutoDeleteOnIdle: ISO 8061 timeSpan idle interval after which the queue is automatically deleted. The minimum duration
-is 5 minutes.</p>
 </td>
 </tr>
 <tr>
@@ -1231,8 +1193,6 @@ bool
 </em>
 </td>
 <td>
-<p>DeadLetteringOnMessageExpiration: A value that indicates whether this queue has dead letter support when a message
-expires.</p>
 </td>
 </tr>
 <tr>
@@ -1243,9 +1203,6 @@ string
 </em>
 </td>
 <td>
-<p>DefaultMessageTimeToLive: ISO 8601 default message timespan to live value. This is the duration after which the message
-expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not
-set on a message itself.</p>
 </td>
 </tr>
 <tr>
@@ -1256,8 +1213,6 @@ string
 </em>
 </td>
 <td>
-<p>DuplicateDetectionHistoryTimeWindow: ISO 8601 timeSpan structure that defines the duration of the duplicate detection
-history. The default value is 10 minutes.</p>
 </td>
 </tr>
 <tr>
@@ -1268,7 +1223,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableBatchedOperations: Value that indicates whether server-side batched operations are enabled.</p>
 </td>
 </tr>
 <tr>
@@ -1279,8 +1233,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableExpress: A value that indicates whether Express Entities are enabled. An express queue holds a message in memory
-temporarily before writing it to persistent storage.</p>
 </td>
 </tr>
 <tr>
@@ -1291,7 +1243,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnablePartitioning: A value that indicates whether the queue is to be partitioned across multiple message brokers.</p>
 </td>
 </tr>
 <tr>
@@ -1302,7 +1253,6 @@ string
 </em>
 </td>
 <td>
-<p>ForwardDeadLetteredMessagesTo: Queue/Topic name to forward the Dead Letter message</p>
 </td>
 </tr>
 <tr>
@@ -1313,7 +1263,6 @@ string
 </em>
 </td>
 <td>
-<p>ForwardTo: Queue/Topic name to forward the messages</p>
 </td>
 </tr>
 <tr>
@@ -1324,7 +1273,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -1335,8 +1283,6 @@ string
 </em>
 </td>
 <td>
-<p>LockDuration: ISO 8601 timespan duration of a peek-lock; that is, the amount of time that the message is locked for
-other receivers. The maximum value for LockDuration is 5 minutes; the default value is 1 minute.</p>
 </td>
 </tr>
 <tr>
@@ -1347,8 +1293,6 @@ int
 </em>
 </td>
 <td>
-<p>MaxDeliveryCount: The maximum delivery count. A message is automatically deadlettered after this number of deliveries.
-default value is 10.</p>
 </td>
 </tr>
 <tr>
@@ -1359,8 +1303,6 @@ int
 </em>
 </td>
 <td>
-<p>MaxSizeInMegabytes: The maximum size of the queue in megabytes, which is the size of memory allocated for the queue.
-Default is 1024.</p>
 </td>
 </tr>
 <tr>
@@ -1373,6 +1315,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a servicebus.azure.com/Namespace resource</p>
 </td>
 </tr>
 <tr>
@@ -1383,7 +1328,6 @@ bool
 </em>
 </td>
 <td>
-<p>RequiresDuplicateDetection: A value indicating if this queue requires duplicate detection.</p>
 </td>
 </tr>
 <tr>
@@ -1394,7 +1338,6 @@ bool
 </em>
 </td>
 <td>
-<p>RequiresSession: A value that indicates whether the queue supports the concept of sessions.</p>
 </td>
 </tr>
 <tr>
@@ -1405,7 +1348,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </table>
@@ -1424,21 +1366,6 @@ SBQueue_Status
 </td>
 </tr>
 </tbody>
-</table>
-<h3 id="servicebus.azure.com/v1alpha1api20210101preview.NamespacesQueuesSpecAPIVersion">NamespacesQueuesSpecAPIVersion
-(<code>string</code> alias)</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;2021-01-01-preview&#34;</p></td>
-<td></td>
-</tr></tbody>
 </table>
 <h3 id="servicebus.azure.com/v1alpha1api20210101preview.NamespacesQueues_Spec">NamespacesQueues_Spec
 </h3>
@@ -1463,8 +1390,6 @@ string
 </em>
 </td>
 <td>
-<p>AutoDeleteOnIdle: ISO 8061 timeSpan idle interval after which the queue is automatically deleted. The minimum duration
-is 5 minutes.</p>
 </td>
 </tr>
 <tr>
@@ -1487,8 +1412,6 @@ bool
 </em>
 </td>
 <td>
-<p>DeadLetteringOnMessageExpiration: A value that indicates whether this queue has dead letter support when a message
-expires.</p>
 </td>
 </tr>
 <tr>
@@ -1499,9 +1422,6 @@ string
 </em>
 </td>
 <td>
-<p>DefaultMessageTimeToLive: ISO 8601 default message timespan to live value. This is the duration after which the message
-expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not
-set on a message itself.</p>
 </td>
 </tr>
 <tr>
@@ -1512,8 +1432,6 @@ string
 </em>
 </td>
 <td>
-<p>DuplicateDetectionHistoryTimeWindow: ISO 8601 timeSpan structure that defines the duration of the duplicate detection
-history. The default value is 10 minutes.</p>
 </td>
 </tr>
 <tr>
@@ -1524,7 +1442,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableBatchedOperations: Value that indicates whether server-side batched operations are enabled.</p>
 </td>
 </tr>
 <tr>
@@ -1535,8 +1452,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableExpress: A value that indicates whether Express Entities are enabled. An express queue holds a message in memory
-temporarily before writing it to persistent storage.</p>
 </td>
 </tr>
 <tr>
@@ -1547,7 +1462,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnablePartitioning: A value that indicates whether the queue is to be partitioned across multiple message brokers.</p>
 </td>
 </tr>
 <tr>
@@ -1558,7 +1472,6 @@ string
 </em>
 </td>
 <td>
-<p>ForwardDeadLetteredMessagesTo: Queue/Topic name to forward the Dead Letter message</p>
 </td>
 </tr>
 <tr>
@@ -1569,7 +1482,6 @@ string
 </em>
 </td>
 <td>
-<p>ForwardTo: Queue/Topic name to forward the messages</p>
 </td>
 </tr>
 <tr>
@@ -1580,7 +1492,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -1591,8 +1502,6 @@ string
 </em>
 </td>
 <td>
-<p>LockDuration: ISO 8601 timespan duration of a peek-lock; that is, the amount of time that the message is locked for
-other receivers. The maximum value for LockDuration is 5 minutes; the default value is 1 minute.</p>
 </td>
 </tr>
 <tr>
@@ -1603,8 +1512,6 @@ int
 </em>
 </td>
 <td>
-<p>MaxDeliveryCount: The maximum delivery count. A message is automatically deadlettered after this number of deliveries.
-default value is 10.</p>
 </td>
 </tr>
 <tr>
@@ -1615,8 +1522,6 @@ int
 </em>
 </td>
 <td>
-<p>MaxSizeInMegabytes: The maximum size of the queue in megabytes, which is the size of memory allocated for the queue.
-Default is 1024.</p>
 </td>
 </tr>
 <tr>
@@ -1629,6 +1534,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a servicebus.azure.com/Namespace resource</p>
 </td>
 </tr>
 <tr>
@@ -1639,7 +1547,6 @@ bool
 </em>
 </td>
 <td>
-<p>RequiresDuplicateDetection: A value indicating if this queue requires duplicate detection.</p>
 </td>
 </tr>
 <tr>
@@ -1650,7 +1557,6 @@ bool
 </em>
 </td>
 <td>
-<p>RequiresSession: A value that indicates whether the queue supports the concept of sessions.</p>
 </td>
 </tr>
 <tr>
@@ -1661,7 +1567,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </tbody>
@@ -1669,6 +1574,7 @@ map[string]string
 <h3 id="servicebus.azure.com/v1alpha1api20210101preview.NamespacesQueues_SpecARM">NamespacesQueues_SpecARM
 </h3>
 <div>
+<p>Deprecated version of NamespacesQueues_Spec. Use v1beta20210101preview.NamespacesQueues_Spec instead</p>
 </div>
 <table>
 <thead>
@@ -1686,7 +1592,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -1697,7 +1602,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Name of the resource</p>
 </td>
 </tr>
 <tr>
@@ -1710,7 +1614,6 @@ SBQueuePropertiesARM
 </em>
 </td>
 <td>
-<p>Properties: The Queue Properties definition.</p>
 </td>
 </tr>
 <tr>
@@ -1721,30 +1624,14 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="servicebus.azure.com/v1alpha1api20210101preview.NamespacesSpecAPIVersion">NamespacesSpecAPIVersion
-(<code>string</code> alias)</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;2021-01-01-preview&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
 <h3 id="servicebus.azure.com/v1alpha1api20210101preview.NamespacesTopic">NamespacesTopic
 </h3>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/resourceDefinitions/namespaces_topics">https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/resourceDefinitions/namespaces_topics</a></p>
+<p>Deprecated version of NamespacesTopic. Use v1beta20210101preview.NamespacesTopic instead</p>
 </div>
 <table>
 <thead>
@@ -1789,8 +1676,6 @@ string
 </em>
 </td>
 <td>
-<p>AutoDeleteOnIdle: ISO 8601 timespan idle interval after which the topic is automatically deleted. The minimum duration
-is 5 minutes.</p>
 </td>
 </tr>
 <tr>
@@ -1813,9 +1698,6 @@ string
 </em>
 </td>
 <td>
-<p>DefaultMessageTimeToLive: ISO 8601 Default message timespan to live value. This is the duration after which the message
-expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not
-set on a message itself.</p>
 </td>
 </tr>
 <tr>
@@ -1826,8 +1708,6 @@ string
 </em>
 </td>
 <td>
-<p>DuplicateDetectionHistoryTimeWindow: ISO8601 timespan structure that defines the duration of the duplicate detection
-history. The default value is 10 minutes.</p>
 </td>
 </tr>
 <tr>
@@ -1838,7 +1718,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableBatchedOperations: Value that indicates whether server-side batched operations are enabled.</p>
 </td>
 </tr>
 <tr>
@@ -1849,8 +1728,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableExpress: Value that indicates whether Express Entities are enabled. An express topic holds a message in memory
-temporarily before writing it to persistent storage.</p>
 </td>
 </tr>
 <tr>
@@ -1861,7 +1738,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnablePartitioning: Value that indicates whether the topic to be partitioned across multiple message brokers is enabled.</p>
 </td>
 </tr>
 <tr>
@@ -1872,7 +1748,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -1883,8 +1758,6 @@ int
 </em>
 </td>
 <td>
-<p>MaxSizeInMegabytes: Maximum size of the topic in megabytes, which is the size of the memory allocated for the topic.
-Default is 1024.</p>
 </td>
 </tr>
 <tr>
@@ -1897,6 +1770,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a servicebus.azure.com/Namespace resource</p>
 </td>
 </tr>
 <tr>
@@ -1907,7 +1783,6 @@ bool
 </em>
 </td>
 <td>
-<p>RequiresDuplicateDetection: Value indicating if this topic requires duplicate detection.</p>
 </td>
 </tr>
 <tr>
@@ -1918,7 +1793,6 @@ bool
 </em>
 </td>
 <td>
-<p>SupportOrdering: Value that indicates whether the topic supports ordering.</p>
 </td>
 </tr>
 <tr>
@@ -1929,7 +1803,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </table>
@@ -1948,21 +1821,6 @@ SBTopic_Status
 </td>
 </tr>
 </tbody>
-</table>
-<h3 id="servicebus.azure.com/v1alpha1api20210101preview.NamespacesTopicsSpecAPIVersion">NamespacesTopicsSpecAPIVersion
-(<code>string</code> alias)</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;2021-01-01-preview&#34;</p></td>
-<td></td>
-</tr></tbody>
 </table>
 <h3 id="servicebus.azure.com/v1alpha1api20210101preview.NamespacesTopics_Spec">NamespacesTopics_Spec
 </h3>
@@ -1987,8 +1845,6 @@ string
 </em>
 </td>
 <td>
-<p>AutoDeleteOnIdle: ISO 8601 timespan idle interval after which the topic is automatically deleted. The minimum duration
-is 5 minutes.</p>
 </td>
 </tr>
 <tr>
@@ -2011,9 +1867,6 @@ string
 </em>
 </td>
 <td>
-<p>DefaultMessageTimeToLive: ISO 8601 Default message timespan to live value. This is the duration after which the message
-expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not
-set on a message itself.</p>
 </td>
 </tr>
 <tr>
@@ -2024,8 +1877,6 @@ string
 </em>
 </td>
 <td>
-<p>DuplicateDetectionHistoryTimeWindow: ISO8601 timespan structure that defines the duration of the duplicate detection
-history. The default value is 10 minutes.</p>
 </td>
 </tr>
 <tr>
@@ -2036,7 +1887,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableBatchedOperations: Value that indicates whether server-side batched operations are enabled.</p>
 </td>
 </tr>
 <tr>
@@ -2047,8 +1897,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableExpress: Value that indicates whether Express Entities are enabled. An express topic holds a message in memory
-temporarily before writing it to persistent storage.</p>
 </td>
 </tr>
 <tr>
@@ -2059,7 +1907,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnablePartitioning: Value that indicates whether the topic to be partitioned across multiple message brokers is enabled.</p>
 </td>
 </tr>
 <tr>
@@ -2070,7 +1917,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -2081,8 +1927,6 @@ int
 </em>
 </td>
 <td>
-<p>MaxSizeInMegabytes: Maximum size of the topic in megabytes, which is the size of the memory allocated for the topic.
-Default is 1024.</p>
 </td>
 </tr>
 <tr>
@@ -2095,6 +1939,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a servicebus.azure.com/Namespace resource</p>
 </td>
 </tr>
 <tr>
@@ -2105,7 +1952,6 @@ bool
 </em>
 </td>
 <td>
-<p>RequiresDuplicateDetection: Value indicating if this topic requires duplicate detection.</p>
 </td>
 </tr>
 <tr>
@@ -2116,7 +1962,6 @@ bool
 </em>
 </td>
 <td>
-<p>SupportOrdering: Value that indicates whether the topic supports ordering.</p>
 </td>
 </tr>
 <tr>
@@ -2127,7 +1972,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </tbody>
@@ -2135,6 +1979,7 @@ map[string]string
 <h3 id="servicebus.azure.com/v1alpha1api20210101preview.NamespacesTopics_SpecARM">NamespacesTopics_SpecARM
 </h3>
 <div>
+<p>Deprecated version of NamespacesTopics_Spec. Use v1beta20210101preview.NamespacesTopics_Spec instead</p>
 </div>
 <table>
 <thead>
@@ -2152,7 +1997,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -2163,7 +2007,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Name of the resource</p>
 </td>
 </tr>
 <tr>
@@ -2176,7 +2019,6 @@ SBTopicPropertiesARM
 </em>
 </td>
 <td>
-<p>Properties: The Topic Properties definition.</p>
 </td>
 </tr>
 <tr>
@@ -2187,7 +2029,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </tbody>
@@ -2229,7 +2070,6 @@ Encryption
 </em>
 </td>
 <td>
-<p>Encryption: Properties to configure Encryption</p>
 </td>
 </tr>
 <tr>
@@ -2242,7 +2082,6 @@ Identity
 </em>
 </td>
 <td>
-<p>Identity: Properties to configure User Assigned Identities for Bring your Own Keys</p>
 </td>
 </tr>
 <tr>
@@ -2253,7 +2092,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The Geo-location where the resource lives</p>
 </td>
 </tr>
 <tr>
@@ -2266,6 +2104,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -2278,7 +2119,6 @@ SBSku
 </em>
 </td>
 <td>
-<p>Sku: SKU of the namespace.</p>
 </td>
 </tr>
 <tr>
@@ -2289,7 +2129,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 <tr>
@@ -2300,7 +2139,6 @@ bool
 </em>
 </td>
 <td>
-<p>ZoneRedundant: Enabling this property creates a Premium Service Bus Namespace in regions supported availability zones.</p>
 </td>
 </tr>
 </tbody>
@@ -2308,6 +2146,7 @@ bool
 <h3 id="servicebus.azure.com/v1alpha1api20210101preview.Namespaces_SpecARM">Namespaces_SpecARM
 </h3>
 <div>
+<p>Deprecated version of Namespaces_Spec. Use v1beta20210101preview.Namespaces_Spec instead</p>
 </div>
 <table>
 <thead>
@@ -2327,7 +2166,6 @@ IdentityARM
 </em>
 </td>
 <td>
-<p>Identity: Properties to configure User Assigned Identities for Bring your Own Keys</p>
 </td>
 </tr>
 <tr>
@@ -2338,7 +2176,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The Geo-location where the resource lives</p>
 </td>
 </tr>
 <tr>
@@ -2349,7 +2186,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Name of the resource</p>
 </td>
 </tr>
 <tr>
@@ -2362,7 +2198,6 @@ Namespaces_Spec_PropertiesARM
 </em>
 </td>
 <td>
-<p>Properties: Properties of the namespace.</p>
 </td>
 </tr>
 <tr>
@@ -2375,7 +2210,6 @@ SBSkuARM
 </em>
 </td>
 <td>
-<p>Sku: SKU of the namespace.</p>
 </td>
 </tr>
 <tr>
@@ -2386,7 +2220,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </tbody>
@@ -2397,6 +2230,7 @@ map[string]string
 (<em>Appears on:</em><a href="#servicebus.azure.com/v1alpha1api20210101preview.Namespaces_SpecARM">Namespaces_SpecARM</a>)
 </p>
 <div>
+<p>Deprecated version of Namespaces_Spec_Properties. Use v1beta20210101preview.Namespaces_Spec_Properties instead</p>
 </div>
 <table>
 <thead>
@@ -2416,7 +2250,6 @@ EncryptionARM
 </em>
 </td>
 <td>
-<p>Encryption: Properties to configure Encryption</p>
 </td>
 </tr>
 <tr>
@@ -2427,7 +2260,6 @@ bool
 </em>
 </td>
 <td>
-<p>ZoneRedundant: Enabling this property creates a Premium Service Bus Namespace in regions supported availability zones.</p>
 </td>
 </tr>
 </tbody>
@@ -2438,6 +2270,7 @@ bool
 (<em>Appears on:</em><a href="#servicebus.azure.com/v1alpha1api20210101preview.SBNamespace_Status">SBNamespace_Status</a>)
 </p>
 <div>
+<p>Deprecated version of PrivateEndpointConnection_Status_SubResourceEmbedded. Use v1beta20210101preview.PrivateEndpointConnection_Status_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -2455,7 +2288,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource Id</p>
 </td>
 </tr>
 <tr>
@@ -2468,7 +2300,6 @@ SystemData_Status
 </em>
 </td>
 <td>
-<p>SystemData: The system meta data relating to this resource.</p>
 </td>
 </tr>
 </tbody>
@@ -2479,6 +2310,7 @@ SystemData_Status
 (<em>Appears on:</em><a href="#servicebus.azure.com/v1alpha1api20210101preview.SBNamespaceProperties_StatusARM">SBNamespaceProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of PrivateEndpointConnection_Status_SubResourceEmbedded. Use v1beta20210101preview.PrivateEndpointConnection_Status_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -2496,7 +2328,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource Id</p>
 </td>
 </tr>
 <tr>
@@ -2509,7 +2340,6 @@ SystemData_StatusARM
 </em>
 </td>
 <td>
-<p>SystemData: The system meta data relating to this resource.</p>
 </td>
 </tr>
 </tbody>
@@ -2520,6 +2350,7 @@ SystemData_StatusARM
 (<em>Appears on:</em><a href="#servicebus.azure.com/v1alpha1api20210101preview.SBNamespace_StatusARM">SBNamespace_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of SBNamespaceProperties_Status. Use v1beta20210101preview.SBNamespaceProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -2537,7 +2368,6 @@ string
 </em>
 </td>
 <td>
-<p>CreatedAt: The time the namespace was created</p>
 </td>
 </tr>
 <tr>
@@ -2550,7 +2380,6 @@ Encryption_StatusARM
 </em>
 </td>
 <td>
-<p>Encryption: Properties of BYOK Encryption description</p>
 </td>
 </tr>
 <tr>
@@ -2561,7 +2390,6 @@ string
 </em>
 </td>
 <td>
-<p>MetricId: Identifier for Azure Insights metrics</p>
 </td>
 </tr>
 <tr>
@@ -2574,7 +2402,6 @@ string
 </em>
 </td>
 <td>
-<p>PrivateEndpointConnections: List of private endpoint connections.</p>
 </td>
 </tr>
 <tr>
@@ -2585,7 +2412,6 @@ string
 </em>
 </td>
 <td>
-<p>ProvisioningState: Provisioning state of the namespace.</p>
 </td>
 </tr>
 <tr>
@@ -2596,7 +2422,6 @@ string
 </em>
 </td>
 <td>
-<p>ServiceBusEndpoint: Endpoint you can use to perform Service Bus operations.</p>
 </td>
 </tr>
 <tr>
@@ -2607,7 +2432,6 @@ string
 </em>
 </td>
 <td>
-<p>Status: Status of the namespace.</p>
 </td>
 </tr>
 <tr>
@@ -2618,7 +2442,6 @@ string
 </em>
 </td>
 <td>
-<p>UpdatedAt: The time the namespace was updated.</p>
 </td>
 </tr>
 <tr>
@@ -2629,7 +2452,6 @@ bool
 </em>
 </td>
 <td>
-<p>ZoneRedundant: Enabling this property creates a Premium Service Bus Namespace in regions supported availability zones.</p>
 </td>
 </tr>
 </tbody>
@@ -2640,6 +2462,7 @@ bool
 (<em>Appears on:</em><a href="#servicebus.azure.com/v1alpha1api20210101preview.Namespace">Namespace</a>)
 </p>
 <div>
+<p>Deprecated version of SBNamespace_Status. Use v1beta20210101preview.SBNamespace_Status instead</p>
 </div>
 <table>
 <thead>
@@ -2670,7 +2493,6 @@ string
 </em>
 </td>
 <td>
-<p>CreatedAt: The time the namespace was created</p>
 </td>
 </tr>
 <tr>
@@ -2683,7 +2505,6 @@ Encryption_Status
 </em>
 </td>
 <td>
-<p>Encryption: Properties of BYOK Encryption description</p>
 </td>
 </tr>
 <tr>
@@ -2694,7 +2515,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource Id</p>
 </td>
 </tr>
 <tr>
@@ -2707,7 +2527,6 @@ Identity_Status
 </em>
 </td>
 <td>
-<p>Identity: Properties of BYOK Identity description</p>
 </td>
 </tr>
 <tr>
@@ -2718,7 +2537,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The Geo-location where the resource lives</p>
 </td>
 </tr>
 <tr>
@@ -2729,7 +2547,6 @@ string
 </em>
 </td>
 <td>
-<p>MetricId: Identifier for Azure Insights metrics</p>
 </td>
 </tr>
 <tr>
@@ -2740,7 +2557,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Resource name</p>
 </td>
 </tr>
 <tr>
@@ -2753,7 +2569,6 @@ string
 </em>
 </td>
 <td>
-<p>PrivateEndpointConnections: List of private endpoint connections.</p>
 </td>
 </tr>
 <tr>
@@ -2764,7 +2579,6 @@ string
 </em>
 </td>
 <td>
-<p>ProvisioningState: Provisioning state of the namespace.</p>
 </td>
 </tr>
 <tr>
@@ -2775,7 +2589,6 @@ string
 </em>
 </td>
 <td>
-<p>ServiceBusEndpoint: Endpoint you can use to perform Service Bus operations.</p>
 </td>
 </tr>
 <tr>
@@ -2788,7 +2601,6 @@ SBSku_Status
 </em>
 </td>
 <td>
-<p>Sku: Properties of SKU</p>
 </td>
 </tr>
 <tr>
@@ -2799,7 +2611,6 @@ string
 </em>
 </td>
 <td>
-<p>Status: Status of the namespace.</p>
 </td>
 </tr>
 <tr>
@@ -2812,7 +2623,6 @@ SystemData_Status
 </em>
 </td>
 <td>
-<p>SystemData: The system meta data relating to this resource.</p>
 </td>
 </tr>
 <tr>
@@ -2823,7 +2633,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Resource tags</p>
 </td>
 </tr>
 <tr>
@@ -2834,7 +2643,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: Resource type</p>
 </td>
 </tr>
 <tr>
@@ -2845,7 +2653,6 @@ string
 </em>
 </td>
 <td>
-<p>UpdatedAt: The time the namespace was updated.</p>
 </td>
 </tr>
 <tr>
@@ -2856,7 +2663,6 @@ bool
 </em>
 </td>
 <td>
-<p>ZoneRedundant: Enabling this property creates a Premium Service Bus Namespace in regions supported availability zones.</p>
 </td>
 </tr>
 </tbody>
@@ -2864,6 +2670,7 @@ bool
 <h3 id="servicebus.azure.com/v1alpha1api20210101preview.SBNamespace_StatusARM">SBNamespace_StatusARM
 </h3>
 <div>
+<p>Deprecated version of SBNamespace_Status. Use v1beta20210101preview.SBNamespace_Status instead</p>
 </div>
 <table>
 <thead>
@@ -2881,7 +2688,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource Id</p>
 </td>
 </tr>
 <tr>
@@ -2894,7 +2700,6 @@ Identity_StatusARM
 </em>
 </td>
 <td>
-<p>Identity: Properties of BYOK Identity description</p>
 </td>
 </tr>
 <tr>
@@ -2905,7 +2710,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The Geo-location where the resource lives</p>
 </td>
 </tr>
 <tr>
@@ -2916,7 +2720,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Resource name</p>
 </td>
 </tr>
 <tr>
@@ -2929,7 +2732,6 @@ SBNamespaceProperties_StatusARM
 </em>
 </td>
 <td>
-<p>Properties: Properties of the namespace.</p>
 </td>
 </tr>
 <tr>
@@ -2942,7 +2744,6 @@ SBSku_StatusARM
 </em>
 </td>
 <td>
-<p>Sku: Properties of SKU</p>
 </td>
 </tr>
 <tr>
@@ -2955,7 +2756,6 @@ SystemData_StatusARM
 </em>
 </td>
 <td>
-<p>SystemData: The system meta data relating to this resource.</p>
 </td>
 </tr>
 <tr>
@@ -2966,7 +2766,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Resource tags</p>
 </td>
 </tr>
 <tr>
@@ -2977,7 +2776,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: Resource type</p>
 </td>
 </tr>
 </tbody>
@@ -2988,7 +2786,7 @@ string
 (<em>Appears on:</em><a href="#servicebus.azure.com/v1alpha1api20210101preview.NamespacesQueues_SpecARM">NamespacesQueues_SpecARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/SBQueueProperties">https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/SBQueueProperties</a></p>
+<p>Deprecated version of SBQueueProperties. Use v1beta20210101preview.SBQueueProperties instead</p>
 </div>
 <table>
 <thead>
@@ -3006,8 +2804,6 @@ string
 </em>
 </td>
 <td>
-<p>AutoDeleteOnIdle: ISO 8061 timeSpan idle interval after which the queue is automatically deleted. The minimum duration
-is 5 minutes.</p>
 </td>
 </tr>
 <tr>
@@ -3018,8 +2814,6 @@ bool
 </em>
 </td>
 <td>
-<p>DeadLetteringOnMessageExpiration: A value that indicates whether this queue has dead letter support when a message
-expires.</p>
 </td>
 </tr>
 <tr>
@@ -3030,9 +2824,6 @@ string
 </em>
 </td>
 <td>
-<p>DefaultMessageTimeToLive: ISO 8601 default message timespan to live value. This is the duration after which the message
-expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not
-set on a message itself.</p>
 </td>
 </tr>
 <tr>
@@ -3043,8 +2834,6 @@ string
 </em>
 </td>
 <td>
-<p>DuplicateDetectionHistoryTimeWindow: ISO 8601 timeSpan structure that defines the duration of the duplicate detection
-history. The default value is 10 minutes.</p>
 </td>
 </tr>
 <tr>
@@ -3055,7 +2844,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableBatchedOperations: Value that indicates whether server-side batched operations are enabled.</p>
 </td>
 </tr>
 <tr>
@@ -3066,8 +2854,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableExpress: A value that indicates whether Express Entities are enabled. An express queue holds a message in memory
-temporarily before writing it to persistent storage.</p>
 </td>
 </tr>
 <tr>
@@ -3078,7 +2864,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnablePartitioning: A value that indicates whether the queue is to be partitioned across multiple message brokers.</p>
 </td>
 </tr>
 <tr>
@@ -3089,7 +2874,6 @@ string
 </em>
 </td>
 <td>
-<p>ForwardDeadLetteredMessagesTo: Queue/Topic name to forward the Dead Letter message</p>
 </td>
 </tr>
 <tr>
@@ -3100,7 +2884,6 @@ string
 </em>
 </td>
 <td>
-<p>ForwardTo: Queue/Topic name to forward the messages</p>
 </td>
 </tr>
 <tr>
@@ -3111,8 +2894,6 @@ string
 </em>
 </td>
 <td>
-<p>LockDuration: ISO 8601 timespan duration of a peek-lock; that is, the amount of time that the message is locked for
-other receivers. The maximum value for LockDuration is 5 minutes; the default value is 1 minute.</p>
 </td>
 </tr>
 <tr>
@@ -3123,8 +2904,6 @@ int
 </em>
 </td>
 <td>
-<p>MaxDeliveryCount: The maximum delivery count. A message is automatically deadlettered after this number of deliveries.
-default value is 10.</p>
 </td>
 </tr>
 <tr>
@@ -3135,8 +2914,6 @@ int
 </em>
 </td>
 <td>
-<p>MaxSizeInMegabytes: The maximum size of the queue in megabytes, which is the size of memory allocated for the queue.
-Default is 1024.</p>
 </td>
 </tr>
 <tr>
@@ -3147,7 +2924,6 @@ bool
 </em>
 </td>
 <td>
-<p>RequiresDuplicateDetection: A value indicating if this queue requires duplicate detection.</p>
 </td>
 </tr>
 <tr>
@@ -3158,7 +2934,6 @@ bool
 </em>
 </td>
 <td>
-<p>RequiresSession: A value that indicates whether the queue supports the concept of sessions.</p>
 </td>
 </tr>
 </tbody>
@@ -3169,6 +2944,7 @@ bool
 (<em>Appears on:</em><a href="#servicebus.azure.com/v1alpha1api20210101preview.SBQueue_StatusARM">SBQueue_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of SBQueueProperties_Status. Use v1beta20210101preview.SBQueueProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -3186,7 +2962,6 @@ string
 </em>
 </td>
 <td>
-<p>AccessedAt: Last time a message was sent, or the last time there was a receive request to this queue.</p>
 </td>
 </tr>
 <tr>
@@ -3197,8 +2972,6 @@ string
 </em>
 </td>
 <td>
-<p>AutoDeleteOnIdle: ISO 8061 timeSpan idle interval after which the queue is automatically deleted. The minimum duration
-is 5 minutes.</p>
 </td>
 </tr>
 <tr>
@@ -3211,7 +2984,6 @@ MessageCountDetails_StatusARM
 </em>
 </td>
 <td>
-<p>CountDetails: Message Count Details.</p>
 </td>
 </tr>
 <tr>
@@ -3222,7 +2994,6 @@ string
 </em>
 </td>
 <td>
-<p>CreatedAt: The exact time the message was created.</p>
 </td>
 </tr>
 <tr>
@@ -3233,8 +3004,6 @@ bool
 </em>
 </td>
 <td>
-<p>DeadLetteringOnMessageExpiration: A value that indicates whether this queue has dead letter support when a message
-expires.</p>
 </td>
 </tr>
 <tr>
@@ -3245,9 +3014,6 @@ string
 </em>
 </td>
 <td>
-<p>DefaultMessageTimeToLive: ISO 8601 default message timespan to live value. This is the duration after which the message
-expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not
-set on a message itself.</p>
 </td>
 </tr>
 <tr>
@@ -3258,8 +3024,6 @@ string
 </em>
 </td>
 <td>
-<p>DuplicateDetectionHistoryTimeWindow: ISO 8601 timeSpan structure that defines the duration of the duplicate detection
-history. The default value is 10 minutes.</p>
 </td>
 </tr>
 <tr>
@@ -3270,7 +3034,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableBatchedOperations: Value that indicates whether server-side batched operations are enabled.</p>
 </td>
 </tr>
 <tr>
@@ -3281,8 +3044,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableExpress: A value that indicates whether Express Entities are enabled. An express queue holds a message in memory
-temporarily before writing it to persistent storage.</p>
 </td>
 </tr>
 <tr>
@@ -3293,7 +3054,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnablePartitioning: A value that indicates whether the queue is to be partitioned across multiple message brokers.</p>
 </td>
 </tr>
 <tr>
@@ -3304,7 +3064,6 @@ string
 </em>
 </td>
 <td>
-<p>ForwardDeadLetteredMessagesTo: Queue/Topic name to forward the Dead Letter message</p>
 </td>
 </tr>
 <tr>
@@ -3315,7 +3074,6 @@ string
 </em>
 </td>
 <td>
-<p>ForwardTo: Queue/Topic name to forward the messages</p>
 </td>
 </tr>
 <tr>
@@ -3326,8 +3084,6 @@ string
 </em>
 </td>
 <td>
-<p>LockDuration: ISO 8601 timespan duration of a peek-lock; that is, the amount of time that the message is locked for
-other receivers. The maximum value for LockDuration is 5 minutes; the default value is 1 minute.</p>
 </td>
 </tr>
 <tr>
@@ -3338,8 +3094,6 @@ int
 </em>
 </td>
 <td>
-<p>MaxDeliveryCount: The maximum delivery count. A message is automatically deadlettered after this number of deliveries.
-default value is 10.</p>
 </td>
 </tr>
 <tr>
@@ -3350,8 +3104,6 @@ int
 </em>
 </td>
 <td>
-<p>MaxSizeInMegabytes: The maximum size of the queue in megabytes, which is the size of memory allocated for the queue.
-Default is 1024.</p>
 </td>
 </tr>
 <tr>
@@ -3362,7 +3114,6 @@ int
 </em>
 </td>
 <td>
-<p>MessageCount: The number of messages in the queue.</p>
 </td>
 </tr>
 <tr>
@@ -3373,7 +3124,6 @@ bool
 </em>
 </td>
 <td>
-<p>RequiresDuplicateDetection: A value indicating if this queue requires duplicate detection.</p>
 </td>
 </tr>
 <tr>
@@ -3384,7 +3134,6 @@ bool
 </em>
 </td>
 <td>
-<p>RequiresSession: A value that indicates whether the queue supports the concept of sessions.</p>
 </td>
 </tr>
 <tr>
@@ -3395,7 +3144,6 @@ int
 </em>
 </td>
 <td>
-<p>SizeInBytes: The size of the queue, in bytes.</p>
 </td>
 </tr>
 <tr>
@@ -3408,7 +3156,6 @@ EntityStatus_Status
 </em>
 </td>
 <td>
-<p>Status: Enumerates the possible values for the status of a messaging entity.</p>
 </td>
 </tr>
 <tr>
@@ -3419,7 +3166,6 @@ string
 </em>
 </td>
 <td>
-<p>UpdatedAt: The exact time the message was updated.</p>
 </td>
 </tr>
 </tbody>
@@ -3430,6 +3176,7 @@ string
 (<em>Appears on:</em><a href="#servicebus.azure.com/v1alpha1api20210101preview.NamespacesQueue">NamespacesQueue</a>)
 </p>
 <div>
+<p>Deprecated version of SBQueue_Status. Use v1beta20210101preview.SBQueue_Status instead</p>
 </div>
 <table>
 <thead>
@@ -3447,7 +3194,6 @@ string
 </em>
 </td>
 <td>
-<p>AccessedAt: Last time a message was sent, or the last time there was a receive request to this queue.</p>
 </td>
 </tr>
 <tr>
@@ -3458,8 +3204,6 @@ string
 </em>
 </td>
 <td>
-<p>AutoDeleteOnIdle: ISO 8061 timeSpan idle interval after which the queue is automatically deleted. The minimum duration
-is 5 minutes.</p>
 </td>
 </tr>
 <tr>
@@ -3485,7 +3229,6 @@ MessageCountDetails_Status
 </em>
 </td>
 <td>
-<p>CountDetails: Message Count Details.</p>
 </td>
 </tr>
 <tr>
@@ -3496,7 +3239,6 @@ string
 </em>
 </td>
 <td>
-<p>CreatedAt: The exact time the message was created.</p>
 </td>
 </tr>
 <tr>
@@ -3507,8 +3249,6 @@ bool
 </em>
 </td>
 <td>
-<p>DeadLetteringOnMessageExpiration: A value that indicates whether this queue has dead letter support when a message
-expires.</p>
 </td>
 </tr>
 <tr>
@@ -3519,9 +3259,6 @@ string
 </em>
 </td>
 <td>
-<p>DefaultMessageTimeToLive: ISO 8601 default message timespan to live value. This is the duration after which the message
-expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not
-set on a message itself.</p>
 </td>
 </tr>
 <tr>
@@ -3532,8 +3269,6 @@ string
 </em>
 </td>
 <td>
-<p>DuplicateDetectionHistoryTimeWindow: ISO 8601 timeSpan structure that defines the duration of the duplicate detection
-history. The default value is 10 minutes.</p>
 </td>
 </tr>
 <tr>
@@ -3544,7 +3279,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableBatchedOperations: Value that indicates whether server-side batched operations are enabled.</p>
 </td>
 </tr>
 <tr>
@@ -3555,8 +3289,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableExpress: A value that indicates whether Express Entities are enabled. An express queue holds a message in memory
-temporarily before writing it to persistent storage.</p>
 </td>
 </tr>
 <tr>
@@ -3567,7 +3299,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnablePartitioning: A value that indicates whether the queue is to be partitioned across multiple message brokers.</p>
 </td>
 </tr>
 <tr>
@@ -3578,7 +3309,6 @@ string
 </em>
 </td>
 <td>
-<p>ForwardDeadLetteredMessagesTo: Queue/Topic name to forward the Dead Letter message</p>
 </td>
 </tr>
 <tr>
@@ -3589,7 +3319,6 @@ string
 </em>
 </td>
 <td>
-<p>ForwardTo: Queue/Topic name to forward the messages</p>
 </td>
 </tr>
 <tr>
@@ -3600,7 +3329,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource Id</p>
 </td>
 </tr>
 <tr>
@@ -3611,8 +3339,6 @@ string
 </em>
 </td>
 <td>
-<p>LockDuration: ISO 8601 timespan duration of a peek-lock; that is, the amount of time that the message is locked for
-other receivers. The maximum value for LockDuration is 5 minutes; the default value is 1 minute.</p>
 </td>
 </tr>
 <tr>
@@ -3623,8 +3349,6 @@ int
 </em>
 </td>
 <td>
-<p>MaxDeliveryCount: The maximum delivery count. A message is automatically deadlettered after this number of deliveries.
-default value is 10.</p>
 </td>
 </tr>
 <tr>
@@ -3635,8 +3359,6 @@ int
 </em>
 </td>
 <td>
-<p>MaxSizeInMegabytes: The maximum size of the queue in megabytes, which is the size of memory allocated for the queue.
-Default is 1024.</p>
 </td>
 </tr>
 <tr>
@@ -3647,7 +3369,6 @@ int
 </em>
 </td>
 <td>
-<p>MessageCount: The number of messages in the queue.</p>
 </td>
 </tr>
 <tr>
@@ -3658,7 +3379,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Resource name</p>
 </td>
 </tr>
 <tr>
@@ -3669,7 +3389,6 @@ bool
 </em>
 </td>
 <td>
-<p>RequiresDuplicateDetection: A value indicating if this queue requires duplicate detection.</p>
 </td>
 </tr>
 <tr>
@@ -3680,7 +3399,6 @@ bool
 </em>
 </td>
 <td>
-<p>RequiresSession: A value that indicates whether the queue supports the concept of sessions.</p>
 </td>
 </tr>
 <tr>
@@ -3691,7 +3409,6 @@ int
 </em>
 </td>
 <td>
-<p>SizeInBytes: The size of the queue, in bytes.</p>
 </td>
 </tr>
 <tr>
@@ -3704,7 +3421,6 @@ EntityStatus_Status
 </em>
 </td>
 <td>
-<p>Status: Enumerates the possible values for the status of a messaging entity.</p>
 </td>
 </tr>
 <tr>
@@ -3717,7 +3433,6 @@ SystemData_Status
 </em>
 </td>
 <td>
-<p>SystemData: The system meta data relating to this resource.</p>
 </td>
 </tr>
 <tr>
@@ -3728,7 +3443,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: Resource type</p>
 </td>
 </tr>
 <tr>
@@ -3739,7 +3453,6 @@ string
 </em>
 </td>
 <td>
-<p>UpdatedAt: The exact time the message was updated.</p>
 </td>
 </tr>
 </tbody>
@@ -3747,6 +3460,7 @@ string
 <h3 id="servicebus.azure.com/v1alpha1api20210101preview.SBQueue_StatusARM">SBQueue_StatusARM
 </h3>
 <div>
+<p>Deprecated version of SBQueue_Status. Use v1beta20210101preview.SBQueue_Status instead</p>
 </div>
 <table>
 <thead>
@@ -3764,7 +3478,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource Id</p>
 </td>
 </tr>
 <tr>
@@ -3775,7 +3488,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Resource name</p>
 </td>
 </tr>
 <tr>
@@ -3788,7 +3500,6 @@ SBQueueProperties_StatusARM
 </em>
 </td>
 <td>
-<p>Properties: Queue Properties</p>
 </td>
 </tr>
 <tr>
@@ -3801,7 +3512,6 @@ SystemData_StatusARM
 </em>
 </td>
 <td>
-<p>SystemData: The system meta data relating to this resource.</p>
 </td>
 </tr>
 <tr>
@@ -3812,7 +3522,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: Resource type</p>
 </td>
 </tr>
 </tbody>
@@ -3823,7 +3532,7 @@ string
 (<em>Appears on:</em><a href="#servicebus.azure.com/v1alpha1api20210101preview.Namespaces_Spec">Namespaces_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/SBSku">https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/SBSku</a></p>
+<p>Deprecated version of SBSku. Use v1beta20210101preview.SBSku instead</p>
 </div>
 <table>
 <thead>
@@ -3841,7 +3550,6 @@ int
 </em>
 </td>
 <td>
-<p>Capacity: The specified messaging units for the tier. For Premium tier, capacity are 1,2 and 4.</p>
 </td>
 </tr>
 <tr>
@@ -3854,7 +3562,6 @@ SBSkuName
 </em>
 </td>
 <td>
-<p>Name: Name of this SKU.</p>
 </td>
 </tr>
 <tr>
@@ -3867,7 +3574,6 @@ SBSkuTier
 </em>
 </td>
 <td>
-<p>Tier: The billing tier of this particular SKU.</p>
 </td>
 </tr>
 </tbody>
@@ -3878,7 +3584,7 @@ SBSkuTier
 (<em>Appears on:</em><a href="#servicebus.azure.com/v1alpha1api20210101preview.Namespaces_SpecARM">Namespaces_SpecARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/SBSku">https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/SBSku</a></p>
+<p>Deprecated version of SBSku. Use v1beta20210101preview.SBSku instead</p>
 </div>
 <table>
 <thead>
@@ -3896,7 +3602,6 @@ int
 </em>
 </td>
 <td>
-<p>Capacity: The specified messaging units for the tier. For Premium tier, capacity are 1,2 and 4.</p>
 </td>
 </tr>
 <tr>
@@ -3909,7 +3614,6 @@ SBSkuName
 </em>
 </td>
 <td>
-<p>Name: Name of this SKU.</p>
 </td>
 </tr>
 <tr>
@@ -3922,7 +3626,6 @@ SBSkuTier
 </em>
 </td>
 <td>
-<p>Tier: The billing tier of this particular SKU.</p>
 </td>
 </tr>
 </tbody>
@@ -3933,6 +3636,7 @@ SBSkuTier
 (<em>Appears on:</em><a href="#servicebus.azure.com/v1alpha1api20210101preview.SBSku">SBSku</a>, <a href="#servicebus.azure.com/v1alpha1api20210101preview.SBSkuARM">SBSkuARM</a>)
 </p>
 <div>
+<p>Deprecated version of SBSkuName. Use v1beta20210101preview.SBSkuName instead</p>
 </div>
 <table>
 <thead>
@@ -3955,6 +3659,7 @@ SBSkuTier
 (<em>Appears on:</em><a href="#servicebus.azure.com/v1alpha1api20210101preview.SBSku_Status">SBSku_Status</a>, <a href="#servicebus.azure.com/v1alpha1api20210101preview.SBSku_StatusARM">SBSku_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of SBSkuStatusName. Use v1beta20210101preview.SBSkuStatusName instead</p>
 </div>
 <table>
 <thead>
@@ -3977,6 +3682,7 @@ SBSkuTier
 (<em>Appears on:</em><a href="#servicebus.azure.com/v1alpha1api20210101preview.SBSku_Status">SBSku_Status</a>, <a href="#servicebus.azure.com/v1alpha1api20210101preview.SBSku_StatusARM">SBSku_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of SBSkuStatusTier. Use v1beta20210101preview.SBSkuStatusTier instead</p>
 </div>
 <table>
 <thead>
@@ -3999,6 +3705,7 @@ SBSkuTier
 (<em>Appears on:</em><a href="#servicebus.azure.com/v1alpha1api20210101preview.SBSku">SBSku</a>, <a href="#servicebus.azure.com/v1alpha1api20210101preview.SBSkuARM">SBSkuARM</a>)
 </p>
 <div>
+<p>Deprecated version of SBSkuTier. Use v1beta20210101preview.SBSkuTier instead</p>
 </div>
 <table>
 <thead>
@@ -4021,6 +3728,7 @@ SBSkuTier
 (<em>Appears on:</em><a href="#servicebus.azure.com/v1alpha1api20210101preview.SBNamespace_Status">SBNamespace_Status</a>)
 </p>
 <div>
+<p>Deprecated version of SBSku_Status. Use v1beta20210101preview.SBSku_Status instead</p>
 </div>
 <table>
 <thead>
@@ -4038,7 +3746,6 @@ int
 </em>
 </td>
 <td>
-<p>Capacity: The specified messaging units for the tier. For Premium tier, capacity are 1,2 and 4.</p>
 </td>
 </tr>
 <tr>
@@ -4051,7 +3758,6 @@ SBSkuStatusName
 </em>
 </td>
 <td>
-<p>Name: Name of this SKU.</p>
 </td>
 </tr>
 <tr>
@@ -4064,7 +3770,6 @@ SBSkuStatusTier
 </em>
 </td>
 <td>
-<p>Tier: The billing tier of this particular SKU.</p>
 </td>
 </tr>
 </tbody>
@@ -4075,6 +3780,7 @@ SBSkuStatusTier
 (<em>Appears on:</em><a href="#servicebus.azure.com/v1alpha1api20210101preview.SBNamespace_StatusARM">SBNamespace_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of SBSku_Status. Use v1beta20210101preview.SBSku_Status instead</p>
 </div>
 <table>
 <thead>
@@ -4092,7 +3798,6 @@ int
 </em>
 </td>
 <td>
-<p>Capacity: The specified messaging units for the tier. For Premium tier, capacity are 1,2 and 4.</p>
 </td>
 </tr>
 <tr>
@@ -4105,7 +3810,6 @@ SBSkuStatusName
 </em>
 </td>
 <td>
-<p>Name: Name of this SKU.</p>
 </td>
 </tr>
 <tr>
@@ -4118,7 +3822,6 @@ SBSkuStatusTier
 </em>
 </td>
 <td>
-<p>Tier: The billing tier of this particular SKU.</p>
 </td>
 </tr>
 </tbody>
@@ -4129,7 +3832,7 @@ SBSkuStatusTier
 (<em>Appears on:</em><a href="#servicebus.azure.com/v1alpha1api20210101preview.NamespacesTopics_SpecARM">NamespacesTopics_SpecARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/SBTopicProperties">https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/SBTopicProperties</a></p>
+<p>Deprecated version of SBTopicProperties. Use v1beta20210101preview.SBTopicProperties instead</p>
 </div>
 <table>
 <thead>
@@ -4147,8 +3850,6 @@ string
 </em>
 </td>
 <td>
-<p>AutoDeleteOnIdle: ISO 8601 timespan idle interval after which the topic is automatically deleted. The minimum duration
-is 5 minutes.</p>
 </td>
 </tr>
 <tr>
@@ -4159,9 +3860,6 @@ string
 </em>
 </td>
 <td>
-<p>DefaultMessageTimeToLive: ISO 8601 Default message timespan to live value. This is the duration after which the message
-expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not
-set on a message itself.</p>
 </td>
 </tr>
 <tr>
@@ -4172,8 +3870,6 @@ string
 </em>
 </td>
 <td>
-<p>DuplicateDetectionHistoryTimeWindow: ISO8601 timespan structure that defines the duration of the duplicate detection
-history. The default value is 10 minutes.</p>
 </td>
 </tr>
 <tr>
@@ -4184,7 +3880,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableBatchedOperations: Value that indicates whether server-side batched operations are enabled.</p>
 </td>
 </tr>
 <tr>
@@ -4195,8 +3890,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableExpress: Value that indicates whether Express Entities are enabled. An express topic holds a message in memory
-temporarily before writing it to persistent storage.</p>
 </td>
 </tr>
 <tr>
@@ -4207,7 +3900,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnablePartitioning: Value that indicates whether the topic to be partitioned across multiple message brokers is enabled.</p>
 </td>
 </tr>
 <tr>
@@ -4218,8 +3910,6 @@ int
 </em>
 </td>
 <td>
-<p>MaxSizeInMegabytes: Maximum size of the topic in megabytes, which is the size of the memory allocated for the topic.
-Default is 1024.</p>
 </td>
 </tr>
 <tr>
@@ -4230,7 +3920,6 @@ bool
 </em>
 </td>
 <td>
-<p>RequiresDuplicateDetection: Value indicating if this topic requires duplicate detection.</p>
 </td>
 </tr>
 <tr>
@@ -4241,7 +3930,6 @@ bool
 </em>
 </td>
 <td>
-<p>SupportOrdering: Value that indicates whether the topic supports ordering.</p>
 </td>
 </tr>
 </tbody>
@@ -4252,6 +3940,7 @@ bool
 (<em>Appears on:</em><a href="#servicebus.azure.com/v1alpha1api20210101preview.SBTopic_StatusARM">SBTopic_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of SBTopicProperties_Status. Use v1beta20210101preview.SBTopicProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -4269,7 +3958,6 @@ string
 </em>
 </td>
 <td>
-<p>AccessedAt: Last time the message was sent, or a request was received, for this topic.</p>
 </td>
 </tr>
 <tr>
@@ -4280,8 +3968,6 @@ string
 </em>
 </td>
 <td>
-<p>AutoDeleteOnIdle: ISO 8601 timespan idle interval after which the topic is automatically deleted. The minimum duration
-is 5 minutes.</p>
 </td>
 </tr>
 <tr>
@@ -4294,7 +3980,6 @@ MessageCountDetails_StatusARM
 </em>
 </td>
 <td>
-<p>CountDetails: Message count details</p>
 </td>
 </tr>
 <tr>
@@ -4305,7 +3990,6 @@ string
 </em>
 </td>
 <td>
-<p>CreatedAt: Exact time the message was created.</p>
 </td>
 </tr>
 <tr>
@@ -4316,9 +4000,6 @@ string
 </em>
 </td>
 <td>
-<p>DefaultMessageTimeToLive: ISO 8601 Default message timespan to live value. This is the duration after which the message
-expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not
-set on a message itself.</p>
 </td>
 </tr>
 <tr>
@@ -4329,8 +4010,6 @@ string
 </em>
 </td>
 <td>
-<p>DuplicateDetectionHistoryTimeWindow: ISO8601 timespan structure that defines the duration of the duplicate detection
-history. The default value is 10 minutes.</p>
 </td>
 </tr>
 <tr>
@@ -4341,7 +4020,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableBatchedOperations: Value that indicates whether server-side batched operations are enabled.</p>
 </td>
 </tr>
 <tr>
@@ -4352,8 +4030,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableExpress: Value that indicates whether Express Entities are enabled. An express topic holds a message in memory
-temporarily before writing it to persistent storage.</p>
 </td>
 </tr>
 <tr>
@@ -4364,7 +4040,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnablePartitioning: Value that indicates whether the topic to be partitioned across multiple message brokers is enabled.</p>
 </td>
 </tr>
 <tr>
@@ -4375,8 +4050,6 @@ int
 </em>
 </td>
 <td>
-<p>MaxSizeInMegabytes: Maximum size of the topic in megabytes, which is the size of the memory allocated for the topic.
-Default is 1024.</p>
 </td>
 </tr>
 <tr>
@@ -4387,7 +4060,6 @@ bool
 </em>
 </td>
 <td>
-<p>RequiresDuplicateDetection: Value indicating if this topic requires duplicate detection.</p>
 </td>
 </tr>
 <tr>
@@ -4398,7 +4070,6 @@ int
 </em>
 </td>
 <td>
-<p>SizeInBytes: Size of the topic, in bytes.</p>
 </td>
 </tr>
 <tr>
@@ -4411,7 +4082,6 @@ EntityStatus_Status
 </em>
 </td>
 <td>
-<p>Status: Enumerates the possible values for the status of a messaging entity.</p>
 </td>
 </tr>
 <tr>
@@ -4422,7 +4092,6 @@ int
 </em>
 </td>
 <td>
-<p>SubscriptionCount: Number of subscriptions.</p>
 </td>
 </tr>
 <tr>
@@ -4433,7 +4102,6 @@ bool
 </em>
 </td>
 <td>
-<p>SupportOrdering: Value that indicates whether the topic supports ordering.</p>
 </td>
 </tr>
 <tr>
@@ -4444,7 +4112,6 @@ string
 </em>
 </td>
 <td>
-<p>UpdatedAt: The exact time the message was updated.</p>
 </td>
 </tr>
 </tbody>
@@ -4455,6 +4122,7 @@ string
 (<em>Appears on:</em><a href="#servicebus.azure.com/v1alpha1api20210101preview.NamespacesTopic">NamespacesTopic</a>)
 </p>
 <div>
+<p>Deprecated version of SBTopic_Status. Use v1beta20210101preview.SBTopic_Status instead</p>
 </div>
 <table>
 <thead>
@@ -4472,7 +4140,6 @@ string
 </em>
 </td>
 <td>
-<p>AccessedAt: Last time the message was sent, or a request was received, for this topic.</p>
 </td>
 </tr>
 <tr>
@@ -4483,8 +4150,6 @@ string
 </em>
 </td>
 <td>
-<p>AutoDeleteOnIdle: ISO 8601 timespan idle interval after which the topic is automatically deleted. The minimum duration
-is 5 minutes.</p>
 </td>
 </tr>
 <tr>
@@ -4510,7 +4175,6 @@ MessageCountDetails_Status
 </em>
 </td>
 <td>
-<p>CountDetails: Message count details</p>
 </td>
 </tr>
 <tr>
@@ -4521,7 +4185,6 @@ string
 </em>
 </td>
 <td>
-<p>CreatedAt: Exact time the message was created.</p>
 </td>
 </tr>
 <tr>
@@ -4532,9 +4195,6 @@ string
 </em>
 </td>
 <td>
-<p>DefaultMessageTimeToLive: ISO 8601 Default message timespan to live value. This is the duration after which the message
-expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not
-set on a message itself.</p>
 </td>
 </tr>
 <tr>
@@ -4545,8 +4205,6 @@ string
 </em>
 </td>
 <td>
-<p>DuplicateDetectionHistoryTimeWindow: ISO8601 timespan structure that defines the duration of the duplicate detection
-history. The default value is 10 minutes.</p>
 </td>
 </tr>
 <tr>
@@ -4557,7 +4215,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableBatchedOperations: Value that indicates whether server-side batched operations are enabled.</p>
 </td>
 </tr>
 <tr>
@@ -4568,8 +4225,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnableExpress: Value that indicates whether Express Entities are enabled. An express topic holds a message in memory
-temporarily before writing it to persistent storage.</p>
 </td>
 </tr>
 <tr>
@@ -4580,7 +4235,6 @@ bool
 </em>
 </td>
 <td>
-<p>EnablePartitioning: Value that indicates whether the topic to be partitioned across multiple message brokers is enabled.</p>
 </td>
 </tr>
 <tr>
@@ -4591,7 +4245,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource Id</p>
 </td>
 </tr>
 <tr>
@@ -4602,8 +4255,6 @@ int
 </em>
 </td>
 <td>
-<p>MaxSizeInMegabytes: Maximum size of the topic in megabytes, which is the size of the memory allocated for the topic.
-Default is 1024.</p>
 </td>
 </tr>
 <tr>
@@ -4614,7 +4265,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Resource name</p>
 </td>
 </tr>
 <tr>
@@ -4625,7 +4275,6 @@ bool
 </em>
 </td>
 <td>
-<p>RequiresDuplicateDetection: Value indicating if this topic requires duplicate detection.</p>
 </td>
 </tr>
 <tr>
@@ -4636,7 +4285,6 @@ int
 </em>
 </td>
 <td>
-<p>SizeInBytes: Size of the topic, in bytes.</p>
 </td>
 </tr>
 <tr>
@@ -4649,7 +4297,6 @@ EntityStatus_Status
 </em>
 </td>
 <td>
-<p>Status: Enumerates the possible values for the status of a messaging entity.</p>
 </td>
 </tr>
 <tr>
@@ -4660,7 +4307,6 @@ int
 </em>
 </td>
 <td>
-<p>SubscriptionCount: Number of subscriptions.</p>
 </td>
 </tr>
 <tr>
@@ -4671,7 +4317,6 @@ bool
 </em>
 </td>
 <td>
-<p>SupportOrdering: Value that indicates whether the topic supports ordering.</p>
 </td>
 </tr>
 <tr>
@@ -4684,7 +4329,6 @@ SystemData_Status
 </em>
 </td>
 <td>
-<p>SystemData: The system meta data relating to this resource.</p>
 </td>
 </tr>
 <tr>
@@ -4695,7 +4339,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: Resource type</p>
 </td>
 </tr>
 <tr>
@@ -4706,7 +4349,6 @@ string
 </em>
 </td>
 <td>
-<p>UpdatedAt: The exact time the message was updated.</p>
 </td>
 </tr>
 </tbody>
@@ -4714,6 +4356,7 @@ string
 <h3 id="servicebus.azure.com/v1alpha1api20210101preview.SBTopic_StatusARM">SBTopic_StatusARM
 </h3>
 <div>
+<p>Deprecated version of SBTopic_Status. Use v1beta20210101preview.SBTopic_Status instead</p>
 </div>
 <table>
 <thead>
@@ -4731,7 +4374,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Resource Id</p>
 </td>
 </tr>
 <tr>
@@ -4742,7 +4384,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: Resource name</p>
 </td>
 </tr>
 <tr>
@@ -4755,7 +4396,6 @@ SBTopicProperties_StatusARM
 </em>
 </td>
 <td>
-<p>Properties: Properties of topic resource.</p>
 </td>
 </tr>
 <tr>
@@ -4768,7 +4408,6 @@ SystemData_StatusARM
 </em>
 </td>
 <td>
-<p>SystemData: The system meta data relating to this resource.</p>
 </td>
 </tr>
 <tr>
@@ -4779,7 +4418,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: Resource type</p>
 </td>
 </tr>
 </tbody>
@@ -4790,6 +4428,7 @@ string
 (<em>Appears on:</em><a href="#servicebus.azure.com/v1alpha1api20210101preview.SystemData_Status">SystemData_Status</a>, <a href="#servicebus.azure.com/v1alpha1api20210101preview.SystemData_StatusARM">SystemData_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of SystemDataStatusCreatedByType. Use v1beta20210101preview.SystemDataStatusCreatedByType instead</p>
 </div>
 <table>
 <thead>
@@ -4814,6 +4453,8 @@ string
 (<em>Appears on:</em><a href="#servicebus.azure.com/v1alpha1api20210101preview.SystemData_Status">SystemData_Status</a>, <a href="#servicebus.azure.com/v1alpha1api20210101preview.SystemData_StatusARM">SystemData_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of SystemDataStatusLastModifiedByType. Use v1beta20210101preview.SystemDataStatusLastModifiedByType
+instead</p>
 </div>
 <table>
 <thead>
@@ -4838,6 +4479,7 @@ string
 (<em>Appears on:</em><a href="#servicebus.azure.com/v1alpha1api20210101preview.PrivateEndpointConnection_Status_SubResourceEmbedded">PrivateEndpointConnection_Status_SubResourceEmbedded</a>, <a href="#servicebus.azure.com/v1alpha1api20210101preview.SBNamespace_Status">SBNamespace_Status</a>, <a href="#servicebus.azure.com/v1alpha1api20210101preview.SBQueue_Status">SBQueue_Status</a>, <a href="#servicebus.azure.com/v1alpha1api20210101preview.SBTopic_Status">SBTopic_Status</a>)
 </p>
 <div>
+<p>Deprecated version of SystemData_Status. Use v1beta20210101preview.SystemData_Status instead</p>
 </div>
 <table>
 <thead>
@@ -4855,7 +4497,6 @@ string
 </em>
 </td>
 <td>
-<p>CreatedAt: The timestamp of resource creation (UTC).</p>
 </td>
 </tr>
 <tr>
@@ -4866,7 +4507,6 @@ string
 </em>
 </td>
 <td>
-<p>CreatedBy: The identity that created the resource.</p>
 </td>
 </tr>
 <tr>
@@ -4879,7 +4519,6 @@ SystemDataStatusCreatedByType
 </em>
 </td>
 <td>
-<p>CreatedByType: The type of identity that created the resource.</p>
 </td>
 </tr>
 <tr>
@@ -4890,7 +4529,6 @@ string
 </em>
 </td>
 <td>
-<p>LastModifiedAt: The type of identity that last modified the resource.</p>
 </td>
 </tr>
 <tr>
@@ -4901,7 +4539,6 @@ string
 </em>
 </td>
 <td>
-<p>LastModifiedBy: The identity that last modified the resource.</p>
 </td>
 </tr>
 <tr>
@@ -4914,7 +4551,6 @@ SystemDataStatusLastModifiedByType
 </em>
 </td>
 <td>
-<p>LastModifiedByType: The type of identity that last modified the resource.</p>
 </td>
 </tr>
 </tbody>
@@ -4925,6 +4561,7 @@ SystemDataStatusLastModifiedByType
 (<em>Appears on:</em><a href="#servicebus.azure.com/v1alpha1api20210101preview.PrivateEndpointConnection_Status_SubResourceEmbeddedARM">PrivateEndpointConnection_Status_SubResourceEmbeddedARM</a>, <a href="#servicebus.azure.com/v1alpha1api20210101preview.SBNamespace_StatusARM">SBNamespace_StatusARM</a>, <a href="#servicebus.azure.com/v1alpha1api20210101preview.SBQueue_StatusARM">SBQueue_StatusARM</a>, <a href="#servicebus.azure.com/v1alpha1api20210101preview.SBTopic_StatusARM">SBTopic_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of SystemData_Status. Use v1beta20210101preview.SystemData_Status instead</p>
 </div>
 <table>
 <thead>
@@ -4942,7 +4579,6 @@ string
 </em>
 </td>
 <td>
-<p>CreatedAt: The timestamp of resource creation (UTC).</p>
 </td>
 </tr>
 <tr>
@@ -4953,7 +4589,6 @@ string
 </em>
 </td>
 <td>
-<p>CreatedBy: The identity that created the resource.</p>
 </td>
 </tr>
 <tr>
@@ -4966,7 +4601,6 @@ SystemDataStatusCreatedByType
 </em>
 </td>
 <td>
-<p>CreatedByType: The type of identity that created the resource.</p>
 </td>
 </tr>
 <tr>
@@ -4977,7 +4611,6 @@ string
 </em>
 </td>
 <td>
-<p>LastModifiedAt: The type of identity that last modified the resource.</p>
 </td>
 </tr>
 <tr>
@@ -4988,7 +4621,6 @@ string
 </em>
 </td>
 <td>
-<p>LastModifiedBy: The identity that last modified the resource.</p>
 </td>
 </tr>
 <tr>
@@ -5001,7 +4633,6 @@ SystemDataStatusLastModifiedByType
 </em>
 </td>
 <td>
-<p>LastModifiedByType: The type of identity that last modified the resource.</p>
 </td>
 </tr>
 </tbody>
@@ -5012,7 +4643,7 @@ SystemDataStatusLastModifiedByType
 (<em>Appears on:</em><a href="#servicebus.azure.com/v1alpha1api20210101preview.KeyVaultProperties">KeyVaultProperties</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/UserAssignedIdentityProperties">https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/UserAssignedIdentityProperties</a></p>
+<p>Deprecated version of UserAssignedIdentityProperties. Use v1beta20210101preview.UserAssignedIdentityProperties instead</p>
 </div>
 <table>
 <thead>
@@ -5032,7 +4663,6 @@ genruntime.ResourceReference
 </em>
 </td>
 <td>
-<p>UserAssignedIdentityReference: ARM ID of user Identity selected for encryption</p>
 </td>
 </tr>
 </tbody>
@@ -5043,7 +4673,7 @@ genruntime.ResourceReference
 (<em>Appears on:</em><a href="#servicebus.azure.com/v1alpha1api20210101preview.KeyVaultPropertiesARM">KeyVaultPropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/UserAssignedIdentityProperties">https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/UserAssignedIdentityProperties</a></p>
+<p>Deprecated version of UserAssignedIdentityProperties. Use v1beta20210101preview.UserAssignedIdentityProperties instead</p>
 </div>
 <table>
 <thead>
@@ -5071,6 +4701,7 @@ string
 (<em>Appears on:</em><a href="#servicebus.azure.com/v1alpha1api20210101preview.KeyVaultProperties_Status">KeyVaultProperties_Status</a>)
 </p>
 <div>
+<p>Deprecated version of UserAssignedIdentityProperties_Status. Use v1beta20210101preview.UserAssignedIdentityProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -5088,7 +4719,6 @@ string
 </em>
 </td>
 <td>
-<p>UserAssignedIdentity: ARM ID of user Identity selected for encryption</p>
 </td>
 </tr>
 </tbody>
@@ -5099,6 +4729,7 @@ string
 (<em>Appears on:</em><a href="#servicebus.azure.com/v1alpha1api20210101preview.KeyVaultProperties_StatusARM">KeyVaultProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of UserAssignedIdentityProperties_Status. Use v1beta20210101preview.UserAssignedIdentityProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -5116,7 +4747,6 @@ string
 </em>
 </td>
 <td>
-<p>UserAssignedIdentity: ARM ID of user Identity selected for encryption</p>
 </td>
 </tr>
 </tbody>

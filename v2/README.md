@@ -1,7 +1,7 @@
 # Azure Service Operator v2
 
 ## Project Status
-This project is an alpha. We follow the [Kubernetes definition of alpha](https://kubernetes.io/docs/reference/command-line-tools-reference/feature-gates/#feature-stages).
+This project is a beta. We follow the [Kubernetes definition of beta](https://kubernetes.io/docs/reference/command-line-tools-reference/feature-gates/#feature-stages).
 
 ## Why use Azure Service Operator v2?
 - **K8s Native:** we provide CRDs and Golang API structures to deploy and manage Azure resources through Kubernetes.

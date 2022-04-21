@@ -12,7 +12,7 @@ Resource Types:
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.Registries_Spec">Registries_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/EncryptionProperty">https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/EncryptionProperty</a></p>
+<p>Deprecated version of EncryptionProperty. Use v1beta20210901.EncryptionProperty instead</p>
 </div>
 <table>
 <thead>
@@ -44,7 +44,6 @@ EncryptionPropertyStatus
 </em>
 </td>
 <td>
-<p>Status: Indicates whether or not the encryption is enabled for container registry.</p>
 </td>
 </tr>
 </tbody>
@@ -55,7 +54,7 @@ EncryptionPropertyStatus
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.RegistryPropertiesARM">RegistryPropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/EncryptionProperty">https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/EncryptionProperty</a></p>
+<p>Deprecated version of EncryptionProperty. Use v1beta20210901.EncryptionProperty instead</p>
 </div>
 <table>
 <thead>
@@ -87,7 +86,6 @@ EncryptionPropertyStatus
 </em>
 </td>
 <td>
-<p>Status: Indicates whether or not the encryption is enabled for container registry.</p>
 </td>
 </tr>
 </tbody>
@@ -98,6 +96,7 @@ EncryptionPropertyStatus
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.EncryptionProperty">EncryptionProperty</a>, <a href="#containerregistry.azure.com/v1alpha1api20210901.EncryptionPropertyARM">EncryptionPropertyARM</a>)
 </p>
 <div>
+<p>Deprecated version of EncryptionPropertyStatus. Use v1beta20210901.EncryptionPropertyStatus instead</p>
 </div>
 <table>
 <thead>
@@ -118,6 +117,7 @@ EncryptionPropertyStatus
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.EncryptionProperty_Status">EncryptionProperty_Status</a>, <a href="#containerregistry.azure.com/v1alpha1api20210901.EncryptionProperty_StatusARM">EncryptionProperty_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of EncryptionPropertyStatusStatus. Use v1beta20210901.EncryptionPropertyStatusStatus instead</p>
 </div>
 <table>
 <thead>
@@ -138,6 +138,7 @@ EncryptionPropertyStatus
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.Registry_Status">Registry_Status</a>)
 </p>
 <div>
+<p>Deprecated version of EncryptionProperty_Status. Use v1beta20210901.EncryptionProperty_Status instead</p>
 </div>
 <table>
 <thead>
@@ -157,7 +158,6 @@ KeyVaultProperties_Status
 </em>
 </td>
 <td>
-<p>KeyVaultProperties: Key vault properties.</p>
 </td>
 </tr>
 <tr>
@@ -170,7 +170,6 @@ EncryptionPropertyStatusStatus
 </em>
 </td>
 <td>
-<p>Status: Indicates whether or not the encryption is enabled for container registry.</p>
 </td>
 </tr>
 </tbody>
@@ -181,6 +180,7 @@ EncryptionPropertyStatusStatus
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.RegistryProperties_StatusARM">RegistryProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of EncryptionProperty_Status. Use v1beta20210901.EncryptionProperty_Status instead</p>
 </div>
 <table>
 <thead>
@@ -200,7 +200,6 @@ KeyVaultProperties_StatusARM
 </em>
 </td>
 <td>
-<p>KeyVaultProperties: Key vault properties.</p>
 </td>
 </tr>
 <tr>
@@ -213,7 +212,6 @@ EncryptionPropertyStatusStatus
 </em>
 </td>
 <td>
-<p>Status: Indicates whether or not the encryption is enabled for container registry.</p>
 </td>
 </tr>
 </tbody>
@@ -224,7 +222,7 @@ EncryptionPropertyStatusStatus
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.Policies">Policies</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/ExportPolicy">https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/ExportPolicy</a></p>
+<p>Deprecated version of ExportPolicy. Use v1beta20210901.ExportPolicy instead</p>
 </div>
 <table>
 <thead>
@@ -244,7 +242,6 @@ ExportPolicyStatus
 </em>
 </td>
 <td>
-<p>Status: The value that indicates whether the policy is enabled or not.</p>
 </td>
 </tr>
 </tbody>
@@ -255,7 +252,7 @@ ExportPolicyStatus
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.PoliciesARM">PoliciesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/ExportPolicy">https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/ExportPolicy</a></p>
+<p>Deprecated version of ExportPolicy. Use v1beta20210901.ExportPolicy instead</p>
 </div>
 <table>
 <thead>
@@ -275,7 +272,6 @@ ExportPolicyStatus
 </em>
 </td>
 <td>
-<p>Status: The value that indicates whether the policy is enabled or not.</p>
 </td>
 </tr>
 </tbody>
@@ -286,6 +282,7 @@ ExportPolicyStatus
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.ExportPolicy">ExportPolicy</a>, <a href="#containerregistry.azure.com/v1alpha1api20210901.ExportPolicyARM">ExportPolicyARM</a>)
 </p>
 <div>
+<p>Deprecated version of ExportPolicyStatus. Use v1beta20210901.ExportPolicyStatus instead</p>
 </div>
 <table>
 <thead>
@@ -306,6 +303,7 @@ ExportPolicyStatus
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.ExportPolicy_Status">ExportPolicy_Status</a>, <a href="#containerregistry.azure.com/v1alpha1api20210901.ExportPolicy_StatusARM">ExportPolicy_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of ExportPolicyStatusStatus. Use v1beta20210901.ExportPolicyStatusStatus instead</p>
 </div>
 <table>
 <thead>
@@ -326,6 +324,7 @@ ExportPolicyStatus
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.Policies_Status">Policies_Status</a>)
 </p>
 <div>
+<p>Deprecated version of ExportPolicy_Status. Use v1beta20210901.ExportPolicy_Status instead</p>
 </div>
 <table>
 <thead>
@@ -345,7 +344,6 @@ ExportPolicyStatusStatus
 </em>
 </td>
 <td>
-<p>Status: The value that indicates whether the policy is enabled or not.</p>
 </td>
 </tr>
 </tbody>
@@ -356,6 +354,7 @@ ExportPolicyStatusStatus
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.Policies_StatusARM">Policies_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of ExportPolicy_Status. Use v1beta20210901.ExportPolicy_Status instead</p>
 </div>
 <table>
 <thead>
@@ -375,7 +374,6 @@ ExportPolicyStatusStatus
 </em>
 </td>
 <td>
-<p>Status: The value that indicates whether the policy is enabled or not.</p>
 </td>
 </tr>
 </tbody>
@@ -386,7 +384,7 @@ ExportPolicyStatusStatus
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.NetworkRuleSet">NetworkRuleSet</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/IPRule">https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/IPRule</a></p>
+<p>Deprecated version of IPRule. Use v1beta20210901.IPRule instead</p>
 </div>
 <table>
 <thead>
@@ -406,7 +404,6 @@ IPRuleAction
 </em>
 </td>
 <td>
-<p>Action: The action of IP ACL rule.</p>
 </td>
 </tr>
 <tr>
@@ -417,7 +414,6 @@ string
 </em>
 </td>
 <td>
-<p>Value: Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed.</p>
 </td>
 </tr>
 </tbody>
@@ -428,7 +424,7 @@ string
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.NetworkRuleSetARM">NetworkRuleSetARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/IPRule">https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/IPRule</a></p>
+<p>Deprecated version of IPRule. Use v1beta20210901.IPRule instead</p>
 </div>
 <table>
 <thead>
@@ -448,7 +444,6 @@ IPRuleAction
 </em>
 </td>
 <td>
-<p>Action: The action of IP ACL rule.</p>
 </td>
 </tr>
 <tr>
@@ -459,7 +454,6 @@ string
 </em>
 </td>
 <td>
-<p>Value: Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed.</p>
 </td>
 </tr>
 </tbody>
@@ -470,6 +464,7 @@ string
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.IPRule">IPRule</a>, <a href="#containerregistry.azure.com/v1alpha1api20210901.IPRuleARM">IPRuleARM</a>)
 </p>
 <div>
+<p>Deprecated version of IPRuleAction. Use v1beta20210901.IPRuleAction instead</p>
 </div>
 <table>
 <thead>
@@ -488,6 +483,7 @@ string
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.IPRule_Status">IPRule_Status</a>, <a href="#containerregistry.azure.com/v1alpha1api20210901.IPRule_StatusARM">IPRule_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of IPRuleStatusAction. Use v1beta20210901.IPRuleStatusAction instead</p>
 </div>
 <table>
 <thead>
@@ -506,6 +502,7 @@ string
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.NetworkRuleSet_Status">NetworkRuleSet_Status</a>)
 </p>
 <div>
+<p>Deprecated version of IPRule_Status. Use v1beta20210901.IPRule_Status instead</p>
 </div>
 <table>
 <thead>
@@ -525,7 +522,6 @@ IPRuleStatusAction
 </em>
 </td>
 <td>
-<p>Action: The action of IP ACL rule.</p>
 </td>
 </tr>
 <tr>
@@ -536,7 +532,6 @@ string
 </em>
 </td>
 <td>
-<p>Value: Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed.</p>
 </td>
 </tr>
 </tbody>
@@ -547,6 +542,7 @@ string
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.NetworkRuleSet_StatusARM">NetworkRuleSet_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of IPRule_Status. Use v1beta20210901.IPRule_Status instead</p>
 </div>
 <table>
 <thead>
@@ -566,7 +562,6 @@ IPRuleStatusAction
 </em>
 </td>
 <td>
-<p>Action: The action of IP ACL rule.</p>
 </td>
 </tr>
 <tr>
@@ -577,7 +572,6 @@ string
 </em>
 </td>
 <td>
-<p>Value: Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed.</p>
 </td>
 </tr>
 </tbody>
@@ -588,7 +582,7 @@ string
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.Registries_Spec">Registries_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/IdentityProperties">https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/IdentityProperties</a></p>
+<p>Deprecated version of IdentityProperties. Use v1beta20210901.IdentityProperties instead</p>
 </div>
 <table>
 <thead>
@@ -606,7 +600,6 @@ string
 </em>
 </td>
 <td>
-<p>PrincipalId: The principal ID of resource identity.</p>
 </td>
 </tr>
 <tr>
@@ -617,7 +610,6 @@ string
 </em>
 </td>
 <td>
-<p>TenantId: The tenant ID of resource.</p>
 </td>
 </tr>
 <tr>
@@ -630,7 +622,6 @@ IdentityPropertiesType
 </em>
 </td>
 <td>
-<p>Type: The identity type.</p>
 </td>
 </tr>
 <tr>
@@ -643,10 +634,6 @@ map[string]./api/containerregistry/v1alpha1api20210901.UserIdentityProperties
 </em>
 </td>
 <td>
-<p>UserAssignedIdentities: The list of user identities associated with the resource. The user identity
-dictionary key references will be ARM resource ids in the form:
-&lsquo;/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/
-providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}&rsquo;.</p>
 </td>
 </tr>
 </tbody>
@@ -657,7 +644,7 @@ providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}&rsquo;
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.Registries_SpecARM">Registries_SpecARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/IdentityProperties">https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/IdentityProperties</a></p>
+<p>Deprecated version of IdentityProperties. Use v1beta20210901.IdentityProperties instead</p>
 </div>
 <table>
 <thead>
@@ -675,7 +662,6 @@ string
 </em>
 </td>
 <td>
-<p>PrincipalId: The principal ID of resource identity.</p>
 </td>
 </tr>
 <tr>
@@ -686,7 +672,6 @@ string
 </em>
 </td>
 <td>
-<p>TenantId: The tenant ID of resource.</p>
 </td>
 </tr>
 <tr>
@@ -699,7 +684,6 @@ IdentityPropertiesType
 </em>
 </td>
 <td>
-<p>Type: The identity type.</p>
 </td>
 </tr>
 <tr>
@@ -712,10 +696,6 @@ map[string]./api/containerregistry/v1alpha1api20210901.UserIdentityPropertiesARM
 </em>
 </td>
 <td>
-<p>UserAssignedIdentities: The list of user identities associated with the resource. The user identity
-dictionary key references will be ARM resource ids in the form:
-&lsquo;/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/
-providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}&rsquo;.</p>
 </td>
 </tr>
 </tbody>
@@ -726,6 +706,7 @@ providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}&rsquo;
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.IdentityProperties_Status">IdentityProperties_Status</a>, <a href="#containerregistry.azure.com/v1alpha1api20210901.IdentityProperties_StatusARM">IdentityProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of IdentityPropertiesStatusType. Use v1beta20210901.IdentityPropertiesStatusType instead</p>
 </div>
 <table>
 <thead>
@@ -750,6 +731,7 @@ providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}&rsquo;
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.IdentityProperties">IdentityProperties</a>, <a href="#containerregistry.azure.com/v1alpha1api20210901.IdentityPropertiesARM">IdentityPropertiesARM</a>)
 </p>
 <div>
+<p>Deprecated version of IdentityPropertiesType. Use v1beta20210901.IdentityPropertiesType instead</p>
 </div>
 <table>
 <thead>
@@ -774,6 +756,7 @@ providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}&rsquo;
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.Registry_Status">Registry_Status</a>)
 </p>
 <div>
+<p>Deprecated version of IdentityProperties_Status. Use v1beta20210901.IdentityProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -791,7 +774,6 @@ string
 </em>
 </td>
 <td>
-<p>PrincipalId: The principal ID of resource identity.</p>
 </td>
 </tr>
 <tr>
@@ -802,7 +784,6 @@ string
 </em>
 </td>
 <td>
-<p>TenantId: The tenant ID of resource.</p>
 </td>
 </tr>
 <tr>
@@ -815,7 +796,6 @@ IdentityPropertiesStatusType
 </em>
 </td>
 <td>
-<p>Type: The identity type.</p>
 </td>
 </tr>
 <tr>
@@ -828,10 +808,6 @@ map[string]./api/containerregistry/v1alpha1api20210901.UserIdentityProperties_St
 </em>
 </td>
 <td>
-<p>UserAssignedIdentities: The list of user identities associated with the resource. The user identity
-dictionary key references will be ARM resource ids in the form:
-&lsquo;/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/
-providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}&rsquo;.</p>
 </td>
 </tr>
 </tbody>
@@ -842,6 +818,7 @@ providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}&rsquo;
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.Registry_StatusARM">Registry_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of IdentityProperties_Status. Use v1beta20210901.IdentityProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -859,7 +836,6 @@ string
 </em>
 </td>
 <td>
-<p>PrincipalId: The principal ID of resource identity.</p>
 </td>
 </tr>
 <tr>
@@ -870,7 +846,6 @@ string
 </em>
 </td>
 <td>
-<p>TenantId: The tenant ID of resource.</p>
 </td>
 </tr>
 <tr>
@@ -883,7 +858,6 @@ IdentityPropertiesStatusType
 </em>
 </td>
 <td>
-<p>Type: The identity type.</p>
 </td>
 </tr>
 <tr>
@@ -896,10 +870,6 @@ map[string]./api/containerregistry/v1alpha1api20210901.UserIdentityProperties_St
 </em>
 </td>
 <td>
-<p>UserAssignedIdentities: The list of user identities associated with the resource. The user identity
-dictionary key references will be ARM resource ids in the form:
-&lsquo;/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/
-providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}&rsquo;.</p>
 </td>
 </tr>
 </tbody>
@@ -910,7 +880,7 @@ providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}&rsquo;
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.EncryptionProperty">EncryptionProperty</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/KeyVaultProperties">https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/KeyVaultProperties</a></p>
+<p>Deprecated version of KeyVaultProperties. Use v1beta20210901.KeyVaultProperties instead</p>
 </div>
 <table>
 <thead>
@@ -928,7 +898,6 @@ string
 </em>
 </td>
 <td>
-<p>Identity: The client id of the identity which will be used to access key vault.</p>
 </td>
 </tr>
 <tr>
@@ -939,7 +908,6 @@ string
 </em>
 </td>
 <td>
-<p>KeyIdentifier: Key vault uri to access the encryption key.</p>
 </td>
 </tr>
 </tbody>
@@ -950,7 +918,7 @@ string
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.EncryptionPropertyARM">EncryptionPropertyARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/KeyVaultProperties">https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/KeyVaultProperties</a></p>
+<p>Deprecated version of KeyVaultProperties. Use v1beta20210901.KeyVaultProperties instead</p>
 </div>
 <table>
 <thead>
@@ -968,7 +936,6 @@ string
 </em>
 </td>
 <td>
-<p>Identity: The client id of the identity which will be used to access key vault.</p>
 </td>
 </tr>
 <tr>
@@ -979,7 +946,6 @@ string
 </em>
 </td>
 <td>
-<p>KeyIdentifier: Key vault uri to access the encryption key.</p>
 </td>
 </tr>
 </tbody>
@@ -990,6 +956,7 @@ string
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.EncryptionProperty_Status">EncryptionProperty_Status</a>)
 </p>
 <div>
+<p>Deprecated version of KeyVaultProperties_Status. Use v1beta20210901.KeyVaultProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1007,7 +974,6 @@ string
 </em>
 </td>
 <td>
-<p>Identity: The client id of the identity which will be used to access key vault.</p>
 </td>
 </tr>
 <tr>
@@ -1018,7 +984,6 @@ string
 </em>
 </td>
 <td>
-<p>KeyIdentifier: Key vault uri to access the encryption key.</p>
 </td>
 </tr>
 <tr>
@@ -1029,7 +994,6 @@ bool
 </em>
 </td>
 <td>
-<p>KeyRotationEnabled: Auto key rotation status for a CMK enabled registry.</p>
 </td>
 </tr>
 <tr>
@@ -1040,7 +1004,6 @@ string
 </em>
 </td>
 <td>
-<p>LastKeyRotationTimestamp: Timestamp of the last successful key rotation.</p>
 </td>
 </tr>
 <tr>
@@ -1051,8 +1014,6 @@ string
 </em>
 </td>
 <td>
-<p>VersionedKeyIdentifier: The fully qualified key identifier that includes the version of the key that is actually used
-for encryption.</p>
 </td>
 </tr>
 </tbody>
@@ -1063,6 +1024,7 @@ for encryption.</p>
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.EncryptionProperty_StatusARM">EncryptionProperty_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of KeyVaultProperties_Status. Use v1beta20210901.KeyVaultProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1080,7 +1042,6 @@ string
 </em>
 </td>
 <td>
-<p>Identity: The client id of the identity which will be used to access key vault.</p>
 </td>
 </tr>
 <tr>
@@ -1091,7 +1052,6 @@ string
 </em>
 </td>
 <td>
-<p>KeyIdentifier: Key vault uri to access the encryption key.</p>
 </td>
 </tr>
 <tr>
@@ -1102,7 +1062,6 @@ bool
 </em>
 </td>
 <td>
-<p>KeyRotationEnabled: Auto key rotation status for a CMK enabled registry.</p>
 </td>
 </tr>
 <tr>
@@ -1113,7 +1072,6 @@ string
 </em>
 </td>
 <td>
-<p>LastKeyRotationTimestamp: Timestamp of the last successful key rotation.</p>
 </td>
 </tr>
 <tr>
@@ -1124,8 +1082,6 @@ string
 </em>
 </td>
 <td>
-<p>VersionedKeyIdentifier: The fully qualified key identifier that includes the version of the key that is actually used
-for encryption.</p>
 </td>
 </tr>
 </tbody>
@@ -1136,7 +1092,7 @@ for encryption.</p>
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.Registries_Spec">Registries_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/NetworkRuleSet">https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/NetworkRuleSet</a></p>
+<p>Deprecated version of NetworkRuleSet. Use v1beta20210901.NetworkRuleSet instead</p>
 </div>
 <table>
 <thead>
@@ -1156,7 +1112,6 @@ NetworkRuleSetDefaultAction
 </em>
 </td>
 <td>
-<p>DefaultAction: The default action of allow or deny when no other rules match.</p>
 </td>
 </tr>
 <tr>
@@ -1169,7 +1124,6 @@ NetworkRuleSetDefaultAction
 </em>
 </td>
 <td>
-<p>IpRules: The IP ACL rules.</p>
 </td>
 </tr>
 </tbody>
@@ -1180,7 +1134,7 @@ NetworkRuleSetDefaultAction
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.RegistryPropertiesARM">RegistryPropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/NetworkRuleSet">https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/NetworkRuleSet</a></p>
+<p>Deprecated version of NetworkRuleSet. Use v1beta20210901.NetworkRuleSet instead</p>
 </div>
 <table>
 <thead>
@@ -1200,7 +1154,6 @@ NetworkRuleSetDefaultAction
 </em>
 </td>
 <td>
-<p>DefaultAction: The default action of allow or deny when no other rules match.</p>
 </td>
 </tr>
 <tr>
@@ -1213,7 +1166,6 @@ NetworkRuleSetDefaultAction
 </em>
 </td>
 <td>
-<p>IpRules: The IP ACL rules.</p>
 </td>
 </tr>
 </tbody>
@@ -1224,6 +1176,7 @@ NetworkRuleSetDefaultAction
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.NetworkRuleSet">NetworkRuleSet</a>, <a href="#containerregistry.azure.com/v1alpha1api20210901.NetworkRuleSetARM">NetworkRuleSetARM</a>)
 </p>
 <div>
+<p>Deprecated version of NetworkRuleSetDefaultAction. Use v1beta20210901.NetworkRuleSetDefaultAction instead</p>
 </div>
 <table>
 <thead>
@@ -1244,6 +1197,7 @@ NetworkRuleSetDefaultAction
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.NetworkRuleSet_Status">NetworkRuleSet_Status</a>, <a href="#containerregistry.azure.com/v1alpha1api20210901.NetworkRuleSet_StatusARM">NetworkRuleSet_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of NetworkRuleSetStatusDefaultAction. Use v1beta20210901.NetworkRuleSetStatusDefaultAction instead</p>
 </div>
 <table>
 <thead>
@@ -1264,6 +1218,7 @@ NetworkRuleSetDefaultAction
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.Registry_Status">Registry_Status</a>)
 </p>
 <div>
+<p>Deprecated version of NetworkRuleSet_Status. Use v1beta20210901.NetworkRuleSet_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1283,7 +1238,6 @@ NetworkRuleSetStatusDefaultAction
 </em>
 </td>
 <td>
-<p>DefaultAction: The default action of allow or deny when no other rules match.</p>
 </td>
 </tr>
 <tr>
@@ -1296,7 +1250,6 @@ NetworkRuleSetStatusDefaultAction
 </em>
 </td>
 <td>
-<p>IpRules: The IP ACL rules.</p>
 </td>
 </tr>
 </tbody>
@@ -1307,6 +1260,7 @@ NetworkRuleSetStatusDefaultAction
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.RegistryProperties_StatusARM">RegistryProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of NetworkRuleSet_Status. Use v1beta20210901.NetworkRuleSet_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1326,7 +1280,6 @@ NetworkRuleSetStatusDefaultAction
 </em>
 </td>
 <td>
-<p>DefaultAction: The default action of allow or deny when no other rules match.</p>
 </td>
 </tr>
 <tr>
@@ -1339,7 +1292,6 @@ NetworkRuleSetStatusDefaultAction
 </em>
 </td>
 <td>
-<p>IpRules: The IP ACL rules.</p>
 </td>
 </tr>
 </tbody>
@@ -1350,7 +1302,7 @@ NetworkRuleSetStatusDefaultAction
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.Registries_Spec">Registries_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/Policies">https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/Policies</a></p>
+<p>Deprecated version of Policies. Use v1beta20210901.Policies instead</p>
 </div>
 <table>
 <thead>
@@ -1370,7 +1322,6 @@ ExportPolicy
 </em>
 </td>
 <td>
-<p>ExportPolicy: The export policy for a container registry.</p>
 </td>
 </tr>
 <tr>
@@ -1383,7 +1334,6 @@ QuarantinePolicy
 </em>
 </td>
 <td>
-<p>QuarantinePolicy: The quarantine policy for a container registry.</p>
 </td>
 </tr>
 <tr>
@@ -1396,7 +1346,6 @@ RetentionPolicy
 </em>
 </td>
 <td>
-<p>RetentionPolicy: The retention policy for a container registry.</p>
 </td>
 </tr>
 <tr>
@@ -1409,7 +1358,6 @@ TrustPolicy
 </em>
 </td>
 <td>
-<p>TrustPolicy: The content trust policy for a container registry.</p>
 </td>
 </tr>
 </tbody>
@@ -1420,7 +1368,7 @@ TrustPolicy
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.RegistryPropertiesARM">RegistryPropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/Policies">https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/Policies</a></p>
+<p>Deprecated version of Policies. Use v1beta20210901.Policies instead</p>
 </div>
 <table>
 <thead>
@@ -1440,7 +1388,6 @@ ExportPolicyARM
 </em>
 </td>
 <td>
-<p>ExportPolicy: The export policy for a container registry.</p>
 </td>
 </tr>
 <tr>
@@ -1453,7 +1400,6 @@ QuarantinePolicyARM
 </em>
 </td>
 <td>
-<p>QuarantinePolicy: The quarantine policy for a container registry.</p>
 </td>
 </tr>
 <tr>
@@ -1466,7 +1412,6 @@ RetentionPolicyARM
 </em>
 </td>
 <td>
-<p>RetentionPolicy: The retention policy for a container registry.</p>
 </td>
 </tr>
 <tr>
@@ -1479,7 +1424,6 @@ TrustPolicyARM
 </em>
 </td>
 <td>
-<p>TrustPolicy: The content trust policy for a container registry.</p>
 </td>
 </tr>
 </tbody>
@@ -1490,6 +1434,7 @@ TrustPolicyARM
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.Registry_Status">Registry_Status</a>)
 </p>
 <div>
+<p>Deprecated version of Policies_Status. Use v1beta20210901.Policies_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1509,7 +1454,6 @@ ExportPolicy_Status
 </em>
 </td>
 <td>
-<p>ExportPolicy: The export policy for a container registry.</p>
 </td>
 </tr>
 <tr>
@@ -1522,7 +1466,6 @@ QuarantinePolicy_Status
 </em>
 </td>
 <td>
-<p>QuarantinePolicy: The quarantine policy for a container registry.</p>
 </td>
 </tr>
 <tr>
@@ -1535,7 +1478,6 @@ RetentionPolicy_Status
 </em>
 </td>
 <td>
-<p>RetentionPolicy: The retention policy for a container registry.</p>
 </td>
 </tr>
 <tr>
@@ -1548,7 +1490,6 @@ TrustPolicy_Status
 </em>
 </td>
 <td>
-<p>TrustPolicy: The content trust policy for a container registry.</p>
 </td>
 </tr>
 </tbody>
@@ -1559,6 +1500,7 @@ TrustPolicy_Status
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.RegistryProperties_StatusARM">RegistryProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of Policies_Status. Use v1beta20210901.Policies_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1578,7 +1520,6 @@ ExportPolicy_StatusARM
 </em>
 </td>
 <td>
-<p>ExportPolicy: The export policy for a container registry.</p>
 </td>
 </tr>
 <tr>
@@ -1591,7 +1532,6 @@ QuarantinePolicy_StatusARM
 </em>
 </td>
 <td>
-<p>QuarantinePolicy: The quarantine policy for a container registry.</p>
 </td>
 </tr>
 <tr>
@@ -1604,7 +1544,6 @@ RetentionPolicy_StatusARM
 </em>
 </td>
 <td>
-<p>RetentionPolicy: The retention policy for a container registry.</p>
 </td>
 </tr>
 <tr>
@@ -1617,7 +1556,6 @@ TrustPolicy_StatusARM
 </em>
 </td>
 <td>
-<p>TrustPolicy: The content trust policy for a container registry.</p>
 </td>
 </tr>
 </tbody>
@@ -1628,6 +1566,7 @@ TrustPolicy_StatusARM
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.Registry_Status">Registry_Status</a>)
 </p>
 <div>
+<p>Deprecated version of PrivateEndpointConnection_Status_SubResourceEmbedded. Use v1beta20210901.PrivateEndpointConnection_Status_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -1645,7 +1584,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: The resource ID.</p>
 </td>
 </tr>
 <tr>
@@ -1658,7 +1596,6 @@ SystemData_Status
 </em>
 </td>
 <td>
-<p>SystemData: Metadata pertaining to creation and last modification of the resource.</p>
 </td>
 </tr>
 </tbody>
@@ -1669,6 +1606,7 @@ SystemData_Status
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.RegistryProperties_StatusARM">RegistryProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of PrivateEndpointConnection_Status_SubResourceEmbedded. Use v1beta20210901.PrivateEndpointConnection_Status_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -1686,7 +1624,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: The resource ID.</p>
 </td>
 </tr>
 <tr>
@@ -1699,7 +1636,6 @@ SystemData_StatusARM
 </em>
 </td>
 <td>
-<p>SystemData: Metadata pertaining to creation and last modification of the resource.</p>
 </td>
 </tr>
 </tbody>
@@ -1710,7 +1646,7 @@ SystemData_StatusARM
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.Policies">Policies</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/QuarantinePolicy">https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/QuarantinePolicy</a></p>
+<p>Deprecated version of QuarantinePolicy. Use v1beta20210901.QuarantinePolicy instead</p>
 </div>
 <table>
 <thead>
@@ -1730,7 +1666,6 @@ QuarantinePolicyStatus
 </em>
 </td>
 <td>
-<p>Status: The value that indicates whether the policy is enabled or not.</p>
 </td>
 </tr>
 </tbody>
@@ -1741,7 +1676,7 @@ QuarantinePolicyStatus
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.PoliciesARM">PoliciesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/QuarantinePolicy">https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/QuarantinePolicy</a></p>
+<p>Deprecated version of QuarantinePolicy. Use v1beta20210901.QuarantinePolicy instead</p>
 </div>
 <table>
 <thead>
@@ -1761,7 +1696,6 @@ QuarantinePolicyStatus
 </em>
 </td>
 <td>
-<p>Status: The value that indicates whether the policy is enabled or not.</p>
 </td>
 </tr>
 </tbody>
@@ -1772,6 +1706,7 @@ QuarantinePolicyStatus
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.QuarantinePolicy">QuarantinePolicy</a>, <a href="#containerregistry.azure.com/v1alpha1api20210901.QuarantinePolicyARM">QuarantinePolicyARM</a>)
 </p>
 <div>
+<p>Deprecated version of QuarantinePolicyStatus. Use v1beta20210901.QuarantinePolicyStatus instead</p>
 </div>
 <table>
 <thead>
@@ -1792,6 +1727,7 @@ QuarantinePolicyStatus
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.QuarantinePolicy_Status">QuarantinePolicy_Status</a>, <a href="#containerregistry.azure.com/v1alpha1api20210901.QuarantinePolicy_StatusARM">QuarantinePolicy_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of QuarantinePolicyStatusStatus. Use v1beta20210901.QuarantinePolicyStatusStatus instead</p>
 </div>
 <table>
 <thead>
@@ -1812,6 +1748,7 @@ QuarantinePolicyStatus
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.Policies_Status">Policies_Status</a>)
 </p>
 <div>
+<p>Deprecated version of QuarantinePolicy_Status. Use v1beta20210901.QuarantinePolicy_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1831,7 +1768,6 @@ QuarantinePolicyStatusStatus
 </em>
 </td>
 <td>
-<p>Status: The value that indicates whether the policy is enabled or not.</p>
 </td>
 </tr>
 </tbody>
@@ -1842,6 +1778,7 @@ QuarantinePolicyStatusStatus
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.Policies_StatusARM">Policies_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of QuarantinePolicy_Status. Use v1beta20210901.QuarantinePolicy_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1861,25 +1798,9 @@ QuarantinePolicyStatusStatus
 </em>
 </td>
 <td>
-<p>Status: The value that indicates whether the policy is enabled or not.</p>
 </td>
 </tr>
 </tbody>
-</table>
-<h3 id="containerregistry.azure.com/v1alpha1api20210901.RegistriesSpecAPIVersion">RegistriesSpecAPIVersion
-(<code>string</code> alias)</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;2021-09-01&#34;</p></td>
-<td></td>
-</tr></tbody>
 </table>
 <h3 id="containerregistry.azure.com/v1alpha1api20210901.Registries_Spec">Registries_Spec
 </h3>
@@ -1904,7 +1825,6 @@ bool
 </em>
 </td>
 <td>
-<p>AdminUserEnabled: The value that indicates whether the admin user is enabled.</p>
 </td>
 </tr>
 <tr>
@@ -1927,7 +1847,6 @@ bool
 </em>
 </td>
 <td>
-<p>DataEndpointEnabled: Enable a single data endpoint per region for serving data.</p>
 </td>
 </tr>
 <tr>
@@ -1952,7 +1871,6 @@ IdentityProperties
 </em>
 </td>
 <td>
-<p>Identity: Managed identity for the resource.</p>
 </td>
 </tr>
 <tr>
@@ -1963,7 +1881,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The location of the resource. This cannot be changed after the resource is created.</p>
 </td>
 </tr>
 <tr>
@@ -1976,7 +1893,6 @@ RegistryPropertiesNetworkRuleBypassOptions
 </em>
 </td>
 <td>
-<p>NetworkRuleBypassOptions: Whether to allow trusted Azure services to access a network restricted registry.</p>
 </td>
 </tr>
 <tr>
@@ -1989,7 +1905,6 @@ NetworkRuleSet
 </em>
 </td>
 <td>
-<p>NetworkRuleSet: The network rule set for a container registry.</p>
 </td>
 </tr>
 <tr>
@@ -2002,6 +1917,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -2014,7 +1932,6 @@ Policies
 </em>
 </td>
 <td>
-<p>Policies: The policies for a container registry.</p>
 </td>
 </tr>
 <tr>
@@ -2027,7 +1944,6 @@ RegistryPropertiesPublicNetworkAccess
 </em>
 </td>
 <td>
-<p>PublicNetworkAccess: Whether or not public network access is allowed for the container registry.</p>
 </td>
 </tr>
 <tr>
@@ -2040,7 +1956,6 @@ Sku
 </em>
 </td>
 <td>
-<p>Sku: The SKU of a container registry.</p>
 </td>
 </tr>
 <tr>
@@ -2051,7 +1966,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 <tr>
@@ -2064,7 +1978,6 @@ RegistryPropertiesZoneRedundancy
 </em>
 </td>
 <td>
-<p>ZoneRedundancy: Whether or not zone redundancy is enabled for this container registry.</p>
 </td>
 </tr>
 </tbody>
@@ -2072,6 +1985,7 @@ RegistryPropertiesZoneRedundancy
 <h3 id="containerregistry.azure.com/v1alpha1api20210901.Registries_SpecARM">Registries_SpecARM
 </h3>
 <div>
+<p>Deprecated version of Registries_Spec. Use v1beta20210901.Registries_Spec instead</p>
 </div>
 <table>
 <thead>
@@ -2091,7 +2005,6 @@ IdentityPropertiesARM
 </em>
 </td>
 <td>
-<p>Identity: Managed identity for the resource.</p>
 </td>
 </tr>
 <tr>
@@ -2102,7 +2015,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The location of the resource. This cannot be changed after the resource is created.</p>
 </td>
 </tr>
 <tr>
@@ -2113,7 +2025,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the container registry.</p>
 </td>
 </tr>
 <tr>
@@ -2126,7 +2037,6 @@ RegistryPropertiesARM
 </em>
 </td>
 <td>
-<p>Properties: The properties of a container registry.</p>
 </td>
 </tr>
 <tr>
@@ -2139,7 +2049,6 @@ SkuARM
 </em>
 </td>
 <td>
-<p>Sku: The SKU of a container registry.</p>
 </td>
 </tr>
 <tr>
@@ -2150,7 +2059,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </tbody>
@@ -2158,7 +2066,7 @@ map[string]string
 <h3 id="containerregistry.azure.com/v1alpha1api20210901.Registry">Registry
 </h3>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/resourceDefinitions/registries">https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/resourceDefinitions/registries</a></p>
+<p>Deprecated version of Registry. Use v1beta20210901.Registry instead</p>
 </div>
 <table>
 <thead>
@@ -2203,7 +2111,6 @@ bool
 </em>
 </td>
 <td>
-<p>AdminUserEnabled: The value that indicates whether the admin user is enabled.</p>
 </td>
 </tr>
 <tr>
@@ -2226,7 +2133,6 @@ bool
 </em>
 </td>
 <td>
-<p>DataEndpointEnabled: Enable a single data endpoint per region for serving data.</p>
 </td>
 </tr>
 <tr>
@@ -2251,7 +2157,6 @@ IdentityProperties
 </em>
 </td>
 <td>
-<p>Identity: Managed identity for the resource.</p>
 </td>
 </tr>
 <tr>
@@ -2262,7 +2167,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The location of the resource. This cannot be changed after the resource is created.</p>
 </td>
 </tr>
 <tr>
@@ -2275,7 +2179,6 @@ RegistryPropertiesNetworkRuleBypassOptions
 </em>
 </td>
 <td>
-<p>NetworkRuleBypassOptions: Whether to allow trusted Azure services to access a network restricted registry.</p>
 </td>
 </tr>
 <tr>
@@ -2288,7 +2191,6 @@ NetworkRuleSet
 </em>
 </td>
 <td>
-<p>NetworkRuleSet: The network rule set for a container registry.</p>
 </td>
 </tr>
 <tr>
@@ -2301,6 +2203,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -2313,7 +2218,6 @@ Policies
 </em>
 </td>
 <td>
-<p>Policies: The policies for a container registry.</p>
 </td>
 </tr>
 <tr>
@@ -2326,7 +2230,6 @@ RegistryPropertiesPublicNetworkAccess
 </em>
 </td>
 <td>
-<p>PublicNetworkAccess: Whether or not public network access is allowed for the container registry.</p>
 </td>
 </tr>
 <tr>
@@ -2339,7 +2242,6 @@ Sku
 </em>
 </td>
 <td>
-<p>Sku: The SKU of a container registry.</p>
 </td>
 </tr>
 <tr>
@@ -2350,7 +2252,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 <tr>
@@ -2363,7 +2264,6 @@ RegistryPropertiesZoneRedundancy
 </em>
 </td>
 <td>
-<p>ZoneRedundancy: Whether or not zone redundancy is enabled for this container registry.</p>
 </td>
 </tr>
 </table>
@@ -2389,7 +2289,7 @@ Registry_Status
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.Registries_SpecARM">Registries_SpecARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/RegistryProperties">https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/RegistryProperties</a></p>
+<p>Deprecated version of RegistryProperties. Use v1beta20210901.RegistryProperties instead</p>
 </div>
 <table>
 <thead>
@@ -2407,7 +2307,6 @@ bool
 </em>
 </td>
 <td>
-<p>AdminUserEnabled: The value that indicates whether the admin user is enabled.</p>
 </td>
 </tr>
 <tr>
@@ -2418,7 +2317,6 @@ bool
 </em>
 </td>
 <td>
-<p>DataEndpointEnabled: Enable a single data endpoint per region for serving data.</p>
 </td>
 </tr>
 <tr>
@@ -2443,7 +2341,6 @@ RegistryPropertiesNetworkRuleBypassOptions
 </em>
 </td>
 <td>
-<p>NetworkRuleBypassOptions: Whether to allow trusted Azure services to access a network restricted registry.</p>
 </td>
 </tr>
 <tr>
@@ -2456,7 +2353,6 @@ NetworkRuleSetARM
 </em>
 </td>
 <td>
-<p>NetworkRuleSet: The network rule set for a container registry.</p>
 </td>
 </tr>
 <tr>
@@ -2469,7 +2365,6 @@ PoliciesARM
 </em>
 </td>
 <td>
-<p>Policies: The policies for a container registry.</p>
 </td>
 </tr>
 <tr>
@@ -2482,7 +2377,6 @@ RegistryPropertiesPublicNetworkAccess
 </em>
 </td>
 <td>
-<p>PublicNetworkAccess: Whether or not public network access is allowed for the container registry.</p>
 </td>
 </tr>
 <tr>
@@ -2495,7 +2389,6 @@ RegistryPropertiesZoneRedundancy
 </em>
 </td>
 <td>
-<p>ZoneRedundancy: Whether or not zone redundancy is enabled for this container registry.</p>
 </td>
 </tr>
 </tbody>
@@ -2506,6 +2399,8 @@ RegistryPropertiesZoneRedundancy
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.Registries_Spec">Registries_Spec</a>, <a href="#containerregistry.azure.com/v1alpha1api20210901.RegistryPropertiesARM">RegistryPropertiesARM</a>)
 </p>
 <div>
+<p>Deprecated version of RegistryPropertiesNetworkRuleBypassOptions. Use
+v1beta20210901.RegistryPropertiesNetworkRuleBypassOptions instead</p>
 </div>
 <table>
 <thead>
@@ -2526,6 +2421,8 @@ RegistryPropertiesZoneRedundancy
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.Registries_Spec">Registries_Spec</a>, <a href="#containerregistry.azure.com/v1alpha1api20210901.RegistryPropertiesARM">RegistryPropertiesARM</a>)
 </p>
 <div>
+<p>Deprecated version of RegistryPropertiesPublicNetworkAccess. Use v1beta20210901.RegistryPropertiesPublicNetworkAccess
+instead</p>
 </div>
 <table>
 <thead>
@@ -2546,6 +2443,8 @@ RegistryPropertiesZoneRedundancy
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.RegistryProperties_StatusARM">RegistryProperties_StatusARM</a>, <a href="#containerregistry.azure.com/v1alpha1api20210901.Registry_Status">Registry_Status</a>)
 </p>
 <div>
+<p>Deprecated version of RegistryPropertiesStatusNetworkRuleBypassOptions. Use
+v1beta20210901.RegistryPropertiesStatusNetworkRuleBypassOptions instead</p>
 </div>
 <table>
 <thead>
@@ -2566,6 +2465,8 @@ RegistryPropertiesZoneRedundancy
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.RegistryProperties_StatusARM">RegistryProperties_StatusARM</a>, <a href="#containerregistry.azure.com/v1alpha1api20210901.Registry_Status">Registry_Status</a>)
 </p>
 <div>
+<p>Deprecated version of RegistryPropertiesStatusProvisioningState. Use
+v1beta20210901.RegistryPropertiesStatusProvisioningState instead</p>
 </div>
 <table>
 <thead>
@@ -2594,6 +2495,8 @@ RegistryPropertiesZoneRedundancy
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.RegistryProperties_StatusARM">RegistryProperties_StatusARM</a>, <a href="#containerregistry.azure.com/v1alpha1api20210901.Registry_Status">Registry_Status</a>)
 </p>
 <div>
+<p>Deprecated version of RegistryPropertiesStatusPublicNetworkAccess. Use
+v1beta20210901.RegistryPropertiesStatusPublicNetworkAccess instead</p>
 </div>
 <table>
 <thead>
@@ -2614,6 +2517,8 @@ RegistryPropertiesZoneRedundancy
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.RegistryProperties_StatusARM">RegistryProperties_StatusARM</a>, <a href="#containerregistry.azure.com/v1alpha1api20210901.Registry_Status">Registry_Status</a>)
 </p>
 <div>
+<p>Deprecated version of RegistryPropertiesStatusZoneRedundancy. Use v1beta20210901.RegistryPropertiesStatusZoneRedundancy
+instead</p>
 </div>
 <table>
 <thead>
@@ -2634,6 +2539,7 @@ RegistryPropertiesZoneRedundancy
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.Registries_Spec">Registries_Spec</a>, <a href="#containerregistry.azure.com/v1alpha1api20210901.RegistryPropertiesARM">RegistryPropertiesARM</a>)
 </p>
 <div>
+<p>Deprecated version of RegistryPropertiesZoneRedundancy. Use v1beta20210901.RegistryPropertiesZoneRedundancy instead</p>
 </div>
 <table>
 <thead>
@@ -2654,6 +2560,7 @@ RegistryPropertiesZoneRedundancy
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.Registry_StatusARM">Registry_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of RegistryProperties_Status. Use v1beta20210901.RegistryProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -2671,7 +2578,6 @@ bool
 </em>
 </td>
 <td>
-<p>AdminUserEnabled: The value that indicates whether the admin user is enabled.</p>
 </td>
 </tr>
 <tr>
@@ -2682,7 +2588,6 @@ string
 </em>
 </td>
 <td>
-<p>CreationDate: The creation date of the container registry in ISO8601 format.</p>
 </td>
 </tr>
 <tr>
@@ -2693,7 +2598,6 @@ bool
 </em>
 </td>
 <td>
-<p>DataEndpointEnabled: Enable a single data endpoint per region for serving data.</p>
 </td>
 </tr>
 <tr>
@@ -2704,7 +2608,6 @@ bool
 </em>
 </td>
 <td>
-<p>DataEndpointHostNames: List of host names that will serve data when dataEndpointEnabled is true.</p>
 </td>
 </tr>
 <tr>
@@ -2717,7 +2620,6 @@ EncryptionProperty_StatusARM
 </em>
 </td>
 <td>
-<p>Encryption: The encryption settings of container registry.</p>
 </td>
 </tr>
 <tr>
@@ -2728,7 +2630,6 @@ string
 </em>
 </td>
 <td>
-<p>LoginServer: The URL that can be used to log into the container registry.</p>
 </td>
 </tr>
 <tr>
@@ -2741,7 +2642,6 @@ RegistryPropertiesStatusNetworkRuleBypassOptions
 </em>
 </td>
 <td>
-<p>NetworkRuleBypassOptions: Whether to allow trusted Azure services to access a network restricted registry.</p>
 </td>
 </tr>
 <tr>
@@ -2754,7 +2654,6 @@ NetworkRuleSet_StatusARM
 </em>
 </td>
 <td>
-<p>NetworkRuleSet: The network rule set for a container registry.</p>
 </td>
 </tr>
 <tr>
@@ -2767,7 +2666,6 @@ Policies_StatusARM
 </em>
 </td>
 <td>
-<p>Policies: The policies for a container registry.</p>
 </td>
 </tr>
 <tr>
@@ -2780,7 +2678,6 @@ Policies_StatusARM
 </em>
 </td>
 <td>
-<p>PrivateEndpointConnections: List of private endpoint connections for a container registry.</p>
 </td>
 </tr>
 <tr>
@@ -2793,7 +2690,6 @@ RegistryPropertiesStatusProvisioningState
 </em>
 </td>
 <td>
-<p>ProvisioningState: The provisioning state of the container registry at the time the operation was called.</p>
 </td>
 </tr>
 <tr>
@@ -2806,7 +2702,6 @@ RegistryPropertiesStatusPublicNetworkAccess
 </em>
 </td>
 <td>
-<p>PublicNetworkAccess: Whether or not public network access is allowed for the container registry.</p>
 </td>
 </tr>
 <tr>
@@ -2819,7 +2714,6 @@ Status_StatusARM
 </em>
 </td>
 <td>
-<p>Status: The status of the container registry at the time the operation was called.</p>
 </td>
 </tr>
 <tr>
@@ -2832,7 +2726,6 @@ RegistryPropertiesStatusZoneRedundancy
 </em>
 </td>
 <td>
-<p>ZoneRedundancy: Whether or not zone redundancy is enabled for this container registry</p>
 </td>
 </tr>
 </tbody>
@@ -2843,6 +2736,7 @@ RegistryPropertiesStatusZoneRedundancy
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.Registry">Registry</a>)
 </p>
 <div>
+<p>Deprecated version of Registry_Status. Use v1beta20210901.Registry_Status instead</p>
 </div>
 <table>
 <thead>
@@ -2860,7 +2754,6 @@ bool
 </em>
 </td>
 <td>
-<p>AdminUserEnabled: The value that indicates whether the admin user is enabled.</p>
 </td>
 </tr>
 <tr>
@@ -2884,7 +2777,6 @@ string
 </em>
 </td>
 <td>
-<p>CreationDate: The creation date of the container registry in ISO8601 format.</p>
 </td>
 </tr>
 <tr>
@@ -2895,7 +2787,6 @@ bool
 </em>
 </td>
 <td>
-<p>DataEndpointEnabled: Enable a single data endpoint per region for serving data.</p>
 </td>
 </tr>
 <tr>
@@ -2906,7 +2797,6 @@ bool
 </em>
 </td>
 <td>
-<p>DataEndpointHostNames: List of host names that will serve data when dataEndpointEnabled is true.</p>
 </td>
 </tr>
 <tr>
@@ -2919,7 +2809,6 @@ EncryptionProperty_Status
 </em>
 </td>
 <td>
-<p>Encryption: The encryption settings of container registry.</p>
 </td>
 </tr>
 <tr>
@@ -2930,7 +2819,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: The resource ID.</p>
 </td>
 </tr>
 <tr>
@@ -2943,7 +2831,6 @@ IdentityProperties_Status
 </em>
 </td>
 <td>
-<p>Identity: The identity of the container registry.</p>
 </td>
 </tr>
 <tr>
@@ -2954,7 +2841,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The location of the resource. This cannot be changed after the resource is created.</p>
 </td>
 </tr>
 <tr>
@@ -2965,7 +2851,6 @@ string
 </em>
 </td>
 <td>
-<p>LoginServer: The URL that can be used to log into the container registry.</p>
 </td>
 </tr>
 <tr>
@@ -2976,7 +2861,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -2989,7 +2873,6 @@ RegistryPropertiesStatusNetworkRuleBypassOptions
 </em>
 </td>
 <td>
-<p>NetworkRuleBypassOptions: Whether to allow trusted Azure services to access a network restricted registry.</p>
 </td>
 </tr>
 <tr>
@@ -3002,7 +2885,6 @@ NetworkRuleSet_Status
 </em>
 </td>
 <td>
-<p>NetworkRuleSet: The network rule set for a container registry.</p>
 </td>
 </tr>
 <tr>
@@ -3015,7 +2897,6 @@ Policies_Status
 </em>
 </td>
 <td>
-<p>Policies: The policies for a container registry.</p>
 </td>
 </tr>
 <tr>
@@ -3028,7 +2909,6 @@ Policies_Status
 </em>
 </td>
 <td>
-<p>PrivateEndpointConnections: List of private endpoint connections for a container registry.</p>
 </td>
 </tr>
 <tr>
@@ -3041,7 +2921,6 @@ RegistryPropertiesStatusProvisioningState
 </em>
 </td>
 <td>
-<p>ProvisioningState: The provisioning state of the container registry at the time the operation was called.</p>
 </td>
 </tr>
 <tr>
@@ -3054,7 +2933,6 @@ RegistryPropertiesStatusPublicNetworkAccess
 </em>
 </td>
 <td>
-<p>PublicNetworkAccess: Whether or not public network access is allowed for the container registry.</p>
 </td>
 </tr>
 <tr>
@@ -3067,7 +2945,6 @@ Sku_Status
 </em>
 </td>
 <td>
-<p>Sku: The SKU of the container registry.</p>
 </td>
 </tr>
 <tr>
@@ -3080,7 +2957,6 @@ Status_Status
 </em>
 </td>
 <td>
-<p>Status: The status of the container registry at the time the operation was called.</p>
 </td>
 </tr>
 <tr>
@@ -3093,7 +2969,6 @@ SystemData_Status
 </em>
 </td>
 <td>
-<p>SystemData: Metadata pertaining to creation and last modification of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -3104,7 +2979,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: The tags of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -3115,7 +2989,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: The type of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -3128,7 +3001,6 @@ RegistryPropertiesStatusZoneRedundancy
 </em>
 </td>
 <td>
-<p>ZoneRedundancy: Whether or not zone redundancy is enabled for this container registry</p>
 </td>
 </tr>
 </tbody>
@@ -3136,6 +3008,7 @@ RegistryPropertiesStatusZoneRedundancy
 <h3 id="containerregistry.azure.com/v1alpha1api20210901.Registry_StatusARM">Registry_StatusARM
 </h3>
 <div>
+<p>Deprecated version of Registry_Status. Use v1beta20210901.Registry_Status instead</p>
 </div>
 <table>
 <thead>
@@ -3153,7 +3026,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: The resource ID.</p>
 </td>
 </tr>
 <tr>
@@ -3166,7 +3038,6 @@ IdentityProperties_StatusARM
 </em>
 </td>
 <td>
-<p>Identity: The identity of the container registry.</p>
 </td>
 </tr>
 <tr>
@@ -3177,7 +3048,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The location of the resource. This cannot be changed after the resource is created.</p>
 </td>
 </tr>
 <tr>
@@ -3188,7 +3058,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -3201,7 +3070,6 @@ RegistryProperties_StatusARM
 </em>
 </td>
 <td>
-<p>Properties: The properties of the container registry.</p>
 </td>
 </tr>
 <tr>
@@ -3214,7 +3082,6 @@ Sku_StatusARM
 </em>
 </td>
 <td>
-<p>Sku: The SKU of the container registry.</p>
 </td>
 </tr>
 <tr>
@@ -3227,7 +3094,6 @@ SystemData_StatusARM
 </em>
 </td>
 <td>
-<p>SystemData: Metadata pertaining to creation and last modification of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -3238,7 +3104,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: The tags of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -3249,7 +3114,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: The type of the resource.</p>
 </td>
 </tr>
 </tbody>
@@ -3260,7 +3124,7 @@ string
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.Policies">Policies</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/RetentionPolicy">https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/RetentionPolicy</a></p>
+<p>Deprecated version of RetentionPolicy. Use v1beta20210901.RetentionPolicy instead</p>
 </div>
 <table>
 <thead>
@@ -3278,7 +3142,6 @@ int
 </em>
 </td>
 <td>
-<p>Days: The number of days to retain an untagged manifest after which it gets purged.</p>
 </td>
 </tr>
 <tr>
@@ -3291,7 +3154,6 @@ RetentionPolicyStatus
 </em>
 </td>
 <td>
-<p>Status: The value that indicates whether the policy is enabled or not.</p>
 </td>
 </tr>
 </tbody>
@@ -3302,7 +3164,7 @@ RetentionPolicyStatus
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.PoliciesARM">PoliciesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/RetentionPolicy">https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/RetentionPolicy</a></p>
+<p>Deprecated version of RetentionPolicy. Use v1beta20210901.RetentionPolicy instead</p>
 </div>
 <table>
 <thead>
@@ -3320,7 +3182,6 @@ int
 </em>
 </td>
 <td>
-<p>Days: The number of days to retain an untagged manifest after which it gets purged.</p>
 </td>
 </tr>
 <tr>
@@ -3333,7 +3194,6 @@ RetentionPolicyStatus
 </em>
 </td>
 <td>
-<p>Status: The value that indicates whether the policy is enabled or not.</p>
 </td>
 </tr>
 </tbody>
@@ -3344,6 +3204,7 @@ RetentionPolicyStatus
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.RetentionPolicy">RetentionPolicy</a>, <a href="#containerregistry.azure.com/v1alpha1api20210901.RetentionPolicyARM">RetentionPolicyARM</a>)
 </p>
 <div>
+<p>Deprecated version of RetentionPolicyStatus. Use v1beta20210901.RetentionPolicyStatus instead</p>
 </div>
 <table>
 <thead>
@@ -3364,6 +3225,7 @@ RetentionPolicyStatus
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.RetentionPolicy_Status">RetentionPolicy_Status</a>, <a href="#containerregistry.azure.com/v1alpha1api20210901.RetentionPolicy_StatusARM">RetentionPolicy_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of RetentionPolicyStatusStatus. Use v1beta20210901.RetentionPolicyStatusStatus instead</p>
 </div>
 <table>
 <thead>
@@ -3384,6 +3246,7 @@ RetentionPolicyStatus
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.Policies_Status">Policies_Status</a>)
 </p>
 <div>
+<p>Deprecated version of RetentionPolicy_Status. Use v1beta20210901.RetentionPolicy_Status instead</p>
 </div>
 <table>
 <thead>
@@ -3401,7 +3264,6 @@ int
 </em>
 </td>
 <td>
-<p>Days: The number of days to retain an untagged manifest after which it gets purged.</p>
 </td>
 </tr>
 <tr>
@@ -3412,7 +3274,6 @@ string
 </em>
 </td>
 <td>
-<p>LastUpdatedTime: The timestamp when the policy was last updated.</p>
 </td>
 </tr>
 <tr>
@@ -3425,7 +3286,6 @@ RetentionPolicyStatusStatus
 </em>
 </td>
 <td>
-<p>Status: The value that indicates whether the policy is enabled or not.</p>
 </td>
 </tr>
 </tbody>
@@ -3436,6 +3296,7 @@ RetentionPolicyStatusStatus
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.Policies_StatusARM">Policies_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of RetentionPolicy_Status. Use v1beta20210901.RetentionPolicy_Status instead</p>
 </div>
 <table>
 <thead>
@@ -3453,7 +3314,6 @@ int
 </em>
 </td>
 <td>
-<p>Days: The number of days to retain an untagged manifest after which it gets purged.</p>
 </td>
 </tr>
 <tr>
@@ -3464,7 +3324,6 @@ string
 </em>
 </td>
 <td>
-<p>LastUpdatedTime: The timestamp when the policy was last updated.</p>
 </td>
 </tr>
 <tr>
@@ -3477,7 +3336,6 @@ RetentionPolicyStatusStatus
 </em>
 </td>
 <td>
-<p>Status: The value that indicates whether the policy is enabled or not.</p>
 </td>
 </tr>
 </tbody>
@@ -3488,7 +3346,7 @@ RetentionPolicyStatusStatus
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.Registries_Spec">Registries_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/Sku">https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/Sku</a></p>
+<p>Deprecated version of Sku. Use v1beta20210901.Sku instead</p>
 </div>
 <table>
 <thead>
@@ -3508,7 +3366,6 @@ SkuName
 </em>
 </td>
 <td>
-<p>Name: The SKU name of the container registry. Required for registry creation.</p>
 </td>
 </tr>
 </tbody>
@@ -3519,7 +3376,7 @@ SkuName
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.Registries_SpecARM">Registries_SpecARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/Sku">https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/Sku</a></p>
+<p>Deprecated version of Sku. Use v1beta20210901.Sku instead</p>
 </div>
 <table>
 <thead>
@@ -3539,7 +3396,6 @@ SkuName
 </em>
 </td>
 <td>
-<p>Name: The SKU name of the container registry. Required for registry creation.</p>
 </td>
 </tr>
 </tbody>
@@ -3550,6 +3406,7 @@ SkuName
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.Sku">Sku</a>, <a href="#containerregistry.azure.com/v1alpha1api20210901.SkuARM">SkuARM</a>)
 </p>
 <div>
+<p>Deprecated version of SkuName. Use v1beta20210901.SkuName instead</p>
 </div>
 <table>
 <thead>
@@ -3574,6 +3431,7 @@ SkuName
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.Sku_Status">Sku_Status</a>, <a href="#containerregistry.azure.com/v1alpha1api20210901.Sku_StatusARM">Sku_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of SkuStatusName. Use v1beta20210901.SkuStatusName instead</p>
 </div>
 <table>
 <thead>
@@ -3598,6 +3456,7 @@ SkuName
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.Sku_Status">Sku_Status</a>, <a href="#containerregistry.azure.com/v1alpha1api20210901.Sku_StatusARM">Sku_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of SkuStatusTier. Use v1beta20210901.SkuStatusTier instead</p>
 </div>
 <table>
 <thead>
@@ -3622,6 +3481,7 @@ SkuName
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.Registry_Status">Registry_Status</a>)
 </p>
 <div>
+<p>Deprecated version of Sku_Status. Use v1beta20210901.Sku_Status instead</p>
 </div>
 <table>
 <thead>
@@ -3641,7 +3501,6 @@ SkuStatusName
 </em>
 </td>
 <td>
-<p>Name: The SKU name of the container registry. Required for registry creation.</p>
 </td>
 </tr>
 <tr>
@@ -3654,7 +3513,6 @@ SkuStatusTier
 </em>
 </td>
 <td>
-<p>Tier: The SKU tier based on the SKU name.</p>
 </td>
 </tr>
 </tbody>
@@ -3665,6 +3523,7 @@ SkuStatusTier
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.Registry_StatusARM">Registry_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of Sku_Status. Use v1beta20210901.Sku_Status instead</p>
 </div>
 <table>
 <thead>
@@ -3684,7 +3543,6 @@ SkuStatusName
 </em>
 </td>
 <td>
-<p>Name: The SKU name of the container registry. Required for registry creation.</p>
 </td>
 </tr>
 <tr>
@@ -3697,7 +3555,6 @@ SkuStatusTier
 </em>
 </td>
 <td>
-<p>Tier: The SKU tier based on the SKU name.</p>
 </td>
 </tr>
 </tbody>
@@ -3708,6 +3565,7 @@ SkuStatusTier
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.Registry_Status">Registry_Status</a>)
 </p>
 <div>
+<p>Deprecated version of Status_Status. Use v1beta20210901.Status_Status instead</p>
 </div>
 <table>
 <thead>
@@ -3725,7 +3583,6 @@ string
 </em>
 </td>
 <td>
-<p>DisplayStatus: The short label for the status.</p>
 </td>
 </tr>
 <tr>
@@ -3736,7 +3593,6 @@ string
 </em>
 </td>
 <td>
-<p>Message: The detailed message for the status, including alerts and error messages.</p>
 </td>
 </tr>
 <tr>
@@ -3747,7 +3603,6 @@ string
 </em>
 </td>
 <td>
-<p>Timestamp: The timestamp when the status was changed to the current value.</p>
 </td>
 </tr>
 </tbody>
@@ -3758,6 +3613,7 @@ string
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.RegistryProperties_StatusARM">RegistryProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of Status_Status. Use v1beta20210901.Status_Status instead</p>
 </div>
 <table>
 <thead>
@@ -3775,7 +3631,6 @@ string
 </em>
 </td>
 <td>
-<p>DisplayStatus: The short label for the status.</p>
 </td>
 </tr>
 <tr>
@@ -3786,7 +3641,6 @@ string
 </em>
 </td>
 <td>
-<p>Message: The detailed message for the status, including alerts and error messages.</p>
 </td>
 </tr>
 <tr>
@@ -3797,7 +3651,6 @@ string
 </em>
 </td>
 <td>
-<p>Timestamp: The timestamp when the status was changed to the current value.</p>
 </td>
 </tr>
 </tbody>
@@ -3808,6 +3661,7 @@ string
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.SystemData_Status">SystemData_Status</a>, <a href="#containerregistry.azure.com/v1alpha1api20210901.SystemData_StatusARM">SystemData_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of SystemDataStatusCreatedByType. Use v1beta20210901.SystemDataStatusCreatedByType instead</p>
 </div>
 <table>
 <thead>
@@ -3832,6 +3686,7 @@ string
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.SystemData_Status">SystemData_Status</a>, <a href="#containerregistry.azure.com/v1alpha1api20210901.SystemData_StatusARM">SystemData_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of SystemDataStatusLastModifiedByType. Use v1beta20210901.SystemDataStatusLastModifiedByType instead</p>
 </div>
 <table>
 <thead>
@@ -3856,6 +3711,7 @@ string
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.PrivateEndpointConnection_Status_SubResourceEmbedded">PrivateEndpointConnection_Status_SubResourceEmbedded</a>, <a href="#containerregistry.azure.com/v1alpha1api20210901.Registry_Status">Registry_Status</a>)
 </p>
 <div>
+<p>Deprecated version of SystemData_Status. Use v1beta20210901.SystemData_Status instead</p>
 </div>
 <table>
 <thead>
@@ -3873,7 +3729,6 @@ string
 </em>
 </td>
 <td>
-<p>CreatedAt: The timestamp of resource creation (UTC).</p>
 </td>
 </tr>
 <tr>
@@ -3884,7 +3739,6 @@ string
 </em>
 </td>
 <td>
-<p>CreatedBy: The identity that created the resource.</p>
 </td>
 </tr>
 <tr>
@@ -3897,7 +3751,6 @@ SystemDataStatusCreatedByType
 </em>
 </td>
 <td>
-<p>CreatedByType: The type of identity that created the resource.</p>
 </td>
 </tr>
 <tr>
@@ -3908,7 +3761,6 @@ string
 </em>
 </td>
 <td>
-<p>LastModifiedAt: The timestamp of resource modification (UTC).</p>
 </td>
 </tr>
 <tr>
@@ -3919,7 +3771,6 @@ string
 </em>
 </td>
 <td>
-<p>LastModifiedBy: The identity that last modified the resource.</p>
 </td>
 </tr>
 <tr>
@@ -3932,7 +3783,6 @@ SystemDataStatusLastModifiedByType
 </em>
 </td>
 <td>
-<p>LastModifiedByType: The type of identity that last modified the resource.</p>
 </td>
 </tr>
 </tbody>
@@ -3943,6 +3793,7 @@ SystemDataStatusLastModifiedByType
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.PrivateEndpointConnection_Status_SubResourceEmbeddedARM">PrivateEndpointConnection_Status_SubResourceEmbeddedARM</a>, <a href="#containerregistry.azure.com/v1alpha1api20210901.Registry_StatusARM">Registry_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of SystemData_Status. Use v1beta20210901.SystemData_Status instead</p>
 </div>
 <table>
 <thead>
@@ -3960,7 +3811,6 @@ string
 </em>
 </td>
 <td>
-<p>CreatedAt: The timestamp of resource creation (UTC).</p>
 </td>
 </tr>
 <tr>
@@ -3971,7 +3821,6 @@ string
 </em>
 </td>
 <td>
-<p>CreatedBy: The identity that created the resource.</p>
 </td>
 </tr>
 <tr>
@@ -3984,7 +3833,6 @@ SystemDataStatusCreatedByType
 </em>
 </td>
 <td>
-<p>CreatedByType: The type of identity that created the resource.</p>
 </td>
 </tr>
 <tr>
@@ -3995,7 +3843,6 @@ string
 </em>
 </td>
 <td>
-<p>LastModifiedAt: The timestamp of resource modification (UTC).</p>
 </td>
 </tr>
 <tr>
@@ -4006,7 +3853,6 @@ string
 </em>
 </td>
 <td>
-<p>LastModifiedBy: The identity that last modified the resource.</p>
 </td>
 </tr>
 <tr>
@@ -4019,7 +3865,6 @@ SystemDataStatusLastModifiedByType
 </em>
 </td>
 <td>
-<p>LastModifiedByType: The type of identity that last modified the resource.</p>
 </td>
 </tr>
 </tbody>
@@ -4030,7 +3875,7 @@ SystemDataStatusLastModifiedByType
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.Policies">Policies</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/TrustPolicy">https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/TrustPolicy</a></p>
+<p>Deprecated version of TrustPolicy. Use v1beta20210901.TrustPolicy instead</p>
 </div>
 <table>
 <thead>
@@ -4050,7 +3895,6 @@ TrustPolicyStatus
 </em>
 </td>
 <td>
-<p>Status: The value that indicates whether the policy is enabled or not.</p>
 </td>
 </tr>
 <tr>
@@ -4063,7 +3907,6 @@ TrustPolicyType
 </em>
 </td>
 <td>
-<p>Type: The type of trust policy.</p>
 </td>
 </tr>
 </tbody>
@@ -4074,7 +3917,7 @@ TrustPolicyType
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.PoliciesARM">PoliciesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/TrustPolicy">https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/TrustPolicy</a></p>
+<p>Deprecated version of TrustPolicy. Use v1beta20210901.TrustPolicy instead</p>
 </div>
 <table>
 <thead>
@@ -4094,7 +3937,6 @@ TrustPolicyStatus
 </em>
 </td>
 <td>
-<p>Status: The value that indicates whether the policy is enabled or not.</p>
 </td>
 </tr>
 <tr>
@@ -4107,7 +3949,6 @@ TrustPolicyType
 </em>
 </td>
 <td>
-<p>Type: The type of trust policy.</p>
 </td>
 </tr>
 </tbody>
@@ -4118,6 +3959,7 @@ TrustPolicyType
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.TrustPolicy">TrustPolicy</a>, <a href="#containerregistry.azure.com/v1alpha1api20210901.TrustPolicyARM">TrustPolicyARM</a>)
 </p>
 <div>
+<p>Deprecated version of TrustPolicyStatus. Use v1beta20210901.TrustPolicyStatus instead</p>
 </div>
 <table>
 <thead>
@@ -4138,6 +3980,7 @@ TrustPolicyType
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.TrustPolicy_Status">TrustPolicy_Status</a>, <a href="#containerregistry.azure.com/v1alpha1api20210901.TrustPolicy_StatusARM">TrustPolicy_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of TrustPolicyStatusStatus. Use v1beta20210901.TrustPolicyStatusStatus instead</p>
 </div>
 <table>
 <thead>
@@ -4158,6 +4001,7 @@ TrustPolicyType
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.TrustPolicy_Status">TrustPolicy_Status</a>, <a href="#containerregistry.azure.com/v1alpha1api20210901.TrustPolicy_StatusARM">TrustPolicy_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of TrustPolicyStatusType. Use v1beta20210901.TrustPolicyStatusType instead</p>
 </div>
 <table>
 <thead>
@@ -4176,6 +4020,7 @@ TrustPolicyType
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.TrustPolicy">TrustPolicy</a>, <a href="#containerregistry.azure.com/v1alpha1api20210901.TrustPolicyARM">TrustPolicyARM</a>)
 </p>
 <div>
+<p>Deprecated version of TrustPolicyType. Use v1beta20210901.TrustPolicyType instead</p>
 </div>
 <table>
 <thead>
@@ -4194,6 +4039,7 @@ TrustPolicyType
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.Policies_Status">Policies_Status</a>)
 </p>
 <div>
+<p>Deprecated version of TrustPolicy_Status. Use v1beta20210901.TrustPolicy_Status instead</p>
 </div>
 <table>
 <thead>
@@ -4213,7 +4059,6 @@ TrustPolicyStatusStatus
 </em>
 </td>
 <td>
-<p>Status: The value that indicates whether the policy is enabled or not.</p>
 </td>
 </tr>
 <tr>
@@ -4226,7 +4071,6 @@ TrustPolicyStatusType
 </em>
 </td>
 <td>
-<p>Type: The type of trust policy.</p>
 </td>
 </tr>
 </tbody>
@@ -4237,6 +4081,7 @@ TrustPolicyStatusType
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.Policies_StatusARM">Policies_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of TrustPolicy_Status. Use v1beta20210901.TrustPolicy_Status instead</p>
 </div>
 <table>
 <thead>
@@ -4256,7 +4101,6 @@ TrustPolicyStatusStatus
 </em>
 </td>
 <td>
-<p>Status: The value that indicates whether the policy is enabled or not.</p>
 </td>
 </tr>
 <tr>
@@ -4269,7 +4113,6 @@ TrustPolicyStatusType
 </em>
 </td>
 <td>
-<p>Type: The type of trust policy.</p>
 </td>
 </tr>
 </tbody>
@@ -4280,7 +4123,7 @@ TrustPolicyStatusType
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.IdentityProperties">IdentityProperties</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/UserIdentityProperties">https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/UserIdentityProperties</a></p>
+<p>Deprecated version of UserIdentityProperties. Use v1beta20210901.UserIdentityProperties instead</p>
 </div>
 <table>
 <thead>
@@ -4298,7 +4141,6 @@ string
 </em>
 </td>
 <td>
-<p>ClientId: The client id of user assigned identity.</p>
 </td>
 </tr>
 <tr>
@@ -4309,7 +4151,6 @@ string
 </em>
 </td>
 <td>
-<p>PrincipalId: The principal id of user assigned identity.</p>
 </td>
 </tr>
 </tbody>
@@ -4320,7 +4161,7 @@ string
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.IdentityPropertiesARM">IdentityPropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/UserIdentityProperties">https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/UserIdentityProperties</a></p>
+<p>Deprecated version of UserIdentityProperties. Use v1beta20210901.UserIdentityProperties instead</p>
 </div>
 <table>
 <thead>
@@ -4338,7 +4179,6 @@ string
 </em>
 </td>
 <td>
-<p>ClientId: The client id of user assigned identity.</p>
 </td>
 </tr>
 <tr>
@@ -4349,7 +4189,6 @@ string
 </em>
 </td>
 <td>
-<p>PrincipalId: The principal id of user assigned identity.</p>
 </td>
 </tr>
 </tbody>
@@ -4360,6 +4199,7 @@ string
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.IdentityProperties_Status">IdentityProperties_Status</a>)
 </p>
 <div>
+<p>Deprecated version of UserIdentityProperties_Status. Use v1beta20210901.UserIdentityProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -4377,7 +4217,6 @@ string
 </em>
 </td>
 <td>
-<p>ClientId: The client id of user assigned identity.</p>
 </td>
 </tr>
 <tr>
@@ -4388,7 +4227,6 @@ string
 </em>
 </td>
 <td>
-<p>PrincipalId: The principal id of user assigned identity.</p>
 </td>
 </tr>
 </tbody>
@@ -4399,6 +4237,7 @@ string
 (<em>Appears on:</em><a href="#containerregistry.azure.com/v1alpha1api20210901.IdentityProperties_StatusARM">IdentityProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of UserIdentityProperties_Status. Use v1beta20210901.UserIdentityProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -4416,7 +4255,6 @@ string
 </em>
 </td>
 <td>
-<p>ClientId: The client id of user assigned identity.</p>
 </td>
 </tr>
 <tr>
@@ -4427,7 +4265,6 @@ string
 </em>
 </td>
 <td>
-<p>PrincipalId: The principal id of user assigned identity.</p>
 </td>
 </tr>
 </tbody>

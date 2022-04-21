@@ -6,15 +6,16 @@
 package astmodel
 
 import (
-	"sort"
 	"strings"
 
 	"github.com/dave/dst"
+
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 )
 
 type FlaggedType struct {
 	element Type
-	flags   map[TypeFlag]struct{}
+	flags   set.Set[TypeFlag]
 }
 
 var _ Type = &FlaggedType{}
@@ -25,19 +26,19 @@ var _ MetaType = &FlaggedType{}
 func NewFlaggedType(t Type, flags ...TypeFlag) *FlaggedType {
 	result := &FlaggedType{
 		element: t,
-		flags:   make(map[TypeFlag]struct{}),
+		flags:   set.Make[TypeFlag](),
 	}
 
 	if ft, ok := t.(*FlaggedType); ok {
 		// It's flagged type, so unwrap to avoid nesting
 		result.element = ft.element
 		for f := range ft.flags {
-			result.flags[f] = struct{}{}
+			result.flags.Add(f)
 		}
 	}
 
 	for _, f := range flags {
-		result.flags[f] = struct{}{}
+		result.flags.Add(f)
 	}
 
 	return result
@@ -50,8 +51,7 @@ func (ft *FlaggedType) Element() Type {
 
 // HasFlag tests to see if this flagged type has the specified flag
 func (ft *FlaggedType) HasFlag(flag TypeFlag) bool {
-	_, ok := ft.flags[flag]
-	return ok
+	return ft.flags.Contains(flag)
 }
 
 // WithFlag returns a new FlaggedType with the specified flag added
@@ -71,12 +71,8 @@ func (ft *FlaggedType) WithoutFlag(flag TypeFlag) Type {
 		return ft.element
 	}
 
-	flags := make(map[TypeFlag]struct{})
-	for f := range ft.flags {
-		if f != flag {
-			flags[f] = struct{}{}
-		}
-	}
+	flags := ft.flags.Copy()
+	flags.Remove(flag)
 
 	return &FlaggedType{
 		element: ft.element,
@@ -90,12 +86,7 @@ func (ft *FlaggedType) WithElement(t Type) *FlaggedType {
 		return ft // short-circuit
 	}
 
-	var flags []TypeFlag
-	for f := range ft.flags {
-		flags = append(flags, f)
-	}
-
-	return NewFlaggedType(t, flags...)
+	return NewFlaggedType(t, ft.flags.Values()...)
 }
 
 // RequiredPackageReferences returns a set of packages imports required by this type
@@ -137,14 +128,8 @@ func (ft *FlaggedType) Equals(t Type, overrides EqualityOverrides) bool {
 		return false
 	}
 
-	if len(ft.flags) != len(other.flags) {
+	if !set.AreEqual(ft.flags, other.flags) {
 		return false
-	}
-
-	for f := range ft.flags {
-		if !other.HasFlag(f) {
-			return false
-		}
 	}
 
 	return ft.element.Equals(other.element, overrides)
@@ -158,13 +143,7 @@ func (ft *FlaggedType) String() string {
 	result.WriteString(ft.element.String())
 
 	if len(ft.flags) > 0 {
-		var flags []TypeFlag
-		for f := range ft.flags {
-			flags = append(flags, f)
-		}
-		sort.Slice(flags, func(i, j int) bool {
-			return flags[i] < flags[j]
-		})
+		flags := set.AsSortedSlice(ft.flags)
 
 		result.WriteRune('[')
 		for i, f := range flags {

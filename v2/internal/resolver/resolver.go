@@ -15,6 +15,7 @@ import (
 	"k8s.io/apimachinery/pkg/types"
 
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
@@ -192,8 +193,8 @@ func (r *Resolver) findGVK(ref genruntime.NamespacedResourceReference) (schema.G
 // ResolveSecretReferences resolves all provided secret references
 func (r *Resolver) ResolveSecretReferences(
 	ctx context.Context,
-	refs map[genruntime.NamespacedSecretReference]struct{}) (genruntime.ResolvedSecrets, error) {
-
+	refs set.Set[genruntime.NamespacedSecretReference],
+) (genruntime.ResolvedSecrets, error) {
 	return r.kubeSecretResolver.ResolveSecretReferences(ctx, refs)
 }
 
@@ -205,9 +206,9 @@ func (r *Resolver) ResolveResourceSecretReferences(ctx context.Context, metaObje
 	}
 
 	// Include the namespace
-	namespacedSecretRefs := make(map[genruntime.NamespacedSecretReference]struct{})
+	namespacedSecretRefs := set.Make[genruntime.NamespacedSecretReference]()
 	for ref := range refs {
-		namespacedSecretRefs[ref.ToNamespacedRef(metaObject.GetNamespace())] = struct{}{}
+		namespacedSecretRefs.Add(ref.ToNamespacedRef(metaObject.GetNamespace()))
 	}
 
 	// resolve them

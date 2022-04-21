@@ -12,7 +12,7 @@ Resource Types:
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20210301.RedisEnterprise_SpecARM">RedisEnterprise_SpecARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-03-01/Microsoft.Cache.Enterprise.json#/definitions/ClusterProperties">https://schema.management.azure.com/schemas/2021-03-01/Microsoft.Cache.Enterprise.json#/definitions/ClusterProperties</a></p>
+<p>Deprecated version of ClusterProperties. Use v1beta20210301.ClusterProperties instead</p>
 </div>
 <table>
 <thead>
@@ -32,7 +32,6 @@ ClusterPropertiesMinimumTlsVersion
 </em>
 </td>
 <td>
-<p>MinimumTlsVersion: The minimum TLS version for the cluster to support, e.g. &lsquo;1.2&rsquo;.</p>
 </td>
 </tr>
 </tbody>
@@ -43,6 +42,7 @@ ClusterPropertiesMinimumTlsVersion
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20210301.ClusterPropertiesARM">ClusterPropertiesARM</a>, <a href="#cache.azure.com/v1alpha1api20210301.RedisEnterprise_Spec">RedisEnterprise_Spec</a>)
 </p>
 <div>
+<p>Deprecated version of ClusterPropertiesMinimumTlsVersion. Use v1beta20210301.ClusterPropertiesMinimumTlsVersion instead</p>
 </div>
 <table>
 <thead>
@@ -65,6 +65,8 @@ ClusterPropertiesMinimumTlsVersion
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20210301.ClusterProperties_StatusARM">ClusterProperties_StatusARM</a>, <a href="#cache.azure.com/v1alpha1api20210301.Cluster_Status">Cluster_Status</a>)
 </p>
 <div>
+<p>Deprecated version of ClusterPropertiesStatusMinimumTlsVersion. Use
+v1beta20210301.ClusterPropertiesStatusMinimumTlsVersion instead</p>
 </div>
 <table>
 <thead>
@@ -87,6 +89,7 @@ ClusterPropertiesMinimumTlsVersion
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20210301.Cluster_StatusARM">Cluster_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of ClusterProperties_Status. Use v1beta20210301.ClusterProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -104,7 +107,6 @@ string
 </em>
 </td>
 <td>
-<p>HostName: DNS name of the cluster endpoint</p>
 </td>
 </tr>
 <tr>
@@ -117,7 +119,6 @@ ClusterPropertiesStatusMinimumTlsVersion
 </em>
 </td>
 <td>
-<p>MinimumTlsVersion: The minimum TLS version for the cluster to support, e.g. &lsquo;1.2&rsquo;</p>
 </td>
 </tr>
 <tr>
@@ -130,7 +131,6 @@ ClusterPropertiesStatusMinimumTlsVersion
 </em>
 </td>
 <td>
-<p>PrivateEndpointConnections: List of private endpoint connections associated with the specified RedisEnterprise cluster</p>
 </td>
 </tr>
 <tr>
@@ -143,7 +143,6 @@ ProvisioningState_Status
 </em>
 </td>
 <td>
-<p>ProvisioningState: Current provisioning status of the cluster</p>
 </td>
 </tr>
 <tr>
@@ -154,7 +153,6 @@ string
 </em>
 </td>
 <td>
-<p>RedisVersion: Version of redis the cluster supports, e.g. &lsquo;6&rsquo;</p>
 </td>
 </tr>
 <tr>
@@ -167,7 +165,6 @@ ResourceState_Status
 </em>
 </td>
 <td>
-<p>ResourceState: Current resource status of the cluster</p>
 </td>
 </tr>
 </tbody>
@@ -178,6 +175,7 @@ ResourceState_Status
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20210301.RedisEnterprise">RedisEnterprise</a>)
 </p>
 <div>
+<p>Deprecated version of Cluster_Status. Use v1beta20210301.Cluster_Status instead</p>
 </div>
 <table>
 <thead>
@@ -208,7 +206,6 @@ string
 </em>
 </td>
 <td>
-<p>HostName: DNS name of the cluster endpoint</p>
 </td>
 </tr>
 <tr>
@@ -219,8 +216,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}</p>
 </td>
 </tr>
 <tr>
@@ -231,7 +226,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The geo-location where the resource lives</p>
 </td>
 </tr>
 <tr>
@@ -244,7 +238,6 @@ ClusterPropertiesStatusMinimumTlsVersion
 </em>
 </td>
 <td>
-<p>MinimumTlsVersion: The minimum TLS version for the cluster to support, e.g. &lsquo;1.2&rsquo;</p>
 </td>
 </tr>
 <tr>
@@ -255,7 +248,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource</p>
 </td>
 </tr>
 <tr>
@@ -268,7 +260,6 @@ string
 </em>
 </td>
 <td>
-<p>PrivateEndpointConnections: List of private endpoint connections associated with the specified RedisEnterprise cluster</p>
 </td>
 </tr>
 <tr>
@@ -281,7 +272,6 @@ ProvisioningState_Status
 </em>
 </td>
 <td>
-<p>ProvisioningState: Current provisioning status of the cluster</p>
 </td>
 </tr>
 <tr>
@@ -292,7 +282,6 @@ string
 </em>
 </td>
 <td>
-<p>RedisVersion: Version of redis the cluster supports, e.g. &lsquo;6&rsquo;</p>
 </td>
 </tr>
 <tr>
@@ -305,7 +294,6 @@ ResourceState_Status
 </em>
 </td>
 <td>
-<p>ResourceState: Current resource status of the cluster</p>
 </td>
 </tr>
 <tr>
@@ -318,7 +306,6 @@ Sku_Status
 </em>
 </td>
 <td>
-<p>Sku: The SKU to create, which affects price, performance, and features.</p>
 </td>
 </tr>
 <tr>
@@ -329,7 +316,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Resource tags.</p>
 </td>
 </tr>
 <tr>
@@ -340,7 +326,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
 </td>
 </tr>
 <tr>
@@ -351,7 +336,6 @@ string
 </em>
 </td>
 <td>
-<p>Zones: The Availability Zones where this cluster will be deployed.</p>
 </td>
 </tr>
 </tbody>
@@ -359,6 +343,7 @@ string
 <h3 id="cache.azure.com/v1alpha1api20210301.Cluster_StatusARM">Cluster_StatusARM
 </h3>
 <div>
+<p>Deprecated version of Cluster_Status. Use v1beta20210301.Cluster_Status instead</p>
 </div>
 <table>
 <thead>
@@ -376,8 +361,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}</p>
 </td>
 </tr>
 <tr>
@@ -388,7 +371,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The geo-location where the resource lives</p>
 </td>
 </tr>
 <tr>
@@ -399,7 +381,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource</p>
 </td>
 </tr>
 <tr>
@@ -412,7 +393,6 @@ ClusterProperties_StatusARM
 </em>
 </td>
 <td>
-<p>Properties: Other properties of the cluster.</p>
 </td>
 </tr>
 <tr>
@@ -425,7 +405,6 @@ Sku_StatusARM
 </em>
 </td>
 <td>
-<p>Sku: The SKU to create, which affects price, performance, and features.</p>
 </td>
 </tr>
 <tr>
@@ -436,7 +415,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Resource tags.</p>
 </td>
 </tr>
 <tr>
@@ -447,7 +425,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
 </td>
 </tr>
 <tr>
@@ -458,7 +435,6 @@ string
 </em>
 </td>
 <td>
-<p>Zones: The Availability Zones where this cluster will be deployed.</p>
 </td>
 </tr>
 </tbody>
@@ -469,7 +445,7 @@ string
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20210301.RedisEnterpriseDatabases_SpecARM">RedisEnterpriseDatabases_SpecARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-03-01/Microsoft.Cache.Enterprise.json#/definitions/DatabaseProperties">https://schema.management.azure.com/schemas/2021-03-01/Microsoft.Cache.Enterprise.json#/definitions/DatabaseProperties</a></p>
+<p>Deprecated version of DatabaseProperties. Use v1beta20210301.DatabaseProperties instead</p>
 </div>
 <table>
 <thead>
@@ -489,8 +465,6 @@ DatabasePropertiesClientProtocol
 </em>
 </td>
 <td>
-<p>ClientProtocol: Specifies whether redis clients can connect using TLS-encrypted or plaintext redis protocols. Default is
-TLS-encrypted.</p>
 </td>
 </tr>
 <tr>
@@ -503,7 +477,6 @@ DatabasePropertiesClusteringPolicy
 </em>
 </td>
 <td>
-<p>ClusteringPolicy: Clustering policy - default is OSSCluster. Specified at create time.</p>
 </td>
 </tr>
 <tr>
@@ -516,7 +489,6 @@ DatabasePropertiesEvictionPolicy
 </em>
 </td>
 <td>
-<p>EvictionPolicy: Redis eviction policy - default is VolatileLRU.</p>
 </td>
 </tr>
 <tr>
@@ -529,7 +501,6 @@ DatabasePropertiesEvictionPolicy
 </em>
 </td>
 <td>
-<p>Modules: Optional set of redis modules to enable in this database - modules can only be added at creation time.</p>
 </td>
 </tr>
 <tr>
@@ -542,7 +513,6 @@ PersistenceARM
 </em>
 </td>
 <td>
-<p>Persistence: Persistence-related configuration for the RedisEnterprise database</p>
 </td>
 </tr>
 <tr>
@@ -553,7 +523,6 @@ int
 </em>
 </td>
 <td>
-<p>Port: TCP port of the database endpoint. Specified at create time. Defaults to an available port.</p>
 </td>
 </tr>
 </tbody>
@@ -564,6 +533,7 @@ int
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20210301.DatabasePropertiesARM">DatabasePropertiesARM</a>, <a href="#cache.azure.com/v1alpha1api20210301.RedisEnterpriseDatabases_Spec">RedisEnterpriseDatabases_Spec</a>)
 </p>
 <div>
+<p>Deprecated version of DatabasePropertiesClientProtocol. Use v1beta20210301.DatabasePropertiesClientProtocol instead</p>
 </div>
 <table>
 <thead>
@@ -584,6 +554,7 @@ int
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20210301.DatabasePropertiesARM">DatabasePropertiesARM</a>, <a href="#cache.azure.com/v1alpha1api20210301.RedisEnterpriseDatabases_Spec">RedisEnterpriseDatabases_Spec</a>)
 </p>
 <div>
+<p>Deprecated version of DatabasePropertiesClusteringPolicy. Use v1beta20210301.DatabasePropertiesClusteringPolicy instead</p>
 </div>
 <table>
 <thead>
@@ -604,6 +575,7 @@ int
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20210301.DatabasePropertiesARM">DatabasePropertiesARM</a>, <a href="#cache.azure.com/v1alpha1api20210301.RedisEnterpriseDatabases_Spec">RedisEnterpriseDatabases_Spec</a>)
 </p>
 <div>
+<p>Deprecated version of DatabasePropertiesEvictionPolicy. Use v1beta20210301.DatabasePropertiesEvictionPolicy instead</p>
 </div>
 <table>
 <thead>
@@ -636,6 +608,8 @@ int
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20210301.DatabaseProperties_StatusARM">DatabaseProperties_StatusARM</a>, <a href="#cache.azure.com/v1alpha1api20210301.Database_Status">Database_Status</a>)
 </p>
 <div>
+<p>Deprecated version of DatabasePropertiesStatusClientProtocol. Use v1beta20210301.DatabasePropertiesStatusClientProtocol
+instead</p>
 </div>
 <table>
 <thead>
@@ -656,6 +630,8 @@ int
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20210301.DatabaseProperties_StatusARM">DatabaseProperties_StatusARM</a>, <a href="#cache.azure.com/v1alpha1api20210301.Database_Status">Database_Status</a>)
 </p>
 <div>
+<p>Deprecated version of DatabasePropertiesStatusClusteringPolicy. Use
+v1beta20210301.DatabasePropertiesStatusClusteringPolicy instead</p>
 </div>
 <table>
 <thead>
@@ -676,6 +652,8 @@ int
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20210301.DatabaseProperties_StatusARM">DatabaseProperties_StatusARM</a>, <a href="#cache.azure.com/v1alpha1api20210301.Database_Status">Database_Status</a>)
 </p>
 <div>
+<p>Deprecated version of DatabasePropertiesStatusEvictionPolicy. Use v1beta20210301.DatabasePropertiesStatusEvictionPolicy
+instead</p>
 </div>
 <table>
 <thead>
@@ -708,6 +686,7 @@ int
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20210301.Database_StatusARM">Database_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of DatabaseProperties_Status. Use v1beta20210301.DatabaseProperties_Status instead</p>
 </div>
 <table>
 <thead>
@@ -727,8 +706,6 @@ DatabasePropertiesStatusClientProtocol
 </em>
 </td>
 <td>
-<p>ClientProtocol: Specifies whether redis clients can connect using TLS-encrypted or plaintext redis protocols. Default is
-TLS-encrypted.</p>
 </td>
 </tr>
 <tr>
@@ -741,7 +718,6 @@ DatabasePropertiesStatusClusteringPolicy
 </em>
 </td>
 <td>
-<p>ClusteringPolicy: Clustering policy - default is OSSCluster. Specified at create time.</p>
 </td>
 </tr>
 <tr>
@@ -754,7 +730,6 @@ DatabasePropertiesStatusEvictionPolicy
 </em>
 </td>
 <td>
-<p>EvictionPolicy: Redis eviction policy - default is VolatileLRU</p>
 </td>
 </tr>
 <tr>
@@ -767,7 +742,6 @@ DatabasePropertiesStatusEvictionPolicy
 </em>
 </td>
 <td>
-<p>Modules: Optional set of redis modules to enable in this database - modules can only be added at creation time.</p>
 </td>
 </tr>
 <tr>
@@ -780,7 +754,6 @@ Persistence_StatusARM
 </em>
 </td>
 <td>
-<p>Persistence: Persistence settings</p>
 </td>
 </tr>
 <tr>
@@ -791,7 +764,6 @@ int
 </em>
 </td>
 <td>
-<p>Port: TCP port of the database endpoint. Specified at create time. Defaults to an available port.</p>
 </td>
 </tr>
 <tr>
@@ -804,7 +776,6 @@ ProvisioningState_Status
 </em>
 </td>
 <td>
-<p>ProvisioningState: Current provisioning status of the database</p>
 </td>
 </tr>
 <tr>
@@ -817,7 +788,6 @@ ResourceState_Status
 </em>
 </td>
 <td>
-<p>ResourceState: Current resource status of the database</p>
 </td>
 </tr>
 </tbody>
@@ -828,6 +798,7 @@ ResourceState_Status
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20210301.RedisEnterpriseDatabase">RedisEnterpriseDatabase</a>)
 </p>
 <div>
+<p>Deprecated version of Database_Status. Use v1beta20210301.Database_Status instead</p>
 </div>
 <table>
 <thead>
@@ -847,8 +818,6 @@ DatabasePropertiesStatusClientProtocol
 </em>
 </td>
 <td>
-<p>ClientProtocol: Specifies whether redis clients can connect using TLS-encrypted or plaintext redis protocols. Default is
-TLS-encrypted.</p>
 </td>
 </tr>
 <tr>
@@ -861,7 +830,6 @@ DatabasePropertiesStatusClusteringPolicy
 </em>
 </td>
 <td>
-<p>ClusteringPolicy: Clustering policy - default is OSSCluster. Specified at create time.</p>
 </td>
 </tr>
 <tr>
@@ -887,7 +855,6 @@ DatabasePropertiesStatusEvictionPolicy
 </em>
 </td>
 <td>
-<p>EvictionPolicy: Redis eviction policy - default is VolatileLRU</p>
 </td>
 </tr>
 <tr>
@@ -898,8 +865,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}</p>
 </td>
 </tr>
 <tr>
@@ -912,7 +877,6 @@ string
 </em>
 </td>
 <td>
-<p>Modules: Optional set of redis modules to enable in this database - modules can only be added at creation time.</p>
 </td>
 </tr>
 <tr>
@@ -923,7 +887,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource</p>
 </td>
 </tr>
 <tr>
@@ -936,7 +899,6 @@ Persistence_Status
 </em>
 </td>
 <td>
-<p>Persistence: Persistence settings</p>
 </td>
 </tr>
 <tr>
@@ -947,7 +909,6 @@ int
 </em>
 </td>
 <td>
-<p>Port: TCP port of the database endpoint. Specified at create time. Defaults to an available port.</p>
 </td>
 </tr>
 <tr>
@@ -960,7 +921,6 @@ ProvisioningState_Status
 </em>
 </td>
 <td>
-<p>ProvisioningState: Current provisioning status of the database</p>
 </td>
 </tr>
 <tr>
@@ -973,7 +933,6 @@ ResourceState_Status
 </em>
 </td>
 <td>
-<p>ResourceState: Current resource status of the database</p>
 </td>
 </tr>
 <tr>
@@ -984,7 +943,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
 </td>
 </tr>
 </tbody>
@@ -992,6 +950,7 @@ string
 <h3 id="cache.azure.com/v1alpha1api20210301.Database_StatusARM">Database_StatusARM
 </h3>
 <div>
+<p>Deprecated version of Database_Status. Use v1beta20210301.Database_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1009,8 +968,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}</p>
 </td>
 </tr>
 <tr>
@@ -1021,7 +978,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the resource</p>
 </td>
 </tr>
 <tr>
@@ -1034,7 +990,6 @@ DatabaseProperties_StatusARM
 </em>
 </td>
 <td>
-<p>Properties: Other properties of the database.</p>
 </td>
 </tr>
 <tr>
@@ -1045,7 +1000,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
 </td>
 </tr>
 </tbody>
@@ -1056,7 +1010,7 @@ string
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20210301.RedisEnterpriseDatabases_Spec">RedisEnterpriseDatabases_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-03-01/Microsoft.Cache.Enterprise.json#/definitions/Module">https://schema.management.azure.com/schemas/2021-03-01/Microsoft.Cache.Enterprise.json#/definitions/Module</a></p>
+<p>Deprecated version of Module. Use v1beta20210301.Module instead</p>
 </div>
 <table>
 <thead>
@@ -1074,7 +1028,6 @@ string
 </em>
 </td>
 <td>
-<p>Args: Configuration options for the module, e.g. &lsquo;ERROR_RATE 0.00 INITIAL_SIZE 400&rsquo;.</p>
 </td>
 </tr>
 <tr>
@@ -1085,7 +1038,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the module, e.g. &lsquo;RedisBloom&rsquo;, &lsquo;RediSearch&rsquo;, &lsquo;RedisTimeSeries&rsquo;</p>
 </td>
 </tr>
 </tbody>
@@ -1096,7 +1048,7 @@ string
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20210301.DatabasePropertiesARM">DatabasePropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-03-01/Microsoft.Cache.Enterprise.json#/definitions/Module">https://schema.management.azure.com/schemas/2021-03-01/Microsoft.Cache.Enterprise.json#/definitions/Module</a></p>
+<p>Deprecated version of Module. Use v1beta20210301.Module instead</p>
 </div>
 <table>
 <thead>
@@ -1114,7 +1066,6 @@ string
 </em>
 </td>
 <td>
-<p>Args: Configuration options for the module, e.g. &lsquo;ERROR_RATE 0.00 INITIAL_SIZE 400&rsquo;.</p>
 </td>
 </tr>
 <tr>
@@ -1125,7 +1076,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the module, e.g. &lsquo;RedisBloom&rsquo;, &lsquo;RediSearch&rsquo;, &lsquo;RedisTimeSeries&rsquo;</p>
 </td>
 </tr>
 </tbody>
@@ -1136,6 +1086,7 @@ string
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20210301.Database_Status">Database_Status</a>)
 </p>
 <div>
+<p>Deprecated version of Module_Status. Use v1beta20210301.Module_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1153,7 +1104,6 @@ string
 </em>
 </td>
 <td>
-<p>Args: Configuration options for the module, e.g. &lsquo;ERROR_RATE 0.00 INITIAL_SIZE 400&rsquo;.</p>
 </td>
 </tr>
 <tr>
@@ -1164,7 +1114,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the module, e.g. &lsquo;RedisBloom&rsquo;, &lsquo;RediSearch&rsquo;, &lsquo;RedisTimeSeries&rsquo;</p>
 </td>
 </tr>
 <tr>
@@ -1175,7 +1124,6 @@ string
 </em>
 </td>
 <td>
-<p>Version: The version of the module, e.g. &lsquo;1.0&rsquo;.</p>
 </td>
 </tr>
 </tbody>
@@ -1186,6 +1134,7 @@ string
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20210301.DatabaseProperties_StatusARM">DatabaseProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of Module_Status. Use v1beta20210301.Module_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1203,7 +1152,6 @@ string
 </em>
 </td>
 <td>
-<p>Args: Configuration options for the module, e.g. &lsquo;ERROR_RATE 0.00 INITIAL_SIZE 400&rsquo;.</p>
 </td>
 </tr>
 <tr>
@@ -1214,7 +1162,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the module, e.g. &lsquo;RedisBloom&rsquo;, &lsquo;RediSearch&rsquo;, &lsquo;RedisTimeSeries&rsquo;</p>
 </td>
 </tr>
 <tr>
@@ -1225,7 +1172,6 @@ string
 </em>
 </td>
 <td>
-<p>Version: The version of the module, e.g. &lsquo;1.0&rsquo;.</p>
 </td>
 </tr>
 </tbody>
@@ -1236,7 +1182,7 @@ string
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20210301.RedisEnterpriseDatabases_Spec">RedisEnterpriseDatabases_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-03-01/Microsoft.Cache.Enterprise.json#/definitions/Persistence">https://schema.management.azure.com/schemas/2021-03-01/Microsoft.Cache.Enterprise.json#/definitions/Persistence</a></p>
+<p>Deprecated version of Persistence. Use v1beta20210301.Persistence instead</p>
 </div>
 <table>
 <thead>
@@ -1254,7 +1200,6 @@ bool
 </em>
 </td>
 <td>
-<p>AofEnabled: Sets whether AOF is enabled.</p>
 </td>
 </tr>
 <tr>
@@ -1267,7 +1212,6 @@ PersistenceAofFrequency
 </em>
 </td>
 <td>
-<p>AofFrequency: Sets the frequency at which data is written to disk.</p>
 </td>
 </tr>
 <tr>
@@ -1278,7 +1222,6 @@ bool
 </em>
 </td>
 <td>
-<p>RdbEnabled: Sets whether RDB is enabled.</p>
 </td>
 </tr>
 <tr>
@@ -1291,7 +1234,6 @@ PersistenceRdbFrequency
 </em>
 </td>
 <td>
-<p>RdbFrequency: Sets the frequency at which a snapshot of the database is created.</p>
 </td>
 </tr>
 </tbody>
@@ -1302,7 +1244,7 @@ PersistenceRdbFrequency
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20210301.DatabasePropertiesARM">DatabasePropertiesARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-03-01/Microsoft.Cache.Enterprise.json#/definitions/Persistence">https://schema.management.azure.com/schemas/2021-03-01/Microsoft.Cache.Enterprise.json#/definitions/Persistence</a></p>
+<p>Deprecated version of Persistence. Use v1beta20210301.Persistence instead</p>
 </div>
 <table>
 <thead>
@@ -1320,7 +1262,6 @@ bool
 </em>
 </td>
 <td>
-<p>AofEnabled: Sets whether AOF is enabled.</p>
 </td>
 </tr>
 <tr>
@@ -1333,7 +1274,6 @@ PersistenceAofFrequency
 </em>
 </td>
 <td>
-<p>AofFrequency: Sets the frequency at which data is written to disk.</p>
 </td>
 </tr>
 <tr>
@@ -1344,7 +1284,6 @@ bool
 </em>
 </td>
 <td>
-<p>RdbEnabled: Sets whether RDB is enabled.</p>
 </td>
 </tr>
 <tr>
@@ -1357,7 +1296,6 @@ PersistenceRdbFrequency
 </em>
 </td>
 <td>
-<p>RdbFrequency: Sets the frequency at which a snapshot of the database is created.</p>
 </td>
 </tr>
 </tbody>
@@ -1368,6 +1306,7 @@ PersistenceRdbFrequency
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20210301.Persistence">Persistence</a>, <a href="#cache.azure.com/v1alpha1api20210301.PersistenceARM">PersistenceARM</a>)
 </p>
 <div>
+<p>Deprecated version of PersistenceAofFrequency. Use v1beta20210301.PersistenceAofFrequency instead</p>
 </div>
 <table>
 <thead>
@@ -1388,6 +1327,7 @@ PersistenceRdbFrequency
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20210301.Persistence">Persistence</a>, <a href="#cache.azure.com/v1alpha1api20210301.PersistenceARM">PersistenceARM</a>)
 </p>
 <div>
+<p>Deprecated version of PersistenceRdbFrequency. Use v1beta20210301.PersistenceRdbFrequency instead</p>
 </div>
 <table>
 <thead>
@@ -1410,6 +1350,7 @@ PersistenceRdbFrequency
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20210301.Persistence_Status">Persistence_Status</a>, <a href="#cache.azure.com/v1alpha1api20210301.Persistence_StatusARM">Persistence_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of PersistenceStatusAofFrequency. Use v1beta20210301.PersistenceStatusAofFrequency instead</p>
 </div>
 <table>
 <thead>
@@ -1430,6 +1371,7 @@ PersistenceRdbFrequency
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20210301.Persistence_Status">Persistence_Status</a>, <a href="#cache.azure.com/v1alpha1api20210301.Persistence_StatusARM">Persistence_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of PersistenceStatusRdbFrequency. Use v1beta20210301.PersistenceStatusRdbFrequency instead</p>
 </div>
 <table>
 <thead>
@@ -1452,6 +1394,7 @@ PersistenceRdbFrequency
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20210301.Database_Status">Database_Status</a>)
 </p>
 <div>
+<p>Deprecated version of Persistence_Status. Use v1beta20210301.Persistence_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1469,7 +1412,6 @@ bool
 </em>
 </td>
 <td>
-<p>AofEnabled: Sets whether AOF is enabled.</p>
 </td>
 </tr>
 <tr>
@@ -1482,7 +1424,6 @@ PersistenceStatusAofFrequency
 </em>
 </td>
 <td>
-<p>AofFrequency: Sets the frequency at which data is written to disk.</p>
 </td>
 </tr>
 <tr>
@@ -1493,7 +1434,6 @@ bool
 </em>
 </td>
 <td>
-<p>RdbEnabled: Sets whether RDB is enabled.</p>
 </td>
 </tr>
 <tr>
@@ -1506,7 +1446,6 @@ PersistenceStatusRdbFrequency
 </em>
 </td>
 <td>
-<p>RdbFrequency: Sets the frequency at which a snapshot of the database is created.</p>
 </td>
 </tr>
 </tbody>
@@ -1517,6 +1456,7 @@ PersistenceStatusRdbFrequency
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20210301.DatabaseProperties_StatusARM">DatabaseProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of Persistence_Status. Use v1beta20210301.Persistence_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1534,7 +1474,6 @@ bool
 </em>
 </td>
 <td>
-<p>AofEnabled: Sets whether AOF is enabled.</p>
 </td>
 </tr>
 <tr>
@@ -1547,7 +1486,6 @@ PersistenceStatusAofFrequency
 </em>
 </td>
 <td>
-<p>AofFrequency: Sets the frequency at which data is written to disk.</p>
 </td>
 </tr>
 <tr>
@@ -1558,7 +1496,6 @@ bool
 </em>
 </td>
 <td>
-<p>RdbEnabled: Sets whether RDB is enabled.</p>
 </td>
 </tr>
 <tr>
@@ -1571,7 +1508,6 @@ PersistenceStatusRdbFrequency
 </em>
 </td>
 <td>
-<p>RdbFrequency: Sets the frequency at which a snapshot of the database is created.</p>
 </td>
 </tr>
 </tbody>
@@ -1582,6 +1518,7 @@ PersistenceStatusRdbFrequency
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20210301.Cluster_Status">Cluster_Status</a>)
 </p>
 <div>
+<p>Deprecated version of PrivateEndpointConnection_Status_SubResourceEmbedded. Use v1beta20210301.PrivateEndpointConnection_Status_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -1599,8 +1536,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}</p>
 </td>
 </tr>
 </tbody>
@@ -1611,6 +1546,7 @@ string
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20210301.ClusterProperties_StatusARM">ClusterProperties_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of PrivateEndpointConnection_Status_SubResourceEmbedded. Use v1beta20210301.PrivateEndpointConnection_Status_SubResourceEmbedded instead</p>
 </div>
 <table>
 <thead>
@@ -1628,8 +1564,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}</p>
 </td>
 </tr>
 </tbody>
@@ -1640,6 +1574,7 @@ string
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20210301.ClusterProperties_StatusARM">ClusterProperties_StatusARM</a>, <a href="#cache.azure.com/v1alpha1api20210301.Cluster_Status">Cluster_Status</a>, <a href="#cache.azure.com/v1alpha1api20210301.DatabaseProperties_StatusARM">DatabaseProperties_StatusARM</a>, <a href="#cache.azure.com/v1alpha1api20210301.Database_Status">Database_Status</a>)
 </p>
 <div>
+<p>Deprecated version of ProvisioningState_Status. Use v1beta20210301.ProvisioningState_Status instead</p>
 </div>
 <table>
 <thead>
@@ -1665,7 +1600,7 @@ string
 <h3 id="cache.azure.com/v1alpha1api20210301.RedisEnterprise">RedisEnterprise
 </h3>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-03-01/Microsoft.Cache.Enterprise.json#/resourceDefinitions/redisEnterprise">https://schema.management.azure.com/schemas/2021-03-01/Microsoft.Cache.Enterprise.json#/resourceDefinitions/redisEnterprise</a></p>
+<p>Deprecated version of RedisEnterprise. Use v1beta20210301.RedisEnterprise instead</p>
 </div>
 <table>
 <thead>
@@ -1722,7 +1657,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The geo-location where the resource lives</p>
 </td>
 </tr>
 <tr>
@@ -1735,7 +1669,6 @@ ClusterPropertiesMinimumTlsVersion
 </em>
 </td>
 <td>
-<p>MinimumTlsVersion: The minimum TLS version for the cluster to support, e.g. &lsquo;1.2&rsquo;.</p>
 </td>
 </tr>
 <tr>
@@ -1748,6 +1681,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -1760,7 +1696,6 @@ Sku
 </em>
 </td>
 <td>
-<p>Sku: SKU parameters supplied to the create RedisEnterprise operation.</p>
 </td>
 </tr>
 <tr>
@@ -1771,7 +1706,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 <tr>
@@ -1782,7 +1716,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Zones: The Availability Zones where this cluster will be deployed.</p>
 </td>
 </tr>
 </table>
@@ -1805,7 +1738,7 @@ Cluster_Status
 <h3 id="cache.azure.com/v1alpha1api20210301.RedisEnterpriseDatabase">RedisEnterpriseDatabase
 </h3>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-03-01/Microsoft.Cache.Enterprise.json#/resourceDefinitions/redisEnterprise_databases">https://schema.management.azure.com/schemas/2021-03-01/Microsoft.Cache.Enterprise.json#/resourceDefinitions/redisEnterprise_databases</a></p>
+<p>Deprecated version of RedisEnterpriseDatabase. Use v1beta20210301.RedisEnterpriseDatabase instead</p>
 </div>
 <table>
 <thead>
@@ -1864,8 +1797,6 @@ DatabasePropertiesClientProtocol
 </em>
 </td>
 <td>
-<p>ClientProtocol: Specifies whether redis clients can connect using TLS-encrypted or plaintext redis protocols. Default is
-TLS-encrypted.</p>
 </td>
 </tr>
 <tr>
@@ -1878,7 +1809,6 @@ DatabasePropertiesClusteringPolicy
 </em>
 </td>
 <td>
-<p>ClusteringPolicy: Clustering policy - default is OSSCluster. Specified at create time.</p>
 </td>
 </tr>
 <tr>
@@ -1891,7 +1821,6 @@ DatabasePropertiesEvictionPolicy
 </em>
 </td>
 <td>
-<p>EvictionPolicy: Redis eviction policy - default is VolatileLRU.</p>
 </td>
 </tr>
 <tr>
@@ -1902,7 +1831,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -1915,7 +1843,6 @@ string
 </em>
 </td>
 <td>
-<p>Modules: Optional set of redis modules to enable in this database - modules can only be added at creation time.</p>
 </td>
 </tr>
 <tr>
@@ -1928,6 +1855,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a cache.azure.com/RedisEnterprise resource</p>
 </td>
 </tr>
 <tr>
@@ -1940,7 +1870,6 @@ Persistence
 </em>
 </td>
 <td>
-<p>Persistence: Persistence-related configuration for the RedisEnterprise database</p>
 </td>
 </tr>
 <tr>
@@ -1951,7 +1880,6 @@ int
 </em>
 </td>
 <td>
-<p>Port: TCP port of the database endpoint. Specified at create time. Defaults to an available port.</p>
 </td>
 </tr>
 <tr>
@@ -1962,7 +1890,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </table>
@@ -1981,21 +1908,6 @@ Database_Status
 </td>
 </tr>
 </tbody>
-</table>
-<h3 id="cache.azure.com/v1alpha1api20210301.RedisEnterpriseDatabasesSpecAPIVersion">RedisEnterpriseDatabasesSpecAPIVersion
-(<code>string</code> alias)</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;2021-03-01&#34;</p></td>
-<td></td>
-</tr></tbody>
 </table>
 <h3 id="cache.azure.com/v1alpha1api20210301.RedisEnterpriseDatabases_Spec">RedisEnterpriseDatabases_Spec
 </h3>
@@ -2034,8 +1946,6 @@ DatabasePropertiesClientProtocol
 </em>
 </td>
 <td>
-<p>ClientProtocol: Specifies whether redis clients can connect using TLS-encrypted or plaintext redis protocols. Default is
-TLS-encrypted.</p>
 </td>
 </tr>
 <tr>
@@ -2048,7 +1958,6 @@ DatabasePropertiesClusteringPolicy
 </em>
 </td>
 <td>
-<p>ClusteringPolicy: Clustering policy - default is OSSCluster. Specified at create time.</p>
 </td>
 </tr>
 <tr>
@@ -2061,7 +1970,6 @@ DatabasePropertiesEvictionPolicy
 </em>
 </td>
 <td>
-<p>EvictionPolicy: Redis eviction policy - default is VolatileLRU.</p>
 </td>
 </tr>
 <tr>
@@ -2072,7 +1980,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -2085,7 +1992,6 @@ string
 </em>
 </td>
 <td>
-<p>Modules: Optional set of redis modules to enable in this database - modules can only be added at creation time.</p>
 </td>
 </tr>
 <tr>
@@ -2098,6 +2004,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a cache.azure.com/RedisEnterprise resource</p>
 </td>
 </tr>
 <tr>
@@ -2110,7 +2019,6 @@ Persistence
 </em>
 </td>
 <td>
-<p>Persistence: Persistence-related configuration for the RedisEnterprise database</p>
 </td>
 </tr>
 <tr>
@@ -2121,7 +2029,6 @@ int
 </em>
 </td>
 <td>
-<p>Port: TCP port of the database endpoint. Specified at create time. Defaults to an available port.</p>
 </td>
 </tr>
 <tr>
@@ -2132,7 +2039,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </tbody>
@@ -2140,6 +2046,7 @@ map[string]string
 <h3 id="cache.azure.com/v1alpha1api20210301.RedisEnterpriseDatabases_SpecARM">RedisEnterpriseDatabases_SpecARM
 </h3>
 <div>
+<p>Deprecated version of RedisEnterpriseDatabases_Spec. Use v1beta20210301.RedisEnterpriseDatabases_Spec instead</p>
 </div>
 <table>
 <thead>
@@ -2157,7 +2064,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -2168,7 +2074,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the database.</p>
 </td>
 </tr>
 <tr>
@@ -2181,7 +2086,6 @@ DatabasePropertiesARM
 </em>
 </td>
 <td>
-<p>Properties: Properties of RedisEnterprise databases, as opposed to general resource properties like location, tags</p>
 </td>
 </tr>
 <tr>
@@ -2192,25 +2096,9 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </tbody>
-</table>
-<h3 id="cache.azure.com/v1alpha1api20210301.RedisEnterpriseSpecAPIVersion">RedisEnterpriseSpecAPIVersion
-(<code>string</code> alias)</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;2021-03-01&#34;</p></td>
-<td></td>
-</tr></tbody>
 </table>
 <h3 id="cache.azure.com/v1alpha1api20210301.RedisEnterprise_Spec">RedisEnterprise_Spec
 </h3>
@@ -2247,7 +2135,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The geo-location where the resource lives</p>
 </td>
 </tr>
 <tr>
@@ -2260,7 +2147,6 @@ ClusterPropertiesMinimumTlsVersion
 </em>
 </td>
 <td>
-<p>MinimumTlsVersion: The minimum TLS version for the cluster to support, e.g. &lsquo;1.2&rsquo;.</p>
 </td>
 </tr>
 <tr>
@@ -2273,6 +2159,9 @@ genruntime.KnownResourceReference
 </em>
 </td>
 <td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource</p>
 </td>
 </tr>
 <tr>
@@ -2285,7 +2174,6 @@ Sku
 </em>
 </td>
 <td>
-<p>Sku: SKU parameters supplied to the create RedisEnterprise operation.</p>
 </td>
 </tr>
 <tr>
@@ -2296,7 +2184,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 <tr>
@@ -2307,7 +2194,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Zones: The Availability Zones where this cluster will be deployed.</p>
 </td>
 </tr>
 </tbody>
@@ -2315,6 +2201,7 @@ map[string]string
 <h3 id="cache.azure.com/v1alpha1api20210301.RedisEnterprise_SpecARM">RedisEnterprise_SpecARM
 </h3>
 <div>
+<p>Deprecated version of RedisEnterprise_Spec. Use v1beta20210301.RedisEnterprise_Spec instead</p>
 </div>
 <table>
 <thead>
@@ -2332,7 +2219,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The geo-location where the resource lives</p>
 </td>
 </tr>
 <tr>
@@ -2343,7 +2229,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the RedisEnterprise cluster.</p>
 </td>
 </tr>
 <tr>
@@ -2356,7 +2241,6 @@ ClusterPropertiesARM
 </em>
 </td>
 <td>
-<p>Properties: Properties of RedisEnterprise clusters, as opposed to general resource properties like location, tags</p>
 </td>
 </tr>
 <tr>
@@ -2369,7 +2253,6 @@ SkuARM
 </em>
 </td>
 <td>
-<p>Sku: SKU parameters supplied to the create RedisEnterprise operation.</p>
 </td>
 </tr>
 <tr>
@@ -2380,7 +2263,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 <tr>
@@ -2391,7 +2273,6 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Zones: The Availability Zones where this cluster will be deployed.</p>
 </td>
 </tr>
 </tbody>
@@ -2402,6 +2283,7 @@ map[string]string
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20210301.ClusterProperties_StatusARM">ClusterProperties_StatusARM</a>, <a href="#cache.azure.com/v1alpha1api20210301.Cluster_Status">Cluster_Status</a>, <a href="#cache.azure.com/v1alpha1api20210301.DatabaseProperties_StatusARM">DatabaseProperties_StatusARM</a>, <a href="#cache.azure.com/v1alpha1api20210301.Database_Status">Database_Status</a>)
 </p>
 <div>
+<p>Deprecated version of ResourceState_Status. Use v1beta20210301.ResourceState_Status instead</p>
 </div>
 <table>
 <thead>
@@ -2442,7 +2324,7 @@ map[string]string
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20210301.RedisEnterprise_Spec">RedisEnterprise_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-03-01/Microsoft.Cache.Enterprise.json#/definitions/Sku">https://schema.management.azure.com/schemas/2021-03-01/Microsoft.Cache.Enterprise.json#/definitions/Sku</a></p>
+<p>Deprecated version of Sku. Use v1beta20210301.Sku instead</p>
 </div>
 <table>
 <thead>
@@ -2460,8 +2342,6 @@ int
 </em>
 </td>
 <td>
-<p>Capacity: The size of the RedisEnterprise cluster. Defaults to 2 or 3 depending on SKU. Valid values are (2, 4, 6, &hellip;)
-for Enterprise SKUs and (3, 9, 15, &hellip;) for Flash SKUs.</p>
 </td>
 </tr>
 <tr>
@@ -2474,7 +2354,6 @@ SkuName
 </em>
 </td>
 <td>
-<p>Name: The type of RedisEnterprise cluster to deploy. Possible values: (Enterprise_E10, EnterpriseFlash_F300 etc.).</p>
 </td>
 </tr>
 </tbody>
@@ -2485,7 +2364,7 @@ SkuName
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20210301.RedisEnterprise_SpecARM">RedisEnterprise_SpecARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-03-01/Microsoft.Cache.Enterprise.json#/definitions/Sku">https://schema.management.azure.com/schemas/2021-03-01/Microsoft.Cache.Enterprise.json#/definitions/Sku</a></p>
+<p>Deprecated version of Sku. Use v1beta20210301.Sku instead</p>
 </div>
 <table>
 <thead>
@@ -2503,8 +2382,6 @@ int
 </em>
 </td>
 <td>
-<p>Capacity: The size of the RedisEnterprise cluster. Defaults to 2 or 3 depending on SKU. Valid values are (2, 4, 6, &hellip;)
-for Enterprise SKUs and (3, 9, 15, &hellip;) for Flash SKUs.</p>
 </td>
 </tr>
 <tr>
@@ -2517,7 +2394,6 @@ SkuName
 </em>
 </td>
 <td>
-<p>Name: The type of RedisEnterprise cluster to deploy. Possible values: (Enterprise_E10, EnterpriseFlash_F300 etc.).</p>
 </td>
 </tr>
 </tbody>
@@ -2528,6 +2404,7 @@ SkuName
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20210301.Sku">Sku</a>, <a href="#cache.azure.com/v1alpha1api20210301.SkuARM">SkuARM</a>)
 </p>
 <div>
+<p>Deprecated version of SkuName. Use v1beta20210301.SkuName instead</p>
 </div>
 <table>
 <thead>
@@ -2558,6 +2435,7 @@ SkuName
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20210301.Sku_Status">Sku_Status</a>, <a href="#cache.azure.com/v1alpha1api20210301.Sku_StatusARM">Sku_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of SkuStatusName. Use v1beta20210301.SkuStatusName instead</p>
 </div>
 <table>
 <thead>
@@ -2588,6 +2466,7 @@ SkuName
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20210301.Cluster_Status">Cluster_Status</a>)
 </p>
 <div>
+<p>Deprecated version of Sku_Status. Use v1beta20210301.Sku_Status instead</p>
 </div>
 <table>
 <thead>
@@ -2605,8 +2484,6 @@ int
 </em>
 </td>
 <td>
-<p>Capacity: The size of the RedisEnterprise cluster. Defaults to 2 or 3 depending on SKU. Valid values are (2, 4, 6, &hellip;)
-for Enterprise SKUs and (3, 9, 15, &hellip;) for Flash SKUs.</p>
 </td>
 </tr>
 <tr>
@@ -2619,7 +2496,6 @@ SkuStatusName
 </em>
 </td>
 <td>
-<p>Name: The type of RedisEnterprise cluster to deploy. Possible values: (Enterprise_E10, EnterpriseFlash_F300 etc.)</p>
 </td>
 </tr>
 </tbody>
@@ -2630,6 +2506,7 @@ SkuStatusName
 (<em>Appears on:</em><a href="#cache.azure.com/v1alpha1api20210301.Cluster_StatusARM">Cluster_StatusARM</a>)
 </p>
 <div>
+<p>Deprecated version of Sku_Status. Use v1beta20210301.Sku_Status instead</p>
 </div>
 <table>
 <thead>
@@ -2647,8 +2524,6 @@ int
 </em>
 </td>
 <td>
-<p>Capacity: The size of the RedisEnterprise cluster. Defaults to 2 or 3 depending on SKU. Valid values are (2, 4, 6, &hellip;)
-for Enterprise SKUs and (3, 9, 15, &hellip;) for Flash SKUs.</p>
 </td>
 </tr>
 <tr>
@@ -2661,7 +2536,6 @@ SkuStatusName
 </em>
 </td>
 <td>
-<p>Name: The type of RedisEnterprise cluster to deploy. Possible values: (Enterprise_E10, EnterpriseFlash_F300 etc.)</p>
 </td>
 </tr>
 </tbody>

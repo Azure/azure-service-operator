@@ -19,7 +19,7 @@ func (r *AzureSQLManagedUser) SetupWebhookWithManager(mgr ctrl.Manager) error {
 		Complete()
 }
 
-// +kubebuilder:webhook:verbs=create;update,path=/validate-azure-microsoft-com-v1alpha1-azuresqlmanageduser,mutating=false,failurePolicy=fail,groups=azure.microsoft.com,resources=azuresqlmanagedusers,versions=v1alpha1,name=vazuresqlmanageduser.kb.io,sideEffects=none,webhookVersions=v1
+// +kubebuilder:webhook:verbs=create;update,path=/validate-azure-microsoft-com-v1alpha1-azuresqlmanageduser,mutating=false,failurePolicy=fail,groups=azure.microsoft.com,resources=azuresqlmanagedusers,versions=v1alpha1,name=vazuresqlmanageduser.kb.io,sideEffects=none,webhookVersions=v1,admissionReviewVersions=v1;v1beta1
 
 var _ webhook.Validator = &AzureSQLManagedUser{}
 
