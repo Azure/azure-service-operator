@@ -4,6 +4,3 @@
 [submodule "hack/generator/specs/azure-resource-manager-schemas"]
 	path = v2/specs/azure-resource-manager-schemas
 	url = https://github.com/Azure/azure-resource-manager-schemas
-[submodule "docs/hugo/themes/book"]
-	path = docs/hugo/themes/book
-	url = https://github.com/alex-shpak/hugo-book

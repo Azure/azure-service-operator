@@ -1,11 +1,7 @@
 baseURL = 'https://azure.github.io/azure-service-operator/'
 languageCode = 'en-us'
 title = 'Azure Service Operator'
-theme = 'book'
-
-# theme-specific settings
-[params]
-BookSection = "*"
+theme = "docsy"
 
 # for API docs rendering
 [markup]
