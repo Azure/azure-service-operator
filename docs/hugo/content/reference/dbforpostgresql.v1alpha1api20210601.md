@@ -1,4 +1,5 @@
 ---
+title: dbforpostgresql.azure.com/v1alpha1api20210601
 ---
 <h2 id="dbforpostgresql.azure.com/v1alpha1api20210601">dbforpostgresql.azure.com/v1alpha1api20210601</h2>
 <div>

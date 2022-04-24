@@ -1,4 +1,5 @@
 ---
+title: storage.azure.com/v1beta20210401
 ---
 <h2 id="storage.azure.com/v1beta20210401">storage.azure.com/v1beta20210401</h2>
 <div>

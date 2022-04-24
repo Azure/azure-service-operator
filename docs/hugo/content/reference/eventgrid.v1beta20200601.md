@@ -1,4 +1,5 @@
 ---
+title: eventgrid.azure.com/v1beta20200601
 ---
 <h2 id="eventgrid.azure.com/v1beta20200601">eventgrid.azure.com/v1beta20200601</h2>
 <div>

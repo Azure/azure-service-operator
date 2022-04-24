@@ -1,4 +1,5 @@
 ---
+title: operationalinsights.azure.com/v1beta20210601
 ---
 <h2 id="operationalinsights.azure.com/v1beta20210601">operationalinsights.azure.com/v1beta20210601</h2>
 <div>
