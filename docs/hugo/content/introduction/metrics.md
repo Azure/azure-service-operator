@@ -3,32 +3,32 @@
 Prometheus metrics are exposed for ASOv2 which can be helpful in diagnosability and tracing.
 The metrics exposed fall into two groups: Azure based metrics and reconciler metrics (from `controller-runtime`).
 
-## Disabling the metrics
+## Toggling the metrics
 
-By default, metrics scraping is turned on for ASOv2. It can be turned off using the Helm chart 
-`--set metrics.enable` or by omitting `--metrics-addr` flag from the Deployment yaml.
+By default, metrics for ASOv2 are turned on and can be toggled by the following options:
 
-### ASOv2 Helm Chart
+-  ### ASOv2 Helm Chart
 
-While installing the Helm chart, we can turn the metrics _**on**_ and _**off**_ and set the metrics expose address using the 
-below settings. Also, we can change the settings inside `values.yaml` file for ASOv2 Helm chart.
+    While installing the Helm chart, we can turn the metrics _**on**_ and _**off**_ and set the metrics expose address using the 
+    below settings. Also, we can change the settings inside `values.yaml` file for ASOv2 Helm chart.
 
-   ```
+    ```
     --set metrics.enable=true/false (default: true)
-    --set metrics.address=127.0.0.1:8080 (default)
-   ```
+    --set metrics.address=127.0.0.1:8080 (default)    
+    ```
 
-### Deployment Yaml
-
-In the deployment yaml, we can turn _**off**_ the metrics by omitting the `metrics-addr` flag. We can also change to use 
-a different metrics-addr by changing the default value of that same flag.
+- ### Deployment Yaml
     
-   ```
+    In the deployment yaml, we can turn _**off**_ the metrics by omitting the `metrics-addr` flag. We can also change to use 
+    a different metrics-addr by changing the default value of that same flag.
+
+    ```
     spec:
       containers:
-      - args:
-        - --metrics-addr=127.0.0.1:8080 (default)
-   ```
+       - args:
+         - --metrics-addr=127.0.0.1:8080 (default)    
+    ```
+   
 ## Understanding the ASOv2 Metrics
 
 | Metric                                         | Description                                                                                                  | Label 1      | Label 2     | Label 3      |
