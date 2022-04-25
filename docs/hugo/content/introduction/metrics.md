@@ -1,7 +1,7 @@
 # ASOv2 Metrics
 
 Prometheus metrics are exposed for ASOv2 which can be helpful in diagnosability and tracing.
-The metrics exposed fall into two groups: Azure based metrics and reconciler metrics (from `controller-runtime`).
+The metrics exposed fall into two groups: Azure based metrics, and reconciler metrics (from `controller-runtime`).
 
 ## Toggling the metrics
 
