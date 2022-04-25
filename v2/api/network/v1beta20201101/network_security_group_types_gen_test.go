@@ -5,7 +5,7 @@ package v1beta20201101
 
 import (
 	"encoding/json"
-	"github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage"
+	v20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -35,7 +35,7 @@ func RunResourceConversionTestForNetworkSecurityGroup(subject NetworkSecurityGro
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1beta20201101storage.NetworkSecurityGroup
+	var hub v20201101s.NetworkSecurityGroup
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -77,7 +77,7 @@ func RunPropertyAssignmentTestForNetworkSecurityGroup(subject NetworkSecurityGro
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20201101storage.NetworkSecurityGroup
+	var other v20201101s.NetworkSecurityGroup
 	err := copied.AssignPropertiesToNetworkSecurityGroup(&other)
 	if err != nil {
 		return err.Error()
@@ -180,7 +180,7 @@ func RunPropertyAssignmentTestForNetworkSecurityGroupStatusNetworkSecurityGroupS
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20201101storage.NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded
+	var other v20201101s.NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded
 	err := copied.AssignPropertiesToNetworkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -311,7 +311,7 @@ func RunPropertyAssignmentTestForNetworkSecurityGroupsSpec(subject NetworkSecuri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20201101storage.NetworkSecurityGroups_Spec
+	var other v20201101s.NetworkSecurityGroups_Spec
 	err := copied.AssignPropertiesToNetworkSecurityGroupsSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -415,7 +415,7 @@ func RunPropertyAssignmentTestForFlowLogStatusSubResourceEmbedded(subject FlowLo
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20201101storage.FlowLog_Status_SubResourceEmbedded
+	var other v20201101s.FlowLog_Status_SubResourceEmbedded
 	err := copied.AssignPropertiesToFlowLogStatusSubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -517,7 +517,7 @@ func RunPropertyAssignmentTestForNetworkInterfaceStatusNetworkSecurityGroupSubRe
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20201101storage.NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded
+	var other v20201101s.NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded
 	err := copied.AssignPropertiesToNetworkInterfaceStatusNetworkSecurityGroupSubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -633,7 +633,7 @@ func RunPropertyAssignmentTestForSecurityRuleStatusNetworkSecurityGroupSubResour
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20201101storage.SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded
+	var other v20201101s.SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded
 	err := copied.AssignPropertiesToSecurityRuleStatusNetworkSecurityGroupSubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -735,7 +735,7 @@ func RunPropertyAssignmentTestForSubnetStatusNetworkSecurityGroupSubResourceEmbe
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20201101storage.Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded
+	var other v20201101s.Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded
 	err := copied.AssignPropertiesToSubnetStatusNetworkSecurityGroupSubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()

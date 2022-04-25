@@ -5,7 +5,7 @@ package v1alpha1api20210901storage
 
 import (
 	"encoding/json"
-	"github.com/Azure/azure-service-operator/v2/api/containerregistry/v1beta20210901storage"
+	v20210901s "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1beta20210901storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -35,7 +35,7 @@ func RunResourceConversionTestForRegistry(subject Registry) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1beta20210901storage.Registry
+	var hub v20210901s.Registry
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -77,7 +77,7 @@ func RunPropertyAssignmentTestForRegistry(subject Registry) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210901storage.Registry
+	var other v20210901s.Registry
 	err := copied.AssignPropertiesToRegistry(&other)
 	if err != nil {
 		return err.Error()
@@ -179,7 +179,7 @@ func RunPropertyAssignmentTestForRegistriesSpec(subject Registries_Spec) string 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210901storage.Registries_Spec
+	var other v20210901s.Registries_Spec
 	err := copied.AssignPropertiesToRegistriesSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -306,7 +306,7 @@ func RunPropertyAssignmentTestForRegistryStatus(subject Registry_Status) string 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210901storage.Registry_Status
+	var other v20210901s.Registry_Status
 	err := copied.AssignPropertiesToRegistryStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -441,7 +441,7 @@ func RunPropertyAssignmentTestForEncryptionProperty(subject EncryptionProperty) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210901storage.EncryptionProperty
+	var other v20210901s.EncryptionProperty
 	err := copied.AssignPropertiesToEncryptionProperty(&other)
 	if err != nil {
 		return err.Error()
@@ -556,7 +556,7 @@ func RunPropertyAssignmentTestForEncryptionPropertyStatus(subject EncryptionProp
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210901storage.EncryptionProperty_Status
+	var other v20210901s.EncryptionProperty_Status
 	err := copied.AssignPropertiesToEncryptionPropertyStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -672,7 +672,7 @@ func RunPropertyAssignmentTestForIdentityProperties(subject IdentityProperties) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210901storage.IdentityProperties
+	var other v20210901s.IdentityProperties
 	err := copied.AssignPropertiesToIdentityProperties(&other)
 	if err != nil {
 		return err.Error()
@@ -789,7 +789,7 @@ func RunPropertyAssignmentTestForIdentityPropertiesStatus(subject IdentityProper
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210901storage.IdentityProperties_Status
+	var other v20210901s.IdentityProperties_Status
 	err := copied.AssignPropertiesToIdentityPropertiesStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -907,7 +907,7 @@ func RunPropertyAssignmentTestForNetworkRuleSet(subject NetworkRuleSet) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210901storage.NetworkRuleSet
+	var other v20210901s.NetworkRuleSet
 	err := copied.AssignPropertiesToNetworkRuleSet(&other)
 	if err != nil {
 		return err.Error()
@@ -1022,7 +1022,7 @@ func RunPropertyAssignmentTestForNetworkRuleSetStatus(subject NetworkRuleSet_Sta
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210901storage.NetworkRuleSet_Status
+	var other v20210901s.NetworkRuleSet_Status
 	err := copied.AssignPropertiesToNetworkRuleSetStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -1138,7 +1138,7 @@ func RunPropertyAssignmentTestForPolicies(subject Policies) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210901storage.Policies
+	var other v20210901s.Policies
 	err := copied.AssignPropertiesToPolicies(&other)
 	if err != nil {
 		return err.Error()
@@ -1242,7 +1242,7 @@ func RunPropertyAssignmentTestForPoliciesStatus(subject Policies_Status) string 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210901storage.Policies_Status
+	var other v20210901s.Policies_Status
 	err := copied.AssignPropertiesToPoliciesStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -1346,7 +1346,7 @@ func RunPropertyAssignmentTestForPrivateEndpointConnectionStatusSubResourceEmbed
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210901storage.PrivateEndpointConnection_Status_SubResourceEmbedded
+	var other v20210901s.PrivateEndpointConnection_Status_SubResourceEmbedded
 	err := copied.AssignPropertiesToPrivateEndpointConnectionStatusSubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -1462,7 +1462,7 @@ func RunPropertyAssignmentTestForSku(subject Sku) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210901storage.Sku
+	var other v20210901s.Sku
 	err := copied.AssignPropertiesToSku(&other)
 	if err != nil {
 		return err.Error()
@@ -1563,7 +1563,7 @@ func RunPropertyAssignmentTestForSkuStatus(subject Sku_Status) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210901storage.Sku_Status
+	var other v20210901s.Sku_Status
 	err := copied.AssignPropertiesToSkuStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -1665,7 +1665,7 @@ func RunPropertyAssignmentTestForStatusStatus(subject Status_Status) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210901storage.Status_Status
+	var other v20210901s.Status_Status
 	err := copied.AssignPropertiesToStatusStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -1768,7 +1768,7 @@ func RunPropertyAssignmentTestForSystemDataStatus(subject SystemData_Status) str
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210901storage.SystemData_Status
+	var other v20210901s.SystemData_Status
 	err := copied.AssignPropertiesToSystemDataStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -1874,7 +1874,7 @@ func RunPropertyAssignmentTestForExportPolicy(subject ExportPolicy) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210901storage.ExportPolicy
+	var other v20210901s.ExportPolicy
 	err := copied.AssignPropertiesToExportPolicy(&other)
 	if err != nil {
 		return err.Error()
@@ -1975,7 +1975,7 @@ func RunPropertyAssignmentTestForExportPolicyStatus(subject ExportPolicy_Status)
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210901storage.ExportPolicy_Status
+	var other v20210901s.ExportPolicy_Status
 	err := copied.AssignPropertiesToExportPolicyStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -2076,7 +2076,7 @@ func RunPropertyAssignmentTestForIPRule(subject IPRule) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210901storage.IPRule
+	var other v20210901s.IPRule
 	err := copied.AssignPropertiesToIPRule(&other)
 	if err != nil {
 		return err.Error()
@@ -2178,7 +2178,7 @@ func RunPropertyAssignmentTestForIPRuleStatus(subject IPRule_Status) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210901storage.IPRule_Status
+	var other v20210901s.IPRule_Status
 	err := copied.AssignPropertiesToIPRuleStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -2280,7 +2280,7 @@ func RunPropertyAssignmentTestForKeyVaultProperties(subject KeyVaultProperties) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210901storage.KeyVaultProperties
+	var other v20210901s.KeyVaultProperties
 	err := copied.AssignPropertiesToKeyVaultProperties(&other)
 	if err != nil {
 		return err.Error()
@@ -2382,7 +2382,7 @@ func RunPropertyAssignmentTestForKeyVaultPropertiesStatus(subject KeyVaultProper
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210901storage.KeyVaultProperties_Status
+	var other v20210901s.KeyVaultProperties_Status
 	err := copied.AssignPropertiesToKeyVaultPropertiesStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -2488,7 +2488,7 @@ func RunPropertyAssignmentTestForQuarantinePolicy(subject QuarantinePolicy) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210901storage.QuarantinePolicy
+	var other v20210901s.QuarantinePolicy
 	err := copied.AssignPropertiesToQuarantinePolicy(&other)
 	if err != nil {
 		return err.Error()
@@ -2589,7 +2589,7 @@ func RunPropertyAssignmentTestForQuarantinePolicyStatus(subject QuarantinePolicy
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210901storage.QuarantinePolicy_Status
+	var other v20210901s.QuarantinePolicy_Status
 	err := copied.AssignPropertiesToQuarantinePolicyStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -2691,7 +2691,7 @@ func RunPropertyAssignmentTestForRetentionPolicy(subject RetentionPolicy) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210901storage.RetentionPolicy
+	var other v20210901s.RetentionPolicy
 	err := copied.AssignPropertiesToRetentionPolicy(&other)
 	if err != nil {
 		return err.Error()
@@ -2793,7 +2793,7 @@ func RunPropertyAssignmentTestForRetentionPolicyStatus(subject RetentionPolicy_S
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210901storage.RetentionPolicy_Status
+	var other v20210901s.RetentionPolicy_Status
 	err := copied.AssignPropertiesToRetentionPolicyStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -2897,7 +2897,7 @@ func RunPropertyAssignmentTestForTrustPolicy(subject TrustPolicy) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210901storage.TrustPolicy
+	var other v20210901s.TrustPolicy
 	err := copied.AssignPropertiesToTrustPolicy(&other)
 	if err != nil {
 		return err.Error()
@@ -2999,7 +2999,7 @@ func RunPropertyAssignmentTestForTrustPolicyStatus(subject TrustPolicy_Status) s
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210901storage.TrustPolicy_Status
+	var other v20210901s.TrustPolicy_Status
 	err := copied.AssignPropertiesToTrustPolicyStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -3101,7 +3101,7 @@ func RunPropertyAssignmentTestForUserIdentityProperties(subject UserIdentityProp
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210901storage.UserIdentityProperties
+	var other v20210901s.UserIdentityProperties
 	err := copied.AssignPropertiesToUserIdentityProperties(&other)
 	if err != nil {
 		return err.Error()
@@ -3204,7 +3204,7 @@ func RunPropertyAssignmentTestForUserIdentityPropertiesStatus(subject UserIdenti
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210901storage.UserIdentityProperties_Status
+	var other v20210901s.UserIdentityProperties_Status
 	err := copied.AssignPropertiesToUserIdentityPropertiesStatus(&other)
 	if err != nil {
 		return err.Error()

@@ -5,7 +5,7 @@ package v1beta20210515
 
 import (
 	"encoding/json"
-	"github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage"
+	v20210515s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -35,7 +35,7 @@ func RunResourceConversionTestForMongodbDatabaseCollection(subject MongodbDataba
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1beta20210515storage.MongodbDatabaseCollection
+	var hub v20210515s.MongodbDatabaseCollection
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -77,7 +77,7 @@ func RunPropertyAssignmentTestForMongodbDatabaseCollection(subject MongodbDataba
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210515storage.MongodbDatabaseCollection
+	var other v20210515s.MongodbDatabaseCollection
 	err := copied.AssignPropertiesToMongodbDatabaseCollection(&other)
 	if err != nil {
 		return err.Error()
@@ -180,7 +180,7 @@ func RunPropertyAssignmentTestForDatabaseAccountsMongodbDatabasesCollectionsSpec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210515storage.DatabaseAccountsMongodbDatabasesCollections_Spec
+	var other v20210515s.DatabaseAccountsMongodbDatabasesCollections_Spec
 	err := copied.AssignPropertiesToDatabaseAccountsMongodbDatabasesCollectionsSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -299,7 +299,7 @@ func RunPropertyAssignmentTestForMongoDBCollectionGetResultsStatus(subject Mongo
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210515storage.MongoDBCollectionGetResults_Status
+	var other v20210515s.MongoDBCollectionGetResults_Status
 	err := copied.AssignPropertiesToMongoDBCollectionGetResultsStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -420,7 +420,7 @@ func RunPropertyAssignmentTestForMongoDBCollectionGetPropertiesStatusResource(su
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210515storage.MongoDBCollectionGetProperties_Status_Resource
+	var other v20210515s.MongoDBCollectionGetProperties_Status_Resource
 	err := copied.AssignPropertiesToMongoDBCollectionGetPropertiesStatusResource(&other)
 	if err != nil {
 		return err.Error()
@@ -541,7 +541,7 @@ func RunPropertyAssignmentTestForMongoDBCollectionResource(subject MongoDBCollec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210515storage.MongoDBCollectionResource
+	var other v20210515s.MongoDBCollectionResource
 	err := copied.AssignPropertiesToMongoDBCollectionResource(&other)
 	if err != nil {
 		return err.Error()
@@ -659,7 +659,7 @@ func RunPropertyAssignmentTestForMongoIndex(subject MongoIndex) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210515storage.MongoIndex
+	var other v20210515s.MongoIndex
 	err := copied.AssignPropertiesToMongoIndex(&other)
 	if err != nil {
 		return err.Error()
@@ -761,7 +761,7 @@ func RunPropertyAssignmentTestForMongoIndexStatus(subject MongoIndex_Status) str
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210515storage.MongoIndex_Status
+	var other v20210515s.MongoIndex_Status
 	err := copied.AssignPropertiesToMongoIndexStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -863,7 +863,7 @@ func RunPropertyAssignmentTestForMongoIndexKeys(subject MongoIndexKeys) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210515storage.MongoIndexKeys
+	var other v20210515s.MongoIndexKeys
 	err := copied.AssignPropertiesToMongoIndexKeys(&other)
 	if err != nil {
 		return err.Error()
@@ -964,7 +964,7 @@ func RunPropertyAssignmentTestForMongoIndexKeysStatus(subject MongoIndexKeys_Sta
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210515storage.MongoIndexKeys_Status
+	var other v20210515s.MongoIndexKeys_Status
 	err := copied.AssignPropertiesToMongoIndexKeysStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -1066,7 +1066,7 @@ func RunPropertyAssignmentTestForMongoIndexOptions(subject MongoIndexOptions) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210515storage.MongoIndexOptions
+	var other v20210515s.MongoIndexOptions
 	err := copied.AssignPropertiesToMongoIndexOptions(&other)
 	if err != nil {
 		return err.Error()
@@ -1168,7 +1168,7 @@ func RunPropertyAssignmentTestForMongoIndexOptionsStatus(subject MongoIndexOptio
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210515storage.MongoIndexOptions_Status
+	var other v20210515s.MongoIndexOptions_Status
 	err := copied.AssignPropertiesToMongoIndexOptionsStatus(&other)
 	if err != nil {
 		return err.Error()

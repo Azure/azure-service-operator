@@ -5,7 +5,7 @@ package v1beta20210601
 
 import (
 	"encoding/json"
-	"github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1beta20210601storage"
+	v20210601s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1beta20210601storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -35,7 +35,7 @@ func RunResourceConversionTestForFlexibleServer(subject FlexibleServer) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1beta20210601storage.FlexibleServer
+	var hub v20210601s.FlexibleServer
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -77,7 +77,7 @@ func RunPropertyAssignmentTestForFlexibleServer(subject FlexibleServer) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210601storage.FlexibleServer
+	var other v20210601s.FlexibleServer
 	err := copied.AssignPropertiesToFlexibleServer(&other)
 	if err != nil {
 		return err.Error()
@@ -179,7 +179,7 @@ func RunPropertyAssignmentTestForFlexibleServersSpec(subject FlexibleServers_Spe
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210601storage.FlexibleServers_Spec
+	var other v20210601s.FlexibleServers_Spec
 	err := copied.AssignPropertiesToFlexibleServersSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -311,7 +311,7 @@ func RunPropertyAssignmentTestForServerStatus(subject Server_Status) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210601storage.Server_Status
+	var other v20210601s.Server_Status
 	err := copied.AssignPropertiesToServerStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -456,7 +456,7 @@ func RunPropertyAssignmentTestForBackup(subject Backup) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210601storage.Backup
+	var other v20210601s.Backup
 	err := copied.AssignPropertiesToBackup(&other)
 	if err != nil {
 		return err.Error()
@@ -558,7 +558,7 @@ func RunPropertyAssignmentTestForBackupStatus(subject Backup_Status) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210601storage.Backup_Status
+	var other v20210601s.Backup_Status
 	err := copied.AssignPropertiesToBackupStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -661,7 +661,7 @@ func RunPropertyAssignmentTestForHighAvailability(subject HighAvailability) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210601storage.HighAvailability
+	var other v20210601s.HighAvailability
 	err := copied.AssignPropertiesToHighAvailability(&other)
 	if err != nil {
 		return err.Error()
@@ -763,7 +763,7 @@ func RunPropertyAssignmentTestForHighAvailabilityStatus(subject HighAvailability
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210601storage.HighAvailability_Status
+	var other v20210601s.HighAvailability_Status
 	err := copied.AssignPropertiesToHighAvailabilityStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -873,7 +873,7 @@ func RunPropertyAssignmentTestForMaintenanceWindow(subject MaintenanceWindow) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210601storage.MaintenanceWindow
+	var other v20210601s.MaintenanceWindow
 	err := copied.AssignPropertiesToMaintenanceWindow(&other)
 	if err != nil {
 		return err.Error()
@@ -977,7 +977,7 @@ func RunPropertyAssignmentTestForMaintenanceWindowStatus(subject MaintenanceWind
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210601storage.MaintenanceWindow_Status
+	var other v20210601s.MaintenanceWindow_Status
 	err := copied.AssignPropertiesToMaintenanceWindowStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -1082,7 +1082,7 @@ func RunPropertyAssignmentTestForNetwork(subject Network) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210601storage.Network
+	var other v20210601s.Network
 	err := copied.AssignPropertiesToNetwork(&other)
 	if err != nil {
 		return err.Error()
@@ -1177,7 +1177,7 @@ func RunPropertyAssignmentTestForNetworkStatus(subject Network_Status) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210601storage.Network_Status
+	var other v20210601s.Network_Status
 	err := copied.AssignPropertiesToNetworkStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -1280,7 +1280,7 @@ func RunPropertyAssignmentTestForSku(subject Sku) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210601storage.Sku
+	var other v20210601s.Sku
 	err := copied.AssignPropertiesToSku(&other)
 	if err != nil {
 		return err.Error()
@@ -1382,7 +1382,7 @@ func RunPropertyAssignmentTestForSkuStatus(subject Sku_Status) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210601storage.Sku_Status
+	var other v20210601s.Sku_Status
 	err := copied.AssignPropertiesToSkuStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -1484,7 +1484,7 @@ func RunPropertyAssignmentTestForStorage(subject Storage) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210601storage.Storage
+	var other v20210601s.Storage
 	err := copied.AssignPropertiesToStorage(&other)
 	if err != nil {
 		return err.Error()
@@ -1585,7 +1585,7 @@ func RunPropertyAssignmentTestForStorageStatus(subject Storage_Status) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210601storage.Storage_Status
+	var other v20210601s.Storage_Status
 	err := copied.AssignPropertiesToStorageStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -1686,7 +1686,7 @@ func RunPropertyAssignmentTestForSystemDataStatus(subject SystemData_Status) str
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210601storage.SystemData_Status
+	var other v20210601s.SystemData_Status
 	err := copied.AssignPropertiesToSystemDataStatus(&other)
 	if err != nil {
 		return err.Error()

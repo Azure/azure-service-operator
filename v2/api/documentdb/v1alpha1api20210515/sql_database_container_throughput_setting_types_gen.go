@@ -5,7 +5,7 @@ package v1alpha1api20210515
 
 import (
 	"fmt"
-	"github.com/Azure/azure-service-operator/v2/api/documentdb/v1alpha1api20210515storage"
+	alpha20210515s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1alpha1api20210515storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -49,7 +49,7 @@ var _ conversion.Convertible = &SqlDatabaseContainerThroughputSetting{}
 // ConvertFrom populates our SqlDatabaseContainerThroughputSetting from the provided hub SqlDatabaseContainerThroughputSetting
 func (setting *SqlDatabaseContainerThroughputSetting) ConvertFrom(hub conversion.Hub) error {
 	// intermediate variable for conversion
-	var source v1alpha1api20210515storage.SqlDatabaseContainerThroughputSetting
+	var source alpha20210515s.SqlDatabaseContainerThroughputSetting
 
 	err := source.ConvertFrom(hub)
 	if err != nil {
@@ -67,7 +67,7 @@ func (setting *SqlDatabaseContainerThroughputSetting) ConvertFrom(hub conversion
 // ConvertTo populates the provided hub SqlDatabaseContainerThroughputSetting from our SqlDatabaseContainerThroughputSetting
 func (setting *SqlDatabaseContainerThroughputSetting) ConvertTo(hub conversion.Hub) error {
 	// intermediate variable for conversion
-	var destination v1alpha1api20210515storage.SqlDatabaseContainerThroughputSetting
+	var destination alpha20210515s.SqlDatabaseContainerThroughputSetting
 	err := setting.AssignPropertiesToSqlDatabaseContainerThroughputSetting(&destination)
 	if err != nil {
 		return errors.Wrap(err, "converting to destination from setting")
@@ -246,7 +246,7 @@ func (setting *SqlDatabaseContainerThroughputSetting) validateResourceReferences
 }
 
 // AssignPropertiesFromSqlDatabaseContainerThroughputSetting populates our SqlDatabaseContainerThroughputSetting from the provided source SqlDatabaseContainerThroughputSetting
-func (setting *SqlDatabaseContainerThroughputSetting) AssignPropertiesFromSqlDatabaseContainerThroughputSetting(source *v1alpha1api20210515storage.SqlDatabaseContainerThroughputSetting) error {
+func (setting *SqlDatabaseContainerThroughputSetting) AssignPropertiesFromSqlDatabaseContainerThroughputSetting(source *alpha20210515s.SqlDatabaseContainerThroughputSetting) error {
 
 	// ObjectMeta
 	setting.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -272,13 +272,13 @@ func (setting *SqlDatabaseContainerThroughputSetting) AssignPropertiesFromSqlDat
 }
 
 // AssignPropertiesToSqlDatabaseContainerThroughputSetting populates the provided destination SqlDatabaseContainerThroughputSetting from our SqlDatabaseContainerThroughputSetting
-func (setting *SqlDatabaseContainerThroughputSetting) AssignPropertiesToSqlDatabaseContainerThroughputSetting(destination *v1alpha1api20210515storage.SqlDatabaseContainerThroughputSetting) error {
+func (setting *SqlDatabaseContainerThroughputSetting) AssignPropertiesToSqlDatabaseContainerThroughputSetting(destination *alpha20210515s.SqlDatabaseContainerThroughputSetting) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *setting.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec
+	var spec alpha20210515s.DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec
 	err := setting.Spec.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersThroughputSettingsSpec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToDatabaseAccountsSqlDatabasesContainersThroughputSettingsSpec() to populate field Spec")
@@ -286,7 +286,7 @@ func (setting *SqlDatabaseContainerThroughputSetting) AssignPropertiesToSqlDatab
 	destination.Spec = spec
 
 	// Status
-	var status v1alpha1api20210515storage.ThroughputSettingsGetResults_Status
+	var status alpha20210515s.ThroughputSettingsGetResults_Status
 	err = setting.Status.AssignPropertiesToThroughputSettingsGetResultsStatus(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToThroughputSettingsGetResultsStatus() to populate field Status")
@@ -422,14 +422,14 @@ var _ genruntime.ConvertibleSpec = &DatabaseAccountsSqlDatabasesContainersThroug
 
 // ConvertSpecFrom populates our DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec from the provided source
 func (settings *DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec)
+	src, ok := source.(*alpha20210515s.DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec)
 	if ok {
 		// Populate our instance from source
 		return settings.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersThroughputSettingsSpec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec{}
+	src = &alpha20210515s.DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -446,14 +446,14 @@ func (settings *DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec) C
 
 // ConvertSpecTo populates the provided destination from our DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec
 func (settings *DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec)
+	dst, ok := destination.(*alpha20210515s.DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec)
 	if ok {
 		// Populate destination from our instance
 		return settings.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersThroughputSettingsSpec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec{}
+	dst = &alpha20210515s.DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec{}
 	err := settings.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersThroughputSettingsSpec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -469,7 +469,7 @@ func (settings *DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec) C
 }
 
 // AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersThroughputSettingsSpec populates our DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec from the provided source DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec
-func (settings *DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec) AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersThroughputSettingsSpec(source *v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec) error {
+func (settings *DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec) AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersThroughputSettingsSpec(source *alpha20210515s.DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec) error {
 
 	// Location
 	settings.Location = genruntime.ClonePointerToString(source.Location)
@@ -502,7 +502,7 @@ func (settings *DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec) A
 }
 
 // AssignPropertiesToDatabaseAccountsSqlDatabasesContainersThroughputSettingsSpec populates the provided destination DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec from our DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec
-func (settings *DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec) AssignPropertiesToDatabaseAccountsSqlDatabasesContainersThroughputSettingsSpec(destination *v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec) error {
+func (settings *DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec) AssignPropertiesToDatabaseAccountsSqlDatabasesContainersThroughputSettingsSpec(destination *alpha20210515s.DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -522,7 +522,7 @@ func (settings *DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec) A
 
 	// Resource
 	if settings.Resource != nil {
-		var resource v1alpha1api20210515storage.ThroughputSettingsResource
+		var resource alpha20210515s.ThroughputSettingsResource
 		err := settings.Resource.AssignPropertiesToThroughputSettingsResource(&resource)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToThroughputSettingsResource() to populate field Resource")

@@ -10,7 +10,6 @@ import (
 	"sort"
 
 	"github.com/dave/dst"
-	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 )
@@ -126,36 +125,24 @@ func assignRanks(definers []TypeDefinition, ranks map[TypeName]int) []TypeDefini
 	return remaining
 }
 
-// generateImports products the definitive set of imports for use in this file and
-// disambiguates any conflicts
+// generateImports products the definitive set of imports for use in this file
 func (file *FileDefinition) generateImports() *PackageImportSet {
-	requiredImports := NewPackageImportSet()
 
+	allReferences := NewPackageReferenceSet()
 	for _, s := range file.definitions {
-		requiredImports.AddImportsOfReferences(s.RequiredPackageReferences().AsSlice()...)
+		allReferences.Merge(s.RequiredPackageReferences())
 	}
 
 	// Don't need to import the current package
-	selfImport := NewPackageImport(file.packageReference)
-	requiredImports.Remove(selfImport)
+	allReferences.Remove(file.packageReference)
+
+	// Create the set of imports
+	requiredImports := NewPackageImportSet()
+	requiredImports.AddImportsOfReferences(allReferences.AsSlice()...)
 
 	// TODO: Make this configurable
 	requiredImports.ApplyName(MetaV1Reference, "metav1")
 	requiredImports.ApplyName(APIMachineryErrorsReference, "kerrors")
-
-	// Force local imports to have explicit names based on the service
-	for _, imp := range requiredImports.AsSlice() {
-		if IsLocalPackageReference(imp.packageReference) && !imp.HasExplicitName() {
-			name := imp.ServiceNameForImport()
-			requiredImports.AddImport(imp.WithName(name))
-		}
-	}
-
-	// Resolve any conflicts and report any that couldn't be fixed up automatically
-	err := requiredImports.ResolveConflicts()
-	if err != nil {
-		klog.Errorf("File %s: %s", file.packageReference, err)
-	}
 
 	return requiredImports
 }

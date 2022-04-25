@@ -4,7 +4,7 @@
 package vcurrent
 
 import (
-	verification "github.com/Azure/azure-service-operator/testing/verification/vnext"
+	vnext "github.com/Azure/azure-service-operator/testing/verification/vnext"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -13,7 +13,7 @@ type Person struct {
 }
 
 // AssignPropertiesFromPerson populates our Person from the provided source Person
-func (person *Person) AssignPropertiesFromPerson(source *verification.Person) error {
+func (person *Person) AssignPropertiesFromPerson(source *vnext.Person) error {
 
 	// Name
 	name := source.Name
@@ -24,7 +24,7 @@ func (person *Person) AssignPropertiesFromPerson(source *verification.Person) er
 }
 
 // AssignPropertiesToPerson populates the provided destination Person from our Person
-func (person *Person) AssignPropertiesToPerson(destination *verification.Person) error {
+func (person *Person) AssignPropertiesToPerson(destination *vnext.Person) error {
 
 	// Name
 	destination.Name = genruntime.GetOptionalStringValue(person.Name)

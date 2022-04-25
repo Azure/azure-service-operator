@@ -5,8 +5,8 @@ package v1alpha1api20210301
 
 import (
 	"encoding/json"
-	"github.com/Azure/azure-service-operator/v2/api/cache/v1alpha1api20210301storage"
-	"github.com/Azure/azure-service-operator/v2/api/cache/v1beta20210301storage"
+	alpha20210301s "github.com/Azure/azure-service-operator/v2/api/cache/v1alpha1api20210301storage"
+	v20210301s "github.com/Azure/azure-service-operator/v2/api/cache/v1beta20210301storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForRedisEnterprise(subject RedisEnterprise) string
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1beta20210301storage.RedisEnterprise
+	var hub v20210301s.RedisEnterprise
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForRedisEnterprise(subject RedisEnterprise) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20210301storage.RedisEnterprise
+	var other alpha20210301s.RedisEnterprise
 	err := copied.AssignPropertiesToRedisEnterprise(&other)
 	if err != nil {
 		return err.Error()
@@ -180,7 +180,7 @@ func RunPropertyAssignmentTestForClusterStatus(subject Cluster_Status) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20210301storage.Cluster_Status
+	var other alpha20210301s.Cluster_Status
 	err := copied.AssignPropertiesToClusterStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -324,7 +324,7 @@ func RunPropertyAssignmentTestForRedisEnterpriseSpec(subject RedisEnterprise_Spe
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20210301storage.RedisEnterprise_Spec
+	var other alpha20210301s.RedisEnterprise_Spec
 	err := copied.AssignPropertiesToRedisEnterpriseSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -444,7 +444,7 @@ func RunPropertyAssignmentTestForPrivateEndpointConnectionStatusSubResourceEmbed
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20210301storage.PrivateEndpointConnection_Status_SubResourceEmbedded
+	var other alpha20210301s.PrivateEndpointConnection_Status_SubResourceEmbedded
 	err := copied.AssignPropertiesToPrivateEndpointConnectionStatusSubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -546,7 +546,7 @@ func RunPropertyAssignmentTestForSku(subject Sku) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20210301storage.Sku
+	var other alpha20210301s.Sku
 	err := copied.AssignPropertiesToSku(&other)
 	if err != nil {
 		return err.Error()
@@ -655,7 +655,7 @@ func RunPropertyAssignmentTestForSkuStatus(subject Sku_Status) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20210301storage.Sku_Status
+	var other alpha20210301s.Sku_Status
 	err := copied.AssignPropertiesToSkuStatus(&other)
 	if err != nil {
 		return err.Error()

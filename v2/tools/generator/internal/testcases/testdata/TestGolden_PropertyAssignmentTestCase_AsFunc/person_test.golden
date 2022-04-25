@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v20200101
 
-import person "github.com/Azure/azure-service-operator/testing/person/v20211231"
+import v20211231 "github.com/Azure/azure-service-operator/testing/person/v20211231"
 
 type Person_Spec struct {
 	//FamilyName: Shared name of the family
@@ -17,7 +17,7 @@ type Person_Spec struct {
 }
 
 // AssignPropertiesFromPersonSpec populates our Person_Spec from the provided source Person_Spec
-func (person *Person_Spec) AssignPropertiesFromPersonSpec(source *person.Person_Spec) error {
+func (person *Person_Spec) AssignPropertiesFromPersonSpec(source *v20211231.Person_Spec) error {
 
 	// FamilyName
 	person.FamilyName = source.FamilyName
@@ -33,7 +33,7 @@ func (person *Person_Spec) AssignPropertiesFromPersonSpec(source *person.Person_
 }
 
 // AssignPropertiesToPersonSpec populates the provided destination Person_Spec from our Person_Spec
-func (person *Person_Spec) AssignPropertiesToPersonSpec(destination *person.Person_Spec) error {
+func (person *Person_Spec) AssignPropertiesToPersonSpec(destination *v20211231.Person_Spec) error {
 
 	// FamilyName
 	destination.FamilyName = person.FamilyName

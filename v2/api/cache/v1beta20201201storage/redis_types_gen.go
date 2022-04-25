@@ -4,7 +4,7 @@
 package v1beta20201201storage
 
 import (
-	"github.com/Azure/azure-service-operator/v2/api/cache/v1beta20210301storage"
+	v20210301s "github.com/Azure/azure-service-operator/v2/api/cache/v1beta20210301storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
@@ -242,7 +242,7 @@ type PrivateEndpointConnection_Status_SubResourceEmbedded struct {
 }
 
 // AssignPropertiesFromPrivateEndpointConnectionStatusSubResourceEmbedded populates our PrivateEndpointConnection_Status_SubResourceEmbedded from the provided source PrivateEndpointConnection_Status_SubResourceEmbedded
-func (embedded *PrivateEndpointConnection_Status_SubResourceEmbedded) AssignPropertiesFromPrivateEndpointConnectionStatusSubResourceEmbedded(source *v1beta20210301storage.PrivateEndpointConnection_Status_SubResourceEmbedded) error {
+func (embedded *PrivateEndpointConnection_Status_SubResourceEmbedded) AssignPropertiesFromPrivateEndpointConnectionStatusSubResourceEmbedded(source *v20210301s.PrivateEndpointConnection_Status_SubResourceEmbedded) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -261,7 +261,7 @@ func (embedded *PrivateEndpointConnection_Status_SubResourceEmbedded) AssignProp
 }
 
 // AssignPropertiesToPrivateEndpointConnectionStatusSubResourceEmbedded populates the provided destination PrivateEndpointConnection_Status_SubResourceEmbedded from our PrivateEndpointConnection_Status_SubResourceEmbedded
-func (embedded *PrivateEndpointConnection_Status_SubResourceEmbedded) AssignPropertiesToPrivateEndpointConnectionStatusSubResourceEmbedded(destination *v1beta20210301storage.PrivateEndpointConnection_Status_SubResourceEmbedded) error {
+func (embedded *PrivateEndpointConnection_Status_SubResourceEmbedded) AssignPropertiesToPrivateEndpointConnectionStatusSubResourceEmbedded(destination *v20210301s.PrivateEndpointConnection_Status_SubResourceEmbedded) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(embedded.PropertyBag)
 
@@ -313,7 +313,7 @@ type Sku struct {
 }
 
 // AssignPropertiesFromSku populates our Sku from the provided source Sku
-func (sku *Sku) AssignPropertiesFromSku(source *v1beta20210301storage.Sku) error {
+func (sku *Sku) AssignPropertiesFromSku(source *v20210301s.Sku) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -348,7 +348,7 @@ func (sku *Sku) AssignPropertiesFromSku(source *v1beta20210301storage.Sku) error
 }
 
 // AssignPropertiesToSku populates the provided destination Sku from our Sku
-func (sku *Sku) AssignPropertiesToSku(destination *v1beta20210301storage.Sku) error {
+func (sku *Sku) AssignPropertiesToSku(destination *v20210301s.Sku) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(sku.PropertyBag)
 
@@ -383,7 +383,7 @@ type Sku_Status struct {
 }
 
 // AssignPropertiesFromSkuStatus populates our Sku_Status from the provided source Sku_Status
-func (sku *Sku_Status) AssignPropertiesFromSkuStatus(source *v1beta20210301storage.Sku_Status) error {
+func (sku *Sku_Status) AssignPropertiesFromSkuStatus(source *v20210301s.Sku_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -418,7 +418,7 @@ func (sku *Sku_Status) AssignPropertiesFromSkuStatus(source *v1beta20210301stora
 }
 
 // AssignPropertiesToSkuStatus populates the provided destination Sku_Status from our Sku_Status
-func (sku *Sku_Status) AssignPropertiesToSkuStatus(destination *v1beta20210301storage.Sku_Status) error {
+func (sku *Sku_Status) AssignPropertiesToSkuStatus(destination *v20210301s.Sku_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(sku.PropertyBag)
 

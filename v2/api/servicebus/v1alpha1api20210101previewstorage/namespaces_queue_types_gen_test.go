@@ -5,7 +5,7 @@ package v1alpha1api20210101previewstorage
 
 import (
 	"encoding/json"
-	"github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101previewstorage"
+	v20210101ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101previewstorage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -35,7 +35,7 @@ func RunResourceConversionTestForNamespacesQueue(subject NamespacesQueue) string
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1beta20210101previewstorage.NamespacesQueue
+	var hub v20210101ps.NamespacesQueue
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -77,7 +77,7 @@ func RunPropertyAssignmentTestForNamespacesQueue(subject NamespacesQueue) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210101previewstorage.NamespacesQueue
+	var other v20210101ps.NamespacesQueue
 	err := copied.AssignPropertiesToNamespacesQueue(&other)
 	if err != nil {
 		return err.Error()
@@ -179,7 +179,7 @@ func RunPropertyAssignmentTestForNamespacesQueuesSpec(subject NamespacesQueues_S
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210101previewstorage.NamespacesQueues_Spec
+	var other v20210101ps.NamespacesQueues_Spec
 	err := copied.AssignPropertiesToNamespacesQueuesSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -298,7 +298,7 @@ func RunPropertyAssignmentTestForSBQueueStatus(subject SBQueue_Status) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210101previewstorage.SBQueue_Status
+	var other v20210101ps.SBQueue_Status
 	err := copied.AssignPropertiesToSBQueueStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -436,7 +436,7 @@ func RunPropertyAssignmentTestForMessageCountDetailsStatus(subject MessageCountD
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210101previewstorage.MessageCountDetails_Status
+	var other v20210101ps.MessageCountDetails_Status
 	err := copied.AssignPropertiesToMessageCountDetailsStatus(&other)
 	if err != nil {
 		return err.Error()

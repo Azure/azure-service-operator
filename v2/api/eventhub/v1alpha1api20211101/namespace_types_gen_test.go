@@ -5,8 +5,8 @@ package v1alpha1api20211101
 
 import (
 	"encoding/json"
-	"github.com/Azure/azure-service-operator/v2/api/eventhub/v1alpha1api20211101storage"
-	"github.com/Azure/azure-service-operator/v2/api/eventhub/v1beta20211101storage"
+	alpha20211101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v1alpha1api20211101storage"
+	v20211101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v1beta20211101storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForNamespace(subject Namespace) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1beta20211101storage.Namespace
+	var hub v20211101s.Namespace
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForNamespace(subject Namespace) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20211101storage.Namespace
+	var other alpha20211101s.Namespace
 	err := copied.AssignPropertiesToNamespace(&other)
 	if err != nil {
 		return err.Error()
@@ -180,7 +180,7 @@ func RunPropertyAssignmentTestForEHNamespaceStatus(subject EHNamespace_Status) s
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20211101storage.EHNamespace_Status
+	var other alpha20211101s.EHNamespace_Status
 	err := copied.AssignPropertiesToEHNamespaceStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -316,7 +316,7 @@ func RunPropertyAssignmentTestForNamespacesSpec(subject Namespaces_Spec) string 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20211101storage.Namespaces_Spec
+	var other alpha20211101s.Namespaces_Spec
 	err := copied.AssignPropertiesToNamespacesSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -442,7 +442,7 @@ func RunPropertyAssignmentTestForEncryption(subject Encryption) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20211101storage.Encryption
+	var other alpha20211101s.Encryption
 	err := copied.AssignPropertiesToEncryption(&other)
 	if err != nil {
 		return err.Error()
@@ -558,7 +558,7 @@ func RunPropertyAssignmentTestForEncryptionStatus(subject Encryption_Status) str
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20211101storage.Encryption_Status
+	var other alpha20211101s.Encryption_Status
 	err := copied.AssignPropertiesToEncryptionStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -674,7 +674,7 @@ func RunPropertyAssignmentTestForIdentity(subject Identity) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20211101storage.Identity
+	var other alpha20211101s.Identity
 	err := copied.AssignPropertiesToIdentity(&other)
 	if err != nil {
 		return err.Error()
@@ -779,7 +779,7 @@ func RunPropertyAssignmentTestForIdentityStatus(subject Identity_Status) string 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20211101storage.Identity_Status
+	var other alpha20211101s.Identity_Status
 	err := copied.AssignPropertiesToIdentityStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -900,7 +900,7 @@ func RunPropertyAssignmentTestForNamespacesSpecPropertiesPrivateEndpointConnecti
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20211101storage.Namespaces_Spec_Properties_PrivateEndpointConnections
+	var other alpha20211101s.Namespaces_Spec_Properties_PrivateEndpointConnections
 	err := copied.AssignPropertiesToNamespacesSpecPropertiesPrivateEndpointConnections(&other)
 	if err != nil {
 		return err.Error()
@@ -1002,7 +1002,7 @@ func RunPropertyAssignmentTestForPrivateEndpointConnectionStatusSubResourceEmbed
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20211101storage.PrivateEndpointConnection_Status_SubResourceEmbedded
+	var other alpha20211101s.PrivateEndpointConnection_Status_SubResourceEmbedded
 	err := copied.AssignPropertiesToPrivateEndpointConnectionStatusSubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -1118,7 +1118,7 @@ func RunPropertyAssignmentTestForSku(subject Sku) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20211101storage.Sku
+	var other alpha20211101s.Sku
 	err := copied.AssignPropertiesToSku(&other)
 	if err != nil {
 		return err.Error()
@@ -1221,7 +1221,7 @@ func RunPropertyAssignmentTestForSkuStatus(subject Sku_Status) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20211101storage.Sku_Status
+	var other alpha20211101s.Sku_Status
 	err := copied.AssignPropertiesToSkuStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -1324,7 +1324,7 @@ func RunPropertyAssignmentTestForSystemDataStatus(subject SystemData_Status) str
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20211101storage.SystemData_Status
+	var other alpha20211101s.SystemData_Status
 	err := copied.AssignPropertiesToSystemDataStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -1438,7 +1438,7 @@ func RunPropertyAssignmentTestForKeyVaultProperties(subject KeyVaultProperties) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20211101storage.KeyVaultProperties
+	var other alpha20211101s.KeyVaultProperties
 	err := copied.AssignPropertiesToKeyVaultProperties(&other)
 	if err != nil {
 		return err.Error()
@@ -1555,7 +1555,7 @@ func RunPropertyAssignmentTestForKeyVaultPropertiesStatus(subject KeyVaultProper
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20211101storage.KeyVaultProperties_Status
+	var other alpha20211101s.KeyVaultProperties_Status
 	err := copied.AssignPropertiesToKeyVaultPropertiesStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -1673,7 +1673,7 @@ func RunPropertyAssignmentTestForPrivateEndpoint(subject PrivateEndpoint) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20211101storage.PrivateEndpoint
+	var other alpha20211101s.PrivateEndpoint
 	err := copied.AssignPropertiesToPrivateEndpoint(&other)
 	if err != nil {
 		return err.Error()
@@ -1768,7 +1768,7 @@ func RunPropertyAssignmentTestForUserAssignedIdentityStatus(subject UserAssigned
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20211101storage.UserAssignedIdentity_Status
+	var other alpha20211101s.UserAssignedIdentity_Status
 	err := copied.AssignPropertiesToUserAssignedIdentityStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -1871,7 +1871,7 @@ func RunPropertyAssignmentTestForUserAssignedIdentityProperties(subject UserAssi
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20211101storage.UserAssignedIdentityProperties
+	var other alpha20211101s.UserAssignedIdentityProperties
 	err := copied.AssignPropertiesToUserAssignedIdentityProperties(&other)
 	if err != nil {
 		return err.Error()
@@ -1967,7 +1967,7 @@ func RunPropertyAssignmentTestForUserAssignedIdentityPropertiesStatus(subject Us
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20211101storage.UserAssignedIdentityProperties_Status
+	var other alpha20211101s.UserAssignedIdentityProperties_Status
 	err := copied.AssignPropertiesToUserAssignedIdentityPropertiesStatus(&other)
 	if err != nil {
 		return err.Error()

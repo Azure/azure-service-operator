@@ -5,7 +5,7 @@ package v1beta20211101
 
 import (
 	"encoding/json"
-	"github.com/Azure/azure-service-operator/v2/api/eventhub/v1beta20211101storage"
+	v20211101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v1beta20211101storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -35,7 +35,7 @@ func RunResourceConversionTestForNamespacesAuthorizationRule(subject NamespacesA
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1beta20211101storage.NamespacesAuthorizationRule
+	var hub v20211101s.NamespacesAuthorizationRule
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -77,7 +77,7 @@ func RunPropertyAssignmentTestForNamespacesAuthorizationRule(subject NamespacesA
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20211101storage.NamespacesAuthorizationRule
+	var other v20211101s.NamespacesAuthorizationRule
 	err := copied.AssignPropertiesToNamespacesAuthorizationRule(&other)
 	if err != nil {
 		return err.Error()
@@ -180,7 +180,7 @@ func RunPropertyAssignmentTestForAuthorizationRuleStatus(subject AuthorizationRu
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20211101storage.AuthorizationRule_Status
+	var other v20211101s.AuthorizationRule_Status
 	err := copied.AssignPropertiesToAuthorizationRuleStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -300,7 +300,7 @@ func RunPropertyAssignmentTestForNamespacesAuthorizationRulesSpec(subject Namesp
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20211101storage.NamespacesAuthorizationRules_Spec
+	var other v20211101s.NamespacesAuthorizationRules_Spec
 	err := copied.AssignPropertiesToNamespacesAuthorizationRulesSpec(&other)
 	if err != nil {
 		return err.Error()

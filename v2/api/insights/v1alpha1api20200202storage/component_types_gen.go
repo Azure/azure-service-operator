@@ -5,7 +5,7 @@ package v1alpha1api20200202storage
 
 import (
 	"fmt"
-	"github.com/Azure/azure-service-operator/v2/api/insights/v1beta20200202storage"
+	v20200202s "github.com/Azure/azure-service-operator/v2/api/insights/v1beta20200202storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
@@ -46,7 +46,7 @@ var _ conversion.Convertible = &Component{}
 
 // ConvertFrom populates our Component from the provided hub Component
 func (component *Component) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1beta20200202storage.Component)
+	source, ok := hub.(*v20200202s.Component)
 	if !ok {
 		return fmt.Errorf("expected insights/v1beta20200202storage/Component but received %T instead", hub)
 	}
@@ -56,7 +56,7 @@ func (component *Component) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub Component from our Component
 func (component *Component) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1beta20200202storage.Component)
+	destination, ok := hub.(*v20200202s.Component)
 	if !ok {
 		return fmt.Errorf("expected insights/v1beta20200202storage/Component but received %T instead", hub)
 	}
@@ -131,7 +131,7 @@ func (component *Component) SetStatus(status genruntime.ConvertibleStatus) error
 }
 
 // AssignPropertiesFromComponent populates our Component from the provided source Component
-func (component *Component) AssignPropertiesFromComponent(source *v1beta20200202storage.Component) error {
+func (component *Component) AssignPropertiesFromComponent(source *v20200202s.Component) error {
 
 	// ObjectMeta
 	component.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -157,13 +157,13 @@ func (component *Component) AssignPropertiesFromComponent(source *v1beta20200202
 }
 
 // AssignPropertiesToComponent populates the provided destination Component from our Component
-func (component *Component) AssignPropertiesToComponent(destination *v1beta20200202storage.Component) error {
+func (component *Component) AssignPropertiesToComponent(destination *v20200202s.Component) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *component.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1beta20200202storage.Components_Spec
+	var spec v20200202s.Components_Spec
 	err := component.Spec.AssignPropertiesToComponentsSpec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToComponentsSpec() to populate field Spec")
@@ -171,7 +171,7 @@ func (component *Component) AssignPropertiesToComponent(destination *v1beta20200
 	destination.Spec = spec
 
 	// Status
-	var status v1beta20200202storage.ApplicationInsightsComponent_Status
+	var status v20200202s.ApplicationInsightsComponent_Status
 	err = component.Status.AssignPropertiesToApplicationInsightsComponentStatus(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToApplicationInsightsComponentStatus() to populate field Status")
@@ -243,14 +243,14 @@ var _ genruntime.ConvertibleStatus = &ApplicationInsightsComponent_Status{}
 
 // ConvertStatusFrom populates our ApplicationInsightsComponent_Status from the provided source
 func (component *ApplicationInsightsComponent_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v1beta20200202storage.ApplicationInsightsComponent_Status)
+	src, ok := source.(*v20200202s.ApplicationInsightsComponent_Status)
 	if ok {
 		// Populate our instance from source
 		return component.AssignPropertiesFromApplicationInsightsComponentStatus(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1beta20200202storage.ApplicationInsightsComponent_Status{}
+	src = &v20200202s.ApplicationInsightsComponent_Status{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -267,14 +267,14 @@ func (component *ApplicationInsightsComponent_Status) ConvertStatusFrom(source g
 
 // ConvertStatusTo populates the provided destination from our ApplicationInsightsComponent_Status
 func (component *ApplicationInsightsComponent_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v1beta20200202storage.ApplicationInsightsComponent_Status)
+	dst, ok := destination.(*v20200202s.ApplicationInsightsComponent_Status)
 	if ok {
 		// Populate destination from our instance
 		return component.AssignPropertiesToApplicationInsightsComponentStatus(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1beta20200202storage.ApplicationInsightsComponent_Status{}
+	dst = &v20200202s.ApplicationInsightsComponent_Status{}
 	err := component.AssignPropertiesToApplicationInsightsComponentStatus(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -290,7 +290,7 @@ func (component *ApplicationInsightsComponent_Status) ConvertStatusTo(destinatio
 }
 
 // AssignPropertiesFromApplicationInsightsComponentStatus populates our ApplicationInsightsComponent_Status from the provided source ApplicationInsightsComponent_Status
-func (component *ApplicationInsightsComponent_Status) AssignPropertiesFromApplicationInsightsComponentStatus(source *v1beta20200202storage.ApplicationInsightsComponent_Status) error {
+func (component *ApplicationInsightsComponent_Status) AssignPropertiesFromApplicationInsightsComponentStatus(source *v20200202s.ApplicationInsightsComponent_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -450,7 +450,7 @@ func (component *ApplicationInsightsComponent_Status) AssignPropertiesFromApplic
 }
 
 // AssignPropertiesToApplicationInsightsComponentStatus populates the provided destination ApplicationInsightsComponent_Status from our ApplicationInsightsComponent_Status
-func (component *ApplicationInsightsComponent_Status) AssignPropertiesToApplicationInsightsComponentStatus(destination *v1beta20200202storage.ApplicationInsightsComponent_Status) error {
+func (component *ApplicationInsightsComponent_Status) AssignPropertiesToApplicationInsightsComponentStatus(destination *v20200202s.ApplicationInsightsComponent_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(component.PropertyBag)
 
@@ -539,11 +539,11 @@ func (component *ApplicationInsightsComponent_Status) AssignPropertiesToApplicat
 
 	// PrivateLinkScopedResources
 	if component.PrivateLinkScopedResources != nil {
-		privateLinkScopedResourceList := make([]v1beta20200202storage.PrivateLinkScopedResource_Status, len(component.PrivateLinkScopedResources))
+		privateLinkScopedResourceList := make([]v20200202s.PrivateLinkScopedResource_Status, len(component.PrivateLinkScopedResources))
 		for privateLinkScopedResourceIndex, privateLinkScopedResourceItem := range component.PrivateLinkScopedResources {
 			// Shadow the loop variable to avoid aliasing
 			privateLinkScopedResourceItem := privateLinkScopedResourceItem
-			var privateLinkScopedResource v1beta20200202storage.PrivateLinkScopedResource_Status
+			var privateLinkScopedResource v20200202s.PrivateLinkScopedResource_Status
 			err := privateLinkScopedResourceItem.AssignPropertiesToPrivateLinkScopedResourceStatus(&privateLinkScopedResource)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToPrivateLinkScopedResourceStatus() to populate field PrivateLinkScopedResources")
@@ -647,14 +647,14 @@ var _ genruntime.ConvertibleSpec = &Components_Spec{}
 
 // ConvertSpecFrom populates our Components_Spec from the provided source
 func (components *Components_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1beta20200202storage.Components_Spec)
+	src, ok := source.(*v20200202s.Components_Spec)
 	if ok {
 		// Populate our instance from source
 		return components.AssignPropertiesFromComponentsSpec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1beta20200202storage.Components_Spec{}
+	src = &v20200202s.Components_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -671,14 +671,14 @@ func (components *Components_Spec) ConvertSpecFrom(source genruntime.Convertible
 
 // ConvertSpecTo populates the provided destination from our Components_Spec
 func (components *Components_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1beta20200202storage.Components_Spec)
+	dst, ok := destination.(*v20200202s.Components_Spec)
 	if ok {
 		// Populate destination from our instance
 		return components.AssignPropertiesToComponentsSpec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1beta20200202storage.Components_Spec{}
+	dst = &v20200202s.Components_Spec{}
 	err := components.AssignPropertiesToComponentsSpec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -694,7 +694,7 @@ func (components *Components_Spec) ConvertSpecTo(destination genruntime.Converti
 }
 
 // AssignPropertiesFromComponentsSpec populates our Components_Spec from the provided source Components_Spec
-func (components *Components_Spec) AssignPropertiesFromComponentsSpec(source *v1beta20200202storage.Components_Spec) error {
+func (components *Components_Spec) AssignPropertiesFromComponentsSpec(source *v20200202s.Components_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -808,7 +808,7 @@ func (components *Components_Spec) AssignPropertiesFromComponentsSpec(source *v1
 }
 
 // AssignPropertiesToComponentsSpec populates the provided destination Components_Spec from our Components_Spec
-func (components *Components_Spec) AssignPropertiesToComponentsSpec(destination *v1beta20200202storage.Components_Spec) error {
+func (components *Components_Spec) AssignPropertiesToComponentsSpec(destination *v20200202s.Components_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(components.PropertyBag)
 
@@ -930,7 +930,7 @@ type PrivateLinkScopedResource_Status struct {
 }
 
 // AssignPropertiesFromPrivateLinkScopedResourceStatus populates our PrivateLinkScopedResource_Status from the provided source PrivateLinkScopedResource_Status
-func (resource *PrivateLinkScopedResource_Status) AssignPropertiesFromPrivateLinkScopedResourceStatus(source *v1beta20200202storage.PrivateLinkScopedResource_Status) error {
+func (resource *PrivateLinkScopedResource_Status) AssignPropertiesFromPrivateLinkScopedResourceStatus(source *v20200202s.PrivateLinkScopedResource_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -952,7 +952,7 @@ func (resource *PrivateLinkScopedResource_Status) AssignPropertiesFromPrivateLin
 }
 
 // AssignPropertiesToPrivateLinkScopedResourceStatus populates the provided destination PrivateLinkScopedResource_Status from our PrivateLinkScopedResource_Status
-func (resource *PrivateLinkScopedResource_Status) AssignPropertiesToPrivateLinkScopedResourceStatus(destination *v1beta20200202storage.PrivateLinkScopedResource_Status) error {
+func (resource *PrivateLinkScopedResource_Status) AssignPropertiesToPrivateLinkScopedResourceStatus(destination *v20200202s.PrivateLinkScopedResource_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(resource.PropertyBag)
 

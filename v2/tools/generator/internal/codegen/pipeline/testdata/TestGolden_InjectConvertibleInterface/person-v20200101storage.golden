@@ -5,7 +5,7 @@
  
  import (
 +	"fmt"
- 	"github.com/Azure/azure-service-operator/testing/person/v20211231storage"
+ 	v20211231s "github.com/Azure/azure-service-operator/testing/person/v20211231storage"
  	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
  	"github.com/pkg/errors"
  	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -26,7 +26,7 @@
 +
 +// ConvertFrom populates our Person from the provided hub Person
 +func (person *Person) ConvertFrom(hub conversion.Hub) error {
-+	source, ok := hub.(*v20211231storage.Person)
++	source, ok := hub.(*v20211231s.Person)
 +	if !ok {
 +		return fmt.Errorf("expected person/v20211231storage/Person but received %T instead", hub)
 +	}
@@ -36,7 +36,7 @@
 +
 +// ConvertTo populates the provided hub Person from our Person
 +func (person *Person) ConvertTo(hub conversion.Hub) error {
-+	destination, ok := hub.(*v20211231storage.Person)
++	destination, ok := hub.(*v20211231s.Person)
 +	if !ok {
 +		return fmt.Errorf("expected person/v20211231storage/Person but received %T instead", hub)
 +	}
@@ -45,7 +45,7 @@
 +}
 +
  // AssignPropertiesFromPerson populates our Person from the provided source Person
- func (person *Person) AssignPropertiesFromPerson(source *v20211231storage.Person) error {
+ func (person *Person) AssignPropertiesFromPerson(source *v20211231s.Person) error {
  
  	// ObjectMeta
  	person.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -71,13 +71,13 @@
  }
  
  // AssignPropertiesToPerson populates the provided destination Person from our Person
- func (person *Person) AssignPropertiesToPerson(destination *v20211231storage.Person) error {
+ func (person *Person) AssignPropertiesToPerson(destination *v20211231s.Person) error {
  
  	// ObjectMeta
  	destination.ObjectMeta = *person.ObjectMeta.DeepCopy()
  
  	// Spec
- 	var spec v20211231storage.Person_Spec
+ 	var spec v20211231s.Person_Spec
  	err := person.Spec.AssignPropertiesToPersonSpec(&spec)
  	if err != nil {
  		return errors.Wrap(err, "calling AssignPropertiesToPersonSpec() to populate field Spec")
@@ -85,7 +85,7 @@
  	destination.Spec = spec
  
  	// Status
- 	var status v20211231storage.Person_Status
+ 	var status v20211231s.Person_Status
  	err = person.Status.AssignPropertiesToPersonStatus(&status)
  	if err != nil {
  		return errors.Wrap(err, "calling AssignPropertiesToPersonStatus() to populate field Status")
@@ -111,7 +111,7 @@
  }
  
  // AssignPropertiesFromPersonSpec populates our Person_Spec from the provided source Person_Spec
- func (person *Person_Spec) AssignPropertiesFromPersonSpec(source *v20211231storage.Person_Spec) error {
+ func (person *Person_Spec) AssignPropertiesFromPersonSpec(source *v20211231s.Person_Spec) error {
  	// Clone the existing property bag
  	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
  
@@ -130,7 +130,7 @@
  }
  
  // AssignPropertiesToPersonSpec populates the provided destination Person_Spec from our Person_Spec
- func (person *Person_Spec) AssignPropertiesToPersonSpec(destination *v20211231storage.Person_Spec) error {
+ func (person *Person_Spec) AssignPropertiesToPersonSpec(destination *v20211231s.Person_Spec) error {
  	// Clone the existing property bag
  	propertyBag := genruntime.NewPropertyBag(person.PropertyBag)
  
@@ -155,7 +155,7 @@
  }
  
  // AssignPropertiesFromPersonStatus populates our Person_Status from the provided source Person_Status
- func (person *Person_Status) AssignPropertiesFromPersonStatus(source *v20211231storage.Person_Status) error {
+ func (person *Person_Status) AssignPropertiesFromPersonStatus(source *v20211231s.Person_Status) error {
  	// Clone the existing property bag
  	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
  
@@ -174,7 +174,7 @@
  }
  
  // AssignPropertiesToPersonStatus populates the provided destination Person_Status from our Person_Status
- func (person *Person_Status) AssignPropertiesToPersonStatus(destination *v20211231storage.Person_Status) error {
+ func (person *Person_Status) AssignPropertiesToPersonStatus(destination *v20211231s.Person_Status) error {
  	// Clone the existing property bag
  	propertyBag := genruntime.NewPropertyBag(person.PropertyBag)
  

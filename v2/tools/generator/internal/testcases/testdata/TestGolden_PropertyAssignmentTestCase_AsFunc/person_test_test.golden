@@ -4,7 +4,7 @@
  package v20200101
  
 +import (
-+	person "github.com/Azure/azure-service-operator/testing/person/v20211231"
++	v20211231 "github.com/Azure/azure-service-operator/testing/person/v20211231"
 +	"github.com/google/go-cmp/cmp"
 +	"github.com/kr/pretty"
 +	"github.com/kylelemons/godebug/diff"
@@ -31,7 +31,7 @@
 +	copied := subject.DeepCopy()
 +
 +	// Use AssignPropertiesTo() for the first stage of conversion
-+	var other person.Person_Spec
++	var other v20211231.Person_Spec
 +	err := copied.AssignPropertiesToPersonSpec(&other)
 +	if err != nil {
 +		return err.Error()

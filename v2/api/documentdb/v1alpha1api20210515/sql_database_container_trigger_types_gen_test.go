@@ -5,8 +5,8 @@ package v1alpha1api20210515
 
 import (
 	"encoding/json"
-	"github.com/Azure/azure-service-operator/v2/api/documentdb/v1alpha1api20210515storage"
-	"github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage"
+	alpha20210515s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1alpha1api20210515storage"
+	v20210515s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForSqlDatabaseContainerTrigger(subject SqlDatabase
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1beta20210515storage.SqlDatabaseContainerTrigger
+	var hub v20210515s.SqlDatabaseContainerTrigger
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +78,7 @@ func RunPropertyAssignmentTestForSqlDatabaseContainerTrigger(subject SqlDatabase
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20210515storage.SqlDatabaseContainerTrigger
+	var other alpha20210515s.SqlDatabaseContainerTrigger
 	err := copied.AssignPropertiesToSqlDatabaseContainerTrigger(&other)
 	if err != nil {
 		return err.Error()
@@ -181,7 +181,7 @@ func RunPropertyAssignmentTestForDatabaseAccountsSqlDatabasesContainersTriggersS
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersTriggers_Spec
+	var other alpha20210515s.DatabaseAccountsSqlDatabasesContainersTriggers_Spec
 	err := copied.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersTriggersSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -300,7 +300,7 @@ func RunPropertyAssignmentTestForSqlTriggerGetResultsStatus(subject SqlTriggerGe
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20210515storage.SqlTriggerGetResults_Status
+	var other alpha20210515s.SqlTriggerGetResults_Status
 	err := copied.AssignPropertiesToSqlTriggerGetResultsStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -420,7 +420,7 @@ func RunPropertyAssignmentTestForSqlTriggerGetPropertiesStatusResource(subject S
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20210515storage.SqlTriggerGetProperties_Status_Resource
+	var other alpha20210515s.SqlTriggerGetProperties_Status_Resource
 	err := copied.AssignPropertiesToSqlTriggerGetPropertiesStatusResource(&other)
 	if err != nil {
 		return err.Error()
@@ -533,7 +533,7 @@ func RunPropertyAssignmentTestForSqlTriggerResource(subject SqlTriggerResource) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20210515storage.SqlTriggerResource
+	var other alpha20210515s.SqlTriggerResource
 	err := copied.AssignPropertiesToSqlTriggerResource(&other)
 	if err != nil {
 		return err.Error()

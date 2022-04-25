@@ -5,7 +5,7 @@ package v1alpha1api20200202storage
 
 import (
 	"encoding/json"
-	"github.com/Azure/azure-service-operator/v2/api/insights/v1beta20200202storage"
+	v20200202s "github.com/Azure/azure-service-operator/v2/api/insights/v1beta20200202storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -35,7 +35,7 @@ func RunResourceConversionTestForComponent(subject Component) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1beta20200202storage.Component
+	var hub v20200202s.Component
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -77,7 +77,7 @@ func RunPropertyAssignmentTestForComponent(subject Component) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200202storage.Component
+	var other v20200202s.Component
 	err := copied.AssignPropertiesToComponent(&other)
 	if err != nil {
 		return err.Error()
@@ -179,7 +179,7 @@ func RunPropertyAssignmentTestForApplicationInsightsComponentStatus(subject Appl
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200202storage.ApplicationInsightsComponent_Status
+	var other v20200202s.ApplicationInsightsComponent_Status
 	err := copied.AssignPropertiesToApplicationInsightsComponentStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -324,7 +324,7 @@ func RunPropertyAssignmentTestForComponentsSpec(subject Components_Spec) string 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200202storage.Components_Spec
+	var other v20200202s.Components_Spec
 	err := copied.AssignPropertiesToComponentsSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -443,7 +443,7 @@ func RunPropertyAssignmentTestForPrivateLinkScopedResourceStatus(subject Private
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200202storage.PrivateLinkScopedResource_Status
+	var other v20200202s.PrivateLinkScopedResource_Status
 	err := copied.AssignPropertiesToPrivateLinkScopedResourceStatus(&other)
 	if err != nil {
 		return err.Error()
