@@ -5,9 +5,9 @@ package v1alpha1api20210701storage
 
 import (
 	"fmt"
-	"github.com/Azure/azure-service-operator/v2/api/compute/v1beta20200930storage"
-	"github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201storage"
-	"github.com/Azure/azure-service-operator/v2/api/compute/v1beta20210701storage"
+	v20200930s "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20200930storage"
+	v20201201s "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201storage"
+	v20210701s "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20210701storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
@@ -47,7 +47,7 @@ var _ conversion.Convertible = &Image{}
 
 // ConvertFrom populates our Image from the provided hub Image
 func (image *Image) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1beta20210701storage.Image)
+	source, ok := hub.(*v20210701s.Image)
 	if !ok {
 		return fmt.Errorf("expected compute/v1beta20210701storage/Image but received %T instead", hub)
 	}
@@ -57,7 +57,7 @@ func (image *Image) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub Image from our Image
 func (image *Image) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1beta20210701storage.Image)
+	destination, ok := hub.(*v20210701s.Image)
 	if !ok {
 		return fmt.Errorf("expected compute/v1beta20210701storage/Image but received %T instead", hub)
 	}
@@ -132,7 +132,7 @@ func (image *Image) SetStatus(status genruntime.ConvertibleStatus) error {
 }
 
 // AssignPropertiesFromImage populates our Image from the provided source Image
-func (image *Image) AssignPropertiesFromImage(source *v1beta20210701storage.Image) error {
+func (image *Image) AssignPropertiesFromImage(source *v20210701s.Image) error {
 
 	// ObjectMeta
 	image.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -158,13 +158,13 @@ func (image *Image) AssignPropertiesFromImage(source *v1beta20210701storage.Imag
 }
 
 // AssignPropertiesToImage populates the provided destination Image from our Image
-func (image *Image) AssignPropertiesToImage(destination *v1beta20210701storage.Image) error {
+func (image *Image) AssignPropertiesToImage(destination *v20210701s.Image) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *image.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1beta20210701storage.Images_Spec
+	var spec v20210701s.Images_Spec
 	err := image.Spec.AssignPropertiesToImagesSpec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToImagesSpec() to populate field Spec")
@@ -172,7 +172,7 @@ func (image *Image) AssignPropertiesToImage(destination *v1beta20210701storage.I
 	destination.Spec = spec
 
 	// Status
-	var status v1beta20210701storage.Image_Status
+	var status v20210701s.Image_Status
 	err = image.Status.AssignPropertiesToImageStatus(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToImageStatus() to populate field Status")
@@ -222,14 +222,14 @@ var _ genruntime.ConvertibleStatus = &Image_Status{}
 
 // ConvertStatusFrom populates our Image_Status from the provided source
 func (image *Image_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v1beta20210701storage.Image_Status)
+	src, ok := source.(*v20210701s.Image_Status)
 	if ok {
 		// Populate our instance from source
 		return image.AssignPropertiesFromImageStatus(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1beta20210701storage.Image_Status{}
+	src = &v20210701s.Image_Status{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -246,14 +246,14 @@ func (image *Image_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus
 
 // ConvertStatusTo populates the provided destination from our Image_Status
 func (image *Image_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v1beta20210701storage.Image_Status)
+	dst, ok := destination.(*v20210701s.Image_Status)
 	if ok {
 		// Populate destination from our instance
 		return image.AssignPropertiesToImageStatus(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1beta20210701storage.Image_Status{}
+	dst = &v20210701s.Image_Status{}
 	err := image.AssignPropertiesToImageStatus(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -269,7 +269,7 @@ func (image *Image_Status) ConvertStatusTo(destination genruntime.ConvertibleSta
 }
 
 // AssignPropertiesFromImageStatus populates our Image_Status from the provided source Image_Status
-func (image *Image_Status) AssignPropertiesFromImageStatus(source *v1beta20210701storage.Image_Status) error {
+func (image *Image_Status) AssignPropertiesFromImageStatus(source *v20210701s.Image_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -278,12 +278,12 @@ func (image *Image_Status) AssignPropertiesFromImageStatus(source *v1beta2021070
 
 	// ExtendedLocation
 	if source.ExtendedLocation != nil {
-		var extendedLocationStatusStash v1beta20201201storage.ExtendedLocation_Status
+		var extendedLocationStatusStash v20201201s.ExtendedLocation_Status
 		err := extendedLocationStatusStash.AssignPropertiesFromExtendedLocationStatus(source.ExtendedLocation)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocationStatus() to populate field ExtendedLocation_StatusStash from ExtendedLocation")
 		}
-		var extendedLocationStatusStashLocal v1beta20200930storage.ExtendedLocation_Status
+		var extendedLocationStatusStashLocal v20200930s.ExtendedLocation_Status
 		err = extendedLocationStatusStashLocal.AssignPropertiesFromExtendedLocationStatus(&extendedLocationStatusStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocationStatus() to populate field ExtendedLocation_StatusStash")
@@ -315,7 +315,7 @@ func (image *Image_Status) AssignPropertiesFromImageStatus(source *v1beta2021070
 
 	// SourceVirtualMachine
 	if source.SourceVirtualMachine != nil {
-		var subResourceStatusStash v1beta20201201storage.SubResource_Status
+		var subResourceStatusStash v20201201s.SubResource_Status
 		err := subResourceStatusStash.AssignPropertiesFromSubResourceStatus(source.SourceVirtualMachine)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field SubResource_StatusStash from SourceVirtualMachine")
@@ -360,7 +360,7 @@ func (image *Image_Status) AssignPropertiesFromImageStatus(source *v1beta2021070
 }
 
 // AssignPropertiesToImageStatus populates the provided destination Image_Status from our Image_Status
-func (image *Image_Status) AssignPropertiesToImageStatus(destination *v1beta20210701storage.Image_Status) error {
+func (image *Image_Status) AssignPropertiesToImageStatus(destination *v20210701s.Image_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(image.PropertyBag)
 
@@ -369,17 +369,17 @@ func (image *Image_Status) AssignPropertiesToImageStatus(destination *v1beta2021
 
 	// ExtendedLocation
 	if image.ExtendedLocation != nil {
-		var extendedLocationStatusStash v1beta20200930storage.ExtendedLocation_Status
+		var extendedLocationStatusStash v20200930s.ExtendedLocation_Status
 		err := image.ExtendedLocation.AssignPropertiesToExtendedLocationStatus(&extendedLocationStatusStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocationStatus() to populate field ExtendedLocation_StatusStash from ExtendedLocation")
 		}
-		var extendedLocationStatusStashLocal v1beta20201201storage.ExtendedLocation_Status
+		var extendedLocationStatusStashLocal v20201201s.ExtendedLocation_Status
 		err = extendedLocationStatusStash.AssignPropertiesToExtendedLocationStatus(&extendedLocationStatusStashLocal)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocationStatus() to populate field ExtendedLocation_StatusStash")
 		}
-		var extendedLocation v1beta20210701storage.ExtendedLocation_Status
+		var extendedLocation v20210701s.ExtendedLocation_Status
 		err = extendedLocationStatusStashLocal.AssignPropertiesToExtendedLocationStatus(&extendedLocation)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocationStatus() to populate field ExtendedLocation from ExtendedLocation_StatusStash")
@@ -406,12 +406,12 @@ func (image *Image_Status) AssignPropertiesToImageStatus(destination *v1beta2021
 
 	// SourceVirtualMachine
 	if image.SourceVirtualMachine != nil {
-		var subResourceStatusStash v1beta20201201storage.SubResource_Status
+		var subResourceStatusStash v20201201s.SubResource_Status
 		err := image.SourceVirtualMachine.AssignPropertiesToSubResourceStatus(&subResourceStatusStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field SubResource_StatusStash from SourceVirtualMachine")
 		}
-		var sourceVirtualMachine v1beta20210701storage.SubResource_Status
+		var sourceVirtualMachine v20210701s.SubResource_Status
 		err = subResourceStatusStash.AssignPropertiesToSubResourceStatus(&sourceVirtualMachine)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field SourceVirtualMachine from SubResource_StatusStash")
@@ -423,7 +423,7 @@ func (image *Image_Status) AssignPropertiesToImageStatus(destination *v1beta2021
 
 	// StorageProfile
 	if image.StorageProfile != nil {
-		var storageProfile v1beta20210701storage.ImageStorageProfile_Status
+		var storageProfile v20210701s.ImageStorageProfile_Status
 		err := image.StorageProfile.AssignPropertiesToImageStorageProfileStatus(&storageProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToImageStorageProfileStatus() to populate field StorageProfile")
@@ -475,14 +475,14 @@ var _ genruntime.ConvertibleSpec = &Images_Spec{}
 
 // ConvertSpecFrom populates our Images_Spec from the provided source
 func (images *Images_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1beta20210701storage.Images_Spec)
+	src, ok := source.(*v20210701s.Images_Spec)
 	if ok {
 		// Populate our instance from source
 		return images.AssignPropertiesFromImagesSpec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1beta20210701storage.Images_Spec{}
+	src = &v20210701s.Images_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -499,14 +499,14 @@ func (images *Images_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) er
 
 // ConvertSpecTo populates the provided destination from our Images_Spec
 func (images *Images_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1beta20210701storage.Images_Spec)
+	dst, ok := destination.(*v20210701s.Images_Spec)
 	if ok {
 		// Populate destination from our instance
 		return images.AssignPropertiesToImagesSpec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1beta20210701storage.Images_Spec{}
+	dst = &v20210701s.Images_Spec{}
 	err := images.AssignPropertiesToImagesSpec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -522,7 +522,7 @@ func (images *Images_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec)
 }
 
 // AssignPropertiesFromImagesSpec populates our Images_Spec from the provided source Images_Spec
-func (images *Images_Spec) AssignPropertiesFromImagesSpec(source *v1beta20210701storage.Images_Spec) error {
+func (images *Images_Spec) AssignPropertiesFromImagesSpec(source *v20210701s.Images_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -531,12 +531,12 @@ func (images *Images_Spec) AssignPropertiesFromImagesSpec(source *v1beta20210701
 
 	// ExtendedLocation
 	if source.ExtendedLocation != nil {
-		var extendedLocationStash v1beta20201201storage.ExtendedLocation
+		var extendedLocationStash v20201201s.ExtendedLocation
 		err := extendedLocationStash.AssignPropertiesFromExtendedLocation(source.ExtendedLocation)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocation() to populate field ExtendedLocationStash from ExtendedLocation")
 		}
-		var extendedLocationStashLocal v1beta20200930storage.ExtendedLocation
+		var extendedLocationStashLocal v20200930s.ExtendedLocation
 		err = extendedLocationStashLocal.AssignPropertiesFromExtendedLocation(&extendedLocationStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocation() to populate field ExtendedLocationStash")
@@ -570,7 +570,7 @@ func (images *Images_Spec) AssignPropertiesFromImagesSpec(source *v1beta20210701
 
 	// SourceVirtualMachine
 	if source.SourceVirtualMachine != nil {
-		var subResourceStash v1beta20201201storage.SubResource
+		var subResourceStash v20201201s.SubResource
 		err := subResourceStash.AssignPropertiesFromSubResource(source.SourceVirtualMachine)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field SubResourceStash from SourceVirtualMachine")
@@ -612,7 +612,7 @@ func (images *Images_Spec) AssignPropertiesFromImagesSpec(source *v1beta20210701
 }
 
 // AssignPropertiesToImagesSpec populates the provided destination Images_Spec from our Images_Spec
-func (images *Images_Spec) AssignPropertiesToImagesSpec(destination *v1beta20210701storage.Images_Spec) error {
+func (images *Images_Spec) AssignPropertiesToImagesSpec(destination *v20210701s.Images_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(images.PropertyBag)
 
@@ -621,17 +621,17 @@ func (images *Images_Spec) AssignPropertiesToImagesSpec(destination *v1beta20210
 
 	// ExtendedLocation
 	if images.ExtendedLocation != nil {
-		var extendedLocationStash v1beta20200930storage.ExtendedLocation
+		var extendedLocationStash v20200930s.ExtendedLocation
 		err := images.ExtendedLocation.AssignPropertiesToExtendedLocation(&extendedLocationStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocation() to populate field ExtendedLocationStash from ExtendedLocation")
 		}
-		var extendedLocationStashLocal v1beta20201201storage.ExtendedLocation
+		var extendedLocationStashLocal v20201201s.ExtendedLocation
 		err = extendedLocationStash.AssignPropertiesToExtendedLocation(&extendedLocationStashLocal)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocation() to populate field ExtendedLocationStash")
 		}
-		var extendedLocation v1beta20210701storage.ExtendedLocation
+		var extendedLocation v20210701s.ExtendedLocation
 		err = extendedLocationStashLocal.AssignPropertiesToExtendedLocation(&extendedLocation)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocation() to populate field ExtendedLocation from ExtendedLocationStash")
@@ -660,12 +660,12 @@ func (images *Images_Spec) AssignPropertiesToImagesSpec(destination *v1beta20210
 
 	// SourceVirtualMachine
 	if images.SourceVirtualMachine != nil {
-		var subResourceStash v1beta20201201storage.SubResource
+		var subResourceStash v20201201s.SubResource
 		err := images.SourceVirtualMachine.AssignPropertiesToSubResource(&subResourceStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field SubResourceStash from SourceVirtualMachine")
 		}
-		var sourceVirtualMachine v1beta20210701storage.SubResource
+		var sourceVirtualMachine v20210701s.SubResource
 		err = subResourceStash.AssignPropertiesToSubResource(&sourceVirtualMachine)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field SourceVirtualMachine from SubResourceStash")
@@ -677,7 +677,7 @@ func (images *Images_Spec) AssignPropertiesToImagesSpec(destination *v1beta20210
 
 	// StorageProfile
 	if images.StorageProfile != nil {
-		var storageProfile v1beta20210701storage.ImageStorageProfile
+		var storageProfile v20210701s.ImageStorageProfile
 		err := images.StorageProfile.AssignPropertiesToImageStorageProfile(&storageProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToImageStorageProfile() to populate field StorageProfile")
@@ -710,7 +710,7 @@ type ExtendedLocation struct {
 }
 
 // AssignPropertiesFromExtendedLocation populates our ExtendedLocation from the provided source ExtendedLocation
-func (location *ExtendedLocation) AssignPropertiesFromExtendedLocation(source *v1beta20200930storage.ExtendedLocation) error {
+func (location *ExtendedLocation) AssignPropertiesFromExtendedLocation(source *v20200930s.ExtendedLocation) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -732,7 +732,7 @@ func (location *ExtendedLocation) AssignPropertiesFromExtendedLocation(source *v
 }
 
 // AssignPropertiesToExtendedLocation populates the provided destination ExtendedLocation from our ExtendedLocation
-func (location *ExtendedLocation) AssignPropertiesToExtendedLocation(destination *v1beta20200930storage.ExtendedLocation) error {
+func (location *ExtendedLocation) AssignPropertiesToExtendedLocation(destination *v20200930s.ExtendedLocation) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(location.PropertyBag)
 
@@ -762,7 +762,7 @@ type ExtendedLocation_Status struct {
 }
 
 // AssignPropertiesFromExtendedLocationStatus populates our ExtendedLocation_Status from the provided source ExtendedLocation_Status
-func (location *ExtendedLocation_Status) AssignPropertiesFromExtendedLocationStatus(source *v1beta20200930storage.ExtendedLocation_Status) error {
+func (location *ExtendedLocation_Status) AssignPropertiesFromExtendedLocationStatus(source *v20200930s.ExtendedLocation_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -784,7 +784,7 @@ func (location *ExtendedLocation_Status) AssignPropertiesFromExtendedLocationSta
 }
 
 // AssignPropertiesToExtendedLocationStatus populates the provided destination ExtendedLocation_Status from our ExtendedLocation_Status
-func (location *ExtendedLocation_Status) AssignPropertiesToExtendedLocationStatus(destination *v1beta20200930storage.ExtendedLocation_Status) error {
+func (location *ExtendedLocation_Status) AssignPropertiesToExtendedLocationStatus(destination *v20200930s.ExtendedLocation_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(location.PropertyBag)
 
@@ -815,7 +815,7 @@ type ImageStorageProfile struct {
 }
 
 // AssignPropertiesFromImageStorageProfile populates our ImageStorageProfile from the provided source ImageStorageProfile
-func (profile *ImageStorageProfile) AssignPropertiesFromImageStorageProfile(source *v1beta20210701storage.ImageStorageProfile) error {
+func (profile *ImageStorageProfile) AssignPropertiesFromImageStorageProfile(source *v20210701s.ImageStorageProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -869,17 +869,17 @@ func (profile *ImageStorageProfile) AssignPropertiesFromImageStorageProfile(sour
 }
 
 // AssignPropertiesToImageStorageProfile populates the provided destination ImageStorageProfile from our ImageStorageProfile
-func (profile *ImageStorageProfile) AssignPropertiesToImageStorageProfile(destination *v1beta20210701storage.ImageStorageProfile) error {
+func (profile *ImageStorageProfile) AssignPropertiesToImageStorageProfile(destination *v20210701s.ImageStorageProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
 	// DataDisks
 	if profile.DataDisks != nil {
-		dataDiskList := make([]v1beta20210701storage.ImageDataDisk, len(profile.DataDisks))
+		dataDiskList := make([]v20210701s.ImageDataDisk, len(profile.DataDisks))
 		for dataDiskIndex, dataDiskItem := range profile.DataDisks {
 			// Shadow the loop variable to avoid aliasing
 			dataDiskItem := dataDiskItem
-			var dataDisk v1beta20210701storage.ImageDataDisk
+			var dataDisk v20210701s.ImageDataDisk
 			err := dataDiskItem.AssignPropertiesToImageDataDisk(&dataDisk)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToImageDataDisk() to populate field DataDisks")
@@ -893,7 +893,7 @@ func (profile *ImageStorageProfile) AssignPropertiesToImageStorageProfile(destin
 
 	// OsDisk
 	if profile.OsDisk != nil {
-		var osDisk v1beta20210701storage.ImageOSDisk
+		var osDisk v20210701s.ImageOSDisk
 		err := profile.OsDisk.AssignPropertiesToImageOSDisk(&osDisk)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToImageOSDisk() to populate field OsDisk")
@@ -932,7 +932,7 @@ type ImageStorageProfile_Status struct {
 }
 
 // AssignPropertiesFromImageStorageProfileStatus populates our ImageStorageProfile_Status from the provided source ImageStorageProfile_Status
-func (profile *ImageStorageProfile_Status) AssignPropertiesFromImageStorageProfileStatus(source *v1beta20210701storage.ImageStorageProfile_Status) error {
+func (profile *ImageStorageProfile_Status) AssignPropertiesFromImageStorageProfileStatus(source *v20210701s.ImageStorageProfile_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -986,17 +986,17 @@ func (profile *ImageStorageProfile_Status) AssignPropertiesFromImageStorageProfi
 }
 
 // AssignPropertiesToImageStorageProfileStatus populates the provided destination ImageStorageProfile_Status from our ImageStorageProfile_Status
-func (profile *ImageStorageProfile_Status) AssignPropertiesToImageStorageProfileStatus(destination *v1beta20210701storage.ImageStorageProfile_Status) error {
+func (profile *ImageStorageProfile_Status) AssignPropertiesToImageStorageProfileStatus(destination *v20210701s.ImageStorageProfile_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
 	// DataDisks
 	if profile.DataDisks != nil {
-		dataDiskList := make([]v1beta20210701storage.ImageDataDisk_Status, len(profile.DataDisks))
+		dataDiskList := make([]v20210701s.ImageDataDisk_Status, len(profile.DataDisks))
 		for dataDiskIndex, dataDiskItem := range profile.DataDisks {
 			// Shadow the loop variable to avoid aliasing
 			dataDiskItem := dataDiskItem
-			var dataDisk v1beta20210701storage.ImageDataDisk_Status
+			var dataDisk v20210701s.ImageDataDisk_Status
 			err := dataDiskItem.AssignPropertiesToImageDataDiskStatus(&dataDisk)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToImageDataDiskStatus() to populate field DataDisks")
@@ -1010,7 +1010,7 @@ func (profile *ImageStorageProfile_Status) AssignPropertiesToImageStorageProfile
 
 	// OsDisk
 	if profile.OsDisk != nil {
-		var osDisk v1beta20210701storage.ImageOSDisk_Status
+		var osDisk v20210701s.ImageOSDisk_Status
 		err := profile.OsDisk.AssignPropertiesToImageOSDiskStatus(&osDisk)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToImageOSDiskStatus() to populate field OsDisk")
@@ -1047,7 +1047,7 @@ type SubResource struct {
 }
 
 // AssignPropertiesFromSubResource populates our SubResource from the provided source SubResource
-func (resource *SubResource) AssignPropertiesFromSubResource(source *v1beta20201201storage.SubResource) error {
+func (resource *SubResource) AssignPropertiesFromSubResource(source *v20201201s.SubResource) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1071,7 +1071,7 @@ func (resource *SubResource) AssignPropertiesFromSubResource(source *v1beta20201
 }
 
 // AssignPropertiesToSubResource populates the provided destination SubResource from our SubResource
-func (resource *SubResource) AssignPropertiesToSubResource(destination *v1beta20201201storage.SubResource) error {
+func (resource *SubResource) AssignPropertiesToSubResource(destination *v20201201s.SubResource) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(resource.PropertyBag)
 
@@ -1102,7 +1102,7 @@ type SubResource_Status struct {
 }
 
 // AssignPropertiesFromSubResourceStatus populates our SubResource_Status from the provided source SubResource_Status
-func (resource *SubResource_Status) AssignPropertiesFromSubResourceStatus(source *v1beta20201201storage.SubResource_Status) error {
+func (resource *SubResource_Status) AssignPropertiesFromSubResourceStatus(source *v20201201s.SubResource_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1121,7 +1121,7 @@ func (resource *SubResource_Status) AssignPropertiesFromSubResourceStatus(source
 }
 
 // AssignPropertiesToSubResourceStatus populates the provided destination SubResource_Status from our SubResource_Status
-func (resource *SubResource_Status) AssignPropertiesToSubResourceStatus(destination *v1beta20201201storage.SubResource_Status) error {
+func (resource *SubResource_Status) AssignPropertiesToSubResourceStatus(destination *v20201201s.SubResource_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(resource.PropertyBag)
 
@@ -1154,7 +1154,7 @@ type ImageDataDisk struct {
 }
 
 // AssignPropertiesFromImageDataDisk populates our ImageDataDisk from the provided source ImageDataDisk
-func (disk *ImageDataDisk) AssignPropertiesFromImageDataDisk(source *v1beta20210701storage.ImageDataDisk) error {
+func (disk *ImageDataDisk) AssignPropertiesFromImageDataDisk(source *v20210701s.ImageDataDisk) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1166,7 +1166,7 @@ func (disk *ImageDataDisk) AssignPropertiesFromImageDataDisk(source *v1beta20210
 
 	// DiskEncryptionSet
 	if source.DiskEncryptionSet != nil {
-		var diskEncryptionSetParametersStash v1beta20201201storage.DiskEncryptionSetParameters
+		var diskEncryptionSetParametersStash v20201201s.DiskEncryptionSetParameters
 		err := diskEncryptionSetParametersStash.AssignPropertiesFromDiskEncryptionSetParameters(source.DiskEncryptionSet)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromDiskEncryptionSetParameters() to populate field DiskEncryptionSetParametersStash from DiskEncryptionSet")
@@ -1189,7 +1189,7 @@ func (disk *ImageDataDisk) AssignPropertiesFromImageDataDisk(source *v1beta20210
 
 	// ManagedDisk
 	if source.ManagedDisk != nil {
-		var subResourceStash v1beta20201201storage.SubResource
+		var subResourceStash v20201201s.SubResource
 		err := subResourceStash.AssignPropertiesFromSubResource(source.ManagedDisk)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field SubResourceStash from ManagedDisk")
@@ -1206,7 +1206,7 @@ func (disk *ImageDataDisk) AssignPropertiesFromImageDataDisk(source *v1beta20210
 
 	// Snapshot
 	if source.Snapshot != nil {
-		var subResourceStash v1beta20201201storage.SubResource
+		var subResourceStash v20201201s.SubResource
 		err := subResourceStash.AssignPropertiesFromSubResource(source.Snapshot)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field SubResourceStash from Snapshot")
@@ -1236,7 +1236,7 @@ func (disk *ImageDataDisk) AssignPropertiesFromImageDataDisk(source *v1beta20210
 }
 
 // AssignPropertiesToImageDataDisk populates the provided destination ImageDataDisk from our ImageDataDisk
-func (disk *ImageDataDisk) AssignPropertiesToImageDataDisk(destination *v1beta20210701storage.ImageDataDisk) error {
+func (disk *ImageDataDisk) AssignPropertiesToImageDataDisk(destination *v20210701s.ImageDataDisk) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(disk.PropertyBag)
 
@@ -1248,12 +1248,12 @@ func (disk *ImageDataDisk) AssignPropertiesToImageDataDisk(destination *v1beta20
 
 	// DiskEncryptionSet
 	if disk.DiskEncryptionSet != nil {
-		var diskEncryptionSetParametersStash v1beta20201201storage.DiskEncryptionSetParameters
+		var diskEncryptionSetParametersStash v20201201s.DiskEncryptionSetParameters
 		err := disk.DiskEncryptionSet.AssignPropertiesToDiskEncryptionSetParameters(&diskEncryptionSetParametersStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToDiskEncryptionSetParameters() to populate field DiskEncryptionSetParametersStash from DiskEncryptionSet")
 		}
-		var diskEncryptionSet v1beta20210701storage.DiskEncryptionSetParameters
+		var diskEncryptionSet v20210701s.DiskEncryptionSetParameters
 		err = diskEncryptionSetParametersStash.AssignPropertiesToDiskEncryptionSetParameters(&diskEncryptionSet)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToDiskEncryptionSetParameters() to populate field DiskEncryptionSet from DiskEncryptionSetParametersStash")
@@ -1271,12 +1271,12 @@ func (disk *ImageDataDisk) AssignPropertiesToImageDataDisk(destination *v1beta20
 
 	// ManagedDisk
 	if disk.ManagedDisk != nil {
-		var subResourceStash v1beta20201201storage.SubResource
+		var subResourceStash v20201201s.SubResource
 		err := disk.ManagedDisk.AssignPropertiesToSubResource(&subResourceStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field SubResourceStash from ManagedDisk")
 		}
-		var managedDisk v1beta20210701storage.SubResource
+		var managedDisk v20210701s.SubResource
 		err = subResourceStash.AssignPropertiesToSubResource(&managedDisk)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field ManagedDisk from SubResourceStash")
@@ -1288,12 +1288,12 @@ func (disk *ImageDataDisk) AssignPropertiesToImageDataDisk(destination *v1beta20
 
 	// Snapshot
 	if disk.Snapshot != nil {
-		var subResourceStash v1beta20201201storage.SubResource
+		var subResourceStash v20201201s.SubResource
 		err := disk.Snapshot.AssignPropertiesToSubResource(&subResourceStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field SubResourceStash from Snapshot")
 		}
-		var snapshot v1beta20210701storage.SubResource
+		var snapshot v20210701s.SubResource
 		err = subResourceStash.AssignPropertiesToSubResource(&snapshot)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field Snapshot from SubResourceStash")
@@ -1332,7 +1332,7 @@ type ImageDataDisk_Status struct {
 }
 
 // AssignPropertiesFromImageDataDiskStatus populates our ImageDataDisk_Status from the provided source ImageDataDisk_Status
-func (disk *ImageDataDisk_Status) AssignPropertiesFromImageDataDiskStatus(source *v1beta20210701storage.ImageDataDisk_Status) error {
+func (disk *ImageDataDisk_Status) AssignPropertiesFromImageDataDiskStatus(source *v20210701s.ImageDataDisk_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1344,7 +1344,7 @@ func (disk *ImageDataDisk_Status) AssignPropertiesFromImageDataDiskStatus(source
 
 	// DiskEncryptionSet
 	if source.DiskEncryptionSet != nil {
-		var subResourceStatusStash v1beta20201201storage.SubResource_Status
+		var subResourceStatusStash v20201201s.SubResource_Status
 		err := subResourceStatusStash.AssignPropertiesFromSubResourceStatus(source.DiskEncryptionSet)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field SubResource_StatusStash from DiskEncryptionSet")
@@ -1367,7 +1367,7 @@ func (disk *ImageDataDisk_Status) AssignPropertiesFromImageDataDiskStatus(source
 
 	// ManagedDisk
 	if source.ManagedDisk != nil {
-		var subResourceStatusStash v1beta20201201storage.SubResource_Status
+		var subResourceStatusStash v20201201s.SubResource_Status
 		err := subResourceStatusStash.AssignPropertiesFromSubResourceStatus(source.ManagedDisk)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field SubResource_StatusStash from ManagedDisk")
@@ -1384,7 +1384,7 @@ func (disk *ImageDataDisk_Status) AssignPropertiesFromImageDataDiskStatus(source
 
 	// Snapshot
 	if source.Snapshot != nil {
-		var subResourceStatusStash v1beta20201201storage.SubResource_Status
+		var subResourceStatusStash v20201201s.SubResource_Status
 		err := subResourceStatusStash.AssignPropertiesFromSubResourceStatus(source.Snapshot)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field SubResource_StatusStash from Snapshot")
@@ -1414,7 +1414,7 @@ func (disk *ImageDataDisk_Status) AssignPropertiesFromImageDataDiskStatus(source
 }
 
 // AssignPropertiesToImageDataDiskStatus populates the provided destination ImageDataDisk_Status from our ImageDataDisk_Status
-func (disk *ImageDataDisk_Status) AssignPropertiesToImageDataDiskStatus(destination *v1beta20210701storage.ImageDataDisk_Status) error {
+func (disk *ImageDataDisk_Status) AssignPropertiesToImageDataDiskStatus(destination *v20210701s.ImageDataDisk_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(disk.PropertyBag)
 
@@ -1426,12 +1426,12 @@ func (disk *ImageDataDisk_Status) AssignPropertiesToImageDataDiskStatus(destinat
 
 	// DiskEncryptionSet
 	if disk.DiskEncryptionSet != nil {
-		var subResourceStatusStash v1beta20201201storage.SubResource_Status
+		var subResourceStatusStash v20201201s.SubResource_Status
 		err := disk.DiskEncryptionSet.AssignPropertiesToSubResourceStatus(&subResourceStatusStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field SubResource_StatusStash from DiskEncryptionSet")
 		}
-		var diskEncryptionSet v1beta20210701storage.SubResource_Status
+		var diskEncryptionSet v20210701s.SubResource_Status
 		err = subResourceStatusStash.AssignPropertiesToSubResourceStatus(&diskEncryptionSet)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field DiskEncryptionSet from SubResource_StatusStash")
@@ -1449,12 +1449,12 @@ func (disk *ImageDataDisk_Status) AssignPropertiesToImageDataDiskStatus(destinat
 
 	// ManagedDisk
 	if disk.ManagedDisk != nil {
-		var subResourceStatusStash v1beta20201201storage.SubResource_Status
+		var subResourceStatusStash v20201201s.SubResource_Status
 		err := disk.ManagedDisk.AssignPropertiesToSubResourceStatus(&subResourceStatusStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field SubResource_StatusStash from ManagedDisk")
 		}
-		var managedDisk v1beta20210701storage.SubResource_Status
+		var managedDisk v20210701s.SubResource_Status
 		err = subResourceStatusStash.AssignPropertiesToSubResourceStatus(&managedDisk)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field ManagedDisk from SubResource_StatusStash")
@@ -1466,12 +1466,12 @@ func (disk *ImageDataDisk_Status) AssignPropertiesToImageDataDiskStatus(destinat
 
 	// Snapshot
 	if disk.Snapshot != nil {
-		var subResourceStatusStash v1beta20201201storage.SubResource_Status
+		var subResourceStatusStash v20201201s.SubResource_Status
 		err := disk.Snapshot.AssignPropertiesToSubResourceStatus(&subResourceStatusStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field SubResource_StatusStash from Snapshot")
 		}
-		var snapshot v1beta20210701storage.SubResource_Status
+		var snapshot v20210701s.SubResource_Status
 		err = subResourceStatusStash.AssignPropertiesToSubResourceStatus(&snapshot)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field Snapshot from SubResource_StatusStash")
@@ -1511,7 +1511,7 @@ type ImageOSDisk struct {
 }
 
 // AssignPropertiesFromImageOSDisk populates our ImageOSDisk from the provided source ImageOSDisk
-func (disk *ImageOSDisk) AssignPropertiesFromImageOSDisk(source *v1beta20210701storage.ImageOSDisk) error {
+func (disk *ImageOSDisk) AssignPropertiesFromImageOSDisk(source *v20210701s.ImageOSDisk) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1523,7 +1523,7 @@ func (disk *ImageOSDisk) AssignPropertiesFromImageOSDisk(source *v1beta20210701s
 
 	// DiskEncryptionSet
 	if source.DiskEncryptionSet != nil {
-		var diskEncryptionSetParametersStash v1beta20201201storage.DiskEncryptionSetParameters
+		var diskEncryptionSetParametersStash v20201201s.DiskEncryptionSetParameters
 		err := diskEncryptionSetParametersStash.AssignPropertiesFromDiskEncryptionSetParameters(source.DiskEncryptionSet)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromDiskEncryptionSetParameters() to populate field DiskEncryptionSetParametersStash from DiskEncryptionSet")
@@ -1543,7 +1543,7 @@ func (disk *ImageOSDisk) AssignPropertiesFromImageOSDisk(source *v1beta20210701s
 
 	// ManagedDisk
 	if source.ManagedDisk != nil {
-		var subResourceStash v1beta20201201storage.SubResource
+		var subResourceStash v20201201s.SubResource
 		err := subResourceStash.AssignPropertiesFromSubResource(source.ManagedDisk)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field SubResourceStash from ManagedDisk")
@@ -1566,7 +1566,7 @@ func (disk *ImageOSDisk) AssignPropertiesFromImageOSDisk(source *v1beta20210701s
 
 	// Snapshot
 	if source.Snapshot != nil {
-		var subResourceStash v1beta20201201storage.SubResource
+		var subResourceStash v20201201s.SubResource
 		err := subResourceStash.AssignPropertiesFromSubResource(source.Snapshot)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field SubResourceStash from Snapshot")
@@ -1596,7 +1596,7 @@ func (disk *ImageOSDisk) AssignPropertiesFromImageOSDisk(source *v1beta20210701s
 }
 
 // AssignPropertiesToImageOSDisk populates the provided destination ImageOSDisk from our ImageOSDisk
-func (disk *ImageOSDisk) AssignPropertiesToImageOSDisk(destination *v1beta20210701storage.ImageOSDisk) error {
+func (disk *ImageOSDisk) AssignPropertiesToImageOSDisk(destination *v20210701s.ImageOSDisk) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(disk.PropertyBag)
 
@@ -1608,12 +1608,12 @@ func (disk *ImageOSDisk) AssignPropertiesToImageOSDisk(destination *v1beta202107
 
 	// DiskEncryptionSet
 	if disk.DiskEncryptionSet != nil {
-		var diskEncryptionSetParametersStash v1beta20201201storage.DiskEncryptionSetParameters
+		var diskEncryptionSetParametersStash v20201201s.DiskEncryptionSetParameters
 		err := disk.DiskEncryptionSet.AssignPropertiesToDiskEncryptionSetParameters(&diskEncryptionSetParametersStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToDiskEncryptionSetParameters() to populate field DiskEncryptionSetParametersStash from DiskEncryptionSet")
 		}
-		var diskEncryptionSet v1beta20210701storage.DiskEncryptionSetParameters
+		var diskEncryptionSet v20210701s.DiskEncryptionSetParameters
 		err = diskEncryptionSetParametersStash.AssignPropertiesToDiskEncryptionSetParameters(&diskEncryptionSet)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToDiskEncryptionSetParameters() to populate field DiskEncryptionSet from DiskEncryptionSetParametersStash")
@@ -1628,12 +1628,12 @@ func (disk *ImageOSDisk) AssignPropertiesToImageOSDisk(destination *v1beta202107
 
 	// ManagedDisk
 	if disk.ManagedDisk != nil {
-		var subResourceStash v1beta20201201storage.SubResource
+		var subResourceStash v20201201s.SubResource
 		err := disk.ManagedDisk.AssignPropertiesToSubResource(&subResourceStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field SubResourceStash from ManagedDisk")
 		}
-		var managedDisk v1beta20210701storage.SubResource
+		var managedDisk v20210701s.SubResource
 		err = subResourceStash.AssignPropertiesToSubResource(&managedDisk)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field ManagedDisk from SubResourceStash")
@@ -1651,12 +1651,12 @@ func (disk *ImageOSDisk) AssignPropertiesToImageOSDisk(destination *v1beta202107
 
 	// Snapshot
 	if disk.Snapshot != nil {
-		var subResourceStash v1beta20201201storage.SubResource
+		var subResourceStash v20201201s.SubResource
 		err := disk.Snapshot.AssignPropertiesToSubResource(&subResourceStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field SubResourceStash from Snapshot")
 		}
-		var snapshot v1beta20210701storage.SubResource
+		var snapshot v20210701s.SubResource
 		err = subResourceStash.AssignPropertiesToSubResource(&snapshot)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field Snapshot from SubResourceStash")
@@ -1696,7 +1696,7 @@ type ImageOSDisk_Status struct {
 }
 
 // AssignPropertiesFromImageOSDiskStatus populates our ImageOSDisk_Status from the provided source ImageOSDisk_Status
-func (disk *ImageOSDisk_Status) AssignPropertiesFromImageOSDiskStatus(source *v1beta20210701storage.ImageOSDisk_Status) error {
+func (disk *ImageOSDisk_Status) AssignPropertiesFromImageOSDiskStatus(source *v20210701s.ImageOSDisk_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1708,7 +1708,7 @@ func (disk *ImageOSDisk_Status) AssignPropertiesFromImageOSDiskStatus(source *v1
 
 	// DiskEncryptionSet
 	if source.DiskEncryptionSet != nil {
-		var subResourceStatusStash v1beta20201201storage.SubResource_Status
+		var subResourceStatusStash v20201201s.SubResource_Status
 		err := subResourceStatusStash.AssignPropertiesFromSubResourceStatus(source.DiskEncryptionSet)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field SubResource_StatusStash from DiskEncryptionSet")
@@ -1728,7 +1728,7 @@ func (disk *ImageOSDisk_Status) AssignPropertiesFromImageOSDiskStatus(source *v1
 
 	// ManagedDisk
 	if source.ManagedDisk != nil {
-		var subResourceStatusStash v1beta20201201storage.SubResource_Status
+		var subResourceStatusStash v20201201s.SubResource_Status
 		err := subResourceStatusStash.AssignPropertiesFromSubResourceStatus(source.ManagedDisk)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field SubResource_StatusStash from ManagedDisk")
@@ -1751,7 +1751,7 @@ func (disk *ImageOSDisk_Status) AssignPropertiesFromImageOSDiskStatus(source *v1
 
 	// Snapshot
 	if source.Snapshot != nil {
-		var subResourceStatusStash v1beta20201201storage.SubResource_Status
+		var subResourceStatusStash v20201201s.SubResource_Status
 		err := subResourceStatusStash.AssignPropertiesFromSubResourceStatus(source.Snapshot)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field SubResource_StatusStash from Snapshot")
@@ -1781,7 +1781,7 @@ func (disk *ImageOSDisk_Status) AssignPropertiesFromImageOSDiskStatus(source *v1
 }
 
 // AssignPropertiesToImageOSDiskStatus populates the provided destination ImageOSDisk_Status from our ImageOSDisk_Status
-func (disk *ImageOSDisk_Status) AssignPropertiesToImageOSDiskStatus(destination *v1beta20210701storage.ImageOSDisk_Status) error {
+func (disk *ImageOSDisk_Status) AssignPropertiesToImageOSDiskStatus(destination *v20210701s.ImageOSDisk_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(disk.PropertyBag)
 
@@ -1793,12 +1793,12 @@ func (disk *ImageOSDisk_Status) AssignPropertiesToImageOSDiskStatus(destination 
 
 	// DiskEncryptionSet
 	if disk.DiskEncryptionSet != nil {
-		var subResourceStatusStash v1beta20201201storage.SubResource_Status
+		var subResourceStatusStash v20201201s.SubResource_Status
 		err := disk.DiskEncryptionSet.AssignPropertiesToSubResourceStatus(&subResourceStatusStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field SubResource_StatusStash from DiskEncryptionSet")
 		}
-		var diskEncryptionSet v1beta20210701storage.SubResource_Status
+		var diskEncryptionSet v20210701s.SubResource_Status
 		err = subResourceStatusStash.AssignPropertiesToSubResourceStatus(&diskEncryptionSet)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field DiskEncryptionSet from SubResource_StatusStash")
@@ -1813,12 +1813,12 @@ func (disk *ImageOSDisk_Status) AssignPropertiesToImageOSDiskStatus(destination 
 
 	// ManagedDisk
 	if disk.ManagedDisk != nil {
-		var subResourceStatusStash v1beta20201201storage.SubResource_Status
+		var subResourceStatusStash v20201201s.SubResource_Status
 		err := disk.ManagedDisk.AssignPropertiesToSubResourceStatus(&subResourceStatusStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field SubResource_StatusStash from ManagedDisk")
 		}
-		var managedDisk v1beta20210701storage.SubResource_Status
+		var managedDisk v20210701s.SubResource_Status
 		err = subResourceStatusStash.AssignPropertiesToSubResourceStatus(&managedDisk)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field ManagedDisk from SubResource_StatusStash")
@@ -1836,12 +1836,12 @@ func (disk *ImageOSDisk_Status) AssignPropertiesToImageOSDiskStatus(destination 
 
 	// Snapshot
 	if disk.Snapshot != nil {
-		var subResourceStatusStash v1beta20201201storage.SubResource_Status
+		var subResourceStatusStash v20201201s.SubResource_Status
 		err := disk.Snapshot.AssignPropertiesToSubResourceStatus(&subResourceStatusStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field SubResource_StatusStash from Snapshot")
 		}
-		var snapshot v1beta20210701storage.SubResource_Status
+		var snapshot v20210701s.SubResource_Status
 		err = subResourceStatusStash.AssignPropertiesToSubResourceStatus(&snapshot)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field Snapshot from SubResource_StatusStash")
@@ -1873,7 +1873,7 @@ type DiskEncryptionSetParameters struct {
 }
 
 // AssignPropertiesFromDiskEncryptionSetParameters populates our DiskEncryptionSetParameters from the provided source DiskEncryptionSetParameters
-func (parameters *DiskEncryptionSetParameters) AssignPropertiesFromDiskEncryptionSetParameters(source *v1beta20201201storage.DiskEncryptionSetParameters) error {
+func (parameters *DiskEncryptionSetParameters) AssignPropertiesFromDiskEncryptionSetParameters(source *v20201201s.DiskEncryptionSetParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1897,7 +1897,7 @@ func (parameters *DiskEncryptionSetParameters) AssignPropertiesFromDiskEncryptio
 }
 
 // AssignPropertiesToDiskEncryptionSetParameters populates the provided destination DiskEncryptionSetParameters from our DiskEncryptionSetParameters
-func (parameters *DiskEncryptionSetParameters) AssignPropertiesToDiskEncryptionSetParameters(destination *v1beta20201201storage.DiskEncryptionSetParameters) error {
+func (parameters *DiskEncryptionSetParameters) AssignPropertiesToDiskEncryptionSetParameters(destination *v20201201s.DiskEncryptionSetParameters) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
 

@@ -6,7 +6,7 @@
 -import metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 +import (
 +	"fmt"
-+	person "github.com/Azure/azure-service-operator/testing/person/v20211231"
++	v20211231 "github.com/Azure/azure-service-operator/testing/person/v20211231"
 +	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 +	"sigs.k8s.io/controller-runtime/pkg/conversion"
 +)
@@ -22,7 +22,7 @@
  
 +// ConvertFrom populates our Person from the provided hub Person
 +func (person *Person) ConvertFrom(hub conversion.Hub) error {
-+	source, ok := hub.(*person.Person)
++	source, ok := hub.(*v20211231.Person)
 +	if !ok {
 +		return fmt.Errorf("expected person/v20211231/Person but received %T instead", hub)
 +	}
@@ -32,7 +32,7 @@
 +
 +// ConvertTo populates the provided hub Person from our Person
 +func (person *Person) ConvertTo(hub conversion.Hub) error {
-+	destination, ok := hub.(*person.Person)
++	destination, ok := hub.(*v20211231.Person)
 +	if !ok {
 +		return fmt.Errorf("expected person/v20211231/Person but received %T instead", hub)
 +	}

@@ -5,7 +5,7 @@ package v1alpha1api20200601storage
 
 import (
 	"encoding/json"
-	"github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601storage"
+	v20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -35,7 +35,7 @@ func RunResourceConversionTestForEventSubscription(subject EventSubscription) st
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1beta20200601storage.EventSubscription
+	var hub v20200601s.EventSubscription
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -77,7 +77,7 @@ func RunPropertyAssignmentTestForEventSubscription(subject EventSubscription) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200601storage.EventSubscription
+	var other v20200601s.EventSubscription
 	err := copied.AssignPropertiesToEventSubscription(&other)
 	if err != nil {
 		return err.Error()
@@ -179,7 +179,7 @@ func RunPropertyAssignmentTestForEventSubscriptionStatus(subject EventSubscripti
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200601storage.EventSubscription_Status
+	var other v20200601s.EventSubscription_Status
 	err := copied.AssignPropertiesToEventSubscriptionStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -306,7 +306,7 @@ func RunPropertyAssignmentTestForEventSubscriptionsSpec(subject EventSubscriptio
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200601storage.EventSubscriptions_Spec
+	var other v20200601s.EventSubscriptions_Spec
 	err := copied.AssignPropertiesToEventSubscriptionsSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -431,7 +431,7 @@ func RunPropertyAssignmentTestForDeadLetterDestinationStatus(subject DeadLetterD
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200601storage.DeadLetterDestination_Status
+	var other v20200601s.DeadLetterDestination_Status
 	err := copied.AssignPropertiesToDeadLetterDestinationStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -533,7 +533,7 @@ func RunPropertyAssignmentTestForEventSubscriptionDestination(subject EventSubsc
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200601storage.EventSubscriptionDestination
+	var other v20200601s.EventSubscriptionDestination
 	err := copied.AssignPropertiesToEventSubscriptionDestination(&other)
 	if err != nil {
 		return err.Error()
@@ -663,7 +663,7 @@ func RunPropertyAssignmentTestForEventSubscriptionDestinationStatus(subject Even
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200601storage.EventSubscriptionDestination_Status
+	var other v20200601s.EventSubscriptionDestination_Status
 	err := copied.AssignPropertiesToEventSubscriptionDestinationStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -765,7 +765,7 @@ func RunPropertyAssignmentTestForEventSubscriptionFilter(subject EventSubscripti
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200601storage.EventSubscriptionFilter
+	var other v20200601s.EventSubscriptionFilter
 	err := copied.AssignPropertiesToEventSubscriptionFilter(&other)
 	if err != nil {
 		return err.Error()
@@ -884,7 +884,7 @@ func RunPropertyAssignmentTestForEventSubscriptionFilterStatus(subject EventSubs
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200601storage.EventSubscriptionFilter_Status
+	var other v20200601s.EventSubscriptionFilter_Status
 	err := copied.AssignPropertiesToEventSubscriptionFilterStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -1003,7 +1003,7 @@ func RunPropertyAssignmentTestForRetryPolicy(subject RetryPolicy) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200601storage.RetryPolicy
+	var other v20200601s.RetryPolicy
 	err := copied.AssignPropertiesToRetryPolicy(&other)
 	if err != nil {
 		return err.Error()
@@ -1105,7 +1105,7 @@ func RunPropertyAssignmentTestForRetryPolicyStatus(subject RetryPolicy_Status) s
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200601storage.RetryPolicy_Status
+	var other v20200601s.RetryPolicy_Status
 	err := copied.AssignPropertiesToRetryPolicyStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -1207,7 +1207,7 @@ func RunPropertyAssignmentTestForStorageBlobDeadLetterDestination(subject Storag
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200601storage.StorageBlobDeadLetterDestination
+	var other v20200601s.StorageBlobDeadLetterDestination
 	err := copied.AssignPropertiesToStorageBlobDeadLetterDestination(&other)
 	if err != nil {
 		return err.Error()
@@ -1323,7 +1323,7 @@ func RunPropertyAssignmentTestForAdvancedFilter(subject AdvancedFilter) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200601storage.AdvancedFilter
+	var other v20200601s.AdvancedFilter
 	err := copied.AssignPropertiesToAdvancedFilter(&other)
 	if err != nil {
 		return err.Error()
@@ -1467,7 +1467,7 @@ func RunPropertyAssignmentTestForAdvancedFilterStatus(subject AdvancedFilter_Sta
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200601storage.AdvancedFilter_Status
+	var other v20200601s.AdvancedFilter_Status
 	err := copied.AssignPropertiesToAdvancedFilterStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -1570,7 +1570,7 @@ func RunPropertyAssignmentTestForAzureFunctionEventSubscriptionDestination(subje
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200601storage.AzureFunctionEventSubscriptionDestination
+	var other v20200601s.AzureFunctionEventSubscriptionDestination
 	err := copied.AssignPropertiesToAzureFunctionEventSubscriptionDestination(&other)
 	if err != nil {
 		return err.Error()
@@ -1686,7 +1686,7 @@ func RunPropertyAssignmentTestForEventHubEventSubscriptionDestination(subject Ev
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200601storage.EventHubEventSubscriptionDestination
+	var other v20200601s.EventHubEventSubscriptionDestination
 	err := copied.AssignPropertiesToEventHubEventSubscriptionDestination(&other)
 	if err != nil {
 		return err.Error()
@@ -1802,7 +1802,7 @@ func RunPropertyAssignmentTestForHybridConnectionEventSubscriptionDestination(su
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200601storage.HybridConnectionEventSubscriptionDestination
+	var other v20200601s.HybridConnectionEventSubscriptionDestination
 	err := copied.AssignPropertiesToHybridConnectionEventSubscriptionDestination(&other)
 	if err != nil {
 		return err.Error()
@@ -1918,7 +1918,7 @@ func RunPropertyAssignmentTestForServiceBusQueueEventSubscriptionDestination(sub
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200601storage.ServiceBusQueueEventSubscriptionDestination
+	var other v20200601s.ServiceBusQueueEventSubscriptionDestination
 	err := copied.AssignPropertiesToServiceBusQueueEventSubscriptionDestination(&other)
 	if err != nil {
 		return err.Error()
@@ -2034,7 +2034,7 @@ func RunPropertyAssignmentTestForServiceBusTopicEventSubscriptionDestination(sub
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200601storage.ServiceBusTopicEventSubscriptionDestination
+	var other v20200601s.ServiceBusTopicEventSubscriptionDestination
 	err := copied.AssignPropertiesToServiceBusTopicEventSubscriptionDestination(&other)
 	if err != nil {
 		return err.Error()
@@ -2150,7 +2150,7 @@ func RunPropertyAssignmentTestForStorageBlobDeadLetterDestinationProperties(subj
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200601storage.StorageBlobDeadLetterDestinationProperties
+	var other v20200601s.StorageBlobDeadLetterDestinationProperties
 	err := copied.AssignPropertiesToStorageBlobDeadLetterDestinationProperties(&other)
 	if err != nil {
 		return err.Error()
@@ -2252,7 +2252,7 @@ func RunPropertyAssignmentTestForStorageQueueEventSubscriptionDestination(subjec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200601storage.StorageQueueEventSubscriptionDestination
+	var other v20200601s.StorageQueueEventSubscriptionDestination
 	err := copied.AssignPropertiesToStorageQueueEventSubscriptionDestination(&other)
 	if err != nil {
 		return err.Error()
@@ -2368,7 +2368,7 @@ func RunPropertyAssignmentTestForWebHookEventSubscriptionDestination(subject Web
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200601storage.WebHookEventSubscriptionDestination
+	var other v20200601s.WebHookEventSubscriptionDestination
 	err := copied.AssignPropertiesToWebHookEventSubscriptionDestination(&other)
 	if err != nil {
 		return err.Error()
@@ -2484,7 +2484,7 @@ func RunPropertyAssignmentTestForAdvancedFilterBoolEquals(subject AdvancedFilter
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200601storage.AdvancedFilter_BoolEquals
+	var other v20200601s.AdvancedFilter_BoolEquals
 	err := copied.AssignPropertiesToAdvancedFilterBoolEquals(&other)
 	if err != nil {
 		return err.Error()
@@ -2588,7 +2588,7 @@ func RunPropertyAssignmentTestForAdvancedFilterNumberGreaterThan(subject Advance
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200601storage.AdvancedFilter_NumberGreaterThan
+	var other v20200601s.AdvancedFilter_NumberGreaterThan
 	err := copied.AssignPropertiesToAdvancedFilterNumberGreaterThan(&other)
 	if err != nil {
 		return err.Error()
@@ -2692,7 +2692,7 @@ func RunPropertyAssignmentTestForAdvancedFilterNumberGreaterThanOrEquals(subject
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200601storage.AdvancedFilter_NumberGreaterThanOrEquals
+	var other v20200601s.AdvancedFilter_NumberGreaterThanOrEquals
 	err := copied.AssignPropertiesToAdvancedFilterNumberGreaterThanOrEquals(&other)
 	if err != nil {
 		return err.Error()
@@ -2796,7 +2796,7 @@ func RunPropertyAssignmentTestForAdvancedFilterNumberIn(subject AdvancedFilter_N
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200601storage.AdvancedFilter_NumberIn
+	var other v20200601s.AdvancedFilter_NumberIn
 	err := copied.AssignPropertiesToAdvancedFilterNumberIn(&other)
 	if err != nil {
 		return err.Error()
@@ -2900,7 +2900,7 @@ func RunPropertyAssignmentTestForAdvancedFilterNumberLessThan(subject AdvancedFi
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200601storage.AdvancedFilter_NumberLessThan
+	var other v20200601s.AdvancedFilter_NumberLessThan
 	err := copied.AssignPropertiesToAdvancedFilterNumberLessThan(&other)
 	if err != nil {
 		return err.Error()
@@ -3004,7 +3004,7 @@ func RunPropertyAssignmentTestForAdvancedFilterNumberLessThanOrEquals(subject Ad
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200601storage.AdvancedFilter_NumberLessThanOrEquals
+	var other v20200601s.AdvancedFilter_NumberLessThanOrEquals
 	err := copied.AssignPropertiesToAdvancedFilterNumberLessThanOrEquals(&other)
 	if err != nil {
 		return err.Error()
@@ -3108,7 +3108,7 @@ func RunPropertyAssignmentTestForAdvancedFilterNumberNotIn(subject AdvancedFilte
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200601storage.AdvancedFilter_NumberNotIn
+	var other v20200601s.AdvancedFilter_NumberNotIn
 	err := copied.AssignPropertiesToAdvancedFilterNumberNotIn(&other)
 	if err != nil {
 		return err.Error()
@@ -3212,7 +3212,7 @@ func RunPropertyAssignmentTestForAdvancedFilterStringBeginsWith(subject Advanced
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200601storage.AdvancedFilter_StringBeginsWith
+	var other v20200601s.AdvancedFilter_StringBeginsWith
 	err := copied.AssignPropertiesToAdvancedFilterStringBeginsWith(&other)
 	if err != nil {
 		return err.Error()
@@ -3316,7 +3316,7 @@ func RunPropertyAssignmentTestForAdvancedFilterStringContains(subject AdvancedFi
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200601storage.AdvancedFilter_StringContains
+	var other v20200601s.AdvancedFilter_StringContains
 	err := copied.AssignPropertiesToAdvancedFilterStringContains(&other)
 	if err != nil {
 		return err.Error()
@@ -3420,7 +3420,7 @@ func RunPropertyAssignmentTestForAdvancedFilterStringEndsWith(subject AdvancedFi
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200601storage.AdvancedFilter_StringEndsWith
+	var other v20200601s.AdvancedFilter_StringEndsWith
 	err := copied.AssignPropertiesToAdvancedFilterStringEndsWith(&other)
 	if err != nil {
 		return err.Error()
@@ -3524,7 +3524,7 @@ func RunPropertyAssignmentTestForAdvancedFilterStringIn(subject AdvancedFilter_S
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200601storage.AdvancedFilter_StringIn
+	var other v20200601s.AdvancedFilter_StringIn
 	err := copied.AssignPropertiesToAdvancedFilterStringIn(&other)
 	if err != nil {
 		return err.Error()
@@ -3628,7 +3628,7 @@ func RunPropertyAssignmentTestForAdvancedFilterStringNotIn(subject AdvancedFilte
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200601storage.AdvancedFilter_StringNotIn
+	var other v20200601s.AdvancedFilter_StringNotIn
 	err := copied.AssignPropertiesToAdvancedFilterStringNotIn(&other)
 	if err != nil {
 		return err.Error()
@@ -3732,7 +3732,7 @@ func RunPropertyAssignmentTestForAzureFunctionEventSubscriptionDestinationProper
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200601storage.AzureFunctionEventSubscriptionDestinationProperties
+	var other v20200601s.AzureFunctionEventSubscriptionDestinationProperties
 	err := copied.AssignPropertiesToAzureFunctionEventSubscriptionDestinationProperties(&other)
 	if err != nil {
 		return err.Error()
@@ -3835,7 +3835,7 @@ func RunPropertyAssignmentTestForEventHubEventSubscriptionDestinationProperties(
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200601storage.EventHubEventSubscriptionDestinationProperties
+	var other v20200601s.EventHubEventSubscriptionDestinationProperties
 	err := copied.AssignPropertiesToEventHubEventSubscriptionDestinationProperties(&other)
 	if err != nil {
 		return err.Error()
@@ -3931,7 +3931,7 @@ func RunPropertyAssignmentTestForHybridConnectionEventSubscriptionDestinationPro
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200601storage.HybridConnectionEventSubscriptionDestinationProperties
+	var other v20200601s.HybridConnectionEventSubscriptionDestinationProperties
 	err := copied.AssignPropertiesToHybridConnectionEventSubscriptionDestinationProperties(&other)
 	if err != nil {
 		return err.Error()
@@ -4027,7 +4027,7 @@ func RunPropertyAssignmentTestForServiceBusQueueEventSubscriptionDestinationProp
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200601storage.ServiceBusQueueEventSubscriptionDestinationProperties
+	var other v20200601s.ServiceBusQueueEventSubscriptionDestinationProperties
 	err := copied.AssignPropertiesToServiceBusQueueEventSubscriptionDestinationProperties(&other)
 	if err != nil {
 		return err.Error()
@@ -4123,7 +4123,7 @@ func RunPropertyAssignmentTestForServiceBusTopicEventSubscriptionDestinationProp
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200601storage.ServiceBusTopicEventSubscriptionDestinationProperties
+	var other v20200601s.ServiceBusTopicEventSubscriptionDestinationProperties
 	err := copied.AssignPropertiesToServiceBusTopicEventSubscriptionDestinationProperties(&other)
 	if err != nil {
 		return err.Error()
@@ -4219,7 +4219,7 @@ func RunPropertyAssignmentTestForStorageQueueEventSubscriptionDestinationPropert
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200601storage.StorageQueueEventSubscriptionDestinationProperties
+	var other v20200601s.StorageQueueEventSubscriptionDestinationProperties
 	err := copied.AssignPropertiesToStorageQueueEventSubscriptionDestinationProperties(&other)
 	if err != nil {
 		return err.Error()
@@ -4321,7 +4321,7 @@ func RunPropertyAssignmentTestForWebHookEventSubscriptionDestinationProperties(s
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200601storage.WebHookEventSubscriptionDestinationProperties
+	var other v20200601s.WebHookEventSubscriptionDestinationProperties
 	err := copied.AssignPropertiesToWebHookEventSubscriptionDestinationProperties(&other)
 	if err != nil {
 		return err.Error()

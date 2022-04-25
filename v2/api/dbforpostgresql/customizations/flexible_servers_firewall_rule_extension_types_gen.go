@@ -4,10 +4,10 @@
 package customizations
 
 import (
-	dbforpostgresqlv1alpha1api20210601 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1alpha1api20210601"
-	"github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1alpha1api20210601storage"
-	dbforpostgresqlv1beta20210601 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1beta20210601"
-	"github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1beta20210601storage"
+	alpha20210601 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1alpha1api20210601"
+	alpha20210601s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1alpha1api20210601storage"
+	v20210601 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1beta20210601"
+	v20210601s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1beta20210601storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -17,8 +17,8 @@ type FlexibleServersFirewallRuleExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *FlexibleServersFirewallRuleExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&dbforpostgresqlv1alpha1api20210601.FlexibleServersFirewallRule{},
-		&v1alpha1api20210601storage.FlexibleServersFirewallRule{},
-		&dbforpostgresqlv1beta20210601.FlexibleServersFirewallRule{},
-		&v1beta20210601storage.FlexibleServersFirewallRule{}}
+		&alpha20210601.FlexibleServersFirewallRule{},
+		&alpha20210601s.FlexibleServersFirewallRule{},
+		&v20210601.FlexibleServersFirewallRule{},
+		&v20210601s.FlexibleServersFirewallRule{}}
 }

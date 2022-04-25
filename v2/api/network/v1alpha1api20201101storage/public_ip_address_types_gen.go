@@ -5,7 +5,7 @@ package v1alpha1api20201101storage
 
 import (
 	"fmt"
-	"github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage"
+	v20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
@@ -45,7 +45,7 @@ var _ conversion.Convertible = &PublicIPAddress{}
 
 // ConvertFrom populates our PublicIPAddress from the provided hub PublicIPAddress
 func (address *PublicIPAddress) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1beta20201101storage.PublicIPAddress)
+	source, ok := hub.(*v20201101s.PublicIPAddress)
 	if !ok {
 		return fmt.Errorf("expected network/v1beta20201101storage/PublicIPAddress but received %T instead", hub)
 	}
@@ -55,7 +55,7 @@ func (address *PublicIPAddress) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub PublicIPAddress from our PublicIPAddress
 func (address *PublicIPAddress) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1beta20201101storage.PublicIPAddress)
+	destination, ok := hub.(*v20201101s.PublicIPAddress)
 	if !ok {
 		return fmt.Errorf("expected network/v1beta20201101storage/PublicIPAddress but received %T instead", hub)
 	}
@@ -130,7 +130,7 @@ func (address *PublicIPAddress) SetStatus(status genruntime.ConvertibleStatus) e
 }
 
 // AssignPropertiesFromPublicIPAddress populates our PublicIPAddress from the provided source PublicIPAddress
-func (address *PublicIPAddress) AssignPropertiesFromPublicIPAddress(source *v1beta20201101storage.PublicIPAddress) error {
+func (address *PublicIPAddress) AssignPropertiesFromPublicIPAddress(source *v20201101s.PublicIPAddress) error {
 
 	// ObjectMeta
 	address.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -156,13 +156,13 @@ func (address *PublicIPAddress) AssignPropertiesFromPublicIPAddress(source *v1be
 }
 
 // AssignPropertiesToPublicIPAddress populates the provided destination PublicIPAddress from our PublicIPAddress
-func (address *PublicIPAddress) AssignPropertiesToPublicIPAddress(destination *v1beta20201101storage.PublicIPAddress) error {
+func (address *PublicIPAddress) AssignPropertiesToPublicIPAddress(destination *v20201101s.PublicIPAddress) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *address.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1beta20201101storage.PublicIPAddresses_Spec
+	var spec v20201101s.PublicIPAddresses_Spec
 	err := address.Spec.AssignPropertiesToPublicIPAddressesSpec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToPublicIPAddressesSpec() to populate field Spec")
@@ -170,7 +170,7 @@ func (address *PublicIPAddress) AssignPropertiesToPublicIPAddress(destination *v
 	destination.Spec = spec
 
 	// Status
-	var status v1beta20201101storage.PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded
+	var status v20201101s.PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded
 	err = address.Status.AssignPropertiesToPublicIPAddressStatusPublicIPAddressSubResourceEmbedded(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToPublicIPAddressStatusPublicIPAddressSubResourceEmbedded() to populate field Status")
@@ -232,14 +232,14 @@ var _ genruntime.ConvertibleStatus = &PublicIPAddress_Status_PublicIPAddress_Sub
 
 // ConvertStatusFrom populates our PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded from the provided source
 func (embedded *PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v1beta20201101storage.PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded)
+	src, ok := source.(*v20201101s.PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded)
 	if ok {
 		// Populate our instance from source
 		return embedded.AssignPropertiesFromPublicIPAddressStatusPublicIPAddressSubResourceEmbedded(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1beta20201101storage.PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded{}
+	src = &v20201101s.PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -256,14 +256,14 @@ func (embedded *PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded) Conv
 
 // ConvertStatusTo populates the provided destination from our PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded
 func (embedded *PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v1beta20201101storage.PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded)
+	dst, ok := destination.(*v20201101s.PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded)
 	if ok {
 		// Populate destination from our instance
 		return embedded.AssignPropertiesToPublicIPAddressStatusPublicIPAddressSubResourceEmbedded(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1beta20201101storage.PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded{}
+	dst = &v20201101s.PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded{}
 	err := embedded.AssignPropertiesToPublicIPAddressStatusPublicIPAddressSubResourceEmbedded(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -279,7 +279,7 @@ func (embedded *PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded) Conv
 }
 
 // AssignPropertiesFromPublicIPAddressStatusPublicIPAddressSubResourceEmbedded populates our PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded from the provided source PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded
-func (embedded *PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded) AssignPropertiesFromPublicIPAddressStatusPublicIPAddressSubResourceEmbedded(source *v1beta20201101storage.PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded) error {
+func (embedded *PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded) AssignPropertiesFromPublicIPAddressStatusPublicIPAddressSubResourceEmbedded(source *v20201101s.PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -442,7 +442,7 @@ func (embedded *PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded) Assi
 }
 
 // AssignPropertiesToPublicIPAddressStatusPublicIPAddressSubResourceEmbedded populates the provided destination PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded from our PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded
-func (embedded *PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded) AssignPropertiesToPublicIPAddressStatusPublicIPAddressSubResourceEmbedded(destination *v1beta20201101storage.PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded) error {
+func (embedded *PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded) AssignPropertiesToPublicIPAddressStatusPublicIPAddressSubResourceEmbedded(destination *v20201101s.PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(embedded.PropertyBag)
 
@@ -451,7 +451,7 @@ func (embedded *PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded) Assi
 
 	// DdosSettings
 	if embedded.DdosSettings != nil {
-		var ddosSetting v1beta20201101storage.DdosSettings_Status
+		var ddosSetting v20201101s.DdosSettings_Status
 		err := embedded.DdosSettings.AssignPropertiesToDdosSettingsStatus(&ddosSetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToDdosSettingsStatus() to populate field DdosSettings")
@@ -463,7 +463,7 @@ func (embedded *PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded) Assi
 
 	// DnsSettings
 	if embedded.DnsSettings != nil {
-		var dnsSetting v1beta20201101storage.PublicIPAddressDnsSettings_Status
+		var dnsSetting v20201101s.PublicIPAddressDnsSettings_Status
 		err := embedded.DnsSettings.AssignPropertiesToPublicIPAddressDnsSettingsStatus(&dnsSetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToPublicIPAddressDnsSettingsStatus() to populate field DnsSettings")
@@ -478,7 +478,7 @@ func (embedded *PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded) Assi
 
 	// ExtendedLocation
 	if embedded.ExtendedLocation != nil {
-		var extendedLocation v1beta20201101storage.ExtendedLocation_Status
+		var extendedLocation v20201101s.ExtendedLocation_Status
 		err := embedded.ExtendedLocation.AssignPropertiesToExtendedLocationStatus(&extendedLocation)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocationStatus() to populate field ExtendedLocation")
@@ -499,7 +499,7 @@ func (embedded *PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded) Assi
 
 	// IpConfiguration
 	if embedded.IpConfiguration != nil {
-		var ipConfiguration v1beta20201101storage.IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded
+		var ipConfiguration v20201101s.IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded
 		err := embedded.IpConfiguration.AssignPropertiesToIPConfigurationStatusPublicIPAddressSubResourceEmbedded(&ipConfiguration)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToIPConfigurationStatusPublicIPAddressSubResourceEmbedded() to populate field IpConfiguration")
@@ -511,11 +511,11 @@ func (embedded *PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded) Assi
 
 	// IpTags
 	if embedded.IpTags != nil {
-		ipTagList := make([]v1beta20201101storage.IpTag_Status, len(embedded.IpTags))
+		ipTagList := make([]v20201101s.IpTag_Status, len(embedded.IpTags))
 		for ipTagIndex, ipTagItem := range embedded.IpTags {
 			// Shadow the loop variable to avoid aliasing
 			ipTagItem := ipTagItem
-			var ipTag v1beta20201101storage.IpTag_Status
+			var ipTag v20201101s.IpTag_Status
 			err := ipTagItem.AssignPropertiesToIpTagStatus(&ipTag)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToIpTagStatus() to populate field IpTags")
@@ -538,7 +538,7 @@ func (embedded *PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded) Assi
 
 	// NatGateway
 	if embedded.NatGateway != nil {
-		var natGateway v1beta20201101storage.NatGateway_Status_PublicIPAddress_SubResourceEmbedded
+		var natGateway v20201101s.NatGateway_Status_PublicIPAddress_SubResourceEmbedded
 		err := embedded.NatGateway.AssignPropertiesToNatGatewayStatusPublicIPAddressSubResourceEmbedded(&natGateway)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToNatGatewayStatusPublicIPAddressSubResourceEmbedded() to populate field NatGateway")
@@ -559,7 +559,7 @@ func (embedded *PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded) Assi
 
 	// PublicIPPrefix
 	if embedded.PublicIPPrefix != nil {
-		var publicIPPrefix v1beta20201101storage.SubResource_Status
+		var publicIPPrefix v20201101s.SubResource_Status
 		err := embedded.PublicIPPrefix.AssignPropertiesToSubResourceStatus(&publicIPPrefix)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field PublicIPPrefix")
@@ -574,7 +574,7 @@ func (embedded *PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded) Assi
 
 	// Sku
 	if embedded.Sku != nil {
-		var sku v1beta20201101storage.PublicIPAddressSku_Status
+		var sku v20201101s.PublicIPAddressSku_Status
 		err := embedded.Sku.AssignPropertiesToPublicIPAddressSkuStatus(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToPublicIPAddressSkuStatus() to populate field Sku")
@@ -636,14 +636,14 @@ var _ genruntime.ConvertibleSpec = &PublicIPAddresses_Spec{}
 
 // ConvertSpecFrom populates our PublicIPAddresses_Spec from the provided source
 func (addresses *PublicIPAddresses_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1beta20201101storage.PublicIPAddresses_Spec)
+	src, ok := source.(*v20201101s.PublicIPAddresses_Spec)
 	if ok {
 		// Populate our instance from source
 		return addresses.AssignPropertiesFromPublicIPAddressesSpec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1beta20201101storage.PublicIPAddresses_Spec{}
+	src = &v20201101s.PublicIPAddresses_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -660,14 +660,14 @@ func (addresses *PublicIPAddresses_Spec) ConvertSpecFrom(source genruntime.Conve
 
 // ConvertSpecTo populates the provided destination from our PublicIPAddresses_Spec
 func (addresses *PublicIPAddresses_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1beta20201101storage.PublicIPAddresses_Spec)
+	dst, ok := destination.(*v20201101s.PublicIPAddresses_Spec)
 	if ok {
 		// Populate destination from our instance
 		return addresses.AssignPropertiesToPublicIPAddressesSpec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1beta20201101storage.PublicIPAddresses_Spec{}
+	dst = &v20201101s.PublicIPAddresses_Spec{}
 	err := addresses.AssignPropertiesToPublicIPAddressesSpec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -683,7 +683,7 @@ func (addresses *PublicIPAddresses_Spec) ConvertSpecTo(destination genruntime.Co
 }
 
 // AssignPropertiesFromPublicIPAddressesSpec populates our PublicIPAddresses_Spec from the provided source PublicIPAddresses_Spec
-func (addresses *PublicIPAddresses_Spec) AssignPropertiesFromPublicIPAddressesSpec(source *v1beta20201101storage.PublicIPAddresses_Spec) error {
+func (addresses *PublicIPAddresses_Spec) AssignPropertiesFromPublicIPAddressesSpec(source *v20201101s.PublicIPAddresses_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -812,7 +812,7 @@ func (addresses *PublicIPAddresses_Spec) AssignPropertiesFromPublicIPAddressesSp
 }
 
 // AssignPropertiesToPublicIPAddressesSpec populates the provided destination PublicIPAddresses_Spec from our PublicIPAddresses_Spec
-func (addresses *PublicIPAddresses_Spec) AssignPropertiesToPublicIPAddressesSpec(destination *v1beta20201101storage.PublicIPAddresses_Spec) error {
+func (addresses *PublicIPAddresses_Spec) AssignPropertiesToPublicIPAddressesSpec(destination *v20201101s.PublicIPAddresses_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(addresses.PropertyBag)
 
@@ -821,7 +821,7 @@ func (addresses *PublicIPAddresses_Spec) AssignPropertiesToPublicIPAddressesSpec
 
 	// DdosSettings
 	if addresses.DdosSettings != nil {
-		var ddosSetting v1beta20201101storage.DdosSettings
+		var ddosSetting v20201101s.DdosSettings
 		err := addresses.DdosSettings.AssignPropertiesToDdosSettings(&ddosSetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToDdosSettings() to populate field DdosSettings")
@@ -833,7 +833,7 @@ func (addresses *PublicIPAddresses_Spec) AssignPropertiesToPublicIPAddressesSpec
 
 	// DnsSettings
 	if addresses.DnsSettings != nil {
-		var dnsSetting v1beta20201101storage.PublicIPAddressDnsSettings
+		var dnsSetting v20201101s.PublicIPAddressDnsSettings
 		err := addresses.DnsSettings.AssignPropertiesToPublicIPAddressDnsSettings(&dnsSetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToPublicIPAddressDnsSettings() to populate field DnsSettings")
@@ -845,7 +845,7 @@ func (addresses *PublicIPAddresses_Spec) AssignPropertiesToPublicIPAddressesSpec
 
 	// ExtendedLocation
 	if addresses.ExtendedLocation != nil {
-		var extendedLocation v1beta20201101storage.ExtendedLocation
+		var extendedLocation v20201101s.ExtendedLocation
 		err := addresses.ExtendedLocation.AssignPropertiesToExtendedLocation(&extendedLocation)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocation() to populate field ExtendedLocation")
@@ -863,11 +863,11 @@ func (addresses *PublicIPAddresses_Spec) AssignPropertiesToPublicIPAddressesSpec
 
 	// IpTags
 	if addresses.IpTags != nil {
-		ipTagList := make([]v1beta20201101storage.IpTag, len(addresses.IpTags))
+		ipTagList := make([]v20201101s.IpTag, len(addresses.IpTags))
 		for ipTagIndex, ipTagItem := range addresses.IpTags {
 			// Shadow the loop variable to avoid aliasing
 			ipTagItem := ipTagItem
-			var ipTag v1beta20201101storage.IpTag
+			var ipTag v20201101s.IpTag
 			err := ipTagItem.AssignPropertiesToIpTag(&ipTag)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToIpTag() to populate field IpTags")
@@ -901,7 +901,7 @@ func (addresses *PublicIPAddresses_Spec) AssignPropertiesToPublicIPAddressesSpec
 
 	// PublicIPPrefix
 	if addresses.PublicIPPrefix != nil {
-		var publicIPPrefix v1beta20201101storage.SubResource
+		var publicIPPrefix v20201101s.SubResource
 		err := addresses.PublicIPPrefix.AssignPropertiesToSubResource(&publicIPPrefix)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field PublicIPPrefix")
@@ -913,7 +913,7 @@ func (addresses *PublicIPAddresses_Spec) AssignPropertiesToPublicIPAddressesSpec
 
 	// Sku
 	if addresses.Sku != nil {
-		var sku v1beta20201101storage.PublicIPAddressSku
+		var sku v20201101s.PublicIPAddressSku
 		err := addresses.Sku.AssignPropertiesToPublicIPAddressSku(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToPublicIPAddressSku() to populate field Sku")
@@ -950,7 +950,7 @@ type DdosSettings struct {
 }
 
 // AssignPropertiesFromDdosSettings populates our DdosSettings from the provided source DdosSettings
-func (settings *DdosSettings) AssignPropertiesFromDdosSettings(source *v1beta20201101storage.DdosSettings) error {
+func (settings *DdosSettings) AssignPropertiesFromDdosSettings(source *v20201101s.DdosSettings) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -989,13 +989,13 @@ func (settings *DdosSettings) AssignPropertiesFromDdosSettings(source *v1beta202
 }
 
 // AssignPropertiesToDdosSettings populates the provided destination DdosSettings from our DdosSettings
-func (settings *DdosSettings) AssignPropertiesToDdosSettings(destination *v1beta20201101storage.DdosSettings) error {
+func (settings *DdosSettings) AssignPropertiesToDdosSettings(destination *v20201101s.DdosSettings) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(settings.PropertyBag)
 
 	// DdosCustomPolicy
 	if settings.DdosCustomPolicy != nil {
-		var ddosCustomPolicy v1beta20201101storage.SubResource
+		var ddosCustomPolicy v20201101s.SubResource
 		err := settings.DdosCustomPolicy.AssignPropertiesToSubResource(&ddosCustomPolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field DdosCustomPolicy")
@@ -1037,7 +1037,7 @@ type DdosSettings_Status struct {
 }
 
 // AssignPropertiesFromDdosSettingsStatus populates our DdosSettings_Status from the provided source DdosSettings_Status
-func (settings *DdosSettings_Status) AssignPropertiesFromDdosSettingsStatus(source *v1beta20201101storage.DdosSettings_Status) error {
+func (settings *DdosSettings_Status) AssignPropertiesFromDdosSettingsStatus(source *v20201101s.DdosSettings_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1076,13 +1076,13 @@ func (settings *DdosSettings_Status) AssignPropertiesFromDdosSettingsStatus(sour
 }
 
 // AssignPropertiesToDdosSettingsStatus populates the provided destination DdosSettings_Status from our DdosSettings_Status
-func (settings *DdosSettings_Status) AssignPropertiesToDdosSettingsStatus(destination *v1beta20201101storage.DdosSettings_Status) error {
+func (settings *DdosSettings_Status) AssignPropertiesToDdosSettingsStatus(destination *v20201101s.DdosSettings_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(settings.PropertyBag)
 
 	// DdosCustomPolicy
 	if settings.DdosCustomPolicy != nil {
-		var ddosCustomPolicy v1beta20201101storage.SubResource_Status
+		var ddosCustomPolicy v20201101s.SubResource_Status
 		err := settings.DdosCustomPolicy.AssignPropertiesToSubResourceStatus(&ddosCustomPolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field DdosCustomPolicy")
@@ -1128,7 +1128,7 @@ type IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded struct {
 }
 
 // AssignPropertiesFromIPConfigurationStatusPublicIPAddressSubResourceEmbedded populates our IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded from the provided source IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded
-func (embedded *IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded) AssignPropertiesFromIPConfigurationStatusPublicIPAddressSubResourceEmbedded(source *v1beta20201101storage.IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded) error {
+func (embedded *IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded) AssignPropertiesFromIPConfigurationStatusPublicIPAddressSubResourceEmbedded(source *v20201101s.IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1174,7 +1174,7 @@ func (embedded *IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded) Assi
 }
 
 // AssignPropertiesToIPConfigurationStatusPublicIPAddressSubResourceEmbedded populates the provided destination IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded from our IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded
-func (embedded *IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded) AssignPropertiesToIPConfigurationStatusPublicIPAddressSubResourceEmbedded(destination *v1beta20201101storage.IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded) error {
+func (embedded *IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded) AssignPropertiesToIPConfigurationStatusPublicIPAddressSubResourceEmbedded(destination *v20201101s.IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(embedded.PropertyBag)
 
@@ -1198,7 +1198,7 @@ func (embedded *IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded) Assi
 
 	// Subnet
 	if embedded.Subnet != nil {
-		var subnet v1beta20201101storage.Subnet_Status_PublicIPAddress_SubResourceEmbedded
+		var subnet v20201101s.Subnet_Status_PublicIPAddress_SubResourceEmbedded
 		err := embedded.Subnet.AssignPropertiesToSubnetStatusPublicIPAddressSubResourceEmbedded(&subnet)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSubnetStatusPublicIPAddressSubResourceEmbedded() to populate field Subnet")
@@ -1228,7 +1228,7 @@ type IpTag struct {
 }
 
 // AssignPropertiesFromIpTag populates our IpTag from the provided source IpTag
-func (ipTag *IpTag) AssignPropertiesFromIpTag(source *v1beta20201101storage.IpTag) error {
+func (ipTag *IpTag) AssignPropertiesFromIpTag(source *v20201101s.IpTag) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1250,7 +1250,7 @@ func (ipTag *IpTag) AssignPropertiesFromIpTag(source *v1beta20201101storage.IpTa
 }
 
 // AssignPropertiesToIpTag populates the provided destination IpTag from our IpTag
-func (ipTag *IpTag) AssignPropertiesToIpTag(destination *v1beta20201101storage.IpTag) error {
+func (ipTag *IpTag) AssignPropertiesToIpTag(destination *v20201101s.IpTag) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(ipTag.PropertyBag)
 
@@ -1280,7 +1280,7 @@ type IpTag_Status struct {
 }
 
 // AssignPropertiesFromIpTagStatus populates our IpTag_Status from the provided source IpTag_Status
-func (ipTag *IpTag_Status) AssignPropertiesFromIpTagStatus(source *v1beta20201101storage.IpTag_Status) error {
+func (ipTag *IpTag_Status) AssignPropertiesFromIpTagStatus(source *v20201101s.IpTag_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1302,7 +1302,7 @@ func (ipTag *IpTag_Status) AssignPropertiesFromIpTagStatus(source *v1beta2020110
 }
 
 // AssignPropertiesToIpTagStatus populates the provided destination IpTag_Status from our IpTag_Status
-func (ipTag *IpTag_Status) AssignPropertiesToIpTagStatus(destination *v1beta20201101storage.IpTag_Status) error {
+func (ipTag *IpTag_Status) AssignPropertiesToIpTagStatus(destination *v20201101s.IpTag_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(ipTag.PropertyBag)
 
@@ -1333,7 +1333,7 @@ type NatGateway_Status_PublicIPAddress_SubResourceEmbedded struct {
 }
 
 // AssignPropertiesFromNatGatewayStatusPublicIPAddressSubResourceEmbedded populates our NatGateway_Status_PublicIPAddress_SubResourceEmbedded from the provided source NatGateway_Status_PublicIPAddress_SubResourceEmbedded
-func (embedded *NatGateway_Status_PublicIPAddress_SubResourceEmbedded) AssignPropertiesFromNatGatewayStatusPublicIPAddressSubResourceEmbedded(source *v1beta20201101storage.NatGateway_Status_PublicIPAddress_SubResourceEmbedded) error {
+func (embedded *NatGateway_Status_PublicIPAddress_SubResourceEmbedded) AssignPropertiesFromNatGatewayStatusPublicIPAddressSubResourceEmbedded(source *v20201101s.NatGateway_Status_PublicIPAddress_SubResourceEmbedded) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1367,7 +1367,7 @@ func (embedded *NatGateway_Status_PublicIPAddress_SubResourceEmbedded) AssignPro
 }
 
 // AssignPropertiesToNatGatewayStatusPublicIPAddressSubResourceEmbedded populates the provided destination NatGateway_Status_PublicIPAddress_SubResourceEmbedded from our NatGateway_Status_PublicIPAddress_SubResourceEmbedded
-func (embedded *NatGateway_Status_PublicIPAddress_SubResourceEmbedded) AssignPropertiesToNatGatewayStatusPublicIPAddressSubResourceEmbedded(destination *v1beta20201101storage.NatGateway_Status_PublicIPAddress_SubResourceEmbedded) error {
+func (embedded *NatGateway_Status_PublicIPAddress_SubResourceEmbedded) AssignPropertiesToNatGatewayStatusPublicIPAddressSubResourceEmbedded(destination *v20201101s.NatGateway_Status_PublicIPAddress_SubResourceEmbedded) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(embedded.PropertyBag)
 
@@ -1376,7 +1376,7 @@ func (embedded *NatGateway_Status_PublicIPAddress_SubResourceEmbedded) AssignPro
 
 	// Sku
 	if embedded.Sku != nil {
-		var sku v1beta20201101storage.NatGatewaySku_Status
+		var sku v20201101s.NatGatewaySku_Status
 		err := embedded.Sku.AssignPropertiesToNatGatewaySkuStatus(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToNatGatewaySkuStatus() to populate field Sku")
@@ -1410,7 +1410,7 @@ type PublicIPAddressDnsSettings struct {
 }
 
 // AssignPropertiesFromPublicIPAddressDnsSettings populates our PublicIPAddressDnsSettings from the provided source PublicIPAddressDnsSettings
-func (settings *PublicIPAddressDnsSettings) AssignPropertiesFromPublicIPAddressDnsSettings(source *v1beta20201101storage.PublicIPAddressDnsSettings) error {
+func (settings *PublicIPAddressDnsSettings) AssignPropertiesFromPublicIPAddressDnsSettings(source *v20201101s.PublicIPAddressDnsSettings) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1435,7 +1435,7 @@ func (settings *PublicIPAddressDnsSettings) AssignPropertiesFromPublicIPAddressD
 }
 
 // AssignPropertiesToPublicIPAddressDnsSettings populates the provided destination PublicIPAddressDnsSettings from our PublicIPAddressDnsSettings
-func (settings *PublicIPAddressDnsSettings) AssignPropertiesToPublicIPAddressDnsSettings(destination *v1beta20201101storage.PublicIPAddressDnsSettings) error {
+func (settings *PublicIPAddressDnsSettings) AssignPropertiesToPublicIPAddressDnsSettings(destination *v20201101s.PublicIPAddressDnsSettings) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(settings.PropertyBag)
 
@@ -1469,7 +1469,7 @@ type PublicIPAddressDnsSettings_Status struct {
 }
 
 // AssignPropertiesFromPublicIPAddressDnsSettingsStatus populates our PublicIPAddressDnsSettings_Status from the provided source PublicIPAddressDnsSettings_Status
-func (settings *PublicIPAddressDnsSettings_Status) AssignPropertiesFromPublicIPAddressDnsSettingsStatus(source *v1beta20201101storage.PublicIPAddressDnsSettings_Status) error {
+func (settings *PublicIPAddressDnsSettings_Status) AssignPropertiesFromPublicIPAddressDnsSettingsStatus(source *v20201101s.PublicIPAddressDnsSettings_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1494,7 +1494,7 @@ func (settings *PublicIPAddressDnsSettings_Status) AssignPropertiesFromPublicIPA
 }
 
 // AssignPropertiesToPublicIPAddressDnsSettingsStatus populates the provided destination PublicIPAddressDnsSettings_Status from our PublicIPAddressDnsSettings_Status
-func (settings *PublicIPAddressDnsSettings_Status) AssignPropertiesToPublicIPAddressDnsSettingsStatus(destination *v1beta20201101storage.PublicIPAddressDnsSettings_Status) error {
+func (settings *PublicIPAddressDnsSettings_Status) AssignPropertiesToPublicIPAddressDnsSettingsStatus(destination *v20201101s.PublicIPAddressDnsSettings_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(settings.PropertyBag)
 
@@ -1527,7 +1527,7 @@ type PublicIPAddressSku struct {
 }
 
 // AssignPropertiesFromPublicIPAddressSku populates our PublicIPAddressSku from the provided source PublicIPAddressSku
-func (addressSku *PublicIPAddressSku) AssignPropertiesFromPublicIPAddressSku(source *v1beta20201101storage.PublicIPAddressSku) error {
+func (addressSku *PublicIPAddressSku) AssignPropertiesFromPublicIPAddressSku(source *v20201101s.PublicIPAddressSku) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1549,7 +1549,7 @@ func (addressSku *PublicIPAddressSku) AssignPropertiesFromPublicIPAddressSku(sou
 }
 
 // AssignPropertiesToPublicIPAddressSku populates the provided destination PublicIPAddressSku from our PublicIPAddressSku
-func (addressSku *PublicIPAddressSku) AssignPropertiesToPublicIPAddressSku(destination *v1beta20201101storage.PublicIPAddressSku) error {
+func (addressSku *PublicIPAddressSku) AssignPropertiesToPublicIPAddressSku(destination *v20201101s.PublicIPAddressSku) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(addressSku.PropertyBag)
 
@@ -1579,7 +1579,7 @@ type PublicIPAddressSku_Status struct {
 }
 
 // AssignPropertiesFromPublicIPAddressSkuStatus populates our PublicIPAddressSku_Status from the provided source PublicIPAddressSku_Status
-func (addressSku *PublicIPAddressSku_Status) AssignPropertiesFromPublicIPAddressSkuStatus(source *v1beta20201101storage.PublicIPAddressSku_Status) error {
+func (addressSku *PublicIPAddressSku_Status) AssignPropertiesFromPublicIPAddressSkuStatus(source *v20201101s.PublicIPAddressSku_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1601,7 +1601,7 @@ func (addressSku *PublicIPAddressSku_Status) AssignPropertiesFromPublicIPAddress
 }
 
 // AssignPropertiesToPublicIPAddressSkuStatus populates the provided destination PublicIPAddressSku_Status from our PublicIPAddressSku_Status
-func (addressSku *PublicIPAddressSku_Status) AssignPropertiesToPublicIPAddressSkuStatus(destination *v1beta20201101storage.PublicIPAddressSku_Status) error {
+func (addressSku *PublicIPAddressSku_Status) AssignPropertiesToPublicIPAddressSkuStatus(destination *v20201101s.PublicIPAddressSku_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(addressSku.PropertyBag)
 
@@ -1630,7 +1630,7 @@ type NatGatewaySku_Status struct {
 }
 
 // AssignPropertiesFromNatGatewaySkuStatus populates our NatGatewaySku_Status from the provided source NatGatewaySku_Status
-func (gatewaySku *NatGatewaySku_Status) AssignPropertiesFromNatGatewaySkuStatus(source *v1beta20201101storage.NatGatewaySku_Status) error {
+func (gatewaySku *NatGatewaySku_Status) AssignPropertiesFromNatGatewaySkuStatus(source *v20201101s.NatGatewaySku_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1649,7 +1649,7 @@ func (gatewaySku *NatGatewaySku_Status) AssignPropertiesFromNatGatewaySkuStatus(
 }
 
 // AssignPropertiesToNatGatewaySkuStatus populates the provided destination NatGatewaySku_Status from our NatGatewaySku_Status
-func (gatewaySku *NatGatewaySku_Status) AssignPropertiesToNatGatewaySkuStatus(destination *v1beta20201101storage.NatGatewaySku_Status) error {
+func (gatewaySku *NatGatewaySku_Status) AssignPropertiesToNatGatewaySkuStatus(destination *v20201101s.NatGatewaySku_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(gatewaySku.PropertyBag)
 
@@ -1675,7 +1675,7 @@ type Subnet_Status_PublicIPAddress_SubResourceEmbedded struct {
 }
 
 // AssignPropertiesFromSubnetStatusPublicIPAddressSubResourceEmbedded populates our Subnet_Status_PublicIPAddress_SubResourceEmbedded from the provided source Subnet_Status_PublicIPAddress_SubResourceEmbedded
-func (embedded *Subnet_Status_PublicIPAddress_SubResourceEmbedded) AssignPropertiesFromSubnetStatusPublicIPAddressSubResourceEmbedded(source *v1beta20201101storage.Subnet_Status_PublicIPAddress_SubResourceEmbedded) error {
+func (embedded *Subnet_Status_PublicIPAddress_SubResourceEmbedded) AssignPropertiesFromSubnetStatusPublicIPAddressSubResourceEmbedded(source *v20201101s.Subnet_Status_PublicIPAddress_SubResourceEmbedded) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1694,7 +1694,7 @@ func (embedded *Subnet_Status_PublicIPAddress_SubResourceEmbedded) AssignPropert
 }
 
 // AssignPropertiesToSubnetStatusPublicIPAddressSubResourceEmbedded populates the provided destination Subnet_Status_PublicIPAddress_SubResourceEmbedded from our Subnet_Status_PublicIPAddress_SubResourceEmbedded
-func (embedded *Subnet_Status_PublicIPAddress_SubResourceEmbedded) AssignPropertiesToSubnetStatusPublicIPAddressSubResourceEmbedded(destination *v1beta20201101storage.Subnet_Status_PublicIPAddress_SubResourceEmbedded) error {
+func (embedded *Subnet_Status_PublicIPAddress_SubResourceEmbedded) AssignPropertiesToSubnetStatusPublicIPAddressSubResourceEmbedded(destination *v20201101s.Subnet_Status_PublicIPAddress_SubResourceEmbedded) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(embedded.PropertyBag)
 

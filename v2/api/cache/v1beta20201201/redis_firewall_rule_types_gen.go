@@ -5,7 +5,7 @@ package v1beta20201201
 
 import (
 	"fmt"
-	"github.com/Azure/azure-service-operator/v2/api/cache/v1beta20201201storage"
+	v20201201s "github.com/Azure/azure-service-operator/v2/api/cache/v1beta20201201storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -48,7 +48,7 @@ var _ conversion.Convertible = &RedisFirewallRule{}
 
 // ConvertFrom populates our RedisFirewallRule from the provided hub RedisFirewallRule
 func (rule *RedisFirewallRule) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1beta20201201storage.RedisFirewallRule)
+	source, ok := hub.(*v20201201s.RedisFirewallRule)
 	if !ok {
 		return fmt.Errorf("expected cache/v1beta20201201storage/RedisFirewallRule but received %T instead", hub)
 	}
@@ -58,7 +58,7 @@ func (rule *RedisFirewallRule) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub RedisFirewallRule from our RedisFirewallRule
 func (rule *RedisFirewallRule) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1beta20201201storage.RedisFirewallRule)
+	destination, ok := hub.(*v20201201s.RedisFirewallRule)
 	if !ok {
 		return fmt.Errorf("expected cache/v1beta20201201storage/RedisFirewallRule but received %T instead", hub)
 	}
@@ -239,7 +239,7 @@ func (rule *RedisFirewallRule) validateResourceReferences() error {
 }
 
 // AssignPropertiesFromRedisFirewallRule populates our RedisFirewallRule from the provided source RedisFirewallRule
-func (rule *RedisFirewallRule) AssignPropertiesFromRedisFirewallRule(source *v1beta20201201storage.RedisFirewallRule) error {
+func (rule *RedisFirewallRule) AssignPropertiesFromRedisFirewallRule(source *v20201201s.RedisFirewallRule) error {
 
 	// ObjectMeta
 	rule.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -265,13 +265,13 @@ func (rule *RedisFirewallRule) AssignPropertiesFromRedisFirewallRule(source *v1b
 }
 
 // AssignPropertiesToRedisFirewallRule populates the provided destination RedisFirewallRule from our RedisFirewallRule
-func (rule *RedisFirewallRule) AssignPropertiesToRedisFirewallRule(destination *v1beta20201201storage.RedisFirewallRule) error {
+func (rule *RedisFirewallRule) AssignPropertiesToRedisFirewallRule(destination *v20201201s.RedisFirewallRule) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *rule.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1beta20201201storage.RedisFirewallRules_Spec
+	var spec v20201201s.RedisFirewallRules_Spec
 	err := rule.Spec.AssignPropertiesToRedisFirewallRulesSpec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToRedisFirewallRulesSpec() to populate field Spec")
@@ -279,7 +279,7 @@ func (rule *RedisFirewallRule) AssignPropertiesToRedisFirewallRule(destination *
 	destination.Spec = spec
 
 	// Status
-	var status v1beta20201201storage.RedisFirewallRule_Status
+	var status v20201201s.RedisFirewallRule_Status
 	err = rule.Status.AssignPropertiesToRedisFirewallRuleStatus(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToRedisFirewallRuleStatus() to populate field Status")
@@ -332,14 +332,14 @@ var _ genruntime.ConvertibleStatus = &RedisFirewallRule_Status{}
 
 // ConvertStatusFrom populates our RedisFirewallRule_Status from the provided source
 func (rule *RedisFirewallRule_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v1beta20201201storage.RedisFirewallRule_Status)
+	src, ok := source.(*v20201201s.RedisFirewallRule_Status)
 	if ok {
 		// Populate our instance from source
 		return rule.AssignPropertiesFromRedisFirewallRuleStatus(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1beta20201201storage.RedisFirewallRule_Status{}
+	src = &v20201201s.RedisFirewallRule_Status{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -356,14 +356,14 @@ func (rule *RedisFirewallRule_Status) ConvertStatusFrom(source genruntime.Conver
 
 // ConvertStatusTo populates the provided destination from our RedisFirewallRule_Status
 func (rule *RedisFirewallRule_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v1beta20201201storage.RedisFirewallRule_Status)
+	dst, ok := destination.(*v20201201s.RedisFirewallRule_Status)
 	if ok {
 		// Populate destination from our instance
 		return rule.AssignPropertiesToRedisFirewallRuleStatus(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1beta20201201storage.RedisFirewallRule_Status{}
+	dst = &v20201201s.RedisFirewallRule_Status{}
 	err := rule.AssignPropertiesToRedisFirewallRuleStatus(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -435,7 +435,7 @@ func (rule *RedisFirewallRule_Status) PopulateFromARM(owner genruntime.Arbitrary
 }
 
 // AssignPropertiesFromRedisFirewallRuleStatus populates our RedisFirewallRule_Status from the provided source RedisFirewallRule_Status
-func (rule *RedisFirewallRule_Status) AssignPropertiesFromRedisFirewallRuleStatus(source *v1beta20201201storage.RedisFirewallRule_Status) error {
+func (rule *RedisFirewallRule_Status) AssignPropertiesFromRedisFirewallRuleStatus(source *v20201201s.RedisFirewallRule_Status) error {
 
 	// Conditions
 	rule.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -460,7 +460,7 @@ func (rule *RedisFirewallRule_Status) AssignPropertiesFromRedisFirewallRuleStatu
 }
 
 // AssignPropertiesToRedisFirewallRuleStatus populates the provided destination RedisFirewallRule_Status from our RedisFirewallRule_Status
-func (rule *RedisFirewallRule_Status) AssignPropertiesToRedisFirewallRuleStatus(destination *v1beta20201201storage.RedisFirewallRule_Status) error {
+func (rule *RedisFirewallRule_Status) AssignPropertiesToRedisFirewallRuleStatus(destination *v20201201s.RedisFirewallRule_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -625,14 +625,14 @@ var _ genruntime.ConvertibleSpec = &RedisFirewallRules_Spec{}
 
 // ConvertSpecFrom populates our RedisFirewallRules_Spec from the provided source
 func (rules *RedisFirewallRules_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1beta20201201storage.RedisFirewallRules_Spec)
+	src, ok := source.(*v20201201s.RedisFirewallRules_Spec)
 	if ok {
 		// Populate our instance from source
 		return rules.AssignPropertiesFromRedisFirewallRulesSpec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1beta20201201storage.RedisFirewallRules_Spec{}
+	src = &v20201201s.RedisFirewallRules_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -649,14 +649,14 @@ func (rules *RedisFirewallRules_Spec) ConvertSpecFrom(source genruntime.Converti
 
 // ConvertSpecTo populates the provided destination from our RedisFirewallRules_Spec
 func (rules *RedisFirewallRules_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1beta20201201storage.RedisFirewallRules_Spec)
+	dst, ok := destination.(*v20201201s.RedisFirewallRules_Spec)
 	if ok {
 		// Populate destination from our instance
 		return rules.AssignPropertiesToRedisFirewallRulesSpec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1beta20201201storage.RedisFirewallRules_Spec{}
+	dst = &v20201201s.RedisFirewallRules_Spec{}
 	err := rules.AssignPropertiesToRedisFirewallRulesSpec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -672,7 +672,7 @@ func (rules *RedisFirewallRules_Spec) ConvertSpecTo(destination genruntime.Conve
 }
 
 // AssignPropertiesFromRedisFirewallRulesSpec populates our RedisFirewallRules_Spec from the provided source RedisFirewallRules_Spec
-func (rules *RedisFirewallRules_Spec) AssignPropertiesFromRedisFirewallRulesSpec(source *v1beta20201201storage.RedisFirewallRules_Spec) error {
+func (rules *RedisFirewallRules_Spec) AssignPropertiesFromRedisFirewallRulesSpec(source *v20201201s.RedisFirewallRules_Spec) error {
 
 	// AzureName
 	rules.AzureName = source.AzureName
@@ -702,7 +702,7 @@ func (rules *RedisFirewallRules_Spec) AssignPropertiesFromRedisFirewallRulesSpec
 }
 
 // AssignPropertiesToRedisFirewallRulesSpec populates the provided destination RedisFirewallRules_Spec from our RedisFirewallRules_Spec
-func (rules *RedisFirewallRules_Spec) AssignPropertiesToRedisFirewallRulesSpec(destination *v1beta20201201storage.RedisFirewallRules_Spec) error {
+func (rules *RedisFirewallRules_Spec) AssignPropertiesToRedisFirewallRulesSpec(destination *v20201201s.RedisFirewallRules_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

@@ -4,8 +4,8 @@
 package v20200101
 
 import (
-	personv20211231 "github.com/Azure/azure-service-operator/testing/person/v20211231"
-	personv20220630 "github.com/Azure/azure-service-operator/testing/person/v20220630"
+	v20211231 "github.com/Azure/azure-service-operator/testing/person/v20211231"
+	v20220630 "github.com/Azure/azure-service-operator/testing/person/v20220630"
 	"github.com/pkg/errors"
 )
 
@@ -14,10 +14,10 @@ type Person struct {
 }
 
 // AssignPropertiesFromPerson populates our Person from the provided source Person
-func (person *Person) AssignPropertiesFromPerson(source *personv20220630.Person) error {
+func (person *Person) AssignPropertiesFromPerson(source *v20220630.Person) error {
 
 	// Residence
-	var locationStash personv20211231.Location
+	var locationStash v20211231.Location
 	err := locationStash.AssignPropertiesFromLocation(&source.Residence)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesFromLocation() to populate field LocationStash from Residence")
@@ -34,15 +34,15 @@ func (person *Person) AssignPropertiesFromPerson(source *personv20220630.Person)
 }
 
 // AssignPropertiesToPerson populates the provided destination Person from our Person
-func (person *Person) AssignPropertiesToPerson(destination *personv20220630.Person) error {
+func (person *Person) AssignPropertiesToPerson(destination *v20220630.Person) error {
 
 	// Residence
-	var locationStash personv20211231.Location
+	var locationStash v20211231.Location
 	err := person.Residence.AssignPropertiesToLocation(&locationStash)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToLocation() to populate field LocationStash from Residence")
 	}
-	var residence personv20220630.Location
+	var residence v20220630.Location
 	err = locationStash.AssignPropertiesToLocation(&residence)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToLocation() to populate field Residence from LocationStash")

@@ -5,7 +5,7 @@ package v1alpha1api20210515storage
 
 import (
 	"fmt"
-	"github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage"
+	v20210515s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
@@ -45,7 +45,7 @@ var _ conversion.Convertible = &MongodbDatabaseCollection{}
 
 // ConvertFrom populates our MongodbDatabaseCollection from the provided hub MongodbDatabaseCollection
 func (collection *MongodbDatabaseCollection) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1beta20210515storage.MongodbDatabaseCollection)
+	source, ok := hub.(*v20210515s.MongodbDatabaseCollection)
 	if !ok {
 		return fmt.Errorf("expected documentdb/v1beta20210515storage/MongodbDatabaseCollection but received %T instead", hub)
 	}
@@ -55,7 +55,7 @@ func (collection *MongodbDatabaseCollection) ConvertFrom(hub conversion.Hub) err
 
 // ConvertTo populates the provided hub MongodbDatabaseCollection from our MongodbDatabaseCollection
 func (collection *MongodbDatabaseCollection) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1beta20210515storage.MongodbDatabaseCollection)
+	destination, ok := hub.(*v20210515s.MongodbDatabaseCollection)
 	if !ok {
 		return fmt.Errorf("expected documentdb/v1beta20210515storage/MongodbDatabaseCollection but received %T instead", hub)
 	}
@@ -130,7 +130,7 @@ func (collection *MongodbDatabaseCollection) SetStatus(status genruntime.Convert
 }
 
 // AssignPropertiesFromMongodbDatabaseCollection populates our MongodbDatabaseCollection from the provided source MongodbDatabaseCollection
-func (collection *MongodbDatabaseCollection) AssignPropertiesFromMongodbDatabaseCollection(source *v1beta20210515storage.MongodbDatabaseCollection) error {
+func (collection *MongodbDatabaseCollection) AssignPropertiesFromMongodbDatabaseCollection(source *v20210515s.MongodbDatabaseCollection) error {
 
 	// ObjectMeta
 	collection.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -156,13 +156,13 @@ func (collection *MongodbDatabaseCollection) AssignPropertiesFromMongodbDatabase
 }
 
 // AssignPropertiesToMongodbDatabaseCollection populates the provided destination MongodbDatabaseCollection from our MongodbDatabaseCollection
-func (collection *MongodbDatabaseCollection) AssignPropertiesToMongodbDatabaseCollection(destination *v1beta20210515storage.MongodbDatabaseCollection) error {
+func (collection *MongodbDatabaseCollection) AssignPropertiesToMongodbDatabaseCollection(destination *v20210515s.MongodbDatabaseCollection) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *collection.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1beta20210515storage.DatabaseAccountsMongodbDatabasesCollections_Spec
+	var spec v20210515s.DatabaseAccountsMongodbDatabasesCollections_Spec
 	err := collection.Spec.AssignPropertiesToDatabaseAccountsMongodbDatabasesCollectionsSpec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToDatabaseAccountsMongodbDatabasesCollectionsSpec() to populate field Spec")
@@ -170,7 +170,7 @@ func (collection *MongodbDatabaseCollection) AssignPropertiesToMongodbDatabaseCo
 	destination.Spec = spec
 
 	// Status
-	var status v1beta20210515storage.MongoDBCollectionGetResults_Status
+	var status v20210515s.MongoDBCollectionGetResults_Status
 	err = collection.Status.AssignPropertiesToMongoDBCollectionGetResultsStatus(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToMongoDBCollectionGetResultsStatus() to populate field Status")
@@ -222,14 +222,14 @@ var _ genruntime.ConvertibleSpec = &DatabaseAccountsMongodbDatabasesCollections_
 
 // ConvertSpecFrom populates our DatabaseAccountsMongodbDatabasesCollections_Spec from the provided source
 func (collections *DatabaseAccountsMongodbDatabasesCollections_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1beta20210515storage.DatabaseAccountsMongodbDatabasesCollections_Spec)
+	src, ok := source.(*v20210515s.DatabaseAccountsMongodbDatabasesCollections_Spec)
 	if ok {
 		// Populate our instance from source
 		return collections.AssignPropertiesFromDatabaseAccountsMongodbDatabasesCollectionsSpec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1beta20210515storage.DatabaseAccountsMongodbDatabasesCollections_Spec{}
+	src = &v20210515s.DatabaseAccountsMongodbDatabasesCollections_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -246,14 +246,14 @@ func (collections *DatabaseAccountsMongodbDatabasesCollections_Spec) ConvertSpec
 
 // ConvertSpecTo populates the provided destination from our DatabaseAccountsMongodbDatabasesCollections_Spec
 func (collections *DatabaseAccountsMongodbDatabasesCollections_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1beta20210515storage.DatabaseAccountsMongodbDatabasesCollections_Spec)
+	dst, ok := destination.(*v20210515s.DatabaseAccountsMongodbDatabasesCollections_Spec)
 	if ok {
 		// Populate destination from our instance
 		return collections.AssignPropertiesToDatabaseAccountsMongodbDatabasesCollectionsSpec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1beta20210515storage.DatabaseAccountsMongodbDatabasesCollections_Spec{}
+	dst = &v20210515s.DatabaseAccountsMongodbDatabasesCollections_Spec{}
 	err := collections.AssignPropertiesToDatabaseAccountsMongodbDatabasesCollectionsSpec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -269,7 +269,7 @@ func (collections *DatabaseAccountsMongodbDatabasesCollections_Spec) ConvertSpec
 }
 
 // AssignPropertiesFromDatabaseAccountsMongodbDatabasesCollectionsSpec populates our DatabaseAccountsMongodbDatabasesCollections_Spec from the provided source DatabaseAccountsMongodbDatabasesCollections_Spec
-func (collections *DatabaseAccountsMongodbDatabasesCollections_Spec) AssignPropertiesFromDatabaseAccountsMongodbDatabasesCollectionsSpec(source *v1beta20210515storage.DatabaseAccountsMongodbDatabasesCollections_Spec) error {
+func (collections *DatabaseAccountsMongodbDatabasesCollections_Spec) AssignPropertiesFromDatabaseAccountsMongodbDatabasesCollectionsSpec(source *v20210515s.DatabaseAccountsMongodbDatabasesCollections_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -329,7 +329,7 @@ func (collections *DatabaseAccountsMongodbDatabasesCollections_Spec) AssignPrope
 }
 
 // AssignPropertiesToDatabaseAccountsMongodbDatabasesCollectionsSpec populates the provided destination DatabaseAccountsMongodbDatabasesCollections_Spec from our DatabaseAccountsMongodbDatabasesCollections_Spec
-func (collections *DatabaseAccountsMongodbDatabasesCollections_Spec) AssignPropertiesToDatabaseAccountsMongodbDatabasesCollectionsSpec(destination *v1beta20210515storage.DatabaseAccountsMongodbDatabasesCollections_Spec) error {
+func (collections *DatabaseAccountsMongodbDatabasesCollections_Spec) AssignPropertiesToDatabaseAccountsMongodbDatabasesCollectionsSpec(destination *v20210515s.DatabaseAccountsMongodbDatabasesCollections_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(collections.PropertyBag)
 
@@ -341,7 +341,7 @@ func (collections *DatabaseAccountsMongodbDatabasesCollections_Spec) AssignPrope
 
 	// Options
 	if collections.Options != nil {
-		var option v1beta20210515storage.CreateUpdateOptions
+		var option v20210515s.CreateUpdateOptions
 		err := collections.Options.AssignPropertiesToCreateUpdateOptions(&option)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToCreateUpdateOptions() to populate field Options")
@@ -364,7 +364,7 @@ func (collections *DatabaseAccountsMongodbDatabasesCollections_Spec) AssignPrope
 
 	// Resource
 	if collections.Resource != nil {
-		var resource v1beta20210515storage.MongoDBCollectionResource
+		var resource v20210515s.MongoDBCollectionResource
 		err := collections.Resource.AssignPropertiesToMongoDBCollectionResource(&resource)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToMongoDBCollectionResource() to populate field Resource")
@@ -406,14 +406,14 @@ var _ genruntime.ConvertibleStatus = &MongoDBCollectionGetResults_Status{}
 
 // ConvertStatusFrom populates our MongoDBCollectionGetResults_Status from the provided source
 func (results *MongoDBCollectionGetResults_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v1beta20210515storage.MongoDBCollectionGetResults_Status)
+	src, ok := source.(*v20210515s.MongoDBCollectionGetResults_Status)
 	if ok {
 		// Populate our instance from source
 		return results.AssignPropertiesFromMongoDBCollectionGetResultsStatus(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1beta20210515storage.MongoDBCollectionGetResults_Status{}
+	src = &v20210515s.MongoDBCollectionGetResults_Status{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -430,14 +430,14 @@ func (results *MongoDBCollectionGetResults_Status) ConvertStatusFrom(source genr
 
 // ConvertStatusTo populates the provided destination from our MongoDBCollectionGetResults_Status
 func (results *MongoDBCollectionGetResults_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v1beta20210515storage.MongoDBCollectionGetResults_Status)
+	dst, ok := destination.(*v20210515s.MongoDBCollectionGetResults_Status)
 	if ok {
 		// Populate destination from our instance
 		return results.AssignPropertiesToMongoDBCollectionGetResultsStatus(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1beta20210515storage.MongoDBCollectionGetResults_Status{}
+	dst = &v20210515s.MongoDBCollectionGetResults_Status{}
 	err := results.AssignPropertiesToMongoDBCollectionGetResultsStatus(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -453,7 +453,7 @@ func (results *MongoDBCollectionGetResults_Status) ConvertStatusTo(destination g
 }
 
 // AssignPropertiesFromMongoDBCollectionGetResultsStatus populates our MongoDBCollectionGetResults_Status from the provided source MongoDBCollectionGetResults_Status
-func (results *MongoDBCollectionGetResults_Status) AssignPropertiesFromMongoDBCollectionGetResultsStatus(source *v1beta20210515storage.MongoDBCollectionGetResults_Status) error {
+func (results *MongoDBCollectionGetResults_Status) AssignPropertiesFromMongoDBCollectionGetResultsStatus(source *v20210515s.MongoDBCollectionGetResults_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -511,7 +511,7 @@ func (results *MongoDBCollectionGetResults_Status) AssignPropertiesFromMongoDBCo
 }
 
 // AssignPropertiesToMongoDBCollectionGetResultsStatus populates the provided destination MongoDBCollectionGetResults_Status from our MongoDBCollectionGetResults_Status
-func (results *MongoDBCollectionGetResults_Status) AssignPropertiesToMongoDBCollectionGetResultsStatus(destination *v1beta20210515storage.MongoDBCollectionGetResults_Status) error {
+func (results *MongoDBCollectionGetResults_Status) AssignPropertiesToMongoDBCollectionGetResultsStatus(destination *v20210515s.MongoDBCollectionGetResults_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(results.PropertyBag)
 
@@ -529,7 +529,7 @@ func (results *MongoDBCollectionGetResults_Status) AssignPropertiesToMongoDBColl
 
 	// Options
 	if results.Options != nil {
-		var option v1beta20210515storage.OptionsResource_Status
+		var option v20210515s.OptionsResource_Status
 		err := results.Options.AssignPropertiesToOptionsResourceStatus(&option)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToOptionsResourceStatus() to populate field Options")
@@ -541,7 +541,7 @@ func (results *MongoDBCollectionGetResults_Status) AssignPropertiesToMongoDBColl
 
 	// Resource
 	if results.Resource != nil {
-		var resource v1beta20210515storage.MongoDBCollectionGetProperties_Status_Resource
+		var resource v20210515s.MongoDBCollectionGetProperties_Status_Resource
 		err := results.Resource.AssignPropertiesToMongoDBCollectionGetPropertiesStatusResource(&resource)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToMongoDBCollectionGetPropertiesStatusResource() to populate field Resource")
@@ -582,7 +582,7 @@ type MongoDBCollectionGetProperties_Status_Resource struct {
 }
 
 // AssignPropertiesFromMongoDBCollectionGetPropertiesStatusResource populates our MongoDBCollectionGetProperties_Status_Resource from the provided source MongoDBCollectionGetProperties_Status_Resource
-func (resource *MongoDBCollectionGetProperties_Status_Resource) AssignPropertiesFromMongoDBCollectionGetPropertiesStatusResource(source *v1beta20210515storage.MongoDBCollectionGetProperties_Status_Resource) error {
+func (resource *MongoDBCollectionGetProperties_Status_Resource) AssignPropertiesFromMongoDBCollectionGetPropertiesStatusResource(source *v20210515s.MongoDBCollectionGetProperties_Status_Resource) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -639,7 +639,7 @@ func (resource *MongoDBCollectionGetProperties_Status_Resource) AssignProperties
 }
 
 // AssignPropertiesToMongoDBCollectionGetPropertiesStatusResource populates the provided destination MongoDBCollectionGetProperties_Status_Resource from our MongoDBCollectionGetProperties_Status_Resource
-func (resource *MongoDBCollectionGetProperties_Status_Resource) AssignPropertiesToMongoDBCollectionGetPropertiesStatusResource(destination *v1beta20210515storage.MongoDBCollectionGetProperties_Status_Resource) error {
+func (resource *MongoDBCollectionGetProperties_Status_Resource) AssignPropertiesToMongoDBCollectionGetPropertiesStatusResource(destination *v20210515s.MongoDBCollectionGetProperties_Status_Resource) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(resource.PropertyBag)
 
@@ -654,11 +654,11 @@ func (resource *MongoDBCollectionGetProperties_Status_Resource) AssignProperties
 
 	// Indexes
 	if resource.Indexes != nil {
-		indexList := make([]v1beta20210515storage.MongoIndex_Status, len(resource.Indexes))
+		indexList := make([]v20210515s.MongoIndex_Status, len(resource.Indexes))
 		for index, indexItem := range resource.Indexes {
 			// Shadow the loop variable to avoid aliasing
 			indexItem := indexItem
-			var indexLocal v1beta20210515storage.MongoIndex_Status
+			var indexLocal v20210515s.MongoIndex_Status
 			err := indexItem.AssignPropertiesToMongoIndexStatus(&indexLocal)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToMongoIndexStatus() to populate field Indexes")
@@ -706,7 +706,7 @@ type MongoDBCollectionResource struct {
 }
 
 // AssignPropertiesFromMongoDBCollectionResource populates our MongoDBCollectionResource from the provided source MongoDBCollectionResource
-func (resource *MongoDBCollectionResource) AssignPropertiesFromMongoDBCollectionResource(source *v1beta20210515storage.MongoDBCollectionResource) error {
+func (resource *MongoDBCollectionResource) AssignPropertiesFromMongoDBCollectionResource(source *v20210515s.MongoDBCollectionResource) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -749,7 +749,7 @@ func (resource *MongoDBCollectionResource) AssignPropertiesFromMongoDBCollection
 }
 
 // AssignPropertiesToMongoDBCollectionResource populates the provided destination MongoDBCollectionResource from our MongoDBCollectionResource
-func (resource *MongoDBCollectionResource) AssignPropertiesToMongoDBCollectionResource(destination *v1beta20210515storage.MongoDBCollectionResource) error {
+func (resource *MongoDBCollectionResource) AssignPropertiesToMongoDBCollectionResource(destination *v20210515s.MongoDBCollectionResource) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(resource.PropertyBag)
 
@@ -761,11 +761,11 @@ func (resource *MongoDBCollectionResource) AssignPropertiesToMongoDBCollectionRe
 
 	// Indexes
 	if resource.Indexes != nil {
-		indexList := make([]v1beta20210515storage.MongoIndex, len(resource.Indexes))
+		indexList := make([]v20210515s.MongoIndex, len(resource.Indexes))
 		for index, indexItem := range resource.Indexes {
 			// Shadow the loop variable to avoid aliasing
 			indexItem := indexItem
-			var indexLocal v1beta20210515storage.MongoIndex
+			var indexLocal v20210515s.MongoIndex
 			err := indexItem.AssignPropertiesToMongoIndex(&indexLocal)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToMongoIndex() to populate field Indexes")
@@ -800,7 +800,7 @@ type MongoIndex struct {
 }
 
 // AssignPropertiesFromMongoIndex populates our MongoIndex from the provided source MongoIndex
-func (index *MongoIndex) AssignPropertiesFromMongoIndex(source *v1beta20210515storage.MongoIndex) error {
+func (index *MongoIndex) AssignPropertiesFromMongoIndex(source *v20210515s.MongoIndex) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -840,13 +840,13 @@ func (index *MongoIndex) AssignPropertiesFromMongoIndex(source *v1beta20210515st
 }
 
 // AssignPropertiesToMongoIndex populates the provided destination MongoIndex from our MongoIndex
-func (index *MongoIndex) AssignPropertiesToMongoIndex(destination *v1beta20210515storage.MongoIndex) error {
+func (index *MongoIndex) AssignPropertiesToMongoIndex(destination *v20210515s.MongoIndex) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(index.PropertyBag)
 
 	// Key
 	if index.Key != nil {
-		var key v1beta20210515storage.MongoIndexKeys
+		var key v20210515s.MongoIndexKeys
 		err := index.Key.AssignPropertiesToMongoIndexKeys(&key)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToMongoIndexKeys() to populate field Key")
@@ -858,7 +858,7 @@ func (index *MongoIndex) AssignPropertiesToMongoIndex(destination *v1beta2021051
 
 	// Options
 	if index.Options != nil {
-		var option v1beta20210515storage.MongoIndexOptions
+		var option v20210515s.MongoIndexOptions
 		err := index.Options.AssignPropertiesToMongoIndexOptions(&option)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToMongoIndexOptions() to populate field Options")
@@ -888,7 +888,7 @@ type MongoIndex_Status struct {
 }
 
 // AssignPropertiesFromMongoIndexStatus populates our MongoIndex_Status from the provided source MongoIndex_Status
-func (index *MongoIndex_Status) AssignPropertiesFromMongoIndexStatus(source *v1beta20210515storage.MongoIndex_Status) error {
+func (index *MongoIndex_Status) AssignPropertiesFromMongoIndexStatus(source *v20210515s.MongoIndex_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -928,13 +928,13 @@ func (index *MongoIndex_Status) AssignPropertiesFromMongoIndexStatus(source *v1b
 }
 
 // AssignPropertiesToMongoIndexStatus populates the provided destination MongoIndex_Status from our MongoIndex_Status
-func (index *MongoIndex_Status) AssignPropertiesToMongoIndexStatus(destination *v1beta20210515storage.MongoIndex_Status) error {
+func (index *MongoIndex_Status) AssignPropertiesToMongoIndexStatus(destination *v20210515s.MongoIndex_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(index.PropertyBag)
 
 	// Key
 	if index.Key != nil {
-		var key v1beta20210515storage.MongoIndexKeys_Status
+		var key v20210515s.MongoIndexKeys_Status
 		err := index.Key.AssignPropertiesToMongoIndexKeysStatus(&key)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToMongoIndexKeysStatus() to populate field Key")
@@ -946,7 +946,7 @@ func (index *MongoIndex_Status) AssignPropertiesToMongoIndexStatus(destination *
 
 	// Options
 	if index.Options != nil {
-		var option v1beta20210515storage.MongoIndexOptions_Status
+		var option v20210515s.MongoIndexOptions_Status
 		err := index.Options.AssignPropertiesToMongoIndexOptionsStatus(&option)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToMongoIndexOptionsStatus() to populate field Options")
@@ -975,7 +975,7 @@ type MongoIndexKeys struct {
 }
 
 // AssignPropertiesFromMongoIndexKeys populates our MongoIndexKeys from the provided source MongoIndexKeys
-func (keys *MongoIndexKeys) AssignPropertiesFromMongoIndexKeys(source *v1beta20210515storage.MongoIndexKeys) error {
+func (keys *MongoIndexKeys) AssignPropertiesFromMongoIndexKeys(source *v20210515s.MongoIndexKeys) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -994,7 +994,7 @@ func (keys *MongoIndexKeys) AssignPropertiesFromMongoIndexKeys(source *v1beta202
 }
 
 // AssignPropertiesToMongoIndexKeys populates the provided destination MongoIndexKeys from our MongoIndexKeys
-func (keys *MongoIndexKeys) AssignPropertiesToMongoIndexKeys(destination *v1beta20210515storage.MongoIndexKeys) error {
+func (keys *MongoIndexKeys) AssignPropertiesToMongoIndexKeys(destination *v20210515s.MongoIndexKeys) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(keys.PropertyBag)
 
@@ -1020,7 +1020,7 @@ type MongoIndexKeys_Status struct {
 }
 
 // AssignPropertiesFromMongoIndexKeysStatus populates our MongoIndexKeys_Status from the provided source MongoIndexKeys_Status
-func (keys *MongoIndexKeys_Status) AssignPropertiesFromMongoIndexKeysStatus(source *v1beta20210515storage.MongoIndexKeys_Status) error {
+func (keys *MongoIndexKeys_Status) AssignPropertiesFromMongoIndexKeysStatus(source *v20210515s.MongoIndexKeys_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1039,7 +1039,7 @@ func (keys *MongoIndexKeys_Status) AssignPropertiesFromMongoIndexKeysStatus(sour
 }
 
 // AssignPropertiesToMongoIndexKeysStatus populates the provided destination MongoIndexKeys_Status from our MongoIndexKeys_Status
-func (keys *MongoIndexKeys_Status) AssignPropertiesToMongoIndexKeysStatus(destination *v1beta20210515storage.MongoIndexKeys_Status) error {
+func (keys *MongoIndexKeys_Status) AssignPropertiesToMongoIndexKeysStatus(destination *v20210515s.MongoIndexKeys_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(keys.PropertyBag)
 
@@ -1066,7 +1066,7 @@ type MongoIndexOptions struct {
 }
 
 // AssignPropertiesFromMongoIndexOptions populates our MongoIndexOptions from the provided source MongoIndexOptions
-func (options *MongoIndexOptions) AssignPropertiesFromMongoIndexOptions(source *v1beta20210515storage.MongoIndexOptions) error {
+func (options *MongoIndexOptions) AssignPropertiesFromMongoIndexOptions(source *v20210515s.MongoIndexOptions) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1093,7 +1093,7 @@ func (options *MongoIndexOptions) AssignPropertiesFromMongoIndexOptions(source *
 }
 
 // AssignPropertiesToMongoIndexOptions populates the provided destination MongoIndexOptions from our MongoIndexOptions
-func (options *MongoIndexOptions) AssignPropertiesToMongoIndexOptions(destination *v1beta20210515storage.MongoIndexOptions) error {
+func (options *MongoIndexOptions) AssignPropertiesToMongoIndexOptions(destination *v20210515s.MongoIndexOptions) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(options.PropertyBag)
 
@@ -1128,7 +1128,7 @@ type MongoIndexOptions_Status struct {
 }
 
 // AssignPropertiesFromMongoIndexOptionsStatus populates our MongoIndexOptions_Status from the provided source MongoIndexOptions_Status
-func (options *MongoIndexOptions_Status) AssignPropertiesFromMongoIndexOptionsStatus(source *v1beta20210515storage.MongoIndexOptions_Status) error {
+func (options *MongoIndexOptions_Status) AssignPropertiesFromMongoIndexOptionsStatus(source *v20210515s.MongoIndexOptions_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1155,7 +1155,7 @@ func (options *MongoIndexOptions_Status) AssignPropertiesFromMongoIndexOptionsSt
 }
 
 // AssignPropertiesToMongoIndexOptionsStatus populates the provided destination MongoIndexOptions_Status from our MongoIndexOptions_Status
-func (options *MongoIndexOptions_Status) AssignPropertiesToMongoIndexOptionsStatus(destination *v1beta20210515storage.MongoIndexOptions_Status) error {
+func (options *MongoIndexOptions_Status) AssignPropertiesToMongoIndexOptionsStatus(destination *v20210515s.MongoIndexOptions_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(options.PropertyBag)
 

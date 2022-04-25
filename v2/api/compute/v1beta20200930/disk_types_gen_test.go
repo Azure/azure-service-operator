@@ -5,7 +5,7 @@ package v1beta20200930
 
 import (
 	"encoding/json"
-	"github.com/Azure/azure-service-operator/v2/api/compute/v1beta20200930storage"
+	v20200930s "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20200930storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -35,7 +35,7 @@ func RunResourceConversionTestForDisk(subject Disk) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v1beta20200930storage.Disk
+	var hub v20200930s.Disk
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -77,7 +77,7 @@ func RunPropertyAssignmentTestForDisk(subject Disk) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200930storage.Disk
+	var other v20200930s.Disk
 	err := copied.AssignPropertiesToDisk(&other)
 	if err != nil {
 		return err.Error()
@@ -179,7 +179,7 @@ func RunPropertyAssignmentTestForDiskStatus(subject Disk_Status) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200930storage.Disk_Status
+	var other v20200930s.Disk_Status
 	err := copied.AssignPropertiesToDiskStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -330,7 +330,7 @@ func RunPropertyAssignmentTestForDisksSpec(subject Disks_Spec) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200930storage.Disks_Spec
+	var other v20200930s.Disks_Spec
 	err := copied.AssignPropertiesToDisksSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -464,7 +464,7 @@ func RunPropertyAssignmentTestForCreationData(subject CreationData) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200930storage.CreationData
+	var other v20200930s.CreationData
 	err := copied.AssignPropertiesToCreationData(&other)
 	if err != nil {
 		return err.Error()
@@ -591,7 +591,7 @@ func RunPropertyAssignmentTestForCreationDataStatus(subject CreationData_Status)
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200930storage.CreationData_Status
+	var other v20200930s.CreationData_Status
 	err := copied.AssignPropertiesToCreationDataStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -720,7 +720,7 @@ func RunPropertyAssignmentTestForDiskSku(subject DiskSku) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200930storage.DiskSku
+	var other v20200930s.DiskSku
 	err := copied.AssignPropertiesToDiskSku(&other)
 	if err != nil {
 		return err.Error()
@@ -825,7 +825,7 @@ func RunPropertyAssignmentTestForDiskSkuStatus(subject DiskSku_Status) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200930storage.DiskSku_Status
+	var other v20200930s.DiskSku_Status
 	err := copied.AssignPropertiesToDiskSkuStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -931,7 +931,7 @@ func RunPropertyAssignmentTestForEncryption(subject Encryption) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200930storage.Encryption
+	var other v20200930s.Encryption
 	err := copied.AssignPropertiesToEncryption(&other)
 	if err != nil {
 		return err.Error()
@@ -1032,7 +1032,7 @@ func RunPropertyAssignmentTestForEncryptionSettingsCollection(subject Encryption
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200930storage.EncryptionSettingsCollection
+	var other v20200930s.EncryptionSettingsCollection
 	err := copied.AssignPropertiesToEncryptionSettingsCollection(&other)
 	if err != nil {
 		return err.Error()
@@ -1149,7 +1149,7 @@ func RunPropertyAssignmentTestForEncryptionSettingsCollectionStatus(subject Encr
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200930storage.EncryptionSettingsCollection_Status
+	var other v20200930s.EncryptionSettingsCollection_Status
 	err := copied.AssignPropertiesToEncryptionSettingsCollectionStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -1266,7 +1266,7 @@ func RunPropertyAssignmentTestForEncryptionStatus(subject Encryption_Status) str
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200930storage.Encryption_Status
+	var other v20200930s.Encryption_Status
 	err := copied.AssignPropertiesToEncryptionStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -1368,7 +1368,7 @@ func RunPropertyAssignmentTestForExtendedLocation(subject ExtendedLocation) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200930storage.ExtendedLocation
+	var other v20200930s.ExtendedLocation
 	err := copied.AssignPropertiesToExtendedLocation(&other)
 	if err != nil {
 		return err.Error()
@@ -1470,7 +1470,7 @@ func RunPropertyAssignmentTestForExtendedLocationStatus(subject ExtendedLocation
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200930storage.ExtendedLocation_Status
+	var other v20200930s.ExtendedLocation_Status
 	err := copied.AssignPropertiesToExtendedLocationStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -1573,7 +1573,7 @@ func RunPropertyAssignmentTestForPurchasePlan(subject PurchasePlan) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200930storage.PurchasePlan
+	var other v20200930s.PurchasePlan
 	err := copied.AssignPropertiesToPurchasePlan(&other)
 	if err != nil {
 		return err.Error()
@@ -1677,7 +1677,7 @@ func RunPropertyAssignmentTestForPurchasePlanStatus(subject PurchasePlan_Status)
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200930storage.PurchasePlan_Status
+	var other v20200930s.PurchasePlan_Status
 	err := copied.AssignPropertiesToPurchasePlanStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -1781,7 +1781,7 @@ func RunPropertyAssignmentTestForShareInfoElementStatus(subject ShareInfoElement
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200930storage.ShareInfoElement_Status
+	var other v20200930s.ShareInfoElement_Status
 	err := copied.AssignPropertiesToShareInfoElementStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -1883,7 +1883,7 @@ func RunPropertyAssignmentTestForEncryptionSettingsElement(subject EncryptionSet
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200930storage.EncryptionSettingsElement
+	var other v20200930s.EncryptionSettingsElement
 	err := copied.AssignPropertiesToEncryptionSettingsElement(&other)
 	if err != nil {
 		return err.Error()
@@ -1986,7 +1986,7 @@ func RunPropertyAssignmentTestForEncryptionSettingsElementStatus(subject Encrypt
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200930storage.EncryptionSettingsElement_Status
+	var other v20200930s.EncryptionSettingsElement_Status
 	err := copied.AssignPropertiesToEncryptionSettingsElementStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -2089,7 +2089,7 @@ func RunPropertyAssignmentTestForImageDiskReference(subject ImageDiskReference) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200930storage.ImageDiskReference
+	var other v20200930s.ImageDiskReference
 	err := copied.AssignPropertiesToImageDiskReference(&other)
 	if err != nil {
 		return err.Error()
@@ -2190,7 +2190,7 @@ func RunPropertyAssignmentTestForImageDiskReferenceStatus(subject ImageDiskRefer
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200930storage.ImageDiskReference_Status
+	var other v20200930s.ImageDiskReference_Status
 	err := copied.AssignPropertiesToImageDiskReferenceStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -2293,7 +2293,7 @@ func RunPropertyAssignmentTestForKeyVaultAndKeyReference(subject KeyVaultAndKeyR
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200930storage.KeyVaultAndKeyReference
+	var other v20200930s.KeyVaultAndKeyReference
 	err := copied.AssignPropertiesToKeyVaultAndKeyReference(&other)
 	if err != nil {
 		return err.Error()
@@ -2409,7 +2409,7 @@ func RunPropertyAssignmentTestForKeyVaultAndKeyReferenceStatus(subject KeyVaultA
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200930storage.KeyVaultAndKeyReference_Status
+	var other v20200930s.KeyVaultAndKeyReference_Status
 	err := copied.AssignPropertiesToKeyVaultAndKeyReferenceStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -2525,7 +2525,7 @@ func RunPropertyAssignmentTestForKeyVaultAndSecretReference(subject KeyVaultAndS
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200930storage.KeyVaultAndSecretReference
+	var other v20200930s.KeyVaultAndSecretReference
 	err := copied.AssignPropertiesToKeyVaultAndSecretReference(&other)
 	if err != nil {
 		return err.Error()
@@ -2641,7 +2641,7 @@ func RunPropertyAssignmentTestForKeyVaultAndSecretReferenceStatus(subject KeyVau
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200930storage.KeyVaultAndSecretReference_Status
+	var other v20200930s.KeyVaultAndSecretReference_Status
 	err := copied.AssignPropertiesToKeyVaultAndSecretReferenceStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -2757,7 +2757,7 @@ func RunPropertyAssignmentTestForSourceVault(subject SourceVault) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200930storage.SourceVault
+	var other v20200930s.SourceVault
 	err := copied.AssignPropertiesToSourceVault(&other)
 	if err != nil {
 		return err.Error()
@@ -2852,7 +2852,7 @@ func RunPropertyAssignmentTestForSourceVaultStatus(subject SourceVault_Status) s
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20200930storage.SourceVault_Status
+	var other v20200930s.SourceVault_Status
 	err := copied.AssignPropertiesToSourceVaultStatus(&other)
 	if err != nil {
 		return err.Error()

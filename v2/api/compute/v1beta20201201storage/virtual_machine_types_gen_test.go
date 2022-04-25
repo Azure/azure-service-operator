@@ -5,7 +5,7 @@ package v1beta20201201storage
 
 import (
 	"encoding/json"
-	"github.com/Azure/azure-service-operator/v2/api/compute/v1beta20210701storage"
+	v20210701s "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20210701storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -654,7 +654,7 @@ func RunPropertyAssignmentTestForExtendedLocation(subject ExtendedLocation) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210701storage.ExtendedLocation
+	var other v20210701s.ExtendedLocation
 	err := copied.AssignPropertiesToExtendedLocation(&other)
 	if err != nil {
 		return err.Error()
@@ -756,7 +756,7 @@ func RunPropertyAssignmentTestForExtendedLocationStatus(subject ExtendedLocation
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210701storage.ExtendedLocation_Status
+	var other v20210701s.ExtendedLocation_Status
 	err := copied.AssignPropertiesToExtendedLocationStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -1593,7 +1593,7 @@ func RunPropertyAssignmentTestForSubResource(subject SubResource) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210701storage.SubResource
+	var other v20210701s.SubResource
 	err := copied.AssignPropertiesToSubResource(&other)
 	if err != nil {
 		return err.Error()
@@ -1688,7 +1688,7 @@ func RunPropertyAssignmentTestForSubResourceStatus(subject SubResource_Status) s
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210701storage.SubResource_Status
+	var other v20210701s.SubResource_Status
 	err := copied.AssignPropertiesToSubResourceStatus(&other)
 	if err != nil {
 		return err.Error()
@@ -5598,7 +5598,7 @@ func RunPropertyAssignmentTestForDiskEncryptionSetParameters(subject DiskEncrypt
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1beta20210701storage.DiskEncryptionSetParameters
+	var other v20210701s.DiskEncryptionSetParameters
 	err := copied.AssignPropertiesToDiskEncryptionSetParameters(&other)
 	if err != nil {
 		return err.Error()

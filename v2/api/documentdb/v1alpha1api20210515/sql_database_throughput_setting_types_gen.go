@@ -5,7 +5,7 @@ package v1alpha1api20210515
 
 import (
 	"fmt"
-	"github.com/Azure/azure-service-operator/v2/api/documentdb/v1alpha1api20210515storage"
+	alpha20210515s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1alpha1api20210515storage"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -49,7 +49,7 @@ var _ conversion.Convertible = &SqlDatabaseThroughputSetting{}
 // ConvertFrom populates our SqlDatabaseThroughputSetting from the provided hub SqlDatabaseThroughputSetting
 func (setting *SqlDatabaseThroughputSetting) ConvertFrom(hub conversion.Hub) error {
 	// intermediate variable for conversion
-	var source v1alpha1api20210515storage.SqlDatabaseThroughputSetting
+	var source alpha20210515s.SqlDatabaseThroughputSetting
 
 	err := source.ConvertFrom(hub)
 	if err != nil {
@@ -67,7 +67,7 @@ func (setting *SqlDatabaseThroughputSetting) ConvertFrom(hub conversion.Hub) err
 // ConvertTo populates the provided hub SqlDatabaseThroughputSetting from our SqlDatabaseThroughputSetting
 func (setting *SqlDatabaseThroughputSetting) ConvertTo(hub conversion.Hub) error {
 	// intermediate variable for conversion
-	var destination v1alpha1api20210515storage.SqlDatabaseThroughputSetting
+	var destination alpha20210515s.SqlDatabaseThroughputSetting
 	err := setting.AssignPropertiesToSqlDatabaseThroughputSetting(&destination)
 	if err != nil {
 		return errors.Wrap(err, "converting to destination from setting")
@@ -246,7 +246,7 @@ func (setting *SqlDatabaseThroughputSetting) validateResourceReferences() error 
 }
 
 // AssignPropertiesFromSqlDatabaseThroughputSetting populates our SqlDatabaseThroughputSetting from the provided source SqlDatabaseThroughputSetting
-func (setting *SqlDatabaseThroughputSetting) AssignPropertiesFromSqlDatabaseThroughputSetting(source *v1alpha1api20210515storage.SqlDatabaseThroughputSetting) error {
+func (setting *SqlDatabaseThroughputSetting) AssignPropertiesFromSqlDatabaseThroughputSetting(source *alpha20210515s.SqlDatabaseThroughputSetting) error {
 
 	// ObjectMeta
 	setting.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -272,13 +272,13 @@ func (setting *SqlDatabaseThroughputSetting) AssignPropertiesFromSqlDatabaseThro
 }
 
 // AssignPropertiesToSqlDatabaseThroughputSetting populates the provided destination SqlDatabaseThroughputSetting from our SqlDatabaseThroughputSetting
-func (setting *SqlDatabaseThroughputSetting) AssignPropertiesToSqlDatabaseThroughputSetting(destination *v1alpha1api20210515storage.SqlDatabaseThroughputSetting) error {
+func (setting *SqlDatabaseThroughputSetting) AssignPropertiesToSqlDatabaseThroughputSetting(destination *alpha20210515s.SqlDatabaseThroughputSetting) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *setting.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesThroughputSettings_Spec
+	var spec alpha20210515s.DatabaseAccountsSqlDatabasesThroughputSettings_Spec
 	err := setting.Spec.AssignPropertiesToDatabaseAccountsSqlDatabasesThroughputSettingsSpec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToDatabaseAccountsSqlDatabasesThroughputSettingsSpec() to populate field Spec")
@@ -286,7 +286,7 @@ func (setting *SqlDatabaseThroughputSetting) AssignPropertiesToSqlDatabaseThroug
 	destination.Spec = spec
 
 	// Status
-	var status v1alpha1api20210515storage.ThroughputSettingsGetResults_Status
+	var status alpha20210515s.ThroughputSettingsGetResults_Status
 	err = setting.Status.AssignPropertiesToThroughputSettingsGetResultsStatus(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToThroughputSettingsGetResultsStatus() to populate field Status")
@@ -422,14 +422,14 @@ var _ genruntime.ConvertibleSpec = &DatabaseAccountsSqlDatabasesThroughputSettin
 
 // ConvertSpecFrom populates our DatabaseAccountsSqlDatabasesThroughputSettings_Spec from the provided source
 func (settings *DatabaseAccountsSqlDatabasesThroughputSettings_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesThroughputSettings_Spec)
+	src, ok := source.(*alpha20210515s.DatabaseAccountsSqlDatabasesThroughputSettings_Spec)
 	if ok {
 		// Populate our instance from source
 		return settings.AssignPropertiesFromDatabaseAccountsSqlDatabasesThroughputSettingsSpec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesThroughputSettings_Spec{}
+	src = &alpha20210515s.DatabaseAccountsSqlDatabasesThroughputSettings_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -446,14 +446,14 @@ func (settings *DatabaseAccountsSqlDatabasesThroughputSettings_Spec) ConvertSpec
 
 // ConvertSpecTo populates the provided destination from our DatabaseAccountsSqlDatabasesThroughputSettings_Spec
 func (settings *DatabaseAccountsSqlDatabasesThroughputSettings_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesThroughputSettings_Spec)
+	dst, ok := destination.(*alpha20210515s.DatabaseAccountsSqlDatabasesThroughputSettings_Spec)
 	if ok {
 		// Populate destination from our instance
 		return settings.AssignPropertiesToDatabaseAccountsSqlDatabasesThroughputSettingsSpec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesThroughputSettings_Spec{}
+	dst = &alpha20210515s.DatabaseAccountsSqlDatabasesThroughputSettings_Spec{}
 	err := settings.AssignPropertiesToDatabaseAccountsSqlDatabasesThroughputSettingsSpec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -469,7 +469,7 @@ func (settings *DatabaseAccountsSqlDatabasesThroughputSettings_Spec) ConvertSpec
 }
 
 // AssignPropertiesFromDatabaseAccountsSqlDatabasesThroughputSettingsSpec populates our DatabaseAccountsSqlDatabasesThroughputSettings_Spec from the provided source DatabaseAccountsSqlDatabasesThroughputSettings_Spec
-func (settings *DatabaseAccountsSqlDatabasesThroughputSettings_Spec) AssignPropertiesFromDatabaseAccountsSqlDatabasesThroughputSettingsSpec(source *v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesThroughputSettings_Spec) error {
+func (settings *DatabaseAccountsSqlDatabasesThroughputSettings_Spec) AssignPropertiesFromDatabaseAccountsSqlDatabasesThroughputSettingsSpec(source *alpha20210515s.DatabaseAccountsSqlDatabasesThroughputSettings_Spec) error {
 
 	// Location
 	settings.Location = genruntime.ClonePointerToString(source.Location)
@@ -502,7 +502,7 @@ func (settings *DatabaseAccountsSqlDatabasesThroughputSettings_Spec) AssignPrope
 }
 
 // AssignPropertiesToDatabaseAccountsSqlDatabasesThroughputSettingsSpec populates the provided destination DatabaseAccountsSqlDatabasesThroughputSettings_Spec from our DatabaseAccountsSqlDatabasesThroughputSettings_Spec
-func (settings *DatabaseAccountsSqlDatabasesThroughputSettings_Spec) AssignPropertiesToDatabaseAccountsSqlDatabasesThroughputSettingsSpec(destination *v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesThroughputSettings_Spec) error {
+func (settings *DatabaseAccountsSqlDatabasesThroughputSettings_Spec) AssignPropertiesToDatabaseAccountsSqlDatabasesThroughputSettingsSpec(destination *alpha20210515s.DatabaseAccountsSqlDatabasesThroughputSettings_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -522,7 +522,7 @@ func (settings *DatabaseAccountsSqlDatabasesThroughputSettings_Spec) AssignPrope
 
 	// Resource
 	if settings.Resource != nil {
-		var resource v1alpha1api20210515storage.ThroughputSettingsResource
+		var resource alpha20210515s.ThroughputSettingsResource
 		err := settings.Resource.AssignPropertiesToThroughputSettingsResource(&resource)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToThroughputSettingsResource() to populate field Resource")

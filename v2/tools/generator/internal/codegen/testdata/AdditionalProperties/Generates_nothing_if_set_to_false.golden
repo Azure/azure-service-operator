@@ -4,7 +4,7 @@
 package v1beta20200101
 
 import (
-	"github.com/Azure/azure-service-operator/testing/test/v1beta20200101storage"
+	v20200101s "github.com/Azure/azure-service-operator/testing/test/v1beta20200101storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/pkg/errors"
 )
@@ -15,7 +15,7 @@ type Test struct {
 }
 
 // AssignPropertiesFromTest populates our Test from the provided source Test
-func (test *Test) AssignPropertiesFromTest(source *v1beta20200101storage.Test) error {
+func (test *Test) AssignPropertiesFromTest(source *v20200101s.Test) error {
 
 	// Tags
 	if source.Tags != nil {
@@ -34,13 +34,13 @@ func (test *Test) AssignPropertiesFromTest(source *v1beta20200101storage.Test) e
 }
 
 // AssignPropertiesToTest populates the provided destination Test from our Test
-func (test *Test) AssignPropertiesToTest(destination *v1beta20200101storage.Test) error {
+func (test *Test) AssignPropertiesToTest(destination *v20200101s.Test) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Tags
 	if test.Tags != nil {
-		var tag v1beta20200101storage.Test_Tags
+		var tag v20200101s.Test_Tags
 		err := test.Tags.AssignPropertiesToTestTags(&tag)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToTestTags() to populate field Tags")
@@ -65,14 +65,14 @@ type Test_Tags struct {
 }
 
 // AssignPropertiesFromTestTags populates our Test_Tags from the provided source Test_Tags
-func (tags *Test_Tags) AssignPropertiesFromTestTags(source *v1beta20200101storage.Test_Tags) error {
+func (tags *Test_Tags) AssignPropertiesFromTestTags(source *v20200101s.Test_Tags) error {
 
 	// No error
 	return nil
 }
 
 // AssignPropertiesToTestTags populates the provided destination Test_Tags from our Test_Tags
-func (tags *Test_Tags) AssignPropertiesToTestTags(destination *v1beta20200101storage.Test_Tags) error {
+func (tags *Test_Tags) AssignPropertiesToTestTags(destination *v20200101s.Test_Tags) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

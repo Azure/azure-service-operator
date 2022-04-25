@@ -4,8 +4,8 @@
 package customizations
 
 import (
-	personv20200101 "github.com/Azure/azure-service-operator/testing/person/v20200101"
-	personv20211231 "github.com/Azure/azure-service-operator/testing/person/v20211231"
+	v20200101 "github.com/Azure/azure-service-operator/testing/person/v20200101"
+	v20211231 "github.com/Azure/azure-service-operator/testing/person/v20211231"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -15,6 +15,6 @@ type PersonExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *PersonExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&personv20200101.Person{},
-		&personv20211231.Person{}}
+		&v20200101.Person{},
+		&v20211231.Person{}}
 }

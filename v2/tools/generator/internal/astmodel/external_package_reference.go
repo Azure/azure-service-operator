@@ -10,7 +10,8 @@ import (
 	"strings"
 )
 
-// ExternalPackageReference indicates a package to be imported from an external source, such as github or the go standard library.
+// ExternalPackageReference indicates a package to be imported from an external source, such as from GitHub or the go
+// standard library.
 type ExternalPackageReference struct {
 	packagePath string
 }
