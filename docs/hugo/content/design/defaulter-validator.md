@@ -1,5 +1,6 @@
 ---
 title: Custom validation and defaulting for code generated resources
+linktitle: Custom validation
 ---
 # Custom validation and defaulting for code generated resources
 

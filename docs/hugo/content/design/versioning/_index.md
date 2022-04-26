@@ -1,8 +1,8 @@
 ---
-title: Versioning
+title: Resource versioning
 ---
 
-# Versioning 
+# Resource Versioning 
 
 Specification for how storage versioning will operate for code generated CRD definitions.
 

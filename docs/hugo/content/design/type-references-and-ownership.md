@@ -1,5 +1,5 @@
 ---
-title: Type references and ownership
+title: References & ownership
 ---
 # Type references and ownership
 

@@ -1,5 +1,6 @@
 ---
 title: Azure Service Operator support for managing dataplane secrets
+linktitle: Dataplane secrets
 ---
 # Azure Service Operator support for managing dataplane secrets
 

@@ -1,5 +1,6 @@
 ---
 title: Thoughts on performing provider-azure code generation for Crossplane
+linktitle: Crossplane support
 ---
 # Thoughts on performing provider-azure code generation for Crossplane
 

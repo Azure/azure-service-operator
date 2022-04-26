@@ -1,5 +1,6 @@
 ---
 title: Proposal for reporting resource Status
+linktitle: Resource status
 ---
 # Proposal for reporting resource Status
 
