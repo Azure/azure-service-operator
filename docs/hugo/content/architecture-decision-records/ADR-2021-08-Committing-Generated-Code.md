@@ -1,3 +1,6 @@
+---
+title: Committing Generated Code
+---
 # Committing Generated Code
 
 ## Context

@@ -1,3 +1,6 @@
+---
+title: Type references and ownership
+---
 # Type references and ownership
 
 ## Related reading

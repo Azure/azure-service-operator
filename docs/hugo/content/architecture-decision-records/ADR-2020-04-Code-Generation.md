@@ -1,6 +1,5 @@
 ---
 title: '2020-04: Why Code Generation?'
-date: 2020-04-01
 ---
 
 # Why Code Generation?

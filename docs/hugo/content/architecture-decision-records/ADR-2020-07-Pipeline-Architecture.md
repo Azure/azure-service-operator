@@ -1,6 +1,5 @@
 ---
 title: '2020-07: Pipeline Architecture'
-date: 2020-07-01
 ---
 
 # Pipeline architecture

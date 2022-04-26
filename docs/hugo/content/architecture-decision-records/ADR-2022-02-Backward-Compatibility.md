@@ -1,3 +1,6 @@
+---
+title: Backward Resource Compatibility
+---
 # Context
 
 As we close in on a beta release, we are considering modification of the version prefix used for code-generated resources.
