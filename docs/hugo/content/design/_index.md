@@ -1,5 +1,6 @@
 ---
 title: "Design & Specifications"
+linktitle: "Design"
 weight: 30
 menu:
   main:

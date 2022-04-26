@@ -1,5 +1,6 @@
 ---
 title: "User’s Guide"
+linktitle: "Guide"
 weight: 10
 menu:
   main:
