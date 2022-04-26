@@ -658,6 +658,13 @@ tasks:
     cmds:
       - "{{.SCRIPTS_ROOT}}/check_headers.py"
 
+  frontmatter-check:
+    desc: Ensure all Markdown documentation has frontmatter.
+    dir: docs/hugo/content
+    cmds:
+      - echo "Foo"
+      - "../../../{{.SCRIPTS_ROOT}}/check_frontmatter.py"
+
   specifier-check:
     desc: Check that format specifiers %v and %+v are not used
     # Both %v and %+v result in all the values from structs being dumped into the string. If that 
