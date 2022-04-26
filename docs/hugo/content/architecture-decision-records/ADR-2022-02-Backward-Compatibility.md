@@ -1,11 +1,14 @@
 ---
-title: Backward Resource Compatibility
+title: '2022-02: Backward Resource Compatibility'
 ---
-# Context
+
+# Backward Resource Compatibility
+
+## Context
 
 As we close in on a beta release, we are considering modification of the version prefix used for code-generated resources.
 
-## Option 1: Do nothing
+### Option 1: Do nothing
 
 Leave all generated resources using the alpha prefix that is currently in use.
 
@@ -19,7 +22,7 @@ Cons
   
 * Might be perceived by some users as indicating these particular resources are still in alpha, and therefore pose significant a barrier to adoption of ASO.
 
-## Option 2: Move all resources to beta
+### Option 2: Move all resources to beta
 
 Change the generated prefix for all resources
 
@@ -36,7 +39,7 @@ Cons
   Mitigation: For manual uses, modification of the YAML files being applied to change the version of the resources.  
   Mitigation: For automated uses, modification of the deployment pipelines to change the version of the resources.
 
-## Option 3a: In-place upgrade for existing resources
+### Option 3a: In-place upgrade for existing resources
 
 Change the generated prefix to `v1beta` for all resources, but retain the alpha storage variants of each existing resource. This would allow an upgraded ASO installation to promote any existing resources to the new storage version.
 
@@ -56,7 +59,7 @@ Cons
   Observation: We know there is an upper limit to the size of each CRD, though we're not very close to that yet.
   Mitigation: Prune all documentation from the alpha variants to make them (much!) smaller
 
-## Option 3b: Retain the alpha version for existing resources
+### Option 3b: Retain the alpha version for existing resources
 
 Use a beta prefix for all resources. Also use our existing alpha prefix for all resources that were included in any alpha release of ASO, but not for new resources.
 
@@ -78,7 +81,7 @@ Cons
 * Possible user confusion from having multiple versions of each resource.  
   Mitigation: Pruning documentation would push users towards the beta versions.
 
-## Other factors
+### Other factors
 
 We don't want to maroon existing users of Azure Service Operator (ASO) by making this a breaking change. It's important to us to make upgrades of ASO as straightforward as possible.
 
@@ -87,13 +90,13 @@ Cross version compatibility between ARM versions of a resource (that is, for exa
 Version skew policy in the Kubernetes ecosystem is to allow for one or two older minor versions of backward compatibility. This gives us the *option* of temporarily introducing backward compatibility with the `codegen-beta-0` release and then dropping it once we reach `codegen-beta-2` or greater. 
 
 
-# Decision
+## Decision
 
 We choose to prioritize a good upgrade experience for our users. We'll proceed with option 3b (Retain the alpha version for existing resources).
 
 Change the prefix used for our resources from `v1alpha1api` to simply `v1beta`. (We don't need a minor number as part of the prefix. The original intention was to increment the minor version with each release of the operator, but the overhead of this is very high, so we've instead used the prefix `v1alpha1api` for all our alpha releases.)
 
-## Beta 0 Release
+### Beta 0 Release
 
 All resources will be duplicated, published as both `v1beta` and as `v1alpha1api`. This includes new resources published for the first time in the beta.
 
@@ -111,19 +114,19 @@ When we have multiple ARM versions in flight (as we do with `compute`), supporti
 
 This approach also gives us backward compatibility when we have a mix of resources across multiple versions (as happens with both `compute` and `network`). We know from prior work (including introduction of the `PropertyBag` field) that conversions between storage versions are lossless.
 
-## Beta 1 Release
+### Beta 1 Release
 
 Additional configuration will ensure that resources introduced in that (or later) releases won't include alpha versions. This configuration will require opt-in for backward compatibility, so that the overhead for new resources is as low as possible. [Issue #2176](https://github.com/Azure/azure-service-operator/issues/2176) has been logged to track this work.
 
-## Beta n Release
+### Beta n Release
 
 At some point, after giving users of ASO alpha releases a reasonable time frame, we will drop the alpha versions. We'll document this plan as a part of the **Beta 0** release.
 
-# Status
+## Status
 
 Proposed.
 
-# Consequences
+## Consequences
 
 With the supported format for old resources being derived from newer resources, we need to be careful about breaking changes (e.g. removing properties or changing property types) that might cause issues for users upgrading to the latest ASO.
 
@@ -135,10 +138,10 @@ Factors reducing the severity of this include:
 
 * We only need to maintain backward compatibility across a small number of versions.
   
-# Experience Report
+## Experience Report
 
 TBC.
 
-# References
+## References
 
 TBC.
