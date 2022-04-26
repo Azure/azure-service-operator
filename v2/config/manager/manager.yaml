@@ -28,10 +28,6 @@ spec:
       - args:
         - --enable-leader-election
         - --v=2
-        livenessProbe:
-          httpGet:
-            path: /healthz
-            port: 8081
         image: controller:latest
         name: manager
         resources:
