@@ -1,8 +1,7 @@
 ---
 title: Azure Service Operator v2
+type: docs
 ---
-# Azure Service Operator v2
-
 ## Project Status
 This project is a beta. We follow the [Kubernetes definition of beta](https://kubernetes.io/docs/reference/command-line-tools-reference/feature-gates/#feature-stages).
 

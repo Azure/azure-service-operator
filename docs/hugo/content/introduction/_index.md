@@ -1,4 +1,9 @@
 ---
 title: "User’s Guide"
-weight: 1 # want this rendered first
+weight: 10
+menu:
+  main:
+    weight: 10
+cascade:
+- type: docs
 ---

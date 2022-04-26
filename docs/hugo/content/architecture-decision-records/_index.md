@@ -1,9 +1,10 @@
 ---
 title: "Architecture Decision Records"
 linkTitle: "ADR"
+weight: 50
 menu:
   main:
-    weight: 30
+    weight: 50
 cascade:
 - type: docs
 ---
