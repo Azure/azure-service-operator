@@ -5,8 +5,8 @@ import os
 import re
 import sys
 
-
-number_of_lines = 8
+# Number of lines at the top of the file to check presence of frontmatter
+number_of_lines = 16
 
 
 # Turn colors in this script off by setting the NO_COLOR variable in your

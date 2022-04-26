@@ -697,7 +697,6 @@ tasks:
     desc: Ensure all Markdown documentation has frontmatter.
     dir: docs/hugo/content
     cmds:
-      - echo "Foo"
       - "../../../{{.SCRIPTS_ROOT}}/check_frontmatter.py"
 
   specifier-check:
