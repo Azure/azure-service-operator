@@ -2,8 +2,6 @@
 title: '2020-04: Why Code Generation?'
 ---
 
-# Why Code Generation?
-
 ## Context
 
 The Azure Service Operator CSE team had successfully developed support for a handful of ARM (Azure Resource Manager) based custom resources over the course of eighteen months or so.

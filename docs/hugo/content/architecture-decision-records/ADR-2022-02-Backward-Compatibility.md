@@ -6,6 +6,8 @@ title: '2022-02: Backward Resource Compatibility'
 
 ## Context
 
+## Context
+
 As we close in on a beta release, we are considering modification of the version prefix used for code-generated resources.
 
 ### Option 1: Do nothing

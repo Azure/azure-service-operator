@@ -1,8 +1,6 @@
 ---
 title: Diagnosing problems
 ---
-# Diagnosing problems
-
 ## Common mistakes
 
 ### ASO controller pod in Status CreateContainerConfigError
