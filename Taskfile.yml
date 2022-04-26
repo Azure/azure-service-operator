@@ -36,6 +36,7 @@ vars:
   # how long to let tests against live resources run for
   LIVE_TEST_TIMEOUT: 3h
 
+  ASO_NAMESPACE: azureserviceoperator-system
 tasks:
   default:
     desc: Perform all fast local pre-commit tasks.
@@ -290,7 +291,7 @@ tasks:
   controller:test-integration-kind-ci:
     desc: Run live integration tests in kind and deletes the kind cluster afterwards.
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: [controller:kind-create-with-podidentity]
+    deps: [controller:kind-create-helm-podidentity]
     cmds:
       # This timeout is purposefully low - if we find that this job is taking a long time we may need to think of other ways
       # to keep CI fast
@@ -307,7 +308,7 @@ tasks:
   controller:test-integration-kind:
     desc: Run live integration tests in kind.
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: [controller:kind-create-with-podidentity]
+    deps: [controller:kind-create-helm-podidentity]
     cmds:
       # This timeout is purposefully low - if we find that this job is taking a long time we may need to think of other ways
       # to keep CI fast
@@ -456,6 +457,40 @@ tasks:
     cmds:
      - "{{.SCRIPTS_ROOT}}/generate-helm-manifest.sh {{.KUBE_RBAC_PROXY}} {{.LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE}} {{.PUBLIC_REGISTRY}} {{.LATEST_VERSION_TAG}} `pwd`/{{.CONTROLLER_ROOT}}"
 
+  controller:install-helm:
+    desc: Generate and install helm chart on cluster
+    dir: "{{.CONTROLLER_ROOT}}"
+    cmds:
+    - "helm install --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
+      --set azureTenantID=$AZURE_TENANT_ID \
+      --set azureClientID=$AZURE_CLIENT_ID \
+      --set image.repository={{.LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE}} \
+      asov2 -n {{.ASO_NAMESPACE}} --create-namespace ./charts/azure-service-operator/"
+    - "kubectl wait --for=condition=ready --timeout=2m pod -n {{.ASO_NAMESPACE}} -l control-plane=controller-manager"
+
+  controller:delete-helm:
+    desc: Delete helm release
+    cmds:
+      - "helm delete asov2 -n {{.ASO_NAMESPACE}}"
+
+  controller:kind-create-helm:
+    desc: Creates a local kind cluster with ASO helm chart built and installed.
+    cmds:
+      - task: controller:kind-create
+      - task: controller:install-cert-manager
+      - task: controller:docker-push-local
+      - task: controller:gen-helm-manifest
+      # We need the below to wait until cert-manager is up, otherwise the subsequent installation of webhooks fails. See https://cert-manager.io/next-docs/installation/verify/
+      - "cmctl check api --wait=2m"
+      - task: controller:install-helm
+
+  controller:kind-create-helm-podidentity:
+    desc: Creates a local kind cluster with 'AAD Pod Identity' installed alongside ASO helm chart.
+    deps: [controller:kind-create-helm]
+    cmds:
+      - task: controller:install-aad-pod-identity-local
+      - task: controller:make-aadpodidentity-secret
+      - "kubectl wait --for=condition=ready --timeout=2m pod -n {{.ASO_NAMESPACE}} -l control-plane=controller-manager"
 
   controller:kind-delete:
     desc: Deletes a kind cluster
@@ -519,7 +554,7 @@ tasks:
       - "cmctl check api --wait=2m"
       - task: controller:install
       - task: controller:make-sp-secret
-      - "kubectl wait --for=condition=ready --timeout=2m pod -n azureserviceoperator-system -l control-plane=controller-manager"
+      - "kubectl wait --for=condition=ready --timeout=2m pod -n {{.ASO_NAMESPACE}} -l control-plane=controller-manager"
 
   controller:kind-create-with-podidentity:
     desc: Creates a local kind cluster with 'AAD Pod Identity' installed alongside ASO.
@@ -532,7 +567,7 @@ tasks:
       - task: controller:install
       - task: controller:install-aad-pod-identity-local
       - task: controller:make-aadpodidentity-secret
-      - "kubectl wait --for=condition=ready --timeout=2m pod -n azureserviceoperator-system -l control-plane=controller-manager"
+      - "kubectl wait --for=condition=ready --timeout=2m pod -n {{.ASO_NAMESPACE}} -l control-plane=controller-manager"
       # Wait for the webhook client config caBundles to be set on the
       # ASO CRDs.
       - "{{.SCRIPTS_ROOT}}/wait-for-ca-bundles.sh"
@@ -556,7 +591,7 @@ tasks:
       - "kubectl create namespace t1-items"
       - "kubectl create namespace t1-more"
       # Wait for all the operator pods to be ready.
-      - "kubectl wait --for=condition=ready --timeout=2m pod -n azureserviceoperator-system -l control-plane=controller-manager"
+      - "kubectl wait --for=condition=ready --timeout=2m pod -n {{.ASO_NAMESPACE}} -l control-plane=controller-manager"
       - "kubectl wait --for=condition=ready --timeout=2m pod -n tenant1-system -l control-plane=controller-manager"
       # Wait for the webhook client config caBundles to be set on the
       # ASO CRDs.
