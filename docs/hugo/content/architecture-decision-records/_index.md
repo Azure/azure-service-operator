@@ -1,6 +1,6 @@
 ---
 title: "Architecture Decision Records"
-linkTitle: "ADR"
+linkTitle: "Architecture"
 weight: 50
 menu:
   main:
