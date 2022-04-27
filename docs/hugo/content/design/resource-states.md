@@ -1,3 +1,6 @@
+---
+title: Proposal for reporting resource Status
+---
 # Proposal for reporting resource Status
 
 ## What Status are we talking about?

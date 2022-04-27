@@ -1,4 +1,5 @@
 ---
+title: batch.azure.com/v1beta20210101
 ---
 <h2 id="batch.azure.com/v1beta20210101">batch.azure.com/v1beta20210101</h2>
 <div>

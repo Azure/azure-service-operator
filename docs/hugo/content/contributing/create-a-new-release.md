@@ -1,3 +1,6 @@
+---
+title: Creating a new release of ASO v2
+---
 # Creating a new release of ASO v2
 
 1. Go to the [releases](https://github.com/Azure/azure-service-operator/releases) page and draft a new release.

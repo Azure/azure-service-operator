@@ -38,6 +38,3 @@ do
 
     fi
 done
-
-# Hacky way to get through the "plain text html not allowed" hugo error
-find $OUTPUTDIR -type f -exec sed -i '1 s/^/---\n---\n/' {} \;
