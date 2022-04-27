@@ -53,3 +53,6 @@ metrics:
 
 # installCRDs determines if the CRDs subchart should be installed.
 installCRDs: true
+
+#podAnnotations contain the pod annotations for Azure Service Operator
+podAnnotations: {}

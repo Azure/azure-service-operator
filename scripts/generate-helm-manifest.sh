@@ -27,6 +27,7 @@ sed -i "s@$LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE@{{.Values.image.repository}}@g
 sed -i '/metrics-addr/i \  \ {{if .Values.metrics.enable}}' "$DIR"charts/azure-service-operator/templates/generated/*_deployment_* # Add metrics flow control
 sed -i "1,/metrics-addr=.*/s/\(metrics-addr=\)\(.*\)/\1{{.Values.metrics.address | default \"127.0.0.1:8080\" }}/g" "$DIR"charts/azure-service-operator/templates/generated/*_deployment_*
 sed -i '/metrics-addr/a \  \ {{ end }}' "$DIR"charts/azure-service-operator/templates/generated/*_deployment_* # End metrics flow control
+sed -i ':a;$!{N;ba};s/\(metadata:\)/\1\n  \  \  annotations:\n  {{ toYaml .Values.podAnnotations | indent 6 }}/2' "$DIR"charts/azure-service-operator/templates/generated/*_deployment_* # Add pod annotations
 sed -i "1,/version:.*/s/\(version: \)\(.*\)/\1$VERSION/g" "$DIR"charts/azure-service-operator/Chart.yaml  # find version key and update the value with the current version for main chart
 
 # Azure-Service-Operator-crds actions
