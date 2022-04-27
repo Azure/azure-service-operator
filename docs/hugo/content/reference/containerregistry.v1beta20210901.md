@@ -1,4 +1,5 @@
 ---
+title: containerregistry.azure.com/v1beta20210901
 ---
 <h2 id="containerregistry.azure.com/v1beta20210901">containerregistry.azure.com/v1beta20210901</h2>
 <div>

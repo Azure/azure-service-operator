@@ -1,4 +1,5 @@
 ---
+title: resources.azure.com/v1alpha1api20200601
 ---
 <h2 id="resources.azure.com/v1alpha1api20200601">resources.azure.com/v1alpha1api20200601</h2>
 <div>

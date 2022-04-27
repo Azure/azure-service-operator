@@ -1,4 +1,5 @@
 ---
+title: eventhub.azure.com/v1beta20211101
 ---
 <h2 id="eventhub.azure.com/v1beta20211101">eventhub.azure.com/v1beta20211101</h2>
 <div>
