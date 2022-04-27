@@ -77,6 +77,7 @@ func main() {
 		Port:                   9443,
 		HealthProbeBindAddress: healthAddr,
 	})
+
 	if err != nil {
 		setupLog.Error(err, "unable to start manager")
 		os.Exit(1)
@@ -127,6 +128,12 @@ func main() {
 			setupLog.Error(err, "failed to register webhook for gvks")
 			os.Exit(1)
 		}
+	}
+
+	err = mgr.AddHealthzCheck("healthz", mgr.GetWebhookServer().StartedChecker())
+	if err != nil {
+		setupLog.Error(err, "failed health check")
+		os.Exit(1)
 	}
 
 	setupLog.Info("starting manager")
