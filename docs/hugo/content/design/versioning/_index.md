@@ -2,8 +2,6 @@
 title: Resource versioning
 ---
 
-# Resource Versioning 
-
 Specification for how storage versioning will operate for code generated CRD definitions.
 
 We're generating a large number of CRD definitions based on the JSON schema definitions published for Azure Resource Manager use.

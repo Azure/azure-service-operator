@@ -2,8 +2,6 @@
 title: Chained Storage Versions
 ---
 
-# Case Study - Chained Storage Versions
-
 This case study explores the alternative solution of using a *chained storage versions*. We update the storage schema of each resource each release of the service operator. We'll keep the storage version up to date with the latest GA release of each resource. Older storage versions are retained, both as intermediate steps in the hub-and-spoke conversions, and to allow upgrades.
 
 For the purposes of discussion, we'll be following the version by version evolution of a theoretical ARM service that provides customer resource management (CRM) services. Synthetic examples are used to allow focus on specific scenarios one by one, providing motivation for specific features.
