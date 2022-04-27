@@ -7,7 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language><atom:link href="https://azure.github.io/azure-service-operator/reference/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title></title>
+      <title>authorization.azure.com/v1alpha1api20200801preview</title>
       <link>https://azure.github.io/azure-service-operator/reference/authorization.v1alpha1api20200801preview/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -18,7 +18,7 @@
     </item>
     
     <item>
-      <title></title>
+      <title>authorization.azure.com/v1beta20200801preview</title>
       <link>https://azure.github.io/azure-service-operator/reference/authorization.v1beta20200801preview/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -29,7 +29,7 @@
     </item>
     
     <item>
-      <title></title>
+      <title>batch.azure.com/v1alpha1api20210101</title>
       <link>https://azure.github.io/azure-service-operator/reference/batch.v1alpha1api20210101/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -41,7 +41,7 @@
     </item>
     
     <item>
-      <title></title>
+      <title>batch.azure.com/v1beta20210101</title>
       <link>https://azure.github.io/azure-service-operator/reference/batch.v1beta20210101/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -53,7 +53,7 @@
     </item>
     
     <item>
-      <title></title>
+      <title>cache.azure.com/v1alpha1api20201201</title>
       <link>https://azure.github.io/azure-service-operator/reference/cache.v1alpha1api20201201/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -65,7 +65,7 @@
     </item>
     
     <item>
-      <title></title>
+      <title>cache.azure.com/v1alpha1api20210301</title>
       <link>https://azure.github.io/azure-service-operator/reference/cache.v1alpha1api20210301/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -77,7 +77,7 @@
     </item>
     
     <item>
-      <title></title>
+      <title>cache.azure.com/v1beta20201201</title>
       <link>https://azure.github.io/azure-service-operator/reference/cache.v1beta20201201/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -88,7 +88,7 @@
     </item>
     
     <item>
-      <title></title>
+      <title>cache.azure.com/v1beta20210301</title>
       <link>https://azure.github.io/azure-service-operator/reference/cache.v1beta20210301/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -100,7 +100,7 @@
     </item>
     
     <item>
-      <title></title>
+      <title>compute.azure.com/v1alpha1api20200930</title>
       <link>https://azure.github.io/azure-service-operator/reference/compute.v1alpha1api20200930/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -111,7 +111,7 @@
     </item>
     
     <item>
-      <title></title>
+      <title>compute.azure.com/v1alpha1api20201201</title>
       <link>https://azure.github.io/azure-service-operator/reference/compute.v1alpha1api20201201/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -123,7 +123,7 @@
     </item>
     
     <item>
-      <title></title>
+      <title>compute.azure.com/v1alpha1api20210701</title>
       <link>https://azure.github.io/azure-service-operator/reference/compute.v1alpha1api20210701/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -135,7 +135,7 @@
     </item>
     
     <item>
-      <title></title>
+      <title>compute.azure.com/v1beta20200930</title>
       <link>https://azure.github.io/azure-service-operator/reference/compute.v1beta20200930/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -147,7 +147,7 @@
     </item>
     
     <item>
-      <title></title>
+      <title>compute.azure.com/v1beta20201201</title>
       <link>https://azure.github.io/azure-service-operator/reference/compute.v1beta20201201/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -158,7 +158,7 @@
     </item>
     
     <item>
-      <title></title>
+      <title>compute.azure.com/v1beta20210701</title>
       <link>https://azure.github.io/azure-service-operator/reference/compute.v1beta20210701/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -171,7 +171,7 @@
     </item>
     
     <item>
-      <title></title>
+      <title>containerregistry.azure.com/v1alpha1api20210901</title>
       <link>https://azure.github.io/azure-service-operator/reference/containerregistry.v1alpha1api20210901/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -182,7 +182,7 @@
     </item>
     
     <item>
-      <title></title>
+      <title>containerregistry.azure.com/v1beta20210901</title>
       <link>https://azure.github.io/azure-service-operator/reference/containerregistry.v1beta20210901/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -194,7 +194,7 @@
     </item>
     
     <item>
-      <title></title>
+      <title>containerservice.azure.com/v1alpha1api20210501</title>
       <link>https://azure.github.io/azure-service-operator/reference/containerservice.v1alpha1api20210501/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -208,7 +208,7 @@
     </item>
     
     <item>
-      <title></title>
+      <title>containerservice.azure.com/v1beta20210501</title>
       <link>https://azure.github.io/azure-service-operator/reference/containerservice.v1beta20210501/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -222,7 +222,7 @@
     </item>
     
     <item>
-      <title></title>
+      <title>dbformysql.azure.com/v1alpha1api20210501</title>
       <link>https://azure.github.io/azure-service-operator/reference/dbformysql.v1alpha1api20210501/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -233,7 +233,7 @@
     </item>
     
     <item>
-      <title></title>
+      <title>dbformysql.azure.com/v1beta20210501</title>
       <link>https://azure.github.io/azure-service-operator/reference/dbformysql.v1beta20210501/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -245,7 +245,7 @@
     </item>
     
     <item>
-      <title></title>
+      <title>dbforpostgresql.azure.com/v1alpha1api20210601</title>
       <link>https://azure.github.io/azure-service-operator/reference/dbforpostgresql.v1alpha1api20210601/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -256,7 +256,7 @@
     </item>
     
     <item>
-      <title></title>
+      <title>dbforpostgresql.azure.com/v1beta20210601</title>
       <link>https://azure.github.io/azure-service-operator/reference/dbforpostgresql.v1beta20210601/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -268,7 +268,7 @@
     </item>
     
     <item>
-      <title></title>
+      <title>documentdb.azure.com/v1alpha1api20210515</title>
       <link>https://azure.github.io/azure-service-operator/reference/documentdb.v1alpha1api20210515/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -280,7 +280,7 @@
     </item>
     
     <item>
-      <title></title>
+      <title>documentdb.azure.com/v1beta20210515</title>
       <link>https://azure.github.io/azure-service-operator/reference/documentdb.v1beta20210515/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -292,7 +292,7 @@
     </item>
     
     <item>
-      <title></title>
+      <title>eventgrid.azure.com/v1alpha1api20200601</title>
       <link>https://azure.github.io/azure-service-operator/reference/eventgrid.v1alpha1api20200601/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -303,7 +303,7 @@
     </item>
     
     <item>
-      <title></title>
+      <title>eventgrid.azure.com/v1beta20200601</title>
       <link>https://azure.github.io/azure-service-operator/reference/eventgrid.v1beta20200601/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -315,7 +315,7 @@
     </item>
     
     <item>
-      <title></title>
+      <title>eventhub.azure.com/v1alpha1api20211101</title>
       <link>https://azure.github.io/azure-service-operator/reference/eventhub.v1alpha1api20211101/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -326,7 +326,7 @@
     </item>
     
     <item>
-      <title></title>
+      <title>eventhub.azure.com/v1beta20211101</title>
       <link>https://azure.github.io/azure-service-operator/reference/eventhub.v1beta20211101/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -338,7 +338,7 @@
     </item>
     
     <item>
-      <title></title>
+      <title>insights.azure.com/v1alpha1api20180501preview</title>
       <link>https://azure.github.io/azure-service-operator/reference/insights.v1alpha1api20180501preview/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -349,7 +349,7 @@
     </item>
     
     <item>
-      <title></title>
+      <title>insights.azure.com/v1alpha1api20200202</title>
       <link>https://azure.github.io/azure-service-operator/reference/insights.v1alpha1api20200202/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -360,7 +360,7 @@
     </item>
     
     <item>
-      <title></title>
+      <title>insights.azure.com/v1beta20180501preview</title>
       <link>https://azure.github.io/azure-service-operator/reference/insights.v1beta20180501preview/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -373,7 +373,7 @@
     </item>
     
     <item>
-      <title></title>
+      <title>insights.azure.com/v1beta20200202</title>
       <link>https://azure.github.io/azure-service-operator/reference/insights.v1beta20200202/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -386,7 +386,7 @@
     </item>
     
     <item>
-      <title></title>
+      <title>managedidentity.azure.com/v1alpha1api20181130</title>
       <link>https://azure.github.io/azure-service-operator/reference/managedidentity.v1alpha1api20181130/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -398,7 +398,7 @@
     </item>
     
     <item>
-      <title></title>
+      <title>managedidentity.azure.com/v1beta20181130</title>
       <link>https://azure.github.io/azure-service-operator/reference/managedidentity.v1beta20181130/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -409,7 +409,7 @@
     </item>
     
     <item>
-      <title></title>
+      <title>network.azure.com/v1alpha1api20201101</title>
       <link>https://azure.github.io/azure-service-operator/reference/network.v1alpha1api20201101/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -420,7 +420,7 @@
     </item>
     
     <item>
-      <title></title>
+      <title>network.azure.com/v1beta20201101</title>
       <link>https://azure.github.io/azure-service-operator/reference/network.v1beta20201101/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -432,7 +432,7 @@
     </item>
     
     <item>
-      <title></title>
+      <title>operationalinsights.azure.com/v1alpha1api20210601</title>
       <link>https://azure.github.io/azure-service-operator/reference/operationalinsights.v1alpha1api20210601/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -443,7 +443,7 @@
     </item>
     
     <item>
-      <title></title>
+      <title>operationalinsights.azure.com/v1beta20210601</title>
       <link>https://azure.github.io/azure-service-operator/reference/operationalinsights.v1beta20210601/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -455,7 +455,7 @@
     </item>
     
     <item>
-      <title></title>
+      <title>resources.azure.com/v1alpha1api20200601</title>
       <link>https://azure.github.io/azure-service-operator/reference/resources.v1alpha1api20200601/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -465,7 +465,7 @@
     </item>
     
     <item>
-      <title></title>
+      <title>resources.azure.com/v1beta20200601</title>
       <link>https://azure.github.io/azure-service-operator/reference/resources.v1beta20200601/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -475,7 +475,7 @@
     </item>
     
     <item>
-      <title></title>
+      <title>servicebus.azure.com/v1alpha1api20210101preview</title>
       <link>https://azure.github.io/azure-service-operator/reference/servicebus.v1alpha1api20210101preview/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -486,7 +486,7 @@
     </item>
     
     <item>
-      <title></title>
+      <title>servicebus.azure.com/v1beta20210101preview</title>
       <link>https://azure.github.io/azure-service-operator/reference/servicebus.v1beta20210101preview/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -498,7 +498,7 @@
     </item>
     
     <item>
-      <title></title>
+      <title>signalrservice.azure.com/v1alpha1api20211001</title>
       <link>https://azure.github.io/azure-service-operator/reference/signalrservice.v1alpha1api20211001/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -512,7 +512,7 @@
     </item>
     
     <item>
-      <title></title>
+      <title>signalrservice.azure.com/v1beta20211001</title>
       <link>https://azure.github.io/azure-service-operator/reference/signalrservice.v1beta20211001/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -528,7 +528,7 @@
     </item>
     
     <item>
-      <title></title>
+      <title>storage.azure.com/v1alpha1api20210401</title>
       <link>https://azure.github.io/azure-service-operator/reference/storage.v1alpha1api20210401/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -539,7 +539,7 @@
     </item>
     
     <item>
-      <title></title>
+      <title>storage.azure.com/v1beta20210401</title>
       <link>https://azure.github.io/azure-service-operator/reference/storage.v1beta20210401/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
