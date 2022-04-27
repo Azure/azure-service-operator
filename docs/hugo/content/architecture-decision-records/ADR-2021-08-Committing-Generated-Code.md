@@ -1,3 +1,6 @@
+---
+title: '2021-08: Committing Generated Code'
+---
 # Committing Generated Code
 
 ## Context

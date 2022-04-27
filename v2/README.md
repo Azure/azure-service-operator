@@ -1,3 +1,6 @@
+---
+title: Azure Service Operator v2
+---
 # Azure Service Operator v2
 
 ## Project Status

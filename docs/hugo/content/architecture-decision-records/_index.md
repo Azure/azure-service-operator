@@ -1,3 +1,6 @@
+---
+title: Architecture Decision Records
+---
 
 
 # Architecture Decision Records
