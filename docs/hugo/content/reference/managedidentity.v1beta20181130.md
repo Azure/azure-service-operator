@@ -1,4 +1,5 @@
 ---
+title: managedidentity.azure.com/v1beta20181130
 ---
 <h2 id="managedidentity.azure.com/v1beta20181130">managedidentity.azure.com/v1beta20181130</h2>
 <div>
