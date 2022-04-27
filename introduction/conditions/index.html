@@ -6,7 +6,7 @@
 <meta name="description" content="Understanding Conditions #  Each resource reports a Ready condition in .status.conditions. It is also visible when you examine the resource with kubectl get, for example:
 $ kubectl get resourcegroups.resources.azure.com NAME READY SEVERITY REASON MESSAGE aso-sample-rg False Info Reconciling The resource is in the process of being reconciled by the operator If the condition&rsquo;s status is True (visible in the READY column via kubectl get) the resource is in the goal state.">
 <meta name="theme-color" content="#FFFFFF">
-<meta name="color-scheme" content="light dark"><meta property="og:title" content="" />
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="Understanding Conditions" />
 <meta property="og:description" content="Understanding Conditions #  Each resource reports a Ready condition in .status.conditions. It is also visible when you examine the resource with kubectl get, for example:
 $ kubectl get resourcegroups.resources.azure.com NAME READY SEVERITY REASON MESSAGE aso-sample-rg False Info Reconciling The resource is in the process of being reconciled by the operator If the condition&rsquo;s status is True (visible in the READY column via kubectl get) the resource is in the goal state." />
 <meta property="og:type" content="article" />
@@ -14,12 +14,12 @@ $ kubectl get resourcegroups.resources.azure.com NAME READY SEVERITY REASON MESS
 
 
 
-<title>Conditions | Azure Service Operator</title>
+<title>Understanding Conditions | Azure Service Operator</title>
 <link rel="manifest" href="/azure-service-operator/manifest.json">
 <link rel="icon" href="/azure-service-operator/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/azure-service-operator/book.min.46181bc93375ba932026e753b37c40e6ff8bb16a9ef770c78bcc663e4577b1ba.css" integrity="sha256-RhgbyTN1upMgJudTs3xA5v&#43;LsWqe93DHi8xmPkV3sbo=" crossorigin="anonymous">
   <script defer src="/azure-service-operator/flexsearch.min.js"></script>
-  <script defer src="/azure-service-operator/en.search.min.ebd9824284ca77094dc26d7fce89debb0f523083556831b5edb2c2f8caf39657.js" integrity="sha256-69mCQoTKdwlNwm1/zoneuw9SMINVaDG17bLC&#43;Mrzllc=" crossorigin="anonymous"></script>
+  <script defer src="/azure-service-operator/en.search.min.31c366dfcecfbe7bb40e0a025fa4afe5048f188a65d86ffdff52786220916730.js" integrity="sha256-McNm387Pvnu0DgoCX6Sv5QSPGIpl2G/9/1J4YiCRZzA=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -86,85 +86,72 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://azure.github.io/azure-service-operator/introduction/annotations/" class="">Annotations</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/introduction/authentication/" class="">Authentication</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/introduction/conditions/" class=" active">Conditions</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/introduction/diagnosing-problems/" class="">Diagnosing Problems</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/introduction/multitenant-deployment/" class="">Multitenant Deployment</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/introduction/secrets/" class="">Secrets</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
     <a href="https://azure.github.io/azure-service-operator/introduction/resources/" class="">Resources</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/introduction/annotations/" class="">Annotations understood by the operator</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/introduction/authentication/" class="">Authentication in Azure Service Operator v2</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/introduction/multitenant-deployment/" class="">Deploying Azure Service Operator v2 in multi-tenant mode</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/introduction/diagnosing-problems/" class="">Diagnosing problems</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/introduction/secrets/" class="">Handling secrets</a>
   
 
         </li>
@@ -209,6 +196,19 @@ https://github.com/alex-shpak/hugo-book
         </li>
       
     
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/introduction/conditions/" class=" active">Understanding Conditions</a>
+  
+
+        </li>
+      
+    
   </ul>
 
         </li>
@@ -247,7 +247,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/" class="">Add a New Code Generated Resource</a>
+    <a href="https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/" class="">Adding a new code generated resource to ASO v2</a>
   
 
         </li>
@@ -260,7 +260,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://azure.github.io/azure-service-operator/contributing/create-a-new-release/" class="">Create a New Release</a>
+    <a href="https://azure.github.io/azure-service-operator/contributing/generator-overview/" class="">Code Generator Overview</a>
   
 
         </li>
@@ -273,7 +273,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://azure.github.io/azure-service-operator/contributing/generator-overview/" class="">Generator Overview</a>
+    <a href="https://azure.github.io/azure-service-operator/contributing/create-a-new-release/" class="">Creating a new release of ASO v2</a>
   
 
         </li>
@@ -304,7 +304,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://azure.github.io/azure-service-operator/design/clarifying-object-structure/" class="">Clarifying Object Structure</a>
+    <a href="https://azure.github.io/azure-service-operator/design/secrets/" class="">Azure Service Operator support for managing dataplane secrets</a>
   
 
         </li>
@@ -317,7 +317,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://azure.github.io/azure-service-operator/design/crossplane/" class="">Crossplane</a>
+    <a href="https://azure.github.io/azure-service-operator/design/clarifying-object-structure/" class="">Clarifying object structure</a>
   
 
         </li>
@@ -330,7 +330,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://azure.github.io/azure-service-operator/design/defaulter-validator/" class="">Defaulter Validator</a>
+    <a href="https://azure.github.io/azure-service-operator/design/defaulter-validator/" class="">Custom validation and defaulting for code generated resources</a>
   
 
         </li>
@@ -343,7 +343,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://azure.github.io/azure-service-operator/design/resource-states/" class="">Resource States</a>
+    <a href="https://azure.github.io/azure-service-operator/design/resource-states/" class="">Proposal for reporting resource Status</a>
   
 
         </li>
@@ -356,7 +356,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://azure.github.io/azure-service-operator/design/secrets/" class="">Secrets</a>
+    <a href="https://azure.github.io/azure-service-operator/design/crossplane/" class="">Thoughts on performing provider-azure code generation for Crossplane</a>
   
 
         </li>
@@ -369,7 +369,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://azure.github.io/azure-service-operator/design/type-references-and-ownership/" class="">Type References and Ownership</a>
+    <a href="https://azure.github.io/azure-service-operator/design/type-references-and-ownership/" class="">Type references and ownership</a>
   
 
         </li>
@@ -475,20 +475,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-02-property-conversions/" class="">2021-02: Property Conversions</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-11-abstract-syntax-trees/" class="">2020-11: AST Library Choice</a>
+    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-04-code-generation/" class="">2020-04: Why Code Generation?</a>
   
 
         </li>
@@ -514,7 +501,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-04-code-generation/" class="">2020-04: Why Code Generation?</a>
+    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-11-abstract-syntax-trees/" class="">2020-11: AST Library Choice</a>
   
 
         </li>
@@ -527,7 +514,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-06-api-version-recovery/" class="">Adr 2021 06 API Version Recovery</a>
+    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-02-property-conversions/" class="">2021-02: Property Conversions</a>
   
 
         </li>
@@ -540,7 +527,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-08-committing-generated-code/" class="">Adr 2021 08 Committing Generated Code</a>
+    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-06-api-version-recovery/" class="">2021-06: API Version Recovery</a>
   
 
         </li>
@@ -553,7 +540,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2022-01-reconciler-extensions/" class="">Adr 2022 01 Reconciler Extensions</a>
+    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-08-committing-generated-code/" class="">2021-08: Committing Generated Code</a>
   
 
         </li>
@@ -566,7 +553,20 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2022-02-backward-compatibility/" class="">Adr 2022 02 Backward Compatibility</a>
+    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2022-01-reconciler-extensions/" class="">2022-01: Reconciler Extensions</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2022-02-backward-compatibility/" class="">2022-02: Backward Resource Compatibility</a>
   
 
         </li>
@@ -1229,7 +1229,7 @@ https://github.com/alex-shpak/hugo-book
     <img src="/azure-service-operator/svg/menu.svg" class="book-icon" alt="Menu" />
   </label>
 
-  <strong>Conditions</strong>
+  <strong>Understanding Conditions</strong>
 
   <label for="toc-control">
     

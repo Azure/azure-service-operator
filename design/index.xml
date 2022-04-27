@@ -7,7 +7,18 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language><atom:link href="https://azure.github.io/azure-service-operator/design/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title></title>
+      <title>Azure Service Operator support for managing dataplane secrets</title>
+      <link>https://azure.github.io/azure-service-operator/design/secrets/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/design/secrets/</guid>
+      <description>Azure Service Operator support for managing dataplane secrets #  What secrets are we talking about? #  The secrets discussed in this document are associated with accessing the data plane of various services.
+Think: Accessing a StorageAccount via Shared Key, accessing a MySQLServer by admin Username and Password, or accessing a VM by SSHKey.
+Sometimes these secrets may be used by other CRDs managed by ASO, as would be the case for a MySQLUser CRD, but often the consumers of these secrets are the users applications.</description>
+    </item>
+    
+    <item>
+      <title>Clarifying object structure</title>
       <link>https://azure.github.io/azure-service-operator/design/clarifying-object-structure/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -17,7 +28,26 @@ apiVersion: microsoft.storage.infra.azure.com/v1alpha1api20190401 kind: StorageA
     </item>
     
     <item>
-      <title></title>
+      <title>Custom validation and defaulting for code generated resources</title>
+      <link>https://azure.github.io/azure-service-operator/design/defaulter-validator/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/design/defaulter-validator/</guid>
+      <description>Custom validation and defaulting for code generated resources #  Reasoning #  controller-runtime defines admission.Defaulter and admission.Validator. These interfaces only give you a single Default or ValidateX method, which means that all validation/defaulting needs to be done in that method. I think we&amp;rsquo;re going to quickly run into situations where we want custom (handcrafted) validations or defaults for a particular resource and we&amp;rsquo;re not going to want to teach the code generator about these.</description>
+    </item>
+    
+    <item>
+      <title>Proposal for reporting resource Status</title>
+      <link>https://azure.github.io/azure-service-operator/design/resource-states/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/design/resource-states/</guid>
+      <description>Proposal for reporting resource Status #  What Status are we talking about? #  There are two types of Status that we&amp;rsquo;re interested in understanding and reporting to the user when running an operator that creates resources in Azure:
+ The Status of the operator and its actions on the resource. Has the resource successfully been reconciled? Is the operator in the progress of driving the resource to its goal state (defined in the spec), or has it already done so and is now waiting for more changes before taking further action?</description>
+    </item>
+    
+    <item>
+      <title>Thoughts on performing provider-azure code generation for Crossplane</title>
       <link>https://azure.github.io/azure-service-operator/design/crossplane/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -28,37 +58,7 @@ Items #2-4 are included automatically by embedding the runtimev1alpha1.</descrip
     </item>
     
     <item>
-      <title></title>
-      <link>https://azure.github.io/azure-service-operator/design/defaulter-validator/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://azure.github.io/azure-service-operator/design/defaulter-validator/</guid>
-      <description>Custom validation and defaulting for code generated resources #  Reasoning #  controller-runtime defines admission.Defaulter and admission.Validator. These interfaces only give you a single Default or ValidateX method, which means that all validation/defaulting needs to be done in that method. I think we&amp;rsquo;re going to quickly run into situations where we want custom (handcrafted) validations or defaults for a particular resource and we&amp;rsquo;re not going to want to teach the code generator about these.</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://azure.github.io/azure-service-operator/design/resource-states/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://azure.github.io/azure-service-operator/design/resource-states/</guid>
-      <description>Proposal for reporting resource Status #  What Status are we talking about? #  There are two types of Status that we&amp;rsquo;re interested in understanding and reporting to the user when running an operator that creates resources in Azure:
- The Status of the operator and its actions on the resource. Has the resource successfully been reconciled? Is the operator in the progress of driving the resource to its goal state (defined in the spec), or has it already done so and is now waiting for more changes before taking further action?</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://azure.github.io/azure-service-operator/design/secrets/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://azure.github.io/azure-service-operator/design/secrets/</guid>
-      <description>Azure Service Operator support for managing data plane secrets #  What secrets are we talking about? #  The secrets discussed in this document are associated with accessing the data plane of various services.
-Think: Accessing a StorageAccount via Shared Key, accessing a MySQLServer by admin Username and Password, or accessing a VM by SSHKey.
-Sometimes these secrets may be used by other CRDs managed by ASO, as would be the case for a MySQLUser CRD, but often the consumers of these secrets are the users applications.</description>
-    </item>
-    
-    <item>
-      <title></title>
+      <title>Type references and ownership</title>
       <link>https://azure.github.io/azure-service-operator/design/type-references-and-ownership/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       

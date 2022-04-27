@@ -17,7 +17,7 @@ This repository contains a devcontainer configuration that can be used in conjun
     </item>
     
     <item>
-      <title></title>
+      <title>Adding a new code generated resource to ASO v2</title>
       <link>https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -27,16 +27,7 @@ What resources can be code generated? #  Any ARM resource can be generated. Ther
     </item>
     
     <item>
-      <title></title>
-      <link>https://azure.github.io/azure-service-operator/contributing/create-a-new-release/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://azure.github.io/azure-service-operator/contributing/create-a-new-release/</guid>
-      <description>Creating a new release of ASO v2 #   Go to the releases page and draft a new release. In the tag dropdown, type the name of the new tag you&amp;rsquo;d like to create (it should match the pattern of previous releases tags, for example: v2.0.0-alpha.1). The release target should be main (the default). Use the GitHub &amp;ldquo;auto-generate release notes&amp;rdquo; button to generate a set of release notes to work with.</description>
-    </item>
-    
-    <item>
-      <title></title>
+      <title>Code Generator Overview</title>
       <link>https://azure.github.io/azure-service-operator/contributing/generator-overview/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -44,6 +35,15 @@ What resources can be code generated? #  Any ARM resource can be generated. Ther
       <description>Code Generator Overview #  Core to Azure Service Operator (ASO) v2 is our code generator. This consumes ARM JSON Schema and Swagger specifications and generates code for each desired resource that works with our generic operator reconciler.
 Code Structure #  Key packages used to structure the code of the generator are as follows:
    Package Content     astmodel Short for Abstract Syntax Tree Model, this package contains the core data types for defining the Go functions, data types, and methods we generate.</description>
+    </item>
+    
+    <item>
+      <title>Creating a new release of ASO v2</title>
+      <link>https://azure.github.io/azure-service-operator/contributing/create-a-new-release/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/contributing/create-a-new-release/</guid>
+      <description>Creating a new release of ASO v2 #   Go to the releases page and draft a new release. In the tag dropdown, type the name of the new tag you&amp;rsquo;d like to create (it should match the pattern of previous releases tags, for example: v2.0.0-alpha.1). The release target should be main (the default). Use the GitHub &amp;ldquo;auto-generate release notes&amp;rdquo; button to generate a set of release notes to work with.</description>
     </item>
     
   </channel>

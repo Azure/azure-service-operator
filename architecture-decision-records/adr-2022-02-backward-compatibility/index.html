@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Context #  As we close in on a beta release, we are considering modification of the version prefix used for code-generated resources.
+<meta name="description" content="Backward Resource Compatibility #  Context #  As we close in on a beta release, we are considering modification of the version prefix used for code-generated resources.
 Option 1: Do nothing #  Leave all generated resources using the alpha prefix that is currently in use.
 Pros
  Easy to implement (nothing to do) and quick to deliver  Cons
   Introduces an inconsistency between the status of ASO (beta) and the labelling of the resources (alpha).">
 <meta name="theme-color" content="#FFFFFF">
-<meta name="color-scheme" content="light dark"><meta property="og:title" content="" />
-<meta property="og:description" content="Context #  As we close in on a beta release, we are considering modification of the version prefix used for code-generated resources.
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="2022-02: Backward Resource Compatibility" />
+<meta property="og:description" content="Backward Resource Compatibility #  Context #  As we close in on a beta release, we are considering modification of the version prefix used for code-generated resources.
 Option 1: Do nothing #  Leave all generated resources using the alpha prefix that is currently in use.
 Pros
  Easy to implement (nothing to do) and quick to deliver  Cons
@@ -20,12 +20,12 @@ Pros
 
 
 
-<title>Adr 2022 02 Backward Compatibility | Azure Service Operator</title>
+<title>2022-02: Backward Resource Compatibility | Azure Service Operator</title>
 <link rel="manifest" href="/azure-service-operator/manifest.json">
 <link rel="icon" href="/azure-service-operator/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/azure-service-operator/book.min.46181bc93375ba932026e753b37c40e6ff8bb16a9ef770c78bcc663e4577b1ba.css" integrity="sha256-RhgbyTN1upMgJudTs3xA5v&#43;LsWqe93DHi8xmPkV3sbo=" crossorigin="anonymous">
   <script defer src="/azure-service-operator/flexsearch.min.js"></script>
-  <script defer src="/azure-service-operator/en.search.min.ebd9824284ca77094dc26d7fce89debb0f523083556831b5edb2c2f8caf39657.js" integrity="sha256-69mCQoTKdwlNwm1/zoneuw9SMINVaDG17bLC&#43;Mrzllc=" crossorigin="anonymous"></script>
+  <script defer src="/azure-service-operator/en.search.min.31c366dfcecfbe7bb40e0a025fa4afe5048f188a65d86ffdff52786220916730.js" integrity="sha256-McNm387Pvnu0DgoCX6Sv5QSPGIpl2G/9/1J4YiCRZzA=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -92,85 +92,72 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://azure.github.io/azure-service-operator/introduction/annotations/" class="">Annotations</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/introduction/authentication/" class="">Authentication</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/introduction/conditions/" class="">Conditions</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/introduction/diagnosing-problems/" class="">Diagnosing Problems</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/introduction/multitenant-deployment/" class="">Multitenant Deployment</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/introduction/secrets/" class="">Secrets</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
     <a href="https://azure.github.io/azure-service-operator/introduction/resources/" class="">Resources</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/introduction/annotations/" class="">Annotations understood by the operator</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/introduction/authentication/" class="">Authentication in Azure Service Operator v2</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/introduction/multitenant-deployment/" class="">Deploying Azure Service Operator v2 in multi-tenant mode</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/introduction/diagnosing-problems/" class="">Diagnosing problems</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/introduction/secrets/" class="">Handling secrets</a>
   
 
         </li>
@@ -215,6 +202,19 @@ https://github.com/alex-shpak/hugo-book
         </li>
       
     
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/introduction/conditions/" class="">Understanding Conditions</a>
+  
+
+        </li>
+      
+    
   </ul>
 
         </li>
@@ -253,7 +253,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/" class="">Add a New Code Generated Resource</a>
+    <a href="https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/" class="">Adding a new code generated resource to ASO v2</a>
   
 
         </li>
@@ -266,7 +266,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://azure.github.io/azure-service-operator/contributing/create-a-new-release/" class="">Create a New Release</a>
+    <a href="https://azure.github.io/azure-service-operator/contributing/generator-overview/" class="">Code Generator Overview</a>
   
 
         </li>
@@ -279,7 +279,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://azure.github.io/azure-service-operator/contributing/generator-overview/" class="">Generator Overview</a>
+    <a href="https://azure.github.io/azure-service-operator/contributing/create-a-new-release/" class="">Creating a new release of ASO v2</a>
   
 
         </li>
@@ -310,7 +310,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://azure.github.io/azure-service-operator/design/clarifying-object-structure/" class="">Clarifying Object Structure</a>
+    <a href="https://azure.github.io/azure-service-operator/design/secrets/" class="">Azure Service Operator support for managing dataplane secrets</a>
   
 
         </li>
@@ -323,7 +323,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://azure.github.io/azure-service-operator/design/crossplane/" class="">Crossplane</a>
+    <a href="https://azure.github.io/azure-service-operator/design/clarifying-object-structure/" class="">Clarifying object structure</a>
   
 
         </li>
@@ -336,7 +336,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://azure.github.io/azure-service-operator/design/defaulter-validator/" class="">Defaulter Validator</a>
+    <a href="https://azure.github.io/azure-service-operator/design/defaulter-validator/" class="">Custom validation and defaulting for code generated resources</a>
   
 
         </li>
@@ -349,7 +349,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://azure.github.io/azure-service-operator/design/resource-states/" class="">Resource States</a>
+    <a href="https://azure.github.io/azure-service-operator/design/resource-states/" class="">Proposal for reporting resource Status</a>
   
 
         </li>
@@ -362,7 +362,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://azure.github.io/azure-service-operator/design/secrets/" class="">Secrets</a>
+    <a href="https://azure.github.io/azure-service-operator/design/crossplane/" class="">Thoughts on performing provider-azure code generation for Crossplane</a>
   
 
         </li>
@@ -375,7 +375,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://azure.github.io/azure-service-operator/design/type-references-and-ownership/" class="">Type References and Ownership</a>
+    <a href="https://azure.github.io/azure-service-operator/design/type-references-and-ownership/" class="">Type references and ownership</a>
   
 
         </li>
@@ -481,20 +481,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-02-property-conversions/" class="">2021-02: Property Conversions</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-11-abstract-syntax-trees/" class="">2020-11: AST Library Choice</a>
+    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-04-code-generation/" class="">2020-04: Why Code Generation?</a>
   
 
         </li>
@@ -520,7 +507,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-04-code-generation/" class="">2020-04: Why Code Generation?</a>
+    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-11-abstract-syntax-trees/" class="">2020-11: AST Library Choice</a>
   
 
         </li>
@@ -533,7 +520,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-06-api-version-recovery/" class="">Adr 2021 06 API Version Recovery</a>
+    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-02-property-conversions/" class="">2021-02: Property Conversions</a>
   
 
         </li>
@@ -546,7 +533,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-08-committing-generated-code/" class="">Adr 2021 08 Committing Generated Code</a>
+    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-06-api-version-recovery/" class="">2021-06: API Version Recovery</a>
   
 
         </li>
@@ -559,7 +546,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2022-01-reconciler-extensions/" class="">Adr 2022 01 Reconciler Extensions</a>
+    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-08-committing-generated-code/" class="">2021-08: Committing Generated Code</a>
   
 
         </li>
@@ -572,7 +559,20 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2022-02-backward-compatibility/" class=" active">Adr 2022 02 Backward Compatibility</a>
+    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2022-01-reconciler-extensions/" class="">2022-01: Reconciler Extensions</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2022-02-backward-compatibility/" class=" active">2022-02: Backward Resource Compatibility</a>
   
 
         </li>
@@ -1235,7 +1235,7 @@ https://github.com/alex-shpak/hugo-book
     <img src="/azure-service-operator/svg/menu.svg" class="book-icon" alt="Menu" />
   </label>
 
-  <strong>Adr 2022 02 Backward Compatibility</strong>
+  <strong>2022-02: Backward Resource Compatibility</strong>
 
   <label for="toc-control">
     
@@ -1251,17 +1251,26 @@ https://github.com/alex-shpak/hugo-book
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#option-1-do-nothing">Option 1: Do nothing</a></li>
-    <li><a href="#option-2-move-all-resources-to-beta">Option 2: Move all resources to beta</a></li>
-    <li><a href="#option-3a-in-place-upgrade-for-existing-resources">Option 3a: In-place upgrade for existing resources</a></li>
-    <li><a href="#option-3b-retain-the-alpha-version-for-existing-resources">Option 3b: Retain the alpha version for existing resources</a></li>
-    <li><a href="#other-factors">Other factors</a></li>
-  </ul>
-
-  <ul>
-    <li><a href="#beta-0-release">Beta 0 Release</a></li>
-    <li><a href="#beta-1-release">Beta 1 Release</a></li>
-    <li><a href="#beta-n-release">Beta n Release</a></li>
+    <li><a href="#context">Context</a>
+      <ul>
+        <li><a href="#option-1-do-nothing">Option 1: Do nothing</a></li>
+        <li><a href="#option-2-move-all-resources-to-beta">Option 2: Move all resources to beta</a></li>
+        <li><a href="#option-3a-in-place-upgrade-for-existing-resources">Option 3a: In-place upgrade for existing resources</a></li>
+        <li><a href="#option-3b-retain-the-alpha-version-for-existing-resources">Option 3b: Retain the alpha version for existing resources</a></li>
+        <li><a href="#other-factors">Other factors</a></li>
+      </ul>
+    </li>
+    <li><a href="#decision">Decision</a>
+      <ul>
+        <li><a href="#beta-0-release">Beta 0 Release</a></li>
+        <li><a href="#beta-1-release">Beta 1 Release</a></li>
+        <li><a href="#beta-n-release">Beta n Release</a></li>
+      </ul>
+    </li>
+    <li><a href="#status">Status</a></li>
+    <li><a href="#consequences">Consequences</a></li>
+    <li><a href="#experience-report">Experience Report</a></li>
+    <li><a href="#references">References</a></li>
   </ul>
 </nav>
 
@@ -1274,15 +1283,19 @@ https://github.com/alex-shpak/hugo-book
 
       
       
-  <article class="markdown"><h1 id="context">
+  <article class="markdown"><h1 id="backward-resource-compatibility">
+  Backward Resource Compatibility
+  <a class="anchor" href="#backward-resource-compatibility">#</a>
+</h1>
+<h2 id="context">
   Context
   <a class="anchor" href="#context">#</a>
-</h1>
+</h2>
 <p>As we close in on a beta release, we are considering modification of the version prefix used for code-generated resources.</p>
-<h2 id="option-1-do-nothing">
+<h3 id="option-1-do-nothing">
   Option 1: Do nothing
   <a class="anchor" href="#option-1-do-nothing">#</a>
-</h2>
+</h3>
 <p>Leave all generated resources using the alpha prefix that is currently in use.</p>
 <p>Pros</p>
 <ul>
@@ -1297,10 +1310,10 @@ https://github.com/alex-shpak/hugo-book
 <p>Might be perceived by some users as indicating these particular resources are still in alpha, and therefore pose significant a barrier to adoption of ASO.</p>
 </li>
 </ul>
-<h2 id="option-2-move-all-resources-to-beta">
+<h3 id="option-2-move-all-resources-to-beta">
   Option 2: Move all resources to beta
   <a class="anchor" href="#option-2-move-all-resources-to-beta">#</a>
-</h2>
+</h3>
 <p>Change the generated prefix for all resources</p>
 <p>Pros</p>
 <ul>
@@ -1318,10 +1331,10 @@ Mitigation: For manual uses, modification of the YAML files being applied to cha
 Mitigation: For automated uses, modification of the deployment pipelines to change the version of the resources.</p>
 </li>
 </ul>
-<h2 id="option-3a-in-place-upgrade-for-existing-resources">
+<h3 id="option-3a-in-place-upgrade-for-existing-resources">
   Option 3a: In-place upgrade for existing resources
   <a class="anchor" href="#option-3a-in-place-upgrade-for-existing-resources">#</a>
-</h2>
+</h3>
 <p>Change the generated prefix to <code>v1beta</code> for all resources, but retain the alpha storage variants of each existing resource. This would allow an upgraded ASO installation to promote any existing resources to the new storage version.</p>
 <p>Pros</p>
 <ul>
@@ -1345,10 +1358,10 @@ Observation: We know there is an upper limit to the size of each CRD, though we&
 Mitigation: Prune all documentation from the alpha variants to make them (much!) smaller</p>
 </li>
 </ul>
-<h2 id="option-3b-retain-the-alpha-version-for-existing-resources">
+<h3 id="option-3b-retain-the-alpha-version-for-existing-resources">
   Option 3b: Retain the alpha version for existing resources
   <a class="anchor" href="#option-3b-retain-the-alpha-version-for-existing-resources">#</a>
-</h2>
+</h3>
 <p>Use a beta prefix for all resources. Also use our existing alpha prefix for all resources that were included in any alpha release of ASO, but not for new resources.</p>
 <p>Pros</p>
 <ul>
@@ -1375,23 +1388,23 @@ Mitigation: Prune all documentation from the alpha resource versions</p>
 Mitigation: Pruning documentation would push users towards the beta versions.</p>
 </li>
 </ul>
-<h2 id="other-factors">
+<h3 id="other-factors">
   Other factors
   <a class="anchor" href="#other-factors">#</a>
-</h2>
+</h3>
 <p>We don&rsquo;t want to maroon existing users of Azure Service Operator (ASO) by making this a breaking change. It&rsquo;s important to us to make upgrades of ASO as straightforward as possible.</p>
 <p>Cross version compatibility between ARM versions of a resource (that is, for example, between <code>v1alpha1api20180101</code> and <code>v1alpha1api20200101</code>) is already implemented and well tested, so we should leverage that existing infrastructure.</p>
 <p>Version skew policy in the Kubernetes ecosystem is to allow for one or two older minor versions of backward compatibility. This gives us the <em>option</em> of temporarily introducing backward compatibility with the <code>codegen-beta-0</code> release and then dropping it once we reach <code>codegen-beta-2</code> or greater.</p>
-<h1 id="decision">
+<h2 id="decision">
   Decision
   <a class="anchor" href="#decision">#</a>
-</h1>
+</h2>
 <p>We choose to prioritize a good upgrade experience for our users. We&rsquo;ll proceed with option 3b (Retain the alpha version for existing resources).</p>
 <p>Change the prefix used for our resources from <code>v1alpha1api</code> to simply <code>v1beta</code>. (We don&rsquo;t need a minor number as part of the prefix. The original intention was to increment the minor version with each release of the operator, but the overhead of this is very high, so we&rsquo;ve instead used the prefix <code>v1alpha1api</code> for all our alpha releases.)</p>
-<h2 id="beta-0-release">
+<h3 id="beta-0-release">
   Beta 0 Release
   <a class="anchor" href="#beta-0-release">#</a>
-</h2>
+</h3>
 <p>All resources will be duplicated, published as both <code>v1beta</code> and as <code>v1alpha1api</code>. This includes new resources published for the first time in the beta.</p>
 <p>Introduce a new pipeline stage to create additional versions for backward compatibility, each created by cloning an existing version but using a package name based on the old <code>v1alpha1api</code> prefix.</p>
 <p>For example, the API resource <code>v1beta20201201storage/VirtualMachine</code> will be cloned as <code>v1alpha1api20201201/VirtualMachine</code>. Subsequent pipeline stages will create matching storage versions and the necessary conversions.</p>
@@ -1400,25 +1413,25 @@ Mitigation: Pruning documentation would push users towards the beta versions.</p
 <p>When we have multiple ARM versions in flight (as we do with <code>compute</code>), supporting all <em>potential</em> older resource versions gives us maximum compatibility without any need for configuration or to make any assumptions about which ARM versions were previously supported.</p>
 <p><img src="images/adr-2022-02-backward-compatibility-multiple-version.png" alt="image" /></p>
 <p>This approach also gives us backward compatibility when we have a mix of resources across multiple versions (as happens with both <code>compute</code> and <code>network</code>). We know from prior work (including introduction of the <code>PropertyBag</code> field) that conversions between storage versions are lossless.</p>
-<h2 id="beta-1-release">
+<h3 id="beta-1-release">
   Beta 1 Release
   <a class="anchor" href="#beta-1-release">#</a>
-</h2>
+</h3>
 <p>Additional configuration will ensure that resources introduced in that (or later) releases won&rsquo;t include alpha versions. This configuration will require opt-in for backward compatibility, so that the overhead for new resources is as low as possible. <a href="https://github.com/Azure/azure-service-operator/issues/2176">Issue #2176</a> has been logged to track this work.</p>
-<h2 id="beta-n-release">
+<h3 id="beta-n-release">
   Beta n Release
   <a class="anchor" href="#beta-n-release">#</a>
-</h2>
+</h3>
 <p>At some point, after giving users of ASO alpha releases a reasonable time frame, we will drop the alpha versions. We&rsquo;ll document this plan as a part of the <strong>Beta 0</strong> release.</p>
-<h1 id="status">
+<h2 id="status">
   Status
   <a class="anchor" href="#status">#</a>
-</h1>
+</h2>
 <p>Proposed.</p>
-<h1 id="consequences">
+<h2 id="consequences">
   Consequences
   <a class="anchor" href="#consequences">#</a>
-</h1>
+</h2>
 <p>With the supported format for old resources being derived from newer resources, we need to be careful about breaking changes (e.g. removing properties or changing property types) that might cause issues for users upgrading to the latest ASO.</p>
 <p>Factors reducing the severity of this include:</p>
 <ul>
@@ -1432,15 +1445,15 @@ Mitigation: Pruning documentation would push users towards the beta versions.</p
 <p>We only need to maintain backward compatibility across a small number of versions.</p>
 </li>
 </ul>
-<h1 id="experience-report">
+<h2 id="experience-report">
   Experience Report
   <a class="anchor" href="#experience-report">#</a>
-</h1>
+</h2>
 <p>TBC.</p>
-<h1 id="references">
+<h2 id="references">
   References
   <a class="anchor" href="#references">#</a>
-</h1>
+</h2>
 <p>TBC.</p>
 </article>
  
@@ -1483,17 +1496,26 @@ Mitigation: Pruning documentation would push users towards the beta versions.</p
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#option-1-do-nothing">Option 1: Do nothing</a></li>
-    <li><a href="#option-2-move-all-resources-to-beta">Option 2: Move all resources to beta</a></li>
-    <li><a href="#option-3a-in-place-upgrade-for-existing-resources">Option 3a: In-place upgrade for existing resources</a></li>
-    <li><a href="#option-3b-retain-the-alpha-version-for-existing-resources">Option 3b: Retain the alpha version for existing resources</a></li>
-    <li><a href="#other-factors">Other factors</a></li>
-  </ul>
-
-  <ul>
-    <li><a href="#beta-0-release">Beta 0 Release</a></li>
-    <li><a href="#beta-1-release">Beta 1 Release</a></li>
-    <li><a href="#beta-n-release">Beta n Release</a></li>
+    <li><a href="#context">Context</a>
+      <ul>
+        <li><a href="#option-1-do-nothing">Option 1: Do nothing</a></li>
+        <li><a href="#option-2-move-all-resources-to-beta">Option 2: Move all resources to beta</a></li>
+        <li><a href="#option-3a-in-place-upgrade-for-existing-resources">Option 3a: In-place upgrade for existing resources</a></li>
+        <li><a href="#option-3b-retain-the-alpha-version-for-existing-resources">Option 3b: Retain the alpha version for existing resources</a></li>
+        <li><a href="#other-factors">Other factors</a></li>
+      </ul>
+    </li>
+    <li><a href="#decision">Decision</a>
+      <ul>
+        <li><a href="#beta-0-release">Beta 0 Release</a></li>
+        <li><a href="#beta-1-release">Beta 1 Release</a></li>
+        <li><a href="#beta-n-release">Beta n Release</a></li>
+      </ul>
+    </li>
+    <li><a href="#status">Status</a></li>
+    <li><a href="#consequences">Consequences</a></li>
+    <li><a href="#experience-report">Experience Report</a></li>
+    <li><a href="#references">References</a></li>
   </ul>
 </nav>
 

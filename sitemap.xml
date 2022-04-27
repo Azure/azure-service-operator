@@ -10,68 +10,6 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/architecture-decision-records/</loc>
-    <lastmod>2021-02-09T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url><url>
-    <loc>https://azure.github.io/azure-service-operator/</loc>
-    <lastmod>2021-02-09T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url><url>
-    <loc>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-02-property-conversions/</loc>
-    <lastmod>2021-02-09T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-11-abstract-syntax-trees/</loc>
-    <lastmod>2020-11-01T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-07-pipeline-architecture/</loc>
-    <lastmod>2020-07-01T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-04-code-generation/</loc>
-    <lastmod>2020-04-01T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-06-api-version-recovery/</loc>
-    <priority>0</priority>
-  </url><url>
-    <loc>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-08-committing-generated-code/</loc>
-    <priority>0</priority>
-  </url><url>
-    <loc>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2022-01-reconciler-extensions/</loc>
-    <priority>0</priority>
-  </url><url>
-    <loc>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2022-02-backward-compatibility/</loc>
-    <priority>0</priority>
-  </url><url>
-    <loc>https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/</loc>
-  </url><url>
-    <loc>https://azure.github.io/azure-service-operator/contributing/create-a-new-release/</loc>
-  </url><url>
-    <loc>https://azure.github.io/azure-service-operator/contributing/generator-overview/</loc>
-  </url><url>
-    <loc>https://azure.github.io/azure-service-operator/design/clarifying-object-structure/</loc>
-  </url><url>
-    <loc>https://azure.github.io/azure-service-operator/design/crossplane/</loc>
-  </url><url>
-    <loc>https://azure.github.io/azure-service-operator/design/defaulter-validator/</loc>
-  </url><url>
-    <loc>https://azure.github.io/azure-service-operator/design/resource-states/</loc>
-  </url><url>
-    <loc>https://azure.github.io/azure-service-operator/design/secrets/</loc>
-  </url><url>
-    <loc>https://azure.github.io/azure-service-operator/design/type-references-and-ownership/</loc>
-  </url><url>
-    <loc>https://azure.github.io/azure-service-operator/introduction/annotations/</loc>
-  </url><url>
-    <loc>https://azure.github.io/azure-service-operator/introduction/authentication/</loc>
-  </url><url>
-    <loc>https://azure.github.io/azure-service-operator/introduction/conditions/</loc>
-  </url><url>
-    <loc>https://azure.github.io/azure-service-operator/introduction/diagnosing-problems/</loc>
-  </url><url>
-    <loc>https://azure.github.io/azure-service-operator/introduction/multitenant-deployment/</loc>
-  </url><url>
-    <loc>https://azure.github.io/azure-service-operator/introduction/secrets/</loc>
-  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/authorization.v1alpha1api20200801preview/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/authorization.v1beta20200801preview/</loc>
@@ -166,15 +104,59 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/introduction/resources/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-04-code-generation/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-07-pipeline-architecture/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-11-abstract-syntax-trees/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-02-property-conversions/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-06-api-version-recovery/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-08-committing-generated-code/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2022-01-reconciler-extensions/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2022-02-backward-compatibility/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/introduction/annotations/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/architecture-decision-records/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/introduction/authentication/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/design/secrets/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/versioning/case-studies/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/categories/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/versioning/case-studies/chained-storage-versions/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/design/clarifying-object-structure/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/contributing/generator-overview/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/contributing/create-a-new-release/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/design/defaulter-validator/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/introduction/multitenant-deployment/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/introduction/diagnosing-problems/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/versioning/case-studies/fixed-storage-version/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/introduction/secrets/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/introduction/installing-from-yaml/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/design/resource-states/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/</loc>
   </url><url>
@@ -182,9 +164,15 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/tags/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/design/crossplane/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/introduction/tutorial-cosmosdb/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/introduction/tutorial-postgresql/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/design/type-references-and-ownership/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/introduction/conditions/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/versioning/</loc>
   </url>

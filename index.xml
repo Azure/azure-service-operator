@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Azure Service Operator</title>
+    <title>Azure Service Operator v2 on Azure Service Operator</title>
     <link>https://azure.github.io/azure-service-operator/</link>
-    <description>Recent content on Azure Service Operator</description>
+    <description>Recent content in Azure Service Operator v2 on Azure Service Operator</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Tue, 09 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://azure.github.io/azure-service-operator/index.xml" rel="self" type="application/rss+xml" />
+    <language>en-us</language><atom:link href="https://azure.github.io/azure-service-operator/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Contributing</title>
       <link>https://azure.github.io/azure-service-operator/contributing/contributing/</link>
@@ -15,248 +14,6 @@
       <guid>https://azure.github.io/azure-service-operator/contributing/contributing/</guid>
       <description>Contributing to Azure Service Operator v2 #  Related pages #   Adding a new code-generator resource. Generator code overview  Developer setup (with VS Code) #  This is the recommended setup, especially if you are using Windows as your development platform.
 This repository contains a devcontainer configuration that can be used in conjunction with VS Code to set up an environment with all the required tools preinstalled.</description>
-    </item>
-    
-    <item>
-      <title>2021-02: Property Conversions</title>
-      <link>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-02-property-conversions/</link>
-      <pubDate>Tue, 09 Feb 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-02-property-conversions/</guid>
-      <description>Property Conversions #  Context #  To facilitate the use of dedicated storage variants for persistence of our custom resources, we need to codegen conversion routines that will copy all properties defined on one version of a resource to another version.
-Given the way resources evolve from version to version, these we need to support a wide range of conversions between types that are similar, but not identical.
-For example, looking primitive types (such as string, int, and bool):</description>
-    </item>
-    
-    <item>
-      <title>2020-11: AST Library Choice</title>
-      <link>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-11-abstract-syntax-trees/</link>
-      <pubDate>Sun, 01 Nov 2020 00:00:00 +0000</pubDate>
-      
-      <guid>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-11-abstract-syntax-trees/</guid>
-      <description>Abstract Syntax Tree Library Choice #  Context #  When we first started working on the Azure Service Operator Code Generator, we used the standard go ast library to create the final Go code.
-Unfortunately, we have run into a number of significant limitations with this library.
-  Comments are often emitted in unexpected places.
-They would often appear at the end of the previous line, which conveys an incorrect meaning to a casual reader of the code.</description>
-    </item>
-    
-    <item>
-      <title>2020-07: Pipeline Architecture</title>
-      <link>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-07-pipeline-architecture/</link>
-      <pubDate>Wed, 01 Jul 2020 00:00:00 +0000</pubDate>
-      
-      <guid>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-07-pipeline-architecture/</guid>
-      <description>Pipeline architecture #  Context #  As the complexity of code generation grew, and with a partial view of the complexity yet to come, it became clear that we were facing a challenge. Each additional required function was making integration and testing progressively more difficult.
-We also have the requirement to support a parallel pipeline that generates code appropriate for CrossPlane integration, and have a strong desire for an approach that minimizes the amount of ongoing maintenance.</description>
-    </item>
-    
-    <item>
-      <title>2020-04: Why Code Generation?</title>
-      <link>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-04-code-generation/</link>
-      <pubDate>Wed, 01 Apr 2020 00:00:00 +0000</pubDate>
-      
-      <guid>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-04-code-generation/</guid>
-      <description>Why Code Generation? #  Context #  The Azure Service Operator CSE team had successfully developed support for a handful of ARM (Azure Resource Manager) based custom resources over the course of eighteen months or so.
-Their experience yielded several useful lessons.
-  Working closely with their customers, they only built out resource support for those features required by the current customer base. While this successfully reduced the amount of work, each additional customer brought new requirements and a need to revisit/enhance existing resources.</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-06-api-version-recovery/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-06-api-version-recovery/</guid>
-      <description>API Version Recovery #  Context #  In addition to structural changes, there may be behaviour changes between ARM API versions. It is therefore important that we use the correct API version - the version requested by the user - when interacting with ARM, to ensure that we get the expected behaviour.
-Revisting the CRM example from the Versioning specification, consider what happens if we have two available versions of the resource Person, lets call them v1 and v2.</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-08-committing-generated-code/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-08-committing-generated-code/</guid>
-      <description>Committing Generated Code #  Context #  We’re aware that common practice avoids committing generated code into source control, treating it as an ephemeral resource that can be regenerated on demand.
-Even so, we are concluding that we want to check in our generated code.
-Upstream changes #  We do not fully control the source definitions from which we are generating our object model and we are concerned about upstream changes that change our generated output in unexpected ways.</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2022-01-reconciler-extensions/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2022-01-reconciler-extensions/</guid>
-      <description>Reconciler Extensions #  Context #  We are discovering inconsistencies in the way different Azure Resource Providers behave.
-These inconsistencies are anticipated. Given the number of disparate teams independently implementing their providers and given the way the ARM guidance has changed over time, differences in behaviour are to be expected.
-For example, the Azure Redis Resource Provider can return a HTTP conflict (409) with a retry message indicating that it&amp;rsquo;s not a fatal error but a transient one.</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2022-02-backward-compatibility/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2022-02-backward-compatibility/</guid>
-      <description>Context #  As we close in on a beta release, we are considering modification of the version prefix used for code-generated resources.
-Option 1: Do nothing #  Leave all generated resources using the alpha prefix that is currently in use.
-Pros
- Easy to implement (nothing to do) and quick to deliver  Cons
-  Introduces an inconsistency between the status of ASO (beta) and the labelling of the resources (alpha).</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/</guid>
-      <description>Adding a new code generated resource to ASO v2 #  This document discusses how to add a new resource to the ASO v2 code generation configuration. Check out this PR if you&amp;rsquo;d like to see what the end product looks like.
-What resources can be code generated? #  Any ARM resource can be generated. There are a few ways to determine if a resource is an ARM resource:</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://azure.github.io/azure-service-operator/contributing/create-a-new-release/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://azure.github.io/azure-service-operator/contributing/create-a-new-release/</guid>
-      <description>Creating a new release of ASO v2 #   Go to the releases page and draft a new release. In the tag dropdown, type the name of the new tag you&amp;rsquo;d like to create (it should match the pattern of previous releases tags, for example: v2.0.0-alpha.1). The release target should be main (the default). Use the GitHub &amp;ldquo;auto-generate release notes&amp;rdquo; button to generate a set of release notes to work with.</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://azure.github.io/azure-service-operator/contributing/generator-overview/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://azure.github.io/azure-service-operator/contributing/generator-overview/</guid>
-      <description>Code Generator Overview #  Core to Azure Service Operator (ASO) v2 is our code generator. This consumes ARM JSON Schema and Swagger specifications and generates code for each desired resource that works with our generic operator reconciler.
-Code Structure #  Key packages used to structure the code of the generator are as follows:
-   Package Content     astmodel Short for Abstract Syntax Tree Model, this package contains the core data types for defining the Go functions, data types, and methods we generate.</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://azure.github.io/azure-service-operator/design/clarifying-object-structure/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://azure.github.io/azure-service-operator/design/clarifying-object-structure/</guid>
-      <description>Clarifying object structure #  Today we have resources that look like:
-apiVersion: microsoft.storage.infra.azure.com/v1alpha1api20190401 kind: StorageAccount metadata: name: samplekubestorage namespace: default spec: azureName: mykubestorage location: westcentralus kind: BlobStorage sku: name: Standard_LRS owner: name: k8sinfra-sample-rg accessTier: Hot tags: tag1: tag1 tag2: tag2 The problem #  There&amp;rsquo;s no good way with this object structure to differentiate stuff that is for Azure directly, versus stuff that is for the operator. owner almost falls into this category already, but there are other likely upcoming properties that definitely fall into this category:</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://azure.github.io/azure-service-operator/design/crossplane/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://azure.github.io/azure-service-operator/design/crossplane/</guid>
-      <description>Thoughts on performing provider-azure code generation for Crossplane #  The patterns identified below were extrapolated from the Crossplane VNET spec.
-General notes #  Crossplane has the following static &amp;ldquo;special&amp;rdquo; properties #   ForProvider - this contains the actual &amp;ldquo;spec&amp;rdquo; as Azure would see it. DeletionPolicy ProviderConfigRef WriteConnectionSecretToRef  Since these are statically shaped they should be relatively easy to add with Crossplane specific generator pipeline stages.
-Items #2-4 are included automatically by embedding the runtimev1alpha1.</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://azure.github.io/azure-service-operator/design/defaulter-validator/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://azure.github.io/azure-service-operator/design/defaulter-validator/</guid>
-      <description>Custom validation and defaulting for code generated resources #  Reasoning #  controller-runtime defines admission.Defaulter and admission.Validator. These interfaces only give you a single Default or ValidateX method, which means that all validation/defaulting needs to be done in that method. I think we&amp;rsquo;re going to quickly run into situations where we want custom (handcrafted) validations or defaults for a particular resource and we&amp;rsquo;re not going to want to teach the code generator about these.</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://azure.github.io/azure-service-operator/design/resource-states/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://azure.github.io/azure-service-operator/design/resource-states/</guid>
-      <description>Proposal for reporting resource Status #  What Status are we talking about? #  There are two types of Status that we&amp;rsquo;re interested in understanding and reporting to the user when running an operator that creates resources in Azure:
- The Status of the operator and its actions on the resource. Has the resource successfully been reconciled? Is the operator in the progress of driving the resource to its goal state (defined in the spec), or has it already done so and is now waiting for more changes before taking further action?</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://azure.github.io/azure-service-operator/design/secrets/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://azure.github.io/azure-service-operator/design/secrets/</guid>
-      <description>Azure Service Operator support for managing data plane secrets #  What secrets are we talking about? #  The secrets discussed in this document are associated with accessing the data plane of various services.
-Think: Accessing a StorageAccount via Shared Key, accessing a MySQLServer by admin Username and Password, or accessing a VM by SSHKey.
-Sometimes these secrets may be used by other CRDs managed by ASO, as would be the case for a MySQLUser CRD, but often the consumers of these secrets are the users applications.</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://azure.github.io/azure-service-operator/design/type-references-and-ownership/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://azure.github.io/azure-service-operator/design/type-references-and-ownership/</guid>
-      <description>Type references and ownership #  Related reading #   Kubernetes garbage collection. Kubernetes RBAC  Related Projects #   ASO: Azure Service Operator k8s-infra: The handcrafted precurser to the code generation tool being designed.  Goals #   Provide a way for customers to express relationships between Azure resources in an idiomatic Kubernetes way. Provide automatic ownership and garbage collection (using Kubernetes garbage collection) where appropriate (e.</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://azure.github.io/azure-service-operator/introduction/annotations/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://azure.github.io/azure-service-operator/introduction/annotations/</guid>
-      <description>Annotations understood by the operator #  Annotations specified by the user #  Note that unless otherwise specified, allowed values are case sensitive and should be provided in lower case.
-serviceoperator.azure.com/reconcile-policy #  Specifies the reconcile policy to use. Allowed values are:
- manage: The operator performs all actions as normal. This is the default if no annotation is specified. skip: All modification actions on the backing Azure resource are skipped.</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://azure.github.io/azure-service-operator/introduction/authentication/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://azure.github.io/azure-service-operator/introduction/authentication/</guid>
-      <description>Authentication in Azure Service Operator v2 #  Azure Service Operator supports two different styles of authentication today.
- Service Principal aad-pod-identity authentication (managed identity)  Service Principal #  Prerequisites #   An existing Azure Service Principal.  To use Service Principal authentication, specify an aso-controller-settings secret with AZURE_CLIENT_ID and AZURE_CLIENT_SECRET set.
- AZURE_CLIENT_ID must be set to the Service Principal client ID. This will be a GUID. AZURE_CLIENT_SECRET must be set to the Service Principal client secret.</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://azure.github.io/azure-service-operator/introduction/conditions/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://azure.github.io/azure-service-operator/introduction/conditions/</guid>
-      <description>Understanding Conditions #  Each resource reports a Ready condition in .status.conditions. It is also visible when you examine the resource with kubectl get, for example:
-$ kubectl get resourcegroups.resources.azure.com NAME READY SEVERITY REASON MESSAGE aso-sample-rg False Info Reconciling The resource is in the process of being reconciled by the operator If the condition&amp;rsquo;s status is True (visible in the READY column via kubectl get) the resource is in the goal state.</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://azure.github.io/azure-service-operator/introduction/diagnosing-problems/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://azure.github.io/azure-service-operator/introduction/diagnosing-problems/</guid>
-      <description>Diagnosing problems #  Common mistakes #  ASO controller pod in Status CreateContainerConfigError #  $ kubectl get pods -n azureserviceoperator-system NAME READY STATUS RESTARTS AGE azureserviceoperator-controller-manager-69cbccd645-4s5wz 1/2 CreateContainerConfigError 0 7m49s Very likely that you forgot to create the aso-controller-settings secret. This secret must be in the same namespace as the pod.
-You can confirm this with kubectl describe pod -n azureserviceoperator-system --selector control-plane=controller-manager. Look for the &amp;ldquo;Error: secret &amp;ldquo;aso-controller-settings&amp;rdquo; not found&amp;rdquo; event in the describe output:</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://azure.github.io/azure-service-operator/introduction/multitenant-deployment/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://azure.github.io/azure-service-operator/introduction/multitenant-deployment/</guid>
-      <description>Deploying Azure Service Operator v2 in multi-tenant mode #  The current release version of the Azure Service Operator (ASO) deployment YAML installs the operator in single-tenant mode: deployed in the azureserviceoperator-system namespace with a single set of Azure credentials, and manages resources in any namespace in the cluster. That single operator deployment handles webhooks fired when Azure resources are changed.
-ASO may also be deployed in a multi-tenant configuration, enabling the use of separate credentials for managing resources in different Kubernetes namespaces.</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://azure.github.io/azure-service-operator/introduction/secrets/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://azure.github.io/azure-service-operator/introduction/secrets/</guid>
-      <description>Handling secrets #  Resources supported by Azure Service Operator may require secrets as input (passwords, SSH keys, etc). They may also produce secrets as &amp;ldquo;output&amp;rdquo; (storage keys, connection strings, etc).
-ASO has integration with Kubernetes secrets to interact with these different types of secrets.
-How to provide secrets to Azure #  Resources may have fields in their spec that expect a reference to a Kubernetes Secret. For example, in order to create a VM, you may want to specify an SSH password to enable SSH access to that VM.</description>
     </item>
     
     <item>
@@ -815,6 +572,138 @@ Authorization #     Resource ARM Version CRD Version Sample     RoleAssignment 2
     </item>
     
     <item>
+      <title>2020-04: Why Code Generation?</title>
+      <link>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-04-code-generation/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-04-code-generation/</guid>
+      <description>Why Code Generation? #  Context #  The Azure Service Operator CSE team had successfully developed support for a handful of ARM (Azure Resource Manager) based custom resources over the course of eighteen months or so.
+Their experience yielded several useful lessons.
+  Working closely with their customers, they only built out resource support for those features required by the current customer base. While this successfully reduced the amount of work, each additional customer brought new requirements and a need to revisit/enhance existing resources.</description>
+    </item>
+    
+    <item>
+      <title>2020-07: Pipeline Architecture</title>
+      <link>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-07-pipeline-architecture/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-07-pipeline-architecture/</guid>
+      <description>Pipeline architecture #  Context #  As the complexity of code generation grew, and with a partial view of the complexity yet to come, it became clear that we were facing a challenge. Each additional required function was making integration and testing progressively more difficult.
+We also have the requirement to support a parallel pipeline that generates code appropriate for CrossPlane integration, and have a strong desire for an approach that minimizes the amount of ongoing maintenance.</description>
+    </item>
+    
+    <item>
+      <title>2020-11: AST Library Choice</title>
+      <link>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-11-abstract-syntax-trees/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-11-abstract-syntax-trees/</guid>
+      <description>Abstract Syntax Tree Library Choice #  Context #  When we first started working on the Azure Service Operator Code Generator, we used the standard go ast library to create the final Go code.
+Unfortunately, we have run into a number of significant limitations with this library.
+  Comments are often emitted in unexpected places.
+They would often appear at the end of the previous line, which conveys an incorrect meaning to a casual reader of the code.</description>
+    </item>
+    
+    <item>
+      <title>2021-02: Property Conversions</title>
+      <link>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-02-property-conversions/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-02-property-conversions/</guid>
+      <description>Property Conversions #  Context #  To facilitate the use of dedicated storage variants for persistence of our custom resources, we need to codegen conversion routines that will copy all properties defined on one version of a resource to another version.
+Given the way resources evolve from version to version, these we need to support a wide range of conversions between types that are similar, but not identical.
+For example, looking primitive types (such as string, int, and bool):</description>
+    </item>
+    
+    <item>
+      <title>2021-06: API Version Recovery</title>
+      <link>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-06-api-version-recovery/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-06-api-version-recovery/</guid>
+      <description>API Version Recovery #  Context #  In addition to structural changes, there may be behaviour changes between ARM API versions. It is therefore important that we use the correct API version - the version requested by the user - when interacting with ARM, to ensure that we get the expected behaviour.
+Revisting the CRM example from the Versioning specification, consider what happens if we have two available versions of the resource Person, lets call them v1 and v2.</description>
+    </item>
+    
+    <item>
+      <title>2021-08: Committing Generated Code</title>
+      <link>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-08-committing-generated-code/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-08-committing-generated-code/</guid>
+      <description>Committing Generated Code #  Context #  We’re aware that common practice avoids committing generated code into source control, treating it as an ephemeral resource that can be regenerated on demand.
+Even so, we are concluding that we want to check in our generated code.
+Upstream changes #  We do not fully control the source definitions from which we are generating our object model and we are concerned about upstream changes that change our generated output in unexpected ways.</description>
+    </item>
+    
+    <item>
+      <title>2022-01: Reconciler Extensions</title>
+      <link>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2022-01-reconciler-extensions/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2022-01-reconciler-extensions/</guid>
+      <description>Reconciler Extensions #  Context #  We are discovering inconsistencies in the way different Azure Resource Providers behave.
+These inconsistencies are anticipated. Given the number of disparate teams independently implementing their providers and given the way the ARM guidance has changed over time, differences in behaviour are to be expected.
+For example, the Azure Redis Resource Provider can return a HTTP conflict (409) with a retry message indicating that it&amp;rsquo;s not a fatal error but a transient one.</description>
+    </item>
+    
+    <item>
+      <title>2022-02: Backward Resource Compatibility</title>
+      <link>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2022-02-backward-compatibility/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2022-02-backward-compatibility/</guid>
+      <description>Backward Resource Compatibility #  Context #  As we close in on a beta release, we are considering modification of the version prefix used for code-generated resources.
+Option 1: Do nothing #  Leave all generated resources using the alpha prefix that is currently in use.
+Pros
+ Easy to implement (nothing to do) and quick to deliver  Cons
+  Introduces an inconsistency between the status of ASO (beta) and the labelling of the resources (alpha).</description>
+    </item>
+    
+    <item>
+      <title>Adding a new code generated resource to ASO v2</title>
+      <link>https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/</guid>
+      <description>Adding a new code generated resource to ASO v2 #  This document discusses how to add a new resource to the ASO v2 code generation configuration. Check out this PR if you&amp;rsquo;d like to see what the end product looks like.
+What resources can be code generated? #  Any ARM resource can be generated. There are a few ways to determine if a resource is an ARM resource:</description>
+    </item>
+    
+    <item>
+      <title>Annotations understood by the operator</title>
+      <link>https://azure.github.io/azure-service-operator/introduction/annotations/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/introduction/annotations/</guid>
+      <description>Annotations understood by the operator #  Annotations specified by the user #  Note that unless otherwise specified, allowed values are case sensitive and should be provided in lower case.
+serviceoperator.azure.com/reconcile-policy #  Specifies the reconcile policy to use. Allowed values are:
+ manage: The operator performs all actions as normal. This is the default if no annotation is specified. skip: All modification actions on the backing Azure resource are skipped.</description>
+    </item>
+    
+    <item>
+      <title>Authentication in Azure Service Operator v2</title>
+      <link>https://azure.github.io/azure-service-operator/introduction/authentication/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/introduction/authentication/</guid>
+      <description>Authentication in Azure Service Operator v2 #  Azure Service Operator supports two different styles of authentication today.
+ Service Principal aad-pod-identity authentication (managed identity)  Service Principal #  Prerequisites #   An existing Azure Service Principal.  To use Service Principal authentication, specify an aso-controller-settings secret with AZURE_CLIENT_ID and AZURE_CLIENT_SECRET set.
+ AZURE_CLIENT_ID must be set to the Service Principal client ID. This will be a GUID. AZURE_CLIENT_SECRET must be set to the Service Principal client secret.</description>
+    </item>
+    
+    <item>
+      <title>Azure Service Operator support for managing dataplane secrets</title>
+      <link>https://azure.github.io/azure-service-operator/design/secrets/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/design/secrets/</guid>
+      <description>Azure Service Operator support for managing dataplane secrets #  What secrets are we talking about? #  The secrets discussed in this document are associated with accessing the data plane of various services.
+Think: Accessing a StorageAccount via Shared Key, accessing a MySQLServer by admin Username and Password, or accessing a VM by SSHKey.
+Sometimes these secrets may be used by other CRDs managed by ASO, as would be the case for a MySQLUser CRD, but often the consumers of these secrets are the users applications.</description>
+    </item>
+    
+    <item>
       <title>Chained Storage Versions</title>
       <link>https://azure.github.io/azure-service-operator/design/versioning/case-studies/chained-storage-versions/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -822,6 +711,65 @@ Authorization #     Resource ARM Version CRD Version Sample     RoleAssignment 2
       <guid>https://azure.github.io/azure-service-operator/design/versioning/case-studies/chained-storage-versions/</guid>
       <description>Case Study - Chained Storage Versions #  This case study explores the alternative solution of using a chained storage versions. We update the storage schema of each resource each release of the service operator. We&amp;rsquo;ll keep the storage version up to date with the latest GA release of each resource. Older storage versions are retained, both as intermediate steps in the hub-and-spoke conversions, and to allow upgrades.
 For the purposes of discussion, we&amp;rsquo;ll be following the version by version evolution of a theoretical ARM service that provides customer resource management (CRM) services.</description>
+    </item>
+    
+    <item>
+      <title>Clarifying object structure</title>
+      <link>https://azure.github.io/azure-service-operator/design/clarifying-object-structure/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/design/clarifying-object-structure/</guid>
+      <description>Clarifying object structure #  Today we have resources that look like:
+apiVersion: microsoft.storage.infra.azure.com/v1alpha1api20190401 kind: StorageAccount metadata: name: samplekubestorage namespace: default spec: azureName: mykubestorage location: westcentralus kind: BlobStorage sku: name: Standard_LRS owner: name: k8sinfra-sample-rg accessTier: Hot tags: tag1: tag1 tag2: tag2 The problem #  There&amp;rsquo;s no good way with this object structure to differentiate stuff that is for Azure directly, versus stuff that is for the operator. owner almost falls into this category already, but there are other likely upcoming properties that definitely fall into this category:</description>
+    </item>
+    
+    <item>
+      <title>Code Generator Overview</title>
+      <link>https://azure.github.io/azure-service-operator/contributing/generator-overview/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/contributing/generator-overview/</guid>
+      <description>Code Generator Overview #  Core to Azure Service Operator (ASO) v2 is our code generator. This consumes ARM JSON Schema and Swagger specifications and generates code for each desired resource that works with our generic operator reconciler.
+Code Structure #  Key packages used to structure the code of the generator are as follows:
+   Package Content     astmodel Short for Abstract Syntax Tree Model, this package contains the core data types for defining the Go functions, data types, and methods we generate.</description>
+    </item>
+    
+    <item>
+      <title>Creating a new release of ASO v2</title>
+      <link>https://azure.github.io/azure-service-operator/contributing/create-a-new-release/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/contributing/create-a-new-release/</guid>
+      <description>Creating a new release of ASO v2 #   Go to the releases page and draft a new release. In the tag dropdown, type the name of the new tag you&amp;rsquo;d like to create (it should match the pattern of previous releases tags, for example: v2.0.0-alpha.1). The release target should be main (the default). Use the GitHub &amp;ldquo;auto-generate release notes&amp;rdquo; button to generate a set of release notes to work with.</description>
+    </item>
+    
+    <item>
+      <title>Custom validation and defaulting for code generated resources</title>
+      <link>https://azure.github.io/azure-service-operator/design/defaulter-validator/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/design/defaulter-validator/</guid>
+      <description>Custom validation and defaulting for code generated resources #  Reasoning #  controller-runtime defines admission.Defaulter and admission.Validator. These interfaces only give you a single Default or ValidateX method, which means that all validation/defaulting needs to be done in that method. I think we&amp;rsquo;re going to quickly run into situations where we want custom (handcrafted) validations or defaults for a particular resource and we&amp;rsquo;re not going to want to teach the code generator about these.</description>
+    </item>
+    
+    <item>
+      <title>Deploying Azure Service Operator v2 in multi-tenant mode</title>
+      <link>https://azure.github.io/azure-service-operator/introduction/multitenant-deployment/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/introduction/multitenant-deployment/</guid>
+      <description>Deploying Azure Service Operator v2 in multi-tenant mode #  The current release version of the Azure Service Operator (ASO) deployment YAML installs the operator in single-tenant mode: deployed in the azureserviceoperator-system namespace with a single set of Azure credentials, and manages resources in any namespace in the cluster. That single operator deployment handles webhooks fired when Azure resources are changed.
+ASO may also be deployed in a multi-tenant configuration, enabling the use of separate credentials for managing resources in different Kubernetes namespaces.</description>
+    </item>
+    
+    <item>
+      <title>Diagnosing problems</title>
+      <link>https://azure.github.io/azure-service-operator/introduction/diagnosing-problems/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/introduction/diagnosing-problems/</guid>
+      <description>Diagnosing problems #  Common mistakes #  ASO controller pod in Status CreateContainerConfigError #  $ kubectl get pods -n azureserviceoperator-system NAME READY STATUS RESTARTS AGE azureserviceoperator-controller-manager-69cbccd645-4s5wz 1/2 CreateContainerConfigError 0 7m49s Very likely that you forgot to create the aso-controller-settings secret. This secret must be in the same namespace as the pod.
+You can confirm this with kubectl describe pod -n azureserviceoperator-system --selector control-plane=controller-manager. Look for the &amp;ldquo;Error: secret &amp;ldquo;aso-controller-settings&amp;rdquo; not found&amp;rdquo; event in the describe output:</description>
     </item>
     
     <item>
@@ -835,12 +783,33 @@ For the purposes of discussion, we&amp;rsquo;ll be following the version by vers
     </item>
     
     <item>
+      <title>Handling secrets</title>
+      <link>https://azure.github.io/azure-service-operator/introduction/secrets/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/introduction/secrets/</guid>
+      <description>Handling secrets #  Resources supported by Azure Service Operator may require secrets as input (passwords, SSH keys, etc). They may also produce secrets as &amp;ldquo;output&amp;rdquo; (storage keys, connection strings, etc).
+ASO has integration with Kubernetes secrets to interact with these different types of secrets.
+How to provide secrets to Azure #  Resources may have fields in their spec that expect a reference to a Kubernetes Secret. For example, in order to create a VM, you may want to specify an SSH password to enable SSH access to that VM.</description>
+    </item>
+    
+    <item>
       <title>Installation: From YAML</title>
       <link>https://azure.github.io/azure-service-operator/introduction/installing-from-yaml/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://azure.github.io/azure-service-operator/introduction/installing-from-yaml/</guid>
       <description>Prerequisites #   You have installed Cert Manager as per the installation instructions up to the &amp;ldquo;install from Helm&amp;rdquo; step. You have the AZURE_SUBSCRIPTION_ID, AZURE_TENANT_ID, AZURE_CLIENT_ID and AZURE_CLIENT_SECRET environment variables set from the installation instructions.  Installation #   Install the latest v2+ release of Azure Service Operator. kubectl apply --server-side=true -f https://github.com/Azure/azure-service-operator/releases/download/v2.0.0-beta.0/azureserviceoperator_v2.0.0-beta.0.yaml  Create the Azure Service Operator v2 secret. This secret contains the identity that Azure Service Operator will run as.</description>
+    </item>
+    
+    <item>
+      <title>Proposal for reporting resource Status</title>
+      <link>https://azure.github.io/azure-service-operator/design/resource-states/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/design/resource-states/</guid>
+      <description>Proposal for reporting resource Status #  What Status are we talking about? #  There are two types of Status that we&amp;rsquo;re interested in understanding and reporting to the user when running an operator that creates resources in Azure:
+ The Status of the operator and its actions on the resource. Has the resource successfully been reconciled? Is the operator in the progress of driving the resource to its goal state (defined in the spec), or has it already done so and is now waiting for more changes before taking further action?</description>
     </item>
     
     <item>
@@ -851,6 +820,17 @@ For the purposes of discussion, we&amp;rsquo;ll be following the version by vers
       <guid>https://azure.github.io/azure-service-operator/design/versioning/case-studies/rolling-storage-versions/</guid>
       <description>Case Study - Rolling Storage Versions #  This case study explores the recommended solution of using a rolling storage version where we update the storage schema of each resource each release of the service operator. We&amp;rsquo;ll keep the storage version up to date with the latest GA release of each resource.
 For the purposes of discussion, we&amp;rsquo;ll be following the version by version evolution of a theoretical ARM service that provides customer resource management (CRM) services.</description>
+    </item>
+    
+    <item>
+      <title>Thoughts on performing provider-azure code generation for Crossplane</title>
+      <link>https://azure.github.io/azure-service-operator/design/crossplane/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/design/crossplane/</guid>
+      <description>Thoughts on performing provider-azure code generation for Crossplane #  The patterns identified below were extrapolated from the Crossplane VNET spec.
+General notes #  Crossplane has the following static &amp;ldquo;special&amp;rdquo; properties #   ForProvider - this contains the actual &amp;ldquo;spec&amp;rdquo; as Azure would see it. DeletionPolicy ProviderConfigRef WriteConnectionSecretToRef  Since these are statically shaped they should be relatively easy to add with Crossplane specific generator pipeline stages.
+Items #2-4 are included automatically by embedding the runtimev1alpha1.</description>
     </item>
     
     <item>
@@ -869,6 +849,25 @@ For the purposes of discussion, we&amp;rsquo;ll be following the version by vers
       
       <guid>https://azure.github.io/azure-service-operator/introduction/tutorial-postgresql/</guid>
       <description>Tutorial: PostgreSQL Votes #  Follow the guided example to create a simple voting application backed by PostgreSQL. The PostgreSQL Server and Database are hosted in Azure but created easily via kubectl and Azure Service Operator!</description>
+    </item>
+    
+    <item>
+      <title>Type references and ownership</title>
+      <link>https://azure.github.io/azure-service-operator/design/type-references-and-ownership/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/design/type-references-and-ownership/</guid>
+      <description>Type references and ownership #  Related reading #   Kubernetes garbage collection. Kubernetes RBAC  Related Projects #   ASO: Azure Service Operator k8s-infra: The handcrafted precurser to the code generation tool being designed.  Goals #   Provide a way for customers to express relationships between Azure resources in an idiomatic Kubernetes way. Provide automatic ownership and garbage collection (using Kubernetes garbage collection) where appropriate (e.</description>
+    </item>
+    
+    <item>
+      <title>Understanding Conditions</title>
+      <link>https://azure.github.io/azure-service-operator/introduction/conditions/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/introduction/conditions/</guid>
+      <description>Understanding Conditions #  Each resource reports a Ready condition in .status.conditions. It is also visible when you examine the resource with kubectl get, for example:
+$ kubectl get resourcegroups.resources.azure.com NAME READY SEVERITY REASON MESSAGE aso-sample-rg False Info Reconciling The resource is in the process of being reconciled by the operator If the condition&amp;rsquo;s status is True (visible in the READY column via kubectl get) the resource is in the goal state.</description>
     </item>
     
   </channel>

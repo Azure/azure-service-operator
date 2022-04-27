@@ -1,27 +1,36 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Azure Service Operator</title>
+    <title>Architecture Decision Records on Azure Service Operator</title>
     <link>https://azure.github.io/azure-service-operator/architecture-decision-records/</link>
-    <description>Recent content on Azure Service Operator</description>
+    <description>Recent content in Architecture Decision Records on Azure Service Operator</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Tue, 09 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://azure.github.io/azure-service-operator/architecture-decision-records/index.xml" rel="self" type="application/rss+xml" />
+    <language>en-us</language><atom:link href="https://azure.github.io/azure-service-operator/architecture-decision-records/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>2021-02: Property Conversions</title>
-      <link>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-02-property-conversions/</link>
-      <pubDate>Tue, 09 Feb 2021 00:00:00 +0000</pubDate>
+      <title>2020-04: Why Code Generation?</title>
+      <link>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-04-code-generation/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-02-property-conversions/</guid>
-      <description>Property Conversions #  Context #  To facilitate the use of dedicated storage variants for persistence of our custom resources, we need to codegen conversion routines that will copy all properties defined on one version of a resource to another version.
-Given the way resources evolve from version to version, these we need to support a wide range of conversions between types that are similar, but not identical.
-For example, looking primitive types (such as string, int, and bool):</description>
+      <guid>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-04-code-generation/</guid>
+      <description>Why Code Generation? #  Context #  The Azure Service Operator CSE team had successfully developed support for a handful of ARM (Azure Resource Manager) based custom resources over the course of eighteen months or so.
+Their experience yielded several useful lessons.
+  Working closely with their customers, they only built out resource support for those features required by the current customer base. While this successfully reduced the amount of work, each additional customer brought new requirements and a need to revisit/enhance existing resources.</description>
+    </item>
+    
+    <item>
+      <title>2020-07: Pipeline Architecture</title>
+      <link>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-07-pipeline-architecture/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-07-pipeline-architecture/</guid>
+      <description>Pipeline architecture #  Context #  As the complexity of code generation grew, and with a partial view of the complexity yet to come, it became clear that we were facing a challenge. Each additional required function was making integration and testing progressively more difficult.
+We also have the requirement to support a parallel pipeline that generates code appropriate for CrossPlane integration, and have a strong desire for an approach that minimizes the amount of ongoing maintenance.</description>
     </item>
     
     <item>
       <title>2020-11: AST Library Choice</title>
       <link>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-11-abstract-syntax-trees/</link>
-      <pubDate>Sun, 01 Nov 2020 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-11-abstract-syntax-trees/</guid>
       <description>Abstract Syntax Tree Library Choice #  Context #  When we first started working on the Azure Service Operator Code Generator, we used the standard go ast library to create the final Go code.
@@ -31,28 +40,18 @@ They would often appear at the end of the previous line, which conveys an incorr
     </item>
     
     <item>
-      <title>2020-07: Pipeline Architecture</title>
-      <link>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-07-pipeline-architecture/</link>
-      <pubDate>Wed, 01 Jul 2020 00:00:00 +0000</pubDate>
+      <title>2021-02: Property Conversions</title>
+      <link>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-02-property-conversions/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-07-pipeline-architecture/</guid>
-      <description>Pipeline architecture #  Context #  As the complexity of code generation grew, and with a partial view of the complexity yet to come, it became clear that we were facing a challenge. Each additional required function was making integration and testing progressively more difficult.
-We also have the requirement to support a parallel pipeline that generates code appropriate for CrossPlane integration, and have a strong desire for an approach that minimizes the amount of ongoing maintenance.</description>
+      <guid>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-02-property-conversions/</guid>
+      <description>Property Conversions #  Context #  To facilitate the use of dedicated storage variants for persistence of our custom resources, we need to codegen conversion routines that will copy all properties defined on one version of a resource to another version.
+Given the way resources evolve from version to version, these we need to support a wide range of conversions between types that are similar, but not identical.
+For example, looking primitive types (such as string, int, and bool):</description>
     </item>
     
     <item>
-      <title>2020-04: Why Code Generation?</title>
-      <link>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-04-code-generation/</link>
-      <pubDate>Wed, 01 Apr 2020 00:00:00 +0000</pubDate>
-      
-      <guid>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-04-code-generation/</guid>
-      <description>Why Code Generation? #  Context #  The Azure Service Operator CSE team had successfully developed support for a handful of ARM (Azure Resource Manager) based custom resources over the course of eighteen months or so.
-Their experience yielded several useful lessons.
-  Working closely with their customers, they only built out resource support for those features required by the current customer base. While this successfully reduced the amount of work, each additional customer brought new requirements and a need to revisit/enhance existing resources.</description>
-    </item>
-    
-    <item>
-      <title></title>
+      <title>2021-06: API Version Recovery</title>
       <link>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-06-api-version-recovery/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -62,7 +61,7 @@ Revisting the CRM example from the Versioning specification, consider what happe
     </item>
     
     <item>
-      <title></title>
+      <title>2021-08: Committing Generated Code</title>
       <link>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-08-committing-generated-code/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -73,7 +72,7 @@ Upstream changes #  We do not fully control the source definitions from which we
     </item>
     
     <item>
-      <title></title>
+      <title>2022-01: Reconciler Extensions</title>
       <link>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2022-01-reconciler-extensions/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -84,12 +83,12 @@ For example, the Azure Redis Resource Provider can return a HTTP conflict (409) 
     </item>
     
     <item>
-      <title></title>
+      <title>2022-02: Backward Resource Compatibility</title>
       <link>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2022-02-backward-compatibility/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2022-02-backward-compatibility/</guid>
-      <description>Context #  As we close in on a beta release, we are considering modification of the version prefix used for code-generated resources.
+      <description>Backward Resource Compatibility #  Context #  As we close in on a beta release, we are considering modification of the version prefix used for code-generated resources.
 Option 1: Do nothing #  Leave all generated resources using the alpha prefix that is currently in use.
 Pros
  Easy to implement (nothing to do) and quick to deliver  Cons
