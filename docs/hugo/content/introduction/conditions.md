@@ -1,3 +1,6 @@
+---
+title: Understanding Conditions
+---
 # Understanding Conditions
 
 Each resource reports a `Ready` condition in `.status.conditions`. It is also visible when you examine

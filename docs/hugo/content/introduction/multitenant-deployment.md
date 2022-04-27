@@ -1,3 +1,6 @@
+---
+title: Deploying Azure Service Operator v2 in multi-tenant mode
+---
 # Deploying Azure Service Operator v2 in multi-tenant mode
 
 The current release version of the Azure Service Operator (ASO) deployment YAML installs the operator in _single-tenant_ mode:

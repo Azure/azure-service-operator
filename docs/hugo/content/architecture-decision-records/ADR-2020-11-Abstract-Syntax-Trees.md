@@ -1,6 +1,5 @@
 ---
 title: '2020-11: AST Library Choice'
-date: 2020-11-01
 ---
 
 # Abstract Syntax Tree Library Choice

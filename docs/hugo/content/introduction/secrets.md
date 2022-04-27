@@ -1,3 +1,6 @@
+---
+title: Handling secrets
+---
 # Handling secrets
 Resources supported by Azure Service Operator may require secrets as input (passwords, SSH keys, etc).
 They may also produce secrets as "output" (storage keys, connection strings, etc). 
