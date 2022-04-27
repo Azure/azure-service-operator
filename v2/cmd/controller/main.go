@@ -130,7 +130,7 @@ func main() {
 		}
 	}
 
-	err = mgr.AddHealthzCheck("healthz", mgr.GetWebhookServer().StartedChecker())
+	err = mgr.AddHealthzCheck("webhook", mgr.GetWebhookServer().StartedChecker())
 	if err != nil {
 		setupLog.Error(err, "failed health check")
 		os.Exit(1)
