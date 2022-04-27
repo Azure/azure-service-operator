@@ -7,9 +7,12 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
+SCRIPT=`realpath $0`
+SCRIPTDIR=`dirname $SCRIPT`
 APIROOT=$1
 OUTPUTDIR=$2
 TEMPLATEDIR=$3
+
 PATTERN='^v[0-9]((alpha|beta)[a-z0-9]+)?$'
 
 rm -rf $OUTPUTDIR
@@ -31,6 +34,8 @@ do
                 -api-dir $package \
                 -out-file "$OUTPUTDIR/$GROUPNAME.$PACKAGE_VERSION.md" \
                 "$@"
+        $SCRIPTDIR/wrap-resource-urls.py "$OUTPUTDIR/$GROUPNAME.$PACKAGE_VERSION.md"
+
     fi
 done
 
