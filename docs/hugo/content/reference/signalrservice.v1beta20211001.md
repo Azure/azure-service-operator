@@ -1,4 +1,5 @@
 ---
+title: signalrservice.azure.com/v1beta20211001
 ---
 <h2 id="signalrservice.azure.com/v1beta20211001">signalrservice.azure.com/v1beta20211001</h2>
 <div>

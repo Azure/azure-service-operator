@@ -1,4 +1,7 @@
-# Azure Service Operator support for managing data plane secrets
+---
+title: Azure Service Operator support for managing dataplane secrets
+---
+# Azure Service Operator support for managing dataplane secrets
 
 ## What secrets are we talking about?
 

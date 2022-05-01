@@ -1,3 +1,6 @@
+---
+title: Diagnosing problems
+---
 # Diagnosing problems
 
 ## Common mistakes

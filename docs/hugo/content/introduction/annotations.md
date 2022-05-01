@@ -1,3 +1,6 @@
+---
+title: Annotations understood by the operator
+---
 # Annotations understood by the operator
 
 ## Annotations specified by the user

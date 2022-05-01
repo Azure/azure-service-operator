@@ -1,3 +1,6 @@
+---
+title: Clarifying object structure
+---
 # Clarifying object structure
 
 Today we have resources that look like:
