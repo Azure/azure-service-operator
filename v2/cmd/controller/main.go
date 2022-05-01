@@ -21,6 +21,7 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/cache"
 	"sigs.k8s.io/controller-runtime/pkg/controller"
+	"sigs.k8s.io/controller-runtime/pkg/healthz"
 
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/controllers"
@@ -130,7 +131,8 @@ func main() {
 		}
 	}
 
-	err = mgr.AddHealthzCheck("webhook", mgr.GetWebhookServer().StartedChecker())
+	// Healthz liveness probe endpoint
+	err = mgr.AddHealthzCheck("healthz", healthz.Ping)
 	if err != nil {
 		setupLog.Error(err, "failed health check")
 		os.Exit(1)
