@@ -3,20 +3,20 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Handling secrets #  Resources supported by Azure Service Operator may require secrets as input (passwords, SSH keys, etc). They may also produce secrets as &ldquo;output&rdquo; (storage keys, connection strings, etc).
-ASO has integration with Kubernetes secrets to interact with these different types of secrets.
-How to provide secrets to Azure #  Resources may have fields in their spec that expect a reference to a Kubernetes Secret. For example, in order to create a VM, you may want to specify an SSH password to enable SSH access to that VM.">
+<meta name="description" content="ASOv2 Metrics #  Prometheus metrics are exposed for ASOv2 which can be helpful in diagnosability and tracing. The metrics exposed fall into two groups: Azure based metrics, and reconciler metrics (from controller-runtime).
+Toggling the metrics #  By default, metrics for ASOv2 are turned on and can be toggled by the following options:
+  ASOv2 Helm Chart #  While installing the Helm chart, we can turn the metrics on and off and set the metrics expose address using the below settings.">
 <meta name="theme-color" content="#FFFFFF">
-<meta name="color-scheme" content="light dark"><meta property="og:title" content="Handling secrets" />
-<meta property="og:description" content="Handling secrets #  Resources supported by Azure Service Operator may require secrets as input (passwords, SSH keys, etc). They may also produce secrets as &ldquo;output&rdquo; (storage keys, connection strings, etc).
-ASO has integration with Kubernetes secrets to interact with these different types of secrets.
-How to provide secrets to Azure #  Resources may have fields in their spec that expect a reference to a Kubernetes Secret. For example, in order to create a VM, you may want to specify an SSH password to enable SSH access to that VM." />
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="" />
+<meta property="og:description" content="ASOv2 Metrics #  Prometheus metrics are exposed for ASOv2 which can be helpful in diagnosability and tracing. The metrics exposed fall into two groups: Azure based metrics, and reconciler metrics (from controller-runtime).
+Toggling the metrics #  By default, metrics for ASOv2 are turned on and can be toggled by the following options:
+  ASOv2 Helm Chart #  While installing the Helm chart, we can turn the metrics on and off and set the metrics expose address using the below settings." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://azure.github.io/azure-service-operator/introduction/secrets/" /><meta property="article:section" content="introduction" />
+<meta property="og:url" content="https://azure.github.io/azure-service-operator/introduction/metrics/" /><meta property="article:section" content="introduction" />
 
 
 
-<title>Handling secrets | Azure Service Operator</title>
+<title>Metrics | Azure Service Operator</title>
 <link rel="manifest" href="/azure-service-operator/manifest.json">
 <link rel="icon" href="/azure-service-operator/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/azure-service-operator/book.min.46181bc93375ba932026e753b37c40e6ff8bb16a9ef770c78bcc663e4577b1ba.css" integrity="sha256-RhgbyTN1upMgJudTs3xA5v&#43;LsWqe93DHi8xmPkV3sbo=" crossorigin="anonymous">
@@ -88,7 +88,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://azure.github.io/azure-service-operator/introduction/metrics/" class="">Metrics</a>
+    <a href="https://azure.github.io/azure-service-operator/introduction/metrics/" class=" active">Metrics</a>
   
 
         </li>
@@ -166,7 +166,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://azure.github.io/azure-service-operator/introduction/secrets/" class=" active">Handling secrets</a>
+    <a href="https://azure.github.io/azure-service-operator/introduction/secrets/" class="">Handling secrets</a>
   
 
         </li>
@@ -1244,7 +1244,7 @@ https://github.com/alex-shpak/hugo-book
     <img src="/azure-service-operator/svg/menu.svg" class="book-icon" alt="Menu" />
   </label>
 
-  <strong>Handling secrets</strong>
+  <strong>Metrics</strong>
 
   <label for="toc-control">
     
@@ -1260,8 +1260,17 @@ https://github.com/alex-shpak/hugo-book
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#how-to-provide-secrets-to-azure">How to provide secrets to Azure</a></li>
-    <li><a href="#how-to-retrieve-secrets-created-by-azure">How to retrieve secrets created by Azure</a></li>
+    <li><a href="#toggling-the-metrics">Toggling the metrics</a>
+      <ul>
+        <li><a href="#asov2-helm-chart">ASOv2 Helm Chart</a></li>
+        <li><a href="#deployment-yaml">Deployment Yaml</a></li>
+      </ul>
+    </li>
+    <li><a href="#understanding-the-asov2-metrics">Understanding the ASOv2 Metrics</a>
+      <ul>
+        <li><a href="#labels">Labels</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
 
@@ -1274,77 +1283,128 @@ https://github.com/alex-shpak/hugo-book
 
       
       
-  <article class="markdown"><h1 id="handling-secrets">
-  Handling secrets
-  <a class="anchor" href="#handling-secrets">#</a>
+  <article class="markdown"><h1 id="asov2-metrics">
+  ASOv2 Metrics
+  <a class="anchor" href="#asov2-metrics">#</a>
 </h1>
-<p>Resources supported by Azure Service Operator may require secrets as input (passwords, SSH keys, etc).
-They may also produce secrets as &ldquo;output&rdquo; (storage keys, connection strings, etc).</p>
-<p>ASO has integration with <a href="https://kubernetes.io/docs/concepts/configuration/secret/">Kubernetes secrets</a> to interact with
-these different types of secrets.</p>
-<h2 id="how-to-provide-secrets-to-azure">
-  How to provide secrets to Azure
-  <a class="anchor" href="#how-to-provide-secrets-to-azure">#</a>
+<p>Prometheus metrics are exposed for ASOv2 which can be helpful in diagnosability and tracing.
+The metrics exposed fall into two groups: Azure based metrics, and reconciler metrics (from <code>controller-runtime</code>).</p>
+<h2 id="toggling-the-metrics">
+  Toggling the metrics
+  <a class="anchor" href="#toggling-the-metrics">#</a>
 </h2>
-<p>Resources may have fields in their <code>spec</code> that expect a reference to a Kubernetes <code>Secret</code>.
-For example, in order to create a VM, you may want to specify an SSH password to enable SSH access to that VM.</p>
-<p>The field in the <code>spec</code> will be a <a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretReference">SecretReference</a>,
-which refers to a particular Kubernetes <code>Secret</code> key.</p>
-<p><strong>Example (from <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/config/samples/dbformysql/v1alpha1api20210501_flexibleserver.yaml">the MySQL FlexibleServer sample</a>):</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">dbformysql.azure.com/v1alpha1api20210501</span>
-<span style="color:#f92672">kind</span>: <span style="color:#ae81ff">FlexibleServer</span>
-<span style="color:#f92672">metadata</span>:
-  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">samplemysql</span>
-  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">default</span>
-<span style="color:#f92672">spec</span>:
-  <span style="color:#f92672">location</span>: <span style="color:#ae81ff">westus2</span>
-  <span style="color:#f92672">owner</span>:
-    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">aso-sample-rg</span>
-  <span style="color:#f92672">version</span>: <span style="color:#e6db74">&#34;8.0.21&#34;</span>
-  <span style="color:#f92672">sku</span>:
-    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">Standard_D4ds_v4</span>
-    <span style="color:#f92672">tier</span>: <span style="color:#ae81ff">GeneralPurpose</span>
-  <span style="color:#f92672">administratorLogin</span>: <span style="color:#ae81ff">myAdmin</span>
-  <span style="color:#f92672">administratorLoginPassword</span>: <span style="color:#75715e"># This is the name/key of a Kubernetes secret in the same namespace</span>
-    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">server-admin-pw</span>
-    <span style="color:#f92672">key</span>: <span style="color:#ae81ff">password</span>
-  <span style="color:#f92672">storage</span>:
-    <span style="color:#f92672">storageSizeGB</span>: <span style="color:#ae81ff">128</span>
-</code></pre></div><h2 id="how-to-retrieve-secrets-created-by-azure">
-  How to retrieve secrets created by Azure
-  <a class="anchor" href="#how-to-retrieve-secrets-created-by-azure">#</a>
+<p>By default, metrics for ASOv2 are turned on and can be toggled by the following options:</p>
+<ul>
+<li>
+<h3 id="asov2-helm-chart">
+  ASOv2 Helm Chart
+  <a class="anchor" href="#asov2-helm-chart">#</a>
+</h3>
+<p>While installing the Helm chart, we can turn the metrics <em><strong>on</strong></em> and <em><strong>off</strong></em> and set the metrics expose address using the
+below settings. Also, we can change the settings inside <code>values.yaml</code> file for ASOv2 Helm chart.</p>
+<pre tabindex="0"><code>--set metrics.enable=true/false (default: true)
+--set metrics.address=127.0.0.1:8080 (default)    
+</code></pre></li>
+<li>
+<h3 id="deployment-yaml">
+  Deployment Yaml
+  <a class="anchor" href="#deployment-yaml">#</a>
+</h3>
+<p>In the deployment yaml, we can turn <em><strong>off</strong></em> the metrics by omitting the <code>metrics-addr</code> flag. We can also change to use
+a different metrics-addr by changing the default value of that same flag.</p>
+<pre tabindex="0"><code>spec:
+  containers:
+   - args:
+     - --metrics-addr=127.0.0.1:8080 (default)    
+</code></pre></li>
+</ul>
+<h2 id="understanding-the-asov2-metrics">
+  Understanding the ASOv2 Metrics
+  <a class="anchor" href="#understanding-the-asov2-metrics">#</a>
 </h2>
-<p>Some Azure resources produce secrets themselves. ASO supports automatically querying these secrets
-and storing them in the <a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">SecretDestination</a> you specify.</p>
-<p>These secrets will be written to the destination(s) you specify once the resource has successfully been provisioned in Azure.
-The resource will not move to <a href="https://azure.github.io/azure-service-operator/introduction/conditions/">Condition</a> <code>Ready=True</code>
-until the secrets have been written.</p>
-<p><strong>Example:</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">documentdb.azure.com/v1alpha1api20210515</span>
-<span style="color:#f92672">kind</span>: <span style="color:#ae81ff">DatabaseAccount</span>
-<span style="color:#f92672">metadata</span>:
-  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">sample-db-account</span>
-  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">default</span>
-<span style="color:#f92672">spec</span>:
-  <span style="color:#f92672">location</span>: <span style="color:#ae81ff">westcentralus</span>
-  <span style="color:#f92672">owner</span>:
-    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">aso-sample-rg</span>
-  <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">MongoDB</span>
-  <span style="color:#f92672">databaseAccountOfferType</span>: <span style="color:#ae81ff">Standard</span>
-  <span style="color:#f92672">locations</span>:
-    - <span style="color:#f92672">locationName</span>: <span style="color:#ae81ff">westcentralus</span>
-  <span style="color:#f92672">operatorSpec</span>:
-    <span style="color:#f92672">secrets</span>:
-      <span style="color:#f92672">primaryMasterKey</span>:
-        <span style="color:#f92672">name</span>: <span style="color:#ae81ff">mysecret</span>
-        <span style="color:#f92672">key</span>: <span style="color:#ae81ff">primarymasterkey</span>
-      <span style="color:#f92672">secondaryMasterKey</span>:
-        <span style="color:#f92672">name</span>: <span style="color:#ae81ff">mysecret</span>
-        <span style="color:#f92672">key</span>: <span style="color:#ae81ff">secondarymasterkey</span>
-      <span style="color:#f92672">documentEndpoint</span>: <span style="color:#75715e"># Can put different secrets into different Kubernetes secrets, if desired</span>
-        <span style="color:#f92672">name</span>: <span style="color:#ae81ff">myendpoint</span>
-        <span style="color:#f92672">key</span>: <span style="color:#ae81ff">endpoint</span>
-</code></pre></div></article>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Description</th>
+<th>Label 1</th>
+<th>Label 2</th>
+<th>Label 3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>controller_runtime_reconcile_total</code></td>
+<td>A prometheus counter metric with total number of reconcilations per controller.</td>
+<td>Controller</td>
+<td>Result</td>
+<td></td>
+</tr>
+<tr>
+<td><code>controller_runtime_errors_total</code></td>
+<td>A prometheus counter metric with total number of errors from reconciler</td>
+<td>Controller</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>controller_runtime_reconcile_time_seconds</code></td>
+<td>A prometheus histogram metric which keeps track of the duration of reconcilations</td>
+<td>Controller</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>controller_runtime_max_concurrent_reconciles</code></td>
+<td>A prometheus gauge metric with number of concurrent reconciles per controller</td>
+<td>Controller</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>controller_runtime_active_workers</code></td>
+<td>A prometheus gauge metric with number of active workers per controller</td>
+<td>Controller</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>azure_requests_total</code></td>
+<td>A prometheus counter metric with total number of requests to Azure</td>
+<td>ResourceName</td>
+<td>RequestType</td>
+<td>ResponseCode</td>
+</tr>
+<tr>
+<td><code>azure_failed_requests_total</code></td>
+<td>A prometheus counter metric with total number of failed requests to Azure</td>
+<td>ResourceName</td>
+<td>RequestType</td>
+<td></td>
+</tr>
+<tr>
+<td><code>azure_requests_time_seconds</code></td>
+<td>A prometheus histogram metric which keeps track of the duration of round-trip time taken by request to Azure</td>
+<td>ResourceName</td>
+<td>RequestType</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="labels">
+  Labels
+  <a class="anchor" href="#labels">#</a>
+</h3>
+<p>Labels are used to differentiate the characteristics of the metric that is being measured. Each metric with distinct labels
+is an independent metric. Below are the labels used in ASOv2 metrics:</p>
+<ul>
+<li><strong>Controller</strong>: Each resource being reconciled against Azure ARM has a separate dedicated controller</li>
+<li><strong>Result</strong>: Reconcile result returned by controller ( error | requeue | requeue_after | success )</li>
+<li><strong>ResourceName</strong>: Resource name for which the request is sent</li>
+<li><strong>RequestType</strong>: Http request method ( GET | PUT | DELETE )</li>
+<li><strong>ResponseCode</strong>: Http code in response from Azure</li>
+</ul>
+</article>
  
       
 
@@ -1385,8 +1445,17 @@ until the secrets have been written.</p>
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#how-to-provide-secrets-to-azure">How to provide secrets to Azure</a></li>
-    <li><a href="#how-to-retrieve-secrets-created-by-azure">How to retrieve secrets created by Azure</a></li>
+    <li><a href="#toggling-the-metrics">Toggling the metrics</a>
+      <ul>
+        <li><a href="#asov2-helm-chart">ASOv2 Helm Chart</a></li>
+        <li><a href="#deployment-yaml">Deployment Yaml</a></li>
+      </ul>
+    </li>
+    <li><a href="#understanding-the-asov2-metrics">Understanding the ASOv2 Metrics</a>
+      <ul>
+        <li><a href="#labels">Labels</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
 

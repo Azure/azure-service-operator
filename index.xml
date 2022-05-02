@@ -18,6 +18,17 @@ This repository contains a devcontainer configuration that can be used in conjun
     
     <item>
       <title></title>
+      <link>https://azure.github.io/azure-service-operator/introduction/metrics/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/introduction/metrics/</guid>
+      <description>ASOv2 Metrics #  Prometheus metrics are exposed for ASOv2 which can be helpful in diagnosability and tracing. The metrics exposed fall into two groups: Azure based metrics, and reconciler metrics (from controller-runtime).
+Toggling the metrics #  By default, metrics for ASOv2 are turned on and can be toggled by the following options:
+  ASOv2 Helm Chart #  While installing the Helm chart, we can turn the metrics on and off and set the metrics expose address using the below settings.</description>
+    </item>
+    
+    <item>
+      <title></title>
       <link>https://azure.github.io/azure-service-operator/introduction/resources/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
