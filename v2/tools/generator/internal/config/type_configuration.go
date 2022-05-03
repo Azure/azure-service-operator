@@ -74,8 +74,8 @@ func (tc *TypeConfiguration) VerifyNameInNextVersionConsumed() error {
 	return nil
 }
 
-// WriteNameInNextVersion sets the $nameInNextVersion for testing purposes
-func (tc *TypeConfiguration) WriteNameInNextVersion(name string) {
+// SetNameInNextVersion sets the configured $nameInNextVersion for this type
+func (tc *TypeConfiguration) SetNameInNextVersion(name string) {
 	tc.nameInNextVersion.write(name)
 }
 
