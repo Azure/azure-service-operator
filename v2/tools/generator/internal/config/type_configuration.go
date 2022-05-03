@@ -194,7 +194,13 @@ func (tc *TypeConfiguration) visitProperty(
 		return err
 	}
 
-	return visitor.visitProperty(pc)
+	err = visitor.visitProperty(pc)
+	if err != nil {
+		return errors.Wrapf(err, "configuration of type %s", tc.name)
+	}
+
+	return nil
+
 }
 
 // visitProperties invokes the provided visitor on all properties.
