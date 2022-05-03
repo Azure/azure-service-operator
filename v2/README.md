@@ -53,7 +53,7 @@ See the list of supported resources [here](https://azure.github.io/azure-service
    Next, create a service principal with Contributor permissions for your subscription.
 
    ```bash
-   az ad sp create-for-rbac -n "azure-service-operator" --role contributor \
+   az ad sp create-for-rbac -n azure-service-operator --role contributor \
        --scopes /subscriptions/$AZURE_SUBSCRIPTION_ID
    ```
 
