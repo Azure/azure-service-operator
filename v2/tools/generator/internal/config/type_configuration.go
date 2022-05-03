@@ -172,6 +172,11 @@ func (tc *TypeConfiguration) VerifySupportedFromConsumed() error {
 	return nil
 }
 
+// SetSupportedFrom sets the configured $supportedFrom for this type
+func (tc *TypeConfiguration) SetSupportedFrom(from string) {
+	tc.supportedFrom.write(from)
+}
+
 // Add includes configuration for the specified property as a part of this type configuration
 func (tc *TypeConfiguration) addProperty(name string, property *PropertyConfiguration) {
 	// Indexed by lowercase name of the property to allow case-insensitive lookups

@@ -33,24 +33,28 @@ func ReportResourceVersions(configuration *config.Configuration) *Stage {
 		ReportResourceVersionsStageID,
 		"Generate a report listing all the resources generated",
 		func(ctx context.Context, state *State) (*State, error) {
-			report := NewResourceVersionsReport(state.Definitions())
+			report := NewResourceVersionsReport(state.Definitions(), configuration.ObjectModelConfiguration)
 			err := report.WriteTo(configuration.FullTypesOutputPath(), configuration.SamplesURL)
 			return state, err
 		})
 }
 
 type ResourceVersionsReport struct {
-	groups set.Set[string]                       // A set of all our groups
-	kinds  map[string]astmodel.TypeDefinitionSet // For each group, the set of all available resources
+	objectModelConfiguration *config.ObjectModelConfiguration
+	groups                   set.Set[string]                       // A set of all our groups
+	kinds                    map[string]astmodel.TypeDefinitionSet // For each group, the set of all available resources
 	// A separate list of resources for each package
 	lists map[astmodel.PackageReference][]astmodel.TypeDefinition
 }
 
-func NewResourceVersionsReport(definitions astmodel.TypeDefinitionSet) *ResourceVersionsReport {
+func NewResourceVersionsReport(
+	definitions astmodel.TypeDefinitionSet,
+	cfg *config.ObjectModelConfiguration) *ResourceVersionsReport {
 	result := &ResourceVersionsReport{
-		groups: set.Make[string](),
-		kinds:  make(map[string]astmodel.TypeDefinitionSet),
-		lists:  make(map[astmodel.PackageReference][]astmodel.TypeDefinition),
+		objectModelConfiguration: cfg,
+		groups:                   set.Make[string](),
+		kinds:                    make(map[string]astmodel.TypeDefinitionSet),
+		lists:                    make(map[astmodel.PackageReference][]astmodel.TypeDefinition),
 	}
 
 	result.summarize(definitions)
@@ -78,13 +82,13 @@ func (report *ResourceVersionsReport) summarize(definitions astmodel.TypeDefinit
 		report.groups.Add(grp)
 		report.lists[pkg] = append(report.lists[pkg], rsrc)
 
-		set, ok := report.kinds[grp]
+		defs, ok := report.kinds[grp]
 		if !ok {
-			set = make(astmodel.TypeDefinitionSet)
-			report.kinds[grp] = set
+			defs = make(astmodel.TypeDefinitionSet)
+			report.kinds[grp] = defs
 		}
 
-		set.Add(rsrc)
+		defs.Add(rsrc)
 	}
 }
 
@@ -130,16 +134,18 @@ func (report *ResourceVersionsReport) createTable(
 	samplesURL string,
 ) *reporting.MarkdownTable {
 	const (
-		name       = "Resource"
-		armVersion = "ARM Version"
-		crdVersion = "CRD Version"
-		sample     = "Sample"
+		name          = "Resource"
+		armVersion    = "ARM Version"
+		crdVersion    = "CRD Version"
+		sample        = "Sample"
+		supportedFrom = "Supported From"
 	)
 
 	result := reporting.NewMarkdownTable(
 		name,
 		armVersion,
 		crdVersion,
+		supportedFrom,
 		sample)
 
 	toIterate := resources.AsSlice()
@@ -172,10 +178,21 @@ func (report *ResourceVersionsReport) createTable(
 			sample = "-"
 		}
 
+		supportedFrom, err := report.objectModelConfiguration.LookupSupportedFrom(rsrc.Name())
+		if err != nil {
+			if config.IsNotConfiguredError(err) {
+				supportedFrom = "-"
+				klog.Warning(err.Error())
+			} else {
+				supportedFrom = err.Error()
+			}
+		}
+
 		result.AddRow(
 			rsrc.Name().Name(),
 			armVersion,
 			crdVersion,
+			supportedFrom,
 			sample)
 	}
 
