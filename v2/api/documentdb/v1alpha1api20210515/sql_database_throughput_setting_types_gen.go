@@ -238,27 +238,11 @@ func (setting *SqlDatabaseThroughputSetting) updateValidations() []func(old runt
 
 // validateImmutableProperties validates all immutable properties
 func (setting *SqlDatabaseThroughputSetting) validateImmutableProperties(old runtime.Object) error {
-
-	resourceID := genruntime.GetResourceIDOrDefault(setting)
-	if resourceID == "" {
-		return nil
-	}
-
 	oldObj, ok := old.(*SqlDatabaseThroughputSetting)
 	if !ok {
 		return nil
 	}
-
-	if oldObj.AzureName() != setting.AzureName() {
-		return errors.New("update for 'AzureName()' is not allowed")
-	}
-
-	if oldObj.Owner().Name != setting.Owner().Name {
-		return errors.New("update for 'Owner().Name' is not allowed")
-	}
-
-	// No error
-	return nil
+	return genruntime.ValidateImmutableProperties(oldObj, setting)
 }
 
 // validateResourceReferences validates all resource references

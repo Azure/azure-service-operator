@@ -198,27 +198,11 @@ func (a *A) updateValidations() []func(old runtime.Object) error {
 
 // validateImmutableProperties validates all immutable properties
 func (a *A) validateImmutableProperties(old runtime.Object) error {
-
-	resourceID := genruntime.GetResourceIDOrDefault(a)
-	if resourceID == "" {
-		return nil
-	}
-
 	oldObj, ok := old.(*A)
 	if !ok {
 		return nil
 	}
-
-	if oldObj.AzureName() != a.AzureName() {
-		return errors.New("update for 'AzureName()' is not allowed")
-	}
-
-	if oldObj.Owner().Name != a.Owner().Name {
-		return errors.New("update for 'Owner().Name' is not allowed")
-	}
-
-	// No error
-	return nil
+	return genruntime.ValidateImmutableProperties(oldObj, a)
 }
 
 // validateResourceReferences validates all resource references
@@ -485,27 +469,11 @@ func (b *B) updateValidations() []func(old runtime.Object) error {
 
 // validateImmutableProperties validates all immutable properties
 func (b *B) validateImmutableProperties(old runtime.Object) error {
-
-	resourceID := genruntime.GetResourceIDOrDefault(b)
-	if resourceID == "" {
-		return nil
-	}
-
 	oldObj, ok := old.(*B)
 	if !ok {
 		return nil
 	}
-
-	if oldObj.AzureName() != b.AzureName() {
-		return errors.New("update for 'AzureName()' is not allowed")
-	}
-
-	if oldObj.Owner().Name != b.Owner().Name {
-		return errors.New("update for 'Owner().Name' is not allowed")
-	}
-
-	// No error
-	return nil
+	return genruntime.ValidateImmutableProperties(oldObj, b)
 }
 
 // validateResourceReferences validates all resource references
@@ -772,27 +740,11 @@ func (c *C) updateValidations() []func(old runtime.Object) error {
 
 // validateImmutableProperties validates all immutable properties
 func (c *C) validateImmutableProperties(old runtime.Object) error {
-
-	resourceID := genruntime.GetResourceIDOrDefault(c)
-	if resourceID == "" {
-		return nil
-	}
-
 	oldObj, ok := old.(*C)
 	if !ok {
 		return nil
 	}
-
-	if oldObj.AzureName() != c.AzureName() {
-		return errors.New("update for 'AzureName()' is not allowed")
-	}
-
-	if oldObj.Owner().Name != c.Owner().Name {
-		return errors.New("update for 'Owner().Name' is not allowed")
-	}
-
-	// No error
-	return nil
+	return genruntime.ValidateImmutableProperties(oldObj, c)
 }
 
 // validateResourceReferences validates all resource references

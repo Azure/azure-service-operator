@@ -245,27 +245,11 @@ func (eventhub *NamespacesEventhub) updateValidations() []func(old runtime.Objec
 
 // validateImmutableProperties validates all immutable properties
 func (eventhub *NamespacesEventhub) validateImmutableProperties(old runtime.Object) error {
-
-	resourceID := genruntime.GetResourceIDOrDefault(eventhub)
-	if resourceID == "" {
-		return nil
-	}
-
 	oldObj, ok := old.(*NamespacesEventhub)
 	if !ok {
 		return nil
 	}
-
-	if oldObj.AzureName() != eventhub.AzureName() {
-		return errors.New("update for 'AzureName()' is not allowed")
-	}
-
-	if oldObj.Owner().Name != eventhub.Owner().Name {
-		return errors.New("update for 'Owner().Name' is not allowed")
-	}
-
-	// No error
-	return nil
+	return genruntime.ValidateImmutableProperties(oldObj, eventhub)
 }
 
 // validateResourceReferences validates all resource references

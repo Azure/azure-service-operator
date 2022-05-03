@@ -7,7 +7,6 @@ package functions
 
 import (
 	"go/token"
-	"strings"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -115,71 +114,30 @@ func validateImmutablePropertiesFunction(resourceFn *ResourceFunction, codeGener
 }
 
 // validateImmutablePropertiesFunctionBody helps generate the body of the validateImmutablePropertiesFunctionBody function:
-// resourceID := genruntime.GetResourceIDOrDefault(account)
-// if resourceID == "" {
-// return nil
-// }
-//
-// oldObj, ok := old.(*BatchAccount)
+// oldObj, ok := old.(*Receiver)
 // if !ok {
 // return nil
 // }
 //
-// <validations>
-//
-// return nil
+// 	return genruntime.ValidateImmutableProperties(oldObj, <receiverIndent>)
 func validateImmutablePropertiesFunctionBody(receiver astmodel.TypeName, codeGenerationContext *astmodel.CodeGenerationContext, receiverIdent string) []dst.Stmt {
 
 	genRuntime := codeGenerationContext.MustGetImportedPackageName(astmodel.GenRuntimeReference)
 
 	obj := dst.NewIdent("oldObj")
-	resourceId := dst.NewIdent("resourceID")
-	var validations []dst.Stmt
-
-	// Add check for resourceId, if empty then the resource is not created successfully and we can skip the validation
-	resourceIdAssignment := astbuilder.AssignmentStatement(resourceId, token.DEFINE, astbuilder.CallQualifiedFunc(genRuntime, "GetResourceIDOrDefault", dst.NewIdent(receiverIdent)))
-	resourceIdCheck := astbuilder.ReturnIfExpr(astbuilder.AreEqual(resourceId, astbuilder.StringLiteral("")), astbuilder.Nil())
-	resourceIdAssignment.Decorations().Before = dst.EmptyLine
-	resourceIdCheck.Decorations().After = dst.EmptyLine
 
 	cast := astbuilder.TypeAssert(obj, dst.NewIdent("old"), astbuilder.Dereference(receiver.AsType(codeGenerationContext)))
 	checkAssert := astbuilder.ReturnIfNotOk(astbuilder.Nil())
 
-	azureNameRef := []string{"AzureName()"}
-	azureNameCheck := checkImmutableProperty(obj, receiverIdent, azureNameRef, codeGenerationContext)
-
-	resourceOwnerRef := []string{"Owner()", "Name"}
-	resourceOwnerCheck := checkImmutableProperty(obj, receiverIdent, resourceOwnerRef, codeGenerationContext)
-
-	validations = append(validations, azureNameCheck, resourceOwnerCheck)
+	returnStmt := astbuilder.Returns(
+		astbuilder.CallQualifiedFunc(
+			genRuntime,
+			"ValidateImmutableProperties",
+			obj,
+			dst.NewIdent(receiverIdent)))
 
 	return astbuilder.Statements(
-		resourceIdAssignment,
-		resourceIdCheck,
 		cast,
 		checkAssert,
-		validations,
-		astbuilder.ReturnNoError())
-}
-
-// checkImmutableProperty is a helper method to generate checks for immutable properties
-func checkImmutableProperty(obj *dst.Ident, receiverIdent string, ref []string, codeGenerationContext *astmodel.CodeGenerationContext) *dst.IfStmt {
-	errorsPkg := codeGenerationContext.MustGetImportedPackageName(astmodel.GitHubErrorsReference)
-
-	oldIndent := astbuilder.Selector(obj, ref...)
-	newIndent := astbuilder.Selector(dst.NewIdent(receiverIdent), ref...)
-
-	errorMessage := astbuilder.StringLiteralf(
-		"update for '%s' is not allowed", getRefString(ref))
-
-	azureNameCheck := astbuilder.ReturnIfExpr(
-		astbuilder.AreNotEqual(oldIndent, newIndent),
-		astbuilder.CallQualifiedFunc(errorsPkg, "New", errorMessage))
-	azureNameCheck.Decorations().Before = dst.EmptyLine
-
-	return azureNameCheck
-}
-
-func getRefString(ref []string) string {
-	return strings.Join(ref, ".")
+		returnStmt)
 }

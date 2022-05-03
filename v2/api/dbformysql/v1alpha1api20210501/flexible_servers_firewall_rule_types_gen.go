@@ -245,27 +245,11 @@ func (rule *FlexibleServersFirewallRule) updateValidations() []func(old runtime.
 
 // validateImmutableProperties validates all immutable properties
 func (rule *FlexibleServersFirewallRule) validateImmutableProperties(old runtime.Object) error {
-
-	resourceID := genruntime.GetResourceIDOrDefault(rule)
-	if resourceID == "" {
-		return nil
-	}
-
 	oldObj, ok := old.(*FlexibleServersFirewallRule)
 	if !ok {
 		return nil
 	}
-
-	if oldObj.AzureName() != rule.AzureName() {
-		return errors.New("update for 'AzureName()' is not allowed")
-	}
-
-	if oldObj.Owner().Name != rule.Owner().Name {
-		return errors.New("update for 'Owner().Name' is not allowed")
-	}
-
-	// No error
-	return nil
+	return genruntime.ValidateImmutableProperties(oldObj, rule)
 }
 
 // validateResourceReferences validates all resource references

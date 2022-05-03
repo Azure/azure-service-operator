@@ -245,27 +245,11 @@ func (container *StorageAccountsBlobServicesContainer) updateValidations() []fun
 
 // validateImmutableProperties validates all immutable properties
 func (container *StorageAccountsBlobServicesContainer) validateImmutableProperties(old runtime.Object) error {
-
-	resourceID := genruntime.GetResourceIDOrDefault(container)
-	if resourceID == "" {
-		return nil
-	}
-
 	oldObj, ok := old.(*StorageAccountsBlobServicesContainer)
 	if !ok {
 		return nil
 	}
-
-	if oldObj.AzureName() != container.AzureName() {
-		return errors.New("update for 'AzureName()' is not allowed")
-	}
-
-	if oldObj.Owner().Name != container.Owner().Name {
-		return errors.New("update for 'Owner().Name' is not allowed")
-	}
-
-	// No error
-	return nil
+	return genruntime.ValidateImmutableProperties(oldObj, container)
 }
 
 // validateResourceReferences validates all resource references

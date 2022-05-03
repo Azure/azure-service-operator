@@ -232,27 +232,11 @@ func (scaleSet *VirtualMachineScaleSet) updateValidations() []func(old runtime.O
 
 // validateImmutableProperties validates all immutable properties
 func (scaleSet *VirtualMachineScaleSet) validateImmutableProperties(old runtime.Object) error {
-
-	resourceID := genruntime.GetResourceIDOrDefault(scaleSet)
-	if resourceID == "" {
-		return nil
-	}
-
 	oldObj, ok := old.(*VirtualMachineScaleSet)
 	if !ok {
 		return nil
 	}
-
-	if oldObj.AzureName() != scaleSet.AzureName() {
-		return errors.New("update for 'AzureName()' is not allowed")
-	}
-
-	if oldObj.Owner().Name != scaleSet.Owner().Name {
-		return errors.New("update for 'Owner().Name' is not allowed")
-	}
-
-	// No error
-	return nil
+	return genruntime.ValidateImmutableProperties(oldObj, scaleSet)
 }
 
 // validateResourceReferences validates all resource references

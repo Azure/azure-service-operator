@@ -231,27 +231,11 @@ func (group *NetworkSecurityGroup) updateValidations() []func(old runtime.Object
 
 // validateImmutableProperties validates all immutable properties
 func (group *NetworkSecurityGroup) validateImmutableProperties(old runtime.Object) error {
-
-	resourceID := genruntime.GetResourceIDOrDefault(group)
-	if resourceID == "" {
-		return nil
-	}
-
 	oldObj, ok := old.(*NetworkSecurityGroup)
 	if !ok {
 		return nil
 	}
-
-	if oldObj.AzureName() != group.AzureName() {
-		return errors.New("update for 'AzureName()' is not allowed")
-	}
-
-	if oldObj.Owner().Name != group.Owner().Name {
-		return errors.New("update for 'Owner().Name' is not allowed")
-	}
-
-	// No error
-	return nil
+	return genruntime.ValidateImmutableProperties(oldObj, group)
 }
 
 // validateResourceReferences validates all resource references

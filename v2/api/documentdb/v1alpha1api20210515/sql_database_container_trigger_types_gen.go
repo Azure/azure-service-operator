@@ -245,27 +245,11 @@ func (trigger *SqlDatabaseContainerTrigger) updateValidations() []func(old runti
 
 // validateImmutableProperties validates all immutable properties
 func (trigger *SqlDatabaseContainerTrigger) validateImmutableProperties(old runtime.Object) error {
-
-	resourceID := genruntime.GetResourceIDOrDefault(trigger)
-	if resourceID == "" {
-		return nil
-	}
-
 	oldObj, ok := old.(*SqlDatabaseContainerTrigger)
 	if !ok {
 		return nil
 	}
-
-	if oldObj.AzureName() != trigger.AzureName() {
-		return errors.New("update for 'AzureName()' is not allowed")
-	}
-
-	if oldObj.Owner().Name != trigger.Owner().Name {
-		return errors.New("update for 'Owner().Name' is not allowed")
-	}
-
-	// No error
-	return nil
+	return genruntime.ValidateImmutableProperties(oldObj, trigger)
 }
 
 // validateResourceReferences validates all resource references

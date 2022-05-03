@@ -249,27 +249,11 @@ func (redis *Redis) updateValidations() []func(old runtime.Object) error {
 
 // validateImmutableProperties validates all immutable properties
 func (redis *Redis) validateImmutableProperties(old runtime.Object) error {
-
-	resourceID := genruntime.GetResourceIDOrDefault(redis)
-	if resourceID == "" {
-		return nil
-	}
-
 	oldObj, ok := old.(*Redis)
 	if !ok {
 		return nil
 	}
-
-	if oldObj.AzureName() != redis.AzureName() {
-		return errors.New("update for 'AzureName()' is not allowed")
-	}
-
-	if oldObj.Owner().Name != redis.Owner().Name {
-		return errors.New("update for 'Owner().Name' is not allowed")
-	}
-
-	// No error
-	return nil
+	return genruntime.ValidateImmutableProperties(oldObj, redis)
 }
 
 // validateResourceReferences validates all resource references

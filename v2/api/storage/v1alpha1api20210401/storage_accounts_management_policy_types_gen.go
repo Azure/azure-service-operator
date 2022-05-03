@@ -238,27 +238,11 @@ func (policy *StorageAccountsManagementPolicy) updateValidations() []func(old ru
 
 // validateImmutableProperties validates all immutable properties
 func (policy *StorageAccountsManagementPolicy) validateImmutableProperties(old runtime.Object) error {
-
-	resourceID := genruntime.GetResourceIDOrDefault(policy)
-	if resourceID == "" {
-		return nil
-	}
-
 	oldObj, ok := old.(*StorageAccountsManagementPolicy)
 	if !ok {
 		return nil
 	}
-
-	if oldObj.AzureName() != policy.AzureName() {
-		return errors.New("update for 'AzureName()' is not allowed")
-	}
-
-	if oldObj.Owner().Name != policy.Owner().Name {
-		return errors.New("update for 'Owner().Name' is not allowed")
-	}
-
-	// No error
-	return nil
+	return genruntime.ValidateImmutableProperties(oldObj, policy)
 }
 
 // validateResourceReferences validates all resource references

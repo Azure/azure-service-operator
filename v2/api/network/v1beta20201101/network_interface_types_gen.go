@@ -231,27 +231,11 @@ func (networkInterface *NetworkInterface) updateValidations() []func(old runtime
 
 // validateImmutableProperties validates all immutable properties
 func (networkInterface *NetworkInterface) validateImmutableProperties(old runtime.Object) error {
-
-	resourceID := genruntime.GetResourceIDOrDefault(networkInterface)
-	if resourceID == "" {
-		return nil
-	}
-
 	oldObj, ok := old.(*NetworkInterface)
 	if !ok {
 		return nil
 	}
-
-	if oldObj.AzureName() != networkInterface.AzureName() {
-		return errors.New("update for 'AzureName()' is not allowed")
-	}
-
-	if oldObj.Owner().Name != networkInterface.Owner().Name {
-		return errors.New("update for 'Owner().Name' is not allowed")
-	}
-
-	// No error
-	return nil
+	return genruntime.ValidateImmutableProperties(oldObj, networkInterface)
 }
 
 // validateResourceReferences validates all resource references

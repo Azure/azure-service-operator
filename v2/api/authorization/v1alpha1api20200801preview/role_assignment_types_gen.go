@@ -244,27 +244,11 @@ func (assignment *RoleAssignment) updateValidations() []func(old runtime.Object)
 
 // validateImmutableProperties validates all immutable properties
 func (assignment *RoleAssignment) validateImmutableProperties(old runtime.Object) error {
-
-	resourceID := genruntime.GetResourceIDOrDefault(assignment)
-	if resourceID == "" {
-		return nil
-	}
-
 	oldObj, ok := old.(*RoleAssignment)
 	if !ok {
 		return nil
 	}
-
-	if oldObj.AzureName() != assignment.AzureName() {
-		return errors.New("update for 'AzureName()' is not allowed")
-	}
-
-	if oldObj.Owner().Name != assignment.Owner().Name {
-		return errors.New("update for 'Owner().Name' is not allowed")
-	}
-
-	// No error
-	return nil
+	return genruntime.ValidateImmutableProperties(oldObj, assignment)
 }
 
 // validateResourceReferences validates all resource references

@@ -231,27 +231,11 @@ func (registry *Registry) updateValidations() []func(old runtime.Object) error {
 
 // validateImmutableProperties validates all immutable properties
 func (registry *Registry) validateImmutableProperties(old runtime.Object) error {
-
-	resourceID := genruntime.GetResourceIDOrDefault(registry)
-	if resourceID == "" {
-		return nil
-	}
-
 	oldObj, ok := old.(*Registry)
 	if !ok {
 		return nil
 	}
-
-	if oldObj.AzureName() != registry.AzureName() {
-		return errors.New("update for 'AzureName()' is not allowed")
-	}
-
-	if oldObj.Owner().Name != registry.Owner().Name {
-		return errors.New("update for 'Owner().Name' is not allowed")
-	}
-
-	// No error
-	return nil
+	return genruntime.ValidateImmutableProperties(oldObj, registry)
 }
 
 // validateResourceReferences validates all resource references

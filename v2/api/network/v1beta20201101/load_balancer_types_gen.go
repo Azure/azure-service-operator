@@ -231,27 +231,11 @@ func (balancer *LoadBalancer) updateValidations() []func(old runtime.Object) err
 
 // validateImmutableProperties validates all immutable properties
 func (balancer *LoadBalancer) validateImmutableProperties(old runtime.Object) error {
-
-	resourceID := genruntime.GetResourceIDOrDefault(balancer)
-	if resourceID == "" {
-		return nil
-	}
-
 	oldObj, ok := old.(*LoadBalancer)
 	if !ok {
 		return nil
 	}
-
-	if oldObj.AzureName() != balancer.AzureName() {
-		return errors.New("update for 'AzureName()' is not allowed")
-	}
-
-	if oldObj.Owner().Name != balancer.Owner().Name {
-		return errors.New("update for 'Owner().Name' is not allowed")
-	}
-
-	// No error
-	return nil
+	return genruntime.ValidateImmutableProperties(oldObj, balancer)
 }
 
 // validateResourceReferences validates all resource references

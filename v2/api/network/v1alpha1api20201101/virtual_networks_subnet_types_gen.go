@@ -245,27 +245,11 @@ func (subnet *VirtualNetworksSubnet) updateValidations() []func(old runtime.Obje
 
 // validateImmutableProperties validates all immutable properties
 func (subnet *VirtualNetworksSubnet) validateImmutableProperties(old runtime.Object) error {
-
-	resourceID := genruntime.GetResourceIDOrDefault(subnet)
-	if resourceID == "" {
-		return nil
-	}
-
 	oldObj, ok := old.(*VirtualNetworksSubnet)
 	if !ok {
 		return nil
 	}
-
-	if oldObj.AzureName() != subnet.AzureName() {
-		return errors.New("update for 'AzureName()' is not allowed")
-	}
-
-	if oldObj.Owner().Name != subnet.Owner().Name {
-		return errors.New("update for 'Owner().Name' is not allowed")
-	}
-
-	// No error
-	return nil
+	return genruntime.ValidateImmutableProperties(oldObj, subnet)
 }
 
 // validateResourceReferences validates all resource references

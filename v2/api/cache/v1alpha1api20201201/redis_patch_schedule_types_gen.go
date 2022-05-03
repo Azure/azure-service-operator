@@ -238,27 +238,11 @@ func (schedule *RedisPatchSchedule) updateValidations() []func(old runtime.Objec
 
 // validateImmutableProperties validates all immutable properties
 func (schedule *RedisPatchSchedule) validateImmutableProperties(old runtime.Object) error {
-
-	resourceID := genruntime.GetResourceIDOrDefault(schedule)
-	if resourceID == "" {
-		return nil
-	}
-
 	oldObj, ok := old.(*RedisPatchSchedule)
 	if !ok {
 		return nil
 	}
-
-	if oldObj.AzureName() != schedule.AzureName() {
-		return errors.New("update for 'AzureName()' is not allowed")
-	}
-
-	if oldObj.Owner().Name != schedule.Owner().Name {
-		return errors.New("update for 'Owner().Name' is not allowed")
-	}
-
-	// No error
-	return nil
+	return genruntime.ValidateImmutableProperties(oldObj, schedule)
 }
 
 // validateResourceReferences validates all resource references

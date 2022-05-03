@@ -231,27 +231,11 @@ func (topic *NamespacesTopic) updateValidations() []func(old runtime.Object) err
 
 // validateImmutableProperties validates all immutable properties
 func (topic *NamespacesTopic) validateImmutableProperties(old runtime.Object) error {
-
-	resourceID := genruntime.GetResourceIDOrDefault(topic)
-	if resourceID == "" {
-		return nil
-	}
-
 	oldObj, ok := old.(*NamespacesTopic)
 	if !ok {
 		return nil
 	}
-
-	if oldObj.AzureName() != topic.AzureName() {
-		return errors.New("update for 'AzureName()' is not allowed")
-	}
-
-	if oldObj.Owner().Name != topic.Owner().Name {
-		return errors.New("update for 'Owner().Name' is not allowed")
-	}
-
-	// No error
-	return nil
+	return genruntime.ValidateImmutableProperties(oldObj, topic)
 }
 
 // validateResourceReferences validates all resource references

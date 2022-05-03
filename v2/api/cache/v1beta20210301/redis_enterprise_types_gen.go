@@ -231,27 +231,11 @@ func (enterprise *RedisEnterprise) updateValidations() []func(old runtime.Object
 
 // validateImmutableProperties validates all immutable properties
 func (enterprise *RedisEnterprise) validateImmutableProperties(old runtime.Object) error {
-
-	resourceID := genruntime.GetResourceIDOrDefault(enterprise)
-	if resourceID == "" {
-		return nil
-	}
-
 	oldObj, ok := old.(*RedisEnterprise)
 	if !ok {
 		return nil
 	}
-
-	if oldObj.AzureName() != enterprise.AzureName() {
-		return errors.New("update for 'AzureName()' is not allowed")
-	}
-
-	if oldObj.Owner().Name != enterprise.Owner().Name {
-		return errors.New("update for 'Owner().Name' is not allowed")
-	}
-
-	// No error
-	return nil
+	return genruntime.ValidateImmutableProperties(oldObj, enterprise)
 }
 
 // validateResourceReferences validates all resource references

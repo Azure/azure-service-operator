@@ -231,27 +231,11 @@ func (function *SqlDatabaseContainerUserDefinedFunction) updateValidations() []f
 
 // validateImmutableProperties validates all immutable properties
 func (function *SqlDatabaseContainerUserDefinedFunction) validateImmutableProperties(old runtime.Object) error {
-
-	resourceID := genruntime.GetResourceIDOrDefault(function)
-	if resourceID == "" {
-		return nil
-	}
-
 	oldObj, ok := old.(*SqlDatabaseContainerUserDefinedFunction)
 	if !ok {
 		return nil
 	}
-
-	if oldObj.AzureName() != function.AzureName() {
-		return errors.New("update for 'AzureName()' is not allowed")
-	}
-
-	if oldObj.Owner().Name != function.Owner().Name {
-		return errors.New("update for 'Owner().Name' is not allowed")
-	}
-
-	// No error
-	return nil
+	return genruntime.ValidateImmutableProperties(oldObj, function)
 }
 
 // validateResourceReferences validates all resource references

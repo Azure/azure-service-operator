@@ -232,27 +232,11 @@ func (component *Component) updateValidations() []func(old runtime.Object) error
 
 // validateImmutableProperties validates all immutable properties
 func (component *Component) validateImmutableProperties(old runtime.Object) error {
-
-	resourceID := genruntime.GetResourceIDOrDefault(component)
-	if resourceID == "" {
-		return nil
-	}
-
 	oldObj, ok := old.(*Component)
 	if !ok {
 		return nil
 	}
-
-	if oldObj.AzureName() != component.AzureName() {
-		return errors.New("update for 'AzureName()' is not allowed")
-	}
-
-	if oldObj.Owner().Name != component.Owner().Name {
-		return errors.New("update for 'Owner().Name' is not allowed")
-	}
-
-	// No error
-	return nil
+	return genruntime.ValidateImmutableProperties(oldObj, component)
 }
 
 // validateResourceReferences validates all resource references

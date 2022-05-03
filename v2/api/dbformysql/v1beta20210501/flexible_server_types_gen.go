@@ -231,27 +231,11 @@ func (server *FlexibleServer) updateValidations() []func(old runtime.Object) err
 
 // validateImmutableProperties validates all immutable properties
 func (server *FlexibleServer) validateImmutableProperties(old runtime.Object) error {
-
-	resourceID := genruntime.GetResourceIDOrDefault(server)
-	if resourceID == "" {
-		return nil
-	}
-
 	oldObj, ok := old.(*FlexibleServer)
 	if !ok {
 		return nil
 	}
-
-	if oldObj.AzureName() != server.AzureName() {
-		return errors.New("update for 'AzureName()' is not allowed")
-	}
-
-	if oldObj.Owner().Name != server.Owner().Name {
-		return errors.New("update for 'Owner().Name' is not allowed")
-	}
-
-	// No error
-	return nil
+	return genruntime.ValidateImmutableProperties(oldObj, server)
 }
 
 // validateResourceReferences validates all resource references

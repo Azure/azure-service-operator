@@ -200,27 +200,11 @@ func (resource *FakeResource) updateValidations() []func(old runtime.Object) err
 
 // validateImmutableProperties validates all immutable properties
 func (resource *FakeResource) validateImmutableProperties(old runtime.Object) error {
-
-	resourceID := genruntime.GetResourceIDOrDefault(resource)
-	if resourceID == "" {
-		return nil
-	}
-
 	oldObj, ok := old.(*FakeResource)
 	if !ok {
 		return nil
 	}
-
-	if oldObj.AzureName() != resource.AzureName() {
-		return errors.New("update for 'AzureName()' is not allowed")
-	}
-
-	if oldObj.Owner().Name != resource.Owner().Name {
-		return errors.New("update for 'Owner().Name' is not allowed")
-	}
-
-	// No error
-	return nil
+	return genruntime.ValidateImmutableProperties(oldObj, resource)
 }
 
 // validateResourceReferences validates all resource references

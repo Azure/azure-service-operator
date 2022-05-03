@@ -224,27 +224,11 @@ func (service *StorageAccountsQueueService) updateValidations() []func(old runti
 
 // validateImmutableProperties validates all immutable properties
 func (service *StorageAccountsQueueService) validateImmutableProperties(old runtime.Object) error {
-
-	resourceID := genruntime.GetResourceIDOrDefault(service)
-	if resourceID == "" {
-		return nil
-	}
-
 	oldObj, ok := old.(*StorageAccountsQueueService)
 	if !ok {
 		return nil
 	}
-
-	if oldObj.AzureName() != service.AzureName() {
-		return errors.New("update for 'AzureName()' is not allowed")
-	}
-
-	if oldObj.Owner().Name != service.Owner().Name {
-		return errors.New("update for 'Owner().Name' is not allowed")
-	}
-
-	// No error
-	return nil
+	return genruntime.ValidateImmutableProperties(oldObj, service)
 }
 
 // validateResourceReferences validates all resource references
