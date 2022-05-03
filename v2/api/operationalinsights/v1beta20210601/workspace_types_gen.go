@@ -227,7 +227,32 @@ func (workspace *Workspace) updateValidations() []func(old runtime.Object) error
 		func(old runtime.Object) error {
 			return workspace.validateResourceReferences()
 		},
+		workspace.validateImmutableProperties}
+}
+
+// validateImmutableProperties validates all immutable properties
+func (workspace *Workspace) validateImmutableProperties(old runtime.Object) error {
+
+	resourceID := genruntime.GetResourceIDOrDefault(workspace)
+	if resourceID == "" {
+		return nil
 	}
+
+	oldObj, ok := old.(*Workspace)
+	if !ok {
+		return nil
+	}
+
+	if oldObj.AzureName() != workspace.AzureName() {
+		return errors.New("update for 'AzureName()' is not allowed")
+	}
+
+	if oldObj.Owner().Name != workspace.Owner().Name {
+		return errors.New("update for 'Owner().Name' is not allowed")
+	}
+
+	// No error
+	return nil
 }
 
 // validateResourceReferences validates all resource references

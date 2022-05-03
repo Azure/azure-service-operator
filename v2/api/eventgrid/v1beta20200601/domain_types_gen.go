@@ -226,7 +226,32 @@ func (domain *Domain) updateValidations() []func(old runtime.Object) error {
 		func(old runtime.Object) error {
 			return domain.validateResourceReferences()
 		},
+		domain.validateImmutableProperties}
+}
+
+// validateImmutableProperties validates all immutable properties
+func (domain *Domain) validateImmutableProperties(old runtime.Object) error {
+
+	resourceID := genruntime.GetResourceIDOrDefault(domain)
+	if resourceID == "" {
+		return nil
 	}
+
+	oldObj, ok := old.(*Domain)
+	if !ok {
+		return nil
+	}
+
+	if oldObj.AzureName() != domain.AzureName() {
+		return errors.New("update for 'AzureName()' is not allowed")
+	}
+
+	if oldObj.Owner().Name != domain.Owner().Name {
+		return errors.New("update for 'Owner().Name' is not allowed")
+	}
+
+	// No error
+	return nil
 }
 
 // validateResourceReferences validates all resource references

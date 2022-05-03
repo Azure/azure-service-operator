@@ -227,7 +227,32 @@ func (machine *VirtualMachine) updateValidations() []func(old runtime.Object) er
 		func(old runtime.Object) error {
 			return machine.validateResourceReferences()
 		},
+		machine.validateImmutableProperties}
+}
+
+// validateImmutableProperties validates all immutable properties
+func (machine *VirtualMachine) validateImmutableProperties(old runtime.Object) error {
+
+	resourceID := genruntime.GetResourceIDOrDefault(machine)
+	if resourceID == "" {
+		return nil
 	}
+
+	oldObj, ok := old.(*VirtualMachine)
+	if !ok {
+		return nil
+	}
+
+	if oldObj.AzureName() != machine.AzureName() {
+		return errors.New("update for 'AzureName()' is not allowed")
+	}
+
+	if oldObj.Owner().Name != machine.Owner().Name {
+		return errors.New("update for 'Owner().Name' is not allowed")
+	}
+
+	// No error
+	return nil
 }
 
 // validateResourceReferences validates all resource references

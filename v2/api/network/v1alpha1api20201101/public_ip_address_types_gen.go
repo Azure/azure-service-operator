@@ -240,7 +240,32 @@ func (address *PublicIPAddress) updateValidations() []func(old runtime.Object) e
 		func(old runtime.Object) error {
 			return address.validateResourceReferences()
 		},
+		address.validateImmutableProperties}
+}
+
+// validateImmutableProperties validates all immutable properties
+func (address *PublicIPAddress) validateImmutableProperties(old runtime.Object) error {
+
+	resourceID := genruntime.GetResourceIDOrDefault(address)
+	if resourceID == "" {
+		return nil
 	}
+
+	oldObj, ok := old.(*PublicIPAddress)
+	if !ok {
+		return nil
+	}
+
+	if oldObj.AzureName() != address.AzureName() {
+		return errors.New("update for 'AzureName()' is not allowed")
+	}
+
+	if oldObj.Owner().Name != address.Owner().Name {
+		return errors.New("update for 'Owner().Name' is not allowed")
+	}
+
+	// No error
+	return nil
 }
 
 // validateResourceReferences validates all resource references

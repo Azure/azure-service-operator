@@ -240,7 +240,32 @@ func (procedure *SqlDatabaseContainerStoredProcedure) updateValidations() []func
 		func(old runtime.Object) error {
 			return procedure.validateResourceReferences()
 		},
+		procedure.validateImmutableProperties}
+}
+
+// validateImmutableProperties validates all immutable properties
+func (procedure *SqlDatabaseContainerStoredProcedure) validateImmutableProperties(old runtime.Object) error {
+
+	resourceID := genruntime.GetResourceIDOrDefault(procedure)
+	if resourceID == "" {
+		return nil
 	}
+
+	oldObj, ok := old.(*SqlDatabaseContainerStoredProcedure)
+	if !ok {
+		return nil
+	}
+
+	if oldObj.AzureName() != procedure.AzureName() {
+		return errors.New("update for 'AzureName()' is not allowed")
+	}
+
+	if oldObj.Owner().Name != procedure.Owner().Name {
+		return errors.New("update for 'Owner().Name' is not allowed")
+	}
+
+	// No error
+	return nil
 }
 
 // validateResourceReferences validates all resource references

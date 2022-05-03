@@ -226,7 +226,32 @@ func (disk *Disk) updateValidations() []func(old runtime.Object) error {
 		func(old runtime.Object) error {
 			return disk.validateResourceReferences()
 		},
+		disk.validateImmutableProperties}
+}
+
+// validateImmutableProperties validates all immutable properties
+func (disk *Disk) validateImmutableProperties(old runtime.Object) error {
+
+	resourceID := genruntime.GetResourceIDOrDefault(disk)
+	if resourceID == "" {
+		return nil
 	}
+
+	oldObj, ok := old.(*Disk)
+	if !ok {
+		return nil
+	}
+
+	if oldObj.AzureName() != disk.AzureName() {
+		return errors.New("update for 'AzureName()' is not allowed")
+	}
+
+	if oldObj.Owner().Name != disk.Owner().Name {
+		return errors.New("update for 'Owner().Name' is not allowed")
+	}
+
+	// No error
+	return nil
 }
 
 // validateResourceReferences validates all resource references

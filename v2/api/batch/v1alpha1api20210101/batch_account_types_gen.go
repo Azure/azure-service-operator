@@ -240,7 +240,32 @@ func (account *BatchAccount) updateValidations() []func(old runtime.Object) erro
 		func(old runtime.Object) error {
 			return account.validateResourceReferences()
 		},
+		account.validateImmutableProperties}
+}
+
+// validateImmutableProperties validates all immutable properties
+func (account *BatchAccount) validateImmutableProperties(old runtime.Object) error {
+
+	resourceID := genruntime.GetResourceIDOrDefault(account)
+	if resourceID == "" {
+		return nil
 	}
+
+	oldObj, ok := old.(*BatchAccount)
+	if !ok {
+		return nil
+	}
+
+	if oldObj.AzureName() != account.AzureName() {
+		return errors.New("update for 'AzureName()' is not allowed")
+	}
+
+	if oldObj.Owner().Name != account.Owner().Name {
+		return errors.New("update for 'Owner().Name' is not allowed")
+	}
+
+	// No error
+	return nil
 }
 
 // validateResourceReferences validates all resource references

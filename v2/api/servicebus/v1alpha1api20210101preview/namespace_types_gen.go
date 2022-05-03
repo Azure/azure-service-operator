@@ -240,7 +240,32 @@ func (namespace *Namespace) updateValidations() []func(old runtime.Object) error
 		func(old runtime.Object) error {
 			return namespace.validateResourceReferences()
 		},
+		namespace.validateImmutableProperties}
+}
+
+// validateImmutableProperties validates all immutable properties
+func (namespace *Namespace) validateImmutableProperties(old runtime.Object) error {
+
+	resourceID := genruntime.GetResourceIDOrDefault(namespace)
+	if resourceID == "" {
+		return nil
 	}
+
+	oldObj, ok := old.(*Namespace)
+	if !ok {
+		return nil
+	}
+
+	if oldObj.AzureName() != namespace.AzureName() {
+		return errors.New("update for 'AzureName()' is not allowed")
+	}
+
+	if oldObj.Owner().Name != namespace.Owner().Name {
+		return errors.New("update for 'Owner().Name' is not allowed")
+	}
+
+	// No error
+	return nil
 }
 
 // validateResourceReferences validates all resource references

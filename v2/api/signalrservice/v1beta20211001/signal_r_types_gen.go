@@ -227,7 +227,32 @@ func (signalR *SignalR) updateValidations() []func(old runtime.Object) error {
 		func(old runtime.Object) error {
 			return signalR.validateResourceReferences()
 		},
+		signalR.validateImmutableProperties}
+}
+
+// validateImmutableProperties validates all immutable properties
+func (signalR *SignalR) validateImmutableProperties(old runtime.Object) error {
+
+	resourceID := genruntime.GetResourceIDOrDefault(signalR)
+	if resourceID == "" {
+		return nil
 	}
+
+	oldObj, ok := old.(*SignalR)
+	if !ok {
+		return nil
+	}
+
+	if oldObj.AzureName() != signalR.AzureName() {
+		return errors.New("update for 'AzureName()' is not allowed")
+	}
+
+	if oldObj.Owner().Name != signalR.Owner().Name {
+		return errors.New("update for 'Owner().Name' is not allowed")
+	}
+
+	// No error
+	return nil
 }
 
 // validateResourceReferences validates all resource references

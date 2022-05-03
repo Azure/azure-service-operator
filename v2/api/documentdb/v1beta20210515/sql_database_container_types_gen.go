@@ -226,7 +226,32 @@ func (container *SqlDatabaseContainer) updateValidations() []func(old runtime.Ob
 		func(old runtime.Object) error {
 			return container.validateResourceReferences()
 		},
+		container.validateImmutableProperties}
+}
+
+// validateImmutableProperties validates all immutable properties
+func (container *SqlDatabaseContainer) validateImmutableProperties(old runtime.Object) error {
+
+	resourceID := genruntime.GetResourceIDOrDefault(container)
+	if resourceID == "" {
+		return nil
 	}
+
+	oldObj, ok := old.(*SqlDatabaseContainer)
+	if !ok {
+		return nil
+	}
+
+	if oldObj.AzureName() != container.AzureName() {
+		return errors.New("update for 'AzureName()' is not allowed")
+	}
+
+	if oldObj.Owner().Name != container.Owner().Name {
+		return errors.New("update for 'Owner().Name' is not allowed")
+	}
+
+	// No error
+	return nil
 }
 
 // validateResourceReferences validates all resource references

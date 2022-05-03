@@ -233,7 +233,32 @@ func (setting *MongodbDatabaseThroughputSetting) updateValidations() []func(old 
 		func(old runtime.Object) error {
 			return setting.validateResourceReferences()
 		},
+		setting.validateImmutableProperties}
+}
+
+// validateImmutableProperties validates all immutable properties
+func (setting *MongodbDatabaseThroughputSetting) validateImmutableProperties(old runtime.Object) error {
+
+	resourceID := genruntime.GetResourceIDOrDefault(setting)
+	if resourceID == "" {
+		return nil
 	}
+
+	oldObj, ok := old.(*MongodbDatabaseThroughputSetting)
+	if !ok {
+		return nil
+	}
+
+	if oldObj.AzureName() != setting.AzureName() {
+		return errors.New("update for 'AzureName()' is not allowed")
+	}
+
+	if oldObj.Owner().Name != setting.Owner().Name {
+		return errors.New("update for 'Owner().Name' is not allowed")
+	}
+
+	// No error
+	return nil
 }
 
 // validateResourceReferences validates all resource references

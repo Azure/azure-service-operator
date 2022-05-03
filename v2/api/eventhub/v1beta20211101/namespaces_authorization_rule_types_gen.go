@@ -226,7 +226,32 @@ func (rule *NamespacesAuthorizationRule) updateValidations() []func(old runtime.
 		func(old runtime.Object) error {
 			return rule.validateResourceReferences()
 		},
+		rule.validateImmutableProperties}
+}
+
+// validateImmutableProperties validates all immutable properties
+func (rule *NamespacesAuthorizationRule) validateImmutableProperties(old runtime.Object) error {
+
+	resourceID := genruntime.GetResourceIDOrDefault(rule)
+	if resourceID == "" {
+		return nil
 	}
+
+	oldObj, ok := old.(*NamespacesAuthorizationRule)
+	if !ok {
+		return nil
+	}
+
+	if oldObj.AzureName() != rule.AzureName() {
+		return errors.New("update for 'AzureName()' is not allowed")
+	}
+
+	if oldObj.Owner().Name != rule.Owner().Name {
+		return errors.New("update for 'Owner().Name' is not allowed")
+	}
+
+	// No error
+	return nil
 }
 
 // validateResourceReferences validates all resource references

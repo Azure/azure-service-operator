@@ -226,7 +226,32 @@ func (identity *UserAssignedIdentity) updateValidations() []func(old runtime.Obj
 		func(old runtime.Object) error {
 			return identity.validateResourceReferences()
 		},
+		identity.validateImmutableProperties}
+}
+
+// validateImmutableProperties validates all immutable properties
+func (identity *UserAssignedIdentity) validateImmutableProperties(old runtime.Object) error {
+
+	resourceID := genruntime.GetResourceIDOrDefault(identity)
+	if resourceID == "" {
+		return nil
 	}
+
+	oldObj, ok := old.(*UserAssignedIdentity)
+	if !ok {
+		return nil
+	}
+
+	if oldObj.AzureName() != identity.AzureName() {
+		return errors.New("update for 'AzureName()' is not allowed")
+	}
+
+	if oldObj.Owner().Name != identity.Owner().Name {
+		return errors.New("update for 'Owner().Name' is not allowed")
+	}
+
+	// No error
+	return nil
 }
 
 // validateResourceReferences validates all resource references

@@ -240,7 +240,32 @@ func (group *NamespacesEventhubsConsumerGroup) updateValidations() []func(old ru
 		func(old runtime.Object) error {
 			return group.validateResourceReferences()
 		},
+		group.validateImmutableProperties}
+}
+
+// validateImmutableProperties validates all immutable properties
+func (group *NamespacesEventhubsConsumerGroup) validateImmutableProperties(old runtime.Object) error {
+
+	resourceID := genruntime.GetResourceIDOrDefault(group)
+	if resourceID == "" {
+		return nil
 	}
+
+	oldObj, ok := old.(*NamespacesEventhubsConsumerGroup)
+	if !ok {
+		return nil
+	}
+
+	if oldObj.AzureName() != group.AzureName() {
+		return errors.New("update for 'AzureName()' is not allowed")
+	}
+
+	if oldObj.Owner().Name != group.Owner().Name {
+		return errors.New("update for 'Owner().Name' is not allowed")
+	}
+
+	// No error
+	return nil
 }
 
 // validateResourceReferences validates all resource references

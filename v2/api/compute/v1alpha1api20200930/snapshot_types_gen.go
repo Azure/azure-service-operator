@@ -240,7 +240,32 @@ func (snapshot *Snapshot) updateValidations() []func(old runtime.Object) error {
 		func(old runtime.Object) error {
 			return snapshot.validateResourceReferences()
 		},
+		snapshot.validateImmutableProperties}
+}
+
+// validateImmutableProperties validates all immutable properties
+func (snapshot *Snapshot) validateImmutableProperties(old runtime.Object) error {
+
+	resourceID := genruntime.GetResourceIDOrDefault(snapshot)
+	if resourceID == "" {
+		return nil
 	}
+
+	oldObj, ok := old.(*Snapshot)
+	if !ok {
+		return nil
+	}
+
+	if oldObj.AzureName() != snapshot.AzureName() {
+		return errors.New("update for 'AzureName()' is not allowed")
+	}
+
+	if oldObj.Owner().Name != snapshot.Owner().Name {
+		return errors.New("update for 'Owner().Name' is not allowed")
+	}
+
+	// No error
+	return nil
 }
 
 // validateResourceReferences validates all resource references

@@ -240,7 +240,32 @@ func (pool *ManagedClustersAgentPool) updateValidations() []func(old runtime.Obj
 		func(old runtime.Object) error {
 			return pool.validateResourceReferences()
 		},
+		pool.validateImmutableProperties}
+}
+
+// validateImmutableProperties validates all immutable properties
+func (pool *ManagedClustersAgentPool) validateImmutableProperties(old runtime.Object) error {
+
+	resourceID := genruntime.GetResourceIDOrDefault(pool)
+	if resourceID == "" {
+		return nil
 	}
+
+	oldObj, ok := old.(*ManagedClustersAgentPool)
+	if !ok {
+		return nil
+	}
+
+	if oldObj.AzureName() != pool.AzureName() {
+		return errors.New("update for 'AzureName()' is not allowed")
+	}
+
+	if oldObj.Owner().Name != pool.Owner().Name {
+		return errors.New("update for 'Owner().Name' is not allowed")
+	}
+
+	// No error
+	return nil
 }
 
 // validateResourceReferences validates all resource references

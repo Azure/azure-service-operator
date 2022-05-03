@@ -240,7 +240,32 @@ func (rule *NetworkSecurityGroupsSecurityRule) updateValidations() []func(old ru
 		func(old runtime.Object) error {
 			return rule.validateResourceReferences()
 		},
+		rule.validateImmutableProperties}
+}
+
+// validateImmutableProperties validates all immutable properties
+func (rule *NetworkSecurityGroupsSecurityRule) validateImmutableProperties(old runtime.Object) error {
+
+	resourceID := genruntime.GetResourceIDOrDefault(rule)
+	if resourceID == "" {
+		return nil
 	}
+
+	oldObj, ok := old.(*NetworkSecurityGroupsSecurityRule)
+	if !ok {
+		return nil
+	}
+
+	if oldObj.AzureName() != rule.AzureName() {
+		return errors.New("update for 'AzureName()' is not allowed")
+	}
+
+	if oldObj.Owner().Name != rule.Owner().Name {
+		return errors.New("update for 'Owner().Name' is not allowed")
+	}
+
+	// No error
+	return nil
 }
 
 // validateResourceReferences validates all resource references

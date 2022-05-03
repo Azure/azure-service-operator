@@ -241,7 +241,32 @@ func (cluster *ManagedCluster) updateValidations() []func(old runtime.Object) er
 		func(old runtime.Object) error {
 			return cluster.validateResourceReferences()
 		},
+		cluster.validateImmutableProperties}
+}
+
+// validateImmutableProperties validates all immutable properties
+func (cluster *ManagedCluster) validateImmutableProperties(old runtime.Object) error {
+
+	resourceID := genruntime.GetResourceIDOrDefault(cluster)
+	if resourceID == "" {
+		return nil
 	}
+
+	oldObj, ok := old.(*ManagedCluster)
+	if !ok {
+		return nil
+	}
+
+	if oldObj.AzureName() != cluster.AzureName() {
+		return errors.New("update for 'AzureName()' is not allowed")
+	}
+
+	if oldObj.Owner().Name != cluster.Owner().Name {
+		return errors.New("update for 'Owner().Name' is not allowed")
+	}
+
+	// No error
+	return nil
 }
 
 // validateResourceReferences validates all resource references

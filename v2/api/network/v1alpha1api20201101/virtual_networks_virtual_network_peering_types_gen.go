@@ -240,7 +240,32 @@ func (peering *VirtualNetworksVirtualNetworkPeering) updateValidations() []func(
 		func(old runtime.Object) error {
 			return peering.validateResourceReferences()
 		},
+		peering.validateImmutableProperties}
+}
+
+// validateImmutableProperties validates all immutable properties
+func (peering *VirtualNetworksVirtualNetworkPeering) validateImmutableProperties(old runtime.Object) error {
+
+	resourceID := genruntime.GetResourceIDOrDefault(peering)
+	if resourceID == "" {
+		return nil
 	}
+
+	oldObj, ok := old.(*VirtualNetworksVirtualNetworkPeering)
+	if !ok {
+		return nil
+	}
+
+	if oldObj.AzureName() != peering.AzureName() {
+		return errors.New("update for 'AzureName()' is not allowed")
+	}
+
+	if oldObj.Owner().Name != peering.Owner().Name {
+		return errors.New("update for 'Owner().Name' is not allowed")
+	}
+
+	// No error
+	return nil
 }
 
 // validateResourceReferences validates all resource references

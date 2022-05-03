@@ -240,7 +240,32 @@ func (image *Image) updateValidations() []func(old runtime.Object) error {
 		func(old runtime.Object) error {
 			return image.validateResourceReferences()
 		},
+		image.validateImmutableProperties}
+}
+
+// validateImmutableProperties validates all immutable properties
+func (image *Image) validateImmutableProperties(old runtime.Object) error {
+
+	resourceID := genruntime.GetResourceIDOrDefault(image)
+	if resourceID == "" {
+		return nil
 	}
+
+	oldObj, ok := old.(*Image)
+	if !ok {
+		return nil
+	}
+
+	if oldObj.AzureName() != image.AzureName() {
+		return errors.New("update for 'AzureName()' is not allowed")
+	}
+
+	if oldObj.Owner().Name != image.Owner().Name {
+		return errors.New("update for 'Owner().Name' is not allowed")
+	}
+
+	// No error
+	return nil
 }
 
 // validateResourceReferences validates all resource references

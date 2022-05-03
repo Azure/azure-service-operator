@@ -240,7 +240,32 @@ func (network *VirtualNetwork) updateValidations() []func(old runtime.Object) er
 		func(old runtime.Object) error {
 			return network.validateResourceReferences()
 		},
+		network.validateImmutableProperties}
+}
+
+// validateImmutableProperties validates all immutable properties
+func (network *VirtualNetwork) validateImmutableProperties(old runtime.Object) error {
+
+	resourceID := genruntime.GetResourceIDOrDefault(network)
+	if resourceID == "" {
+		return nil
 	}
+
+	oldObj, ok := old.(*VirtualNetwork)
+	if !ok {
+		return nil
+	}
+
+	if oldObj.AzureName() != network.AzureName() {
+		return errors.New("update for 'AzureName()' is not allowed")
+	}
+
+	if oldObj.Owner().Name != network.Owner().Name {
+		return errors.New("update for 'Owner().Name' is not allowed")
+	}
+
+	// No error
+	return nil
 }
 
 // validateResourceReferences validates all resource references

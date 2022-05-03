@@ -225,7 +225,32 @@ func (subscription *EventSubscription) updateValidations() []func(old runtime.Ob
 		func(old runtime.Object) error {
 			return subscription.validateResourceReferences()
 		},
+		subscription.validateImmutableProperties}
+}
+
+// validateImmutableProperties validates all immutable properties
+func (subscription *EventSubscription) validateImmutableProperties(old runtime.Object) error {
+
+	resourceID := genruntime.GetResourceIDOrDefault(subscription)
+	if resourceID == "" {
+		return nil
 	}
+
+	oldObj, ok := old.(*EventSubscription)
+	if !ok {
+		return nil
+	}
+
+	if oldObj.AzureName() != subscription.AzureName() {
+		return errors.New("update for 'AzureName()' is not allowed")
+	}
+
+	if oldObj.Owner().Name != subscription.Owner().Name {
+		return errors.New("update for 'Owner().Name' is not allowed")
+	}
+
+	// No error
+	return nil
 }
 
 // validateResourceReferences validates all resource references
