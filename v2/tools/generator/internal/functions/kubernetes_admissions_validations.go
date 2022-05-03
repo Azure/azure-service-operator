@@ -114,11 +114,33 @@ func validateImmutablePropertiesFunction(resourceFn *ResourceFunction, codeGener
 	return fn.DefineFunc()
 }
 
+// validateImmutablePropertiesFunctionBody helps generate the body of the validateImmutablePropertiesFunctionBody function:
+// resourceID := genruntime.GetResourceIDOrDefault(account)
+// if resourceID == "" {
+// return nil
+// }
+//
+// oldObj, ok := old.(*BatchAccount)
+// if !ok {
+// return nil
+// }
+//
+// <validations>
+//
+// return nil
 func validateImmutablePropertiesFunctionBody(receiver astmodel.TypeName, codeGenerationContext *astmodel.CodeGenerationContext, receiverIdent string) []dst.Stmt {
 
-	obj := dst.NewIdent("oldObj")
+	genRuntime := codeGenerationContext.MustGetImportedPackageName(astmodel.GenRuntimeReference)
 
+	obj := dst.NewIdent("oldObj")
+	resourceId := dst.NewIdent("resourceID")
 	var validations []dst.Stmt
+
+	// Add check for resourceId, if empty then the resource is not created successfully and we can skip the validation
+	resourceIdAssignment := astbuilder.AssignmentStatement(resourceId, token.DEFINE, astbuilder.CallQualifiedFunc(genRuntime, "GetResourceIDOrDefault", dst.NewIdent(receiverIdent)))
+	resourceIdCheck := astbuilder.ReturnIfExpr(astbuilder.AreEqual(resourceId, astbuilder.StringLiteral("")), astbuilder.Nil())
+	resourceIdAssignment.Decorations().Before = dst.EmptyLine
+	resourceIdCheck.Decorations().After = dst.EmptyLine
 
 	cast := astbuilder.TypeAssert(obj, dst.NewIdent("old"), astbuilder.Dereference(receiver.AsType(codeGenerationContext)))
 	checkAssert := astbuilder.ReturnIfNotOk(astbuilder.Nil())
@@ -131,10 +153,16 @@ func validateImmutablePropertiesFunctionBody(receiver astmodel.TypeName, codeGen
 
 	validations = append(validations, azureNameCheck, resourceOwnerCheck)
 
-	return astbuilder.Statements(cast, checkAssert, validations, astbuilder.ReturnNoError())
-
+	return astbuilder.Statements(
+		resourceIdAssignment,
+		resourceIdCheck,
+		cast,
+		checkAssert,
+		validations,
+		astbuilder.ReturnNoError())
 }
 
+// checkImmutableProperty is a helper method to generate checks for immutable properties
 func checkImmutableProperty(obj *dst.Ident, receiverIdent string, ref []string, codeGenerationContext *astmodel.CodeGenerationContext) *dst.IfStmt {
 	errorsPkg := codeGenerationContext.MustGetImportedPackageName(astmodel.GitHubErrorsReference)
 
@@ -153,7 +181,5 @@ func checkImmutableProperty(obj *dst.Ident, receiverIdent string, ref []string, 
 }
 
 func getRefString(ref []string) string {
-
 	return strings.Join(ref, ".")
-
 }
