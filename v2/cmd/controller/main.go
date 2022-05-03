@@ -134,7 +134,7 @@ func main() {
 	// Healthz liveness probe endpoint
 	err = mgr.AddHealthzCheck("healthz", healthz.Ping)
 	if err != nil {
-		setupLog.Error(err, "failed health check")
+		setupLog.Error(err, "Failed setting up health check")
 		os.Exit(1)
 	}
 
