@@ -42,22 +42,7 @@ func storageAccountAndResourceGroupProvisionedOutOfOrderHelper(t *testing.T, wai
 	// Create the resource group in-memory but don't submit it yet
 	rg := tc.NewTestResourceGroup()
 
-	// Create a storage account
-	accessTier := storage.StorageAccountPropertiesCreateParametersAccessTierHot
-	kind := storage.StorageAccountsSpecKindBlobStorage
-	sku := storage.SkuNameStandardLRS
-	acct := &storage.StorageAccount{
-		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("stor")),
-		Spec: storage.StorageAccounts_Spec{
-			Location: tc.AzureRegion,
-			Owner:    testcommon.AsOwner(rg),
-			Kind:     &kind,
-			Sku: &storage.Sku{
-				Name: &sku,
-			},
-			AccessTier: &accessTier,
-		},
-	}
+	acct := createStorageAccount(tc, rg)
 
 	// Create the storage account - initially this will not succeed, but it should keep trying
 	tc.CreateResource(acct)
@@ -149,22 +134,7 @@ func Test_CreateStorageAccountThatAlreadyExists_ReconcilesSuccessfully(t *testin
 	tc := globalTestContext.ForTest(t)
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	// Create a storage account
-	accessTier := storage.StorageAccountPropertiesCreateParametersAccessTierHot
-	kind := storage.StorageAccountsSpecKindBlobStorage
-	sku := storage.SkuNameStandardLRS
-	acct := &storage.StorageAccount{
-		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("stor")),
-		Spec: storage.StorageAccounts_Spec{
-			Location: tc.AzureRegion,
-			Owner:    testcommon.AsOwner(rg),
-			Kind:     &kind,
-			Sku: &storage.Sku{
-				Name: &sku,
-			},
-			AccessTier: &accessTier,
-		},
-	}
+	acct := createStorageAccount(tc, rg)
 
 	acctCopy := acct.DeepCopy()
 
@@ -189,22 +159,7 @@ func Test_CreateStorageAccountWithoutRequiredProperties_Rejected(t *testing.T) {
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	// Create a storage account
-	kind := storage.StorageAccountsSpecKindBlobStorage
-	sku := storage.SkuNameStandardLRS
-	accessTier := storage.StorageAccountPropertiesCreateParametersAccessTierHot
-	acct := &storage.StorageAccount{
-		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("stor")),
-		Spec: storage.StorageAccounts_Spec{
-			Location: tc.AzureRegion,
-			Owner:    testcommon.AsOwner(rg),
-			Kind:     &kind,
-			Sku: &storage.Sku{
-				Name: &sku,
-			},
-			AccessTier: &accessTier,
-		},
-	}
+	acct := createStorageAccount(tc, rg)
 
 	acctCopy := acct.DeepCopy()
 
@@ -220,4 +175,70 @@ func Test_CreateStorageAccountWithoutRequiredProperties_Rejected(t *testing.T) {
 
 	// Create it again
 	tc.CreateResourcesAndWait(acctCopy)
+}
+
+func Test_AzureNameImmutability(t *testing.T) {
+	t.Parallel()
+
+	tc := globalTestContext.ForTest(t)
+
+	rg := tc.CreateTestResourceGroupAndWait()
+
+	acct := createStorageAccount(tc, rg)
+	tc.CreateResourcesAndWait(acct)
+
+	// Patch the account to change AzureName
+	newAzureName := "test123"
+	old := acct.DeepCopy()
+	acct.Spec.AzureName = newAzureName
+	tc.PatchAndExpectError(old, acct)
+
+	tc.Expect(old.Spec.AzureName).ToNot(BeIdenticalTo(newAzureName))
+
+	// Delete the account
+	tc.DeleteResourceAndWait(acct)
+
+}
+
+func Test_OwnerImmutability(t *testing.T) {
+	t.Parallel()
+
+	tc := globalTestContext.ForTest(t)
+
+	rg := tc.CreateTestResourceGroupAndWait()
+
+	acct := createStorageAccount(tc, rg)
+	tc.CreateResourcesAndWait(acct)
+
+	rg2 := tc.CreateTestResourceGroupAndWait()
+	// Patch the account to change AzureName
+	old := acct.DeepCopy()
+	acct.Spec.Owner = testcommon.AsOwner(rg2)
+	tc.PatchAndExpectError(old, acct)
+
+	tc.Expect(old.Owner().Name).ToNot(BeIdenticalTo(rg2.Name))
+
+	// Delete the account
+	tc.DeleteResourceAndWait(acct)
+
+}
+
+func createStorageAccount(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup) *storage.StorageAccount {
+	accessTier := storage.StorageAccountPropertiesCreateParametersAccessTierHot
+	kind := storage.StorageAccountsSpecKindBlobStorage
+	sku := storage.SkuNameStandardLRS
+
+	// Create a storage account
+	return &storage.StorageAccount{
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("stor")),
+		Spec: storage.StorageAccounts_Spec{
+			Location: tc.AzureRegion,
+			Owner:    testcommon.AsOwner(rg),
+			Kind:     &kind,
+			Sku: &storage.Sku{
+				Name: &sku,
+			},
+			AccessTier: &accessTier,
+		},
+	}
 }
