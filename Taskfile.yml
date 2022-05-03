@@ -71,10 +71,14 @@ tasks:
   build-docs-site:
     dir: docs/hugo
     cmds:
+    - npm install -g postcss postcss-cli autoprefixer
     - hugo 
     # - htmltest 
     # disabled pending: https://github.com/wjdp/htmltest/issues/45
     # , or us moving to a no-directory URL
+    env:
+      NODE_PATH:
+        sh: npm root -g
 
   ############### Generator targets ###############
   basic-checks:
