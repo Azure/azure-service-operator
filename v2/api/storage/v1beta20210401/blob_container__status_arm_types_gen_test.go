@@ -56,7 +56,7 @@ func RunJSONSerializationTestForBlobContainerStatusARM(subject BlobContainer_Sta
 }
 
 // Generator of BlobContainer_StatusARM instances for property testing - lazily instantiated by
-//BlobContainerStatusARMGenerator()
+// BlobContainerStatusARMGenerator()
 var blobContainerStatusARMGenerator gopter.Gen
 
 // BlobContainerStatusARMGenerator returns a generator of BlobContainer_StatusARM instances for property testing.
@@ -133,7 +133,7 @@ func RunJSONSerializationTestForContainerPropertiesStatusARM(subject ContainerPr
 }
 
 // Generator of ContainerProperties_StatusARM instances for property testing - lazily instantiated by
-//ContainerPropertiesStatusARMGenerator()
+// ContainerPropertiesStatusARMGenerator()
 var containerPropertiesStatusARMGenerator gopter.Gen
 
 // ContainerPropertiesStatusARMGenerator returns a generator of ContainerProperties_StatusARM instances for property testing.
@@ -227,7 +227,7 @@ func RunJSONSerializationTestForImmutabilityPolicyPropertiesStatusARM(subject Im
 }
 
 // Generator of ImmutabilityPolicyProperties_StatusARM instances for property testing - lazily instantiated by
-//ImmutabilityPolicyPropertiesStatusARMGenerator()
+// ImmutabilityPolicyPropertiesStatusARMGenerator()
 var immutabilityPolicyPropertiesStatusARMGenerator gopter.Gen
 
 // ImmutabilityPolicyPropertiesStatusARMGenerator returns a generator of ImmutabilityPolicyProperties_StatusARM instances for property testing.
@@ -302,7 +302,7 @@ func RunJSONSerializationTestForImmutableStorageWithVersioningStatusARM(subject 
 }
 
 // Generator of ImmutableStorageWithVersioning_StatusARM instances for property testing - lazily instantiated by
-//ImmutableStorageWithVersioningStatusARMGenerator()
+// ImmutableStorageWithVersioningStatusARMGenerator()
 var immutableStorageWithVersioningStatusARMGenerator gopter.Gen
 
 // ImmutableStorageWithVersioningStatusARMGenerator returns a generator of ImmutableStorageWithVersioning_StatusARM instances for property testing.
@@ -364,7 +364,7 @@ func RunJSONSerializationTestForLegalHoldPropertiesStatusARM(subject LegalHoldPr
 }
 
 // Generator of LegalHoldProperties_StatusARM instances for property testing - lazily instantiated by
-//LegalHoldPropertiesStatusARMGenerator()
+// LegalHoldPropertiesStatusARMGenerator()
 var legalHoldPropertiesStatusARMGenerator gopter.Gen
 
 // LegalHoldPropertiesStatusARMGenerator returns a generator of LegalHoldProperties_StatusARM instances for property testing.
@@ -438,7 +438,7 @@ func RunJSONSerializationTestForImmutabilityPolicyPropertyStatusARM(subject Immu
 }
 
 // Generator of ImmutabilityPolicyProperty_StatusARM instances for property testing - lazily instantiated by
-//ImmutabilityPolicyPropertyStatusARMGenerator()
+// ImmutabilityPolicyPropertyStatusARMGenerator()
 var immutabilityPolicyPropertyStatusARMGenerator gopter.Gen
 
 // ImmutabilityPolicyPropertyStatusARMGenerator returns a generator of ImmutabilityPolicyProperty_StatusARM instances for property testing.
@@ -500,7 +500,7 @@ func RunJSONSerializationTestForTagPropertyStatusARM(subject TagProperty_StatusA
 }
 
 // Generator of TagProperty_StatusARM instances for property testing - lazily instantiated by
-//TagPropertyStatusARMGenerator()
+// TagPropertyStatusARMGenerator()
 var tagPropertyStatusARMGenerator gopter.Gen
 
 // TagPropertyStatusARMGenerator returns a generator of TagProperty_StatusARM instances for property testing.
@@ -564,7 +564,7 @@ func RunJSONSerializationTestForUpdateHistoryPropertyStatusARM(subject UpdateHis
 }
 
 // Generator of UpdateHistoryProperty_StatusARM instances for property testing - lazily instantiated by
-//UpdateHistoryPropertyStatusARMGenerator()
+// UpdateHistoryPropertyStatusARMGenerator()
 var updateHistoryPropertyStatusARMGenerator gopter.Gen
 
 // UpdateHistoryPropertyStatusARMGenerator returns a generator of UpdateHistoryProperty_StatusARM instances for property testing.

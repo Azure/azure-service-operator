@@ -56,7 +56,7 @@ func RunJSONSerializationTestForVirtualNetworkGatewayStatusARM(subject VirtualNe
 }
 
 // Generator of VirtualNetworkGateway_StatusARM instances for property testing - lazily instantiated by
-//VirtualNetworkGatewayStatusARMGenerator()
+// VirtualNetworkGatewayStatusARMGenerator()
 var virtualNetworkGatewayStatusARMGenerator gopter.Gen
 
 // VirtualNetworkGatewayStatusARMGenerator returns a generator of VirtualNetworkGateway_StatusARM instances for property testing.
@@ -136,7 +136,7 @@ func RunJSONSerializationTestForVirtualNetworkGatewayPropertiesFormatStatusARM(s
 }
 
 // Generator of VirtualNetworkGatewayPropertiesFormat_StatusARM instances for property testing - lazily instantiated by
-//VirtualNetworkGatewayPropertiesFormatStatusARMGenerator()
+// VirtualNetworkGatewayPropertiesFormatStatusARMGenerator()
 var virtualNetworkGatewayPropertiesFormatStatusARMGenerator gopter.Gen
 
 // VirtualNetworkGatewayPropertiesFormatStatusARMGenerator returns a generator of VirtualNetworkGatewayPropertiesFormat_StatusARM instances for property testing.
@@ -229,7 +229,7 @@ func RunJSONSerializationTestForAddressSpaceStatusARM(subject AddressSpace_Statu
 }
 
 // Generator of AddressSpace_StatusARM instances for property testing - lazily instantiated by
-//AddressSpaceStatusARMGenerator()
+// AddressSpaceStatusARMGenerator()
 var addressSpaceStatusARMGenerator gopter.Gen
 
 // AddressSpaceStatusARMGenerator returns a generator of AddressSpace_StatusARM instances for property testing.
@@ -289,7 +289,7 @@ func RunJSONSerializationTestForBgpSettingsStatusARM(subject BgpSettings_StatusA
 }
 
 // Generator of BgpSettings_StatusARM instances for property testing - lazily instantiated by
-//BgpSettingsStatusARMGenerator()
+// BgpSettingsStatusARMGenerator()
 var bgpSettingsStatusARMGenerator gopter.Gen
 
 // BgpSettingsStatusARMGenerator returns a generator of BgpSettings_StatusARM instances for property testing.
@@ -365,7 +365,7 @@ func RunJSONSerializationTestForVirtualNetworkGatewayIPConfigurationStatusARM(su
 }
 
 // Generator of VirtualNetworkGatewayIPConfiguration_StatusARM instances for property testing - lazily instantiated by
-//VirtualNetworkGatewayIPConfigurationStatusARMGenerator()
+// VirtualNetworkGatewayIPConfigurationStatusARMGenerator()
 var virtualNetworkGatewayIPConfigurationStatusARMGenerator gopter.Gen
 
 // VirtualNetworkGatewayIPConfigurationStatusARMGenerator returns a generator of VirtualNetworkGatewayIPConfiguration_StatusARM instances for property testing.
@@ -441,7 +441,7 @@ func RunJSONSerializationTestForVirtualNetworkGatewaySkuStatusARM(subject Virtua
 }
 
 // Generator of VirtualNetworkGatewaySku_StatusARM instances for property testing - lazily instantiated by
-//VirtualNetworkGatewaySkuStatusARMGenerator()
+// VirtualNetworkGatewaySkuStatusARMGenerator()
 var virtualNetworkGatewaySkuStatusARMGenerator gopter.Gen
 
 // VirtualNetworkGatewaySkuStatusARMGenerator returns a generator of VirtualNetworkGatewaySku_StatusARM instances for property testing.
@@ -537,7 +537,7 @@ func RunJSONSerializationTestForVpnClientConfigurationStatusARM(subject VpnClien
 }
 
 // Generator of VpnClientConfiguration_StatusARM instances for property testing - lazily instantiated by
-//VpnClientConfigurationStatusARMGenerator()
+// VpnClientConfigurationStatusARMGenerator()
 var vpnClientConfigurationStatusARMGenerator gopter.Gen
 
 // VpnClientConfigurationStatusARMGenerator returns a generator of VpnClientConfiguration_StatusARM instances for property testing.
@@ -621,7 +621,7 @@ func RunJSONSerializationTestForIPConfigurationBgpPeeringAddressStatusARM(subjec
 }
 
 // Generator of IPConfigurationBgpPeeringAddress_StatusARM instances for property testing - lazily instantiated by
-//IPConfigurationBgpPeeringAddressStatusARMGenerator()
+// IPConfigurationBgpPeeringAddressStatusARMGenerator()
 var ipConfigurationBgpPeeringAddressStatusARMGenerator gopter.Gen
 
 // IPConfigurationBgpPeeringAddressStatusARMGenerator returns a generator of IPConfigurationBgpPeeringAddress_StatusARM instances for property testing.
@@ -684,7 +684,7 @@ func RunJSONSerializationTestForIpsecPolicyStatusARM(subject IpsecPolicy_StatusA
 }
 
 // Generator of IpsecPolicy_StatusARM instances for property testing - lazily instantiated by
-//IpsecPolicyStatusARMGenerator()
+// IpsecPolicyStatusARMGenerator()
 var ipsecPolicyStatusARMGenerator gopter.Gen
 
 // IpsecPolicyStatusARMGenerator returns a generator of IpsecPolicy_StatusARM instances for property testing.
@@ -796,7 +796,7 @@ func RunJSONSerializationTestForRadiusServerStatusARM(subject RadiusServer_Statu
 }
 
 // Generator of RadiusServer_StatusARM instances for property testing - lazily instantiated by
-//RadiusServerStatusARMGenerator()
+// RadiusServerStatusARMGenerator()
 var radiusServerStatusARMGenerator gopter.Gen
 
 // RadiusServerStatusARMGenerator returns a generator of RadiusServer_StatusARM instances for property testing.
@@ -858,7 +858,7 @@ func RunJSONSerializationTestForVirtualNetworkGatewayIPConfigurationPropertiesFo
 }
 
 // Generator of VirtualNetworkGatewayIPConfigurationPropertiesFormat_StatusARM instances for property testing - lazily
-//instantiated by VirtualNetworkGatewayIPConfigurationPropertiesFormatStatusARMGenerator()
+// instantiated by VirtualNetworkGatewayIPConfigurationPropertiesFormatStatusARMGenerator()
 var virtualNetworkGatewayIPConfigurationPropertiesFormatStatusARMGenerator gopter.Gen
 
 // VirtualNetworkGatewayIPConfigurationPropertiesFormatStatusARMGenerator returns a generator of VirtualNetworkGatewayIPConfigurationPropertiesFormat_StatusARM instances for property testing.
@@ -939,7 +939,7 @@ func RunJSONSerializationTestForVpnClientRevokedCertificateStatusARM(subject Vpn
 }
 
 // Generator of VpnClientRevokedCertificate_StatusARM instances for property testing - lazily instantiated by
-//VpnClientRevokedCertificateStatusARMGenerator()
+// VpnClientRevokedCertificateStatusARMGenerator()
 var vpnClientRevokedCertificateStatusARMGenerator gopter.Gen
 
 // VpnClientRevokedCertificateStatusARMGenerator returns a generator of VpnClientRevokedCertificate_StatusARM instances for property testing.
@@ -1015,7 +1015,7 @@ func RunJSONSerializationTestForVpnClientRootCertificateStatusARM(subject VpnCli
 }
 
 // Generator of VpnClientRootCertificate_StatusARM instances for property testing - lazily instantiated by
-//VpnClientRootCertificateStatusARMGenerator()
+// VpnClientRootCertificateStatusARMGenerator()
 var vpnClientRootCertificateStatusARMGenerator gopter.Gen
 
 // VpnClientRootCertificateStatusARMGenerator returns a generator of VpnClientRootCertificate_StatusARM instances for property testing.
@@ -1091,7 +1091,7 @@ func RunJSONSerializationTestForVpnClientRevokedCertificatePropertiesFormatStatu
 }
 
 // Generator of VpnClientRevokedCertificatePropertiesFormat_StatusARM instances for property testing - lazily
-//instantiated by VpnClientRevokedCertificatePropertiesFormatStatusARMGenerator()
+// instantiated by VpnClientRevokedCertificatePropertiesFormatStatusARMGenerator()
 var vpnClientRevokedCertificatePropertiesFormatStatusARMGenerator gopter.Gen
 
 // VpnClientRevokedCertificatePropertiesFormatStatusARMGenerator returns a generator of VpnClientRevokedCertificatePropertiesFormat_StatusARM instances for property testing.
@@ -1156,7 +1156,7 @@ func RunJSONSerializationTestForVpnClientRootCertificatePropertiesFormatStatusAR
 }
 
 // Generator of VpnClientRootCertificatePropertiesFormat_StatusARM instances for property testing - lazily instantiated
-//by VpnClientRootCertificatePropertiesFormatStatusARMGenerator()
+// by VpnClientRootCertificatePropertiesFormatStatusARMGenerator()
 var vpnClientRootCertificatePropertiesFormatStatusARMGenerator gopter.Gen
 
 // VpnClientRootCertificatePropertiesFormatStatusARMGenerator returns a generator of VpnClientRootCertificatePropertiesFormat_StatusARM instances for property testing.

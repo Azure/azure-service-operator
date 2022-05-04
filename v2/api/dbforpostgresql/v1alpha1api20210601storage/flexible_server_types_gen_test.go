@@ -90,7 +90,7 @@ func RunPropertyAssignmentTestForFlexibleServer(subject FlexibleServer) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -192,7 +192,7 @@ func RunPropertyAssignmentTestForFlexibleServersSpec(subject FlexibleServers_Spe
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -243,7 +243,7 @@ func RunJSONSerializationTestForFlexibleServersSpec(subject FlexibleServers_Spec
 }
 
 // Generator of FlexibleServers_Spec instances for property testing - lazily instantiated by
-//FlexibleServersSpecGenerator()
+// FlexibleServersSpecGenerator()
 var flexibleServersSpecGenerator gopter.Gen
 
 // FlexibleServersSpecGenerator returns a generator of FlexibleServers_Spec instances for property testing.
@@ -321,7 +321,7 @@ func RunPropertyAssignmentTestForServerStatus(subject Server_Status) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -455,7 +455,7 @@ func RunPropertyAssignmentTestForBackup(subject Backup) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -557,7 +557,7 @@ func RunPropertyAssignmentTestForBackupStatus(subject Backup_Status) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -660,7 +660,7 @@ func RunPropertyAssignmentTestForHighAvailability(subject HighAvailability) stri
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -762,7 +762,7 @@ func RunPropertyAssignmentTestForHighAvailabilityStatus(subject HighAvailability
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -813,7 +813,7 @@ func RunJSONSerializationTestForHighAvailabilityStatus(subject HighAvailability_
 }
 
 // Generator of HighAvailability_Status instances for property testing - lazily instantiated by
-//HighAvailabilityStatusGenerator()
+// HighAvailabilityStatusGenerator()
 var highAvailabilityStatusGenerator gopter.Gen
 
 // HighAvailabilityStatusGenerator returns a generator of HighAvailability_Status instances for property testing.
@@ -866,7 +866,7 @@ func RunPropertyAssignmentTestForMaintenanceWindow(subject MaintenanceWindow) st
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -970,7 +970,7 @@ func RunPropertyAssignmentTestForMaintenanceWindowStatus(subject MaintenanceWind
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1021,7 +1021,7 @@ func RunJSONSerializationTestForMaintenanceWindowStatus(subject MaintenanceWindo
 }
 
 // Generator of MaintenanceWindow_Status instances for property testing - lazily instantiated by
-//MaintenanceWindowStatusGenerator()
+// MaintenanceWindowStatusGenerator()
 var maintenanceWindowStatusGenerator gopter.Gen
 
 // MaintenanceWindowStatusGenerator returns a generator of MaintenanceWindow_Status instances for property testing.
@@ -1075,7 +1075,7 @@ func RunPropertyAssignmentTestForNetwork(subject Network) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1170,7 +1170,7 @@ func RunPropertyAssignmentTestForNetworkStatus(subject Network_Status) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1273,7 +1273,7 @@ func RunPropertyAssignmentTestForSku(subject Sku) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1375,7 +1375,7 @@ func RunPropertyAssignmentTestForSkuStatus(subject Sku_Status) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1477,7 +1477,7 @@ func RunPropertyAssignmentTestForStorage(subject Storage) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1578,7 +1578,7 @@ func RunPropertyAssignmentTestForStorageStatus(subject Storage_Status) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1679,7 +1679,7 @@ func RunPropertyAssignmentTestForSystemDataStatus(subject SystemData_Status) str
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)

@@ -56,7 +56,7 @@ func RunJSONSerializationTestForFirewallRuleStatusARM(subject FirewallRule_Statu
 }
 
 // Generator of FirewallRule_StatusARM instances for property testing - lazily instantiated by
-//FirewallRuleStatusARMGenerator()
+// FirewallRuleStatusARMGenerator()
 var firewallRuleStatusARMGenerator gopter.Gen
 
 // FirewallRuleStatusARMGenerator returns a generator of FirewallRule_StatusARM instances for property testing.
@@ -133,7 +133,7 @@ func RunJSONSerializationTestForFirewallRulePropertiesStatusARM(subject Firewall
 }
 
 // Generator of FirewallRuleProperties_StatusARM instances for property testing - lazily instantiated by
-//FirewallRulePropertiesStatusARMGenerator()
+// FirewallRulePropertiesStatusARMGenerator()
 var firewallRulePropertiesStatusARMGenerator gopter.Gen
 
 // FirewallRulePropertiesStatusARMGenerator returns a generator of FirewallRuleProperties_StatusARM instances for property testing.

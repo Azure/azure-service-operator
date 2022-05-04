@@ -21,8 +21,8 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Storage version of v1beta20210515.SqlDatabaseContainerTrigger
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_containers_triggers
+// Storage version of v1beta20210515.SqlDatabaseContainerTrigger
+// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_containers_triggers
 type SqlDatabaseContainerTrigger struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -121,27 +121,27 @@ func (trigger *SqlDatabaseContainerTrigger) OriginalGVK() *schema.GroupVersionKi
 }
 
 // +kubebuilder:object:root=true
-//Storage version of v1beta20210515.SqlDatabaseContainerTrigger
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_containers_triggers
+// Storage version of v1beta20210515.SqlDatabaseContainerTrigger
+// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_containers_triggers
 type SqlDatabaseContainerTriggerList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []SqlDatabaseContainerTrigger `json:"items"`
 }
 
-//Storage version of v1beta20210515.DatabaseAccountsSqlDatabasesContainersTriggers_Spec
+// Storage version of v1beta20210515.DatabaseAccountsSqlDatabasesContainersTriggers_Spec
 type DatabaseAccountsSqlDatabasesContainersTriggers_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName       string               `json:"azureName,omitempty"`
 	Location        *string              `json:"location,omitempty"`
 	Options         *CreateUpdateOptions `json:"options,omitempty"`
 	OriginalVersion string               `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a documentdb.azure.com/SqlDatabaseContainer resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a documentdb.azure.com/SqlDatabaseContainer resource
 	Owner       *genruntime.KnownResourceReference `group:"documentdb.azure.com" json:"owner,omitempty" kind:"SqlDatabaseContainer"`
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	Resource    *SqlTriggerResource                `json:"resource,omitempty"`
@@ -168,7 +168,7 @@ func (triggers *DatabaseAccountsSqlDatabasesContainersTriggers_Spec) ConvertSpec
 	return destination.ConvertSpecFrom(triggers)
 }
 
-//Storage version of v1beta20210515.SqlTriggerGetResults_Status
+// Storage version of v1beta20210515.SqlTriggerGetResults_Status
 type SqlTriggerGetResults_Status struct {
 	Conditions  []conditions.Condition                   `json:"conditions,omitempty"`
 	Id          *string                                  `json:"id,omitempty"`
@@ -200,7 +200,7 @@ func (results *SqlTriggerGetResults_Status) ConvertStatusTo(destination genrunti
 	return destination.ConvertStatusFrom(results)
 }
 
-//Storage version of v1beta20210515.SqlTriggerGetProperties_Status_Resource
+// Storage version of v1beta20210515.SqlTriggerGetProperties_Status_Resource
 type SqlTriggerGetProperties_Status_Resource struct {
 	Body             *string                `json:"body,omitempty"`
 	Etag             *string                `json:"_etag,omitempty"`
@@ -212,8 +212,8 @@ type SqlTriggerGetProperties_Status_Resource struct {
 	Ts               *float64               `json:"_ts,omitempty"`
 }
 
-//Storage version of v1beta20210515.SqlTriggerResource
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlTriggerResource
+// Storage version of v1beta20210515.SqlTriggerResource
+// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlTriggerResource
 type SqlTriggerResource struct {
 	Body             *string                `json:"body,omitempty"`
 	Id               *string                `json:"id,omitempty"`

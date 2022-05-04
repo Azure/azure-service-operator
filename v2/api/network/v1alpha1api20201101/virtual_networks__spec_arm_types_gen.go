@@ -5,7 +5,7 @@ package v1alpha1api20201101
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-//Deprecated version of VirtualNetworks_Spec. Use v1beta20201101.VirtualNetworks_Spec instead
+// Deprecated version of VirtualNetworks_Spec. Use v1beta20201101.VirtualNetworks_Spec instead
 type VirtualNetworks_SpecARM struct {
 	ExtendedLocation *ExtendedLocationARM                `json:"extendedLocation,omitempty"`
 	Location         *string                             `json:"location,omitempty"`
@@ -31,7 +31,7 @@ func (networks VirtualNetworks_SpecARM) GetType() string {
 	return "Microsoft.Network/virtualNetworks"
 }
 
-//Deprecated version of VirtualNetworks_Spec_Properties. Use v1beta20201101.VirtualNetworks_Spec_Properties instead
+// Deprecated version of VirtualNetworks_Spec_Properties. Use v1beta20201101.VirtualNetworks_Spec_Properties instead
 type VirtualNetworks_Spec_PropertiesARM struct {
 	AddressSpace           *AddressSpaceARM                                            `json:"addressSpace,omitempty"`
 	BgpCommunities         *VirtualNetworkBgpCommunitiesARM                            `json:"bgpCommunities,omitempty"`
@@ -44,24 +44,24 @@ type VirtualNetworks_Spec_PropertiesARM struct {
 	VirtualNetworkPeerings []VirtualNetworks_Spec_Properties_VirtualNetworkPeeringsARM `json:"virtualNetworkPeerings,omitempty"`
 }
 
-//Deprecated version of DhcpOptions. Use v1beta20201101.DhcpOptions instead
+// Deprecated version of DhcpOptions. Use v1beta20201101.DhcpOptions instead
 type DhcpOptionsARM struct {
 	DnsServers []string `json:"dnsServers,omitempty"`
 }
 
-//Deprecated version of VirtualNetworks_Spec_Properties_Subnets. Use v1beta20201101.VirtualNetworks_Spec_Properties_Subnets instead
+// Deprecated version of VirtualNetworks_Spec_Properties_Subnets. Use v1beta20201101.VirtualNetworks_Spec_Properties_Subnets instead
 type VirtualNetworks_Spec_Properties_SubnetsARM struct {
 	Name       *string                                                `json:"name,omitempty"`
 	Properties *VirtualNetworks_Spec_Properties_Subnets_PropertiesARM `json:"properties,omitempty"`
 }
 
-//Deprecated version of VirtualNetworks_Spec_Properties_VirtualNetworkPeerings. Use v1beta20201101.VirtualNetworks_Spec_Properties_VirtualNetworkPeerings instead
+// Deprecated version of VirtualNetworks_Spec_Properties_VirtualNetworkPeerings. Use v1beta20201101.VirtualNetworks_Spec_Properties_VirtualNetworkPeerings instead
 type VirtualNetworks_Spec_Properties_VirtualNetworkPeeringsARM struct {
 	Name       *string                                   `json:"name,omitempty"`
 	Properties *VirtualNetworkPeeringPropertiesFormatARM `json:"properties,omitempty"`
 }
 
-//Deprecated version of VirtualNetworks_Spec_Properties_Subnets_Properties. Use v1beta20201101.VirtualNetworks_Spec_Properties_Subnets_Properties instead
+// Deprecated version of VirtualNetworks_Spec_Properties_Subnets_Properties. Use v1beta20201101.VirtualNetworks_Spec_Properties_Subnets_Properties instead
 type VirtualNetworks_Spec_Properties_Subnets_PropertiesARM struct {
 	AddressPrefix                     *string                                                             `json:"addressPrefix,omitempty"`
 	AddressPrefixes                   []string                                                            `json:"addressPrefixes,omitempty"`
@@ -76,7 +76,7 @@ type VirtualNetworks_Spec_Properties_Subnets_PropertiesARM struct {
 	ServiceEndpoints                  []ServiceEndpointPropertiesFormatARM                                `json:"serviceEndpoints,omitempty"`
 }
 
-//Deprecated version of VirtualNetworks_Spec_Properties_Subnets_Properties_Delegations. Use v1beta20201101.VirtualNetworks_Spec_Properties_Subnets_Properties_Delegations instead
+// Deprecated version of VirtualNetworks_Spec_Properties_Subnets_Properties_Delegations. Use v1beta20201101.VirtualNetworks_Spec_Properties_Subnets_Properties_Delegations instead
 type VirtualNetworks_Spec_Properties_Subnets_Properties_DelegationsARM struct {
 	Name       *string                               `json:"name,omitempty"`
 	Properties *ServiceDelegationPropertiesFormatARM `json:"properties,omitempty"`

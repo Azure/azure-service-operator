@@ -5,7 +5,7 @@ package v1alpha1api20210515
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-//Deprecated version of DatabaseAccountsMongodbDatabasesThroughputSettings_Spec. Use v1beta20210515.DatabaseAccountsMongodbDatabasesThroughputSettings_Spec instead
+// Deprecated version of DatabaseAccountsMongodbDatabasesThroughputSettings_Spec. Use v1beta20210515.DatabaseAccountsMongodbDatabasesThroughputSettings_Spec instead
 type DatabaseAccountsMongodbDatabasesThroughputSettings_SpecARM struct {
 	Location   *string                                `json:"location,omitempty"`
 	Name       string                                 `json:"name,omitempty"`

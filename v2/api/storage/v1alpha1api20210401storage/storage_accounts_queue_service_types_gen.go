@@ -20,8 +20,8 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Storage version of v1alpha1api20210401.StorageAccountsQueueService
-//Deprecated version of StorageAccountsQueueService. Use v1beta20210401.StorageAccountsQueueService instead
+// Storage version of v1alpha1api20210401.StorageAccountsQueueService
+// Deprecated version of StorageAccountsQueueService. Use v1beta20210401.StorageAccountsQueueService instead
 type StorageAccountsQueueService struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -191,16 +191,16 @@ func (service *StorageAccountsQueueService) OriginalGVK() *schema.GroupVersionKi
 }
 
 // +kubebuilder:object:root=true
-//Storage version of v1alpha1api20210401.StorageAccountsQueueService
-//Deprecated version of StorageAccountsQueueService. Use v1beta20210401.StorageAccountsQueueService instead
+// Storage version of v1alpha1api20210401.StorageAccountsQueueService
+// Deprecated version of StorageAccountsQueueService. Use v1beta20210401.StorageAccountsQueueService instead
 type StorageAccountsQueueServiceList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []StorageAccountsQueueService `json:"items"`
 }
 
-//Storage version of v1alpha1api20210401.QueueServiceProperties_Status
-//Deprecated version of QueueServiceProperties_Status. Use v1beta20210401.QueueServiceProperties_Status instead
+// Storage version of v1alpha1api20210401.QueueServiceProperties_Status
+// Deprecated version of QueueServiceProperties_Status. Use v1beta20210401.QueueServiceProperties_Status instead
 type QueueServiceProperties_Status struct {
 	Conditions  []conditions.Condition `json:"conditions,omitempty"`
 	Cors        *CorsRules_Status      `json:"cors,omitempty"`
@@ -340,16 +340,16 @@ func (properties *QueueServiceProperties_Status) AssignPropertiesToQueueServiceP
 	return nil
 }
 
-//Storage version of v1alpha1api20210401.StorageAccountsQueueServices_Spec
+// Storage version of v1alpha1api20210401.StorageAccountsQueueServices_Spec
 type StorageAccountsQueueServices_Spec struct {
 	Cors            *CorsRules `json:"cors,omitempty"`
 	Location        *string    `json:"location,omitempty"`
 	OriginalVersion string     `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a storage.azure.com/StorageAccount resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a storage.azure.com/StorageAccount resource
 	Owner       *genruntime.KnownResourceReference `group:"storage.azure.com" json:"owner,omitempty" kind:"StorageAccount"`
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	Tags        map[string]string                  `json:"tags,omitempty"`

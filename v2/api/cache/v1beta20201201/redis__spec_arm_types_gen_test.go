@@ -132,7 +132,7 @@ func RunJSONSerializationTestForRedisCreatePropertiesARM(subject RedisCreateProp
 }
 
 // Generator of RedisCreatePropertiesARM instances for property testing - lazily instantiated by
-//RedisCreatePropertiesARMGenerator()
+// RedisCreatePropertiesARMGenerator()
 var redisCreatePropertiesARMGenerator gopter.Gen
 
 // RedisCreatePropertiesARMGenerator returns a generator of RedisCreatePropertiesARM instances for property testing.

@@ -56,7 +56,7 @@ func RunJSONSerializationTestForDatabaseAccountsSqlDatabasesContainersSpecARM(su
 }
 
 // Generator of DatabaseAccountsSqlDatabasesContainers_SpecARM instances for property testing - lazily instantiated by
-//DatabaseAccountsSqlDatabasesContainersSpecARMGenerator()
+// DatabaseAccountsSqlDatabasesContainersSpecARMGenerator()
 var databaseAccountsSqlDatabasesContainersSpecARMGenerator gopter.Gen
 
 // DatabaseAccountsSqlDatabasesContainersSpecARMGenerator returns a generator of DatabaseAccountsSqlDatabasesContainers_SpecARM instances for property testing.
@@ -132,7 +132,7 @@ func RunJSONSerializationTestForSqlContainerCreateUpdatePropertiesARM(subject Sq
 }
 
 // Generator of SqlContainerCreateUpdatePropertiesARM instances for property testing - lazily instantiated by
-//SqlContainerCreateUpdatePropertiesARMGenerator()
+// SqlContainerCreateUpdatePropertiesARMGenerator()
 var sqlContainerCreateUpdatePropertiesARMGenerator gopter.Gen
 
 // SqlContainerCreateUpdatePropertiesARMGenerator returns a generator of SqlContainerCreateUpdatePropertiesARM instances for property testing.
@@ -193,7 +193,7 @@ func RunJSONSerializationTestForSqlContainerResourceARM(subject SqlContainerReso
 }
 
 // Generator of SqlContainerResourceARM instances for property testing - lazily instantiated by
-//SqlContainerResourceARMGenerator()
+// SqlContainerResourceARMGenerator()
 var sqlContainerResourceARMGenerator gopter.Gen
 
 // SqlContainerResourceARMGenerator returns a generator of SqlContainerResourceARM instances for property testing.
@@ -272,7 +272,7 @@ func RunJSONSerializationTestForConflictResolutionPolicyARM(subject ConflictReso
 }
 
 // Generator of ConflictResolutionPolicyARM instances for property testing - lazily instantiated by
-//ConflictResolutionPolicyARMGenerator()
+// ConflictResolutionPolicyARMGenerator()
 var conflictResolutionPolicyARMGenerator gopter.Gen
 
 // ConflictResolutionPolicyARMGenerator returns a generator of ConflictResolutionPolicyARM instances for property testing.
@@ -334,7 +334,7 @@ func RunJSONSerializationTestForContainerPartitionKeyARM(subject ContainerPartit
 }
 
 // Generator of ContainerPartitionKeyARM instances for property testing - lazily instantiated by
-//ContainerPartitionKeyARMGenerator()
+// ContainerPartitionKeyARMGenerator()
 var containerPartitionKeyARMGenerator gopter.Gen
 
 // ContainerPartitionKeyARMGenerator returns a generator of ContainerPartitionKeyARM instances for property testing.

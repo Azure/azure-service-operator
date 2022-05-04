@@ -5,7 +5,7 @@ package v1alpha1api20211101
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-//Deprecated version of NamespacesEventhubs_Spec. Use v1beta20211101.NamespacesEventhubs_Spec instead
+// Deprecated version of NamespacesEventhubs_Spec. Use v1beta20211101.NamespacesEventhubs_Spec instead
 type NamespacesEventhubs_SpecARM struct {
 	Location   *string                                 `json:"location,omitempty"`
 	Name       string                                  `json:"name,omitempty"`
@@ -30,14 +30,14 @@ func (eventhubs NamespacesEventhubs_SpecARM) GetType() string {
 	return "Microsoft.EventHub/namespaces/eventhubs"
 }
 
-//Deprecated version of NamespacesEventhubs_Spec_Properties. Use v1beta20211101.NamespacesEventhubs_Spec_Properties instead
+// Deprecated version of NamespacesEventhubs_Spec_Properties. Use v1beta20211101.NamespacesEventhubs_Spec_Properties instead
 type NamespacesEventhubs_Spec_PropertiesARM struct {
 	CaptureDescription     *NamespacesEventhubs_Spec_Properties_CaptureDescriptionARM `json:"captureDescription,omitempty"`
 	MessageRetentionInDays *int                                                       `json:"messageRetentionInDays,omitempty"`
 	PartitionCount         *int                                                       `json:"partitionCount,omitempty"`
 }
 
-//Deprecated version of NamespacesEventhubs_Spec_Properties_CaptureDescription. Use v1beta20211101.NamespacesEventhubs_Spec_Properties_CaptureDescription instead
+// Deprecated version of NamespacesEventhubs_Spec_Properties_CaptureDescription. Use v1beta20211101.NamespacesEventhubs_Spec_Properties_CaptureDescription instead
 type NamespacesEventhubs_Spec_Properties_CaptureDescriptionARM struct {
 	Destination       *NamespacesEventhubs_Spec_Properties_CaptureDescription_DestinationARM `json:"destination,omitempty"`
 	Enabled           *bool                                                                  `json:"enabled,omitempty"`
@@ -47,13 +47,13 @@ type NamespacesEventhubs_Spec_Properties_CaptureDescriptionARM struct {
 	SkipEmptyArchives *bool                                                                  `json:"skipEmptyArchives,omitempty"`
 }
 
-//Deprecated version of NamespacesEventhubs_Spec_Properties_CaptureDescription_Destination. Use v1beta20211101.NamespacesEventhubs_Spec_Properties_CaptureDescription_Destination instead
+// Deprecated version of NamespacesEventhubs_Spec_Properties_CaptureDescription_Destination. Use v1beta20211101.NamespacesEventhubs_Spec_Properties_CaptureDescription_Destination instead
 type NamespacesEventhubs_Spec_Properties_CaptureDescription_DestinationARM struct {
 	Name       *string                   `json:"name,omitempty"`
 	Properties *DestinationPropertiesARM `json:"properties,omitempty"`
 }
 
-//Deprecated version of DestinationProperties. Use v1beta20211101.DestinationProperties instead
+// Deprecated version of DestinationProperties. Use v1beta20211101.DestinationProperties instead
 type DestinationPropertiesARM struct {
 	ArchiveNameFormat        *string `json:"archiveNameFormat,omitempty"`
 	BlobContainer            *string `json:"blobContainer,omitempty"`

@@ -56,7 +56,7 @@ func RunJSONSerializationTestForRoleAssignmentStatusARM(subject RoleAssignment_S
 }
 
 // Generator of RoleAssignment_StatusARM instances for property testing - lazily instantiated by
-//RoleAssignmentStatusARMGenerator()
+// RoleAssignmentStatusARMGenerator()
 var roleAssignmentStatusARMGenerator gopter.Gen
 
 // RoleAssignmentStatusARMGenerator returns a generator of RoleAssignment_StatusARM instances for property testing.
@@ -132,7 +132,7 @@ func RunJSONSerializationTestForRoleAssignmentPropertiesStatusARM(subject RoleAs
 }
 
 // Generator of RoleAssignmentProperties_StatusARM instances for property testing - lazily instantiated by
-//RoleAssignmentPropertiesStatusARMGenerator()
+// RoleAssignmentPropertiesStatusARMGenerator()
 var roleAssignmentPropertiesStatusARMGenerator gopter.Gen
 
 // RoleAssignmentPropertiesStatusARMGenerator returns a generator of RoleAssignmentProperties_StatusARM instances for property testing.

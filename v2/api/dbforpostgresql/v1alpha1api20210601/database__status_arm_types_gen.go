@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1alpha1api20210601
 
-//Deprecated version of Database_Status. Use v1beta20210601.Database_Status instead
+// Deprecated version of Database_Status. Use v1beta20210601.Database_Status instead
 type Database_StatusARM struct {
 	Id         *string                       `json:"id,omitempty"`
 	Name       *string                       `json:"name,omitempty"`
@@ -12,7 +12,7 @@ type Database_StatusARM struct {
 	Type       *string                       `json:"type,omitempty"`
 }
 
-//Deprecated version of DatabaseProperties_Status. Use v1beta20210601.DatabaseProperties_Status instead
+// Deprecated version of DatabaseProperties_Status. Use v1beta20210601.DatabaseProperties_Status instead
 type DatabaseProperties_StatusARM struct {
 	Charset   *string `json:"charset,omitempty"`
 	Collation *string `json:"collation,omitempty"`

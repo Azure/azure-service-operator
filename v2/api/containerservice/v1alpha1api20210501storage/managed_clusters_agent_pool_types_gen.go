@@ -20,8 +20,8 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Storage version of v1alpha1api20210501.ManagedClustersAgentPool
-//Deprecated version of ManagedClustersAgentPool. Use v1beta20210501.ManagedClustersAgentPool instead
+// Storage version of v1alpha1api20210501.ManagedClustersAgentPool
+// Deprecated version of ManagedClustersAgentPool. Use v1beta20210501.ManagedClustersAgentPool instead
 type ManagedClustersAgentPool struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -191,16 +191,16 @@ func (pool *ManagedClustersAgentPool) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Storage version of v1alpha1api20210501.ManagedClustersAgentPool
-//Deprecated version of ManagedClustersAgentPool. Use v1beta20210501.ManagedClustersAgentPool instead
+// Storage version of v1alpha1api20210501.ManagedClustersAgentPool
+// Deprecated version of ManagedClustersAgentPool. Use v1beta20210501.ManagedClustersAgentPool instead
 type ManagedClustersAgentPoolList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []ManagedClustersAgentPool `json:"items"`
 }
 
-//Storage version of v1alpha1api20210501.AgentPool_Status
-//Deprecated version of AgentPool_Status. Use v1beta20210501.AgentPool_Status instead
+// Storage version of v1alpha1api20210501.AgentPool_Status
+// Deprecated version of AgentPool_Status. Use v1beta20210501.AgentPool_Status instead
 type AgentPool_Status struct {
 	AvailabilityZones         []string                         `json:"availabilityZones,omitempty"`
 	Conditions                []conditions.Condition           `json:"conditions,omitempty"`
@@ -699,12 +699,12 @@ func (pool *AgentPool_Status) AssignPropertiesToAgentPoolStatus(destination *v20
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.ManagedClustersAgentPools_Spec
+// Storage version of v1alpha1api20210501.ManagedClustersAgentPools_Spec
 type ManagedClustersAgentPools_Spec struct {
 	AvailabilityZones []string `json:"availabilityZones,omitempty"`
 
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName                     string                        `json:"azureName,omitempty"`
 	Count                         *int                          `json:"count,omitempty"`
 	EnableAutoScaling             *bool                         `json:"enableAutoScaling,omitempty"`
@@ -732,9 +732,9 @@ type ManagedClustersAgentPools_Spec struct {
 	OsType                        *string                       `json:"osType,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a containerservice.azure.com/ManagedCluster resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a containerservice.azure.com/ManagedCluster resource
 	Owner                     *genruntime.KnownResourceReference `group:"containerservice.azure.com" json:"owner,omitempty" kind:"ManagedCluster"`
 	PodSubnetIDReference      *genruntime.ResourceReference      `armReference:"PodSubnetID" json:"podSubnetIDReference,omitempty"`
 	PropertyBag               genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
@@ -1207,8 +1207,8 @@ func (pools *ManagedClustersAgentPools_Spec) AssignPropertiesToManagedClustersAg
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.AgentPoolUpgradeSettings
-//Deprecated version of AgentPoolUpgradeSettings. Use v1beta20210501.AgentPoolUpgradeSettings instead
+// Storage version of v1alpha1api20210501.AgentPoolUpgradeSettings
+// Deprecated version of AgentPoolUpgradeSettings. Use v1beta20210501.AgentPoolUpgradeSettings instead
 type AgentPoolUpgradeSettings struct {
 	MaxSurge    *string                `json:"maxSurge,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -1252,8 +1252,8 @@ func (settings *AgentPoolUpgradeSettings) AssignPropertiesToAgentPoolUpgradeSett
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.AgentPoolUpgradeSettings_Status
-//Deprecated version of AgentPoolUpgradeSettings_Status. Use v1beta20210501.AgentPoolUpgradeSettings_Status instead
+// Storage version of v1alpha1api20210501.AgentPoolUpgradeSettings_Status
+// Deprecated version of AgentPoolUpgradeSettings_Status. Use v1beta20210501.AgentPoolUpgradeSettings_Status instead
 type AgentPoolUpgradeSettings_Status struct {
 	MaxSurge    *string                `json:"maxSurge,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -1297,8 +1297,8 @@ func (settings *AgentPoolUpgradeSettings_Status) AssignPropertiesToAgentPoolUpgr
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.KubeletConfig
-//Deprecated version of KubeletConfig. Use v1beta20210501.KubeletConfig instead
+// Storage version of v1alpha1api20210501.KubeletConfig
+// Deprecated version of KubeletConfig. Use v1beta20210501.KubeletConfig instead
 type KubeletConfig struct {
 	AllowedUnsafeSysctls  []string               `json:"allowedUnsafeSysctls,omitempty"`
 	ContainerLogMaxFiles  *int                   `json:"containerLogMaxFiles,omitempty"`
@@ -1432,8 +1432,8 @@ func (config *KubeletConfig) AssignPropertiesToKubeletConfig(destination *v20210
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.KubeletConfig_Status
-//Deprecated version of KubeletConfig_Status. Use v1beta20210501.KubeletConfig_Status instead
+// Storage version of v1alpha1api20210501.KubeletConfig_Status
+// Deprecated version of KubeletConfig_Status. Use v1beta20210501.KubeletConfig_Status instead
 type KubeletConfig_Status struct {
 	AllowedUnsafeSysctls  []string               `json:"allowedUnsafeSysctls,omitempty"`
 	ContainerLogMaxFiles  *int                   `json:"containerLogMaxFiles,omitempty"`
@@ -1567,8 +1567,8 @@ func (config *KubeletConfig_Status) AssignPropertiesToKubeletConfigStatus(destin
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.LinuxOSConfig
-//Deprecated version of LinuxOSConfig. Use v1beta20210501.LinuxOSConfig instead
+// Storage version of v1alpha1api20210501.LinuxOSConfig
+// Deprecated version of LinuxOSConfig. Use v1beta20210501.LinuxOSConfig instead
 type LinuxOSConfig struct {
 	PropertyBag                genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SwapFileSizeMB             *int                   `json:"swapFileSizeMB,omitempty"`
@@ -1651,8 +1651,8 @@ func (config *LinuxOSConfig) AssignPropertiesToLinuxOSConfig(destination *v20210
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.LinuxOSConfig_Status
-//Deprecated version of LinuxOSConfig_Status. Use v1beta20210501.LinuxOSConfig_Status instead
+// Storage version of v1alpha1api20210501.LinuxOSConfig_Status
+// Deprecated version of LinuxOSConfig_Status. Use v1beta20210501.LinuxOSConfig_Status instead
 type LinuxOSConfig_Status struct {
 	PropertyBag                genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SwapFileSizeMB             *int                   `json:"swapFileSizeMB,omitempty"`
@@ -1735,8 +1735,8 @@ func (config *LinuxOSConfig_Status) AssignPropertiesToLinuxOSConfigStatus(destin
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.SysctlConfig
-//Deprecated version of SysctlConfig. Use v1beta20210501.SysctlConfig instead
+// Storage version of v1alpha1api20210501.SysctlConfig
+// Deprecated version of SysctlConfig. Use v1beta20210501.SysctlConfig instead
 type SysctlConfig struct {
 	FsAioMaxNr                     *int                   `json:"fsAioMaxNr,omitempty"`
 	FsFileMax                      *int                   `json:"fsFileMax,omitempty"`
@@ -1979,8 +1979,8 @@ func (config *SysctlConfig) AssignPropertiesToSysctlConfig(destination *v2021050
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.SysctlConfig_Status
-//Deprecated version of SysctlConfig_Status. Use v1beta20210501.SysctlConfig_Status instead
+// Storage version of v1alpha1api20210501.SysctlConfig_Status
+// Deprecated version of SysctlConfig_Status. Use v1beta20210501.SysctlConfig_Status instead
 type SysctlConfig_Status struct {
 	FsAioMaxNr                     *int                   `json:"fsAioMaxNr,omitempty"`
 	FsFileMax                      *int                   `json:"fsFileMax,omitempty"`

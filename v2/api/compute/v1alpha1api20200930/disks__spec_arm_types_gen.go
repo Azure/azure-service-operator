@@ -5,7 +5,7 @@ package v1alpha1api20200930
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-//Deprecated version of Disks_Spec. Use v1beta20200930.Disks_Spec instead
+// Deprecated version of Disks_Spec. Use v1beta20200930.Disks_Spec instead
 type Disks_SpecARM struct {
 	ExtendedLocation *ExtendedLocationARM `json:"extendedLocation,omitempty"`
 	Location         *string              `json:"location,omitempty"`
@@ -33,7 +33,7 @@ func (disks Disks_SpecARM) GetType() string {
 	return "Microsoft.Compute/disks"
 }
 
-//Deprecated version of DiskProperties. Use v1beta20200930.DiskProperties instead
+// Deprecated version of DiskProperties. Use v1beta20200930.DiskProperties instead
 type DiskPropertiesARM struct {
 	BurstingEnabled              *bool                              `json:"burstingEnabled,omitempty"`
 	CreationData                 *CreationDataARM                   `json:"creationData,omitempty"`
@@ -53,18 +53,18 @@ type DiskPropertiesARM struct {
 	Tier                         *string                            `json:"tier,omitempty"`
 }
 
-//Deprecated version of DiskSku. Use v1beta20200930.DiskSku instead
+// Deprecated version of DiskSku. Use v1beta20200930.DiskSku instead
 type DiskSkuARM struct {
 	Name *DiskSkuName `json:"name,omitempty"`
 }
 
-//Deprecated version of ExtendedLocation. Use v1beta20200930.ExtendedLocation instead
+// Deprecated version of ExtendedLocation. Use v1beta20200930.ExtendedLocation instead
 type ExtendedLocationARM struct {
 	Name *string               `json:"name,omitempty"`
 	Type *ExtendedLocationType `json:"type,omitempty"`
 }
 
-//Deprecated version of CreationData. Use v1beta20200930.CreationData instead
+// Deprecated version of CreationData. Use v1beta20200930.CreationData instead
 type CreationDataARM struct {
 	CreateOption          *CreationDataCreateOption `json:"createOption,omitempty"`
 	GalleryImageReference *ImageDiskReferenceARM    `json:"galleryImageReference,omitempty"`
@@ -76,7 +76,7 @@ type CreationDataARM struct {
 	UploadSizeBytes       *int                      `json:"uploadSizeBytes,omitempty"`
 }
 
-//Deprecated version of DiskSkuName. Use v1beta20200930.DiskSkuName instead
+// Deprecated version of DiskSkuName. Use v1beta20200930.DiskSkuName instead
 // +kubebuilder:validation:Enum={"Premium_LRS","Standard_LRS","StandardSSD_LRS","UltraSSD_LRS"}
 type DiskSkuName string
 
@@ -87,26 +87,26 @@ const (
 	DiskSkuNameUltraSSDLRS    = DiskSkuName("UltraSSD_LRS")
 )
 
-//Deprecated version of Encryption. Use v1beta20200930.Encryption instead
+// Deprecated version of Encryption. Use v1beta20200930.Encryption instead
 type EncryptionARM struct {
 	DiskEncryptionSetId *string         `json:"diskEncryptionSetId,omitempty"`
 	Type                *EncryptionType `json:"type,omitempty"`
 }
 
-//Deprecated version of EncryptionSettingsCollection. Use v1beta20200930.EncryptionSettingsCollection instead
+// Deprecated version of EncryptionSettingsCollection. Use v1beta20200930.EncryptionSettingsCollection instead
 type EncryptionSettingsCollectionARM struct {
 	Enabled                   *bool                          `json:"enabled,omitempty"`
 	EncryptionSettings        []EncryptionSettingsElementARM `json:"encryptionSettings,omitempty"`
 	EncryptionSettingsVersion *string                        `json:"encryptionSettingsVersion,omitempty"`
 }
 
-//Deprecated version of ExtendedLocationType. Use v1beta20200930.ExtendedLocationType instead
+// Deprecated version of ExtendedLocationType. Use v1beta20200930.ExtendedLocationType instead
 // +kubebuilder:validation:Enum={"EdgeZone"}
 type ExtendedLocationType string
 
 const ExtendedLocationTypeEdgeZone = ExtendedLocationType("EdgeZone")
 
-//Deprecated version of PurchasePlan. Use v1beta20200930.PurchasePlan instead
+// Deprecated version of PurchasePlan. Use v1beta20200930.PurchasePlan instead
 type PurchasePlanARM struct {
 	Name          *string `json:"name,omitempty"`
 	Product       *string `json:"product,omitempty"`
@@ -114,31 +114,31 @@ type PurchasePlanARM struct {
 	Publisher     *string `json:"publisher,omitempty"`
 }
 
-//Deprecated version of EncryptionSettingsElement. Use v1beta20200930.EncryptionSettingsElement instead
+// Deprecated version of EncryptionSettingsElement. Use v1beta20200930.EncryptionSettingsElement instead
 type EncryptionSettingsElementARM struct {
 	DiskEncryptionKey *KeyVaultAndSecretReferenceARM `json:"diskEncryptionKey,omitempty"`
 	KeyEncryptionKey  *KeyVaultAndKeyReferenceARM    `json:"keyEncryptionKey,omitempty"`
 }
 
-//Deprecated version of ImageDiskReference. Use v1beta20200930.ImageDiskReference instead
+// Deprecated version of ImageDiskReference. Use v1beta20200930.ImageDiskReference instead
 type ImageDiskReferenceARM struct {
 	Id  *string `json:"id,omitempty"`
 	Lun *int    `json:"lun,omitempty"`
 }
 
-//Deprecated version of KeyVaultAndKeyReference. Use v1beta20200930.KeyVaultAndKeyReference instead
+// Deprecated version of KeyVaultAndKeyReference. Use v1beta20200930.KeyVaultAndKeyReference instead
 type KeyVaultAndKeyReferenceARM struct {
 	KeyUrl      *string         `json:"keyUrl,omitempty"`
 	SourceVault *SourceVaultARM `json:"sourceVault,omitempty"`
 }
 
-//Deprecated version of KeyVaultAndSecretReference. Use v1beta20200930.KeyVaultAndSecretReference instead
+// Deprecated version of KeyVaultAndSecretReference. Use v1beta20200930.KeyVaultAndSecretReference instead
 type KeyVaultAndSecretReferenceARM struct {
 	SecretUrl   *string         `json:"secretUrl,omitempty"`
 	SourceVault *SourceVaultARM `json:"sourceVault,omitempty"`
 }
 
-//Deprecated version of SourceVault. Use v1beta20200930.SourceVault instead
+// Deprecated version of SourceVault. Use v1beta20200930.SourceVault instead
 type SourceVaultARM struct {
 	Id *string `json:"id,omitempty"`
 }

@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1alpha1api20210515
 
-//Deprecated version of ThroughputSettingsGetResults_Status. Use v1beta20210515.ThroughputSettingsGetResults_Status instead
+// Deprecated version of ThroughputSettingsGetResults_Status. Use v1beta20210515.ThroughputSettingsGetResults_Status instead
 type ThroughputSettingsGetResults_StatusARM struct {
 	Id         *string                                    `json:"id,omitempty"`
 	Location   *string                                    `json:"location,omitempty"`
@@ -13,12 +13,12 @@ type ThroughputSettingsGetResults_StatusARM struct {
 	Type       *string                                    `json:"type,omitempty"`
 }
 
-//Deprecated version of ThroughputSettingsGetProperties_Status. Use v1beta20210515.ThroughputSettingsGetProperties_Status instead
+// Deprecated version of ThroughputSettingsGetProperties_Status. Use v1beta20210515.ThroughputSettingsGetProperties_Status instead
 type ThroughputSettingsGetProperties_StatusARM struct {
 	Resource *ThroughputSettingsGetProperties_Status_ResourceARM `json:"resource,omitempty"`
 }
 
-//Deprecated version of ThroughputSettingsGetProperties_Status_Resource. Use v1beta20210515.ThroughputSettingsGetProperties_Status_Resource instead
+// Deprecated version of ThroughputSettingsGetProperties_Status_Resource. Use v1beta20210515.ThroughputSettingsGetProperties_Status_Resource instead
 type ThroughputSettingsGetProperties_Status_ResourceARM struct {
 	AutoscaleSettings   *AutoscaleSettingsResource_StatusARM `json:"autoscaleSettings,omitempty"`
 	Etag                *string                              `json:"_etag,omitempty"`
@@ -29,19 +29,19 @@ type ThroughputSettingsGetProperties_Status_ResourceARM struct {
 	Ts                  *float64                             `json:"_ts,omitempty"`
 }
 
-//Deprecated version of AutoscaleSettingsResource_Status. Use v1beta20210515.AutoscaleSettingsResource_Status instead
+// Deprecated version of AutoscaleSettingsResource_Status. Use v1beta20210515.AutoscaleSettingsResource_Status instead
 type AutoscaleSettingsResource_StatusARM struct {
 	AutoUpgradePolicy   *AutoUpgradePolicyResource_StatusARM `json:"autoUpgradePolicy,omitempty"`
 	MaxThroughput       *int                                 `json:"maxThroughput,omitempty"`
 	TargetMaxThroughput *int                                 `json:"targetMaxThroughput,omitempty"`
 }
 
-//Deprecated version of AutoUpgradePolicyResource_Status. Use v1beta20210515.AutoUpgradePolicyResource_Status instead
+// Deprecated version of AutoUpgradePolicyResource_Status. Use v1beta20210515.AutoUpgradePolicyResource_Status instead
 type AutoUpgradePolicyResource_StatusARM struct {
 	ThroughputPolicy *ThroughputPolicyResource_StatusARM `json:"throughputPolicy,omitempty"`
 }
 
-//Deprecated version of ThroughputPolicyResource_Status. Use v1beta20210515.ThroughputPolicyResource_Status instead
+// Deprecated version of ThroughputPolicyResource_Status. Use v1beta20210515.ThroughputPolicyResource_Status instead
 type ThroughputPolicyResource_StatusARM struct {
 	IncrementPercent *int  `json:"incrementPercent,omitempty"`
 	IsEnabled        *bool `json:"isEnabled,omitempty"`

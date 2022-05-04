@@ -20,8 +20,8 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Storage version of v1alpha1api20201101.VirtualNetworksVirtualNetworkPeering
-//Deprecated version of VirtualNetworksVirtualNetworkPeering. Use v1beta20201101.VirtualNetworksVirtualNetworkPeering instead
+// Storage version of v1alpha1api20201101.VirtualNetworksVirtualNetworkPeering
+// Deprecated version of VirtualNetworksVirtualNetworkPeering. Use v1beta20201101.VirtualNetworksVirtualNetworkPeering instead
 type VirtualNetworksVirtualNetworkPeering struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -191,16 +191,16 @@ func (peering *VirtualNetworksVirtualNetworkPeering) OriginalGVK() *schema.Group
 }
 
 // +kubebuilder:object:root=true
-//Storage version of v1alpha1api20201101.VirtualNetworksVirtualNetworkPeering
-//Deprecated version of VirtualNetworksVirtualNetworkPeering. Use v1beta20201101.VirtualNetworksVirtualNetworkPeering instead
+// Storage version of v1alpha1api20201101.VirtualNetworksVirtualNetworkPeering
+// Deprecated version of VirtualNetworksVirtualNetworkPeering. Use v1beta20201101.VirtualNetworksVirtualNetworkPeering instead
 type VirtualNetworksVirtualNetworkPeeringList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []VirtualNetworksVirtualNetworkPeering `json:"items"`
 }
 
-//Storage version of v1alpha1api20201101.VirtualNetworkPeering_Status
-//Deprecated version of VirtualNetworkPeering_Status. Use v1beta20201101.VirtualNetworkPeering_Status instead
+// Storage version of v1alpha1api20201101.VirtualNetworkPeering_Status
+// Deprecated version of VirtualNetworkPeering_Status. Use v1beta20201101.VirtualNetworkPeering_Status instead
 type VirtualNetworkPeering_Status struct {
 	AllowForwardedTraffic     *bool                                `json:"allowForwardedTraffic,omitempty"`
 	AllowGatewayTransit       *bool                                `json:"allowGatewayTransit,omitempty"`
@@ -503,22 +503,22 @@ func (peering *VirtualNetworkPeering_Status) AssignPropertiesToVirtualNetworkPee
 	return nil
 }
 
-//Storage version of v1alpha1api20201101.VirtualNetworksVirtualNetworkPeerings_Spec
+// Storage version of v1alpha1api20201101.VirtualNetworksVirtualNetworkPeerings_Spec
 type VirtualNetworksVirtualNetworkPeerings_Spec struct {
 	AllowForwardedTraffic     *bool `json:"allowForwardedTraffic,omitempty"`
 	AllowGatewayTransit       *bool `json:"allowGatewayTransit,omitempty"`
 	AllowVirtualNetworkAccess *bool `json:"allowVirtualNetworkAccess,omitempty"`
 
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName       string  `json:"azureName,omitempty"`
 	Location        *string `json:"location,omitempty"`
 	OriginalVersion string  `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a network.azure.com/VirtualNetwork resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a network.azure.com/VirtualNetwork resource
 	Owner                *genruntime.KnownResourceReference `group:"network.azure.com" json:"owner,omitempty" kind:"VirtualNetwork"`
 	PeeringState         *string                            `json:"peeringState,omitempty"`
 	PropertyBag          genruntime.PropertyBag             `json:"$propertyBag,omitempty"`

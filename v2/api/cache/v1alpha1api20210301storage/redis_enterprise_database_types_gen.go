@@ -20,8 +20,8 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Storage version of v1alpha1api20210301.RedisEnterpriseDatabase
-//Deprecated version of RedisEnterpriseDatabase. Use v1beta20210301.RedisEnterpriseDatabase instead
+// Storage version of v1alpha1api20210301.RedisEnterpriseDatabase
+// Deprecated version of RedisEnterpriseDatabase. Use v1beta20210301.RedisEnterpriseDatabase instead
 type RedisEnterpriseDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -191,16 +191,16 @@ func (database *RedisEnterpriseDatabase) OriginalGVK() *schema.GroupVersionKind 
 }
 
 // +kubebuilder:object:root=true
-//Storage version of v1alpha1api20210301.RedisEnterpriseDatabase
-//Deprecated version of RedisEnterpriseDatabase. Use v1beta20210301.RedisEnterpriseDatabase instead
+// Storage version of v1alpha1api20210301.RedisEnterpriseDatabase
+// Deprecated version of RedisEnterpriseDatabase. Use v1beta20210301.RedisEnterpriseDatabase instead
 type RedisEnterpriseDatabaseList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []RedisEnterpriseDatabase `json:"items"`
 }
 
-//Storage version of v1alpha1api20210301.Database_Status
-//Deprecated version of Database_Status. Use v1beta20210301.Database_Status instead
+// Storage version of v1alpha1api20210301.Database_Status
+// Deprecated version of Database_Status. Use v1beta20210301.Database_Status instead
 type Database_Status struct {
 	ClientProtocol    *string                `json:"clientProtocol,omitempty"`
 	ClusteringPolicy  *string                `json:"clusteringPolicy,omitempty"`
@@ -419,10 +419,10 @@ func (database *Database_Status) AssignPropertiesToDatabaseStatus(destination *v
 	return nil
 }
 
-//Storage version of v1alpha1api20210301.RedisEnterpriseDatabases_Spec
+// Storage version of v1alpha1api20210301.RedisEnterpriseDatabases_Spec
 type RedisEnterpriseDatabases_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName        string   `json:"azureName,omitempty"`
 	ClientProtocol   *string  `json:"clientProtocol,omitempty"`
 	ClusteringPolicy *string  `json:"clusteringPolicy,omitempty"`
@@ -432,9 +432,9 @@ type RedisEnterpriseDatabases_Spec struct {
 	OriginalVersion  string   `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a cache.azure.com/RedisEnterprise resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a cache.azure.com/RedisEnterprise resource
 	Owner       *genruntime.KnownResourceReference `group:"cache.azure.com" json:"owner,omitempty" kind:"RedisEnterprise"`
 	Persistence *Persistence                       `json:"persistence,omitempty"`
 	Port        *int                               `json:"port,omitempty"`
@@ -648,8 +648,8 @@ func (databases *RedisEnterpriseDatabases_Spec) AssignPropertiesToRedisEnterpris
 	return nil
 }
 
-//Storage version of v1alpha1api20210301.Module
-//Deprecated version of Module. Use v1beta20210301.Module instead
+// Storage version of v1alpha1api20210301.Module
+// Deprecated version of Module. Use v1beta20210301.Module instead
 type Module struct {
 	Args        *string                `json:"args,omitempty"`
 	Name        *string                `json:"name,omitempty"`
@@ -700,8 +700,8 @@ func (module *Module) AssignPropertiesToModule(destination *v20210301s.Module) e
 	return nil
 }
 
-//Storage version of v1alpha1api20210301.Module_Status
-//Deprecated version of Module_Status. Use v1beta20210301.Module_Status instead
+// Storage version of v1alpha1api20210301.Module_Status
+// Deprecated version of Module_Status. Use v1beta20210301.Module_Status instead
 type Module_Status struct {
 	Args        *string                `json:"args,omitempty"`
 	Name        *string                `json:"name,omitempty"`
@@ -759,8 +759,8 @@ func (module *Module_Status) AssignPropertiesToModuleStatus(destination *v202103
 	return nil
 }
 
-//Storage version of v1alpha1api20210301.Persistence
-//Deprecated version of Persistence. Use v1beta20210301.Persistence instead
+// Storage version of v1alpha1api20210301.Persistence
+// Deprecated version of Persistence. Use v1beta20210301.Persistence instead
 type Persistence struct {
 	AofEnabled   *bool                  `json:"aofEnabled,omitempty"`
 	AofFrequency *string                `json:"aofFrequency,omitempty"`
@@ -845,8 +845,8 @@ func (persistence *Persistence) AssignPropertiesToPersistence(destination *v2021
 	return nil
 }
 
-//Storage version of v1alpha1api20210301.Persistence_Status
-//Deprecated version of Persistence_Status. Use v1beta20210301.Persistence_Status instead
+// Storage version of v1alpha1api20210301.Persistence_Status
+// Deprecated version of Persistence_Status. Use v1beta20210301.Persistence_Status instead
 type Persistence_Status struct {
 	AofEnabled   *bool                  `json:"aofEnabled,omitempty"`
 	AofFrequency *string                `json:"aofFrequency,omitempty"`

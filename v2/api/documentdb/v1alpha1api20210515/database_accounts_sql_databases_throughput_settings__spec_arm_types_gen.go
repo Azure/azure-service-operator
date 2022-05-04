@@ -5,7 +5,7 @@ package v1alpha1api20210515
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-//Deprecated version of DatabaseAccountsSqlDatabasesThroughputSettings_Spec. Use v1beta20210515.DatabaseAccountsSqlDatabasesThroughputSettings_Spec instead
+// Deprecated version of DatabaseAccountsSqlDatabasesThroughputSettings_Spec. Use v1beta20210515.DatabaseAccountsSqlDatabasesThroughputSettings_Spec instead
 type DatabaseAccountsSqlDatabasesThroughputSettings_SpecARM struct {
 	Location   *string                                `json:"location,omitempty"`
 	Name       string                                 `json:"name,omitempty"`

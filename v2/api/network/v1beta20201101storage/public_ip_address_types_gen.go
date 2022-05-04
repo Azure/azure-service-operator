@@ -21,8 +21,8 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Storage version of v1beta20201101.PublicIPAddress
-//Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/publicIPAddresses
+// Storage version of v1beta20201101.PublicIPAddress
+// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/publicIPAddresses
 type PublicIPAddress struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -121,15 +121,15 @@ func (address *PublicIPAddress) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Storage version of v1beta20201101.PublicIPAddress
-//Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/publicIPAddresses
+// Storage version of v1beta20201101.PublicIPAddress
+// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/publicIPAddresses
 type PublicIPAddressList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []PublicIPAddress `json:"items"`
 }
 
-//Storage version of v1beta20201101.PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded
+// Storage version of v1beta20201101.PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded
 type PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded struct {
 	Conditions               []conditions.Condition                                      `json:"conditions,omitempty"`
 	DdosSettings             *DdosSettings_Status                                        `json:"ddosSettings,omitempty"`
@@ -177,10 +177,10 @@ func (embedded *PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded) Conv
 	return destination.ConvertStatusFrom(embedded)
 }
 
-//Storage version of v1beta20201101.PublicIPAddresses_Spec
+// Storage version of v1beta20201101.PublicIPAddresses_Spec
 type PublicIPAddresses_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName            string                      `json:"azureName,omitempty"`
 	DdosSettings         *DdosSettings               `json:"ddosSettings,omitempty"`
 	DnsSettings          *PublicIPAddressDnsSettings `json:"dnsSettings,omitempty"`
@@ -192,9 +192,9 @@ type PublicIPAddresses_Spec struct {
 	OriginalVersion      string                      `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a resources.azure.com/ResourceGroup resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
 	Owner                    *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PropertyBag              genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	PublicIPAddressVersion   *string                            `json:"publicIPAddressVersion,omitempty"`
@@ -225,8 +225,8 @@ func (addresses *PublicIPAddresses_Spec) ConvertSpecTo(destination genruntime.Co
 	return destination.ConvertSpecFrom(addresses)
 }
 
-//Storage version of v1beta20201101.DdosSettings
-//Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/DdosSettings
+// Storage version of v1beta20201101.DdosSettings
+// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/DdosSettings
 type DdosSettings struct {
 	DdosCustomPolicy   *SubResource           `json:"ddosCustomPolicy,omitempty"`
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -234,7 +234,7 @@ type DdosSettings struct {
 	ProtectionCoverage *string                `json:"protectionCoverage,omitempty"`
 }
 
-//Storage version of v1beta20201101.DdosSettings_Status
+// Storage version of v1beta20201101.DdosSettings_Status
 type DdosSettings_Status struct {
 	DdosCustomPolicy   *SubResource_Status    `json:"ddosCustomPolicy,omitempty"`
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -242,7 +242,7 @@ type DdosSettings_Status struct {
 	ProtectionCoverage *string                `json:"protectionCoverage,omitempty"`
 }
 
-//Storage version of v1beta20201101.IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded
+// Storage version of v1beta20201101.IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded
 type IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded struct {
 	Etag                      *string                                            `json:"etag,omitempty"`
 	Id                        *string                                            `json:"id,omitempty"`
@@ -254,22 +254,22 @@ type IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded struct {
 	Subnet                    *Subnet_Status_PublicIPAddress_SubResourceEmbedded `json:"subnet,omitempty"`
 }
 
-//Storage version of v1beta20201101.IpTag
-//Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/IpTag
+// Storage version of v1beta20201101.IpTag
+// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/IpTag
 type IpTag struct {
 	IpTagType   *string                `json:"ipTagType,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Tag         *string                `json:"tag,omitempty"`
 }
 
-//Storage version of v1beta20201101.IpTag_Status
+// Storage version of v1beta20201101.IpTag_Status
 type IpTag_Status struct {
 	IpTagType   *string                `json:"ipTagType,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Tag         *string                `json:"tag,omitempty"`
 }
 
-//Storage version of v1beta20201101.NatGateway_Status_PublicIPAddress_SubResourceEmbedded
+// Storage version of v1beta20201101.NatGateway_Status_PublicIPAddress_SubResourceEmbedded
 type NatGateway_Status_PublicIPAddress_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -277,8 +277,8 @@ type NatGateway_Status_PublicIPAddress_SubResourceEmbedded struct {
 	Zones       []string               `json:"zones,omitempty"`
 }
 
-//Storage version of v1beta20201101.PublicIPAddressDnsSettings
-//Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/PublicIPAddressDnsSettings
+// Storage version of v1beta20201101.PublicIPAddressDnsSettings
+// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/PublicIPAddressDnsSettings
 type PublicIPAddressDnsSettings struct {
 	DomainNameLabel *string                `json:"domainNameLabel,omitempty"`
 	Fqdn            *string                `json:"fqdn,omitempty"`
@@ -286,7 +286,7 @@ type PublicIPAddressDnsSettings struct {
 	ReverseFqdn     *string                `json:"reverseFqdn,omitempty"`
 }
 
-//Storage version of v1beta20201101.PublicIPAddressDnsSettings_Status
+// Storage version of v1beta20201101.PublicIPAddressDnsSettings_Status
 type PublicIPAddressDnsSettings_Status struct {
 	DomainNameLabel *string                `json:"domainNameLabel,omitempty"`
 	Fqdn            *string                `json:"fqdn,omitempty"`
@@ -294,28 +294,28 @@ type PublicIPAddressDnsSettings_Status struct {
 	ReverseFqdn     *string                `json:"reverseFqdn,omitempty"`
 }
 
-//Storage version of v1beta20201101.PublicIPAddressSku
-//Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/PublicIPAddressSku
+// Storage version of v1beta20201101.PublicIPAddressSku
+// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/PublicIPAddressSku
 type PublicIPAddressSku struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Tier        *string                `json:"tier,omitempty"`
 }
 
-//Storage version of v1beta20201101.PublicIPAddressSku_Status
+// Storage version of v1beta20201101.PublicIPAddressSku_Status
 type PublicIPAddressSku_Status struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Tier        *string                `json:"tier,omitempty"`
 }
 
-//Storage version of v1beta20201101.NatGatewaySku_Status
+// Storage version of v1beta20201101.NatGatewaySku_Status
 type NatGatewaySku_Status struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1beta20201101.Subnet_Status_PublicIPAddress_SubResourceEmbedded
+// Storage version of v1beta20201101.Subnet_Status_PublicIPAddress_SubResourceEmbedded
 type Subnet_Status_PublicIPAddress_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`

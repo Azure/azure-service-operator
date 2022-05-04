@@ -56,7 +56,7 @@ func RunJSONSerializationTestForSqlContainerGetResultsStatusARM(subject SqlConta
 }
 
 // Generator of SqlContainerGetResults_StatusARM instances for property testing - lazily instantiated by
-//SqlContainerGetResultsStatusARMGenerator()
+// SqlContainerGetResultsStatusARMGenerator()
 var sqlContainerGetResultsStatusARMGenerator gopter.Gen
 
 // SqlContainerGetResultsStatusARMGenerator returns a generator of SqlContainerGetResults_StatusARM instances for property testing.
@@ -134,7 +134,7 @@ func RunJSONSerializationTestForSqlContainerGetPropertiesStatusARM(subject SqlCo
 }
 
 // Generator of SqlContainerGetProperties_StatusARM instances for property testing - lazily instantiated by
-//SqlContainerGetPropertiesStatusARMGenerator()
+// SqlContainerGetPropertiesStatusARMGenerator()
 var sqlContainerGetPropertiesStatusARMGenerator gopter.Gen
 
 // SqlContainerGetPropertiesStatusARMGenerator returns a generator of SqlContainerGetProperties_StatusARM instances for property testing.
@@ -195,7 +195,7 @@ func RunJSONSerializationTestForSqlContainerGetPropertiesStatusResourceARM(subje
 }
 
 // Generator of SqlContainerGetProperties_Status_ResourceARM instances for property testing - lazily instantiated by
-//SqlContainerGetPropertiesStatusResourceARMGenerator()
+// SqlContainerGetPropertiesStatusResourceARMGenerator()
 var sqlContainerGetPropertiesStatusResourceARMGenerator gopter.Gen
 
 // SqlContainerGetPropertiesStatusResourceARMGenerator returns a generator of SqlContainerGetProperties_Status_ResourceARM instances for property testing.
@@ -277,7 +277,7 @@ func RunJSONSerializationTestForConflictResolutionPolicyStatusARM(subject Confli
 }
 
 // Generator of ConflictResolutionPolicy_StatusARM instances for property testing - lazily instantiated by
-//ConflictResolutionPolicyStatusARMGenerator()
+// ConflictResolutionPolicyStatusARMGenerator()
 var conflictResolutionPolicyStatusARMGenerator gopter.Gen
 
 // ConflictResolutionPolicyStatusARMGenerator returns a generator of ConflictResolutionPolicy_StatusARM instances for property testing.
@@ -339,7 +339,7 @@ func RunJSONSerializationTestForContainerPartitionKeyStatusARM(subject Container
 }
 
 // Generator of ContainerPartitionKey_StatusARM instances for property testing - lazily instantiated by
-//ContainerPartitionKeyStatusARMGenerator()
+// ContainerPartitionKeyStatusARMGenerator()
 var containerPartitionKeyStatusARMGenerator gopter.Gen
 
 // ContainerPartitionKeyStatusARMGenerator returns a generator of ContainerPartitionKey_StatusARM instances for property testing.
@@ -402,7 +402,7 @@ func RunJSONSerializationTestForIndexingPolicyStatusARM(subject IndexingPolicy_S
 }
 
 // Generator of IndexingPolicy_StatusARM instances for property testing - lazily instantiated by
-//IndexingPolicyStatusARMGenerator()
+// IndexingPolicyStatusARMGenerator()
 var indexingPolicyStatusARMGenerator gopter.Gen
 
 // IndexingPolicyStatusARMGenerator returns a generator of IndexingPolicy_StatusARM instances for property testing.
@@ -480,7 +480,7 @@ func RunJSONSerializationTestForUniqueKeyPolicyStatusARM(subject UniqueKeyPolicy
 }
 
 // Generator of UniqueKeyPolicy_StatusARM instances for property testing - lazily instantiated by
-//UniqueKeyPolicyStatusARMGenerator()
+// UniqueKeyPolicyStatusARMGenerator()
 var uniqueKeyPolicyStatusARMGenerator gopter.Gen
 
 // UniqueKeyPolicyStatusARMGenerator returns a generator of UniqueKeyPolicy_StatusARM instances for property testing.
@@ -540,7 +540,7 @@ func RunJSONSerializationTestForCompositePathStatusARM(subject CompositePath_Sta
 }
 
 // Generator of CompositePath_StatusARM instances for property testing - lazily instantiated by
-//CompositePathStatusARMGenerator()
+// CompositePathStatusARMGenerator()
 var compositePathStatusARMGenerator gopter.Gen
 
 // CompositePathStatusARMGenerator returns a generator of CompositePath_StatusARM instances for property testing.
@@ -601,7 +601,7 @@ func RunJSONSerializationTestForExcludedPathStatusARM(subject ExcludedPath_Statu
 }
 
 // Generator of ExcludedPath_StatusARM instances for property testing - lazily instantiated by
-//ExcludedPathStatusARMGenerator()
+// ExcludedPathStatusARMGenerator()
 var excludedPathStatusARMGenerator gopter.Gen
 
 // ExcludedPathStatusARMGenerator returns a generator of ExcludedPath_StatusARM instances for property testing.
@@ -661,7 +661,7 @@ func RunJSONSerializationTestForIncludedPathStatusARM(subject IncludedPath_Statu
 }
 
 // Generator of IncludedPath_StatusARM instances for property testing - lazily instantiated by
-//IncludedPathStatusARMGenerator()
+// IncludedPathStatusARMGenerator()
 var includedPathStatusARMGenerator gopter.Gen
 
 // IncludedPathStatusARMGenerator returns a generator of IncludedPath_StatusARM instances for property testing.
@@ -735,7 +735,7 @@ func RunJSONSerializationTestForSpatialSpecStatusARM(subject SpatialSpec_StatusA
 }
 
 // Generator of SpatialSpec_StatusARM instances for property testing - lazily instantiated by
-//SpatialSpecStatusARMGenerator()
+// SpatialSpecStatusARMGenerator()
 var spatialSpecStatusARMGenerator gopter.Gen
 
 // SpatialSpecStatusARMGenerator returns a generator of SpatialSpec_StatusARM instances for property testing.

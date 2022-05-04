@@ -91,7 +91,7 @@ func RunPropertyAssignmentTestForSqlDatabaseContainerTrigger(subject SqlDatabase
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -142,7 +142,7 @@ func RunJSONSerializationTestForSqlDatabaseContainerTrigger(subject SqlDatabaseC
 }
 
 // Generator of SqlDatabaseContainerTrigger instances for property testing - lazily instantiated by
-//SqlDatabaseContainerTriggerGenerator()
+// SqlDatabaseContainerTriggerGenerator()
 var sqlDatabaseContainerTriggerGenerator gopter.Gen
 
 // SqlDatabaseContainerTriggerGenerator returns a generator of SqlDatabaseContainerTrigger instances for property testing.
@@ -194,7 +194,7 @@ func RunPropertyAssignmentTestForDatabaseAccountsSqlDatabasesContainersTriggersS
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -245,7 +245,7 @@ func RunJSONSerializationTestForDatabaseAccountsSqlDatabasesContainersTriggersSp
 }
 
 // Generator of DatabaseAccountsSqlDatabasesContainersTriggers_Spec instances for property testing - lazily instantiated
-//by DatabaseAccountsSqlDatabasesContainersTriggersSpecGenerator()
+// by DatabaseAccountsSqlDatabasesContainersTriggersSpecGenerator()
 var databaseAccountsSqlDatabasesContainersTriggersSpecGenerator gopter.Gen
 
 // DatabaseAccountsSqlDatabasesContainersTriggersSpecGenerator returns a generator of DatabaseAccountsSqlDatabasesContainersTriggers_Spec instances for property testing.
@@ -313,7 +313,7 @@ func RunPropertyAssignmentTestForSqlTriggerGetResultsStatus(subject SqlTriggerGe
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -364,7 +364,7 @@ func RunJSONSerializationTestForSqlTriggerGetResultsStatus(subject SqlTriggerGet
 }
 
 // Generator of SqlTriggerGetResults_Status instances for property testing - lazily instantiated by
-//SqlTriggerGetResultsStatusGenerator()
+// SqlTriggerGetResultsStatusGenerator()
 var sqlTriggerGetResultsStatusGenerator gopter.Gen
 
 // SqlTriggerGetResultsStatusGenerator returns a generator of SqlTriggerGetResults_Status instances for property testing.
@@ -433,7 +433,7 @@ func RunPropertyAssignmentTestForSqlTriggerGetPropertiesStatusResource(subject S
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -484,7 +484,7 @@ func RunJSONSerializationTestForSqlTriggerGetPropertiesStatusResource(subject Sq
 }
 
 // Generator of SqlTriggerGetProperties_Status_Resource instances for property testing - lazily instantiated by
-//SqlTriggerGetPropertiesStatusResourceGenerator()
+// SqlTriggerGetPropertiesStatusResourceGenerator()
 var sqlTriggerGetPropertiesStatusResourceGenerator gopter.Gen
 
 // SqlTriggerGetPropertiesStatusResourceGenerator returns a generator of SqlTriggerGetProperties_Status_Resource instances for property testing.
@@ -546,7 +546,7 @@ func RunPropertyAssignmentTestForSqlTriggerResource(subject SqlTriggerResource) 
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)

@@ -20,8 +20,8 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Storage version of v1alpha1api20200601.EventSubscription
-//Deprecated version of EventSubscription. Use v1beta20200601.EventSubscription instead
+// Storage version of v1alpha1api20200601.EventSubscription
+// Deprecated version of EventSubscription. Use v1beta20200601.EventSubscription instead
 type EventSubscription struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -190,16 +190,16 @@ func (subscription *EventSubscription) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Storage version of v1alpha1api20200601.EventSubscription
-//Deprecated version of EventSubscription. Use v1beta20200601.EventSubscription instead
+// Storage version of v1alpha1api20200601.EventSubscription
+// Deprecated version of EventSubscription. Use v1beta20200601.EventSubscription instead
 type EventSubscriptionList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []EventSubscription `json:"items"`
 }
 
-//Storage version of v1alpha1api20200601.EventSubscription_Status
-//Deprecated version of EventSubscription_Status. Use v1beta20200601.EventSubscription_Status instead
+// Storage version of v1alpha1api20200601.EventSubscription_Status
+// Deprecated version of EventSubscription_Status. Use v1beta20200601.EventSubscription_Status instead
 type EventSubscription_Status struct {
 	Conditions            []conditions.Condition               `json:"conditions,omitempty"`
 	DeadLetterDestination *DeadLetterDestination_Status        `json:"deadLetterDestination,omitempty"`
@@ -474,10 +474,10 @@ func (subscription *EventSubscription_Status) AssignPropertiesToEventSubscriptio
 	return nil
 }
 
-//Storage version of v1alpha1api20200601.EventSubscriptions_Spec
+// Storage version of v1alpha1api20200601.EventSubscriptions_Spec
 type EventSubscriptions_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName             string                            `json:"azureName,omitempty"`
 	DeadLetterDestination *StorageBlobDeadLetterDestination `json:"deadLetterDestination,omitempty"`
 	Destination           *EventSubscriptionDestination     `json:"destination,omitempty"`
@@ -489,9 +489,9 @@ type EventSubscriptions_Spec struct {
 	OriginalVersion       string                            `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. This resource is an
-	//extension resource, which means that any other Azure resource can be its owner.
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. This resource is an
+	// extension resource, which means that any other Azure resource can be its owner.
 	Owner       *genruntime.ArbitraryOwnerReference `json:"owner,omitempty"`
 	PropertyBag genruntime.PropertyBag              `json:"$propertyBag,omitempty"`
 	RetryPolicy *RetryPolicy                        `json:"retryPolicy,omitempty"`
@@ -734,8 +734,8 @@ func (subscriptions *EventSubscriptions_Spec) AssignPropertiesToEventSubscriptio
 	return nil
 }
 
-//Storage version of v1alpha1api20200601.DeadLetterDestination_Status
-//Deprecated version of DeadLetterDestination_Status. Use v1beta20200601.DeadLetterDestination_Status instead
+// Storage version of v1alpha1api20200601.DeadLetterDestination_Status
+// Deprecated version of DeadLetterDestination_Status. Use v1beta20200601.DeadLetterDestination_Status instead
 type DeadLetterDestination_Status struct {
 	EndpointType *string                `json:"endpointType,omitempty"`
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -779,8 +779,8 @@ func (destination *DeadLetterDestination_Status) AssignPropertiesToDeadLetterDes
 	return nil
 }
 
-//Storage version of v1alpha1api20200601.EventSubscriptionDestination
-//Deprecated version of EventSubscriptionDestination. Use v1beta20200601.EventSubscriptionDestination instead
+// Storage version of v1alpha1api20200601.EventSubscriptionDestination
+// Deprecated version of EventSubscriptionDestination. Use v1beta20200601.EventSubscriptionDestination instead
 type EventSubscriptionDestination struct {
 	AzureFunction    *AzureFunctionEventSubscriptionDestination    `json:"azureFunctionEventSubscriptionDestination,omitempty"`
 	EventHub         *EventHubEventSubscriptionDestination         `json:"eventHubEventSubscriptionDestination,omitempty"`
@@ -992,8 +992,8 @@ func (destination *EventSubscriptionDestination) AssignPropertiesToEventSubscrip
 	return nil
 }
 
-//Storage version of v1alpha1api20200601.EventSubscriptionDestination_Status
-//Deprecated version of EventSubscriptionDestination_Status. Use v1beta20200601.EventSubscriptionDestination_Status instead
+// Storage version of v1alpha1api20200601.EventSubscriptionDestination_Status
+// Deprecated version of EventSubscriptionDestination_Status. Use v1beta20200601.EventSubscriptionDestination_Status instead
 type EventSubscriptionDestination_Status struct {
 	EndpointType *string                `json:"endpointType,omitempty"`
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -1037,8 +1037,8 @@ func (destination *EventSubscriptionDestination_Status) AssignPropertiesToEventS
 	return nil
 }
 
-//Storage version of v1alpha1api20200601.EventSubscriptionFilter
-//Deprecated version of EventSubscriptionFilter. Use v1beta20200601.EventSubscriptionFilter instead
+// Storage version of v1alpha1api20200601.EventSubscriptionFilter
+// Deprecated version of EventSubscriptionFilter. Use v1beta20200601.EventSubscriptionFilter instead
 type EventSubscriptionFilter struct {
 	AdvancedFilters        []AdvancedFilter       `json:"advancedFilters,omitempty"`
 	IncludedEventTypes     []string               `json:"includedEventTypes,omitempty"`
@@ -1150,8 +1150,8 @@ func (filter *EventSubscriptionFilter) AssignPropertiesToEventSubscriptionFilter
 	return nil
 }
 
-//Storage version of v1alpha1api20200601.EventSubscriptionFilter_Status
-//Deprecated version of EventSubscriptionFilter_Status. Use v1beta20200601.EventSubscriptionFilter_Status instead
+// Storage version of v1alpha1api20200601.EventSubscriptionFilter_Status
+// Deprecated version of EventSubscriptionFilter_Status. Use v1beta20200601.EventSubscriptionFilter_Status instead
 type EventSubscriptionFilter_Status struct {
 	AdvancedFilters        []AdvancedFilter_Status `json:"advancedFilters,omitempty"`
 	IncludedEventTypes     []string                `json:"includedEventTypes,omitempty"`
@@ -1263,8 +1263,8 @@ func (filter *EventSubscriptionFilter_Status) AssignPropertiesToEventSubscriptio
 	return nil
 }
 
-//Storage version of v1alpha1api20200601.RetryPolicy
-//Deprecated version of RetryPolicy. Use v1beta20200601.RetryPolicy instead
+// Storage version of v1alpha1api20200601.RetryPolicy
+// Deprecated version of RetryPolicy. Use v1beta20200601.RetryPolicy instead
 type RetryPolicy struct {
 	EventTimeToLiveInMinutes *int                   `json:"eventTimeToLiveInMinutes,omitempty"`
 	MaxDeliveryAttempts      *int                   `json:"maxDeliveryAttempts,omitempty"`
@@ -1315,8 +1315,8 @@ func (policy *RetryPolicy) AssignPropertiesToRetryPolicy(destination *v20200601s
 	return nil
 }
 
-//Storage version of v1alpha1api20200601.RetryPolicy_Status
-//Deprecated version of RetryPolicy_Status. Use v1beta20200601.RetryPolicy_Status instead
+// Storage version of v1alpha1api20200601.RetryPolicy_Status
+// Deprecated version of RetryPolicy_Status. Use v1beta20200601.RetryPolicy_Status instead
 type RetryPolicy_Status struct {
 	EventTimeToLiveInMinutes *int                   `json:"eventTimeToLiveInMinutes,omitempty"`
 	MaxDeliveryAttempts      *int                   `json:"maxDeliveryAttempts,omitempty"`
@@ -1367,8 +1367,8 @@ func (policy *RetryPolicy_Status) AssignPropertiesToRetryPolicyStatus(destinatio
 	return nil
 }
 
-//Storage version of v1alpha1api20200601.StorageBlobDeadLetterDestination
-//Deprecated version of StorageBlobDeadLetterDestination. Use v1beta20200601.StorageBlobDeadLetterDestination instead
+// Storage version of v1alpha1api20200601.StorageBlobDeadLetterDestination
+// Deprecated version of StorageBlobDeadLetterDestination. Use v1beta20200601.StorageBlobDeadLetterDestination instead
 type StorageBlobDeadLetterDestination struct {
 	EndpointType *string                                     `json:"endpointType,omitempty"`
 	Properties   *StorageBlobDeadLetterDestinationProperties `json:"properties,omitempty"`
@@ -1437,8 +1437,8 @@ func (destination *StorageBlobDeadLetterDestination) AssignPropertiesToStorageBl
 	return nil
 }
 
-//Storage version of v1alpha1api20200601.AdvancedFilter
-//Deprecated version of AdvancedFilter. Use v1beta20200601.AdvancedFilter instead
+// Storage version of v1alpha1api20200601.AdvancedFilter
+// Deprecated version of AdvancedFilter. Use v1beta20200601.AdvancedFilter instead
 type AdvancedFilter struct {
 	BoolEquals                *AdvancedFilter_BoolEquals                `json:"boolEqualsAdvancedFilter,omitempty"`
 	NumberGreaterThan         *AdvancedFilter_NumberGreaterThan         `json:"numberGreaterThanAdvancedFilter,omitempty"`
@@ -1775,8 +1775,8 @@ func (filter *AdvancedFilter) AssignPropertiesToAdvancedFilter(destination *v202
 	return nil
 }
 
-//Storage version of v1alpha1api20200601.AdvancedFilter_Status
-//Deprecated version of AdvancedFilter_Status. Use v1beta20200601.AdvancedFilter_Status instead
+// Storage version of v1alpha1api20200601.AdvancedFilter_Status
+// Deprecated version of AdvancedFilter_Status. Use v1beta20200601.AdvancedFilter_Status instead
 type AdvancedFilter_Status struct {
 	Key          *string                `json:"key,omitempty"`
 	OperatorType *string                `json:"operatorType,omitempty"`
@@ -1827,8 +1827,8 @@ func (filter *AdvancedFilter_Status) AssignPropertiesToAdvancedFilterStatus(dest
 	return nil
 }
 
-//Storage version of v1alpha1api20200601.AzureFunctionEventSubscriptionDestination
-//Deprecated version of AzureFunctionEventSubscriptionDestination. Use v1beta20200601.AzureFunctionEventSubscriptionDestination instead
+// Storage version of v1alpha1api20200601.AzureFunctionEventSubscriptionDestination
+// Deprecated version of AzureFunctionEventSubscriptionDestination. Use v1beta20200601.AzureFunctionEventSubscriptionDestination instead
 type AzureFunctionEventSubscriptionDestination struct {
 	EndpointType *string                                              `json:"endpointType,omitempty"`
 	Properties   *AzureFunctionEventSubscriptionDestinationProperties `json:"properties,omitempty"`
@@ -1897,8 +1897,8 @@ func (destination *AzureFunctionEventSubscriptionDestination) AssignPropertiesTo
 	return nil
 }
 
-//Storage version of v1alpha1api20200601.EventHubEventSubscriptionDestination
-//Deprecated version of EventHubEventSubscriptionDestination. Use v1beta20200601.EventHubEventSubscriptionDestination instead
+// Storage version of v1alpha1api20200601.EventHubEventSubscriptionDestination
+// Deprecated version of EventHubEventSubscriptionDestination. Use v1beta20200601.EventHubEventSubscriptionDestination instead
 type EventHubEventSubscriptionDestination struct {
 	EndpointType *string                                         `json:"endpointType,omitempty"`
 	Properties   *EventHubEventSubscriptionDestinationProperties `json:"properties,omitempty"`
@@ -1967,8 +1967,8 @@ func (destination *EventHubEventSubscriptionDestination) AssignPropertiesToEvent
 	return nil
 }
 
-//Storage version of v1alpha1api20200601.HybridConnectionEventSubscriptionDestination
-//Deprecated version of HybridConnectionEventSubscriptionDestination. Use v1beta20200601.HybridConnectionEventSubscriptionDestination instead
+// Storage version of v1alpha1api20200601.HybridConnectionEventSubscriptionDestination
+// Deprecated version of HybridConnectionEventSubscriptionDestination. Use v1beta20200601.HybridConnectionEventSubscriptionDestination instead
 type HybridConnectionEventSubscriptionDestination struct {
 	EndpointType *string                                                 `json:"endpointType,omitempty"`
 	Properties   *HybridConnectionEventSubscriptionDestinationProperties `json:"properties,omitempty"`
@@ -2037,8 +2037,8 @@ func (destination *HybridConnectionEventSubscriptionDestination) AssignPropertie
 	return nil
 }
 
-//Storage version of v1alpha1api20200601.ServiceBusQueueEventSubscriptionDestination
-//Deprecated version of ServiceBusQueueEventSubscriptionDestination. Use v1beta20200601.ServiceBusQueueEventSubscriptionDestination instead
+// Storage version of v1alpha1api20200601.ServiceBusQueueEventSubscriptionDestination
+// Deprecated version of ServiceBusQueueEventSubscriptionDestination. Use v1beta20200601.ServiceBusQueueEventSubscriptionDestination instead
 type ServiceBusQueueEventSubscriptionDestination struct {
 	EndpointType *string                                                `json:"endpointType,omitempty"`
 	Properties   *ServiceBusQueueEventSubscriptionDestinationProperties `json:"properties,omitempty"`
@@ -2107,8 +2107,8 @@ func (destination *ServiceBusQueueEventSubscriptionDestination) AssignProperties
 	return nil
 }
 
-//Storage version of v1alpha1api20200601.ServiceBusTopicEventSubscriptionDestination
-//Deprecated version of ServiceBusTopicEventSubscriptionDestination. Use v1beta20200601.ServiceBusTopicEventSubscriptionDestination instead
+// Storage version of v1alpha1api20200601.ServiceBusTopicEventSubscriptionDestination
+// Deprecated version of ServiceBusTopicEventSubscriptionDestination. Use v1beta20200601.ServiceBusTopicEventSubscriptionDestination instead
 type ServiceBusTopicEventSubscriptionDestination struct {
 	EndpointType *string                                                `json:"endpointType,omitempty"`
 	Properties   *ServiceBusTopicEventSubscriptionDestinationProperties `json:"properties,omitempty"`
@@ -2177,8 +2177,8 @@ func (destination *ServiceBusTopicEventSubscriptionDestination) AssignProperties
 	return nil
 }
 
-//Storage version of v1alpha1api20200601.StorageBlobDeadLetterDestinationProperties
-//Deprecated version of StorageBlobDeadLetterDestinationProperties. Use v1beta20200601.StorageBlobDeadLetterDestinationProperties instead
+// Storage version of v1alpha1api20200601.StorageBlobDeadLetterDestinationProperties
+// Deprecated version of StorageBlobDeadLetterDestinationProperties. Use v1beta20200601.StorageBlobDeadLetterDestinationProperties instead
 type StorageBlobDeadLetterDestinationProperties struct {
 	BlobContainerName *string                       `json:"blobContainerName,omitempty"`
 	PropertyBag       genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
@@ -2239,8 +2239,8 @@ func (properties *StorageBlobDeadLetterDestinationProperties) AssignPropertiesTo
 	return nil
 }
 
-//Storage version of v1alpha1api20200601.StorageQueueEventSubscriptionDestination
-//Deprecated version of StorageQueueEventSubscriptionDestination. Use v1beta20200601.StorageQueueEventSubscriptionDestination instead
+// Storage version of v1alpha1api20200601.StorageQueueEventSubscriptionDestination
+// Deprecated version of StorageQueueEventSubscriptionDestination. Use v1beta20200601.StorageQueueEventSubscriptionDestination instead
 type StorageQueueEventSubscriptionDestination struct {
 	EndpointType *string                                             `json:"endpointType,omitempty"`
 	Properties   *StorageQueueEventSubscriptionDestinationProperties `json:"properties,omitempty"`
@@ -2309,8 +2309,8 @@ func (destination *StorageQueueEventSubscriptionDestination) AssignPropertiesToS
 	return nil
 }
 
-//Storage version of v1alpha1api20200601.WebHookEventSubscriptionDestination
-//Deprecated version of WebHookEventSubscriptionDestination. Use v1beta20200601.WebHookEventSubscriptionDestination instead
+// Storage version of v1alpha1api20200601.WebHookEventSubscriptionDestination
+// Deprecated version of WebHookEventSubscriptionDestination. Use v1beta20200601.WebHookEventSubscriptionDestination instead
 type WebHookEventSubscriptionDestination struct {
 	EndpointType *string                                        `json:"endpointType,omitempty"`
 	Properties   *WebHookEventSubscriptionDestinationProperties `json:"properties,omitempty"`
@@ -2379,8 +2379,8 @@ func (destination *WebHookEventSubscriptionDestination) AssignPropertiesToWebHoo
 	return nil
 }
 
-//Storage version of v1alpha1api20200601.AdvancedFilter_BoolEquals
-//Deprecated version of AdvancedFilter_BoolEquals. Use v1beta20200601.AdvancedFilter_BoolEquals instead
+// Storage version of v1alpha1api20200601.AdvancedFilter_BoolEquals
+// Deprecated version of AdvancedFilter_BoolEquals. Use v1beta20200601.AdvancedFilter_BoolEquals instead
 type AdvancedFilter_BoolEquals struct {
 	Key          *string                `json:"key,omitempty"`
 	OperatorType *string                `json:"operatorType,omitempty"`
@@ -2448,8 +2448,8 @@ func (equals *AdvancedFilter_BoolEquals) AssignPropertiesToAdvancedFilterBoolEqu
 	return nil
 }
 
-//Storage version of v1alpha1api20200601.AdvancedFilter_NumberGreaterThan
-//Deprecated version of AdvancedFilter_NumberGreaterThan. Use v1beta20200601.AdvancedFilter_NumberGreaterThan instead
+// Storage version of v1alpha1api20200601.AdvancedFilter_NumberGreaterThan
+// Deprecated version of AdvancedFilter_NumberGreaterThan. Use v1beta20200601.AdvancedFilter_NumberGreaterThan instead
 type AdvancedFilter_NumberGreaterThan struct {
 	Key          *string                `json:"key,omitempty"`
 	OperatorType *string                `json:"operatorType,omitempty"`
@@ -2517,8 +2517,8 @@ func (than *AdvancedFilter_NumberGreaterThan) AssignPropertiesToAdvancedFilterNu
 	return nil
 }
 
-//Storage version of v1alpha1api20200601.AdvancedFilter_NumberGreaterThanOrEquals
-//Deprecated version of AdvancedFilter_NumberGreaterThanOrEquals. Use v1beta20200601.AdvancedFilter_NumberGreaterThanOrEquals instead
+// Storage version of v1alpha1api20200601.AdvancedFilter_NumberGreaterThanOrEquals
+// Deprecated version of AdvancedFilter_NumberGreaterThanOrEquals. Use v1beta20200601.AdvancedFilter_NumberGreaterThanOrEquals instead
 type AdvancedFilter_NumberGreaterThanOrEquals struct {
 	Key          *string                `json:"key,omitempty"`
 	OperatorType *string                `json:"operatorType,omitempty"`
@@ -2586,8 +2586,8 @@ func (equals *AdvancedFilter_NumberGreaterThanOrEquals) AssignPropertiesToAdvanc
 	return nil
 }
 
-//Storage version of v1alpha1api20200601.AdvancedFilter_NumberIn
-//Deprecated version of AdvancedFilter_NumberIn. Use v1beta20200601.AdvancedFilter_NumberIn instead
+// Storage version of v1alpha1api20200601.AdvancedFilter_NumberIn
+// Deprecated version of AdvancedFilter_NumberIn. Use v1beta20200601.AdvancedFilter_NumberIn instead
 type AdvancedFilter_NumberIn struct {
 	Key          *string                `json:"key,omitempty"`
 	OperatorType *string                `json:"operatorType,omitempty"`
@@ -2665,8 +2665,8 @@ func (numberIn *AdvancedFilter_NumberIn) AssignPropertiesToAdvancedFilterNumberI
 	return nil
 }
 
-//Storage version of v1alpha1api20200601.AdvancedFilter_NumberLessThan
-//Deprecated version of AdvancedFilter_NumberLessThan. Use v1beta20200601.AdvancedFilter_NumberLessThan instead
+// Storage version of v1alpha1api20200601.AdvancedFilter_NumberLessThan
+// Deprecated version of AdvancedFilter_NumberLessThan. Use v1beta20200601.AdvancedFilter_NumberLessThan instead
 type AdvancedFilter_NumberLessThan struct {
 	Key          *string                `json:"key,omitempty"`
 	OperatorType *string                `json:"operatorType,omitempty"`
@@ -2734,8 +2734,8 @@ func (than *AdvancedFilter_NumberLessThan) AssignPropertiesToAdvancedFilterNumbe
 	return nil
 }
 
-//Storage version of v1alpha1api20200601.AdvancedFilter_NumberLessThanOrEquals
-//Deprecated version of AdvancedFilter_NumberLessThanOrEquals. Use v1beta20200601.AdvancedFilter_NumberLessThanOrEquals instead
+// Storage version of v1alpha1api20200601.AdvancedFilter_NumberLessThanOrEquals
+// Deprecated version of AdvancedFilter_NumberLessThanOrEquals. Use v1beta20200601.AdvancedFilter_NumberLessThanOrEquals instead
 type AdvancedFilter_NumberLessThanOrEquals struct {
 	Key          *string                `json:"key,omitempty"`
 	OperatorType *string                `json:"operatorType,omitempty"`
@@ -2803,8 +2803,8 @@ func (equals *AdvancedFilter_NumberLessThanOrEquals) AssignPropertiesToAdvancedF
 	return nil
 }
 
-//Storage version of v1alpha1api20200601.AdvancedFilter_NumberNotIn
-//Deprecated version of AdvancedFilter_NumberNotIn. Use v1beta20200601.AdvancedFilter_NumberNotIn instead
+// Storage version of v1alpha1api20200601.AdvancedFilter_NumberNotIn
+// Deprecated version of AdvancedFilter_NumberNotIn. Use v1beta20200601.AdvancedFilter_NumberNotIn instead
 type AdvancedFilter_NumberNotIn struct {
 	Key          *string                `json:"key,omitempty"`
 	OperatorType *string                `json:"operatorType,omitempty"`
@@ -2882,8 +2882,8 @@ func (notIn *AdvancedFilter_NumberNotIn) AssignPropertiesToAdvancedFilterNumberN
 	return nil
 }
 
-//Storage version of v1alpha1api20200601.AdvancedFilter_StringBeginsWith
-//Deprecated version of AdvancedFilter_StringBeginsWith. Use v1beta20200601.AdvancedFilter_StringBeginsWith instead
+// Storage version of v1alpha1api20200601.AdvancedFilter_StringBeginsWith
+// Deprecated version of AdvancedFilter_StringBeginsWith. Use v1beta20200601.AdvancedFilter_StringBeginsWith instead
 type AdvancedFilter_StringBeginsWith struct {
 	Key          *string                `json:"key,omitempty"`
 	OperatorType *string                `json:"operatorType,omitempty"`
@@ -2941,8 +2941,8 @@ func (with *AdvancedFilter_StringBeginsWith) AssignPropertiesToAdvancedFilterStr
 	return nil
 }
 
-//Storage version of v1alpha1api20200601.AdvancedFilter_StringContains
-//Deprecated version of AdvancedFilter_StringContains. Use v1beta20200601.AdvancedFilter_StringContains instead
+// Storage version of v1alpha1api20200601.AdvancedFilter_StringContains
+// Deprecated version of AdvancedFilter_StringContains. Use v1beta20200601.AdvancedFilter_StringContains instead
 type AdvancedFilter_StringContains struct {
 	Key          *string                `json:"key,omitempty"`
 	OperatorType *string                `json:"operatorType,omitempty"`
@@ -3000,8 +3000,8 @@ func (contains *AdvancedFilter_StringContains) AssignPropertiesToAdvancedFilterS
 	return nil
 }
 
-//Storage version of v1alpha1api20200601.AdvancedFilter_StringEndsWith
-//Deprecated version of AdvancedFilter_StringEndsWith. Use v1beta20200601.AdvancedFilter_StringEndsWith instead
+// Storage version of v1alpha1api20200601.AdvancedFilter_StringEndsWith
+// Deprecated version of AdvancedFilter_StringEndsWith. Use v1beta20200601.AdvancedFilter_StringEndsWith instead
 type AdvancedFilter_StringEndsWith struct {
 	Key          *string                `json:"key,omitempty"`
 	OperatorType *string                `json:"operatorType,omitempty"`
@@ -3059,8 +3059,8 @@ func (with *AdvancedFilter_StringEndsWith) AssignPropertiesToAdvancedFilterStrin
 	return nil
 }
 
-//Storage version of v1alpha1api20200601.AdvancedFilter_StringIn
-//Deprecated version of AdvancedFilter_StringIn. Use v1beta20200601.AdvancedFilter_StringIn instead
+// Storage version of v1alpha1api20200601.AdvancedFilter_StringIn
+// Deprecated version of AdvancedFilter_StringIn. Use v1beta20200601.AdvancedFilter_StringIn instead
 type AdvancedFilter_StringIn struct {
 	Key          *string                `json:"key,omitempty"`
 	OperatorType *string                `json:"operatorType,omitempty"`
@@ -3118,8 +3118,8 @@ func (stringIn *AdvancedFilter_StringIn) AssignPropertiesToAdvancedFilterStringI
 	return nil
 }
 
-//Storage version of v1alpha1api20200601.AdvancedFilter_StringNotIn
-//Deprecated version of AdvancedFilter_StringNotIn. Use v1beta20200601.AdvancedFilter_StringNotIn instead
+// Storage version of v1alpha1api20200601.AdvancedFilter_StringNotIn
+// Deprecated version of AdvancedFilter_StringNotIn. Use v1beta20200601.AdvancedFilter_StringNotIn instead
 type AdvancedFilter_StringNotIn struct {
 	Key          *string                `json:"key,omitempty"`
 	OperatorType *string                `json:"operatorType,omitempty"`
@@ -3177,8 +3177,8 @@ func (notIn *AdvancedFilter_StringNotIn) AssignPropertiesToAdvancedFilterStringN
 	return nil
 }
 
-//Storage version of v1alpha1api20200601.AzureFunctionEventSubscriptionDestinationProperties
-//Deprecated version of AzureFunctionEventSubscriptionDestinationProperties. Use v1beta20200601.AzureFunctionEventSubscriptionDestinationProperties instead
+// Storage version of v1alpha1api20200601.AzureFunctionEventSubscriptionDestinationProperties
+// Deprecated version of AzureFunctionEventSubscriptionDestinationProperties. Use v1beta20200601.AzureFunctionEventSubscriptionDestinationProperties instead
 type AzureFunctionEventSubscriptionDestinationProperties struct {
 	MaxEventsPerBatch             *int                          `json:"maxEventsPerBatch,omitempty"`
 	PreferredBatchSizeInKilobytes *int                          `json:"preferredBatchSizeInKilobytes,omitempty"`
@@ -3246,8 +3246,8 @@ func (properties *AzureFunctionEventSubscriptionDestinationProperties) AssignPro
 	return nil
 }
 
-//Storage version of v1alpha1api20200601.EventHubEventSubscriptionDestinationProperties
-//Deprecated version of EventHubEventSubscriptionDestinationProperties. Use v1beta20200601.EventHubEventSubscriptionDestinationProperties instead
+// Storage version of v1alpha1api20200601.EventHubEventSubscriptionDestinationProperties
+// Deprecated version of EventHubEventSubscriptionDestinationProperties. Use v1beta20200601.EventHubEventSubscriptionDestinationProperties instead
 type EventHubEventSubscriptionDestinationProperties struct {
 	PropertyBag       genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
@@ -3301,8 +3301,8 @@ func (properties *EventHubEventSubscriptionDestinationProperties) AssignProperti
 	return nil
 }
 
-//Storage version of v1alpha1api20200601.HybridConnectionEventSubscriptionDestinationProperties
-//Deprecated version of HybridConnectionEventSubscriptionDestinationProperties. Use v1beta20200601.HybridConnectionEventSubscriptionDestinationProperties instead
+// Storage version of v1alpha1api20200601.HybridConnectionEventSubscriptionDestinationProperties
+// Deprecated version of HybridConnectionEventSubscriptionDestinationProperties. Use v1beta20200601.HybridConnectionEventSubscriptionDestinationProperties instead
 type HybridConnectionEventSubscriptionDestinationProperties struct {
 	PropertyBag       genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
@@ -3356,8 +3356,8 @@ func (properties *HybridConnectionEventSubscriptionDestinationProperties) Assign
 	return nil
 }
 
-//Storage version of v1alpha1api20200601.ServiceBusQueueEventSubscriptionDestinationProperties
-//Deprecated version of ServiceBusQueueEventSubscriptionDestinationProperties. Use v1beta20200601.ServiceBusQueueEventSubscriptionDestinationProperties instead
+// Storage version of v1alpha1api20200601.ServiceBusQueueEventSubscriptionDestinationProperties
+// Deprecated version of ServiceBusQueueEventSubscriptionDestinationProperties. Use v1beta20200601.ServiceBusQueueEventSubscriptionDestinationProperties instead
 type ServiceBusQueueEventSubscriptionDestinationProperties struct {
 	PropertyBag       genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
@@ -3411,8 +3411,8 @@ func (properties *ServiceBusQueueEventSubscriptionDestinationProperties) AssignP
 	return nil
 }
 
-//Storage version of v1alpha1api20200601.ServiceBusTopicEventSubscriptionDestinationProperties
-//Deprecated version of ServiceBusTopicEventSubscriptionDestinationProperties. Use v1beta20200601.ServiceBusTopicEventSubscriptionDestinationProperties instead
+// Storage version of v1alpha1api20200601.ServiceBusTopicEventSubscriptionDestinationProperties
+// Deprecated version of ServiceBusTopicEventSubscriptionDestinationProperties. Use v1beta20200601.ServiceBusTopicEventSubscriptionDestinationProperties instead
 type ServiceBusTopicEventSubscriptionDestinationProperties struct {
 	PropertyBag       genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
@@ -3466,8 +3466,8 @@ func (properties *ServiceBusTopicEventSubscriptionDestinationProperties) AssignP
 	return nil
 }
 
-//Storage version of v1alpha1api20200601.StorageQueueEventSubscriptionDestinationProperties
-//Deprecated version of StorageQueueEventSubscriptionDestinationProperties. Use v1beta20200601.StorageQueueEventSubscriptionDestinationProperties instead
+// Storage version of v1alpha1api20200601.StorageQueueEventSubscriptionDestinationProperties
+// Deprecated version of StorageQueueEventSubscriptionDestinationProperties. Use v1beta20200601.StorageQueueEventSubscriptionDestinationProperties instead
 type StorageQueueEventSubscriptionDestinationProperties struct {
 	PropertyBag       genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	QueueName         *string                       `json:"queueName,omitempty"`
@@ -3528,8 +3528,8 @@ func (properties *StorageQueueEventSubscriptionDestinationProperties) AssignProp
 	return nil
 }
 
-//Storage version of v1alpha1api20200601.WebHookEventSubscriptionDestinationProperties
-//Deprecated version of WebHookEventSubscriptionDestinationProperties. Use v1beta20200601.WebHookEventSubscriptionDestinationProperties instead
+// Storage version of v1alpha1api20200601.WebHookEventSubscriptionDestinationProperties
+// Deprecated version of WebHookEventSubscriptionDestinationProperties. Use v1beta20200601.WebHookEventSubscriptionDestinationProperties instead
 type WebHookEventSubscriptionDestinationProperties struct {
 	AzureActiveDirectoryApplicationIdOrUri *string                `json:"azureActiveDirectoryApplicationIdOrUri,omitempty"`
 	AzureActiveDirectoryTenantId           *string                `json:"azureActiveDirectoryTenantId,omitempty"`

@@ -56,7 +56,7 @@ func RunJSONSerializationTestForNetworkInterfacesSpecARM(subject NetworkInterfac
 }
 
 // Generator of NetworkInterfaces_SpecARM instances for property testing - lazily instantiated by
-//NetworkInterfacesSpecARMGenerator()
+// NetworkInterfacesSpecARMGenerator()
 var networkInterfacesSpecARMGenerator gopter.Gen
 
 // NetworkInterfacesSpecARMGenerator returns a generator of NetworkInterfaces_SpecARM instances for property testing.
@@ -133,7 +133,7 @@ func RunJSONSerializationTestForNetworkInterfacesSpecPropertiesARM(subject Netwo
 }
 
 // Generator of NetworkInterfaces_Spec_PropertiesARM instances for property testing - lazily instantiated by
-//NetworkInterfacesSpecPropertiesARMGenerator()
+// NetworkInterfacesSpecPropertiesARMGenerator()
 var networkInterfacesSpecPropertiesARMGenerator gopter.Gen
 
 // NetworkInterfacesSpecPropertiesARMGenerator returns a generator of NetworkInterfaces_Spec_PropertiesARM instances for property testing.
@@ -210,7 +210,7 @@ func RunJSONSerializationTestForNetworkInterfaceDnsSettingsARM(subject NetworkIn
 }
 
 // Generator of NetworkInterfaceDnsSettingsARM instances for property testing - lazily instantiated by
-//NetworkInterfaceDnsSettingsARMGenerator()
+// NetworkInterfaceDnsSettingsARMGenerator()
 var networkInterfaceDnsSettingsARMGenerator gopter.Gen
 
 // NetworkInterfaceDnsSettingsARMGenerator returns a generator of NetworkInterfaceDnsSettingsARM instances for property testing.
@@ -271,7 +271,7 @@ func RunJSONSerializationTestForNetworkInterfacesSpecPropertiesIpConfigurationsA
 }
 
 // Generator of NetworkInterfaces_Spec_Properties_IpConfigurationsARM instances for property testing - lazily
-//instantiated by NetworkInterfacesSpecPropertiesIpConfigurationsARMGenerator()
+// instantiated by NetworkInterfacesSpecPropertiesIpConfigurationsARMGenerator()
 var networkInterfacesSpecPropertiesIpConfigurationsARMGenerator gopter.Gen
 
 // NetworkInterfacesSpecPropertiesIpConfigurationsARMGenerator returns a generator of NetworkInterfaces_Spec_Properties_IpConfigurationsARM instances for property testing.
@@ -404,7 +404,7 @@ func RunJSONSerializationTestForNetworkInterfaceIPConfigurationPropertiesFormatA
 }
 
 // Generator of NetworkInterfaceIPConfigurationPropertiesFormatARM instances for property testing - lazily instantiated
-//by NetworkInterfaceIPConfigurationPropertiesFormatARMGenerator()
+// by NetworkInterfaceIPConfigurationPropertiesFormatARMGenerator()
 var networkInterfaceIPConfigurationPropertiesFormatARMGenerator gopter.Gen
 
 // NetworkInterfaceIPConfigurationPropertiesFormatARMGenerator returns a generator of NetworkInterfaceIPConfigurationPropertiesFormatARM instances for property testing.

@@ -90,7 +90,7 @@ func RunPropertyAssignmentTestForFlexibleServersConfiguration(subject FlexibleSe
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -141,7 +141,7 @@ func RunJSONSerializationTestForFlexibleServersConfiguration(subject FlexibleSer
 }
 
 // Generator of FlexibleServersConfiguration instances for property testing - lazily instantiated by
-//FlexibleServersConfigurationGenerator()
+// FlexibleServersConfigurationGenerator()
 var flexibleServersConfigurationGenerator gopter.Gen
 
 // FlexibleServersConfigurationGenerator returns a generator of FlexibleServersConfiguration instances for property testing.
@@ -193,7 +193,7 @@ func RunPropertyAssignmentTestForConfigurationStatus(subject Configuration_Statu
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -244,7 +244,7 @@ func RunJSONSerializationTestForConfigurationStatus(subject Configuration_Status
 }
 
 // Generator of Configuration_Status instances for property testing - lazily instantiated by
-//ConfigurationStatusGenerator()
+// ConfigurationStatusGenerator()
 var configurationStatusGenerator gopter.Gen
 
 // ConfigurationStatusGenerator returns a generator of Configuration_Status instances for property testing.
@@ -322,7 +322,7 @@ func RunPropertyAssignmentTestForFlexibleServersConfigurationsSpec(subject Flexi
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -373,7 +373,7 @@ func RunJSONSerializationTestForFlexibleServersConfigurationsSpec(subject Flexib
 }
 
 // Generator of FlexibleServersConfigurations_Spec instances for property testing - lazily instantiated by
-//FlexibleServersConfigurationsSpecGenerator()
+// FlexibleServersConfigurationsSpecGenerator()
 var flexibleServersConfigurationsSpecGenerator gopter.Gen
 
 // FlexibleServersConfigurationsSpecGenerator returns a generator of FlexibleServersConfigurations_Spec instances for property testing.

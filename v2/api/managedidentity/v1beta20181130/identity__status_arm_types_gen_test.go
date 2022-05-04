@@ -133,7 +133,7 @@ func RunJSONSerializationTestForUserAssignedIdentityPropertiesStatusARM(subject 
 }
 
 // Generator of UserAssignedIdentityProperties_StatusARM instances for property testing - lazily instantiated by
-//UserAssignedIdentityPropertiesStatusARMGenerator()
+// UserAssignedIdentityPropertiesStatusARMGenerator()
 var userAssignedIdentityPropertiesStatusARMGenerator gopter.Gen
 
 // UserAssignedIdentityPropertiesStatusARMGenerator returns a generator of UserAssignedIdentityProperties_StatusARM instances for property testing.

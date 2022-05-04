@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Deprecated version of PublicIPAddress. Use v1beta20201101.PublicIPAddress instead
+// Deprecated version of PublicIPAddress. Use v1beta20201101.PublicIPAddress instead
 type PublicIPAddress struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -314,16 +314,16 @@ func (address *PublicIPAddress) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Deprecated version of PublicIPAddress. Use v1beta20201101.PublicIPAddress instead
+// Deprecated version of PublicIPAddress. Use v1beta20201101.PublicIPAddress instead
 type PublicIPAddressList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []PublicIPAddress `json:"items"`
 }
 
-//Deprecated version of PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded. Use v1beta20201101.PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded instead
+// Deprecated version of PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded. Use v1beta20201101.PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded instead
 type PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded struct {
-	//Conditions: The observed state of the resource
+	// Conditions: The observed state of the resource
 	Conditions               []conditions.Condition                                      `json:"conditions,omitempty"`
 	DdosSettings             *DdosSettings_Status                                        `json:"ddosSettings,omitempty"`
 	DnsSettings              *PublicIPAddressDnsSettings_Status                          `json:"dnsSettings,omitempty"`
@@ -988,8 +988,8 @@ func (embedded *PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded) Assi
 }
 
 type PublicIPAddresses_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName            string                      `json:"azureName,omitempty"`
 	DdosSettings         *DdosSettings               `json:"ddosSettings,omitempty"`
 	DnsSettings          *PublicIPAddressDnsSettings `json:"dnsSettings,omitempty"`
@@ -1000,9 +1000,9 @@ type PublicIPAddresses_Spec struct {
 	Location             *string                     `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a resources.azure.com/ResourceGroup resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
 	Owner                  *genruntime.KnownResourceReference                     `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PublicIPAddressVersion *PublicIPAddressPropertiesFormatPublicIPAddressVersion `json:"publicIPAddressVersion,omitempty"`
 
@@ -1608,7 +1608,7 @@ func (addresses *PublicIPAddresses_Spec) SetAzureName(azureName string) {
 	addresses.AzureName = azureName
 }
 
-//Deprecated version of DdosSettings. Use v1beta20201101.DdosSettings instead
+// Deprecated version of DdosSettings. Use v1beta20201101.DdosSettings instead
 type DdosSettings struct {
 	DdosCustomPolicy   *SubResource                    `json:"ddosCustomPolicy,omitempty"`
 	ProtectedIP        *bool                           `json:"protectedIP,omitempty"`
@@ -1766,7 +1766,7 @@ func (settings *DdosSettings) AssignPropertiesToDdosSettings(destination *alpha2
 	return nil
 }
 
-//Deprecated version of DdosSettings_Status. Use v1beta20201101.DdosSettings_Status instead
+// Deprecated version of DdosSettings_Status. Use v1beta20201101.DdosSettings_Status instead
 type DdosSettings_Status struct {
 	DdosCustomPolicy   *SubResource_Status                   `json:"ddosCustomPolicy,omitempty"`
 	ProtectedIP        *bool                                 `json:"protectedIP,omitempty"`
@@ -1893,7 +1893,7 @@ func (settings *DdosSettings_Status) AssignPropertiesToDdosSettingsStatus(destin
 	return nil
 }
 
-//Deprecated version of IPAllocationMethod_Status. Use v1beta20201101.IPAllocationMethod_Status instead
+// Deprecated version of IPAllocationMethod_Status. Use v1beta20201101.IPAllocationMethod_Status instead
 type IPAllocationMethod_Status string
 
 const (
@@ -1901,7 +1901,7 @@ const (
 	IPAllocationMethod_StatusStatic  = IPAllocationMethod_Status("Static")
 )
 
-//Deprecated version of IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded. Use v1beta20201101.IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded instead
+// Deprecated version of IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded. Use v1beta20201101.IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded instead
 type IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded struct {
 	Etag                      *string                                            `json:"etag,omitempty"`
 	Id                        *string                                            `json:"id,omitempty"`
@@ -2092,7 +2092,7 @@ func (embedded *IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded) Assi
 	return nil
 }
 
-//Deprecated version of IPVersion_Status. Use v1beta20201101.IPVersion_Status instead
+// Deprecated version of IPVersion_Status. Use v1beta20201101.IPVersion_Status instead
 type IPVersion_Status string
 
 const (
@@ -2100,7 +2100,7 @@ const (
 	IPVersion_StatusIPv6 = IPVersion_Status("IPv6")
 )
 
-//Deprecated version of IpTag. Use v1beta20201101.IpTag instead
+// Deprecated version of IpTag. Use v1beta20201101.IpTag instead
 type IpTag struct {
 	IpTagType *string `json:"ipTagType,omitempty"`
 	Tag       *string `json:"tag,omitempty"`
@@ -2192,7 +2192,7 @@ func (ipTag *IpTag) AssignPropertiesToIpTag(destination *alpha20201101s.IpTag) e
 	return nil
 }
 
-//Deprecated version of IpTag_Status. Use v1beta20201101.IpTag_Status instead
+// Deprecated version of IpTag_Status. Use v1beta20201101.IpTag_Status instead
 type IpTag_Status struct {
 	IpTagType *string `json:"ipTagType,omitempty"`
 	Tag       *string `json:"tag,omitempty"`
@@ -2263,7 +2263,7 @@ func (ipTag *IpTag_Status) AssignPropertiesToIpTagStatus(destination *alpha20201
 	return nil
 }
 
-//Deprecated version of NatGateway_Status_PublicIPAddress_SubResourceEmbedded. Use v1beta20201101.NatGateway_Status_PublicIPAddress_SubResourceEmbedded instead
+// Deprecated version of NatGateway_Status_PublicIPAddress_SubResourceEmbedded. Use v1beta20201101.NatGateway_Status_PublicIPAddress_SubResourceEmbedded instead
 type NatGateway_Status_PublicIPAddress_SubResourceEmbedded struct {
 	Id    *string               `json:"id,omitempty"`
 	Sku   *NatGatewaySku_Status `json:"sku,omitempty"`
@@ -2369,7 +2369,7 @@ func (embedded *NatGateway_Status_PublicIPAddress_SubResourceEmbedded) AssignPro
 	return nil
 }
 
-//Deprecated version of PublicIPAddressDnsSettings. Use v1beta20201101.PublicIPAddressDnsSettings instead
+// Deprecated version of PublicIPAddressDnsSettings. Use v1beta20201101.PublicIPAddressDnsSettings instead
 type PublicIPAddressDnsSettings struct {
 	// +kubebuilder:validation:Required
 	DomainNameLabel *string `json:"domainNameLabel,omitempty"`
@@ -2481,7 +2481,7 @@ func (settings *PublicIPAddressDnsSettings) AssignPropertiesToPublicIPAddressDns
 	return nil
 }
 
-//Deprecated version of PublicIPAddressDnsSettings_Status. Use v1beta20201101.PublicIPAddressDnsSettings_Status instead
+// Deprecated version of PublicIPAddressDnsSettings_Status. Use v1beta20201101.PublicIPAddressDnsSettings_Status instead
 type PublicIPAddressDnsSettings_Status struct {
 	DomainNameLabel *string `json:"domainNameLabel,omitempty"`
 	Fqdn            *string `json:"fqdn,omitempty"`
@@ -2565,8 +2565,8 @@ func (settings *PublicIPAddressDnsSettings_Status) AssignPropertiesToPublicIPAdd
 	return nil
 }
 
-//Deprecated version of PublicIPAddressPropertiesFormatPublicIPAddressVersion. Use
-//v1beta20201101.PublicIPAddressPropertiesFormatPublicIPAddressVersion instead
+// Deprecated version of PublicIPAddressPropertiesFormatPublicIPAddressVersion. Use
+// v1beta20201101.PublicIPAddressPropertiesFormatPublicIPAddressVersion instead
 // +kubebuilder:validation:Enum={"IPv4","IPv6"}
 type PublicIPAddressPropertiesFormatPublicIPAddressVersion string
 
@@ -2575,8 +2575,8 @@ const (
 	PublicIPAddressPropertiesFormatPublicIPAddressVersionIPv6 = PublicIPAddressPropertiesFormatPublicIPAddressVersion("IPv6")
 )
 
-//Deprecated version of PublicIPAddressPropertiesFormatPublicIPAllocationMethod. Use
-//v1beta20201101.PublicIPAddressPropertiesFormatPublicIPAllocationMethod instead
+// Deprecated version of PublicIPAddressPropertiesFormatPublicIPAllocationMethod. Use
+// v1beta20201101.PublicIPAddressPropertiesFormatPublicIPAllocationMethod instead
 // +kubebuilder:validation:Enum={"Dynamic","Static"}
 type PublicIPAddressPropertiesFormatPublicIPAllocationMethod string
 
@@ -2585,8 +2585,8 @@ const (
 	PublicIPAddressPropertiesFormatPublicIPAllocationMethodStatic  = PublicIPAddressPropertiesFormatPublicIPAllocationMethod("Static")
 )
 
-//Deprecated version of PublicIPAddressPropertiesFormatStatusMigrationPhase. Use
-//v1beta20201101.PublicIPAddressPropertiesFormatStatusMigrationPhase instead
+// Deprecated version of PublicIPAddressPropertiesFormatStatusMigrationPhase. Use
+// v1beta20201101.PublicIPAddressPropertiesFormatStatusMigrationPhase instead
 type PublicIPAddressPropertiesFormatStatusMigrationPhase string
 
 const (
@@ -2597,7 +2597,7 @@ const (
 	PublicIPAddressPropertiesFormatStatusMigrationPhasePrepare   = PublicIPAddressPropertiesFormatStatusMigrationPhase("Prepare")
 )
 
-//Deprecated version of PublicIPAddressSku. Use v1beta20201101.PublicIPAddressSku instead
+// Deprecated version of PublicIPAddressSku. Use v1beta20201101.PublicIPAddressSku instead
 type PublicIPAddressSku struct {
 	Name *PublicIPAddressSkuName `json:"name,omitempty"`
 	Tier *PublicIPAddressSkuTier `json:"tier,omitempty"`
@@ -2709,7 +2709,7 @@ func (addressSku *PublicIPAddressSku) AssignPropertiesToPublicIPAddressSku(desti
 	return nil
 }
 
-//Deprecated version of PublicIPAddressSku_Status. Use v1beta20201101.PublicIPAddressSku_Status instead
+// Deprecated version of PublicIPAddressSku_Status. Use v1beta20201101.PublicIPAddressSku_Status instead
 type PublicIPAddressSku_Status struct {
 	Name *PublicIPAddressSkuStatusName `json:"name,omitempty"`
 	Tier *PublicIPAddressSkuStatusTier `json:"tier,omitempty"`
@@ -2800,7 +2800,7 @@ func (addressSku *PublicIPAddressSku_Status) AssignPropertiesToPublicIPAddressSk
 	return nil
 }
 
-//Deprecated version of DdosSettingsProtectionCoverage. Use v1beta20201101.DdosSettingsProtectionCoverage instead
+// Deprecated version of DdosSettingsProtectionCoverage. Use v1beta20201101.DdosSettingsProtectionCoverage instead
 // +kubebuilder:validation:Enum={"Basic","Standard"}
 type DdosSettingsProtectionCoverage string
 
@@ -2809,8 +2809,8 @@ const (
 	DdosSettingsProtectionCoverageStandard = DdosSettingsProtectionCoverage("Standard")
 )
 
-//Deprecated version of DdosSettingsStatusProtectionCoverage. Use v1beta20201101.DdosSettingsStatusProtectionCoverage
-//instead
+// Deprecated version of DdosSettingsStatusProtectionCoverage. Use v1beta20201101.DdosSettingsStatusProtectionCoverage
+// instead
 type DdosSettingsStatusProtectionCoverage string
 
 const (
@@ -2818,7 +2818,7 @@ const (
 	DdosSettingsStatusProtectionCoverageStandard = DdosSettingsStatusProtectionCoverage("Standard")
 )
 
-//Deprecated version of NatGatewaySku_Status. Use v1beta20201101.NatGatewaySku_Status instead
+// Deprecated version of NatGatewaySku_Status. Use v1beta20201101.NatGatewaySku_Status instead
 type NatGatewaySku_Status struct {
 	Name *NatGatewaySkuStatusName `json:"name,omitempty"`
 }
@@ -2886,7 +2886,7 @@ func (gatewaySku *NatGatewaySku_Status) AssignPropertiesToNatGatewaySkuStatus(de
 	return nil
 }
 
-//Deprecated version of Subnet_Status_PublicIPAddress_SubResourceEmbedded. Use v1beta20201101.Subnet_Status_PublicIPAddress_SubResourceEmbedded instead
+// Deprecated version of Subnet_Status_PublicIPAddress_SubResourceEmbedded. Use v1beta20201101.Subnet_Status_PublicIPAddress_SubResourceEmbedded instead
 type Subnet_Status_PublicIPAddress_SubResourceEmbedded struct {
 	Id *string `json:"id,omitempty"`
 }
@@ -2944,7 +2944,7 @@ func (embedded *Subnet_Status_PublicIPAddress_SubResourceEmbedded) AssignPropert
 	return nil
 }
 
-//Deprecated version of NatGatewaySkuStatusName. Use v1beta20201101.NatGatewaySkuStatusName instead
+// Deprecated version of NatGatewaySkuStatusName. Use v1beta20201101.NatGatewaySkuStatusName instead
 type NatGatewaySkuStatusName string
 
 const NatGatewaySkuStatusNameStandard = NatGatewaySkuStatusName("Standard")

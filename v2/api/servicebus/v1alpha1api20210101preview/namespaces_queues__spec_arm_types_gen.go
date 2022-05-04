@@ -5,7 +5,7 @@ package v1alpha1api20210101preview
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-//Deprecated version of NamespacesQueues_Spec. Use v1beta20210101preview.NamespacesQueues_Spec instead
+// Deprecated version of NamespacesQueues_Spec. Use v1beta20210101preview.NamespacesQueues_Spec instead
 type NamespacesQueues_SpecARM struct {
 	Location   *string               `json:"location,omitempty"`
 	Name       string                `json:"name,omitempty"`
@@ -30,7 +30,7 @@ func (queues NamespacesQueues_SpecARM) GetType() string {
 	return "Microsoft.ServiceBus/namespaces/queues"
 }
 
-//Deprecated version of SBQueueProperties. Use v1beta20210101preview.SBQueueProperties instead
+// Deprecated version of SBQueueProperties. Use v1beta20210101preview.SBQueueProperties instead
 type SBQueuePropertiesARM struct {
 	AutoDeleteOnIdle                    *string `json:"autoDeleteOnIdle,omitempty"`
 	DeadLetteringOnMessageExpiration    *bool   `json:"deadLetteringOnMessageExpiration,omitempty"`

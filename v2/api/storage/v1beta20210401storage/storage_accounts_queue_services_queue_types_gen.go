@@ -21,8 +21,8 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Storage version of v1beta20210401.StorageAccountsQueueServicesQueue
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/resourceDefinitions/storageAccounts_queueServices_queues
+// Storage version of v1beta20210401.StorageAccountsQueueServicesQueue
+// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/resourceDefinitions/storageAccounts_queueServices_queues
 type StorageAccountsQueueServicesQueue struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -121,29 +121,29 @@ func (queue *StorageAccountsQueueServicesQueue) OriginalGVK() *schema.GroupVersi
 }
 
 // +kubebuilder:object:root=true
-//Storage version of v1beta20210401.StorageAccountsQueueServicesQueue
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/resourceDefinitions/storageAccounts_queueServices_queues
+// Storage version of v1beta20210401.StorageAccountsQueueServicesQueue
+// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/resourceDefinitions/storageAccounts_queueServices_queues
 type StorageAccountsQueueServicesQueueList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []StorageAccountsQueueServicesQueue `json:"items"`
 }
 
-//Storage version of v1beta20210401.StorageAccountsQueueServicesQueues_Spec
+// Storage version of v1beta20210401.StorageAccountsQueueServicesQueues_Spec
 type StorageAccountsQueueServicesQueues_Spec struct {
 	// +kubebuilder:validation:MaxLength=63
 	// +kubebuilder:validation:MinLength=3
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName       string            `json:"azureName,omitempty"`
 	Location        *string           `json:"location,omitempty"`
 	Metadata        map[string]string `json:"metadata,omitempty"`
 	OriginalVersion string            `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a storage.azure.com/StorageAccountsQueueService resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a storage.azure.com/StorageAccountsQueueService resource
 	Owner       *genruntime.KnownResourceReference `group:"storage.azure.com" json:"owner,omitempty" kind:"StorageAccountsQueueService"`
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	Tags        map[string]string                  `json:"tags,omitempty"`
@@ -169,7 +169,7 @@ func (queues *StorageAccountsQueueServicesQueues_Spec) ConvertSpecTo(destination
 	return destination.ConvertSpecFrom(queues)
 }
 
-//Storage version of v1beta20210401.StorageQueue_Status
+// Storage version of v1beta20210401.StorageQueue_Status
 type StorageQueue_Status struct {
 	ApproximateMessageCount *int                   `json:"approximateMessageCount,omitempty"`
 	Conditions              []conditions.Condition `json:"conditions,omitempty"`

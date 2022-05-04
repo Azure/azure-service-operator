@@ -56,7 +56,7 @@ func RunJSONSerializationTestForDatabaseAccountsMongodbDatabasesCollectionsSpecA
 }
 
 // Generator of DatabaseAccountsMongodbDatabasesCollections_SpecARM instances for property testing - lazily instantiated
-//by DatabaseAccountsMongodbDatabasesCollectionsSpecARMGenerator()
+// by DatabaseAccountsMongodbDatabasesCollectionsSpecARMGenerator()
 var databaseAccountsMongodbDatabasesCollectionsSpecARMGenerator gopter.Gen
 
 // DatabaseAccountsMongodbDatabasesCollectionsSpecARMGenerator returns a generator of DatabaseAccountsMongodbDatabasesCollections_SpecARM instances for property testing.
@@ -132,7 +132,7 @@ func RunJSONSerializationTestForMongoDBCollectionCreateUpdatePropertiesARM(subje
 }
 
 // Generator of MongoDBCollectionCreateUpdatePropertiesARM instances for property testing - lazily instantiated by
-//MongoDBCollectionCreateUpdatePropertiesARMGenerator()
+// MongoDBCollectionCreateUpdatePropertiesARMGenerator()
 var mongoDBCollectionCreateUpdatePropertiesARMGenerator gopter.Gen
 
 // MongoDBCollectionCreateUpdatePropertiesARMGenerator returns a generator of MongoDBCollectionCreateUpdatePropertiesARM instances for property testing.
@@ -193,7 +193,7 @@ func RunJSONSerializationTestForCreateUpdateOptionsARM(subject CreateUpdateOptio
 }
 
 // Generator of CreateUpdateOptionsARM instances for property testing - lazily instantiated by
-//CreateUpdateOptionsARMGenerator()
+// CreateUpdateOptionsARMGenerator()
 var createUpdateOptionsARMGenerator gopter.Gen
 
 // CreateUpdateOptionsARMGenerator returns a generator of CreateUpdateOptionsARM instances for property testing.
@@ -267,7 +267,7 @@ func RunJSONSerializationTestForMongoDBCollectionResourceARM(subject MongoDBColl
 }
 
 // Generator of MongoDBCollectionResourceARM instances for property testing - lazily instantiated by
-//MongoDBCollectionResourceARMGenerator()
+// MongoDBCollectionResourceARMGenerator()
 var mongoDBCollectionResourceARMGenerator gopter.Gen
 
 // MongoDBCollectionResourceARMGenerator returns a generator of MongoDBCollectionResourceARM instances for property testing.
@@ -343,7 +343,7 @@ func RunJSONSerializationTestForAutoscaleSettingsARM(subject AutoscaleSettingsAR
 }
 
 // Generator of AutoscaleSettingsARM instances for property testing - lazily instantiated by
-//AutoscaleSettingsARMGenerator()
+// AutoscaleSettingsARMGenerator()
 var autoscaleSettingsARMGenerator gopter.Gen
 
 // AutoscaleSettingsARMGenerator returns a generator of AutoscaleSettingsARM instances for property testing.
@@ -522,7 +522,7 @@ func RunJSONSerializationTestForMongoIndexOptionsARM(subject MongoIndexOptionsAR
 }
 
 // Generator of MongoIndexOptionsARM instances for property testing - lazily instantiated by
-//MongoIndexOptionsARMGenerator()
+// MongoIndexOptionsARMGenerator()
 var mongoIndexOptionsARMGenerator gopter.Gen
 
 // MongoIndexOptionsARMGenerator returns a generator of MongoIndexOptionsARM instances for property testing.

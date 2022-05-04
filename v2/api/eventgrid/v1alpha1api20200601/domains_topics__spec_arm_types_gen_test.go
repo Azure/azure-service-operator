@@ -56,7 +56,7 @@ func RunJSONSerializationTestForDomainsTopicsSpecARM(subject DomainsTopics_SpecA
 }
 
 // Generator of DomainsTopics_SpecARM instances for property testing - lazily instantiated by
-//DomainsTopicsSpecARMGenerator()
+// DomainsTopicsSpecARMGenerator()
 var domainsTopicsSpecARMGenerator gopter.Gen
 
 // DomainsTopicsSpecARMGenerator returns a generator of DomainsTopics_SpecARM instances for property testing.

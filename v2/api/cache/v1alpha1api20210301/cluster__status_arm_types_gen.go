@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1alpha1api20210301
 
-//Deprecated version of Cluster_Status. Use v1beta20210301.Cluster_Status instead
+// Deprecated version of Cluster_Status. Use v1beta20210301.Cluster_Status instead
 type Cluster_StatusARM struct {
 	Id         *string                      `json:"id,omitempty"`
 	Location   *string                      `json:"location,omitempty"`
@@ -15,7 +15,7 @@ type Cluster_StatusARM struct {
 	Zones      []string                     `json:"zones,omitempty"`
 }
 
-//Deprecated version of ClusterProperties_Status. Use v1beta20210301.ClusterProperties_Status instead
+// Deprecated version of ClusterProperties_Status. Use v1beta20210301.ClusterProperties_Status instead
 type ClusterProperties_StatusARM struct {
 	HostName                   *string                                                   `json:"hostName,omitempty"`
 	MinimumTlsVersion          *ClusterPropertiesStatusMinimumTlsVersion                 `json:"minimumTlsVersion,omitempty"`
@@ -25,14 +25,14 @@ type ClusterProperties_StatusARM struct {
 	ResourceState              *ResourceState_Status                                     `json:"resourceState,omitempty"`
 }
 
-//Deprecated version of Sku_Status. Use v1beta20210301.Sku_Status instead
+// Deprecated version of Sku_Status. Use v1beta20210301.Sku_Status instead
 type Sku_StatusARM struct {
 	Capacity *int           `json:"capacity,omitempty"`
 	Name     *SkuStatusName `json:"name,omitempty"`
 }
 
-//Deprecated version of ClusterPropertiesStatusMinimumTlsVersion. Use
-//v1beta20210301.ClusterPropertiesStatusMinimumTlsVersion instead
+// Deprecated version of ClusterPropertiesStatusMinimumTlsVersion. Use
+// v1beta20210301.ClusterPropertiesStatusMinimumTlsVersion instead
 type ClusterPropertiesStatusMinimumTlsVersion string
 
 const (
@@ -41,12 +41,12 @@ const (
 	ClusterPropertiesStatusMinimumTlsVersion12 = ClusterPropertiesStatusMinimumTlsVersion("1.2")
 )
 
-//Deprecated version of PrivateEndpointConnection_Status_SubResourceEmbedded. Use v1beta20210301.PrivateEndpointConnection_Status_SubResourceEmbedded instead
+// Deprecated version of PrivateEndpointConnection_Status_SubResourceEmbedded. Use v1beta20210301.PrivateEndpointConnection_Status_SubResourceEmbedded instead
 type PrivateEndpointConnection_Status_SubResourceEmbeddedARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
-//Deprecated version of ProvisioningState_Status. Use v1beta20210301.ProvisioningState_Status instead
+// Deprecated version of ProvisioningState_Status. Use v1beta20210301.ProvisioningState_Status instead
 type ProvisioningState_Status string
 
 const (
@@ -58,7 +58,7 @@ const (
 	ProvisioningState_StatusUpdating  = ProvisioningState_Status("Updating")
 )
 
-//Deprecated version of ResourceState_Status. Use v1beta20210301.ResourceState_Status instead
+// Deprecated version of ResourceState_Status. Use v1beta20210301.ResourceState_Status instead
 type ResourceState_Status string
 
 const (
@@ -76,7 +76,7 @@ const (
 	ResourceState_StatusUpdating      = ResourceState_Status("Updating")
 )
 
-//Deprecated version of SkuStatusName. Use v1beta20210301.SkuStatusName instead
+// Deprecated version of SkuStatusName. Use v1beta20210301.SkuStatusName instead
 type SkuStatusName string
 
 const (

@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/resourceDefinitions/namespaces
+// Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/resourceDefinitions/namespaces
 type Namespace struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -300,7 +300,7 @@ func (namespace *Namespace) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/resourceDefinitions/namespaces
+// Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/resourceDefinitions/namespaces
 type NamespaceList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -313,32 +313,32 @@ type NamespacesSpecAPIVersion string
 const NamespacesSpecAPIVersion20210101Preview = NamespacesSpecAPIVersion("2021-01-01-preview")
 
 type Namespaces_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
-	//Encryption: Properties to configure Encryption
+	// Encryption: Properties to configure Encryption
 	Encryption *Encryption `json:"encryption,omitempty"`
 
-	//Identity: Properties to configure User Assigned Identities for Bring your Own Keys
+	// Identity: Properties to configure User Assigned Identities for Bring your Own Keys
 	Identity *Identity `json:"identity,omitempty"`
 
-	//Location: The Geo-location where the resource lives
+	// Location: The Geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a resources.azure.com/ResourceGroup resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
-	//Sku: SKU of the namespace.
+	// Sku: SKU of the namespace.
 	Sku *SBSku `json:"sku,omitempty"`
 
-	//Tags: Name-value pairs to add to the resource
+	// Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
 
-	//ZoneRedundant: Enabling this property creates a Premium Service Bus Namespace in regions supported availability zones.
+	// ZoneRedundant: Enabling this property creates a Premium Service Bus Namespace in regions supported availability zones.
 	ZoneRedundant *bool `json:"zoneRedundant,omitempty"`
 }
 
@@ -697,58 +697,58 @@ func (namespaces *Namespaces_Spec) OriginalVersion() string {
 func (namespaces *Namespaces_Spec) SetAzureName(azureName string) { namespaces.AzureName = azureName }
 
 type SBNamespace_Status struct {
-	//Conditions: The observed state of the resource
+	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
-	//CreatedAt: The time the namespace was created
+	// CreatedAt: The time the namespace was created
 	CreatedAt *string `json:"createdAt,omitempty"`
 
-	//Encryption: Properties of BYOK Encryption description
+	// Encryption: Properties of BYOK Encryption description
 	Encryption *Encryption_Status `json:"encryption,omitempty"`
 
-	//Id: Resource Id
+	// Id: Resource Id
 	Id *string `json:"id,omitempty"`
 
-	//Identity: Properties of BYOK Identity description
+	// Identity: Properties of BYOK Identity description
 	Identity *Identity_Status `json:"identity,omitempty"`
 
-	//Location: The Geo-location where the resource lives
+	// Location: The Geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 
-	//MetricId: Identifier for Azure Insights metrics
+	// MetricId: Identifier for Azure Insights metrics
 	MetricId *string `json:"metricId,omitempty"`
 
-	//Name: Resource name
+	// Name: Resource name
 	Name *string `json:"name,omitempty"`
 
-	//PrivateEndpointConnections: List of private endpoint connections.
+	// PrivateEndpointConnections: List of private endpoint connections.
 	PrivateEndpointConnections []PrivateEndpointConnection_Status_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
 
-	//ProvisioningState: Provisioning state of the namespace.
+	// ProvisioningState: Provisioning state of the namespace.
 	ProvisioningState *string `json:"provisioningState,omitempty"`
 
-	//ServiceBusEndpoint: Endpoint you can use to perform Service Bus operations.
+	// ServiceBusEndpoint: Endpoint you can use to perform Service Bus operations.
 	ServiceBusEndpoint *string `json:"serviceBusEndpoint,omitempty"`
 
-	//Sku: Properties of SKU
+	// Sku: Properties of SKU
 	Sku *SBSku_Status `json:"sku,omitempty"`
 
-	//Status: Status of the namespace.
+	// Status: Status of the namespace.
 	Status *string `json:"status,omitempty"`
 
-	//SystemData: The system meta data relating to this resource.
+	// SystemData: The system meta data relating to this resource.
 	SystemData *SystemData_Status `json:"systemData,omitempty"`
 
-	//Tags: Resource tags
+	// Tags: Resource tags
 	Tags map[string]string `json:"tags,omitempty"`
 
-	//Type: Resource type
+	// Type: Resource type
 	Type *string `json:"type,omitempty"`
 
-	//UpdatedAt: The time the namespace was updated.
+	// UpdatedAt: The time the namespace was updated.
 	UpdatedAt *string `json:"updatedAt,omitempty"`
 
-	//ZoneRedundant: Enabling this property creates a Premium Service Bus Namespace in regions supported availability zones.
+	// ZoneRedundant: Enabling this property creates a Premium Service Bus Namespace in regions supported availability zones.
 	ZoneRedundant *bool `json:"zoneRedundant,omitempty"`
 }
 
@@ -1220,15 +1220,15 @@ func (namespace *SBNamespace_Status) AssignPropertiesToSBNamespaceStatus(destina
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/Encryption
+// Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/Encryption
 type Encryption struct {
-	//KeySource: Enumerates the possible value of keySource for Encryption.
+	// KeySource: Enumerates the possible value of keySource for Encryption.
 	KeySource *EncryptionKeySource `json:"keySource,omitempty"`
 
-	//KeyVaultProperties: Properties of KeyVault
+	// KeyVaultProperties: Properties of KeyVault
 	KeyVaultProperties []KeyVaultProperties `json:"keyVaultProperties,omitempty"`
 
-	//RequireInfrastructureEncryption: Enable Infrastructure Encryption (Double Encryption)
+	// RequireInfrastructureEncryption: Enable Infrastructure Encryption (Double Encryption)
 	RequireInfrastructureEncryption *bool `json:"requireInfrastructureEncryption,omitempty"`
 }
 
@@ -1394,13 +1394,13 @@ func (encryption *Encryption) AssignPropertiesToEncryption(destination *v2021010
 }
 
 type Encryption_Status struct {
-	//KeySource: Enumerates the possible value of keySource for Encryption
+	// KeySource: Enumerates the possible value of keySource for Encryption
 	KeySource *EncryptionStatusKeySource `json:"keySource,omitempty"`
 
-	//KeyVaultProperties: Properties of KeyVault
+	// KeyVaultProperties: Properties of KeyVault
 	KeyVaultProperties []KeyVaultProperties_Status `json:"keyVaultProperties,omitempty"`
 
-	//RequireInfrastructureEncryption: Enable Infrastructure Encryption (Double Encryption)
+	// RequireInfrastructureEncryption: Enable Infrastructure Encryption (Double Encryption)
 	RequireInfrastructureEncryption *bool `json:"requireInfrastructureEncryption,omitempty"`
 }
 
@@ -1535,9 +1535,9 @@ func (encryption *Encryption_Status) AssignPropertiesToEncryptionStatus(destinat
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/Identity
+// Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/Identity
 type Identity struct {
-	//Type: Type of managed service identity.
+	// Type: Type of managed service identity.
 	Type *IdentityType `json:"type,omitempty"`
 }
 
@@ -1620,16 +1620,16 @@ func (identity *Identity) AssignPropertiesToIdentity(destination *v20210101ps.Id
 }
 
 type Identity_Status struct {
-	//PrincipalId: ObjectId from the KeyVault
+	// PrincipalId: ObjectId from the KeyVault
 	PrincipalId *string `json:"principalId,omitempty"`
 
-	//TenantId: TenantId from the KeyVault
+	// TenantId: TenantId from the KeyVault
 	TenantId *string `json:"tenantId,omitempty"`
 
-	//Type: Type of managed service identity.
+	// Type: Type of managed service identity.
 	Type *IdentityStatusType `json:"type,omitempty"`
 
-	//UserAssignedIdentities: Properties for User Assigned Identities
+	// UserAssignedIdentities: Properties for User Assigned Identities
 	UserAssignedIdentities map[string]DictionaryValue_Status `json:"userAssignedIdentities,omitempty"`
 }
 
@@ -1770,10 +1770,10 @@ func (identity *Identity_Status) AssignPropertiesToIdentityStatus(destination *v
 }
 
 type PrivateEndpointConnection_Status_SubResourceEmbedded struct {
-	//Id: Resource Id
+	// Id: Resource Id
 	Id *string `json:"id,omitempty"`
 
-	//SystemData: The system meta data relating to this resource.
+	// SystemData: The system meta data relating to this resource.
 	SystemData *SystemData_Status `json:"systemData,omitempty"`
 }
 
@@ -1865,16 +1865,16 @@ func (embedded *PrivateEndpointConnection_Status_SubResourceEmbedded) AssignProp
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/SBSku
+// Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/SBSku
 type SBSku struct {
-	//Capacity: The specified messaging units for the tier. For Premium tier, capacity are 1,2 and 4.
+	// Capacity: The specified messaging units for the tier. For Premium tier, capacity are 1,2 and 4.
 	Capacity *int `json:"capacity,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Name: Name of this SKU.
+	// Name: Name of this SKU.
 	Name *SBSkuName `json:"name,omitempty"`
 
-	//Tier: The billing tier of this particular SKU.
+	// Tier: The billing tier of this particular SKU.
 	Tier *SBSkuTier `json:"tier,omitempty"`
 }
 
@@ -2003,13 +2003,13 @@ func (sbSku *SBSku) AssignPropertiesToSBSku(destination *v20210101ps.SBSku) erro
 }
 
 type SBSku_Status struct {
-	//Capacity: The specified messaging units for the tier. For Premium tier, capacity are 1,2 and 4.
+	// Capacity: The specified messaging units for the tier. For Premium tier, capacity are 1,2 and 4.
 	Capacity *int `json:"capacity,omitempty"`
 
-	//Name: Name of this SKU.
+	// Name: Name of this SKU.
 	Name *SBSkuStatusName `json:"name,omitempty"`
 
-	//Tier: The billing tier of this particular SKU.
+	// Tier: The billing tier of this particular SKU.
 	Tier *SBSkuStatusTier `json:"tier,omitempty"`
 }
 
@@ -2111,22 +2111,22 @@ func (sbSku *SBSku_Status) AssignPropertiesToSBSkuStatus(destination *v20210101p
 }
 
 type SystemData_Status struct {
-	//CreatedAt: The timestamp of resource creation (UTC).
+	// CreatedAt: The timestamp of resource creation (UTC).
 	CreatedAt *string `json:"createdAt,omitempty"`
 
-	//CreatedBy: The identity that created the resource.
+	// CreatedBy: The identity that created the resource.
 	CreatedBy *string `json:"createdBy,omitempty"`
 
-	//CreatedByType: The type of identity that created the resource.
+	// CreatedByType: The type of identity that created the resource.
 	CreatedByType *SystemDataStatusCreatedByType `json:"createdByType,omitempty"`
 
-	//LastModifiedAt: The type of identity that last modified the resource.
+	// LastModifiedAt: The type of identity that last modified the resource.
 	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
 
-	//LastModifiedBy: The identity that last modified the resource.
+	// LastModifiedBy: The identity that last modified the resource.
 	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
 
-	//LastModifiedByType: The type of identity that last modified the resource.
+	// LastModifiedByType: The type of identity that last modified the resource.
 	LastModifiedByType *SystemDataStatusLastModifiedByType `json:"lastModifiedByType,omitempty"`
 }
 
@@ -2264,10 +2264,10 @@ func (data *SystemData_Status) AssignPropertiesToSystemDataStatus(destination *v
 }
 
 type DictionaryValue_Status struct {
-	//ClientId: Client Id of user assigned identity
+	// ClientId: Client Id of user assigned identity
 	ClientId *string `json:"clientId,omitempty"`
 
-	//PrincipalId: Principal Id of user assigned identity
+	// PrincipalId: Principal Id of user assigned identity
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
@@ -2345,17 +2345,17 @@ type EncryptionStatusKeySource string
 
 const EncryptionStatusKeySourceMicrosoftKeyVault = EncryptionStatusKeySource("Microsoft.KeyVault")
 
-//Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/KeyVaultProperties
+// Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/KeyVaultProperties
 type KeyVaultProperties struct {
 	Identity *UserAssignedIdentityProperties `json:"identity,omitempty"`
 
-	//KeyName: Name of the Key from KeyVault
+	// KeyName: Name of the Key from KeyVault
 	KeyName *string `json:"keyName,omitempty"`
 
-	//KeyVaultUri: Uri of KeyVault
+	// KeyVaultUri: Uri of KeyVault
 	KeyVaultUri *string `json:"keyVaultUri,omitempty"`
 
-	//KeyVersion: Version of KeyVault
+	// KeyVersion: Version of KeyVault
 	KeyVersion *string `json:"keyVersion,omitempty"`
 }
 
@@ -2511,13 +2511,13 @@ func (properties *KeyVaultProperties) AssignPropertiesToKeyVaultProperties(desti
 type KeyVaultProperties_Status struct {
 	Identity *UserAssignedIdentityProperties_Status `json:"identity,omitempty"`
 
-	//KeyName: Name of the Key from KeyVault
+	// KeyName: Name of the Key from KeyVault
 	KeyName *string `json:"keyName,omitempty"`
 
-	//KeyVaultUri: Uri of KeyVault
+	// KeyVaultUri: Uri of KeyVault
 	KeyVaultUri *string `json:"keyVaultUri,omitempty"`
 
-	//KeyVersion: Version of KeyVault
+	// KeyVersion: Version of KeyVault
 	KeyVersion *string `json:"keyVersion,omitempty"`
 }
 
@@ -2633,9 +2633,9 @@ func (properties *KeyVaultProperties_Status) AssignPropertiesToKeyVaultPropertie
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/UserAssignedIdentityProperties
+// Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/UserAssignedIdentityProperties
 type UserAssignedIdentityProperties struct {
-	//UserAssignedIdentityReference: ARM ID of user Identity selected for encryption
+	// UserAssignedIdentityReference: ARM ID of user Identity selected for encryption
 	UserAssignedIdentityReference *genruntime.ResourceReference `armReference:"UserAssignedIdentity" json:"userAssignedIdentityReference,omitempty"`
 }
 
@@ -2718,7 +2718,7 @@ func (properties *UserAssignedIdentityProperties) AssignPropertiesToUserAssigned
 }
 
 type UserAssignedIdentityProperties_Status struct {
-	//UserAssignedIdentity: ARM ID of user Identity selected for encryption
+	// UserAssignedIdentity: ARM ID of user Identity selected for encryption
 	UserAssignedIdentity *string `json:"userAssignedIdentity,omitempty"`
 }
 

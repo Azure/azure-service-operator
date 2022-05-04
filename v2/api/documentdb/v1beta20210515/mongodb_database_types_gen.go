@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_mongodbDatabases
+// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_mongodbDatabases
 type MongodbDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -300,7 +300,7 @@ func (database *MongodbDatabase) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_mongodbDatabases
+// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_mongodbDatabases
 type MongodbDatabaseList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -313,32 +313,32 @@ type DatabaseAccountsMongodbDatabasesSpecAPIVersion string
 const DatabaseAccountsMongodbDatabasesSpecAPIVersion20210515 = DatabaseAccountsMongodbDatabasesSpecAPIVersion("2021-05-15")
 
 type DatabaseAccountsMongodbDatabases_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
-	//Location: The location of the resource group to which the resource belongs.
+	// Location: The location of the resource group to which the resource belongs.
 	Location *string `json:"location,omitempty"`
 
-	//Options: CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are "If-Match",
-	//"If-None-Match", "Session-Token" and "Throughput"
+	// Options: CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are "If-Match",
+	// "If-None-Match", "Session-Token" and "Throughput"
 	Options *CreateUpdateOptions `json:"options,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a documentdb.azure.com/DatabaseAccount resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a documentdb.azure.com/DatabaseAccount resource
 	Owner *genruntime.KnownResourceReference `group:"documentdb.azure.com" json:"owner,omitempty" kind:"DatabaseAccount"`
 
 	// +kubebuilder:validation:Required
-	//Resource: Cosmos DB MongoDB database resource object
+	// Resource: Cosmos DB MongoDB database resource object
 	Resource *MongoDBDatabaseResource `json:"resource,omitempty"`
 
-	//Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
-	//resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
-	//greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
-	//type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph",
-	//"DocumentDB", and "MongoDB".
+	// Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
+	// resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
+	// greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
+	// type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph",
+	// "DocumentDB", and "MongoDB".
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
@@ -626,22 +626,22 @@ func (databases *DatabaseAccountsMongodbDatabases_Spec) SetAzureName(azureName s
 }
 
 type MongoDBDatabaseGetResults_Status struct {
-	//Conditions: The observed state of the resource
+	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
-	//Id: The unique resource identifier of the ARM resource.
+	// Id: The unique resource identifier of the ARM resource.
 	Id *string `json:"id,omitempty"`
 
-	//Location: The location of the resource group to which the resource belongs.
+	// Location: The location of the resource group to which the resource belongs.
 	Location *string `json:"location,omitempty"`
 
-	//Name: The name of the ARM resource.
+	// Name: The name of the ARM resource.
 	Name     *string                                       `json:"name,omitempty"`
 	Options  *OptionsResource_Status                       `json:"options,omitempty"`
 	Resource *MongoDBDatabaseGetProperties_Status_Resource `json:"resource,omitempty"`
 	Tags     map[string]string                             `json:"tags,omitempty"`
 
-	//Type: The type of Azure resource.
+	// Type: The type of Azure resource.
 	Type *string `json:"type,omitempty"`
 }
 
@@ -882,11 +882,11 @@ func (results *MongoDBDatabaseGetResults_Status) AssignPropertiesToMongoDBDataba
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/CreateUpdateOptions
+// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/CreateUpdateOptions
 type CreateUpdateOptions struct {
 	AutoscaleSettings *AutoscaleSettings `json:"autoscaleSettings,omitempty"`
 
-	//Throughput: Request Units per second. For example, "throughput": 10000.
+	// Throughput: Request Units per second. For example, "throughput": 10000.
 	Throughput *int `json:"throughput,omitempty"`
 }
 
@@ -1004,16 +1004,16 @@ func (options *CreateUpdateOptions) AssignPropertiesToCreateUpdateOptions(destin
 }
 
 type MongoDBDatabaseGetProperties_Status_Resource struct {
-	//Etag: A system generated property representing the resource etag required for optimistic concurrency control.
+	// Etag: A system generated property representing the resource etag required for optimistic concurrency control.
 	Etag *string `json:"_etag,omitempty"`
 
-	//Id: Name of the Cosmos DB MongoDB database
+	// Id: Name of the Cosmos DB MongoDB database
 	Id *string `json:"id,omitempty"`
 
-	//Rid: A system generated property. A unique identifier.
+	// Rid: A system generated property. A unique identifier.
 	Rid *string `json:"_rid,omitempty"`
 
-	//Ts: A system generated property that denotes the last updated timestamp of the resource.
+	// Ts: A system generated property that denotes the last updated timestamp of the resource.
 	Ts *float64 `json:"_ts,omitempty"`
 }
 
@@ -1116,10 +1116,10 @@ func (resource *MongoDBDatabaseGetProperties_Status_Resource) AssignPropertiesTo
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/MongoDBDatabaseResource
+// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/MongoDBDatabaseResource
 type MongoDBDatabaseResource struct {
 	// +kubebuilder:validation:Required
-	//Id: Name of the Cosmos DB MongoDB database
+	// Id: Name of the Cosmos DB MongoDB database
 	Id *string `json:"id,omitempty"`
 }
 
@@ -1192,11 +1192,11 @@ func (resource *MongoDBDatabaseResource) AssignPropertiesToMongoDBDatabaseResour
 }
 
 type OptionsResource_Status struct {
-	//AutoscaleSettings: Specifies the Autoscale settings.
+	// AutoscaleSettings: Specifies the Autoscale settings.
 	AutoscaleSettings *AutoscaleSettings_Status `json:"autoscaleSettings,omitempty"`
 
-	//Throughput: Value of the Cosmos DB resource throughput or autoscaleSettings. Use the ThroughputSetting resource when
-	//retrieving offer details.
+	// Throughput: Value of the Cosmos DB resource throughput or autoscaleSettings. Use the ThroughputSetting resource when
+	// retrieving offer details.
 	Throughput *int `json:"throughput,omitempty"`
 }
 
@@ -1288,9 +1288,9 @@ func (resource *OptionsResource_Status) AssignPropertiesToOptionsResourceStatus(
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/AutoscaleSettings
+// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/AutoscaleSettings
 type AutoscaleSettings struct {
-	//MaxThroughput: Represents maximum throughput, the resource can scale up to.
+	// MaxThroughput: Represents maximum throughput, the resource can scale up to.
 	MaxThroughput *int `json:"maxThroughput,omitempty"`
 }
 
@@ -1363,7 +1363,7 @@ func (settings *AutoscaleSettings) AssignPropertiesToAutoscaleSettings(destinati
 }
 
 type AutoscaleSettings_Status struct {
-	//MaxThroughput: Represents maximum throughput, the resource can scale up to.
+	// MaxThroughput: Represents maximum throughput, the resource can scale up to.
 	MaxThroughput *int `json:"maxThroughput,omitempty"`
 }
 

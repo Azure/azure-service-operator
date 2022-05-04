@@ -5,7 +5,7 @@ package v1alpha1api20201201
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-//Deprecated version of RedisLinkedServers_Spec. Use v1beta20201201.RedisLinkedServers_Spec instead
+// Deprecated version of RedisLinkedServers_Spec. Use v1beta20201201.RedisLinkedServers_Spec instead
 type RedisLinkedServers_SpecARM struct {
 	Location   *string                               `json:"location,omitempty"`
 	Name       string                                `json:"name,omitempty"`
@@ -30,7 +30,7 @@ func (servers RedisLinkedServers_SpecARM) GetType() string {
 	return "Microsoft.Cache/redis/linkedServers"
 }
 
-//Deprecated version of RedisLinkedServerCreateProperties. Use v1beta20201201.RedisLinkedServerCreateProperties instead
+// Deprecated version of RedisLinkedServerCreateProperties. Use v1beta20201201.RedisLinkedServerCreateProperties instead
 type RedisLinkedServerCreatePropertiesARM struct {
 	LinkedRedisCacheId       *string                                      `json:"linkedRedisCacheId,omitempty"`
 	LinkedRedisCacheLocation *string                                      `json:"linkedRedisCacheLocation,omitempty"`

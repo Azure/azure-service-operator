@@ -90,7 +90,7 @@ func RunPropertyAssignmentTestForRedisEnterpriseDatabase(subject RedisEnterprise
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -141,7 +141,7 @@ func RunJSONSerializationTestForRedisEnterpriseDatabase(subject RedisEnterpriseD
 }
 
 // Generator of RedisEnterpriseDatabase instances for property testing - lazily instantiated by
-//RedisEnterpriseDatabaseGenerator()
+// RedisEnterpriseDatabaseGenerator()
 var redisEnterpriseDatabaseGenerator gopter.Gen
 
 // RedisEnterpriseDatabaseGenerator returns a generator of RedisEnterpriseDatabase instances for property testing.
@@ -193,7 +193,7 @@ func RunPropertyAssignmentTestForDatabaseStatus(subject Database_Status) string 
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -317,7 +317,7 @@ func RunPropertyAssignmentTestForRedisEnterpriseDatabasesSpec(subject RedisEnter
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -368,7 +368,7 @@ func RunJSONSerializationTestForRedisEnterpriseDatabasesSpec(subject RedisEnterp
 }
 
 // Generator of RedisEnterpriseDatabases_Spec instances for property testing - lazily instantiated by
-//RedisEnterpriseDatabasesSpecGenerator()
+// RedisEnterpriseDatabasesSpecGenerator()
 var redisEnterpriseDatabasesSpecGenerator gopter.Gen
 
 // RedisEnterpriseDatabasesSpecGenerator returns a generator of RedisEnterpriseDatabases_Spec instances for property testing.
@@ -441,7 +441,7 @@ func RunPropertyAssignmentTestForModule(subject Module) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -543,7 +543,7 @@ func RunPropertyAssignmentTestForModuleStatus(subject Module_Status) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -646,7 +646,7 @@ func RunPropertyAssignmentTestForPersistence(subject Persistence) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -750,7 +750,7 @@ func RunPropertyAssignmentTestForPersistenceStatus(subject Persistence_Status) s
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)

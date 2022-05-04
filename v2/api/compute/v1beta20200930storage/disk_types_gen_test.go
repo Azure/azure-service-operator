@@ -649,7 +649,7 @@ func RunJSONSerializationTestForEncryptionSettingsCollection(subject EncryptionS
 }
 
 // Generator of EncryptionSettingsCollection instances for property testing - lazily instantiated by
-//EncryptionSettingsCollectionGenerator()
+// EncryptionSettingsCollectionGenerator()
 var encryptionSettingsCollectionGenerator gopter.Gen
 
 // EncryptionSettingsCollectionGenerator returns a generator of EncryptionSettingsCollection instances for property testing.
@@ -724,7 +724,7 @@ func RunJSONSerializationTestForEncryptionSettingsCollectionStatus(subject Encry
 }
 
 // Generator of EncryptionSettingsCollection_Status instances for property testing - lazily instantiated by
-//EncryptionSettingsCollectionStatusGenerator()
+// EncryptionSettingsCollectionStatusGenerator()
 var encryptionSettingsCollectionStatusGenerator gopter.Gen
 
 // EncryptionSettingsCollectionStatusGenerator returns a generator of EncryptionSettingsCollection_Status instances for property testing.
@@ -850,7 +850,7 @@ func RunPropertyAssignmentTestForExtendedLocation(subject ExtendedLocation) stri
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -952,7 +952,7 @@ func RunPropertyAssignmentTestForExtendedLocationStatus(subject ExtendedLocation
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1003,7 +1003,7 @@ func RunJSONSerializationTestForExtendedLocationStatus(subject ExtendedLocation_
 }
 
 // Generator of ExtendedLocation_Status instances for property testing - lazily instantiated by
-//ExtendedLocationStatusGenerator()
+// ExtendedLocationStatusGenerator()
 var extendedLocationStatusGenerator gopter.Gen
 
 // ExtendedLocationStatusGenerator returns a generator of ExtendedLocation_Status instances for property testing.
@@ -1188,7 +1188,7 @@ func RunJSONSerializationTestForShareInfoElementStatus(subject ShareInfoElement_
 }
 
 // Generator of ShareInfoElement_Status instances for property testing - lazily instantiated by
-//ShareInfoElementStatusGenerator()
+// ShareInfoElementStatusGenerator()
 var shareInfoElementStatusGenerator gopter.Gen
 
 // ShareInfoElementStatusGenerator returns a generator of ShareInfoElement_Status instances for property testing.
@@ -1248,7 +1248,7 @@ func RunJSONSerializationTestForEncryptionSettingsElement(subject EncryptionSett
 }
 
 // Generator of EncryptionSettingsElement instances for property testing - lazily instantiated by
-//EncryptionSettingsElementGenerator()
+// EncryptionSettingsElementGenerator()
 var encryptionSettingsElementGenerator gopter.Gen
 
 // EncryptionSettingsElementGenerator returns a generator of EncryptionSettingsElement instances for property testing.
@@ -1309,7 +1309,7 @@ func RunJSONSerializationTestForEncryptionSettingsElementStatus(subject Encrypti
 }
 
 // Generator of EncryptionSettingsElement_Status instances for property testing - lazily instantiated by
-//EncryptionSettingsElementStatusGenerator()
+// EncryptionSettingsElementStatusGenerator()
 var encryptionSettingsElementStatusGenerator gopter.Gen
 
 // EncryptionSettingsElementStatusGenerator returns a generator of EncryptionSettingsElement_Status instances for property testing.
@@ -1429,7 +1429,7 @@ func RunJSONSerializationTestForImageDiskReferenceStatus(subject ImageDiskRefere
 }
 
 // Generator of ImageDiskReference_Status instances for property testing - lazily instantiated by
-//ImageDiskReferenceStatusGenerator()
+// ImageDiskReferenceStatusGenerator()
 var imageDiskReferenceStatusGenerator gopter.Gen
 
 // ImageDiskReferenceStatusGenerator returns a generator of ImageDiskReference_Status instances for property testing.
@@ -1490,7 +1490,7 @@ func RunJSONSerializationTestForKeyVaultAndKeyReference(subject KeyVaultAndKeyRe
 }
 
 // Generator of KeyVaultAndKeyReference instances for property testing - lazily instantiated by
-//KeyVaultAndKeyReferenceGenerator()
+// KeyVaultAndKeyReferenceGenerator()
 var keyVaultAndKeyReferenceGenerator gopter.Gen
 
 // KeyVaultAndKeyReferenceGenerator returns a generator of KeyVaultAndKeyReference instances for property testing.
@@ -1564,7 +1564,7 @@ func RunJSONSerializationTestForKeyVaultAndKeyReferenceStatus(subject KeyVaultAn
 }
 
 // Generator of KeyVaultAndKeyReference_Status instances for property testing - lazily instantiated by
-//KeyVaultAndKeyReferenceStatusGenerator()
+// KeyVaultAndKeyReferenceStatusGenerator()
 var keyVaultAndKeyReferenceStatusGenerator gopter.Gen
 
 // KeyVaultAndKeyReferenceStatusGenerator returns a generator of KeyVaultAndKeyReference_Status instances for property testing.
@@ -1638,7 +1638,7 @@ func RunJSONSerializationTestForKeyVaultAndSecretReference(subject KeyVaultAndSe
 }
 
 // Generator of KeyVaultAndSecretReference instances for property testing - lazily instantiated by
-//KeyVaultAndSecretReferenceGenerator()
+// KeyVaultAndSecretReferenceGenerator()
 var keyVaultAndSecretReferenceGenerator gopter.Gen
 
 // KeyVaultAndSecretReferenceGenerator returns a generator of KeyVaultAndSecretReference instances for property testing.
@@ -1712,7 +1712,7 @@ func RunJSONSerializationTestForKeyVaultAndSecretReferenceStatus(subject KeyVaul
 }
 
 // Generator of KeyVaultAndSecretReference_Status instances for property testing - lazily instantiated by
-//KeyVaultAndSecretReferenceStatusGenerator()
+// KeyVaultAndSecretReferenceStatusGenerator()
 var keyVaultAndSecretReferenceStatusGenerator gopter.Gen
 
 // KeyVaultAndSecretReferenceStatusGenerator returns a generator of KeyVaultAndSecretReference_Status instances for property testing.

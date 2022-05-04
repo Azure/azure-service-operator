@@ -5,7 +5,7 @@ package v1alpha1api20210401
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-//Deprecated version of StorageAccountsBlobServicesContainers_Spec. Use v1beta20210401.StorageAccountsBlobServicesContainers_Spec instead
+// Deprecated version of StorageAccountsBlobServicesContainers_Spec. Use v1beta20210401.StorageAccountsBlobServicesContainers_Spec instead
 type StorageAccountsBlobServicesContainers_SpecARM struct {
 	Location   *string                 `json:"location,omitempty"`
 	Name       string                  `json:"name,omitempty"`
@@ -30,7 +30,7 @@ func (containers StorageAccountsBlobServicesContainers_SpecARM) GetType() string
 	return "Microsoft.Storage/storageAccounts/blobServices/containers"
 }
 
-//Deprecated version of ContainerProperties. Use v1beta20210401.ContainerProperties instead
+// Deprecated version of ContainerProperties. Use v1beta20210401.ContainerProperties instead
 type ContainerPropertiesARM struct {
 	DefaultEncryptionScope         *string                            `json:"defaultEncryptionScope,omitempty"`
 	DenyEncryptionScopeOverride    *bool                              `json:"denyEncryptionScopeOverride,omitempty"`
@@ -39,7 +39,7 @@ type ContainerPropertiesARM struct {
 	PublicAccess                   *ContainerPropertiesPublicAccess   `json:"publicAccess,omitempty"`
 }
 
-//Deprecated version of ImmutableStorageWithVersioning. Use v1beta20210401.ImmutableStorageWithVersioning instead
+// Deprecated version of ImmutableStorageWithVersioning. Use v1beta20210401.ImmutableStorageWithVersioning instead
 type ImmutableStorageWithVersioningARM struct {
 	Enabled *bool `json:"enabled,omitempty"`
 }

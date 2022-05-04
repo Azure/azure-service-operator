@@ -5,7 +5,7 @@ package v1alpha1api20210515
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-//Deprecated version of DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec. Use v1beta20210515.DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec instead
+// Deprecated version of DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec. Use v1beta20210515.DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec instead
 type DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SpecARM struct {
 	Location   *string                                `json:"location,omitempty"`
 	Name       string                                 `json:"name,omitempty"`
@@ -30,29 +30,29 @@ func (settings DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spe
 	return "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections/throughputSettings"
 }
 
-//Deprecated version of ThroughputSettingsUpdateProperties. Use v1beta20210515.ThroughputSettingsUpdateProperties instead
+// Deprecated version of ThroughputSettingsUpdateProperties. Use v1beta20210515.ThroughputSettingsUpdateProperties instead
 type ThroughputSettingsUpdatePropertiesARM struct {
 	Resource *ThroughputSettingsResourceARM `json:"resource,omitempty"`
 }
 
-//Deprecated version of ThroughputSettingsResource. Use v1beta20210515.ThroughputSettingsResource instead
+// Deprecated version of ThroughputSettingsResource. Use v1beta20210515.ThroughputSettingsResource instead
 type ThroughputSettingsResourceARM struct {
 	AutoscaleSettings *AutoscaleSettingsResourceARM `json:"autoscaleSettings,omitempty"`
 	Throughput        *int                          `json:"throughput,omitempty"`
 }
 
-//Deprecated version of AutoscaleSettingsResource. Use v1beta20210515.AutoscaleSettingsResource instead
+// Deprecated version of AutoscaleSettingsResource. Use v1beta20210515.AutoscaleSettingsResource instead
 type AutoscaleSettingsResourceARM struct {
 	AutoUpgradePolicy *AutoUpgradePolicyResourceARM `json:"autoUpgradePolicy,omitempty"`
 	MaxThroughput     *int                          `json:"maxThroughput,omitempty"`
 }
 
-//Deprecated version of AutoUpgradePolicyResource. Use v1beta20210515.AutoUpgradePolicyResource instead
+// Deprecated version of AutoUpgradePolicyResource. Use v1beta20210515.AutoUpgradePolicyResource instead
 type AutoUpgradePolicyResourceARM struct {
 	ThroughputPolicy *ThroughputPolicyResourceARM `json:"throughputPolicy,omitempty"`
 }
 
-//Deprecated version of ThroughputPolicyResource. Use v1beta20210515.ThroughputPolicyResource instead
+// Deprecated version of ThroughputPolicyResource. Use v1beta20210515.ThroughputPolicyResource instead
 type ThroughputPolicyResourceARM struct {
 	IncrementPercent *int  `json:"incrementPercent,omitempty"`
 	IsEnabled        *bool `json:"isEnabled,omitempty"`

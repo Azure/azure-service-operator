@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1alpha1api20210515
 
-//Deprecated version of DatabaseAccountGetResults_Status. Use v1beta20210515.DatabaseAccountGetResults_Status instead
+// Deprecated version of DatabaseAccountGetResults_Status. Use v1beta20210515.DatabaseAccountGetResults_Status instead
 type DatabaseAccountGetResults_StatusARM struct {
 	Id         *string                                 `json:"id,omitempty"`
 	Identity   *ManagedServiceIdentity_StatusARM       `json:"identity,omitempty"`
@@ -15,7 +15,7 @@ type DatabaseAccountGetResults_StatusARM struct {
 	Type       *string                                 `json:"type,omitempty"`
 }
 
-//Deprecated version of DatabaseAccountGetProperties_Status. Use v1beta20210515.DatabaseAccountGetProperties_Status instead
+// Deprecated version of DatabaseAccountGetProperties_Status. Use v1beta20210515.DatabaseAccountGetProperties_Status instead
 type DatabaseAccountGetProperties_StatusARM struct {
 	AnalyticalStorageConfiguration     *AnalyticalStorageConfiguration_StatusARM                 `json:"analyticalStorageConfiguration,omitempty"`
 	ApiProperties                      *ApiProperties_StatusARM                                  `json:"apiProperties,omitempty"`
@@ -48,7 +48,7 @@ type DatabaseAccountGetProperties_StatusARM struct {
 	WriteLocations                     []Location_StatusARM                                      `json:"writeLocations,omitempty"`
 }
 
-//Deprecated version of DatabaseAccountGetResultsStatusKind. Use v1beta20210515.DatabaseAccountGetResultsStatusKind instead
+// Deprecated version of DatabaseAccountGetResultsStatusKind. Use v1beta20210515.DatabaseAccountGetResultsStatusKind instead
 type DatabaseAccountGetResultsStatusKind string
 
 const (
@@ -57,7 +57,7 @@ const (
 	DatabaseAccountGetResultsStatusKindParse            = DatabaseAccountGetResultsStatusKind("Parse")
 )
 
-//Deprecated version of ManagedServiceIdentity_Status. Use v1beta20210515.ManagedServiceIdentity_Status instead
+// Deprecated version of ManagedServiceIdentity_Status. Use v1beta20210515.ManagedServiceIdentity_Status instead
 type ManagedServiceIdentity_StatusARM struct {
 	PrincipalId            *string                                                            `json:"principalId,omitempty"`
 	TenantId               *string                                                            `json:"tenantId,omitempty"`
@@ -65,34 +65,34 @@ type ManagedServiceIdentity_StatusARM struct {
 	UserAssignedIdentities map[string]ManagedServiceIdentity_Status_UserAssignedIdentitiesARM `json:"userAssignedIdentities,omitempty"`
 }
 
-//Deprecated version of AnalyticalStorageConfiguration_Status. Use v1beta20210515.AnalyticalStorageConfiguration_Status instead
+// Deprecated version of AnalyticalStorageConfiguration_Status. Use v1beta20210515.AnalyticalStorageConfiguration_Status instead
 type AnalyticalStorageConfiguration_StatusARM struct {
 	SchemaType *AnalyticalStorageSchemaType_Status `json:"schemaType,omitempty"`
 }
 
-//Deprecated version of ApiProperties_Status. Use v1beta20210515.ApiProperties_Status instead
+// Deprecated version of ApiProperties_Status. Use v1beta20210515.ApiProperties_Status instead
 type ApiProperties_StatusARM struct {
 	ServerVersion *ApiPropertiesStatusServerVersion `json:"serverVersion,omitempty"`
 }
 
-//Deprecated version of BackupPolicy_Status. Use v1beta20210515.BackupPolicy_Status instead
+// Deprecated version of BackupPolicy_Status. Use v1beta20210515.BackupPolicy_Status instead
 type BackupPolicy_StatusARM struct {
 	Type *BackupPolicyType_Status `json:"type,omitempty"`
 }
 
-//Deprecated version of Capability_Status. Use v1beta20210515.Capability_Status instead
+// Deprecated version of Capability_Status. Use v1beta20210515.Capability_Status instead
 type Capability_StatusARM struct {
 	Name *string `json:"name,omitempty"`
 }
 
-//Deprecated version of ConsistencyPolicy_Status. Use v1beta20210515.ConsistencyPolicy_Status instead
+// Deprecated version of ConsistencyPolicy_Status. Use v1beta20210515.ConsistencyPolicy_Status instead
 type ConsistencyPolicy_StatusARM struct {
 	DefaultConsistencyLevel *ConsistencyPolicyStatusDefaultConsistencyLevel `json:"defaultConsistencyLevel,omitempty"`
 	MaxIntervalInSeconds    *int                                            `json:"maxIntervalInSeconds,omitempty"`
 	MaxStalenessPrefix      *int                                            `json:"maxStalenessPrefix,omitempty"`
 }
 
-//Deprecated version of CorsPolicy_Status. Use v1beta20210515.CorsPolicy_Status instead
+// Deprecated version of CorsPolicy_Status. Use v1beta20210515.CorsPolicy_Status instead
 type CorsPolicy_StatusARM struct {
 	AllowedHeaders  *string `json:"allowedHeaders,omitempty"`
 	AllowedMethods  *string `json:"allowedMethods,omitempty"`
@@ -101,19 +101,19 @@ type CorsPolicy_StatusARM struct {
 	MaxAgeInSeconds *int    `json:"maxAgeInSeconds,omitempty"`
 }
 
-//Deprecated version of FailoverPolicy_Status. Use v1beta20210515.FailoverPolicy_Status instead
+// Deprecated version of FailoverPolicy_Status. Use v1beta20210515.FailoverPolicy_Status instead
 type FailoverPolicy_StatusARM struct {
 	FailoverPriority *int    `json:"failoverPriority,omitempty"`
 	Id               *string `json:"id,omitempty"`
 	LocationName     *string `json:"locationName,omitempty"`
 }
 
-//Deprecated version of IpAddressOrRange_Status. Use v1beta20210515.IpAddressOrRange_Status instead
+// Deprecated version of IpAddressOrRange_Status. Use v1beta20210515.IpAddressOrRange_Status instead
 type IpAddressOrRange_StatusARM struct {
 	IpAddressOrRange *string `json:"ipAddressOrRange,omitempty"`
 }
 
-//Deprecated version of Location_Status. Use v1beta20210515.Location_Status instead
+// Deprecated version of Location_Status. Use v1beta20210515.Location_Status instead
 type Location_StatusARM struct {
 	DocumentEndpoint  *string `json:"documentEndpoint,omitempty"`
 	FailoverPriority  *int    `json:"failoverPriority,omitempty"`
@@ -123,7 +123,7 @@ type Location_StatusARM struct {
 	ProvisioningState *string `json:"provisioningState,omitempty"`
 }
 
-//Deprecated version of ManagedServiceIdentityStatusType. Use v1beta20210515.ManagedServiceIdentityStatusType instead
+// Deprecated version of ManagedServiceIdentityStatusType. Use v1beta20210515.ManagedServiceIdentityStatusType instead
 type ManagedServiceIdentityStatusType string
 
 const (
@@ -133,18 +133,18 @@ const (
 	ManagedServiceIdentityStatusTypeUserAssigned               = ManagedServiceIdentityStatusType("UserAssigned")
 )
 
-//Deprecated version of ManagedServiceIdentity_Status_UserAssignedIdentities. Use v1beta20210515.ManagedServiceIdentity_Status_UserAssignedIdentities instead
+// Deprecated version of ManagedServiceIdentity_Status_UserAssignedIdentities. Use v1beta20210515.ManagedServiceIdentity_Status_UserAssignedIdentities instead
 type ManagedServiceIdentity_Status_UserAssignedIdentitiesARM struct {
 	ClientId    *string `json:"clientId,omitempty"`
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
-//Deprecated version of PrivateEndpointConnection_Status_SubResourceEmbedded. Use v1beta20210515.PrivateEndpointConnection_Status_SubResourceEmbedded instead
+// Deprecated version of PrivateEndpointConnection_Status_SubResourceEmbedded. Use v1beta20210515.PrivateEndpointConnection_Status_SubResourceEmbedded instead
 type PrivateEndpointConnection_Status_SubResourceEmbeddedARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
-//Deprecated version of VirtualNetworkRule_Status. Use v1beta20210515.VirtualNetworkRule_Status instead
+// Deprecated version of VirtualNetworkRule_Status. Use v1beta20210515.VirtualNetworkRule_Status instead
 type VirtualNetworkRule_StatusARM struct {
 	Id                               *string `json:"id,omitempty"`
 	IgnoreMissingVNetServiceEndpoint *bool   `json:"ignoreMissingVNetServiceEndpoint,omitempty"`

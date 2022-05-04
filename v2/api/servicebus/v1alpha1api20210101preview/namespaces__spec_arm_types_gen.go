@@ -5,7 +5,7 @@ package v1alpha1api20210101preview
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-//Deprecated version of Namespaces_Spec. Use v1beta20210101preview.Namespaces_Spec instead
+// Deprecated version of Namespaces_Spec. Use v1beta20210101preview.Namespaces_Spec instead
 type Namespaces_SpecARM struct {
 	Identity   *IdentityARM                   `json:"identity,omitempty"`
 	Location   *string                        `json:"location,omitempty"`
@@ -32,32 +32,32 @@ func (namespaces Namespaces_SpecARM) GetType() string {
 	return "Microsoft.ServiceBus/namespaces"
 }
 
-//Deprecated version of Identity. Use v1beta20210101preview.Identity instead
+// Deprecated version of Identity. Use v1beta20210101preview.Identity instead
 type IdentityARM struct {
 	Type *IdentityType `json:"type,omitempty"`
 }
 
-//Deprecated version of Namespaces_Spec_Properties. Use v1beta20210101preview.Namespaces_Spec_Properties instead
+// Deprecated version of Namespaces_Spec_Properties. Use v1beta20210101preview.Namespaces_Spec_Properties instead
 type Namespaces_Spec_PropertiesARM struct {
 	Encryption    *EncryptionARM `json:"encryption,omitempty"`
 	ZoneRedundant *bool          `json:"zoneRedundant,omitempty"`
 }
 
-//Deprecated version of SBSku. Use v1beta20210101preview.SBSku instead
+// Deprecated version of SBSku. Use v1beta20210101preview.SBSku instead
 type SBSkuARM struct {
 	Capacity *int       `json:"capacity,omitempty"`
 	Name     *SBSkuName `json:"name,omitempty"`
 	Tier     *SBSkuTier `json:"tier,omitempty"`
 }
 
-//Deprecated version of Encryption. Use v1beta20210101preview.Encryption instead
+// Deprecated version of Encryption. Use v1beta20210101preview.Encryption instead
 type EncryptionARM struct {
 	KeySource                       *EncryptionKeySource    `json:"keySource,omitempty"`
 	KeyVaultProperties              []KeyVaultPropertiesARM `json:"keyVaultProperties,omitempty"`
 	RequireInfrastructureEncryption *bool                   `json:"requireInfrastructureEncryption,omitempty"`
 }
 
-//Deprecated version of IdentityType. Use v1beta20210101preview.IdentityType instead
+// Deprecated version of IdentityType. Use v1beta20210101preview.IdentityType instead
 // +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned, UserAssigned","UserAssigned"}
 type IdentityType string
 
@@ -68,7 +68,7 @@ const (
 	IdentityTypeUserAssigned               = IdentityType("UserAssigned")
 )
 
-//Deprecated version of SBSkuName. Use v1beta20210101preview.SBSkuName instead
+// Deprecated version of SBSkuName. Use v1beta20210101preview.SBSkuName instead
 // +kubebuilder:validation:Enum={"Basic","Premium","Standard"}
 type SBSkuName string
 
@@ -78,7 +78,7 @@ const (
 	SBSkuNameStandard = SBSkuName("Standard")
 )
 
-//Deprecated version of SBSkuTier. Use v1beta20210101preview.SBSkuTier instead
+// Deprecated version of SBSkuTier. Use v1beta20210101preview.SBSkuTier instead
 // +kubebuilder:validation:Enum={"Basic","Premium","Standard"}
 type SBSkuTier string
 
@@ -88,7 +88,7 @@ const (
 	SBSkuTierStandard = SBSkuTier("Standard")
 )
 
-//Deprecated version of KeyVaultProperties. Use v1beta20210101preview.KeyVaultProperties instead
+// Deprecated version of KeyVaultProperties. Use v1beta20210101preview.KeyVaultProperties instead
 type KeyVaultPropertiesARM struct {
 	Identity    *UserAssignedIdentityPropertiesARM `json:"identity,omitempty"`
 	KeyName     *string                            `json:"keyName,omitempty"`
@@ -96,7 +96,7 @@ type KeyVaultPropertiesARM struct {
 	KeyVersion  *string                            `json:"keyVersion,omitempty"`
 }
 
-//Deprecated version of UserAssignedIdentityProperties. Use v1beta20210101preview.UserAssignedIdentityProperties instead
+// Deprecated version of UserAssignedIdentityProperties. Use v1beta20210101preview.UserAssignedIdentityProperties instead
 type UserAssignedIdentityPropertiesARM struct {
 	UserAssignedIdentity *string `json:"userAssignedIdentity,omitempty"`
 }

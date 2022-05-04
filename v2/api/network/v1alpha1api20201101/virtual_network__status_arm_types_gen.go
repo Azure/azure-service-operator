@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1alpha1api20201101
 
-//Deprecated version of VirtualNetwork_Status. Use v1beta20201101.VirtualNetwork_Status instead
+// Deprecated version of VirtualNetwork_Status. Use v1beta20201101.VirtualNetwork_Status instead
 type VirtualNetwork_StatusARM struct {
 	Etag             *string                                   `json:"etag,omitempty"`
 	ExtendedLocation *ExtendedLocation_StatusARM               `json:"extendedLocation,omitempty"`
@@ -15,7 +15,7 @@ type VirtualNetwork_StatusARM struct {
 	Type             *string                                   `json:"type,omitempty"`
 }
 
-//Deprecated version of VirtualNetworkPropertiesFormat_Status. Use v1beta20201101.VirtualNetworkPropertiesFormat_Status instead
+// Deprecated version of VirtualNetworkPropertiesFormat_Status. Use v1beta20201101.VirtualNetworkPropertiesFormat_Status instead
 type VirtualNetworkPropertiesFormat_StatusARM struct {
 	AddressSpace         *AddressSpace_StatusARM                 `json:"addressSpace,omitempty"`
 	BgpCommunities       *VirtualNetworkBgpCommunities_StatusARM `json:"bgpCommunities,omitempty"`
@@ -28,7 +28,7 @@ type VirtualNetworkPropertiesFormat_StatusARM struct {
 	ResourceGuid         *string                                 `json:"resourceGuid,omitempty"`
 }
 
-//Deprecated version of DhcpOptions_Status. Use v1beta20201101.DhcpOptions_Status instead
+// Deprecated version of DhcpOptions_Status. Use v1beta20201101.DhcpOptions_Status instead
 type DhcpOptions_StatusARM struct {
 	DnsServers []string `json:"dnsServers,omitempty"`
 }

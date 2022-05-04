@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_mongodbDatabases_collections
+// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_mongodbDatabases_collections
 type MongodbDatabaseCollection struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -300,7 +300,7 @@ func (collection *MongodbDatabaseCollection) OriginalGVK() *schema.GroupVersionK
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_mongodbDatabases_collections
+// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_mongodbDatabases_collections
 type MongodbDatabaseCollectionList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -313,32 +313,32 @@ type DatabaseAccountsMongodbDatabasesCollectionsSpecAPIVersion string
 const DatabaseAccountsMongodbDatabasesCollectionsSpecAPIVersion20210515 = DatabaseAccountsMongodbDatabasesCollectionsSpecAPIVersion("2021-05-15")
 
 type DatabaseAccountsMongodbDatabasesCollections_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
-	//Location: The location of the resource group to which the resource belongs.
+	// Location: The location of the resource group to which the resource belongs.
 	Location *string `json:"location,omitempty"`
 
-	//Options: CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are "If-Match",
-	//"If-None-Match", "Session-Token" and "Throughput"
+	// Options: CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are "If-Match",
+	// "If-None-Match", "Session-Token" and "Throughput"
 	Options *CreateUpdateOptions `json:"options,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a documentdb.azure.com/MongodbDatabase resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a documentdb.azure.com/MongodbDatabase resource
 	Owner *genruntime.KnownResourceReference `group:"documentdb.azure.com" json:"owner,omitempty" kind:"MongodbDatabase"`
 
 	// +kubebuilder:validation:Required
-	//Resource: Cosmos DB MongoDB collection resource object
+	// Resource: Cosmos DB MongoDB collection resource object
 	Resource *MongoDBCollectionResource `json:"resource,omitempty"`
 
-	//Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
-	//resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
-	//greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
-	//type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph",
-	//"DocumentDB", and "MongoDB".
+	// Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
+	// resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
+	// greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
+	// type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph",
+	// "DocumentDB", and "MongoDB".
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
@@ -626,22 +626,22 @@ func (collections *DatabaseAccountsMongodbDatabasesCollections_Spec) SetAzureNam
 }
 
 type MongoDBCollectionGetResults_Status struct {
-	//Conditions: The observed state of the resource
+	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
-	//Id: The unique resource identifier of the ARM resource.
+	// Id: The unique resource identifier of the ARM resource.
 	Id *string `json:"id,omitempty"`
 
-	//Location: The location of the resource group to which the resource belongs.
+	// Location: The location of the resource group to which the resource belongs.
 	Location *string `json:"location,omitempty"`
 
-	//Name: The name of the ARM resource.
+	// Name: The name of the ARM resource.
 	Name     *string                                         `json:"name,omitempty"`
 	Options  *OptionsResource_Status                         `json:"options,omitempty"`
 	Resource *MongoDBCollectionGetProperties_Status_Resource `json:"resource,omitempty"`
 	Tags     map[string]string                               `json:"tags,omitempty"`
 
-	//Type: The type of Azure resource.
+	// Type: The type of Azure resource.
 	Type *string `json:"type,omitempty"`
 }
 
@@ -883,25 +883,25 @@ func (results *MongoDBCollectionGetResults_Status) AssignPropertiesToMongoDBColl
 }
 
 type MongoDBCollectionGetProperties_Status_Resource struct {
-	//AnalyticalStorageTtl: Analytical TTL.
+	// AnalyticalStorageTtl: Analytical TTL.
 	AnalyticalStorageTtl *int `json:"analyticalStorageTtl,omitempty"`
 
-	//Etag: A system generated property representing the resource etag required for optimistic concurrency control.
+	// Etag: A system generated property representing the resource etag required for optimistic concurrency control.
 	Etag *string `json:"_etag,omitempty"`
 
-	//Id: Name of the Cosmos DB MongoDB collection
+	// Id: Name of the Cosmos DB MongoDB collection
 	Id *string `json:"id,omitempty"`
 
-	//Indexes: List of index keys
+	// Indexes: List of index keys
 	Indexes []MongoIndex_Status `json:"indexes,omitempty"`
 
-	//Rid: A system generated property. A unique identifier.
+	// Rid: A system generated property. A unique identifier.
 	Rid *string `json:"_rid,omitempty"`
 
-	//ShardKey: A key-value pair of shard keys to be applied for the request.
+	// ShardKey: A key-value pair of shard keys to be applied for the request.
 	ShardKey map[string]string `json:"shardKey,omitempty"`
 
-	//Ts: A system generated property that denotes the last updated timestamp of the resource.
+	// Ts: A system generated property that denotes the last updated timestamp of the resource.
 	Ts *float64 `json:"_ts,omitempty"`
 }
 
@@ -1076,19 +1076,19 @@ func (resource *MongoDBCollectionGetProperties_Status_Resource) AssignProperties
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/MongoDBCollectionResource
+// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/MongoDBCollectionResource
 type MongoDBCollectionResource struct {
-	//AnalyticalStorageTtl: Analytical TTL.
+	// AnalyticalStorageTtl: Analytical TTL.
 	AnalyticalStorageTtl *int `json:"analyticalStorageTtl,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Id: Name of the Cosmos DB MongoDB collection
+	// Id: Name of the Cosmos DB MongoDB collection
 	Id *string `json:"id,omitempty"`
 
-	//Indexes: List of index keys
+	// Indexes: List of index keys
 	Indexes []MongoIndex `json:"indexes,omitempty"`
 
-	//ShardKey: The shard key and partition kind pair, only support "Hash" partition kind
+	// ShardKey: The shard key and partition kind pair, only support "Hash" partition kind
 	ShardKey map[string]string `json:"shardKey,omitempty"`
 }
 
@@ -1255,12 +1255,12 @@ func (resource *MongoDBCollectionResource) AssignPropertiesToMongoDBCollectionRe
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/MongoIndex
+// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/MongoIndex
 type MongoIndex struct {
-	//Key: Cosmos DB MongoDB collection resource object
+	// Key: Cosmos DB MongoDB collection resource object
 	Key *MongoIndexKeys `json:"key,omitempty"`
 
-	//Options: Cosmos DB MongoDB collection index options
+	// Options: Cosmos DB MongoDB collection index options
 	Options *MongoIndexOptions `json:"options,omitempty"`
 }
 
@@ -1405,10 +1405,10 @@ func (index *MongoIndex) AssignPropertiesToMongoIndex(destination *v20210515s.Mo
 }
 
 type MongoIndex_Status struct {
-	//Key: Cosmos DB MongoDB collection index keys
+	// Key: Cosmos DB MongoDB collection index keys
 	Key *MongoIndexKeys_Status `json:"key,omitempty"`
 
-	//Options: Cosmos DB MongoDB collection index key options
+	// Options: Cosmos DB MongoDB collection index key options
 	Options *MongoIndexOptions_Status `json:"options,omitempty"`
 }
 
@@ -1523,9 +1523,9 @@ func (index *MongoIndex_Status) AssignPropertiesToMongoIndexStatus(destination *
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/MongoIndexKeys
+// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/MongoIndexKeys
 type MongoIndexKeys struct {
-	//Keys: List of keys for each MongoDB collection in the Azure Cosmos DB service
+	// Keys: List of keys for each MongoDB collection in the Azure Cosmos DB service
 	Keys []string `json:"keys,omitempty"`
 }
 
@@ -1596,7 +1596,7 @@ func (keys *MongoIndexKeys) AssignPropertiesToMongoIndexKeys(destination *v20210
 }
 
 type MongoIndexKeys_Status struct {
-	//Keys: List of keys for each MongoDB collection in the Azure Cosmos DB service
+	// Keys: List of keys for each MongoDB collection in the Azure Cosmos DB service
 	Keys []string `json:"keys,omitempty"`
 }
 
@@ -1652,12 +1652,12 @@ func (keys *MongoIndexKeys_Status) AssignPropertiesToMongoIndexKeysStatus(destin
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/MongoIndexOptions
+// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/MongoIndexOptions
 type MongoIndexOptions struct {
-	//ExpireAfterSeconds: Expire after seconds
+	// ExpireAfterSeconds: Expire after seconds
 	ExpireAfterSeconds *int `json:"expireAfterSeconds,omitempty"`
 
-	//Unique: Is unique or not
+	// Unique: Is unique or not
 	Unique *bool `json:"unique,omitempty"`
 }
 
@@ -1758,10 +1758,10 @@ func (options *MongoIndexOptions) AssignPropertiesToMongoIndexOptions(destinatio
 }
 
 type MongoIndexOptions_Status struct {
-	//ExpireAfterSeconds: Expire after seconds
+	// ExpireAfterSeconds: Expire after seconds
 	ExpireAfterSeconds *int `json:"expireAfterSeconds,omitempty"`
 
-	//Unique: Is unique or not
+	// Unique: Is unique or not
 	Unique *bool `json:"unique,omitempty"`
 }
 

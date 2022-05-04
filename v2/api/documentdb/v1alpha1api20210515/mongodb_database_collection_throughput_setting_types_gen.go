@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Deprecated version of MongodbDatabaseCollectionThroughputSetting. Use v1beta20210515.MongodbDatabaseCollectionThroughputSetting instead
+// Deprecated version of MongodbDatabaseCollectionThroughputSetting. Use v1beta20210515.MongodbDatabaseCollectionThroughputSetting instead
 type MongodbDatabaseCollectionThroughputSetting struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -307,7 +307,7 @@ func (setting *MongodbDatabaseCollectionThroughputSetting) OriginalGVK() *schema
 }
 
 // +kubebuilder:object:root=true
-//Deprecated version of MongodbDatabaseCollectionThroughputSetting. Use v1beta20210515.MongodbDatabaseCollectionThroughputSetting instead
+// Deprecated version of MongodbDatabaseCollectionThroughputSetting. Use v1beta20210515.MongodbDatabaseCollectionThroughputSetting instead
 type MongodbDatabaseCollectionThroughputSettingList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -318,9 +318,9 @@ type DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec struct {
 	Location *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a documentdb.azure.com/MongodbDatabaseCollection resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a documentdb.azure.com/MongodbDatabaseCollection resource
 	Owner *genruntime.KnownResourceReference `group:"documentdb.azure.com" json:"owner,omitempty" kind:"MongodbDatabaseCollection"`
 
 	// +kubebuilder:validation:Required
@@ -551,9 +551,9 @@ func (settings *DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Sp
 	return GroupVersion.Version
 }
 
-//Deprecated version of ThroughputSettingsGetResults_Status. Use v1beta20210515.ThroughputSettingsGetResults_Status instead
+// Deprecated version of ThroughputSettingsGetResults_Status. Use v1beta20210515.ThroughputSettingsGetResults_Status instead
 type ThroughputSettingsGetResults_Status struct {
-	//Conditions: The observed state of the resource
+	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition                           `json:"conditions,omitempty"`
 	Id         *string                                          `json:"id,omitempty"`
 	Location   *string                                          `json:"location,omitempty"`
@@ -762,7 +762,7 @@ func (results *ThroughputSettingsGetResults_Status) AssignPropertiesToThroughput
 	return nil
 }
 
-//Deprecated version of ThroughputSettingsGetProperties_Status_Resource. Use v1beta20210515.ThroughputSettingsGetProperties_Status_Resource instead
+// Deprecated version of ThroughputSettingsGetProperties_Status_Resource. Use v1beta20210515.ThroughputSettingsGetProperties_Status_Resource instead
 type ThroughputSettingsGetProperties_Status_Resource struct {
 	AutoscaleSettings   *AutoscaleSettingsResource_Status `json:"autoscaleSettings,omitempty"`
 	Etag                *string                           `json:"_etag,omitempty"`
@@ -931,7 +931,7 @@ func (resource *ThroughputSettingsGetProperties_Status_Resource) AssignPropertie
 	return nil
 }
 
-//Deprecated version of ThroughputSettingsResource. Use v1beta20210515.ThroughputSettingsResource instead
+// Deprecated version of ThroughputSettingsResource. Use v1beta20210515.ThroughputSettingsResource instead
 type ThroughputSettingsResource struct {
 	AutoscaleSettings *AutoscaleSettingsResource `json:"autoscaleSettings,omitempty"`
 	Throughput        *int                       `json:"throughput,omitempty"`
@@ -1050,7 +1050,7 @@ func (resource *ThroughputSettingsResource) AssignPropertiesToThroughputSettings
 	return nil
 }
 
-//Deprecated version of AutoscaleSettingsResource. Use v1beta20210515.AutoscaleSettingsResource instead
+// Deprecated version of AutoscaleSettingsResource. Use v1beta20210515.AutoscaleSettingsResource instead
 type AutoscaleSettingsResource struct {
 	AutoUpgradePolicy *AutoUpgradePolicyResource `json:"autoUpgradePolicy,omitempty"`
 
@@ -1171,7 +1171,7 @@ func (resource *AutoscaleSettingsResource) AssignPropertiesToAutoscaleSettingsRe
 	return nil
 }
 
-//Deprecated version of AutoscaleSettingsResource_Status. Use v1beta20210515.AutoscaleSettingsResource_Status instead
+// Deprecated version of AutoscaleSettingsResource_Status. Use v1beta20210515.AutoscaleSettingsResource_Status instead
 type AutoscaleSettingsResource_Status struct {
 	AutoUpgradePolicy   *AutoUpgradePolicyResource_Status `json:"autoUpgradePolicy,omitempty"`
 	MaxThroughput       *int                              `json:"maxThroughput,omitempty"`
@@ -1278,7 +1278,7 @@ func (resource *AutoscaleSettingsResource_Status) AssignPropertiesToAutoscaleSet
 	return nil
 }
 
-//Deprecated version of AutoUpgradePolicyResource. Use v1beta20210515.AutoUpgradePolicyResource instead
+// Deprecated version of AutoUpgradePolicyResource. Use v1beta20210515.AutoUpgradePolicyResource instead
 type AutoUpgradePolicyResource struct {
 	ThroughputPolicy *ThroughputPolicyResource `json:"throughputPolicy,omitempty"`
 }
@@ -1378,7 +1378,7 @@ func (resource *AutoUpgradePolicyResource) AssignPropertiesToAutoUpgradePolicyRe
 	return nil
 }
 
-//Deprecated version of AutoUpgradePolicyResource_Status. Use v1beta20210515.AutoUpgradePolicyResource_Status instead
+// Deprecated version of AutoUpgradePolicyResource_Status. Use v1beta20210515.AutoUpgradePolicyResource_Status instead
 type AutoUpgradePolicyResource_Status struct {
 	ThroughputPolicy *ThroughputPolicyResource_Status `json:"throughputPolicy,omitempty"`
 }
@@ -1459,7 +1459,7 @@ func (resource *AutoUpgradePolicyResource_Status) AssignPropertiesToAutoUpgradeP
 	return nil
 }
 
-//Deprecated version of ThroughputPolicyResource. Use v1beta20210515.ThroughputPolicyResource instead
+// Deprecated version of ThroughputPolicyResource. Use v1beta20210515.ThroughputPolicyResource instead
 type ThroughputPolicyResource struct {
 	IncrementPercent *int  `json:"incrementPercent,omitempty"`
 	IsEnabled        *bool `json:"isEnabled,omitempty"`
@@ -1561,7 +1561,7 @@ func (resource *ThroughputPolicyResource) AssignPropertiesToThroughputPolicyReso
 	return nil
 }
 
-//Deprecated version of ThroughputPolicyResource_Status. Use v1beta20210515.ThroughputPolicyResource_Status instead
+// Deprecated version of ThroughputPolicyResource_Status. Use v1beta20210515.ThroughputPolicyResource_Status instead
 type ThroughputPolicyResource_Status struct {
 	IncrementPercent *int  `json:"incrementPercent,omitempty"`
 	IsEnabled        *bool `json:"isEnabled,omitempty"`

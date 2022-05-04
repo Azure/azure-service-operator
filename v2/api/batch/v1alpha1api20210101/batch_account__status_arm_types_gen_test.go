@@ -56,7 +56,7 @@ func RunJSONSerializationTestForBatchAccountStatusARM(subject BatchAccount_Statu
 }
 
 // Generator of BatchAccount_StatusARM instances for property testing - lazily instantiated by
-//BatchAccountStatusARMGenerator()
+// BatchAccountStatusARMGenerator()
 var batchAccountStatusARMGenerator gopter.Gen
 
 // BatchAccountStatusARMGenerator returns a generator of BatchAccount_StatusARM instances for property testing.
@@ -135,7 +135,7 @@ func RunJSONSerializationTestForBatchAccountIdentityStatusARM(subject BatchAccou
 }
 
 // Generator of BatchAccountIdentity_StatusARM instances for property testing - lazily instantiated by
-//BatchAccountIdentityStatusARMGenerator()
+// BatchAccountIdentityStatusARMGenerator()
 var batchAccountIdentityStatusARMGenerator gopter.Gen
 
 // BatchAccountIdentityStatusARMGenerator returns a generator of BatchAccountIdentity_StatusARM instances for property testing.
@@ -211,7 +211,7 @@ func RunJSONSerializationTestForBatchAccountPropertiesStatusARM(subject BatchAcc
 }
 
 // Generator of BatchAccountProperties_StatusARM instances for property testing - lazily instantiated by
-//BatchAccountPropertiesStatusARMGenerator()
+// BatchAccountPropertiesStatusARMGenerator()
 var batchAccountPropertiesStatusARMGenerator gopter.Gen
 
 // BatchAccountPropertiesStatusARMGenerator returns a generator of BatchAccountProperties_StatusARM instances for property testing.
@@ -303,7 +303,7 @@ func RunJSONSerializationTestForAutoStoragePropertiesStatusARM(subject AutoStora
 }
 
 // Generator of AutoStorageProperties_StatusARM instances for property testing - lazily instantiated by
-//AutoStoragePropertiesStatusARMGenerator()
+// AutoStoragePropertiesStatusARMGenerator()
 var autoStoragePropertiesStatusARMGenerator gopter.Gen
 
 // AutoStoragePropertiesStatusARMGenerator returns a generator of AutoStorageProperties_StatusARM instances for property testing.
@@ -364,7 +364,7 @@ func RunJSONSerializationTestForBatchAccountIdentityStatusUserAssignedIdentities
 }
 
 // Generator of BatchAccountIdentity_Status_UserAssignedIdentitiesARM instances for property testing - lazily
-//instantiated by BatchAccountIdentityStatusUserAssignedIdentitiesARMGenerator()
+// instantiated by BatchAccountIdentityStatusUserAssignedIdentitiesARMGenerator()
 var batchAccountIdentityStatusUserAssignedIdentitiesARMGenerator gopter.Gen
 
 // BatchAccountIdentityStatusUserAssignedIdentitiesARMGenerator returns a generator of BatchAccountIdentity_Status_UserAssignedIdentitiesARM instances for property testing.
@@ -425,7 +425,7 @@ func RunJSONSerializationTestForEncryptionPropertiesStatusARM(subject Encryption
 }
 
 // Generator of EncryptionProperties_StatusARM instances for property testing - lazily instantiated by
-//EncryptionPropertiesStatusARMGenerator()
+// EncryptionPropertiesStatusARMGenerator()
 var encryptionPropertiesStatusARMGenerator gopter.Gen
 
 // EncryptionPropertiesStatusARMGenerator returns a generator of EncryptionProperties_StatusARM instances for property testing.
@@ -499,7 +499,7 @@ func RunJSONSerializationTestForKeyVaultReferenceStatusARM(subject KeyVaultRefer
 }
 
 // Generator of KeyVaultReference_StatusARM instances for property testing - lazily instantiated by
-//KeyVaultReferenceStatusARMGenerator()
+// KeyVaultReferenceStatusARMGenerator()
 var keyVaultReferenceStatusARMGenerator gopter.Gen
 
 // KeyVaultReferenceStatusARMGenerator returns a generator of KeyVaultReference_StatusARM instances for property testing.
@@ -560,7 +560,7 @@ func RunJSONSerializationTestForPrivateEndpointConnectionStatusARM(subject Priva
 }
 
 // Generator of PrivateEndpointConnection_StatusARM instances for property testing - lazily instantiated by
-//PrivateEndpointConnectionStatusARMGenerator()
+// PrivateEndpointConnectionStatusARMGenerator()
 var privateEndpointConnectionStatusARMGenerator gopter.Gen
 
 // PrivateEndpointConnectionStatusARMGenerator returns a generator of PrivateEndpointConnection_StatusARM instances for property testing.
@@ -637,7 +637,7 @@ func RunJSONSerializationTestForVirtualMachineFamilyCoreQuotaStatusARM(subject V
 }
 
 // Generator of VirtualMachineFamilyCoreQuota_StatusARM instances for property testing - lazily instantiated by
-//VirtualMachineFamilyCoreQuotaStatusARMGenerator()
+// VirtualMachineFamilyCoreQuotaStatusARMGenerator()
 var virtualMachineFamilyCoreQuotaStatusARMGenerator gopter.Gen
 
 // VirtualMachineFamilyCoreQuotaStatusARMGenerator returns a generator of VirtualMachineFamilyCoreQuota_StatusARM instances for property testing.
@@ -698,7 +698,7 @@ func RunJSONSerializationTestForKeyVaultPropertiesStatusARM(subject KeyVaultProp
 }
 
 // Generator of KeyVaultProperties_StatusARM instances for property testing - lazily instantiated by
-//KeyVaultPropertiesStatusARMGenerator()
+// KeyVaultPropertiesStatusARMGenerator()
 var keyVaultPropertiesStatusARMGenerator gopter.Gen
 
 // KeyVaultPropertiesStatusARMGenerator returns a generator of KeyVaultProperties_StatusARM instances for property testing.
@@ -758,7 +758,7 @@ func RunJSONSerializationTestForPrivateEndpointConnectionPropertiesStatusARM(sub
 }
 
 // Generator of PrivateEndpointConnectionProperties_StatusARM instances for property testing - lazily instantiated by
-//PrivateEndpointConnectionPropertiesStatusARMGenerator()
+// PrivateEndpointConnectionPropertiesStatusARMGenerator()
 var privateEndpointConnectionPropertiesStatusARMGenerator gopter.Gen
 
 // PrivateEndpointConnectionPropertiesStatusARMGenerator returns a generator of PrivateEndpointConnectionProperties_StatusARM instances for property testing.
@@ -833,7 +833,7 @@ func RunJSONSerializationTestForPrivateEndpointStatusARM(subject PrivateEndpoint
 }
 
 // Generator of PrivateEndpoint_StatusARM instances for property testing - lazily instantiated by
-//PrivateEndpointStatusARMGenerator()
+// PrivateEndpointStatusARMGenerator()
 var privateEndpointStatusARMGenerator gopter.Gen
 
 // PrivateEndpointStatusARMGenerator returns a generator of PrivateEndpoint_StatusARM instances for property testing.
@@ -893,7 +893,7 @@ func RunJSONSerializationTestForPrivateLinkServiceConnectionStateStatusARM(subje
 }
 
 // Generator of PrivateLinkServiceConnectionState_StatusARM instances for property testing - lazily instantiated by
-//PrivateLinkServiceConnectionStateStatusARMGenerator()
+// PrivateLinkServiceConnectionStateStatusARMGenerator()
 var privateLinkServiceConnectionStateStatusARMGenerator gopter.Gen
 
 // PrivateLinkServiceConnectionStateStatusARMGenerator returns a generator of PrivateLinkServiceConnectionState_StatusARM instances for property testing.

@@ -56,7 +56,7 @@ func RunJSONSerializationTestForPublicIPAddressStatusPublicIPAddressSubResourceE
 }
 
 // Generator of PublicIPAddress_Status_PublicIPAddress_SubResourceEmbeddedARM instances for property testing - lazily
-//instantiated by PublicIPAddressStatusPublicIPAddressSubResourceEmbeddedARMGenerator()
+// instantiated by PublicIPAddressStatusPublicIPAddressSubResourceEmbeddedARMGenerator()
 var publicIPAddressStatusPublicIPAddressSubResourceEmbeddedARMGenerator gopter.Gen
 
 // PublicIPAddressStatusPublicIPAddressSubResourceEmbeddedARMGenerator returns a generator of PublicIPAddress_Status_PublicIPAddress_SubResourceEmbeddedARM instances for property testing.
@@ -138,7 +138,7 @@ func RunJSONSerializationTestForPublicIPAddressPropertiesFormatStatusARM(subject
 }
 
 // Generator of PublicIPAddressPropertiesFormat_StatusARM instances for property testing - lazily instantiated by
-//PublicIPAddressPropertiesFormatStatusARMGenerator()
+// PublicIPAddressPropertiesFormatStatusARMGenerator()
 var publicIPAddressPropertiesFormatStatusARMGenerator gopter.Gen
 
 // PublicIPAddressPropertiesFormatStatusARMGenerator returns a generator of PublicIPAddressPropertiesFormat_StatusARM instances for property testing.
@@ -232,7 +232,7 @@ func RunJSONSerializationTestForPublicIPAddressSkuStatusARM(subject PublicIPAddr
 }
 
 // Generator of PublicIPAddressSku_StatusARM instances for property testing - lazily instantiated by
-//PublicIPAddressSkuStatusARMGenerator()
+// PublicIPAddressSkuStatusARMGenerator()
 var publicIPAddressSkuStatusARMGenerator gopter.Gen
 
 // PublicIPAddressSkuStatusARMGenerator returns a generator of PublicIPAddressSku_StatusARM instances for property testing.
@@ -293,7 +293,7 @@ func RunJSONSerializationTestForDdosSettingsStatusARM(subject DdosSettings_Statu
 }
 
 // Generator of DdosSettings_StatusARM instances for property testing - lazily instantiated by
-//DdosSettingsStatusARMGenerator()
+// DdosSettingsStatusARMGenerator()
 var ddosSettingsStatusARMGenerator gopter.Gen
 
 // DdosSettingsStatusARMGenerator returns a generator of DdosSettings_StatusARM instances for property testing.
@@ -368,7 +368,7 @@ func RunJSONSerializationTestForIPConfigurationStatusPublicIPAddressSubResourceE
 }
 
 // Generator of IPConfiguration_Status_PublicIPAddress_SubResourceEmbeddedARM instances for property testing - lazily
-//instantiated by IPConfigurationStatusPublicIPAddressSubResourceEmbeddedARMGenerator()
+// instantiated by IPConfigurationStatusPublicIPAddressSubResourceEmbeddedARMGenerator()
 var ipConfigurationStatusPublicIPAddressSubResourceEmbeddedARMGenerator gopter.Gen
 
 // IPConfigurationStatusPublicIPAddressSubResourceEmbeddedARMGenerator returns a generator of IPConfiguration_Status_PublicIPAddress_SubResourceEmbeddedARM instances for property testing.
@@ -504,7 +504,7 @@ func RunJSONSerializationTestForNatGatewayStatusPublicIPAddressSubResourceEmbedd
 }
 
 // Generator of NatGateway_Status_PublicIPAddress_SubResourceEmbeddedARM instances for property testing - lazily
-//instantiated by NatGatewayStatusPublicIPAddressSubResourceEmbeddedARMGenerator()
+// instantiated by NatGatewayStatusPublicIPAddressSubResourceEmbeddedARMGenerator()
 var natGatewayStatusPublicIPAddressSubResourceEmbeddedARMGenerator gopter.Gen
 
 // NatGatewayStatusPublicIPAddressSubResourceEmbeddedARMGenerator returns a generator of NatGateway_Status_PublicIPAddress_SubResourceEmbeddedARM instances for property testing.
@@ -579,7 +579,7 @@ func RunJSONSerializationTestForPublicIPAddressDnsSettingsStatusARM(subject Publ
 }
 
 // Generator of PublicIPAddressDnsSettings_StatusARM instances for property testing - lazily instantiated by
-//PublicIPAddressDnsSettingsStatusARMGenerator()
+// PublicIPAddressDnsSettingsStatusARMGenerator()
 var publicIPAddressDnsSettingsStatusARMGenerator gopter.Gen
 
 // PublicIPAddressDnsSettingsStatusARMGenerator returns a generator of PublicIPAddressDnsSettings_StatusARM instances for property testing.
@@ -641,7 +641,7 @@ func RunJSONSerializationTestForIPConfigurationPropertiesFormatStatusPublicIPAdd
 }
 
 // Generator of IPConfigurationPropertiesFormat_Status_PublicIPAddress_SubResourceEmbeddedARM instances for property
-//testing - lazily instantiated by IPConfigurationPropertiesFormatStatusPublicIPAddressSubResourceEmbeddedARMGenerator()
+// testing - lazily instantiated by IPConfigurationPropertiesFormatStatusPublicIPAddressSubResourceEmbeddedARMGenerator()
 var ipConfigurationPropertiesFormatStatusPublicIPAddressSubResourceEmbeddedARMGenerator gopter.Gen
 
 // IPConfigurationPropertiesFormatStatusPublicIPAddressSubResourceEmbeddedARMGenerator returns a generator of IPConfigurationPropertiesFormat_Status_PublicIPAddress_SubResourceEmbeddedARM instances for property testing.
@@ -721,7 +721,7 @@ func RunJSONSerializationTestForNatGatewaySkuStatusARM(subject NatGatewaySku_Sta
 }
 
 // Generator of NatGatewaySku_StatusARM instances for property testing - lazily instantiated by
-//NatGatewaySkuStatusARMGenerator()
+// NatGatewaySkuStatusARMGenerator()
 var natGatewaySkuStatusARMGenerator gopter.Gen
 
 // NatGatewaySkuStatusARMGenerator returns a generator of NatGatewaySku_StatusARM instances for property testing.
@@ -781,7 +781,7 @@ func RunJSONSerializationTestForSubnetStatusPublicIPAddressSubResourceEmbeddedAR
 }
 
 // Generator of Subnet_Status_PublicIPAddress_SubResourceEmbeddedARM instances for property testing - lazily
-//instantiated by SubnetStatusPublicIPAddressSubResourceEmbeddedARMGenerator()
+// instantiated by SubnetStatusPublicIPAddressSubResourceEmbeddedARMGenerator()
 var subnetStatusPublicIPAddressSubResourceEmbeddedARMGenerator gopter.Gen
 
 // SubnetStatusPublicIPAddressSubResourceEmbeddedARMGenerator returns a generator of Subnet_Status_PublicIPAddress_SubResourceEmbeddedARM instances for property testing.

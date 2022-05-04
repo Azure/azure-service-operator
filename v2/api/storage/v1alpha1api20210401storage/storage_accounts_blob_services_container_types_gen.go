@@ -20,8 +20,8 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Storage version of v1alpha1api20210401.StorageAccountsBlobServicesContainer
-//Deprecated version of StorageAccountsBlobServicesContainer. Use v1beta20210401.StorageAccountsBlobServicesContainer instead
+// Storage version of v1alpha1api20210401.StorageAccountsBlobServicesContainer
+// Deprecated version of StorageAccountsBlobServicesContainer. Use v1beta20210401.StorageAccountsBlobServicesContainer instead
 type StorageAccountsBlobServicesContainer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -191,16 +191,16 @@ func (container *StorageAccountsBlobServicesContainer) OriginalGVK() *schema.Gro
 }
 
 // +kubebuilder:object:root=true
-//Storage version of v1alpha1api20210401.StorageAccountsBlobServicesContainer
-//Deprecated version of StorageAccountsBlobServicesContainer. Use v1beta20210401.StorageAccountsBlobServicesContainer instead
+// Storage version of v1alpha1api20210401.StorageAccountsBlobServicesContainer
+// Deprecated version of StorageAccountsBlobServicesContainer. Use v1beta20210401.StorageAccountsBlobServicesContainer instead
 type StorageAccountsBlobServicesContainerList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []StorageAccountsBlobServicesContainer `json:"items"`
 }
 
-//Storage version of v1alpha1api20210401.BlobContainer_Status
-//Deprecated version of BlobContainer_Status. Use v1beta20210401.BlobContainer_Status instead
+// Storage version of v1alpha1api20210401.BlobContainer_Status
+// Deprecated version of BlobContainer_Status. Use v1beta20210401.BlobContainer_Status instead
 type BlobContainer_Status struct {
 	Conditions                     []conditions.Condition                 `json:"conditions,omitempty"`
 	DefaultEncryptionScope         *string                                `json:"defaultEncryptionScope,omitempty"`
@@ -535,12 +535,12 @@ func (container *BlobContainer_Status) AssignPropertiesToBlobContainerStatus(des
 	return nil
 }
 
-//Storage version of v1alpha1api20210401.StorageAccountsBlobServicesContainers_Spec
+// Storage version of v1alpha1api20210401.StorageAccountsBlobServicesContainers_Spec
 type StorageAccountsBlobServicesContainers_Spec struct {
 	// +kubebuilder:validation:MaxLength=63
 	// +kubebuilder:validation:MinLength=3
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName                      string                          `json:"azureName,omitempty"`
 	DefaultEncryptionScope         *string                         `json:"defaultEncryptionScope,omitempty"`
 	DenyEncryptionScopeOverride    *bool                           `json:"denyEncryptionScopeOverride,omitempty"`
@@ -550,9 +550,9 @@ type StorageAccountsBlobServicesContainers_Spec struct {
 	OriginalVersion                string                          `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a storage.azure.com/StorageAccountsBlobService resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a storage.azure.com/StorageAccountsBlobService resource
 	Owner        *genruntime.KnownResourceReference `group:"storage.azure.com" json:"owner,omitempty" kind:"StorageAccountsBlobService"`
 	PropertyBag  genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	PublicAccess *string                            `json:"publicAccess,omitempty"`
@@ -739,8 +739,8 @@ func (containers *StorageAccountsBlobServicesContainers_Spec) AssignPropertiesTo
 	return nil
 }
 
-//Storage version of v1alpha1api20210401.ImmutabilityPolicyProperties_Status
-//Deprecated version of ImmutabilityPolicyProperties_Status. Use v1beta20210401.ImmutabilityPolicyProperties_Status instead
+// Storage version of v1alpha1api20210401.ImmutabilityPolicyProperties_Status
+// Deprecated version of ImmutabilityPolicyProperties_Status. Use v1beta20210401.ImmutabilityPolicyProperties_Status instead
 type ImmutabilityPolicyProperties_Status struct {
 	AllowProtectedAppendWrites            *bool                          `json:"allowProtectedAppendWrites,omitempty"`
 	Etag                                  *string                        `json:"etag,omitempty"`
@@ -852,8 +852,8 @@ func (properties *ImmutabilityPolicyProperties_Status) AssignPropertiesToImmutab
 	return nil
 }
 
-//Storage version of v1alpha1api20210401.ImmutableStorageWithVersioning
-//Deprecated version of ImmutableStorageWithVersioning. Use v1beta20210401.ImmutableStorageWithVersioning instead
+// Storage version of v1alpha1api20210401.ImmutableStorageWithVersioning
+// Deprecated version of ImmutableStorageWithVersioning. Use v1beta20210401.ImmutableStorageWithVersioning instead
 type ImmutableStorageWithVersioning struct {
 	Enabled     *bool                  `json:"enabled,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -907,8 +907,8 @@ func (versioning *ImmutableStorageWithVersioning) AssignPropertiesToImmutableSto
 	return nil
 }
 
-//Storage version of v1alpha1api20210401.ImmutableStorageWithVersioning_Status
-//Deprecated version of ImmutableStorageWithVersioning_Status. Use v1beta20210401.ImmutableStorageWithVersioning_Status instead
+// Storage version of v1alpha1api20210401.ImmutableStorageWithVersioning_Status
+// Deprecated version of ImmutableStorageWithVersioning_Status. Use v1beta20210401.ImmutableStorageWithVersioning_Status instead
 type ImmutableStorageWithVersioning_Status struct {
 	Enabled        *bool                  `json:"enabled,omitempty"`
 	MigrationState *string                `json:"migrationState,omitempty"`
@@ -976,8 +976,8 @@ func (versioning *ImmutableStorageWithVersioning_Status) AssignPropertiesToImmut
 	return nil
 }
 
-//Storage version of v1alpha1api20210401.LegalHoldProperties_Status
-//Deprecated version of LegalHoldProperties_Status. Use v1beta20210401.LegalHoldProperties_Status instead
+// Storage version of v1alpha1api20210401.LegalHoldProperties_Status
+// Deprecated version of LegalHoldProperties_Status. Use v1beta20210401.LegalHoldProperties_Status instead
 type LegalHoldProperties_Status struct {
 	HasLegalHold *bool                  `json:"hasLegalHold,omitempty"`
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -1068,8 +1068,8 @@ func (properties *LegalHoldProperties_Status) AssignPropertiesToLegalHoldPropert
 	return nil
 }
 
-//Storage version of v1alpha1api20210401.TagProperty_Status
-//Deprecated version of TagProperty_Status. Use v1beta20210401.TagProperty_Status instead
+// Storage version of v1alpha1api20210401.TagProperty_Status
+// Deprecated version of TagProperty_Status. Use v1beta20210401.TagProperty_Status instead
 type TagProperty_Status struct {
 	ObjectIdentifier *string                `json:"objectIdentifier,omitempty"`
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -1141,8 +1141,8 @@ func (property *TagProperty_Status) AssignPropertiesToTagPropertyStatus(destinat
 	return nil
 }
 
-//Storage version of v1alpha1api20210401.UpdateHistoryProperty_Status
-//Deprecated version of UpdateHistoryProperty_Status. Use v1beta20210401.UpdateHistoryProperty_Status instead
+// Storage version of v1alpha1api20210401.UpdateHistoryProperty_Status
+// Deprecated version of UpdateHistoryProperty_Status. Use v1beta20210401.UpdateHistoryProperty_Status instead
 type UpdateHistoryProperty_Status struct {
 	ImmutabilityPeriodSinceCreationInDays *int                   `json:"immutabilityPeriodSinceCreationInDays,omitempty"`
 	ObjectIdentifier                      *string                `json:"objectIdentifier,omitempty"`

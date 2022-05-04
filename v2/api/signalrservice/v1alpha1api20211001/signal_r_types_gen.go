@@ -25,7 +25,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Deprecated version of SignalR. Use v1beta20211001.SignalR instead
+// Deprecated version of SignalR. Use v1beta20211001.SignalR instead
 type SignalR struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -315,16 +315,16 @@ func (signalR *SignalR) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Deprecated version of SignalR. Use v1beta20211001.SignalR instead
+// Deprecated version of SignalR. Use v1beta20211001.SignalR instead
 type SignalRList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []SignalR `json:"items"`
 }
 
-//Deprecated version of SignalRResource_Status. Use v1beta20211001.SignalRResource_Status instead
+// Deprecated version of SignalRResource_Status. Use v1beta20211001.SignalRResource_Status instead
 type SignalRResource_Status struct {
-	//Conditions: The observed state of the resource
+	// Conditions: The observed state of the resource
 	Conditions                 []conditions.Condition                                         `json:"conditions,omitempty"`
 	Cors                       *SignalRCorsSettings_Status                                    `json:"cors,omitempty"`
 	DisableAadAuth             *bool                                                          `json:"disableAadAuth,omitempty"`
@@ -1161,8 +1161,8 @@ func (resource *SignalRResource_Status) AssignPropertiesToSignalRResourceStatus(
 }
 
 type SignalR_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName        string               `json:"azureName,omitempty"`
 	Cors             *SignalRCorsSettings `json:"cors,omitempty"`
 	DisableAadAuth   *bool                `json:"disableAadAuth,omitempty"`
@@ -1174,9 +1174,9 @@ type SignalR_Spec struct {
 	NetworkACLs      *SignalRNetworkACLs  `json:"networkACLs,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a resources.azure.com/ResourceGroup resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
 	Owner                    *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PublicNetworkAccess      *string                            `json:"publicNetworkAccess,omitempty"`
 	ResourceLogConfiguration *ResourceLogConfiguration          `json:"resourceLogConfiguration,omitempty"`
@@ -1864,7 +1864,7 @@ func (signalR *SignalR_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (signalR *SignalR_Spec) SetAzureName(azureName string) { signalR.AzureName = azureName }
 
-//Deprecated version of ManagedIdentity. Use v1beta20211001.ManagedIdentity instead
+// Deprecated version of ManagedIdentity. Use v1beta20211001.ManagedIdentity instead
 type ManagedIdentity struct {
 	Type                   *ManagedIdentityType `json:"type,omitempty"`
 	UserAssignedIdentities map[string]v1.JSON   `json:"userAssignedIdentities,omitempty"`
@@ -1990,7 +1990,7 @@ func (identity *ManagedIdentity) AssignPropertiesToManagedIdentity(destination *
 	return nil
 }
 
-//Deprecated version of ManagedIdentity_Status. Use v1beta20211001.ManagedIdentity_Status instead
+// Deprecated version of ManagedIdentity_Status. Use v1beta20211001.ManagedIdentity_Status instead
 type ManagedIdentity_Status struct {
 	PrincipalId            *string                                        `json:"principalId,omitempty"`
 	TenantId               *string                                        `json:"tenantId,omitempty"`
@@ -2134,7 +2134,7 @@ func (identity *ManagedIdentity_Status) AssignPropertiesToManagedIdentityStatus(
 	return nil
 }
 
-//Deprecated version of PrivateEndpointConnection_Status_SignalR_SubResourceEmbedded. Use v1beta20211001.PrivateEndpointConnection_Status_SignalR_SubResourceEmbedded instead
+// Deprecated version of PrivateEndpointConnection_Status_SignalR_SubResourceEmbedded. Use v1beta20211001.PrivateEndpointConnection_Status_SignalR_SubResourceEmbedded instead
 type PrivateEndpointConnection_Status_SignalR_SubResourceEmbedded struct {
 	Id         *string            `json:"id,omitempty"`
 	SystemData *SystemData_Status `json:"systemData,omitempty"`
@@ -2228,7 +2228,7 @@ func (embedded *PrivateEndpointConnection_Status_SignalR_SubResourceEmbedded) As
 	return nil
 }
 
-//Deprecated version of ProvisioningState_Status. Use v1beta20211001.ProvisioningState_Status instead
+// Deprecated version of ProvisioningState_Status. Use v1beta20211001.ProvisioningState_Status instead
 type ProvisioningState_Status string
 
 const (
@@ -2243,7 +2243,7 @@ const (
 	ProvisioningState_StatusUpdating  = ProvisioningState_Status("Updating")
 )
 
-//Deprecated version of ResourceLogConfiguration. Use v1beta20211001.ResourceLogConfiguration instead
+// Deprecated version of ResourceLogConfiguration. Use v1beta20211001.ResourceLogConfiguration instead
 type ResourceLogConfiguration struct {
 	Categories []ResourceLogCategory `json:"categories,omitempty"`
 }
@@ -2353,7 +2353,7 @@ func (configuration *ResourceLogConfiguration) AssignPropertiesToResourceLogConf
 	return nil
 }
 
-//Deprecated version of ResourceLogConfiguration_Status. Use v1beta20211001.ResourceLogConfiguration_Status instead
+// Deprecated version of ResourceLogConfiguration_Status. Use v1beta20211001.ResourceLogConfiguration_Status instead
 type ResourceLogConfiguration_Status struct {
 	Categories []ResourceLogCategory_Status `json:"categories,omitempty"`
 }
@@ -2445,7 +2445,7 @@ func (configuration *ResourceLogConfiguration_Status) AssignPropertiesToResource
 	return nil
 }
 
-//Deprecated version of ResourceSku. Use v1beta20211001.ResourceSku instead
+// Deprecated version of ResourceSku. Use v1beta20211001.ResourceSku instead
 type ResourceSku struct {
 	Capacity *int `json:"capacity,omitempty"`
 
@@ -2568,7 +2568,7 @@ func (resourceSku *ResourceSku) AssignPropertiesToResourceSku(destination *alpha
 	return nil
 }
 
-//Deprecated version of ResourceSku_Status. Use v1beta20211001.ResourceSku_Status instead
+// Deprecated version of ResourceSku_Status. Use v1beta20211001.ResourceSku_Status instead
 type ResourceSku_Status struct {
 	Capacity *int                   `json:"capacity,omitempty"`
 	Family   *string                `json:"family,omitempty"`
@@ -2688,7 +2688,7 @@ func (resourceSku *ResourceSku_Status) AssignPropertiesToResourceSkuStatus(desti
 	return nil
 }
 
-//Deprecated version of ServerlessUpstreamSettings. Use v1beta20211001.ServerlessUpstreamSettings instead
+// Deprecated version of ServerlessUpstreamSettings. Use v1beta20211001.ServerlessUpstreamSettings instead
 type ServerlessUpstreamSettings struct {
 	Templates []UpstreamTemplate `json:"templates,omitempty"`
 }
@@ -2798,7 +2798,7 @@ func (settings *ServerlessUpstreamSettings) AssignPropertiesToServerlessUpstream
 	return nil
 }
 
-//Deprecated version of ServerlessUpstreamSettings_Status. Use v1beta20211001.ServerlessUpstreamSettings_Status instead
+// Deprecated version of ServerlessUpstreamSettings_Status. Use v1beta20211001.ServerlessUpstreamSettings_Status instead
 type ServerlessUpstreamSettings_Status struct {
 	Templates []UpstreamTemplate_Status `json:"templates,omitempty"`
 }
@@ -2890,7 +2890,7 @@ func (settings *ServerlessUpstreamSettings_Status) AssignPropertiesToServerlessU
 	return nil
 }
 
-//Deprecated version of SharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded. Use v1beta20211001.SharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded instead
+// Deprecated version of SharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded. Use v1beta20211001.SharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded instead
 type SharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded struct {
 	Id         *string            `json:"id,omitempty"`
 	SystemData *SystemData_Status `json:"systemData,omitempty"`
@@ -2984,7 +2984,7 @@ func (embedded *SharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded) As
 	return nil
 }
 
-//Deprecated version of SignalRCorsSettings. Use v1beta20211001.SignalRCorsSettings instead
+// Deprecated version of SignalRCorsSettings. Use v1beta20211001.SignalRCorsSettings instead
 type SignalRCorsSettings struct {
 	AllowedOrigins []string `json:"allowedOrigins,omitempty"`
 }
@@ -3055,7 +3055,7 @@ func (settings *SignalRCorsSettings) AssignPropertiesToSignalRCorsSettings(desti
 	return nil
 }
 
-//Deprecated version of SignalRCorsSettings_Status. Use v1beta20211001.SignalRCorsSettings_Status instead
+// Deprecated version of SignalRCorsSettings_Status. Use v1beta20211001.SignalRCorsSettings_Status instead
 type SignalRCorsSettings_Status struct {
 	AllowedOrigins []string `json:"allowedOrigins,omitempty"`
 }
@@ -3112,7 +3112,7 @@ func (settings *SignalRCorsSettings_Status) AssignPropertiesToSignalRCorsSetting
 	return nil
 }
 
-//Deprecated version of SignalRFeature. Use v1beta20211001.SignalRFeature instead
+// Deprecated version of SignalRFeature. Use v1beta20211001.SignalRFeature instead
 type SignalRFeature struct {
 	// +kubebuilder:validation:Required
 	Flag       *SignalRFeatureFlag `json:"flag,omitempty"`
@@ -3252,7 +3252,7 @@ func (feature *SignalRFeature) AssignPropertiesToSignalRFeature(destination *alp
 	return nil
 }
 
-//Deprecated version of SignalRFeature_Status. Use v1beta20211001.SignalRFeature_Status instead
+// Deprecated version of SignalRFeature_Status. Use v1beta20211001.SignalRFeature_Status instead
 type SignalRFeature_Status struct {
 	Flag       *FeatureFlags_Status `json:"flag,omitempty"`
 	Properties map[string]string    `json:"properties,omitempty"`
@@ -3348,7 +3348,7 @@ func (feature *SignalRFeature_Status) AssignPropertiesToSignalRFeatureStatus(des
 	return nil
 }
 
-//Deprecated version of SignalRNetworkACLs. Use v1beta20211001.SignalRNetworkACLs instead
+// Deprecated version of SignalRNetworkACLs. Use v1beta20211001.SignalRNetworkACLs instead
 type SignalRNetworkACLs struct {
 	DefaultAction    *SignalRNetworkACLsDefaultAction `json:"defaultAction,omitempty"`
 	PrivateEndpoints []PrivateEndpointACL             `json:"privateEndpoints,omitempty"`
@@ -3533,7 +3533,7 @@ func (acLs *SignalRNetworkACLs) AssignPropertiesToSignalRNetworkACLs(destination
 	return nil
 }
 
-//Deprecated version of SignalRNetworkACLs_Status. Use v1beta20211001.SignalRNetworkACLs_Status instead
+// Deprecated version of SignalRNetworkACLs_Status. Use v1beta20211001.SignalRNetworkACLs_Status instead
 type SignalRNetworkACLs_Status struct {
 	DefaultAction    *ACLAction_Status           `json:"defaultAction,omitempty"`
 	PrivateEndpoints []PrivateEndpointACL_Status `json:"privateEndpoints,omitempty"`
@@ -3684,7 +3684,7 @@ func (acLs *SignalRNetworkACLs_Status) AssignPropertiesToSignalRNetworkACLsStatu
 	return nil
 }
 
-//Deprecated version of SignalRTlsSettings. Use v1beta20211001.SignalRTlsSettings instead
+// Deprecated version of SignalRTlsSettings. Use v1beta20211001.SignalRTlsSettings instead
 type SignalRTlsSettings struct {
 	ClientCertEnabled *bool `json:"clientCertEnabled,omitempty"`
 }
@@ -3767,7 +3767,7 @@ func (settings *SignalRTlsSettings) AssignPropertiesToSignalRTlsSettings(destina
 	return nil
 }
 
-//Deprecated version of SignalRTlsSettings_Status. Use v1beta20211001.SignalRTlsSettings_Status instead
+// Deprecated version of SignalRTlsSettings_Status. Use v1beta20211001.SignalRTlsSettings_Status instead
 type SignalRTlsSettings_Status struct {
 	ClientCertEnabled *bool `json:"clientCertEnabled,omitempty"`
 }
@@ -3835,7 +3835,7 @@ func (settings *SignalRTlsSettings_Status) AssignPropertiesToSignalRTlsSettingsS
 	return nil
 }
 
-//Deprecated version of SystemData_Status. Use v1beta20211001.SystemData_Status instead
+// Deprecated version of SystemData_Status. Use v1beta20211001.SystemData_Status instead
 type SystemData_Status struct {
 	CreatedAt          *string                             `json:"createdAt,omitempty"`
 	CreatedBy          *string                             `json:"createdBy,omitempty"`
@@ -3978,7 +3978,7 @@ func (data *SystemData_Status) AssignPropertiesToSystemDataStatus(destination *a
 	return nil
 }
 
-//Deprecated version of ACLAction_Status. Use v1beta20211001.ACLAction_Status instead
+// Deprecated version of ACLAction_Status. Use v1beta20211001.ACLAction_Status instead
 type ACLAction_Status string
 
 const (
@@ -3986,7 +3986,7 @@ const (
 	ACLAction_StatusDeny  = ACLAction_Status("Deny")
 )
 
-//Deprecated version of FeatureFlags_Status. Use v1beta20211001.FeatureFlags_Status instead
+// Deprecated version of FeatureFlags_Status. Use v1beta20211001.FeatureFlags_Status instead
 type FeatureFlags_Status string
 
 const (
@@ -3996,7 +3996,7 @@ const (
 	FeatureFlags_StatusServiceMode            = FeatureFlags_Status("ServiceMode")
 )
 
-//Deprecated version of NetworkACL. Use v1beta20211001.NetworkACL instead
+// Deprecated version of NetworkACL. Use v1beta20211001.NetworkACL instead
 type NetworkACL struct {
 	Allow []NetworkACLAllow `json:"allow,omitempty"`
 	Deny  []NetworkACLDeny  `json:"deny,omitempty"`
@@ -4124,7 +4124,7 @@ func (networkACL *NetworkACL) AssignPropertiesToNetworkACL(destination *alpha202
 	return nil
 }
 
-//Deprecated version of NetworkACL_Status. Use v1beta20211001.NetworkACL_Status instead
+// Deprecated version of NetworkACL_Status. Use v1beta20211001.NetworkACL_Status instead
 type NetworkACL_Status struct {
 	Allow []SignalRRequestType_Status `json:"allow,omitempty"`
 	Deny  []SignalRRequestType_Status `json:"deny,omitempty"`
@@ -4233,7 +4233,7 @@ func (networkACL *NetworkACL_Status) AssignPropertiesToNetworkACLStatus(destinat
 	return nil
 }
 
-//Deprecated version of PrivateEndpointACL. Use v1beta20211001.PrivateEndpointACL instead
+// Deprecated version of PrivateEndpointACL. Use v1beta20211001.PrivateEndpointACL instead
 type PrivateEndpointACL struct {
 	Allow []PrivateEndpointACLAllow `json:"allow,omitempty"`
 	Deny  []PrivateEndpointACLDeny  `json:"deny,omitempty"`
@@ -4382,7 +4382,7 @@ func (endpointACL *PrivateEndpointACL) AssignPropertiesToPrivateEndpointACL(dest
 	return nil
 }
 
-//Deprecated version of PrivateEndpointACL_Status. Use v1beta20211001.PrivateEndpointACL_Status instead
+// Deprecated version of PrivateEndpointACL_Status. Use v1beta20211001.PrivateEndpointACL_Status instead
 type PrivateEndpointACL_Status struct {
 	Allow []SignalRRequestType_Status `json:"allow,omitempty"`
 	Deny  []SignalRRequestType_Status `json:"deny,omitempty"`
@@ -4504,7 +4504,7 @@ func (endpointACL *PrivateEndpointACL_Status) AssignPropertiesToPrivateEndpointA
 	return nil
 }
 
-//Deprecated version of ResourceLogCategory. Use v1beta20211001.ResourceLogCategory instead
+// Deprecated version of ResourceLogCategory. Use v1beta20211001.ResourceLogCategory instead
 type ResourceLogCategory struct {
 	Enabled *string `json:"enabled,omitempty"`
 	Name    *string `json:"name,omitempty"`
@@ -4596,7 +4596,7 @@ func (category *ResourceLogCategory) AssignPropertiesToResourceLogCategory(desti
 	return nil
 }
 
-//Deprecated version of ResourceLogCategory_Status. Use v1beta20211001.ResourceLogCategory_Status instead
+// Deprecated version of ResourceLogCategory_Status. Use v1beta20211001.ResourceLogCategory_Status instead
 type ResourceLogCategory_Status struct {
 	Enabled *string `json:"enabled,omitempty"`
 	Name    *string `json:"name,omitempty"`
@@ -4667,7 +4667,7 @@ func (category *ResourceLogCategory_Status) AssignPropertiesToResourceLogCategor
 	return nil
 }
 
-//Deprecated version of SignalRFeatureFlag. Use v1beta20211001.SignalRFeatureFlag instead
+// Deprecated version of SignalRFeatureFlag. Use v1beta20211001.SignalRFeatureFlag instead
 // +kubebuilder:validation:Enum={"EnableConnectivityLogs","EnableLiveTrace","EnableMessagingLogs","ServiceMode"}
 type SignalRFeatureFlag string
 
@@ -4678,7 +4678,7 @@ const (
 	SignalRFeatureFlagServiceMode            = SignalRFeatureFlag("ServiceMode")
 )
 
-//Deprecated version of SignalRNetworkACLsDefaultAction. Use v1beta20211001.SignalRNetworkACLsDefaultAction instead
+// Deprecated version of SignalRNetworkACLsDefaultAction. Use v1beta20211001.SignalRNetworkACLsDefaultAction instead
 // +kubebuilder:validation:Enum={"Allow","Deny"}
 type SignalRNetworkACLsDefaultAction string
 
@@ -4687,7 +4687,7 @@ const (
 	SignalRNetworkACLsDefaultActionDeny  = SignalRNetworkACLsDefaultAction("Deny")
 )
 
-//Deprecated version of UpstreamTemplate. Use v1beta20211001.UpstreamTemplate instead
+// Deprecated version of UpstreamTemplate. Use v1beta20211001.UpstreamTemplate instead
 type UpstreamTemplate struct {
 	Auth            *UpstreamAuthSettings `json:"auth,omitempty"`
 	CategoryPattern *string               `json:"categoryPattern,omitempty"`
@@ -4865,7 +4865,7 @@ func (template *UpstreamTemplate) AssignPropertiesToUpstreamTemplate(destination
 	return nil
 }
 
-//Deprecated version of UpstreamTemplate_Status. Use v1beta20211001.UpstreamTemplate_Status instead
+// Deprecated version of UpstreamTemplate_Status. Use v1beta20211001.UpstreamTemplate_Status instead
 type UpstreamTemplate_Status struct {
 	Auth            *UpstreamAuthSettings_Status `json:"auth,omitempty"`
 	CategoryPattern *string                      `json:"categoryPattern,omitempty"`
@@ -4998,7 +4998,7 @@ func (template *UpstreamTemplate_Status) AssignPropertiesToUpstreamTemplateStatu
 	return nil
 }
 
-//Deprecated version of UserAssignedIdentityProperty_Status. Use v1beta20211001.UserAssignedIdentityProperty_Status instead
+// Deprecated version of UserAssignedIdentityProperty_Status. Use v1beta20211001.UserAssignedIdentityProperty_Status instead
 type UserAssignedIdentityProperty_Status struct {
 	ClientId    *string `json:"clientId,omitempty"`
 	PrincipalId *string `json:"principalId,omitempty"`
@@ -5069,7 +5069,7 @@ func (property *UserAssignedIdentityProperty_Status) AssignPropertiesToUserAssig
 	return nil
 }
 
-//Deprecated version of NetworkACLAllow. Use v1beta20211001.NetworkACLAllow instead
+// Deprecated version of NetworkACLAllow. Use v1beta20211001.NetworkACLAllow instead
 // +kubebuilder:validation:Enum={"ClientConnection","RESTAPI","ServerConnection","Trace"}
 type NetworkACLAllow string
 
@@ -5080,7 +5080,7 @@ const (
 	NetworkACLAllowTrace            = NetworkACLAllow("Trace")
 )
 
-//Deprecated version of NetworkACLDeny. Use v1beta20211001.NetworkACLDeny instead
+// Deprecated version of NetworkACLDeny. Use v1beta20211001.NetworkACLDeny instead
 // +kubebuilder:validation:Enum={"ClientConnection","RESTAPI","ServerConnection","Trace"}
 type NetworkACLDeny string
 
@@ -5091,7 +5091,7 @@ const (
 	NetworkACLDenyTrace            = NetworkACLDeny("Trace")
 )
 
-//Deprecated version of PrivateEndpointACLAllow. Use v1beta20211001.PrivateEndpointACLAllow instead
+// Deprecated version of PrivateEndpointACLAllow. Use v1beta20211001.PrivateEndpointACLAllow instead
 // +kubebuilder:validation:Enum={"ClientConnection","RESTAPI","ServerConnection","Trace"}
 type PrivateEndpointACLAllow string
 
@@ -5102,7 +5102,7 @@ const (
 	PrivateEndpointACLAllowTrace            = PrivateEndpointACLAllow("Trace")
 )
 
-//Deprecated version of PrivateEndpointACLDeny. Use v1beta20211001.PrivateEndpointACLDeny instead
+// Deprecated version of PrivateEndpointACLDeny. Use v1beta20211001.PrivateEndpointACLDeny instead
 // +kubebuilder:validation:Enum={"ClientConnection","RESTAPI","ServerConnection","Trace"}
 type PrivateEndpointACLDeny string
 
@@ -5113,7 +5113,7 @@ const (
 	PrivateEndpointACLDenyTrace            = PrivateEndpointACLDeny("Trace")
 )
 
-//Deprecated version of SignalRRequestType_Status. Use v1beta20211001.SignalRRequestType_Status instead
+// Deprecated version of SignalRRequestType_Status. Use v1beta20211001.SignalRRequestType_Status instead
 type SignalRRequestType_Status string
 
 const (
@@ -5123,7 +5123,7 @@ const (
 	SignalRRequestType_StatusTrace            = SignalRRequestType_Status("Trace")
 )
 
-//Deprecated version of UpstreamAuthSettings. Use v1beta20211001.UpstreamAuthSettings instead
+// Deprecated version of UpstreamAuthSettings. Use v1beta20211001.UpstreamAuthSettings instead
 type UpstreamAuthSettings struct {
 	ManagedIdentity *ManagedIdentitySettings  `json:"managedIdentity,omitempty"`
 	Type            *UpstreamAuthSettingsType `json:"type,omitempty"`
@@ -5252,7 +5252,7 @@ func (settings *UpstreamAuthSettings) AssignPropertiesToUpstreamAuthSettings(des
 	return nil
 }
 
-//Deprecated version of UpstreamAuthSettings_Status. Use v1beta20211001.UpstreamAuthSettings_Status instead
+// Deprecated version of UpstreamAuthSettings_Status. Use v1beta20211001.UpstreamAuthSettings_Status instead
 type UpstreamAuthSettings_Status struct {
 	ManagedIdentity *ManagedIdentitySettings_Status `json:"managedIdentity,omitempty"`
 	Type            *UpstreamAuthType_Status        `json:"type,omitempty"`
@@ -5356,7 +5356,7 @@ func (settings *UpstreamAuthSettings_Status) AssignPropertiesToUpstreamAuthSetti
 	return nil
 }
 
-//Deprecated version of ManagedIdentitySettings. Use v1beta20211001.ManagedIdentitySettings instead
+// Deprecated version of ManagedIdentitySettings. Use v1beta20211001.ManagedIdentitySettings instead
 type ManagedIdentitySettings struct {
 	Resource *string `json:"resource,omitempty"`
 }
@@ -5429,7 +5429,7 @@ func (settings *ManagedIdentitySettings) AssignPropertiesToManagedIdentitySettin
 	return nil
 }
 
-//Deprecated version of ManagedIdentitySettings_Status. Use v1beta20211001.ManagedIdentitySettings_Status instead
+// Deprecated version of ManagedIdentitySettings_Status. Use v1beta20211001.ManagedIdentitySettings_Status instead
 type ManagedIdentitySettings_Status struct {
 	Resource *string `json:"resource,omitempty"`
 }
@@ -5487,7 +5487,7 @@ func (settings *ManagedIdentitySettings_Status) AssignPropertiesToManagedIdentit
 	return nil
 }
 
-//Deprecated version of UpstreamAuthSettingsType. Use v1beta20211001.UpstreamAuthSettingsType instead
+// Deprecated version of UpstreamAuthSettingsType. Use v1beta20211001.UpstreamAuthSettingsType instead
 // +kubebuilder:validation:Enum={"ManagedIdentity","None"}
 type UpstreamAuthSettingsType string
 
@@ -5496,7 +5496,7 @@ const (
 	UpstreamAuthSettingsTypeNone            = UpstreamAuthSettingsType("None")
 )
 
-//Deprecated version of UpstreamAuthType_Status. Use v1beta20211001.UpstreamAuthType_Status instead
+// Deprecated version of UpstreamAuthType_Status. Use v1beta20211001.UpstreamAuthType_Status instead
 type UpstreamAuthType_Status string
 
 const (

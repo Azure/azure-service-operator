@@ -6,16 +6,16 @@ package v1beta20201101
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type VirtualNetworksVirtualNetworkPeerings_SpecARM struct {
-	//Location: Location to deploy resource to
+	// Location: Location to deploy resource to
 	Location *string `json:"location,omitempty"`
 
-	//Name: Name of the resource
+	// Name: Name of the resource
 	Name string `json:"name,omitempty"`
 
-	//Properties: Properties of the virtual network peering.
+	// Properties: Properties of the virtual network peering.
 	Properties *VirtualNetworkPeeringPropertiesFormatARM `json:"properties,omitempty"`
 
-	//Tags: Name-value pairs to add to the resource
+	// Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
@@ -36,42 +36,42 @@ func (peerings VirtualNetworksVirtualNetworkPeerings_SpecARM) GetType() string {
 	return "Microsoft.Network/virtualNetworks/virtualNetworkPeerings"
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/VirtualNetworkPeeringPropertiesFormat
+// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/VirtualNetworkPeeringPropertiesFormat
 type VirtualNetworkPeeringPropertiesFormatARM struct {
-	//AllowForwardedTraffic: Whether the forwarded traffic from the VMs in the local virtual network will be
-	//allowed/disallowed in remote virtual network.
+	// AllowForwardedTraffic: Whether the forwarded traffic from the VMs in the local virtual network will be
+	// allowed/disallowed in remote virtual network.
 	AllowForwardedTraffic *bool `json:"allowForwardedTraffic,omitempty"`
 
-	//AllowGatewayTransit: If gateway links can be used in remote virtual networking to link to this virtual network.
+	// AllowGatewayTransit: If gateway links can be used in remote virtual networking to link to this virtual network.
 	AllowGatewayTransit *bool `json:"allowGatewayTransit,omitempty"`
 
-	//AllowVirtualNetworkAccess: Whether the VMs in the local virtual network space would be able to access the VMs in remote
-	//virtual network space.
+	// AllowVirtualNetworkAccess: Whether the VMs in the local virtual network space would be able to access the VMs in remote
+	// virtual network space.
 	AllowVirtualNetworkAccess *bool `json:"allowVirtualNetworkAccess,omitempty"`
 
-	//PeeringState: The status of the virtual network peering.
+	// PeeringState: The status of the virtual network peering.
 	PeeringState *VirtualNetworkPeeringPropertiesFormatPeeringState `json:"peeringState,omitempty"`
 
-	//RemoteAddressSpace: The reference to the remote virtual network address space.
+	// RemoteAddressSpace: The reference to the remote virtual network address space.
 	RemoteAddressSpace *AddressSpaceARM `json:"remoteAddressSpace,omitempty"`
 
-	//RemoteBgpCommunities: The reference to the remote virtual network's Bgp Communities.
+	// RemoteBgpCommunities: The reference to the remote virtual network's Bgp Communities.
 	RemoteBgpCommunities *VirtualNetworkBgpCommunitiesARM `json:"remoteBgpCommunities,omitempty"`
 
-	//RemoteVirtualNetwork: The reference to the remote virtual network. The remote virtual network can be in the same or
-	//different region (preview). See here to register for the preview and learn more
-	//(https://docs.microsoft.com/en-us/azure/virtual-network/virtual-network-create-peering).
+	// RemoteVirtualNetwork: The reference to the remote virtual network. The remote virtual network can be in the same or
+	// different region (preview). See here to register for the preview and learn more
+	// (https://docs.microsoft.com/en-us/azure/virtual-network/virtual-network-create-peering).
 	RemoteVirtualNetwork *SubResourceARM `json:"remoteVirtualNetwork,omitempty"`
 
-	//UseRemoteGateways: If remote gateways can be used on this virtual network. If the flag is set to true, and
-	//allowGatewayTransit on remote peering is also true, virtual network will use gateways of remote virtual network for
-	//transit. Only one peering can have this flag set to true. This flag cannot be set if virtual network already has a
-	//gateway.
+	// UseRemoteGateways: If remote gateways can be used on this virtual network. If the flag is set to true, and
+	// allowGatewayTransit on remote peering is also true, virtual network will use gateways of remote virtual network for
+	// transit. Only one peering can have this flag set to true. This flag cannot be set if virtual network already has a
+	// gateway.
 	UseRemoteGateways *bool `json:"useRemoteGateways,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/VirtualNetworkBgpCommunities
+// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/VirtualNetworkBgpCommunities
 type VirtualNetworkBgpCommunitiesARM struct {
-	//VirtualNetworkCommunity: The BGP community associated with the virtual network.
+	// VirtualNetworkCommunity: The BGP community associated with the virtual network.
 	VirtualNetworkCommunity *string `json:"virtualNetworkCommunity,omitempty"`
 }
