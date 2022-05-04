@@ -79,7 +79,7 @@ func AddComment(commentList *dst.Decorations, comment string) {
 	line := comment
 
 	if !strings.HasPrefix(line, "//") {
-		line = "//" + line
+		line = "// " + line
 	}
 
 	commentList.Append(line)
