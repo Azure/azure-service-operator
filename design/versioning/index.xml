@@ -1,10 +1,31 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Versioning on Azure Service Operator</title>
+    <title>Azure Service Operator – Resource versioning</title>
     <link>https://azure.github.io/azure-service-operator/design/versioning/</link>
-    <description>Recent content in Versioning on Azure Service Operator</description>
+    <description>Recent content in Resource versioning on Azure Service Operator</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language><atom:link href="https://azure.github.io/azure-service-operator/design/versioning/index.xml" rel="self" type="application/rss+xml" />
+    <language>en-us</language>
+    
+	  <atom:link href="https://azure.github.io/azure-service-operator/design/versioning/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+      
+        
+      
+    
+    
+    <item>
+      <title>Design: Case Studies</title>
+      <link>https://azure.github.io/azure-service-operator/design/versioning/case-studies/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/design/versioning/case-studies/</guid>
+      <description>
+        
+        
+        
+      </description>
+    </item>
+    
   </channel>
 </rss>

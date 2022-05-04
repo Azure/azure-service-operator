@@ -1,70 +1,18 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Design &amp; Specifications on Azure Service Operator</title>
+    <title>Azure Service Operator – Design &amp; Specifications</title>
     <link>https://azure.github.io/azure-service-operator/design/</link>
     <description>Recent content in Design &amp; Specifications on Azure Service Operator</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language><atom:link href="https://azure.github.io/azure-service-operator/design/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Azure Service Operator support for managing dataplane secrets</title>
-      <link>https://azure.github.io/azure-service-operator/design/secrets/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://azure.github.io/azure-service-operator/design/secrets/</guid>
-      <description>Azure Service Operator support for managing dataplane secrets #  What secrets are we talking about? #  The secrets discussed in this document are associated with accessing the data plane of various services.
-Think: Accessing a StorageAccount via Shared Key, accessing a MySQLServer by admin Username and Password, or accessing a VM by SSHKey.
-Sometimes these secrets may be used by other CRDs managed by ASO, as would be the case for a MySQLUser CRD, but often the consumers of these secrets are the users applications.</description>
-    </item>
+    <language>en-us</language>
     
-    <item>
-      <title>Clarifying object structure</title>
-      <link>https://azure.github.io/azure-service-operator/design/clarifying-object-structure/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://azure.github.io/azure-service-operator/design/clarifying-object-structure/</guid>
-      <description>Clarifying object structure #  Today we have resources that look like:
-apiVersion: microsoft.storage.infra.azure.com/v1alpha1api20190401 kind: StorageAccount metadata: name: samplekubestorage namespace: default spec: azureName: mykubestorage location: westcentralus kind: BlobStorage sku: name: Standard_LRS owner: name: k8sinfra-sample-rg accessTier: Hot tags: tag1: tag1 tag2: tag2 The problem #  There&amp;rsquo;s no good way with this object structure to differentiate stuff that is for Azure directly, versus stuff that is for the operator. owner almost falls into this category already, but there are other likely upcoming properties that definitely fall into this category:</description>
-    </item>
+	  <atom:link href="https://azure.github.io/azure-service-operator/design/index.xml" rel="self" type="application/rss+xml" />
     
-    <item>
-      <title>Custom validation and defaulting for code generated resources</title>
-      <link>https://azure.github.io/azure-service-operator/design/defaulter-validator/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://azure.github.io/azure-service-operator/design/defaulter-validator/</guid>
-      <description>Custom validation and defaulting for code generated resources #  Reasoning #  controller-runtime defines admission.Defaulter and admission.Validator. These interfaces only give you a single Default or ValidateX method, which means that all validation/defaulting needs to be done in that method. I think we&amp;rsquo;re going to quickly run into situations where we want custom (handcrafted) validations or defaults for a particular resource and we&amp;rsquo;re not going to want to teach the code generator about these.</description>
-    </item>
     
-    <item>
-      <title>Proposal for reporting resource Status</title>
-      <link>https://azure.github.io/azure-service-operator/design/resource-states/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://azure.github.io/azure-service-operator/design/resource-states/</guid>
-      <description>Proposal for reporting resource Status #  What Status are we talking about? #  There are two types of Status that we&amp;rsquo;re interested in understanding and reporting to the user when running an operator that creates resources in Azure:
- The Status of the operator and its actions on the resource. Has the resource successfully been reconciled? Is the operator in the progress of driving the resource to its goal state (defined in the spec), or has it already done so and is now waiting for more changes before taking further action?</description>
-    </item>
+        
+      
     
-    <item>
-      <title>Thoughts on performing provider-azure code generation for Crossplane</title>
-      <link>https://azure.github.io/azure-service-operator/design/crossplane/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://azure.github.io/azure-service-operator/design/crossplane/</guid>
-      <description>Thoughts on performing provider-azure code generation for Crossplane #  The patterns identified below were extrapolated from the Crossplane VNET spec.
-General notes #  Crossplane has the following static &amp;ldquo;special&amp;rdquo; properties #   ForProvider - this contains the actual &amp;ldquo;spec&amp;rdquo; as Azure would see it. DeletionPolicy ProviderConfigRef WriteConnectionSecretToRef  Since these are statically shaped they should be relatively easy to add with Crossplane specific generator pipeline stages.
-Items #2-4 are included automatically by embedding the runtimev1alpha1.</description>
-    </item>
-    
-    <item>
-      <title>Type references and ownership</title>
-      <link>https://azure.github.io/azure-service-operator/design/type-references-and-ownership/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://azure.github.io/azure-service-operator/design/type-references-and-ownership/</guid>
-      <description>Type references and ownership #  Related reading #   Kubernetes garbage collection. Kubernetes RBAC  Related Projects #   ASO: Azure Service Operator k8s-infra: The handcrafted precurser to the code generation tool being designed.  Goals #   Provide a way for customers to express relationships between Azure resources in an idiomatic Kubernetes way. Provide automatic ownership and garbage collection (using Kubernetes garbage collection) where appropriate (e.</description>
-    </item>
     
   </channel>
 </rss>

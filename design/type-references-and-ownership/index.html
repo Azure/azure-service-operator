@@ -1,1260 +1,367 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-<head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Type references and ownership #  Related reading #   Kubernetes garbage collection. Kubernetes RBAC  Related Projects #   ASO: Azure Service Operator k8s-infra: The handcrafted precurser to the code generation tool being designed.  Goals #   Provide a way for customers to express relationships between Azure resources in an idiomatic Kubernetes way. Provide automatic ownership and garbage collection (using Kubernetes garbage collection) where appropriate (e.">
-<meta name="theme-color" content="#FFFFFF">
-<meta name="color-scheme" content="light dark"><meta property="og:title" content="Type references and ownership" />
-<meta property="og:description" content="Type references and ownership #  Related reading #   Kubernetes garbage collection. Kubernetes RBAC  Related Projects #   ASO: Azure Service Operator k8s-infra: The handcrafted precurser to the code generation tool being designed.  Goals #   Provide a way for customers to express relationships between Azure resources in an idiomatic Kubernetes way. Provide automatic ownership and garbage collection (using Kubernetes garbage collection) where appropriate (e." />
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="generator" content="Hugo 0.88.1" />
+<meta name="robots" content="index, follow">
+
+
+<link rel="shortcut icon" href="/azure-service-operator/favicons/favicon.ico" >
+<link rel="apple-touch-icon" href="/azure-service-operator/favicons/apple-touch-icon-180x180.png" sizes="180x180">
+<link rel="icon" type="image/png" href="/azure-service-operator/favicons/favicon-16x16.png" sizes="16x16">
+<link rel="icon" type="image/png" href="/azure-service-operator/favicons/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-36x36.png" sizes="36x36">
+<link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-48x48.png" sizes="48x48">
+<link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-72x72.png" sizes="72x72">
+<link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-96x96.png" sizes="96x96">
+<link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-144x144.png" sizes="144x144">
+<link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
+
+<title>Type References &amp; ownership | Azure Service Operator</title>
+<meta name="description" content="Related reading
+
+Kubernetes garbage collection.
+Kubernetes RBAC
+
+Related Projects
+
+ASO: Azure Service Operator
+k8s-infra: The handcrafted precurser to …">
+<meta property="og:title" content="Type References &amp; ownership" />
+<meta property="og:description" content="Related reading  Kubernetes garbage collection. Kubernetes RBAC  Related Projects  ASO: Azure Service Operator k8s-infra: The handcrafted precurser to the code generation tool being designed.  Goals  Provide a way for customers to express relationships between Azure resources in an idiomatic Kubernetes way. Provide automatic ownership and garbage collection (using Kubernetes garbage collection) where appropriate (e.g. ResourceGroup as an owner of all the resources inside of it)  Ideally ResourceGroup is handled the same as other owners and isn&rsquo;t special cased." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/design/type-references-and-ownership/" /><meta property="article:section" content="design" />
 
 
 
-<title>Type references and ownership | Azure Service Operator</title>
-<link rel="manifest" href="/azure-service-operator/manifest.json">
-<link rel="icon" href="/azure-service-operator/favicon.png" type="image/x-icon">
-<link rel="stylesheet" href="/azure-service-operator/book.min.46181bc93375ba932026e753b37c40e6ff8bb16a9ef770c78bcc663e4577b1ba.css" integrity="sha256-RhgbyTN1upMgJudTs3xA5v&#43;LsWqe93DHi8xmPkV3sbo=" crossorigin="anonymous">
-  <script defer src="/azure-service-operator/flexsearch.min.js"></script>
-  <script defer src="/azure-service-operator/en.search.min.6d0bb06df0225e46bfd7605a26a5518b75140215b9d87e5db1c8c863ced21e75.js" integrity="sha256-bQuwbfAiXka/12BaJqVRi3UUAhW52H5dscjIY87SHnU=" crossorigin="anonymous"></script>
-<!--
-Made with Book Theme
-https://github.com/alex-shpak/hugo-book
--->
-  
-</head>
-<body dir="ltr">
-  <input type="checkbox" class="hidden toggle" id="menu-control" />
-  <input type="checkbox" class="hidden toggle" id="toc-control" />
-  <main class="container flex">
-    <aside class="book-menu">
-      <div class="book-menu-content">
-        
-  <nav>
-<h2 class="book-brand">
-  <a class="flex align-center" href="/azure-service-operator/"><span>Azure Service Operator</span>
-  </a>
-</h2>
-
-
-<div class="book-search">
-  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
-  <div class="book-search-spinner hidden"></div>
-  <ul id="book-search-results"></ul>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-  
-
-
-
-  
-  <ul>
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <span>User’s Guide</span>
-  
-
-          
-  <ul>
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/introduction/metrics/" class="">Metrics</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/introduction/resources/" class="">Resources</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/introduction/annotations/" class="">Annotations understood by the operator</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/introduction/authentication/" class="">Authentication in Azure Service Operator v2</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/introduction/multitenant-deployment/" class="">Deploying Azure Service Operator v2 in multi-tenant mode</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/introduction/diagnosing-problems/" class="">Diagnosing problems</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/introduction/secrets/" class="">Handling secrets</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/introduction/installing-from-yaml/" class="">Installation: From YAML</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/introduction/tutorial-cosmosdb/" class="">Tutorial: CosmosDB to-do List</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/introduction/tutorial-postgresql/" class="">Tutorial: PostgreSQL Votes</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/introduction/conditions/" class="">Understanding Conditions</a>
-  
-
-        </li>
-      
-    
-  </ul>
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <span>For Contributors</span>
-  
-
-          
-  <ul>
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/contributing/contributing/" class="">Contributing</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/" class="">Adding a new code generated resource to ASO v2</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/contributing/generator-overview/" class="">Code Generator Overview</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/contributing/create-a-new-release/" class="">Creating a new release of ASO v2</a>
-  
-
-        </li>
-      
-    
-  </ul>
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <span>Design &amp; Specifications</span>
-  
-
-          
-  <ul>
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/design/secrets/" class="">Azure Service Operator support for managing dataplane secrets</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/design/clarifying-object-structure/" class="">Clarifying object structure</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/design/defaulter-validator/" class="">Custom validation and defaulting for code generated resources</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/design/resource-states/" class="">Proposal for reporting resource Status</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/design/crossplane/" class="">Thoughts on performing provider-azure code generation for Crossplane</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/design/type-references-and-ownership/" class=" active">Type references and ownership</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/design/versioning/" class="">Versioning</a>
-  
-
-          
-  <ul>
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <span>Case Studies</span>
-  
-
-          
-  <ul>
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/design/versioning/case-studies/chained-storage-versions/" class="">Chained Storage Versions</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/design/versioning/case-studies/fixed-storage-version/" class="">Fixed Storage Version</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/design/versioning/case-studies/rolling-storage-versions/" class="">Rolling Storage Versions</a>
-  
-
-        </li>
-      
-    
-  </ul>
-
-        </li>
-      
-    
-  </ul>
-
-        </li>
-      
-    
-  </ul>
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/" class="">Architecture Decision Records</a>
-  
-
-          
-  <ul>
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-04-code-generation/" class="">2020-04: Why Code Generation?</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-07-pipeline-architecture/" class="">2020-07: Pipeline Architecture</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-11-abstract-syntax-trees/" class="">2020-11: AST Library Choice</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-02-property-conversions/" class="">2021-02: Property Conversions</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-06-api-version-recovery/" class="">2021-06: API Version Recovery</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-08-committing-generated-code/" class="">2021-08: Committing Generated Code</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2022-01-reconciler-extensions/" class="">2022-01: Reconciler Extensions</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2022-02-backward-compatibility/" class="">2022-02: Backward Resource Compatibility</a>
-  
-
-        </li>
-      
-    
-  </ul>
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <span>References</span>
-  
-
-          
-  <ul>
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/reference/authorization.v1alpha1api20200801preview/" class="">authorization.azure.com/v1alpha1api20200801preview</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/reference/authorization.v1beta20200801preview/" class="">authorization.azure.com/v1beta20200801preview</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/reference/batch.v1alpha1api20210101/" class="">batch.azure.com/v1alpha1api20210101</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/reference/batch.v1beta20210101/" class="">batch.azure.com/v1beta20210101</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/reference/cache.v1alpha1api20201201/" class="">cache.azure.com/v1alpha1api20201201</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/reference/cache.v1alpha1api20210301/" class="">cache.azure.com/v1alpha1api20210301</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/reference/cache.v1beta20201201/" class="">cache.azure.com/v1beta20201201</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/reference/cache.v1beta20210301/" class="">cache.azure.com/v1beta20210301</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/reference/compute.v1alpha1api20200930/" class="">compute.azure.com/v1alpha1api20200930</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/reference/compute.v1alpha1api20201201/" class="">compute.azure.com/v1alpha1api20201201</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/reference/compute.v1alpha1api20210701/" class="">compute.azure.com/v1alpha1api20210701</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/reference/compute.v1beta20200930/" class="">compute.azure.com/v1beta20200930</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/reference/compute.v1beta20201201/" class="">compute.azure.com/v1beta20201201</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/reference/compute.v1beta20210701/" class="">compute.azure.com/v1beta20210701</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/reference/containerregistry.v1alpha1api20210901/" class="">containerregistry.azure.com/v1alpha1api20210901</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/reference/containerregistry.v1beta20210901/" class="">containerregistry.azure.com/v1beta20210901</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/reference/containerservice.v1alpha1api20210501/" class="">containerservice.azure.com/v1alpha1api20210501</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/reference/containerservice.v1beta20210501/" class="">containerservice.azure.com/v1beta20210501</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/reference/dbformysql.v1alpha1api20210501/" class="">dbformysql.azure.com/v1alpha1api20210501</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/reference/dbformysql.v1beta20210501/" class="">dbformysql.azure.com/v1beta20210501</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/reference/dbforpostgresql.v1alpha1api20210601/" class="">dbforpostgresql.azure.com/v1alpha1api20210601</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/reference/dbforpostgresql.v1beta20210601/" class="">dbforpostgresql.azure.com/v1beta20210601</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/reference/documentdb.v1alpha1api20210515/" class="">documentdb.azure.com/v1alpha1api20210515</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/reference/documentdb.v1beta20210515/" class="">documentdb.azure.com/v1beta20210515</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/reference/eventgrid.v1alpha1api20200601/" class="">eventgrid.azure.com/v1alpha1api20200601</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/reference/eventgrid.v1beta20200601/" class="">eventgrid.azure.com/v1beta20200601</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/reference/eventhub.v1alpha1api20211101/" class="">eventhub.azure.com/v1alpha1api20211101</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/reference/eventhub.v1beta20211101/" class="">eventhub.azure.com/v1beta20211101</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/reference/insights.v1alpha1api20180501preview/" class="">insights.azure.com/v1alpha1api20180501preview</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/reference/insights.v1alpha1api20200202/" class="">insights.azure.com/v1alpha1api20200202</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/reference/insights.v1beta20180501preview/" class="">insights.azure.com/v1beta20180501preview</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/reference/insights.v1beta20200202/" class="">insights.azure.com/v1beta20200202</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/reference/managedidentity.v1alpha1api20181130/" class="">managedidentity.azure.com/v1alpha1api20181130</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/reference/managedidentity.v1beta20181130/" class="">managedidentity.azure.com/v1beta20181130</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/reference/network.v1alpha1api20201101/" class="">network.azure.com/v1alpha1api20201101</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/reference/network.v1beta20201101/" class="">network.azure.com/v1beta20201101</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/reference/operationalinsights.v1alpha1api20210601/" class="">operationalinsights.azure.com/v1alpha1api20210601</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/reference/operationalinsights.v1beta20210601/" class="">operationalinsights.azure.com/v1beta20210601</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/reference/resources.v1alpha1api20200601/" class="">resources.azure.com/v1alpha1api20200601</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/reference/resources.v1beta20200601/" class="">resources.azure.com/v1beta20200601</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/reference/servicebus.v1alpha1api20210101preview/" class="">servicebus.azure.com/v1alpha1api20210101preview</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/reference/servicebus.v1beta20210101preview/" class="">servicebus.azure.com/v1beta20210101preview</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/reference/signalrservice.v1alpha1api20211001/" class="">signalrservice.azure.com/v1alpha1api20211001</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/reference/signalrservice.v1beta20211001/" class="">signalrservice.azure.com/v1beta20211001</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/reference/storage.v1alpha1api20210401/" class="">storage.azure.com/v1alpha1api20210401</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/reference/storage.v1beta20210401/" class="">storage.azure.com/v1beta20210401</a>
-  
-
-        </li>
-      
-    
-  </ul>
-
-        </li>
-      
-    
-  </ul>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<meta itemprop="name" content="Type References &amp; ownership">
+<meta itemprop="description" content="Related reading  Kubernetes garbage collection. Kubernetes RBAC  Related Projects  ASO: Azure Service Operator k8s-infra: The handcrafted precurser to the code generation tool being designed.  Goals  Provide a way for customers to express relationships between Azure resources in an idiomatic Kubernetes way. Provide automatic ownership and garbage collection (using Kubernetes garbage collection) where appropriate (e.g. ResourceGroup as an owner of all the resources inside of it)  Ideally ResourceGroup is handled the same as other owners and isn&rsquo;t special cased.">
+
+<meta itemprop="wordCount" content="4795">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Type References &amp; ownership"/>
+<meta name="twitter:description" content="Related reading  Kubernetes garbage collection. Kubernetes RBAC  Related Projects  ASO: Azure Service Operator k8s-infra: The handcrafted precurser to the code generation tool being designed.  Goals  Provide a way for customers to express relationships between Azure resources in an idiomatic Kubernetes way. Provide automatic ownership and garbage collection (using Kubernetes garbage collection) where appropriate (e.g. ResourceGroup as an owner of all the resources inside of it)  Ideally ResourceGroup is handled the same as other owners and isn&rsquo;t special cased."/>
+
+
+
+
+<link rel="preload" href="/azure-service-operator/scss/main.min.209ee91954d0f2f182770e6c71011a5580360636bcf2a9bcf7f1c3da478784ff.css" as="style">
+<link href="/azure-service-operator/scss/main.min.209ee91954d0f2f182770e6c71011a5580360636bcf2a9bcf7f1c3da478784ff.css" rel="stylesheet" integrity="">
+
+<script
+  src="https://code.jquery.com/jquery-3.6.0.min.js"
+  integrity="sha384-vtXRMe3mGCbOeY7l30aIg8H9p3GdeSe4IFlP6G8JMa7o7lXvnz3GFKzPxzJdPfGK"
+  crossorigin="anonymous"></script>
+
+  </head>
+  <body class="td-page">
+    <header>
+      
+<nav class="js-navbar-scroll navbar navbar-expand navbar-dark flex-column flex-md-row td-navbar">
+        <a class="navbar-brand" href="/azure-service-operator/">
+		<span class="navbar-logo"><svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 500" style="enable-background:new 0 0 500 500"><g><path style="fill:#fff" d="M116.8525 421.9722c-5.7041.0-10.3442-4.3127-10.3442-9.6129V88.183c0-5.3002 4.6401-9.6117 10.3442-9.6117H320.858c3.0347.0 9.3959.5498 11.7506 2.6302l.3545.3442 58.905 63.2912c2.3101 2.491 2.9202 8.4928 2.9202 11.3184v256.2039c0 5.3002-4.6407 9.6129-10.3436 9.6129H116.8525z"/><g><g><g><path style="fill:#767676" d="M384.4445 423.2066H116.852c-6.3839.0-11.5786-4.8658-11.5786-10.8474V88.1831c0-5.9804 5.1947-10.8461 11.5786-10.8461h204.0062c.377.0 9.2786.0329 12.568 2.9389l.3947.3833 58.9508 63.337c3.2135 3.4652 3.2514 11.7924 3.2514 12.1593v256.2036C396.0231 418.3408 390.8284 423.2066 384.4445 423.2066zM116.5079 411.9189c.0848.0278.1999.0531.3441.0531h267.5925c.1442.0.2581-.0253.3441-.0531V156.1556c-.0076-.9033-.3593-3.7347-.7034-5.0037l-57.6527-61.9416c-1.4651-.3176-4.4533-.6389-5.5742-.6389H116.852c-.143.0-.2594.024-.3441.0531V411.9189zm267.4533-261.149zM327.0321 89.371v.0013V89.371z"/></g></g></g><g><g><path style="fill:#5b7fc0" d="M189.0874 210.1754l.0012-.0012c7.7751.0012 15.0295 4.1862 18.932 10.9234 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3304-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032s-11.328-2.2733-15.458-6.4032-6.4032-9.6186-6.4056-15.4628c.0012-6.025 2.454-11.4897 6.4116-15.4473C177.5953 212.627 183.0601 210.1742 189.0874 210.1754zm7.993 21.8576c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6539 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403S197.0816 234.1722 197.0804 232.033z"/><path style="opacity:.3;fill:#fff" d="M189.0898 210.176c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 212.6276 183.0612 210.176 189.0898 210.176zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 236.239 197.0839 234.2399 197.0839 232.0372z"/><g><defs><path id="SVGID_1_" d="M194.7376 237.6875c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.999 7.9942-7.9942 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.0839 234.2399 196.1861 236.239 194.7376 237.6875z"/></defs><clipPath id="SVGID_2_"><use xlink:href="#SVGID_1_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_2_);fill:#fff" d="M190.0704 225.0237c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 225.7247 191.9774 225.0237 190.0704 225.0237z"/><path style="opacity:.13;clip-path:url(#SVGID_2_);fill:#020202" d="M190.0704 225.0237c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 225.7247 191.9774 225.0237 190.0704 225.0237z"/></g><g><defs><path id="SVGID_3_" d="M189.0898 210.176c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 212.6276 183.0612 210.176 189.0898 210.176zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 236.239 197.0839 234.2399 197.0839 232.0372z"/></defs><clipPath id="SVGID_4_"><use xlink:href="#SVGID_3_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_4_);fill:#5b7fc0" d="M172.6595 215.6045c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8612 12.0547.0024 21.8636-9.797 21.8613-21.8612.0024-3.8475-1.0151-7.6326-2.9353-10.9462-3.8977-6.7324-11.1497-10.9151-18.926-10.9151C182.0806 209.1953 176.6171 211.647 172.6595 215.6045z"/></g></g><rect x="198.8952" y="225.1043" style="fill:#5b7fc0" width="122.6266" height="13.8671"/></g><g><path style="fill:#d95140" d="M189.0874 155.7611l.0012-.0012c7.7751.0012 15.0295 4.1862 18.932 10.9234 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3304-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032s-11.328-2.2733-15.458-6.4032-6.4032-9.6186-6.4056-15.4628c.0012-6.0249 2.454-11.4897 6.4116-15.4473C177.5953 158.2128 183.0601 155.7599 189.0874 155.7611zm7.993 21.8577c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6539 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403C196.2508 181.7667 197.0816 179.758 197.0804 177.6188z"/><path style="opacity:.3;fill:#fff" d="M189.0898 155.7617c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 158.2134 183.0612 155.7617 189.0898 155.7617zm7.9941 21.8613c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 181.8248 197.0839 179.8256 197.0839 177.623z"/><g><defs><path id="SVGID_5_" d="M194.7376 183.2733c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.9989 7.9942-7.9942 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.0839 179.8256 196.1861 181.8248 194.7376 183.2733z"/></defs><clipPath id="SVGID_6_"><use xlink:href="#SVGID_5_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_6_);fill:#fff" d="M190.0704 170.6095c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 171.3104 191.9774 170.6095 190.0704 170.6095z"/><path style="opacity:.13;clip-path:url(#SVGID_6_);fill:#020202" d="M190.0704 170.6095c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 171.3104 191.9774 170.6095 190.0704 170.6095z"/></g><g><defs><path id="SVGID_7_" d="M189.0898 155.7617c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 158.2134 183.0612 155.7617 189.0898 155.7617zm7.9941 21.8613c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 181.8248 197.0839 179.8256 197.0839 177.623z"/></defs><clipPath id="SVGID_8_"><use xlink:href="#SVGID_7_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_8_);fill:#d95140" d="M172.6595 161.1903c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8613 12.0547.0024 21.8636-9.797 21.8613-21.8613.0024-3.8474-1.0151-7.6326-2.9353-10.9462-3.8977-6.7324-11.1497-10.9151-18.926-10.9151C182.0806 154.7811 176.6171 157.2327 172.6595 161.1903z"/></g><rect x="198.8952" y="170.69" style="fill:#d95140" width="122.6266" height="13.8671"/></g><g><g><path style="fill:#56a55c" d="M189.5379 264.6147l.0012-.0012c7.7751.0012 15.0294 4.1862 18.932 10.9235 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3304-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032-5.8394.0-11.3281-2.2733-15.458-6.4032-4.13-4.13-6.4032-9.6186-6.4056-15.4628.0012-6.0249 2.454-11.4897 6.4116-15.4472C178.0458 267.0663 183.5105 264.6135 189.5379 264.6147zm7.993 21.8576c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6538 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403C196.7013 290.6202 197.5321 288.6115 197.5309 286.4723z"/><path style="opacity:.3;fill:#fff" d="M189.5403 264.6153c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8065-21.8612-21.8613.0-6.0285 2.4516-11.492 6.4116-15.452C178.0482 267.0669 183.5117 264.6153 189.5403 264.6153zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.6366 290.6783 197.5344 288.6792 197.5344 286.4765z"/><g><defs><path id="SVGID_9_" d="M195.1881 292.1268c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.9989 7.9942-7.9941 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.5344 288.6792 196.6366 290.6783 195.1881 292.1268z"/></defs><clipPath id="SVGID_10_"><use xlink:href="#SVGID_9_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_10_);fill:#fff" d="M190.5209 279.463c-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7446-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9941 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C194.239 280.164 192.4279 279.463 190.5209 279.463z"/><path style="opacity:.13;clip-path:url(#SVGID_10_);fill:#020202" d="M190.5209 279.463c-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7446-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9941 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C194.239 280.164 192.4279 279.463 190.5209 279.463z"/></g><g><defs><path id="SVGID_11_" d="M189.5403 264.6153c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8065-21.8612-21.8613.0-6.0285 2.4516-11.492 6.4116-15.452C178.0482 267.0669 183.5117 264.6153 189.5403 264.6153zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.6366 290.6783 197.5344 288.6792 197.5344 286.4765z"/></defs><clipPath id="SVGID_12_"><use xlink:href="#SVGID_11_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_12_);fill:#56a55c" d="M173.11 270.0439c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8613 12.0547.0024 21.8636-9.797 21.8613-21.8613.0024-3.8474-1.0151-7.6326-2.9353-10.9462-3.8977-6.7325-11.1497-10.9151-18.926-10.9151C182.5311 263.6346 177.0676 266.0863 173.11 270.0439z"/></g></g><rect x="199.3456" y="279.5436" style="fill:#56a55c" width="122.6266" height="13.8671"/></g><g><g><path style="fill:#f1bc42" d="M189.0874 318.7208l.0012-.0012c7.7751.0012 15.0295 4.1862 18.932 10.9234 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3305-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032s-11.328-2.2733-15.458-6.4032-6.4032-9.6186-6.4056-15.4628c.0012-6.025 2.454-11.4897 6.4116-15.4472C177.5953 321.1724 183.0601 318.7196 189.0874 318.7208zm7.993 21.8576c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6539 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403S197.0816 342.7176 197.0804 340.5784z"/><path style="opacity:.3;fill:#fff" d="M189.0898 318.7214c7.7763.0 15.0283 4.1826 18.926 10.915 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8612-12.0547.0024-21.8636-9.8065-21.8612-21.8612.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 321.173 183.0612 318.7214 189.0898 318.7214zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 344.7844 197.0839 342.7853 197.0839 340.5826z"/><g><defs><path id="SVGID_13_" d="M194.7376 346.2329c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.999 7.9942-7.9942 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.0839 342.7853 196.1861 344.7844 194.7376 346.2329z"/></defs><clipPath id="SVGID_14_"><use xlink:href="#SVGID_13_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_14_);fill:#fff" d="M190.0704 333.5691c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0834 6.1218 2.8788C193.7885 334.2701 191.9774 333.5691 190.0704 333.5691z"/><path style="opacity:.13;clip-path:url(#SVGID_14_);fill:#020202" d="M190.0704 333.5691c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0834 6.1218 2.8788C193.7885 334.2701 191.9774 333.5691 190.0704 333.5691z"/></g><g><defs><path id="SVGID_15_" d="M189.0898 318.7214c7.7763.0 15.0283 4.1826 18.926 10.915 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8612-12.0547.0024-21.8636-9.8065-21.8612-21.8612.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 321.173 183.0612 318.7214 189.0898 318.7214zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 344.7844 197.0839 342.7853 197.0839 340.5826z"/></defs><clipPath id="SVGID_16_"><use xlink:href="#SVGID_15_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_16_);fill:#f1bc42" d="M172.6595 324.15c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8612 12.0547.0024 21.8636-9.797 21.8613-21.8612.0024-3.8474-1.0151-7.6327-2.9353-10.9462-3.8977-6.7324-11.1497-10.9151-18.926-10.9151C182.0806 317.7407 176.6171 320.1924 172.6595 324.15z"/></g></g><rect x="198.8952" y="333.6497" style="fill:#f1bc42" width="122.6266" height="13.8671"/></g></g></svg></span><span class="font-weight-bold">Azure Service Operator</span>
+	</a>
+	<div class="td-navbar-nav-scroll ml-md-auto" id="main_navbar">
+		<ul class="navbar-nav mt-2 mt-lg-0">
+			
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				
+				
+				
+				
+				<a class="nav-link" href="/azure-service-operator/introduction/" ><span>Guide</span></a>
+			</li>
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				
+				
+				
+				
+				<a class="nav-link" href="/azure-service-operator/reference/" ><span>Resources</span></a>
+			</li>
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				
+				
+				
+				
+				<a class="nav-link active" href="/azure-service-operator/design/" ><span class="active">Design</span></a>
+			</li>
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				
+				
+				
+				
+				<a class="nav-link" href="/azure-service-operator/contributing/" ><span>Contributing</span></a>
+			</li>
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				
+				
+				
+				
+				<a class="nav-link" href="/azure-service-operator/architecture-decision-records/" ><span>Architecture</span></a>
+			</li>
+			
+			
+			
+		</ul>
+	</div>
+	<div class="navbar-nav d-none d-lg-block"></div>
 </nav>
 
-
-
-
-  <script>(function(){var a=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(b){localStorage.setItem("menu.scrollTop",a.scrollTop)}),a.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
-
-
- 
-      </div>
-    </aside>
-
-    <div class="book-page">
-      <header class="book-header">
-        
-  <div class="flex align-center justify-between">
-  <label for="menu-control">
-    <img src="/azure-service-operator/svg/menu.svg" class="book-icon" alt="Menu" />
-  </label>
-
-  <strong>Type references and ownership</strong>
-
-  <label for="toc-control">
+    </header>
+    <div class="container-fluid td-outer">
+      <div class="td-main">
+        <div class="row flex-xl-nowrap">
+          <aside class="col-12 col-md-3 col-xl-2 td-sidebar d-print-none">
+            
+<div id="td-sidebar-menu" class="td-sidebar__inner">
+  <div id="content-mobile">
+  <form class="td-sidebar__search d-flex align-items-center">
     
-    <img src="/azure-service-operator/svg/toc.svg" class="book-icon" alt="Table of Contents" />
-    
-  </label>
+    <button class="btn btn-link td-sidebar__toggle d-md-none p-0 ml-3 fas fa-bars" type="button" data-toggle="collapse" data-target="#td-section-nav" aria-controls="td-docs-nav" aria-expanded="false" aria-label="Toggle section navigation">
+    </button>
+  </form>
+  </div>
+  <div id="content-desktop"></div>
+  <nav class="collapse td-sidebar-nav" id="td-section-nav">
+    <ul class="td-sidebar-nav__section pr-md-3 ul-0">
+      <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operator-li">
+  <a href="/azure-service-operator/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section tree-root" id="m-azure-service-operator"><span class="">Azure Service Operator v2</span></a>
+  <ul class="ul-1">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorintroduction-li">
+  <a href="/azure-service-operator/introduction/" title="User’s Guide" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorintroduction"><span class="">Guide</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductionmetrics-li">
+  <a href="/azure-service-operator/introduction/metrics/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionmetrics"><span class=""></span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductionannotations-li">
+  <a href="/azure-service-operator/introduction/annotations/" title="Annotations understood by the operator" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionannotations"><span class="">Annotations</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductionauthentication-li">
+  <a href="/azure-service-operator/introduction/authentication/" title="Authentication in Azure Service Operator v2" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionauthentication"><span class="">Authentication</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductiondiagnosing-problems-li">
+  <a href="/azure-service-operator/introduction/diagnosing-problems/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductiondiagnosing-problems"><span class="">Diagnosing problems</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductionsecrets-li">
+  <a href="/azure-service-operator/introduction/secrets/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionsecrets"><span class="">Handling secrets</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductioninstalling-from-yaml-li">
+  <a href="/azure-service-operator/introduction/installing-from-yaml/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductioninstalling-from-yaml"><span class="">Installation: From YAML</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductionmultitenant-deployment-li">
+  <a href="/azure-service-operator/introduction/multitenant-deployment/" title="Deploying Azure Service Operator v2 in multi-tenant mode" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionmultitenant-deployment"><span class="">Multitenancy</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductionresources-li">
+  <a href="/azure-service-operator/introduction/resources/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionresources"><span class="">Supported Resources</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductiontutorial-cosmosdb-li">
+  <a href="/azure-service-operator/introduction/tutorial-cosmosdb/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductiontutorial-cosmosdb"><span class="">Tutorial: CosmosDB to-do List</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductiontutorial-postgresql-li">
+  <a href="/azure-service-operator/introduction/tutorial-postgresql/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductiontutorial-postgresql"><span class="">Tutorial: PostgreSQL Votes</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductionconditions-li">
+  <a href="/azure-service-operator/introduction/conditions/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionconditions"><span class="">Understanding Conditions</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreference-li">
+  <a href="/azure-service-operator/reference/" title="Resource Reference" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreference"><span class="">Resources</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceauthorizationv1alpha1api20200801preview-li">
+  <a href="/azure-service-operator/reference/authorization.v1alpha1api20200801preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceauthorizationv1alpha1api20200801preview"><span class="">authorization.azure.com/v1alpha1api20200801preview</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceauthorizationv1beta20200801preview-li">
+  <a href="/azure-service-operator/reference/authorization.v1beta20200801preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceauthorizationv1beta20200801preview"><span class="">authorization.azure.com/v1beta20200801preview</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencebatchv1alpha1api20210101-li">
+  <a href="/azure-service-operator/reference/batch.v1alpha1api20210101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencebatchv1alpha1api20210101"><span class="">batch.azure.com/v1alpha1api20210101</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencebatchv1beta20210101-li">
+  <a href="/azure-service-operator/reference/batch.v1beta20210101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencebatchv1beta20210101"><span class="">batch.azure.com/v1beta20210101</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1alpha1api20201201-li">
+  <a href="/azure-service-operator/reference/cache.v1alpha1api20201201/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1alpha1api20201201"><span class="">cache.azure.com/v1alpha1api20201201</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1alpha1api20210301-li">
+  <a href="/azure-service-operator/reference/cache.v1alpha1api20210301/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1alpha1api20210301"><span class="">cache.azure.com/v1alpha1api20210301</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1beta20201201-li">
+  <a href="/azure-service-operator/reference/cache.v1beta20201201/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1beta20201201"><span class="">cache.azure.com/v1beta20201201</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1beta20210301-li">
+  <a href="/azure-service-operator/reference/cache.v1beta20210301/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1beta20210301"><span class="">cache.azure.com/v1beta20210301</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1alpha1api20200930-li">
+  <a href="/azure-service-operator/reference/compute.v1alpha1api20200930/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1alpha1api20200930"><span class="">compute.azure.com/v1alpha1api20200930</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1alpha1api20201201-li">
+  <a href="/azure-service-operator/reference/compute.v1alpha1api20201201/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1alpha1api20201201"><span class="">compute.azure.com/v1alpha1api20201201</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1alpha1api20210701-li">
+  <a href="/azure-service-operator/reference/compute.v1alpha1api20210701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1alpha1api20210701"><span class="">compute.azure.com/v1alpha1api20210701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1beta20200930-li">
+  <a href="/azure-service-operator/reference/compute.v1beta20200930/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1beta20200930"><span class="">compute.azure.com/v1beta20200930</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1beta20201201-li">
+  <a href="/azure-service-operator/reference/compute.v1beta20201201/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1beta20201201"><span class="">compute.azure.com/v1beta20201201</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1beta20210701-li">
+  <a href="/azure-service-operator/reference/compute.v1beta20210701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1beta20210701"><span class="">compute.azure.com/v1beta20210701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerregistryv1alpha1api20210901-li">
+  <a href="/azure-service-operator/reference/containerregistry.v1alpha1api20210901/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerregistryv1alpha1api20210901"><span class="">containerregistry.azure.com/v1alpha1api20210901</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerregistryv1beta20210901-li">
+  <a href="/azure-service-operator/reference/containerregistry.v1beta20210901/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerregistryv1beta20210901"><span class="">containerregistry.azure.com/v1beta20210901</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1alpha1api20210501-li">
+  <a href="/azure-service-operator/reference/containerservice.v1alpha1api20210501/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1alpha1api20210501"><span class="">containerservice.azure.com/v1alpha1api20210501</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1beta20210501-li">
+  <a href="/azure-service-operator/reference/containerservice.v1beta20210501/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1beta20210501"><span class="">containerservice.azure.com/v1beta20210501</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformysqlv1alpha1api20210501-li">
+  <a href="/azure-service-operator/reference/dbformysql.v1alpha1api20210501/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1alpha1api20210501"><span class="">dbformysql.azure.com/v1alpha1api20210501</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformysqlv1beta20210501-li">
+  <a href="/azure-service-operator/reference/dbformysql.v1beta20210501/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1beta20210501"><span class="">dbformysql.azure.com/v1beta20210501</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbforpostgresqlv1alpha1api20210601-li">
+  <a href="/azure-service-operator/reference/dbforpostgresql.v1alpha1api20210601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbforpostgresqlv1alpha1api20210601"><span class="">dbforpostgresql.azure.com/v1alpha1api20210601</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbforpostgresqlv1beta20210601-li">
+  <a href="/azure-service-operator/reference/dbforpostgresql.v1beta20210601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbforpostgresqlv1beta20210601"><span class="">dbforpostgresql.azure.com/v1beta20210601</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedocumentdbv1alpha1api20210515-li">
+  <a href="/azure-service-operator/reference/documentdb.v1alpha1api20210515/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedocumentdbv1alpha1api20210515"><span class="">documentdb.azure.com/v1alpha1api20210515</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedocumentdbv1beta20210515-li">
+  <a href="/azure-service-operator/reference/documentdb.v1beta20210515/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedocumentdbv1beta20210515"><span class="">documentdb.azure.com/v1beta20210515</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceeventgridv1alpha1api20200601-li">
+  <a href="/azure-service-operator/reference/eventgrid.v1alpha1api20200601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceeventgridv1alpha1api20200601"><span class="">eventgrid.azure.com/v1alpha1api20200601</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceeventgridv1beta20200601-li">
+  <a href="/azure-service-operator/reference/eventgrid.v1beta20200601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceeventgridv1beta20200601"><span class="">eventgrid.azure.com/v1beta20200601</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceeventhubv1alpha1api20211101-li">
+  <a href="/azure-service-operator/reference/eventhub.v1alpha1api20211101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceeventhubv1alpha1api20211101"><span class="">eventhub.azure.com/v1alpha1api20211101</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceeventhubv1beta20211101-li">
+  <a href="/azure-service-operator/reference/eventhub.v1beta20211101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceeventhubv1beta20211101"><span class="">eventhub.azure.com/v1beta20211101</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1alpha1api20180501preview-li">
+  <a href="/azure-service-operator/reference/insights.v1alpha1api20180501preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1alpha1api20180501preview"><span class="">insights.azure.com/v1alpha1api20180501preview</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1alpha1api20200202-li">
+  <a href="/azure-service-operator/reference/insights.v1alpha1api20200202/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1alpha1api20200202"><span class="">insights.azure.com/v1alpha1api20200202</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1beta20180501preview-li">
+  <a href="/azure-service-operator/reference/insights.v1beta20180501preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1beta20180501preview"><span class="">insights.azure.com/v1beta20180501preview</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1beta20200202-li">
+  <a href="/azure-service-operator/reference/insights.v1beta20200202/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1beta20200202"><span class="">insights.azure.com/v1beta20200202</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemanagedidentityv1alpha1api20181130-li">
+  <a href="/azure-service-operator/reference/managedidentity.v1alpha1api20181130/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemanagedidentityv1alpha1api20181130"><span class="">managedidentity.azure.com/v1alpha1api20181130</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemanagedidentityv1beta20181130-li">
+  <a href="/azure-service-operator/reference/managedidentity.v1beta20181130/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemanagedidentityv1beta20181130"><span class="">managedidentity.azure.com/v1beta20181130</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1alpha1api20201101-li">
+  <a href="/azure-service-operator/reference/network.v1alpha1api20201101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1alpha1api20201101"><span class="">network.azure.com/v1alpha1api20201101</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1beta20201101-li">
+  <a href="/azure-service-operator/reference/network.v1beta20201101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1beta20201101"><span class="">network.azure.com/v1beta20201101</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceoperationalinsightsv1alpha1api20210601-li">
+  <a href="/azure-service-operator/reference/operationalinsights.v1alpha1api20210601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceoperationalinsightsv1alpha1api20210601"><span class="">operationalinsights.azure.com/v1alpha1api20210601</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceoperationalinsightsv1beta20210601-li">
+  <a href="/azure-service-operator/reference/operationalinsights.v1beta20210601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceoperationalinsightsv1beta20210601"><span class="">operationalinsights.azure.com/v1beta20210601</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceresourcesv1alpha1api20200601-li">
+  <a href="/azure-service-operator/reference/resources.v1alpha1api20200601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceresourcesv1alpha1api20200601"><span class="">resources.azure.com/v1alpha1api20200601</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceresourcesv1beta20200601-li">
+  <a href="/azure-service-operator/reference/resources.v1beta20200601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceresourcesv1beta20200601"><span class="">resources.azure.com/v1beta20200601</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceservicebusv1alpha1api20210101preview-li">
+  <a href="/azure-service-operator/reference/servicebus.v1alpha1api20210101preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceservicebusv1alpha1api20210101preview"><span class="">servicebus.azure.com/v1alpha1api20210101preview</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceservicebusv1beta20210101preview-li">
+  <a href="/azure-service-operator/reference/servicebus.v1beta20210101preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceservicebusv1beta20210101preview"><span class="">servicebus.azure.com/v1beta20210101preview</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesignalrservicev1alpha1api20211001-li">
+  <a href="/azure-service-operator/reference/signalrservice.v1alpha1api20211001/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesignalrservicev1alpha1api20211001"><span class="">signalrservice.azure.com/v1alpha1api20211001</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesignalrservicev1beta20211001-li">
+  <a href="/azure-service-operator/reference/signalrservice.v1beta20211001/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesignalrservicev1beta20211001"><span class="">signalrservice.azure.com/v1beta20211001</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencestoragev1alpha1api20210401-li">
+  <a href="/azure-service-operator/reference/storage.v1alpha1api20210401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencestoragev1alpha1api20210401"><span class="">storage.azure.com/v1alpha1api20210401</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencestoragev1beta20210401-li">
+  <a href="/azure-service-operator/reference/storage.v1beta20210401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencestoragev1beta20210401"><span class="">storage.azure.com/v1beta20210401</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatordesign-li">
+  <a href="/azure-service-operator/design/" title="Design &amp; Specifications" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesign"><span class="">Design</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignclarifying-object-structure-li">
+  <a href="/azure-service-operator/design/clarifying-object-structure/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignclarifying-object-structure"><span class="">Clarifying object structure</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesigncrossplane-li">
+  <a href="/azure-service-operator/design/crossplane/" title="Code generation for Crossplane" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesigncrossplane"><span class="">Crossplane support</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesigndefaulter-validator-li">
+  <a href="/azure-service-operator/design/defaulter-validator/" title="Custom validation and defaulting for code generated resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesigndefaulter-validator"><span class="">Custom validation</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignsecrets-li">
+  <a href="/azure-service-operator/design/secrets/" title="Managing dataplane secrets" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignsecrets"><span class="">Dataplane secrets</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignresource-states-li">
+  <a href="/azure-service-operator/design/resource-states/" title="Proposal for reporting resource Status" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignresource-states"><span class="">Resource status</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatordesignversioning-li">
+  <a href="/azure-service-operator/design/versioning/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignversioning"><span class="">Resource versioning</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatordesignversioningcase-studies-li">
+  <a href="/azure-service-operator/design/versioning/case-studies/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignversioningcase-studies"><span class="">Case Studies</span></a>
+  <ul class="ul-4 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignversioningcase-studieschained-storage-versions-li">
+  <a href="/azure-service-operator/design/versioning/case-studies/chained-storage-versions/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignversioningcase-studieschained-storage-versions"><span class="">Chained Storage Versions</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignversioningcase-studiesfixed-storage-version-li">
+  <a href="/azure-service-operator/design/versioning/case-studies/fixed-storage-version/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignversioningcase-studiesfixed-storage-version"><span class="">Fixed Storage Version</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignversioningcase-studiesrolling-storage-versions-li">
+  <a href="/azure-service-operator/design/versioning/case-studies/rolling-storage-versions/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignversioningcase-studiesrolling-storage-versions"><span class="">Rolling Storage Versions</span></a>
+</li>
+  </ul>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatordesigntype-references-and-ownership-li">
+  <a href="/azure-service-operator/design/type-references-and-ownership/" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesigntype-references-and-ownership"><span class="td-sidebar-nav-active-item">Type References &amp; ownership</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorcontributing-li">
+  <a href="/azure-service-operator/contributing/" title="For Contributors" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorcontributing"><span class="">Contributing</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorcontributingcontributing-li">
+  <a href="/azure-service-operator/contributing/contributing/" title="Contributing to Azure Service Operator v2" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingcontributing"><span class="">Contributing</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorcontributingadd-a-new-code-generated-resource-li">
+  <a href="/azure-service-operator/contributing/add-a-new-code-generated-resource/" title="Adding a new code generated resource to ASO v2" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingadd-a-new-code-generated-resource"><span class="">Add a resource</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorcontributinggenerator-overview-li">
+  <a href="/azure-service-operator/contributing/generator-overview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributinggenerator-overview"><span class="">Code Generator</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorcontributingcreate-a-new-release-li">
+  <a href="/azure-service-operator/contributing/create-a-new-release/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingcreate-a-new-release"><span class="">Creating a new release</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorarchitecture-decision-records-li">
+  <a href="/azure-service-operator/architecture-decision-records/" title="Architecture Decision Records" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorarchitecture-decision-records"><span class="">Architecture</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorarchitecture-decision-recordsadr-2020-04-code-generation-li">
+  <a href="/azure-service-operator/architecture-decision-records/adr-2020-04-code-generation/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorarchitecture-decision-recordsadr-2020-04-code-generation"><span class="">2020-04: Why Code Generation?</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorarchitecture-decision-recordsadr-2020-07-pipeline-architecture-li">
+  <a href="/azure-service-operator/architecture-decision-records/adr-2020-07-pipeline-architecture/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorarchitecture-decision-recordsadr-2020-07-pipeline-architecture"><span class="">2020-07: Pipeline Architecture</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorarchitecture-decision-recordsadr-2020-11-abstract-syntax-trees-li">
+  <a href="/azure-service-operator/architecture-decision-records/adr-2020-11-abstract-syntax-trees/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorarchitecture-decision-recordsadr-2020-11-abstract-syntax-trees"><span class="">2020-11: AST Library Choice</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorarchitecture-decision-recordsadr-2021-02-property-conversions-li">
+  <a href="/azure-service-operator/architecture-decision-records/adr-2021-02-property-conversions/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorarchitecture-decision-recordsadr-2021-02-property-conversions"><span class="">2021-02: Property Conversions</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorarchitecture-decision-recordsadr-2021-06-api-version-recovery-li">
+  <a href="/azure-service-operator/architecture-decision-records/adr-2021-06-api-version-recovery/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorarchitecture-decision-recordsadr-2021-06-api-version-recovery"><span class="">2021-06: API Version Recovery</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorarchitecture-decision-recordsadr-2021-08-committing-generated-code-li">
+  <a href="/azure-service-operator/architecture-decision-records/adr-2021-08-committing-generated-code/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorarchitecture-decision-recordsadr-2021-08-committing-generated-code"><span class="">2021-08: Committing Generated Code</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorarchitecture-decision-recordsadr-2022-01-reconciler-extensions-li">
+  <a href="/azure-service-operator/architecture-decision-records/adr-2022-01-reconciler-extensions/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorarchitecture-decision-recordsadr-2022-01-reconciler-extensions"><span class="">2022-01: Reconciler Extensions</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorarchitecture-decision-recordsadr-2022-02-backward-compatibility-li">
+  <a href="/azure-service-operator/architecture-decision-records/adr-2022-02-backward-compatibility/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorarchitecture-decision-recordsadr-2022-02-backward-compatibility"><span class="">2022-02: Backward Resource Compatibility</span></a>
+</li>
+  </ul>
+</li>
+  </ul>
+</li>
+    </ul>
+  </nav>
 </div>
 
+          </aside>
+          <aside class="d-none d-xl-block col-xl-2 td-sidebar-toc d-print-none">
+            
+<div class="td-page-meta ml-2 pb-1 pt-2 mb-0">
 
-  
-  <aside class="hidden clearfix">
-    
-  
-<nav id="TableOfContents">
+</div>
+
+            
+
+
+<div class="td-toc"><nav id="TableOfContents">
   <ul>
     <li><a href="#related-reading">Related reading</a></li>
     <li><a href="#related-projects">Related Projects</a></li>
@@ -1320,41 +427,75 @@ https://github.com/alex-shpak/hugo-book
       </ul>
     </li>
   </ul>
-</nav>
+</nav></div>
 
 
 
-  </aside>
+            
+
+	
+		
+
+
+
   
- 
-      </header>
+  
 
-      
-      
-  <article class="markdown"><h1 id="type-references-and-ownership">
-  Type references and ownership
-  <a class="anchor" href="#type-references-and-ownership">#</a>
-</h1>
-<h2 id="related-reading">
-  Related reading
-  <a class="anchor" href="#related-reading">#</a>
-</h2>
+	
+		
+
+
+
+  
+  
+
+	
+
+          </aside>
+          <main class="col-12 col-md-9 col-xl-8 pl-md-5" role="main">
+            
+  
+
+            <nav aria-label="breadcrumb" class="td-breadcrumbs">
+  <ol class="breadcrumb">
+  <li class="breadcrumb-item">
+    <a href="https://azure.github.io/azure-service-operator/design/">Design</a>
+  </li>
+  <li class="breadcrumb-item active" aria-current="page">
+    <a href="https://azure.github.io/azure-service-operator/design/type-references-and-ownership/">Type References &amp; ownership</a>
+  </li>
+  </ol>
+</nav>
+            
+<div class="td-content">
+	<h1>Type References &amp; ownership</h1>
+	
+	<header class="article-meta">
+		
+
+  
+    
+
+
+  
+    
+
+
+  
+
+		
+	</header>    
+	<h2 id="related-reading">Related reading</h2>
 <ul>
 <li><a href="https://kubernetes.io/docs/concepts/workloads/controllers/garbage-collection/">Kubernetes garbage collection</a>.</li>
 <li><a href="https://kubernetes.io/docs/reference/access-authn-authz/rbac/">Kubernetes RBAC</a></li>
 </ul>
-<h2 id="related-projects">
-  Related Projects
-  <a class="anchor" href="#related-projects">#</a>
-</h2>
+<h2 id="related-projects">Related Projects</h2>
 <ul>
 <li>ASO: <a href="https://github.com/Azure/azure-service-operator">Azure Service Operator</a></li>
 <li>k8s-infra: The handcrafted precurser to the code generation tool being designed.</li>
 </ul>
-<h2 id="goals">
-  Goals
-  <a class="anchor" href="#goals">#</a>
-</h2>
+<h2 id="goals">Goals</h2>
 <ul>
 <li>Provide a way for customers to express relationships between Azure resources in an idiomatic Kubernetes way.</li>
 <li>Provide automatic ownership and garbage collection (using <a href="https://kubernetes.io/docs/concepts/workloads/controllers/garbage-collection/">Kubernetes garbage collection</a>)
@@ -1368,10 +509,7 @@ customer onboarding to the Azure Service Operator.</li>
 <li>References should be extensible to work across multiple Azure subscriptions, although
 initially we may not support that.</li>
 </ul>
-<h2 id="non-goals">
-  Non-goals
-  <a class="anchor" href="#non-goals">#</a>
-</h2>
+<h2 id="non-goals">Non-goals</h2>
 <ul>
 <li>Managing ownership for resources/resource hierarchies that were not created
 by the service operator.
@@ -1380,21 +518,12 @@ the operator is not watching/monitoring the resource in question
 and as such cannot propagate deletes. Put another way: for the operator to manage ownership/object lifecycles, the entire resource hierarchy must exist <em>within Kubernetes</em>. If only part of the resource hierarchy
 is managed by the service operator, only those parts can have their lifecycles managed.</li>
 </ul>
-<h2 id="different-kinds-of-resource-relationships-in-azure">
-  Different kinds of resource relationships in Azure
-  <a class="anchor" href="#different-kinds-of-resource-relationships-in-azure">#</a>
-</h2>
-<h4 id="relatedlinked-resources">
-  Related/linked resources
-  <a class="anchor" href="#relatedlinked-resources">#</a>
-</h4>
+<h2 id="different-kinds-of-resource-relationships-in-azure">Different kinds of resource relationships in Azure</h2>
+<h4 id="relatedlinked-resources">Related/linked resources</h4>
 <p>Two resources are related to one another (&ldquo;has-a&rdquo; relationship), but there is no ownership.
 Example: <a href="https://github.com/Azure/k8s-infra/blob/master/apis/microsoft.compute/v1/virtualmachinescaleset_types.go#L169">VMSS → Subnet</a> (<a href="https://schema.management.azure.com/schemas/2019-07-01/Microsoft.Compute.json">json schema</a>).</p>
 <p>This relationship is always one-way (a VMSS refers to a Subnet, but a Subnet <em>does not</em> refer to a VMSS).</p>
-<h4 id="owner-and-dependent">
-  Owner and dependent
-  <a class="anchor" href="#owner-and-dependent">#</a>
-</h4>
+<h4 id="owner-and-dependent">Owner and dependent</h4>
 <p>Two resources have a relationship where one is owned by the other.</p>
 <p>Examples:</p>
 <ul>
@@ -1417,24 +546,15 @@ owning resources URL) all ARM resources <em>should</em> fall into this case.</li
 <p>Note that sometimes an owning resource has its dependent resources embedded directly
 (for example: <code>RouteTable</code> has the property <a href="https://schema.management.azure.com/schemas/2020-03-01/Microsoft.Network.json">RouteTablePropertiesFormat</a>).
 Most types do not embed the dependent resource directly in the owning resource. We will need to cater for both the embedded and non-embedded cases.</p>
-<h2 id="what-do-these-relationships-look-like-in-existing-solutions">
-  What do these relationships look like in existing solutions?
-  <a class="anchor" href="#what-do-these-relationships-look-like-in-existing-solutions">#</a>
-</h2>
+<h2 id="what-do-these-relationships-look-like-in-existing-solutions">What do these relationships look like in existing solutions?</h2>
 <p>This section examines how other operator solutions have tackled these problems. We look at:</p>
 <ul>
 <li>ARM templates</li>
 <li>Azure Service Operator (ASO)</li>
 <li>k8s-infra</li>
 </ul>
-<h3 id="relatedlinked-resources-1">
-  Related/Linked resources
-  <a class="anchor" href="#relatedlinked-resources-1">#</a>
-</h3>
-<h4 id="what-does-arm-do">
-  What does ARM do?
-  <a class="anchor" href="#what-does-arm-do">#</a>
-</h4>
+<h3 id="relatedlinked-resources-1">Related/Linked resources</h3>
+<h4 id="what-does-arm-do">What does ARM do?</h4>
 <p>These are just properties (often but not always called <code>id</code>) which refer to the fully qualified ARM ID of another resource. For example see a
 <a href="https://github.com/Azure/azure-quickstart-templates/blob/master/201-vmss-existing-vnet/azuredeploy.json#L136">sample deployment template for a VMSS refering to an existing vnet</a>.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#e6db74">&#34;properties&#34;</span><span style="color:#960050;background-color:#1e0010">:</span> {
@@ -1442,10 +562,7 @@ Most types do not embed the dependent resource directly in the owning resource. 
     <span style="color:#f92672">&#34;id&#34;</span>: <span style="color:#e6db74">&#34;[resourceId(parameters(&#39;existingVnetResourceGroupName&#39;), &#39;Microsoft.Network/virtualNetworks/subnets&#39;, parameters(&#39;existingVnetName&#39;), parameters(&#39;existingSubNetName&#39;))]&#34;</span>
   },
 }
-</code></pre></div><h4 id="what-does-aso-do">
-  What does ASO do?
-  <a class="anchor" href="#what-does-aso-do">#</a>
-</h4>
+</code></pre></div><h4 id="what-does-aso-do">What does ASO do?</h4>
 <p>Similar to how ARM templates behave, ASO uses the decomposition of fully qualified resource id to reference another resource, as seen <a href="https://github.com/Azure/azure-service-operator/blob/92240406aff3863f3a267d8a1dc1e28aa3e841ae/api/v1alpha1/azurevmscaleset_types.go#L25">here for VMSS → VNet</a></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">AzureVMScaleSetSpec</span> <span style="color:#66d9ef">struct</span> {
     <span style="color:#f92672">...</span>
@@ -1467,20 +584,11 @@ Most types do not embed the dependent resource directly in the owning resource. 
 )
 </code></pre></div><p>This produces a resource ID: <code>/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}</code>.</p>
 <p>Currently ASO does not support cross-subscription references (and some of the resources such as VMSS don&rsquo;t allow cross-resource group references), but it in theory could by adding parameters.</p>
-<h4 id="what-does-k8s-infra-do">
-  What does k8s-infra do?
-  <a class="anchor" href="#what-does-k8s-infra-do">#</a>
-</h4>
+<h4 id="what-does-k8s-infra-do">What does k8s-infra do?</h4>
 <p>k8s-infra is a bit different in that resource references are in Kubernetes style (namespace + name) and not Azure style (resource-group + resource-name).
 All resource references are done using the special type <code>KnownTypeReference</code> which contains the fully qualified Kubernetes name for the resource.</p>
-<h3 id="dependent-resources">
-  Dependent Resources
-  <a class="anchor" href="#dependent-resources">#</a>
-</h3>
-<h4 id="what-does-arm-do-1">
-  What does ARM do?
-  <a class="anchor" href="#what-does-arm-do-1">#</a>
-</h4>
+<h3 id="dependent-resources">Dependent Resources</h3>
+<h4 id="what-does-arm-do-1">What does ARM do?</h4>
 <p>ARM template deployments support <a href="https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/child-resource-name-type">two different ways of deploying dependent resources</a>:</p>
 <ul>
 <li>Deploy the resources in the same ARM template with dependent resources embedded inside owning resources using the <code>resources</code> property.
@@ -1499,10 +607,7 @@ created at the same time, the <code>dependsOn</code> field must be used to infor
 </ul>
 </li>
 </ul>
-<h4 id="what-does-aso-do-1">
-  What does ASO do?
-  <a class="anchor" href="#what-does-aso-do-1">#</a>
-</h4>
+<h4 id="what-does-aso-do-1">What does ASO do?</h4>
 <p>Dependent resources in ASO have properties which map to the name/path to their owner. For example
 <a href="https://github.com/Azure/azure-service-operator/blob/92240406aff3863f3a267d8a1dc1e28aa3e841ae/api/v1alpha1/mysqlfirewallrule_types.go#L15">MySQLFirewallRuleSpec</a> looks like this:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">MySQLFirewallRuleSpec</span> <span style="color:#66d9ef">struct</span> {
@@ -1512,10 +617,7 @@ created at the same time, the <code>dependsOn</code> field must be used to infor
 	<span style="color:#a6e22e">EndIPAddress</span>   <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;endIpAddress&#34;`</span>
 }
 </code></pre></div><p>The <code>ResourceGroup</code> and <code>Server</code> are references to the owners of this type.</p>
-<h4 id="what-does-k8s-infra-do-1">
-  What does k8s-infra do?
-  <a class="anchor" href="#what-does-k8s-infra-do-1">#</a>
-</h4>
+<h4 id="what-does-k8s-infra-do-1">What does k8s-infra do?</h4>
 <p>k8s-infra uses the same <code>KnownTypeReference</code> type mentioned above for ownership references too.
 There are two patterns for ownership in k8s-infra today.</p>
 <p>One pattern is used for ResourceGroup, where
@@ -1531,28 +633,16 @@ There are two patterns for ownership in k8s-infra today.</p>
     <span style="color:#a6e22e">RouteRefs</span>                  []<span style="color:#a6e22e">azcorev1</span>.<span style="color:#a6e22e">KnownTypeReference</span> <span style="color:#e6db74">`json:&#34;routeRefs,omitempty&#34; group:&#34;microsoft.network.infra.azure.com&#34; kind:&#34;Route&#34; owned:&#34;true&#34;`</span>
 }
 </code></pre></div><p>If the dependent resources aren&rsquo;t there, the status of the owning resource reflects an error explaining that.</p>
-<h2 id="proposal">
-  Proposal
-  <a class="anchor" href="#proposal">#</a>
-</h2>
-<h3 id="a-note-on-names-before-we-get-started">
-  A note on names before we get started
-  <a class="anchor" href="#a-note-on-names-before-we-get-started">#</a>
-</h3>
+<h2 id="proposal">Proposal</h2>
+<h3 id="a-note-on-names-before-we-get-started">A note on names before we get started</h3>
 <p>In Kubernetes each resource must have a unique name for its group-kind. For example, if we had a <code>RouteTable</code> CRD, each <code>RouteTable</code> object would need to have a unique name.
 In ARM, resources do not need to be uniquely named. There can be two <code>RouteTable</code> resources with the same name provided they are in different resource groups. The owner-dependent resource
 relationship impacts uniqueness in Azure in a way that it doesn&rsquo;t in Kubernetes.</p>
-<h4 id="proposed-solution">
-  Proposed solution
-  <a class="anchor" href="#proposed-solution">#</a>
-</h4>
+<h4 id="proposed-solution">Proposed solution</h4>
 <p>All Kubernetes resources will have two fields which are used in combination to build the Azure name: <code>Metadata.Name</code> and <code>Spec.AzureName</code>.
 When <code>Spec.AzureName</code> is empty, <code>Metadata.Name</code> is used as the resource name. When <code>Spec.AzureName</code> is provided, it takes precedence and is used when interacting with ARM, but
 the resource in Kubernetes is still called by its  <code>Metadata.Name</code>.</p>
-<h3 id="overview">
-  Overview
-  <a class="anchor" href="#overview">#</a>
-</h3>
+<h3 id="overview">Overview</h3>
 <p>We propose the following high-level solution:</p>
 <ul>
 <li>All references will be via Kubernetes group, kind, and name.</li>
@@ -1566,10 +656,7 @@ delete the dependent resources when the owner is deleted.</li>
 resource definitions (including fully qualified ARM IDs).</li>
 </ul>
 <p>More specific details about how this will be achieved are in the following sections.</p>
-<h3 id="how-to-represent-references">
-  How to represent references
-  <a class="anchor" href="#how-to-represent-references">#</a>
-</h3>
+<h3 id="how-to-represent-references">How to represent references</h3>
 <p>There are two kinds of references we need to represent: References to a resource whose type we know statically at compile time,
 and references to a resource whose type we do not know at compile time.</p>
 <p>We could use the same type for both kinds of references, but that has the downside of allowing a situation where
@@ -1601,10 +688,7 @@ have not.</p>
 </span><span style="color:#75715e"></span>    <span style="color:#75715e">// resource to another, and Kubernetes resources are uniquely identified by group, kind, (optionally namespace) and
 </span><span style="color:#75715e"></span>    <span style="color:#75715e">// name - the versions are just giving a different view on the same resource
 </span><span style="color:#75715e"></span>}
-</code></pre></div><h3 id="how-to-represent-ownership-and-dependent-resources">
-  How to represent ownership and dependent resources
-  <a class="anchor" href="#how-to-represent-ownership-and-dependent-resources">#</a>
-</h3>
+</code></pre></div><h3 id="how-to-represent-ownership-and-dependent-resources">How to represent ownership and dependent resources</h3>
 <p>We will use the same <code>KnownResourceReference</code> type as an additional <code>Owner</code> field on dependent resource specifications.</p>
 <p>When we determine that a resource is a dependent resource of another resource kind, we will code-generate
 an <code>Owner</code> property in the dependent resource <code>Spec</code>. This will also include an annotation
@@ -1623,10 +707,7 @@ This can be accomplished by making the property required in the CRD.</p>
 ...
 </code></pre></div><p>One major advantage of this approach is that the customer cannot really get the owning type wrong, because we&rsquo;ve autogenerated the expected
 group/kind information all names they supply must point to the right kind of resource.</p>
-<h3 id="how-to-represent-a-resource-generically">
-  How to represent a resource generically
-  <a class="anchor" href="#how-to-represent-a-resource-generically">#</a>
-</h3>
+<h3 id="how-to-represent-a-resource-generically">How to represent a resource generically</h3>
 <p>In addition to representing references generically, we will need the ability to reference ARM resources generically,
 so that the generic controller can act on them without needing to cast to their specific type.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// TODO: There may be more in this interface, or it may get rolled into MetaObject depending on yet to be determined implementation details
@@ -1637,10 +718,7 @@ so that the generic controller can act on them without needing to cast to their 
     <span style="color:#75715e">// Owner returns the ResourceReference so that we can extract the Group/Kind for easier lookups
 </span><span style="color:#75715e"></span>    <span style="color:#a6e22e">Owner</span>() <span style="color:#f92672">*</span><span style="color:#a6e22e">ResourceReference</span>
 }
-</code></pre></div><h3 id="how-to-identify-resource-relationships">
-  How to identify resource relationships
-  <a class="anchor" href="#how-to-identify-resource-relationships">#</a>
-</h3>
+</code></pre></div><h3 id="how-to-identify-resource-relationships">How to identify resource relationships</h3>
 <p><strong>For related (not owned) resources</strong> we must find each field that represents a resource reference and transform its type to <code>ResourceReference</code>.
 There is no specific marker which means: &ldquo;This field is a reference&rdquo; - most are called <code>id</code> but that&rsquo;s not a guarantee.
 For example on the <a href="https://schema.management.azure.com/schemas/2019-07-01/Microsoft.Compute.json">VirtualMachineScaleSetIPConfigurationProperties</a>
@@ -1650,10 +728,7 @@ is see if there&rsquo;s a way to get teams to annotate &ldquo;links&rdquo; in th
 <p><strong>For dependent resources</strong> we must identify all of the owner to dependent relationships between resources.
 As discussed in what ARM does, this can be done using the <code>resources</code> property in the ARM deployment templates.
 These are much easier to automatically detect than related resources as the dependent types are called out in the <code>resources</code> property explicitly.</p>
-<h3 id="how-to-choose-the-right-reference-type-resourcereference-vs-knownresourcereference-at-generation-time">
-  How to choose the right reference type (ResourceReference vs KnownResourceReference) at generation time
-  <a class="anchor" href="#how-to-choose-the-right-reference-type-resourcereference-vs-knownresourcereference-at-generation-time">#</a>
-</h3>
+<h3 id="how-to-choose-the-right-reference-type-resourcereference-vs-knownresourcereference-at-generation-time">How to choose the right reference type (ResourceReference vs KnownResourceReference) at generation time</h3>
 <p>Because we are code-generating all of the <code>Owner</code> fields based on the <code>resources</code> property in the JSON schema, and each ARM resource can be owned by
 at most 1 other resource, we can always supply the annotations for group and kind automatically for the <code>Owner</code> field.
 <strong>This is not the case for abitrary references (<code>id</code>&rsquo;s) to other resources</strong>. We do not actually know
@@ -1662,20 +737,14 @@ programmatically what type those references are. In some cases it may actually b
 <p>In the <code>KnownResourceReference</code> case, we know the type we&rsquo;re looking for and can fail fast if the customer specifies the wrong type.
 In the <code>ResourceReference</code> case, we cannot know the type we&rsquo;re looking for, so we must accept what the customer has provided and ensure that we have good error messages
 if they have provided a link to an invalid resource (usually the error from Azure should suffice).</p>
-<h3 id="resourcelifecycle-and-unmanaged-resources">
-  ResourceLifeCycle and unmanaged resources
-  <a class="anchor" href="#resourcelifecycle-and-unmanaged-resources">#</a>
-</h3>
+<h3 id="resourcelifecycle-and-unmanaged-resources">ResourceLifeCycle and unmanaged resources</h3>
 <p>In order to keep references Kubernetes-native, allow a &ldquo;single pane of glass&rdquo; for customers looking at their Azure resources through Kubernetes, and
 allow references to resources that were created before the customer onboarded to the operator, we introduce a new mode to each resource: <code>ResourceLifeCycle</code>.</p>
 <p><code>ResourceLifeCycle</code> can be either <code>Managed</code> or <code>Unmanaged</code>.</p>
 <p><code>ResourceLifeCycle</code> is not specified by the customer explicitly in the <code>Spec</code>, instead it is inferred based on how
 the resource was created in Kubernetes. If a resource is created as just a reference (id, name, no spec details) then
 it is <code>Unmanaged</code>. If a resource is created with a populated spec, then the resource is <code>Managed</code>.</p>
-<h3 id="routetable--routes-issue-multiple-routes-of-the-same-name-are-allowed">
-  RouteTable + Routes issue (multiple routes of the same name are allowed)
-  <a class="anchor" href="#routetable--routes-issue-multiple-routes-of-the-same-name-are-allowed">#</a>
-</h3>
+<h3 id="routetable--routes-issue-multiple-routes-of-the-same-name-are-allowed">RouteTable + Routes issue (multiple routes of the same name are allowed)</h3>
 <p>Options for this:
 Note that all of these options share this restriction: Each resource must be imported, e.g. to import a VNET you may need to import
 the resource group the VNET is in, and then the VNET (with an <code>Owner</code> reference pointing to the imported <code>ResourceGroup</code>).</p>
@@ -1732,10 +801,7 @@ but since we have to allow that field to be <code>nil</code> when importing a Vi
 <p><strong>Option 4:</strong> Other ideas&hellip;
 Do away with Kubebuilder validation entirely and use our own (including our own validating webhooks).
 Use Kustomize and our own code-generator/parser to generate amendments to Kubebuilder&rsquo;s generated CRDs to get the <code>anyOf</code> shape we want above.</p>
-<h3 id="how-to-transform-kubernetes-objects-to-arm-objects-and-back">
-  How to transform Kubernetes objects to ARM objects (and back)
-  <a class="anchor" href="#how-to-transform-kubernetes-objects-to-arm-objects-and-back">#</a>
-</h3>
+<h3 id="how-to-transform-kubernetes-objects-to-arm-objects-and-back">How to transform Kubernetes objects to ARM objects (and back)</h3>
 <p>In the case of resource ownership, the proposed <code>Owner</code> property exists on dependent resources in the CRD but must not go to Azure as Azure doesn&rsquo;t understand it.
 In the case of a generic resource reference, the <code>ResourceReference</code> in the CRD must become an <code>id</code> (with fully-qualified ARM ID) when serialized to ARM.
 In both cases, we need two representations of the entity: one to Kubernetes as the CRD, and one to Azure. These two types are structurally similar but not identical.
@@ -1837,10 +903,7 @@ another type prior to serialization to/from ARM. This is also a useful hook for 
 	<span style="color:#a6e22e">transformer</span>.<span style="color:#a6e22e">Type</span> = <span style="color:#a6e22e">typedInput</span>.<span style="color:#a6e22e">Type</span>
 	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
 }
-</code></pre></div><h3 id="controller-example">
-  Controller example
-  <a class="anchor" href="#controller-example">#</a>
-</h3>
+</code></pre></div><h3 id="controller-example">Controller example</h3>
 <p>Putting it all together, here&rsquo;s what a generic controller reconciliation loop would look like using the interfaces discussed previously.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// Example usage -- error handling elided for brevity
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">gr</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">GenericReconciler</span>) <span style="color:#a6e22e">Reconcile</span>(<span style="color:#a6e22e">req</span> <span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">Request</span>) (<span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">Result</span>, <span style="color:#66d9ef">error</span>) {
@@ -1883,42 +946,24 @@ another type prior to serialization to/from ARM. This is also a useful hook for 
     <span style="color:#a6e22e">json</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">Marshal</span>(<span style="color:#a6e22e">toSerialize</span>)
     <span style="color:#a6e22e">armClient</span>.<span style="color:#a6e22e">SendIt</span>(<span style="color:#a6e22e">json</span>)
 }
-</code></pre></div><h2 id="faq">
-  FAQ
-  <a class="anchor" href="#faq">#</a>
-</h2>
-<h3 id="what-happens-when-a-dependent-resource-specifies-an-owner-that-doesnt-exist">
-  What happens when a dependent resource specifies an <code>Owner</code> that doesn&rsquo;t exist?
-  <a class="anchor" href="#what-happens-when-a-dependent-resource-specifies-an-owner-that-doesnt-exist">#</a>
-</h3>
+</code></pre></div><h2 id="faq">FAQ</h2>
+<h3 id="what-happens-when-a-dependent-resource-specifies-an-owner-that-doesnt-exist">What happens when a dependent resource specifies an <code>Owner</code> that doesn&rsquo;t exist?</h3>
 <p>The dependent resource will be stuck in an unprovisioned state with an error stating that the owner doesn&rsquo;t exist.
 If the owner is created, the dependent resource will then be created by the reconciliation loop automatically.</p>
-<h3 id="what-happens-when-a-resource-contains-a-link-to-another-resource-which-doesnt-exist">
-  What happens when a resource contains a link to another resource which doesn&rsquo;t exist?
-  <a class="anchor" href="#what-happens-when-a-resource-contains-a-link-to-another-resource-which-doesnt-exist">#</a>
-</h3>
+<h3 id="what-happens-when-a-resource-contains-a-link-to-another-resource-which-doesnt-exist">What happens when a resource contains a link to another resource which doesn&rsquo;t exist?</h3>
 <p>The resource with the link will be stuck in an unprovisioned state with an error stating that the linked resource doesn&rsquo;t exist.
 This behavior is the same as for a dependent resource with a non-existent owner.</p>
-<h3 id="how-are-the-crd-entities-going-to-be-rendered-as-arm-deployments">
-  How are the CRD entities going to be rendered as ARM deployments?
-  <a class="anchor" href="#how-are-the-crd-entities-going-to-be-rendered-as-arm-deployments">#</a>
-</h3>
+<h3 id="how-are-the-crd-entities-going-to-be-rendered-as-arm-deployments">How are the CRD entities going to be rendered as ARM deployments?</h3>
 <p>There are a few different ways to perform ARM deployments as <a href="#dependent-resources">discussed in Dependent Resources</a>.
 Due to the nature of Kubernetes CRDs, each resource is managed separately and has its own reconcilation loop. It doesn&rsquo;t make sense to try to
 deploy a single ARM template with the entire resource graph. Each resource will be done in its own deployment (with
 a <code>dependsOn</code> specified if required).</p>
-<h3 id="arent-there-going-to-be-races-in-resource-creation">
-  Aren&rsquo;t there going to be races in resource creation?
-  <a class="anchor" href="#arent-there-going-to-be-races-in-resource-creation">#</a>
-</h3>
+<h3 id="arent-there-going-to-be-races-in-resource-creation">Aren&rsquo;t there going to be races in resource creation?</h3>
 <p>Yes. If you have a complex hierarchy of resources (where resources have involved relationships between one another) and submit
 all of their YAMLs to the operator at the same time it is likely that some requests when sent to ARM will fail because of missing dependencies.
 Those resources that failed to deploy initially will be in an unprovisioned state in Kubernetes, and eventually
 all the resources will be created through multiple iterations of the reconciliation loop.</p>
-<h3 id="arent-there-going-to-be-races-in-resource-deletion">
-  Aren&rsquo;t there going to be races in resource deletion?
-  <a class="anchor" href="#arent-there-going-to-be-races-in-resource-deletion">#</a>
-</h3>
+<h3 id="arent-there-going-to-be-races-in-resource-deletion">Aren&rsquo;t there going to be races in resource deletion?</h3>
 <p>Yes. <code>Owner</code> as discussed in this specification is informing Kubernetes <em>how Azure behaves</em>. The fact that
 a <code>ResourceGroup</code> is the owner of a <code>VirtualMachineScaleSet</code> means that when the <code>ResourceGroup</code> is deleted in
 Azure, the <code>VirtualMachineScaleSet</code> will be too.</p>
@@ -1927,10 +972,7 @@ perform deletion of resources in Azure. Azure is already going to do that automa
 to easily maintain sync with Azure.</p>
 <p>As far as implementation goes this just means that when we are performing deletes in the generic controller and the
 resource is already deleted in Azure we just swallow that error and allow the Kubernetes object to be deleted.</p>
-<h3 id="what-exactly-happens-when-a-resource-with-an-owner-is-created">
-  What exactly happens when a resource with an <code>Owner</code> is created?
-  <a class="anchor" href="#what-exactly-happens-when-a-resource-with-an-owner-is-created">#</a>
-</h3>
+<h3 id="what-exactly-happens-when-a-resource-with-an-owner-is-created">What exactly happens when a resource with an <code>Owner</code> is created?</h3>
 <p>Once the resource has been accepted by the various admissions controllers and has been cofirmed to match
 the structural schema defined in the CRD, the generic controller will attempt to look up
 the owning resource in etcd (or in ARM if it&rsquo;s an <code>AzureReference</code>).</p>
@@ -1938,27 +980,18 @@ the owning resource in etcd (or in ARM if it&rsquo;s an <code>AzureReference</co
 to include the <code>uid</code> of the owning resource and then submits an ARM template to ARM using the
 name of the owner and the name of the resource to build the name specified in the ARM template. It will
 include the name of the owner in the <code>dependsOn</code> field.</p>
-<h3 id="what-happens-if-an-owning-resource-is-deleted-and-immediately-recreated">
-  What happens if an owning resource is deleted and immediately recreated?
-  <a class="anchor" href="#what-happens-if-an-owning-resource-is-deleted-and-immediately-recreated">#</a>
-</h3>
+<h3 id="what-happens-if-an-owning-resource-is-deleted-and-immediately-recreated">What happens if an owning resource is deleted and immediately recreated?</h3>
 <p>Kubernetes garbage collection is based on object <code>uid</code>&rsquo;s. As discussed above, we bind to that <code>uid</code> on
 dependent resource creation. If a resource is deleted and then recreated Kubernetes will still understand
 that the new resource is fundamentally different than the old resource and garbage collection will happen
 as expected. The result will be that there is a new owning resource but all of its dependent resources were
 deleted (in Azure and in k8s).</p>
-<h2 id="todos">
-  TODOs
-  <a class="anchor" href="#todos">#</a>
-</h2>
+<h2 id="todos">TODOs</h2>
 <ul>
 <li>How can we allow customers to easily find all dependents for a particular owner (i.e. all subnets of a vnet) using <code>kubectl</code>?</li>
 <li>Cross subscription refs? Note that these are supported by a few Azure resources (VNET for example), but aren&rsquo;t supported in most places.</li>
 </ul>
-<h2 id="questions">
-  Questions
-  <a class="anchor" href="#questions">#</a>
-</h2>
+<h2 id="questions">Questions</h2>
 <p>These are questions I am posing to the group - I don&rsquo;t expect to have an answer without input from the group.</p>
 <ul>
 <li>What to do with awkward resources where the owner requires at least 1 dependent to also be created with it?
@@ -1969,14 +1002,8 @@ as how deletes propagate which in theory don&rsquo;t apply for other kinds of re
 and <a href="https://kubernetes.io/docs/concepts/workloads/controllers/garbage-collection/#background-cascading-deletion">background cascading deletion</a> or do we just pick
 one behavior which is best for our case?</li>
 </ul>
-<h1 id="the-road-not-travelled">
-  The road not travelled
-  <a class="anchor" href="#the-road-not-travelled">#</a>
-</h1>
-<h2 id="shape-of-azure-references">
-  Shape of Azure References
-  <a class="anchor" href="#shape-of-azure-references">#</a>
-</h2>
+<h1 id="the-road-not-travelled">The road not travelled</h1>
+<h2 id="shape-of-azure-references">Shape of Azure References</h2>
 <p>We considered avoiding the complexity of <code>ResourceLifecycle</code> (<code>Managed</code> vs <code>Unmanaged</code>), instead allowing references to Azure resources directly by ARM ID.</p>
 <p>References would look like this:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">KnownResourceReference</span> <span style="color:#66d9ef">struct</span> {
@@ -2009,10 +1036,7 @@ one behavior which is best for our case?</li>
 </span><span style="color:#75715e"></span>	<span style="color:#75715e">// resource to another, and Kubernetes resources are uniquely identified by group, kind, (optionally namespace) and
 </span><span style="color:#75715e"></span>	<span style="color:#75715e">// name - the versions are just giving a different view on the same resource
 </span><span style="color:#75715e"></span>}
-</code></pre></div><h3 id="advantages-compared-to-what-we-chose">
-  Advantages compared to what we chose
-  <a class="anchor" href="#advantages-compared-to-what-we-chose">#</a>
-</h3>
+</code></pre></div><h3 id="advantages-compared-to-what-we-chose">Advantages compared to what we chose</h3>
 <ul>
 <li>Can track resources which are not tracked by Kubernetes.</li>
 <li>Doesn&rsquo;t need to introduce <code>ResourceLifeCycle</code>. <code>ResourceLifeCycle</code> complicates the mental model of individual resources
@@ -2020,10 +1044,7 @@ as now apply on a resource can fail due to <code>ResourceLifeCycle</code> being 
 <li>Can support references to resource types which the operator doesn&rsquo;t yet support. It&rsquo;s likely that we can work around
 this in the chosen architecture if it becomes a big problem though.</li>
 </ul>
-<h3 id="disadvantages-compared-to-what-we-chose">
-  Disadvantages compared to what we chose
-  <a class="anchor" href="#disadvantages-compared-to-what-we-chose">#</a>
-</h3>
+<h3 id="disadvantages-compared-to-what-we-chose">Disadvantages compared to what we chose</h3>
 <ul>
 <li>References are not always Kubernetes-native looking.</li>
 <li>The reference structure is a more complex nested type, which makes references (which are common) more complicated.</li>
@@ -2032,68 +1053,35 @@ sweeping updates across all types referencing the migrated resource.</li>
 <li>Doesn&rsquo;t allow for a &ldquo;single pane of glass&rdquo; experience where customers can easily view all of their resources in a
 Kubernetes native way.</li>
 </ul>
-<h2 id="how-to-represent-references-1">
-  How to represent references
-  <a class="anchor" href="#how-to-represent-references-1">#</a>
-</h2>
-<h3 id="use-fully-qualified-arm-id-a-single-string-for-all-references">
-  Use fully qualified ARM ID (a single string) for all references
-  <a class="anchor" href="#use-fully-qualified-arm-id-a-single-string-for-all-references">#</a>
-</h3>
-<h4 id="pros">
-  Pros
-  <a class="anchor" href="#pros">#</a>
-</h4>
+<h2 id="how-to-represent-references-1">How to represent references</h2>
+<h3 id="use-fully-qualified-arm-id-a-single-string-for-all-references">Use fully qualified ARM ID (a single string) for all references</h3>
+<h4 id="pros">Pros</h4>
 <ul>
 <li>Super simple to implement, because it&rsquo;s what ARM expects at the end of the day anyway.</li>
 </ul>
-<h4 id="cons">
-  Cons
-  <a class="anchor" href="#cons">#</a>
-</h4>
+<h4 id="cons">Cons</h4>
 <ul>
 <li>You can&rsquo;t easily transplant your YAML between subscriptions/resource groups because those IDs are in the YAML - you need
 templates and variables so that you can easily move between different resource groups or Subscriptions.</li>
 <li>Customers can&rsquo;t stay in Kubernetes-land, they have to move their mental model to an &ldquo;Azure&rdquo; model.</li>
 </ul>
-<h3 id="use-built-in-ownerreference-for-owner-references-customer-setting-these-directly">
-  Use built-in OwnerReference for owner references (customer setting these directly)
-  <a class="anchor" href="#use-built-in-ownerreference-for-owner-references-customer-setting-these-directly">#</a>
-</h3>
-<h4 id="pros-1">
-  Pros
-  <a class="anchor" href="#pros-1">#</a>
-</h4>
+<h3 id="use-built-in-ownerreference-for-owner-references-customer-setting-these-directly">Use built-in OwnerReference for owner references (customer setting these directly)</h3>
+<h4 id="pros-1">Pros</h4>
 <ul>
 <li>Basically none - customers are not supposed to set this directly.</li>
 </ul>
-<h4 id="cons-1">
-  Cons
-  <a class="anchor" href="#cons-1">#</a>
-</h4>
+<h4 id="cons-1">Cons</h4>
 <ul>
 <li>OwnerReference requires the object UID, which cannot be known at template authoring time.</li>
 <li>OwnerReference only works for ownership relationships, not for references.</li>
 </ul>
-<h2 id="where-ownership-references-are-specified">
-  Where ownership references are specified
-  <a class="anchor" href="#where-ownership-references-are-specified">#</a>
-</h2>
-<h3 id="ownership-is-from-owner-to-dependent">
-  Ownership is from owner to dependent
-  <a class="anchor" href="#ownership-is-from-owner-to-dependent">#</a>
-</h3>
-<h4 id="pros-2">
-  Pros
-  <a class="anchor" href="#pros-2">#</a>
-</h4>
+<h2 id="where-ownership-references-are-specified">Where ownership references are specified</h2>
+<h3 id="ownership-is-from-owner-to-dependent">Ownership is from owner to dependent</h3>
+<h4 id="pros-2">Pros</h4>
 <ul>
 <li>It makes getting a list of all resources under a particular owner very easy.</li>
 </ul>
-<h4 id="cons-2">
-  Cons
-  <a class="anchor" href="#cons-2">#</a>
-</h4>
+<h4 id="cons-2">Cons</h4>
 <ul>
 <li>Adding/deleting a new dependent resource requires an update to the owner.</li>
 <li>The owner can be in a failed state because dependent resources are missing. It feels like we&rsquo;re repeating our intent here:
@@ -2101,132 +1089,89 @@ On the one hand, we told the owner that it should have 3 dependents, while on th
 It feels like the state of the resources in kubernetes (i.e. how many dependents there actually <em>are</em>) is already expressing
 the intent for how many we want, so having that also on the owner seems duplicate.</li>
 </ul>
-</article>
- 
-      
 
-      <footer class="book-footer">
-        
-  <div class="flex flex-wrap justify-between">
-
-
-
-
-
+	
+	
+	
 </div>
 
 
-
-  <script>(function(){function a(c){const a=window.getSelection(),b=document.createRange();b.selectNodeContents(c),a.removeAllRanges(),a.addRange(b)}document.querySelectorAll("pre code").forEach(b=>{b.addEventListener("click",function(c){a(b.parentElement),navigator.clipboard&&navigator.clipboard.writeText(b.parentElement.textContent)})})})()</script>
-
-
- 
-        
-      </footer>
-
-      
-  
-  <div class="book-comments">
-
-</div>
-  
- 
-
-      <label for="menu-control" class="hidden book-menu-overlay"></label>
-    </div>
-
-    
-    <aside class="book-toc">
-      <div class="book-toc-content">
-        
-  
-<nav id="TableOfContents">
-  <ul>
-    <li><a href="#related-reading">Related reading</a></li>
-    <li><a href="#related-projects">Related Projects</a></li>
-    <li><a href="#goals">Goals</a></li>
-    <li><a href="#non-goals">Non-goals</a></li>
-    <li><a href="#different-kinds-of-resource-relationships-in-azure">Different kinds of resource relationships in Azure</a>
-      <ul>
-        <li></li>
-      </ul>
-    </li>
-    <li><a href="#what-do-these-relationships-look-like-in-existing-solutions">What do these relationships look like in existing solutions?</a>
-      <ul>
-        <li><a href="#relatedlinked-resources-1">Related/Linked resources</a></li>
-        <li><a href="#dependent-resources">Dependent Resources</a></li>
-      </ul>
-    </li>
-    <li><a href="#proposal">Proposal</a>
-      <ul>
-        <li><a href="#a-note-on-names-before-we-get-started">A note on names before we get started</a></li>
-        <li><a href="#overview">Overview</a></li>
-        <li><a href="#how-to-represent-references">How to represent references</a></li>
-        <li><a href="#how-to-represent-ownership-and-dependent-resources">How to represent ownership and dependent resources</a></li>
-        <li><a href="#how-to-represent-a-resource-generically">How to represent a resource generically</a></li>
-        <li><a href="#how-to-identify-resource-relationships">How to identify resource relationships</a></li>
-        <li><a href="#how-to-choose-the-right-reference-type-resourcereference-vs-knownresourcereference-at-generation-time">How to choose the right reference type (ResourceReference vs KnownResourceReference) at generation time</a></li>
-        <li><a href="#resourcelifecycle-and-unmanaged-resources">ResourceLifeCycle and unmanaged resources</a></li>
-        <li><a href="#routetable--routes-issue-multiple-routes-of-the-same-name-are-allowed">RouteTable + Routes issue (multiple routes of the same name are allowed)</a></li>
-        <li><a href="#how-to-transform-kubernetes-objects-to-arm-objects-and-back">How to transform Kubernetes objects to ARM objects (and back)</a></li>
-        <li><a href="#controller-example">Controller example</a></li>
-      </ul>
-    </li>
-    <li><a href="#faq">FAQ</a>
-      <ul>
-        <li><a href="#what-happens-when-a-dependent-resource-specifies-an-owner-that-doesnt-exist">What happens when a dependent resource specifies an <code>Owner</code> that doesn&rsquo;t exist?</a></li>
-        <li><a href="#what-happens-when-a-resource-contains-a-link-to-another-resource-which-doesnt-exist">What happens when a resource contains a link to another resource which doesn&rsquo;t exist?</a></li>
-        <li><a href="#how-are-the-crd-entities-going-to-be-rendered-as-arm-deployments">How are the CRD entities going to be rendered as ARM deployments?</a></li>
-        <li><a href="#arent-there-going-to-be-races-in-resource-creation">Aren&rsquo;t there going to be races in resource creation?</a></li>
-        <li><a href="#arent-there-going-to-be-races-in-resource-deletion">Aren&rsquo;t there going to be races in resource deletion?</a></li>
-        <li><a href="#what-exactly-happens-when-a-resource-with-an-owner-is-created">What exactly happens when a resource with an <code>Owner</code> is created?</a></li>
-        <li><a href="#what-happens-if-an-owning-resource-is-deleted-and-immediately-recreated">What happens if an owning resource is deleted and immediately recreated?</a></li>
-      </ul>
-    </li>
-    <li><a href="#todos">TODOs</a></li>
-    <li><a href="#questions">Questions</a></li>
-  </ul>
-
-  <ul>
-    <li><a href="#shape-of-azure-references">Shape of Azure References</a>
-      <ul>
-        <li><a href="#advantages-compared-to-what-we-chose">Advantages compared to what we chose</a></li>
-        <li><a href="#disadvantages-compared-to-what-we-chose">Disadvantages compared to what we chose</a></li>
-      </ul>
-    </li>
-    <li><a href="#how-to-represent-references-1">How to represent references</a>
-      <ul>
-        <li><a href="#use-fully-qualified-arm-id-a-single-string-for-all-references">Use fully qualified ARM ID (a single string) for all references</a></li>
-        <li><a href="#use-built-in-ownerreference-for-owner-references-customer-setting-these-directly">Use built-in OwnerReference for owner references (customer setting these directly)</a></li>
-      </ul>
-    </li>
-    <li><a href="#where-ownership-references-are-specified">Where ownership references are specified</a>
-      <ul>
-        <li><a href="#ownership-is-from-owner-to-dependent">Ownership is from owner to dependent</a></li>
-      </ul>
-    </li>
-  </ul>
-</nav>
-
-
- 
+          </main>
+        </div>
       </div>
-    </aside>
-    
-  </main>
-
+      
+<footer class="bg-dark py-5 row d-print-none">
+  <div class="container-fluid mx-sm-5">
+    <div class="row">
+      <div class="col-6 col-sm-4 text-xs-center order-sm-2">
+        
+        
+        
+      </div>
+      <div class="col-6 col-sm-4 text-right text-xs-center order-sm-3">
+        
+        
+        
+<ul class="list-inline mb-0">
   
-</body>
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="GitHub" aria-label="GitHub">
+    <a class="text-white" target="_blank" rel="noopener" href="https://github.com/azure/azure-service-operator" aria-label="GitHub">
+      <i class="fab fa-github"></i>
+    </a>
+  </li>
+  
+</ul>
+
+        
+        
+      </div>
+      <div class="col-12 col-sm-4 text-center py-2 order-sm-2">
+        <small class="text-white">&copy; 2022 Microsoft All Rights Reserved</small>
+        <small class="ml-1"><a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Privacy Policy</a></small>
+	
+		
+	
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+    integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js"
+    integrity="sha512-UR25UO94eTnCVwjbXozyeVd6ZqpaAE9naiEUBK/A+QDbfSTQFhPGj5lOR6d8tsgbBk84Ggb5A3EkjsOgPRPcKA=="
+    crossorigin="anonymous"></script>
+
+
+
+
+
+<script src='/azure-service-operator/js/tabpane-persist.js'></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/azure-service-operator/js/main.min.9248ae44d5c41028f8b01a0e0e7036e33e50bda8079240954a2d4889d51e4554.js" integrity="sha256-kkiuRNXEECj4sBoODnA24z5QvagHkkCVSi1IidUeRVQ=" crossorigin="anonymous"></script>
+
+
+
+
+  </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-

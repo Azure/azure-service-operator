@@ -1,50 +1,18 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>For Contributors on Azure Service Operator</title>
+    <title>Azure Service Operator – For Contributors</title>
     <link>https://azure.github.io/azure-service-operator/contributing/</link>
     <description>Recent content in For Contributors on Azure Service Operator</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language><atom:link href="https://azure.github.io/azure-service-operator/contributing/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Contributing</title>
-      <link>https://azure.github.io/azure-service-operator/contributing/contributing/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://azure.github.io/azure-service-operator/contributing/contributing/</guid>
-      <description>Contributing to Azure Service Operator v2 #  Related pages #   Adding a new code-generator resource. Generator code overview  Developer setup (with VS Code) #  This is the recommended setup, especially if you are using Windows as your development platform.
-This repository contains a devcontainer configuration that can be used in conjunction with VS Code to set up an environment with all the required tools preinstalled.</description>
-    </item>
+    <language>en-us</language>
     
-    <item>
-      <title>Adding a new code generated resource to ASO v2</title>
-      <link>https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/</guid>
-      <description>Adding a new code generated resource to ASO v2 #  This document discusses how to add a new resource to the ASO v2 code generation configuration. Check out this PR if you&amp;rsquo;d like to see what the end product looks like.
-What resources can be code generated? #  Any ARM resource can be generated. There are a few ways to determine if a resource is an ARM resource:</description>
-    </item>
+	  <atom:link href="https://azure.github.io/azure-service-operator/contributing/index.xml" rel="self" type="application/rss+xml" />
     
-    <item>
-      <title>Code Generator Overview</title>
-      <link>https://azure.github.io/azure-service-operator/contributing/generator-overview/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://azure.github.io/azure-service-operator/contributing/generator-overview/</guid>
-      <description>Code Generator Overview #  Core to Azure Service Operator (ASO) v2 is our code generator. This consumes ARM JSON Schema and Swagger specifications and generates code for each desired resource that works with our generic operator reconciler.
-Code Structure #  Key packages used to structure the code of the generator are as follows:
-   Package Content     astmodel Short for Abstract Syntax Tree Model, this package contains the core data types for defining the Go functions, data types, and methods we generate.</description>
-    </item>
     
-    <item>
-      <title>Creating a new release of ASO v2</title>
-      <link>https://azure.github.io/azure-service-operator/contributing/create-a-new-release/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://azure.github.io/azure-service-operator/contributing/create-a-new-release/</guid>
-      <description>Creating a new release of ASO v2 #   Go to the releases page and draft a new release. In the tag dropdown, type the name of the new tag you&amp;rsquo;d like to create (it should match the pattern of previous releases tags, for example: v2.0.0-alpha.1). The release target should be main (the default). Use the GitHub &amp;ldquo;auto-generate release notes&amp;rdquo; button to generate a set of release notes to work with.</description>
-    </item>
+        
+      
+    
     
   </channel>
 </rss>

@@ -6,13 +6,15 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/introduction/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/contributing/</loc>
+    <loc>https://azure.github.io/azure-service-operator/reference/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/introduction/metrics/</loc>
+    <loc>https://azure.github.io/azure-service-operator/contributing/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/introduction/resources/</loc>
+    <loc>https://azure.github.io/azure-service-operator/architecture-decision-records/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/introduction/metrics/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-04-code-generation/</loc>
   </url><url>
@@ -34,15 +36,11 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/introduction/annotations/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/architecture-decision-records/</loc>
-  </url><url>
     <loc>https://azure.github.io/azure-service-operator/introduction/authentication/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/authorization.v1alpha1api20200801preview/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/authorization.v1beta20200801preview/</loc>
-  </url><url>
-    <loc>https://azure.github.io/azure-service-operator/design/secrets/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/</loc>
   </url><url>
@@ -90,7 +88,11 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/contributing/create-a-new-release/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/design/crossplane/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/defaulter-validator/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/design/secrets/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/dbformysql.v1alpha1api20210501/</loc>
   </url><url>
@@ -99,8 +101,6 @@
     <loc>https://azure.github.io/azure-service-operator/reference/dbforpostgresql.v1alpha1api20210601/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/dbforpostgresql.v1beta20210601/</loc>
-  </url><url>
-    <loc>https://azure.github.io/azure-service-operator/introduction/multitenant-deployment/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/introduction/diagnosing-problems/</loc>
   </url><url>
@@ -134,6 +134,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/managedidentity.v1beta20181130/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/introduction/multitenant-deployment/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/network.v1alpha1api20201101/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/network.v1beta20201101/</loc>
@@ -144,7 +146,7 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/resource-states/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/reference/</loc>
+    <loc>https://azure.github.io/azure-service-operator/design/versioning/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/resources.v1alpha1api20200601/</loc>
   </url><url>
@@ -164,9 +166,9 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/storage.v1beta20210401/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/tags/</loc>
+    <loc>https://azure.github.io/azure-service-operator/introduction/resources/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/design/crossplane/</loc>
+    <loc>https://azure.github.io/azure-service-operator/tags/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/introduction/tutorial-cosmosdb/</loc>
   </url><url>
@@ -175,7 +177,5 @@
     <loc>https://azure.github.io/azure-service-operator/design/type-references-and-ownership/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/introduction/conditions/</loc>
-  </url><url>
-    <loc>https://azure.github.io/azure-service-operator/design/versioning/</loc>
   </url>
 </urlset>

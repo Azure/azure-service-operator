@@ -1,99 +1,18 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Architecture Decision Records on Azure Service Operator</title>
+    <title>Azure Service Operator – Architecture Decision Records</title>
     <link>https://azure.github.io/azure-service-operator/architecture-decision-records/</link>
     <description>Recent content in Architecture Decision Records on Azure Service Operator</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language><atom:link href="https://azure.github.io/azure-service-operator/architecture-decision-records/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>2020-04: Why Code Generation?</title>
-      <link>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-04-code-generation/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-04-code-generation/</guid>
-      <description>Why Code Generation? #  Context #  The Azure Service Operator CSE team had successfully developed support for a handful of ARM (Azure Resource Manager) based custom resources over the course of eighteen months or so.
-Their experience yielded several useful lessons.
-  Working closely with their customers, they only built out resource support for those features required by the current customer base. While this successfully reduced the amount of work, each additional customer brought new requirements and a need to revisit/enhance existing resources.</description>
-    </item>
+    <language>en-us</language>
     
-    <item>
-      <title>2020-07: Pipeline Architecture</title>
-      <link>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-07-pipeline-architecture/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-07-pipeline-architecture/</guid>
-      <description>Pipeline architecture #  Context #  As the complexity of code generation grew, and with a partial view of the complexity yet to come, it became clear that we were facing a challenge. Each additional required function was making integration and testing progressively more difficult.
-We also have the requirement to support a parallel pipeline that generates code appropriate for CrossPlane integration, and have a strong desire for an approach that minimizes the amount of ongoing maintenance.</description>
-    </item>
+	  <atom:link href="https://azure.github.io/azure-service-operator/architecture-decision-records/index.xml" rel="self" type="application/rss+xml" />
     
-    <item>
-      <title>2020-11: AST Library Choice</title>
-      <link>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-11-abstract-syntax-trees/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-11-abstract-syntax-trees/</guid>
-      <description>Abstract Syntax Tree Library Choice #  Context #  When we first started working on the Azure Service Operator Code Generator, we used the standard go ast library to create the final Go code.
-Unfortunately, we have run into a number of significant limitations with this library.
-  Comments are often emitted in unexpected places.
-They would often appear at the end of the previous line, which conveys an incorrect meaning to a casual reader of the code.</description>
-    </item>
     
-    <item>
-      <title>2021-02: Property Conversions</title>
-      <link>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-02-property-conversions/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-02-property-conversions/</guid>
-      <description>Property Conversions #  Context #  To facilitate the use of dedicated storage variants for persistence of our custom resources, we need to codegen conversion routines that will copy all properties defined on one version of a resource to another version.
-Given the way resources evolve from version to version, these we need to support a wide range of conversions between types that are similar, but not identical.
-For example, looking primitive types (such as string, int, and bool):</description>
-    </item>
+        
+      
     
-    <item>
-      <title>2021-06: API Version Recovery</title>
-      <link>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-06-api-version-recovery/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-06-api-version-recovery/</guid>
-      <description>API Version Recovery #  Context #  In addition to structural changes, there may be behaviour changes between ARM API versions. It is therefore important that we use the correct API version - the version requested by the user - when interacting with ARM, to ensure that we get the expected behaviour.
-Revisting the CRM example from the Versioning specification, consider what happens if we have two available versions of the resource Person, lets call them v1 and v2.</description>
-    </item>
-    
-    <item>
-      <title>2021-08: Committing Generated Code</title>
-      <link>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-08-committing-generated-code/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-08-committing-generated-code/</guid>
-      <description>Committing Generated Code #  Context #  We’re aware that common practice avoids committing generated code into source control, treating it as an ephemeral resource that can be regenerated on demand.
-Even so, we are concluding that we want to check in our generated code.
-Upstream changes #  We do not fully control the source definitions from which we are generating our object model and we are concerned about upstream changes that change our generated output in unexpected ways.</description>
-    </item>
-    
-    <item>
-      <title>2022-01: Reconciler Extensions</title>
-      <link>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2022-01-reconciler-extensions/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2022-01-reconciler-extensions/</guid>
-      <description>Reconciler Extensions #  Context #  We are discovering inconsistencies in the way different Azure Resource Providers behave.
-These inconsistencies are anticipated. Given the number of disparate teams independently implementing their providers and given the way the ARM guidance has changed over time, differences in behaviour are to be expected.
-For example, the Azure Redis Resource Provider can return a HTTP conflict (409) with a retry message indicating that it&amp;rsquo;s not a fatal error but a transient one.</description>
-    </item>
-    
-    <item>
-      <title>2022-02: Backward Resource Compatibility</title>
-      <link>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2022-02-backward-compatibility/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2022-02-backward-compatibility/</guid>
-      <description>Backward Resource Compatibility #  Context #  As we close in on a beta release, we are considering modification of the version prefix used for code-generated resources.
-Option 1: Do nothing #  Leave all generated resources using the alpha prefix that is currently in use.
-Pros
- Easy to implement (nothing to do) and quick to deliver  Cons
-  Introduces an inconsistency between the status of ASO (beta) and the labelling of the resources (alpha).</description>
-    </item>
     
   </channel>
 </rss>
