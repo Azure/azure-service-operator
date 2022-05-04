@@ -198,7 +198,6 @@ func Test_AzureName_IsImmutableOnceSuccessfullyCreated(t *testing.T) {
 
 	// Delete the account
 	tc.DeleteResourceAndWait(acct)
-
 }
 
 func Test_Owner_IsImmutableOnceSuccessfullyCreated(t *testing.T) {
@@ -212,10 +211,10 @@ func Test_Owner_IsImmutableOnceSuccessfullyCreated(t *testing.T) {
 	tc.CreateResourcesAndWait(acct)
 
 	rg2 := tc.CreateTestResourceGroupAndWait()
-	// Patch the account to change AzureName
+
+	// Patch the account to change Owner
 	old := acct.DeepCopy()
 	acct.Spec.Owner = testcommon.AsOwner(rg2)
-
 	err := tc.PatchAndExpectError(old, acct)
 
 	tc.Expect(err).ToNot(BeNil())
@@ -223,10 +222,31 @@ func Test_Owner_IsImmutableOnceSuccessfullyCreated(t *testing.T) {
 
 	// Delete the account
 	tc.DeleteResourceAndWait(acct)
-
 }
 
-func Test_Owner_IsNotImmutableIfSuccessfullyNotCreated(t *testing.T) {
+func Test_AzureName_IsMutableIfNotSuccessfullyCreated(t *testing.T) {
+	t.Parallel()
+
+	tc := globalTestContext.ForTest(t)
+	rg := tc.CreateTestResourceGroupAndWait()
+
+	invalidAzureName := "==--039+/"
+
+	acct := createStorageAccount(tc, rg)
+	acct.Spec.AzureName = invalidAzureName
+	tc.CreateResource(acct)
+
+	// Patch the account to change AzureName
+	old := acct.DeepCopy()
+	acct.Spec.AzureName = "storagetestname"
+	tc.PatchResourceAndWait(old, acct)
+
+	tc.Expect(acct.Owner().Name).ToNot(BeIdenticalTo(invalidAzureName))
+	// Delete the account
+	tc.DeleteResourceAndWait(acct)
+}
+
+func Test_Owner_IsMutableIfNotSuccessfullyCreated(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
@@ -239,15 +259,14 @@ func Test_Owner_IsNotImmutableIfSuccessfullyNotCreated(t *testing.T) {
 	acct := createStorageAccount(tc, rg)
 	tc.CreateResource(acct)
 
-	// Patch the account to change AzureName
+	// Patch the account to change Owner's name
 	old := acct.DeepCopy()
 	acct.Spec.Owner.Name = actualOwnerName
-	tc.Patch(old, acct)
+	tc.PatchResourceAndWait(old, acct)
 
 	tc.Expect(acct.Owner().Name).ToNot(BeIdenticalTo(invalidOwnerName))
 	// Delete the account
 	tc.DeleteResourceAndWait(acct)
-
 }
 
 func createStorageAccount(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup) *storage.StorageAccount {

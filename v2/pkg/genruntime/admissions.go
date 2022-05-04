@@ -33,13 +33,17 @@ type Defaulter interface {
 func ValidateImmutableProperties(oldObj MetaObject, newObj MetaObject) error {
 	var errs []error
 
+	if !IsResourceCreatedSuccessfully(newObj) {
+		return nil
+	}
+
 	if oldObj.AzureName() != newObj.AzureName() {
-		errs = append(errs, errors.Errorf("updating 'AzureName' is not allowed for '%s : %s", oldObj.GetResourceKind(), oldObj.GetName()))
+		errs = append(errs, errors.Errorf("updating 'AzureName' is not allowed for '%s : %s", oldObj.GetObjectKind().GroupVersionKind(), oldObj.GetName()))
 	}
 
 	// Allow ResourceGroup update only if resource is not created successfully
-	if oldObj.Owner().Name != newObj.Owner().Name && IsResourceCreatedSuccessfully(newObj) {
-		errs = append(errs, errors.Errorf("updating 'Owner.Name' is not allowed for '%s : %s", oldObj.GetResourceKind(), oldObj.GetName()))
+	if oldObj.Owner().Name != newObj.Owner().Name {
+		errs = append(errs, errors.Errorf("updating 'Owner.Name' is not allowed for '%s : %s", oldObj.GetObjectKind().GroupVersionKind(), oldObj.GetName()))
 	}
 
 	return kerrors.NewAggregate(errs)
