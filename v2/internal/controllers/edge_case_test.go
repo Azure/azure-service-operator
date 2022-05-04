@@ -191,7 +191,6 @@ func Test_AzureName_IsImmutableOnceSuccessfullyCreated(t *testing.T) {
 	newAzureName := "test123"
 	old := acct.DeepCopy()
 	acct.Spec.AzureName = newAzureName
-	
 	err := tc.PatchAndExpectError(old, acct)
 
 	tc.Expect(err).ToNot(BeNil())
