@@ -2,8 +2,6 @@
 title: '2021-02: Property Conversions'
 ---
 
-# Property Conversions 
-
 ## Context
 
 To facilitate the use of dedicated storage variants for persistence of our custom resources, we need to codegen conversion routines that will copy all properties defined on one version of a resource to another version.

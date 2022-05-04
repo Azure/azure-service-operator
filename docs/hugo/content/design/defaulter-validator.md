@@ -1,8 +1,7 @@
 ---
 title: Custom validation and defaulting for code generated resources
+linktitle: Custom validation
 ---
-# Custom validation and defaulting for code generated resources
-
 ## Reasoning
 `controller-runtime` defines `admission.Defaulter` and `admission.Validator`. These interfaces only give you a single `Default` or `ValidateX` method, which means that all validation/defaulting needs to be done in that method. I think we're going to quickly run into situations where we want custom (handcrafted) validations or defaults for a particular resource and we're not going to want to teach the code generator about these.
 

@@ -2,8 +2,6 @@
 title: '2020-07: Pipeline Architecture'
 ---
 
-# Pipeline architecture
-
 ## Context
 
 As the complexity of code generation grew, and with a partial view of the complexity yet to come, it became clear that we were facing a challenge. Each additional required function was making integration and testing progressively more difficult.
