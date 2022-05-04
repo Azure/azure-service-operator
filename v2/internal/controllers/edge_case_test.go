@@ -177,7 +177,7 @@ func Test_CreateStorageAccountWithoutRequiredProperties_Rejected(t *testing.T) {
 	tc.CreateResourcesAndWait(acctCopy)
 }
 
-func Test_AzureNameImmutability(t *testing.T) {
+func Test_AzureName_IsImmutableOnceSuccessfullyCreated(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
@@ -191,8 +191,10 @@ func Test_AzureNameImmutability(t *testing.T) {
 	newAzureName := "test123"
 	old := acct.DeepCopy()
 	acct.Spec.AzureName = newAzureName
-	tc.PatchAndExpectError(old, acct)
+	
+	err := tc.PatchAndExpectError(old, acct)
 
+	tc.Expect(err).ToNot(BeNil())
 	tc.Expect(old.Spec.AzureName).ToNot(BeIdenticalTo(newAzureName))
 
 	// Delete the account
@@ -200,7 +202,7 @@ func Test_AzureNameImmutability(t *testing.T) {
 
 }
 
-func Test_OwnerImmutability(t *testing.T) {
+func Test_Owner_IsImmutableOnceSuccessfullyCreated(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
@@ -214,10 +216,36 @@ func Test_OwnerImmutability(t *testing.T) {
 	// Patch the account to change AzureName
 	old := acct.DeepCopy()
 	acct.Spec.Owner = testcommon.AsOwner(rg2)
-	tc.PatchAndExpectError(old, acct)
 
+	err := tc.PatchAndExpectError(old, acct)
+
+	tc.Expect(err).ToNot(BeNil())
 	tc.Expect(old.Owner().Name).ToNot(BeIdenticalTo(rg2.Name))
 
+	// Delete the account
+	tc.DeleteResourceAndWait(acct)
+
+}
+
+func Test_Owner_IsNotImmutableIfSuccessfullyNotCreated(t *testing.T) {
+	t.Parallel()
+
+	tc := globalTestContext.ForTest(t)
+	rg := tc.CreateTestResourceGroupAndWait()
+
+	invalidOwnerName := "test123"
+	actualOwnerName := rg.Name
+	rg.Name = invalidOwnerName
+
+	acct := createStorageAccount(tc, rg)
+	tc.CreateResource(acct)
+
+	// Patch the account to change AzureName
+	old := acct.DeepCopy()
+	acct.Spec.Owner.Name = actualOwnerName
+	tc.Patch(old, acct)
+
+	tc.Expect(acct.Owner().Name).ToNot(BeIdenticalTo(invalidOwnerName))
 	// Delete the account
 	tc.DeleteResourceAndWait(acct)
 

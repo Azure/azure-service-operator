@@ -114,10 +114,10 @@ func validateImmutablePropertiesFunction(resourceFn *ResourceFunction, codeGener
 }
 
 // validateImmutablePropertiesFunctionBody helps generate the body of the validateImmutablePropertiesFunctionBody function:
-// oldObj, ok := old.(*Receiver)
-// if !ok {
-// return nil
-// }
+//  oldObj, ok := old.(*Receiver)
+//  if !ok {
+//		return nil
+//  }
 //
 // 	return genruntime.ValidateImmutableProperties(oldObj, <receiverIndent>)
 func validateImmutablePropertiesFunctionBody(receiver astmodel.TypeName, codeGenerationContext *astmodel.CodeGenerationContext, receiverIdent string) []dst.Stmt {
