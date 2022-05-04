@@ -14,7 +14,7 @@ import (
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
-//Storage version of v20200101.Person
+// Storage version of v20200101.Person
 type Person struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -26,14 +26,14 @@ type Person struct {
 func (person *Person) Hub() {}
 
 // +kubebuilder:object:root=true
-//Storage version of v20200101.Person
+// Storage version of v20200101.Person
 type PersonList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Person `json:"items"`
 }
 
-//Storage version of v20200101.Person_Spec
+// Storage version of v20200101.Person_Spec
 type Person_Spec struct {
 	FamilyName  *string                `json:"familyName,omitempty"`
 	FullName    *string                `json:"fullName,omitempty"`
@@ -41,7 +41,7 @@ type Person_Spec struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v20200101.Person_Status
+// Storage version of v20200101.Person_Status
 type Person_Status struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Status      *string                `json:"status,omitempty"`
