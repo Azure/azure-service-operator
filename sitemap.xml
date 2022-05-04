@@ -6,8 +6,6 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/introduction/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/reference/</loc>
-  </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/contributing/</loc>
@@ -143,6 +141,8 @@
     <loc>https://azure.github.io/azure-service-operator/reference/operationalinsights.v1alpha1api20210601/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/operationalinsights.v1beta20210601/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/resource-states/</loc>
   </url><url>
