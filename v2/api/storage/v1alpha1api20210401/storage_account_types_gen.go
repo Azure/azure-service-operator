@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Deprecated version of StorageAccount. Use v1beta20210401.StorageAccount instead
+// Deprecated version of StorageAccount. Use v1beta20210401.StorageAccount instead
 type StorageAccount struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -338,14 +338,14 @@ func (account *StorageAccount) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Deprecated version of StorageAccount. Use v1beta20210401.StorageAccount instead
+// Deprecated version of StorageAccount. Use v1beta20210401.StorageAccount instead
 type StorageAccountList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []StorageAccount `json:"items"`
 }
 
-//Deprecated version of StorageAccount_Status. Use v1beta20210401.StorageAccount_Status instead
+// Deprecated version of StorageAccount_Status. Use v1beta20210401.StorageAccount_Status instead
 type StorageAccount_Status struct {
 	AccessTier                            *StorageAccountPropertiesStatusAccessTier     `json:"accessTier,omitempty"`
 	AllowBlobPublicAccess                 *bool                                         `json:"allowBlobPublicAccess,omitempty"`
@@ -354,7 +354,7 @@ type StorageAccount_Status struct {
 	AzureFilesIdentityBasedAuthentication *AzureFilesIdentityBasedAuthentication_Status `json:"azureFilesIdentityBasedAuthentication,omitempty"`
 	BlobRestoreStatus                     *BlobRestoreStatus_Status                     `json:"blobRestoreStatus,omitempty"`
 
-	//Conditions: The observed state of the resource
+	// Conditions: The observed state of the resource
 	Conditions                 []conditions.Condition                                 `json:"conditions,omitempty"`
 	CreationTime               *string                                                `json:"creationTime,omitempty"`
 	CustomDomain               *CustomDomain_Status                                   `json:"customDomain,omitempty"`
@@ -1578,8 +1578,8 @@ type StorageAccounts_Spec struct {
 
 	// +kubebuilder:validation:MaxLength=24
 	// +kubebuilder:validation:MinLength=3
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName        string            `json:"azureName,omitempty"`
 	CustomDomain     *CustomDomain     `json:"customDomain,omitempty"`
 	Encryption       *Encryption       `json:"encryption,omitempty"`
@@ -1596,14 +1596,14 @@ type StorageAccounts_Spec struct {
 	MinimumTlsVersion    *StorageAccountPropertiesCreateParametersMinimumTlsVersion    `json:"minimumTlsVersion,omitempty"`
 	NetworkAcls          *NetworkRuleSet                                               `json:"networkAcls,omitempty"`
 
-	//OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
-	//passed directly to Azure
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
 	OperatorSpec *StorageAccountOperatorSpec `json:"operatorSpec,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a resources.azure.com/ResourceGroup resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
 	Owner             *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	RoutingPreference *RoutingPreference                 `json:"routingPreference,omitempty"`
 	SasPolicy         *SasPolicy                         `json:"sasPolicy,omitempty"`
@@ -2590,7 +2590,7 @@ func (accounts *StorageAccounts_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (accounts *StorageAccounts_Spec) SetAzureName(azureName string) { accounts.AzureName = azureName }
 
-//Deprecated version of AzureFilesIdentityBasedAuthentication. Use v1beta20210401.AzureFilesIdentityBasedAuthentication instead
+// Deprecated version of AzureFilesIdentityBasedAuthentication. Use v1beta20210401.AzureFilesIdentityBasedAuthentication instead
 type AzureFilesIdentityBasedAuthentication struct {
 	ActiveDirectoryProperties *ActiveDirectoryProperties                                   `json:"activeDirectoryProperties,omitempty"`
 	DefaultSharePermission    *AzureFilesIdentityBasedAuthenticationDefaultSharePermission `json:"defaultSharePermission,omitempty"`
@@ -2750,7 +2750,7 @@ func (authentication *AzureFilesIdentityBasedAuthentication) AssignPropertiesToA
 	return nil
 }
 
-//Deprecated version of AzureFilesIdentityBasedAuthentication_Status. Use v1beta20210401.AzureFilesIdentityBasedAuthentication_Status instead
+// Deprecated version of AzureFilesIdentityBasedAuthentication_Status. Use v1beta20210401.AzureFilesIdentityBasedAuthentication_Status instead
 type AzureFilesIdentityBasedAuthentication_Status struct {
 	ActiveDirectoryProperties *ActiveDirectoryProperties_Status                                   `json:"activeDirectoryProperties,omitempty"`
 	DefaultSharePermission    *AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermission  `json:"defaultSharePermission,omitempty"`
@@ -2877,7 +2877,7 @@ func (authentication *AzureFilesIdentityBasedAuthentication_Status) AssignProper
 	return nil
 }
 
-//Deprecated version of BlobRestoreStatus_Status. Use v1beta20210401.BlobRestoreStatus_Status instead
+// Deprecated version of BlobRestoreStatus_Status. Use v1beta20210401.BlobRestoreStatus_Status instead
 type BlobRestoreStatus_Status struct {
 	FailureReason *string                        `json:"failureReason,omitempty"`
 	Parameters    *BlobRestoreParameters_Status  `json:"parameters,omitempty"`
@@ -3007,7 +3007,7 @@ func (restore *BlobRestoreStatus_Status) AssignPropertiesToBlobRestoreStatusStat
 	return nil
 }
 
-//Deprecated version of CustomDomain. Use v1beta20210401.CustomDomain instead
+// Deprecated version of CustomDomain. Use v1beta20210401.CustomDomain instead
 type CustomDomain struct {
 	// +kubebuilder:validation:Required
 	Name             *string `json:"name,omitempty"`
@@ -3110,7 +3110,7 @@ func (domain *CustomDomain) AssignPropertiesToCustomDomain(destination *alpha202
 	return nil
 }
 
-//Deprecated version of CustomDomain_Status. Use v1beta20210401.CustomDomain_Status instead
+// Deprecated version of CustomDomain_Status. Use v1beta20210401.CustomDomain_Status instead
 type CustomDomain_Status struct {
 	Name             *string `json:"name,omitempty"`
 	UseSubDomainName *bool   `json:"useSubDomainName,omitempty"`
@@ -3191,7 +3191,7 @@ func (domain *CustomDomain_Status) AssignPropertiesToCustomDomainStatus(destinat
 	return nil
 }
 
-//Deprecated version of Encryption. Use v1beta20210401.Encryption instead
+// Deprecated version of Encryption. Use v1beta20210401.Encryption instead
 type Encryption struct {
 	Identity *EncryptionIdentity `json:"identity,omitempty"`
 
@@ -3443,7 +3443,7 @@ func (encryption *Encryption) AssignPropertiesToEncryption(destination *alpha202
 	return nil
 }
 
-//Deprecated version of Encryption_Status. Use v1beta20210401.Encryption_Status instead
+// Deprecated version of Encryption_Status. Use v1beta20210401.Encryption_Status instead
 type Encryption_Status struct {
 	Identity                        *EncryptionIdentity_Status `json:"identity,omitempty"`
 	KeySource                       *EncryptionStatusKeySource `json:"keySource,omitempty"`
@@ -3642,7 +3642,7 @@ func (encryption *Encryption_Status) AssignPropertiesToEncryptionStatus(destinat
 	return nil
 }
 
-//Deprecated version of Endpoints_Status. Use v1beta20210401.Endpoints_Status instead
+// Deprecated version of Endpoints_Status. Use v1beta20210401.Endpoints_Status instead
 type Endpoints_Status struct {
 	Blob               *string                                  `json:"blob,omitempty"`
 	Dfs                *string                                  `json:"dfs,omitempty"`
@@ -3837,7 +3837,7 @@ func (endpoints *Endpoints_Status) AssignPropertiesToEndpointsStatus(destination
 	return nil
 }
 
-//Deprecated version of ExtendedLocation. Use v1beta20210401.ExtendedLocation instead
+// Deprecated version of ExtendedLocation. Use v1beta20210401.ExtendedLocation instead
 type ExtendedLocation struct {
 	Name *string               `json:"name,omitempty"`
 	Type *ExtendedLocationType `json:"type,omitempty"`
@@ -3939,7 +3939,7 @@ func (location *ExtendedLocation) AssignPropertiesToExtendedLocation(destination
 	return nil
 }
 
-//Deprecated version of ExtendedLocation_Status. Use v1beta20210401.ExtendedLocation_Status instead
+// Deprecated version of ExtendedLocation_Status. Use v1beta20210401.ExtendedLocation_Status instead
 type ExtendedLocation_Status struct {
 	Name *string                      `json:"name,omitempty"`
 	Type *ExtendedLocationType_Status `json:"type,omitempty"`
@@ -4020,7 +4020,7 @@ func (location *ExtendedLocation_Status) AssignPropertiesToExtendedLocationStatu
 	return nil
 }
 
-//Deprecated version of GeoReplicationStats_Status. Use v1beta20210401.GeoReplicationStats_Status instead
+// Deprecated version of GeoReplicationStats_Status. Use v1beta20210401.GeoReplicationStats_Status instead
 type GeoReplicationStats_Status struct {
 	CanFailover  *bool                            `json:"canFailover,omitempty"`
 	LastSyncTime *string                          `json:"lastSyncTime,omitempty"`
@@ -4124,7 +4124,7 @@ func (stats *GeoReplicationStats_Status) AssignPropertiesToGeoReplicationStatsSt
 	return nil
 }
 
-//Deprecated version of Identity. Use v1beta20210401.Identity instead
+// Deprecated version of Identity. Use v1beta20210401.Identity instead
 type Identity struct {
 	// +kubebuilder:validation:Required
 	Type *IdentityType `json:"type,omitempty"`
@@ -4208,7 +4208,7 @@ func (identity *Identity) AssignPropertiesToIdentity(destination *alpha20210401s
 	return nil
 }
 
-//Deprecated version of Identity_Status. Use v1beta20210401.Identity_Status instead
+// Deprecated version of Identity_Status. Use v1beta20210401.Identity_Status instead
 type Identity_Status struct {
 	PrincipalId            *string                                `json:"principalId,omitempty"`
 	TenantId               *string                                `json:"tenantId,omitempty"`
@@ -4352,7 +4352,7 @@ func (identity *Identity_Status) AssignPropertiesToIdentityStatus(destination *a
 	return nil
 }
 
-//Deprecated version of KeyCreationTime_Status. Use v1beta20210401.KeyCreationTime_Status instead
+// Deprecated version of KeyCreationTime_Status. Use v1beta20210401.KeyCreationTime_Status instead
 type KeyCreationTime_Status struct {
 	Key1 *string `json:"key1,omitempty"`
 	Key2 *string `json:"key2,omitempty"`
@@ -4423,7 +4423,7 @@ func (time *KeyCreationTime_Status) AssignPropertiesToKeyCreationTimeStatus(dest
 	return nil
 }
 
-//Deprecated version of KeyPolicy. Use v1beta20210401.KeyPolicy instead
+// Deprecated version of KeyPolicy. Use v1beta20210401.KeyPolicy instead
 type KeyPolicy struct {
 	// +kubebuilder:validation:Required
 	KeyExpirationPeriodInDays *int `json:"keyExpirationPeriodInDays,omitempty"`
@@ -4497,7 +4497,7 @@ func (policy *KeyPolicy) AssignPropertiesToKeyPolicy(destination *alpha20210401s
 	return nil
 }
 
-//Deprecated version of KeyPolicy_Status. Use v1beta20210401.KeyPolicy_Status instead
+// Deprecated version of KeyPolicy_Status. Use v1beta20210401.KeyPolicy_Status instead
 type KeyPolicy_Status struct {
 	KeyExpirationPeriodInDays *int `json:"keyExpirationPeriodInDays,omitempty"`
 }
@@ -4555,7 +4555,7 @@ func (policy *KeyPolicy_Status) AssignPropertiesToKeyPolicyStatus(destination *a
 	return nil
 }
 
-//Deprecated version of NetworkRuleSet. Use v1beta20210401.NetworkRuleSet instead
+// Deprecated version of NetworkRuleSet. Use v1beta20210401.NetworkRuleSet instead
 type NetworkRuleSet struct {
 	Bypass *NetworkRuleSetBypass `json:"bypass,omitempty"`
 
@@ -4837,7 +4837,7 @@ func (ruleSet *NetworkRuleSet) AssignPropertiesToNetworkRuleSet(destination *alp
 	return nil
 }
 
-//Deprecated version of NetworkRuleSet_Status. Use v1beta20210401.NetworkRuleSet_Status instead
+// Deprecated version of NetworkRuleSet_Status. Use v1beta20210401.NetworkRuleSet_Status instead
 type NetworkRuleSet_Status struct {
 	Bypass              *NetworkRuleSetStatusBypass        `json:"bypass,omitempty"`
 	DefaultAction       *NetworkRuleSetStatusDefaultAction `json:"defaultAction,omitempty"`
@@ -5069,7 +5069,7 @@ func (ruleSet *NetworkRuleSet_Status) AssignPropertiesToNetworkRuleSetStatus(des
 	return nil
 }
 
-//Deprecated version of PrivateEndpointConnection_Status_SubResourceEmbedded. Use v1beta20210401.PrivateEndpointConnection_Status_SubResourceEmbedded instead
+// Deprecated version of PrivateEndpointConnection_Status_SubResourceEmbedded. Use v1beta20210401.PrivateEndpointConnection_Status_SubResourceEmbedded instead
 type PrivateEndpointConnection_Status_SubResourceEmbedded struct {
 	Id *string `json:"id,omitempty"`
 }
@@ -5127,7 +5127,7 @@ func (embedded *PrivateEndpointConnection_Status_SubResourceEmbedded) AssignProp
 	return nil
 }
 
-//Deprecated version of RoutingPreference. Use v1beta20210401.RoutingPreference instead
+// Deprecated version of RoutingPreference. Use v1beta20210401.RoutingPreference instead
 type RoutingPreference struct {
 	PublishInternetEndpoints  *bool                           `json:"publishInternetEndpoints,omitempty"`
 	PublishMicrosoftEndpoints *bool                           `json:"publishMicrosoftEndpoints,omitempty"`
@@ -5268,7 +5268,7 @@ func (preference *RoutingPreference) AssignPropertiesToRoutingPreference(destina
 	return nil
 }
 
-//Deprecated version of RoutingPreference_Status. Use v1beta20210401.RoutingPreference_Status instead
+// Deprecated version of RoutingPreference_Status. Use v1beta20210401.RoutingPreference_Status instead
 type RoutingPreference_Status struct {
 	PublishInternetEndpoints  *bool                                 `json:"publishInternetEndpoints,omitempty"`
 	PublishMicrosoftEndpoints *bool                                 `json:"publishMicrosoftEndpoints,omitempty"`
@@ -5382,7 +5382,7 @@ func (preference *RoutingPreference_Status) AssignPropertiesToRoutingPreferenceS
 	return nil
 }
 
-//Deprecated version of SasPolicy. Use v1beta20210401.SasPolicy instead
+// Deprecated version of SasPolicy. Use v1beta20210401.SasPolicy instead
 type SasPolicy struct {
 	// +kubebuilder:validation:Required
 	ExpirationAction *SasPolicyExpirationAction `json:"expirationAction,omitempty"`
@@ -5487,7 +5487,7 @@ func (policy *SasPolicy) AssignPropertiesToSasPolicy(destination *alpha20210401s
 	return nil
 }
 
-//Deprecated version of SasPolicy_Status. Use v1beta20210401.SasPolicy_Status instead
+// Deprecated version of SasPolicy_Status. Use v1beta20210401.SasPolicy_Status instead
 type SasPolicy_Status struct {
 	ExpirationAction    *SasPolicyStatusExpirationAction `json:"expirationAction,omitempty"`
 	SasExpirationPeriod *string                          `json:"sasExpirationPeriod,omitempty"`
@@ -5568,7 +5568,7 @@ func (policy *SasPolicy_Status) AssignPropertiesToSasPolicyStatus(destination *a
 	return nil
 }
 
-//Deprecated version of Sku. Use v1beta20210401.Sku instead
+// Deprecated version of Sku. Use v1beta20210401.Sku instead
 type Sku struct {
 	// +kubebuilder:validation:Required
 	Name *SkuName `json:"name,omitempty"`
@@ -5681,7 +5681,7 @@ func (sku *Sku) AssignPropertiesToSku(destination *alpha20210401s.Sku) error {
 	return nil
 }
 
-//Deprecated version of Sku_Status. Use v1beta20210401.Sku_Status instead
+// Deprecated version of Sku_Status. Use v1beta20210401.Sku_Status instead
 type Sku_Status struct {
 	Name *SkuName_Status `json:"name,omitempty"`
 	Tier *Tier_Status    `json:"tier,omitempty"`
@@ -5772,9 +5772,9 @@ func (sku *Sku_Status) AssignPropertiesToSkuStatus(destination *alpha20210401s.S
 	return nil
 }
 
-//Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type StorageAccountOperatorSpec struct {
-	//Secrets: configures where to place Azure generated secrets.
+	// Secrets: configures where to place Azure generated secrets.
 	Secrets *StorageAccountOperatorSecrets `json:"secrets,omitempty"`
 }
 
@@ -5825,8 +5825,8 @@ func (operator *StorageAccountOperatorSpec) AssignPropertiesToStorageAccountOper
 	return nil
 }
 
-//Deprecated version of StorageAccountPropertiesCreateParametersAccessTier. Use
-//v1beta20210401.StorageAccountPropertiesCreateParametersAccessTier instead
+// Deprecated version of StorageAccountPropertiesCreateParametersAccessTier. Use
+// v1beta20210401.StorageAccountPropertiesCreateParametersAccessTier instead
 // +kubebuilder:validation:Enum={"Cool","Hot"}
 type StorageAccountPropertiesCreateParametersAccessTier string
 
@@ -5835,8 +5835,8 @@ const (
 	StorageAccountPropertiesCreateParametersAccessTierHot  = StorageAccountPropertiesCreateParametersAccessTier("Hot")
 )
 
-//Deprecated version of StorageAccountPropertiesCreateParametersLargeFileSharesState. Use
-//v1beta20210401.StorageAccountPropertiesCreateParametersLargeFileSharesState instead
+// Deprecated version of StorageAccountPropertiesCreateParametersLargeFileSharesState. Use
+// v1beta20210401.StorageAccountPropertiesCreateParametersLargeFileSharesState instead
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type StorageAccountPropertiesCreateParametersLargeFileSharesState string
 
@@ -5845,8 +5845,8 @@ const (
 	StorageAccountPropertiesCreateParametersLargeFileSharesStateEnabled  = StorageAccountPropertiesCreateParametersLargeFileSharesState("Enabled")
 )
 
-//Deprecated version of StorageAccountPropertiesCreateParametersMinimumTlsVersion. Use
-//v1beta20210401.StorageAccountPropertiesCreateParametersMinimumTlsVersion instead
+// Deprecated version of StorageAccountPropertiesCreateParametersMinimumTlsVersion. Use
+// v1beta20210401.StorageAccountPropertiesCreateParametersMinimumTlsVersion instead
 // +kubebuilder:validation:Enum={"TLS1_0","TLS1_1","TLS1_2"}
 type StorageAccountPropertiesCreateParametersMinimumTlsVersion string
 
@@ -5856,8 +5856,8 @@ const (
 	StorageAccountPropertiesCreateParametersMinimumTlsVersionTLS12 = StorageAccountPropertiesCreateParametersMinimumTlsVersion("TLS1_2")
 )
 
-//Deprecated version of StorageAccountPropertiesStatusAccessTier. Use
-//v1beta20210401.StorageAccountPropertiesStatusAccessTier instead
+// Deprecated version of StorageAccountPropertiesStatusAccessTier. Use
+// v1beta20210401.StorageAccountPropertiesStatusAccessTier instead
 type StorageAccountPropertiesStatusAccessTier string
 
 const (
@@ -5865,8 +5865,8 @@ const (
 	StorageAccountPropertiesStatusAccessTierHot  = StorageAccountPropertiesStatusAccessTier("Hot")
 )
 
-//Deprecated version of StorageAccountPropertiesStatusLargeFileSharesState. Use
-//v1beta20210401.StorageAccountPropertiesStatusLargeFileSharesState instead
+// Deprecated version of StorageAccountPropertiesStatusLargeFileSharesState. Use
+// v1beta20210401.StorageAccountPropertiesStatusLargeFileSharesState instead
 type StorageAccountPropertiesStatusLargeFileSharesState string
 
 const (
@@ -5874,8 +5874,8 @@ const (
 	StorageAccountPropertiesStatusLargeFileSharesStateEnabled  = StorageAccountPropertiesStatusLargeFileSharesState("Enabled")
 )
 
-//Deprecated version of StorageAccountPropertiesStatusMinimumTlsVersion. Use
-//v1beta20210401.StorageAccountPropertiesStatusMinimumTlsVersion instead
+// Deprecated version of StorageAccountPropertiesStatusMinimumTlsVersion. Use
+// v1beta20210401.StorageAccountPropertiesStatusMinimumTlsVersion instead
 type StorageAccountPropertiesStatusMinimumTlsVersion string
 
 const (
@@ -5884,8 +5884,8 @@ const (
 	StorageAccountPropertiesStatusMinimumTlsVersionTLS12 = StorageAccountPropertiesStatusMinimumTlsVersion("TLS1_2")
 )
 
-//Deprecated version of StorageAccountPropertiesStatusProvisioningState. Use
-//v1beta20210401.StorageAccountPropertiesStatusProvisioningState instead
+// Deprecated version of StorageAccountPropertiesStatusProvisioningState. Use
+// v1beta20210401.StorageAccountPropertiesStatusProvisioningState instead
 type StorageAccountPropertiesStatusProvisioningState string
 
 const (
@@ -5894,8 +5894,8 @@ const (
 	StorageAccountPropertiesStatusProvisioningStateSucceeded    = StorageAccountPropertiesStatusProvisioningState("Succeeded")
 )
 
-//Deprecated version of StorageAccountPropertiesStatusStatusOfPrimary. Use
-//v1beta20210401.StorageAccountPropertiesStatusStatusOfPrimary instead
+// Deprecated version of StorageAccountPropertiesStatusStatusOfPrimary. Use
+// v1beta20210401.StorageAccountPropertiesStatusStatusOfPrimary instead
 type StorageAccountPropertiesStatusStatusOfPrimary string
 
 const (
@@ -5903,8 +5903,8 @@ const (
 	StorageAccountPropertiesStatusStatusOfPrimaryUnavailable = StorageAccountPropertiesStatusStatusOfPrimary("unavailable")
 )
 
-//Deprecated version of StorageAccountPropertiesStatusStatusOfSecondary. Use
-//v1beta20210401.StorageAccountPropertiesStatusStatusOfSecondary instead
+// Deprecated version of StorageAccountPropertiesStatusStatusOfSecondary. Use
+// v1beta20210401.StorageAccountPropertiesStatusStatusOfSecondary instead
 type StorageAccountPropertiesStatusStatusOfSecondary string
 
 const (
@@ -5912,7 +5912,7 @@ const (
 	StorageAccountPropertiesStatusStatusOfSecondaryUnavailable = StorageAccountPropertiesStatusStatusOfSecondary("unavailable")
 )
 
-//Deprecated version of ActiveDirectoryProperties. Use v1beta20210401.ActiveDirectoryProperties instead
+// Deprecated version of ActiveDirectoryProperties. Use v1beta20210401.ActiveDirectoryProperties instead
 type ActiveDirectoryProperties struct {
 	// +kubebuilder:validation:Required
 	AzureStorageSid *string `json:"azureStorageSid,omitempty"`
@@ -6091,7 +6091,7 @@ func (properties *ActiveDirectoryProperties) AssignPropertiesToActiveDirectoryPr
 	return nil
 }
 
-//Deprecated version of ActiveDirectoryProperties_Status. Use v1beta20210401.ActiveDirectoryProperties_Status instead
+// Deprecated version of ActiveDirectoryProperties_Status. Use v1beta20210401.ActiveDirectoryProperties_Status instead
 type ActiveDirectoryProperties_Status struct {
 	AzureStorageSid   *string `json:"azureStorageSid,omitempty"`
 	DomainGuid        *string `json:"domainGuid,omitempty"`
@@ -6214,8 +6214,8 @@ func (properties *ActiveDirectoryProperties_Status) AssignPropertiesToActiveDire
 	return nil
 }
 
-//Deprecated version of AzureFilesIdentityBasedAuthenticationDefaultSharePermission. Use
-//v1beta20210401.AzureFilesIdentityBasedAuthenticationDefaultSharePermission instead
+// Deprecated version of AzureFilesIdentityBasedAuthenticationDefaultSharePermission. Use
+// v1beta20210401.AzureFilesIdentityBasedAuthenticationDefaultSharePermission instead
 // +kubebuilder:validation:Enum={"None","StorageFileDataSmbShareContributor","StorageFileDataSmbShareElevatedContributor","StorageFileDataSmbShareOwner","StorageFileDataSmbShareReader"}
 type AzureFilesIdentityBasedAuthenticationDefaultSharePermission string
 
@@ -6227,8 +6227,8 @@ const (
 	AzureFilesIdentityBasedAuthenticationDefaultSharePermissionStorageFileDataSmbShareReader              = AzureFilesIdentityBasedAuthenticationDefaultSharePermission("StorageFileDataSmbShareReader")
 )
 
-//Deprecated version of AzureFilesIdentityBasedAuthenticationDirectoryServiceOptions. Use
-//v1beta20210401.AzureFilesIdentityBasedAuthenticationDirectoryServiceOptions instead
+// Deprecated version of AzureFilesIdentityBasedAuthenticationDirectoryServiceOptions. Use
+// v1beta20210401.AzureFilesIdentityBasedAuthenticationDirectoryServiceOptions instead
 // +kubebuilder:validation:Enum={"AADDS","AD","None"}
 type AzureFilesIdentityBasedAuthenticationDirectoryServiceOptions string
 
@@ -6238,8 +6238,8 @@ const (
 	AzureFilesIdentityBasedAuthenticationDirectoryServiceOptionsNone  = AzureFilesIdentityBasedAuthenticationDirectoryServiceOptions("None")
 )
 
-//Deprecated version of AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermission. Use
-//v1beta20210401.AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermission instead
+// Deprecated version of AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermission. Use
+// v1beta20210401.AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermission instead
 type AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermission string
 
 const (
@@ -6250,8 +6250,8 @@ const (
 	AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermissionStorageFileDataSmbShareReader              = AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermission("StorageFileDataSmbShareReader")
 )
 
-//Deprecated version of AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptions. Use
-//v1beta20210401.AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptions instead
+// Deprecated version of AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptions. Use
+// v1beta20210401.AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptions instead
 type AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptions string
 
 const (
@@ -6260,7 +6260,7 @@ const (
 	AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptionsNone  = AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptions("None")
 )
 
-//Deprecated version of BlobRestoreParameters_Status. Use v1beta20210401.BlobRestoreParameters_Status instead
+// Deprecated version of BlobRestoreParameters_Status. Use v1beta20210401.BlobRestoreParameters_Status instead
 type BlobRestoreParameters_Status struct {
 	BlobRanges    []BlobRestoreRange_Status `json:"blobRanges,omitempty"`
 	TimeToRestore *string                   `json:"timeToRestore,omitempty"`
@@ -6365,7 +6365,7 @@ func (parameters *BlobRestoreParameters_Status) AssignPropertiesToBlobRestorePar
 	return nil
 }
 
-//Deprecated version of BlobRestoreStatusStatusStatus. Use v1beta20210401.BlobRestoreStatusStatusStatus instead
+// Deprecated version of BlobRestoreStatusStatusStatus. Use v1beta20210401.BlobRestoreStatusStatusStatus instead
 type BlobRestoreStatusStatusStatus string
 
 const (
@@ -6374,7 +6374,7 @@ const (
 	BlobRestoreStatusStatusStatusInProgress = BlobRestoreStatusStatusStatus("InProgress")
 )
 
-//Deprecated version of EncryptionIdentity. Use v1beta20210401.EncryptionIdentity instead
+// Deprecated version of EncryptionIdentity. Use v1beta20210401.EncryptionIdentity instead
 type EncryptionIdentity struct {
 	UserAssignedIdentityReference *genruntime.ResourceReference `armReference:"UserAssignedIdentity" json:"userAssignedIdentityReference,omitempty"`
 }
@@ -6457,7 +6457,7 @@ func (identity *EncryptionIdentity) AssignPropertiesToEncryptionIdentity(destina
 	return nil
 }
 
-//Deprecated version of EncryptionIdentity_Status. Use v1beta20210401.EncryptionIdentity_Status instead
+// Deprecated version of EncryptionIdentity_Status. Use v1beta20210401.EncryptionIdentity_Status instead
 type EncryptionIdentity_Status struct {
 	UserAssignedIdentity *string `json:"userAssignedIdentity,omitempty"`
 }
@@ -6515,7 +6515,7 @@ func (identity *EncryptionIdentity_Status) AssignPropertiesToEncryptionIdentityS
 	return nil
 }
 
-//Deprecated version of EncryptionKeySource. Use v1beta20210401.EncryptionKeySource instead
+// Deprecated version of EncryptionKeySource. Use v1beta20210401.EncryptionKeySource instead
 // +kubebuilder:validation:Enum={"Microsoft.Keyvault","Microsoft.Storage"}
 type EncryptionKeySource string
 
@@ -6524,7 +6524,7 @@ const (
 	EncryptionKeySourceMicrosoftStorage  = EncryptionKeySource("Microsoft.Storage")
 )
 
-//Deprecated version of EncryptionServices. Use v1beta20210401.EncryptionServices instead
+// Deprecated version of EncryptionServices. Use v1beta20210401.EncryptionServices instead
 type EncryptionServices struct {
 	Blob  *EncryptionService `json:"blob,omitempty"`
 	File  *EncryptionService `json:"file,omitempty"`
@@ -6762,7 +6762,7 @@ func (services *EncryptionServices) AssignPropertiesToEncryptionServices(destina
 	return nil
 }
 
-//Deprecated version of EncryptionServices_Status. Use v1beta20210401.EncryptionServices_Status instead
+// Deprecated version of EncryptionServices_Status. Use v1beta20210401.EncryptionServices_Status instead
 type EncryptionServices_Status struct {
 	Blob  *EncryptionService_Status `json:"blob,omitempty"`
 	File  *EncryptionService_Status `json:"file,omitempty"`
@@ -6951,7 +6951,7 @@ func (services *EncryptionServices_Status) AssignPropertiesToEncryptionServicesS
 	return nil
 }
 
-//Deprecated version of EncryptionStatusKeySource. Use v1beta20210401.EncryptionStatusKeySource instead
+// Deprecated version of EncryptionStatusKeySource. Use v1beta20210401.EncryptionStatusKeySource instead
 type EncryptionStatusKeySource string
 
 const (
@@ -6959,7 +6959,7 @@ const (
 	EncryptionStatusKeySourceMicrosoftStorage  = EncryptionStatusKeySource("Microsoft.Storage")
 )
 
-//Deprecated version of GeoReplicationStatsStatusStatus. Use v1beta20210401.GeoReplicationStatsStatusStatus instead
+// Deprecated version of GeoReplicationStatsStatusStatus. Use v1beta20210401.GeoReplicationStatsStatusStatus instead
 type GeoReplicationStatsStatusStatus string
 
 const (
@@ -6968,7 +6968,7 @@ const (
 	GeoReplicationStatsStatusStatusUnavailable = GeoReplicationStatsStatusStatus("Unavailable")
 )
 
-//Deprecated version of IPRule. Use v1beta20210401.IPRule instead
+// Deprecated version of IPRule. Use v1beta20210401.IPRule instead
 type IPRule struct {
 	Action *IPRuleAction `json:"action,omitempty"`
 
@@ -7072,7 +7072,7 @@ func (rule *IPRule) AssignPropertiesToIPRule(destination *alpha20210401s.IPRule)
 	return nil
 }
 
-//Deprecated version of IPRule_Status. Use v1beta20210401.IPRule_Status instead
+// Deprecated version of IPRule_Status. Use v1beta20210401.IPRule_Status instead
 type IPRule_Status struct {
 	Action *IPRuleStatusAction `json:"action,omitempty"`
 	Value  *string             `json:"value,omitempty"`
@@ -7153,7 +7153,7 @@ func (rule *IPRule_Status) AssignPropertiesToIPRuleStatus(destination *alpha2021
 	return nil
 }
 
-//Deprecated version of KeyVaultProperties. Use v1beta20210401.KeyVaultProperties instead
+// Deprecated version of KeyVaultProperties. Use v1beta20210401.KeyVaultProperties instead
 type KeyVaultProperties struct {
 	Keyname     *string `json:"keyname,omitempty"`
 	Keyvaulturi *string `json:"keyvaulturi,omitempty"`
@@ -7264,7 +7264,7 @@ func (properties *KeyVaultProperties) AssignPropertiesToKeyVaultProperties(desti
 	return nil
 }
 
-//Deprecated version of KeyVaultProperties_Status. Use v1beta20210401.KeyVaultProperties_Status instead
+// Deprecated version of KeyVaultProperties_Status. Use v1beta20210401.KeyVaultProperties_Status instead
 type KeyVaultProperties_Status struct {
 	CurrentVersionedKeyIdentifier *string `json:"currentVersionedKeyIdentifier,omitempty"`
 	Keyname                       *string `json:"keyname,omitempty"`
@@ -7374,7 +7374,7 @@ func (properties *KeyVaultProperties_Status) AssignPropertiesToKeyVaultPropertie
 	return nil
 }
 
-//Deprecated version of NetworkRuleSetBypass. Use v1beta20210401.NetworkRuleSetBypass instead
+// Deprecated version of NetworkRuleSetBypass. Use v1beta20210401.NetworkRuleSetBypass instead
 // +kubebuilder:validation:Enum={"AzureServices","Logging","Metrics","None"}
 type NetworkRuleSetBypass string
 
@@ -7385,7 +7385,7 @@ const (
 	NetworkRuleSetBypassNone          = NetworkRuleSetBypass("None")
 )
 
-//Deprecated version of NetworkRuleSetDefaultAction. Use v1beta20210401.NetworkRuleSetDefaultAction instead
+// Deprecated version of NetworkRuleSetDefaultAction. Use v1beta20210401.NetworkRuleSetDefaultAction instead
 // +kubebuilder:validation:Enum={"Allow","Deny"}
 type NetworkRuleSetDefaultAction string
 
@@ -7394,7 +7394,7 @@ const (
 	NetworkRuleSetDefaultActionDeny  = NetworkRuleSetDefaultAction("Deny")
 )
 
-//Deprecated version of NetworkRuleSetStatusBypass. Use v1beta20210401.NetworkRuleSetStatusBypass instead
+// Deprecated version of NetworkRuleSetStatusBypass. Use v1beta20210401.NetworkRuleSetStatusBypass instead
 type NetworkRuleSetStatusBypass string
 
 const (
@@ -7404,7 +7404,7 @@ const (
 	NetworkRuleSetStatusBypassNone          = NetworkRuleSetStatusBypass("None")
 )
 
-//Deprecated version of NetworkRuleSetStatusDefaultAction. Use v1beta20210401.NetworkRuleSetStatusDefaultAction instead
+// Deprecated version of NetworkRuleSetStatusDefaultAction. Use v1beta20210401.NetworkRuleSetStatusDefaultAction instead
 type NetworkRuleSetStatusDefaultAction string
 
 const (
@@ -7412,7 +7412,7 @@ const (
 	NetworkRuleSetStatusDefaultActionDeny  = NetworkRuleSetStatusDefaultAction("Deny")
 )
 
-//Deprecated version of ResourceAccessRule. Use v1beta20210401.ResourceAccessRule instead
+// Deprecated version of ResourceAccessRule. Use v1beta20210401.ResourceAccessRule instead
 type ResourceAccessRule struct {
 	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
 	TenantId          *string                       `json:"tenantId,omitempty"`
@@ -7514,7 +7514,7 @@ func (rule *ResourceAccessRule) AssignPropertiesToResourceAccessRule(destination
 	return nil
 }
 
-//Deprecated version of ResourceAccessRule_Status. Use v1beta20210401.ResourceAccessRule_Status instead
+// Deprecated version of ResourceAccessRule_Status. Use v1beta20210401.ResourceAccessRule_Status instead
 type ResourceAccessRule_Status struct {
 	ResourceId *string `json:"resourceId,omitempty"`
 	TenantId   *string `json:"tenantId,omitempty"`
@@ -7585,7 +7585,7 @@ func (rule *ResourceAccessRule_Status) AssignPropertiesToResourceAccessRuleStatu
 	return nil
 }
 
-//Deprecated version of RoutingPreferenceRoutingChoice. Use v1beta20210401.RoutingPreferenceRoutingChoice instead
+// Deprecated version of RoutingPreferenceRoutingChoice. Use v1beta20210401.RoutingPreferenceRoutingChoice instead
 // +kubebuilder:validation:Enum={"InternetRouting","MicrosoftRouting"}
 type RoutingPreferenceRoutingChoice string
 
@@ -7594,8 +7594,8 @@ const (
 	RoutingPreferenceRoutingChoiceMicrosoftRouting = RoutingPreferenceRoutingChoice("MicrosoftRouting")
 )
 
-//Deprecated version of RoutingPreferenceStatusRoutingChoice. Use v1beta20210401.RoutingPreferenceStatusRoutingChoice
-//instead
+// Deprecated version of RoutingPreferenceStatusRoutingChoice. Use v1beta20210401.RoutingPreferenceStatusRoutingChoice
+// instead
 type RoutingPreferenceStatusRoutingChoice string
 
 const (
@@ -7603,18 +7603,18 @@ const (
 	RoutingPreferenceStatusRoutingChoiceMicrosoftRouting = RoutingPreferenceStatusRoutingChoice("MicrosoftRouting")
 )
 
-//Deprecated version of SasPolicyExpirationAction. Use v1beta20210401.SasPolicyExpirationAction instead
+// Deprecated version of SasPolicyExpirationAction. Use v1beta20210401.SasPolicyExpirationAction instead
 // +kubebuilder:validation:Enum={"Log"}
 type SasPolicyExpirationAction string
 
 const SasPolicyExpirationActionLog = SasPolicyExpirationAction("Log")
 
-//Deprecated version of SasPolicyStatusExpirationAction. Use v1beta20210401.SasPolicyStatusExpirationAction instead
+// Deprecated version of SasPolicyStatusExpirationAction. Use v1beta20210401.SasPolicyStatusExpirationAction instead
 type SasPolicyStatusExpirationAction string
 
 const SasPolicyStatusExpirationActionLog = SasPolicyStatusExpirationAction("Log")
 
-//Deprecated version of StorageAccountInternetEndpoints_Status. Use v1beta20210401.StorageAccountInternetEndpoints_Status instead
+// Deprecated version of StorageAccountInternetEndpoints_Status. Use v1beta20210401.StorageAccountInternetEndpoints_Status instead
 type StorageAccountInternetEndpoints_Status struct {
 	Blob *string `json:"blob,omitempty"`
 	Dfs  *string `json:"dfs,omitempty"`
@@ -7711,7 +7711,7 @@ func (endpoints *StorageAccountInternetEndpoints_Status) AssignPropertiesToStora
 	return nil
 }
 
-//Deprecated version of StorageAccountMicrosoftEndpoints_Status. Use v1beta20210401.StorageAccountMicrosoftEndpoints_Status instead
+// Deprecated version of StorageAccountMicrosoftEndpoints_Status. Use v1beta20210401.StorageAccountMicrosoftEndpoints_Status instead
 type StorageAccountMicrosoftEndpoints_Status struct {
 	Blob  *string `json:"blob,omitempty"`
 	Dfs   *string `json:"dfs,omitempty"`
@@ -7835,34 +7835,34 @@ func (endpoints *StorageAccountMicrosoftEndpoints_Status) AssignPropertiesToStor
 }
 
 type StorageAccountOperatorSecrets struct {
-	//BlobEndpoint: indicates where the BlobEndpoint secret should be placed. If omitted, the secret will not be retrieved
-	//from Azure.
+	// BlobEndpoint: indicates where the BlobEndpoint secret should be placed. If omitted, the secret will not be retrieved
+	// from Azure.
 	BlobEndpoint *genruntime.SecretDestination `json:"blobEndpoint,omitempty"`
 
-	//DfsEndpoint: indicates where the DfsEndpoint secret should be placed. If omitted, the secret will not be retrieved from
-	//Azure.
+	// DfsEndpoint: indicates where the DfsEndpoint secret should be placed. If omitted, the secret will not be retrieved from
+	// Azure.
 	DfsEndpoint *genruntime.SecretDestination `json:"dfsEndpoint,omitempty"`
 
-	//FileEndpoint: indicates where the FileEndpoint secret should be placed. If omitted, the secret will not be retrieved
-	//from Azure.
+	// FileEndpoint: indicates where the FileEndpoint secret should be placed. If omitted, the secret will not be retrieved
+	// from Azure.
 	FileEndpoint *genruntime.SecretDestination `json:"fileEndpoint,omitempty"`
 
-	//Key1: indicates where the Key1 secret should be placed. If omitted, the secret will not be retrieved from Azure.
+	// Key1: indicates where the Key1 secret should be placed. If omitted, the secret will not be retrieved from Azure.
 	Key1 *genruntime.SecretDestination `json:"key1,omitempty"`
 
-	//Key2: indicates where the Key2 secret should be placed. If omitted, the secret will not be retrieved from Azure.
+	// Key2: indicates where the Key2 secret should be placed. If omitted, the secret will not be retrieved from Azure.
 	Key2 *genruntime.SecretDestination `json:"key2,omitempty"`
 
-	//QueueEndpoint: indicates where the QueueEndpoint secret should be placed. If omitted, the secret will not be retrieved
-	//from Azure.
+	// QueueEndpoint: indicates where the QueueEndpoint secret should be placed. If omitted, the secret will not be retrieved
+	// from Azure.
 	QueueEndpoint *genruntime.SecretDestination `json:"queueEndpoint,omitempty"`
 
-	//TableEndpoint: indicates where the TableEndpoint secret should be placed. If omitted, the secret will not be retrieved
-	//from Azure.
+	// TableEndpoint: indicates where the TableEndpoint secret should be placed. If omitted, the secret will not be retrieved
+	// from Azure.
 	TableEndpoint *genruntime.SecretDestination `json:"tableEndpoint,omitempty"`
 
-	//WebEndpoint: indicates where the WebEndpoint secret should be placed. If omitted, the secret will not be retrieved from
-	//Azure.
+	// WebEndpoint: indicates where the WebEndpoint secret should be placed. If omitted, the secret will not be retrieved from
+	// Azure.
 	WebEndpoint *genruntime.SecretDestination `json:"webEndpoint,omitempty"`
 }
 
@@ -8017,7 +8017,7 @@ func (secrets *StorageAccountOperatorSecrets) AssignPropertiesToStorageAccountOp
 	return nil
 }
 
-//Deprecated version of UserAssignedIdentity_Status. Use v1beta20210401.UserAssignedIdentity_Status instead
+// Deprecated version of UserAssignedIdentity_Status. Use v1beta20210401.UserAssignedIdentity_Status instead
 type UserAssignedIdentity_Status struct {
 	ClientId    *string `json:"clientId,omitempty"`
 	PrincipalId *string `json:"principalId,omitempty"`
@@ -8088,7 +8088,7 @@ func (identity *UserAssignedIdentity_Status) AssignPropertiesToUserAssignedIdent
 	return nil
 }
 
-//Deprecated version of VirtualNetworkRule. Use v1beta20210401.VirtualNetworkRule instead
+// Deprecated version of VirtualNetworkRule. Use v1beta20210401.VirtualNetworkRule instead
 type VirtualNetworkRule struct {
 	Action *VirtualNetworkRuleAction `json:"action,omitempty"`
 
@@ -8231,7 +8231,7 @@ func (rule *VirtualNetworkRule) AssignPropertiesToVirtualNetworkRule(destination
 	return nil
 }
 
-//Deprecated version of VirtualNetworkRule_Status. Use v1beta20210401.VirtualNetworkRule_Status instead
+// Deprecated version of VirtualNetworkRule_Status. Use v1beta20210401.VirtualNetworkRule_Status instead
 type VirtualNetworkRule_Status struct {
 	Action *VirtualNetworkRuleStatusAction `json:"action,omitempty"`
 	Id     *string                         `json:"id,omitempty"`
@@ -8335,7 +8335,7 @@ func (rule *VirtualNetworkRule_Status) AssignPropertiesToVirtualNetworkRuleStatu
 	return nil
 }
 
-//Deprecated version of BlobRestoreRange_Status. Use v1beta20210401.BlobRestoreRange_Status instead
+// Deprecated version of BlobRestoreRange_Status. Use v1beta20210401.BlobRestoreRange_Status instead
 type BlobRestoreRange_Status struct {
 	EndRange   *string `json:"endRange,omitempty"`
 	StartRange *string `json:"startRange,omitempty"`
@@ -8406,7 +8406,7 @@ func (restoreRange *BlobRestoreRange_Status) AssignPropertiesToBlobRestoreRangeS
 	return nil
 }
 
-//Deprecated version of EncryptionService. Use v1beta20210401.EncryptionService instead
+// Deprecated version of EncryptionService. Use v1beta20210401.EncryptionService instead
 type EncryptionService struct {
 	Enabled *bool                     `json:"enabled,omitempty"`
 	KeyType *EncryptionServiceKeyType `json:"keyType,omitempty"`
@@ -8518,7 +8518,7 @@ func (service *EncryptionService) AssignPropertiesToEncryptionService(destinatio
 	return nil
 }
 
-//Deprecated version of EncryptionService_Status. Use v1beta20210401.EncryptionService_Status instead
+// Deprecated version of EncryptionService_Status. Use v1beta20210401.EncryptionService_Status instead
 type EncryptionService_Status struct {
 	Enabled         *bool                           `json:"enabled,omitempty"`
 	KeyType         *EncryptionServiceStatusKeyType `json:"keyType,omitempty"`
@@ -8622,24 +8622,24 @@ func (service *EncryptionService_Status) AssignPropertiesToEncryptionServiceStat
 	return nil
 }
 
-//Deprecated version of IPRuleAction. Use v1beta20210401.IPRuleAction instead
+// Deprecated version of IPRuleAction. Use v1beta20210401.IPRuleAction instead
 // +kubebuilder:validation:Enum={"Allow"}
 type IPRuleAction string
 
 const IPRuleActionAllow = IPRuleAction("Allow")
 
-//Deprecated version of IPRuleStatusAction. Use v1beta20210401.IPRuleStatusAction instead
+// Deprecated version of IPRuleStatusAction. Use v1beta20210401.IPRuleStatusAction instead
 type IPRuleStatusAction string
 
 const IPRuleStatusActionAllow = IPRuleStatusAction("Allow")
 
-//Deprecated version of VirtualNetworkRuleAction. Use v1beta20210401.VirtualNetworkRuleAction instead
+// Deprecated version of VirtualNetworkRuleAction. Use v1beta20210401.VirtualNetworkRuleAction instead
 // +kubebuilder:validation:Enum={"Allow"}
 type VirtualNetworkRuleAction string
 
 const VirtualNetworkRuleActionAllow = VirtualNetworkRuleAction("Allow")
 
-//Deprecated version of VirtualNetworkRuleState. Use v1beta20210401.VirtualNetworkRuleState instead
+// Deprecated version of VirtualNetworkRuleState. Use v1beta20210401.VirtualNetworkRuleState instead
 // +kubebuilder:validation:Enum={"Deprovisioning","Failed","NetworkSourceDeleted","Provisioning","Succeeded"}
 type VirtualNetworkRuleState string
 
@@ -8651,12 +8651,12 @@ const (
 	VirtualNetworkRuleStateSucceeded            = VirtualNetworkRuleState("Succeeded")
 )
 
-//Deprecated version of VirtualNetworkRuleStatusAction. Use v1beta20210401.VirtualNetworkRuleStatusAction instead
+// Deprecated version of VirtualNetworkRuleStatusAction. Use v1beta20210401.VirtualNetworkRuleStatusAction instead
 type VirtualNetworkRuleStatusAction string
 
 const VirtualNetworkRuleStatusActionAllow = VirtualNetworkRuleStatusAction("Allow")
 
-//Deprecated version of VirtualNetworkRuleStatusState. Use v1beta20210401.VirtualNetworkRuleStatusState instead
+// Deprecated version of VirtualNetworkRuleStatusState. Use v1beta20210401.VirtualNetworkRuleStatusState instead
 type VirtualNetworkRuleStatusState string
 
 const (
@@ -8667,7 +8667,7 @@ const (
 	VirtualNetworkRuleStatusStateSucceeded            = VirtualNetworkRuleStatusState("Succeeded")
 )
 
-//Deprecated version of EncryptionServiceKeyType. Use v1beta20210401.EncryptionServiceKeyType instead
+// Deprecated version of EncryptionServiceKeyType. Use v1beta20210401.EncryptionServiceKeyType instead
 // +kubebuilder:validation:Enum={"Account","Service"}
 type EncryptionServiceKeyType string
 
@@ -8676,7 +8676,7 @@ const (
 	EncryptionServiceKeyTypeService = EncryptionServiceKeyType("Service")
 )
 
-//Deprecated version of EncryptionServiceStatusKeyType. Use v1beta20210401.EncryptionServiceStatusKeyType instead
+// Deprecated version of EncryptionServiceStatusKeyType. Use v1beta20210401.EncryptionServiceStatusKeyType instead
 type EncryptionServiceStatusKeyType string
 
 const (

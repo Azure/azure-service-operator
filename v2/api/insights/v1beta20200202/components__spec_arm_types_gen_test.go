@@ -133,7 +133,7 @@ func RunJSONSerializationTestForApplicationInsightsComponentPropertiesARM(subjec
 }
 
 // Generator of ApplicationInsightsComponentPropertiesARM instances for property testing - lazily instantiated by
-//ApplicationInsightsComponentPropertiesARMGenerator()
+// ApplicationInsightsComponentPropertiesARMGenerator()
 var applicationInsightsComponentPropertiesARMGenerator gopter.Gen
 
 // ApplicationInsightsComponentPropertiesARMGenerator returns a generator of ApplicationInsightsComponentPropertiesARM instances for property testing.

@@ -56,7 +56,7 @@ func RunJSONSerializationTestForNetworkSecurityGroup(subject NetworkSecurityGrou
 }
 
 // Generator of NetworkSecurityGroup instances for property testing - lazily instantiated by
-//NetworkSecurityGroupGenerator()
+// NetworkSecurityGroupGenerator()
 var networkSecurityGroupGenerator gopter.Gen
 
 // NetworkSecurityGroupGenerator returns a generator of NetworkSecurityGroup instances for property testing.
@@ -117,7 +117,7 @@ func RunJSONSerializationTestForNetworkSecurityGroupStatusNetworkSecurityGroupSu
 }
 
 // Generator of NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded instances for property testing -
-//lazily instantiated by NetworkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbeddedGenerator()
+// lazily instantiated by NetworkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbeddedGenerator()
 var networkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbeddedGenerator gopter.Gen
 
 // NetworkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbeddedGenerator returns a generator of NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded instances for property testing.
@@ -202,7 +202,7 @@ func RunJSONSerializationTestForNetworkSecurityGroupsSpec(subject NetworkSecurit
 }
 
 // Generator of NetworkSecurityGroups_Spec instances for property testing - lazily instantiated by
-//NetworkSecurityGroupsSpecGenerator()
+// NetworkSecurityGroupsSpecGenerator()
 var networkSecurityGroupsSpecGenerator gopter.Gen
 
 // NetworkSecurityGroupsSpecGenerator returns a generator of NetworkSecurityGroups_Spec instances for property testing.
@@ -265,7 +265,7 @@ func RunJSONSerializationTestForFlowLogStatusSubResourceEmbedded(subject FlowLog
 }
 
 // Generator of FlowLog_Status_SubResourceEmbedded instances for property testing - lazily instantiated by
-//FlowLogStatusSubResourceEmbeddedGenerator()
+// FlowLogStatusSubResourceEmbeddedGenerator()
 var flowLogStatusSubResourceEmbeddedGenerator gopter.Gen
 
 // FlowLogStatusSubResourceEmbeddedGenerator returns a generator of FlowLog_Status_SubResourceEmbedded instances for property testing.
@@ -325,7 +325,7 @@ func RunJSONSerializationTestForNetworkInterfaceStatusNetworkSecurityGroupSubRes
 }
 
 // Generator of NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded instances for property testing - lazily
-//instantiated by NetworkInterfaceStatusNetworkSecurityGroupSubResourceEmbeddedGenerator()
+// instantiated by NetworkInterfaceStatusNetworkSecurityGroupSubResourceEmbeddedGenerator()
 var networkInterfaceStatusNetworkSecurityGroupSubResourceEmbeddedGenerator gopter.Gen
 
 // NetworkInterfaceStatusNetworkSecurityGroupSubResourceEmbeddedGenerator returns a generator of NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded instances for property testing.
@@ -399,7 +399,7 @@ func RunJSONSerializationTestForSecurityRuleStatusNetworkSecurityGroupSubResourc
 }
 
 // Generator of SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded instances for property testing - lazily
-//instantiated by SecurityRuleStatusNetworkSecurityGroupSubResourceEmbeddedGenerator()
+// instantiated by SecurityRuleStatusNetworkSecurityGroupSubResourceEmbeddedGenerator()
 var securityRuleStatusNetworkSecurityGroupSubResourceEmbeddedGenerator gopter.Gen
 
 // SecurityRuleStatusNetworkSecurityGroupSubResourceEmbeddedGenerator returns a generator of SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded instances for property testing.
@@ -459,7 +459,7 @@ func RunJSONSerializationTestForSubnetStatusNetworkSecurityGroupSubResourceEmbed
 }
 
 // Generator of Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded instances for property testing - lazily
-//instantiated by SubnetStatusNetworkSecurityGroupSubResourceEmbeddedGenerator()
+// instantiated by SubnetStatusNetworkSecurityGroupSubResourceEmbeddedGenerator()
 var subnetStatusNetworkSecurityGroupSubResourceEmbeddedGenerator gopter.Gen
 
 // SubnetStatusNetworkSecurityGroupSubResourceEmbeddedGenerator returns a generator of Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded instances for property testing.

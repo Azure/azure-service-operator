@@ -116,7 +116,7 @@ func RunJSONSerializationTestForSignalRResourceStatus(subject SignalRResource_St
 }
 
 // Generator of SignalRResource_Status instances for property testing - lazily instantiated by
-//SignalRResourceStatusGenerator()
+// SignalRResourceStatusGenerator()
 var signalRResourceStatusGenerator gopter.Gen
 
 // SignalRResourceStatusGenerator returns a generator of SignalRResource_Status instances for property testing.
@@ -361,7 +361,7 @@ func RunJSONSerializationTestForManagedIdentityStatus(subject ManagedIdentity_St
 }
 
 // Generator of ManagedIdentity_Status instances for property testing - lazily instantiated by
-//ManagedIdentityStatusGenerator()
+// ManagedIdentityStatusGenerator()
 var managedIdentityStatusGenerator gopter.Gen
 
 // ManagedIdentityStatusGenerator returns a generator of ManagedIdentity_Status instances for property testing.
@@ -437,7 +437,7 @@ func RunJSONSerializationTestForPrivateEndpointConnectionStatusSignalRSubResourc
 }
 
 // Generator of PrivateEndpointConnection_Status_SignalR_SubResourceEmbedded instances for property testing - lazily
-//instantiated by PrivateEndpointConnectionStatusSignalRSubResourceEmbeddedGenerator()
+// instantiated by PrivateEndpointConnectionStatusSignalRSubResourceEmbeddedGenerator()
 var privateEndpointConnectionStatusSignalRSubResourceEmbeddedGenerator gopter.Gen
 
 // PrivateEndpointConnectionStatusSignalRSubResourceEmbeddedGenerator returns a generator of PrivateEndpointConnection_Status_SignalR_SubResourceEmbedded instances for property testing.
@@ -511,7 +511,7 @@ func RunJSONSerializationTestForResourceLogConfiguration(subject ResourceLogConf
 }
 
 // Generator of ResourceLogConfiguration instances for property testing - lazily instantiated by
-//ResourceLogConfigurationGenerator()
+// ResourceLogConfigurationGenerator()
 var resourceLogConfigurationGenerator gopter.Gen
 
 // ResourceLogConfigurationGenerator returns a generator of ResourceLogConfiguration instances for property testing.
@@ -571,7 +571,7 @@ func RunJSONSerializationTestForResourceLogConfigurationStatus(subject ResourceL
 }
 
 // Generator of ResourceLogConfiguration_Status instances for property testing - lazily instantiated by
-//ResourceLogConfigurationStatusGenerator()
+// ResourceLogConfigurationStatusGenerator()
 var resourceLogConfigurationStatusGenerator gopter.Gen
 
 // ResourceLogConfigurationStatusGenerator returns a generator of ResourceLogConfiguration_Status instances for property testing.
@@ -755,7 +755,7 @@ func RunJSONSerializationTestForServerlessUpstreamSettings(subject ServerlessUps
 }
 
 // Generator of ServerlessUpstreamSettings instances for property testing - lazily instantiated by
-//ServerlessUpstreamSettingsGenerator()
+// ServerlessUpstreamSettingsGenerator()
 var serverlessUpstreamSettingsGenerator gopter.Gen
 
 // ServerlessUpstreamSettingsGenerator returns a generator of ServerlessUpstreamSettings instances for property testing.
@@ -815,7 +815,7 @@ func RunJSONSerializationTestForServerlessUpstreamSettingsStatus(subject Serverl
 }
 
 // Generator of ServerlessUpstreamSettings_Status instances for property testing - lazily instantiated by
-//ServerlessUpstreamSettingsStatusGenerator()
+// ServerlessUpstreamSettingsStatusGenerator()
 var serverlessUpstreamSettingsStatusGenerator gopter.Gen
 
 // ServerlessUpstreamSettingsStatusGenerator returns a generator of ServerlessUpstreamSettings_Status instances for property testing.
@@ -875,7 +875,7 @@ func RunJSONSerializationTestForSharedPrivateLinkResourceStatusSignalRSubResourc
 }
 
 // Generator of SharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded instances for property testing - lazily
-//instantiated by SharedPrivateLinkResourceStatusSignalRSubResourceEmbeddedGenerator()
+// instantiated by SharedPrivateLinkResourceStatusSignalRSubResourceEmbeddedGenerator()
 var sharedPrivateLinkResourceStatusSignalRSubResourceEmbeddedGenerator gopter.Gen
 
 // SharedPrivateLinkResourceStatusSignalRSubResourceEmbeddedGenerator returns a generator of SharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded instances for property testing.
@@ -949,7 +949,7 @@ func RunJSONSerializationTestForSignalRCorsSettings(subject SignalRCorsSettings)
 }
 
 // Generator of SignalRCorsSettings instances for property testing - lazily instantiated by
-//SignalRCorsSettingsGenerator()
+// SignalRCorsSettingsGenerator()
 var signalRCorsSettingsGenerator gopter.Gen
 
 // SignalRCorsSettingsGenerator returns a generator of SignalRCorsSettings instances for property testing.
@@ -1009,7 +1009,7 @@ func RunJSONSerializationTestForSignalRCorsSettingsStatus(subject SignalRCorsSet
 }
 
 // Generator of SignalRCorsSettings_Status instances for property testing - lazily instantiated by
-//SignalRCorsSettingsStatusGenerator()
+// SignalRCorsSettingsStatusGenerator()
 var signalRCorsSettingsStatusGenerator gopter.Gen
 
 // SignalRCorsSettingsStatusGenerator returns a generator of SignalRCorsSettings_Status instances for property testing.
@@ -1130,7 +1130,7 @@ func RunJSONSerializationTestForSignalRFeatureStatus(subject SignalRFeature_Stat
 }
 
 // Generator of SignalRFeature_Status instances for property testing - lazily instantiated by
-//SignalRFeatureStatusGenerator()
+// SignalRFeatureStatusGenerator()
 var signalRFeatureStatusGenerator gopter.Gen
 
 // SignalRFeatureStatusGenerator returns a generator of SignalRFeature_Status instances for property testing.
@@ -1266,7 +1266,7 @@ func RunJSONSerializationTestForSignalRNetworkACLsStatus(subject SignalRNetworkA
 }
 
 // Generator of SignalRNetworkACLs_Status instances for property testing - lazily instantiated by
-//SignalRNetworkACLsStatusGenerator()
+// SignalRNetworkACLsStatusGenerator()
 var signalRNetworkACLsStatusGenerator gopter.Gen
 
 // SignalRNetworkACLsStatusGenerator returns a generator of SignalRNetworkACLs_Status instances for property testing.
@@ -1400,7 +1400,7 @@ func RunJSONSerializationTestForSignalRTlsSettingsStatus(subject SignalRTlsSetti
 }
 
 // Generator of SignalRTlsSettings_Status instances for property testing - lazily instantiated by
-//SignalRTlsSettingsStatusGenerator()
+// SignalRTlsSettingsStatusGenerator()
 var signalRTlsSettingsStatusGenerator gopter.Gen
 
 // SignalRTlsSettingsStatusGenerator returns a generator of SignalRTlsSettings_Status instances for property testing.
@@ -1705,7 +1705,7 @@ func RunJSONSerializationTestForPrivateEndpointACLStatus(subject PrivateEndpoint
 }
 
 // Generator of PrivateEndpointACL_Status instances for property testing - lazily instantiated by
-//PrivateEndpointACLStatusGenerator()
+// PrivateEndpointACLStatusGenerator()
 var privateEndpointACLStatusGenerator gopter.Gen
 
 // PrivateEndpointACLStatusGenerator returns a generator of PrivateEndpointACL_Status instances for property testing.
@@ -1767,7 +1767,7 @@ func RunJSONSerializationTestForResourceLogCategory(subject ResourceLogCategory)
 }
 
 // Generator of ResourceLogCategory instances for property testing - lazily instantiated by
-//ResourceLogCategoryGenerator()
+// ResourceLogCategoryGenerator()
 var resourceLogCategoryGenerator gopter.Gen
 
 // ResourceLogCategoryGenerator returns a generator of ResourceLogCategory instances for property testing.
@@ -1828,7 +1828,7 @@ func RunJSONSerializationTestForResourceLogCategoryStatus(subject ResourceLogCat
 }
 
 // Generator of ResourceLogCategory_Status instances for property testing - lazily instantiated by
-//ResourceLogCategoryStatusGenerator()
+// ResourceLogCategoryStatusGenerator()
 var resourceLogCategoryStatusGenerator gopter.Gen
 
 // ResourceLogCategoryStatusGenerator returns a generator of ResourceLogCategory_Status instances for property testing.
@@ -1965,7 +1965,7 @@ func RunJSONSerializationTestForUpstreamTemplateStatus(subject UpstreamTemplate_
 }
 
 // Generator of UpstreamTemplate_Status instances for property testing - lazily instantiated by
-//UpstreamTemplateStatusGenerator()
+// UpstreamTemplateStatusGenerator()
 var upstreamTemplateStatusGenerator gopter.Gen
 
 // UpstreamTemplateStatusGenerator returns a generator of UpstreamTemplate_Status instances for property testing.
@@ -2042,7 +2042,7 @@ func RunJSONSerializationTestForUserAssignedIdentityPropertyStatus(subject UserA
 }
 
 // Generator of UserAssignedIdentityProperty_Status instances for property testing - lazily instantiated by
-//UserAssignedIdentityPropertyStatusGenerator()
+// UserAssignedIdentityPropertyStatusGenerator()
 var userAssignedIdentityPropertyStatusGenerator gopter.Gen
 
 // UserAssignedIdentityPropertyStatusGenerator returns a generator of UserAssignedIdentityProperty_Status instances for property testing.
@@ -2103,7 +2103,7 @@ func RunJSONSerializationTestForUpstreamAuthSettings(subject UpstreamAuthSetting
 }
 
 // Generator of UpstreamAuthSettings instances for property testing - lazily instantiated by
-//UpstreamAuthSettingsGenerator()
+// UpstreamAuthSettingsGenerator()
 var upstreamAuthSettingsGenerator gopter.Gen
 
 // UpstreamAuthSettingsGenerator returns a generator of UpstreamAuthSettings instances for property testing.
@@ -2177,7 +2177,7 @@ func RunJSONSerializationTestForUpstreamAuthSettingsStatus(subject UpstreamAuthS
 }
 
 // Generator of UpstreamAuthSettings_Status instances for property testing - lazily instantiated by
-//UpstreamAuthSettingsStatusGenerator()
+// UpstreamAuthSettingsStatusGenerator()
 var upstreamAuthSettingsStatusGenerator gopter.Gen
 
 // UpstreamAuthSettingsStatusGenerator returns a generator of UpstreamAuthSettings_Status instances for property testing.
@@ -2251,7 +2251,7 @@ func RunJSONSerializationTestForManagedIdentitySettings(subject ManagedIdentityS
 }
 
 // Generator of ManagedIdentitySettings instances for property testing - lazily instantiated by
-//ManagedIdentitySettingsGenerator()
+// ManagedIdentitySettingsGenerator()
 var managedIdentitySettingsGenerator gopter.Gen
 
 // ManagedIdentitySettingsGenerator returns a generator of ManagedIdentitySettings instances for property testing.
@@ -2311,7 +2311,7 @@ func RunJSONSerializationTestForManagedIdentitySettingsStatus(subject ManagedIde
 }
 
 // Generator of ManagedIdentitySettings_Status instances for property testing - lazily instantiated by
-//ManagedIdentitySettingsStatusGenerator()
+// ManagedIdentitySettingsStatusGenerator()
 var managedIdentitySettingsStatusGenerator gopter.Gen
 
 // ManagedIdentitySettingsStatusGenerator returns a generator of ManagedIdentitySettings_Status instances for property testing.

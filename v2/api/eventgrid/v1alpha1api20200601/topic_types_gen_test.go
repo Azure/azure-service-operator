@@ -91,7 +91,7 @@ func RunPropertyAssignmentTestForTopic(subject Topic) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -193,7 +193,7 @@ func RunPropertyAssignmentTestForTopicStatus(subject Topic_Status) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -326,7 +326,7 @@ func RunPropertyAssignmentTestForTopicsSpec(subject Topics_Spec) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -429,7 +429,7 @@ func RunPropertyAssignmentTestForPrivateEndpointConnectionStatusTopicSubResource
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -480,7 +480,7 @@ func RunJSONSerializationTestForPrivateEndpointConnectionStatusTopicSubResourceE
 }
 
 // Generator of PrivateEndpointConnection_Status_Topic_SubResourceEmbedded instances for property testing - lazily
-//instantiated by PrivateEndpointConnectionStatusTopicSubResourceEmbeddedGenerator()
+// instantiated by PrivateEndpointConnectionStatusTopicSubResourceEmbeddedGenerator()
 var privateEndpointConnectionStatusTopicSubResourceEmbeddedGenerator gopter.Gen
 
 // PrivateEndpointConnectionStatusTopicSubResourceEmbeddedGenerator returns a generator of PrivateEndpointConnection_Status_Topic_SubResourceEmbedded instances for property testing.

@@ -56,7 +56,7 @@ func RunJSONSerializationTestForSqlUserDefinedFunctionGetResultsStatusARM(subjec
 }
 
 // Generator of SqlUserDefinedFunctionGetResults_StatusARM instances for property testing - lazily instantiated by
-//SqlUserDefinedFunctionGetResultsStatusARMGenerator()
+// SqlUserDefinedFunctionGetResultsStatusARMGenerator()
 var sqlUserDefinedFunctionGetResultsStatusARMGenerator gopter.Gen
 
 // SqlUserDefinedFunctionGetResultsStatusARMGenerator returns a generator of SqlUserDefinedFunctionGetResults_StatusARM instances for property testing.
@@ -134,7 +134,7 @@ func RunJSONSerializationTestForSqlUserDefinedFunctionGetPropertiesStatusARM(sub
 }
 
 // Generator of SqlUserDefinedFunctionGetProperties_StatusARM instances for property testing - lazily instantiated by
-//SqlUserDefinedFunctionGetPropertiesStatusARMGenerator()
+// SqlUserDefinedFunctionGetPropertiesStatusARMGenerator()
 var sqlUserDefinedFunctionGetPropertiesStatusARMGenerator gopter.Gen
 
 // SqlUserDefinedFunctionGetPropertiesStatusARMGenerator returns a generator of SqlUserDefinedFunctionGetProperties_StatusARM instances for property testing.
@@ -194,7 +194,7 @@ func RunJSONSerializationTestForSqlUserDefinedFunctionGetPropertiesStatusResourc
 }
 
 // Generator of SqlUserDefinedFunctionGetProperties_Status_ResourceARM instances for property testing - lazily
-//instantiated by SqlUserDefinedFunctionGetPropertiesStatusResourceARMGenerator()
+// instantiated by SqlUserDefinedFunctionGetPropertiesStatusResourceARMGenerator()
 var sqlUserDefinedFunctionGetPropertiesStatusResourceARMGenerator gopter.Gen
 
 // SqlUserDefinedFunctionGetPropertiesStatusResourceARMGenerator returns a generator of SqlUserDefinedFunctionGetProperties_Status_ResourceARM instances for property testing.

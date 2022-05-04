@@ -8,7 +8,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json
+// Generated from: https://test.test/schemas/2020-01-01/test.json
 type Test struct {
 	// +kubebuilder:validation:Required
 	Enabled *bool   `json:"enabled,omitempty"`

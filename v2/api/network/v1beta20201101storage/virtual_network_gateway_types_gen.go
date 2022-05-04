@@ -21,8 +21,8 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Storage version of v1beta20201101.VirtualNetworkGateway
-//Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/virtualNetworkGateways
+// Storage version of v1beta20201101.VirtualNetworkGateway
+// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/virtualNetworkGateways
 type VirtualNetworkGateway struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -121,15 +121,15 @@ func (gateway *VirtualNetworkGateway) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Storage version of v1beta20201101.VirtualNetworkGateway
-//Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/virtualNetworkGateways
+// Storage version of v1beta20201101.VirtualNetworkGateway
+// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/virtualNetworkGateways
 type VirtualNetworkGatewayList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []VirtualNetworkGateway `json:"items"`
 }
 
-//Storage version of v1beta20201101.VirtualNetworkGateway_Status
+// Storage version of v1beta20201101.VirtualNetworkGateway_Status
 type VirtualNetworkGateway_Status struct {
 	ActiveActive                   *bool                                         `json:"activeActive,omitempty"`
 	BgpSettings                    *BgpSettings_Status                           `json:"bgpSettings,omitempty"`
@@ -179,12 +179,12 @@ func (gateway *VirtualNetworkGateway_Status) ConvertStatusTo(destination genrunt
 	return destination.ConvertStatusFrom(gateway)
 }
 
-//Storage version of v1beta20201101.VirtualNetworkGateways_Spec
+// Storage version of v1beta20201101.VirtualNetworkGateways_Spec
 type VirtualNetworkGateways_Spec struct {
 	ActiveActive *bool `json:"activeActive,omitempty"`
 
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName              string                                                    `json:"azureName,omitempty"`
 	BgpSettings            *BgpSettings                                              `json:"bgpSettings,omitempty"`
 	CustomRoutes           *AddressSpace                                             `json:"customRoutes,omitempty"`
@@ -198,16 +198,16 @@ type VirtualNetworkGateways_Spec struct {
 	OriginalVersion        string                                                    `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a resources.azure.com/ResourceGroup resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
 	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	Sku         *VirtualNetworkGatewaySku          `json:"sku,omitempty"`
 	Tags        map[string]string                  `json:"tags,omitempty"`
 
-	//VNetExtendedLocationResourceReference: MAS FIJI customer vnet resource id. VirtualNetworkGateway of type local gateway
-	//is associated with the customer vnet.
+	// VNetExtendedLocationResourceReference: MAS FIJI customer vnet resource id. VirtualNetworkGateway of type local gateway
+	// is associated with the customer vnet.
 	VNetExtendedLocationResourceReference *genruntime.ResourceReference                                  `armReference:"VNetExtendedLocationResourceId" json:"vNetExtendedLocationResourceReference,omitempty"`
 	VirtualNetworkExtendedLocation        *ExtendedLocation                                              `json:"virtualNetworkExtendedLocation,omitempty"`
 	VpnClientConfiguration                *VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration `json:"vpnClientConfiguration,omitempty"`
@@ -235,8 +235,8 @@ func (gateways *VirtualNetworkGateways_Spec) ConvertSpecTo(destination genruntim
 	return destination.ConvertSpecFrom(gateways)
 }
 
-//Storage version of v1beta20201101.BgpSettings
-//Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/BgpSettings
+// Storage version of v1beta20201101.BgpSettings
+// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/BgpSettings
 type BgpSettings struct {
 	Asn                 *uint32                            `json:"asn,omitempty"`
 	BgpPeeringAddress   *string                            `json:"bgpPeeringAddress,omitempty"`
@@ -245,7 +245,7 @@ type BgpSettings struct {
 	PropertyBag         genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1beta20201101.BgpSettings_Status
+// Storage version of v1beta20201101.BgpSettings_Status
 type BgpSettings_Status struct {
 	Asn                 *uint32                                   `json:"asn,omitempty"`
 	BgpPeeringAddress   *string                                   `json:"bgpPeeringAddress,omitempty"`
@@ -254,7 +254,7 @@ type BgpSettings_Status struct {
 	PropertyBag         genruntime.PropertyBag                    `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1beta20201101.VirtualNetworkGatewayIPConfiguration_Status
+// Storage version of v1beta20201101.VirtualNetworkGatewayIPConfiguration_Status
 type VirtualNetworkGatewayIPConfiguration_Status struct {
 	Etag                      *string                `json:"etag,omitempty"`
 	Id                        *string                `json:"id,omitempty"`
@@ -267,15 +267,15 @@ type VirtualNetworkGatewayIPConfiguration_Status struct {
 	Subnet                    *SubResource_Status    `json:"subnet,omitempty"`
 }
 
-//Storage version of v1beta20201101.VirtualNetworkGatewaySku
-//Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/VirtualNetworkGatewaySku
+// Storage version of v1beta20201101.VirtualNetworkGatewaySku
+// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/VirtualNetworkGatewaySku
 type VirtualNetworkGatewaySku struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Tier        *string                `json:"tier,omitempty"`
 }
 
-//Storage version of v1beta20201101.VirtualNetworkGatewaySku_Status
+// Storage version of v1beta20201101.VirtualNetworkGatewaySku_Status
 type VirtualNetworkGatewaySku_Status struct {
 	Capacity    *int                   `json:"capacity,omitempty"`
 	Name        *string                `json:"name,omitempty"`
@@ -283,7 +283,7 @@ type VirtualNetworkGatewaySku_Status struct {
 	Tier        *string                `json:"tier,omitempty"`
 }
 
-//Storage version of v1beta20201101.VirtualNetworkGateways_Spec_Properties_IpConfigurations
+// Storage version of v1beta20201101.VirtualNetworkGateways_Spec_Properties_IpConfigurations
 type VirtualNetworkGateways_Spec_Properties_IpConfigurations struct {
 	Name                      *string                `json:"name,omitempty"`
 	PrivateIPAllocationMethod *string                `json:"privateIPAllocationMethod,omitempty"`
@@ -292,7 +292,7 @@ type VirtualNetworkGateways_Spec_Properties_IpConfigurations struct {
 	Subnet                    *SubResource           `json:"subnet,omitempty"`
 }
 
-//Storage version of v1beta20201101.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration
+// Storage version of v1beta20201101.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration
 type VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration struct {
 	AadAudience                  *string                                                                                      `json:"aadAudience,omitempty"`
 	AadIssuer                    *string                                                                                      `json:"aadIssuer,omitempty"`
@@ -309,7 +309,7 @@ type VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration struct {
 	VpnClientRootCertificates    []VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates    `json:"vpnClientRootCertificates,omitempty"`
 }
 
-//Storage version of v1beta20201101.VpnClientConfiguration_Status
+// Storage version of v1beta20201101.VpnClientConfiguration_Status
 type VpnClientConfiguration_Status struct {
 	AadAudience                  *string                              `json:"aadAudience,omitempty"`
 	AadIssuer                    *string                              `json:"aadIssuer,omitempty"`
@@ -326,15 +326,15 @@ type VpnClientConfiguration_Status struct {
 	VpnClientRootCertificates    []VpnClientRootCertificate_Status    `json:"vpnClientRootCertificates,omitempty"`
 }
 
-//Storage version of v1beta20201101.IPConfigurationBgpPeeringAddress
-//Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/IPConfigurationBgpPeeringAddress
+// Storage version of v1beta20201101.IPConfigurationBgpPeeringAddress
+// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/IPConfigurationBgpPeeringAddress
 type IPConfigurationBgpPeeringAddress struct {
 	CustomBgpIpAddresses []string               `json:"customBgpIpAddresses,omitempty"`
 	IpconfigurationId    *string                `json:"ipconfigurationId,omitempty"`
 	PropertyBag          genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1beta20201101.IPConfigurationBgpPeeringAddress_Status
+// Storage version of v1beta20201101.IPConfigurationBgpPeeringAddress_Status
 type IPConfigurationBgpPeeringAddress_Status struct {
 	CustomBgpIpAddresses  []string               `json:"customBgpIpAddresses,omitempty"`
 	DefaultBgpIpAddresses []string               `json:"defaultBgpIpAddresses,omitempty"`
@@ -343,8 +343,8 @@ type IPConfigurationBgpPeeringAddress_Status struct {
 	TunnelIpAddresses     []string               `json:"tunnelIpAddresses,omitempty"`
 }
 
-//Storage version of v1beta20201101.IpsecPolicy
-//Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/IpsecPolicy
+// Storage version of v1beta20201101.IpsecPolicy
+// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/IpsecPolicy
 type IpsecPolicy struct {
 	DhGroup             *string                `json:"dhGroup,omitempty"`
 	IkeEncryption       *string                `json:"ikeEncryption,omitempty"`
@@ -357,7 +357,7 @@ type IpsecPolicy struct {
 	SaLifeTimeSeconds   *int                   `json:"saLifeTimeSeconds,omitempty"`
 }
 
-//Storage version of v1beta20201101.IpsecPolicy_Status
+// Storage version of v1beta20201101.IpsecPolicy_Status
 type IpsecPolicy_Status struct {
 	DhGroup             *string                `json:"dhGroup,omitempty"`
 	IkeEncryption       *string                `json:"ikeEncryption,omitempty"`
@@ -370,8 +370,8 @@ type IpsecPolicy_Status struct {
 	SaLifeTimeSeconds   *int                   `json:"saLifeTimeSeconds,omitempty"`
 }
 
-//Storage version of v1beta20201101.RadiusServer
-//Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/RadiusServer
+// Storage version of v1beta20201101.RadiusServer
+// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/RadiusServer
 type RadiusServer struct {
 	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	RadiusServerAddress *string                `json:"radiusServerAddress,omitempty"`
@@ -379,7 +379,7 @@ type RadiusServer struct {
 	RadiusServerSecret  *string                `json:"radiusServerSecret,omitempty"`
 }
 
-//Storage version of v1beta20201101.RadiusServer_Status
+// Storage version of v1beta20201101.RadiusServer_Status
 type RadiusServer_Status struct {
 	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	RadiusServerAddress *string                `json:"radiusServerAddress,omitempty"`
@@ -387,21 +387,21 @@ type RadiusServer_Status struct {
 	RadiusServerSecret  *string                `json:"radiusServerSecret,omitempty"`
 }
 
-//Storage version of v1beta20201101.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates
+// Storage version of v1beta20201101.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates
 type VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Thumbprint  *string                `json:"thumbprint,omitempty"`
 }
 
-//Storage version of v1beta20201101.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates
+// Storage version of v1beta20201101.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates
 type VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates struct {
 	Name           *string                `json:"name,omitempty"`
 	PropertyBag    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	PublicCertData *string                `json:"publicCertData,omitempty"`
 }
 
-//Storage version of v1beta20201101.VpnClientRevokedCertificate_Status
+// Storage version of v1beta20201101.VpnClientRevokedCertificate_Status
 type VpnClientRevokedCertificate_Status struct {
 	Etag              *string                `json:"etag,omitempty"`
 	Id                *string                `json:"id,omitempty"`
@@ -411,7 +411,7 @@ type VpnClientRevokedCertificate_Status struct {
 	Thumbprint        *string                `json:"thumbprint,omitempty"`
 }
 
-//Storage version of v1beta20201101.VpnClientRootCertificate_Status
+// Storage version of v1beta20201101.VpnClientRootCertificate_Status
 type VpnClientRootCertificate_Status struct {
 	Etag              *string                `json:"etag,omitempty"`
 	Id                *string                `json:"id,omitempty"`

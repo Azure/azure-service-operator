@@ -6,16 +6,16 @@ package v1beta20210601
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type FlexibleServersDatabases_SpecARM struct {
-	//Location: Location to deploy resource to
+	// Location: Location to deploy resource to
 	Location *string `json:"location,omitempty"`
 
-	//Name: The name of the database.
+	// Name: The name of the database.
 	Name string `json:"name,omitempty"`
 
-	//Properties: The properties of a database.
+	// Properties: The properties of a database.
 	Properties *DatabasePropertiesARM `json:"properties,omitempty"`
 
-	//Tags: Name-value pairs to add to the resource
+	// Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
@@ -36,11 +36,11 @@ func (databases FlexibleServersDatabases_SpecARM) GetType() string {
 	return "Microsoft.DBforPostgreSQL/flexibleServers/databases"
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/DatabaseProperties
+// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/DatabaseProperties
 type DatabasePropertiesARM struct {
-	//Charset: The charset of the database.
+	// Charset: The charset of the database.
 	Charset *string `json:"charset,omitempty"`
 
-	//Collation: The collation of the database.
+	// Collation: The collation of the database.
 	Collation *string `json:"collation,omitempty"`
 }

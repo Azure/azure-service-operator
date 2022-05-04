@@ -56,7 +56,7 @@ func RunJSONSerializationTestForDatabaseAccountsSqlDatabasesContainersTriggersSp
 }
 
 // Generator of DatabaseAccountsSqlDatabasesContainersTriggers_SpecARM instances for property testing - lazily
-//instantiated by DatabaseAccountsSqlDatabasesContainersTriggersSpecARMGenerator()
+// instantiated by DatabaseAccountsSqlDatabasesContainersTriggersSpecARMGenerator()
 var databaseAccountsSqlDatabasesContainersTriggersSpecARMGenerator gopter.Gen
 
 // DatabaseAccountsSqlDatabasesContainersTriggersSpecARMGenerator returns a generator of DatabaseAccountsSqlDatabasesContainersTriggers_SpecARM instances for property testing.
@@ -132,7 +132,7 @@ func RunJSONSerializationTestForSqlTriggerCreateUpdatePropertiesARM(subject SqlT
 }
 
 // Generator of SqlTriggerCreateUpdatePropertiesARM instances for property testing - lazily instantiated by
-//SqlTriggerCreateUpdatePropertiesARMGenerator()
+// SqlTriggerCreateUpdatePropertiesARMGenerator()
 var sqlTriggerCreateUpdatePropertiesARMGenerator gopter.Gen
 
 // SqlTriggerCreateUpdatePropertiesARMGenerator returns a generator of SqlTriggerCreateUpdatePropertiesARM instances for property testing.
@@ -193,7 +193,7 @@ func RunJSONSerializationTestForSqlTriggerResourceARM(subject SqlTriggerResource
 }
 
 // Generator of SqlTriggerResourceARM instances for property testing - lazily instantiated by
-//SqlTriggerResourceARMGenerator()
+// SqlTriggerResourceARMGenerator()
 var sqlTriggerResourceARMGenerator gopter.Gen
 
 // SqlTriggerResourceARMGenerator returns a generator of SqlTriggerResourceARM instances for property testing.

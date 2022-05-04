@@ -91,7 +91,7 @@ func RunPropertyAssignmentTestForNetworkInterface(subject NetworkInterface) stri
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -193,7 +193,7 @@ func RunPropertyAssignmentTestForNetworkInterfaceStatusNetworkInterfaceSubResour
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -244,7 +244,7 @@ func RunJSONSerializationTestForNetworkInterfaceStatusNetworkInterfaceSubResourc
 }
 
 // Generator of NetworkInterface_Status_NetworkInterface_SubResourceEmbedded instances for property testing - lazily
-//instantiated by NetworkInterfaceStatusNetworkInterfaceSubResourceEmbeddedGenerator()
+// instantiated by NetworkInterfaceStatusNetworkInterfaceSubResourceEmbeddedGenerator()
 var networkInterfaceStatusNetworkInterfaceSubResourceEmbeddedGenerator gopter.Gen
 
 // NetworkInterfaceStatusNetworkInterfaceSubResourceEmbeddedGenerator returns a generator of NetworkInterface_Status_NetworkInterface_SubResourceEmbedded instances for property testing.
@@ -340,7 +340,7 @@ func RunPropertyAssignmentTestForNetworkInterfacesSpec(subject NetworkInterfaces
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -391,7 +391,7 @@ func RunJSONSerializationTestForNetworkInterfacesSpec(subject NetworkInterfaces_
 }
 
 // Generator of NetworkInterfaces_Spec instances for property testing - lazily instantiated by
-//NetworkInterfacesSpecGenerator()
+// NetworkInterfacesSpecGenerator()
 var networkInterfacesSpecGenerator gopter.Gen
 
 // NetworkInterfacesSpecGenerator returns a generator of NetworkInterfaces_Spec instances for property testing.
@@ -463,7 +463,7 @@ func RunPropertyAssignmentTestForNetworkInterfaceDnsSettings(subject NetworkInte
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -514,7 +514,7 @@ func RunJSONSerializationTestForNetworkInterfaceDnsSettings(subject NetworkInter
 }
 
 // Generator of NetworkInterfaceDnsSettings instances for property testing - lazily instantiated by
-//NetworkInterfaceDnsSettingsGenerator()
+// NetworkInterfaceDnsSettingsGenerator()
 var networkInterfaceDnsSettingsGenerator gopter.Gen
 
 // NetworkInterfaceDnsSettingsGenerator returns a generator of NetworkInterfaceDnsSettings instances for property testing.
@@ -566,7 +566,7 @@ func RunPropertyAssignmentTestForNetworkInterfaceDnsSettingsStatus(subject Netwo
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -617,7 +617,7 @@ func RunJSONSerializationTestForNetworkInterfaceDnsSettingsStatus(subject Networ
 }
 
 // Generator of NetworkInterfaceDnsSettings_Status instances for property testing - lazily instantiated by
-//NetworkInterfaceDnsSettingsStatusGenerator()
+// NetworkInterfaceDnsSettingsStatusGenerator()
 var networkInterfaceDnsSettingsStatusGenerator gopter.Gen
 
 // NetworkInterfaceDnsSettingsStatusGenerator returns a generator of NetworkInterfaceDnsSettings_Status instances for property testing.
@@ -672,7 +672,7 @@ func RunPropertyAssignmentTestForNetworkInterfaceIPConfigurationStatusNetworkInt
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -723,7 +723,7 @@ func RunJSONSerializationTestForNetworkInterfaceIPConfigurationStatusNetworkInte
 }
 
 // Generator of NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResourceEmbedded instances for property
-//testing - lazily instantiated by NetworkInterfaceIPConfigurationStatusNetworkInterfaceSubResourceEmbeddedGenerator()
+// testing - lazily instantiated by NetworkInterfaceIPConfigurationStatusNetworkInterfaceSubResourceEmbeddedGenerator()
 var networkInterfaceIPConfigurationStatusNetworkInterfaceSubResourceEmbeddedGenerator gopter.Gen
 
 // NetworkInterfaceIPConfigurationStatusNetworkInterfaceSubResourceEmbeddedGenerator returns a generator of NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResourceEmbedded instances for property testing.
@@ -807,7 +807,7 @@ func RunPropertyAssignmentTestForNetworkInterfaceTapConfigurationStatusNetworkIn
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -858,7 +858,7 @@ func RunJSONSerializationTestForNetworkInterfaceTapConfigurationStatusNetworkInt
 }
 
 // Generator of NetworkInterfaceTapConfiguration_Status_NetworkInterface_SubResourceEmbedded instances for property
-//testing - lazily instantiated by NetworkInterfaceTapConfigurationStatusNetworkInterfaceSubResourceEmbeddedGenerator()
+// testing - lazily instantiated by NetworkInterfaceTapConfigurationStatusNetworkInterfaceSubResourceEmbeddedGenerator()
 var networkInterfaceTapConfigurationStatusNetworkInterfaceSubResourceEmbeddedGenerator gopter.Gen
 
 // NetworkInterfaceTapConfigurationStatusNetworkInterfaceSubResourceEmbeddedGenerator returns a generator of NetworkInterfaceTapConfiguration_Status_NetworkInterface_SubResourceEmbedded instances for property testing.
@@ -909,7 +909,7 @@ func RunPropertyAssignmentTestForNetworkInterfacesSpecPropertiesIpConfigurations
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -960,7 +960,7 @@ func RunJSONSerializationTestForNetworkInterfacesSpecPropertiesIpConfigurations(
 }
 
 // Generator of NetworkInterfaces_Spec_Properties_IpConfigurations instances for property testing - lazily instantiated
-//by NetworkInterfacesSpecPropertiesIpConfigurationsGenerator()
+// by NetworkInterfacesSpecPropertiesIpConfigurationsGenerator()
 var networkInterfacesSpecPropertiesIpConfigurationsGenerator gopter.Gen
 
 // NetworkInterfacesSpecPropertiesIpConfigurationsGenerator returns a generator of NetworkInterfaces_Spec_Properties_IpConfigurations instances for property testing.
@@ -1035,7 +1035,7 @@ func RunPropertyAssignmentTestForNetworkSecurityGroupStatusNetworkInterfaceSubRe
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1086,7 +1086,7 @@ func RunJSONSerializationTestForNetworkSecurityGroupStatusNetworkInterfaceSubRes
 }
 
 // Generator of NetworkSecurityGroup_Status_NetworkInterface_SubResourceEmbedded instances for property testing - lazily
-//instantiated by NetworkSecurityGroupStatusNetworkInterfaceSubResourceEmbeddedGenerator()
+// instantiated by NetworkSecurityGroupStatusNetworkInterfaceSubResourceEmbeddedGenerator()
 var networkSecurityGroupStatusNetworkInterfaceSubResourceEmbeddedGenerator gopter.Gen
 
 // NetworkSecurityGroupStatusNetworkInterfaceSubResourceEmbeddedGenerator returns a generator of NetworkSecurityGroup_Status_NetworkInterface_SubResourceEmbedded instances for property testing.
@@ -1137,7 +1137,7 @@ func RunPropertyAssignmentTestForPrivateEndpointStatusNetworkInterfaceSubResourc
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1188,7 +1188,7 @@ func RunJSONSerializationTestForPrivateEndpointStatusNetworkInterfaceSubResource
 }
 
 // Generator of PrivateEndpoint_Status_NetworkInterface_SubResourceEmbedded instances for property testing - lazily
-//instantiated by PrivateEndpointStatusNetworkInterfaceSubResourceEmbeddedGenerator()
+// instantiated by PrivateEndpointStatusNetworkInterfaceSubResourceEmbeddedGenerator()
 var privateEndpointStatusNetworkInterfaceSubResourceEmbeddedGenerator gopter.Gen
 
 // PrivateEndpointStatusNetworkInterfaceSubResourceEmbeddedGenerator returns a generator of PrivateEndpoint_Status_NetworkInterface_SubResourceEmbedded instances for property testing.
@@ -1253,7 +1253,7 @@ func RunPropertyAssignmentTestForPrivateLinkServiceStatusNetworkInterfaceSubReso
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1304,7 +1304,7 @@ func RunJSONSerializationTestForPrivateLinkServiceStatusNetworkInterfaceSubResou
 }
 
 // Generator of PrivateLinkService_Status_NetworkInterface_SubResourceEmbedded instances for property testing - lazily
-//instantiated by PrivateLinkServiceStatusNetworkInterfaceSubResourceEmbeddedGenerator()
+// instantiated by PrivateLinkServiceStatusNetworkInterfaceSubResourceEmbeddedGenerator()
 var privateLinkServiceStatusNetworkInterfaceSubResourceEmbeddedGenerator gopter.Gen
 
 // PrivateLinkServiceStatusNetworkInterfaceSubResourceEmbeddedGenerator returns a generator of PrivateLinkService_Status_NetworkInterface_SubResourceEmbedded instances for property testing.
@@ -1369,7 +1369,7 @@ func RunPropertyAssignmentTestForSubResource(subject SubResource) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1464,7 +1464,7 @@ func RunPropertyAssignmentTestForSubResourceStatus(subject SubResource_Status) s
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1565,7 +1565,7 @@ func RunPropertyAssignmentTestForApplicationGatewayBackendAddressPoolStatusNetwo
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1616,7 +1616,7 @@ func RunJSONSerializationTestForApplicationGatewayBackendAddressPoolStatusNetwor
 }
 
 // Generator of ApplicationGatewayBackendAddressPool_Status_NetworkInterface_SubResourceEmbedded instances for property
-//testing - lazily instantiated by ApplicationGatewayBackendAddressPoolStatusNetworkInterfaceSubResourceEmbeddedGenerator()
+// testing - lazily instantiated by ApplicationGatewayBackendAddressPoolStatusNetworkInterfaceSubResourceEmbeddedGenerator()
 var applicationGatewayBackendAddressPoolStatusNetworkInterfaceSubResourceEmbeddedGenerator gopter.Gen
 
 // ApplicationGatewayBackendAddressPoolStatusNetworkInterfaceSubResourceEmbeddedGenerator returns a generator of ApplicationGatewayBackendAddressPool_Status_NetworkInterface_SubResourceEmbedded instances for property testing.
@@ -1689,7 +1689,7 @@ func RunPropertyAssignmentTestForApplicationSecurityGroupStatusNetworkInterfaceS
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1740,7 +1740,7 @@ func RunJSONSerializationTestForApplicationSecurityGroupStatusNetworkInterfaceSu
 }
 
 // Generator of ApplicationSecurityGroup_Status_NetworkInterface_SubResourceEmbedded instances for property testing -
-//lazily instantiated by ApplicationSecurityGroupStatusNetworkInterfaceSubResourceEmbeddedGenerator()
+// lazily instantiated by ApplicationSecurityGroupStatusNetworkInterfaceSubResourceEmbeddedGenerator()
 var applicationSecurityGroupStatusNetworkInterfaceSubResourceEmbeddedGenerator gopter.Gen
 
 // ApplicationSecurityGroupStatusNetworkInterfaceSubResourceEmbeddedGenerator returns a generator of ApplicationSecurityGroup_Status_NetworkInterface_SubResourceEmbedded instances for property testing.
@@ -1791,7 +1791,7 @@ func RunPropertyAssignmentTestForBackendAddressPoolStatusNetworkInterfaceSubReso
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1842,7 +1842,7 @@ func RunJSONSerializationTestForBackendAddressPoolStatusNetworkInterfaceSubResou
 }
 
 // Generator of BackendAddressPool_Status_NetworkInterface_SubResourceEmbedded instances for property testing - lazily
-//instantiated by BackendAddressPoolStatusNetworkInterfaceSubResourceEmbeddedGenerator()
+// instantiated by BackendAddressPoolStatusNetworkInterfaceSubResourceEmbeddedGenerator()
 var backendAddressPoolStatusNetworkInterfaceSubResourceEmbeddedGenerator gopter.Gen
 
 // BackendAddressPoolStatusNetworkInterfaceSubResourceEmbeddedGenerator returns a generator of BackendAddressPool_Status_NetworkInterface_SubResourceEmbedded instances for property testing.
@@ -1893,7 +1893,7 @@ func RunPropertyAssignmentTestForInboundNatRuleStatusNetworkInterfaceSubResource
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1944,7 +1944,7 @@ func RunJSONSerializationTestForInboundNatRuleStatusNetworkInterfaceSubResourceE
 }
 
 // Generator of InboundNatRule_Status_NetworkInterface_SubResourceEmbedded instances for property testing - lazily
-//instantiated by InboundNatRuleStatusNetworkInterfaceSubResourceEmbeddedGenerator()
+// instantiated by InboundNatRuleStatusNetworkInterfaceSubResourceEmbeddedGenerator()
 var inboundNatRuleStatusNetworkInterfaceSubResourceEmbeddedGenerator gopter.Gen
 
 // InboundNatRuleStatusNetworkInterfaceSubResourceEmbeddedGenerator returns a generator of InboundNatRule_Status_NetworkInterface_SubResourceEmbedded instances for property testing.
@@ -1995,7 +1995,7 @@ func RunPropertyAssignmentTestForNetworkInterfaceIPConfigurationPrivateLinkConne
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -2046,7 +2046,7 @@ func RunJSONSerializationTestForNetworkInterfaceIPConfigurationPrivateLinkConnec
 }
 
 // Generator of NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_Status instances for property testing -
-//lazily instantiated by NetworkInterfaceIPConfigurationPrivateLinkConnectionPropertiesStatusGenerator()
+// lazily instantiated by NetworkInterfaceIPConfigurationPrivateLinkConnectionPropertiesStatusGenerator()
 var networkInterfaceIPConfigurationPrivateLinkConnectionPropertiesStatusGenerator gopter.Gen
 
 // NetworkInterfaceIPConfigurationPrivateLinkConnectionPropertiesStatusGenerator returns a generator of NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_Status instances for property testing.
@@ -2099,7 +2099,7 @@ func RunPropertyAssignmentTestForPublicIPAddressStatusNetworkInterfaceSubResourc
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -2150,7 +2150,7 @@ func RunJSONSerializationTestForPublicIPAddressStatusNetworkInterfaceSubResource
 }
 
 // Generator of PublicIPAddress_Status_NetworkInterface_SubResourceEmbedded instances for property testing - lazily
-//instantiated by PublicIPAddressStatusNetworkInterfaceSubResourceEmbeddedGenerator()
+// instantiated by PublicIPAddressStatusNetworkInterfaceSubResourceEmbeddedGenerator()
 var publicIPAddressStatusNetworkInterfaceSubResourceEmbeddedGenerator gopter.Gen
 
 // PublicIPAddressStatusNetworkInterfaceSubResourceEmbeddedGenerator returns a generator of PublicIPAddress_Status_NetworkInterface_SubResourceEmbedded instances for property testing.
@@ -2217,7 +2217,7 @@ func RunPropertyAssignmentTestForSubnetStatusNetworkInterfaceSubResourceEmbedded
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -2268,7 +2268,7 @@ func RunJSONSerializationTestForSubnetStatusNetworkInterfaceSubResourceEmbedded(
 }
 
 // Generator of Subnet_Status_NetworkInterface_SubResourceEmbedded instances for property testing - lazily instantiated
-//by SubnetStatusNetworkInterfaceSubResourceEmbeddedGenerator()
+// by SubnetStatusNetworkInterfaceSubResourceEmbeddedGenerator()
 var subnetStatusNetworkInterfaceSubResourceEmbeddedGenerator gopter.Gen
 
 // SubnetStatusNetworkInterfaceSubResourceEmbeddedGenerator returns a generator of Subnet_Status_NetworkInterface_SubResourceEmbedded instances for property testing.
@@ -2319,7 +2319,7 @@ func RunPropertyAssignmentTestForVirtualNetworkTapStatusNetworkInterfaceSubResou
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -2370,7 +2370,7 @@ func RunJSONSerializationTestForVirtualNetworkTapStatusNetworkInterfaceSubResour
 }
 
 // Generator of VirtualNetworkTap_Status_NetworkInterface_SubResourceEmbedded instances for property testing - lazily
-//instantiated by VirtualNetworkTapStatusNetworkInterfaceSubResourceEmbeddedGenerator()
+// instantiated by VirtualNetworkTapStatusNetworkInterfaceSubResourceEmbeddedGenerator()
 var virtualNetworkTapStatusNetworkInterfaceSubResourceEmbeddedGenerator gopter.Gen
 
 // VirtualNetworkTapStatusNetworkInterfaceSubResourceEmbeddedGenerator returns a generator of VirtualNetworkTap_Status_NetworkInterface_SubResourceEmbedded instances for property testing.
@@ -2421,7 +2421,7 @@ func RunPropertyAssignmentTestForApplicationGatewayBackendAddressStatus(subject 
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -2472,7 +2472,7 @@ func RunJSONSerializationTestForApplicationGatewayBackendAddressStatus(subject A
 }
 
 // Generator of ApplicationGatewayBackendAddress_Status instances for property testing - lazily instantiated by
-//ApplicationGatewayBackendAddressStatusGenerator()
+// ApplicationGatewayBackendAddressStatusGenerator()
 var applicationGatewayBackendAddressStatusGenerator gopter.Gen
 
 // ApplicationGatewayBackendAddressStatusGenerator returns a generator of ApplicationGatewayBackendAddress_Status instances for property testing.

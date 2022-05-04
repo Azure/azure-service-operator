@@ -22,8 +22,8 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Storage version of v1beta20180501preview.Webtest
-//Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/resourceDefinitions/webtests
+// Storage version of v1beta20180501preview.Webtest
+// Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/resourceDefinitions/webtests
 type Webtest struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -122,15 +122,15 @@ func (webtest *Webtest) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Storage version of v1beta20180501preview.Webtest
-//Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/resourceDefinitions/webtests
+// Storage version of v1beta20180501preview.Webtest
+// Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/resourceDefinitions/webtests
 type WebtestList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Webtest `json:"items"`
 }
 
-//Storage version of v1beta20180501preview.WebTest_Status
+// Storage version of v1beta20180501preview.WebTest_Status
 type WebTest_Status struct {
 	Conditions         []conditions.Condition                    `json:"conditions,omitempty"`
 	Configuration      *WebTestProperties_Status_Configuration   `json:"Configuration,omitempty"`
@@ -174,10 +174,10 @@ func (test *WebTest_Status) ConvertStatusTo(destination genruntime.ConvertibleSt
 	return destination.ConvertStatusFrom(test)
 }
 
-//Storage version of v1beta20180501preview.Webtests_Spec
+// Storage version of v1beta20180501preview.Webtests_Spec
 type Webtests_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName       string                          `json:"azureName,omitempty"`
 	Configuration   *WebTestPropertiesConfiguration `json:"Configuration,omitempty"`
 	Description     *string                         `json:"Description,omitempty"`
@@ -190,9 +190,9 @@ type Webtests_Spec struct {
 	OriginalVersion string                          `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a resources.azure.com/ResourceGroup resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
 	Owner              *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PropertyBag        genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	Request            *WebTestPropertiesRequest          `json:"Request,omitempty"`
@@ -223,28 +223,28 @@ func (webtests *Webtests_Spec) ConvertSpecTo(destination genruntime.ConvertibleS
 	return destination.ConvertSpecFrom(webtests)
 }
 
-//Storage version of v1beta20180501preview.WebTestGeolocation
-//Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestGeolocation
+// Storage version of v1beta20180501preview.WebTestGeolocation
+// Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestGeolocation
 type WebTestGeolocation struct {
 	Id          *string                `json:"Id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1beta20180501preview.WebTestGeolocation_Status
+// Storage version of v1beta20180501preview.WebTestGeolocation_Status
 type WebTestGeolocation_Status struct {
 	Id          *string                `json:"Id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1beta20180501preview.WebTestPropertiesConfiguration
-//Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestPropertiesConfiguration
+// Storage version of v1beta20180501preview.WebTestPropertiesConfiguration
+// Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestPropertiesConfiguration
 type WebTestPropertiesConfiguration struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	WebTest     *string                `json:"WebTest,omitempty"`
 }
 
-//Storage version of v1beta20180501preview.WebTestPropertiesRequest
-//Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestPropertiesRequest
+// Storage version of v1beta20180501preview.WebTestPropertiesRequest
+// Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestPropertiesRequest
 type WebTestPropertiesRequest struct {
 	FollowRedirects        *bool                  `json:"FollowRedirects,omitempty"`
 	Headers                []HeaderField          `json:"Headers,omitempty"`
@@ -255,8 +255,8 @@ type WebTestPropertiesRequest struct {
 	RequestUrl             *string                `json:"RequestUrl,omitempty"`
 }
 
-//Storage version of v1beta20180501preview.WebTestPropertiesValidationRules
-//Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestPropertiesValidationRules
+// Storage version of v1beta20180501preview.WebTestPropertiesValidationRules
+// Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestPropertiesValidationRules
 type WebTestPropertiesValidationRules struct {
 	ContentValidation             *WebTestPropertiesValidationRulesContentValidation `json:"ContentValidation,omitempty"`
 	ExpectedHttpStatusCode        *int                                               `json:"ExpectedHttpStatusCode,omitempty"`
@@ -266,13 +266,13 @@ type WebTestPropertiesValidationRules struct {
 	SSLCheck                      *bool                                              `json:"SSLCheck,omitempty"`
 }
 
-//Storage version of v1beta20180501preview.WebTestProperties_Status_Configuration
+// Storage version of v1beta20180501preview.WebTestProperties_Status_Configuration
 type WebTestProperties_Status_Configuration struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	WebTest     *string                `json:"WebTest,omitempty"`
 }
 
-//Storage version of v1beta20180501preview.WebTestProperties_Status_Request
+// Storage version of v1beta20180501preview.WebTestProperties_Status_Request
 type WebTestProperties_Status_Request struct {
 	FollowRedirects        *bool                  `json:"FollowRedirects,omitempty"`
 	Headers                []HeaderField_Status   `json:"Headers,omitempty"`
@@ -283,7 +283,7 @@ type WebTestProperties_Status_Request struct {
 	RequestUrl             *string                `json:"RequestUrl,omitempty"`
 }
 
-//Storage version of v1beta20180501preview.WebTestProperties_Status_ValidationRules
+// Storage version of v1beta20180501preview.WebTestProperties_Status_ValidationRules
 type WebTestProperties_Status_ValidationRules struct {
 	ContentValidation             *WebTestProperties_Status_ValidationRules_ContentValidation `json:"ContentValidation,omitempty"`
 	ExpectedHttpStatusCode        *int                                                        `json:"ExpectedHttpStatusCode,omitempty"`
@@ -293,23 +293,23 @@ type WebTestProperties_Status_ValidationRules struct {
 	SSLCheck                      *bool                                                       `json:"SSLCheck,omitempty"`
 }
 
-//Storage version of v1beta20180501preview.HeaderField
-//Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/HeaderField
+// Storage version of v1beta20180501preview.HeaderField
+// Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/HeaderField
 type HeaderField struct {
 	Key         *string                `json:"key,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Value       *string                `json:"value,omitempty"`
 }
 
-//Storage version of v1beta20180501preview.HeaderField_Status
+// Storage version of v1beta20180501preview.HeaderField_Status
 type HeaderField_Status struct {
 	Key         *string                `json:"key,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Value       *string                `json:"value,omitempty"`
 }
 
-//Storage version of v1beta20180501preview.WebTestPropertiesValidationRulesContentValidation
-//Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestPropertiesValidationRulesContentValidation
+// Storage version of v1beta20180501preview.WebTestPropertiesValidationRulesContentValidation
+// Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestPropertiesValidationRulesContentValidation
 type WebTestPropertiesValidationRulesContentValidation struct {
 	ContentMatch    *string                `json:"ContentMatch,omitempty"`
 	IgnoreCase      *bool                  `json:"IgnoreCase,omitempty"`
@@ -317,7 +317,7 @@ type WebTestPropertiesValidationRulesContentValidation struct {
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1beta20180501preview.WebTestProperties_Status_ValidationRules_ContentValidation
+// Storage version of v1beta20180501preview.WebTestProperties_Status_ValidationRules_ContentValidation
 type WebTestProperties_Status_ValidationRules_ContentValidation struct {
 	ContentMatch    *string                `json:"ContentMatch,omitempty"`
 	IgnoreCase      *bool                  `json:"IgnoreCase,omitempty"`

@@ -91,7 +91,7 @@ func RunPropertyAssignmentTestForComponent(subject Component) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -193,7 +193,7 @@ func RunPropertyAssignmentTestForApplicationInsightsComponentStatus(subject Appl
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -244,7 +244,7 @@ func RunJSONSerializationTestForApplicationInsightsComponentStatus(subject Appli
 }
 
 // Generator of ApplicationInsightsComponent_Status instances for property testing - lazily instantiated by
-//ApplicationInsightsComponentStatusGenerator()
+// ApplicationInsightsComponentStatusGenerator()
 var applicationInsightsComponentStatusGenerator gopter.Gen
 
 // ApplicationInsightsComponentStatusGenerator returns a generator of ApplicationInsightsComponent_Status instances for property testing.
@@ -338,7 +338,7 @@ func RunPropertyAssignmentTestForComponentsSpec(subject Components_Spec) string 
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -456,7 +456,7 @@ func RunPropertyAssignmentTestForPrivateLinkScopedResourceStatus(subject Private
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -507,7 +507,7 @@ func RunJSONSerializationTestForPrivateLinkScopedResourceStatus(subject PrivateL
 }
 
 // Generator of PrivateLinkScopedResource_Status instances for property testing - lazily instantiated by
-//PrivateLinkScopedResourceStatusGenerator()
+// PrivateLinkScopedResourceStatusGenerator()
 var privateLinkScopedResourceStatusGenerator gopter.Gen
 
 // PrivateLinkScopedResourceStatusGenerator returns a generator of PrivateLinkScopedResource_Status instances for property testing.

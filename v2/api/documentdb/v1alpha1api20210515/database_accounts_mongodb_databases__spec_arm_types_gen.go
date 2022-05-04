@@ -5,7 +5,7 @@ package v1alpha1api20210515
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-//Deprecated version of DatabaseAccountsMongodbDatabases_Spec. Use v1beta20210515.DatabaseAccountsMongodbDatabases_Spec instead
+// Deprecated version of DatabaseAccountsMongodbDatabases_Spec. Use v1beta20210515.DatabaseAccountsMongodbDatabases_Spec instead
 type DatabaseAccountsMongodbDatabases_SpecARM struct {
 	Location   *string                                   `json:"location,omitempty"`
 	Name       string                                    `json:"name,omitempty"`
@@ -30,13 +30,13 @@ func (databases DatabaseAccountsMongodbDatabases_SpecARM) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases"
 }
 
-//Deprecated version of MongoDBDatabaseCreateUpdateProperties. Use v1beta20210515.MongoDBDatabaseCreateUpdateProperties instead
+// Deprecated version of MongoDBDatabaseCreateUpdateProperties. Use v1beta20210515.MongoDBDatabaseCreateUpdateProperties instead
 type MongoDBDatabaseCreateUpdatePropertiesARM struct {
 	Options  *CreateUpdateOptionsARM     `json:"options,omitempty"`
 	Resource *MongoDBDatabaseResourceARM `json:"resource,omitempty"`
 }
 
-//Deprecated version of MongoDBDatabaseResource. Use v1beta20210515.MongoDBDatabaseResource instead
+// Deprecated version of MongoDBDatabaseResource. Use v1beta20210515.MongoDBDatabaseResource instead
 type MongoDBDatabaseResourceARM struct {
 	Id *string `json:"id,omitempty"`
 }

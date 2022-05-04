@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Deprecated version of NamespacesQueue. Use v1beta20210101preview.NamespacesQueue instead
+// Deprecated version of NamespacesQueue. Use v1beta20210101preview.NamespacesQueue instead
 type NamespacesQueue struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -314,7 +314,7 @@ func (queue *NamespacesQueue) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Deprecated version of NamespacesQueue. Use v1beta20210101preview.NamespacesQueue instead
+// Deprecated version of NamespacesQueue. Use v1beta20210101preview.NamespacesQueue instead
 type NamespacesQueueList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -325,8 +325,8 @@ type NamespacesQueues_Spec struct {
 	AutoDeleteOnIdle *string `json:"autoDeleteOnIdle,omitempty"`
 
 	// +kubebuilder:validation:MinLength=1
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName                           string  `json:"azureName,omitempty"`
 	DeadLetteringOnMessageExpiration    *bool   `json:"deadLetteringOnMessageExpiration,omitempty"`
 	DefaultMessageTimeToLive            *string `json:"defaultMessageTimeToLive,omitempty"`
@@ -342,9 +342,9 @@ type NamespacesQueues_Spec struct {
 	MaxSizeInMegabytes                  *int    `json:"maxSizeInMegabytes,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a servicebus.azure.com/Namespace resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a servicebus.azure.com/Namespace resource
 	Owner                      *genruntime.KnownResourceReference `group:"servicebus.azure.com" json:"owner,omitempty" kind:"Namespace"`
 	RequiresDuplicateDetection *bool                              `json:"requiresDuplicateDetection,omitempty"`
 	RequiresSession            *bool                              `json:"requiresSession,omitempty"`
@@ -919,12 +919,12 @@ func (queues *NamespacesQueues_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (queues *NamespacesQueues_Spec) SetAzureName(azureName string) { queues.AzureName = azureName }
 
-//Deprecated version of SBQueue_Status. Use v1beta20210101preview.SBQueue_Status instead
+// Deprecated version of SBQueue_Status. Use v1beta20210101preview.SBQueue_Status instead
 type SBQueue_Status struct {
 	AccessedAt       *string `json:"accessedAt,omitempty"`
 	AutoDeleteOnIdle *string `json:"autoDeleteOnIdle,omitempty"`
 
-	//Conditions: The observed state of the resource
+	// Conditions: The observed state of the resource
 	Conditions                          []conditions.Condition      `json:"conditions,omitempty"`
 	CountDetails                        *MessageCountDetails_Status `json:"countDetails,omitempty"`
 	CreatedAt                           *string                     `json:"createdAt,omitempty"`
@@ -1529,7 +1529,7 @@ func (queue *SBQueue_Status) AssignPropertiesToSBQueueStatus(destination *alpha2
 	return nil
 }
 
-//Deprecated version of EntityStatus_Status. Use v1beta20210101preview.EntityStatus_Status instead
+// Deprecated version of EntityStatus_Status. Use v1beta20210101preview.EntityStatus_Status instead
 type EntityStatus_Status string
 
 const (
@@ -1544,7 +1544,7 @@ const (
 	EntityStatus_StatusUnknown         = EntityStatus_Status("Unknown")
 )
 
-//Deprecated version of MessageCountDetails_Status. Use v1beta20210101preview.MessageCountDetails_Status instead
+// Deprecated version of MessageCountDetails_Status. Use v1beta20210101preview.MessageCountDetails_Status instead
 type MessageCountDetails_Status struct {
 	ActiveMessageCount             *int `json:"activeMessageCount,omitempty"`
 	DeadLetterMessageCount         *int `json:"deadLetterMessageCount,omitempty"`

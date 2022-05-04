@@ -117,7 +117,7 @@ func RunJSONSerializationTestForRedisResourceStatus(subject RedisResource_Status
 }
 
 // Generator of RedisResource_Status instances for property testing - lazily instantiated by
-//RedisResourceStatusGenerator()
+// RedisResourceStatusGenerator()
 var redisResourceStatusGenerator gopter.Gen
 
 // RedisResourceStatusGenerator returns a generator of RedisResource_Status instances for property testing.
@@ -293,7 +293,7 @@ func RunPropertyAssignmentTestForPrivateEndpointConnectionStatusSubResourceEmbed
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -344,7 +344,7 @@ func RunJSONSerializationTestForPrivateEndpointConnectionStatusSubResourceEmbedd
 }
 
 // Generator of PrivateEndpointConnection_Status_SubResourceEmbedded instances for property testing - lazily
-//instantiated by PrivateEndpointConnectionStatusSubResourceEmbeddedGenerator()
+// instantiated by PrivateEndpointConnectionStatusSubResourceEmbeddedGenerator()
 var privateEndpointConnectionStatusSubResourceEmbeddedGenerator gopter.Gen
 
 // PrivateEndpointConnectionStatusSubResourceEmbeddedGenerator returns a generator of PrivateEndpointConnection_Status_SubResourceEmbedded instances for property testing.
@@ -404,7 +404,7 @@ func RunJSONSerializationTestForRedisInstanceDetailsStatus(subject RedisInstance
 }
 
 // Generator of RedisInstanceDetails_Status instances for property testing - lazily instantiated by
-//RedisInstanceDetailsStatusGenerator()
+// RedisInstanceDetailsStatusGenerator()
 var redisInstanceDetailsStatusGenerator gopter.Gen
 
 // RedisInstanceDetailsStatusGenerator returns a generator of RedisInstanceDetails_Status instances for property testing.
@@ -469,7 +469,7 @@ func RunJSONSerializationTestForRedisLinkedServerStatus(subject RedisLinkedServe
 }
 
 // Generator of RedisLinkedServer_Status instances for property testing - lazily instantiated by
-//RedisLinkedServerStatusGenerator()
+// RedisLinkedServerStatusGenerator()
 var redisLinkedServerStatusGenerator gopter.Gen
 
 // RedisLinkedServerStatusGenerator returns a generator of RedisLinkedServer_Status instances for property testing.
@@ -579,7 +579,7 @@ func RunPropertyAssignmentTestForSku(subject Sku) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -682,7 +682,7 @@ func RunPropertyAssignmentTestForSkuStatus(subject Sku_Status) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -794,7 +794,7 @@ func RunJSONSerializationTestForRedisOperatorSecrets(subject RedisOperatorSecret
 }
 
 // Generator of RedisOperatorSecrets instances for property testing - lazily instantiated by
-//RedisOperatorSecretsGenerator()
+// RedisOperatorSecretsGenerator()
 var redisOperatorSecretsGenerator gopter.Gen
 
 // RedisOperatorSecretsGenerator returns a generator of RedisOperatorSecrets instances for property testing.

@@ -20,8 +20,8 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Storage version of v1alpha1api20210515.SqlDatabaseContainerUserDefinedFunction
-//Deprecated version of SqlDatabaseContainerUserDefinedFunction. Use v1beta20210515.SqlDatabaseContainerUserDefinedFunction instead
+// Storage version of v1alpha1api20210515.SqlDatabaseContainerUserDefinedFunction
+// Deprecated version of SqlDatabaseContainerUserDefinedFunction. Use v1beta20210515.SqlDatabaseContainerUserDefinedFunction instead
 type SqlDatabaseContainerUserDefinedFunction struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -191,27 +191,27 @@ func (function *SqlDatabaseContainerUserDefinedFunction) OriginalGVK() *schema.G
 }
 
 // +kubebuilder:object:root=true
-//Storage version of v1alpha1api20210515.SqlDatabaseContainerUserDefinedFunction
-//Deprecated version of SqlDatabaseContainerUserDefinedFunction. Use v1beta20210515.SqlDatabaseContainerUserDefinedFunction instead
+// Storage version of v1alpha1api20210515.SqlDatabaseContainerUserDefinedFunction
+// Deprecated version of SqlDatabaseContainerUserDefinedFunction. Use v1beta20210515.SqlDatabaseContainerUserDefinedFunction instead
 type SqlDatabaseContainerUserDefinedFunctionList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []SqlDatabaseContainerUserDefinedFunction `json:"items"`
 }
 
-//Storage version of v1alpha1api20210515.DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec
+// Storage version of v1alpha1api20210515.DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec
 type DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName       string               `json:"azureName,omitempty"`
 	Location        *string              `json:"location,omitempty"`
 	Options         *CreateUpdateOptions `json:"options,omitempty"`
 	OriginalVersion string               `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a documentdb.azure.com/SqlDatabaseContainer resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a documentdb.azure.com/SqlDatabaseContainer resource
 	Owner       *genruntime.KnownResourceReference `group:"documentdb.azure.com" json:"owner,omitempty" kind:"SqlDatabaseContainer"`
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	Resource    *SqlUserDefinedFunctionResource    `json:"resource,omitempty"`
@@ -388,8 +388,8 @@ func (functions *DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec
 	return nil
 }
 
-//Storage version of v1alpha1api20210515.SqlUserDefinedFunctionGetResults_Status
-//Deprecated version of SqlUserDefinedFunctionGetResults_Status. Use v1beta20210515.SqlUserDefinedFunctionGetResults_Status instead
+// Storage version of v1alpha1api20210515.SqlUserDefinedFunctionGetResults_Status
+// Deprecated version of SqlUserDefinedFunctionGetResults_Status. Use v1beta20210515.SqlUserDefinedFunctionGetResults_Status instead
 type SqlUserDefinedFunctionGetResults_Status struct {
 	Conditions  []conditions.Condition                               `json:"conditions,omitempty"`
 	Id          *string                                              `json:"id,omitempty"`
@@ -543,8 +543,8 @@ func (results *SqlUserDefinedFunctionGetResults_Status) AssignPropertiesToSqlUse
 	return nil
 }
 
-//Storage version of v1alpha1api20210515.SqlUserDefinedFunctionGetProperties_Status_Resource
-//Deprecated version of SqlUserDefinedFunctionGetProperties_Status_Resource. Use v1beta20210515.SqlUserDefinedFunctionGetProperties_Status_Resource instead
+// Storage version of v1alpha1api20210515.SqlUserDefinedFunctionGetProperties_Status_Resource
+// Deprecated version of SqlUserDefinedFunctionGetProperties_Status_Resource. Use v1beta20210515.SqlUserDefinedFunctionGetProperties_Status_Resource instead
 type SqlUserDefinedFunctionGetProperties_Status_Resource struct {
 	Body        *string                `json:"body,omitempty"`
 	Etag        *string                `json:"_etag,omitempty"`
@@ -626,8 +626,8 @@ func (resource *SqlUserDefinedFunctionGetProperties_Status_Resource) AssignPrope
 	return nil
 }
 
-//Storage version of v1alpha1api20210515.SqlUserDefinedFunctionResource
-//Deprecated version of SqlUserDefinedFunctionResource. Use v1beta20210515.SqlUserDefinedFunctionResource instead
+// Storage version of v1alpha1api20210515.SqlUserDefinedFunctionResource
+// Deprecated version of SqlUserDefinedFunctionResource. Use v1beta20210515.SqlUserDefinedFunctionResource instead
 type SqlUserDefinedFunctionResource struct {
 	Body        *string                `json:"body,omitempty"`
 	Id          *string                `json:"id,omitempty"`

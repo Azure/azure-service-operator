@@ -21,8 +21,8 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Storage version of v1beta20210501.FlexibleServersDatabase
-//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/resourceDefinitions/flexibleServers_databases
+// Storage version of v1beta20210501.FlexibleServersDatabase
+// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/resourceDefinitions/flexibleServers_databases
 type FlexibleServersDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -121,15 +121,15 @@ func (database *FlexibleServersDatabase) OriginalGVK() *schema.GroupVersionKind 
 }
 
 // +kubebuilder:object:root=true
-//Storage version of v1beta20210501.FlexibleServersDatabase
-//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/resourceDefinitions/flexibleServers_databases
+// Storage version of v1beta20210501.FlexibleServersDatabase
+// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/resourceDefinitions/flexibleServers_databases
 type FlexibleServersDatabaseList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []FlexibleServersDatabase `json:"items"`
 }
 
-//Storage version of v1beta20210501.Database_Status
+// Storage version of v1beta20210501.Database_Status
 type Database_Status struct {
 	Charset     *string                `json:"charset,omitempty"`
 	Collation   *string                `json:"collation,omitempty"`
@@ -161,10 +161,10 @@ func (database *Database_Status) ConvertStatusTo(destination genruntime.Converti
 	return destination.ConvertStatusFrom(database)
 }
 
-//Storage version of v1beta20210501.FlexibleServersDatabases_Spec
+// Storage version of v1beta20210501.FlexibleServersDatabases_Spec
 type FlexibleServersDatabases_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName       string  `json:"azureName,omitempty"`
 	Charset         *string `json:"charset,omitempty"`
 	Collation       *string `json:"collation,omitempty"`
@@ -172,9 +172,9 @@ type FlexibleServersDatabases_Spec struct {
 	OriginalVersion string  `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a dbformysql.azure.com/FlexibleServer resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a dbformysql.azure.com/FlexibleServer resource
 	Owner       *genruntime.KnownResourceReference `group:"dbformysql.azure.com" json:"owner,omitempty" kind:"FlexibleServer"`
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	Tags        map[string]string                  `json:"tags,omitempty"`

@@ -6,20 +6,20 @@ package v1beta20210515
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type DatabaseAccountsSqlDatabasesContainersTriggers_SpecARM struct {
-	//Location: The location of the resource group to which the resource belongs.
+	// Location: The location of the resource group to which the resource belongs.
 	Location *string `json:"location,omitempty"`
 
-	//Name: Cosmos DB trigger name.
+	// Name: Cosmos DB trigger name.
 	Name string `json:"name,omitempty"`
 
-	//Properties: Properties to create and update Azure Cosmos DB trigger.
+	// Properties: Properties to create and update Azure Cosmos DB trigger.
 	Properties *SqlTriggerCreateUpdatePropertiesARM `json:"properties,omitempty"`
 
-	//Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
-	//resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
-	//greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
-	//type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph",
-	//"DocumentDB", and "MongoDB".
+	// Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
+	// resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
+	// greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
+	// type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph",
+	// "DocumentDB", and "MongoDB".
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
@@ -40,28 +40,28 @@ func (triggers DatabaseAccountsSqlDatabasesContainersTriggers_SpecARM) GetType()
 	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/triggers"
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlTriggerCreateUpdateProperties
+// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlTriggerCreateUpdateProperties
 type SqlTriggerCreateUpdatePropertiesARM struct {
-	//Options: CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are "If-Match",
-	//"If-None-Match", "Session-Token" and "Throughput"
+	// Options: CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are "If-Match",
+	// "If-None-Match", "Session-Token" and "Throughput"
 	Options *CreateUpdateOptionsARM `json:"options,omitempty"`
 
-	//Resource: Cosmos DB SQL trigger resource object
+	// Resource: Cosmos DB SQL trigger resource object
 	Resource *SqlTriggerResourceARM `json:"resource,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlTriggerResource
+// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlTriggerResource
 type SqlTriggerResourceARM struct {
-	//Body: Body of the Trigger
+	// Body: Body of the Trigger
 	Body *string `json:"body,omitempty"`
 
-	//Id: Name of the Cosmos DB SQL trigger
+	// Id: Name of the Cosmos DB SQL trigger
 	Id *string `json:"id,omitempty"`
 
-	//TriggerOperation: The operation the trigger is associated with.
+	// TriggerOperation: The operation the trigger is associated with.
 	TriggerOperation *SqlTriggerResourceTriggerOperation `json:"triggerOperation,omitempty"`
 
-	//TriggerType: Type of the Trigger.
+	// TriggerType: Type of the Trigger.
 	TriggerType *SqlTriggerResourceTriggerType `json:"triggerType,omitempty"`
 }
 

@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Deprecated version of RedisEnterpriseDatabase. Use v1beta20210301.RedisEnterpriseDatabase instead
+// Deprecated version of RedisEnterpriseDatabase. Use v1beta20210301.RedisEnterpriseDatabase instead
 type RedisEnterpriseDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -314,19 +314,19 @@ func (database *RedisEnterpriseDatabase) OriginalGVK() *schema.GroupVersionKind 
 }
 
 // +kubebuilder:object:root=true
-//Deprecated version of RedisEnterpriseDatabase. Use v1beta20210301.RedisEnterpriseDatabase instead
+// Deprecated version of RedisEnterpriseDatabase. Use v1beta20210301.RedisEnterpriseDatabase instead
 type RedisEnterpriseDatabaseList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []RedisEnterpriseDatabase `json:"items"`
 }
 
-//Deprecated version of Database_Status. Use v1beta20210301.Database_Status instead
+// Deprecated version of Database_Status. Use v1beta20210301.Database_Status instead
 type Database_Status struct {
 	ClientProtocol   *DatabasePropertiesStatusClientProtocol   `json:"clientProtocol,omitempty"`
 	ClusteringPolicy *DatabasePropertiesStatusClusteringPolicy `json:"clusteringPolicy,omitempty"`
 
-	//Conditions: The observed state of the resource
+	// Conditions: The observed state of the resource
 	Conditions        []conditions.Condition                  `json:"conditions,omitempty"`
 	EvictionPolicy    *DatabasePropertiesStatusEvictionPolicy `json:"evictionPolicy,omitempty"`
 	Id                *string                                 `json:"id,omitempty"`
@@ -702,8 +702,8 @@ func (database *Database_Status) AssignPropertiesToDatabaseStatus(destination *a
 }
 
 type RedisEnterpriseDatabases_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName        string                              `json:"azureName,omitempty"`
 	ClientProtocol   *DatabasePropertiesClientProtocol   `json:"clientProtocol,omitempty"`
 	ClusteringPolicy *DatabasePropertiesClusteringPolicy `json:"clusteringPolicy,omitempty"`
@@ -712,9 +712,9 @@ type RedisEnterpriseDatabases_Spec struct {
 	Modules          []Module                            `json:"modules,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a cache.azure.com/RedisEnterprise resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a cache.azure.com/RedisEnterprise resource
 	Owner       *genruntime.KnownResourceReference `group:"cache.azure.com" json:"owner,omitempty" kind:"RedisEnterprise"`
 	Persistence *Persistence                       `json:"persistence,omitempty"`
 	Port        *int                               `json:"port,omitempty"`
@@ -1125,7 +1125,7 @@ func (databases *RedisEnterpriseDatabases_Spec) SetAzureName(azureName string) {
 	databases.AzureName = azureName
 }
 
-//Deprecated version of DatabasePropertiesClientProtocol. Use v1beta20210301.DatabasePropertiesClientProtocol instead
+// Deprecated version of DatabasePropertiesClientProtocol. Use v1beta20210301.DatabasePropertiesClientProtocol instead
 // +kubebuilder:validation:Enum={"Encrypted","Plaintext"}
 type DatabasePropertiesClientProtocol string
 
@@ -1134,7 +1134,7 @@ const (
 	DatabasePropertiesClientProtocolPlaintext = DatabasePropertiesClientProtocol("Plaintext")
 )
 
-//Deprecated version of DatabasePropertiesClusteringPolicy. Use v1beta20210301.DatabasePropertiesClusteringPolicy instead
+// Deprecated version of DatabasePropertiesClusteringPolicy. Use v1beta20210301.DatabasePropertiesClusteringPolicy instead
 // +kubebuilder:validation:Enum={"EnterpriseCluster","OSSCluster"}
 type DatabasePropertiesClusteringPolicy string
 
@@ -1143,7 +1143,7 @@ const (
 	DatabasePropertiesClusteringPolicyOSSCluster        = DatabasePropertiesClusteringPolicy("OSSCluster")
 )
 
-//Deprecated version of DatabasePropertiesEvictionPolicy. Use v1beta20210301.DatabasePropertiesEvictionPolicy instead
+// Deprecated version of DatabasePropertiesEvictionPolicy. Use v1beta20210301.DatabasePropertiesEvictionPolicy instead
 // +kubebuilder:validation:Enum={"AllKeysLFU","AllKeysLRU","AllKeysRandom","NoEviction","VolatileLFU","VolatileLRU","VolatileRandom","VolatileTTL"}
 type DatabasePropertiesEvictionPolicy string
 
@@ -1158,7 +1158,7 @@ const (
 	DatabasePropertiesEvictionPolicyVolatileTTL    = DatabasePropertiesEvictionPolicy("VolatileTTL")
 )
 
-//Deprecated version of Module. Use v1beta20210301.Module instead
+// Deprecated version of Module. Use v1beta20210301.Module instead
 type Module struct {
 	Args *string `json:"args,omitempty"`
 
@@ -1252,7 +1252,7 @@ func (module *Module) AssignPropertiesToModule(destination *alpha20210301s.Modul
 	return nil
 }
 
-//Deprecated version of Module_Status. Use v1beta20210301.Module_Status instead
+// Deprecated version of Module_Status. Use v1beta20210301.Module_Status instead
 type Module_Status struct {
 	Args    *string `json:"args,omitempty"`
 	Name    *string `json:"name,omitempty"`
@@ -1336,7 +1336,7 @@ func (module *Module_Status) AssignPropertiesToModuleStatus(destination *alpha20
 	return nil
 }
 
-//Deprecated version of Persistence. Use v1beta20210301.Persistence instead
+// Deprecated version of Persistence. Use v1beta20210301.Persistence instead
 type Persistence struct {
 	AofEnabled   *bool                    `json:"aofEnabled,omitempty"`
 	AofFrequency *PersistenceAofFrequency `json:"aofFrequency,omitempty"`
@@ -1506,7 +1506,7 @@ func (persistence *Persistence) AssignPropertiesToPersistence(destination *alpha
 	return nil
 }
 
-//Deprecated version of Persistence_Status. Use v1beta20210301.Persistence_Status instead
+// Deprecated version of Persistence_Status. Use v1beta20210301.Persistence_Status instead
 type Persistence_Status struct {
 	AofEnabled   *bool                          `json:"aofEnabled,omitempty"`
 	AofFrequency *PersistenceStatusAofFrequency `json:"aofFrequency,omitempty"`
@@ -1643,7 +1643,7 @@ func (persistence *Persistence_Status) AssignPropertiesToPersistenceStatus(desti
 	return nil
 }
 
-//Deprecated version of PersistenceAofFrequency. Use v1beta20210301.PersistenceAofFrequency instead
+// Deprecated version of PersistenceAofFrequency. Use v1beta20210301.PersistenceAofFrequency instead
 // +kubebuilder:validation:Enum={"1s","always"}
 type PersistenceAofFrequency string
 
@@ -1652,7 +1652,7 @@ const (
 	PersistenceAofFrequencyAlways = PersistenceAofFrequency("always")
 )
 
-//Deprecated version of PersistenceRdbFrequency. Use v1beta20210301.PersistenceRdbFrequency instead
+// Deprecated version of PersistenceRdbFrequency. Use v1beta20210301.PersistenceRdbFrequency instead
 // +kubebuilder:validation:Enum={"12h","1h","6h"}
 type PersistenceRdbFrequency string
 

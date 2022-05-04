@@ -56,7 +56,7 @@ func RunJSONSerializationTestForDatabaseAccountsSqlDatabasesContainersStoredProc
 }
 
 // Generator of DatabaseAccountsSqlDatabasesContainersStoredProcedures_SpecARM instances for property testing - lazily
-//instantiated by DatabaseAccountsSqlDatabasesContainersStoredProceduresSpecARMGenerator()
+// instantiated by DatabaseAccountsSqlDatabasesContainersStoredProceduresSpecARMGenerator()
 var databaseAccountsSqlDatabasesContainersStoredProceduresSpecARMGenerator gopter.Gen
 
 // DatabaseAccountsSqlDatabasesContainersStoredProceduresSpecARMGenerator returns a generator of DatabaseAccountsSqlDatabasesContainersStoredProcedures_SpecARM instances for property testing.
@@ -132,7 +132,7 @@ func RunJSONSerializationTestForSqlStoredProcedureCreateUpdatePropertiesARM(subj
 }
 
 // Generator of SqlStoredProcedureCreateUpdatePropertiesARM instances for property testing - lazily instantiated by
-//SqlStoredProcedureCreateUpdatePropertiesARMGenerator()
+// SqlStoredProcedureCreateUpdatePropertiesARMGenerator()
 var sqlStoredProcedureCreateUpdatePropertiesARMGenerator gopter.Gen
 
 // SqlStoredProcedureCreateUpdatePropertiesARMGenerator returns a generator of SqlStoredProcedureCreateUpdatePropertiesARM instances for property testing.
@@ -193,7 +193,7 @@ func RunJSONSerializationTestForSqlStoredProcedureResourceARM(subject SqlStoredP
 }
 
 // Generator of SqlStoredProcedureResourceARM instances for property testing - lazily instantiated by
-//SqlStoredProcedureResourceARMGenerator()
+// SqlStoredProcedureResourceARMGenerator()
 var sqlStoredProcedureResourceARMGenerator gopter.Gen
 
 // SqlStoredProcedureResourceARMGenerator returns a generator of SqlStoredProcedureResourceARM instances for property testing.

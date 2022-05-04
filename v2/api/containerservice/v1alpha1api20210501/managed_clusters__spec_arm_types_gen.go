@@ -8,7 +8,7 @@ import (
 	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 )
 
-//Deprecated version of ManagedClusters_Spec. Use v1beta20210501.ManagedClusters_Spec instead
+// Deprecated version of ManagedClusters_Spec. Use v1beta20210501.ManagedClusters_Spec instead
 type ManagedClusters_SpecARM struct {
 	ExtendedLocation *ExtendedLocationARM         `json:"extendedLocation,omitempty"`
 	Identity         *ManagedClusterIdentityARM   `json:"identity,omitempty"`
@@ -36,19 +36,19 @@ func (clusters ManagedClusters_SpecARM) GetType() string {
 	return "Microsoft.ContainerService/managedClusters"
 }
 
-//Deprecated version of ExtendedLocation. Use v1beta20210501.ExtendedLocation instead
+// Deprecated version of ExtendedLocation. Use v1beta20210501.ExtendedLocation instead
 type ExtendedLocationARM struct {
 	Name *string               `json:"name,omitempty"`
 	Type *ExtendedLocationType `json:"type,omitempty"`
 }
 
-//Deprecated version of ManagedClusterIdentity. Use v1beta20210501.ManagedClusterIdentity instead
+// Deprecated version of ManagedClusterIdentity. Use v1beta20210501.ManagedClusterIdentity instead
 type ManagedClusterIdentityARM struct {
 	Type                   *ManagedClusterIdentityType `json:"type,omitempty"`
 	UserAssignedIdentities map[string]v1.JSON          `json:"userAssignedIdentities,omitempty"`
 }
 
-//Deprecated version of ManagedClusterProperties. Use v1beta20210501.ManagedClusterProperties instead
+// Deprecated version of ManagedClusterProperties. Use v1beta20210501.ManagedClusterProperties instead
 type ManagedClusterPropertiesARM struct {
 	AadProfile              *ManagedClusterAADProfileARM                                                                               `json:"aadProfile,omitempty"`
 	AddonProfiles           map[string]ManagedClusterAddonProfileARM                                                                   `json:"addonProfiles,omitempty"`
@@ -74,26 +74,26 @@ type ManagedClusterPropertiesARM struct {
 	WindowsProfile          *ManagedClusterWindowsProfileARM                                                                           `json:"windowsProfile,omitempty"`
 }
 
-//Deprecated version of ManagedClusterSKU. Use v1beta20210501.ManagedClusterSKU instead
+// Deprecated version of ManagedClusterSKU. Use v1beta20210501.ManagedClusterSKU instead
 type ManagedClusterSKUARM struct {
 	Name *ManagedClusterSKUName `json:"name,omitempty"`
 	Tier *ManagedClusterSKUTier `json:"tier,omitempty"`
 }
 
-//Deprecated version of Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties. Use v1beta20210501.Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties instead
+// Deprecated version of Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties. Use v1beta20210501.Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties instead
 type Componentsqit0EtschemasmanagedclusterpropertiespropertiesidentityprofileadditionalpropertiesARM struct {
 	ClientId   *string `json:"clientId,omitempty"`
 	ObjectId   *string `json:"objectId,omitempty"`
 	ResourceId *string `json:"resourceId,omitempty"`
 }
 
-//Deprecated version of ContainerServiceLinuxProfile. Use v1beta20210501.ContainerServiceLinuxProfile instead
+// Deprecated version of ContainerServiceLinuxProfile. Use v1beta20210501.ContainerServiceLinuxProfile instead
 type ContainerServiceLinuxProfileARM struct {
 	AdminUsername *string                              `json:"adminUsername,omitempty"`
 	Ssh           *ContainerServiceSshConfigurationARM `json:"ssh,omitempty"`
 }
 
-//Deprecated version of ContainerServiceNetworkProfile. Use v1beta20210501.ContainerServiceNetworkProfile instead
+// Deprecated version of ContainerServiceNetworkProfile. Use v1beta20210501.ContainerServiceNetworkProfile instead
 type ContainerServiceNetworkProfileARM struct {
 	DnsServiceIP        *string                                        `json:"dnsServiceIP,omitempty"`
 	DockerBridgeCidr    *string                                        `json:"dockerBridgeCidr,omitempty"`
@@ -107,13 +107,13 @@ type ContainerServiceNetworkProfileARM struct {
 	ServiceCidr         *string                                        `json:"serviceCidr,omitempty"`
 }
 
-//Deprecated version of ExtendedLocationType. Use v1beta20210501.ExtendedLocationType instead
+// Deprecated version of ExtendedLocationType. Use v1beta20210501.ExtendedLocationType instead
 // +kubebuilder:validation:Enum={"EdgeZone"}
 type ExtendedLocationType string
 
 const ExtendedLocationTypeEdgeZone = ExtendedLocationType("EdgeZone")
 
-//Deprecated version of ManagedClusterAADProfile. Use v1beta20210501.ManagedClusterAADProfile instead
+// Deprecated version of ManagedClusterAADProfile. Use v1beta20210501.ManagedClusterAADProfile instead
 type ManagedClusterAADProfileARM struct {
 	AdminGroupObjectIDs []string `json:"adminGroupObjectIDs,omitempty"`
 	ClientAppID         *string  `json:"clientAppID,omitempty"`
@@ -124,7 +124,7 @@ type ManagedClusterAADProfileARM struct {
 	TenantID            *string  `json:"tenantID,omitempty"`
 }
 
-//Deprecated version of ManagedClusterAPIServerAccessProfile. Use v1beta20210501.ManagedClusterAPIServerAccessProfile instead
+// Deprecated version of ManagedClusterAPIServerAccessProfile. Use v1beta20210501.ManagedClusterAPIServerAccessProfile instead
 type ManagedClusterAPIServerAccessProfileARM struct {
 	AuthorizedIPRanges             []string `json:"authorizedIPRanges,omitempty"`
 	EnablePrivateCluster           *bool    `json:"enablePrivateCluster,omitempty"`
@@ -132,13 +132,13 @@ type ManagedClusterAPIServerAccessProfileARM struct {
 	PrivateDNSZone                 *string  `json:"privateDNSZone,omitempty"`
 }
 
-//Deprecated version of ManagedClusterAddonProfile. Use v1beta20210501.ManagedClusterAddonProfile instead
+// Deprecated version of ManagedClusterAddonProfile. Use v1beta20210501.ManagedClusterAddonProfile instead
 type ManagedClusterAddonProfileARM struct {
 	Config  map[string]string `json:"config,omitempty"`
 	Enabled *bool             `json:"enabled,omitempty"`
 }
 
-//Deprecated version of ManagedClusterAgentPoolProfile. Use v1beta20210501.ManagedClusterAgentPoolProfile instead
+// Deprecated version of ManagedClusterAgentPoolProfile. Use v1beta20210501.ManagedClusterAgentPoolProfile instead
 type ManagedClusterAgentPoolProfileARM struct {
 	AvailabilityZones         []string                                              `json:"availabilityZones,omitempty"`
 	Count                     *int                                                  `json:"count,omitempty"`
@@ -176,12 +176,12 @@ type ManagedClusterAgentPoolProfileARM struct {
 	VnetSubnetID              *string                                               `json:"vnetSubnetID,omitempty"`
 }
 
-//Deprecated version of ManagedClusterAutoUpgradeProfile. Use v1beta20210501.ManagedClusterAutoUpgradeProfile instead
+// Deprecated version of ManagedClusterAutoUpgradeProfile. Use v1beta20210501.ManagedClusterAutoUpgradeProfile instead
 type ManagedClusterAutoUpgradeProfileARM struct {
 	UpgradeChannel *ManagedClusterAutoUpgradeProfileUpgradeChannel `json:"upgradeChannel,omitempty"`
 }
 
-//Deprecated version of ManagedClusterHTTPProxyConfig. Use v1beta20210501.ManagedClusterHTTPProxyConfig instead
+// Deprecated version of ManagedClusterHTTPProxyConfig. Use v1beta20210501.ManagedClusterHTTPProxyConfig instead
 type ManagedClusterHTTPProxyConfigARM struct {
 	HttpProxy  *string  `json:"httpProxy,omitempty"`
 	HttpsProxy *string  `json:"httpsProxy,omitempty"`
@@ -189,7 +189,7 @@ type ManagedClusterHTTPProxyConfigARM struct {
 	TrustedCa  *string  `json:"trustedCa,omitempty"`
 }
 
-//Deprecated version of ManagedClusterIdentityType. Use v1beta20210501.ManagedClusterIdentityType instead
+// Deprecated version of ManagedClusterIdentityType. Use v1beta20210501.ManagedClusterIdentityType instead
 // +kubebuilder:validation:Enum={"None","SystemAssigned","UserAssigned"}
 type ManagedClusterIdentityType string
 
@@ -199,7 +199,7 @@ const (
 	ManagedClusterIdentityTypeUserAssigned   = ManagedClusterIdentityType("UserAssigned")
 )
 
-//Deprecated version of ManagedClusterPodIdentityProfile. Use v1beta20210501.ManagedClusterPodIdentityProfile instead
+// Deprecated version of ManagedClusterPodIdentityProfile. Use v1beta20210501.ManagedClusterPodIdentityProfile instead
 type ManagedClusterPodIdentityProfileARM struct {
 	AllowNetworkPluginKubenet      *bool                                   `json:"allowNetworkPluginKubenet,omitempty"`
 	Enabled                        *bool                                   `json:"enabled,omitempty"`
@@ -207,7 +207,7 @@ type ManagedClusterPodIdentityProfileARM struct {
 	UserAssignedIdentityExceptions []ManagedClusterPodIdentityExceptionARM `json:"userAssignedIdentityExceptions,omitempty"`
 }
 
-//Deprecated version of ManagedClusterPropertiesAutoScalerProfile. Use v1beta20210501.ManagedClusterPropertiesAutoScalerProfile instead
+// Deprecated version of ManagedClusterPropertiesAutoScalerProfile. Use v1beta20210501.ManagedClusterPropertiesAutoScalerProfile instead
 type ManagedClusterPropertiesAutoScalerProfileARM struct {
 	BalanceSimilarNodeGroups      *string                                            `json:"balance-similar-node-groups,omitempty"`
 	Expander                      *ManagedClusterPropertiesAutoScalerProfileExpander `json:"expander,omitempty"`
@@ -228,13 +228,13 @@ type ManagedClusterPropertiesAutoScalerProfileARM struct {
 	SkipNodesWithSystemPods       *string                                            `json:"skip-nodes-with-system-pods,omitempty"`
 }
 
-//Deprecated version of ManagedClusterSKUName. Use v1beta20210501.ManagedClusterSKUName instead
+// Deprecated version of ManagedClusterSKUName. Use v1beta20210501.ManagedClusterSKUName instead
 // +kubebuilder:validation:Enum={"Basic"}
 type ManagedClusterSKUName string
 
 const ManagedClusterSKUNameBasic = ManagedClusterSKUName("Basic")
 
-//Deprecated version of ManagedClusterSKUTier. Use v1beta20210501.ManagedClusterSKUTier instead
+// Deprecated version of ManagedClusterSKUTier. Use v1beta20210501.ManagedClusterSKUTier instead
 // +kubebuilder:validation:Enum={"Free","Paid"}
 type ManagedClusterSKUTier string
 
@@ -243,13 +243,13 @@ const (
 	ManagedClusterSKUTierPaid = ManagedClusterSKUTier("Paid")
 )
 
-//Deprecated version of ManagedClusterServicePrincipalProfile. Use v1beta20210501.ManagedClusterServicePrincipalProfile instead
+// Deprecated version of ManagedClusterServicePrincipalProfile. Use v1beta20210501.ManagedClusterServicePrincipalProfile instead
 type ManagedClusterServicePrincipalProfileARM struct {
 	ClientId *string `json:"clientId,omitempty"`
 	Secret   *string `json:"secret,omitempty"`
 }
 
-//Deprecated version of ManagedClusterWindowsProfile. Use v1beta20210501.ManagedClusterWindowsProfile instead
+// Deprecated version of ManagedClusterWindowsProfile. Use v1beta20210501.ManagedClusterWindowsProfile instead
 type ManagedClusterWindowsProfileARM struct {
 	AdminPassword  *string                                  `json:"adminPassword,omitempty"`
 	AdminUsername  *string                                  `json:"adminUsername,omitempty"`
@@ -257,7 +257,7 @@ type ManagedClusterWindowsProfileARM struct {
 	LicenseType    *ManagedClusterWindowsProfileLicenseType `json:"licenseType,omitempty"`
 }
 
-//Deprecated version of PrivateLinkResource. Use v1beta20210501.PrivateLinkResource instead
+// Deprecated version of PrivateLinkResource. Use v1beta20210501.PrivateLinkResource instead
 type PrivateLinkResourceARM struct {
 	GroupId         *string  `json:"groupId,omitempty"`
 	Id              *string  `json:"id,omitempty"`
@@ -266,12 +266,12 @@ type PrivateLinkResourceARM struct {
 	Type            *string  `json:"type,omitempty"`
 }
 
-//Deprecated version of ContainerServiceSshConfiguration. Use v1beta20210501.ContainerServiceSshConfiguration instead
+// Deprecated version of ContainerServiceSshConfiguration. Use v1beta20210501.ContainerServiceSshConfiguration instead
 type ContainerServiceSshConfigurationARM struct {
 	PublicKeys []ContainerServiceSshPublicKeyARM `json:"publicKeys,omitempty"`
 }
 
-//Deprecated version of ManagedClusterLoadBalancerProfile. Use v1beta20210501.ManagedClusterLoadBalancerProfile instead
+// Deprecated version of ManagedClusterLoadBalancerProfile. Use v1beta20210501.ManagedClusterLoadBalancerProfile instead
 type ManagedClusterLoadBalancerProfileARM struct {
 	AllocatedOutboundPorts *int                                                    `json:"allocatedOutboundPorts,omitempty"`
 	EffectiveOutboundIPs   []ResourceReferenceARM                                  `json:"effectiveOutboundIPs,omitempty"`
@@ -281,7 +281,7 @@ type ManagedClusterLoadBalancerProfileARM struct {
 	OutboundIPs            *ManagedClusterLoadBalancerProfileOutboundIPsARM        `json:"outboundIPs,omitempty"`
 }
 
-//Deprecated version of ManagedClusterPodIdentity. Use v1beta20210501.ManagedClusterPodIdentity instead
+// Deprecated version of ManagedClusterPodIdentity. Use v1beta20210501.ManagedClusterPodIdentity instead
 type ManagedClusterPodIdentityARM struct {
 	BindingSelector *string                  `json:"bindingSelector,omitempty"`
 	Identity        *UserAssignedIdentityARM `json:"identity,omitempty"`
@@ -289,39 +289,39 @@ type ManagedClusterPodIdentityARM struct {
 	Namespace       *string                  `json:"namespace,omitempty"`
 }
 
-//Deprecated version of ManagedClusterPodIdentityException. Use v1beta20210501.ManagedClusterPodIdentityException instead
+// Deprecated version of ManagedClusterPodIdentityException. Use v1beta20210501.ManagedClusterPodIdentityException instead
 type ManagedClusterPodIdentityExceptionARM struct {
 	Name      *string           `json:"name,omitempty"`
 	Namespace *string           `json:"namespace,omitempty"`
 	PodLabels map[string]string `json:"podLabels,omitempty"`
 }
 
-//Deprecated version of ContainerServiceSshPublicKey. Use v1beta20210501.ContainerServiceSshPublicKey instead
+// Deprecated version of ContainerServiceSshPublicKey. Use v1beta20210501.ContainerServiceSshPublicKey instead
 type ContainerServiceSshPublicKeyARM struct {
 	KeyData *string `json:"keyData,omitempty"`
 }
 
-//Deprecated version of ManagedClusterLoadBalancerProfileManagedOutboundIPs. Use v1beta20210501.ManagedClusterLoadBalancerProfileManagedOutboundIPs instead
+// Deprecated version of ManagedClusterLoadBalancerProfileManagedOutboundIPs. Use v1beta20210501.ManagedClusterLoadBalancerProfileManagedOutboundIPs instead
 type ManagedClusterLoadBalancerProfileManagedOutboundIPsARM struct {
 	Count *int `json:"count,omitempty"`
 }
 
-//Deprecated version of ManagedClusterLoadBalancerProfileOutboundIPPrefixes. Use v1beta20210501.ManagedClusterLoadBalancerProfileOutboundIPPrefixes instead
+// Deprecated version of ManagedClusterLoadBalancerProfileOutboundIPPrefixes. Use v1beta20210501.ManagedClusterLoadBalancerProfileOutboundIPPrefixes instead
 type ManagedClusterLoadBalancerProfileOutboundIPPrefixesARM struct {
 	PublicIPPrefixes []ResourceReferenceARM `json:"publicIPPrefixes,omitempty"`
 }
 
-//Deprecated version of ManagedClusterLoadBalancerProfileOutboundIPs. Use v1beta20210501.ManagedClusterLoadBalancerProfileOutboundIPs instead
+// Deprecated version of ManagedClusterLoadBalancerProfileOutboundIPs. Use v1beta20210501.ManagedClusterLoadBalancerProfileOutboundIPs instead
 type ManagedClusterLoadBalancerProfileOutboundIPsARM struct {
 	PublicIPs []ResourceReferenceARM `json:"publicIPs,omitempty"`
 }
 
-//Deprecated version of ResourceReference. Use v1beta20210501.ResourceReference instead
+// Deprecated version of ResourceReference. Use v1beta20210501.ResourceReference instead
 type ResourceReferenceARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
-//Deprecated version of UserAssignedIdentity. Use v1beta20210501.UserAssignedIdentity instead
+// Deprecated version of UserAssignedIdentity. Use v1beta20210501.UserAssignedIdentity instead
 type UserAssignedIdentityARM struct {
 	ClientId   *string `json:"clientId,omitempty"`
 	ObjectId   *string `json:"objectId,omitempty"`

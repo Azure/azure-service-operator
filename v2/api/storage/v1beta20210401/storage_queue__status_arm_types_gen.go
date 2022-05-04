@@ -4,25 +4,25 @@
 package v1beta20210401
 
 type StorageQueue_StatusARM struct {
-	//Id: Fully qualified resource ID for the resource. Ex -
-	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+	// Id: Fully qualified resource ID for the resource. Ex -
+	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
 
-	//Name: The name of the resource
+	// Name: The name of the resource
 	Name *string `json:"name,omitempty"`
 
-	//Properties: Queue resource properties.
+	// Properties: Queue resource properties.
 	Properties *QueueProperties_StatusARM `json:"properties,omitempty"`
 
-	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 }
 
 type QueueProperties_StatusARM struct {
-	//ApproximateMessageCount: Integer indicating an approximate number of messages in the queue. This number is not lower
-	//than the actual number of messages in the queue, but could be higher.
+	// ApproximateMessageCount: Integer indicating an approximate number of messages in the queue. This number is not lower
+	// than the actual number of messages in the queue, but could be higher.
 	ApproximateMessageCount *int `json:"approximateMessageCount,omitempty"`
 
-	//Metadata: A name-value pair that represents queue metadata.
+	// Metadata: A name-value pair that represents queue metadata.
 	Metadata map[string]string `json:"metadata,omitempty"`
 }

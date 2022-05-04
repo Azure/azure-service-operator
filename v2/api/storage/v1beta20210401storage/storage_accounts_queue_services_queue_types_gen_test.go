@@ -56,7 +56,7 @@ func RunJSONSerializationTestForStorageAccountsQueueServicesQueue(subject Storag
 }
 
 // Generator of StorageAccountsQueueServicesQueue instances for property testing - lazily instantiated by
-//StorageAccountsQueueServicesQueueGenerator()
+// StorageAccountsQueueServicesQueueGenerator()
 var storageAccountsQueueServicesQueueGenerator gopter.Gen
 
 // StorageAccountsQueueServicesQueueGenerator returns a generator of StorageAccountsQueueServicesQueue instances for property testing.
@@ -117,7 +117,7 @@ func RunJSONSerializationTestForStorageAccountsQueueServicesQueuesSpec(subject S
 }
 
 // Generator of StorageAccountsQueueServicesQueues_Spec instances for property testing - lazily instantiated by
-//StorageAccountsQueueServicesQueuesSpecGenerator()
+// StorageAccountsQueueServicesQueuesSpecGenerator()
 var storageAccountsQueueServicesQueuesSpecGenerator gopter.Gen
 
 // StorageAccountsQueueServicesQueuesSpecGenerator returns a generator of StorageAccountsQueueServicesQueues_Spec instances for property testing.

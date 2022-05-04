@@ -5,7 +5,7 @@ package v1alpha1api20181130
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-//Deprecated version of UserAssignedIdentities_Spec. Use v1beta20181130.UserAssignedIdentities_Spec instead
+// Deprecated version of UserAssignedIdentities_Spec. Use v1beta20181130.UserAssignedIdentities_Spec instead
 type UserAssignedIdentities_SpecARM struct {
 	Location *string           `json:"location,omitempty"`
 	Name     string            `json:"name,omitempty"`

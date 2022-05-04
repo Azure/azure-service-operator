@@ -56,7 +56,7 @@ func RunJSONSerializationTestForFlexibleServersConfigurationsSpecARM(subject Fle
 }
 
 // Generator of FlexibleServersConfigurations_SpecARM instances for property testing - lazily instantiated by
-//FlexibleServersConfigurationsSpecARMGenerator()
+// FlexibleServersConfigurationsSpecARMGenerator()
 var flexibleServersConfigurationsSpecARMGenerator gopter.Gen
 
 // FlexibleServersConfigurationsSpecARMGenerator returns a generator of FlexibleServersConfigurations_SpecARM instances for property testing.
@@ -132,7 +132,7 @@ func RunJSONSerializationTestForConfigurationPropertiesARM(subject Configuration
 }
 
 // Generator of ConfigurationPropertiesARM instances for property testing - lazily instantiated by
-//ConfigurationPropertiesARMGenerator()
+// ConfigurationPropertiesARMGenerator()
 var configurationPropertiesARMGenerator gopter.Gen
 
 // ConfigurationPropertiesARMGenerator returns a generator of ConfigurationPropertiesARM instances for property testing.

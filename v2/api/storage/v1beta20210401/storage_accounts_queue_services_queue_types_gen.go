@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/resourceDefinitions/storageAccounts_queueServices_queues
+// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/resourceDefinitions/storageAccounts_queueServices_queues
 type StorageAccountsQueueServicesQueue struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -300,7 +300,7 @@ func (queue *StorageAccountsQueueServicesQueue) OriginalGVK() *schema.GroupVersi
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/resourceDefinitions/storageAccounts_queueServices_queues
+// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/resourceDefinitions/storageAccounts_queueServices_queues
 type StorageAccountsQueueServicesQueueList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -315,23 +315,23 @@ const StorageAccountsQueueServicesQueuesSpecAPIVersion20210401 = StorageAccounts
 type StorageAccountsQueueServicesQueues_Spec struct {
 	// +kubebuilder:validation:MaxLength=63
 	// +kubebuilder:validation:MinLength=3
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
-	//Location: Location to deploy resource to
+	// Location: Location to deploy resource to
 	Location *string `json:"location,omitempty"`
 
-	//Metadata: A name-value pair that represents queue metadata.
+	// Metadata: A name-value pair that represents queue metadata.
 	Metadata map[string]string `json:"metadata,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a storage.azure.com/StorageAccountsQueueService resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a storage.azure.com/StorageAccountsQueueService resource
 	Owner *genruntime.KnownResourceReference `group:"storage.azure.com" json:"owner,omitempty" kind:"StorageAccountsQueueService"`
 
-	//Tags: Name-value pairs to add to the resource
+	// Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
@@ -550,24 +550,24 @@ func (queues *StorageAccountsQueueServicesQueues_Spec) SetAzureName(azureName st
 }
 
 type StorageQueue_Status struct {
-	//ApproximateMessageCount: Integer indicating an approximate number of messages in the queue. This number is not lower
-	//than the actual number of messages in the queue, but could be higher.
+	// ApproximateMessageCount: Integer indicating an approximate number of messages in the queue. This number is not lower
+	// than the actual number of messages in the queue, but could be higher.
 	ApproximateMessageCount *int `json:"approximateMessageCount,omitempty"`
 
-	//Conditions: The observed state of the resource
+	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
-	//Id: Fully qualified resource ID for the resource. Ex -
-	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+	// Id: Fully qualified resource ID for the resource. Ex -
+	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
 
-	//Metadata: A name-value pair that represents queue metadata.
+	// Metadata: A name-value pair that represents queue metadata.
 	Metadata map[string]string `json:"metadata,omitempty"`
 
-	//Name: The name of the resource
+	// Name: The name of the resource
 	Name *string `json:"name,omitempty"`
 
-	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 }
 

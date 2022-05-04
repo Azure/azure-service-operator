@@ -56,7 +56,7 @@ func RunJSONSerializationTestForVirtualMachinesSpecARM(subject VirtualMachines_S
 }
 
 // Generator of VirtualMachines_SpecARM instances for property testing - lazily instantiated by
-//VirtualMachinesSpecARMGenerator()
+// VirtualMachinesSpecARMGenerator()
 var virtualMachinesSpecARMGenerator gopter.Gen
 
 // VirtualMachinesSpecARMGenerator returns a generator of VirtualMachines_SpecARM instances for property testing.
@@ -136,7 +136,7 @@ func RunJSONSerializationTestForVirtualMachineIdentityARM(subject VirtualMachine
 }
 
 // Generator of VirtualMachineIdentityARM instances for property testing - lazily instantiated by
-//VirtualMachineIdentityARMGenerator()
+// VirtualMachineIdentityARMGenerator()
 var virtualMachineIdentityARMGenerator gopter.Gen
 
 // VirtualMachineIdentityARMGenerator returns a generator of VirtualMachineIdentityARM instances for property testing.
@@ -200,7 +200,7 @@ func RunJSONSerializationTestForVirtualMachinesSpecPropertiesARM(subject Virtual
 }
 
 // Generator of VirtualMachines_Spec_PropertiesARM instances for property testing - lazily instantiated by
-//VirtualMachinesSpecPropertiesARMGenerator()
+// VirtualMachinesSpecPropertiesARMGenerator()
 var virtualMachinesSpecPropertiesARMGenerator gopter.Gen
 
 // VirtualMachinesSpecPropertiesARMGenerator returns a generator of VirtualMachines_Spec_PropertiesARM instances for property testing.
@@ -349,7 +349,7 @@ func RunJSONSerializationTestForDiagnosticsProfileARM(subject DiagnosticsProfile
 }
 
 // Generator of DiagnosticsProfileARM instances for property testing - lazily instantiated by
-//DiagnosticsProfileARMGenerator()
+// DiagnosticsProfileARMGenerator()
 var diagnosticsProfileARMGenerator gopter.Gen
 
 // DiagnosticsProfileARMGenerator returns a generator of DiagnosticsProfileARM instances for property testing.
@@ -849,7 +849,7 @@ func RunJSONSerializationTestForVirtualMachinesSpecPropertiesNetworkProfileARM(s
 }
 
 // Generator of VirtualMachines_Spec_Properties_NetworkProfileARM instances for property testing - lazily instantiated
-//by VirtualMachinesSpecPropertiesNetworkProfileARMGenerator()
+// by VirtualMachinesSpecPropertiesNetworkProfileARMGenerator()
 var virtualMachinesSpecPropertiesNetworkProfileARMGenerator gopter.Gen
 
 // VirtualMachinesSpecPropertiesNetworkProfileARMGenerator returns a generator of VirtualMachines_Spec_Properties_NetworkProfileARM instances for property testing.
@@ -1114,7 +1114,7 @@ func RunJSONSerializationTestForLinuxConfigurationARM(subject LinuxConfiguration
 }
 
 // Generator of LinuxConfigurationARM instances for property testing - lazily instantiated by
-//LinuxConfigurationARMGenerator()
+// LinuxConfigurationARMGenerator()
 var linuxConfigurationARMGenerator gopter.Gen
 
 // LinuxConfigurationARMGenerator returns a generator of LinuxConfigurationARM instances for property testing.
@@ -1332,7 +1332,7 @@ func RunJSONSerializationTestForVaultSecretGroupARM(subject VaultSecretGroupARM)
 }
 
 // Generator of VaultSecretGroupARM instances for property testing - lazily instantiated by
-//VaultSecretGroupARMGenerator()
+// VaultSecretGroupARMGenerator()
 var vaultSecretGroupARMGenerator gopter.Gen
 
 // VaultSecretGroupARMGenerator returns a generator of VaultSecretGroupARM instances for property testing.
@@ -1393,7 +1393,7 @@ func RunJSONSerializationTestForVirtualMachinesSpecPropertiesNetworkProfileNetwo
 }
 
 // Generator of VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfacesARM instances for property testing -
-//lazily instantiated by VirtualMachinesSpecPropertiesNetworkProfileNetworkInterfacesARMGenerator()
+// lazily instantiated by VirtualMachinesSpecPropertiesNetworkProfileNetworkInterfacesARMGenerator()
 var virtualMachinesSpecPropertiesNetworkProfileNetworkInterfacesARMGenerator gopter.Gen
 
 // VirtualMachinesSpecPropertiesNetworkProfileNetworkInterfacesARMGenerator returns a generator of VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfacesARM instances for property testing.
@@ -1467,7 +1467,7 @@ func RunJSONSerializationTestForWindowsConfigurationARM(subject WindowsConfigura
 }
 
 // Generator of WindowsConfigurationARM instances for property testing - lazily instantiated by
-//WindowsConfigurationARMGenerator()
+// WindowsConfigurationARMGenerator()
 var windowsConfigurationARMGenerator gopter.Gen
 
 // WindowsConfigurationARMGenerator returns a generator of WindowsConfigurationARM instances for property testing.
@@ -1545,7 +1545,7 @@ func RunJSONSerializationTestForAdditionalUnattendContentARM(subject AdditionalU
 }
 
 // Generator of AdditionalUnattendContentARM instances for property testing - lazily instantiated by
-//AdditionalUnattendContentARMGenerator()
+// AdditionalUnattendContentARMGenerator()
 var additionalUnattendContentARMGenerator gopter.Gen
 
 // AdditionalUnattendContentARMGenerator returns a generator of AdditionalUnattendContentARM instances for property testing.
@@ -1608,7 +1608,7 @@ func RunJSONSerializationTestForDiffDiskSettingsARM(subject DiffDiskSettingsARM)
 }
 
 // Generator of DiffDiskSettingsARM instances for property testing - lazily instantiated by
-//DiffDiskSettingsARMGenerator()
+// DiffDiskSettingsARMGenerator()
 var diffDiskSettingsARMGenerator gopter.Gen
 
 // DiffDiskSettingsARMGenerator returns a generator of DiffDiskSettingsARM instances for property testing.
@@ -1669,7 +1669,7 @@ func RunJSONSerializationTestForDiskEncryptionSettingsARM(subject DiskEncryption
 }
 
 // Generator of DiskEncryptionSettingsARM instances for property testing - lazily instantiated by
-//DiskEncryptionSettingsARMGenerator()
+// DiskEncryptionSettingsARMGenerator()
 var diskEncryptionSettingsARMGenerator gopter.Gen
 
 // DiskEncryptionSettingsARMGenerator returns a generator of DiskEncryptionSettingsARM instances for property testing.
@@ -1744,7 +1744,7 @@ func RunJSONSerializationTestForLinuxPatchSettingsARM(subject LinuxPatchSettings
 }
 
 // Generator of LinuxPatchSettingsARM instances for property testing - lazily instantiated by
-//LinuxPatchSettingsARMGenerator()
+// LinuxPatchSettingsARMGenerator()
 var linuxPatchSettingsARMGenerator gopter.Gen
 
 // LinuxPatchSettingsARMGenerator returns a generator of LinuxPatchSettingsARM instances for property testing.
@@ -1804,7 +1804,7 @@ func RunJSONSerializationTestForManagedDiskParametersARM(subject ManagedDiskPara
 }
 
 // Generator of ManagedDiskParametersARM instances for property testing - lazily instantiated by
-//ManagedDiskParametersARMGenerator()
+// ManagedDiskParametersARMGenerator()
 var managedDiskParametersARMGenerator gopter.Gen
 
 // ManagedDiskParametersARMGenerator returns a generator of ManagedDiskParametersARM instances for property testing.
@@ -1885,7 +1885,7 @@ func RunJSONSerializationTestForNetworkInterfaceReferencePropertiesARM(subject N
 }
 
 // Generator of NetworkInterfaceReferencePropertiesARM instances for property testing - lazily instantiated by
-//NetworkInterfaceReferencePropertiesARMGenerator()
+// NetworkInterfaceReferencePropertiesARMGenerator()
 var networkInterfaceReferencePropertiesARMGenerator gopter.Gen
 
 // NetworkInterfaceReferencePropertiesARMGenerator returns a generator of NetworkInterfaceReferencePropertiesARM instances for property testing.
@@ -2005,7 +2005,7 @@ func RunJSONSerializationTestForSshConfigurationARM(subject SshConfigurationARM)
 }
 
 // Generator of SshConfigurationARM instances for property testing - lazily instantiated by
-//SshConfigurationARMGenerator()
+// SshConfigurationARMGenerator()
 var sshConfigurationARMGenerator gopter.Gen
 
 // SshConfigurationARMGenerator returns a generator of SshConfigurationARM instances for property testing.
@@ -2065,7 +2065,7 @@ func RunJSONSerializationTestForVaultCertificateARM(subject VaultCertificateARM)
 }
 
 // Generator of VaultCertificateARM instances for property testing - lazily instantiated by
-//VaultCertificateARMGenerator()
+// VaultCertificateARMGenerator()
 var vaultCertificateARMGenerator gopter.Gen
 
 // VaultCertificateARMGenerator returns a generator of VaultCertificateARM instances for property testing.
@@ -2185,7 +2185,7 @@ func RunJSONSerializationTestForWinRMConfigurationARM(subject WinRMConfiguration
 }
 
 // Generator of WinRMConfigurationARM instances for property testing - lazily instantiated by
-//WinRMConfigurationARMGenerator()
+// WinRMConfigurationARMGenerator()
 var winRMConfigurationARMGenerator gopter.Gen
 
 // WinRMConfigurationARMGenerator returns a generator of WinRMConfigurationARM instances for property testing.
@@ -2245,7 +2245,7 @@ func RunJSONSerializationTestForDiskEncryptionSetParametersARM(subject DiskEncry
 }
 
 // Generator of DiskEncryptionSetParametersARM instances for property testing - lazily instantiated by
-//DiskEncryptionSetParametersARMGenerator()
+// DiskEncryptionSetParametersARMGenerator()
 var diskEncryptionSetParametersARMGenerator gopter.Gen
 
 // DiskEncryptionSetParametersARMGenerator returns a generator of DiskEncryptionSetParametersARM instances for property testing.
@@ -2305,7 +2305,7 @@ func RunJSONSerializationTestForKeyVaultKeyReferenceARM(subject KeyVaultKeyRefer
 }
 
 // Generator of KeyVaultKeyReferenceARM instances for property testing - lazily instantiated by
-//KeyVaultKeyReferenceARMGenerator()
+// KeyVaultKeyReferenceARMGenerator()
 var keyVaultKeyReferenceARMGenerator gopter.Gen
 
 // KeyVaultKeyReferenceARMGenerator returns a generator of KeyVaultKeyReferenceARM instances for property testing.
@@ -2379,7 +2379,7 @@ func RunJSONSerializationTestForKeyVaultSecretReferenceARM(subject KeyVaultSecre
 }
 
 // Generator of KeyVaultSecretReferenceARM instances for property testing - lazily instantiated by
-//KeyVaultSecretReferenceARMGenerator()
+// KeyVaultSecretReferenceARMGenerator()
 var keyVaultSecretReferenceARMGenerator gopter.Gen
 
 // KeyVaultSecretReferenceARMGenerator returns a generator of KeyVaultSecretReferenceARM instances for property testing.

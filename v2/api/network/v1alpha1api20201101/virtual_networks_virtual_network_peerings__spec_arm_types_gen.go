@@ -5,7 +5,7 @@ package v1alpha1api20201101
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-//Deprecated version of VirtualNetworksVirtualNetworkPeerings_Spec. Use v1beta20201101.VirtualNetworksVirtualNetworkPeerings_Spec instead
+// Deprecated version of VirtualNetworksVirtualNetworkPeerings_Spec. Use v1beta20201101.VirtualNetworksVirtualNetworkPeerings_Spec instead
 type VirtualNetworksVirtualNetworkPeerings_SpecARM struct {
 	Location   *string                                   `json:"location,omitempty"`
 	Name       string                                    `json:"name,omitempty"`
@@ -30,7 +30,7 @@ func (peerings VirtualNetworksVirtualNetworkPeerings_SpecARM) GetType() string {
 	return "Microsoft.Network/virtualNetworks/virtualNetworkPeerings"
 }
 
-//Deprecated version of VirtualNetworkPeeringPropertiesFormat. Use v1beta20201101.VirtualNetworkPeeringPropertiesFormat instead
+// Deprecated version of VirtualNetworkPeeringPropertiesFormat. Use v1beta20201101.VirtualNetworkPeeringPropertiesFormat instead
 type VirtualNetworkPeeringPropertiesFormatARM struct {
 	AllowForwardedTraffic     *bool                                              `json:"allowForwardedTraffic,omitempty"`
 	AllowGatewayTransit       *bool                                              `json:"allowGatewayTransit,omitempty"`
@@ -42,7 +42,7 @@ type VirtualNetworkPeeringPropertiesFormatARM struct {
 	UseRemoteGateways         *bool                                              `json:"useRemoteGateways,omitempty"`
 }
 
-//Deprecated version of VirtualNetworkBgpCommunities. Use v1beta20201101.VirtualNetworkBgpCommunities instead
+// Deprecated version of VirtualNetworkBgpCommunities. Use v1beta20201101.VirtualNetworkBgpCommunities instead
 type VirtualNetworkBgpCommunitiesARM struct {
 	VirtualNetworkCommunity *string `json:"virtualNetworkCommunity,omitempty"`
 }

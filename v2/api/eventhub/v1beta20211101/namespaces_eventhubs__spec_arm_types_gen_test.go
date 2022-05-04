@@ -56,7 +56,7 @@ func RunJSONSerializationTestForNamespacesEventhubsSpecARM(subject NamespacesEve
 }
 
 // Generator of NamespacesEventhubs_SpecARM instances for property testing - lazily instantiated by
-//NamespacesEventhubsSpecARMGenerator()
+// NamespacesEventhubsSpecARMGenerator()
 var namespacesEventhubsSpecARMGenerator gopter.Gen
 
 // NamespacesEventhubsSpecARMGenerator returns a generator of NamespacesEventhubs_SpecARM instances for property testing.
@@ -132,7 +132,7 @@ func RunJSONSerializationTestForNamespacesEventhubsSpecPropertiesARM(subject Nam
 }
 
 // Generator of NamespacesEventhubs_Spec_PropertiesARM instances for property testing - lazily instantiated by
-//NamespacesEventhubsSpecPropertiesARMGenerator()
+// NamespacesEventhubsSpecPropertiesARMGenerator()
 var namespacesEventhubsSpecPropertiesARMGenerator gopter.Gen
 
 // NamespacesEventhubsSpecPropertiesARMGenerator returns a generator of NamespacesEventhubs_Spec_PropertiesARM instances for property testing.
@@ -207,7 +207,7 @@ func RunJSONSerializationTestForNamespacesEventhubsSpecPropertiesCaptureDescript
 }
 
 // Generator of NamespacesEventhubs_Spec_Properties_CaptureDescriptionARM instances for property testing - lazily
-//instantiated by NamespacesEventhubsSpecPropertiesCaptureDescriptionARMGenerator()
+// instantiated by NamespacesEventhubsSpecPropertiesCaptureDescriptionARMGenerator()
 var namespacesEventhubsSpecPropertiesCaptureDescriptionARMGenerator gopter.Gen
 
 // NamespacesEventhubsSpecPropertiesCaptureDescriptionARMGenerator returns a generator of NamespacesEventhubs_Spec_Properties_CaptureDescriptionARM instances for property testing.
@@ -285,7 +285,7 @@ func RunJSONSerializationTestForNamespacesEventhubsSpecPropertiesCaptureDescript
 }
 
 // Generator of NamespacesEventhubs_Spec_Properties_CaptureDescription_DestinationARM instances for property testing -
-//lazily instantiated by NamespacesEventhubsSpecPropertiesCaptureDescriptionDestinationARMGenerator()
+// lazily instantiated by NamespacesEventhubsSpecPropertiesCaptureDescriptionDestinationARMGenerator()
 var namespacesEventhubsSpecPropertiesCaptureDescriptionDestinationARMGenerator gopter.Gen
 
 // NamespacesEventhubsSpecPropertiesCaptureDescriptionDestinationARMGenerator returns a generator of NamespacesEventhubs_Spec_Properties_CaptureDescription_DestinationARM instances for property testing.
@@ -359,7 +359,7 @@ func RunJSONSerializationTestForDestinationPropertiesARM(subject DestinationProp
 }
 
 // Generator of DestinationPropertiesARM instances for property testing - lazily instantiated by
-//DestinationPropertiesARMGenerator()
+// DestinationPropertiesARMGenerator()
 var destinationPropertiesARMGenerator gopter.Gen
 
 // DestinationPropertiesARMGenerator returns a generator of DestinationPropertiesARM instances for property testing.

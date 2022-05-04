@@ -21,8 +21,8 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Storage version of v1alpha1api20180501preview.Webtest
-//Deprecated version of Webtest. Use v1beta20180501preview.Webtest instead
+// Storage version of v1alpha1api20180501preview.Webtest
+// Deprecated version of Webtest. Use v1beta20180501preview.Webtest instead
 type Webtest struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -192,16 +192,16 @@ func (webtest *Webtest) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Storage version of v1alpha1api20180501preview.Webtest
-//Deprecated version of Webtest. Use v1beta20180501preview.Webtest instead
+// Storage version of v1alpha1api20180501preview.Webtest
+// Deprecated version of Webtest. Use v1beta20180501preview.Webtest instead
 type WebtestList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Webtest `json:"items"`
 }
 
-//Storage version of v1alpha1api20180501preview.WebTest_Status
-//Deprecated version of WebTest_Status. Use v1beta20180501preview.WebTest_Status instead
+// Storage version of v1alpha1api20180501preview.WebTest_Status
+// Deprecated version of WebTest_Status. Use v1beta20180501preview.WebTest_Status instead
 type WebTest_Status struct {
 	Conditions         []conditions.Condition                    `json:"conditions,omitempty"`
 	Configuration      *WebTestProperties_Status_Configuration   `json:"Configuration,omitempty"`
@@ -535,10 +535,10 @@ func (test *WebTest_Status) AssignPropertiesToWebTestStatus(destination *v201805
 	return nil
 }
 
-//Storage version of v1alpha1api20180501preview.Webtests_Spec
+// Storage version of v1alpha1api20180501preview.Webtests_Spec
 type Webtests_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName       string                          `json:"azureName,omitempty"`
 	Configuration   *WebTestPropertiesConfiguration `json:"Configuration,omitempty"`
 	Description     *string                         `json:"Description,omitempty"`
@@ -551,9 +551,9 @@ type Webtests_Spec struct {
 	OriginalVersion string                          `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a resources.azure.com/ResourceGroup resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
 	Owner              *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PropertyBag        genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	Request            *WebTestPropertiesRequest          `json:"Request,omitempty"`
@@ -862,8 +862,8 @@ func (webtests *Webtests_Spec) AssignPropertiesToWebtestsSpec(destination *v2018
 	return nil
 }
 
-//Storage version of v1alpha1api20180501preview.WebTestGeolocation
-//Deprecated version of WebTestGeolocation. Use v1beta20180501preview.WebTestGeolocation instead
+// Storage version of v1alpha1api20180501preview.WebTestGeolocation
+// Deprecated version of WebTestGeolocation. Use v1beta20180501preview.WebTestGeolocation instead
 type WebTestGeolocation struct {
 	Id          *string                `json:"Id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -907,8 +907,8 @@ func (geolocation *WebTestGeolocation) AssignPropertiesToWebTestGeolocation(dest
 	return nil
 }
 
-//Storage version of v1alpha1api20180501preview.WebTestGeolocation_Status
-//Deprecated version of WebTestGeolocation_Status. Use v1beta20180501preview.WebTestGeolocation_Status instead
+// Storage version of v1alpha1api20180501preview.WebTestGeolocation_Status
+// Deprecated version of WebTestGeolocation_Status. Use v1beta20180501preview.WebTestGeolocation_Status instead
 type WebTestGeolocation_Status struct {
 	Id          *string                `json:"Id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -952,8 +952,8 @@ func (geolocation *WebTestGeolocation_Status) AssignPropertiesToWebTestGeolocati
 	return nil
 }
 
-//Storage version of v1alpha1api20180501preview.WebTestPropertiesConfiguration
-//Deprecated version of WebTestPropertiesConfiguration. Use v1beta20180501preview.WebTestPropertiesConfiguration instead
+// Storage version of v1alpha1api20180501preview.WebTestPropertiesConfiguration
+// Deprecated version of WebTestPropertiesConfiguration. Use v1beta20180501preview.WebTestPropertiesConfiguration instead
 type WebTestPropertiesConfiguration struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	WebTest     *string                `json:"WebTest,omitempty"`
@@ -997,8 +997,8 @@ func (configuration *WebTestPropertiesConfiguration) AssignPropertiesToWebTestPr
 	return nil
 }
 
-//Storage version of v1alpha1api20180501preview.WebTestPropertiesRequest
-//Deprecated version of WebTestPropertiesRequest. Use v1beta20180501preview.WebTestPropertiesRequest instead
+// Storage version of v1alpha1api20180501preview.WebTestPropertiesRequest
+// Deprecated version of WebTestPropertiesRequest. Use v1beta20180501preview.WebTestPropertiesRequest instead
 type WebTestPropertiesRequest struct {
 	FollowRedirects        *bool                  `json:"FollowRedirects,omitempty"`
 	Headers                []HeaderField          `json:"Headers,omitempty"`
@@ -1127,8 +1127,8 @@ func (request *WebTestPropertiesRequest) AssignPropertiesToWebTestPropertiesRequ
 	return nil
 }
 
-//Storage version of v1alpha1api20180501preview.WebTestPropertiesValidationRules
-//Deprecated version of WebTestPropertiesValidationRules. Use v1beta20180501preview.WebTestPropertiesValidationRules instead
+// Storage version of v1alpha1api20180501preview.WebTestPropertiesValidationRules
+// Deprecated version of WebTestPropertiesValidationRules. Use v1beta20180501preview.WebTestPropertiesValidationRules instead
 type WebTestPropertiesValidationRules struct {
 	ContentValidation             *WebTestPropertiesValidationRulesContentValidation `json:"ContentValidation,omitempty"`
 	ExpectedHttpStatusCode        *int                                               `json:"ExpectedHttpStatusCode,omitempty"`
@@ -1238,8 +1238,8 @@ func (rules *WebTestPropertiesValidationRules) AssignPropertiesToWebTestProperti
 	return nil
 }
 
-//Storage version of v1alpha1api20180501preview.WebTestProperties_Status_Configuration
-//Deprecated version of WebTestProperties_Status_Configuration. Use v1beta20180501preview.WebTestProperties_Status_Configuration instead
+// Storage version of v1alpha1api20180501preview.WebTestProperties_Status_Configuration
+// Deprecated version of WebTestProperties_Status_Configuration. Use v1beta20180501preview.WebTestProperties_Status_Configuration instead
 type WebTestProperties_Status_Configuration struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	WebTest     *string                `json:"WebTest,omitempty"`
@@ -1283,8 +1283,8 @@ func (configuration *WebTestProperties_Status_Configuration) AssignPropertiesToW
 	return nil
 }
 
-//Storage version of v1alpha1api20180501preview.WebTestProperties_Status_Request
-//Deprecated version of WebTestProperties_Status_Request. Use v1beta20180501preview.WebTestProperties_Status_Request instead
+// Storage version of v1alpha1api20180501preview.WebTestProperties_Status_Request
+// Deprecated version of WebTestProperties_Status_Request. Use v1beta20180501preview.WebTestProperties_Status_Request instead
 type WebTestProperties_Status_Request struct {
 	FollowRedirects        *bool                  `json:"FollowRedirects,omitempty"`
 	Headers                []HeaderField_Status   `json:"Headers,omitempty"`
@@ -1413,8 +1413,8 @@ func (request *WebTestProperties_Status_Request) AssignPropertiesToWebTestProper
 	return nil
 }
 
-//Storage version of v1alpha1api20180501preview.WebTestProperties_Status_ValidationRules
-//Deprecated version of WebTestProperties_Status_ValidationRules. Use v1beta20180501preview.WebTestProperties_Status_ValidationRules instead
+// Storage version of v1alpha1api20180501preview.WebTestProperties_Status_ValidationRules
+// Deprecated version of WebTestProperties_Status_ValidationRules. Use v1beta20180501preview.WebTestProperties_Status_ValidationRules instead
 type WebTestProperties_Status_ValidationRules struct {
 	ContentValidation             *WebTestProperties_Status_ValidationRules_ContentValidation `json:"ContentValidation,omitempty"`
 	ExpectedHttpStatusCode        *int                                                        `json:"ExpectedHttpStatusCode,omitempty"`
@@ -1524,8 +1524,8 @@ func (rules *WebTestProperties_Status_ValidationRules) AssignPropertiesToWebTest
 	return nil
 }
 
-//Storage version of v1alpha1api20180501preview.HeaderField
-//Deprecated version of HeaderField. Use v1beta20180501preview.HeaderField instead
+// Storage version of v1alpha1api20180501preview.HeaderField
+// Deprecated version of HeaderField. Use v1beta20180501preview.HeaderField instead
 type HeaderField struct {
 	Key         *string                `json:"key,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -1576,8 +1576,8 @@ func (field *HeaderField) AssignPropertiesToHeaderField(destination *v20180501ps
 	return nil
 }
 
-//Storage version of v1alpha1api20180501preview.HeaderField_Status
-//Deprecated version of HeaderField_Status. Use v1beta20180501preview.HeaderField_Status instead
+// Storage version of v1alpha1api20180501preview.HeaderField_Status
+// Deprecated version of HeaderField_Status. Use v1beta20180501preview.HeaderField_Status instead
 type HeaderField_Status struct {
 	Key         *string                `json:"key,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -1628,8 +1628,8 @@ func (field *HeaderField_Status) AssignPropertiesToHeaderFieldStatus(destination
 	return nil
 }
 
-//Storage version of v1alpha1api20180501preview.WebTestPropertiesValidationRulesContentValidation
-//Deprecated version of WebTestPropertiesValidationRulesContentValidation. Use v1beta20180501preview.WebTestPropertiesValidationRulesContentValidation instead
+// Storage version of v1alpha1api20180501preview.WebTestPropertiesValidationRulesContentValidation
+// Deprecated version of WebTestPropertiesValidationRulesContentValidation. Use v1beta20180501preview.WebTestPropertiesValidationRulesContentValidation instead
 type WebTestPropertiesValidationRulesContentValidation struct {
 	ContentMatch    *string                `json:"ContentMatch,omitempty"`
 	IgnoreCase      *bool                  `json:"IgnoreCase,omitempty"`
@@ -1707,8 +1707,8 @@ func (validation *WebTestPropertiesValidationRulesContentValidation) AssignPrope
 	return nil
 }
 
-//Storage version of v1alpha1api20180501preview.WebTestProperties_Status_ValidationRules_ContentValidation
-//Deprecated version of WebTestProperties_Status_ValidationRules_ContentValidation. Use v1beta20180501preview.WebTestProperties_Status_ValidationRules_ContentValidation instead
+// Storage version of v1alpha1api20180501preview.WebTestProperties_Status_ValidationRules_ContentValidation
+// Deprecated version of WebTestProperties_Status_ValidationRules_ContentValidation. Use v1beta20180501preview.WebTestProperties_Status_ValidationRules_ContentValidation instead
 type WebTestProperties_Status_ValidationRules_ContentValidation struct {
 	ContentMatch    *string                `json:"ContentMatch,omitempty"`
 	IgnoreCase      *bool                  `json:"IgnoreCase,omitempty"`

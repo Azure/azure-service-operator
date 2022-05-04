@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Deprecated version of MongodbDatabaseCollection. Use v1beta20210515.MongodbDatabaseCollection instead
+// Deprecated version of MongodbDatabaseCollection. Use v1beta20210515.MongodbDatabaseCollection instead
 type MongodbDatabaseCollection struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -314,7 +314,7 @@ func (collection *MongodbDatabaseCollection) OriginalGVK() *schema.GroupVersionK
 }
 
 // +kubebuilder:object:root=true
-//Deprecated version of MongodbDatabaseCollection. Use v1beta20210515.MongodbDatabaseCollection instead
+// Deprecated version of MongodbDatabaseCollection. Use v1beta20210515.MongodbDatabaseCollection instead
 type MongodbDatabaseCollectionList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -322,16 +322,16 @@ type MongodbDatabaseCollectionList struct {
 }
 
 type DatabaseAccountsMongodbDatabasesCollections_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName string               `json:"azureName,omitempty"`
 	Location  *string              `json:"location,omitempty"`
 	Options   *CreateUpdateOptions `json:"options,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a documentdb.azure.com/MongodbDatabase resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a documentdb.azure.com/MongodbDatabase resource
 	Owner *genruntime.KnownResourceReference `group:"documentdb.azure.com" json:"owner,omitempty" kind:"MongodbDatabase"`
 
 	// +kubebuilder:validation:Required
@@ -622,9 +622,9 @@ func (collections *DatabaseAccountsMongodbDatabasesCollections_Spec) SetAzureNam
 	collections.AzureName = azureName
 }
 
-//Deprecated version of MongoDBCollectionGetResults_Status. Use v1beta20210515.MongoDBCollectionGetResults_Status instead
+// Deprecated version of MongoDBCollectionGetResults_Status. Use v1beta20210515.MongoDBCollectionGetResults_Status instead
 type MongoDBCollectionGetResults_Status struct {
-	//Conditions: The observed state of the resource
+	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition                          `json:"conditions,omitempty"`
 	Id         *string                                         `json:"id,omitempty"`
 	Location   *string                                         `json:"location,omitempty"`
@@ -872,7 +872,7 @@ func (results *MongoDBCollectionGetResults_Status) AssignPropertiesToMongoDBColl
 	return nil
 }
 
-//Deprecated version of MongoDBCollectionGetProperties_Status_Resource. Use v1beta20210515.MongoDBCollectionGetProperties_Status_Resource instead
+// Deprecated version of MongoDBCollectionGetProperties_Status_Resource. Use v1beta20210515.MongoDBCollectionGetProperties_Status_Resource instead
 type MongoDBCollectionGetProperties_Status_Resource struct {
 	AnalyticalStorageTtl *int                `json:"analyticalStorageTtl,omitempty"`
 	Etag                 *string             `json:"_etag,omitempty"`
@@ -1054,7 +1054,7 @@ func (resource *MongoDBCollectionGetProperties_Status_Resource) AssignProperties
 	return nil
 }
 
-//Deprecated version of MongoDBCollectionResource. Use v1beta20210515.MongoDBCollectionResource instead
+// Deprecated version of MongoDBCollectionResource. Use v1beta20210515.MongoDBCollectionResource instead
 type MongoDBCollectionResource struct {
 	AnalyticalStorageTtl *int `json:"analyticalStorageTtl,omitempty"`
 
@@ -1227,7 +1227,7 @@ func (resource *MongoDBCollectionResource) AssignPropertiesToMongoDBCollectionRe
 	return nil
 }
 
-//Deprecated version of MongoIndex. Use v1beta20210515.MongoIndex instead
+// Deprecated version of MongoIndex. Use v1beta20210515.MongoIndex instead
 type MongoIndex struct {
 	Key     *MongoIndexKeys    `json:"key,omitempty"`
 	Options *MongoIndexOptions `json:"options,omitempty"`
@@ -1373,7 +1373,7 @@ func (index *MongoIndex) AssignPropertiesToMongoIndex(destination *alpha20210515
 	return nil
 }
 
-//Deprecated version of MongoIndex_Status. Use v1beta20210515.MongoIndex_Status instead
+// Deprecated version of MongoIndex_Status. Use v1beta20210515.MongoIndex_Status instead
 type MongoIndex_Status struct {
 	Key     *MongoIndexKeys_Status    `json:"key,omitempty"`
 	Options *MongoIndexOptions_Status `json:"options,omitempty"`
@@ -1490,7 +1490,7 @@ func (index *MongoIndex_Status) AssignPropertiesToMongoIndexStatus(destination *
 	return nil
 }
 
-//Deprecated version of MongoIndexKeys. Use v1beta20210515.MongoIndexKeys instead
+// Deprecated version of MongoIndexKeys. Use v1beta20210515.MongoIndexKeys instead
 type MongoIndexKeys struct {
 	Keys []string `json:"keys,omitempty"`
 }
@@ -1561,7 +1561,7 @@ func (keys *MongoIndexKeys) AssignPropertiesToMongoIndexKeys(destination *alpha2
 	return nil
 }
 
-//Deprecated version of MongoIndexKeys_Status. Use v1beta20210515.MongoIndexKeys_Status instead
+// Deprecated version of MongoIndexKeys_Status. Use v1beta20210515.MongoIndexKeys_Status instead
 type MongoIndexKeys_Status struct {
 	Keys []string `json:"keys,omitempty"`
 }
@@ -1618,7 +1618,7 @@ func (keys *MongoIndexKeys_Status) AssignPropertiesToMongoIndexKeysStatus(destin
 	return nil
 }
 
-//Deprecated version of MongoIndexOptions. Use v1beta20210515.MongoIndexOptions instead
+// Deprecated version of MongoIndexOptions. Use v1beta20210515.MongoIndexOptions instead
 type MongoIndexOptions struct {
 	ExpireAfterSeconds *int  `json:"expireAfterSeconds,omitempty"`
 	Unique             *bool `json:"unique,omitempty"`
@@ -1720,7 +1720,7 @@ func (options *MongoIndexOptions) AssignPropertiesToMongoIndexOptions(destinatio
 	return nil
 }
 
-//Deprecated version of MongoIndexOptions_Status. Use v1beta20210515.MongoIndexOptions_Status instead
+// Deprecated version of MongoIndexOptions_Status. Use v1beta20210515.MongoIndexOptions_Status instead
 type MongoIndexOptions_Status struct {
 	ExpireAfterSeconds *int  `json:"expireAfterSeconds,omitempty"`
 	Unique             *bool `json:"unique,omitempty"`

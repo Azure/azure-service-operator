@@ -56,7 +56,7 @@ func RunJSONSerializationTestForBatchAccountsSpecARM(subject BatchAccounts_SpecA
 }
 
 // Generator of BatchAccounts_SpecARM instances for property testing - lazily instantiated by
-//BatchAccountsSpecARMGenerator()
+// BatchAccountsSpecARMGenerator()
 var batchAccountsSpecARMGenerator gopter.Gen
 
 // BatchAccountsSpecARMGenerator returns a generator of BatchAccounts_SpecARM instances for property testing.
@@ -133,7 +133,7 @@ func RunJSONSerializationTestForBatchAccountCreatePropertiesARM(subject BatchAcc
 }
 
 // Generator of BatchAccountCreatePropertiesARM instances for property testing - lazily instantiated by
-//BatchAccountCreatePropertiesARMGenerator()
+// BatchAccountCreatePropertiesARMGenerator()
 var batchAccountCreatePropertiesARMGenerator gopter.Gen
 
 // BatchAccountCreatePropertiesARMGenerator returns a generator of BatchAccountCreatePropertiesARM instances for property testing.
@@ -210,7 +210,7 @@ func RunJSONSerializationTestForBatchAccountIdentityARM(subject BatchAccountIden
 }
 
 // Generator of BatchAccountIdentityARM instances for property testing - lazily instantiated by
-//BatchAccountIdentityARMGenerator()
+// BatchAccountIdentityARMGenerator()
 var batchAccountIdentityARMGenerator gopter.Gen
 
 // BatchAccountIdentityARMGenerator returns a generator of BatchAccountIdentityARM instances for property testing.
@@ -270,7 +270,7 @@ func RunJSONSerializationTestForAutoStorageBasePropertiesARM(subject AutoStorage
 }
 
 // Generator of AutoStorageBasePropertiesARM instances for property testing - lazily instantiated by
-//AutoStorageBasePropertiesARMGenerator()
+// AutoStorageBasePropertiesARMGenerator()
 var autoStorageBasePropertiesARMGenerator gopter.Gen
 
 // AutoStorageBasePropertiesARMGenerator returns a generator of AutoStorageBasePropertiesARM instances for property testing.
@@ -330,7 +330,7 @@ func RunJSONSerializationTestForEncryptionPropertiesARM(subject EncryptionProper
 }
 
 // Generator of EncryptionPropertiesARM instances for property testing - lazily instantiated by
-//EncryptionPropertiesARMGenerator()
+// EncryptionPropertiesARMGenerator()
 var encryptionPropertiesARMGenerator gopter.Gen
 
 // EncryptionPropertiesARMGenerator returns a generator of EncryptionPropertiesARM instances for property testing.
@@ -404,7 +404,7 @@ func RunJSONSerializationTestForKeyVaultReferenceARM(subject KeyVaultReferenceAR
 }
 
 // Generator of KeyVaultReferenceARM instances for property testing - lazily instantiated by
-//KeyVaultReferenceARMGenerator()
+// KeyVaultReferenceARMGenerator()
 var keyVaultReferenceARMGenerator gopter.Gen
 
 // KeyVaultReferenceARMGenerator returns a generator of KeyVaultReferenceARM instances for property testing.
@@ -465,7 +465,7 @@ func RunJSONSerializationTestForKeyVaultPropertiesARM(subject KeyVaultProperties
 }
 
 // Generator of KeyVaultPropertiesARM instances for property testing - lazily instantiated by
-//KeyVaultPropertiesARMGenerator()
+// KeyVaultPropertiesARMGenerator()
 var keyVaultPropertiesARMGenerator gopter.Gen
 
 // KeyVaultPropertiesARMGenerator returns a generator of KeyVaultPropertiesARM instances for property testing.

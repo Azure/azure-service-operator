@@ -21,8 +21,8 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Storage version of v1alpha1api20200202.Component
-//Deprecated version of Component. Use v1beta20200202.Component instead
+// Storage version of v1alpha1api20200202.Component
+// Deprecated version of Component. Use v1beta20200202.Component instead
 type Component struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -192,16 +192,16 @@ func (component *Component) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Storage version of v1alpha1api20200202.Component
-//Deprecated version of Component. Use v1beta20200202.Component instead
+// Storage version of v1alpha1api20200202.Component
+// Deprecated version of Component. Use v1beta20200202.Component instead
 type ComponentList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Component `json:"items"`
 }
 
-//Storage version of v1alpha1api20200202.ApplicationInsightsComponent_Status
-//Deprecated version of ApplicationInsightsComponent_Status. Use v1beta20200202.ApplicationInsightsComponent_Status instead
+// Storage version of v1alpha1api20200202.ApplicationInsightsComponent_Status
+// Deprecated version of ApplicationInsightsComponent_Status. Use v1beta20200202.ApplicationInsightsComponent_Status instead
 type ApplicationInsightsComponent_Status struct {
 	AppId                           *string                            `json:"AppId,omitempty"`
 	ApplicationId                   *string                            `json:"ApplicationId,omitempty"`
@@ -609,12 +609,12 @@ func (component *ApplicationInsightsComponent_Status) AssignPropertiesToApplicat
 	return nil
 }
 
-//Storage version of v1alpha1api20200202.Components_Spec
+// Storage version of v1alpha1api20200202.Components_Spec
 type Components_Spec struct {
 	ApplicationType *string `json:"Application_Type,omitempty"`
 
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName                       string  `json:"azureName,omitempty"`
 	DisableIpMasking                *bool   `json:"DisableIpMasking,omitempty"`
 	DisableLocalAuth                *bool   `json:"DisableLocalAuth,omitempty"`
@@ -629,9 +629,9 @@ type Components_Spec struct {
 	OriginalVersion                 string  `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a resources.azure.com/ResourceGroup resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
 	Owner                           *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PropertyBag                     genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	PublicNetworkAccessForIngestion *string                            `json:"publicNetworkAccessForIngestion,omitempty"`
@@ -921,8 +921,8 @@ func (components *Components_Spec) AssignPropertiesToComponentsSpec(destination 
 	return nil
 }
 
-//Storage version of v1alpha1api20200202.PrivateLinkScopedResource_Status
-//Deprecated version of PrivateLinkScopedResource_Status. Use v1beta20200202.PrivateLinkScopedResource_Status instead
+// Storage version of v1alpha1api20200202.PrivateLinkScopedResource_Status
+// Deprecated version of PrivateLinkScopedResource_Status. Use v1beta20200202.PrivateLinkScopedResource_Status instead
 type PrivateLinkScopedResource_Status struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	ResourceId  *string                `json:"ResourceId,omitempty"`

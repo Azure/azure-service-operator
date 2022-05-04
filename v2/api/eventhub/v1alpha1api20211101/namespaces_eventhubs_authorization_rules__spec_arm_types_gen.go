@@ -5,7 +5,7 @@ package v1alpha1api20211101
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-//Deprecated version of NamespacesEventhubsAuthorizationRules_Spec. Use v1beta20211101.NamespacesEventhubsAuthorizationRules_Spec instead
+// Deprecated version of NamespacesEventhubsAuthorizationRules_Spec. Use v1beta20211101.NamespacesEventhubsAuthorizationRules_Spec instead
 type NamespacesEventhubsAuthorizationRules_SpecARM struct {
 	Location   *string                         `json:"location,omitempty"`
 	Name       string                          `json:"name,omitempty"`

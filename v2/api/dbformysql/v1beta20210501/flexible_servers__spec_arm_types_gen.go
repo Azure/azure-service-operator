@@ -6,19 +6,19 @@ package v1beta20210501
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type FlexibleServers_SpecARM struct {
-	//Location: The geo-location where the resource lives
+	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 
-	//Name: The name of the server.
+	// Name: The name of the server.
 	Name string `json:"name,omitempty"`
 
-	//Properties: The properties of a server.
+	// Properties: The properties of a server.
 	Properties *ServerPropertiesARM `json:"properties,omitempty"`
 
-	//Sku: Billing information related properties of a server.
+	// Sku: Billing information related properties of a server.
 	Sku *SkuARM `json:"sku,omitempty"`
 
-	//Tags: Name-value pairs to add to the resource
+	// Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
@@ -39,92 +39,92 @@ func (servers FlexibleServers_SpecARM) GetType() string {
 	return "Microsoft.DBforMySQL/flexibleServers"
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/ServerProperties
+// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/ServerProperties
 type ServerPropertiesARM struct {
-	//AdministratorLogin: The administrator's login name of a server. Can only be specified when the server is being created
-	//(and is required for creation).
+	// AdministratorLogin: The administrator's login name of a server. Can only be specified when the server is being created
+	// (and is required for creation).
 	AdministratorLogin *string `json:"administratorLogin,omitempty"`
 
-	//AdministratorLoginPassword: The password of the administrator login (required for server creation).
+	// AdministratorLoginPassword: The password of the administrator login (required for server creation).
 	AdministratorLoginPassword *string `json:"administratorLoginPassword,omitempty"`
 
-	//AvailabilityZone: availability Zone information of the server.
+	// AvailabilityZone: availability Zone information of the server.
 	AvailabilityZone *string `json:"availabilityZone,omitempty"`
 
-	//Backup: Storage Profile properties of a server
+	// Backup: Storage Profile properties of a server
 	Backup *BackupARM `json:"backup,omitempty"`
 
-	//CreateMode: The mode to create a new MySQL server.
+	// CreateMode: The mode to create a new MySQL server.
 	CreateMode *ServerPropertiesCreateMode `json:"createMode,omitempty"`
 
-	//HighAvailability: Network related properties of a server
+	// HighAvailability: Network related properties of a server
 	HighAvailability *HighAvailabilityARM `json:"highAvailability,omitempty"`
 
-	//MaintenanceWindow: Maintenance window of a server.
+	// MaintenanceWindow: Maintenance window of a server.
 	MaintenanceWindow *MaintenanceWindowARM `json:"maintenanceWindow,omitempty"`
 
-	//Network: Network related properties of a server
+	// Network: Network related properties of a server
 	Network *NetworkARM `json:"network,omitempty"`
 
-	//ReplicationRole: The replication role.
+	// ReplicationRole: The replication role.
 	ReplicationRole *ServerPropertiesReplicationRole `json:"replicationRole,omitempty"`
 
-	//RestorePointInTime: Restore point creation time (ISO8601 format), specifying the time to restore from.
+	// RestorePointInTime: Restore point creation time (ISO8601 format), specifying the time to restore from.
 	RestorePointInTime *string `json:"restorePointInTime,omitempty"`
 
-	//SourceServerResourceId: The source MySQL server id.
+	// SourceServerResourceId: The source MySQL server id.
 	SourceServerResourceId *string `json:"sourceServerResourceId,omitempty"`
 
-	//Storage: Storage Profile properties of a server
+	// Storage: Storage Profile properties of a server
 	Storage *StorageARM `json:"storage,omitempty"`
 
-	//Version: Server version.
+	// Version: Server version.
 	Version *ServerPropertiesVersion `json:"version,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Sku
+// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Sku
 type SkuARM struct {
-	//Name: The name of the sku, e.g. Standard_D32s_v3.
+	// Name: The name of the sku, e.g. Standard_D32s_v3.
 	Name *string `json:"name,omitempty"`
 
-	//Tier: The tier of the particular SKU, e.g. GeneralPurpose.
+	// Tier: The tier of the particular SKU, e.g. GeneralPurpose.
 	Tier *SkuTier `json:"tier,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Backup
+// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Backup
 type BackupARM struct {
-	//BackupRetentionDays: Backup retention days for the server.
+	// BackupRetentionDays: Backup retention days for the server.
 	BackupRetentionDays *int `json:"backupRetentionDays,omitempty"`
 
-	//GeoRedundantBackup: Whether or not geo redundant backup is enabled.
+	// GeoRedundantBackup: Whether or not geo redundant backup is enabled.
 	GeoRedundantBackup *BackupGeoRedundantBackup `json:"geoRedundantBackup,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/HighAvailability
+// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/HighAvailability
 type HighAvailabilityARM struct {
-	//Mode: High availability mode for a server.
+	// Mode: High availability mode for a server.
 	Mode *HighAvailabilityMode `json:"mode,omitempty"`
 
-	//StandbyAvailabilityZone: Availability zone of the standby server.
+	// StandbyAvailabilityZone: Availability zone of the standby server.
 	StandbyAvailabilityZone *string `json:"standbyAvailabilityZone,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/MaintenanceWindow
+// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/MaintenanceWindow
 type MaintenanceWindowARM struct {
-	//CustomWindow: indicates whether custom window is enabled or disabled
+	// CustomWindow: indicates whether custom window is enabled or disabled
 	CustomWindow *string `json:"customWindow,omitempty"`
 
-	//DayOfWeek: day of week for maintenance window
+	// DayOfWeek: day of week for maintenance window
 	DayOfWeek *int `json:"dayOfWeek,omitempty"`
 
-	//StartHour: start hour for maintenance window
+	// StartHour: start hour for maintenance window
 	StartHour *int `json:"startHour,omitempty"`
 
-	//StartMinute: start minute for maintenance window
+	// StartMinute: start minute for maintenance window
 	StartMinute *int `json:"startMinute,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Network
+// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Network
 type NetworkARM struct {
 	DelegatedSubnetResourceId *string `json:"delegatedSubnetResourceId,omitempty"`
 	PrivateDnsZoneResourceId  *string `json:"privateDnsZoneResourceId,omitempty"`
@@ -139,14 +139,14 @@ const (
 	SkuTierMemoryOptimized = SkuTier("MemoryOptimized")
 )
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Storage
+// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Storage
 type StorageARM struct {
-	//AutoGrow: Enable Storage Auto Grow or not.
+	// AutoGrow: Enable Storage Auto Grow or not.
 	AutoGrow *StorageAutoGrow `json:"autoGrow,omitempty"`
 
-	//Iops: Storage IOPS for a server.
+	// Iops: Storage IOPS for a server.
 	Iops *int `json:"iops,omitempty"`
 
-	//StorageSizeGB: Max storage size allowed for a server.
+	// StorageSizeGB: Max storage size allowed for a server.
 	StorageSizeGB *int `json:"storageSizeGB,omitempty"`
 }

@@ -5,7 +5,7 @@ package v1alpha1api20210515
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-//Deprecated version of DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec. Use v1beta20210515.DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec instead
+// Deprecated version of DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec. Use v1beta20210515.DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec instead
 type DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SpecARM struct {
 	Location   *string                                          `json:"location,omitempty"`
 	Name       string                                           `json:"name,omitempty"`
@@ -30,13 +30,13 @@ func (functions DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SpecA
 	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/userDefinedFunctions"
 }
 
-//Deprecated version of SqlUserDefinedFunctionCreateUpdateProperties. Use v1beta20210515.SqlUserDefinedFunctionCreateUpdateProperties instead
+// Deprecated version of SqlUserDefinedFunctionCreateUpdateProperties. Use v1beta20210515.SqlUserDefinedFunctionCreateUpdateProperties instead
 type SqlUserDefinedFunctionCreateUpdatePropertiesARM struct {
 	Options  *CreateUpdateOptionsARM            `json:"options,omitempty"`
 	Resource *SqlUserDefinedFunctionResourceARM `json:"resource,omitempty"`
 }
 
-//Deprecated version of SqlUserDefinedFunctionResource. Use v1beta20210515.SqlUserDefinedFunctionResource instead
+// Deprecated version of SqlUserDefinedFunctionResource. Use v1beta20210515.SqlUserDefinedFunctionResource instead
 type SqlUserDefinedFunctionResourceARM struct {
 	Body *string `json:"body,omitempty"`
 	Id   *string `json:"id,omitempty"`

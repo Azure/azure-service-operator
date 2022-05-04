@@ -91,7 +91,7 @@ func RunPropertyAssignmentTestForStorageAccountsQueueService(subject StorageAcco
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -142,7 +142,7 @@ func RunJSONSerializationTestForStorageAccountsQueueService(subject StorageAccou
 }
 
 // Generator of StorageAccountsQueueService instances for property testing - lazily instantiated by
-//StorageAccountsQueueServiceGenerator()
+// StorageAccountsQueueServiceGenerator()
 var storageAccountsQueueServiceGenerator gopter.Gen
 
 // StorageAccountsQueueServiceGenerator returns a generator of StorageAccountsQueueService instances for property testing.
@@ -194,7 +194,7 @@ func RunPropertyAssignmentTestForQueueServicePropertiesStatus(subject QueueServi
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -245,7 +245,7 @@ func RunJSONSerializationTestForQueueServicePropertiesStatus(subject QueueServic
 }
 
 // Generator of QueueServiceProperties_Status instances for property testing - lazily instantiated by
-//QueueServicePropertiesStatusGenerator()
+// QueueServicePropertiesStatusGenerator()
 var queueServicePropertiesStatusGenerator gopter.Gen
 
 // QueueServicePropertiesStatusGenerator returns a generator of QueueServiceProperties_Status instances for property testing.
@@ -312,7 +312,7 @@ func RunPropertyAssignmentTestForStorageAccountsQueueServicesSpec(subject Storag
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -363,7 +363,7 @@ func RunJSONSerializationTestForStorageAccountsQueueServicesSpec(subject Storage
 }
 
 // Generator of StorageAccountsQueueServices_Spec instances for property testing - lazily instantiated by
-//StorageAccountsQueueServicesSpecGenerator()
+// StorageAccountsQueueServicesSpecGenerator()
 var storageAccountsQueueServicesSpecGenerator gopter.Gen
 
 // StorageAccountsQueueServicesSpecGenerator returns a generator of StorageAccountsQueueServices_Spec instances for property testing.

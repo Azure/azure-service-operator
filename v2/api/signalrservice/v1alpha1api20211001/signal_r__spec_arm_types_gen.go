@@ -8,7 +8,7 @@ import (
 	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 )
 
-//Deprecated version of SignalR_Spec. Use v1beta20211001.SignalR_Spec instead
+// Deprecated version of SignalR_Spec. Use v1beta20211001.SignalR_Spec instead
 type SignalR_SpecARM struct {
 	Identity   *ManagedIdentityARM   `json:"identity,omitempty"`
 	Kind       *SignalRSpecKind      `json:"kind,omitempty"`
@@ -36,20 +36,20 @@ func (signalR SignalR_SpecARM) GetType() string {
 	return "Microsoft.SignalRService/signalR"
 }
 
-//Deprecated version of ManagedIdentity. Use v1beta20211001.ManagedIdentity instead
+// Deprecated version of ManagedIdentity. Use v1beta20211001.ManagedIdentity instead
 type ManagedIdentityARM struct {
 	Type                   *ManagedIdentityType `json:"type,omitempty"`
 	UserAssignedIdentities map[string]v1.JSON   `json:"userAssignedIdentities,omitempty"`
 }
 
-//Deprecated version of ResourceSku. Use v1beta20211001.ResourceSku instead
+// Deprecated version of ResourceSku. Use v1beta20211001.ResourceSku instead
 type ResourceSkuARM struct {
 	Capacity *int             `json:"capacity,omitempty"`
 	Name     *string          `json:"name,omitempty"`
 	Tier     *ResourceSkuTier `json:"tier,omitempty"`
 }
 
-//Deprecated version of SignalRProperties. Use v1beta20211001.SignalRProperties instead
+// Deprecated version of SignalRProperties. Use v1beta20211001.SignalRProperties instead
 type SignalRPropertiesARM struct {
 	Cors                     *SignalRCorsSettingsARM        `json:"cors,omitempty"`
 	DisableAadAuth           *bool                          `json:"disableAadAuth,omitempty"`
@@ -62,7 +62,7 @@ type SignalRPropertiesARM struct {
 	Upstream                 *ServerlessUpstreamSettingsARM `json:"upstream,omitempty"`
 }
 
-//Deprecated version of SignalRSpecKind. Use v1beta20211001.SignalRSpecKind instead
+// Deprecated version of SignalRSpecKind. Use v1beta20211001.SignalRSpecKind instead
 // +kubebuilder:validation:Enum={"RawWebSockets","SignalR"}
 type SignalRSpecKind string
 
@@ -71,7 +71,7 @@ const (
 	SignalRSpecKindSignalR       = SignalRSpecKind("SignalR")
 )
 
-//Deprecated version of ManagedIdentityType. Use v1beta20211001.ManagedIdentityType instead
+// Deprecated version of ManagedIdentityType. Use v1beta20211001.ManagedIdentityType instead
 // +kubebuilder:validation:Enum={"None","SystemAssigned","UserAssigned"}
 type ManagedIdentityType string
 
@@ -81,12 +81,12 @@ const (
 	ManagedIdentityTypeUserAssigned   = ManagedIdentityType("UserAssigned")
 )
 
-//Deprecated version of ResourceLogConfiguration. Use v1beta20211001.ResourceLogConfiguration instead
+// Deprecated version of ResourceLogConfiguration. Use v1beta20211001.ResourceLogConfiguration instead
 type ResourceLogConfigurationARM struct {
 	Categories []ResourceLogCategoryARM `json:"categories,omitempty"`
 }
 
-//Deprecated version of ResourceSkuTier. Use v1beta20211001.ResourceSkuTier instead
+// Deprecated version of ResourceSkuTier. Use v1beta20211001.ResourceSkuTier instead
 // +kubebuilder:validation:Enum={"Basic","Free","Premium","Standard"}
 type ResourceSkuTier string
 
@@ -97,55 +97,55 @@ const (
 	ResourceSkuTierStandard = ResourceSkuTier("Standard")
 )
 
-//Deprecated version of ServerlessUpstreamSettings. Use v1beta20211001.ServerlessUpstreamSettings instead
+// Deprecated version of ServerlessUpstreamSettings. Use v1beta20211001.ServerlessUpstreamSettings instead
 type ServerlessUpstreamSettingsARM struct {
 	Templates []UpstreamTemplateARM `json:"templates,omitempty"`
 }
 
-//Deprecated version of SignalRCorsSettings. Use v1beta20211001.SignalRCorsSettings instead
+// Deprecated version of SignalRCorsSettings. Use v1beta20211001.SignalRCorsSettings instead
 type SignalRCorsSettingsARM struct {
 	AllowedOrigins []string `json:"allowedOrigins,omitempty"`
 }
 
-//Deprecated version of SignalRFeature. Use v1beta20211001.SignalRFeature instead
+// Deprecated version of SignalRFeature. Use v1beta20211001.SignalRFeature instead
 type SignalRFeatureARM struct {
 	Flag       *SignalRFeatureFlag `json:"flag,omitempty"`
 	Properties map[string]string   `json:"properties,omitempty"`
 	Value      *string             `json:"value,omitempty"`
 }
 
-//Deprecated version of SignalRNetworkACLs. Use v1beta20211001.SignalRNetworkACLs instead
+// Deprecated version of SignalRNetworkACLs. Use v1beta20211001.SignalRNetworkACLs instead
 type SignalRNetworkACLsARM struct {
 	DefaultAction    *SignalRNetworkACLsDefaultAction `json:"defaultAction,omitempty"`
 	PrivateEndpoints []PrivateEndpointACLARM          `json:"privateEndpoints,omitempty"`
 	PublicNetwork    *NetworkACLARM                   `json:"publicNetwork,omitempty"`
 }
 
-//Deprecated version of SignalRTlsSettings. Use v1beta20211001.SignalRTlsSettings instead
+// Deprecated version of SignalRTlsSettings. Use v1beta20211001.SignalRTlsSettings instead
 type SignalRTlsSettingsARM struct {
 	ClientCertEnabled *bool `json:"clientCertEnabled,omitempty"`
 }
 
-//Deprecated version of NetworkACL. Use v1beta20211001.NetworkACL instead
+// Deprecated version of NetworkACL. Use v1beta20211001.NetworkACL instead
 type NetworkACLARM struct {
 	Allow []NetworkACLAllow `json:"allow,omitempty"`
 	Deny  []NetworkACLDeny  `json:"deny,omitempty"`
 }
 
-//Deprecated version of PrivateEndpointACL. Use v1beta20211001.PrivateEndpointACL instead
+// Deprecated version of PrivateEndpointACL. Use v1beta20211001.PrivateEndpointACL instead
 type PrivateEndpointACLARM struct {
 	Allow []PrivateEndpointACLAllow `json:"allow,omitempty"`
 	Deny  []PrivateEndpointACLDeny  `json:"deny,omitempty"`
 	Name  *string                   `json:"name,omitempty"`
 }
 
-//Deprecated version of ResourceLogCategory. Use v1beta20211001.ResourceLogCategory instead
+// Deprecated version of ResourceLogCategory. Use v1beta20211001.ResourceLogCategory instead
 type ResourceLogCategoryARM struct {
 	Enabled *string `json:"enabled,omitempty"`
 	Name    *string `json:"name,omitempty"`
 }
 
-//Deprecated version of UpstreamTemplate. Use v1beta20211001.UpstreamTemplate instead
+// Deprecated version of UpstreamTemplate. Use v1beta20211001.UpstreamTemplate instead
 type UpstreamTemplateARM struct {
 	Auth            *UpstreamAuthSettingsARM `json:"auth,omitempty"`
 	CategoryPattern *string                  `json:"categoryPattern,omitempty"`
@@ -154,13 +154,13 @@ type UpstreamTemplateARM struct {
 	UrlTemplate     *string                  `json:"urlTemplate,omitempty"`
 }
 
-//Deprecated version of UpstreamAuthSettings. Use v1beta20211001.UpstreamAuthSettings instead
+// Deprecated version of UpstreamAuthSettings. Use v1beta20211001.UpstreamAuthSettings instead
 type UpstreamAuthSettingsARM struct {
 	ManagedIdentity *ManagedIdentitySettingsARM `json:"managedIdentity,omitempty"`
 	Type            *UpstreamAuthSettingsType   `json:"type,omitempty"`
 }
 
-//Deprecated version of ManagedIdentitySettings. Use v1beta20211001.ManagedIdentitySettings instead
+// Deprecated version of ManagedIdentitySettings. Use v1beta20211001.ManagedIdentitySettings instead
 type ManagedIdentitySettingsARM struct {
 	Resource *string `json:"resource,omitempty"`
 }

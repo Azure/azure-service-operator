@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Generated from: https://schema.management.azure.com/schemas/2020-08-01-preview/Microsoft.Authorization.Authz.json#/unknown_resourceDefinitions/roleAssignments
+// Generated from: https://schema.management.azure.com/schemas/2020-08-01-preview/Microsoft.Authorization.Authz.json#/unknown_resourceDefinitions/roleAssignments
 type RoleAssignment struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -299,7 +299,7 @@ func (assignment *RoleAssignment) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://schema.management.azure.com/schemas/2020-08-01-preview/Microsoft.Authorization.Authz.json#/unknown_resourceDefinitions/roleAssignments
+// Generated from: https://schema.management.azure.com/schemas/2020-08-01-preview/Microsoft.Authorization.Authz.json#/unknown_resourceDefinitions/roleAssignments
 type RoleAssignmentList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -307,54 +307,54 @@ type RoleAssignmentList struct {
 }
 
 type RoleAssignment_Status struct {
-	//Condition: The conditions on the role assignment. This limits the resources it can be assigned to. e.g.:
-	//@Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName] StringEqualsIgnoreCase
-	//'foo_storage_container'
+	// Condition: The conditions on the role assignment. This limits the resources it can be assigned to. e.g.:
+	// @Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName] StringEqualsIgnoreCase
+	// 'foo_storage_container'
 	Condition *string `json:"condition,omitempty"`
 
-	//ConditionVersion: Version of the condition. Currently accepted value is '2.0'
+	// ConditionVersion: Version of the condition. Currently accepted value is '2.0'
 	ConditionVersion *string `json:"conditionVersion,omitempty"`
 
-	//Conditions: The observed state of the resource
+	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
-	//CreatedBy: Id of the user who created the assignment
+	// CreatedBy: Id of the user who created the assignment
 	CreatedBy *string `json:"createdBy,omitempty"`
 
-	//CreatedOn: Time it was created
+	// CreatedOn: Time it was created
 	CreatedOn *string `json:"createdOn,omitempty"`
 
-	//DelegatedManagedIdentityResourceId: Id of the delegated managed identity resource
+	// DelegatedManagedIdentityResourceId: Id of the delegated managed identity resource
 	DelegatedManagedIdentityResourceId *string `json:"delegatedManagedIdentityResourceId,omitempty"`
 
-	//Description: Description of role assignment
+	// Description: Description of role assignment
 	Description *string `json:"description,omitempty"`
 
-	//Id: The role assignment ID.
+	// Id: The role assignment ID.
 	Id *string `json:"id,omitempty"`
 
-	//Name: The role assignment name.
+	// Name: The role assignment name.
 	Name *string `json:"name,omitempty"`
 
-	//PrincipalId: The principal ID.
+	// PrincipalId: The principal ID.
 	PrincipalId *string `json:"principalId,omitempty"`
 
-	//PrincipalType: The principal type of the assigned principal ID.
+	// PrincipalType: The principal type of the assigned principal ID.
 	PrincipalType *RoleAssignmentPropertiesStatusPrincipalType `json:"principalType,omitempty"`
 
-	//RoleDefinitionId: The role definition ID.
+	// RoleDefinitionId: The role definition ID.
 	RoleDefinitionId *string `json:"roleDefinitionId,omitempty"`
 
-	//Scope: The role assignment scope.
+	// Scope: The role assignment scope.
 	Scope *string `json:"scope,omitempty"`
 
-	//Type: The role assignment type.
+	// Type: The role assignment type.
 	Type *string `json:"type,omitempty"`
 
-	//UpdatedBy: Id of the user who updated the assignment
+	// UpdatedBy: Id of the user who updated the assignment
 	UpdatedBy *string `json:"updatedBy,omitempty"`
 
-	//UpdatedOn: Time it was updated
+	// UpdatedOn: Time it was updated
 	UpdatedOn *string `json:"updatedOn,omitempty"`
 }
 
@@ -689,45 +689,45 @@ type RoleAssignmentsSpecAPIVersion string
 const RoleAssignmentsSpecAPIVersion20200801Preview = RoleAssignmentsSpecAPIVersion("2020-08-01-preview")
 
 type RoleAssignments_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
-	//Condition: The conditions on the role assignment. This limits the resources it can be assigned to. e.g.:
-	//@Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName] StringEqualsIgnoreCase
-	//'foo_storage_container'
+	// Condition: The conditions on the role assignment. This limits the resources it can be assigned to. e.g.:
+	// @Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName] StringEqualsIgnoreCase
+	// 'foo_storage_container'
 	Condition *string `json:"condition,omitempty"`
 
-	//ConditionVersion: Version of the condition. Currently accepted value is '2.0'
+	// ConditionVersion: Version of the condition. Currently accepted value is '2.0'
 	ConditionVersion *string `json:"conditionVersion,omitempty"`
 
-	//DelegatedManagedIdentityResourceId: Id of the delegated managed identity resource
+	// DelegatedManagedIdentityResourceId: Id of the delegated managed identity resource
 	DelegatedManagedIdentityResourceId *string `json:"delegatedManagedIdentityResourceId,omitempty"`
 
-	//Description: Description of role assignment
+	// Description: Description of role assignment
 	Description *string `json:"description,omitempty"`
 
-	//Location: Location to deploy resource to
+	// Location: Location to deploy resource to
 	Location *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. This resource is an
-	//extension resource, which means that any other Azure resource can be its owner.
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. This resource is an
+	// extension resource, which means that any other Azure resource can be its owner.
 	Owner *genruntime.ArbitraryOwnerReference `json:"owner,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//PrincipalId: The principal ID.
+	// PrincipalId: The principal ID.
 	PrincipalId *string `json:"principalId,omitempty"`
 
-	//PrincipalType: The principal type of the assigned principal ID.
+	// PrincipalType: The principal type of the assigned principal ID.
 	PrincipalType *RoleAssignmentPropertiesPrincipalType `json:"principalType,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//RoleDefinitionReference: The role definition ID.
+	// RoleDefinitionReference: The role definition ID.
 	RoleDefinitionReference *genruntime.ResourceReference `armReference:"RoleDefinitionId" json:"roleDefinitionReference,omitempty"`
 
-	//Tags: Name-value pairs to add to the resource
+	// Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
 }
 

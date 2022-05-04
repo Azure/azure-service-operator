@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1alpha1api20201101
 
-//Deprecated version of SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded. Use v1beta20201101.SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded instead
+// Deprecated version of SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded. Use v1beta20201101.SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded instead
 type SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbeddedARM struct {
 	Etag       *string                                 `json:"etag,omitempty"`
 	Id         *string                                 `json:"id,omitempty"`
@@ -12,7 +12,7 @@ type SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbeddedAR
 	Type       *string                                 `json:"type,omitempty"`
 }
 
-//Deprecated version of SecurityRulePropertiesFormat_Status. Use v1beta20201101.SecurityRulePropertiesFormat_Status instead
+// Deprecated version of SecurityRulePropertiesFormat_Status. Use v1beta20201101.SecurityRulePropertiesFormat_Status instead
 type SecurityRulePropertiesFormat_StatusARM struct {
 	Access                               *SecurityRuleAccess_Status                                                                 `json:"access,omitempty"`
 	Description                          *string                                                                                    `json:"description,omitempty"`
@@ -32,7 +32,7 @@ type SecurityRulePropertiesFormat_StatusARM struct {
 	SourcePortRanges                     []string                                                                                   `json:"sourcePortRanges,omitempty"`
 }
 
-//Deprecated version of ApplicationSecurityGroup_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded. Use v1beta20201101.ApplicationSecurityGroup_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded instead
+// Deprecated version of ApplicationSecurityGroup_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded. Use v1beta20201101.ApplicationSecurityGroup_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded instead
 type ApplicationSecurityGroup_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbeddedARM struct {
 	Id *string `json:"id,omitempty"`
 }

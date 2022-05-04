@@ -56,7 +56,7 @@ func RunJSONSerializationTestForMongodbDatabaseCollectionThroughputSetting(subje
 }
 
 // Generator of MongodbDatabaseCollectionThroughputSetting instances for property testing - lazily instantiated by
-//MongodbDatabaseCollectionThroughputSettingGenerator()
+// MongodbDatabaseCollectionThroughputSettingGenerator()
 var mongodbDatabaseCollectionThroughputSettingGenerator gopter.Gen
 
 // MongodbDatabaseCollectionThroughputSettingGenerator returns a generator of MongodbDatabaseCollectionThroughputSetting instances for property testing.
@@ -117,7 +117,7 @@ func RunJSONSerializationTestForDatabaseAccountsMongodbDatabasesCollectionsThrou
 }
 
 // Generator of DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec instances for property testing -
-//lazily instantiated by DatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpecGenerator()
+// lazily instantiated by DatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpecGenerator()
 var databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpecGenerator gopter.Gen
 
 // DatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpecGenerator returns a generator of DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec instances for property testing.
@@ -193,7 +193,7 @@ func RunJSONSerializationTestForThroughputSettingsGetResultsStatus(subject Throu
 }
 
 // Generator of ThroughputSettingsGetResults_Status instances for property testing - lazily instantiated by
-//ThroughputSettingsGetResultsStatusGenerator()
+// ThroughputSettingsGetResultsStatusGenerator()
 var throughputSettingsGetResultsStatusGenerator gopter.Gen
 
 // ThroughputSettingsGetResultsStatusGenerator returns a generator of ThroughputSettingsGetResults_Status instances for property testing.
@@ -271,7 +271,7 @@ func RunJSONSerializationTestForThroughputSettingsGetPropertiesStatusResource(su
 }
 
 // Generator of ThroughputSettingsGetProperties_Status_Resource instances for property testing - lazily instantiated by
-//ThroughputSettingsGetPropertiesStatusResourceGenerator()
+// ThroughputSettingsGetPropertiesStatusResourceGenerator()
 var throughputSettingsGetPropertiesStatusResourceGenerator gopter.Gen
 
 // ThroughputSettingsGetPropertiesStatusResourceGenerator returns a generator of ThroughputSettingsGetProperties_Status_Resource instances for property testing.
@@ -350,7 +350,7 @@ func RunJSONSerializationTestForThroughputSettingsResource(subject ThroughputSet
 }
 
 // Generator of ThroughputSettingsResource instances for property testing - lazily instantiated by
-//ThroughputSettingsResourceGenerator()
+// ThroughputSettingsResourceGenerator()
 var throughputSettingsResourceGenerator gopter.Gen
 
 // ThroughputSettingsResourceGenerator returns a generator of ThroughputSettingsResource instances for property testing.
@@ -424,7 +424,7 @@ func RunJSONSerializationTestForAutoscaleSettingsResource(subject AutoscaleSetti
 }
 
 // Generator of AutoscaleSettingsResource instances for property testing - lazily instantiated by
-//AutoscaleSettingsResourceGenerator()
+// AutoscaleSettingsResourceGenerator()
 var autoscaleSettingsResourceGenerator gopter.Gen
 
 // AutoscaleSettingsResourceGenerator returns a generator of AutoscaleSettingsResource instances for property testing.
@@ -498,7 +498,7 @@ func RunJSONSerializationTestForAutoscaleSettingsResourceStatus(subject Autoscal
 }
 
 // Generator of AutoscaleSettingsResource_Status instances for property testing - lazily instantiated by
-//AutoscaleSettingsResourceStatusGenerator()
+// AutoscaleSettingsResourceStatusGenerator()
 var autoscaleSettingsResourceStatusGenerator gopter.Gen
 
 // AutoscaleSettingsResourceStatusGenerator returns a generator of AutoscaleSettingsResource_Status instances for property testing.
@@ -573,7 +573,7 @@ func RunJSONSerializationTestForAutoUpgradePolicyResource(subject AutoUpgradePol
 }
 
 // Generator of AutoUpgradePolicyResource instances for property testing - lazily instantiated by
-//AutoUpgradePolicyResourceGenerator()
+// AutoUpgradePolicyResourceGenerator()
 var autoUpgradePolicyResourceGenerator gopter.Gen
 
 // AutoUpgradePolicyResourceGenerator returns a generator of AutoUpgradePolicyResource instances for property testing.
@@ -633,7 +633,7 @@ func RunJSONSerializationTestForAutoUpgradePolicyResourceStatus(subject AutoUpgr
 }
 
 // Generator of AutoUpgradePolicyResource_Status instances for property testing - lazily instantiated by
-//AutoUpgradePolicyResourceStatusGenerator()
+// AutoUpgradePolicyResourceStatusGenerator()
 var autoUpgradePolicyResourceStatusGenerator gopter.Gen
 
 // AutoUpgradePolicyResourceStatusGenerator returns a generator of AutoUpgradePolicyResource_Status instances for property testing.
@@ -693,7 +693,7 @@ func RunJSONSerializationTestForThroughputPolicyResource(subject ThroughputPolic
 }
 
 // Generator of ThroughputPolicyResource instances for property testing - lazily instantiated by
-//ThroughputPolicyResourceGenerator()
+// ThroughputPolicyResourceGenerator()
 var throughputPolicyResourceGenerator gopter.Gen
 
 // ThroughputPolicyResourceGenerator returns a generator of ThroughputPolicyResource instances for property testing.
@@ -754,7 +754,7 @@ func RunJSONSerializationTestForThroughputPolicyResourceStatus(subject Throughpu
 }
 
 // Generator of ThroughputPolicyResource_Status instances for property testing - lazily instantiated by
-//ThroughputPolicyResourceStatusGenerator()
+// ThroughputPolicyResourceStatusGenerator()
 var throughputPolicyResourceStatusGenerator gopter.Gen
 
 // ThroughputPolicyResourceStatusGenerator returns a generator of ThroughputPolicyResource_Status instances for property testing.

@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1alpha1api20210515
 
-//Deprecated version of SqlDatabaseGetResults_Status. Use v1beta20210515.SqlDatabaseGetResults_Status instead
+// Deprecated version of SqlDatabaseGetResults_Status. Use v1beta20210515.SqlDatabaseGetResults_Status instead
 type SqlDatabaseGetResults_StatusARM struct {
 	Id         *string                             `json:"id,omitempty"`
 	Location   *string                             `json:"location,omitempty"`
@@ -13,13 +13,13 @@ type SqlDatabaseGetResults_StatusARM struct {
 	Type       *string                             `json:"type,omitempty"`
 }
 
-//Deprecated version of SqlDatabaseGetProperties_Status. Use v1beta20210515.SqlDatabaseGetProperties_Status instead
+// Deprecated version of SqlDatabaseGetProperties_Status. Use v1beta20210515.SqlDatabaseGetProperties_Status instead
 type SqlDatabaseGetProperties_StatusARM struct {
 	Options  *OptionsResource_StatusARM                   `json:"options,omitempty"`
 	Resource *SqlDatabaseGetProperties_Status_ResourceARM `json:"resource,omitempty"`
 }
 
-//Deprecated version of SqlDatabaseGetProperties_Status_Resource. Use v1beta20210515.SqlDatabaseGetProperties_Status_Resource instead
+// Deprecated version of SqlDatabaseGetProperties_Status_Resource. Use v1beta20210515.SqlDatabaseGetProperties_Status_Resource instead
 type SqlDatabaseGetProperties_Status_ResourceARM struct {
 	Colls *string  `json:"_colls,omitempty"`
 	Etag  *string  `json:"_etag,omitempty"`

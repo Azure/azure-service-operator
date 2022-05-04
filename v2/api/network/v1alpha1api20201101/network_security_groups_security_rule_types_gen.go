@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Deprecated version of NetworkSecurityGroupsSecurityRule. Use v1beta20201101.NetworkSecurityGroupsSecurityRule instead
+// Deprecated version of NetworkSecurityGroupsSecurityRule. Use v1beta20201101.NetworkSecurityGroupsSecurityRule instead
 type NetworkSecurityGroupsSecurityRule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -314,7 +314,7 @@ func (rule *NetworkSecurityGroupsSecurityRule) OriginalGVK() *schema.GroupVersio
 }
 
 // +kubebuilder:object:root=true
-//Deprecated version of NetworkSecurityGroupsSecurityRule. Use v1beta20201101.NetworkSecurityGroupsSecurityRule instead
+// Deprecated version of NetworkSecurityGroupsSecurityRule. Use v1beta20201101.NetworkSecurityGroupsSecurityRule instead
 type NetworkSecurityGroupsSecurityRuleList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -325,8 +325,8 @@ type NetworkSecurityGroupsSecurityRules_Spec struct {
 	// +kubebuilder:validation:Required
 	Access *SecurityRulePropertiesFormatAccess `json:"access,omitempty"`
 
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName                            string        `json:"azureName,omitempty"`
 	Description                          *string       `json:"description,omitempty"`
 	DestinationAddressPrefix             *string       `json:"destinationAddressPrefix,omitempty"`
@@ -340,9 +340,9 @@ type NetworkSecurityGroupsSecurityRules_Spec struct {
 	Location  *string                                `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a network.azure.com/NetworkSecurityGroup resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a network.azure.com/NetworkSecurityGroup resource
 	Owner *genruntime.KnownResourceReference `group:"network.azure.com" json:"owner,omitempty" kind:"NetworkSecurityGroup"`
 
 	// +kubebuilder:validation:Required
@@ -944,11 +944,11 @@ func (rules *NetworkSecurityGroupsSecurityRules_Spec) SetAzureName(azureName str
 	rules.AzureName = azureName
 }
 
-//Deprecated version of SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded. Use v1beta20201101.SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded instead
+// Deprecated version of SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded. Use v1beta20201101.SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded instead
 type SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded struct {
 	Access *SecurityRuleAccess_Status `json:"access,omitempty"`
 
-	//Conditions: The observed state of the resource
+	// Conditions: The observed state of the resource
 	Conditions                           []conditions.Condition                                                                  `json:"conditions,omitempty"`
 	Description                          *string                                                                                 `json:"description,omitempty"`
 	DestinationAddressPrefix             *string                                                                                 `json:"destinationAddressPrefix,omitempty"`
@@ -1462,7 +1462,7 @@ func (embedded *SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourc
 	return nil
 }
 
-//Deprecated version of ApplicationSecurityGroup_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded. Use v1beta20201101.ApplicationSecurityGroup_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded instead
+// Deprecated version of ApplicationSecurityGroup_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded. Use v1beta20201101.ApplicationSecurityGroup_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded instead
 type ApplicationSecurityGroup_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded struct {
 	Id *string `json:"id,omitempty"`
 }
@@ -1520,7 +1520,7 @@ func (embedded *ApplicationSecurityGroup_Status_NetworkSecurityGroupsSecurityRul
 	return nil
 }
 
-//Deprecated version of SecurityRuleAccess_Status. Use v1beta20201101.SecurityRuleAccess_Status instead
+// Deprecated version of SecurityRuleAccess_Status. Use v1beta20201101.SecurityRuleAccess_Status instead
 type SecurityRuleAccess_Status string
 
 const (
@@ -1528,7 +1528,7 @@ const (
 	SecurityRuleAccess_StatusDeny  = SecurityRuleAccess_Status("Deny")
 )
 
-//Deprecated version of SecurityRuleDirection_Status. Use v1beta20201101.SecurityRuleDirection_Status instead
+// Deprecated version of SecurityRuleDirection_Status. Use v1beta20201101.SecurityRuleDirection_Status instead
 type SecurityRuleDirection_Status string
 
 const (
@@ -1536,7 +1536,7 @@ const (
 	SecurityRuleDirection_StatusOutbound = SecurityRuleDirection_Status("Outbound")
 )
 
-//Deprecated version of SecurityRulePropertiesFormatAccess. Use v1beta20201101.SecurityRulePropertiesFormatAccess instead
+// Deprecated version of SecurityRulePropertiesFormatAccess. Use v1beta20201101.SecurityRulePropertiesFormatAccess instead
 // +kubebuilder:validation:Enum={"Allow","Deny"}
 type SecurityRulePropertiesFormatAccess string
 
@@ -1545,8 +1545,8 @@ const (
 	SecurityRulePropertiesFormatAccessDeny  = SecurityRulePropertiesFormatAccess("Deny")
 )
 
-//Deprecated version of SecurityRulePropertiesFormatDirection. Use v1beta20201101.SecurityRulePropertiesFormatDirection
-//instead
+// Deprecated version of SecurityRulePropertiesFormatDirection. Use v1beta20201101.SecurityRulePropertiesFormatDirection
+// instead
 // +kubebuilder:validation:Enum={"Inbound","Outbound"}
 type SecurityRulePropertiesFormatDirection string
 
@@ -1555,8 +1555,8 @@ const (
 	SecurityRulePropertiesFormatDirectionOutbound = SecurityRulePropertiesFormatDirection("Outbound")
 )
 
-//Deprecated version of SecurityRulePropertiesFormatProtocol. Use v1beta20201101.SecurityRulePropertiesFormatProtocol
-//instead
+// Deprecated version of SecurityRulePropertiesFormatProtocol. Use v1beta20201101.SecurityRulePropertiesFormatProtocol
+// instead
 // +kubebuilder:validation:Enum={"Ah","Esp","Icmp","*","Tcp","Udp"}
 type SecurityRulePropertiesFormatProtocol string
 
@@ -1569,8 +1569,8 @@ const (
 	SecurityRulePropertiesFormatProtocolUdp  = SecurityRulePropertiesFormatProtocol("Udp")
 )
 
-//Deprecated version of SecurityRulePropertiesFormatStatusProtocol. Use
-//v1beta20201101.SecurityRulePropertiesFormatStatusProtocol instead
+// Deprecated version of SecurityRulePropertiesFormatStatusProtocol. Use
+// v1beta20201101.SecurityRulePropertiesFormatStatusProtocol instead
 type SecurityRulePropertiesFormatStatusProtocol string
 
 const (

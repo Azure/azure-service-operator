@@ -56,7 +56,7 @@ func RunJSONSerializationTestForManagedClustersAgentPoolsSpecARM(subject Managed
 }
 
 // Generator of ManagedClustersAgentPools_SpecARM instances for property testing - lazily instantiated by
-//ManagedClustersAgentPoolsSpecARMGenerator()
+// ManagedClustersAgentPoolsSpecARMGenerator()
 var managedClustersAgentPoolsSpecARMGenerator gopter.Gen
 
 // ManagedClustersAgentPoolsSpecARMGenerator returns a generator of ManagedClustersAgentPools_SpecARM instances for property testing.
@@ -131,7 +131,7 @@ func RunJSONSerializationTestForManagedClusterAgentPoolProfilePropertiesARM(subj
 }
 
 // Generator of ManagedClusterAgentPoolProfilePropertiesARM instances for property testing - lazily instantiated by
-//ManagedClusterAgentPoolProfilePropertiesARMGenerator()
+// ManagedClusterAgentPoolProfilePropertiesARMGenerator()
 var managedClusterAgentPoolProfilePropertiesARMGenerator gopter.Gen
 
 // ManagedClusterAgentPoolProfilePropertiesARMGenerator returns a generator of ManagedClusterAgentPoolProfilePropertiesARM instances for property testing.
@@ -241,7 +241,7 @@ func RunJSONSerializationTestForAgentPoolUpgradeSettingsARM(subject AgentPoolUpg
 }
 
 // Generator of AgentPoolUpgradeSettingsARM instances for property testing - lazily instantiated by
-//AgentPoolUpgradeSettingsARMGenerator()
+// AgentPoolUpgradeSettingsARMGenerator()
 var agentPoolUpgradeSettingsARMGenerator gopter.Gen
 
 // AgentPoolUpgradeSettingsARMGenerator returns a generator of AgentPoolUpgradeSettingsARM instances for property testing.

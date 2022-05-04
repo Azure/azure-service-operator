@@ -9,12 +9,12 @@ import (
 	"github.com/pkg/errors"
 )
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json
+// Generated from: https://test.test/schemas/2020-01-01/test.json
 type Test struct {
-	//Either: Mutually exclusive with all other properties
+	// Either: Mutually exclusive with all other properties
 	Either *Test_Either `json:"either,omitempty"`
 
-	//Or: Mutually exclusive with all other properties
+	// Or: Mutually exclusive with all other properties
 	Or *Test_Or `json:"or,omitempty"`
 }
 

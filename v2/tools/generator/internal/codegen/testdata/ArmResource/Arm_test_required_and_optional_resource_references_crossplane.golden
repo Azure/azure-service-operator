@@ -13,7 +13,7 @@ import (
 
 // +kubebuilder:object:root=true
 // +kubebuilder:storageversion
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/FakeResource
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/FakeResource
 type FakeResource struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -21,7 +21,7 @@ type FakeResource struct {
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/FakeResource
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/FakeResource
 type FakeResourceList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -47,15 +47,15 @@ type FakeResourceParameters struct {
 	ResourceGroupNameSelector *v1alpha1.Selector      `json:"resourceGroupNameSelector,omitempty"`
 }
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/FakeResourceProperties
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/FakeResourceProperties
 type FakeResourceProperties struct {
-	//OptionalVNet: A string of the form
-	///subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}
+	// OptionalVNet: A string of the form
+	// /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}
 	OptionalVNet *string `json:"optionalVNet,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//RequiredVNet: A string of the form
-	///subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}
+	// RequiredVNet: A string of the form
+	// /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}
 	RequiredVNet *string `json:"requiredVNet,omitempty"`
 }
 

@@ -20,8 +20,8 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Storage version of v1alpha1api20201101.NetworkSecurityGroupsSecurityRule
-//Deprecated version of NetworkSecurityGroupsSecurityRule. Use v1beta20201101.NetworkSecurityGroupsSecurityRule instead
+// Storage version of v1alpha1api20201101.NetworkSecurityGroupsSecurityRule
+// Deprecated version of NetworkSecurityGroupsSecurityRule. Use v1beta20201101.NetworkSecurityGroupsSecurityRule instead
 type NetworkSecurityGroupsSecurityRule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -191,20 +191,20 @@ func (rule *NetworkSecurityGroupsSecurityRule) OriginalGVK() *schema.GroupVersio
 }
 
 // +kubebuilder:object:root=true
-//Storage version of v1alpha1api20201101.NetworkSecurityGroupsSecurityRule
-//Deprecated version of NetworkSecurityGroupsSecurityRule. Use v1beta20201101.NetworkSecurityGroupsSecurityRule instead
+// Storage version of v1alpha1api20201101.NetworkSecurityGroupsSecurityRule
+// Deprecated version of NetworkSecurityGroupsSecurityRule. Use v1beta20201101.NetworkSecurityGroupsSecurityRule instead
 type NetworkSecurityGroupsSecurityRuleList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []NetworkSecurityGroupsSecurityRule `json:"items"`
 }
 
-//Storage version of v1alpha1api20201101.NetworkSecurityGroupsSecurityRules_Spec
+// Storage version of v1alpha1api20201101.NetworkSecurityGroupsSecurityRules_Spec
 type NetworkSecurityGroupsSecurityRules_Spec struct {
 	Access *string `json:"access,omitempty"`
 
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName                            string        `json:"azureName,omitempty"`
 	Description                          *string       `json:"description,omitempty"`
 	DestinationAddressPrefix             *string       `json:"destinationAddressPrefix,omitempty"`
@@ -217,9 +217,9 @@ type NetworkSecurityGroupsSecurityRules_Spec struct {
 	OriginalVersion                      string        `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a network.azure.com/NetworkSecurityGroup resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a network.azure.com/NetworkSecurityGroup resource
 	Owner                           *genruntime.KnownResourceReference `group:"network.azure.com" json:"owner,omitempty" kind:"NetworkSecurityGroup"`
 	Priority                        *int                               `json:"priority,omitempty"`
 	PropertyBag                     genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
@@ -504,8 +504,8 @@ func (rules *NetworkSecurityGroupsSecurityRules_Spec) AssignPropertiesToNetworkS
 	return nil
 }
 
-//Storage version of v1alpha1api20201101.SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded
-//Deprecated version of SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded. Use v1beta20201101.SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded instead
+// Storage version of v1alpha1api20201101.SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded
+// Deprecated version of SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded. Use v1beta20201101.SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded instead
 type SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded struct {
 	Access                               *string                                                                                 `json:"access,omitempty"`
 	Conditions                           []conditions.Condition                                                                  `json:"conditions,omitempty"`
@@ -799,8 +799,8 @@ func (embedded *SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourc
 	return nil
 }
 
-//Storage version of v1alpha1api20201101.ApplicationSecurityGroup_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded
-//Deprecated version of ApplicationSecurityGroup_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded. Use v1beta20201101.ApplicationSecurityGroup_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded instead
+// Storage version of v1alpha1api20201101.ApplicationSecurityGroup_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded
+// Deprecated version of ApplicationSecurityGroup_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded. Use v1beta20201101.ApplicationSecurityGroup_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded instead
 type ApplicationSecurityGroup_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`

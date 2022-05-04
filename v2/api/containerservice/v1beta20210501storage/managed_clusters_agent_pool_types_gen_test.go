@@ -56,7 +56,7 @@ func RunJSONSerializationTestForManagedClustersAgentPool(subject ManagedClusters
 }
 
 // Generator of ManagedClustersAgentPool instances for property testing - lazily instantiated by
-//ManagedClustersAgentPoolGenerator()
+// ManagedClustersAgentPoolGenerator()
 var managedClustersAgentPoolGenerator gopter.Gen
 
 // ManagedClustersAgentPoolGenerator returns a generator of ManagedClustersAgentPool instances for property testing.
@@ -227,7 +227,7 @@ func RunJSONSerializationTestForManagedClustersAgentPoolsSpec(subject ManagedClu
 }
 
 // Generator of ManagedClustersAgentPools_Spec instances for property testing - lazily instantiated by
-//ManagedClustersAgentPoolsSpecGenerator()
+// ManagedClustersAgentPoolsSpecGenerator()
 var managedClustersAgentPoolsSpecGenerator gopter.Gen
 
 // ManagedClustersAgentPoolsSpecGenerator returns a generator of ManagedClustersAgentPools_Spec instances for property testing.
@@ -332,7 +332,7 @@ func RunJSONSerializationTestForAgentPoolUpgradeSettings(subject AgentPoolUpgrad
 }
 
 // Generator of AgentPoolUpgradeSettings instances for property testing - lazily instantiated by
-//AgentPoolUpgradeSettingsGenerator()
+// AgentPoolUpgradeSettingsGenerator()
 var agentPoolUpgradeSettingsGenerator gopter.Gen
 
 // AgentPoolUpgradeSettingsGenerator returns a generator of AgentPoolUpgradeSettings instances for property testing.
@@ -392,7 +392,7 @@ func RunJSONSerializationTestForAgentPoolUpgradeSettingsStatus(subject AgentPool
 }
 
 // Generator of AgentPoolUpgradeSettings_Status instances for property testing - lazily instantiated by
-//AgentPoolUpgradeSettingsStatusGenerator()
+// AgentPoolUpgradeSettingsStatusGenerator()
 var agentPoolUpgradeSettingsStatusGenerator gopter.Gen
 
 // AgentPoolUpgradeSettingsStatusGenerator returns a generator of AgentPoolUpgradeSettings_Status instances for property testing.
@@ -521,7 +521,7 @@ func RunJSONSerializationTestForKubeletConfigStatus(subject KubeletConfig_Status
 }
 
 // Generator of KubeletConfig_Status instances for property testing - lazily instantiated by
-//KubeletConfigStatusGenerator()
+// KubeletConfigStatusGenerator()
 var kubeletConfigStatusGenerator gopter.Gen
 
 // KubeletConfigStatusGenerator returns a generator of KubeletConfig_Status instances for property testing.
@@ -666,7 +666,7 @@ func RunJSONSerializationTestForLinuxOSConfigStatus(subject LinuxOSConfig_Status
 }
 
 // Generator of LinuxOSConfig_Status instances for property testing - lazily instantiated by
-//LinuxOSConfigStatusGenerator()
+// LinuxOSConfigStatusGenerator()
 var linuxOSConfigStatusGenerator gopter.Gen
 
 // LinuxOSConfigStatusGenerator returns a generator of LinuxOSConfig_Status instances for property testing.

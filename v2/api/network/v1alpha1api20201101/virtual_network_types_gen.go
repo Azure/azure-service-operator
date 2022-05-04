@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Deprecated version of VirtualNetwork. Use v1beta20201101.VirtualNetwork instead
+// Deprecated version of VirtualNetwork. Use v1beta20201101.VirtualNetwork instead
 type VirtualNetwork struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -314,19 +314,19 @@ func (network *VirtualNetwork) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Deprecated version of VirtualNetwork. Use v1beta20201101.VirtualNetwork instead
+// Deprecated version of VirtualNetwork. Use v1beta20201101.VirtualNetwork instead
 type VirtualNetworkList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []VirtualNetwork `json:"items"`
 }
 
-//Deprecated version of VirtualNetwork_Status. Use v1beta20201101.VirtualNetwork_Status instead
+// Deprecated version of VirtualNetwork_Status. Use v1beta20201101.VirtualNetwork_Status instead
 type VirtualNetwork_Status struct {
 	AddressSpace   *AddressSpace_Status                 `json:"addressSpace,omitempty"`
 	BgpCommunities *VirtualNetworkBgpCommunities_Status `json:"bgpCommunities,omitempty"`
 
-	//Conditions: The observed state of the resource
+	// Conditions: The observed state of the resource
 	Conditions           []conditions.Condition    `json:"conditions,omitempty"`
 	DdosProtectionPlan   *SubResource_Status       `json:"ddosProtectionPlan,omitempty"`
 	DhcpOptions          *DhcpOptions_Status       `json:"dhcpOptions,omitempty"`
@@ -847,8 +847,8 @@ type VirtualNetworks_Spec struct {
 	// +kubebuilder:validation:Required
 	AddressSpace *AddressSpace `json:"addressSpace,omitempty"`
 
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName            string                        `json:"azureName,omitempty"`
 	BgpCommunities       *VirtualNetworkBgpCommunities `json:"bgpCommunities,omitempty"`
 	DdosProtectionPlan   *SubResource                  `json:"ddosProtectionPlan,omitempty"`
@@ -860,9 +860,9 @@ type VirtualNetworks_Spec struct {
 	Location             *string                       `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a resources.azure.com/ResourceGroup resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	Tags  map[string]string                  `json:"tags,omitempty"`
 }
@@ -1405,7 +1405,7 @@ func (networks *VirtualNetworks_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (networks *VirtualNetworks_Spec) SetAzureName(azureName string) { networks.AzureName = azureName }
 
-//Deprecated version of AddressSpace. Use v1beta20201101.AddressSpace instead
+// Deprecated version of AddressSpace. Use v1beta20201101.AddressSpace instead
 type AddressSpace struct {
 	// +kubebuilder:validation:Required
 	AddressPrefixes []string `json:"addressPrefixes,omitempty"`
@@ -1477,7 +1477,7 @@ func (space *AddressSpace) AssignPropertiesToAddressSpace(destination *alpha2020
 	return nil
 }
 
-//Deprecated version of AddressSpace_Status. Use v1beta20201101.AddressSpace_Status instead
+// Deprecated version of AddressSpace_Status. Use v1beta20201101.AddressSpace_Status instead
 type AddressSpace_Status struct {
 	AddressPrefixes []string `json:"addressPrefixes,omitempty"`
 }
@@ -1534,7 +1534,7 @@ func (space *AddressSpace_Status) AssignPropertiesToAddressSpaceStatus(destinati
 	return nil
 }
 
-//Deprecated version of DhcpOptions. Use v1beta20201101.DhcpOptions instead
+// Deprecated version of DhcpOptions. Use v1beta20201101.DhcpOptions instead
 type DhcpOptions struct {
 	// +kubebuilder:validation:Required
 	DnsServers []string `json:"dnsServers,omitempty"`
@@ -1606,7 +1606,7 @@ func (options *DhcpOptions) AssignPropertiesToDhcpOptions(destination *alpha2020
 	return nil
 }
 
-//Deprecated version of DhcpOptions_Status. Use v1beta20201101.DhcpOptions_Status instead
+// Deprecated version of DhcpOptions_Status. Use v1beta20201101.DhcpOptions_Status instead
 type DhcpOptions_Status struct {
 	DnsServers []string `json:"dnsServers,omitempty"`
 }
@@ -1663,7 +1663,7 @@ func (options *DhcpOptions_Status) AssignPropertiesToDhcpOptionsStatus(destinati
 	return nil
 }
 
-//Deprecated version of VirtualNetworkBgpCommunities. Use v1beta20201101.VirtualNetworkBgpCommunities instead
+// Deprecated version of VirtualNetworkBgpCommunities. Use v1beta20201101.VirtualNetworkBgpCommunities instead
 type VirtualNetworkBgpCommunities struct {
 	// +kubebuilder:validation:Required
 	VirtualNetworkCommunity *string `json:"virtualNetworkCommunity,omitempty"`
@@ -1737,7 +1737,7 @@ func (communities *VirtualNetworkBgpCommunities) AssignPropertiesToVirtualNetwor
 	return nil
 }
 
-//Deprecated version of VirtualNetworkBgpCommunities_Status. Use v1beta20201101.VirtualNetworkBgpCommunities_Status instead
+// Deprecated version of VirtualNetworkBgpCommunities_Status. Use v1beta20201101.VirtualNetworkBgpCommunities_Status instead
 type VirtualNetworkBgpCommunities_Status struct {
 	RegionalCommunity       *string `json:"regionalCommunity,omitempty"`
 	VirtualNetworkCommunity *string `json:"virtualNetworkCommunity,omitempty"`

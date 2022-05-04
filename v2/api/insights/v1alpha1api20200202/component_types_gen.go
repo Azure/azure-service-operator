@@ -25,7 +25,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Deprecated version of Component. Use v1beta20200202.Component instead
+// Deprecated version of Component. Use v1beta20200202.Component instead
 type Component struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -315,20 +315,20 @@ func (component *Component) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Deprecated version of Component. Use v1beta20200202.Component instead
+// Deprecated version of Component. Use v1beta20200202.Component instead
 type ComponentList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Component `json:"items"`
 }
 
-//Deprecated version of ApplicationInsightsComponent_Status. Use v1beta20200202.ApplicationInsightsComponent_Status instead
+// Deprecated version of ApplicationInsightsComponent_Status. Use v1beta20200202.ApplicationInsightsComponent_Status instead
 type ApplicationInsightsComponent_Status struct {
 	AppId           *string                                                      `json:"AppId,omitempty"`
 	ApplicationId   *string                                                      `json:"ApplicationId,omitempty"`
 	ApplicationType *ApplicationInsightsComponentPropertiesStatusApplicationType `json:"Application_Type,omitempty"`
 
-	//Conditions: The observed state of the resource
+	// Conditions: The observed state of the resource
 	Conditions                      []conditions.Condition                                     `json:"conditions,omitempty"`
 	ConnectionString                *string                                                    `json:"ConnectionString,omitempty"`
 	CreationDate                    *string                                                    `json:"CreationDate,omitempty"`
@@ -1077,8 +1077,8 @@ type Components_Spec struct {
 	// +kubebuilder:validation:Required
 	ApplicationType *ApplicationInsightsComponentPropertiesApplicationType `json:"Application_Type,omitempty"`
 
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName                       string                                               `json:"azureName,omitempty"`
 	DisableIpMasking                *bool                                                `json:"DisableIpMasking,omitempty"`
 	DisableLocalAuth                *bool                                                `json:"DisableLocalAuth,omitempty"`
@@ -1094,9 +1094,9 @@ type Components_Spec struct {
 	Location *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a resources.azure.com/ResourceGroup resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
 	Owner                           *genruntime.KnownResourceReference                                     `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PublicNetworkAccessForIngestion *ApplicationInsightsComponentPropertiesPublicNetworkAccessForIngestion `json:"publicNetworkAccessForIngestion,omitempty"`
 	PublicNetworkAccessForQuery     *ApplicationInsightsComponentPropertiesPublicNetworkAccessForQuery     `json:"publicNetworkAccessForQuery,omitempty"`
@@ -1728,8 +1728,8 @@ func (components *Components_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (components *Components_Spec) SetAzureName(azureName string) { components.AzureName = azureName }
 
-//Deprecated version of ApplicationInsightsComponentPropertiesApplicationType. Use
-//v1beta20200202.ApplicationInsightsComponentPropertiesApplicationType instead
+// Deprecated version of ApplicationInsightsComponentPropertiesApplicationType. Use
+// v1beta20200202.ApplicationInsightsComponentPropertiesApplicationType instead
 // +kubebuilder:validation:Enum={"other","web"}
 type ApplicationInsightsComponentPropertiesApplicationType string
 
@@ -1738,15 +1738,15 @@ const (
 	ApplicationInsightsComponentPropertiesApplicationTypeWeb   = ApplicationInsightsComponentPropertiesApplicationType("web")
 )
 
-//Deprecated version of ApplicationInsightsComponentPropertiesFlowType. Use
-//v1beta20200202.ApplicationInsightsComponentPropertiesFlowType instead
+// Deprecated version of ApplicationInsightsComponentPropertiesFlowType. Use
+// v1beta20200202.ApplicationInsightsComponentPropertiesFlowType instead
 // +kubebuilder:validation:Enum={"Bluefield"}
 type ApplicationInsightsComponentPropertiesFlowType string
 
 const ApplicationInsightsComponentPropertiesFlowTypeBluefield = ApplicationInsightsComponentPropertiesFlowType("Bluefield")
 
-//Deprecated version of ApplicationInsightsComponentPropertiesIngestionMode. Use
-//v1beta20200202.ApplicationInsightsComponentPropertiesIngestionMode instead
+// Deprecated version of ApplicationInsightsComponentPropertiesIngestionMode. Use
+// v1beta20200202.ApplicationInsightsComponentPropertiesIngestionMode instead
 // +kubebuilder:validation:Enum={"ApplicationInsights","ApplicationInsightsWithDiagnosticSettings","LogAnalytics"}
 type ApplicationInsightsComponentPropertiesIngestionMode string
 
@@ -1756,8 +1756,8 @@ const (
 	ApplicationInsightsComponentPropertiesIngestionModeLogAnalytics                              = ApplicationInsightsComponentPropertiesIngestionMode("LogAnalytics")
 )
 
-//Deprecated version of ApplicationInsightsComponentPropertiesPublicNetworkAccessForIngestion. Use
-//v1beta20200202.ApplicationInsightsComponentPropertiesPublicNetworkAccessForIngestion instead
+// Deprecated version of ApplicationInsightsComponentPropertiesPublicNetworkAccessForIngestion. Use
+// v1beta20200202.ApplicationInsightsComponentPropertiesPublicNetworkAccessForIngestion instead
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type ApplicationInsightsComponentPropertiesPublicNetworkAccessForIngestion string
 
@@ -1766,8 +1766,8 @@ const (
 	ApplicationInsightsComponentPropertiesPublicNetworkAccessForIngestionEnabled  = ApplicationInsightsComponentPropertiesPublicNetworkAccessForIngestion("Enabled")
 )
 
-//Deprecated version of ApplicationInsightsComponentPropertiesPublicNetworkAccessForQuery. Use
-//v1beta20200202.ApplicationInsightsComponentPropertiesPublicNetworkAccessForQuery instead
+// Deprecated version of ApplicationInsightsComponentPropertiesPublicNetworkAccessForQuery. Use
+// v1beta20200202.ApplicationInsightsComponentPropertiesPublicNetworkAccessForQuery instead
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type ApplicationInsightsComponentPropertiesPublicNetworkAccessForQuery string
 
@@ -1776,14 +1776,14 @@ const (
 	ApplicationInsightsComponentPropertiesPublicNetworkAccessForQueryEnabled  = ApplicationInsightsComponentPropertiesPublicNetworkAccessForQuery("Enabled")
 )
 
-//Deprecated version of ApplicationInsightsComponentPropertiesRequestSource. Use
-//v1beta20200202.ApplicationInsightsComponentPropertiesRequestSource instead
+// Deprecated version of ApplicationInsightsComponentPropertiesRequestSource. Use
+// v1beta20200202.ApplicationInsightsComponentPropertiesRequestSource instead
 // +kubebuilder:validation:Enum={"rest"}
 type ApplicationInsightsComponentPropertiesRequestSource string
 
 const ApplicationInsightsComponentPropertiesRequestSourceRest = ApplicationInsightsComponentPropertiesRequestSource("rest")
 
-//Deprecated version of PrivateLinkScopedResource_Status. Use v1beta20200202.PrivateLinkScopedResource_Status instead
+// Deprecated version of PrivateLinkScopedResource_Status. Use v1beta20200202.PrivateLinkScopedResource_Status instead
 type PrivateLinkScopedResource_Status struct {
 	ResourceId *string `json:"ResourceId,omitempty"`
 	ScopeId    *string `json:"ScopeId,omitempty"`

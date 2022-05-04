@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/resourceDefinitions/redis_linkedServers
+// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/resourceDefinitions/redis_linkedServers
 type RedisLinkedServer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -300,7 +300,7 @@ func (server *RedisLinkedServer) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/resourceDefinitions/redis_linkedServers
+// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/resourceDefinitions/redis_linkedServers
 type RedisLinkedServerList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -308,29 +308,29 @@ type RedisLinkedServerList struct {
 }
 
 type RedisLinkedServerWithProperties_Status struct {
-	//Conditions: The observed state of the resource
+	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
-	//Id: Fully qualified resource ID for the resource. Ex -
-	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+	// Id: Fully qualified resource ID for the resource. Ex -
+	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
 
-	//LinkedRedisCacheId: Fully qualified resourceId of the linked redis cache.
+	// LinkedRedisCacheId: Fully qualified resourceId of the linked redis cache.
 	LinkedRedisCacheId *string `json:"linkedRedisCacheId,omitempty"`
 
-	//LinkedRedisCacheLocation: Location of the linked redis cache.
+	// LinkedRedisCacheLocation: Location of the linked redis cache.
 	LinkedRedisCacheLocation *string `json:"linkedRedisCacheLocation,omitempty"`
 
-	//Name: The name of the resource
+	// Name: The name of the resource
 	Name *string `json:"name,omitempty"`
 
-	//ProvisioningState: Terminal state of the link between primary and secondary redis cache.
+	// ProvisioningState: Terminal state of the link between primary and secondary redis cache.
 	ProvisioningState *string `json:"provisioningState,omitempty"`
 
-	//ServerRole: Role of the linked server.
+	// ServerRole: Role of the linked server.
 	ServerRole *RedisLinkedServerPropertiesStatusServerRole `json:"serverRole,omitempty"`
 
-	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 }
 
@@ -545,32 +545,32 @@ type RedisLinkedServersSpecAPIVersion string
 const RedisLinkedServersSpecAPIVersion20201201 = RedisLinkedServersSpecAPIVersion("2020-12-01")
 
 type RedisLinkedServers_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//LinkedRedisCacheLocation: Location of the linked redis cache.
+	// LinkedRedisCacheLocation: Location of the linked redis cache.
 	LinkedRedisCacheLocation *string `json:"linkedRedisCacheLocation,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//LinkedRedisCacheReference: Fully qualified resourceId of the linked redis cache.
+	// LinkedRedisCacheReference: Fully qualified resourceId of the linked redis cache.
 	LinkedRedisCacheReference *genruntime.ResourceReference `armReference:"LinkedRedisCacheId" json:"linkedRedisCacheReference,omitempty"`
 
-	//Location: Location to deploy resource to
+	// Location: Location to deploy resource to
 	Location *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a cache.azure.com/Redis resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a cache.azure.com/Redis resource
 	Owner *genruntime.KnownResourceReference `group:"cache.azure.com" json:"owner,omitempty" kind:"Redis"`
 
 	// +kubebuilder:validation:Required
-	//ServerRole: Role of the linked server.
+	// ServerRole: Role of the linked server.
 	ServerRole *RedisLinkedServerCreatePropertiesServerRole `json:"serverRole,omitempty"`
 
-	//Tags: Name-value pairs to add to the resource
+	// Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
 }
 

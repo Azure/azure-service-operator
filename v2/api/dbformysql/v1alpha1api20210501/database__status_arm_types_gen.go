@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1alpha1api20210501
 
-//Deprecated version of Database_Status. Use v1beta20210501.Database_Status instead
+// Deprecated version of Database_Status. Use v1beta20210501.Database_Status instead
 type Database_StatusARM struct {
 	Id         *string                       `json:"id,omitempty"`
 	Name       *string                       `json:"name,omitempty"`
@@ -12,13 +12,13 @@ type Database_StatusARM struct {
 	Type       *string                       `json:"type,omitempty"`
 }
 
-//Deprecated version of DatabaseProperties_Status. Use v1beta20210501.DatabaseProperties_Status instead
+// Deprecated version of DatabaseProperties_Status. Use v1beta20210501.DatabaseProperties_Status instead
 type DatabaseProperties_StatusARM struct {
 	Charset   *string `json:"charset,omitempty"`
 	Collation *string `json:"collation,omitempty"`
 }
 
-//Deprecated version of SystemData_Status. Use v1beta20210501.SystemData_Status instead
+// Deprecated version of SystemData_Status. Use v1beta20210501.SystemData_Status instead
 type SystemData_StatusARM struct {
 	CreatedAt          *string                             `json:"createdAt,omitempty"`
 	CreatedBy          *string                             `json:"createdBy,omitempty"`
@@ -28,7 +28,7 @@ type SystemData_StatusARM struct {
 	LastModifiedByType *SystemDataStatusLastModifiedByType `json:"lastModifiedByType,omitempty"`
 }
 
-//Deprecated version of SystemDataStatusCreatedByType. Use v1beta20210501.SystemDataStatusCreatedByType instead
+// Deprecated version of SystemDataStatusCreatedByType. Use v1beta20210501.SystemDataStatusCreatedByType instead
 type SystemDataStatusCreatedByType string
 
 const (
@@ -38,7 +38,7 @@ const (
 	SystemDataStatusCreatedByTypeUser            = SystemDataStatusCreatedByType("User")
 )
 
-//Deprecated version of SystemDataStatusLastModifiedByType. Use v1beta20210501.SystemDataStatusLastModifiedByType instead
+// Deprecated version of SystemDataStatusLastModifiedByType. Use v1beta20210501.SystemDataStatusLastModifiedByType instead
 type SystemDataStatusLastModifiedByType string
 
 const (

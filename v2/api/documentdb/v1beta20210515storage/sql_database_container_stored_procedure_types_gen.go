@@ -21,8 +21,8 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Storage version of v1beta20210515.SqlDatabaseContainerStoredProcedure
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_containers_storedProcedures
+// Storage version of v1beta20210515.SqlDatabaseContainerStoredProcedure
+// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_containers_storedProcedures
 type SqlDatabaseContainerStoredProcedure struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -121,27 +121,27 @@ func (procedure *SqlDatabaseContainerStoredProcedure) OriginalGVK() *schema.Grou
 }
 
 // +kubebuilder:object:root=true
-//Storage version of v1beta20210515.SqlDatabaseContainerStoredProcedure
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_containers_storedProcedures
+// Storage version of v1beta20210515.SqlDatabaseContainerStoredProcedure
+// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_containers_storedProcedures
 type SqlDatabaseContainerStoredProcedureList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []SqlDatabaseContainerStoredProcedure `json:"items"`
 }
 
-//Storage version of v1beta20210515.DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec
+// Storage version of v1beta20210515.DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec
 type DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName       string               `json:"azureName,omitempty"`
 	Location        *string              `json:"location,omitempty"`
 	Options         *CreateUpdateOptions `json:"options,omitempty"`
 	OriginalVersion string               `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a documentdb.azure.com/SqlDatabaseContainer resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a documentdb.azure.com/SqlDatabaseContainer resource
 	Owner       *genruntime.KnownResourceReference `group:"documentdb.azure.com" json:"owner,omitempty" kind:"SqlDatabaseContainer"`
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	Resource    *SqlStoredProcedureResource        `json:"resource,omitempty"`
@@ -168,7 +168,7 @@ func (procedures *DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec) C
 	return destination.ConvertSpecFrom(procedures)
 }
 
-//Storage version of v1beta20210515.SqlStoredProcedureGetResults_Status
+// Storage version of v1beta20210515.SqlStoredProcedureGetResults_Status
 type SqlStoredProcedureGetResults_Status struct {
 	Conditions  []conditions.Condition                           `json:"conditions,omitempty"`
 	Id          *string                                          `json:"id,omitempty"`
@@ -200,7 +200,7 @@ func (results *SqlStoredProcedureGetResults_Status) ConvertStatusTo(destination 
 	return destination.ConvertStatusFrom(results)
 }
 
-//Storage version of v1beta20210515.SqlStoredProcedureGetProperties_Status_Resource
+// Storage version of v1beta20210515.SqlStoredProcedureGetProperties_Status_Resource
 type SqlStoredProcedureGetProperties_Status_Resource struct {
 	Body        *string                `json:"body,omitempty"`
 	Etag        *string                `json:"_etag,omitempty"`
@@ -210,8 +210,8 @@ type SqlStoredProcedureGetProperties_Status_Resource struct {
 	Ts          *float64               `json:"_ts,omitempty"`
 }
 
-//Storage version of v1beta20210515.SqlStoredProcedureResource
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlStoredProcedureResource
+// Storage version of v1beta20210515.SqlStoredProcedureResource
+// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlStoredProcedureResource
 type SqlStoredProcedureResource struct {
 	Body        *string                `json:"body,omitempty"`
 	Id          *string                `json:"id,omitempty"`

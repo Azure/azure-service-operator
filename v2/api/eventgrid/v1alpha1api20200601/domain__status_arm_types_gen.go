@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1alpha1api20200601
 
-//Deprecated version of Domain_Status. Use v1beta20200601.Domain_Status instead
+// Deprecated version of Domain_Status. Use v1beta20200601.Domain_Status instead
 type Domain_StatusARM struct {
 	Id         *string                     `json:"id,omitempty"`
 	Location   *string                     `json:"location,omitempty"`
@@ -14,7 +14,7 @@ type Domain_StatusARM struct {
 	Type       *string                     `json:"type,omitempty"`
 }
 
-//Deprecated version of DomainProperties_Status. Use v1beta20200601.DomainProperties_Status instead
+// Deprecated version of DomainProperties_Status. Use v1beta20200601.DomainProperties_Status instead
 type DomainProperties_StatusARM struct {
 	Endpoint                   *string                                                          `json:"endpoint,omitempty"`
 	InboundIpRules             []InboundIpRule_StatusARM                                        `json:"inboundIpRules,omitempty"`
@@ -26,18 +26,18 @@ type DomainProperties_StatusARM struct {
 	PublicNetworkAccess        *DomainPropertiesStatusPublicNetworkAccess                       `json:"publicNetworkAccess,omitempty"`
 }
 
-//Deprecated version of InboundIpRule_Status. Use v1beta20200601.InboundIpRule_Status instead
+// Deprecated version of InboundIpRule_Status. Use v1beta20200601.InboundIpRule_Status instead
 type InboundIpRule_StatusARM struct {
 	Action *InboundIpRuleStatusAction `json:"action,omitempty"`
 	IpMask *string                    `json:"ipMask,omitempty"`
 }
 
-//Deprecated version of InputSchemaMapping_Status. Use v1beta20200601.InputSchemaMapping_Status instead
+// Deprecated version of InputSchemaMapping_Status. Use v1beta20200601.InputSchemaMapping_Status instead
 type InputSchemaMapping_StatusARM struct {
 	InputSchemaMappingType *InputSchemaMappingStatusInputSchemaMappingType `json:"inputSchemaMappingType,omitempty"`
 }
 
-//Deprecated version of PrivateEndpointConnection_Status_Domain_SubResourceEmbedded. Use v1beta20200601.PrivateEndpointConnection_Status_Domain_SubResourceEmbedded instead
+// Deprecated version of PrivateEndpointConnection_Status_Domain_SubResourceEmbedded. Use v1beta20200601.PrivateEndpointConnection_Status_Domain_SubResourceEmbedded instead
 type PrivateEndpointConnection_Status_Domain_SubResourceEmbeddedARM struct {
 	Id *string `json:"id,omitempty"`
 }

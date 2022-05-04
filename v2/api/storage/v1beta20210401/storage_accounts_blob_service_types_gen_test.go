@@ -90,7 +90,7 @@ func RunPropertyAssignmentTestForStorageAccountsBlobService(subject StorageAccou
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -141,7 +141,7 @@ func RunJSONSerializationTestForStorageAccountsBlobService(subject StorageAccoun
 }
 
 // Generator of StorageAccountsBlobService instances for property testing - lazily instantiated by
-//StorageAccountsBlobServiceGenerator()
+// StorageAccountsBlobServiceGenerator()
 var storageAccountsBlobServiceGenerator gopter.Gen
 
 // StorageAccountsBlobServiceGenerator returns a generator of StorageAccountsBlobService instances for property testing.
@@ -193,7 +193,7 @@ func RunPropertyAssignmentTestForBlobServicePropertiesStatus(subject BlobService
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -244,7 +244,7 @@ func RunJSONSerializationTestForBlobServicePropertiesStatus(subject BlobServiceP
 }
 
 // Generator of BlobServiceProperties_Status instances for property testing - lazily instantiated by
-//BlobServicePropertiesStatusGenerator()
+// BlobServicePropertiesStatusGenerator()
 var blobServicePropertiesStatusGenerator gopter.Gen
 
 // BlobServicePropertiesStatusGenerator returns a generator of BlobServiceProperties_Status instances for property testing.
@@ -320,7 +320,7 @@ func RunPropertyAssignmentTestForStorageAccountsBlobServicesSpec(subject Storage
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -371,7 +371,7 @@ func RunJSONSerializationTestForStorageAccountsBlobServicesSpec(subject StorageA
 }
 
 // Generator of StorageAccountsBlobServices_Spec instances for property testing - lazily instantiated by
-//StorageAccountsBlobServicesSpecGenerator()
+// StorageAccountsBlobServicesSpecGenerator()
 var storageAccountsBlobServicesSpecGenerator gopter.Gen
 
 // StorageAccountsBlobServicesSpecGenerator returns a generator of StorageAccountsBlobServices_Spec instances for property testing.
@@ -445,7 +445,7 @@ func RunPropertyAssignmentTestForChangeFeed(subject ChangeFeed) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -547,7 +547,7 @@ func RunPropertyAssignmentTestForChangeFeedStatus(subject ChangeFeed_Status) str
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -649,7 +649,7 @@ func RunPropertyAssignmentTestForCorsRules(subject CorsRules) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -750,7 +750,7 @@ func RunPropertyAssignmentTestForCorsRulesStatus(subject CorsRules_Status) strin
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -851,7 +851,7 @@ func RunPropertyAssignmentTestForDeleteRetentionPolicy(subject DeleteRetentionPo
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -902,7 +902,7 @@ func RunJSONSerializationTestForDeleteRetentionPolicy(subject DeleteRetentionPol
 }
 
 // Generator of DeleteRetentionPolicy instances for property testing - lazily instantiated by
-//DeleteRetentionPolicyGenerator()
+// DeleteRetentionPolicyGenerator()
 var deleteRetentionPolicyGenerator gopter.Gen
 
 // DeleteRetentionPolicyGenerator returns a generator of DeleteRetentionPolicy instances for property testing.
@@ -954,7 +954,7 @@ func RunPropertyAssignmentTestForDeleteRetentionPolicyStatus(subject DeleteReten
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1005,7 +1005,7 @@ func RunJSONSerializationTestForDeleteRetentionPolicyStatus(subject DeleteRetent
 }
 
 // Generator of DeleteRetentionPolicy_Status instances for property testing - lazily instantiated by
-//DeleteRetentionPolicyStatusGenerator()
+// DeleteRetentionPolicyStatusGenerator()
 var deleteRetentionPolicyStatusGenerator gopter.Gen
 
 // DeleteRetentionPolicyStatusGenerator returns a generator of DeleteRetentionPolicy_Status instances for property testing.
@@ -1057,7 +1057,7 @@ func RunPropertyAssignmentTestForLastAccessTimeTrackingPolicy(subject LastAccess
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1108,7 +1108,7 @@ func RunJSONSerializationTestForLastAccessTimeTrackingPolicy(subject LastAccessT
 }
 
 // Generator of LastAccessTimeTrackingPolicy instances for property testing - lazily instantiated by
-//LastAccessTimeTrackingPolicyGenerator()
+// LastAccessTimeTrackingPolicyGenerator()
 var lastAccessTimeTrackingPolicyGenerator gopter.Gen
 
 // LastAccessTimeTrackingPolicyGenerator returns a generator of LastAccessTimeTrackingPolicy instances for property testing.
@@ -1162,7 +1162,7 @@ func RunPropertyAssignmentTestForLastAccessTimeTrackingPolicyStatus(subject Last
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1213,7 +1213,7 @@ func RunJSONSerializationTestForLastAccessTimeTrackingPolicyStatus(subject LastA
 }
 
 // Generator of LastAccessTimeTrackingPolicy_Status instances for property testing - lazily instantiated by
-//LastAccessTimeTrackingPolicyStatusGenerator()
+// LastAccessTimeTrackingPolicyStatusGenerator()
 var lastAccessTimeTrackingPolicyStatusGenerator gopter.Gen
 
 // LastAccessTimeTrackingPolicyStatusGenerator returns a generator of LastAccessTimeTrackingPolicy_Status instances for property testing.
@@ -1267,7 +1267,7 @@ func RunPropertyAssignmentTestForRestorePolicyProperties(subject RestorePolicyPr
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1318,7 +1318,7 @@ func RunJSONSerializationTestForRestorePolicyProperties(subject RestorePolicyPro
 }
 
 // Generator of RestorePolicyProperties instances for property testing - lazily instantiated by
-//RestorePolicyPropertiesGenerator()
+// RestorePolicyPropertiesGenerator()
 var restorePolicyPropertiesGenerator gopter.Gen
 
 // RestorePolicyPropertiesGenerator returns a generator of RestorePolicyProperties instances for property testing.
@@ -1370,7 +1370,7 @@ func RunPropertyAssignmentTestForRestorePolicyPropertiesStatus(subject RestorePo
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1421,7 +1421,7 @@ func RunJSONSerializationTestForRestorePolicyPropertiesStatus(subject RestorePol
 }
 
 // Generator of RestorePolicyProperties_Status instances for property testing - lazily instantiated by
-//RestorePolicyPropertiesStatusGenerator()
+// RestorePolicyPropertiesStatusGenerator()
 var restorePolicyPropertiesStatusGenerator gopter.Gen
 
 // RestorePolicyPropertiesStatusGenerator returns a generator of RestorePolicyProperties_Status instances for property testing.
@@ -1475,7 +1475,7 @@ func RunPropertyAssignmentTestForCorsRule(subject CorsRule) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1587,7 +1587,7 @@ func RunPropertyAssignmentTestForCorsRuleStatus(subject CorsRule_Status) string 
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)

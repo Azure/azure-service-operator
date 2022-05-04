@@ -5,7 +5,7 @@ package v1alpha1api20210515
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-//Deprecated version of DatabaseAccountsSqlDatabasesContainersTriggers_Spec. Use v1beta20210515.DatabaseAccountsSqlDatabasesContainersTriggers_Spec instead
+// Deprecated version of DatabaseAccountsSqlDatabasesContainersTriggers_Spec. Use v1beta20210515.DatabaseAccountsSqlDatabasesContainersTriggers_Spec instead
 type DatabaseAccountsSqlDatabasesContainersTriggers_SpecARM struct {
 	Location   *string                              `json:"location,omitempty"`
 	Name       string                               `json:"name,omitempty"`
@@ -30,13 +30,13 @@ func (triggers DatabaseAccountsSqlDatabasesContainersTriggers_SpecARM) GetType()
 	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/triggers"
 }
 
-//Deprecated version of SqlTriggerCreateUpdateProperties. Use v1beta20210515.SqlTriggerCreateUpdateProperties instead
+// Deprecated version of SqlTriggerCreateUpdateProperties. Use v1beta20210515.SqlTriggerCreateUpdateProperties instead
 type SqlTriggerCreateUpdatePropertiesARM struct {
 	Options  *CreateUpdateOptionsARM `json:"options,omitempty"`
 	Resource *SqlTriggerResourceARM  `json:"resource,omitempty"`
 }
 
-//Deprecated version of SqlTriggerResource. Use v1beta20210515.SqlTriggerResource instead
+// Deprecated version of SqlTriggerResource. Use v1beta20210515.SqlTriggerResource instead
 type SqlTriggerResourceARM struct {
 	Body             *string                             `json:"body,omitempty"`
 	Id               *string                             `json:"id,omitempty"`
@@ -44,7 +44,7 @@ type SqlTriggerResourceARM struct {
 	TriggerType      *SqlTriggerResourceTriggerType      `json:"triggerType,omitempty"`
 }
 
-//Deprecated version of SqlTriggerResourceTriggerOperation. Use v1beta20210515.SqlTriggerResourceTriggerOperation instead
+// Deprecated version of SqlTriggerResourceTriggerOperation. Use v1beta20210515.SqlTriggerResourceTriggerOperation instead
 // +kubebuilder:validation:Enum={"All","Create","Delete","Replace","Update"}
 type SqlTriggerResourceTriggerOperation string
 
@@ -56,7 +56,7 @@ const (
 	SqlTriggerResourceTriggerOperationUpdate  = SqlTriggerResourceTriggerOperation("Update")
 )
 
-//Deprecated version of SqlTriggerResourceTriggerType. Use v1beta20210515.SqlTriggerResourceTriggerType instead
+// Deprecated version of SqlTriggerResourceTriggerType. Use v1beta20210515.SqlTriggerResourceTriggerType instead
 // +kubebuilder:validation:Enum={"Post","Pre"}
 type SqlTriggerResourceTriggerType string
 

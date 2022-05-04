@@ -56,7 +56,7 @@ func RunJSONSerializationTestForStorageAccountsBlobServicesSpecARM(subject Stora
 }
 
 // Generator of StorageAccountsBlobServices_SpecARM instances for property testing - lazily instantiated by
-//StorageAccountsBlobServicesSpecARMGenerator()
+// StorageAccountsBlobServicesSpecARMGenerator()
 var storageAccountsBlobServicesSpecARMGenerator gopter.Gen
 
 // StorageAccountsBlobServicesSpecARMGenerator returns a generator of StorageAccountsBlobServices_SpecARM instances for property testing.
@@ -132,7 +132,7 @@ func RunJSONSerializationTestForBlobServicePropertiesPropertiesARM(subject BlobS
 }
 
 // Generator of BlobServicePropertiesPropertiesARM instances for property testing - lazily instantiated by
-//BlobServicePropertiesPropertiesARMGenerator()
+// BlobServicePropertiesPropertiesARMGenerator()
 var blobServicePropertiesPropertiesARMGenerator gopter.Gen
 
 // BlobServicePropertiesPropertiesARMGenerator returns a generator of BlobServicePropertiesPropertiesARM instances for property testing.
@@ -332,7 +332,7 @@ func RunJSONSerializationTestForDeleteRetentionPolicyARM(subject DeleteRetention
 }
 
 // Generator of DeleteRetentionPolicyARM instances for property testing - lazily instantiated by
-//DeleteRetentionPolicyARMGenerator()
+// DeleteRetentionPolicyARMGenerator()
 var deleteRetentionPolicyARMGenerator gopter.Gen
 
 // DeleteRetentionPolicyARMGenerator returns a generator of DeleteRetentionPolicyARM instances for property testing.
@@ -393,7 +393,7 @@ func RunJSONSerializationTestForLastAccessTimeTrackingPolicyARM(subject LastAcce
 }
 
 // Generator of LastAccessTimeTrackingPolicyARM instances for property testing - lazily instantiated by
-//LastAccessTimeTrackingPolicyARMGenerator()
+// LastAccessTimeTrackingPolicyARMGenerator()
 var lastAccessTimeTrackingPolicyARMGenerator gopter.Gen
 
 // LastAccessTimeTrackingPolicyARMGenerator returns a generator of LastAccessTimeTrackingPolicyARM instances for property testing.
@@ -456,7 +456,7 @@ func RunJSONSerializationTestForRestorePolicyPropertiesARM(subject RestorePolicy
 }
 
 // Generator of RestorePolicyPropertiesARM instances for property testing - lazily instantiated by
-//RestorePolicyPropertiesARMGenerator()
+// RestorePolicyPropertiesARMGenerator()
 var restorePolicyPropertiesARMGenerator gopter.Gen
 
 // RestorePolicyPropertiesARMGenerator returns a generator of RestorePolicyPropertiesARM instances for property testing.

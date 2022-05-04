@@ -56,7 +56,7 @@ func RunJSONSerializationTestForRedisPatchSchedulesSpecARM(subject RedisPatchSch
 }
 
 // Generator of RedisPatchSchedules_SpecARM instances for property testing - lazily instantiated by
-//RedisPatchSchedulesSpecARMGenerator()
+// RedisPatchSchedulesSpecARMGenerator()
 var redisPatchSchedulesSpecARMGenerator gopter.Gen
 
 // RedisPatchSchedulesSpecARMGenerator returns a generator of RedisPatchSchedules_SpecARM instances for property testing.
