@@ -3699,7 +3699,7 @@ SourceVault
 </td>
 <td>
 <p>SourceVault: The vault id is an Azure Resource Manager Resource id in the form
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}</p>
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.KeyVault/&#x200b;vaults/&#x200b;{vaultName}</&#x200b;p>
 </td>
 </tr>
 </tbody>
@@ -3742,7 +3742,7 @@ SourceVaultARM
 </td>
 <td>
 <p>SourceVault: The vault id is an Azure Resource Manager Resource id in the form
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}</p>
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.KeyVault/&#x200b;vaults/&#x200b;{vaultName}</&#x200b;p>
 </td>
 </tr>
 </tbody>
@@ -3867,7 +3867,7 @@ SourceVault
 </td>
 <td>
 <p>SourceVault: The vault id is an Azure Resource Manager Resource id in the form
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}</p>
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.KeyVault/&#x200b;vaults/&#x200b;{vaultName}</&#x200b;p>
 </td>
 </tr>
 </tbody>
@@ -3910,7 +3910,7 @@ SourceVaultARM
 </td>
 <td>
 <p>SourceVault: The vault id is an Azure Resource Manager Resource id in the form
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}</p>
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.KeyVault/&#x200b;vaults/&#x200b;{vaultName}</&#x200b;p>
 </td>
 </tr>
 </tbody>

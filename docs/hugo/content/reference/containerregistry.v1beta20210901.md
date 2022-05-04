@@ -646,7 +646,7 @@ map[string]./api/containerregistry/v1beta20210901.UserIdentityProperties
 <td>
 <p>UserAssignedIdentities: The list of user identities associated with the resource. The user identity
 dictionary key references will be ARM resource ids in the form:
-&lsquo;/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/
+&lsquo;/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;
 providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}&rsquo;.</p>
 </td>
 </tr>
@@ -715,7 +715,7 @@ map[string]./api/containerregistry/v1beta20210901.UserIdentityPropertiesARM
 <td>
 <p>UserAssignedIdentities: The list of user identities associated with the resource. The user identity
 dictionary key references will be ARM resource ids in the form:
-&lsquo;/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/
+&lsquo;/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;
 providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}&rsquo;.</p>
 </td>
 </tr>
@@ -831,7 +831,7 @@ map[string]./api/containerregistry/v1beta20210901.UserIdentityProperties_Status
 <td>
 <p>UserAssignedIdentities: The list of user identities associated with the resource. The user identity
 dictionary key references will be ARM resource ids in the form:
-&lsquo;/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/
+&lsquo;/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;
 providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}&rsquo;.</p>
 </td>
 </tr>
@@ -899,7 +899,7 @@ map[string]./api/containerregistry/v1beta20210901.UserIdentityProperties_StatusA
 <td>
 <p>UserAssignedIdentities: The list of user identities associated with the resource. The user identity
 dictionary key references will be ARM resource ids in the form:
-&lsquo;/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/
+&lsquo;/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;
 providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}&rsquo;.</p>
 </td>
 </tr>

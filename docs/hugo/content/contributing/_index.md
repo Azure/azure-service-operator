@@ -1,10 +1,10 @@
 ---
 title: "For Contributors"
 linkTitle: "Contributing"
-weight: 40
+weight: 30
 menu:
   main:
-    weight: 40
+    weight: 30
 cascade:
 - type: docs
 - render: always
