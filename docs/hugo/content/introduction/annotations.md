@@ -1,7 +1,7 @@
 ---
 title: Annotations understood by the operator
+linktitle: Annotations
 ---
-# Annotations understood by the operator
 
 ## Annotations specified by the user
 

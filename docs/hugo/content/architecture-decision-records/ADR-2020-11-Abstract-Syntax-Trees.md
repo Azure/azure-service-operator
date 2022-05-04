@@ -2,8 +2,6 @@
 title: '2020-11: AST Library Choice'
 ---
 
-# Abstract Syntax Tree Library Choice
-
 ## Context
 
 When we first started working on the Azure Service Operator Code Generator, we used the standard go [`ast`](https://pkg.go.dev/go/ast) library to create the final Go code.

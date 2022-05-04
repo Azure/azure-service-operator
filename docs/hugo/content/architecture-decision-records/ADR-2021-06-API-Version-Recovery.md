@@ -1,7 +1,6 @@
 ---
 title: '2021-06: API Version Recovery'
 ---
-# API Version Recovery
 
 ## Context
 

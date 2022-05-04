@@ -1,9 +1,8 @@
 ---
-title: Contributing
+title: Contributing to Azure Service Operator v2
+linktitle: Contributing
 weight: 1 # want this first
 ---
-
-# Contributing to Azure Service Operator v2
 
 ## Related pages
 

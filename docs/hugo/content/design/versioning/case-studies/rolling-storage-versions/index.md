@@ -1,7 +1,6 @@
 ---
 title: Rolling Storage Versions
 ---
-# Case Study - Rolling Storage Versions
 
 This case study explores the recommended solution of using a *rolling storage version* where we update the storage schema of each resource each release of the service operator. We'll keep the storage version up to date with the latest GA release of each resource.
 

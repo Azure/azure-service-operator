@@ -1,8 +1,7 @@
 ---
 title: Proposal for reporting resource Status
+linktitle: Resource status
 ---
-# Proposal for reporting resource Status
-
 ## What Status are we talking about?
 There are two types of Status that we're interested in understanding and reporting to the user when running an operator that creates resources in Azure:
 

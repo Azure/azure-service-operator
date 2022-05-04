@@ -18,6 +18,7 @@ import (
 	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/internal/set"
+
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/reporting"
@@ -105,7 +106,9 @@ func (report *ResourceVersionsReport) WriteTo(outputPath string, samplesURL stri
 
 // WriteToBuffer creates the report in the provided buffer
 func (report *ResourceVersionsReport) WriteToBuffer(buffer *strings.Builder, samplesURL string) {
-	buffer.WriteString("# Supported Resources\n\n")
+	buffer.WriteString("---\n")
+	buffer.WriteString("title: Supported Resources\n")
+	buffer.WriteString("---\n\n")
 	buffer.WriteString("These are the resources with Azure Service Operator support committed to our **main** branch, ")
 	buffer.WriteString("grouped by the originating ARM service. ")
 	buffer.WriteString("(Newly supported resources will appear in this list prior to inclusion in any ASO release.)\n\n")

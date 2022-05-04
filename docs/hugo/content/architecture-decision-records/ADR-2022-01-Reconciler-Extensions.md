@@ -1,8 +1,6 @@
 ---
 title: '2022-01: Reconciler Extensions'
 ---
-# Reconciler Extensions
-
 ## Context
 
 We are discovering inconsistencies in the way different Azure Resource Providers behave.
