@@ -20,8 +20,8 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Storage version of v1alpha1api20201101.VirtualNetworkGateway
-//Deprecated version of VirtualNetworkGateway. Use v1beta20201101.VirtualNetworkGateway instead
+// Storage version of v1alpha1api20201101.VirtualNetworkGateway
+// Deprecated version of VirtualNetworkGateway. Use v1beta20201101.VirtualNetworkGateway instead
 type VirtualNetworkGateway struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -191,16 +191,16 @@ func (gateway *VirtualNetworkGateway) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Storage version of v1alpha1api20201101.VirtualNetworkGateway
-//Deprecated version of VirtualNetworkGateway. Use v1beta20201101.VirtualNetworkGateway instead
+// Storage version of v1alpha1api20201101.VirtualNetworkGateway
+// Deprecated version of VirtualNetworkGateway. Use v1beta20201101.VirtualNetworkGateway instead
 type VirtualNetworkGatewayList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []VirtualNetworkGateway `json:"items"`
 }
 
-//Storage version of v1alpha1api20201101.VirtualNetworkGateway_Status
-//Deprecated version of VirtualNetworkGateway_Status. Use v1beta20201101.VirtualNetworkGateway_Status instead
+// Storage version of v1alpha1api20201101.VirtualNetworkGateway_Status
+// Deprecated version of VirtualNetworkGateway_Status. Use v1beta20201101.VirtualNetworkGateway_Status instead
 type VirtualNetworkGateway_Status struct {
 	ActiveActive                   *bool                                         `json:"activeActive,omitempty"`
 	BgpSettings                    *BgpSettings_Status                           `json:"bgpSettings,omitempty"`
@@ -640,12 +640,12 @@ func (gateway *VirtualNetworkGateway_Status) AssignPropertiesToVirtualNetworkGat
 	return nil
 }
 
-//Storage version of v1alpha1api20201101.VirtualNetworkGateways_Spec
+// Storage version of v1alpha1api20201101.VirtualNetworkGateways_Spec
 type VirtualNetworkGateways_Spec struct {
 	ActiveActive *bool `json:"activeActive,omitempty"`
 
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName              string                                                    `json:"azureName,omitempty"`
 	BgpSettings            *BgpSettings                                              `json:"bgpSettings,omitempty"`
 	CustomRoutes           *AddressSpace                                             `json:"customRoutes,omitempty"`
@@ -659,9 +659,9 @@ type VirtualNetworkGateways_Spec struct {
 	OriginalVersion        string                                                    `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a resources.azure.com/ResourceGroup resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
 	Owner                                 *genruntime.KnownResourceReference                             `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PropertyBag                           genruntime.PropertyBag                                         `json:"$propertyBag,omitempty"`
 	Sku                                   *VirtualNetworkGatewaySku                                      `json:"sku,omitempty"`
@@ -1073,8 +1073,8 @@ func (gateways *VirtualNetworkGateways_Spec) AssignPropertiesToVirtualNetworkGat
 	return nil
 }
 
-//Storage version of v1alpha1api20201101.BgpSettings
-//Deprecated version of BgpSettings. Use v1beta20201101.BgpSettings instead
+// Storage version of v1alpha1api20201101.BgpSettings
+// Deprecated version of BgpSettings. Use v1beta20201101.BgpSettings instead
 type BgpSettings struct {
 	Asn                 *uint32                            `json:"asn,omitempty"`
 	BgpPeeringAddress   *string                            `json:"bgpPeeringAddress,omitempty"`
@@ -1179,8 +1179,8 @@ func (settings *BgpSettings) AssignPropertiesToBgpSettings(destination *v2020110
 	return nil
 }
 
-//Storage version of v1alpha1api20201101.BgpSettings_Status
-//Deprecated version of BgpSettings_Status. Use v1beta20201101.BgpSettings_Status instead
+// Storage version of v1alpha1api20201101.BgpSettings_Status
+// Deprecated version of BgpSettings_Status. Use v1beta20201101.BgpSettings_Status instead
 type BgpSettings_Status struct {
 	Asn                 *uint32                                   `json:"asn,omitempty"`
 	BgpPeeringAddress   *string                                   `json:"bgpPeeringAddress,omitempty"`
@@ -1285,8 +1285,8 @@ func (settings *BgpSettings_Status) AssignPropertiesToBgpSettingsStatus(destinat
 	return nil
 }
 
-//Storage version of v1alpha1api20201101.VirtualNetworkGatewayIPConfiguration_Status
-//Deprecated version of VirtualNetworkGatewayIPConfiguration_Status. Use v1beta20201101.VirtualNetworkGatewayIPConfiguration_Status instead
+// Storage version of v1alpha1api20201101.VirtualNetworkGatewayIPConfiguration_Status
+// Deprecated version of VirtualNetworkGatewayIPConfiguration_Status. Use v1beta20201101.VirtualNetworkGatewayIPConfiguration_Status instead
 type VirtualNetworkGatewayIPConfiguration_Status struct {
 	Etag                      *string                `json:"etag,omitempty"`
 	Id                        *string                `json:"id,omitempty"`
@@ -1415,8 +1415,8 @@ func (configuration *VirtualNetworkGatewayIPConfiguration_Status) AssignProperti
 	return nil
 }
 
-//Storage version of v1alpha1api20201101.VirtualNetworkGatewaySku
-//Deprecated version of VirtualNetworkGatewaySku. Use v1beta20201101.VirtualNetworkGatewaySku instead
+// Storage version of v1alpha1api20201101.VirtualNetworkGatewaySku
+// Deprecated version of VirtualNetworkGatewaySku. Use v1beta20201101.VirtualNetworkGatewaySku instead
 type VirtualNetworkGatewaySku struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -1467,8 +1467,8 @@ func (gatewaySku *VirtualNetworkGatewaySku) AssignPropertiesToVirtualNetworkGate
 	return nil
 }
 
-//Storage version of v1alpha1api20201101.VirtualNetworkGatewaySku_Status
-//Deprecated version of VirtualNetworkGatewaySku_Status. Use v1beta20201101.VirtualNetworkGatewaySku_Status instead
+// Storage version of v1alpha1api20201101.VirtualNetworkGatewaySku_Status
+// Deprecated version of VirtualNetworkGatewaySku_Status. Use v1beta20201101.VirtualNetworkGatewaySku_Status instead
 type VirtualNetworkGatewaySku_Status struct {
 	Capacity    *int                   `json:"capacity,omitempty"`
 	Name        *string                `json:"name,omitempty"`
@@ -1526,8 +1526,8 @@ func (gatewaySku *VirtualNetworkGatewaySku_Status) AssignPropertiesToVirtualNetw
 	return nil
 }
 
-//Storage version of v1alpha1api20201101.VirtualNetworkGateways_Spec_Properties_IpConfigurations
-//Deprecated version of VirtualNetworkGateways_Spec_Properties_IpConfigurations. Use v1beta20201101.VirtualNetworkGateways_Spec_Properties_IpConfigurations instead
+// Storage version of v1alpha1api20201101.VirtualNetworkGateways_Spec_Properties_IpConfigurations
+// Deprecated version of VirtualNetworkGateways_Spec_Properties_IpConfigurations. Use v1beta20201101.VirtualNetworkGateways_Spec_Properties_IpConfigurations instead
 type VirtualNetworkGateways_Spec_Properties_IpConfigurations struct {
 	Name                      *string                `json:"name,omitempty"`
 	PrivateIPAllocationMethod *string                `json:"privateIPAllocationMethod,omitempty"`
@@ -1628,8 +1628,8 @@ func (configurations *VirtualNetworkGateways_Spec_Properties_IpConfigurations) A
 	return nil
 }
 
-//Storage version of v1alpha1api20201101.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration
-//Deprecated version of VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration. Use v1beta20201101.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration instead
+// Storage version of v1alpha1api20201101.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration
+// Deprecated version of VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration. Use v1beta20201101.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration instead
 type VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration struct {
 	AadAudience                  *string                                                                                      `json:"aadAudience,omitempty"`
 	AadIssuer                    *string                                                                                      `json:"aadIssuer,omitempty"`
@@ -1888,8 +1888,8 @@ func (configuration *VirtualNetworkGateways_Spec_Properties_VpnClientConfigurati
 	return nil
 }
 
-//Storage version of v1alpha1api20201101.VpnClientConfiguration_Status
-//Deprecated version of VpnClientConfiguration_Status. Use v1beta20201101.VpnClientConfiguration_Status instead
+// Storage version of v1alpha1api20201101.VpnClientConfiguration_Status
+// Deprecated version of VpnClientConfiguration_Status. Use v1beta20201101.VpnClientConfiguration_Status instead
 type VpnClientConfiguration_Status struct {
 	AadAudience                  *string                              `json:"aadAudience,omitempty"`
 	AadIssuer                    *string                              `json:"aadIssuer,omitempty"`
@@ -2148,8 +2148,8 @@ func (configuration *VpnClientConfiguration_Status) AssignPropertiesToVpnClientC
 	return nil
 }
 
-//Storage version of v1alpha1api20201101.IPConfigurationBgpPeeringAddress
-//Deprecated version of IPConfigurationBgpPeeringAddress. Use v1beta20201101.IPConfigurationBgpPeeringAddress instead
+// Storage version of v1alpha1api20201101.IPConfigurationBgpPeeringAddress
+// Deprecated version of IPConfigurationBgpPeeringAddress. Use v1beta20201101.IPConfigurationBgpPeeringAddress instead
 type IPConfigurationBgpPeeringAddress struct {
 	CustomBgpIpAddresses []string               `json:"customBgpIpAddresses,omitempty"`
 	IpconfigurationId    *string                `json:"ipconfigurationId,omitempty"`
@@ -2200,8 +2200,8 @@ func (address *IPConfigurationBgpPeeringAddress) AssignPropertiesToIPConfigurati
 	return nil
 }
 
-//Storage version of v1alpha1api20201101.IPConfigurationBgpPeeringAddress_Status
-//Deprecated version of IPConfigurationBgpPeeringAddress_Status. Use v1beta20201101.IPConfigurationBgpPeeringAddress_Status instead
+// Storage version of v1alpha1api20201101.IPConfigurationBgpPeeringAddress_Status
+// Deprecated version of IPConfigurationBgpPeeringAddress_Status. Use v1beta20201101.IPConfigurationBgpPeeringAddress_Status instead
 type IPConfigurationBgpPeeringAddress_Status struct {
 	CustomBgpIpAddresses  []string               `json:"customBgpIpAddresses,omitempty"`
 	DefaultBgpIpAddresses []string               `json:"defaultBgpIpAddresses,omitempty"`
@@ -2266,8 +2266,8 @@ func (address *IPConfigurationBgpPeeringAddress_Status) AssignPropertiesToIPConf
 	return nil
 }
 
-//Storage version of v1alpha1api20201101.IpsecPolicy
-//Deprecated version of IpsecPolicy. Use v1beta20201101.IpsecPolicy instead
+// Storage version of v1alpha1api20201101.IpsecPolicy
+// Deprecated version of IpsecPolicy. Use v1beta20201101.IpsecPolicy instead
 type IpsecPolicy struct {
 	DhGroup             *string                `json:"dhGroup,omitempty"`
 	IkeEncryption       *string                `json:"ikeEncryption,omitempty"`
@@ -2360,8 +2360,8 @@ func (policy *IpsecPolicy) AssignPropertiesToIpsecPolicy(destination *v20201101s
 	return nil
 }
 
-//Storage version of v1alpha1api20201101.IpsecPolicy_Status
-//Deprecated version of IpsecPolicy_Status. Use v1beta20201101.IpsecPolicy_Status instead
+// Storage version of v1alpha1api20201101.IpsecPolicy_Status
+// Deprecated version of IpsecPolicy_Status. Use v1beta20201101.IpsecPolicy_Status instead
 type IpsecPolicy_Status struct {
 	DhGroup             *string                `json:"dhGroup,omitempty"`
 	IkeEncryption       *string                `json:"ikeEncryption,omitempty"`
@@ -2454,8 +2454,8 @@ func (policy *IpsecPolicy_Status) AssignPropertiesToIpsecPolicyStatus(destinatio
 	return nil
 }
 
-//Storage version of v1alpha1api20201101.RadiusServer
-//Deprecated version of RadiusServer. Use v1beta20201101.RadiusServer instead
+// Storage version of v1alpha1api20201101.RadiusServer
+// Deprecated version of RadiusServer. Use v1beta20201101.RadiusServer instead
 type RadiusServer struct {
 	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	RadiusServerAddress *string                `json:"radiusServerAddress,omitempty"`
@@ -2513,8 +2513,8 @@ func (server *RadiusServer) AssignPropertiesToRadiusServer(destination *v2020110
 	return nil
 }
 
-//Storage version of v1alpha1api20201101.RadiusServer_Status
-//Deprecated version of RadiusServer_Status. Use v1beta20201101.RadiusServer_Status instead
+// Storage version of v1alpha1api20201101.RadiusServer_Status
+// Deprecated version of RadiusServer_Status. Use v1beta20201101.RadiusServer_Status instead
 type RadiusServer_Status struct {
 	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	RadiusServerAddress *string                `json:"radiusServerAddress,omitempty"`
@@ -2572,8 +2572,8 @@ func (server *RadiusServer_Status) AssignPropertiesToRadiusServerStatus(destinat
 	return nil
 }
 
-//Storage version of v1alpha1api20201101.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates
-//Deprecated version of VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates. Use v1beta20201101.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates instead
+// Storage version of v1alpha1api20201101.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates
+// Deprecated version of VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates. Use v1beta20201101.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates instead
 type VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -2624,8 +2624,8 @@ func (certificates *VirtualNetworkGateways_Spec_Properties_VpnClientConfiguratio
 	return nil
 }
 
-//Storage version of v1alpha1api20201101.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates
-//Deprecated version of VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates. Use v1beta20201101.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates instead
+// Storage version of v1alpha1api20201101.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates
+// Deprecated version of VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates. Use v1beta20201101.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates instead
 type VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates struct {
 	Name           *string                `json:"name,omitempty"`
 	PropertyBag    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -2676,8 +2676,8 @@ func (certificates *VirtualNetworkGateways_Spec_Properties_VpnClientConfiguratio
 	return nil
 }
 
-//Storage version of v1alpha1api20201101.VpnClientRevokedCertificate_Status
-//Deprecated version of VpnClientRevokedCertificate_Status. Use v1beta20201101.VpnClientRevokedCertificate_Status instead
+// Storage version of v1alpha1api20201101.VpnClientRevokedCertificate_Status
+// Deprecated version of VpnClientRevokedCertificate_Status. Use v1beta20201101.VpnClientRevokedCertificate_Status instead
 type VpnClientRevokedCertificate_Status struct {
 	Etag              *string                `json:"etag,omitempty"`
 	Id                *string                `json:"id,omitempty"`
@@ -2749,8 +2749,8 @@ func (certificate *VpnClientRevokedCertificate_Status) AssignPropertiesToVpnClie
 	return nil
 }
 
-//Storage version of v1alpha1api20201101.VpnClientRootCertificate_Status
-//Deprecated version of VpnClientRootCertificate_Status. Use v1beta20201101.VpnClientRootCertificate_Status instead
+// Storage version of v1alpha1api20201101.VpnClientRootCertificate_Status
+// Deprecated version of VpnClientRootCertificate_Status. Use v1beta20201101.VpnClientRootCertificate_Status instead
 type VpnClientRootCertificate_Status struct {
 	Etag              *string                `json:"etag,omitempty"`
 	Id                *string                `json:"id,omitempty"`

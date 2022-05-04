@@ -5,7 +5,7 @@ package v1alpha1api20200601
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-//Deprecated version of DomainsTopics_Spec. Use v1beta20200601.DomainsTopics_Spec instead
+// Deprecated version of DomainsTopics_Spec. Use v1beta20200601.DomainsTopics_Spec instead
 type DomainsTopics_SpecARM struct {
 	Location *string           `json:"location,omitempty"`
 	Name     string            `json:"name,omitempty"`

@@ -133,7 +133,7 @@ func RunJSONSerializationTestForEventhubStatusPropertiesARM(subject Eventhub_Sta
 }
 
 // Generator of Eventhub_Status_PropertiesARM instances for property testing - lazily instantiated by
-//EventhubStatusPropertiesARMGenerator()
+// EventhubStatusPropertiesARMGenerator()
 var eventhubStatusPropertiesARMGenerator gopter.Gen
 
 // EventhubStatusPropertiesARMGenerator returns a generator of Eventhub_Status_PropertiesARM instances for property testing.
@@ -221,7 +221,7 @@ func RunJSONSerializationTestForCaptureDescriptionStatusARM(subject CaptureDescr
 }
 
 // Generator of CaptureDescription_StatusARM instances for property testing - lazily instantiated by
-//CaptureDescriptionStatusARMGenerator()
+// CaptureDescriptionStatusARMGenerator()
 var captureDescriptionStatusARMGenerator gopter.Gen
 
 // CaptureDescriptionStatusARMGenerator returns a generator of CaptureDescription_StatusARM instances for property testing.
@@ -299,7 +299,7 @@ func RunJSONSerializationTestForDestinationStatusARM(subject Destination_StatusA
 }
 
 // Generator of Destination_StatusARM instances for property testing - lazily instantiated by
-//DestinationStatusARMGenerator()
+// DestinationStatusARMGenerator()
 var destinationStatusARMGenerator gopter.Gen
 
 // DestinationStatusARMGenerator returns a generator of Destination_StatusARM instances for property testing.
@@ -373,7 +373,7 @@ func RunJSONSerializationTestForDestinationStatusPropertiesARM(subject Destinati
 }
 
 // Generator of Destination_Status_PropertiesARM instances for property testing - lazily instantiated by
-//DestinationStatusPropertiesARMGenerator()
+// DestinationStatusPropertiesARMGenerator()
 var destinationStatusPropertiesARMGenerator gopter.Gen
 
 // DestinationStatusPropertiesARMGenerator returns a generator of Destination_Status_PropertiesARM instances for property testing.

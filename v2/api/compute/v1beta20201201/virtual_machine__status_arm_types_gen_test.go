@@ -56,7 +56,7 @@ func RunJSONSerializationTestForVirtualMachineStatusARM(subject VirtualMachine_S
 }
 
 // Generator of VirtualMachine_StatusARM instances for property testing - lazily instantiated by
-//VirtualMachineStatusARMGenerator()
+// VirtualMachineStatusARMGenerator()
 var virtualMachineStatusARMGenerator gopter.Gen
 
 // VirtualMachineStatusARMGenerator returns a generator of VirtualMachine_StatusARM instances for property testing.
@@ -139,7 +139,7 @@ func RunJSONSerializationTestForVirtualMachineExtensionStatusARM(subject Virtual
 }
 
 // Generator of VirtualMachineExtension_StatusARM instances for property testing - lazily instantiated by
-//VirtualMachineExtensionStatusARMGenerator()
+// VirtualMachineExtensionStatusARMGenerator()
 var virtualMachineExtensionStatusARMGenerator gopter.Gen
 
 // VirtualMachineExtensionStatusARMGenerator returns a generator of VirtualMachineExtension_StatusARM instances for property testing.
@@ -217,7 +217,7 @@ func RunJSONSerializationTestForVirtualMachineIdentityStatusARM(subject VirtualM
 }
 
 // Generator of VirtualMachineIdentity_StatusARM instances for property testing - lazily instantiated by
-//VirtualMachineIdentityStatusARMGenerator()
+// VirtualMachineIdentityStatusARMGenerator()
 var virtualMachineIdentityStatusARMGenerator gopter.Gen
 
 // VirtualMachineIdentityStatusARMGenerator returns a generator of VirtualMachineIdentity_StatusARM instances for property testing.
@@ -297,7 +297,7 @@ func RunJSONSerializationTestForVirtualMachinePropertiesStatusARM(subject Virtua
 }
 
 // Generator of VirtualMachineProperties_StatusARM instances for property testing - lazily instantiated by
-//VirtualMachinePropertiesStatusARMGenerator()
+// VirtualMachinePropertiesStatusARMGenerator()
 var virtualMachinePropertiesStatusARMGenerator gopter.Gen
 
 // VirtualMachinePropertiesStatusARMGenerator returns a generator of VirtualMachineProperties_StatusARM instances for property testing.
@@ -390,7 +390,7 @@ func RunJSONSerializationTestForBillingProfileStatusARM(subject BillingProfile_S
 }
 
 // Generator of BillingProfile_StatusARM instances for property testing - lazily instantiated by
-//BillingProfileStatusARMGenerator()
+// BillingProfileStatusARMGenerator()
 var billingProfileStatusARMGenerator gopter.Gen
 
 // BillingProfileStatusARMGenerator returns a generator of BillingProfile_StatusARM instances for property testing.
@@ -450,7 +450,7 @@ func RunJSONSerializationTestForDiagnosticsProfileStatusARM(subject DiagnosticsP
 }
 
 // Generator of DiagnosticsProfile_StatusARM instances for property testing - lazily instantiated by
-//DiagnosticsProfileStatusARMGenerator()
+// DiagnosticsProfileStatusARMGenerator()
 var diagnosticsProfileStatusARMGenerator gopter.Gen
 
 // DiagnosticsProfileStatusARMGenerator returns a generator of DiagnosticsProfile_StatusARM instances for property testing.
@@ -510,7 +510,7 @@ func RunJSONSerializationTestForHardwareProfileStatusARM(subject HardwareProfile
 }
 
 // Generator of HardwareProfile_StatusARM instances for property testing - lazily instantiated by
-//HardwareProfileStatusARMGenerator()
+// HardwareProfileStatusARMGenerator()
 var hardwareProfileStatusARMGenerator gopter.Gen
 
 // HardwareProfileStatusARMGenerator returns a generator of HardwareProfile_StatusARM instances for property testing.
@@ -736,7 +736,7 @@ func RunJSONSerializationTestForNetworkProfileStatusARM(subject NetworkProfile_S
 }
 
 // Generator of NetworkProfile_StatusARM instances for property testing - lazily instantiated by
-//NetworkProfileStatusARMGenerator()
+// NetworkProfileStatusARMGenerator()
 var networkProfileStatusARMGenerator gopter.Gen
 
 // NetworkProfileStatusARMGenerator returns a generator of NetworkProfile_StatusARM instances for property testing.
@@ -876,7 +876,7 @@ func RunJSONSerializationTestForSecurityProfileStatusARM(subject SecurityProfile
 }
 
 // Generator of SecurityProfile_StatusARM instances for property testing - lazily instantiated by
-//SecurityProfileStatusARMGenerator()
+// SecurityProfileStatusARMGenerator()
 var securityProfileStatusARMGenerator gopter.Gen
 
 // SecurityProfileStatusARMGenerator returns a generator of SecurityProfile_StatusARM instances for property testing.
@@ -951,7 +951,7 @@ func RunJSONSerializationTestForStorageProfileStatusARM(subject StorageProfile_S
 }
 
 // Generator of StorageProfile_StatusARM instances for property testing - lazily instantiated by
-//StorageProfileStatusARMGenerator()
+// StorageProfileStatusARMGenerator()
 var storageProfileStatusARMGenerator gopter.Gen
 
 // StorageProfileStatusARMGenerator returns a generator of StorageProfile_StatusARM instances for property testing.
@@ -1013,7 +1013,7 @@ func RunJSONSerializationTestForVirtualMachineExtensionPropertiesStatusARM(subje
 }
 
 // Generator of VirtualMachineExtensionProperties_StatusARM instances for property testing - lazily instantiated by
-//VirtualMachineExtensionPropertiesStatusARMGenerator()
+// VirtualMachineExtensionPropertiesStatusARMGenerator()
 var virtualMachineExtensionPropertiesStatusARMGenerator gopter.Gen
 
 // VirtualMachineExtensionPropertiesStatusARMGenerator returns a generator of VirtualMachineExtensionProperties_StatusARM instances for property testing.
@@ -1093,7 +1093,7 @@ func RunJSONSerializationTestForVirtualMachineIdentityStatusUserAssignedIdentiti
 }
 
 // Generator of VirtualMachineIdentity_Status_UserAssignedIdentitiesARM instances for property testing - lazily
-//instantiated by VirtualMachineIdentityStatusUserAssignedIdentitiesARMGenerator()
+// instantiated by VirtualMachineIdentityStatusUserAssignedIdentitiesARMGenerator()
 var virtualMachineIdentityStatusUserAssignedIdentitiesARMGenerator gopter.Gen
 
 // VirtualMachineIdentityStatusUserAssignedIdentitiesARMGenerator returns a generator of VirtualMachineIdentity_Status_UserAssignedIdentitiesARM instances for property testing.
@@ -1154,7 +1154,7 @@ func RunJSONSerializationTestForVirtualMachineInstanceViewStatusARM(subject Virt
 }
 
 // Generator of VirtualMachineInstanceView_StatusARM instances for property testing - lazily instantiated by
-//VirtualMachineInstanceViewStatusARMGenerator()
+// VirtualMachineInstanceViewStatusARMGenerator()
 var virtualMachineInstanceViewStatusARMGenerator gopter.Gen
 
 // VirtualMachineInstanceViewStatusARMGenerator returns a generator of VirtualMachineInstanceView_StatusARM instances for property testing.
@@ -1242,7 +1242,7 @@ func RunJSONSerializationTestForBootDiagnosticsInstanceViewStatusARM(subject Boo
 }
 
 // Generator of BootDiagnosticsInstanceView_StatusARM instances for property testing - lazily instantiated by
-//BootDiagnosticsInstanceViewStatusARMGenerator()
+// BootDiagnosticsInstanceViewStatusARMGenerator()
 var bootDiagnosticsInstanceViewStatusARMGenerator gopter.Gen
 
 // BootDiagnosticsInstanceViewStatusARMGenerator returns a generator of BootDiagnosticsInstanceView_StatusARM instances for property testing.
@@ -1317,7 +1317,7 @@ func RunJSONSerializationTestForBootDiagnosticsStatusARM(subject BootDiagnostics
 }
 
 // Generator of BootDiagnostics_StatusARM instances for property testing - lazily instantiated by
-//BootDiagnosticsStatusARMGenerator()
+// BootDiagnosticsStatusARMGenerator()
 var bootDiagnosticsStatusARMGenerator gopter.Gen
 
 // BootDiagnosticsStatusARMGenerator returns a generator of BootDiagnostics_StatusARM instances for property testing.
@@ -1462,7 +1462,7 @@ func RunJSONSerializationTestForDiskInstanceViewStatusARM(subject DiskInstanceVi
 }
 
 // Generator of DiskInstanceView_StatusARM instances for property testing - lazily instantiated by
-//DiskInstanceViewStatusARMGenerator()
+// DiskInstanceViewStatusARMGenerator()
 var diskInstanceViewStatusARMGenerator gopter.Gen
 
 // DiskInstanceViewStatusARMGenerator returns a generator of DiskInstanceView_StatusARM instances for property testing.
@@ -1537,7 +1537,7 @@ func RunJSONSerializationTestForImageReferenceStatusARM(subject ImageReference_S
 }
 
 // Generator of ImageReference_StatusARM instances for property testing - lazily instantiated by
-//ImageReferenceStatusARMGenerator()
+// ImageReferenceStatusARMGenerator()
 var imageReferenceStatusARMGenerator gopter.Gen
 
 // ImageReferenceStatusARMGenerator returns a generator of ImageReference_StatusARM instances for property testing.
@@ -1602,7 +1602,7 @@ func RunJSONSerializationTestForInstanceViewStatusStatusARM(subject InstanceView
 }
 
 // Generator of InstanceViewStatus_StatusARM instances for property testing - lazily instantiated by
-//InstanceViewStatusStatusARMGenerator()
+// InstanceViewStatusStatusARMGenerator()
 var instanceViewStatusStatusARMGenerator gopter.Gen
 
 // InstanceViewStatusStatusARMGenerator returns a generator of InstanceViewStatus_StatusARM instances for property testing.
@@ -1666,7 +1666,7 @@ func RunJSONSerializationTestForLinuxConfigurationStatusARM(subject LinuxConfigu
 }
 
 // Generator of LinuxConfiguration_StatusARM instances for property testing - lazily instantiated by
-//LinuxConfigurationStatusARMGenerator()
+// LinuxConfigurationStatusARMGenerator()
 var linuxConfigurationStatusARMGenerator gopter.Gen
 
 // LinuxConfigurationStatusARMGenerator returns a generator of LinuxConfiguration_StatusARM instances for property testing.
@@ -1742,7 +1742,7 @@ func RunJSONSerializationTestForMaintenanceRedeployStatusStatusARM(subject Maint
 }
 
 // Generator of MaintenanceRedeployStatus_StatusARM instances for property testing - lazily instantiated by
-//MaintenanceRedeployStatusStatusARMGenerator()
+// MaintenanceRedeployStatusStatusARMGenerator()
 var maintenanceRedeployStatusStatusARMGenerator gopter.Gen
 
 // MaintenanceRedeployStatusStatusARMGenerator returns a generator of MaintenanceRedeployStatus_StatusARM instances for property testing.
@@ -1812,7 +1812,7 @@ func RunJSONSerializationTestForNetworkInterfaceReferenceStatusARM(subject Netwo
 }
 
 // Generator of NetworkInterfaceReference_StatusARM instances for property testing - lazily instantiated by
-//NetworkInterfaceReferenceStatusARMGenerator()
+// NetworkInterfaceReferenceStatusARMGenerator()
 var networkInterfaceReferenceStatusARMGenerator gopter.Gen
 
 // NetworkInterfaceReferenceStatusARMGenerator returns a generator of NetworkInterfaceReference_StatusARM instances for property testing.
@@ -1968,7 +1968,7 @@ func RunJSONSerializationTestForUefiSettingsStatusARM(subject UefiSettings_Statu
 }
 
 // Generator of UefiSettings_StatusARM instances for property testing - lazily instantiated by
-//UefiSettingsStatusARMGenerator()
+// UefiSettingsStatusARMGenerator()
 var uefiSettingsStatusARMGenerator gopter.Gen
 
 // UefiSettingsStatusARMGenerator returns a generator of UefiSettings_StatusARM instances for property testing.
@@ -2029,7 +2029,7 @@ func RunJSONSerializationTestForVaultSecretGroupStatusARM(subject VaultSecretGro
 }
 
 // Generator of VaultSecretGroup_StatusARM instances for property testing - lazily instantiated by
-//VaultSecretGroupStatusARMGenerator()
+// VaultSecretGroupStatusARMGenerator()
 var vaultSecretGroupStatusARMGenerator gopter.Gen
 
 // VaultSecretGroupStatusARMGenerator returns a generator of VaultSecretGroup_StatusARM instances for property testing.
@@ -2090,7 +2090,7 @@ func RunJSONSerializationTestForVirtualMachineAgentInstanceViewStatusARM(subject
 }
 
 // Generator of VirtualMachineAgentInstanceView_StatusARM instances for property testing - lazily instantiated by
-//VirtualMachineAgentInstanceViewStatusARMGenerator()
+// VirtualMachineAgentInstanceViewStatusARMGenerator()
 var virtualMachineAgentInstanceViewStatusARMGenerator gopter.Gen
 
 // VirtualMachineAgentInstanceViewStatusARMGenerator returns a generator of VirtualMachineAgentInstanceView_StatusARM instances for property testing.
@@ -2165,7 +2165,7 @@ func RunJSONSerializationTestForVirtualMachineExtensionInstanceViewStatusARM(sub
 }
 
 // Generator of VirtualMachineExtensionInstanceView_StatusARM instances for property testing - lazily instantiated by
-//VirtualMachineExtensionInstanceViewStatusARMGenerator()
+// VirtualMachineExtensionInstanceViewStatusARMGenerator()
 var virtualMachineExtensionInstanceViewStatusARMGenerator gopter.Gen
 
 // VirtualMachineExtensionInstanceViewStatusARMGenerator returns a generator of VirtualMachineExtensionInstanceView_StatusARM instances for property testing.
@@ -2242,7 +2242,7 @@ func RunJSONSerializationTestForVirtualMachineHealthStatusStatusARM(subject Virt
 }
 
 // Generator of VirtualMachineHealthStatus_StatusARM instances for property testing - lazily instantiated by
-//VirtualMachineHealthStatusStatusARMGenerator()
+// VirtualMachineHealthStatusStatusARMGenerator()
 var virtualMachineHealthStatusStatusARMGenerator gopter.Gen
 
 // VirtualMachineHealthStatusStatusARMGenerator returns a generator of VirtualMachineHealthStatus_StatusARM instances for property testing.
@@ -2302,7 +2302,7 @@ func RunJSONSerializationTestForVirtualMachinePatchStatusStatusARM(subject Virtu
 }
 
 // Generator of VirtualMachinePatchStatus_StatusARM instances for property testing - lazily instantiated by
-//VirtualMachinePatchStatusStatusARMGenerator()
+// VirtualMachinePatchStatusStatusARMGenerator()
 var virtualMachinePatchStatusStatusARMGenerator gopter.Gen
 
 // VirtualMachinePatchStatusStatusARMGenerator returns a generator of VirtualMachinePatchStatus_StatusARM instances for property testing.
@@ -2364,7 +2364,7 @@ func RunJSONSerializationTestForWindowsConfigurationStatusARM(subject WindowsCon
 }
 
 // Generator of WindowsConfiguration_StatusARM instances for property testing - lazily instantiated by
-//WindowsConfigurationStatusARMGenerator()
+// WindowsConfigurationStatusARMGenerator()
 var windowsConfigurationStatusARMGenerator gopter.Gen
 
 // WindowsConfigurationStatusARMGenerator returns a generator of WindowsConfiguration_StatusARM instances for property testing.
@@ -2442,7 +2442,7 @@ func RunJSONSerializationTestForAdditionalUnattendContentStatusARM(subject Addit
 }
 
 // Generator of AdditionalUnattendContent_StatusARM instances for property testing - lazily instantiated by
-//AdditionalUnattendContentStatusARMGenerator()
+// AdditionalUnattendContentStatusARMGenerator()
 var additionalUnattendContentStatusARMGenerator gopter.Gen
 
 // AdditionalUnattendContentStatusARMGenerator returns a generator of AdditionalUnattendContent_StatusARM instances for property testing.
@@ -2505,7 +2505,7 @@ func RunJSONSerializationTestForAvailablePatchSummaryStatusARM(subject Available
 }
 
 // Generator of AvailablePatchSummary_StatusARM instances for property testing - lazily instantiated by
-//AvailablePatchSummaryStatusARMGenerator()
+// AvailablePatchSummaryStatusARMGenerator()
 var availablePatchSummaryStatusARMGenerator gopter.Gen
 
 // AvailablePatchSummaryStatusARMGenerator returns a generator of AvailablePatchSummary_StatusARM instances for property testing.
@@ -2590,7 +2590,7 @@ func RunJSONSerializationTestForDiffDiskSettingsStatusARM(subject DiffDiskSettin
 }
 
 // Generator of DiffDiskSettings_StatusARM instances for property testing - lazily instantiated by
-//DiffDiskSettingsStatusARMGenerator()
+// DiffDiskSettingsStatusARMGenerator()
 var diffDiskSettingsStatusARMGenerator gopter.Gen
 
 // DiffDiskSettingsStatusARMGenerator returns a generator of DiffDiskSettings_StatusARM instances for property testing.
@@ -2651,7 +2651,7 @@ func RunJSONSerializationTestForDiskEncryptionSettingsStatusARM(subject DiskEncr
 }
 
 // Generator of DiskEncryptionSettings_StatusARM instances for property testing - lazily instantiated by
-//DiskEncryptionSettingsStatusARMGenerator()
+// DiskEncryptionSettingsStatusARMGenerator()
 var diskEncryptionSettingsStatusARMGenerator gopter.Gen
 
 // DiskEncryptionSettingsStatusARMGenerator returns a generator of DiskEncryptionSettings_StatusARM instances for property testing.
@@ -2726,7 +2726,7 @@ func RunJSONSerializationTestForLastPatchInstallationSummaryStatusARM(subject La
 }
 
 // Generator of LastPatchInstallationSummary_StatusARM instances for property testing - lazily instantiated by
-//LastPatchInstallationSummaryStatusARMGenerator()
+// LastPatchInstallationSummaryStatusARMGenerator()
 var lastPatchInstallationSummaryStatusARMGenerator gopter.Gen
 
 // LastPatchInstallationSummaryStatusARMGenerator returns a generator of LastPatchInstallationSummary_StatusARM instances for property testing.
@@ -2814,7 +2814,7 @@ func RunJSONSerializationTestForLinuxPatchSettingsStatusARM(subject LinuxPatchSe
 }
 
 // Generator of LinuxPatchSettings_StatusARM instances for property testing - lazily instantiated by
-//LinuxPatchSettingsStatusARMGenerator()
+// LinuxPatchSettingsStatusARMGenerator()
 var linuxPatchSettingsStatusARMGenerator gopter.Gen
 
 // LinuxPatchSettingsStatusARMGenerator returns a generator of LinuxPatchSettings_StatusARM instances for property testing.
@@ -2874,7 +2874,7 @@ func RunJSONSerializationTestForManagedDiskParametersStatusARM(subject ManagedDi
 }
 
 // Generator of ManagedDiskParameters_StatusARM instances for property testing - lazily instantiated by
-//ManagedDiskParametersStatusARMGenerator()
+// ManagedDiskParametersStatusARMGenerator()
 var managedDiskParametersStatusARMGenerator gopter.Gen
 
 // ManagedDiskParametersStatusARMGenerator returns a generator of ManagedDiskParameters_StatusARM instances for property testing.
@@ -2955,7 +2955,7 @@ func RunJSONSerializationTestForNetworkInterfaceReferencePropertiesStatusARM(sub
 }
 
 // Generator of NetworkInterfaceReferenceProperties_StatusARM instances for property testing - lazily instantiated by
-//NetworkInterfaceReferencePropertiesStatusARMGenerator()
+// NetworkInterfaceReferencePropertiesStatusARMGenerator()
 var networkInterfaceReferencePropertiesStatusARMGenerator gopter.Gen
 
 // NetworkInterfaceReferencePropertiesStatusARMGenerator returns a generator of NetworkInterfaceReferenceProperties_StatusARM instances for property testing.
@@ -3015,7 +3015,7 @@ func RunJSONSerializationTestForPatchSettingsStatusARM(subject PatchSettings_Sta
 }
 
 // Generator of PatchSettings_StatusARM instances for property testing - lazily instantiated by
-//PatchSettingsStatusARMGenerator()
+// PatchSettingsStatusARMGenerator()
 var patchSettingsStatusARMGenerator gopter.Gen
 
 // PatchSettingsStatusARMGenerator returns a generator of PatchSettings_StatusARM instances for property testing.
@@ -3076,7 +3076,7 @@ func RunJSONSerializationTestForSshConfigurationStatusARM(subject SshConfigurati
 }
 
 // Generator of SshConfiguration_StatusARM instances for property testing - lazily instantiated by
-//SshConfigurationStatusARMGenerator()
+// SshConfigurationStatusARMGenerator()
 var sshConfigurationStatusARMGenerator gopter.Gen
 
 // SshConfigurationStatusARMGenerator returns a generator of SshConfiguration_StatusARM instances for property testing.
@@ -3136,7 +3136,7 @@ func RunJSONSerializationTestForVaultCertificateStatusARM(subject VaultCertifica
 }
 
 // Generator of VaultCertificate_StatusARM instances for property testing - lazily instantiated by
-//VaultCertificateStatusARMGenerator()
+// VaultCertificateStatusARMGenerator()
 var vaultCertificateStatusARMGenerator gopter.Gen
 
 // VaultCertificateStatusARMGenerator returns a generator of VaultCertificate_StatusARM instances for property testing.
@@ -3197,7 +3197,7 @@ func RunJSONSerializationTestForVirtualHardDiskStatusARM(subject VirtualHardDisk
 }
 
 // Generator of VirtualHardDisk_StatusARM instances for property testing - lazily instantiated by
-//VirtualHardDiskStatusARMGenerator()
+// VirtualHardDiskStatusARMGenerator()
 var virtualHardDiskStatusARMGenerator gopter.Gen
 
 // VirtualHardDiskStatusARMGenerator returns a generator of VirtualHardDisk_StatusARM instances for property testing.
@@ -3257,7 +3257,7 @@ func RunJSONSerializationTestForVirtualMachineExtensionHandlerInstanceViewStatus
 }
 
 // Generator of VirtualMachineExtensionHandlerInstanceView_StatusARM instances for property testing - lazily
-//instantiated by VirtualMachineExtensionHandlerInstanceViewStatusARMGenerator()
+// instantiated by VirtualMachineExtensionHandlerInstanceViewStatusARMGenerator()
 var virtualMachineExtensionHandlerInstanceViewStatusARMGenerator gopter.Gen
 
 // VirtualMachineExtensionHandlerInstanceViewStatusARMGenerator returns a generator of VirtualMachineExtensionHandlerInstanceView_StatusARM instances for property testing.
@@ -3332,7 +3332,7 @@ func RunJSONSerializationTestForWinRMConfigurationStatusARM(subject WinRMConfigu
 }
 
 // Generator of WinRMConfiguration_StatusARM instances for property testing - lazily instantiated by
-//WinRMConfigurationStatusARMGenerator()
+// WinRMConfigurationStatusARMGenerator()
 var winRMConfigurationStatusARMGenerator gopter.Gen
 
 // WinRMConfigurationStatusARMGenerator returns a generator of WinRMConfiguration_StatusARM instances for property testing.
@@ -3468,7 +3468,7 @@ func RunJSONSerializationTestForKeyVaultKeyReferenceStatusARM(subject KeyVaultKe
 }
 
 // Generator of KeyVaultKeyReference_StatusARM instances for property testing - lazily instantiated by
-//KeyVaultKeyReferenceStatusARMGenerator()
+// KeyVaultKeyReferenceStatusARMGenerator()
 var keyVaultKeyReferenceStatusARMGenerator gopter.Gen
 
 // KeyVaultKeyReferenceStatusARMGenerator returns a generator of KeyVaultKeyReference_StatusARM instances for property testing.
@@ -3542,7 +3542,7 @@ func RunJSONSerializationTestForKeyVaultSecretReferenceStatusARM(subject KeyVaul
 }
 
 // Generator of KeyVaultSecretReference_StatusARM instances for property testing - lazily instantiated by
-//KeyVaultSecretReferenceStatusARMGenerator()
+// KeyVaultSecretReferenceStatusARMGenerator()
 var keyVaultSecretReferenceStatusARMGenerator gopter.Gen
 
 // KeyVaultSecretReferenceStatusARMGenerator returns a generator of KeyVaultSecretReference_StatusARM instances for property testing.
@@ -3616,7 +3616,7 @@ func RunJSONSerializationTestForSshPublicKeyStatusARM(subject SshPublicKey_Statu
 }
 
 // Generator of SshPublicKey_StatusARM instances for property testing - lazily instantiated by
-//SshPublicKeyStatusARMGenerator()
+// SshPublicKeyStatusARMGenerator()
 var sshPublicKeyStatusARMGenerator gopter.Gen
 
 // SshPublicKeyStatusARMGenerator returns a generator of SshPublicKey_StatusARM instances for property testing.
@@ -3677,7 +3677,7 @@ func RunJSONSerializationTestForWinRMListenerStatusARM(subject WinRMListener_Sta
 }
 
 // Generator of WinRMListener_StatusARM instances for property testing - lazily instantiated by
-//WinRMListenerStatusARMGenerator()
+// WinRMListenerStatusARMGenerator()
 var winRMListenerStatusARMGenerator gopter.Gen
 
 // WinRMListenerStatusARMGenerator returns a generator of WinRMListener_StatusARM instances for property testing.
@@ -3738,7 +3738,7 @@ func RunJSONSerializationTestForApiErrorBaseStatusARM(subject ApiErrorBase_Statu
 }
 
 // Generator of ApiErrorBase_StatusARM instances for property testing - lazily instantiated by
-//ApiErrorBaseStatusARMGenerator()
+// ApiErrorBaseStatusARMGenerator()
 var apiErrorBaseStatusARMGenerator gopter.Gen
 
 // ApiErrorBaseStatusARMGenerator returns a generator of ApiErrorBase_StatusARM instances for property testing.
@@ -3800,7 +3800,7 @@ func RunJSONSerializationTestForInnerErrorStatusARM(subject InnerError_StatusARM
 }
 
 // Generator of InnerError_StatusARM instances for property testing - lazily instantiated by
-//InnerErrorStatusARMGenerator()
+// InnerErrorStatusARMGenerator()
 var innerErrorStatusARMGenerator gopter.Gen
 
 // InnerErrorStatusARMGenerator returns a generator of InnerError_StatusARM instances for property testing.

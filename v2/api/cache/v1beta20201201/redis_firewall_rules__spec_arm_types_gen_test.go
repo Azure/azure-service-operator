@@ -56,7 +56,7 @@ func RunJSONSerializationTestForRedisFirewallRulesSpecARM(subject RedisFirewallR
 }
 
 // Generator of RedisFirewallRules_SpecARM instances for property testing - lazily instantiated by
-//RedisFirewallRulesSpecARMGenerator()
+// RedisFirewallRulesSpecARMGenerator()
 var redisFirewallRulesSpecARMGenerator gopter.Gen
 
 // RedisFirewallRulesSpecARMGenerator returns a generator of RedisFirewallRules_SpecARM instances for property testing.
@@ -132,7 +132,7 @@ func RunJSONSerializationTestForRedisFirewallRulePropertiesARM(subject RedisFire
 }
 
 // Generator of RedisFirewallRulePropertiesARM instances for property testing - lazily instantiated by
-//RedisFirewallRulePropertiesARMGenerator()
+// RedisFirewallRulePropertiesARMGenerator()
 var redisFirewallRulePropertiesARMGenerator gopter.Gen
 
 // RedisFirewallRulePropertiesARMGenerator returns a generator of RedisFirewallRulePropertiesARM instances for property testing.

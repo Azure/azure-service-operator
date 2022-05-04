@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1alpha1api20201101
 
-//Deprecated version of VirtualNetworkPeering_Status. Use v1beta20201101.VirtualNetworkPeering_Status instead
+// Deprecated version of VirtualNetworkPeering_Status. Use v1beta20201101.VirtualNetworkPeering_Status instead
 type VirtualNetworkPeering_StatusARM struct {
 	Etag       *string                                          `json:"etag,omitempty"`
 	Id         *string                                          `json:"id,omitempty"`
@@ -12,7 +12,7 @@ type VirtualNetworkPeering_StatusARM struct {
 	Type       *string                                          `json:"type,omitempty"`
 }
 
-//Deprecated version of VirtualNetworkPeeringPropertiesFormat_Status. Use v1beta20201101.VirtualNetworkPeeringPropertiesFormat_Status instead
+// Deprecated version of VirtualNetworkPeeringPropertiesFormat_Status. Use v1beta20201101.VirtualNetworkPeeringPropertiesFormat_Status instead
 type VirtualNetworkPeeringPropertiesFormat_StatusARM struct {
 	AllowForwardedTraffic     *bool                                                    `json:"allowForwardedTraffic,omitempty"`
 	AllowGatewayTransit       *bool                                                    `json:"allowGatewayTransit,omitempty"`
@@ -27,14 +27,14 @@ type VirtualNetworkPeeringPropertiesFormat_StatusARM struct {
 	UseRemoteGateways         *bool                                                    `json:"useRemoteGateways,omitempty"`
 }
 
-//Deprecated version of VirtualNetworkBgpCommunities_Status. Use v1beta20201101.VirtualNetworkBgpCommunities_Status instead
+// Deprecated version of VirtualNetworkBgpCommunities_Status. Use v1beta20201101.VirtualNetworkBgpCommunities_Status instead
 type VirtualNetworkBgpCommunities_StatusARM struct {
 	RegionalCommunity       *string `json:"regionalCommunity,omitempty"`
 	VirtualNetworkCommunity *string `json:"virtualNetworkCommunity,omitempty"`
 }
 
-//Deprecated version of VirtualNetworkPeeringPropertiesFormatStatusPeeringState. Use
-//v1beta20201101.VirtualNetworkPeeringPropertiesFormatStatusPeeringState instead
+// Deprecated version of VirtualNetworkPeeringPropertiesFormatStatusPeeringState. Use
+// v1beta20201101.VirtualNetworkPeeringPropertiesFormatStatusPeeringState instead
 type VirtualNetworkPeeringPropertiesFormatStatusPeeringState string
 
 const (

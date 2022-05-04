@@ -56,7 +56,7 @@ func RunJSONSerializationTestForNamespacesEventhubsAuthorizationRule(subject Nam
 }
 
 // Generator of NamespacesEventhubsAuthorizationRule instances for property testing - lazily instantiated by
-//NamespacesEventhubsAuthorizationRuleGenerator()
+// NamespacesEventhubsAuthorizationRuleGenerator()
 var namespacesEventhubsAuthorizationRuleGenerator gopter.Gen
 
 // NamespacesEventhubsAuthorizationRuleGenerator returns a generator of NamespacesEventhubsAuthorizationRule instances for property testing.
@@ -117,7 +117,7 @@ func RunJSONSerializationTestForNamespacesEventhubsAuthorizationRulesSpec(subjec
 }
 
 // Generator of NamespacesEventhubsAuthorizationRules_Spec instances for property testing - lazily instantiated by
-//NamespacesEventhubsAuthorizationRulesSpecGenerator()
+// NamespacesEventhubsAuthorizationRulesSpecGenerator()
 var namespacesEventhubsAuthorizationRulesSpecGenerator gopter.Gen
 
 // NamespacesEventhubsAuthorizationRulesSpecGenerator returns a generator of NamespacesEventhubsAuthorizationRules_Spec instances for property testing.

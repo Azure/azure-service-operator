@@ -5,7 +5,7 @@ package v1alpha1api20210601
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-//Deprecated version of FlexibleServers_Spec. Use v1beta20210601.FlexibleServers_Spec instead
+// Deprecated version of FlexibleServers_Spec. Use v1beta20210601.FlexibleServers_Spec instead
 type FlexibleServers_SpecARM struct {
 	Location   *string              `json:"location,omitempty"`
 	Name       string               `json:"name,omitempty"`
@@ -31,7 +31,7 @@ func (servers FlexibleServers_SpecARM) GetType() string {
 	return "Microsoft.DBforPostgreSQL/flexibleServers"
 }
 
-//Deprecated version of ServerProperties. Use v1beta20210601.ServerProperties instead
+// Deprecated version of ServerProperties. Use v1beta20210601.ServerProperties instead
 type ServerPropertiesARM struct {
 	AdministratorLogin         *string                     `json:"administratorLogin,omitempty"`
 	AdministratorLoginPassword *string                     `json:"administratorLoginPassword,omitempty"`
@@ -47,25 +47,25 @@ type ServerPropertiesARM struct {
 	Version                    *ServerPropertiesVersion    `json:"version,omitempty"`
 }
 
-//Deprecated version of Sku. Use v1beta20210601.Sku instead
+// Deprecated version of Sku. Use v1beta20210601.Sku instead
 type SkuARM struct {
 	Name *string  `json:"name,omitempty"`
 	Tier *SkuTier `json:"tier,omitempty"`
 }
 
-//Deprecated version of Backup. Use v1beta20210601.Backup instead
+// Deprecated version of Backup. Use v1beta20210601.Backup instead
 type BackupARM struct {
 	BackupRetentionDays *int                      `json:"backupRetentionDays,omitempty"`
 	GeoRedundantBackup  *BackupGeoRedundantBackup `json:"geoRedundantBackup,omitempty"`
 }
 
-//Deprecated version of HighAvailability. Use v1beta20210601.HighAvailability instead
+// Deprecated version of HighAvailability. Use v1beta20210601.HighAvailability instead
 type HighAvailabilityARM struct {
 	Mode                    *HighAvailabilityMode `json:"mode,omitempty"`
 	StandbyAvailabilityZone *string               `json:"standbyAvailabilityZone,omitempty"`
 }
 
-//Deprecated version of MaintenanceWindow. Use v1beta20210601.MaintenanceWindow instead
+// Deprecated version of MaintenanceWindow. Use v1beta20210601.MaintenanceWindow instead
 type MaintenanceWindowARM struct {
 	CustomWindow *string `json:"customWindow,omitempty"`
 	DayOfWeek    *int    `json:"dayOfWeek,omitempty"`
@@ -73,13 +73,13 @@ type MaintenanceWindowARM struct {
 	StartMinute  *int    `json:"startMinute,omitempty"`
 }
 
-//Deprecated version of Network. Use v1beta20210601.Network instead
+// Deprecated version of Network. Use v1beta20210601.Network instead
 type NetworkARM struct {
 	DelegatedSubnetResourceId   *string `json:"delegatedSubnetResourceId,omitempty"`
 	PrivateDnsZoneArmResourceId *string `json:"privateDnsZoneArmResourceId,omitempty"`
 }
 
-//Deprecated version of SkuTier. Use v1beta20210601.SkuTier instead
+// Deprecated version of SkuTier. Use v1beta20210601.SkuTier instead
 // +kubebuilder:validation:Enum={"Burstable","GeneralPurpose","MemoryOptimized"}
 type SkuTier string
 
@@ -89,7 +89,7 @@ const (
 	SkuTierMemoryOptimized = SkuTier("MemoryOptimized")
 )
 
-//Deprecated version of Storage. Use v1beta20210601.Storage instead
+// Deprecated version of Storage. Use v1beta20210601.Storage instead
 type StorageARM struct {
 	StorageSizeGB *int `json:"storageSizeGB,omitempty"`
 }

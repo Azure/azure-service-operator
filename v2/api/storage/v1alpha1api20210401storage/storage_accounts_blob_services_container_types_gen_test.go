@@ -90,7 +90,7 @@ func RunPropertyAssignmentTestForStorageAccountsBlobServicesContainer(subject St
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -141,7 +141,7 @@ func RunJSONSerializationTestForStorageAccountsBlobServicesContainer(subject Sto
 }
 
 // Generator of StorageAccountsBlobServicesContainer instances for property testing - lazily instantiated by
-//StorageAccountsBlobServicesContainerGenerator()
+// StorageAccountsBlobServicesContainerGenerator()
 var storageAccountsBlobServicesContainerGenerator gopter.Gen
 
 // StorageAccountsBlobServicesContainerGenerator returns a generator of StorageAccountsBlobServicesContainer instances for property testing.
@@ -193,7 +193,7 @@ func RunPropertyAssignmentTestForBlobContainerStatus(subject BlobContainer_Statu
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -244,7 +244,7 @@ func RunJSONSerializationTestForBlobContainerStatus(subject BlobContainer_Status
 }
 
 // Generator of BlobContainer_Status instances for property testing - lazily instantiated by
-//BlobContainerStatusGenerator()
+// BlobContainerStatusGenerator()
 var blobContainerStatusGenerator gopter.Gen
 
 // BlobContainerStatusGenerator returns a generator of BlobContainer_Status instances for property testing.
@@ -328,7 +328,7 @@ func RunPropertyAssignmentTestForStorageAccountsBlobServicesContainersSpec(subje
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -379,7 +379,7 @@ func RunJSONSerializationTestForStorageAccountsBlobServicesContainersSpec(subjec
 }
 
 // Generator of StorageAccountsBlobServicesContainers_Spec instances for property testing - lazily instantiated by
-//StorageAccountsBlobServicesContainersSpecGenerator()
+// StorageAccountsBlobServicesContainersSpecGenerator()
 var storageAccountsBlobServicesContainersSpecGenerator gopter.Gen
 
 // StorageAccountsBlobServicesContainersSpecGenerator returns a generator of StorageAccountsBlobServicesContainers_Spec instances for property testing.
@@ -451,7 +451,7 @@ func RunPropertyAssignmentTestForImmutabilityPolicyPropertiesStatus(subject Immu
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -502,7 +502,7 @@ func RunJSONSerializationTestForImmutabilityPolicyPropertiesStatus(subject Immut
 }
 
 // Generator of ImmutabilityPolicyProperties_Status instances for property testing - lazily instantiated by
-//ImmutabilityPolicyPropertiesStatusGenerator()
+// ImmutabilityPolicyPropertiesStatusGenerator()
 var immutabilityPolicyPropertiesStatusGenerator gopter.Gen
 
 // ImmutabilityPolicyPropertiesStatusGenerator returns a generator of ImmutabilityPolicyProperties_Status instances for property testing.
@@ -570,7 +570,7 @@ func RunPropertyAssignmentTestForImmutableStorageWithVersioning(subject Immutabl
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -621,7 +621,7 @@ func RunJSONSerializationTestForImmutableStorageWithVersioning(subject Immutable
 }
 
 // Generator of ImmutableStorageWithVersioning instances for property testing - lazily instantiated by
-//ImmutableStorageWithVersioningGenerator()
+// ImmutableStorageWithVersioningGenerator()
 var immutableStorageWithVersioningGenerator gopter.Gen
 
 // ImmutableStorageWithVersioningGenerator returns a generator of ImmutableStorageWithVersioning instances for property testing.
@@ -672,7 +672,7 @@ func RunPropertyAssignmentTestForImmutableStorageWithVersioningStatus(subject Im
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -723,7 +723,7 @@ func RunJSONSerializationTestForImmutableStorageWithVersioningStatus(subject Imm
 }
 
 // Generator of ImmutableStorageWithVersioning_Status instances for property testing - lazily instantiated by
-//ImmutableStorageWithVersioningStatusGenerator()
+// ImmutableStorageWithVersioningStatusGenerator()
 var immutableStorageWithVersioningStatusGenerator gopter.Gen
 
 // ImmutableStorageWithVersioningStatusGenerator returns a generator of ImmutableStorageWithVersioning_Status instances for property testing.
@@ -776,7 +776,7 @@ func RunPropertyAssignmentTestForLegalHoldPropertiesStatus(subject LegalHoldProp
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -827,7 +827,7 @@ func RunJSONSerializationTestForLegalHoldPropertiesStatus(subject LegalHoldPrope
 }
 
 // Generator of LegalHoldProperties_Status instances for property testing - lazily instantiated by
-//LegalHoldPropertiesStatusGenerator()
+// LegalHoldPropertiesStatusGenerator()
 var legalHoldPropertiesStatusGenerator gopter.Gen
 
 // LegalHoldPropertiesStatusGenerator returns a generator of LegalHoldProperties_Status instances for property testing.
@@ -892,7 +892,7 @@ func RunPropertyAssignmentTestForTagPropertyStatus(subject TagProperty_Status) s
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -997,7 +997,7 @@ func RunPropertyAssignmentTestForUpdateHistoryPropertyStatus(subject UpdateHisto
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1048,7 +1048,7 @@ func RunJSONSerializationTestForUpdateHistoryPropertyStatus(subject UpdateHistor
 }
 
 // Generator of UpdateHistoryProperty_Status instances for property testing - lazily instantiated by
-//UpdateHistoryPropertyStatusGenerator()
+// UpdateHistoryPropertyStatusGenerator()
 var updateHistoryPropertyStatusGenerator gopter.Gen
 
 // UpdateHistoryPropertyStatusGenerator returns a generator of UpdateHistoryProperty_Status instances for property testing.

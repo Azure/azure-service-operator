@@ -56,7 +56,7 @@ func RunJSONSerializationTestForNamespacesEventhubsConsumergroupsSpecARM(subject
 }
 
 // Generator of NamespacesEventhubsConsumergroups_SpecARM instances for property testing - lazily instantiated by
-//NamespacesEventhubsConsumergroupsSpecARMGenerator()
+// NamespacesEventhubsConsumergroupsSpecARMGenerator()
 var namespacesEventhubsConsumergroupsSpecARMGenerator gopter.Gen
 
 // NamespacesEventhubsConsumergroupsSpecARMGenerator returns a generator of NamespacesEventhubsConsumergroups_SpecARM instances for property testing.
@@ -132,7 +132,7 @@ func RunJSONSerializationTestForConsumerGroupPropertiesARM(subject ConsumerGroup
 }
 
 // Generator of ConsumerGroupPropertiesARM instances for property testing - lazily instantiated by
-//ConsumerGroupPropertiesARMGenerator()
+// ConsumerGroupPropertiesARMGenerator()
 var consumerGroupPropertiesARMGenerator gopter.Gen
 
 // ConsumerGroupPropertiesARMGenerator returns a generator of ConsumerGroupPropertiesARM instances for property testing.

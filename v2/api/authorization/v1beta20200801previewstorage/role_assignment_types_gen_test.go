@@ -116,7 +116,7 @@ func RunJSONSerializationTestForRoleAssignmentStatus(subject RoleAssignment_Stat
 }
 
 // Generator of RoleAssignment_Status instances for property testing - lazily instantiated by
-//RoleAssignmentStatusGenerator()
+// RoleAssignmentStatusGenerator()
 var roleAssignmentStatusGenerator gopter.Gen
 
 // RoleAssignmentStatusGenerator returns a generator of RoleAssignment_Status instances for property testing.
@@ -190,7 +190,7 @@ func RunJSONSerializationTestForRoleAssignmentsSpec(subject RoleAssignments_Spec
 }
 
 // Generator of RoleAssignments_Spec instances for property testing - lazily instantiated by
-//RoleAssignmentsSpecGenerator()
+// RoleAssignmentsSpecGenerator()
 var roleAssignmentsSpecGenerator gopter.Gen
 
 // RoleAssignmentsSpecGenerator returns a generator of RoleAssignments_Spec instances for property testing.

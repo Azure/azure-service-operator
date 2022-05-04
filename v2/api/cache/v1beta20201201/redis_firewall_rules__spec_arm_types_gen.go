@@ -6,16 +6,16 @@ package v1beta20201201
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type RedisFirewallRules_SpecARM struct {
-	//Location: Location to deploy resource to
+	// Location: Location to deploy resource to
 	Location *string `json:"location,omitempty"`
 
-	//Name: The name of the firewall rule.
+	// Name: The name of the firewall rule.
 	Name string `json:"name,omitempty"`
 
-	//Properties: Specifies a range of IP addresses permitted to connect to the cache
+	// Properties: Specifies a range of IP addresses permitted to connect to the cache
 	Properties *RedisFirewallRulePropertiesARM `json:"properties,omitempty"`
 
-	//Tags: Name-value pairs to add to the resource
+	// Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
@@ -36,11 +36,11 @@ func (rules RedisFirewallRules_SpecARM) GetType() string {
 	return "Microsoft.Cache/redis/firewallRules"
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/definitions/RedisFirewallRuleProperties
+// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/definitions/RedisFirewallRuleProperties
 type RedisFirewallRulePropertiesARM struct {
-	//EndIP: highest IP address included in the range
+	// EndIP: highest IP address included in the range
 	EndIP *string `json:"endIP,omitempty"`
 
-	//StartIP: lowest IP address included in the range
+	// StartIP: lowest IP address included in the range
 	StartIP *string `json:"startIP,omitempty"`
 }

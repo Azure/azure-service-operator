@@ -56,7 +56,7 @@ func RunJSONSerializationTestForVirtualNetworksSubnetsSpecARM(subject VirtualNet
 }
 
 // Generator of VirtualNetworksSubnets_SpecARM instances for property testing - lazily instantiated by
-//VirtualNetworksSubnetsSpecARMGenerator()
+// VirtualNetworksSubnetsSpecARMGenerator()
 var virtualNetworksSubnetsSpecARMGenerator gopter.Gen
 
 // VirtualNetworksSubnetsSpecARMGenerator returns a generator of VirtualNetworksSubnets_SpecARM instances for property testing.
@@ -130,7 +130,7 @@ func RunJSONSerializationTestForVirtualNetworksSubnetsSpecPropertiesARM(subject 
 }
 
 // Generator of VirtualNetworksSubnets_Spec_PropertiesARM instances for property testing - lazily instantiated by
-//VirtualNetworksSubnetsSpecPropertiesARMGenerator()
+// VirtualNetworksSubnetsSpecPropertiesARMGenerator()
 var virtualNetworksSubnetsSpecPropertiesARMGenerator gopter.Gen
 
 // VirtualNetworksSubnetsSpecPropertiesARMGenerator returns a generator of VirtualNetworksSubnets_Spec_PropertiesARM instances for property testing.
@@ -213,7 +213,7 @@ func RunJSONSerializationTestForServiceEndpointPropertiesFormatARM(subject Servi
 }
 
 // Generator of ServiceEndpointPropertiesFormatARM instances for property testing - lazily instantiated by
-//ServiceEndpointPropertiesFormatARMGenerator()
+// ServiceEndpointPropertiesFormatARMGenerator()
 var serviceEndpointPropertiesFormatARMGenerator gopter.Gen
 
 // ServiceEndpointPropertiesFormatARMGenerator returns a generator of ServiceEndpointPropertiesFormatARM instances for property testing.
@@ -274,7 +274,7 @@ func RunJSONSerializationTestForVirtualNetworksSubnetsSpecPropertiesDelegationsA
 }
 
 // Generator of VirtualNetworksSubnets_Spec_Properties_DelegationsARM instances for property testing - lazily
-//instantiated by VirtualNetworksSubnetsSpecPropertiesDelegationsARMGenerator()
+// instantiated by VirtualNetworksSubnetsSpecPropertiesDelegationsARMGenerator()
 var virtualNetworksSubnetsSpecPropertiesDelegationsARMGenerator gopter.Gen
 
 // VirtualNetworksSubnetsSpecPropertiesDelegationsARMGenerator returns a generator of VirtualNetworksSubnets_Spec_Properties_DelegationsARM instances for property testing.
@@ -348,7 +348,7 @@ func RunJSONSerializationTestForServiceDelegationPropertiesFormatARM(subject Ser
 }
 
 // Generator of ServiceDelegationPropertiesFormatARM instances for property testing - lazily instantiated by
-//ServiceDelegationPropertiesFormatARMGenerator()
+// ServiceDelegationPropertiesFormatARMGenerator()
 var serviceDelegationPropertiesFormatARMGenerator gopter.Gen
 
 // ServiceDelegationPropertiesFormatARMGenerator returns a generator of ServiceDelegationPropertiesFormatARM instances for property testing.

@@ -5,7 +5,7 @@ package v1alpha1api20201201
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-//Deprecated version of Redis_Spec. Use v1beta20201201.Redis_Spec instead
+// Deprecated version of Redis_Spec. Use v1beta20201201.Redis_Spec instead
 type Redis_SpecARM struct {
 	Location   *string                   `json:"location,omitempty"`
 	Name       string                    `json:"name,omitempty"`
@@ -31,7 +31,7 @@ func (redis Redis_SpecARM) GetType() string {
 	return "Microsoft.Cache/redis"
 }
 
-//Deprecated version of RedisCreateProperties. Use v1beta20201201.RedisCreateProperties instead
+// Deprecated version of RedisCreateProperties. Use v1beta20201201.RedisCreateProperties instead
 type RedisCreatePropertiesARM struct {
 	EnableNonSslPort    *bool                                     `json:"enableNonSslPort,omitempty"`
 	MinimumTlsVersion   *RedisCreatePropertiesMinimumTlsVersion   `json:"minimumTlsVersion,omitempty"`
@@ -47,7 +47,7 @@ type RedisCreatePropertiesARM struct {
 	TenantSettings      map[string]string                         `json:"tenantSettings,omitempty"`
 }
 
-//Deprecated version of Sku. Use v1beta20201201.Sku instead
+// Deprecated version of Sku. Use v1beta20201201.Sku instead
 type SkuARM struct {
 	Capacity *int       `json:"capacity,omitempty"`
 	Family   *SkuFamily `json:"family,omitempty"`

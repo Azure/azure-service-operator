@@ -367,7 +367,7 @@ func RunJSONSerializationTestForEncryptionPropertyStatus(subject EncryptionPrope
 }
 
 // Generator of EncryptionProperty_Status instances for property testing - lazily instantiated by
-//EncryptionPropertyStatusGenerator()
+// EncryptionPropertyStatusGenerator()
 var encryptionPropertyStatusGenerator gopter.Gen
 
 // EncryptionPropertyStatusGenerator returns a generator of EncryptionProperty_Status instances for property testing.
@@ -516,7 +516,7 @@ func RunJSONSerializationTestForIdentityPropertiesStatus(subject IdentityPropert
 }
 
 // Generator of IdentityProperties_Status instances for property testing - lazily instantiated by
-//IdentityPropertiesStatusGenerator()
+// IdentityPropertiesStatusGenerator()
 var identityPropertiesStatusGenerator gopter.Gen
 
 // IdentityPropertiesStatusGenerator returns a generator of IdentityProperties_Status instances for property testing.
@@ -665,7 +665,7 @@ func RunJSONSerializationTestForNetworkRuleSetStatus(subject NetworkRuleSet_Stat
 }
 
 // Generator of NetworkRuleSet_Status instances for property testing - lazily instantiated by
-//NetworkRuleSetStatusGenerator()
+// NetworkRuleSetStatusGenerator()
 var networkRuleSetStatusGenerator gopter.Gen
 
 // NetworkRuleSetStatusGenerator returns a generator of NetworkRuleSet_Status instances for property testing.
@@ -863,7 +863,7 @@ func RunJSONSerializationTestForPrivateEndpointConnectionStatusSubResourceEmbedd
 }
 
 // Generator of PrivateEndpointConnection_Status_SubResourceEmbedded instances for property testing - lazily
-//instantiated by PrivateEndpointConnectionStatusSubResourceEmbeddedGenerator()
+// instantiated by PrivateEndpointConnectionStatusSubResourceEmbeddedGenerator()
 var privateEndpointConnectionStatusSubResourceEmbeddedGenerator gopter.Gen
 
 // PrivateEndpointConnectionStatusSubResourceEmbeddedGenerator returns a generator of PrivateEndpointConnection_Status_SubResourceEmbedded instances for property testing.
@@ -1479,7 +1479,7 @@ func RunJSONSerializationTestForKeyVaultPropertiesStatus(subject KeyVaultPropert
 }
 
 // Generator of KeyVaultProperties_Status instances for property testing - lazily instantiated by
-//KeyVaultPropertiesStatusGenerator()
+// KeyVaultPropertiesStatusGenerator()
 var keyVaultPropertiesStatusGenerator gopter.Gen
 
 // KeyVaultPropertiesStatusGenerator returns a generator of KeyVaultProperties_Status instances for property testing.
@@ -1602,7 +1602,7 @@ func RunJSONSerializationTestForQuarantinePolicyStatus(subject QuarantinePolicy_
 }
 
 // Generator of QuarantinePolicy_Status instances for property testing - lazily instantiated by
-//QuarantinePolicyStatusGenerator()
+// QuarantinePolicyStatusGenerator()
 var quarantinePolicyStatusGenerator gopter.Gen
 
 // QuarantinePolicyStatusGenerator returns a generator of QuarantinePolicy_Status instances for property testing.
@@ -1722,7 +1722,7 @@ func RunJSONSerializationTestForRetentionPolicyStatus(subject RetentionPolicy_St
 }
 
 // Generator of RetentionPolicy_Status instances for property testing - lazily instantiated by
-//RetentionPolicyStatusGenerator()
+// RetentionPolicyStatusGenerator()
 var retentionPolicyStatusGenerator gopter.Gen
 
 // RetentionPolicyStatusGenerator returns a generator of RetentionPolicy_Status instances for property testing.
@@ -1904,7 +1904,7 @@ func RunJSONSerializationTestForUserIdentityProperties(subject UserIdentityPrope
 }
 
 // Generator of UserIdentityProperties instances for property testing - lazily instantiated by
-//UserIdentityPropertiesGenerator()
+// UserIdentityPropertiesGenerator()
 var userIdentityPropertiesGenerator gopter.Gen
 
 // UserIdentityPropertiesGenerator returns a generator of UserIdentityProperties instances for property testing.
@@ -1965,7 +1965,7 @@ func RunJSONSerializationTestForUserIdentityPropertiesStatus(subject UserIdentit
 }
 
 // Generator of UserIdentityProperties_Status instances for property testing - lazily instantiated by
-//UserIdentityPropertiesStatusGenerator()
+// UserIdentityPropertiesStatusGenerator()
 var userIdentityPropertiesStatusGenerator gopter.Gen
 
 // UserIdentityPropertiesStatusGenerator returns a generator of UserIdentityProperties_Status instances for property testing.

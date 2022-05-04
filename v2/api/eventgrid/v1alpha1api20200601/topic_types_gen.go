@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Deprecated version of Topic. Use v1beta20200601.Topic instead
+// Deprecated version of Topic. Use v1beta20200601.Topic instead
 type Topic struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -314,16 +314,16 @@ func (topic *Topic) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Deprecated version of Topic. Use v1beta20200601.Topic instead
+// Deprecated version of Topic. Use v1beta20200601.Topic instead
 type TopicList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Topic `json:"items"`
 }
 
-//Deprecated version of Topic_Status. Use v1beta20200601.Topic_Status instead
+// Deprecated version of Topic_Status. Use v1beta20200601.Topic_Status instead
 type Topic_Status struct {
-	//Conditions: The observed state of the resource
+	// Conditions: The observed state of the resource
 	Conditions                 []conditions.Condition                                       `json:"conditions,omitempty"`
 	Endpoint                   *string                                                      `json:"endpoint,omitempty"`
 	Id                         *string                                                      `json:"id,omitempty"`
@@ -779,15 +779,15 @@ func (topic *Topic_Status) AssignPropertiesToTopicStatus(destination *alpha20200
 }
 
 type Topics_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName string  `json:"azureName,omitempty"`
 	Location  *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a resources.azure.com/ResourceGroup resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	Tags  map[string]string                  `json:"tags,omitempty"`
 }
@@ -976,7 +976,7 @@ func (topics *Topics_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (topics *Topics_Spec) SetAzureName(azureName string) { topics.AzureName = azureName }
 
-//Deprecated version of PrivateEndpointConnection_Status_Topic_SubResourceEmbedded. Use v1beta20200601.PrivateEndpointConnection_Status_Topic_SubResourceEmbedded instead
+// Deprecated version of PrivateEndpointConnection_Status_Topic_SubResourceEmbedded. Use v1beta20200601.PrivateEndpointConnection_Status_Topic_SubResourceEmbedded instead
 type PrivateEndpointConnection_Status_Topic_SubResourceEmbedded struct {
 	Id *string `json:"id,omitempty"`
 }
@@ -1034,7 +1034,7 @@ func (embedded *PrivateEndpointConnection_Status_Topic_SubResourceEmbedded) Assi
 	return nil
 }
 
-//Deprecated version of TopicPropertiesStatusInputSchema. Use v1beta20200601.TopicPropertiesStatusInputSchema instead
+// Deprecated version of TopicPropertiesStatusInputSchema. Use v1beta20200601.TopicPropertiesStatusInputSchema instead
 type TopicPropertiesStatusInputSchema string
 
 const (
@@ -1043,8 +1043,8 @@ const (
 	TopicPropertiesStatusInputSchemaEventGridSchema     = TopicPropertiesStatusInputSchema("EventGridSchema")
 )
 
-//Deprecated version of TopicPropertiesStatusProvisioningState. Use v1beta20200601.TopicPropertiesStatusProvisioningState
-//instead
+// Deprecated version of TopicPropertiesStatusProvisioningState. Use v1beta20200601.TopicPropertiesStatusProvisioningState
+// instead
 type TopicPropertiesStatusProvisioningState string
 
 const (
@@ -1056,8 +1056,8 @@ const (
 	TopicPropertiesStatusProvisioningStateUpdating  = TopicPropertiesStatusProvisioningState("Updating")
 )
 
-//Deprecated version of TopicPropertiesStatusPublicNetworkAccess. Use
-//v1beta20200601.TopicPropertiesStatusPublicNetworkAccess instead
+// Deprecated version of TopicPropertiesStatusPublicNetworkAccess. Use
+// v1beta20200601.TopicPropertiesStatusPublicNetworkAccess instead
 type TopicPropertiesStatusPublicNetworkAccess string
 
 const (

@@ -5,7 +5,7 @@ package v1alpha1api20210101preview
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-//Deprecated version of NamespacesTopics_Spec. Use v1beta20210101preview.NamespacesTopics_Spec instead
+// Deprecated version of NamespacesTopics_Spec. Use v1beta20210101preview.NamespacesTopics_Spec instead
 type NamespacesTopics_SpecARM struct {
 	Location   *string               `json:"location,omitempty"`
 	Name       string                `json:"name,omitempty"`
@@ -30,7 +30,7 @@ func (topics NamespacesTopics_SpecARM) GetType() string {
 	return "Microsoft.ServiceBus/namespaces/topics"
 }
 
-//Deprecated version of SBTopicProperties. Use v1beta20210101preview.SBTopicProperties instead
+// Deprecated version of SBTopicProperties. Use v1beta20210101preview.SBTopicProperties instead
 type SBTopicPropertiesARM struct {
 	AutoDeleteOnIdle                    *string `json:"autoDeleteOnIdle,omitempty"`
 	DefaultMessageTimeToLive            *string `json:"defaultMessageTimeToLive,omitempty"`

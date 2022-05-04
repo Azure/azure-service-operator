@@ -288,7 +288,7 @@ func RunJSONSerializationTestForAutoStorageBaseProperties(subject AutoStorageBas
 }
 
 // Generator of AutoStorageBaseProperties instances for property testing - lazily instantiated by
-//AutoStorageBasePropertiesGenerator()
+// AutoStorageBasePropertiesGenerator()
 var autoStorageBasePropertiesGenerator gopter.Gen
 
 // AutoStorageBasePropertiesGenerator returns a generator of AutoStorageBaseProperties instances for property testing.
@@ -342,7 +342,7 @@ func RunJSONSerializationTestForAutoStoragePropertiesStatus(subject AutoStorageP
 }
 
 // Generator of AutoStorageProperties_Status instances for property testing - lazily instantiated by
-//AutoStoragePropertiesStatusGenerator()
+// AutoStoragePropertiesStatusGenerator()
 var autoStoragePropertiesStatusGenerator gopter.Gen
 
 // AutoStoragePropertiesStatusGenerator returns a generator of AutoStorageProperties_Status instances for property testing.
@@ -403,7 +403,7 @@ func RunJSONSerializationTestForBatchAccountIdentity(subject BatchAccountIdentit
 }
 
 // Generator of BatchAccountIdentity instances for property testing - lazily instantiated by
-//BatchAccountIdentityGenerator()
+// BatchAccountIdentityGenerator()
 var batchAccountIdentityGenerator gopter.Gen
 
 // BatchAccountIdentityGenerator returns a generator of BatchAccountIdentity instances for property testing.
@@ -463,7 +463,7 @@ func RunJSONSerializationTestForBatchAccountIdentityStatus(subject BatchAccountI
 }
 
 // Generator of BatchAccountIdentity_Status instances for property testing - lazily instantiated by
-//BatchAccountIdentityStatusGenerator()
+// BatchAccountIdentityStatusGenerator()
 var batchAccountIdentityStatusGenerator gopter.Gen
 
 // BatchAccountIdentityStatusGenerator returns a generator of BatchAccountIdentity_Status instances for property testing.
@@ -539,7 +539,7 @@ func RunJSONSerializationTestForEncryptionProperties(subject EncryptionPropertie
 }
 
 // Generator of EncryptionProperties instances for property testing - lazily instantiated by
-//EncryptionPropertiesGenerator()
+// EncryptionPropertiesGenerator()
 var encryptionPropertiesGenerator gopter.Gen
 
 // EncryptionPropertiesGenerator returns a generator of EncryptionProperties instances for property testing.
@@ -613,7 +613,7 @@ func RunJSONSerializationTestForEncryptionPropertiesStatus(subject EncryptionPro
 }
 
 // Generator of EncryptionProperties_Status instances for property testing - lazily instantiated by
-//EncryptionPropertiesStatusGenerator()
+// EncryptionPropertiesStatusGenerator()
 var encryptionPropertiesStatusGenerator gopter.Gen
 
 // EncryptionPropertiesStatusGenerator returns a generator of EncryptionProperties_Status instances for property testing.
@@ -746,7 +746,7 @@ func RunJSONSerializationTestForKeyVaultReferenceStatus(subject KeyVaultReferenc
 }
 
 // Generator of KeyVaultReference_Status instances for property testing - lazily instantiated by
-//KeyVaultReferenceStatusGenerator()
+// KeyVaultReferenceStatusGenerator()
 var keyVaultReferenceStatusGenerator gopter.Gen
 
 // KeyVaultReferenceStatusGenerator returns a generator of KeyVaultReference_Status instances for property testing.
@@ -807,7 +807,7 @@ func RunJSONSerializationTestForPrivateEndpointConnectionStatus(subject PrivateE
 }
 
 // Generator of PrivateEndpointConnection_Status instances for property testing - lazily instantiated by
-//PrivateEndpointConnectionStatusGenerator()
+// PrivateEndpointConnectionStatusGenerator()
 var privateEndpointConnectionStatusGenerator gopter.Gen
 
 // PrivateEndpointConnectionStatusGenerator returns a generator of PrivateEndpointConnection_Status instances for property testing.
@@ -886,7 +886,7 @@ func RunJSONSerializationTestForVirtualMachineFamilyCoreQuotaStatus(subject Virt
 }
 
 // Generator of VirtualMachineFamilyCoreQuota_Status instances for property testing - lazily instantiated by
-//VirtualMachineFamilyCoreQuotaStatusGenerator()
+// VirtualMachineFamilyCoreQuotaStatusGenerator()
 var virtualMachineFamilyCoreQuotaStatusGenerator gopter.Gen
 
 // VirtualMachineFamilyCoreQuotaStatusGenerator returns a generator of VirtualMachineFamilyCoreQuota_Status instances for property testing.
@@ -947,7 +947,7 @@ func RunJSONSerializationTestForBatchAccountIdentityStatusUserAssignedIdentities
 }
 
 // Generator of BatchAccountIdentity_Status_UserAssignedIdentities instances for property testing - lazily instantiated
-//by BatchAccountIdentityStatusUserAssignedIdentitiesGenerator()
+// by BatchAccountIdentityStatusUserAssignedIdentitiesGenerator()
 var batchAccountIdentityStatusUserAssignedIdentitiesGenerator gopter.Gen
 
 // BatchAccountIdentityStatusUserAssignedIdentitiesGenerator returns a generator of BatchAccountIdentity_Status_UserAssignedIdentities instances for property testing.
@@ -1067,7 +1067,7 @@ func RunJSONSerializationTestForKeyVaultPropertiesStatus(subject KeyVaultPropert
 }
 
 // Generator of KeyVaultProperties_Status instances for property testing - lazily instantiated by
-//KeyVaultPropertiesStatusGenerator()
+// KeyVaultPropertiesStatusGenerator()
 var keyVaultPropertiesStatusGenerator gopter.Gen
 
 // KeyVaultPropertiesStatusGenerator returns a generator of KeyVaultProperties_Status instances for property testing.
@@ -1127,7 +1127,7 @@ func RunJSONSerializationTestForPrivateEndpointStatus(subject PrivateEndpoint_St
 }
 
 // Generator of PrivateEndpoint_Status instances for property testing - lazily instantiated by
-//PrivateEndpointStatusGenerator()
+// PrivateEndpointStatusGenerator()
 var privateEndpointStatusGenerator gopter.Gen
 
 // PrivateEndpointStatusGenerator returns a generator of PrivateEndpoint_Status instances for property testing.
@@ -1187,7 +1187,7 @@ func RunJSONSerializationTestForPrivateLinkServiceConnectionStateStatus(subject 
 }
 
 // Generator of PrivateLinkServiceConnectionState_Status instances for property testing - lazily instantiated by
-//PrivateLinkServiceConnectionStateStatusGenerator()
+// PrivateLinkServiceConnectionStateStatusGenerator()
 var privateLinkServiceConnectionStateStatusGenerator gopter.Gen
 
 // PrivateLinkServiceConnectionStateStatusGenerator returns a generator of PrivateLinkServiceConnectionState_Status instances for property testing.

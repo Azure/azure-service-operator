@@ -134,7 +134,7 @@ func RunJSONSerializationTestForWorkspacePropertiesStatusARM(subject WorkspacePr
 }
 
 // Generator of WorkspaceProperties_StatusARM instances for property testing - lazily instantiated by
-//WorkspacePropertiesStatusARMGenerator()
+// WorkspacePropertiesStatusARMGenerator()
 var workspacePropertiesStatusARMGenerator gopter.Gen
 
 // WorkspacePropertiesStatusARMGenerator returns a generator of WorkspaceProperties_StatusARM instances for property testing.
@@ -225,7 +225,7 @@ func RunJSONSerializationTestForPrivateLinkScopedResourceStatusARM(subject Priva
 }
 
 // Generator of PrivateLinkScopedResource_StatusARM instances for property testing - lazily instantiated by
-//PrivateLinkScopedResourceStatusARMGenerator()
+// PrivateLinkScopedResourceStatusARMGenerator()
 var privateLinkScopedResourceStatusARMGenerator gopter.Gen
 
 // PrivateLinkScopedResourceStatusARMGenerator returns a generator of PrivateLinkScopedResource_StatusARM instances for property testing.
@@ -286,7 +286,7 @@ func RunJSONSerializationTestForWorkspaceCappingStatusARM(subject WorkspaceCappi
 }
 
 // Generator of WorkspaceCapping_StatusARM instances for property testing - lazily instantiated by
-//WorkspaceCappingStatusARMGenerator()
+// WorkspaceCappingStatusARMGenerator()
 var workspaceCappingStatusARMGenerator gopter.Gen
 
 // WorkspaceCappingStatusARMGenerator returns a generator of WorkspaceCapping_StatusARM instances for property testing.
@@ -354,7 +354,7 @@ func RunJSONSerializationTestForWorkspaceFeaturesStatusARM(subject WorkspaceFeat
 }
 
 // Generator of WorkspaceFeatures_StatusARM instances for property testing - lazily instantiated by
-//WorkspaceFeaturesStatusARMGenerator()
+// WorkspaceFeaturesStatusARMGenerator()
 var workspaceFeaturesStatusARMGenerator gopter.Gen
 
 // WorkspaceFeaturesStatusARMGenerator returns a generator of WorkspaceFeatures_StatusARM instances for property testing.
@@ -418,7 +418,7 @@ func RunJSONSerializationTestForWorkspaceSkuStatusARM(subject WorkspaceSku_Statu
 }
 
 // Generator of WorkspaceSku_StatusARM instances for property testing - lazily instantiated by
-//WorkspaceSkuStatusARMGenerator()
+// WorkspaceSkuStatusARMGenerator()
 var workspaceSkuStatusARMGenerator gopter.Gen
 
 // WorkspaceSkuStatusARMGenerator returns a generator of WorkspaceSku_StatusARM instances for property testing.

@@ -56,7 +56,7 @@ func RunJSONSerializationTestForVirtualNetworkStatusARM(subject VirtualNetwork_S
 }
 
 // Generator of VirtualNetwork_StatusARM instances for property testing - lazily instantiated by
-//VirtualNetworkStatusARMGenerator()
+// VirtualNetworkStatusARMGenerator()
 var virtualNetworkStatusARMGenerator gopter.Gen
 
 // VirtualNetworkStatusARMGenerator returns a generator of VirtualNetwork_StatusARM instances for property testing.
@@ -136,7 +136,7 @@ func RunJSONSerializationTestForVirtualNetworkPropertiesFormatStatusARM(subject 
 }
 
 // Generator of VirtualNetworkPropertiesFormat_StatusARM instances for property testing - lazily instantiated by
-//VirtualNetworkPropertiesFormatStatusARMGenerator()
+// VirtualNetworkPropertiesFormatStatusARMGenerator()
 var virtualNetworkPropertiesFormatStatusARMGenerator gopter.Gen
 
 // VirtualNetworkPropertiesFormatStatusARMGenerator returns a generator of VirtualNetworkPropertiesFormat_StatusARM instances for property testing.
@@ -221,7 +221,7 @@ func RunJSONSerializationTestForDhcpOptionsStatusARM(subject DhcpOptions_StatusA
 }
 
 // Generator of DhcpOptions_StatusARM instances for property testing - lazily instantiated by
-//DhcpOptionsStatusARMGenerator()
+// DhcpOptionsStatusARMGenerator()
 var dhcpOptionsStatusARMGenerator gopter.Gen
 
 // DhcpOptionsStatusARMGenerator returns a generator of DhcpOptions_StatusARM instances for property testing.

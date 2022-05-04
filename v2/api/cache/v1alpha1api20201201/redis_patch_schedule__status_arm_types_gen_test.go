@@ -56,7 +56,7 @@ func RunJSONSerializationTestForRedisPatchScheduleStatusARM(subject RedisPatchSc
 }
 
 // Generator of RedisPatchSchedule_StatusARM instances for property testing - lazily instantiated by
-//RedisPatchScheduleStatusARMGenerator()
+// RedisPatchScheduleStatusARMGenerator()
 var redisPatchScheduleStatusARMGenerator gopter.Gen
 
 // RedisPatchScheduleStatusARMGenerator returns a generator of RedisPatchSchedule_StatusARM instances for property testing.
@@ -132,7 +132,7 @@ func RunJSONSerializationTestForScheduleEntriesStatusARM(subject ScheduleEntries
 }
 
 // Generator of ScheduleEntries_StatusARM instances for property testing - lazily instantiated by
-//ScheduleEntriesStatusARMGenerator()
+// ScheduleEntriesStatusARMGenerator()
 var scheduleEntriesStatusARMGenerator gopter.Gen
 
 // ScheduleEntriesStatusARMGenerator returns a generator of ScheduleEntries_StatusARM instances for property testing.
@@ -192,7 +192,7 @@ func RunJSONSerializationTestForScheduleEntryStatusARM(subject ScheduleEntry_Sta
 }
 
 // Generator of ScheduleEntry_StatusARM instances for property testing - lazily instantiated by
-//ScheduleEntryStatusARMGenerator()
+// ScheduleEntryStatusARMGenerator()
 var scheduleEntryStatusARMGenerator gopter.Gen
 
 // ScheduleEntryStatusARMGenerator returns a generator of ScheduleEntry_StatusARM instances for property testing.

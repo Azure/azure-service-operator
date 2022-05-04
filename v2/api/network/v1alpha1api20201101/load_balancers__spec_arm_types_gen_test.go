@@ -56,7 +56,7 @@ func RunJSONSerializationTestForLoadBalancersSpecARM(subject LoadBalancers_SpecA
 }
 
 // Generator of LoadBalancers_SpecARM instances for property testing - lazily instantiated by
-//LoadBalancersSpecARMGenerator()
+// LoadBalancersSpecARMGenerator()
 var loadBalancersSpecARMGenerator gopter.Gen
 
 // LoadBalancersSpecARMGenerator returns a generator of LoadBalancers_SpecARM instances for property testing.
@@ -134,7 +134,7 @@ func RunJSONSerializationTestForExtendedLocationARM(subject ExtendedLocationARM)
 }
 
 // Generator of ExtendedLocationARM instances for property testing - lazily instantiated by
-//ExtendedLocationARMGenerator()
+// ExtendedLocationARMGenerator()
 var extendedLocationARMGenerator gopter.Gen
 
 // ExtendedLocationARMGenerator returns a generator of ExtendedLocationARM instances for property testing.
@@ -255,7 +255,7 @@ func RunJSONSerializationTestForLoadBalancersSpecPropertiesARM(subject LoadBalan
 }
 
 // Generator of LoadBalancers_Spec_PropertiesARM instances for property testing - lazily instantiated by
-//LoadBalancersSpecPropertiesARMGenerator()
+// LoadBalancersSpecPropertiesARMGenerator()
 var loadBalancersSpecPropertiesARMGenerator gopter.Gen
 
 // LoadBalancersSpecPropertiesARMGenerator returns a generator of LoadBalancers_Spec_PropertiesARM instances for property testing.
@@ -320,7 +320,7 @@ func RunJSONSerializationTestForLoadBalancersSpecPropertiesBackendAddressPoolsAR
 }
 
 // Generator of LoadBalancers_Spec_Properties_BackendAddressPoolsARM instances for property testing - lazily
-//instantiated by LoadBalancersSpecPropertiesBackendAddressPoolsARMGenerator()
+// instantiated by LoadBalancersSpecPropertiesBackendAddressPoolsARMGenerator()
 var loadBalancersSpecPropertiesBackendAddressPoolsARMGenerator gopter.Gen
 
 // LoadBalancersSpecPropertiesBackendAddressPoolsARMGenerator returns a generator of LoadBalancers_Spec_Properties_BackendAddressPoolsARM instances for property testing.
@@ -394,7 +394,7 @@ func RunJSONSerializationTestForLoadBalancersSpecPropertiesFrontendIPConfigurati
 }
 
 // Generator of LoadBalancers_Spec_Properties_FrontendIPConfigurationsARM instances for property testing - lazily
-//instantiated by LoadBalancersSpecPropertiesFrontendIPConfigurationsARMGenerator()
+// instantiated by LoadBalancersSpecPropertiesFrontendIPConfigurationsARMGenerator()
 var loadBalancersSpecPropertiesFrontendIPConfigurationsARMGenerator gopter.Gen
 
 // LoadBalancersSpecPropertiesFrontendIPConfigurationsARMGenerator returns a generator of LoadBalancers_Spec_Properties_FrontendIPConfigurationsARM instances for property testing.
@@ -469,7 +469,7 @@ func RunJSONSerializationTestForLoadBalancersSpecPropertiesInboundNatPoolsARM(su
 }
 
 // Generator of LoadBalancers_Spec_Properties_InboundNatPoolsARM instances for property testing - lazily instantiated by
-//LoadBalancersSpecPropertiesInboundNatPoolsARMGenerator()
+// LoadBalancersSpecPropertiesInboundNatPoolsARMGenerator()
 var loadBalancersSpecPropertiesInboundNatPoolsARMGenerator gopter.Gen
 
 // LoadBalancersSpecPropertiesInboundNatPoolsARMGenerator returns a generator of LoadBalancers_Spec_Properties_InboundNatPoolsARM instances for property testing.
@@ -543,7 +543,7 @@ func RunJSONSerializationTestForLoadBalancersSpecPropertiesLoadBalancingRulesARM
 }
 
 // Generator of LoadBalancers_Spec_Properties_LoadBalancingRulesARM instances for property testing - lazily instantiated
-//by LoadBalancersSpecPropertiesLoadBalancingRulesARMGenerator()
+// by LoadBalancersSpecPropertiesLoadBalancingRulesARMGenerator()
 var loadBalancersSpecPropertiesLoadBalancingRulesARMGenerator gopter.Gen
 
 // LoadBalancersSpecPropertiesLoadBalancingRulesARMGenerator returns a generator of LoadBalancers_Spec_Properties_LoadBalancingRulesARM instances for property testing.
@@ -617,7 +617,7 @@ func RunJSONSerializationTestForLoadBalancersSpecPropertiesOutboundRulesARM(subj
 }
 
 // Generator of LoadBalancers_Spec_Properties_OutboundRulesARM instances for property testing - lazily instantiated by
-//LoadBalancersSpecPropertiesOutboundRulesARMGenerator()
+// LoadBalancersSpecPropertiesOutboundRulesARMGenerator()
 var loadBalancersSpecPropertiesOutboundRulesARMGenerator gopter.Gen
 
 // LoadBalancersSpecPropertiesOutboundRulesARMGenerator returns a generator of LoadBalancers_Spec_Properties_OutboundRulesARM instances for property testing.
@@ -691,7 +691,7 @@ func RunJSONSerializationTestForLoadBalancersSpecPropertiesProbesARM(subject Loa
 }
 
 // Generator of LoadBalancers_Spec_Properties_ProbesARM instances for property testing - lazily instantiated by
-//LoadBalancersSpecPropertiesProbesARMGenerator()
+// LoadBalancersSpecPropertiesProbesARMGenerator()
 var loadBalancersSpecPropertiesProbesARMGenerator gopter.Gen
 
 // LoadBalancersSpecPropertiesProbesARMGenerator returns a generator of LoadBalancers_Spec_Properties_ProbesARM instances for property testing.
@@ -765,7 +765,7 @@ func RunJSONSerializationTestForFrontendIPConfigurationPropertiesFormatARM(subje
 }
 
 // Generator of FrontendIPConfigurationPropertiesFormatARM instances for property testing - lazily instantiated by
-//FrontendIPConfigurationPropertiesFormatARMGenerator()
+// FrontendIPConfigurationPropertiesFormatARMGenerator()
 var frontendIPConfigurationPropertiesFormatARMGenerator gopter.Gen
 
 // FrontendIPConfigurationPropertiesFormatARMGenerator returns a generator of FrontendIPConfigurationPropertiesFormatARM instances for property testing.
@@ -843,7 +843,7 @@ func RunJSONSerializationTestForInboundNatPoolPropertiesFormatARM(subject Inboun
 }
 
 // Generator of InboundNatPoolPropertiesFormatARM instances for property testing - lazily instantiated by
-//InboundNatPoolPropertiesFormatARMGenerator()
+// InboundNatPoolPropertiesFormatARMGenerator()
 var inboundNatPoolPropertiesFormatARMGenerator gopter.Gen
 
 // InboundNatPoolPropertiesFormatARMGenerator returns a generator of InboundNatPoolPropertiesFormatARM instances for property testing.
@@ -923,7 +923,7 @@ func RunJSONSerializationTestForLoadBalancersSpecPropertiesBackendAddressPoolsPr
 }
 
 // Generator of LoadBalancers_Spec_Properties_BackendAddressPools_PropertiesARM instances for property testing - lazily
-//instantiated by LoadBalancersSpecPropertiesBackendAddressPoolsPropertiesARMGenerator()
+// instantiated by LoadBalancersSpecPropertiesBackendAddressPoolsPropertiesARMGenerator()
 var loadBalancersSpecPropertiesBackendAddressPoolsPropertiesARMGenerator gopter.Gen
 
 // LoadBalancersSpecPropertiesBackendAddressPoolsPropertiesARMGenerator returns a generator of LoadBalancers_Spec_Properties_BackendAddressPools_PropertiesARM instances for property testing.
@@ -997,7 +997,7 @@ func RunJSONSerializationTestForLoadBalancingRulePropertiesFormatARM(subject Loa
 }
 
 // Generator of LoadBalancingRulePropertiesFormatARM instances for property testing - lazily instantiated by
-//LoadBalancingRulePropertiesFormatARMGenerator()
+// LoadBalancingRulePropertiesFormatARMGenerator()
 var loadBalancingRulePropertiesFormatARMGenerator gopter.Gen
 
 // LoadBalancingRulePropertiesFormatARMGenerator returns a generator of LoadBalancingRulePropertiesFormatARM instances for property testing.
@@ -1080,7 +1080,7 @@ func RunJSONSerializationTestForOutboundRulePropertiesFormatARM(subject Outbound
 }
 
 // Generator of OutboundRulePropertiesFormatARM instances for property testing - lazily instantiated by
-//OutboundRulePropertiesFormatARMGenerator()
+// OutboundRulePropertiesFormatARMGenerator()
 var outboundRulePropertiesFormatARMGenerator gopter.Gen
 
 // OutboundRulePropertiesFormatARMGenerator returns a generator of OutboundRulePropertiesFormatARM instances for property testing.
@@ -1158,7 +1158,7 @@ func RunJSONSerializationTestForProbePropertiesFormatARM(subject ProbeProperties
 }
 
 // Generator of ProbePropertiesFormatARM instances for property testing - lazily instantiated by
-//ProbePropertiesFormatARMGenerator()
+// ProbePropertiesFormatARMGenerator()
 var probePropertiesFormatARMGenerator gopter.Gen
 
 // ProbePropertiesFormatARMGenerator returns a generator of ProbePropertiesFormatARM instances for property testing.
@@ -1222,8 +1222,8 @@ func RunJSONSerializationTestForLoadBalancersSpecPropertiesBackendAddressPoolsPr
 }
 
 // Generator of LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddressesARM instances
-//for property testing - lazily instantiated by
-//LoadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddressesARMGenerator()
+// for property testing - lazily instantiated by
+// LoadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddressesARMGenerator()
 var loadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddressesARMGenerator gopter.Gen
 
 // LoadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddressesARMGenerator returns a generator of LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddressesARM instances for property testing.
@@ -1297,7 +1297,7 @@ func RunJSONSerializationTestForLoadBalancerBackendAddressPropertiesFormatARM(su
 }
 
 // Generator of LoadBalancerBackendAddressPropertiesFormatARM instances for property testing - lazily instantiated by
-//LoadBalancerBackendAddressPropertiesFormatARMGenerator()
+// LoadBalancerBackendAddressPropertiesFormatARMGenerator()
 var loadBalancerBackendAddressPropertiesFormatARMGenerator gopter.Gen
 
 // LoadBalancerBackendAddressPropertiesFormatARMGenerator returns a generator of LoadBalancerBackendAddressPropertiesFormatARM instances for property testing.

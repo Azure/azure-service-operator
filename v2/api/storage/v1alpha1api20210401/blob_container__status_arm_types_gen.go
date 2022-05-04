@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1alpha1api20210401
 
-//Deprecated version of BlobContainer_Status. Use v1beta20210401.BlobContainer_Status instead
+// Deprecated version of BlobContainer_Status. Use v1beta20210401.BlobContainer_Status instead
 type BlobContainer_StatusARM struct {
 	Etag       *string                        `json:"etag,omitempty"`
 	Id         *string                        `json:"id,omitempty"`
@@ -12,7 +12,7 @@ type BlobContainer_StatusARM struct {
 	Type       *string                        `json:"type,omitempty"`
 }
 
-//Deprecated version of ContainerProperties_Status. Use v1beta20210401.ContainerProperties_Status instead
+// Deprecated version of ContainerProperties_Status. Use v1beta20210401.ContainerProperties_Status instead
 type ContainerProperties_StatusARM struct {
 	DefaultEncryptionScope         *string                                   `json:"defaultEncryptionScope,omitempty"`
 	Deleted                        *bool                                     `json:"deleted,omitempty"`
@@ -33,8 +33,8 @@ type ContainerProperties_StatusARM struct {
 	Version                        *string                                   `json:"version,omitempty"`
 }
 
-//Deprecated version of ContainerPropertiesStatusLeaseDuration. Use v1beta20210401.ContainerPropertiesStatusLeaseDuration
-//instead
+// Deprecated version of ContainerPropertiesStatusLeaseDuration. Use v1beta20210401.ContainerPropertiesStatusLeaseDuration
+// instead
 type ContainerPropertiesStatusLeaseDuration string
 
 const (
@@ -42,7 +42,7 @@ const (
 	ContainerPropertiesStatusLeaseDurationInfinite = ContainerPropertiesStatusLeaseDuration("Infinite")
 )
 
-//Deprecated version of ContainerPropertiesStatusLeaseState. Use v1beta20210401.ContainerPropertiesStatusLeaseState instead
+// Deprecated version of ContainerPropertiesStatusLeaseState. Use v1beta20210401.ContainerPropertiesStatusLeaseState instead
 type ContainerPropertiesStatusLeaseState string
 
 const (
@@ -53,8 +53,8 @@ const (
 	ContainerPropertiesStatusLeaseStateLeased    = ContainerPropertiesStatusLeaseState("Leased")
 )
 
-//Deprecated version of ContainerPropertiesStatusLeaseStatus. Use v1beta20210401.ContainerPropertiesStatusLeaseStatus
-//instead
+// Deprecated version of ContainerPropertiesStatusLeaseStatus. Use v1beta20210401.ContainerPropertiesStatusLeaseStatus
+// instead
 type ContainerPropertiesStatusLeaseStatus string
 
 const (
@@ -62,8 +62,8 @@ const (
 	ContainerPropertiesStatusLeaseStatusUnlocked = ContainerPropertiesStatusLeaseStatus("Unlocked")
 )
 
-//Deprecated version of ContainerPropertiesStatusPublicAccess. Use v1beta20210401.ContainerPropertiesStatusPublicAccess
-//instead
+// Deprecated version of ContainerPropertiesStatusPublicAccess. Use v1beta20210401.ContainerPropertiesStatusPublicAccess
+// instead
 type ContainerPropertiesStatusPublicAccess string
 
 const (
@@ -72,35 +72,35 @@ const (
 	ContainerPropertiesStatusPublicAccessNone      = ContainerPropertiesStatusPublicAccess("None")
 )
 
-//Deprecated version of ImmutabilityPolicyProperties_Status. Use v1beta20210401.ImmutabilityPolicyProperties_Status instead
+// Deprecated version of ImmutabilityPolicyProperties_Status. Use v1beta20210401.ImmutabilityPolicyProperties_Status instead
 type ImmutabilityPolicyProperties_StatusARM struct {
 	Etag          *string                               `json:"etag,omitempty"`
 	Properties    *ImmutabilityPolicyProperty_StatusARM `json:"properties,omitempty"`
 	UpdateHistory []UpdateHistoryProperty_StatusARM     `json:"updateHistory,omitempty"`
 }
 
-//Deprecated version of ImmutableStorageWithVersioning_Status. Use v1beta20210401.ImmutableStorageWithVersioning_Status instead
+// Deprecated version of ImmutableStorageWithVersioning_Status. Use v1beta20210401.ImmutableStorageWithVersioning_Status instead
 type ImmutableStorageWithVersioning_StatusARM struct {
 	Enabled        *bool                                               `json:"enabled,omitempty"`
 	MigrationState *ImmutableStorageWithVersioningStatusMigrationState `json:"migrationState,omitempty"`
 	TimeStamp      *string                                             `json:"timeStamp,omitempty"`
 }
 
-//Deprecated version of LegalHoldProperties_Status. Use v1beta20210401.LegalHoldProperties_Status instead
+// Deprecated version of LegalHoldProperties_Status. Use v1beta20210401.LegalHoldProperties_Status instead
 type LegalHoldProperties_StatusARM struct {
 	HasLegalHold *bool                   `json:"hasLegalHold,omitempty"`
 	Tags         []TagProperty_StatusARM `json:"tags,omitempty"`
 }
 
-//Deprecated version of ImmutabilityPolicyProperty_Status. Use v1beta20210401.ImmutabilityPolicyProperty_Status instead
+// Deprecated version of ImmutabilityPolicyProperty_Status. Use v1beta20210401.ImmutabilityPolicyProperty_Status instead
 type ImmutabilityPolicyProperty_StatusARM struct {
 	AllowProtectedAppendWrites            *bool                                  `json:"allowProtectedAppendWrites,omitempty"`
 	ImmutabilityPeriodSinceCreationInDays *int                                   `json:"immutabilityPeriodSinceCreationInDays,omitempty"`
 	State                                 *ImmutabilityPolicyPropertyStatusState `json:"state,omitempty"`
 }
 
-//Deprecated version of ImmutableStorageWithVersioningStatusMigrationState. Use
-//v1beta20210401.ImmutableStorageWithVersioningStatusMigrationState instead
+// Deprecated version of ImmutableStorageWithVersioningStatusMigrationState. Use
+// v1beta20210401.ImmutableStorageWithVersioningStatusMigrationState instead
 type ImmutableStorageWithVersioningStatusMigrationState string
 
 const (
@@ -108,7 +108,7 @@ const (
 	ImmutableStorageWithVersioningStatusMigrationStateInProgress = ImmutableStorageWithVersioningStatusMigrationState("InProgress")
 )
 
-//Deprecated version of TagProperty_Status. Use v1beta20210401.TagProperty_Status instead
+// Deprecated version of TagProperty_Status. Use v1beta20210401.TagProperty_Status instead
 type TagProperty_StatusARM struct {
 	ObjectIdentifier *string `json:"objectIdentifier,omitempty"`
 	Tag              *string `json:"tag,omitempty"`
@@ -117,7 +117,7 @@ type TagProperty_StatusARM struct {
 	Upn              *string `json:"upn,omitempty"`
 }
 
-//Deprecated version of UpdateHistoryProperty_Status. Use v1beta20210401.UpdateHistoryProperty_Status instead
+// Deprecated version of UpdateHistoryProperty_Status. Use v1beta20210401.UpdateHistoryProperty_Status instead
 type UpdateHistoryProperty_StatusARM struct {
 	ImmutabilityPeriodSinceCreationInDays *int                               `json:"immutabilityPeriodSinceCreationInDays,omitempty"`
 	ObjectIdentifier                      *string                            `json:"objectIdentifier,omitempty"`
@@ -127,7 +127,7 @@ type UpdateHistoryProperty_StatusARM struct {
 	Upn                                   *string                            `json:"upn,omitempty"`
 }
 
-//Deprecated version of UpdateHistoryPropertyStatusUpdate. Use v1beta20210401.UpdateHistoryPropertyStatusUpdate instead
+// Deprecated version of UpdateHistoryPropertyStatusUpdate. Use v1beta20210401.UpdateHistoryPropertyStatusUpdate instead
 type UpdateHistoryPropertyStatusUpdate string
 
 const (

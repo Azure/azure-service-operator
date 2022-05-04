@@ -90,7 +90,7 @@ func RunPropertyAssignmentTestForVirtualNetwork(subject VirtualNetwork) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -192,7 +192,7 @@ func RunPropertyAssignmentTestForVirtualNetworkStatus(subject VirtualNetwork_Sta
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -243,7 +243,7 @@ func RunJSONSerializationTestForVirtualNetworkStatus(subject VirtualNetwork_Stat
 }
 
 // Generator of VirtualNetwork_Status instances for property testing - lazily instantiated by
-//VirtualNetworkStatusGenerator()
+// VirtualNetworkStatusGenerator()
 var virtualNetworkStatusGenerator gopter.Gen
 
 // VirtualNetworkStatusGenerator returns a generator of VirtualNetwork_Status instances for property testing.
@@ -322,7 +322,7 @@ func RunPropertyAssignmentTestForVirtualNetworksSpec(subject VirtualNetworks_Spe
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -373,7 +373,7 @@ func RunJSONSerializationTestForVirtualNetworksSpec(subject VirtualNetworks_Spec
 }
 
 // Generator of VirtualNetworks_Spec instances for property testing - lazily instantiated by
-//VirtualNetworksSpecGenerator()
+// VirtualNetworksSpecGenerator()
 var virtualNetworksSpecGenerator gopter.Gen
 
 // VirtualNetworksSpecGenerator returns a generator of VirtualNetworks_Spec instances for property testing.
@@ -448,7 +448,7 @@ func RunPropertyAssignmentTestForAddressSpace(subject AddressSpace) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -549,7 +549,7 @@ func RunPropertyAssignmentTestForAddressSpaceStatus(subject AddressSpace_Status)
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -650,7 +650,7 @@ func RunPropertyAssignmentTestForDhcpOptions(subject DhcpOptions) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -751,7 +751,7 @@ func RunPropertyAssignmentTestForDhcpOptionsStatus(subject DhcpOptions_Status) s
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -852,7 +852,7 @@ func RunPropertyAssignmentTestForVirtualNetworkBgpCommunities(subject VirtualNet
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -903,7 +903,7 @@ func RunJSONSerializationTestForVirtualNetworkBgpCommunities(subject VirtualNetw
 }
 
 // Generator of VirtualNetworkBgpCommunities instances for property testing - lazily instantiated by
-//VirtualNetworkBgpCommunitiesGenerator()
+// VirtualNetworkBgpCommunitiesGenerator()
 var virtualNetworkBgpCommunitiesGenerator gopter.Gen
 
 // VirtualNetworkBgpCommunitiesGenerator returns a generator of VirtualNetworkBgpCommunities instances for property testing.
@@ -954,7 +954,7 @@ func RunPropertyAssignmentTestForVirtualNetworkBgpCommunitiesStatus(subject Virt
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1005,7 +1005,7 @@ func RunJSONSerializationTestForVirtualNetworkBgpCommunitiesStatus(subject Virtu
 }
 
 // Generator of VirtualNetworkBgpCommunities_Status instances for property testing - lazily instantiated by
-//VirtualNetworkBgpCommunitiesStatusGenerator()
+// VirtualNetworkBgpCommunitiesStatusGenerator()
 var virtualNetworkBgpCommunitiesStatusGenerator gopter.Gen
 
 // VirtualNetworkBgpCommunitiesStatusGenerator returns a generator of VirtualNetworkBgpCommunities_Status instances for property testing.

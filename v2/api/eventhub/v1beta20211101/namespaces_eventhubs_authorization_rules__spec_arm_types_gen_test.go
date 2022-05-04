@@ -56,7 +56,7 @@ func RunJSONSerializationTestForNamespacesEventhubsAuthorizationRulesSpecARM(sub
 }
 
 // Generator of NamespacesEventhubsAuthorizationRules_SpecARM instances for property testing - lazily instantiated by
-//NamespacesEventhubsAuthorizationRulesSpecARMGenerator()
+// NamespacesEventhubsAuthorizationRulesSpecARMGenerator()
 var namespacesEventhubsAuthorizationRulesSpecARMGenerator gopter.Gen
 
 // NamespacesEventhubsAuthorizationRulesSpecARMGenerator returns a generator of NamespacesEventhubsAuthorizationRules_SpecARM instances for property testing.

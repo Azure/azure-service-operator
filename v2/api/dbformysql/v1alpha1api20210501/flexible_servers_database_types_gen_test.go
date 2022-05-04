@@ -91,7 +91,7 @@ func RunPropertyAssignmentTestForFlexibleServersDatabase(subject FlexibleServers
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -142,7 +142,7 @@ func RunJSONSerializationTestForFlexibleServersDatabase(subject FlexibleServersD
 }
 
 // Generator of FlexibleServersDatabase instances for property testing - lazily instantiated by
-//FlexibleServersDatabaseGenerator()
+// FlexibleServersDatabaseGenerator()
 var flexibleServersDatabaseGenerator gopter.Gen
 
 // FlexibleServersDatabaseGenerator returns a generator of FlexibleServersDatabase instances for property testing.
@@ -194,7 +194,7 @@ func RunPropertyAssignmentTestForDatabaseStatus(subject Database_Status) string 
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -313,7 +313,7 @@ func RunPropertyAssignmentTestForFlexibleServersDatabasesSpec(subject FlexibleSe
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -364,7 +364,7 @@ func RunJSONSerializationTestForFlexibleServersDatabasesSpec(subject FlexibleSer
 }
 
 // Generator of FlexibleServersDatabases_Spec instances for property testing - lazily instantiated by
-//FlexibleServersDatabasesSpecGenerator()
+// FlexibleServersDatabasesSpecGenerator()
 var flexibleServersDatabasesSpecGenerator gopter.Gen
 
 // FlexibleServersDatabasesSpecGenerator returns a generator of FlexibleServersDatabases_Spec instances for property testing.

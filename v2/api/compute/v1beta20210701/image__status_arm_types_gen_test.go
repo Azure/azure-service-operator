@@ -134,7 +134,7 @@ func RunJSONSerializationTestForExtendedLocationStatusARM(subject ExtendedLocati
 }
 
 // Generator of ExtendedLocation_StatusARM instances for property testing - lazily instantiated by
-//ExtendedLocationStatusARMGenerator()
+// ExtendedLocationStatusARMGenerator()
 var extendedLocationStatusARMGenerator gopter.Gen
 
 // ExtendedLocationStatusARMGenerator returns a generator of ExtendedLocation_StatusARM instances for property testing.
@@ -195,7 +195,7 @@ func RunJSONSerializationTestForImagePropertiesStatusARM(subject ImageProperties
 }
 
 // Generator of ImageProperties_StatusARM instances for property testing - lazily instantiated by
-//ImagePropertiesStatusARMGenerator()
+// ImagePropertiesStatusARMGenerator()
 var imagePropertiesStatusARMGenerator gopter.Gen
 
 // ImagePropertiesStatusARMGenerator returns a generator of ImageProperties_StatusARM instances for property testing.
@@ -271,7 +271,7 @@ func RunJSONSerializationTestForImageStorageProfileStatusARM(subject ImageStorag
 }
 
 // Generator of ImageStorageProfile_StatusARM instances for property testing - lazily instantiated by
-//ImageStorageProfileStatusARMGenerator()
+// ImageStorageProfileStatusARMGenerator()
 var imageStorageProfileStatusARMGenerator gopter.Gen
 
 // ImageStorageProfileStatusARMGenerator returns a generator of ImageStorageProfile_StatusARM instances for property testing.
@@ -346,7 +346,7 @@ func RunJSONSerializationTestForSubResourceStatusARM(subject SubResource_StatusA
 }
 
 // Generator of SubResource_StatusARM instances for property testing - lazily instantiated by
-//SubResourceStatusARMGenerator()
+// SubResourceStatusARMGenerator()
 var subResourceStatusARMGenerator gopter.Gen
 
 // SubResourceStatusARMGenerator returns a generator of SubResource_StatusARM instances for property testing.
@@ -406,7 +406,7 @@ func RunJSONSerializationTestForImageDataDiskStatusARM(subject ImageDataDisk_Sta
 }
 
 // Generator of ImageDataDisk_StatusARM instances for property testing - lazily instantiated by
-//ImageDataDiskStatusARMGenerator()
+// ImageDataDiskStatusARMGenerator()
 var imageDataDiskStatusARMGenerator gopter.Gen
 
 // ImageDataDiskStatusARMGenerator returns a generator of ImageDataDisk_StatusARM instances for property testing.
@@ -492,7 +492,7 @@ func RunJSONSerializationTestForImageOSDiskStatusARM(subject ImageOSDisk_StatusA
 }
 
 // Generator of ImageOSDisk_StatusARM instances for property testing - lazily instantiated by
-//ImageOSDiskStatusARMGenerator()
+// ImageOSDiskStatusARMGenerator()
 var imageOSDiskStatusARMGenerator gopter.Gen
 
 // ImageOSDiskStatusARMGenerator returns a generator of ImageOSDisk_StatusARM instances for property testing.

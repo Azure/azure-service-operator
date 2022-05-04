@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1alpha1api20201201
 
-//Deprecated version of RedisResource_Status. Use v1beta20201201.RedisResource_Status instead
+// Deprecated version of RedisResource_Status. Use v1beta20201201.RedisResource_Status instead
 type RedisResource_StatusARM struct {
 	Id         *string                    `json:"id,omitempty"`
 	Location   *string                    `json:"location,omitempty"`
@@ -14,7 +14,7 @@ type RedisResource_StatusARM struct {
 	Zones      []string                   `json:"zones,omitempty"`
 }
 
-//Deprecated version of RedisProperties_Status. Use v1beta20201201.RedisProperties_Status instead
+// Deprecated version of RedisProperties_Status. Use v1beta20201201.RedisProperties_Status instead
 type RedisProperties_StatusARM struct {
 	EnableNonSslPort           *bool                                                     `json:"enableNonSslPort,omitempty"`
 	HostName                   *string                                                   `json:"hostName,omitempty"`
@@ -37,12 +37,12 @@ type RedisProperties_StatusARM struct {
 	TenantSettings             map[string]string                                         `json:"tenantSettings,omitempty"`
 }
 
-//Deprecated version of PrivateEndpointConnection_Status_SubResourceEmbedded. Use v1beta20201201.PrivateEndpointConnection_Status_SubResourceEmbedded instead
+// Deprecated version of PrivateEndpointConnection_Status_SubResourceEmbedded. Use v1beta20201201.PrivateEndpointConnection_Status_SubResourceEmbedded instead
 type PrivateEndpointConnection_Status_SubResourceEmbeddedARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
-//Deprecated version of RedisInstanceDetails_Status. Use v1beta20201201.RedisInstanceDetails_Status instead
+// Deprecated version of RedisInstanceDetails_Status. Use v1beta20201201.RedisInstanceDetails_Status instead
 type RedisInstanceDetails_StatusARM struct {
 	IsMaster   *bool   `json:"isMaster,omitempty"`
 	IsPrimary  *bool   `json:"isPrimary,omitempty"`
@@ -52,12 +52,12 @@ type RedisInstanceDetails_StatusARM struct {
 	Zone       *string `json:"zone,omitempty"`
 }
 
-//Deprecated version of RedisLinkedServer_Status. Use v1beta20201201.RedisLinkedServer_Status instead
+// Deprecated version of RedisLinkedServer_Status. Use v1beta20201201.RedisLinkedServer_Status instead
 type RedisLinkedServer_StatusARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
-//Deprecated version of Sku_Status. Use v1beta20201201.Sku_Status instead
+// Deprecated version of Sku_Status. Use v1beta20201201.Sku_Status instead
 type Sku_StatusARM struct {
 	Capacity *int             `json:"capacity,omitempty"`
 	Family   *SkuStatusFamily `json:"family,omitempty"`

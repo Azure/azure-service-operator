@@ -22,8 +22,8 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Storage version of v1alpha1api20210701.Image
-//Deprecated version of Image. Use v1beta20210701.Image instead
+// Storage version of v1alpha1api20210701.Image
+// Deprecated version of Image. Use v1beta20210701.Image instead
 type Image struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -193,16 +193,16 @@ func (image *Image) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Storage version of v1alpha1api20210701.Image
-//Deprecated version of Image. Use v1beta20210701.Image instead
+// Storage version of v1alpha1api20210701.Image
+// Deprecated version of Image. Use v1beta20210701.Image instead
 type ImageList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Image `json:"items"`
 }
 
-//Storage version of v1alpha1api20210701.Image_Status
-//Deprecated version of Image_Status. Use v1beta20210701.Image_Status instead
+// Storage version of v1alpha1api20210701.Image_Status
+// Deprecated version of Image_Status. Use v1beta20210701.Image_Status instead
 type Image_Status struct {
 	Conditions           []conditions.Condition      `json:"conditions,omitempty"`
 	ExtendedLocation     *ExtendedLocation_Status    `json:"extendedLocation,omitempty"`
@@ -450,10 +450,10 @@ func (image *Image_Status) AssignPropertiesToImageStatus(destination *v20210701s
 	return nil
 }
 
-//Storage version of v1alpha1api20210701.Images_Spec
+// Storage version of v1alpha1api20210701.Images_Spec
 type Images_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName        string            `json:"azureName,omitempty"`
 	ExtendedLocation *ExtendedLocation `json:"extendedLocation,omitempty"`
 	HyperVGeneration *string           `json:"hyperVGeneration,omitempty"`
@@ -461,9 +461,9 @@ type Images_Spec struct {
 	OriginalVersion  string            `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a resources.azure.com/ResourceGroup resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
 	Owner                *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PropertyBag          genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	SourceVirtualMachine *SubResource                       `json:"sourceVirtualMachine,omitempty"`
@@ -701,8 +701,8 @@ func (images *Images_Spec) AssignPropertiesToImagesSpec(destination *v20210701s.
 	return nil
 }
 
-//Storage version of v1alpha1api20210701.ExtendedLocation
-//Deprecated version of ExtendedLocation. Use v1beta20210701.ExtendedLocation instead
+// Storage version of v1alpha1api20210701.ExtendedLocation
+// Deprecated version of ExtendedLocation. Use v1beta20210701.ExtendedLocation instead
 type ExtendedLocation struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -753,8 +753,8 @@ func (location *ExtendedLocation) AssignPropertiesToExtendedLocation(destination
 	return nil
 }
 
-//Storage version of v1alpha1api20210701.ExtendedLocation_Status
-//Deprecated version of ExtendedLocation_Status. Use v1beta20210701.ExtendedLocation_Status instead
+// Storage version of v1alpha1api20210701.ExtendedLocation_Status
+// Deprecated version of ExtendedLocation_Status. Use v1beta20210701.ExtendedLocation_Status instead
 type ExtendedLocation_Status struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -805,8 +805,8 @@ func (location *ExtendedLocation_Status) AssignPropertiesToExtendedLocationStatu
 	return nil
 }
 
-//Storage version of v1alpha1api20210701.ImageStorageProfile
-//Deprecated version of ImageStorageProfile. Use v1beta20210701.ImageStorageProfile instead
+// Storage version of v1alpha1api20210701.ImageStorageProfile
+// Deprecated version of ImageStorageProfile. Use v1beta20210701.ImageStorageProfile instead
 type ImageStorageProfile struct {
 	DataDisks     []ImageDataDisk        `json:"dataDisks,omitempty"`
 	OsDisk        *ImageOSDisk           `json:"osDisk,omitempty"`
@@ -922,8 +922,8 @@ func (profile *ImageStorageProfile) AssignPropertiesToImageStorageProfile(destin
 	return nil
 }
 
-//Storage version of v1alpha1api20210701.ImageStorageProfile_Status
-//Deprecated version of ImageStorageProfile_Status. Use v1beta20210701.ImageStorageProfile_Status instead
+// Storage version of v1alpha1api20210701.ImageStorageProfile_Status
+// Deprecated version of ImageStorageProfile_Status. Use v1beta20210701.ImageStorageProfile_Status instead
 type ImageStorageProfile_Status struct {
 	DataDisks     []ImageDataDisk_Status `json:"dataDisks,omitempty"`
 	OsDisk        *ImageOSDisk_Status    `json:"osDisk,omitempty"`
@@ -1039,8 +1039,8 @@ func (profile *ImageStorageProfile_Status) AssignPropertiesToImageStorageProfile
 	return nil
 }
 
-//Storage version of v1alpha1api20210701.SubResource
-//Deprecated version of SubResource. Use v1beta20210701.SubResource instead
+// Storage version of v1alpha1api20210701.SubResource
+// Deprecated version of SubResource. Use v1beta20210701.SubResource instead
 type SubResource struct {
 	PropertyBag genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	Reference   *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
@@ -1094,8 +1094,8 @@ func (resource *SubResource) AssignPropertiesToSubResource(destination *v2020120
 	return nil
 }
 
-//Storage version of v1alpha1api20210701.SubResource_Status
-//Deprecated version of SubResource_Status. Use v1beta20210701.SubResource_Status instead
+// Storage version of v1alpha1api20210701.SubResource_Status
+// Deprecated version of SubResource_Status. Use v1beta20210701.SubResource_Status instead
 type SubResource_Status struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -1139,8 +1139,8 @@ func (resource *SubResource_Status) AssignPropertiesToSubResourceStatus(destinat
 	return nil
 }
 
-//Storage version of v1alpha1api20210701.ImageDataDisk
-//Deprecated version of ImageDataDisk. Use v1beta20210701.ImageDataDisk instead
+// Storage version of v1alpha1api20210701.ImageDataDisk
+// Deprecated version of ImageDataDisk. Use v1beta20210701.ImageDataDisk instead
 type ImageDataDisk struct {
 	BlobUri            *string                      `json:"blobUri,omitempty"`
 	Caching            *string                      `json:"caching,omitempty"`
@@ -1317,8 +1317,8 @@ func (disk *ImageDataDisk) AssignPropertiesToImageDataDisk(destination *v2021070
 	return nil
 }
 
-//Storage version of v1alpha1api20210701.ImageDataDisk_Status
-//Deprecated version of ImageDataDisk_Status. Use v1beta20210701.ImageDataDisk_Status instead
+// Storage version of v1alpha1api20210701.ImageDataDisk_Status
+// Deprecated version of ImageDataDisk_Status. Use v1beta20210701.ImageDataDisk_Status instead
 type ImageDataDisk_Status struct {
 	BlobUri            *string                `json:"blobUri,omitempty"`
 	Caching            *string                `json:"caching,omitempty"`
@@ -1495,8 +1495,8 @@ func (disk *ImageDataDisk_Status) AssignPropertiesToImageDataDiskStatus(destinat
 	return nil
 }
 
-//Storage version of v1alpha1api20210701.ImageOSDisk
-//Deprecated version of ImageOSDisk. Use v1beta20210701.ImageOSDisk instead
+// Storage version of v1alpha1api20210701.ImageOSDisk
+// Deprecated version of ImageOSDisk. Use v1beta20210701.ImageOSDisk instead
 type ImageOSDisk struct {
 	BlobUri            *string                      `json:"blobUri,omitempty"`
 	Caching            *string                      `json:"caching,omitempty"`
@@ -1680,8 +1680,8 @@ func (disk *ImageOSDisk) AssignPropertiesToImageOSDisk(destination *v20210701s.I
 	return nil
 }
 
-//Storage version of v1alpha1api20210701.ImageOSDisk_Status
-//Deprecated version of ImageOSDisk_Status. Use v1beta20210701.ImageOSDisk_Status instead
+// Storage version of v1alpha1api20210701.ImageOSDisk_Status
+// Deprecated version of ImageOSDisk_Status. Use v1beta20210701.ImageOSDisk_Status instead
 type ImageOSDisk_Status struct {
 	BlobUri            *string                `json:"blobUri,omitempty"`
 	Caching            *string                `json:"caching,omitempty"`
@@ -1865,8 +1865,8 @@ func (disk *ImageOSDisk_Status) AssignPropertiesToImageOSDiskStatus(destination 
 	return nil
 }
 
-//Storage version of v1alpha1api20210701.DiskEncryptionSetParameters
-//Deprecated version of DiskEncryptionSetParameters. Use v1beta20210701.DiskEncryptionSetParameters instead
+// Storage version of v1alpha1api20210701.DiskEncryptionSetParameters
+// Deprecated version of DiskEncryptionSetParameters. Use v1beta20210701.DiskEncryptionSetParameters instead
 type DiskEncryptionSetParameters struct {
 	PropertyBag genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	Reference   *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`

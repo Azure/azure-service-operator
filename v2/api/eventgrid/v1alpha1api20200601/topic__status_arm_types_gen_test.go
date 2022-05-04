@@ -134,7 +134,7 @@ func RunJSONSerializationTestForTopicPropertiesStatusARM(subject TopicProperties
 }
 
 // Generator of TopicProperties_StatusARM instances for property testing - lazily instantiated by
-//TopicPropertiesStatusARMGenerator()
+// TopicPropertiesStatusARMGenerator()
 var topicPropertiesStatusARMGenerator gopter.Gen
 
 // TopicPropertiesStatusARMGenerator returns a generator of TopicProperties_StatusARM instances for property testing.
@@ -220,7 +220,7 @@ func RunJSONSerializationTestForPrivateEndpointConnectionStatusTopicSubResourceE
 }
 
 // Generator of PrivateEndpointConnection_Status_Topic_SubResourceEmbeddedARM instances for property testing - lazily
-//instantiated by PrivateEndpointConnectionStatusTopicSubResourceEmbeddedARMGenerator()
+// instantiated by PrivateEndpointConnectionStatusTopicSubResourceEmbeddedARMGenerator()
 var privateEndpointConnectionStatusTopicSubResourceEmbeddedARMGenerator gopter.Gen
 
 // PrivateEndpointConnectionStatusTopicSubResourceEmbeddedARMGenerator returns a generator of PrivateEndpointConnection_Status_Topic_SubResourceEmbeddedARM instances for property testing.

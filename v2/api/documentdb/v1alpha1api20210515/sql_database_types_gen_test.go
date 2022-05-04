@@ -91,7 +91,7 @@ func RunPropertyAssignmentTestForSqlDatabase(subject SqlDatabase) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -193,7 +193,7 @@ func RunPropertyAssignmentTestForDatabaseAccountsSqlDatabasesSpec(subject Databa
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -244,7 +244,7 @@ func RunJSONSerializationTestForDatabaseAccountsSqlDatabasesSpec(subject Databas
 }
 
 // Generator of DatabaseAccountsSqlDatabases_Spec instances for property testing - lazily instantiated by
-//DatabaseAccountsSqlDatabasesSpecGenerator()
+// DatabaseAccountsSqlDatabasesSpecGenerator()
 var databaseAccountsSqlDatabasesSpecGenerator gopter.Gen
 
 // DatabaseAccountsSqlDatabasesSpecGenerator returns a generator of DatabaseAccountsSqlDatabases_Spec instances for property testing.
@@ -312,7 +312,7 @@ func RunPropertyAssignmentTestForSqlDatabaseGetResultsStatus(subject SqlDatabase
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -363,7 +363,7 @@ func RunJSONSerializationTestForSqlDatabaseGetResultsStatus(subject SqlDatabaseG
 }
 
 // Generator of SqlDatabaseGetResults_Status instances for property testing - lazily instantiated by
-//SqlDatabaseGetResultsStatusGenerator()
+// SqlDatabaseGetResultsStatusGenerator()
 var sqlDatabaseGetResultsStatusGenerator gopter.Gen
 
 // SqlDatabaseGetResultsStatusGenerator returns a generator of SqlDatabaseGetResults_Status instances for property testing.
@@ -433,7 +433,7 @@ func RunPropertyAssignmentTestForSqlDatabaseGetPropertiesStatusResource(subject 
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -484,7 +484,7 @@ func RunJSONSerializationTestForSqlDatabaseGetPropertiesStatusResource(subject S
 }
 
 // Generator of SqlDatabaseGetProperties_Status_Resource instances for property testing - lazily instantiated by
-//SqlDatabaseGetPropertiesStatusResourceGenerator()
+// SqlDatabaseGetPropertiesStatusResourceGenerator()
 var sqlDatabaseGetPropertiesStatusResourceGenerator gopter.Gen
 
 // SqlDatabaseGetPropertiesStatusResourceGenerator returns a generator of SqlDatabaseGetProperties_Status_Resource instances for property testing.
@@ -540,7 +540,7 @@ func RunPropertyAssignmentTestForSqlDatabaseResource(subject SqlDatabaseResource
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -591,7 +591,7 @@ func RunJSONSerializationTestForSqlDatabaseResource(subject SqlDatabaseResource)
 }
 
 // Generator of SqlDatabaseResource instances for property testing - lazily instantiated by
-//SqlDatabaseResourceGenerator()
+// SqlDatabaseResourceGenerator()
 var sqlDatabaseResourceGenerator gopter.Gen
 
 // SqlDatabaseResourceGenerator returns a generator of SqlDatabaseResource instances for property testing.

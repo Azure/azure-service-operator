@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/resourceDefinitions/registries
+// Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/resourceDefinitions/registries
 type Registry struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -300,7 +300,7 @@ func (registry *Registry) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/resourceDefinitions/registries
+// Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/resourceDefinitions/registries
 type RegistryList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -313,52 +313,52 @@ type RegistriesSpecAPIVersion string
 const RegistriesSpecAPIVersion20210901 = RegistriesSpecAPIVersion("2021-09-01")
 
 type Registries_Spec struct {
-	//AdminUserEnabled: The value that indicates whether the admin user is enabled.
+	// AdminUserEnabled: The value that indicates whether the admin user is enabled.
 	AdminUserEnabled *bool `json:"adminUserEnabled,omitempty"`
 
 	// +kubebuilder:validation:MaxLength=50
 	// +kubebuilder:validation:MinLength=5
 	// +kubebuilder:validation:Pattern="^[a-zA-Z0-9]*$"
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
-	//DataEndpointEnabled: Enable a single data endpoint per region for serving data.
+	// DataEndpointEnabled: Enable a single data endpoint per region for serving data.
 	DataEndpointEnabled *bool               `json:"dataEndpointEnabled,omitempty"`
 	Encryption          *EncryptionProperty `json:"encryption,omitempty"`
 
-	//Identity: Managed identity for the resource.
+	// Identity: Managed identity for the resource.
 	Identity *IdentityProperties `json:"identity,omitempty"`
 
-	//Location: The location of the resource. This cannot be changed after the resource is created.
+	// Location: The location of the resource. This cannot be changed after the resource is created.
 	Location *string `json:"location,omitempty"`
 
-	//NetworkRuleBypassOptions: Whether to allow trusted Azure services to access a network restricted registry.
+	// NetworkRuleBypassOptions: Whether to allow trusted Azure services to access a network restricted registry.
 	NetworkRuleBypassOptions *RegistryPropertiesNetworkRuleBypassOptions `json:"networkRuleBypassOptions,omitempty"`
 
-	//NetworkRuleSet: The network rule set for a container registry.
+	// NetworkRuleSet: The network rule set for a container registry.
 	NetworkRuleSet *NetworkRuleSet `json:"networkRuleSet,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a resources.azure.com/ResourceGroup resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
-	//Policies: The policies for a container registry.
+	// Policies: The policies for a container registry.
 	Policies *Policies `json:"policies,omitempty"`
 
-	//PublicNetworkAccess: Whether or not public network access is allowed for the container registry.
+	// PublicNetworkAccess: Whether or not public network access is allowed for the container registry.
 	PublicNetworkAccess *RegistryPropertiesPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Sku: The SKU of a container registry.
+	// Sku: The SKU of a container registry.
 	Sku *Sku `json:"sku,omitempty"`
 
-	//Tags: Name-value pairs to add to the resource
+	// Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
 
-	//ZoneRedundancy: Whether or not zone redundancy is enabled for this container registry.
+	// ZoneRedundancy: Whether or not zone redundancy is enabled for this container registry.
 	ZoneRedundancy *RegistryPropertiesZoneRedundancy `json:"zoneRedundancy,omitempty"`
 }
 
@@ -932,73 +932,73 @@ func (registries *Registries_Spec) OriginalVersion() string {
 func (registries *Registries_Spec) SetAzureName(azureName string) { registries.AzureName = azureName }
 
 type Registry_Status struct {
-	//AdminUserEnabled: The value that indicates whether the admin user is enabled.
+	// AdminUserEnabled: The value that indicates whether the admin user is enabled.
 	AdminUserEnabled *bool `json:"adminUserEnabled,omitempty"`
 
-	//Conditions: The observed state of the resource
+	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
-	//CreationDate: The creation date of the container registry in ISO8601 format.
+	// CreationDate: The creation date of the container registry in ISO8601 format.
 	CreationDate *string `json:"creationDate,omitempty"`
 
-	//DataEndpointEnabled: Enable a single data endpoint per region for serving data.
+	// DataEndpointEnabled: Enable a single data endpoint per region for serving data.
 	DataEndpointEnabled *bool `json:"dataEndpointEnabled,omitempty"`
 
-	//DataEndpointHostNames: List of host names that will serve data when dataEndpointEnabled is true.
+	// DataEndpointHostNames: List of host names that will serve data when dataEndpointEnabled is true.
 	DataEndpointHostNames []string `json:"dataEndpointHostNames,omitempty"`
 
-	//Encryption: The encryption settings of container registry.
+	// Encryption: The encryption settings of container registry.
 	Encryption *EncryptionProperty_Status `json:"encryption,omitempty"`
 
-	//Id: The resource ID.
+	// Id: The resource ID.
 	Id *string `json:"id,omitempty"`
 
-	//Identity: The identity of the container registry.
+	// Identity: The identity of the container registry.
 	Identity *IdentityProperties_Status `json:"identity,omitempty"`
 
-	//Location: The location of the resource. This cannot be changed after the resource is created.
+	// Location: The location of the resource. This cannot be changed after the resource is created.
 	Location *string `json:"location,omitempty"`
 
-	//LoginServer: The URL that can be used to log into the container registry.
+	// LoginServer: The URL that can be used to log into the container registry.
 	LoginServer *string `json:"loginServer,omitempty"`
 
-	//Name: The name of the resource.
+	// Name: The name of the resource.
 	Name *string `json:"name,omitempty"`
 
-	//NetworkRuleBypassOptions: Whether to allow trusted Azure services to access a network restricted registry.
+	// NetworkRuleBypassOptions: Whether to allow trusted Azure services to access a network restricted registry.
 	NetworkRuleBypassOptions *RegistryPropertiesStatusNetworkRuleBypassOptions `json:"networkRuleBypassOptions,omitempty"`
 
-	//NetworkRuleSet: The network rule set for a container registry.
+	// NetworkRuleSet: The network rule set for a container registry.
 	NetworkRuleSet *NetworkRuleSet_Status `json:"networkRuleSet,omitempty"`
 
-	//Policies: The policies for a container registry.
+	// Policies: The policies for a container registry.
 	Policies *Policies_Status `json:"policies,omitempty"`
 
-	//PrivateEndpointConnections: List of private endpoint connections for a container registry.
+	// PrivateEndpointConnections: List of private endpoint connections for a container registry.
 	PrivateEndpointConnections []PrivateEndpointConnection_Status_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
 
-	//ProvisioningState: The provisioning state of the container registry at the time the operation was called.
+	// ProvisioningState: The provisioning state of the container registry at the time the operation was called.
 	ProvisioningState *RegistryPropertiesStatusProvisioningState `json:"provisioningState,omitempty"`
 
-	//PublicNetworkAccess: Whether or not public network access is allowed for the container registry.
+	// PublicNetworkAccess: Whether or not public network access is allowed for the container registry.
 	PublicNetworkAccess *RegistryPropertiesStatusPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 
-	//Sku: The SKU of the container registry.
+	// Sku: The SKU of the container registry.
 	Sku *Sku_Status `json:"sku,omitempty"`
 
-	//Status: The status of the container registry at the time the operation was called.
+	// Status: The status of the container registry at the time the operation was called.
 	Status *Status_Status `json:"status,omitempty"`
 
-	//SystemData: Metadata pertaining to creation and last modification of the resource.
+	// SystemData: Metadata pertaining to creation and last modification of the resource.
 	SystemData *SystemData_Status `json:"systemData,omitempty"`
 
-	//Tags: The tags of the resource.
+	// Tags: The tags of the resource.
 	Tags map[string]string `json:"tags,omitempty"`
 
-	//Type: The type of the resource.
+	// Type: The type of the resource.
 	Type *string `json:"type,omitempty"`
 
-	//ZoneRedundancy: Whether or not zone redundancy is enabled for this container registry
+	// ZoneRedundancy: Whether or not zone redundancy is enabled for this container registry
 	ZoneRedundancy *RegistryPropertiesStatusZoneRedundancy `json:"zoneRedundancy,omitempty"`
 }
 
@@ -1663,11 +1663,11 @@ func (registry *Registry_Status) AssignPropertiesToRegistryStatus(destination *v
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/EncryptionProperty
+// Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/EncryptionProperty
 type EncryptionProperty struct {
 	KeyVaultProperties *KeyVaultProperties `json:"keyVaultProperties,omitempty"`
 
-	//Status: Indicates whether or not the encryption is enabled for container registry.
+	// Status: Indicates whether or not the encryption is enabled for container registry.
 	Status *EncryptionPropertyStatus `json:"status,omitempty"`
 }
 
@@ -1795,10 +1795,10 @@ func (property *EncryptionProperty) AssignPropertiesToEncryptionProperty(destina
 }
 
 type EncryptionProperty_Status struct {
-	//KeyVaultProperties: Key vault properties.
+	// KeyVaultProperties: Key vault properties.
 	KeyVaultProperties *KeyVaultProperties_Status `json:"keyVaultProperties,omitempty"`
 
-	//Status: Indicates whether or not the encryption is enabled for container registry.
+	// Status: Indicates whether or not the encryption is enabled for container registry.
 	Status *EncryptionPropertyStatusStatus `json:"status,omitempty"`
 }
 
@@ -1900,21 +1900,21 @@ func (property *EncryptionProperty_Status) AssignPropertiesToEncryptionPropertyS
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/IdentityProperties
+// Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/IdentityProperties
 type IdentityProperties struct {
-	//PrincipalId: The principal ID of resource identity.
+	// PrincipalId: The principal ID of resource identity.
 	PrincipalId *string `json:"principalId,omitempty"`
 
-	//TenantId: The tenant ID of resource.
+	// TenantId: The tenant ID of resource.
 	TenantId *string `json:"tenantId,omitempty"`
 
-	//Type: The identity type.
+	// Type: The identity type.
 	Type *IdentityPropertiesType `json:"type,omitempty"`
 
-	//UserAssignedIdentities: The list of user identities associated with the resource. The user identity
-	//dictionary key references will be ARM resource ids in the form:
-	//'/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/
-	//providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+	// UserAssignedIdentities: The list of user identities associated with the resource. The user identity
+	// dictionary key references will be ARM resource ids in the form:
+	// '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/
+	// providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
 	UserAssignedIdentities map[string]UserIdentityProperties `json:"userAssignedIdentities,omitempty"`
 }
 
@@ -2094,19 +2094,19 @@ func (properties *IdentityProperties) AssignPropertiesToIdentityProperties(desti
 }
 
 type IdentityProperties_Status struct {
-	//PrincipalId: The principal ID of resource identity.
+	// PrincipalId: The principal ID of resource identity.
 	PrincipalId *string `json:"principalId,omitempty"`
 
-	//TenantId: The tenant ID of resource.
+	// TenantId: The tenant ID of resource.
 	TenantId *string `json:"tenantId,omitempty"`
 
-	//Type: The identity type.
+	// Type: The identity type.
 	Type *IdentityPropertiesStatusType `json:"type,omitempty"`
 
-	//UserAssignedIdentities: The list of user identities associated with the resource. The user identity
-	//dictionary key references will be ARM resource ids in the form:
-	//'/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/
-	//providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+	// UserAssignedIdentities: The list of user identities associated with the resource. The user identity
+	// dictionary key references will be ARM resource ids in the form:
+	// '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/
+	// providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
 	UserAssignedIdentities map[string]UserIdentityProperties_Status `json:"userAssignedIdentities,omitempty"`
 }
 
@@ -2246,13 +2246,13 @@ func (properties *IdentityProperties_Status) AssignPropertiesToIdentityPropertie
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/NetworkRuleSet
+// Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/NetworkRuleSet
 type NetworkRuleSet struct {
 	// +kubebuilder:validation:Required
-	//DefaultAction: The default action of allow or deny when no other rules match.
+	// DefaultAction: The default action of allow or deny when no other rules match.
 	DefaultAction *NetworkRuleSetDefaultAction `json:"defaultAction,omitempty"`
 
-	//IpRules: The IP ACL rules.
+	// IpRules: The IP ACL rules.
 	IpRules []IPRule `json:"ipRules,omitempty"`
 }
 
@@ -2390,10 +2390,10 @@ func (ruleSet *NetworkRuleSet) AssignPropertiesToNetworkRuleSet(destination *v20
 }
 
 type NetworkRuleSet_Status struct {
-	//DefaultAction: The default action of allow or deny when no other rules match.
+	// DefaultAction: The default action of allow or deny when no other rules match.
 	DefaultAction *NetworkRuleSetStatusDefaultAction `json:"defaultAction,omitempty"`
 
-	//IpRules: The IP ACL rules.
+	// IpRules: The IP ACL rules.
 	IpRules []IPRule_Status `json:"ipRules,omitempty"`
 }
 
@@ -2506,18 +2506,18 @@ func (ruleSet *NetworkRuleSet_Status) AssignPropertiesToNetworkRuleSetStatus(des
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/Policies
+// Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/Policies
 type Policies struct {
-	//ExportPolicy: The export policy for a container registry.
+	// ExportPolicy: The export policy for a container registry.
 	ExportPolicy *ExportPolicy `json:"exportPolicy,omitempty"`
 
-	//QuarantinePolicy: The quarantine policy for a container registry.
+	// QuarantinePolicy: The quarantine policy for a container registry.
 	QuarantinePolicy *QuarantinePolicy `json:"quarantinePolicy,omitempty"`
 
-	//RetentionPolicy: The retention policy for a container registry.
+	// RetentionPolicy: The retention policy for a container registry.
 	RetentionPolicy *RetentionPolicy `json:"retentionPolicy,omitempty"`
 
-	//TrustPolicy: The content trust policy for a container registry.
+	// TrustPolicy: The content trust policy for a container registry.
 	TrustPolicy *TrustPolicy `json:"trustPolicy,omitempty"`
 }
 
@@ -2752,16 +2752,16 @@ func (policies *Policies) AssignPropertiesToPolicies(destination *v20210901s.Pol
 }
 
 type Policies_Status struct {
-	//ExportPolicy: The export policy for a container registry.
+	// ExportPolicy: The export policy for a container registry.
 	ExportPolicy *ExportPolicy_Status `json:"exportPolicy,omitempty"`
 
-	//QuarantinePolicy: The quarantine policy for a container registry.
+	// QuarantinePolicy: The quarantine policy for a container registry.
 	QuarantinePolicy *QuarantinePolicy_Status `json:"quarantinePolicy,omitempty"`
 
-	//RetentionPolicy: The retention policy for a container registry.
+	// RetentionPolicy: The retention policy for a container registry.
 	RetentionPolicy *RetentionPolicy_Status `json:"retentionPolicy,omitempty"`
 
-	//TrustPolicy: The content trust policy for a container registry.
+	// TrustPolicy: The content trust policy for a container registry.
 	TrustPolicy *TrustPolicy_Status `json:"trustPolicy,omitempty"`
 }
 
@@ -2947,10 +2947,10 @@ func (policies *Policies_Status) AssignPropertiesToPoliciesStatus(destination *v
 }
 
 type PrivateEndpointConnection_Status_SubResourceEmbedded struct {
-	//Id: The resource ID.
+	// Id: The resource ID.
 	Id *string `json:"id,omitempty"`
 
-	//SystemData: Metadata pertaining to creation and last modification of the resource.
+	// SystemData: Metadata pertaining to creation and last modification of the resource.
 	SystemData *SystemData_Status `json:"systemData,omitempty"`
 }
 
@@ -3074,10 +3074,10 @@ const (
 	RegistryPropertiesStatusZoneRedundancyEnabled  = RegistryPropertiesStatusZoneRedundancy("Enabled")
 )
 
-//Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/Sku
+// Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/Sku
 type Sku struct {
 	// +kubebuilder:validation:Required
-	//Name: The SKU name of the container registry. Required for registry creation.
+	// Name: The SKU name of the container registry. Required for registry creation.
 	Name *SkuName `json:"name,omitempty"`
 }
 
@@ -3160,10 +3160,10 @@ func (sku *Sku) AssignPropertiesToSku(destination *v20210901s.Sku) error {
 }
 
 type Sku_Status struct {
-	//Name: The SKU name of the container registry. Required for registry creation.
+	// Name: The SKU name of the container registry. Required for registry creation.
 	Name *SkuStatusName `json:"name,omitempty"`
 
-	//Tier: The SKU tier based on the SKU name.
+	// Tier: The SKU tier based on the SKU name.
 	Tier *SkuStatusTier `json:"tier,omitempty"`
 }
 
@@ -3253,13 +3253,13 @@ func (sku *Sku_Status) AssignPropertiesToSkuStatus(destination *v20210901s.Sku_S
 }
 
 type Status_Status struct {
-	//DisplayStatus: The short label for the status.
+	// DisplayStatus: The short label for the status.
 	DisplayStatus *string `json:"displayStatus,omitempty"`
 
-	//Message: The detailed message for the status, including alerts and error messages.
+	// Message: The detailed message for the status, including alerts and error messages.
 	Message *string `json:"message,omitempty"`
 
-	//Timestamp: The timestamp when the status was changed to the current value.
+	// Timestamp: The timestamp when the status was changed to the current value.
 	Timestamp *string `json:"timestamp,omitempty"`
 }
 
@@ -3341,22 +3341,22 @@ func (status *Status_Status) AssignPropertiesToStatusStatus(destination *v202109
 }
 
 type SystemData_Status struct {
-	//CreatedAt: The timestamp of resource creation (UTC).
+	// CreatedAt: The timestamp of resource creation (UTC).
 	CreatedAt *string `json:"createdAt,omitempty"`
 
-	//CreatedBy: The identity that created the resource.
+	// CreatedBy: The identity that created the resource.
 	CreatedBy *string `json:"createdBy,omitempty"`
 
-	//CreatedByType: The type of identity that created the resource.
+	// CreatedByType: The type of identity that created the resource.
 	CreatedByType *SystemDataStatusCreatedByType `json:"createdByType,omitempty"`
 
-	//LastModifiedAt: The timestamp of resource modification (UTC).
+	// LastModifiedAt: The timestamp of resource modification (UTC).
 	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
 
-	//LastModifiedBy: The identity that last modified the resource.
+	// LastModifiedBy: The identity that last modified the resource.
 	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
 
-	//LastModifiedByType: The type of identity that last modified the resource.
+	// LastModifiedByType: The type of identity that last modified the resource.
 	LastModifiedByType *SystemDataStatusLastModifiedByType `json:"lastModifiedByType,omitempty"`
 }
 
@@ -3500,9 +3500,9 @@ const (
 	EncryptionPropertyStatusStatusEnabled  = EncryptionPropertyStatusStatus("enabled")
 )
 
-//Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/ExportPolicy
+// Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/ExportPolicy
 type ExportPolicy struct {
-	//Status: The value that indicates whether the policy is enabled or not.
+	// Status: The value that indicates whether the policy is enabled or not.
 	Status *ExportPolicyStatus `json:"status,omitempty"`
 }
 
@@ -3585,7 +3585,7 @@ func (policy *ExportPolicy) AssignPropertiesToExportPolicy(destination *v2021090
 }
 
 type ExportPolicy_Status struct {
-	//Status: The value that indicates whether the policy is enabled or not.
+	// Status: The value that indicates whether the policy is enabled or not.
 	Status *ExportPolicyStatusStatus `json:"status,omitempty"`
 }
 
@@ -3652,13 +3652,13 @@ func (policy *ExportPolicy_Status) AssignPropertiesToExportPolicyStatus(destinat
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/IPRule
+// Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/IPRule
 type IPRule struct {
-	//Action: The action of IP ACL rule.
+	// Action: The action of IP ACL rule.
 	Action *IPRuleAction `json:"action,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Value: Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed.
+	// Value: Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed.
 	Value *string `json:"value,omitempty"`
 }
 
@@ -3759,10 +3759,10 @@ func (rule *IPRule) AssignPropertiesToIPRule(destination *v20210901s.IPRule) err
 }
 
 type IPRule_Status struct {
-	//Action: The action of IP ACL rule.
+	// Action: The action of IP ACL rule.
 	Action *IPRuleStatusAction `json:"action,omitempty"`
 
-	//Value: Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed.
+	// Value: Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed.
 	Value *string `json:"value,omitempty"`
 }
 
@@ -3841,12 +3841,12 @@ func (rule *IPRule_Status) AssignPropertiesToIPRuleStatus(destination *v20210901
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/KeyVaultProperties
+// Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/KeyVaultProperties
 type KeyVaultProperties struct {
-	//Identity: The client id of the identity which will be used to access key vault.
+	// Identity: The client id of the identity which will be used to access key vault.
 	Identity *string `json:"identity,omitempty"`
 
-	//KeyIdentifier: Key vault uri to access the encryption key.
+	// KeyIdentifier: Key vault uri to access the encryption key.
 	KeyIdentifier *string `json:"keyIdentifier,omitempty"`
 }
 
@@ -3937,20 +3937,20 @@ func (properties *KeyVaultProperties) AssignPropertiesToKeyVaultProperties(desti
 }
 
 type KeyVaultProperties_Status struct {
-	//Identity: The client id of the identity which will be used to access key vault.
+	// Identity: The client id of the identity which will be used to access key vault.
 	Identity *string `json:"identity,omitempty"`
 
-	//KeyIdentifier: Key vault uri to access the encryption key.
+	// KeyIdentifier: Key vault uri to access the encryption key.
 	KeyIdentifier *string `json:"keyIdentifier,omitempty"`
 
-	//KeyRotationEnabled: Auto key rotation status for a CMK enabled registry.
+	// KeyRotationEnabled: Auto key rotation status for a CMK enabled registry.
 	KeyRotationEnabled *bool `json:"keyRotationEnabled,omitempty"`
 
-	//LastKeyRotationTimestamp: Timestamp of the last successful key rotation.
+	// LastKeyRotationTimestamp: Timestamp of the last successful key rotation.
 	LastKeyRotationTimestamp *string `json:"lastKeyRotationTimestamp,omitempty"`
 
-	//VersionedKeyIdentifier: The fully qualified key identifier that includes the version of the key that is actually used
-	//for encryption.
+	// VersionedKeyIdentifier: The fully qualified key identifier that includes the version of the key that is actually used
+	// for encryption.
 	VersionedKeyIdentifier *string `json:"versionedKeyIdentifier,omitempty"`
 }
 
@@ -4072,9 +4072,9 @@ const (
 	NetworkRuleSetStatusDefaultActionDeny  = NetworkRuleSetStatusDefaultAction("Deny")
 )
 
-//Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/QuarantinePolicy
+// Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/QuarantinePolicy
 type QuarantinePolicy struct {
-	//Status: The value that indicates whether the policy is enabled or not.
+	// Status: The value that indicates whether the policy is enabled or not.
 	Status *QuarantinePolicyStatus `json:"status,omitempty"`
 }
 
@@ -4157,7 +4157,7 @@ func (policy *QuarantinePolicy) AssignPropertiesToQuarantinePolicy(destination *
 }
 
 type QuarantinePolicy_Status struct {
-	//Status: The value that indicates whether the policy is enabled or not.
+	// Status: The value that indicates whether the policy is enabled or not.
 	Status *QuarantinePolicyStatusStatus `json:"status,omitempty"`
 }
 
@@ -4224,12 +4224,12 @@ func (policy *QuarantinePolicy_Status) AssignPropertiesToQuarantinePolicyStatus(
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/RetentionPolicy
+// Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/RetentionPolicy
 type RetentionPolicy struct {
-	//Days: The number of days to retain an untagged manifest after which it gets purged.
+	// Days: The number of days to retain an untagged manifest after which it gets purged.
 	Days *int `json:"days,omitempty"`
 
-	//Status: The value that indicates whether the policy is enabled or not.
+	// Status: The value that indicates whether the policy is enabled or not.
 	Status *RetentionPolicyStatus `json:"status,omitempty"`
 }
 
@@ -4330,13 +4330,13 @@ func (policy *RetentionPolicy) AssignPropertiesToRetentionPolicy(destination *v2
 }
 
 type RetentionPolicy_Status struct {
-	//Days: The number of days to retain an untagged manifest after which it gets purged.
+	// Days: The number of days to retain an untagged manifest after which it gets purged.
 	Days *int `json:"days,omitempty"`
 
-	//LastUpdatedTime: The timestamp when the policy was last updated.
+	// LastUpdatedTime: The timestamp when the policy was last updated.
 	LastUpdatedTime *string `json:"lastUpdatedTime,omitempty"`
 
-	//Status: The value that indicates whether the policy is enabled or not.
+	// Status: The value that indicates whether the policy is enabled or not.
 	Status *RetentionPolicyStatusStatus `json:"status,omitempty"`
 }
 
@@ -4427,12 +4427,12 @@ func (policy *RetentionPolicy_Status) AssignPropertiesToRetentionPolicyStatus(de
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/TrustPolicy
+// Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/TrustPolicy
 type TrustPolicy struct {
-	//Status: The value that indicates whether the policy is enabled or not.
+	// Status: The value that indicates whether the policy is enabled or not.
 	Status *TrustPolicyStatus `json:"status,omitempty"`
 
-	//Type: The type of trust policy.
+	// Type: The type of trust policy.
 	Type *TrustPolicyType `json:"type,omitempty"`
 }
 
@@ -4543,10 +4543,10 @@ func (policy *TrustPolicy) AssignPropertiesToTrustPolicy(destination *v20210901s
 }
 
 type TrustPolicy_Status struct {
-	//Status: The value that indicates whether the policy is enabled or not.
+	// Status: The value that indicates whether the policy is enabled or not.
 	Status *TrustPolicyStatusStatus `json:"status,omitempty"`
 
-	//Type: The type of trust policy.
+	// Type: The type of trust policy.
 	Type *TrustPolicyStatusType `json:"type,omitempty"`
 }
 
@@ -4635,12 +4635,12 @@ func (policy *TrustPolicy_Status) AssignPropertiesToTrustPolicyStatus(destinatio
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/UserIdentityProperties
+// Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/UserIdentityProperties
 type UserIdentityProperties struct {
-	//ClientId: The client id of user assigned identity.
+	// ClientId: The client id of user assigned identity.
 	ClientId *string `json:"clientId,omitempty"`
 
-	//PrincipalId: The principal id of user assigned identity.
+	// PrincipalId: The principal id of user assigned identity.
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
@@ -4731,10 +4731,10 @@ func (properties *UserIdentityProperties) AssignPropertiesToUserIdentityProperti
 }
 
 type UserIdentityProperties_Status struct {
-	//ClientId: The client id of user assigned identity.
+	// ClientId: The client id of user assigned identity.
 	ClientId *string `json:"clientId,omitempty"`
 
-	//PrincipalId: The principal id of user assigned identity.
+	// PrincipalId: The principal id of user assigned identity.
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 

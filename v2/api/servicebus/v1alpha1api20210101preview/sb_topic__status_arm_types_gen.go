@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1alpha1api20210101preview
 
-//Deprecated version of SBTopic_Status. Use v1beta20210101preview.SBTopic_Status instead
+// Deprecated version of SBTopic_Status. Use v1beta20210101preview.SBTopic_Status instead
 type SBTopic_StatusARM struct {
 	Id         *string                      `json:"id,omitempty"`
 	Name       *string                      `json:"name,omitempty"`
@@ -12,7 +12,7 @@ type SBTopic_StatusARM struct {
 	Type       *string                      `json:"type,omitempty"`
 }
 
-//Deprecated version of SBTopicProperties_Status. Use v1beta20210101preview.SBTopicProperties_Status instead
+// Deprecated version of SBTopicProperties_Status. Use v1beta20210101preview.SBTopicProperties_Status instead
 type SBTopicProperties_StatusARM struct {
 	AccessedAt                          *string                        `json:"accessedAt,omitempty"`
 	AutoDeleteOnIdle                    *string                        `json:"autoDeleteOnIdle,omitempty"`

@@ -90,7 +90,7 @@ func RunPropertyAssignmentTestForManagedCluster(subject ManagedCluster) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -192,7 +192,7 @@ func RunPropertyAssignmentTestForManagedClusterStatus(subject ManagedCluster_Sta
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -243,7 +243,7 @@ func RunJSONSerializationTestForManagedClusterStatus(subject ManagedCluster_Stat
 }
 
 // Generator of ManagedCluster_Status instances for property testing - lazily instantiated by
-//ManagedClusterStatusGenerator()
+// ManagedClusterStatusGenerator()
 var managedClusterStatusGenerator gopter.Gen
 
 // ManagedClusterStatusGenerator returns a generator of ManagedCluster_Status instances for property testing.
@@ -340,7 +340,7 @@ func RunPropertyAssignmentTestForManagedClustersSpec(subject ManagedClusters_Spe
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -391,7 +391,7 @@ func RunJSONSerializationTestForManagedClustersSpec(subject ManagedClusters_Spec
 }
 
 // Generator of ManagedClusters_Spec instances for property testing - lazily instantiated by
-//ManagedClustersSpecGenerator()
+// ManagedClustersSpecGenerator()
 var managedClustersSpecGenerator gopter.Gen
 
 // ManagedClustersSpecGenerator returns a generator of ManagedClusters_Spec instances for property testing.
@@ -482,7 +482,7 @@ func RunPropertyAssignmentTestForComponentsqit0Etschemasmanagedclusterproperties
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -533,8 +533,8 @@ func RunJSONSerializationTestForComponentsqit0Etschemasmanagedclusterpropertiesp
 }
 
 // Generator of Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties instances
-//for property testing - lazily instantiated by
-//Componentsqit0EtschemasmanagedclusterpropertiespropertiesidentityprofileadditionalpropertiesGenerator()
+// for property testing - lazily instantiated by
+// Componentsqit0EtschemasmanagedclusterpropertiespropertiesidentityprofileadditionalpropertiesGenerator()
 var componentsqit0EtschemasmanagedclusterpropertiespropertiesidentityprofileadditionalpropertiesGenerator gopter.Gen
 
 // Componentsqit0EtschemasmanagedclusterpropertiespropertiesidentityprofileadditionalpropertiesGenerator returns a generator of Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties instances for property testing.
@@ -586,7 +586,7 @@ func RunPropertyAssignmentTestForContainerServiceLinuxProfile(subject ContainerS
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -637,7 +637,7 @@ func RunJSONSerializationTestForContainerServiceLinuxProfile(subject ContainerSe
 }
 
 // Generator of ContainerServiceLinuxProfile instances for property testing - lazily instantiated by
-//ContainerServiceLinuxProfileGenerator()
+// ContainerServiceLinuxProfileGenerator()
 var containerServiceLinuxProfileGenerator gopter.Gen
 
 // ContainerServiceLinuxProfileGenerator returns a generator of ContainerServiceLinuxProfile instances for property testing.
@@ -702,7 +702,7 @@ func RunPropertyAssignmentTestForContainerServiceLinuxProfileStatus(subject Cont
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -753,7 +753,7 @@ func RunJSONSerializationTestForContainerServiceLinuxProfileStatus(subject Conta
 }
 
 // Generator of ContainerServiceLinuxProfile_Status instances for property testing - lazily instantiated by
-//ContainerServiceLinuxProfileStatusGenerator()
+// ContainerServiceLinuxProfileStatusGenerator()
 var containerServiceLinuxProfileStatusGenerator gopter.Gen
 
 // ContainerServiceLinuxProfileStatusGenerator returns a generator of ContainerServiceLinuxProfile_Status instances for property testing.
@@ -818,7 +818,7 @@ func RunPropertyAssignmentTestForContainerServiceNetworkProfile(subject Containe
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -869,7 +869,7 @@ func RunJSONSerializationTestForContainerServiceNetworkProfile(subject Container
 }
 
 // Generator of ContainerServiceNetworkProfile instances for property testing - lazily instantiated by
-//ContainerServiceNetworkProfileGenerator()
+// ContainerServiceNetworkProfileGenerator()
 var containerServiceNetworkProfileGenerator gopter.Gen
 
 // ContainerServiceNetworkProfileGenerator returns a generator of ContainerServiceNetworkProfile instances for property testing.
@@ -942,7 +942,7 @@ func RunPropertyAssignmentTestForContainerServiceNetworkProfileStatus(subject Co
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -993,7 +993,7 @@ func RunJSONSerializationTestForContainerServiceNetworkProfileStatus(subject Con
 }
 
 // Generator of ContainerServiceNetworkProfile_Status instances for property testing - lazily instantiated by
-//ContainerServiceNetworkProfileStatusGenerator()
+// ContainerServiceNetworkProfileStatusGenerator()
 var containerServiceNetworkProfileStatusGenerator gopter.Gen
 
 // ContainerServiceNetworkProfileStatusGenerator returns a generator of ContainerServiceNetworkProfile_Status instances for property testing.
@@ -1066,7 +1066,7 @@ func RunPropertyAssignmentTestForExtendedLocation(subject ExtendedLocation) stri
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1168,7 +1168,7 @@ func RunPropertyAssignmentTestForExtendedLocationStatus(subject ExtendedLocation
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1219,7 +1219,7 @@ func RunJSONSerializationTestForExtendedLocationStatus(subject ExtendedLocation_
 }
 
 // Generator of ExtendedLocation_Status instances for property testing - lazily instantiated by
-//ExtendedLocationStatusGenerator()
+// ExtendedLocationStatusGenerator()
 var extendedLocationStatusGenerator gopter.Gen
 
 // ExtendedLocationStatusGenerator returns a generator of ExtendedLocation_Status instances for property testing.
@@ -1271,7 +1271,7 @@ func RunPropertyAssignmentTestForManagedClusterAADProfile(subject ManagedCluster
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1322,7 +1322,7 @@ func RunJSONSerializationTestForManagedClusterAADProfile(subject ManagedClusterA
 }
 
 // Generator of ManagedClusterAADProfile instances for property testing - lazily instantiated by
-//ManagedClusterAADProfileGenerator()
+// ManagedClusterAADProfileGenerator()
 var managedClusterAADProfileGenerator gopter.Gen
 
 // ManagedClusterAADProfileGenerator returns a generator of ManagedClusterAADProfile instances for property testing.
@@ -1379,7 +1379,7 @@ func RunPropertyAssignmentTestForManagedClusterAADProfileStatus(subject ManagedC
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1430,7 +1430,7 @@ func RunJSONSerializationTestForManagedClusterAADProfileStatus(subject ManagedCl
 }
 
 // Generator of ManagedClusterAADProfile_Status instances for property testing - lazily instantiated by
-//ManagedClusterAADProfileStatusGenerator()
+// ManagedClusterAADProfileStatusGenerator()
 var managedClusterAADProfileStatusGenerator gopter.Gen
 
 // ManagedClusterAADProfileStatusGenerator returns a generator of ManagedClusterAADProfile_Status instances for property testing.
@@ -1487,7 +1487,7 @@ func RunPropertyAssignmentTestForManagedClusterAPIServerAccessProfile(subject Ma
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1538,7 +1538,7 @@ func RunJSONSerializationTestForManagedClusterAPIServerAccessProfile(subject Man
 }
 
 // Generator of ManagedClusterAPIServerAccessProfile instances for property testing - lazily instantiated by
-//ManagedClusterAPIServerAccessProfileGenerator()
+// ManagedClusterAPIServerAccessProfileGenerator()
 var managedClusterAPIServerAccessProfileGenerator gopter.Gen
 
 // ManagedClusterAPIServerAccessProfileGenerator returns a generator of ManagedClusterAPIServerAccessProfile instances for property testing.
@@ -1592,7 +1592,7 @@ func RunPropertyAssignmentTestForManagedClusterAPIServerAccessProfileStatus(subj
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1643,7 +1643,7 @@ func RunJSONSerializationTestForManagedClusterAPIServerAccessProfileStatus(subje
 }
 
 // Generator of ManagedClusterAPIServerAccessProfile_Status instances for property testing - lazily instantiated by
-//ManagedClusterAPIServerAccessProfileStatusGenerator()
+// ManagedClusterAPIServerAccessProfileStatusGenerator()
 var managedClusterAPIServerAccessProfileStatusGenerator gopter.Gen
 
 // ManagedClusterAPIServerAccessProfileStatusGenerator returns a generator of ManagedClusterAPIServerAccessProfile_Status instances for property testing.
@@ -1697,7 +1697,7 @@ func RunPropertyAssignmentTestForManagedClusterAddonProfile(subject ManagedClust
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1748,7 +1748,7 @@ func RunJSONSerializationTestForManagedClusterAddonProfile(subject ManagedCluste
 }
 
 // Generator of ManagedClusterAddonProfile instances for property testing - lazily instantiated by
-//ManagedClusterAddonProfileGenerator()
+// ManagedClusterAddonProfileGenerator()
 var managedClusterAddonProfileGenerator gopter.Gen
 
 // ManagedClusterAddonProfileGenerator returns a generator of ManagedClusterAddonProfile instances for property testing.
@@ -1800,7 +1800,7 @@ func RunPropertyAssignmentTestForManagedClusterAgentPoolProfile(subject ManagedC
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1851,7 +1851,7 @@ func RunJSONSerializationTestForManagedClusterAgentPoolProfile(subject ManagedCl
 }
 
 // Generator of ManagedClusterAgentPoolProfile instances for property testing - lazily instantiated by
-//ManagedClusterAgentPoolProfileGenerator()
+// ManagedClusterAgentPoolProfileGenerator()
 var managedClusterAgentPoolProfileGenerator gopter.Gen
 
 // ManagedClusterAgentPoolProfileGenerator returns a generator of ManagedClusterAgentPoolProfile instances for property testing.
@@ -1945,7 +1945,7 @@ func RunPropertyAssignmentTestForManagedClusterAgentPoolProfileStatus(subject Ma
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1996,7 +1996,7 @@ func RunJSONSerializationTestForManagedClusterAgentPoolProfileStatus(subject Man
 }
 
 // Generator of ManagedClusterAgentPoolProfile_Status instances for property testing - lazily instantiated by
-//ManagedClusterAgentPoolProfileStatusGenerator()
+// ManagedClusterAgentPoolProfileStatusGenerator()
 var managedClusterAgentPoolProfileStatusGenerator gopter.Gen
 
 // ManagedClusterAgentPoolProfileStatusGenerator returns a generator of ManagedClusterAgentPoolProfile_Status instances for property testing.
@@ -2096,7 +2096,7 @@ func RunPropertyAssignmentTestForManagedClusterAutoUpgradeProfile(subject Manage
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -2147,7 +2147,7 @@ func RunJSONSerializationTestForManagedClusterAutoUpgradeProfile(subject Managed
 }
 
 // Generator of ManagedClusterAutoUpgradeProfile instances for property testing - lazily instantiated by
-//ManagedClusterAutoUpgradeProfileGenerator()
+// ManagedClusterAutoUpgradeProfileGenerator()
 var managedClusterAutoUpgradeProfileGenerator gopter.Gen
 
 // ManagedClusterAutoUpgradeProfileGenerator returns a generator of ManagedClusterAutoUpgradeProfile instances for property testing.
@@ -2198,7 +2198,7 @@ func RunPropertyAssignmentTestForManagedClusterAutoUpgradeProfileStatus(subject 
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -2249,7 +2249,7 @@ func RunJSONSerializationTestForManagedClusterAutoUpgradeProfileStatus(subject M
 }
 
 // Generator of ManagedClusterAutoUpgradeProfile_Status instances for property testing - lazily instantiated by
-//ManagedClusterAutoUpgradeProfileStatusGenerator()
+// ManagedClusterAutoUpgradeProfileStatusGenerator()
 var managedClusterAutoUpgradeProfileStatusGenerator gopter.Gen
 
 // ManagedClusterAutoUpgradeProfileStatusGenerator returns a generator of ManagedClusterAutoUpgradeProfile_Status instances for property testing.
@@ -2300,7 +2300,7 @@ func RunPropertyAssignmentTestForManagedClusterHTTPProxyConfig(subject ManagedCl
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -2351,7 +2351,7 @@ func RunJSONSerializationTestForManagedClusterHTTPProxyConfig(subject ManagedClu
 }
 
 // Generator of ManagedClusterHTTPProxyConfig instances for property testing - lazily instantiated by
-//ManagedClusterHTTPProxyConfigGenerator()
+// ManagedClusterHTTPProxyConfigGenerator()
 var managedClusterHTTPProxyConfigGenerator gopter.Gen
 
 // ManagedClusterHTTPProxyConfigGenerator returns a generator of ManagedClusterHTTPProxyConfig instances for property testing.
@@ -2405,7 +2405,7 @@ func RunPropertyAssignmentTestForManagedClusterHTTPProxyConfigStatus(subject Man
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -2456,7 +2456,7 @@ func RunJSONSerializationTestForManagedClusterHTTPProxyConfigStatus(subject Mana
 }
 
 // Generator of ManagedClusterHTTPProxyConfig_Status instances for property testing - lazily instantiated by
-//ManagedClusterHTTPProxyConfigStatusGenerator()
+// ManagedClusterHTTPProxyConfigStatusGenerator()
 var managedClusterHTTPProxyConfigStatusGenerator gopter.Gen
 
 // ManagedClusterHTTPProxyConfigStatusGenerator returns a generator of ManagedClusterHTTPProxyConfig_Status instances for property testing.
@@ -2510,7 +2510,7 @@ func RunPropertyAssignmentTestForManagedClusterIdentity(subject ManagedClusterId
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -2561,7 +2561,7 @@ func RunJSONSerializationTestForManagedClusterIdentity(subject ManagedClusterIde
 }
 
 // Generator of ManagedClusterIdentity instances for property testing - lazily instantiated by
-//ManagedClusterIdentityGenerator()
+// ManagedClusterIdentityGenerator()
 var managedClusterIdentityGenerator gopter.Gen
 
 // ManagedClusterIdentityGenerator returns a generator of ManagedClusterIdentity instances for property testing.
@@ -2612,7 +2612,7 @@ func RunPropertyAssignmentTestForManagedClusterIdentityStatus(subject ManagedClu
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -2663,7 +2663,7 @@ func RunJSONSerializationTestForManagedClusterIdentityStatus(subject ManagedClus
 }
 
 // Generator of ManagedClusterIdentity_Status instances for property testing - lazily instantiated by
-//ManagedClusterIdentityStatusGenerator()
+// ManagedClusterIdentityStatusGenerator()
 var managedClusterIdentityStatusGenerator gopter.Gen
 
 // ManagedClusterIdentityStatusGenerator returns a generator of ManagedClusterIdentity_Status instances for property testing.
@@ -2730,7 +2730,7 @@ func RunPropertyAssignmentTestForManagedClusterPodIdentityProfile(subject Manage
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -2781,7 +2781,7 @@ func RunJSONSerializationTestForManagedClusterPodIdentityProfile(subject Managed
 }
 
 // Generator of ManagedClusterPodIdentityProfile instances for property testing - lazily instantiated by
-//ManagedClusterPodIdentityProfileGenerator()
+// ManagedClusterPodIdentityProfileGenerator()
 var managedClusterPodIdentityProfileGenerator gopter.Gen
 
 // ManagedClusterPodIdentityProfileGenerator returns a generator of ManagedClusterPodIdentityProfile instances for property testing.
@@ -2848,7 +2848,7 @@ func RunPropertyAssignmentTestForManagedClusterPodIdentityProfileStatus(subject 
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -2899,7 +2899,7 @@ func RunJSONSerializationTestForManagedClusterPodIdentityProfileStatus(subject M
 }
 
 // Generator of ManagedClusterPodIdentityProfile_Status instances for property testing - lazily instantiated by
-//ManagedClusterPodIdentityProfileStatusGenerator()
+// ManagedClusterPodIdentityProfileStatusGenerator()
 var managedClusterPodIdentityProfileStatusGenerator gopter.Gen
 
 // ManagedClusterPodIdentityProfileStatusGenerator returns a generator of ManagedClusterPodIdentityProfile_Status instances for property testing.
@@ -2966,7 +2966,7 @@ func RunPropertyAssignmentTestForManagedClusterPropertiesAutoScalerProfile(subje
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -3017,7 +3017,7 @@ func RunJSONSerializationTestForManagedClusterPropertiesAutoScalerProfile(subjec
 }
 
 // Generator of ManagedClusterPropertiesAutoScalerProfile instances for property testing - lazily instantiated by
-//ManagedClusterPropertiesAutoScalerProfileGenerator()
+// ManagedClusterPropertiesAutoScalerProfileGenerator()
 var managedClusterPropertiesAutoScalerProfileGenerator gopter.Gen
 
 // ManagedClusterPropertiesAutoScalerProfileGenerator returns a generator of ManagedClusterPropertiesAutoScalerProfile instances for property testing.
@@ -3084,7 +3084,7 @@ func RunPropertyAssignmentTestForManagedClusterPropertiesStatusAutoScalerProfile
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -3135,7 +3135,7 @@ func RunJSONSerializationTestForManagedClusterPropertiesStatusAutoScalerProfile(
 }
 
 // Generator of ManagedClusterProperties_Status_AutoScalerProfile instances for property testing - lazily instantiated
-//by ManagedClusterPropertiesStatusAutoScalerProfileGenerator()
+// by ManagedClusterPropertiesStatusAutoScalerProfileGenerator()
 var managedClusterPropertiesStatusAutoScalerProfileGenerator gopter.Gen
 
 // ManagedClusterPropertiesStatusAutoScalerProfileGenerator returns a generator of ManagedClusterProperties_Status_AutoScalerProfile instances for property testing.
@@ -3202,7 +3202,7 @@ func RunPropertyAssignmentTestForManagedClusterSKU(subject ManagedClusterSKU) st
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -3304,7 +3304,7 @@ func RunPropertyAssignmentTestForManagedClusterSKUStatus(subject ManagedClusterS
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -3355,7 +3355,7 @@ func RunJSONSerializationTestForManagedClusterSKUStatus(subject ManagedClusterSK
 }
 
 // Generator of ManagedClusterSKU_Status instances for property testing - lazily instantiated by
-//ManagedClusterSKUStatusGenerator()
+// ManagedClusterSKUStatusGenerator()
 var managedClusterSKUStatusGenerator gopter.Gen
 
 // ManagedClusterSKUStatusGenerator returns a generator of ManagedClusterSKU_Status instances for property testing.
@@ -3407,7 +3407,7 @@ func RunPropertyAssignmentTestForManagedClusterServicePrincipalProfile(subject M
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -3458,7 +3458,7 @@ func RunJSONSerializationTestForManagedClusterServicePrincipalProfile(subject Ma
 }
 
 // Generator of ManagedClusterServicePrincipalProfile instances for property testing - lazily instantiated by
-//ManagedClusterServicePrincipalProfileGenerator()
+// ManagedClusterServicePrincipalProfileGenerator()
 var managedClusterServicePrincipalProfileGenerator gopter.Gen
 
 // ManagedClusterServicePrincipalProfileGenerator returns a generator of ManagedClusterServicePrincipalProfile instances for property testing.
@@ -3510,7 +3510,7 @@ func RunPropertyAssignmentTestForManagedClusterServicePrincipalProfileStatus(sub
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -3561,7 +3561,7 @@ func RunJSONSerializationTestForManagedClusterServicePrincipalProfileStatus(subj
 }
 
 // Generator of ManagedClusterServicePrincipalProfile_Status instances for property testing - lazily instantiated by
-//ManagedClusterServicePrincipalProfileStatusGenerator()
+// ManagedClusterServicePrincipalProfileStatusGenerator()
 var managedClusterServicePrincipalProfileStatusGenerator gopter.Gen
 
 // ManagedClusterServicePrincipalProfileStatusGenerator returns a generator of ManagedClusterServicePrincipalProfile_Status instances for property testing.
@@ -3613,7 +3613,7 @@ func RunPropertyAssignmentTestForManagedClusterWindowsProfile(subject ManagedClu
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -3664,7 +3664,7 @@ func RunJSONSerializationTestForManagedClusterWindowsProfile(subject ManagedClus
 }
 
 // Generator of ManagedClusterWindowsProfile instances for property testing - lazily instantiated by
-//ManagedClusterWindowsProfileGenerator()
+// ManagedClusterWindowsProfileGenerator()
 var managedClusterWindowsProfileGenerator gopter.Gen
 
 // ManagedClusterWindowsProfileGenerator returns a generator of ManagedClusterWindowsProfile instances for property testing.
@@ -3718,7 +3718,7 @@ func RunPropertyAssignmentTestForManagedClusterWindowsProfileStatus(subject Mana
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -3769,7 +3769,7 @@ func RunJSONSerializationTestForManagedClusterWindowsProfileStatus(subject Manag
 }
 
 // Generator of ManagedClusterWindowsProfile_Status instances for property testing - lazily instantiated by
-//ManagedClusterWindowsProfileStatusGenerator()
+// ManagedClusterWindowsProfileStatusGenerator()
 var managedClusterWindowsProfileStatusGenerator gopter.Gen
 
 // ManagedClusterWindowsProfileStatusGenerator returns a generator of ManagedClusterWindowsProfile_Status instances for property testing.
@@ -3823,7 +3823,7 @@ func RunPropertyAssignmentTestForPowerStateStatus(subject PowerState_Status) str
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -3924,7 +3924,7 @@ func RunPropertyAssignmentTestForPrivateLinkResource(subject PrivateLinkResource
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -3975,7 +3975,7 @@ func RunJSONSerializationTestForPrivateLinkResource(subject PrivateLinkResource)
 }
 
 // Generator of PrivateLinkResource instances for property testing - lazily instantiated by
-//PrivateLinkResourceGenerator()
+// PrivateLinkResourceGenerator()
 var privateLinkResourceGenerator gopter.Gen
 
 // PrivateLinkResourceGenerator returns a generator of PrivateLinkResource instances for property testing.
@@ -4029,7 +4029,7 @@ func RunPropertyAssignmentTestForPrivateLinkResourceStatus(subject PrivateLinkRe
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -4080,7 +4080,7 @@ func RunJSONSerializationTestForPrivateLinkResourceStatus(subject PrivateLinkRes
 }
 
 // Generator of PrivateLinkResource_Status instances for property testing - lazily instantiated by
-//PrivateLinkResourceStatusGenerator()
+// PrivateLinkResourceStatusGenerator()
 var privateLinkResourceStatusGenerator gopter.Gen
 
 // PrivateLinkResourceStatusGenerator returns a generator of PrivateLinkResource_Status instances for property testing.
@@ -4136,7 +4136,7 @@ func RunPropertyAssignmentTestForContainerServiceSshConfiguration(subject Contai
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -4187,7 +4187,7 @@ func RunJSONSerializationTestForContainerServiceSshConfiguration(subject Contain
 }
 
 // Generator of ContainerServiceSshConfiguration instances for property testing - lazily instantiated by
-//ContainerServiceSshConfigurationGenerator()
+// ContainerServiceSshConfigurationGenerator()
 var containerServiceSshConfigurationGenerator gopter.Gen
 
 // ContainerServiceSshConfigurationGenerator returns a generator of ContainerServiceSshConfiguration instances for property testing.
@@ -4238,7 +4238,7 @@ func RunPropertyAssignmentTestForContainerServiceSshConfigurationStatus(subject 
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -4289,7 +4289,7 @@ func RunJSONSerializationTestForContainerServiceSshConfigurationStatus(subject C
 }
 
 // Generator of ContainerServiceSshConfiguration_Status instances for property testing - lazily instantiated by
-//ContainerServiceSshConfigurationStatusGenerator()
+// ContainerServiceSshConfigurationStatusGenerator()
 var containerServiceSshConfigurationStatusGenerator gopter.Gen
 
 // ContainerServiceSshConfigurationStatusGenerator returns a generator of ContainerServiceSshConfiguration_Status instances for property testing.
@@ -4340,7 +4340,7 @@ func RunPropertyAssignmentTestForManagedClusterIdentityStatusUserAssignedIdentit
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -4391,7 +4391,7 @@ func RunJSONSerializationTestForManagedClusterIdentityStatusUserAssignedIdentiti
 }
 
 // Generator of ManagedClusterIdentity_Status_UserAssignedIdentities instances for property testing - lazily
-//instantiated by ManagedClusterIdentityStatusUserAssignedIdentitiesGenerator()
+// instantiated by ManagedClusterIdentityStatusUserAssignedIdentitiesGenerator()
 var managedClusterIdentityStatusUserAssignedIdentitiesGenerator gopter.Gen
 
 // ManagedClusterIdentityStatusUserAssignedIdentitiesGenerator returns a generator of ManagedClusterIdentity_Status_UserAssignedIdentities instances for property testing.
@@ -4443,7 +4443,7 @@ func RunPropertyAssignmentTestForManagedClusterLoadBalancerProfile(subject Manag
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -4494,7 +4494,7 @@ func RunJSONSerializationTestForManagedClusterLoadBalancerProfile(subject Manage
 }
 
 // Generator of ManagedClusterLoadBalancerProfile instances for property testing - lazily instantiated by
-//ManagedClusterLoadBalancerProfileGenerator()
+// ManagedClusterLoadBalancerProfileGenerator()
 var managedClusterLoadBalancerProfileGenerator gopter.Gen
 
 // ManagedClusterLoadBalancerProfileGenerator returns a generator of ManagedClusterLoadBalancerProfile instances for property testing.
@@ -4563,7 +4563,7 @@ func RunPropertyAssignmentTestForManagedClusterLoadBalancerProfileStatus(subject
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -4614,7 +4614,7 @@ func RunJSONSerializationTestForManagedClusterLoadBalancerProfileStatus(subject 
 }
 
 // Generator of ManagedClusterLoadBalancerProfile_Status instances for property testing - lazily instantiated by
-//ManagedClusterLoadBalancerProfileStatusGenerator()
+// ManagedClusterLoadBalancerProfileStatusGenerator()
 var managedClusterLoadBalancerProfileStatusGenerator gopter.Gen
 
 // ManagedClusterLoadBalancerProfileStatusGenerator returns a generator of ManagedClusterLoadBalancerProfile_Status instances for property testing.
@@ -4683,7 +4683,7 @@ func RunPropertyAssignmentTestForManagedClusterPodIdentity(subject ManagedCluste
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -4734,7 +4734,7 @@ func RunJSONSerializationTestForManagedClusterPodIdentity(subject ManagedCluster
 }
 
 // Generator of ManagedClusterPodIdentity instances for property testing - lazily instantiated by
-//ManagedClusterPodIdentityGenerator()
+// ManagedClusterPodIdentityGenerator()
 var managedClusterPodIdentityGenerator gopter.Gen
 
 // ManagedClusterPodIdentityGenerator returns a generator of ManagedClusterPodIdentity instances for property testing.
@@ -4801,7 +4801,7 @@ func RunPropertyAssignmentTestForManagedClusterPodIdentityException(subject Mana
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -4852,7 +4852,7 @@ func RunJSONSerializationTestForManagedClusterPodIdentityException(subject Manag
 }
 
 // Generator of ManagedClusterPodIdentityException instances for property testing - lazily instantiated by
-//ManagedClusterPodIdentityExceptionGenerator()
+// ManagedClusterPodIdentityExceptionGenerator()
 var managedClusterPodIdentityExceptionGenerator gopter.Gen
 
 // ManagedClusterPodIdentityExceptionGenerator returns a generator of ManagedClusterPodIdentityException instances for property testing.
@@ -4905,7 +4905,7 @@ func RunPropertyAssignmentTestForManagedClusterPodIdentityExceptionStatus(subjec
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -4956,7 +4956,7 @@ func RunJSONSerializationTestForManagedClusterPodIdentityExceptionStatus(subject
 }
 
 // Generator of ManagedClusterPodIdentityException_Status instances for property testing - lazily instantiated by
-//ManagedClusterPodIdentityExceptionStatusGenerator()
+// ManagedClusterPodIdentityExceptionStatusGenerator()
 var managedClusterPodIdentityExceptionStatusGenerator gopter.Gen
 
 // ManagedClusterPodIdentityExceptionStatusGenerator returns a generator of ManagedClusterPodIdentityException_Status instances for property testing.
@@ -5009,7 +5009,7 @@ func RunPropertyAssignmentTestForManagedClusterPodIdentityStatus(subject Managed
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -5060,7 +5060,7 @@ func RunJSONSerializationTestForManagedClusterPodIdentityStatus(subject ManagedC
 }
 
 // Generator of ManagedClusterPodIdentity_Status instances for property testing - lazily instantiated by
-//ManagedClusterPodIdentityStatusGenerator()
+// ManagedClusterPodIdentityStatusGenerator()
 var managedClusterPodIdentityStatusGenerator gopter.Gen
 
 // ManagedClusterPodIdentityStatusGenerator returns a generator of ManagedClusterPodIdentity_Status instances for property testing.
@@ -5129,7 +5129,7 @@ func RunPropertyAssignmentTestForContainerServiceSshPublicKey(subject ContainerS
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -5180,7 +5180,7 @@ func RunJSONSerializationTestForContainerServiceSshPublicKey(subject ContainerSe
 }
 
 // Generator of ContainerServiceSshPublicKey instances for property testing - lazily instantiated by
-//ContainerServiceSshPublicKeyGenerator()
+// ContainerServiceSshPublicKeyGenerator()
 var containerServiceSshPublicKeyGenerator gopter.Gen
 
 // ContainerServiceSshPublicKeyGenerator returns a generator of ContainerServiceSshPublicKey instances for property testing.
@@ -5231,7 +5231,7 @@ func RunPropertyAssignmentTestForContainerServiceSshPublicKeyStatus(subject Cont
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -5282,7 +5282,7 @@ func RunJSONSerializationTestForContainerServiceSshPublicKeyStatus(subject Conta
 }
 
 // Generator of ContainerServiceSshPublicKey_Status instances for property testing - lazily instantiated by
-//ContainerServiceSshPublicKeyStatusGenerator()
+// ContainerServiceSshPublicKeyStatusGenerator()
 var containerServiceSshPublicKeyStatusGenerator gopter.Gen
 
 // ContainerServiceSshPublicKeyStatusGenerator returns a generator of ContainerServiceSshPublicKey_Status instances for property testing.
@@ -5333,7 +5333,7 @@ func RunPropertyAssignmentTestForManagedClusterLoadBalancerProfileManagedOutboun
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -5384,7 +5384,7 @@ func RunJSONSerializationTestForManagedClusterLoadBalancerProfileManagedOutbound
 }
 
 // Generator of ManagedClusterLoadBalancerProfileManagedOutboundIPs instances for property testing - lazily instantiated
-//by ManagedClusterLoadBalancerProfileManagedOutboundIPsGenerator()
+// by ManagedClusterLoadBalancerProfileManagedOutboundIPsGenerator()
 var managedClusterLoadBalancerProfileManagedOutboundIPsGenerator gopter.Gen
 
 // ManagedClusterLoadBalancerProfileManagedOutboundIPsGenerator returns a generator of ManagedClusterLoadBalancerProfileManagedOutboundIPs instances for property testing.
@@ -5435,7 +5435,7 @@ func RunPropertyAssignmentTestForManagedClusterLoadBalancerProfileOutboundIPPref
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -5486,7 +5486,7 @@ func RunJSONSerializationTestForManagedClusterLoadBalancerProfileOutboundIPPrefi
 }
 
 // Generator of ManagedClusterLoadBalancerProfileOutboundIPPrefixes instances for property testing - lazily instantiated
-//by ManagedClusterLoadBalancerProfileOutboundIPPrefixesGenerator()
+// by ManagedClusterLoadBalancerProfileOutboundIPPrefixesGenerator()
 var managedClusterLoadBalancerProfileOutboundIPPrefixesGenerator gopter.Gen
 
 // ManagedClusterLoadBalancerProfileOutboundIPPrefixesGenerator returns a generator of ManagedClusterLoadBalancerProfileOutboundIPPrefixes instances for property testing.
@@ -5537,7 +5537,7 @@ func RunPropertyAssignmentTestForManagedClusterLoadBalancerProfileOutboundIPs(su
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -5588,7 +5588,7 @@ func RunJSONSerializationTestForManagedClusterLoadBalancerProfileOutboundIPs(sub
 }
 
 // Generator of ManagedClusterLoadBalancerProfileOutboundIPs instances for property testing - lazily instantiated by
-//ManagedClusterLoadBalancerProfileOutboundIPsGenerator()
+// ManagedClusterLoadBalancerProfileOutboundIPsGenerator()
 var managedClusterLoadBalancerProfileOutboundIPsGenerator gopter.Gen
 
 // ManagedClusterLoadBalancerProfileOutboundIPsGenerator returns a generator of ManagedClusterLoadBalancerProfileOutboundIPs instances for property testing.
@@ -5639,7 +5639,7 @@ func RunPropertyAssignmentTestForManagedClusterLoadBalancerProfileStatusManagedO
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -5690,7 +5690,7 @@ func RunJSONSerializationTestForManagedClusterLoadBalancerProfileStatusManagedOu
 }
 
 // Generator of ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPs instances for property testing - lazily
-//instantiated by ManagedClusterLoadBalancerProfileStatusManagedOutboundIPsGenerator()
+// instantiated by ManagedClusterLoadBalancerProfileStatusManagedOutboundIPsGenerator()
 var managedClusterLoadBalancerProfileStatusManagedOutboundIPsGenerator gopter.Gen
 
 // ManagedClusterLoadBalancerProfileStatusManagedOutboundIPsGenerator returns a generator of ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPs instances for property testing.
@@ -5741,7 +5741,7 @@ func RunPropertyAssignmentTestForManagedClusterLoadBalancerProfileStatusOutbound
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -5792,7 +5792,7 @@ func RunJSONSerializationTestForManagedClusterLoadBalancerProfileStatusOutboundI
 }
 
 // Generator of ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixes instances for property testing - lazily
-//instantiated by ManagedClusterLoadBalancerProfileStatusOutboundIPPrefixesGenerator()
+// instantiated by ManagedClusterLoadBalancerProfileStatusOutboundIPPrefixesGenerator()
 var managedClusterLoadBalancerProfileStatusOutboundIPPrefixesGenerator gopter.Gen
 
 // ManagedClusterLoadBalancerProfileStatusOutboundIPPrefixesGenerator returns a generator of ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixes instances for property testing.
@@ -5843,7 +5843,7 @@ func RunPropertyAssignmentTestForManagedClusterLoadBalancerProfileStatusOutbound
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -5894,7 +5894,7 @@ func RunJSONSerializationTestForManagedClusterLoadBalancerProfileStatusOutboundI
 }
 
 // Generator of ManagedClusterLoadBalancerProfile_Status_OutboundIPs instances for property testing - lazily
-//instantiated by ManagedClusterLoadBalancerProfileStatusOutboundIPsGenerator()
+// instantiated by ManagedClusterLoadBalancerProfileStatusOutboundIPsGenerator()
 var managedClusterLoadBalancerProfileStatusOutboundIPsGenerator gopter.Gen
 
 // ManagedClusterLoadBalancerProfileStatusOutboundIPsGenerator returns a generator of ManagedClusterLoadBalancerProfile_Status_OutboundIPs instances for property testing.
@@ -5945,7 +5945,7 @@ func RunPropertyAssignmentTestForManagedClusterPodIdentityStatusProvisioningInfo
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -5996,7 +5996,7 @@ func RunJSONSerializationTestForManagedClusterPodIdentityStatusProvisioningInfo(
 }
 
 // Generator of ManagedClusterPodIdentity_Status_ProvisioningInfo instances for property testing - lazily instantiated
-//by ManagedClusterPodIdentityStatusProvisioningInfoGenerator()
+// by ManagedClusterPodIdentityStatusProvisioningInfoGenerator()
 var managedClusterPodIdentityStatusProvisioningInfoGenerator gopter.Gen
 
 // ManagedClusterPodIdentityStatusProvisioningInfoGenerator returns a generator of ManagedClusterPodIdentity_Status_ProvisioningInfo instances for property testing.
@@ -6047,7 +6047,7 @@ func RunPropertyAssignmentTestForResourceReference(subject ResourceReference) st
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -6142,7 +6142,7 @@ func RunPropertyAssignmentTestForResourceReferenceStatus(subject ResourceReferen
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -6193,7 +6193,7 @@ func RunJSONSerializationTestForResourceReferenceStatus(subject ResourceReferenc
 }
 
 // Generator of ResourceReference_Status instances for property testing - lazily instantiated by
-//ResourceReferenceStatusGenerator()
+// ResourceReferenceStatusGenerator()
 var resourceReferenceStatusGenerator gopter.Gen
 
 // ResourceReferenceStatusGenerator returns a generator of ResourceReference_Status instances for property testing.
@@ -6244,7 +6244,7 @@ func RunPropertyAssignmentTestForUserAssignedIdentity(subject UserAssignedIdenti
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -6295,7 +6295,7 @@ func RunJSONSerializationTestForUserAssignedIdentity(subject UserAssignedIdentit
 }
 
 // Generator of UserAssignedIdentity instances for property testing - lazily instantiated by
-//UserAssignedIdentityGenerator()
+// UserAssignedIdentityGenerator()
 var userAssignedIdentityGenerator gopter.Gen
 
 // UserAssignedIdentityGenerator returns a generator of UserAssignedIdentity instances for property testing.
@@ -6347,7 +6347,7 @@ func RunPropertyAssignmentTestForUserAssignedIdentityStatus(subject UserAssigned
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -6398,7 +6398,7 @@ func RunJSONSerializationTestForUserAssignedIdentityStatus(subject UserAssignedI
 }
 
 // Generator of UserAssignedIdentity_Status instances for property testing - lazily instantiated by
-//UserAssignedIdentityStatusGenerator()
+// UserAssignedIdentityStatusGenerator()
 var userAssignedIdentityStatusGenerator gopter.Gen
 
 // UserAssignedIdentityStatusGenerator returns a generator of UserAssignedIdentity_Status instances for property testing.
@@ -6451,7 +6451,7 @@ func RunPropertyAssignmentTestForManagedClusterPodIdentityProvisioningErrorStatu
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -6502,7 +6502,7 @@ func RunJSONSerializationTestForManagedClusterPodIdentityProvisioningErrorStatus
 }
 
 // Generator of ManagedClusterPodIdentityProvisioningError_Status instances for property testing - lazily instantiated
-//by ManagedClusterPodIdentityProvisioningErrorStatusGenerator()
+// by ManagedClusterPodIdentityProvisioningErrorStatusGenerator()
 var managedClusterPodIdentityProvisioningErrorStatusGenerator gopter.Gen
 
 // ManagedClusterPodIdentityProvisioningErrorStatusGenerator returns a generator of ManagedClusterPodIdentityProvisioningError_Status instances for property testing.
@@ -6553,7 +6553,7 @@ func RunPropertyAssignmentTestForManagedClusterPodIdentityProvisioningErrorBodyS
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -6604,7 +6604,7 @@ func RunJSONSerializationTestForManagedClusterPodIdentityProvisioningErrorBodySt
 }
 
 // Generator of ManagedClusterPodIdentityProvisioningErrorBody_Status instances for property testing - lazily
-//instantiated by ManagedClusterPodIdentityProvisioningErrorBodyStatusGenerator()
+// instantiated by ManagedClusterPodIdentityProvisioningErrorBodyStatusGenerator()
 var managedClusterPodIdentityProvisioningErrorBodyStatusGenerator gopter.Gen
 
 // ManagedClusterPodIdentityProvisioningErrorBodyStatusGenerator returns a generator of ManagedClusterPodIdentityProvisioningErrorBody_Status instances for property testing.
@@ -6671,7 +6671,7 @@ func RunPropertyAssignmentTestForManagedClusterPodIdentityProvisioningErrorBodyS
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -6722,7 +6722,7 @@ func RunJSONSerializationTestForManagedClusterPodIdentityProvisioningErrorBodySt
 }
 
 // Generator of ManagedClusterPodIdentityProvisioningErrorBody_Status_Unrolled instances for property testing - lazily
-//instantiated by ManagedClusterPodIdentityProvisioningErrorBodyStatusUnrolledGenerator()
+// instantiated by ManagedClusterPodIdentityProvisioningErrorBodyStatusUnrolledGenerator()
 var managedClusterPodIdentityProvisioningErrorBodyStatusUnrolledGenerator gopter.Gen
 
 // ManagedClusterPodIdentityProvisioningErrorBodyStatusUnrolledGenerator returns a generator of ManagedClusterPodIdentityProvisioningErrorBody_Status_Unrolled instances for property testing.

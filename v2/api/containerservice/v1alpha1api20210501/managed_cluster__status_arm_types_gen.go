@@ -5,7 +5,7 @@ package v1alpha1api20210501
 
 import "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 
-//Deprecated version of ManagedCluster_Status. Use v1beta20210501.ManagedCluster_Status instead
+// Deprecated version of ManagedCluster_Status. Use v1beta20210501.ManagedCluster_Status instead
 type ManagedCluster_StatusARM struct {
 	ExtendedLocation *ExtendedLocation_StatusARM         `json:"extendedLocation,omitempty"`
 	Id               *string                             `json:"id,omitempty"`
@@ -18,13 +18,13 @@ type ManagedCluster_StatusARM struct {
 	Type             *string                             `json:"type,omitempty"`
 }
 
-//Deprecated version of ExtendedLocation_Status. Use v1beta20210501.ExtendedLocation_Status instead
+// Deprecated version of ExtendedLocation_Status. Use v1beta20210501.ExtendedLocation_Status instead
 type ExtendedLocation_StatusARM struct {
 	Name *string                      `json:"name,omitempty"`
 	Type *ExtendedLocationType_Status `json:"type,omitempty"`
 }
 
-//Deprecated version of ManagedClusterIdentity_Status. Use v1beta20210501.ManagedClusterIdentity_Status instead
+// Deprecated version of ManagedClusterIdentity_Status. Use v1beta20210501.ManagedClusterIdentity_Status instead
 type ManagedClusterIdentity_StatusARM struct {
 	PrincipalId            *string                                                            `json:"principalId,omitempty"`
 	TenantId               *string                                                            `json:"tenantId,omitempty"`
@@ -32,7 +32,7 @@ type ManagedClusterIdentity_StatusARM struct {
 	UserAssignedIdentities map[string]ManagedClusterIdentity_Status_UserAssignedIdentitiesARM `json:"userAssignedIdentities,omitempty"`
 }
 
-//Deprecated version of ManagedClusterProperties_Status. Use v1beta20210501.ManagedClusterProperties_Status instead
+// Deprecated version of ManagedClusterProperties_Status. Use v1beta20210501.ManagedClusterProperties_Status instead
 type ManagedClusterProperties_StatusARM struct {
 	AadProfile              *ManagedClusterAADProfile_StatusARM                   `json:"aadProfile,omitempty"`
 	AddonProfiles           *v1.JSON                                              `json:"addonProfiles,omitempty"`
@@ -64,19 +64,19 @@ type ManagedClusterProperties_StatusARM struct {
 	WindowsProfile          *ManagedClusterWindowsProfile_StatusARM               `json:"windowsProfile,omitempty"`
 }
 
-//Deprecated version of ManagedClusterSKU_Status. Use v1beta20210501.ManagedClusterSKU_Status instead
+// Deprecated version of ManagedClusterSKU_Status. Use v1beta20210501.ManagedClusterSKU_Status instead
 type ManagedClusterSKU_StatusARM struct {
 	Name *ManagedClusterSKUStatusName `json:"name,omitempty"`
 	Tier *ManagedClusterSKUStatusTier `json:"tier,omitempty"`
 }
 
-//Deprecated version of ContainerServiceLinuxProfile_Status. Use v1beta20210501.ContainerServiceLinuxProfile_Status instead
+// Deprecated version of ContainerServiceLinuxProfile_Status. Use v1beta20210501.ContainerServiceLinuxProfile_Status instead
 type ContainerServiceLinuxProfile_StatusARM struct {
 	AdminUsername *string                                     `json:"adminUsername,omitempty"`
 	Ssh           *ContainerServiceSshConfiguration_StatusARM `json:"ssh,omitempty"`
 }
 
-//Deprecated version of ContainerServiceNetworkProfile_Status. Use v1beta20210501.ContainerServiceNetworkProfile_Status instead
+// Deprecated version of ContainerServiceNetworkProfile_Status. Use v1beta20210501.ContainerServiceNetworkProfile_Status instead
 type ContainerServiceNetworkProfile_StatusARM struct {
 	DnsServiceIP        *string                                              `json:"dnsServiceIP,omitempty"`
 	DockerBridgeCidr    *string                                              `json:"dockerBridgeCidr,omitempty"`
@@ -90,12 +90,12 @@ type ContainerServiceNetworkProfile_StatusARM struct {
 	ServiceCidr         *string                                              `json:"serviceCidr,omitempty"`
 }
 
-//Deprecated version of ExtendedLocationType_Status. Use v1beta20210501.ExtendedLocationType_Status instead
+// Deprecated version of ExtendedLocationType_Status. Use v1beta20210501.ExtendedLocationType_Status instead
 type ExtendedLocationType_Status string
 
 const ExtendedLocationType_StatusEdgeZone = ExtendedLocationType_Status("EdgeZone")
 
-//Deprecated version of ManagedClusterAADProfile_Status. Use v1beta20210501.ManagedClusterAADProfile_Status instead
+// Deprecated version of ManagedClusterAADProfile_Status. Use v1beta20210501.ManagedClusterAADProfile_Status instead
 type ManagedClusterAADProfile_StatusARM struct {
 	AdminGroupObjectIDs []string `json:"adminGroupObjectIDs,omitempty"`
 	ClientAppID         *string  `json:"clientAppID,omitempty"`
@@ -106,7 +106,7 @@ type ManagedClusterAADProfile_StatusARM struct {
 	TenantID            *string  `json:"tenantID,omitempty"`
 }
 
-//Deprecated version of ManagedClusterAPIServerAccessProfile_Status. Use v1beta20210501.ManagedClusterAPIServerAccessProfile_Status instead
+// Deprecated version of ManagedClusterAPIServerAccessProfile_Status. Use v1beta20210501.ManagedClusterAPIServerAccessProfile_Status instead
 type ManagedClusterAPIServerAccessProfile_StatusARM struct {
 	AuthorizedIPRanges             []string `json:"authorizedIPRanges,omitempty"`
 	EnablePrivateCluster           *bool    `json:"enablePrivateCluster,omitempty"`
@@ -114,7 +114,7 @@ type ManagedClusterAPIServerAccessProfile_StatusARM struct {
 	PrivateDNSZone                 *string  `json:"privateDNSZone,omitempty"`
 }
 
-//Deprecated version of ManagedClusterAgentPoolProfile_Status. Use v1beta20210501.ManagedClusterAgentPoolProfile_Status instead
+// Deprecated version of ManagedClusterAgentPoolProfile_Status. Use v1beta20210501.ManagedClusterAgentPoolProfile_Status instead
 type ManagedClusterAgentPoolProfile_StatusARM struct {
 	AvailabilityZones         []string                            `json:"availabilityZones,omitempty"`
 	Count                     *int                                `json:"count,omitempty"`
@@ -155,12 +155,12 @@ type ManagedClusterAgentPoolProfile_StatusARM struct {
 	VnetSubnetID              *string                             `json:"vnetSubnetID,omitempty"`
 }
 
-//Deprecated version of ManagedClusterAutoUpgradeProfile_Status. Use v1beta20210501.ManagedClusterAutoUpgradeProfile_Status instead
+// Deprecated version of ManagedClusterAutoUpgradeProfile_Status. Use v1beta20210501.ManagedClusterAutoUpgradeProfile_Status instead
 type ManagedClusterAutoUpgradeProfile_StatusARM struct {
 	UpgradeChannel *ManagedClusterAutoUpgradeProfileStatusUpgradeChannel `json:"upgradeChannel,omitempty"`
 }
 
-//Deprecated version of ManagedClusterHTTPProxyConfig_Status. Use v1beta20210501.ManagedClusterHTTPProxyConfig_Status instead
+// Deprecated version of ManagedClusterHTTPProxyConfig_Status. Use v1beta20210501.ManagedClusterHTTPProxyConfig_Status instead
 type ManagedClusterHTTPProxyConfig_StatusARM struct {
 	HttpProxy  *string  `json:"httpProxy,omitempty"`
 	HttpsProxy *string  `json:"httpsProxy,omitempty"`
@@ -168,7 +168,7 @@ type ManagedClusterHTTPProxyConfig_StatusARM struct {
 	TrustedCa  *string  `json:"trustedCa,omitempty"`
 }
 
-//Deprecated version of ManagedClusterIdentityStatusType. Use v1beta20210501.ManagedClusterIdentityStatusType instead
+// Deprecated version of ManagedClusterIdentityStatusType. Use v1beta20210501.ManagedClusterIdentityStatusType instead
 type ManagedClusterIdentityStatusType string
 
 const (
@@ -177,13 +177,13 @@ const (
 	ManagedClusterIdentityStatusTypeUserAssigned   = ManagedClusterIdentityStatusType("UserAssigned")
 )
 
-//Deprecated version of ManagedClusterIdentity_Status_UserAssignedIdentities. Use v1beta20210501.ManagedClusterIdentity_Status_UserAssignedIdentities instead
+// Deprecated version of ManagedClusterIdentity_Status_UserAssignedIdentities. Use v1beta20210501.ManagedClusterIdentity_Status_UserAssignedIdentities instead
 type ManagedClusterIdentity_Status_UserAssignedIdentitiesARM struct {
 	ClientId    *string `json:"clientId,omitempty"`
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
-//Deprecated version of ManagedClusterPodIdentityProfile_Status. Use v1beta20210501.ManagedClusterPodIdentityProfile_Status instead
+// Deprecated version of ManagedClusterPodIdentityProfile_Status. Use v1beta20210501.ManagedClusterPodIdentityProfile_Status instead
 type ManagedClusterPodIdentityProfile_StatusARM struct {
 	AllowNetworkPluginKubenet      *bool                                          `json:"allowNetworkPluginKubenet,omitempty"`
 	Enabled                        *bool                                          `json:"enabled,omitempty"`
@@ -191,7 +191,7 @@ type ManagedClusterPodIdentityProfile_StatusARM struct {
 	UserAssignedIdentityExceptions []ManagedClusterPodIdentityException_StatusARM `json:"userAssignedIdentityExceptions,omitempty"`
 }
 
-//Deprecated version of ManagedClusterProperties_Status_AutoScalerProfile. Use v1beta20210501.ManagedClusterProperties_Status_AutoScalerProfile instead
+// Deprecated version of ManagedClusterProperties_Status_AutoScalerProfile. Use v1beta20210501.ManagedClusterProperties_Status_AutoScalerProfile instead
 type ManagedClusterProperties_Status_AutoScalerProfileARM struct {
 	BalanceSimilarNodeGroups      *string                                                  `json:"balance-similar-node-groups,omitempty"`
 	Expander                      *ManagedClusterPropertiesStatusAutoScalerProfileExpander `json:"expander,omitempty"`
@@ -212,12 +212,12 @@ type ManagedClusterProperties_Status_AutoScalerProfileARM struct {
 	SkipNodesWithSystemPods       *string                                                  `json:"skip-nodes-with-system-pods,omitempty"`
 }
 
-//Deprecated version of ManagedClusterSKUStatusName. Use v1beta20210501.ManagedClusterSKUStatusName instead
+// Deprecated version of ManagedClusterSKUStatusName. Use v1beta20210501.ManagedClusterSKUStatusName instead
 type ManagedClusterSKUStatusName string
 
 const ManagedClusterSKUStatusNameBasic = ManagedClusterSKUStatusName("Basic")
 
-//Deprecated version of ManagedClusterSKUStatusTier. Use v1beta20210501.ManagedClusterSKUStatusTier instead
+// Deprecated version of ManagedClusterSKUStatusTier. Use v1beta20210501.ManagedClusterSKUStatusTier instead
 type ManagedClusterSKUStatusTier string
 
 const (
@@ -225,13 +225,13 @@ const (
 	ManagedClusterSKUStatusTierPaid = ManagedClusterSKUStatusTier("Paid")
 )
 
-//Deprecated version of ManagedClusterServicePrincipalProfile_Status. Use v1beta20210501.ManagedClusterServicePrincipalProfile_Status instead
+// Deprecated version of ManagedClusterServicePrincipalProfile_Status. Use v1beta20210501.ManagedClusterServicePrincipalProfile_Status instead
 type ManagedClusterServicePrincipalProfile_StatusARM struct {
 	ClientId *string `json:"clientId,omitempty"`
 	Secret   *string `json:"secret,omitempty"`
 }
 
-//Deprecated version of ManagedClusterWindowsProfile_Status. Use v1beta20210501.ManagedClusterWindowsProfile_Status instead
+// Deprecated version of ManagedClusterWindowsProfile_Status. Use v1beta20210501.ManagedClusterWindowsProfile_Status instead
 type ManagedClusterWindowsProfile_StatusARM struct {
 	AdminPassword  *string                                        `json:"adminPassword,omitempty"`
 	AdminUsername  *string                                        `json:"adminUsername,omitempty"`
@@ -239,7 +239,7 @@ type ManagedClusterWindowsProfile_StatusARM struct {
 	LicenseType    *ManagedClusterWindowsProfileStatusLicenseType `json:"licenseType,omitempty"`
 }
 
-//Deprecated version of PrivateLinkResource_Status. Use v1beta20210501.PrivateLinkResource_Status instead
+// Deprecated version of PrivateLinkResource_Status. Use v1beta20210501.PrivateLinkResource_Status instead
 type PrivateLinkResource_StatusARM struct {
 	GroupId              *string  `json:"groupId,omitempty"`
 	Id                   *string  `json:"id,omitempty"`
@@ -249,12 +249,12 @@ type PrivateLinkResource_StatusARM struct {
 	Type                 *string  `json:"type,omitempty"`
 }
 
-//Deprecated version of ContainerServiceSshConfiguration_Status. Use v1beta20210501.ContainerServiceSshConfiguration_Status instead
+// Deprecated version of ContainerServiceSshConfiguration_Status. Use v1beta20210501.ContainerServiceSshConfiguration_Status instead
 type ContainerServiceSshConfiguration_StatusARM struct {
 	PublicKeys []ContainerServiceSshPublicKey_StatusARM `json:"publicKeys,omitempty"`
 }
 
-//Deprecated version of ManagedClusterLoadBalancerProfile_Status. Use v1beta20210501.ManagedClusterLoadBalancerProfile_Status instead
+// Deprecated version of ManagedClusterLoadBalancerProfile_Status. Use v1beta20210501.ManagedClusterLoadBalancerProfile_Status instead
 type ManagedClusterLoadBalancerProfile_StatusARM struct {
 	AllocatedOutboundPorts *int                                                            `json:"allocatedOutboundPorts,omitempty"`
 	EffectiveOutboundIPs   []ResourceReference_StatusARM                                   `json:"effectiveOutboundIPs,omitempty"`
@@ -264,14 +264,14 @@ type ManagedClusterLoadBalancerProfile_StatusARM struct {
 	OutboundIPs            *ManagedClusterLoadBalancerProfile_Status_OutboundIPsARM        `json:"outboundIPs,omitempty"`
 }
 
-//Deprecated version of ManagedClusterPodIdentityException_Status. Use v1beta20210501.ManagedClusterPodIdentityException_Status instead
+// Deprecated version of ManagedClusterPodIdentityException_Status. Use v1beta20210501.ManagedClusterPodIdentityException_Status instead
 type ManagedClusterPodIdentityException_StatusARM struct {
 	Name      *string           `json:"name,omitempty"`
 	Namespace *string           `json:"namespace,omitempty"`
 	PodLabels map[string]string `json:"podLabels,omitempty"`
 }
 
-//Deprecated version of ManagedClusterPodIdentity_Status. Use v1beta20210501.ManagedClusterPodIdentity_Status instead
+// Deprecated version of ManagedClusterPodIdentity_Status. Use v1beta20210501.ManagedClusterPodIdentity_Status instead
 type ManagedClusterPodIdentity_StatusARM struct {
 	BindingSelector   *string                                               `json:"bindingSelector,omitempty"`
 	Identity          *UserAssignedIdentity_StatusARM                       `json:"identity,omitempty"`
@@ -281,49 +281,49 @@ type ManagedClusterPodIdentity_StatusARM struct {
 	ProvisioningState *ManagedClusterPodIdentityStatusProvisioningState     `json:"provisioningState,omitempty"`
 }
 
-//Deprecated version of ContainerServiceSshPublicKey_Status. Use v1beta20210501.ContainerServiceSshPublicKey_Status instead
+// Deprecated version of ContainerServiceSshPublicKey_Status. Use v1beta20210501.ContainerServiceSshPublicKey_Status instead
 type ContainerServiceSshPublicKey_StatusARM struct {
 	KeyData *string `json:"keyData,omitempty"`
 }
 
-//Deprecated version of ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPs. Use v1beta20210501.ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPs instead
+// Deprecated version of ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPs. Use v1beta20210501.ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPs instead
 type ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPsARM struct {
 	Count *int `json:"count,omitempty"`
 }
 
-//Deprecated version of ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixes. Use v1beta20210501.ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixes instead
+// Deprecated version of ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixes. Use v1beta20210501.ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixes instead
 type ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixesARM struct {
 	PublicIPPrefixes []ResourceReference_StatusARM `json:"publicIPPrefixes,omitempty"`
 }
 
-//Deprecated version of ManagedClusterLoadBalancerProfile_Status_OutboundIPs. Use v1beta20210501.ManagedClusterLoadBalancerProfile_Status_OutboundIPs instead
+// Deprecated version of ManagedClusterLoadBalancerProfile_Status_OutboundIPs. Use v1beta20210501.ManagedClusterLoadBalancerProfile_Status_OutboundIPs instead
 type ManagedClusterLoadBalancerProfile_Status_OutboundIPsARM struct {
 	PublicIPs []ResourceReference_StatusARM `json:"publicIPs,omitempty"`
 }
 
-//Deprecated version of ManagedClusterPodIdentity_Status_ProvisioningInfo. Use v1beta20210501.ManagedClusterPodIdentity_Status_ProvisioningInfo instead
+// Deprecated version of ManagedClusterPodIdentity_Status_ProvisioningInfo. Use v1beta20210501.ManagedClusterPodIdentity_Status_ProvisioningInfo instead
 type ManagedClusterPodIdentity_Status_ProvisioningInfoARM struct {
 	Error *ManagedClusterPodIdentityProvisioningError_StatusARM `json:"error,omitempty"`
 }
 
-//Deprecated version of ResourceReference_Status. Use v1beta20210501.ResourceReference_Status instead
+// Deprecated version of ResourceReference_Status. Use v1beta20210501.ResourceReference_Status instead
 type ResourceReference_StatusARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
-//Deprecated version of UserAssignedIdentity_Status. Use v1beta20210501.UserAssignedIdentity_Status instead
+// Deprecated version of UserAssignedIdentity_Status. Use v1beta20210501.UserAssignedIdentity_Status instead
 type UserAssignedIdentity_StatusARM struct {
 	ClientId   *string `json:"clientId,omitempty"`
 	ObjectId   *string `json:"objectId,omitempty"`
 	ResourceId *string `json:"resourceId,omitempty"`
 }
 
-//Deprecated version of ManagedClusterPodIdentityProvisioningError_Status. Use v1beta20210501.ManagedClusterPodIdentityProvisioningError_Status instead
+// Deprecated version of ManagedClusterPodIdentityProvisioningError_Status. Use v1beta20210501.ManagedClusterPodIdentityProvisioningError_Status instead
 type ManagedClusterPodIdentityProvisioningError_StatusARM struct {
 	Error *ManagedClusterPodIdentityProvisioningErrorBody_StatusARM `json:"error,omitempty"`
 }
 
-//Deprecated version of ManagedClusterPodIdentityProvisioningErrorBody_Status. Use v1beta20210501.ManagedClusterPodIdentityProvisioningErrorBody_Status instead
+// Deprecated version of ManagedClusterPodIdentityProvisioningErrorBody_Status. Use v1beta20210501.ManagedClusterPodIdentityProvisioningErrorBody_Status instead
 type ManagedClusterPodIdentityProvisioningErrorBody_StatusARM struct {
 	Code    *string                                                             `json:"code,omitempty"`
 	Details []ManagedClusterPodIdentityProvisioningErrorBody_Status_UnrolledARM `json:"details,omitempty"`
@@ -331,7 +331,7 @@ type ManagedClusterPodIdentityProvisioningErrorBody_StatusARM struct {
 	Target  *string                                                             `json:"target,omitempty"`
 }
 
-//Deprecated version of ManagedClusterPodIdentityProvisioningErrorBody_Status_Unrolled. Use v1beta20210501.ManagedClusterPodIdentityProvisioningErrorBody_Status_Unrolled instead
+// Deprecated version of ManagedClusterPodIdentityProvisioningErrorBody_Status_Unrolled. Use v1beta20210501.ManagedClusterPodIdentityProvisioningErrorBody_Status_Unrolled instead
 type ManagedClusterPodIdentityProvisioningErrorBody_Status_UnrolledARM struct {
 	Code    *string `json:"code,omitempty"`
 	Message *string `json:"message,omitempty"`

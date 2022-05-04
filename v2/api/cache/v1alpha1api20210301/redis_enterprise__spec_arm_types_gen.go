@@ -5,7 +5,7 @@ package v1alpha1api20210301
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-//Deprecated version of RedisEnterprise_Spec. Use v1beta20210301.RedisEnterprise_Spec instead
+// Deprecated version of RedisEnterprise_Spec. Use v1beta20210301.RedisEnterprise_Spec instead
 type RedisEnterprise_SpecARM struct {
 	Location   *string               `json:"location,omitempty"`
 	Name       string                `json:"name,omitempty"`
@@ -32,18 +32,18 @@ func (enterprise RedisEnterprise_SpecARM) GetType() string {
 	return "Microsoft.Cache/redisEnterprise"
 }
 
-//Deprecated version of ClusterProperties. Use v1beta20210301.ClusterProperties instead
+// Deprecated version of ClusterProperties. Use v1beta20210301.ClusterProperties instead
 type ClusterPropertiesARM struct {
 	MinimumTlsVersion *ClusterPropertiesMinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
 }
 
-//Deprecated version of Sku. Use v1beta20210301.Sku instead
+// Deprecated version of Sku. Use v1beta20210301.Sku instead
 type SkuARM struct {
 	Capacity *int     `json:"capacity,omitempty"`
 	Name     *SkuName `json:"name,omitempty"`
 }
 
-//Deprecated version of SkuName. Use v1beta20210301.SkuName instead
+// Deprecated version of SkuName. Use v1beta20210301.SkuName instead
 // +kubebuilder:validation:Enum={"Enterprise_E10","Enterprise_E100","Enterprise_E20","Enterprise_E50","EnterpriseFlash_F1500","EnterpriseFlash_F300","EnterpriseFlash_F700"}
 type SkuName string
 

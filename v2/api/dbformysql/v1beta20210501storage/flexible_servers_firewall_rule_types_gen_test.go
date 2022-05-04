@@ -56,7 +56,7 @@ func RunJSONSerializationTestForFlexibleServersFirewallRule(subject FlexibleServ
 }
 
 // Generator of FlexibleServersFirewallRule instances for property testing - lazily instantiated by
-//FlexibleServersFirewallRuleGenerator()
+// FlexibleServersFirewallRuleGenerator()
 var flexibleServersFirewallRuleGenerator gopter.Gen
 
 // FlexibleServersFirewallRuleGenerator returns a generator of FlexibleServersFirewallRule instances for property testing.
@@ -194,7 +194,7 @@ func RunJSONSerializationTestForFlexibleServersFirewallRulesSpec(subject Flexibl
 }
 
 // Generator of FlexibleServersFirewallRules_Spec instances for property testing - lazily instantiated by
-//FlexibleServersFirewallRulesSpecGenerator()
+// FlexibleServersFirewallRulesSpecGenerator()
 var flexibleServersFirewallRulesSpecGenerator gopter.Gen
 
 // FlexibleServersFirewallRulesSpecGenerator returns a generator of FlexibleServersFirewallRules_Spec instances for property testing.

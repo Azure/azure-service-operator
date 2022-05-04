@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1alpha1api20200930
 
-//Deprecated version of Disk_Status. Use v1beta20200930.Disk_Status instead
+// Deprecated version of Disk_Status. Use v1beta20200930.Disk_Status instead
 type Disk_StatusARM struct {
 	ExtendedLocation  *ExtendedLocation_StatusARM `json:"extendedLocation,omitempty"`
 	Id                *string                     `json:"id,omitempty"`
@@ -18,7 +18,7 @@ type Disk_StatusARM struct {
 	Zones             []string                    `json:"zones,omitempty"`
 }
 
-//Deprecated version of DiskProperties_Status. Use v1beta20200930.DiskProperties_Status instead
+// Deprecated version of DiskProperties_Status. Use v1beta20200930.DiskProperties_Status instead
 type DiskProperties_StatusARM struct {
 	BurstingEnabled              *bool                                   `json:"burstingEnabled,omitempty"`
 	CreationData                 *CreationData_StatusARM                 `json:"creationData,omitempty"`
@@ -44,19 +44,19 @@ type DiskProperties_StatusARM struct {
 	UniqueId                     *string                                 `json:"uniqueId,omitempty"`
 }
 
-//Deprecated version of DiskSku_Status. Use v1beta20200930.DiskSku_Status instead
+// Deprecated version of DiskSku_Status. Use v1beta20200930.DiskSku_Status instead
 type DiskSku_StatusARM struct {
 	Name *DiskSkuStatusName `json:"name,omitempty"`
 	Tier *string            `json:"tier,omitempty"`
 }
 
-//Deprecated version of ExtendedLocation_Status. Use v1beta20200930.ExtendedLocation_Status instead
+// Deprecated version of ExtendedLocation_Status. Use v1beta20200930.ExtendedLocation_Status instead
 type ExtendedLocation_StatusARM struct {
 	Name *string                      `json:"name,omitempty"`
 	Type *ExtendedLocationType_Status `json:"type,omitempty"`
 }
 
-//Deprecated version of CreationData_Status. Use v1beta20200930.CreationData_Status instead
+// Deprecated version of CreationData_Status. Use v1beta20200930.CreationData_Status instead
 type CreationData_StatusARM struct {
 	CreateOption          *CreationDataStatusCreateOption `json:"createOption,omitempty"`
 	GalleryImageReference *ImageDiskReference_StatusARM   `json:"galleryImageReference,omitempty"`
@@ -69,7 +69,7 @@ type CreationData_StatusARM struct {
 	UploadSizeBytes       *int                            `json:"uploadSizeBytes,omitempty"`
 }
 
-//Deprecated version of DiskSkuStatusName. Use v1beta20200930.DiskSkuStatusName instead
+// Deprecated version of DiskSkuStatusName. Use v1beta20200930.DiskSkuStatusName instead
 type DiskSkuStatusName string
 
 const (
@@ -79,25 +79,25 @@ const (
 	DiskSkuStatusNameUltraSSDLRS    = DiskSkuStatusName("UltraSSD_LRS")
 )
 
-//Deprecated version of EncryptionSettingsCollection_Status. Use v1beta20200930.EncryptionSettingsCollection_Status instead
+// Deprecated version of EncryptionSettingsCollection_Status. Use v1beta20200930.EncryptionSettingsCollection_Status instead
 type EncryptionSettingsCollection_StatusARM struct {
 	Enabled                   *bool                                 `json:"enabled,omitempty"`
 	EncryptionSettings        []EncryptionSettingsElement_StatusARM `json:"encryptionSettings,omitempty"`
 	EncryptionSettingsVersion *string                               `json:"encryptionSettingsVersion,omitempty"`
 }
 
-//Deprecated version of Encryption_Status. Use v1beta20200930.Encryption_Status instead
+// Deprecated version of Encryption_Status. Use v1beta20200930.Encryption_Status instead
 type Encryption_StatusARM struct {
 	DiskEncryptionSetId *string                `json:"diskEncryptionSetId,omitempty"`
 	Type                *EncryptionType_Status `json:"type,omitempty"`
 }
 
-//Deprecated version of ExtendedLocationType_Status. Use v1beta20200930.ExtendedLocationType_Status instead
+// Deprecated version of ExtendedLocationType_Status. Use v1beta20200930.ExtendedLocationType_Status instead
 type ExtendedLocationType_Status string
 
 const ExtendedLocationType_StatusEdgeZone = ExtendedLocationType_Status("EdgeZone")
 
-//Deprecated version of PurchasePlan_Status. Use v1beta20200930.PurchasePlan_Status instead
+// Deprecated version of PurchasePlan_Status. Use v1beta20200930.PurchasePlan_Status instead
 type PurchasePlan_StatusARM struct {
 	Name          *string `json:"name,omitempty"`
 	Product       *string `json:"product,omitempty"`
@@ -105,36 +105,36 @@ type PurchasePlan_StatusARM struct {
 	Publisher     *string `json:"publisher,omitempty"`
 }
 
-//Deprecated version of ShareInfoElement_Status. Use v1beta20200930.ShareInfoElement_Status instead
+// Deprecated version of ShareInfoElement_Status. Use v1beta20200930.ShareInfoElement_Status instead
 type ShareInfoElement_StatusARM struct {
 	VmUri *string `json:"vmUri,omitempty"`
 }
 
-//Deprecated version of EncryptionSettingsElement_Status. Use v1beta20200930.EncryptionSettingsElement_Status instead
+// Deprecated version of EncryptionSettingsElement_Status. Use v1beta20200930.EncryptionSettingsElement_Status instead
 type EncryptionSettingsElement_StatusARM struct {
 	DiskEncryptionKey *KeyVaultAndSecretReference_StatusARM `json:"diskEncryptionKey,omitempty"`
 	KeyEncryptionKey  *KeyVaultAndKeyReference_StatusARM    `json:"keyEncryptionKey,omitempty"`
 }
 
-//Deprecated version of ImageDiskReference_Status. Use v1beta20200930.ImageDiskReference_Status instead
+// Deprecated version of ImageDiskReference_Status. Use v1beta20200930.ImageDiskReference_Status instead
 type ImageDiskReference_StatusARM struct {
 	Id  *string `json:"id,omitempty"`
 	Lun *int    `json:"lun,omitempty"`
 }
 
-//Deprecated version of KeyVaultAndKeyReference_Status. Use v1beta20200930.KeyVaultAndKeyReference_Status instead
+// Deprecated version of KeyVaultAndKeyReference_Status. Use v1beta20200930.KeyVaultAndKeyReference_Status instead
 type KeyVaultAndKeyReference_StatusARM struct {
 	KeyUrl      *string                `json:"keyUrl,omitempty"`
 	SourceVault *SourceVault_StatusARM `json:"sourceVault,omitempty"`
 }
 
-//Deprecated version of KeyVaultAndSecretReference_Status. Use v1beta20200930.KeyVaultAndSecretReference_Status instead
+// Deprecated version of KeyVaultAndSecretReference_Status. Use v1beta20200930.KeyVaultAndSecretReference_Status instead
 type KeyVaultAndSecretReference_StatusARM struct {
 	SecretUrl   *string                `json:"secretUrl,omitempty"`
 	SourceVault *SourceVault_StatusARM `json:"sourceVault,omitempty"`
 }
 
-//Deprecated version of SourceVault_Status. Use v1beta20200930.SourceVault_Status instead
+// Deprecated version of SourceVault_Status. Use v1beta20200930.SourceVault_Status instead
 type SourceVault_StatusARM struct {
 	Id *string `json:"id,omitempty"`
 }

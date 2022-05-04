@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1alpha1api20201101
 
-//Deprecated version of NetworkInterface_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.NetworkInterface_Status_NetworkInterface_SubResourceEmbedded instead
+// Deprecated version of NetworkInterface_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.NetworkInterface_Status_NetworkInterface_SubResourceEmbedded instead
 type NetworkInterface_Status_NetworkInterface_SubResourceEmbeddedARM struct {
 	Etag             *string                                     `json:"etag,omitempty"`
 	ExtendedLocation *ExtendedLocation_StatusARM                 `json:"extendedLocation,omitempty"`
@@ -15,7 +15,7 @@ type NetworkInterface_Status_NetworkInterface_SubResourceEmbeddedARM struct {
 	Type             *string                                     `json:"type,omitempty"`
 }
 
-//Deprecated version of NetworkInterfacePropertiesFormat_Status. Use v1beta20201101.NetworkInterfacePropertiesFormat_Status instead
+// Deprecated version of NetworkInterfacePropertiesFormat_Status. Use v1beta20201101.NetworkInterfacePropertiesFormat_Status instead
 type NetworkInterfacePropertiesFormat_StatusARM struct {
 	DnsSettings                 *NetworkInterfaceDnsSettings_StatusARM                                            `json:"dnsSettings,omitempty"`
 	DscpConfiguration           *SubResource_StatusARM                                                            `json:"dscpConfiguration,omitempty"`
@@ -36,7 +36,7 @@ type NetworkInterfacePropertiesFormat_StatusARM struct {
 	VirtualMachine              *SubResource_StatusARM                                                            `json:"virtualMachine,omitempty"`
 }
 
-//Deprecated version of NetworkInterfaceDnsSettings_Status. Use v1beta20201101.NetworkInterfaceDnsSettings_Status instead
+// Deprecated version of NetworkInterfaceDnsSettings_Status. Use v1beta20201101.NetworkInterfaceDnsSettings_Status instead
 type NetworkInterfaceDnsSettings_StatusARM struct {
 	AppliedDnsServers        []string `json:"appliedDnsServers,omitempty"`
 	DnsServers               []string `json:"dnsServers,omitempty"`
@@ -45,7 +45,7 @@ type NetworkInterfaceDnsSettings_StatusARM struct {
 	InternalFqdn             *string  `json:"internalFqdn,omitempty"`
 }
 
-//Deprecated version of NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResourceEmbedded instead
+// Deprecated version of NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResourceEmbedded instead
 type NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResourceEmbeddedARM struct {
 	Etag       *string                                                                                         `json:"etag,omitempty"`
 	Id         *string                                                                                         `json:"id,omitempty"`
@@ -54,34 +54,34 @@ type NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResourceEmbedded
 	Type       *string                                                                                         `json:"type,omitempty"`
 }
 
-//Deprecated version of NetworkInterfaceTapConfiguration_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.NetworkInterfaceTapConfiguration_Status_NetworkInterface_SubResourceEmbedded instead
+// Deprecated version of NetworkInterfaceTapConfiguration_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.NetworkInterfaceTapConfiguration_Status_NetworkInterface_SubResourceEmbedded instead
 type NetworkInterfaceTapConfiguration_Status_NetworkInterface_SubResourceEmbeddedARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
-//Deprecated version of NetworkSecurityGroup_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.NetworkSecurityGroup_Status_NetworkInterface_SubResourceEmbedded instead
+// Deprecated version of NetworkSecurityGroup_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.NetworkSecurityGroup_Status_NetworkInterface_SubResourceEmbedded instead
 type NetworkSecurityGroup_Status_NetworkInterface_SubResourceEmbeddedARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
-//Deprecated version of PrivateEndpoint_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.PrivateEndpoint_Status_NetworkInterface_SubResourceEmbedded instead
+// Deprecated version of PrivateEndpoint_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.PrivateEndpoint_Status_NetworkInterface_SubResourceEmbedded instead
 type PrivateEndpoint_Status_NetworkInterface_SubResourceEmbeddedARM struct {
 	ExtendedLocation *ExtendedLocation_StatusARM `json:"extendedLocation,omitempty"`
 	Id               *string                     `json:"id,omitempty"`
 }
 
-//Deprecated version of PrivateLinkService_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.PrivateLinkService_Status_NetworkInterface_SubResourceEmbedded instead
+// Deprecated version of PrivateLinkService_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.PrivateLinkService_Status_NetworkInterface_SubResourceEmbedded instead
 type PrivateLinkService_Status_NetworkInterface_SubResourceEmbeddedARM struct {
 	ExtendedLocation *ExtendedLocation_StatusARM `json:"extendedLocation,omitempty"`
 	Id               *string                     `json:"id,omitempty"`
 }
 
-//Deprecated version of SubResource_Status. Use v1beta20201101.SubResource_Status instead
+// Deprecated version of SubResource_Status. Use v1beta20201101.SubResource_Status instead
 type SubResource_StatusARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
-//Deprecated version of NetworkInterfaceIPConfigurationPropertiesFormat_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.NetworkInterfaceIPConfigurationPropertiesFormat_Status_NetworkInterface_SubResourceEmbedded instead
+// Deprecated version of NetworkInterfaceIPConfigurationPropertiesFormat_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.NetworkInterfaceIPConfigurationPropertiesFormat_Status_NetworkInterface_SubResourceEmbedded instead
 type NetworkInterfaceIPConfigurationPropertiesFormat_Status_NetworkInterface_SubResourceEmbeddedARM struct {
 	ApplicationGatewayBackendAddressPools []ApplicationGatewayBackendAddressPool_Status_NetworkInterface_SubResourceEmbeddedARM `json:"applicationGatewayBackendAddressPools,omitempty"`
 	ApplicationSecurityGroups             []ApplicationSecurityGroup_Status_NetworkInterface_SubResourceEmbeddedARM             `json:"applicationSecurityGroups,omitempty"`
@@ -98,7 +98,7 @@ type NetworkInterfaceIPConfigurationPropertiesFormat_Status_NetworkInterface_Sub
 	VirtualNetworkTaps                    []VirtualNetworkTap_Status_NetworkInterface_SubResourceEmbeddedARM                    `json:"virtualNetworkTaps,omitempty"`
 }
 
-//Deprecated version of ApplicationGatewayBackendAddressPool_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.ApplicationGatewayBackendAddressPool_Status_NetworkInterface_SubResourceEmbedded instead
+// Deprecated version of ApplicationGatewayBackendAddressPool_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.ApplicationGatewayBackendAddressPool_Status_NetworkInterface_SubResourceEmbedded instead
 type ApplicationGatewayBackendAddressPool_Status_NetworkInterface_SubResourceEmbeddedARM struct {
 	Etag       *string                                                                                              `json:"etag,omitempty"`
 	Id         *string                                                                                              `json:"id,omitempty"`
@@ -107,29 +107,29 @@ type ApplicationGatewayBackendAddressPool_Status_NetworkInterface_SubResourceEmb
 	Type       *string                                                                                              `json:"type,omitempty"`
 }
 
-//Deprecated version of ApplicationSecurityGroup_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.ApplicationSecurityGroup_Status_NetworkInterface_SubResourceEmbedded instead
+// Deprecated version of ApplicationSecurityGroup_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.ApplicationSecurityGroup_Status_NetworkInterface_SubResourceEmbedded instead
 type ApplicationSecurityGroup_Status_NetworkInterface_SubResourceEmbeddedARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
-//Deprecated version of BackendAddressPool_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.BackendAddressPool_Status_NetworkInterface_SubResourceEmbedded instead
+// Deprecated version of BackendAddressPool_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.BackendAddressPool_Status_NetworkInterface_SubResourceEmbedded instead
 type BackendAddressPool_Status_NetworkInterface_SubResourceEmbeddedARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
-//Deprecated version of InboundNatRule_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.InboundNatRule_Status_NetworkInterface_SubResourceEmbedded instead
+// Deprecated version of InboundNatRule_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.InboundNatRule_Status_NetworkInterface_SubResourceEmbedded instead
 type InboundNatRule_Status_NetworkInterface_SubResourceEmbeddedARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
-//Deprecated version of NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_Status. Use v1beta20201101.NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_Status instead
+// Deprecated version of NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_Status. Use v1beta20201101.NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_Status instead
 type NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_StatusARM struct {
 	Fqdns              []string `json:"fqdns,omitempty"`
 	GroupId            *string  `json:"groupId,omitempty"`
 	RequiredMemberName *string  `json:"requiredMemberName,omitempty"`
 }
 
-//Deprecated version of PublicIPAddress_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.PublicIPAddress_Status_NetworkInterface_SubResourceEmbedded instead
+// Deprecated version of PublicIPAddress_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.PublicIPAddress_Status_NetworkInterface_SubResourceEmbedded instead
 type PublicIPAddress_Status_NetworkInterface_SubResourceEmbeddedARM struct {
 	ExtendedLocation *ExtendedLocation_StatusARM   `json:"extendedLocation,omitempty"`
 	Id               *string                       `json:"id,omitempty"`
@@ -137,23 +137,23 @@ type PublicIPAddress_Status_NetworkInterface_SubResourceEmbeddedARM struct {
 	Zones            []string                      `json:"zones,omitempty"`
 }
 
-//Deprecated version of Subnet_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.Subnet_Status_NetworkInterface_SubResourceEmbedded instead
+// Deprecated version of Subnet_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.Subnet_Status_NetworkInterface_SubResourceEmbedded instead
 type Subnet_Status_NetworkInterface_SubResourceEmbeddedARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
-//Deprecated version of VirtualNetworkTap_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.VirtualNetworkTap_Status_NetworkInterface_SubResourceEmbedded instead
+// Deprecated version of VirtualNetworkTap_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.VirtualNetworkTap_Status_NetworkInterface_SubResourceEmbedded instead
 type VirtualNetworkTap_Status_NetworkInterface_SubResourceEmbeddedARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
-//Deprecated version of ApplicationGatewayBackendAddressPoolPropertiesFormat_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.ApplicationGatewayBackendAddressPoolPropertiesFormat_Status_NetworkInterface_SubResourceEmbedded instead
+// Deprecated version of ApplicationGatewayBackendAddressPoolPropertiesFormat_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.ApplicationGatewayBackendAddressPoolPropertiesFormat_Status_NetworkInterface_SubResourceEmbedded instead
 type ApplicationGatewayBackendAddressPoolPropertiesFormat_Status_NetworkInterface_SubResourceEmbeddedARM struct {
 	BackendAddresses  []ApplicationGatewayBackendAddress_StatusARM `json:"backendAddresses,omitempty"`
 	ProvisioningState *ProvisioningState_Status                    `json:"provisioningState,omitempty"`
 }
 
-//Deprecated version of ApplicationGatewayBackendAddress_Status. Use v1beta20201101.ApplicationGatewayBackendAddress_Status instead
+// Deprecated version of ApplicationGatewayBackendAddress_Status. Use v1beta20201101.ApplicationGatewayBackendAddress_Status instead
 type ApplicationGatewayBackendAddress_StatusARM struct {
 	Fqdn      *string `json:"fqdn,omitempty"`
 	IpAddress *string `json:"ipAddress,omitempty"`

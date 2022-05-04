@@ -5,7 +5,7 @@ package v1alpha1api20200202
 
 import "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 
-//Deprecated version of ApplicationInsightsComponent_Status. Use v1beta20200202.ApplicationInsightsComponent_Status instead
+// Deprecated version of ApplicationInsightsComponent_Status. Use v1beta20200202.ApplicationInsightsComponent_Status instead
 type ApplicationInsightsComponent_StatusARM struct {
 	Etag       *string                                           `json:"etag,omitempty"`
 	Id         *string                                           `json:"id,omitempty"`
@@ -17,7 +17,7 @@ type ApplicationInsightsComponent_StatusARM struct {
 	Type       *string                                           `json:"type,omitempty"`
 }
 
-//Deprecated version of ApplicationInsightsComponentProperties_Status. Use v1beta20200202.ApplicationInsightsComponentProperties_Status instead
+// Deprecated version of ApplicationInsightsComponentProperties_Status. Use v1beta20200202.ApplicationInsightsComponentProperties_Status instead
 type ApplicationInsightsComponentProperties_StatusARM struct {
 	AppId                           *string                                                      `json:"AppId,omitempty"`
 	ApplicationId                   *string                                                      `json:"ApplicationId,omitempty"`
@@ -46,8 +46,8 @@ type ApplicationInsightsComponentProperties_StatusARM struct {
 	WorkspaceResourceId             *string                                                      `json:"WorkspaceResourceId,omitempty"`
 }
 
-//Deprecated version of ApplicationInsightsComponentPropertiesStatusApplicationType. Use
-//v1beta20200202.ApplicationInsightsComponentPropertiesStatusApplicationType instead
+// Deprecated version of ApplicationInsightsComponentPropertiesStatusApplicationType. Use
+// v1beta20200202.ApplicationInsightsComponentPropertiesStatusApplicationType instead
 type ApplicationInsightsComponentPropertiesStatusApplicationType string
 
 const (
@@ -55,14 +55,14 @@ const (
 	ApplicationInsightsComponentPropertiesStatusApplicationTypeWeb   = ApplicationInsightsComponentPropertiesStatusApplicationType("web")
 )
 
-//Deprecated version of ApplicationInsightsComponentPropertiesStatusFlowType. Use
-//v1beta20200202.ApplicationInsightsComponentPropertiesStatusFlowType instead
+// Deprecated version of ApplicationInsightsComponentPropertiesStatusFlowType. Use
+// v1beta20200202.ApplicationInsightsComponentPropertiesStatusFlowType instead
 type ApplicationInsightsComponentPropertiesStatusFlowType string
 
 const ApplicationInsightsComponentPropertiesStatusFlowTypeBluefield = ApplicationInsightsComponentPropertiesStatusFlowType("Bluefield")
 
-//Deprecated version of ApplicationInsightsComponentPropertiesStatusIngestionMode. Use
-//v1beta20200202.ApplicationInsightsComponentPropertiesStatusIngestionMode instead
+// Deprecated version of ApplicationInsightsComponentPropertiesStatusIngestionMode. Use
+// v1beta20200202.ApplicationInsightsComponentPropertiesStatusIngestionMode instead
 type ApplicationInsightsComponentPropertiesStatusIngestionMode string
 
 const (
@@ -71,19 +71,19 @@ const (
 	ApplicationInsightsComponentPropertiesStatusIngestionModeLogAnalytics                              = ApplicationInsightsComponentPropertiesStatusIngestionMode("LogAnalytics")
 )
 
-//Deprecated version of ApplicationInsightsComponentPropertiesStatusRequestSource. Use
-//v1beta20200202.ApplicationInsightsComponentPropertiesStatusRequestSource instead
+// Deprecated version of ApplicationInsightsComponentPropertiesStatusRequestSource. Use
+// v1beta20200202.ApplicationInsightsComponentPropertiesStatusRequestSource instead
 type ApplicationInsightsComponentPropertiesStatusRequestSource string
 
 const ApplicationInsightsComponentPropertiesStatusRequestSourceRest = ApplicationInsightsComponentPropertiesStatusRequestSource("rest")
 
-//Deprecated version of PrivateLinkScopedResource_Status. Use v1beta20200202.PrivateLinkScopedResource_Status instead
+// Deprecated version of PrivateLinkScopedResource_Status. Use v1beta20200202.PrivateLinkScopedResource_Status instead
 type PrivateLinkScopedResource_StatusARM struct {
 	ResourceId *string `json:"ResourceId,omitempty"`
 	ScopeId    *string `json:"ScopeId,omitempty"`
 }
 
-//Deprecated version of PublicNetworkAccessType_Status. Use v1beta20200202.PublicNetworkAccessType_Status instead
+// Deprecated version of PublicNetworkAccessType_Status. Use v1beta20200202.PublicNetworkAccessType_Status instead
 type PublicNetworkAccessType_Status string
 
 const (

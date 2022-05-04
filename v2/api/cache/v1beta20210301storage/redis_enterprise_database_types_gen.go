@@ -21,8 +21,8 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Storage version of v1beta20210301.RedisEnterpriseDatabase
-//Generated from: https://schema.management.azure.com/schemas/2021-03-01/Microsoft.Cache.Enterprise.json#/resourceDefinitions/redisEnterprise_databases
+// Storage version of v1beta20210301.RedisEnterpriseDatabase
+// Generated from: https://schema.management.azure.com/schemas/2021-03-01/Microsoft.Cache.Enterprise.json#/resourceDefinitions/redisEnterprise_databases
 type RedisEnterpriseDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -121,15 +121,15 @@ func (database *RedisEnterpriseDatabase) OriginalGVK() *schema.GroupVersionKind 
 }
 
 // +kubebuilder:object:root=true
-//Storage version of v1beta20210301.RedisEnterpriseDatabase
-//Generated from: https://schema.management.azure.com/schemas/2021-03-01/Microsoft.Cache.Enterprise.json#/resourceDefinitions/redisEnterprise_databases
+// Storage version of v1beta20210301.RedisEnterpriseDatabase
+// Generated from: https://schema.management.azure.com/schemas/2021-03-01/Microsoft.Cache.Enterprise.json#/resourceDefinitions/redisEnterprise_databases
 type RedisEnterpriseDatabaseList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []RedisEnterpriseDatabase `json:"items"`
 }
 
-//Storage version of v1beta20210301.Database_Status
+// Storage version of v1beta20210301.Database_Status
 type Database_Status struct {
 	ClientProtocol    *string                `json:"clientProtocol,omitempty"`
 	ClusteringPolicy  *string                `json:"clusteringPolicy,omitempty"`
@@ -166,10 +166,10 @@ func (database *Database_Status) ConvertStatusTo(destination genruntime.Converti
 	return destination.ConvertStatusFrom(database)
 }
 
-//Storage version of v1beta20210301.RedisEnterpriseDatabases_Spec
+// Storage version of v1beta20210301.RedisEnterpriseDatabases_Spec
 type RedisEnterpriseDatabases_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName        string   `json:"azureName,omitempty"`
 	ClientProtocol   *string  `json:"clientProtocol,omitempty"`
 	ClusteringPolicy *string  `json:"clusteringPolicy,omitempty"`
@@ -179,9 +179,9 @@ type RedisEnterpriseDatabases_Spec struct {
 	OriginalVersion  string   `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a cache.azure.com/RedisEnterprise resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a cache.azure.com/RedisEnterprise resource
 	Owner       *genruntime.KnownResourceReference `group:"cache.azure.com" json:"owner,omitempty" kind:"RedisEnterprise"`
 	Persistence *Persistence                       `json:"persistence,omitempty"`
 	Port        *int                               `json:"port,omitempty"`
@@ -209,15 +209,15 @@ func (databases *RedisEnterpriseDatabases_Spec) ConvertSpecTo(destination genrun
 	return destination.ConvertSpecFrom(databases)
 }
 
-//Storage version of v1beta20210301.Module
-//Generated from: https://schema.management.azure.com/schemas/2021-03-01/Microsoft.Cache.Enterprise.json#/definitions/Module
+// Storage version of v1beta20210301.Module
+// Generated from: https://schema.management.azure.com/schemas/2021-03-01/Microsoft.Cache.Enterprise.json#/definitions/Module
 type Module struct {
 	Args        *string                `json:"args,omitempty"`
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1beta20210301.Module_Status
+// Storage version of v1beta20210301.Module_Status
 type Module_Status struct {
 	Args        *string                `json:"args,omitempty"`
 	Name        *string                `json:"name,omitempty"`
@@ -225,8 +225,8 @@ type Module_Status struct {
 	Version     *string                `json:"version,omitempty"`
 }
 
-//Storage version of v1beta20210301.Persistence
-//Generated from: https://schema.management.azure.com/schemas/2021-03-01/Microsoft.Cache.Enterprise.json#/definitions/Persistence
+// Storage version of v1beta20210301.Persistence
+// Generated from: https://schema.management.azure.com/schemas/2021-03-01/Microsoft.Cache.Enterprise.json#/definitions/Persistence
 type Persistence struct {
 	AofEnabled   *bool                  `json:"aofEnabled,omitempty"`
 	AofFrequency *string                `json:"aofFrequency,omitempty"`
@@ -235,7 +235,7 @@ type Persistence struct {
 	RdbFrequency *string                `json:"rdbFrequency,omitempty"`
 }
 
-//Storage version of v1beta20210301.Persistence_Status
+// Storage version of v1beta20210301.Persistence_Status
 type Persistence_Status struct {
 	AofEnabled   *bool                  `json:"aofEnabled,omitempty"`
 	AofFrequency *string                `json:"aofFrequency,omitempty"`

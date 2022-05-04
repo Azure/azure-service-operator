@@ -56,7 +56,7 @@ func RunJSONSerializationTestForSqlStoredProcedureGetResultsStatusARM(subject Sq
 }
 
 // Generator of SqlStoredProcedureGetResults_StatusARM instances for property testing - lazily instantiated by
-//SqlStoredProcedureGetResultsStatusARMGenerator()
+// SqlStoredProcedureGetResultsStatusARMGenerator()
 var sqlStoredProcedureGetResultsStatusARMGenerator gopter.Gen
 
 // SqlStoredProcedureGetResultsStatusARMGenerator returns a generator of SqlStoredProcedureGetResults_StatusARM instances for property testing.
@@ -134,7 +134,7 @@ func RunJSONSerializationTestForSqlStoredProcedureGetPropertiesStatusARM(subject
 }
 
 // Generator of SqlStoredProcedureGetProperties_StatusARM instances for property testing - lazily instantiated by
-//SqlStoredProcedureGetPropertiesStatusARMGenerator()
+// SqlStoredProcedureGetPropertiesStatusARMGenerator()
 var sqlStoredProcedureGetPropertiesStatusARMGenerator gopter.Gen
 
 // SqlStoredProcedureGetPropertiesStatusARMGenerator returns a generator of SqlStoredProcedureGetProperties_StatusARM instances for property testing.
@@ -194,7 +194,7 @@ func RunJSONSerializationTestForSqlStoredProcedureGetPropertiesStatusResourceARM
 }
 
 // Generator of SqlStoredProcedureGetProperties_Status_ResourceARM instances for property testing - lazily instantiated
-//by SqlStoredProcedureGetPropertiesStatusResourceARMGenerator()
+// by SqlStoredProcedureGetPropertiesStatusResourceARMGenerator()
 var sqlStoredProcedureGetPropertiesStatusResourceARMGenerator gopter.Gen
 
 // SqlStoredProcedureGetPropertiesStatusResourceARMGenerator returns a generator of SqlStoredProcedureGetProperties_Status_ResourceARM instances for property testing.

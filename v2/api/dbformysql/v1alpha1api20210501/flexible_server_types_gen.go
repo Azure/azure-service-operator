@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Deprecated version of FlexibleServer. Use v1beta20210501.FlexibleServer instead
+// Deprecated version of FlexibleServer. Use v1beta20210501.FlexibleServer instead
 type FlexibleServer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -314,7 +314,7 @@ func (server *FlexibleServer) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Deprecated version of FlexibleServer. Use v1beta20210501.FlexibleServer instead
+// Deprecated version of FlexibleServer. Use v1beta20210501.FlexibleServer instead
 type FlexibleServerList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -326,8 +326,8 @@ type FlexibleServers_Spec struct {
 	AdministratorLoginPassword *genruntime.SecretReference `json:"administratorLoginPassword,omitempty"`
 	AvailabilityZone           *string                     `json:"availabilityZone,omitempty"`
 
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName         string                      `json:"azureName,omitempty"`
 	Backup            *Backup                     `json:"backup,omitempty"`
 	CreateMode        *ServerPropertiesCreateMode `json:"createMode,omitempty"`
@@ -337,9 +337,9 @@ type FlexibleServers_Spec struct {
 	Network           *Network                    `json:"network,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a resources.azure.com/ResourceGroup resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
 	Owner                  *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	ReplicationRole        *ServerPropertiesReplicationRole   `json:"replicationRole,omitempty"`
 	RestorePointInTime     *string                            `json:"restorePointInTime,omitempty"`
@@ -1025,13 +1025,13 @@ func (servers *FlexibleServers_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (servers *FlexibleServers_Spec) SetAzureName(azureName string) { servers.AzureName = azureName }
 
-//Deprecated version of Server_Status. Use v1beta20210501.Server_Status instead
+// Deprecated version of Server_Status. Use v1beta20210501.Server_Status instead
 type Server_Status struct {
 	AdministratorLogin *string        `json:"administratorLogin,omitempty"`
 	AvailabilityZone   *string        `json:"availabilityZone,omitempty"`
 	Backup             *Backup_Status `json:"backup,omitempty"`
 
-	//Conditions: The observed state of the resource
+	// Conditions: The observed state of the resource
 	Conditions               []conditions.Condition            `json:"conditions,omitempty"`
 	CreateMode               *ServerPropertiesStatusCreateMode `json:"createMode,omitempty"`
 	FullyQualifiedDomainName *string                           `json:"fullyQualifiedDomainName,omitempty"`
@@ -1665,7 +1665,7 @@ func (server *Server_Status) AssignPropertiesToServerStatus(destination *alpha20
 	return nil
 }
 
-//Deprecated version of Backup. Use v1beta20210501.Backup instead
+// Deprecated version of Backup. Use v1beta20210501.Backup instead
 type Backup struct {
 	BackupRetentionDays *int                      `json:"backupRetentionDays,omitempty"`
 	GeoRedundantBackup  *BackupGeoRedundantBackup `json:"geoRedundantBackup,omitempty"`
@@ -1767,7 +1767,7 @@ func (backup *Backup) AssignPropertiesToBackup(destination *alpha20210501s.Backu
 	return nil
 }
 
-//Deprecated version of Backup_Status. Use v1beta20210501.Backup_Status instead
+// Deprecated version of Backup_Status. Use v1beta20210501.Backup_Status instead
 type Backup_Status struct {
 	BackupRetentionDays *int                     `json:"backupRetentionDays,omitempty"`
 	EarliestRestoreDate *string                  `json:"earliestRestoreDate,omitempty"`
@@ -1861,7 +1861,7 @@ func (backup *Backup_Status) AssignPropertiesToBackupStatus(destination *alpha20
 	return nil
 }
 
-//Deprecated version of HighAvailability. Use v1beta20210501.HighAvailability instead
+// Deprecated version of HighAvailability. Use v1beta20210501.HighAvailability instead
 type HighAvailability struct {
 	Mode                    *HighAvailabilityMode `json:"mode,omitempty"`
 	StandbyAvailabilityZone *string               `json:"standbyAvailabilityZone,omitempty"`
@@ -1963,7 +1963,7 @@ func (availability *HighAvailability) AssignPropertiesToHighAvailability(destina
 	return nil
 }
 
-//Deprecated version of HighAvailability_Status. Use v1beta20210501.HighAvailability_Status instead
+// Deprecated version of HighAvailability_Status. Use v1beta20210501.HighAvailability_Status instead
 type HighAvailability_Status struct {
 	Mode                    *HighAvailabilityStatusMode  `json:"mode,omitempty"`
 	StandbyAvailabilityZone *string                      `json:"standbyAvailabilityZone,omitempty"`
@@ -2067,7 +2067,7 @@ func (availability *HighAvailability_Status) AssignPropertiesToHighAvailabilityS
 	return nil
 }
 
-//Deprecated version of MaintenanceWindow. Use v1beta20210501.MaintenanceWindow instead
+// Deprecated version of MaintenanceWindow. Use v1beta20210501.MaintenanceWindow instead
 type MaintenanceWindow struct {
 	CustomWindow *string `json:"customWindow,omitempty"`
 	DayOfWeek    *int    `json:"dayOfWeek,omitempty"`
@@ -2197,7 +2197,7 @@ func (window *MaintenanceWindow) AssignPropertiesToMaintenanceWindow(destination
 	return nil
 }
 
-//Deprecated version of MaintenanceWindow_Status. Use v1beta20210501.MaintenanceWindow_Status instead
+// Deprecated version of MaintenanceWindow_Status. Use v1beta20210501.MaintenanceWindow_Status instead
 type MaintenanceWindow_Status struct {
 	CustomWindow *string `json:"customWindow,omitempty"`
 	DayOfWeek    *int    `json:"dayOfWeek,omitempty"`
@@ -2294,7 +2294,7 @@ func (window *MaintenanceWindow_Status) AssignPropertiesToMaintenanceWindowStatu
 	return nil
 }
 
-//Deprecated version of Network. Use v1beta20210501.Network instead
+// Deprecated version of Network. Use v1beta20210501.Network instead
 type Network struct {
 	DelegatedSubnetResourceReference *genruntime.ResourceReference `armReference:"DelegatedSubnetResourceId" json:"delegatedSubnetResourceReference,omitempty"`
 	PrivateDnsZoneResourceReference  *genruntime.ResourceReference `armReference:"PrivateDnsZoneResourceId" json:"privateDnsZoneResourceReference,omitempty"`
@@ -2406,7 +2406,7 @@ func (network *Network) AssignPropertiesToNetwork(destination *alpha20210501s.Ne
 	return nil
 }
 
-//Deprecated version of Network_Status. Use v1beta20210501.Network_Status instead
+// Deprecated version of Network_Status. Use v1beta20210501.Network_Status instead
 type Network_Status struct {
 	DelegatedSubnetResourceId *string                  `json:"delegatedSubnetResourceId,omitempty"`
 	PrivateDnsZoneResourceId  *string                  `json:"privateDnsZoneResourceId,omitempty"`
@@ -2500,7 +2500,7 @@ func (network *Network_Status) AssignPropertiesToNetworkStatus(destination *alph
 	return nil
 }
 
-//Deprecated version of ReplicationRole_Status. Use v1beta20210501.ReplicationRole_Status instead
+// Deprecated version of ReplicationRole_Status. Use v1beta20210501.ReplicationRole_Status instead
 type ReplicationRole_Status string
 
 const (
@@ -2509,7 +2509,7 @@ const (
 	ReplicationRole_StatusSource  = ReplicationRole_Status("Source")
 )
 
-//Deprecated version of ServerPropertiesCreateMode. Use v1beta20210501.ServerPropertiesCreateMode instead
+// Deprecated version of ServerPropertiesCreateMode. Use v1beta20210501.ServerPropertiesCreateMode instead
 // +kubebuilder:validation:Enum={"Default","GeoRestore","PointInTimeRestore","Replica"}
 type ServerPropertiesCreateMode string
 
@@ -2520,7 +2520,7 @@ const (
 	ServerPropertiesCreateModeReplica            = ServerPropertiesCreateMode("Replica")
 )
 
-//Deprecated version of ServerPropertiesReplicationRole. Use v1beta20210501.ServerPropertiesReplicationRole instead
+// Deprecated version of ServerPropertiesReplicationRole. Use v1beta20210501.ServerPropertiesReplicationRole instead
 // +kubebuilder:validation:Enum={"None","Replica","Source"}
 type ServerPropertiesReplicationRole string
 
@@ -2530,7 +2530,7 @@ const (
 	ServerPropertiesReplicationRoleSource  = ServerPropertiesReplicationRole("Source")
 )
 
-//Deprecated version of ServerPropertiesStatusCreateMode. Use v1beta20210501.ServerPropertiesStatusCreateMode instead
+// Deprecated version of ServerPropertiesStatusCreateMode. Use v1beta20210501.ServerPropertiesStatusCreateMode instead
 type ServerPropertiesStatusCreateMode string
 
 const (
@@ -2540,7 +2540,7 @@ const (
 	ServerPropertiesStatusCreateModeReplica            = ServerPropertiesStatusCreateMode("Replica")
 )
 
-//Deprecated version of ServerPropertiesStatusState. Use v1beta20210501.ServerPropertiesStatusState instead
+// Deprecated version of ServerPropertiesStatusState. Use v1beta20210501.ServerPropertiesStatusState instead
 type ServerPropertiesStatusState string
 
 const (
@@ -2553,7 +2553,7 @@ const (
 	ServerPropertiesStatusStateUpdating = ServerPropertiesStatusState("Updating")
 )
 
-//Deprecated version of ServerPropertiesVersion. Use v1beta20210501.ServerPropertiesVersion instead
+// Deprecated version of ServerPropertiesVersion. Use v1beta20210501.ServerPropertiesVersion instead
 // +kubebuilder:validation:Enum={"5.7","8.0.21"}
 type ServerPropertiesVersion string
 
@@ -2562,7 +2562,7 @@ const (
 	ServerPropertiesVersion8021 = ServerPropertiesVersion("8.0.21")
 )
 
-//Deprecated version of ServerVersion_Status. Use v1beta20210501.ServerVersion_Status instead
+// Deprecated version of ServerVersion_Status. Use v1beta20210501.ServerVersion_Status instead
 type ServerVersion_Status string
 
 const (
@@ -2570,7 +2570,7 @@ const (
 	ServerVersion_Status8021 = ServerVersion_Status("8.0.21")
 )
 
-//Deprecated version of Sku. Use v1beta20210501.Sku instead
+// Deprecated version of Sku. Use v1beta20210501.Sku instead
 type Sku struct {
 	// +kubebuilder:validation:Required
 	Name *string `json:"name,omitempty"`
@@ -2675,7 +2675,7 @@ func (sku *Sku) AssignPropertiesToSku(destination *alpha20210501s.Sku) error {
 	return nil
 }
 
-//Deprecated version of Sku_Status. Use v1beta20210501.Sku_Status instead
+// Deprecated version of Sku_Status. Use v1beta20210501.Sku_Status instead
 type Sku_Status struct {
 	Name *string        `json:"name,omitempty"`
 	Tier *SkuStatusTier `json:"tier,omitempty"`
@@ -2756,7 +2756,7 @@ func (sku *Sku_Status) AssignPropertiesToSkuStatus(destination *alpha20210501s.S
 	return nil
 }
 
-//Deprecated version of Storage. Use v1beta20210501.Storage instead
+// Deprecated version of Storage. Use v1beta20210501.Storage instead
 type Storage struct {
 	AutoGrow      *StorageAutoGrow `json:"autoGrow,omitempty"`
 	Iops          *int             `json:"iops,omitempty"`
@@ -2877,7 +2877,7 @@ func (storage *Storage) AssignPropertiesToStorage(destination *alpha20210501s.St
 	return nil
 }
 
-//Deprecated version of Storage_Status. Use v1beta20210501.Storage_Status instead
+// Deprecated version of Storage_Status. Use v1beta20210501.Storage_Status instead
 type Storage_Status struct {
 	AutoGrow      *EnableStatusEnum_Status `json:"autoGrow,omitempty"`
 	Iops          *int                     `json:"iops,omitempty"`
@@ -2984,7 +2984,7 @@ func (storage *Storage_Status) AssignPropertiesToStorageStatus(destination *alph
 	return nil
 }
 
-//Deprecated version of SystemData_Status. Use v1beta20210501.SystemData_Status instead
+// Deprecated version of SystemData_Status. Use v1beta20210501.SystemData_Status instead
 type SystemData_Status struct {
 	CreatedAt          *string                             `json:"createdAt,omitempty"`
 	CreatedBy          *string                             `json:"createdBy,omitempty"`
@@ -3127,7 +3127,7 @@ func (data *SystemData_Status) AssignPropertiesToSystemDataStatus(destination *a
 	return nil
 }
 
-//Deprecated version of BackupGeoRedundantBackup. Use v1beta20210501.BackupGeoRedundantBackup instead
+// Deprecated version of BackupGeoRedundantBackup. Use v1beta20210501.BackupGeoRedundantBackup instead
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type BackupGeoRedundantBackup string
 
@@ -3136,7 +3136,7 @@ const (
 	BackupGeoRedundantBackupEnabled  = BackupGeoRedundantBackup("Enabled")
 )
 
-//Deprecated version of EnableStatusEnum_Status. Use v1beta20210501.EnableStatusEnum_Status instead
+// Deprecated version of EnableStatusEnum_Status. Use v1beta20210501.EnableStatusEnum_Status instead
 type EnableStatusEnum_Status string
 
 const (
@@ -3144,7 +3144,7 @@ const (
 	EnableStatusEnum_StatusEnabled  = EnableStatusEnum_Status("Enabled")
 )
 
-//Deprecated version of HighAvailabilityMode. Use v1beta20210501.HighAvailabilityMode instead
+// Deprecated version of HighAvailabilityMode. Use v1beta20210501.HighAvailabilityMode instead
 // +kubebuilder:validation:Enum={"Disabled","SameZone","ZoneRedundant"}
 type HighAvailabilityMode string
 
@@ -3154,7 +3154,7 @@ const (
 	HighAvailabilityModeZoneRedundant = HighAvailabilityMode("ZoneRedundant")
 )
 
-//Deprecated version of HighAvailabilityStatusMode. Use v1beta20210501.HighAvailabilityStatusMode instead
+// Deprecated version of HighAvailabilityStatusMode. Use v1beta20210501.HighAvailabilityStatusMode instead
 type HighAvailabilityStatusMode string
 
 const (
@@ -3163,7 +3163,7 @@ const (
 	HighAvailabilityStatusModeZoneRedundant = HighAvailabilityStatusMode("ZoneRedundant")
 )
 
-//Deprecated version of HighAvailabilityStatusState. Use v1beta20210501.HighAvailabilityStatusState instead
+// Deprecated version of HighAvailabilityStatusState. Use v1beta20210501.HighAvailabilityStatusState instead
 type HighAvailabilityStatusState string
 
 const (
@@ -3174,7 +3174,7 @@ const (
 	HighAvailabilityStatusStateRemovingStandby = HighAvailabilityStatusState("RemovingStandby")
 )
 
-//Deprecated version of StorageAutoGrow. Use v1beta20210501.StorageAutoGrow instead
+// Deprecated version of StorageAutoGrow. Use v1beta20210501.StorageAutoGrow instead
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type StorageAutoGrow string
 

@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Deprecated version of RoleAssignment. Use v1beta20200801preview.RoleAssignment instead
+// Deprecated version of RoleAssignment. Use v1beta20200801preview.RoleAssignment instead
 type RoleAssignment struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -313,19 +313,19 @@ func (assignment *RoleAssignment) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Deprecated version of RoleAssignment. Use v1beta20200801preview.RoleAssignment instead
+// Deprecated version of RoleAssignment. Use v1beta20200801preview.RoleAssignment instead
 type RoleAssignmentList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []RoleAssignment `json:"items"`
 }
 
-//Deprecated version of RoleAssignment_Status. Use v1beta20200801preview.RoleAssignment_Status instead
+// Deprecated version of RoleAssignment_Status. Use v1beta20200801preview.RoleAssignment_Status instead
 type RoleAssignment_Status struct {
 	Condition        *string `json:"condition,omitempty"`
 	ConditionVersion *string `json:"conditionVersion,omitempty"`
 
-	//Conditions: The observed state of the resource
+	// Conditions: The observed state of the resource
 	Conditions                         []conditions.Condition                       `json:"conditions,omitempty"`
 	CreatedBy                          *string                                      `json:"createdBy,omitempty"`
 	CreatedOn                          *string                                      `json:"createdOn,omitempty"`
@@ -668,8 +668,8 @@ func (assignment *RoleAssignment_Status) AssignPropertiesToRoleAssignmentStatus(
 }
 
 type RoleAssignments_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName                          string  `json:"azureName,omitempty"`
 	Condition                          *string `json:"condition,omitempty"`
 	ConditionVersion                   *string `json:"conditionVersion,omitempty"`
@@ -678,9 +678,9 @@ type RoleAssignments_Spec struct {
 	Location                           *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. This resource is an
-	//extension resource, which means that any other Azure resource can be its owner.
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. This resource is an
+	// extension resource, which means that any other Azure resource can be its owner.
 	Owner *genruntime.ArbitraryOwnerReference `json:"owner,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -1037,8 +1037,8 @@ func (assignments *RoleAssignments_Spec) SetAzureName(azureName string) {
 	assignments.AzureName = azureName
 }
 
-//Deprecated version of RoleAssignmentPropertiesPrincipalType. Use
-//v1beta20200801preview.RoleAssignmentPropertiesPrincipalType instead
+// Deprecated version of RoleAssignmentPropertiesPrincipalType. Use
+// v1beta20200801preview.RoleAssignmentPropertiesPrincipalType instead
 // +kubebuilder:validation:Enum={"ForeignGroup","Group","ServicePrincipal","User"}
 type RoleAssignmentPropertiesPrincipalType string
 
@@ -1049,8 +1049,8 @@ const (
 	RoleAssignmentPropertiesPrincipalTypeUser             = RoleAssignmentPropertiesPrincipalType("User")
 )
 
-//Deprecated version of RoleAssignmentPropertiesStatusPrincipalType. Use
-//v1beta20200801preview.RoleAssignmentPropertiesStatusPrincipalType instead
+// Deprecated version of RoleAssignmentPropertiesStatusPrincipalType. Use
+// v1beta20200801preview.RoleAssignmentPropertiesStatusPrincipalType instead
 type RoleAssignmentPropertiesStatusPrincipalType string
 
 const (

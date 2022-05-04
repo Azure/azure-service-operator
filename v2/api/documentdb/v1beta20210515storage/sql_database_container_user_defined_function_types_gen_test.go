@@ -56,7 +56,7 @@ func RunJSONSerializationTestForSqlDatabaseContainerUserDefinedFunction(subject 
 }
 
 // Generator of SqlDatabaseContainerUserDefinedFunction instances for property testing - lazily instantiated by
-//SqlDatabaseContainerUserDefinedFunctionGenerator()
+// SqlDatabaseContainerUserDefinedFunctionGenerator()
 var sqlDatabaseContainerUserDefinedFunctionGenerator gopter.Gen
 
 // SqlDatabaseContainerUserDefinedFunctionGenerator returns a generator of SqlDatabaseContainerUserDefinedFunction instances for property testing.
@@ -117,7 +117,7 @@ func RunJSONSerializationTestForDatabaseAccountsSqlDatabasesContainersUserDefine
 }
 
 // Generator of DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec instances for property testing - lazily
-//instantiated by DatabaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpecGenerator()
+// instantiated by DatabaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpecGenerator()
 var databaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpecGenerator gopter.Gen
 
 // DatabaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpecGenerator returns a generator of DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec instances for property testing.
@@ -195,7 +195,7 @@ func RunJSONSerializationTestForSqlUserDefinedFunctionGetResultsStatus(subject S
 }
 
 // Generator of SqlUserDefinedFunctionGetResults_Status instances for property testing - lazily instantiated by
-//SqlUserDefinedFunctionGetResultsStatusGenerator()
+// SqlUserDefinedFunctionGetResultsStatusGenerator()
 var sqlUserDefinedFunctionGetResultsStatusGenerator gopter.Gen
 
 // SqlUserDefinedFunctionGetResultsStatusGenerator returns a generator of SqlUserDefinedFunctionGetResults_Status instances for property testing.
@@ -273,7 +273,7 @@ func RunJSONSerializationTestForSqlUserDefinedFunctionGetPropertiesStatusResourc
 }
 
 // Generator of SqlUserDefinedFunctionGetProperties_Status_Resource instances for property testing - lazily instantiated
-//by SqlUserDefinedFunctionGetPropertiesStatusResourceGenerator()
+// by SqlUserDefinedFunctionGetPropertiesStatusResourceGenerator()
 var sqlUserDefinedFunctionGetPropertiesStatusResourceGenerator gopter.Gen
 
 // SqlUserDefinedFunctionGetPropertiesStatusResourceGenerator returns a generator of SqlUserDefinedFunctionGetProperties_Status_Resource instances for property testing.
@@ -337,7 +337,7 @@ func RunJSONSerializationTestForSqlUserDefinedFunctionResource(subject SqlUserDe
 }
 
 // Generator of SqlUserDefinedFunctionResource instances for property testing - lazily instantiated by
-//SqlUserDefinedFunctionResourceGenerator()
+// SqlUserDefinedFunctionResourceGenerator()
 var sqlUserDefinedFunctionResourceGenerator gopter.Gen
 
 // SqlUserDefinedFunctionResourceGenerator returns a generator of SqlUserDefinedFunctionResource instances for property testing.

@@ -336,7 +336,7 @@ func RunJSONSerializationTestForExtendedLocationStatus(subject ExtendedLocation_
 }
 
 // Generator of ExtendedLocation_Status instances for property testing - lazily instantiated by
-//ExtendedLocationStatusGenerator()
+// ExtendedLocationStatusGenerator()
 var extendedLocationStatusGenerator gopter.Gen
 
 // ExtendedLocationStatusGenerator returns a generator of ExtendedLocation_Status instances for property testing.
@@ -397,7 +397,7 @@ func RunJSONSerializationTestForImageStorageProfile(subject ImageStorageProfile)
 }
 
 // Generator of ImageStorageProfile instances for property testing - lazily instantiated by
-//ImageStorageProfileGenerator()
+// ImageStorageProfileGenerator()
 var imageStorageProfileGenerator gopter.Gen
 
 // ImageStorageProfileGenerator returns a generator of ImageStorageProfile instances for property testing.
@@ -472,7 +472,7 @@ func RunJSONSerializationTestForImageStorageProfileStatus(subject ImageStoragePr
 }
 
 // Generator of ImageStorageProfile_Status instances for property testing - lazily instantiated by
-//ImageStorageProfileStatusGenerator()
+// ImageStorageProfileStatusGenerator()
 var imageStorageProfileStatusGenerator gopter.Gen
 
 // ImageStorageProfileStatusGenerator returns a generator of ImageStorageProfile_Status instances for property testing.
@@ -738,7 +738,7 @@ func RunJSONSerializationTestForImageDataDiskStatus(subject ImageDataDisk_Status
 }
 
 // Generator of ImageDataDisk_Status instances for property testing - lazily instantiated by
-//ImageDataDiskStatusGenerator()
+// ImageDataDiskStatusGenerator()
 var imageDataDiskStatusGenerator gopter.Gen
 
 // ImageDataDiskStatusGenerator returns a generator of ImageDataDisk_Status instances for property testing.
@@ -978,7 +978,7 @@ func RunJSONSerializationTestForDiskEncryptionSetParameters(subject DiskEncrypti
 }
 
 // Generator of DiskEncryptionSetParameters instances for property testing - lazily instantiated by
-//DiskEncryptionSetParametersGenerator()
+// DiskEncryptionSetParametersGenerator()
 var diskEncryptionSetParametersGenerator gopter.Gen
 
 // DiskEncryptionSetParametersGenerator returns a generator of DiskEncryptionSetParameters instances for property testing.

@@ -91,7 +91,7 @@ func RunPropertyAssignmentTestForWorkspace(subject Workspace) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -193,7 +193,7 @@ func RunPropertyAssignmentTestForWorkspaceStatus(subject Workspace_Status) strin
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -331,7 +331,7 @@ func RunPropertyAssignmentTestForWorkspacesSpec(subject Workspaces_Spec) string 
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -463,7 +463,7 @@ func RunPropertyAssignmentTestForPrivateLinkScopedResourceStatus(subject Private
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -514,7 +514,7 @@ func RunJSONSerializationTestForPrivateLinkScopedResourceStatus(subject PrivateL
 }
 
 // Generator of PrivateLinkScopedResource_Status instances for property testing - lazily instantiated by
-//PrivateLinkScopedResourceStatusGenerator()
+// PrivateLinkScopedResourceStatusGenerator()
 var privateLinkScopedResourceStatusGenerator gopter.Gen
 
 // PrivateLinkScopedResourceStatusGenerator returns a generator of PrivateLinkScopedResource_Status instances for property testing.
@@ -566,7 +566,7 @@ func RunPropertyAssignmentTestForWorkspaceCapping(subject WorkspaceCapping) stri
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -667,7 +667,7 @@ func RunPropertyAssignmentTestForWorkspaceCappingStatus(subject WorkspaceCapping
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -718,7 +718,7 @@ func RunJSONSerializationTestForWorkspaceCappingStatus(subject WorkspaceCapping_
 }
 
 // Generator of WorkspaceCapping_Status instances for property testing - lazily instantiated by
-//WorkspaceCappingStatusGenerator()
+// WorkspaceCappingStatusGenerator()
 var workspaceCappingStatusGenerator gopter.Gen
 
 // WorkspaceCappingStatusGenerator returns a generator of WorkspaceCapping_Status instances for property testing.
@@ -777,7 +777,7 @@ func RunPropertyAssignmentTestForWorkspaceFeatures(subject WorkspaceFeatures) st
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -881,7 +881,7 @@ func RunPropertyAssignmentTestForWorkspaceFeaturesStatus(subject WorkspaceFeatur
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -932,7 +932,7 @@ func RunJSONSerializationTestForWorkspaceFeaturesStatus(subject WorkspaceFeature
 }
 
 // Generator of WorkspaceFeatures_Status instances for property testing - lazily instantiated by
-//WorkspaceFeaturesStatusGenerator()
+// WorkspaceFeaturesStatusGenerator()
 var workspaceFeaturesStatusGenerator gopter.Gen
 
 // WorkspaceFeaturesStatusGenerator returns a generator of WorkspaceFeatures_Status instances for property testing.
@@ -987,7 +987,7 @@ func RunPropertyAssignmentTestForWorkspaceSku(subject WorkspaceSku) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1097,7 +1097,7 @@ func RunPropertyAssignmentTestForWorkspaceSkuStatus(subject WorkspaceSku_Status)
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)

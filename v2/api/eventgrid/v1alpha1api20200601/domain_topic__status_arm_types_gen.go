@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1alpha1api20200601
 
-//Deprecated version of DomainTopic_Status. Use v1beta20200601.DomainTopic_Status instead
+// Deprecated version of DomainTopic_Status. Use v1beta20200601.DomainTopic_Status instead
 type DomainTopic_StatusARM struct {
 	Id         *string                          `json:"id,omitempty"`
 	Name       *string                          `json:"name,omitempty"`
@@ -12,12 +12,12 @@ type DomainTopic_StatusARM struct {
 	Type       *string                          `json:"type,omitempty"`
 }
 
-//Deprecated version of DomainTopicProperties_Status. Use v1beta20200601.DomainTopicProperties_Status instead
+// Deprecated version of DomainTopicProperties_Status. Use v1beta20200601.DomainTopicProperties_Status instead
 type DomainTopicProperties_StatusARM struct {
 	ProvisioningState *DomainTopicPropertiesStatusProvisioningState `json:"provisioningState,omitempty"`
 }
 
-//Deprecated version of SystemData_Status. Use v1beta20200601.SystemData_Status instead
+// Deprecated version of SystemData_Status. Use v1beta20200601.SystemData_Status instead
 type SystemData_StatusARM struct {
 	CreatedAt          *string                             `json:"createdAt,omitempty"`
 	CreatedBy          *string                             `json:"createdBy,omitempty"`
@@ -27,8 +27,8 @@ type SystemData_StatusARM struct {
 	LastModifiedByType *SystemDataStatusLastModifiedByType `json:"lastModifiedByType,omitempty"`
 }
 
-//Deprecated version of DomainTopicPropertiesStatusProvisioningState. Use
-//v1beta20200601.DomainTopicPropertiesStatusProvisioningState instead
+// Deprecated version of DomainTopicPropertiesStatusProvisioningState. Use
+// v1beta20200601.DomainTopicPropertiesStatusProvisioningState instead
 type DomainTopicPropertiesStatusProvisioningState string
 
 const (
@@ -40,7 +40,7 @@ const (
 	DomainTopicPropertiesStatusProvisioningStateUpdating  = DomainTopicPropertiesStatusProvisioningState("Updating")
 )
 
-//Deprecated version of SystemDataStatusCreatedByType. Use v1beta20200601.SystemDataStatusCreatedByType instead
+// Deprecated version of SystemDataStatusCreatedByType. Use v1beta20200601.SystemDataStatusCreatedByType instead
 type SystemDataStatusCreatedByType string
 
 const (
@@ -50,7 +50,7 @@ const (
 	SystemDataStatusCreatedByTypeUser            = SystemDataStatusCreatedByType("User")
 )
 
-//Deprecated version of SystemDataStatusLastModifiedByType. Use v1beta20200601.SystemDataStatusLastModifiedByType instead
+// Deprecated version of SystemDataStatusLastModifiedByType. Use v1beta20200601.SystemDataStatusLastModifiedByType instead
 type SystemDataStatusLastModifiedByType string
 
 const (

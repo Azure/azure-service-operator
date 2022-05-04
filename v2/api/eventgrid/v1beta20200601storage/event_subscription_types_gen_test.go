@@ -116,7 +116,7 @@ func RunJSONSerializationTestForEventSubscriptionStatus(subject EventSubscriptio
 }
 
 // Generator of EventSubscription_Status instances for property testing - lazily instantiated by
-//EventSubscriptionStatusGenerator()
+// EventSubscriptionStatusGenerator()
 var eventSubscriptionStatusGenerator gopter.Gen
 
 // EventSubscriptionStatusGenerator returns a generator of EventSubscription_Status instances for property testing.
@@ -201,7 +201,7 @@ func RunJSONSerializationTestForEventSubscriptionsSpec(subject EventSubscription
 }
 
 // Generator of EventSubscriptions_Spec instances for property testing - lazily instantiated by
-//EventSubscriptionsSpecGenerator()
+// EventSubscriptionsSpecGenerator()
 var eventSubscriptionsSpecGenerator gopter.Gen
 
 // EventSubscriptionsSpecGenerator returns a generator of EventSubscriptions_Spec instances for property testing.
@@ -284,7 +284,7 @@ func RunJSONSerializationTestForDeadLetterDestinationStatus(subject DeadLetterDe
 }
 
 // Generator of DeadLetterDestination_Status instances for property testing - lazily instantiated by
-//DeadLetterDestinationStatusGenerator()
+// DeadLetterDestinationStatusGenerator()
 var deadLetterDestinationStatusGenerator gopter.Gen
 
 // DeadLetterDestinationStatusGenerator returns a generator of DeadLetterDestination_Status instances for property testing.
@@ -344,7 +344,7 @@ func RunJSONSerializationTestForEventSubscriptionDestination(subject EventSubscr
 }
 
 // Generator of EventSubscriptionDestination instances for property testing - lazily instantiated by
-//EventSubscriptionDestinationGenerator()
+// EventSubscriptionDestinationGenerator()
 var eventSubscriptionDestinationGenerator gopter.Gen
 
 // EventSubscriptionDestinationGenerator returns a generator of EventSubscriptionDestination instances for property testing.
@@ -432,7 +432,7 @@ func RunJSONSerializationTestForEventSubscriptionDestinationStatus(subject Event
 }
 
 // Generator of EventSubscriptionDestination_Status instances for property testing - lazily instantiated by
-//EventSubscriptionDestinationStatusGenerator()
+// EventSubscriptionDestinationStatusGenerator()
 var eventSubscriptionDestinationStatusGenerator gopter.Gen
 
 // EventSubscriptionDestinationStatusGenerator returns a generator of EventSubscriptionDestination_Status instances for property testing.
@@ -492,7 +492,7 @@ func RunJSONSerializationTestForEventSubscriptionFilter(subject EventSubscriptio
 }
 
 // Generator of EventSubscriptionFilter instances for property testing - lazily instantiated by
-//EventSubscriptionFilterGenerator()
+// EventSubscriptionFilterGenerator()
 var eventSubscriptionFilterGenerator gopter.Gen
 
 // EventSubscriptionFilterGenerator returns a generator of EventSubscriptionFilter instances for property testing.
@@ -569,7 +569,7 @@ func RunJSONSerializationTestForEventSubscriptionFilterStatus(subject EventSubsc
 }
 
 // Generator of EventSubscriptionFilter_Status instances for property testing - lazily instantiated by
-//EventSubscriptionFilterStatusGenerator()
+// EventSubscriptionFilterStatusGenerator()
 var eventSubscriptionFilterStatusGenerator gopter.Gen
 
 // EventSubscriptionFilterStatusGenerator returns a generator of EventSubscriptionFilter_Status instances for property testing.
@@ -766,7 +766,7 @@ func RunJSONSerializationTestForStorageBlobDeadLetterDestination(subject Storage
 }
 
 // Generator of StorageBlobDeadLetterDestination instances for property testing - lazily instantiated by
-//StorageBlobDeadLetterDestinationGenerator()
+// StorageBlobDeadLetterDestinationGenerator()
 var storageBlobDeadLetterDestinationGenerator gopter.Gen
 
 // StorageBlobDeadLetterDestinationGenerator returns a generator of StorageBlobDeadLetterDestination instances for property testing.
@@ -942,7 +942,7 @@ func RunJSONSerializationTestForAdvancedFilterStatus(subject AdvancedFilter_Stat
 }
 
 // Generator of AdvancedFilter_Status instances for property testing - lazily instantiated by
-//AdvancedFilterStatusGenerator()
+// AdvancedFilterStatusGenerator()
 var advancedFilterStatusGenerator gopter.Gen
 
 // AdvancedFilterStatusGenerator returns a generator of AdvancedFilter_Status instances for property testing.
@@ -1003,7 +1003,7 @@ func RunJSONSerializationTestForAzureFunctionEventSubscriptionDestination(subjec
 }
 
 // Generator of AzureFunctionEventSubscriptionDestination instances for property testing - lazily instantiated by
-//AzureFunctionEventSubscriptionDestinationGenerator()
+// AzureFunctionEventSubscriptionDestinationGenerator()
 var azureFunctionEventSubscriptionDestinationGenerator gopter.Gen
 
 // AzureFunctionEventSubscriptionDestinationGenerator returns a generator of AzureFunctionEventSubscriptionDestination instances for property testing.
@@ -1077,7 +1077,7 @@ func RunJSONSerializationTestForEventHubEventSubscriptionDestination(subject Eve
 }
 
 // Generator of EventHubEventSubscriptionDestination instances for property testing - lazily instantiated by
-//EventHubEventSubscriptionDestinationGenerator()
+// EventHubEventSubscriptionDestinationGenerator()
 var eventHubEventSubscriptionDestinationGenerator gopter.Gen
 
 // EventHubEventSubscriptionDestinationGenerator returns a generator of EventHubEventSubscriptionDestination instances for property testing.
@@ -1151,7 +1151,7 @@ func RunJSONSerializationTestForHybridConnectionEventSubscriptionDestination(sub
 }
 
 // Generator of HybridConnectionEventSubscriptionDestination instances for property testing - lazily instantiated by
-//HybridConnectionEventSubscriptionDestinationGenerator()
+// HybridConnectionEventSubscriptionDestinationGenerator()
 var hybridConnectionEventSubscriptionDestinationGenerator gopter.Gen
 
 // HybridConnectionEventSubscriptionDestinationGenerator returns a generator of HybridConnectionEventSubscriptionDestination instances for property testing.
@@ -1225,7 +1225,7 @@ func RunJSONSerializationTestForServiceBusQueueEventSubscriptionDestination(subj
 }
 
 // Generator of ServiceBusQueueEventSubscriptionDestination instances for property testing - lazily instantiated by
-//ServiceBusQueueEventSubscriptionDestinationGenerator()
+// ServiceBusQueueEventSubscriptionDestinationGenerator()
 var serviceBusQueueEventSubscriptionDestinationGenerator gopter.Gen
 
 // ServiceBusQueueEventSubscriptionDestinationGenerator returns a generator of ServiceBusQueueEventSubscriptionDestination instances for property testing.
@@ -1299,7 +1299,7 @@ func RunJSONSerializationTestForServiceBusTopicEventSubscriptionDestination(subj
 }
 
 // Generator of ServiceBusTopicEventSubscriptionDestination instances for property testing - lazily instantiated by
-//ServiceBusTopicEventSubscriptionDestinationGenerator()
+// ServiceBusTopicEventSubscriptionDestinationGenerator()
 var serviceBusTopicEventSubscriptionDestinationGenerator gopter.Gen
 
 // ServiceBusTopicEventSubscriptionDestinationGenerator returns a generator of ServiceBusTopicEventSubscriptionDestination instances for property testing.
@@ -1373,7 +1373,7 @@ func RunJSONSerializationTestForStorageBlobDeadLetterDestinationProperties(subje
 }
 
 // Generator of StorageBlobDeadLetterDestinationProperties instances for property testing - lazily instantiated by
-//StorageBlobDeadLetterDestinationPropertiesGenerator()
+// StorageBlobDeadLetterDestinationPropertiesGenerator()
 var storageBlobDeadLetterDestinationPropertiesGenerator gopter.Gen
 
 // StorageBlobDeadLetterDestinationPropertiesGenerator returns a generator of StorageBlobDeadLetterDestinationProperties instances for property testing.
@@ -1433,7 +1433,7 @@ func RunJSONSerializationTestForStorageQueueEventSubscriptionDestination(subject
 }
 
 // Generator of StorageQueueEventSubscriptionDestination instances for property testing - lazily instantiated by
-//StorageQueueEventSubscriptionDestinationGenerator()
+// StorageQueueEventSubscriptionDestinationGenerator()
 var storageQueueEventSubscriptionDestinationGenerator gopter.Gen
 
 // StorageQueueEventSubscriptionDestinationGenerator returns a generator of StorageQueueEventSubscriptionDestination instances for property testing.
@@ -1507,7 +1507,7 @@ func RunJSONSerializationTestForWebHookEventSubscriptionDestination(subject WebH
 }
 
 // Generator of WebHookEventSubscriptionDestination instances for property testing - lazily instantiated by
-//WebHookEventSubscriptionDestinationGenerator()
+// WebHookEventSubscriptionDestinationGenerator()
 var webHookEventSubscriptionDestinationGenerator gopter.Gen
 
 // WebHookEventSubscriptionDestinationGenerator returns a generator of WebHookEventSubscriptionDestination instances for property testing.
@@ -1581,7 +1581,7 @@ func RunJSONSerializationTestForAdvancedFilterBoolEquals(subject AdvancedFilter_
 }
 
 // Generator of AdvancedFilter_BoolEquals instances for property testing - lazily instantiated by
-//AdvancedFilterBoolEqualsGenerator()
+// AdvancedFilterBoolEqualsGenerator()
 var advancedFilterBoolEqualsGenerator gopter.Gen
 
 // AdvancedFilterBoolEqualsGenerator returns a generator of AdvancedFilter_BoolEquals instances for property testing.
@@ -1643,7 +1643,7 @@ func RunJSONSerializationTestForAdvancedFilterNumberGreaterThan(subject Advanced
 }
 
 // Generator of AdvancedFilter_NumberGreaterThan instances for property testing - lazily instantiated by
-//AdvancedFilterNumberGreaterThanGenerator()
+// AdvancedFilterNumberGreaterThanGenerator()
 var advancedFilterNumberGreaterThanGenerator gopter.Gen
 
 // AdvancedFilterNumberGreaterThanGenerator returns a generator of AdvancedFilter_NumberGreaterThan instances for property testing.
@@ -1705,7 +1705,7 @@ func RunJSONSerializationTestForAdvancedFilterNumberGreaterThanOrEquals(subject 
 }
 
 // Generator of AdvancedFilter_NumberGreaterThanOrEquals instances for property testing - lazily instantiated by
-//AdvancedFilterNumberGreaterThanOrEqualsGenerator()
+// AdvancedFilterNumberGreaterThanOrEqualsGenerator()
 var advancedFilterNumberGreaterThanOrEqualsGenerator gopter.Gen
 
 // AdvancedFilterNumberGreaterThanOrEqualsGenerator returns a generator of AdvancedFilter_NumberGreaterThanOrEquals instances for property testing.
@@ -1767,7 +1767,7 @@ func RunJSONSerializationTestForAdvancedFilterNumberIn(subject AdvancedFilter_Nu
 }
 
 // Generator of AdvancedFilter_NumberIn instances for property testing - lazily instantiated by
-//AdvancedFilterNumberInGenerator()
+// AdvancedFilterNumberInGenerator()
 var advancedFilterNumberInGenerator gopter.Gen
 
 // AdvancedFilterNumberInGenerator returns a generator of AdvancedFilter_NumberIn instances for property testing.
@@ -1829,7 +1829,7 @@ func RunJSONSerializationTestForAdvancedFilterNumberLessThan(subject AdvancedFil
 }
 
 // Generator of AdvancedFilter_NumberLessThan instances for property testing - lazily instantiated by
-//AdvancedFilterNumberLessThanGenerator()
+// AdvancedFilterNumberLessThanGenerator()
 var advancedFilterNumberLessThanGenerator gopter.Gen
 
 // AdvancedFilterNumberLessThanGenerator returns a generator of AdvancedFilter_NumberLessThan instances for property testing.
@@ -1891,7 +1891,7 @@ func RunJSONSerializationTestForAdvancedFilterNumberLessThanOrEquals(subject Adv
 }
 
 // Generator of AdvancedFilter_NumberLessThanOrEquals instances for property testing - lazily instantiated by
-//AdvancedFilterNumberLessThanOrEqualsGenerator()
+// AdvancedFilterNumberLessThanOrEqualsGenerator()
 var advancedFilterNumberLessThanOrEqualsGenerator gopter.Gen
 
 // AdvancedFilterNumberLessThanOrEqualsGenerator returns a generator of AdvancedFilter_NumberLessThanOrEquals instances for property testing.
@@ -1953,7 +1953,7 @@ func RunJSONSerializationTestForAdvancedFilterNumberNotIn(subject AdvancedFilter
 }
 
 // Generator of AdvancedFilter_NumberNotIn instances for property testing - lazily instantiated by
-//AdvancedFilterNumberNotInGenerator()
+// AdvancedFilterNumberNotInGenerator()
 var advancedFilterNumberNotInGenerator gopter.Gen
 
 // AdvancedFilterNumberNotInGenerator returns a generator of AdvancedFilter_NumberNotIn instances for property testing.
@@ -2015,7 +2015,7 @@ func RunJSONSerializationTestForAdvancedFilterStringBeginsWith(subject AdvancedF
 }
 
 // Generator of AdvancedFilter_StringBeginsWith instances for property testing - lazily instantiated by
-//AdvancedFilterStringBeginsWithGenerator()
+// AdvancedFilterStringBeginsWithGenerator()
 var advancedFilterStringBeginsWithGenerator gopter.Gen
 
 // AdvancedFilterStringBeginsWithGenerator returns a generator of AdvancedFilter_StringBeginsWith instances for property testing.
@@ -2077,7 +2077,7 @@ func RunJSONSerializationTestForAdvancedFilterStringContains(subject AdvancedFil
 }
 
 // Generator of AdvancedFilter_StringContains instances for property testing - lazily instantiated by
-//AdvancedFilterStringContainsGenerator()
+// AdvancedFilterStringContainsGenerator()
 var advancedFilterStringContainsGenerator gopter.Gen
 
 // AdvancedFilterStringContainsGenerator returns a generator of AdvancedFilter_StringContains instances for property testing.
@@ -2139,7 +2139,7 @@ func RunJSONSerializationTestForAdvancedFilterStringEndsWith(subject AdvancedFil
 }
 
 // Generator of AdvancedFilter_StringEndsWith instances for property testing - lazily instantiated by
-//AdvancedFilterStringEndsWithGenerator()
+// AdvancedFilterStringEndsWithGenerator()
 var advancedFilterStringEndsWithGenerator gopter.Gen
 
 // AdvancedFilterStringEndsWithGenerator returns a generator of AdvancedFilter_StringEndsWith instances for property testing.
@@ -2201,7 +2201,7 @@ func RunJSONSerializationTestForAdvancedFilterStringIn(subject AdvancedFilter_St
 }
 
 // Generator of AdvancedFilter_StringIn instances for property testing - lazily instantiated by
-//AdvancedFilterStringInGenerator()
+// AdvancedFilterStringInGenerator()
 var advancedFilterStringInGenerator gopter.Gen
 
 // AdvancedFilterStringInGenerator returns a generator of AdvancedFilter_StringIn instances for property testing.
@@ -2263,7 +2263,7 @@ func RunJSONSerializationTestForAdvancedFilterStringNotIn(subject AdvancedFilter
 }
 
 // Generator of AdvancedFilter_StringNotIn instances for property testing - lazily instantiated by
-//AdvancedFilterStringNotInGenerator()
+// AdvancedFilterStringNotInGenerator()
 var advancedFilterStringNotInGenerator gopter.Gen
 
 // AdvancedFilterStringNotInGenerator returns a generator of AdvancedFilter_StringNotIn instances for property testing.
@@ -2325,7 +2325,7 @@ func RunJSONSerializationTestForAzureFunctionEventSubscriptionDestinationPropert
 }
 
 // Generator of AzureFunctionEventSubscriptionDestinationProperties instances for property testing - lazily instantiated
-//by AzureFunctionEventSubscriptionDestinationPropertiesGenerator()
+// by AzureFunctionEventSubscriptionDestinationPropertiesGenerator()
 var azureFunctionEventSubscriptionDestinationPropertiesGenerator gopter.Gen
 
 // AzureFunctionEventSubscriptionDestinationPropertiesGenerator returns a generator of AzureFunctionEventSubscriptionDestinationProperties instances for property testing.
@@ -2386,7 +2386,7 @@ func RunJSONSerializationTestForEventHubEventSubscriptionDestinationProperties(s
 }
 
 // Generator of EventHubEventSubscriptionDestinationProperties instances for property testing - lazily instantiated by
-//EventHubEventSubscriptionDestinationPropertiesGenerator()
+// EventHubEventSubscriptionDestinationPropertiesGenerator()
 var eventHubEventSubscriptionDestinationPropertiesGenerator gopter.Gen
 
 // EventHubEventSubscriptionDestinationPropertiesGenerator returns a generator of EventHubEventSubscriptionDestinationProperties instances for property testing.
@@ -2440,7 +2440,7 @@ func RunJSONSerializationTestForHybridConnectionEventSubscriptionDestinationProp
 }
 
 // Generator of HybridConnectionEventSubscriptionDestinationProperties instances for property testing - lazily
-//instantiated by HybridConnectionEventSubscriptionDestinationPropertiesGenerator()
+// instantiated by HybridConnectionEventSubscriptionDestinationPropertiesGenerator()
 var hybridConnectionEventSubscriptionDestinationPropertiesGenerator gopter.Gen
 
 // HybridConnectionEventSubscriptionDestinationPropertiesGenerator returns a generator of HybridConnectionEventSubscriptionDestinationProperties instances for property testing.
@@ -2494,7 +2494,7 @@ func RunJSONSerializationTestForServiceBusQueueEventSubscriptionDestinationPrope
 }
 
 // Generator of ServiceBusQueueEventSubscriptionDestinationProperties instances for property testing - lazily
-//instantiated by ServiceBusQueueEventSubscriptionDestinationPropertiesGenerator()
+// instantiated by ServiceBusQueueEventSubscriptionDestinationPropertiesGenerator()
 var serviceBusQueueEventSubscriptionDestinationPropertiesGenerator gopter.Gen
 
 // ServiceBusQueueEventSubscriptionDestinationPropertiesGenerator returns a generator of ServiceBusQueueEventSubscriptionDestinationProperties instances for property testing.
@@ -2548,7 +2548,7 @@ func RunJSONSerializationTestForServiceBusTopicEventSubscriptionDestinationPrope
 }
 
 // Generator of ServiceBusTopicEventSubscriptionDestinationProperties instances for property testing - lazily
-//instantiated by ServiceBusTopicEventSubscriptionDestinationPropertiesGenerator()
+// instantiated by ServiceBusTopicEventSubscriptionDestinationPropertiesGenerator()
 var serviceBusTopicEventSubscriptionDestinationPropertiesGenerator gopter.Gen
 
 // ServiceBusTopicEventSubscriptionDestinationPropertiesGenerator returns a generator of ServiceBusTopicEventSubscriptionDestinationProperties instances for property testing.
@@ -2602,7 +2602,7 @@ func RunJSONSerializationTestForStorageQueueEventSubscriptionDestinationProperti
 }
 
 // Generator of StorageQueueEventSubscriptionDestinationProperties instances for property testing - lazily instantiated
-//by StorageQueueEventSubscriptionDestinationPropertiesGenerator()
+// by StorageQueueEventSubscriptionDestinationPropertiesGenerator()
 var storageQueueEventSubscriptionDestinationPropertiesGenerator gopter.Gen
 
 // StorageQueueEventSubscriptionDestinationPropertiesGenerator returns a generator of StorageQueueEventSubscriptionDestinationProperties instances for property testing.
@@ -2662,7 +2662,7 @@ func RunJSONSerializationTestForWebHookEventSubscriptionDestinationProperties(su
 }
 
 // Generator of WebHookEventSubscriptionDestinationProperties instances for property testing - lazily instantiated by
-//WebHookEventSubscriptionDestinationPropertiesGenerator()
+// WebHookEventSubscriptionDestinationPropertiesGenerator()
 var webHookEventSubscriptionDestinationPropertiesGenerator gopter.Gen
 
 // WebHookEventSubscriptionDestinationPropertiesGenerator returns a generator of WebHookEventSubscriptionDestinationProperties instances for property testing.
