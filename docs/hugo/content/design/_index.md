@@ -1,4 +1,10 @@
 ---
 title: "Design & Specifications"
-weight: 3 # want this rendered second
+linktitle: "Design"
+weight: 30
+menu:
+  main:
+    weight: 30
+cascade:
+- type: docs
 ---

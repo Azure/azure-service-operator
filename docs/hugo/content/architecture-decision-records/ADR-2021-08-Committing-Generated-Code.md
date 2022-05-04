@@ -1,8 +1,6 @@
 ---
 title: '2021-08: Committing Generated Code'
 ---
-# Committing Generated Code
-
 ## Context
 
 We’re aware that common practice avoids committing generated code into source control, treating it as an ephemeral resource that can be regenerated on demand.

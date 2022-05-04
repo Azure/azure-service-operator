@@ -1,7 +1,7 @@
 ---
 title: Authentication in Azure Service Operator v2
+linktitle: Authentication
 ---
-# Authentication in Azure Service Operator v2
 
 Azure Service Operator supports two different styles of authentication today.
 

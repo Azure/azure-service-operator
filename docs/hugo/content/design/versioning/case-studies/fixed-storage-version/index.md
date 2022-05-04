@@ -1,10 +1,6 @@
 ---
 title: Fixed Storage Version
 ---
-
-<!-- omit in toc -->
-# Case Study - Fixed Storage Version
-
 This case study explores the alternative solution of using a *fixed storage version* where the schema of the storage version is modified to handle each additional release.
 
 For the purposes of discussion, we'll be following the version by version evolution of a theoretical ARM service that provides customer resource management (CRM) services. Synthetic examples are used to allow focus on specific scenarios one by one, providing motivation for specific features.
