@@ -13,7 +13,7 @@ import (
 
 // +kubebuilder:object:root=true
 // +kubebuilder:storageversion
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/A
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/A
 type A struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -21,7 +21,7 @@ type A struct {
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/A
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/A
 type AList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -33,7 +33,7 @@ type AList struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:storageversion
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/B
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/B
 type B struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -41,7 +41,7 @@ type B struct {
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/B
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/B
 type BList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -90,7 +90,7 @@ type BParameters struct {
 	ResourceGroupNameSelector *v1alpha1.Selector  `json:"resourceGroupNameSelector,omitempty"`
 }
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/CommonProperties
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/CommonProperties
 type CommonProperties struct {
 	IntField    *int    `json:"intField,omitempty"`
 	StringField *string `json:"stringField,omitempty"`

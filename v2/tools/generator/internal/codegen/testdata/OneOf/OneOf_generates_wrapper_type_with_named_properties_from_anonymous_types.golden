@@ -9,15 +9,15 @@ import (
 	"github.com/pkg/errors"
 )
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json
+// Generated from: https://test.test/schemas/2020-01-01/test.json
 type Test struct {
-	//Bool1: Mutually exclusive with all other properties
+	// Bool1: Mutually exclusive with all other properties
 	Bool1 *bool `json:"bool1,omitempty"`
 
-	//Foo: Mutually exclusive with all other properties
+	// Foo: Mutually exclusive with all other properties
 	Foo *Foo `json:"foo,omitempty"`
 
-	//Object2: Mutually exclusive with all other properties
+	// Object2: Mutually exclusive with all other properties
 	Object2 *Test_Object2 `json:"object2,omitempty"`
 }
 
@@ -108,7 +108,7 @@ func (test *Test) AssignPropertiesToTest(destination *v20200101s.Test) error {
 	return nil
 }
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
 type Foo struct {
 	Name *string `json:"name,omitempty"`
 }
