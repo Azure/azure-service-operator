@@ -1,5 +1,7 @@
 name: Validate Pull Request
 on:
+  # runs on pushes to main in order to update the baseline code coverage
+  # so that PRs have something to compare against
   push:
     branches:
     - main
