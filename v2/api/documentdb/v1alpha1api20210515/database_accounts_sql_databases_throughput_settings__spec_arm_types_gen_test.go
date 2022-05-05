@@ -56,7 +56,7 @@ func RunJSONSerializationTestForDatabaseAccountsSqlDatabasesThroughputSettingsSp
 }
 
 // Generator of DatabaseAccountsSqlDatabasesThroughputSettings_SpecARM instances for property testing - lazily
-//instantiated by DatabaseAccountsSqlDatabasesThroughputSettingsSpecARMGenerator()
+// instantiated by DatabaseAccountsSqlDatabasesThroughputSettingsSpecARMGenerator()
 var databaseAccountsSqlDatabasesThroughputSettingsSpecARMGenerator gopter.Gen
 
 // DatabaseAccountsSqlDatabasesThroughputSettingsSpecARMGenerator returns a generator of DatabaseAccountsSqlDatabasesThroughputSettings_SpecARM instances for property testing.

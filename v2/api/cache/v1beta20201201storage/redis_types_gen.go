@@ -22,8 +22,8 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Storage version of v1beta20201201.Redis
-//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/resourceDefinitions/redis
+// Storage version of v1beta20201201.Redis
+// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/resourceDefinitions/redis
 type Redis struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -122,15 +122,15 @@ func (redis *Redis) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Storage version of v1beta20201201.Redis
-//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/resourceDefinitions/redis
+// Storage version of v1beta20201201.Redis
+// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/resourceDefinitions/redis
 type RedisList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Redis `json:"items"`
 }
 
-//Storage version of v1beta20201201.RedisResource_Status
+// Storage version of v1beta20201201.RedisResource_Status
 type RedisResource_Status struct {
 	Conditions                 []conditions.Condition                                 `json:"conditions,omitempty"`
 	EnableNonSslPort           *bool                                                  `json:"enableNonSslPort,omitempty"`
@@ -181,10 +181,10 @@ func (resource *RedisResource_Status) ConvertStatusTo(destination genruntime.Con
 	return destination.ConvertStatusFrom(resource)
 }
 
-//Storage version of v1beta20201201.Redis_Spec
+// Storage version of v1beta20201201.Redis_Spec
 type Redis_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName         string             `json:"azureName,omitempty"`
 	EnableNonSslPort  *bool              `json:"enableNonSslPort,omitempty"`
 	Location          *string            `json:"location,omitempty"`
@@ -193,9 +193,9 @@ type Redis_Spec struct {
 	OriginalVersion   string             `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a resources.azure.com/ResourceGroup resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
 	Owner               *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PropertyBag         genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	PublicNetworkAccess *string                            `json:"publicNetworkAccess,omitempty"`
@@ -207,8 +207,8 @@ type Redis_Spec struct {
 	Sku                 *Sku                               `json:"sku,omitempty"`
 	StaticIP            *string                            `json:"staticIP,omitempty"`
 
-	//SubnetReference: The full resource ID of a subnet in a virtual network to deploy the Redis cache in. Example format:
-	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1
+	// SubnetReference: The full resource ID of a subnet in a virtual network to deploy the Redis cache in. Example format:
+	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1
 	SubnetReference *genruntime.ResourceReference `armReference:"SubnetId" json:"subnetReference,omitempty"`
 	Tags            map[string]string             `json:"tags,omitempty"`
 	TenantSettings  map[string]string             `json:"tenantSettings,omitempty"`
@@ -235,7 +235,7 @@ func (redis *Redis_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) e
 	return destination.ConvertSpecFrom(redis)
 }
 
-//Storage version of v1beta20201201.PrivateEndpointConnection_Status_SubResourceEmbedded
+// Storage version of v1beta20201201.PrivateEndpointConnection_Status_SubResourceEmbedded
 type PrivateEndpointConnection_Status_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -279,7 +279,7 @@ func (embedded *PrivateEndpointConnection_Status_SubResourceEmbedded) AssignProp
 	return nil
 }
 
-//Storage version of v1beta20201201.RedisInstanceDetails_Status
+// Storage version of v1beta20201201.RedisInstanceDetails_Status
 type RedisInstanceDetails_Status struct {
 	IsMaster    *bool                  `json:"isMaster,omitempty"`
 	IsPrimary   *bool                  `json:"isPrimary,omitempty"`
@@ -290,21 +290,21 @@ type RedisInstanceDetails_Status struct {
 	Zone        *string                `json:"zone,omitempty"`
 }
 
-//Storage version of v1beta20201201.RedisLinkedServer_Status
+// Storage version of v1beta20201201.RedisLinkedServer_Status
 type RedisLinkedServer_Status struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1beta20201201.RedisOperatorSpec
-//Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+// Storage version of v1beta20201201.RedisOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type RedisOperatorSpec struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Secrets     *RedisOperatorSecrets  `json:"secrets,omitempty"`
 }
 
-//Storage version of v1beta20201201.Sku
-//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/definitions/Sku
+// Storage version of v1beta20201201.Sku
+// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/definitions/Sku
 type Sku struct {
 	Capacity    *int                   `json:"capacity,omitempty"`
 	Family      *string                `json:"family,omitempty"`
@@ -374,7 +374,7 @@ func (sku *Sku) AssignPropertiesToSku(destination *v20210301s.Sku) error {
 	return nil
 }
 
-//Storage version of v1beta20201201.Sku_Status
+// Storage version of v1beta20201201.Sku_Status
 type Sku_Status struct {
 	Capacity    *int                   `json:"capacity,omitempty"`
 	Family      *string                `json:"family,omitempty"`
@@ -444,7 +444,7 @@ func (sku *Sku_Status) AssignPropertiesToSkuStatus(destination *v20210301s.Sku_S
 	return nil
 }
 
-//Storage version of v1beta20201201.RedisOperatorSecrets
+// Storage version of v1beta20201201.RedisOperatorSecrets
 type RedisOperatorSecrets struct {
 	HostName     *genruntime.SecretDestination `json:"hostName,omitempty"`
 	Port         *genruntime.SecretDestination `json:"port,omitempty"`

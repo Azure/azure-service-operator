@@ -90,7 +90,7 @@ func RunPropertyAssignmentTestForFlexibleServersFirewallRule(subject FlexibleSer
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -141,7 +141,7 @@ func RunJSONSerializationTestForFlexibleServersFirewallRule(subject FlexibleServ
 }
 
 // Generator of FlexibleServersFirewallRule instances for property testing - lazily instantiated by
-//FlexibleServersFirewallRuleGenerator()
+// FlexibleServersFirewallRuleGenerator()
 var flexibleServersFirewallRuleGenerator gopter.Gen
 
 // FlexibleServersFirewallRuleGenerator returns a generator of FlexibleServersFirewallRule instances for property testing.
@@ -193,7 +193,7 @@ func RunPropertyAssignmentTestForFirewallRuleStatus(subject FirewallRule_Status)
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -312,7 +312,7 @@ func RunPropertyAssignmentTestForFlexibleServersFirewallRulesSpec(subject Flexib
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -363,7 +363,7 @@ func RunJSONSerializationTestForFlexibleServersFirewallRulesSpec(subject Flexibl
 }
 
 // Generator of FlexibleServersFirewallRules_Spec instances for property testing - lazily instantiated by
-//FlexibleServersFirewallRulesSpecGenerator()
+// FlexibleServersFirewallRulesSpecGenerator()
 var flexibleServersFirewallRulesSpecGenerator gopter.Gen
 
 // FlexibleServersFirewallRulesSpecGenerator returns a generator of FlexibleServersFirewallRules_Spec instances for property testing.

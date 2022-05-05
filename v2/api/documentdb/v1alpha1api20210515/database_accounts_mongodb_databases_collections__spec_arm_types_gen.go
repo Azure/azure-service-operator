@@ -5,7 +5,7 @@ package v1alpha1api20210515
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-//Deprecated version of DatabaseAccountsMongodbDatabasesCollections_Spec. Use v1beta20210515.DatabaseAccountsMongodbDatabasesCollections_Spec instead
+// Deprecated version of DatabaseAccountsMongodbDatabasesCollections_Spec. Use v1beta20210515.DatabaseAccountsMongodbDatabasesCollections_Spec instead
 type DatabaseAccountsMongodbDatabasesCollections_SpecARM struct {
 	Location   *string                                     `json:"location,omitempty"`
 	Name       string                                      `json:"name,omitempty"`
@@ -30,19 +30,19 @@ func (collections DatabaseAccountsMongodbDatabasesCollections_SpecARM) GetType()
 	return "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections"
 }
 
-//Deprecated version of MongoDBCollectionCreateUpdateProperties. Use v1beta20210515.MongoDBCollectionCreateUpdateProperties instead
+// Deprecated version of MongoDBCollectionCreateUpdateProperties. Use v1beta20210515.MongoDBCollectionCreateUpdateProperties instead
 type MongoDBCollectionCreateUpdatePropertiesARM struct {
 	Options  *CreateUpdateOptionsARM       `json:"options,omitempty"`
 	Resource *MongoDBCollectionResourceARM `json:"resource,omitempty"`
 }
 
-//Deprecated version of CreateUpdateOptions. Use v1beta20210515.CreateUpdateOptions instead
+// Deprecated version of CreateUpdateOptions. Use v1beta20210515.CreateUpdateOptions instead
 type CreateUpdateOptionsARM struct {
 	AutoscaleSettings *AutoscaleSettingsARM `json:"autoscaleSettings,omitempty"`
 	Throughput        *int                  `json:"throughput,omitempty"`
 }
 
-//Deprecated version of MongoDBCollectionResource. Use v1beta20210515.MongoDBCollectionResource instead
+// Deprecated version of MongoDBCollectionResource. Use v1beta20210515.MongoDBCollectionResource instead
 type MongoDBCollectionResourceARM struct {
 	AnalyticalStorageTtl *int              `json:"analyticalStorageTtl,omitempty"`
 	Id                   *string           `json:"id,omitempty"`
@@ -50,23 +50,23 @@ type MongoDBCollectionResourceARM struct {
 	ShardKey             map[string]string `json:"shardKey,omitempty"`
 }
 
-//Deprecated version of AutoscaleSettings. Use v1beta20210515.AutoscaleSettings instead
+// Deprecated version of AutoscaleSettings. Use v1beta20210515.AutoscaleSettings instead
 type AutoscaleSettingsARM struct {
 	MaxThroughput *int `json:"maxThroughput,omitempty"`
 }
 
-//Deprecated version of MongoIndex. Use v1beta20210515.MongoIndex instead
+// Deprecated version of MongoIndex. Use v1beta20210515.MongoIndex instead
 type MongoIndexARM struct {
 	Key     *MongoIndexKeysARM    `json:"key,omitempty"`
 	Options *MongoIndexOptionsARM `json:"options,omitempty"`
 }
 
-//Deprecated version of MongoIndexKeys. Use v1beta20210515.MongoIndexKeys instead
+// Deprecated version of MongoIndexKeys. Use v1beta20210515.MongoIndexKeys instead
 type MongoIndexKeysARM struct {
 	Keys []string `json:"keys,omitempty"`
 }
 
-//Deprecated version of MongoIndexOptions. Use v1beta20210515.MongoIndexOptions instead
+// Deprecated version of MongoIndexOptions. Use v1beta20210515.MongoIndexOptions instead
 type MongoIndexOptionsARM struct {
 	ExpireAfterSeconds *int  `json:"expireAfterSeconds,omitempty"`
 	Unique             *bool `json:"unique,omitempty"`

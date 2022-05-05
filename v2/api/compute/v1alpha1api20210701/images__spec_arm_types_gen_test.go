@@ -132,7 +132,7 @@ func RunJSONSerializationTestForExtendedLocationARM(subject ExtendedLocationARM)
 }
 
 // Generator of ExtendedLocationARM instances for property testing - lazily instantiated by
-//ExtendedLocationARMGenerator()
+// ExtendedLocationARMGenerator()
 var extendedLocationARMGenerator gopter.Gen
 
 // ExtendedLocationARMGenerator returns a generator of ExtendedLocationARM instances for property testing.
@@ -267,7 +267,7 @@ func RunJSONSerializationTestForImageStorageProfileARM(subject ImageStorageProfi
 }
 
 // Generator of ImageStorageProfileARM instances for property testing - lazily instantiated by
-//ImageStorageProfileARMGenerator()
+// ImageStorageProfileARMGenerator()
 var imageStorageProfileARMGenerator gopter.Gen
 
 // ImageStorageProfileARMGenerator returns a generator of ImageStorageProfileARM instances for property testing.
@@ -572,7 +572,7 @@ func RunJSONSerializationTestForDiskEncryptionSetParametersARM(subject DiskEncry
 }
 
 // Generator of DiskEncryptionSetParametersARM instances for property testing - lazily instantiated by
-//DiskEncryptionSetParametersARMGenerator()
+// DiskEncryptionSetParametersARMGenerator()
 var diskEncryptionSetParametersARMGenerator gopter.Gen
 
 // DiskEncryptionSetParametersARMGenerator returns a generator of DiskEncryptionSetParametersARM instances for property testing.

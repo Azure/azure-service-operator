@@ -21,8 +21,8 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Storage version of v1beta20201201.RedisLinkedServer
-//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/resourceDefinitions/redis_linkedServers
+// Storage version of v1beta20201201.RedisLinkedServer
+// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/resourceDefinitions/redis_linkedServers
 type RedisLinkedServer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -121,15 +121,15 @@ func (server *RedisLinkedServer) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Storage version of v1beta20201201.RedisLinkedServer
-//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/resourceDefinitions/redis_linkedServers
+// Storage version of v1beta20201201.RedisLinkedServer
+// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/resourceDefinitions/redis_linkedServers
 type RedisLinkedServerList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []RedisLinkedServer `json:"items"`
 }
 
-//Storage version of v1beta20201201.RedisLinkedServerWithProperties_Status
+// Storage version of v1beta20201201.RedisLinkedServerWithProperties_Status
 type RedisLinkedServerWithProperties_Status struct {
 	Conditions               []conditions.Condition `json:"conditions,omitempty"`
 	Id                       *string                `json:"id,omitempty"`
@@ -162,23 +162,23 @@ func (properties *RedisLinkedServerWithProperties_Status) ConvertStatusTo(destin
 	return destination.ConvertStatusFrom(properties)
 }
 
-//Storage version of v1beta20201201.RedisLinkedServers_Spec
+// Storage version of v1beta20201201.RedisLinkedServers_Spec
 type RedisLinkedServers_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName                string  `json:"azureName,omitempty"`
 	LinkedRedisCacheLocation *string `json:"linkedRedisCacheLocation,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//LinkedRedisCacheReference: Fully qualified resourceId of the linked redis cache.
+	// LinkedRedisCacheReference: Fully qualified resourceId of the linked redis cache.
 	LinkedRedisCacheReference *genruntime.ResourceReference `armReference:"LinkedRedisCacheId" json:"linkedRedisCacheReference,omitempty"`
 	Location                  *string                       `json:"location,omitempty"`
 	OriginalVersion           string                        `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a cache.azure.com/Redis resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a cache.azure.com/Redis resource
 	Owner       *genruntime.KnownResourceReference `group:"cache.azure.com" json:"owner,omitempty" kind:"Redis"`
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	ServerRole  *string                            `json:"serverRole,omitempty"`

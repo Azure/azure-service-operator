@@ -21,8 +21,8 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Storage version of v1beta20210301.RedisEnterprise
-//Generated from: https://schema.management.azure.com/schemas/2021-03-01/Microsoft.Cache.Enterprise.json#/resourceDefinitions/redisEnterprise
+// Storage version of v1beta20210301.RedisEnterprise
+// Generated from: https://schema.management.azure.com/schemas/2021-03-01/Microsoft.Cache.Enterprise.json#/resourceDefinitions/redisEnterprise
 type RedisEnterprise struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -121,15 +121,15 @@ func (enterprise *RedisEnterprise) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Storage version of v1beta20210301.RedisEnterprise
-//Generated from: https://schema.management.azure.com/schemas/2021-03-01/Microsoft.Cache.Enterprise.json#/resourceDefinitions/redisEnterprise
+// Storage version of v1beta20210301.RedisEnterprise
+// Generated from: https://schema.management.azure.com/schemas/2021-03-01/Microsoft.Cache.Enterprise.json#/resourceDefinitions/redisEnterprise
 type RedisEnterpriseList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []RedisEnterprise `json:"items"`
 }
 
-//Storage version of v1beta20210301.Cluster_Status
+// Storage version of v1beta20210301.Cluster_Status
 type Cluster_Status struct {
 	Conditions                 []conditions.Condition                                 `json:"conditions,omitempty"`
 	HostName                   *string                                                `json:"hostName,omitempty"`
@@ -168,19 +168,19 @@ func (cluster *Cluster_Status) ConvertStatusTo(destination genruntime.Convertibl
 	return destination.ConvertStatusFrom(cluster)
 }
 
-//Storage version of v1beta20210301.RedisEnterprise_Spec
+// Storage version of v1beta20210301.RedisEnterprise_Spec
 type RedisEnterprise_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName         string  `json:"azureName,omitempty"`
 	Location          *string `json:"location,omitempty"`
 	MinimumTlsVersion *string `json:"minimumTlsVersion,omitempty"`
 	OriginalVersion   string  `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a resources.azure.com/ResourceGroup resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
 	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	Sku         *Sku                               `json:"sku,omitempty"`
@@ -208,21 +208,21 @@ func (enterprise *RedisEnterprise_Spec) ConvertSpecTo(destination genruntime.Con
 	return destination.ConvertSpecFrom(enterprise)
 }
 
-//Storage version of v1beta20210301.PrivateEndpointConnection_Status_SubResourceEmbedded
+// Storage version of v1beta20210301.PrivateEndpointConnection_Status_SubResourceEmbedded
 type PrivateEndpointConnection_Status_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1beta20210301.Sku
-//Generated from: https://schema.management.azure.com/schemas/2021-03-01/Microsoft.Cache.Enterprise.json#/definitions/Sku
+// Storage version of v1beta20210301.Sku
+// Generated from: https://schema.management.azure.com/schemas/2021-03-01/Microsoft.Cache.Enterprise.json#/definitions/Sku
 type Sku struct {
 	Capacity    *int                   `json:"capacity,omitempty"`
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1beta20210301.Sku_Status
+// Storage version of v1beta20210301.Sku_Status
 type Sku_Status struct {
 	Capacity    *int                   `json:"capacity,omitempty"`
 	Name        *string                `json:"name,omitempty"`

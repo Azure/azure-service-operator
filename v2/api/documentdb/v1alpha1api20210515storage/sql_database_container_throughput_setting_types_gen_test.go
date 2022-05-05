@@ -90,7 +90,7 @@ func RunPropertyAssignmentTestForSqlDatabaseContainerThroughputSetting(subject S
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -141,7 +141,7 @@ func RunJSONSerializationTestForSqlDatabaseContainerThroughputSetting(subject Sq
 }
 
 // Generator of SqlDatabaseContainerThroughputSetting instances for property testing - lazily instantiated by
-//SqlDatabaseContainerThroughputSettingGenerator()
+// SqlDatabaseContainerThroughputSettingGenerator()
 var sqlDatabaseContainerThroughputSettingGenerator gopter.Gen
 
 // SqlDatabaseContainerThroughputSettingGenerator returns a generator of SqlDatabaseContainerThroughputSetting instances for property testing.
@@ -193,7 +193,7 @@ func RunPropertyAssignmentTestForDatabaseAccountsSqlDatabasesContainersThroughpu
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -244,7 +244,7 @@ func RunJSONSerializationTestForDatabaseAccountsSqlDatabasesContainersThroughput
 }
 
 // Generator of DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec instances for property testing - lazily
-//instantiated by DatabaseAccountsSqlDatabasesContainersThroughputSettingsSpecGenerator()
+// instantiated by DatabaseAccountsSqlDatabasesContainersThroughputSettingsSpecGenerator()
 var databaseAccountsSqlDatabasesContainersThroughputSettingsSpecGenerator gopter.Gen
 
 // DatabaseAccountsSqlDatabasesContainersThroughputSettingsSpecGenerator returns a generator of DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec instances for property testing.

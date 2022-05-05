@@ -56,7 +56,7 @@ func RunJSONSerializationTestForRedisResourceStatusARM(subject RedisResource_Sta
 }
 
 // Generator of RedisResource_StatusARM instances for property testing - lazily instantiated by
-//RedisResourceStatusARMGenerator()
+// RedisResourceStatusARMGenerator()
 var redisResourceStatusARMGenerator gopter.Gen
 
 // RedisResourceStatusARMGenerator returns a generator of RedisResource_StatusARM instances for property testing.
@@ -135,7 +135,7 @@ func RunJSONSerializationTestForRedisPropertiesStatusARM(subject RedisProperties
 }
 
 // Generator of RedisProperties_StatusARM instances for property testing - lazily instantiated by
-//RedisPropertiesStatusARMGenerator()
+// RedisPropertiesStatusARMGenerator()
 var redisPropertiesStatusARMGenerator gopter.Gen
 
 // RedisPropertiesStatusARMGenerator returns a generator of RedisProperties_StatusARM instances for property testing.
@@ -238,7 +238,7 @@ func RunJSONSerializationTestForPrivateEndpointConnectionStatusSubResourceEmbedd
 }
 
 // Generator of PrivateEndpointConnection_Status_SubResourceEmbeddedARM instances for property testing - lazily
-//instantiated by PrivateEndpointConnectionStatusSubResourceEmbeddedARMGenerator()
+// instantiated by PrivateEndpointConnectionStatusSubResourceEmbeddedARMGenerator()
 var privateEndpointConnectionStatusSubResourceEmbeddedARMGenerator gopter.Gen
 
 // PrivateEndpointConnectionStatusSubResourceEmbeddedARMGenerator returns a generator of PrivateEndpointConnection_Status_SubResourceEmbeddedARM instances for property testing.
@@ -298,7 +298,7 @@ func RunJSONSerializationTestForRedisInstanceDetailsStatusARM(subject RedisInsta
 }
 
 // Generator of RedisInstanceDetails_StatusARM instances for property testing - lazily instantiated by
-//RedisInstanceDetailsStatusARMGenerator()
+// RedisInstanceDetailsStatusARMGenerator()
 var redisInstanceDetailsStatusARMGenerator gopter.Gen
 
 // RedisInstanceDetailsStatusARMGenerator returns a generator of RedisInstanceDetails_StatusARM instances for property testing.
@@ -363,7 +363,7 @@ func RunJSONSerializationTestForRedisLinkedServerStatusARM(subject RedisLinkedSe
 }
 
 // Generator of RedisLinkedServer_StatusARM instances for property testing - lazily instantiated by
-//RedisLinkedServerStatusARMGenerator()
+// RedisLinkedServerStatusARMGenerator()
 var redisLinkedServerStatusARMGenerator gopter.Gen
 
 // RedisLinkedServerStatusARMGenerator returns a generator of RedisLinkedServer_StatusARM instances for property testing.

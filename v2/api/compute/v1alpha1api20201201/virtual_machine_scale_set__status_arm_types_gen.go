@@ -5,7 +5,7 @@ package v1alpha1api20201201
 
 import "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 
-//Deprecated version of VirtualMachineScaleSet_Status. Use v1beta20201201.VirtualMachineScaleSet_Status instead
+// Deprecated version of VirtualMachineScaleSet_Status. Use v1beta20201201.VirtualMachineScaleSet_Status instead
 type VirtualMachineScaleSet_StatusARM struct {
 	ExtendedLocation *ExtendedLocation_StatusARM                 `json:"extendedLocation,omitempty"`
 	Id               *string                                     `json:"id,omitempty"`
@@ -20,13 +20,13 @@ type VirtualMachineScaleSet_StatusARM struct {
 	Zones            []string                                    `json:"zones,omitempty"`
 }
 
-//Deprecated version of ExtendedLocation_Status. Use v1beta20201201.ExtendedLocation_Status instead
+// Deprecated version of ExtendedLocation_Status. Use v1beta20201201.ExtendedLocation_Status instead
 type ExtendedLocation_StatusARM struct {
 	Name *string                      `json:"name,omitempty"`
 	Type *ExtendedLocationType_Status `json:"type,omitempty"`
 }
 
-//Deprecated version of Plan_Status. Use v1beta20201201.Plan_Status instead
+// Deprecated version of Plan_Status. Use v1beta20201201.Plan_Status instead
 type Plan_StatusARM struct {
 	Name          *string `json:"name,omitempty"`
 	Product       *string `json:"product,omitempty"`
@@ -34,14 +34,14 @@ type Plan_StatusARM struct {
 	Publisher     *string `json:"publisher,omitempty"`
 }
 
-//Deprecated version of Sku_Status. Use v1beta20201201.Sku_Status instead
+// Deprecated version of Sku_Status. Use v1beta20201201.Sku_Status instead
 type Sku_StatusARM struct {
 	Capacity *int    `json:"capacity,omitempty"`
 	Name     *string `json:"name,omitempty"`
 	Tier     *string `json:"tier,omitempty"`
 }
 
-//Deprecated version of VirtualMachineScaleSetIdentity_Status. Use v1beta20201201.VirtualMachineScaleSetIdentity_Status instead
+// Deprecated version of VirtualMachineScaleSetIdentity_Status. Use v1beta20201201.VirtualMachineScaleSetIdentity_Status instead
 type VirtualMachineScaleSetIdentity_StatusARM struct {
 	PrincipalId            *string                                                                    `json:"principalId,omitempty"`
 	TenantId               *string                                                                    `json:"tenantId,omitempty"`
@@ -49,7 +49,7 @@ type VirtualMachineScaleSetIdentity_StatusARM struct {
 	UserAssignedIdentities map[string]VirtualMachineScaleSetIdentity_Status_UserAssignedIdentitiesARM `json:"userAssignedIdentities,omitempty"`
 }
 
-//Deprecated version of VirtualMachineScaleSetProperties_Status. Use v1beta20201201.VirtualMachineScaleSetProperties_Status instead
+// Deprecated version of VirtualMachineScaleSetProperties_Status. Use v1beta20201201.VirtualMachineScaleSetProperties_Status instead
 type VirtualMachineScaleSetProperties_StatusARM struct {
 	AdditionalCapabilities                 *AdditionalCapabilities_StatusARM          `json:"additionalCapabilities,omitempty"`
 	AutomaticRepairsPolicy                 *AutomaticRepairsPolicy_StatusARM          `json:"automaticRepairsPolicy,omitempty"`
@@ -68,41 +68,41 @@ type VirtualMachineScaleSetProperties_StatusARM struct {
 	ZoneBalance                            *bool                                      `json:"zoneBalance,omitempty"`
 }
 
-//Deprecated version of AdditionalCapabilities_Status. Use v1beta20201201.AdditionalCapabilities_Status instead
+// Deprecated version of AdditionalCapabilities_Status. Use v1beta20201201.AdditionalCapabilities_Status instead
 type AdditionalCapabilities_StatusARM struct {
 	UltraSSDEnabled *bool `json:"ultraSSDEnabled,omitempty"`
 }
 
-//Deprecated version of AutomaticRepairsPolicy_Status. Use v1beta20201201.AutomaticRepairsPolicy_Status instead
+// Deprecated version of AutomaticRepairsPolicy_Status. Use v1beta20201201.AutomaticRepairsPolicy_Status instead
 type AutomaticRepairsPolicy_StatusARM struct {
 	Enabled     *bool   `json:"enabled,omitempty"`
 	GracePeriod *string `json:"gracePeriod,omitempty"`
 }
 
-//Deprecated version of ExtendedLocationType_Status. Use v1beta20201201.ExtendedLocationType_Status instead
+// Deprecated version of ExtendedLocationType_Status. Use v1beta20201201.ExtendedLocationType_Status instead
 type ExtendedLocationType_Status string
 
 const ExtendedLocationType_StatusEdgeZone = ExtendedLocationType_Status("EdgeZone")
 
-//Deprecated version of ScaleInPolicy_Status. Use v1beta20201201.ScaleInPolicy_Status instead
+// Deprecated version of ScaleInPolicy_Status. Use v1beta20201201.ScaleInPolicy_Status instead
 type ScaleInPolicy_StatusARM struct {
 	Rules []ScaleInPolicyStatusRules `json:"rules,omitempty"`
 }
 
-//Deprecated version of SubResource_Status. Use v1beta20201201.SubResource_Status instead
+// Deprecated version of SubResource_Status. Use v1beta20201201.SubResource_Status instead
 type SubResource_StatusARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
-//Deprecated version of UpgradePolicy_Status. Use v1beta20201201.UpgradePolicy_Status instead
+// Deprecated version of UpgradePolicy_Status. Use v1beta20201201.UpgradePolicy_Status instead
 type UpgradePolicy_StatusARM struct {
 	AutomaticOSUpgradePolicy *AutomaticOSUpgradePolicy_StatusARM `json:"automaticOSUpgradePolicy,omitempty"`
 	Mode                     *UpgradePolicyStatusMode            `json:"mode,omitempty"`
 	RollingUpgradePolicy     *RollingUpgradePolicy_StatusARM     `json:"rollingUpgradePolicy,omitempty"`
 }
 
-//Deprecated version of VirtualMachineScaleSetIdentityStatusType. Use
-//v1beta20201201.VirtualMachineScaleSetIdentityStatusType instead
+// Deprecated version of VirtualMachineScaleSetIdentityStatusType. Use
+// v1beta20201201.VirtualMachineScaleSetIdentityStatusType instead
 type VirtualMachineScaleSetIdentityStatusType string
 
 const (
@@ -112,13 +112,13 @@ const (
 	VirtualMachineScaleSetIdentityStatusTypeUserAssigned               = VirtualMachineScaleSetIdentityStatusType("UserAssigned")
 )
 
-//Deprecated version of VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities. Use v1beta20201201.VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities instead
+// Deprecated version of VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities. Use v1beta20201201.VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities instead
 type VirtualMachineScaleSetIdentity_Status_UserAssignedIdentitiesARM struct {
 	ClientId    *string `json:"clientId,omitempty"`
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
-//Deprecated version of VirtualMachineScaleSetVMProfile_Status. Use v1beta20201201.VirtualMachineScaleSetVMProfile_Status instead
+// Deprecated version of VirtualMachineScaleSetVMProfile_Status. Use v1beta20201201.VirtualMachineScaleSetVMProfile_Status instead
 type VirtualMachineScaleSetVMProfile_StatusARM struct {
 	BillingProfile         *BillingProfile_StatusARM                         `json:"billingProfile,omitempty"`
 	DiagnosticsProfile     *DiagnosticsProfile_StatusARM                     `json:"diagnosticsProfile,omitempty"`
@@ -133,13 +133,13 @@ type VirtualMachineScaleSetVMProfile_StatusARM struct {
 	StorageProfile         *VirtualMachineScaleSetStorageProfile_StatusARM   `json:"storageProfile,omitempty"`
 }
 
-//Deprecated version of AutomaticOSUpgradePolicy_Status. Use v1beta20201201.AutomaticOSUpgradePolicy_Status instead
+// Deprecated version of AutomaticOSUpgradePolicy_Status. Use v1beta20201201.AutomaticOSUpgradePolicy_Status instead
 type AutomaticOSUpgradePolicy_StatusARM struct {
 	DisableAutomaticRollback *bool `json:"disableAutomaticRollback,omitempty"`
 	EnableAutomaticOSUpgrade *bool `json:"enableAutomaticOSUpgrade,omitempty"`
 }
 
-//Deprecated version of RollingUpgradePolicy_Status. Use v1beta20201201.RollingUpgradePolicy_Status instead
+// Deprecated version of RollingUpgradePolicy_Status. Use v1beta20201201.RollingUpgradePolicy_Status instead
 type RollingUpgradePolicy_StatusARM struct {
 	EnableCrossZoneUpgrade              *bool   `json:"enableCrossZoneUpgrade,omitempty"`
 	MaxBatchInstancePercent             *int    `json:"maxBatchInstancePercent,omitempty"`
@@ -149,24 +149,24 @@ type RollingUpgradePolicy_StatusARM struct {
 	PrioritizeUnhealthyInstances        *bool   `json:"prioritizeUnhealthyInstances,omitempty"`
 }
 
-//Deprecated version of ScheduledEventsProfile_Status. Use v1beta20201201.ScheduledEventsProfile_Status instead
+// Deprecated version of ScheduledEventsProfile_Status. Use v1beta20201201.ScheduledEventsProfile_Status instead
 type ScheduledEventsProfile_StatusARM struct {
 	TerminateNotificationProfile *TerminateNotificationProfile_StatusARM `json:"terminateNotificationProfile,omitempty"`
 }
 
-//Deprecated version of VirtualMachineScaleSetExtensionProfile_Status. Use v1beta20201201.VirtualMachineScaleSetExtensionProfile_Status instead
+// Deprecated version of VirtualMachineScaleSetExtensionProfile_Status. Use v1beta20201201.VirtualMachineScaleSetExtensionProfile_Status instead
 type VirtualMachineScaleSetExtensionProfile_StatusARM struct {
 	Extensions           []VirtualMachineScaleSetExtension_StatusARM `json:"extensions,omitempty"`
 	ExtensionsTimeBudget *string                                     `json:"extensionsTimeBudget,omitempty"`
 }
 
-//Deprecated version of VirtualMachineScaleSetNetworkProfile_Status. Use v1beta20201201.VirtualMachineScaleSetNetworkProfile_Status instead
+// Deprecated version of VirtualMachineScaleSetNetworkProfile_Status. Use v1beta20201201.VirtualMachineScaleSetNetworkProfile_Status instead
 type VirtualMachineScaleSetNetworkProfile_StatusARM struct {
 	HealthProbe                    *ApiEntityReference_StatusARM                          `json:"healthProbe,omitempty"`
 	NetworkInterfaceConfigurations []VirtualMachineScaleSetNetworkConfiguration_StatusARM `json:"networkInterfaceConfigurations,omitempty"`
 }
 
-//Deprecated version of VirtualMachineScaleSetOSProfile_Status. Use v1beta20201201.VirtualMachineScaleSetOSProfile_Status instead
+// Deprecated version of VirtualMachineScaleSetOSProfile_Status. Use v1beta20201201.VirtualMachineScaleSetOSProfile_Status instead
 type VirtualMachineScaleSetOSProfile_StatusARM struct {
 	AdminPassword        *string                         `json:"adminPassword,omitempty"`
 	AdminUsername        *string                         `json:"adminUsername,omitempty"`
@@ -177,25 +177,25 @@ type VirtualMachineScaleSetOSProfile_StatusARM struct {
 	WindowsConfiguration *WindowsConfiguration_StatusARM `json:"windowsConfiguration,omitempty"`
 }
 
-//Deprecated version of VirtualMachineScaleSetStorageProfile_Status. Use v1beta20201201.VirtualMachineScaleSetStorageProfile_Status instead
+// Deprecated version of VirtualMachineScaleSetStorageProfile_Status. Use v1beta20201201.VirtualMachineScaleSetStorageProfile_Status instead
 type VirtualMachineScaleSetStorageProfile_StatusARM struct {
 	DataDisks      []VirtualMachineScaleSetDataDisk_StatusARM `json:"dataDisks,omitempty"`
 	ImageReference *ImageReference_StatusARM                  `json:"imageReference,omitempty"`
 	OsDisk         *VirtualMachineScaleSetOSDisk_StatusARM    `json:"osDisk,omitempty"`
 }
 
-//Deprecated version of ApiEntityReference_Status. Use v1beta20201201.ApiEntityReference_Status instead
+// Deprecated version of ApiEntityReference_Status. Use v1beta20201201.ApiEntityReference_Status instead
 type ApiEntityReference_StatusARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
-//Deprecated version of TerminateNotificationProfile_Status. Use v1beta20201201.TerminateNotificationProfile_Status instead
+// Deprecated version of TerminateNotificationProfile_Status. Use v1beta20201201.TerminateNotificationProfile_Status instead
 type TerminateNotificationProfile_StatusARM struct {
 	Enable           *bool   `json:"enable,omitempty"`
 	NotBeforeTimeout *string `json:"notBeforeTimeout,omitempty"`
 }
 
-//Deprecated version of VirtualMachineScaleSetDataDisk_Status. Use v1beta20201201.VirtualMachineScaleSetDataDisk_Status instead
+// Deprecated version of VirtualMachineScaleSetDataDisk_Status. Use v1beta20201201.VirtualMachineScaleSetDataDisk_Status instead
 type VirtualMachineScaleSetDataDisk_StatusARM struct {
 	Caching                 *Caching_Status                                        `json:"caching,omitempty"`
 	CreateOption            *CreateOption_Status                                   `json:"createOption,omitempty"`
@@ -208,7 +208,7 @@ type VirtualMachineScaleSetDataDisk_StatusARM struct {
 	WriteAcceleratorEnabled *bool                                                  `json:"writeAcceleratorEnabled,omitempty"`
 }
 
-//Deprecated version of VirtualMachineScaleSetExtension_Status. Use v1beta20201201.VirtualMachineScaleSetExtension_Status instead
+// Deprecated version of VirtualMachineScaleSetExtension_Status. Use v1beta20201201.VirtualMachineScaleSetExtension_Status instead
 type VirtualMachineScaleSetExtension_StatusARM struct {
 	Id         *string                                              `json:"id,omitempty"`
 	Name       *string                                              `json:"name,omitempty"`
@@ -216,14 +216,14 @@ type VirtualMachineScaleSetExtension_StatusARM struct {
 	Type       *string                                              `json:"type,omitempty"`
 }
 
-//Deprecated version of VirtualMachineScaleSetNetworkConfiguration_Status. Use v1beta20201201.VirtualMachineScaleSetNetworkConfiguration_Status instead
+// Deprecated version of VirtualMachineScaleSetNetworkConfiguration_Status. Use v1beta20201201.VirtualMachineScaleSetNetworkConfiguration_Status instead
 type VirtualMachineScaleSetNetworkConfiguration_StatusARM struct {
 	Id         *string                                                         `json:"id,omitempty"`
 	Name       *string                                                         `json:"name,omitempty"`
 	Properties *VirtualMachineScaleSetNetworkConfigurationProperties_StatusARM `json:"properties,omitempty"`
 }
 
-//Deprecated version of VirtualMachineScaleSetOSDisk_Status. Use v1beta20201201.VirtualMachineScaleSetOSDisk_Status instead
+// Deprecated version of VirtualMachineScaleSetOSDisk_Status. Use v1beta20201201.VirtualMachineScaleSetOSDisk_Status instead
 type VirtualMachineScaleSetOSDisk_StatusARM struct {
 	Caching                 *Caching_Status                                        `json:"caching,omitempty"`
 	CreateOption            *CreateOption_Status                                   `json:"createOption,omitempty"`
@@ -237,7 +237,7 @@ type VirtualMachineScaleSetOSDisk_StatusARM struct {
 	WriteAcceleratorEnabled *bool                                                  `json:"writeAcceleratorEnabled,omitempty"`
 }
 
-//Deprecated version of VirtualMachineScaleSetExtensionProperties_Status. Use v1beta20201201.VirtualMachineScaleSetExtensionProperties_Status instead
+// Deprecated version of VirtualMachineScaleSetExtensionProperties_Status. Use v1beta20201201.VirtualMachineScaleSetExtensionProperties_Status instead
 type VirtualMachineScaleSetExtensionProperties_StatusARM struct {
 	AutoUpgradeMinorVersion  *bool              `json:"autoUpgradeMinorVersion,omitempty"`
 	EnableAutomaticUpgrade   *bool              `json:"enableAutomaticUpgrade,omitempty"`
@@ -251,13 +251,13 @@ type VirtualMachineScaleSetExtensionProperties_StatusARM struct {
 	TypeHandlerVersion       *string            `json:"typeHandlerVersion,omitempty"`
 }
 
-//Deprecated version of VirtualMachineScaleSetManagedDiskParameters_Status. Use v1beta20201201.VirtualMachineScaleSetManagedDiskParameters_Status instead
+// Deprecated version of VirtualMachineScaleSetManagedDiskParameters_Status. Use v1beta20201201.VirtualMachineScaleSetManagedDiskParameters_Status instead
 type VirtualMachineScaleSetManagedDiskParameters_StatusARM struct {
 	DiskEncryptionSet  *SubResource_StatusARM     `json:"diskEncryptionSet,omitempty"`
 	StorageAccountType *StorageAccountType_Status `json:"storageAccountType,omitempty"`
 }
 
-//Deprecated version of VirtualMachineScaleSetNetworkConfigurationProperties_Status. Use v1beta20201201.VirtualMachineScaleSetNetworkConfigurationProperties_Status instead
+// Deprecated version of VirtualMachineScaleSetNetworkConfigurationProperties_Status. Use v1beta20201201.VirtualMachineScaleSetNetworkConfigurationProperties_Status instead
 type VirtualMachineScaleSetNetworkConfigurationProperties_StatusARM struct {
 	DnsSettings                 *VirtualMachineScaleSetNetworkConfigurationDnsSettings_StatusARM `json:"dnsSettings,omitempty"`
 	EnableAcceleratedNetworking *bool                                                            `json:"enableAcceleratedNetworking,omitempty"`
@@ -268,19 +268,19 @@ type VirtualMachineScaleSetNetworkConfigurationProperties_StatusARM struct {
 	Primary                     *bool                                                            `json:"primary,omitempty"`
 }
 
-//Deprecated version of VirtualMachineScaleSetIPConfiguration_Status. Use v1beta20201201.VirtualMachineScaleSetIPConfiguration_Status instead
+// Deprecated version of VirtualMachineScaleSetIPConfiguration_Status. Use v1beta20201201.VirtualMachineScaleSetIPConfiguration_Status instead
 type VirtualMachineScaleSetIPConfiguration_StatusARM struct {
 	Id         *string                                                    `json:"id,omitempty"`
 	Name       *string                                                    `json:"name,omitempty"`
 	Properties *VirtualMachineScaleSetIPConfigurationProperties_StatusARM `json:"properties,omitempty"`
 }
 
-//Deprecated version of VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status. Use v1beta20201201.VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status instead
+// Deprecated version of VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status. Use v1beta20201201.VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status instead
 type VirtualMachineScaleSetNetworkConfigurationDnsSettings_StatusARM struct {
 	DnsServers []string `json:"dnsServers,omitempty"`
 }
 
-//Deprecated version of VirtualMachineScaleSetIPConfigurationProperties_Status. Use v1beta20201201.VirtualMachineScaleSetIPConfigurationProperties_Status instead
+// Deprecated version of VirtualMachineScaleSetIPConfigurationProperties_Status. Use v1beta20201201.VirtualMachineScaleSetIPConfigurationProperties_Status instead
 type VirtualMachineScaleSetIPConfigurationProperties_StatusARM struct {
 	ApplicationGatewayBackendAddressPools []SubResource_StatusARM                                                       `json:"applicationGatewayBackendAddressPools,omitempty"`
 	ApplicationSecurityGroups             []SubResource_StatusARM                                                       `json:"applicationSecurityGroups,omitempty"`
@@ -292,13 +292,13 @@ type VirtualMachineScaleSetIPConfigurationProperties_StatusARM struct {
 	Subnet                                *ApiEntityReference_StatusARM                                                 `json:"subnet,omitempty"`
 }
 
-//Deprecated version of VirtualMachineScaleSetPublicIPAddressConfiguration_Status. Use v1beta20201201.VirtualMachineScaleSetPublicIPAddressConfiguration_Status instead
+// Deprecated version of VirtualMachineScaleSetPublicIPAddressConfiguration_Status. Use v1beta20201201.VirtualMachineScaleSetPublicIPAddressConfiguration_Status instead
 type VirtualMachineScaleSetPublicIPAddressConfiguration_StatusARM struct {
 	Name       *string                                                                 `json:"name,omitempty"`
 	Properties *VirtualMachineScaleSetPublicIPAddressConfigurationProperties_StatusARM `json:"properties,omitempty"`
 }
 
-//Deprecated version of VirtualMachineScaleSetPublicIPAddressConfigurationProperties_Status. Use v1beta20201201.VirtualMachineScaleSetPublicIPAddressConfigurationProperties_Status instead
+// Deprecated version of VirtualMachineScaleSetPublicIPAddressConfigurationProperties_Status. Use v1beta20201201.VirtualMachineScaleSetPublicIPAddressConfigurationProperties_Status instead
 type VirtualMachineScaleSetPublicIPAddressConfigurationProperties_StatusARM struct {
 	DnsSettings            *VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_StatusARM                  `json:"dnsSettings,omitempty"`
 	IdleTimeoutInMinutes   *int                                                                                      `json:"idleTimeoutInMinutes,omitempty"`
@@ -307,13 +307,13 @@ type VirtualMachineScaleSetPublicIPAddressConfigurationProperties_StatusARM stru
 	PublicIPPrefix         *SubResource_StatusARM                                                                    `json:"publicIPPrefix,omitempty"`
 }
 
-//Deprecated version of VirtualMachineScaleSetIpTag_Status. Use v1beta20201201.VirtualMachineScaleSetIpTag_Status instead
+// Deprecated version of VirtualMachineScaleSetIpTag_Status. Use v1beta20201201.VirtualMachineScaleSetIpTag_Status instead
 type VirtualMachineScaleSetIpTag_StatusARM struct {
 	IpTagType *string `json:"ipTagType,omitempty"`
 	Tag       *string `json:"tag,omitempty"`
 }
 
-//Deprecated version of VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status. Use v1beta20201201.VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status instead
+// Deprecated version of VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status. Use v1beta20201201.VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status instead
 type VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_StatusARM struct {
 	DomainNameLabel *string `json:"domainNameLabel,omitempty"`
 }

@@ -56,7 +56,7 @@ func RunJSONSerializationTestForRedisLinkedServersSpecARM(subject RedisLinkedSer
 }
 
 // Generator of RedisLinkedServers_SpecARM instances for property testing - lazily instantiated by
-//RedisLinkedServersSpecARMGenerator()
+// RedisLinkedServersSpecARMGenerator()
 var redisLinkedServersSpecARMGenerator gopter.Gen
 
 // RedisLinkedServersSpecARMGenerator returns a generator of RedisLinkedServers_SpecARM instances for property testing.
@@ -132,7 +132,7 @@ func RunJSONSerializationTestForRedisLinkedServerCreatePropertiesARM(subject Red
 }
 
 // Generator of RedisLinkedServerCreatePropertiesARM instances for property testing - lazily instantiated by
-//RedisLinkedServerCreatePropertiesARMGenerator()
+// RedisLinkedServerCreatePropertiesARMGenerator()
 var redisLinkedServerCreatePropertiesARMGenerator gopter.Gen
 
 // RedisLinkedServerCreatePropertiesARMGenerator returns a generator of RedisLinkedServerCreatePropertiesARM instances for property testing.

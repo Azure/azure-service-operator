@@ -131,7 +131,7 @@ func RunJSONSerializationTestForDomainPropertiesARM(subject DomainPropertiesARM)
 }
 
 // Generator of DomainPropertiesARM instances for property testing - lazily instantiated by
-//DomainPropertiesARMGenerator()
+// DomainPropertiesARMGenerator()
 var domainPropertiesARMGenerator gopter.Gen
 
 // DomainPropertiesARMGenerator returns a generator of DomainPropertiesARM instances for property testing.
@@ -267,7 +267,7 @@ func RunJSONSerializationTestForJsonInputSchemaMappingARM(subject JsonInputSchem
 }
 
 // Generator of JsonInputSchemaMappingARM instances for property testing - lazily instantiated by
-//JsonInputSchemaMappingARMGenerator()
+// JsonInputSchemaMappingARMGenerator()
 var jsonInputSchemaMappingARMGenerator gopter.Gen
 
 // JsonInputSchemaMappingARMGenerator returns a generator of JsonInputSchemaMappingARM instances for property testing.
@@ -341,7 +341,7 @@ func RunJSONSerializationTestForJsonInputSchemaMappingPropertiesARM(subject Json
 }
 
 // Generator of JsonInputSchemaMappingPropertiesARM instances for property testing - lazily instantiated by
-//JsonInputSchemaMappingPropertiesARMGenerator()
+// JsonInputSchemaMappingPropertiesARMGenerator()
 var jsonInputSchemaMappingPropertiesARMGenerator gopter.Gen
 
 // JsonInputSchemaMappingPropertiesARMGenerator returns a generator of JsonInputSchemaMappingPropertiesARM instances for property testing.
@@ -465,7 +465,7 @@ func RunJSONSerializationTestForJsonFieldWithDefaultARM(subject JsonFieldWithDef
 }
 
 // Generator of JsonFieldWithDefaultARM instances for property testing - lazily instantiated by
-//JsonFieldWithDefaultARMGenerator()
+// JsonFieldWithDefaultARMGenerator()
 var jsonFieldWithDefaultARMGenerator gopter.Gen
 
 // JsonFieldWithDefaultARMGenerator returns a generator of JsonFieldWithDefaultARM instances for property testing.

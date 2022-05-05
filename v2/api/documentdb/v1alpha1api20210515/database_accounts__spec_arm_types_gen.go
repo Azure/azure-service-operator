@@ -8,7 +8,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-//Deprecated version of DatabaseAccounts_Spec. Use v1beta20210515.DatabaseAccounts_Spec instead
+// Deprecated version of DatabaseAccounts_Spec. Use v1beta20210515.DatabaseAccounts_Spec instead
 type DatabaseAccounts_SpecARM struct {
 	Identity   *ManagedServiceIdentityARM                `json:"identity,omitempty"`
 	Kind       *DatabaseAccountsSpecKind                 `json:"kind,omitempty"`
@@ -35,7 +35,7 @@ func (accounts DatabaseAccounts_SpecARM) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts"
 }
 
-//Deprecated version of DatabaseAccountCreateUpdateProperties. Use v1beta20210515.DatabaseAccountCreateUpdateProperties instead
+// Deprecated version of DatabaseAccountCreateUpdateProperties. Use v1beta20210515.DatabaseAccountCreateUpdateProperties instead
 type DatabaseAccountCreateUpdatePropertiesARM struct {
 	AnalyticalStorageConfiguration     *AnalyticalStorageConfigurationARM                             `json:"analyticalStorageConfiguration,omitempty"`
 	ApiProperties                      *ApiPropertiesARM                                              `json:"apiProperties,omitempty"`
@@ -62,7 +62,7 @@ type DatabaseAccountCreateUpdatePropertiesARM struct {
 	VirtualNetworkRules                []VirtualNetworkRuleARM                                        `json:"virtualNetworkRules,omitempty"`
 }
 
-//Deprecated version of DatabaseAccountsSpecKind. Use v1beta20210515.DatabaseAccountsSpecKind instead
+// Deprecated version of DatabaseAccountsSpecKind. Use v1beta20210515.DatabaseAccountsSpecKind instead
 // +kubebuilder:validation:Enum={"GlobalDocumentDB","MongoDB","Parse"}
 type DatabaseAccountsSpecKind string
 
@@ -72,22 +72,22 @@ const (
 	DatabaseAccountsSpecKindParse            = DatabaseAccountsSpecKind("Parse")
 )
 
-//Deprecated version of ManagedServiceIdentity. Use v1beta20210515.ManagedServiceIdentity instead
+// Deprecated version of ManagedServiceIdentity. Use v1beta20210515.ManagedServiceIdentity instead
 type ManagedServiceIdentityARM struct {
 	Type *ManagedServiceIdentityType `json:"type,omitempty"`
 }
 
-//Deprecated version of AnalyticalStorageConfiguration. Use v1beta20210515.AnalyticalStorageConfiguration instead
+// Deprecated version of AnalyticalStorageConfiguration. Use v1beta20210515.AnalyticalStorageConfiguration instead
 type AnalyticalStorageConfigurationARM struct {
 	SchemaType *AnalyticalStorageConfigurationSchemaType `json:"schemaType,omitempty"`
 }
 
-//Deprecated version of ApiProperties. Use v1beta20210515.ApiProperties instead
+// Deprecated version of ApiProperties. Use v1beta20210515.ApiProperties instead
 type ApiPropertiesARM struct {
 	ServerVersion *ApiPropertiesServerVersion `json:"serverVersion,omitempty"`
 }
 
-//Deprecated version of BackupPolicy. Use v1beta20210515.BackupPolicy instead
+// Deprecated version of BackupPolicy. Use v1beta20210515.BackupPolicy instead
 type BackupPolicyARM struct {
 	Continuous *ContinuousModeBackupPolicyARM `json:"continuousModeBackupPolicy,omitempty"`
 	Periodic   *PeriodicModeBackupPolicyARM   `json:"periodicModeBackupPolicy,omitempty"`
@@ -125,19 +125,19 @@ func (policy *BackupPolicyARM) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-//Deprecated version of Capability. Use v1beta20210515.Capability instead
+// Deprecated version of Capability. Use v1beta20210515.Capability instead
 type CapabilityARM struct {
 	Name *string `json:"name,omitempty"`
 }
 
-//Deprecated version of ConsistencyPolicy. Use v1beta20210515.ConsistencyPolicy instead
+// Deprecated version of ConsistencyPolicy. Use v1beta20210515.ConsistencyPolicy instead
 type ConsistencyPolicyARM struct {
 	DefaultConsistencyLevel *ConsistencyPolicyDefaultConsistencyLevel `json:"defaultConsistencyLevel,omitempty"`
 	MaxIntervalInSeconds    *int                                      `json:"maxIntervalInSeconds,omitempty"`
 	MaxStalenessPrefix      *int                                      `json:"maxStalenessPrefix,omitempty"`
 }
 
-//Deprecated version of CorsPolicy. Use v1beta20210515.CorsPolicy instead
+// Deprecated version of CorsPolicy. Use v1beta20210515.CorsPolicy instead
 type CorsPolicyARM struct {
 	AllowedHeaders  *string `json:"allowedHeaders,omitempty"`
 	AllowedMethods  *string `json:"allowedMethods,omitempty"`
@@ -146,19 +146,19 @@ type CorsPolicyARM struct {
 	MaxAgeInSeconds *int    `json:"maxAgeInSeconds,omitempty"`
 }
 
-//Deprecated version of IpAddressOrRange. Use v1beta20210515.IpAddressOrRange instead
+// Deprecated version of IpAddressOrRange. Use v1beta20210515.IpAddressOrRange instead
 type IpAddressOrRangeARM struct {
 	IpAddressOrRange *string `json:"ipAddressOrRange,omitempty"`
 }
 
-//Deprecated version of Location. Use v1beta20210515.Location instead
+// Deprecated version of Location. Use v1beta20210515.Location instead
 type LocationARM struct {
 	FailoverPriority *int    `json:"failoverPriority,omitempty"`
 	IsZoneRedundant  *bool   `json:"isZoneRedundant,omitempty"`
 	LocationName     *string `json:"locationName,omitempty"`
 }
 
-//Deprecated version of ManagedServiceIdentityType. Use v1beta20210515.ManagedServiceIdentityType instead
+// Deprecated version of ManagedServiceIdentityType. Use v1beta20210515.ManagedServiceIdentityType instead
 // +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned,UserAssigned","UserAssigned"}
 type ManagedServiceIdentityType string
 
@@ -169,24 +169,24 @@ const (
 	ManagedServiceIdentityTypeUserAssigned               = ManagedServiceIdentityType("UserAssigned")
 )
 
-//Deprecated version of VirtualNetworkRule. Use v1beta20210515.VirtualNetworkRule instead
+// Deprecated version of VirtualNetworkRule. Use v1beta20210515.VirtualNetworkRule instead
 type VirtualNetworkRuleARM struct {
 	Id                               *string `json:"id,omitempty"`
 	IgnoreMissingVNetServiceEndpoint *bool   `json:"ignoreMissingVNetServiceEndpoint,omitempty"`
 }
 
-//Deprecated version of ContinuousModeBackupPolicy. Use v1beta20210515.ContinuousModeBackupPolicy instead
+// Deprecated version of ContinuousModeBackupPolicy. Use v1beta20210515.ContinuousModeBackupPolicy instead
 type ContinuousModeBackupPolicyARM struct {
 	Type ContinuousModeBackupPolicyType `json:"type,omitempty"`
 }
 
-//Deprecated version of PeriodicModeBackupPolicy. Use v1beta20210515.PeriodicModeBackupPolicy instead
+// Deprecated version of PeriodicModeBackupPolicy. Use v1beta20210515.PeriodicModeBackupPolicy instead
 type PeriodicModeBackupPolicyARM struct {
 	PeriodicModeProperties *PeriodicModePropertiesARM   `json:"periodicModeProperties,omitempty"`
 	Type                   PeriodicModeBackupPolicyType `json:"type,omitempty"`
 }
 
-//Deprecated version of PeriodicModeProperties. Use v1beta20210515.PeriodicModeProperties instead
+// Deprecated version of PeriodicModeProperties. Use v1beta20210515.PeriodicModeProperties instead
 type PeriodicModePropertiesARM struct {
 	BackupIntervalInMinutes        *int `json:"backupIntervalInMinutes,omitempty"`
 	BackupRetentionIntervalInHours *int `json:"backupRetentionIntervalInHours,omitempty"`

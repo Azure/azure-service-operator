@@ -13,7 +13,7 @@ import (
 
 // +kubebuilder:object:root=true
 // +kubebuilder:storageversion
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/A
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/A
 type A struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -21,7 +21,7 @@ type A struct {
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/A
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/A
 type AList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -33,7 +33,7 @@ type AList struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:storageversion
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/B
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/B
 type B struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -41,7 +41,7 @@ type B struct {
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/B
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/B
 type BList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -53,7 +53,7 @@ type BList struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:storageversion
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/C
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/C
 type C struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -61,7 +61,7 @@ type C struct {
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/C
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/C
 type CList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -73,7 +73,7 @@ type CList struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:storageversion
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/D
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/D
 type D struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -81,7 +81,7 @@ type D struct {
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/D
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/D
 type DList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`

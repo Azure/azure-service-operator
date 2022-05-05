@@ -91,7 +91,7 @@ func RunPropertyAssignmentTestForRedisFirewallRule(subject RedisFirewallRule) st
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -193,7 +193,7 @@ func RunPropertyAssignmentTestForRedisFirewallRuleStatus(subject RedisFirewallRu
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -244,7 +244,7 @@ func RunJSONSerializationTestForRedisFirewallRuleStatus(subject RedisFirewallRul
 }
 
 // Generator of RedisFirewallRule_Status instances for property testing - lazily instantiated by
-//RedisFirewallRuleStatusGenerator()
+// RedisFirewallRuleStatusGenerator()
 var redisFirewallRuleStatusGenerator gopter.Gen
 
 // RedisFirewallRuleStatusGenerator returns a generator of RedisFirewallRule_Status instances for property testing.
@@ -299,7 +299,7 @@ func RunPropertyAssignmentTestForRedisFirewallRulesSpec(subject RedisFirewallRul
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -350,7 +350,7 @@ func RunJSONSerializationTestForRedisFirewallRulesSpec(subject RedisFirewallRule
 }
 
 // Generator of RedisFirewallRules_Spec instances for property testing - lazily instantiated by
-//RedisFirewallRulesSpecGenerator()
+// RedisFirewallRulesSpecGenerator()
 var redisFirewallRulesSpecGenerator gopter.Gen
 
 // RedisFirewallRulesSpecGenerator returns a generator of RedisFirewallRules_Spec instances for property testing.

@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Deprecated version of FlexibleServersDatabase. Use v1beta20210601.FlexibleServersDatabase instead
+// Deprecated version of FlexibleServersDatabase. Use v1beta20210601.FlexibleServersDatabase instead
 type FlexibleServersDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -324,19 +324,19 @@ func (database *FlexibleServersDatabase) OriginalGVK() *schema.GroupVersionKind 
 }
 
 // +kubebuilder:object:root=true
-//Deprecated version of FlexibleServersDatabase. Use v1beta20210601.FlexibleServersDatabase instead
+// Deprecated version of FlexibleServersDatabase. Use v1beta20210601.FlexibleServersDatabase instead
 type FlexibleServersDatabaseList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []FlexibleServersDatabase `json:"items"`
 }
 
-//Deprecated version of Database_Status. Use v1beta20210601.Database_Status instead
+// Deprecated version of Database_Status. Use v1beta20210601.Database_Status instead
 type Database_Status struct {
 	Charset   *string `json:"charset,omitempty"`
 	Collation *string `json:"collation,omitempty"`
 
-	//Conditions: The observed state of the resource
+	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 	Id         *string                `json:"id,omitempty"`
 	Name       *string                `json:"name,omitempty"`
@@ -545,17 +545,17 @@ func (database *Database_Status) AssignPropertiesToDatabaseStatus(destination *a
 }
 
 type FlexibleServersDatabases_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName string  `json:"azureName,omitempty"`
 	Charset   *string `json:"charset,omitempty"`
 	Collation *string `json:"collation,omitempty"`
 	Location  *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a dbforpostgresql.azure.com/FlexibleServer resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a dbforpostgresql.azure.com/FlexibleServer resource
 	Owner *genruntime.KnownResourceReference `group:"dbforpostgresql.azure.com" json:"owner,omitempty" kind:"FlexibleServer"`
 	Tags  map[string]string                  `json:"tags,omitempty"`
 }

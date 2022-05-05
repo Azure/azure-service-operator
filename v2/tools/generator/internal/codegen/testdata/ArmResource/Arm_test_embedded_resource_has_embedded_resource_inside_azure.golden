@@ -23,7 +23,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/A
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/A
 type A struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -261,7 +261,7 @@ func (a *A) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/A
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/A
 type AList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -295,7 +295,7 @@ func (a A_SpecARM) GetType() string {
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/B
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/B
 type B struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -533,7 +533,7 @@ func (b *B) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/B
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/B
 type BList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -567,7 +567,7 @@ func (b B_SpecARM) GetType() string {
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/C
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/C
 type C struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -805,7 +805,7 @@ func (c *C) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/C
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/C
 type CList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -834,7 +834,7 @@ func (c C_SpecARM) GetType() string {
 	return "Microsoft.Azure/C"
 }
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/AProperties
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/AProperties
 type APropertiesARM struct {
 	IntField    *int          `json:"intField,omitempty"`
 	RefField    *BResourceARM `json:"refField,omitempty"`
@@ -847,14 +847,14 @@ type ASpecAPIVersion string
 const ASpecAPIVersion20200601 = ASpecAPIVersion("2020-06-01")
 
 type A_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a resources.azure.com/ResourceGroup resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
 	Owner      *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	Properties *AProperties                       `json:"properties,omitempty"`
 }
@@ -1048,7 +1048,7 @@ func (a *A_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (a *A_Spec) SetAzureName(azureName string) { a.AzureName = azureName }
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/BProperties
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/BProperties
 type BPropertiesARM struct {
 	EnumField *BPropertiesEnumField `json:"enumField,omitempty"`
 	RefField  *CResourceARM         `json:"refField,omitempty"`
@@ -1060,14 +1060,14 @@ type BSpecAPIVersion string
 const BSpecAPIVersion20200601 = BSpecAPIVersion("2020-06-01")
 
 type B_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a resources.azure.com/ResourceGroup resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
 	Owner      *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	Properties *BProperties                       `json:"properties,omitempty"`
 }
@@ -1261,7 +1261,7 @@ func (b *B_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (b *B_Spec) SetAzureName(azureName string) { b.AzureName = azureName }
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/CProperties
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/CProperties
 type CPropertiesARM struct {
 	IntField    *int    `json:"intField,omitempty"`
 	StringField *string `json:"stringField,omitempty"`
@@ -1273,14 +1273,14 @@ type CSpecAPIVersion string
 const CSpecAPIVersion20200601 = CSpecAPIVersion("2020-06-01")
 
 type C_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a resources.azure.com/ResourceGroup resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
 	Owner      *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	Properties *CProperties                       `json:"properties,omitempty"`
 }
@@ -1474,7 +1474,7 @@ func (c *C_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (c *C_Spec) SetAzureName(azureName string) { c.AzureName = azureName }
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/AProperties
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/AProperties
 type AProperties struct {
 	IntField    *int       `json:"intField,omitempty"`
 	RefField    *BResource `json:"refField,omitempty"`
@@ -1612,7 +1612,7 @@ func (properties *AProperties) AssignPropertiesToAProperties(destination *v20200
 	return nil
 }
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/BProperties
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/BProperties
 type BProperties struct {
 	EnumField *BPropertiesEnumField `json:"enumField,omitempty"`
 	RefField  *CResource            `json:"refField,omitempty"`
@@ -1746,12 +1746,12 @@ type BPropertiesEnumField string
 
 const BPropertiesEnumFieldQux = BPropertiesEnumField("Qux")
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/BResource
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/BResource
 type BResourceARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/CProperties
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/CProperties
 type CProperties struct {
 	IntField    *int    `json:"intField,omitempty"`
 	StringField *string `json:"stringField,omitempty"`
@@ -1843,12 +1843,12 @@ func (properties *CProperties) AssignPropertiesToCProperties(destination *v20200
 	return nil
 }
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/CResource
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/CResource
 type CResourceARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/BResource
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/BResource
 type BResource struct {
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
@@ -1931,7 +1931,7 @@ func (resource *BResource) AssignPropertiesToBResource(destination *v20200101s.B
 	return nil
 }
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/CResource
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/CResource
 type CResource struct {
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }

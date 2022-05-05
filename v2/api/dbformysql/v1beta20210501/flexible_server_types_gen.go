@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/resourceDefinitions/flexibleServers
+// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/resourceDefinitions/flexibleServers
 type FlexibleServer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -310,7 +310,7 @@ func (server *FlexibleServer) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/resourceDefinitions/flexibleServers
+// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/resourceDefinitions/flexibleServers
 type FlexibleServerList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -323,63 +323,63 @@ type FlexibleServersSpecAPIVersion string
 const FlexibleServersSpecAPIVersion20210501 = FlexibleServersSpecAPIVersion("2021-05-01")
 
 type FlexibleServers_Spec struct {
-	//AdministratorLogin: The administrator's login name of a server. Can only be specified when the server is being created
-	//(and is required for creation).
+	// AdministratorLogin: The administrator's login name of a server. Can only be specified when the server is being created
+	// (and is required for creation).
 	AdministratorLogin *string `json:"administratorLogin,omitempty"`
 
-	//AdministratorLoginPassword: The password of the administrator login (required for server creation).
+	// AdministratorLoginPassword: The password of the administrator login (required for server creation).
 	AdministratorLoginPassword *genruntime.SecretReference `json:"administratorLoginPassword,omitempty"`
 
-	//AvailabilityZone: availability Zone information of the server.
+	// AvailabilityZone: availability Zone information of the server.
 	AvailabilityZone *string `json:"availabilityZone,omitempty"`
 
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
-	//Backup: Storage Profile properties of a server
+	// Backup: Storage Profile properties of a server
 	Backup *Backup `json:"backup,omitempty"`
 
-	//CreateMode: The mode to create a new MySQL server.
+	// CreateMode: The mode to create a new MySQL server.
 	CreateMode *ServerPropertiesCreateMode `json:"createMode,omitempty"`
 
-	//HighAvailability: Network related properties of a server
+	// HighAvailability: Network related properties of a server
 	HighAvailability *HighAvailability `json:"highAvailability,omitempty"`
 
-	//Location: The geo-location where the resource lives
+	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 
-	//MaintenanceWindow: Maintenance window of a server.
+	// MaintenanceWindow: Maintenance window of a server.
 	MaintenanceWindow *MaintenanceWindow `json:"maintenanceWindow,omitempty"`
 
-	//Network: Network related properties of a server
+	// Network: Network related properties of a server
 	Network *Network `json:"network,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a resources.azure.com/ResourceGroup resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
-	//ReplicationRole: The replication role.
+	// ReplicationRole: The replication role.
 	ReplicationRole *ServerPropertiesReplicationRole `json:"replicationRole,omitempty"`
 
-	//RestorePointInTime: Restore point creation time (ISO8601 format), specifying the time to restore from.
+	// RestorePointInTime: Restore point creation time (ISO8601 format), specifying the time to restore from.
 	RestorePointInTime *string `json:"restorePointInTime,omitempty"`
 
-	//Sku: Billing information related properties of a server.
+	// Sku: Billing information related properties of a server.
 	Sku *Sku `json:"sku,omitempty"`
 
-	//SourceServerResourceId: The source MySQL server id.
+	// SourceServerResourceId: The source MySQL server id.
 	SourceServerResourceId *string `json:"sourceServerResourceId,omitempty"`
 
-	//Storage: Storage Profile properties of a server
+	// Storage: Storage Profile properties of a server
 	Storage *Storage `json:"storage,omitempty"`
 
-	//Tags: Name-value pairs to add to the resource
+	// Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
 
-	//Version: Server version.
+	// Version: Server version.
 	Version *ServerPropertiesVersion `json:"version,omitempty"`
 }
 
@@ -1059,75 +1059,75 @@ func (servers *FlexibleServers_Spec) OriginalVersion() string {
 func (servers *FlexibleServers_Spec) SetAzureName(azureName string) { servers.AzureName = azureName }
 
 type Server_Status struct {
-	//AdministratorLogin: The administrator's login name of a server. Can only be specified when the server is being created
-	//(and is required for creation).
+	// AdministratorLogin: The administrator's login name of a server. Can only be specified when the server is being created
+	// (and is required for creation).
 	AdministratorLogin *string `json:"administratorLogin,omitempty"`
 
-	//AvailabilityZone: availability Zone information of the server.
+	// AvailabilityZone: availability Zone information of the server.
 	AvailabilityZone *string `json:"availabilityZone,omitempty"`
 
-	//Backup: Backup related properties of a server.
+	// Backup: Backup related properties of a server.
 	Backup *Backup_Status `json:"backup,omitempty"`
 
-	//Conditions: The observed state of the resource
+	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
-	//CreateMode: The mode to create a new MySQL server.
+	// CreateMode: The mode to create a new MySQL server.
 	CreateMode *ServerPropertiesStatusCreateMode `json:"createMode,omitempty"`
 
-	//FullyQualifiedDomainName: The fully qualified domain name of a server.
+	// FullyQualifiedDomainName: The fully qualified domain name of a server.
 	FullyQualifiedDomainName *string `json:"fullyQualifiedDomainName,omitempty"`
 
-	//HighAvailability: High availability related properties of a server.
+	// HighAvailability: High availability related properties of a server.
 	HighAvailability *HighAvailability_Status `json:"highAvailability,omitempty"`
 
-	//Id: Fully qualified resource ID for the resource. Ex -
-	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+	// Id: Fully qualified resource ID for the resource. Ex -
+	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
 
-	//Location: The geo-location where the resource lives
+	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 
-	//MaintenanceWindow: Maintenance window of a server.
+	// MaintenanceWindow: Maintenance window of a server.
 	MaintenanceWindow *MaintenanceWindow_Status `json:"maintenanceWindow,omitempty"`
 
-	//Name: The name of the resource
+	// Name: The name of the resource
 	Name *string `json:"name,omitempty"`
 
-	//Network: Network related properties of a server.
+	// Network: Network related properties of a server.
 	Network *Network_Status `json:"network,omitempty"`
 
-	//ReplicaCapacity: The maximum number of replicas that a primary server can have.
+	// ReplicaCapacity: The maximum number of replicas that a primary server can have.
 	ReplicaCapacity *int `json:"replicaCapacity,omitempty"`
 
-	//ReplicationRole: The replication role.
+	// ReplicationRole: The replication role.
 	ReplicationRole *ReplicationRole_Status `json:"replicationRole,omitempty"`
 
-	//RestorePointInTime: Restore point creation time (ISO8601 format), specifying the time to restore from.
+	// RestorePointInTime: Restore point creation time (ISO8601 format), specifying the time to restore from.
 	RestorePointInTime *string `json:"restorePointInTime,omitempty"`
 
-	//Sku: The SKU (pricing tier) of the server.
+	// Sku: The SKU (pricing tier) of the server.
 	Sku *Sku_Status `json:"sku,omitempty"`
 
-	//SourceServerResourceId: The source MySQL server id.
+	// SourceServerResourceId: The source MySQL server id.
 	SourceServerResourceId *string `json:"sourceServerResourceId,omitempty"`
 
-	//State: The state of a server.
+	// State: The state of a server.
 	State *ServerPropertiesStatusState `json:"state,omitempty"`
 
-	//Storage: Storage related properties of a server.
+	// Storage: Storage related properties of a server.
 	Storage *Storage_Status `json:"storage,omitempty"`
 
-	//SystemData: The system metadata relating to this resource.
+	// SystemData: The system metadata relating to this resource.
 	SystemData *SystemData_Status `json:"systemData,omitempty"`
 
-	//Tags: Resource tags.
+	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 
-	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 
-	//Version: Server version.
+	// Version: Server version.
 	Version *ServerVersion_Status `json:"version,omitempty"`
 }
 
@@ -1742,12 +1742,12 @@ func (server *Server_Status) AssignPropertiesToServerStatus(destination *v202105
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Backup
+// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Backup
 type Backup struct {
-	//BackupRetentionDays: Backup retention days for the server.
+	// BackupRetentionDays: Backup retention days for the server.
 	BackupRetentionDays *int `json:"backupRetentionDays,omitempty"`
 
-	//GeoRedundantBackup: Whether or not geo redundant backup is enabled.
+	// GeoRedundantBackup: Whether or not geo redundant backup is enabled.
 	GeoRedundantBackup *BackupGeoRedundantBackup `json:"geoRedundantBackup,omitempty"`
 }
 
@@ -1848,13 +1848,13 @@ func (backup *Backup) AssignPropertiesToBackup(destination *v20210501s.Backup) e
 }
 
 type Backup_Status struct {
-	//BackupRetentionDays: Backup retention days for the server.
+	// BackupRetentionDays: Backup retention days for the server.
 	BackupRetentionDays *int `json:"backupRetentionDays,omitempty"`
 
-	//EarliestRestoreDate: Earliest restore point creation time (ISO8601 format)
+	// EarliestRestoreDate: Earliest restore point creation time (ISO8601 format)
 	EarliestRestoreDate *string `json:"earliestRestoreDate,omitempty"`
 
-	//GeoRedundantBackup: Whether or not geo redundant backup is enabled.
+	// GeoRedundantBackup: Whether or not geo redundant backup is enabled.
 	GeoRedundantBackup *EnableStatusEnum_Status `json:"geoRedundantBackup,omitempty"`
 }
 
@@ -1945,12 +1945,12 @@ func (backup *Backup_Status) AssignPropertiesToBackupStatus(destination *v202105
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/HighAvailability
+// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/HighAvailability
 type HighAvailability struct {
-	//Mode: High availability mode for a server.
+	// Mode: High availability mode for a server.
 	Mode *HighAvailabilityMode `json:"mode,omitempty"`
 
-	//StandbyAvailabilityZone: Availability zone of the standby server.
+	// StandbyAvailabilityZone: Availability zone of the standby server.
 	StandbyAvailabilityZone *string `json:"standbyAvailabilityZone,omitempty"`
 }
 
@@ -2051,13 +2051,13 @@ func (availability *HighAvailability) AssignPropertiesToHighAvailability(destina
 }
 
 type HighAvailability_Status struct {
-	//Mode: High availability mode for a server.
+	// Mode: High availability mode for a server.
 	Mode *HighAvailabilityStatusMode `json:"mode,omitempty"`
 
-	//StandbyAvailabilityZone: Availability zone of the standby server.
+	// StandbyAvailabilityZone: Availability zone of the standby server.
 	StandbyAvailabilityZone *string `json:"standbyAvailabilityZone,omitempty"`
 
-	//State: The state of server high availability.
+	// State: The state of server high availability.
 	State *HighAvailabilityStatusState `json:"state,omitempty"`
 }
 
@@ -2158,18 +2158,18 @@ func (availability *HighAvailability_Status) AssignPropertiesToHighAvailabilityS
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/MaintenanceWindow
+// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/MaintenanceWindow
 type MaintenanceWindow struct {
-	//CustomWindow: indicates whether custom window is enabled or disabled
+	// CustomWindow: indicates whether custom window is enabled or disabled
 	CustomWindow *string `json:"customWindow,omitempty"`
 
-	//DayOfWeek: day of week for maintenance window
+	// DayOfWeek: day of week for maintenance window
 	DayOfWeek *int `json:"dayOfWeek,omitempty"`
 
-	//StartHour: start hour for maintenance window
+	// StartHour: start hour for maintenance window
 	StartHour *int `json:"startHour,omitempty"`
 
-	//StartMinute: start minute for maintenance window
+	// StartMinute: start minute for maintenance window
 	StartMinute *int `json:"startMinute,omitempty"`
 }
 
@@ -2296,16 +2296,16 @@ func (window *MaintenanceWindow) AssignPropertiesToMaintenanceWindow(destination
 }
 
 type MaintenanceWindow_Status struct {
-	//CustomWindow: indicates whether custom window is enabled or disabled
+	// CustomWindow: indicates whether custom window is enabled or disabled
 	CustomWindow *string `json:"customWindow,omitempty"`
 
-	//DayOfWeek: day of week for maintenance window
+	// DayOfWeek: day of week for maintenance window
 	DayOfWeek *int `json:"dayOfWeek,omitempty"`
 
-	//StartHour: start hour for maintenance window
+	// StartHour: start hour for maintenance window
 	StartHour *int `json:"startHour,omitempty"`
 
-	//StartMinute: start minute for maintenance window
+	// StartMinute: start minute for maintenance window
 	StartMinute *int `json:"startMinute,omitempty"`
 }
 
@@ -2398,12 +2398,12 @@ func (window *MaintenanceWindow_Status) AssignPropertiesToMaintenanceWindowStatu
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Network
+// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Network
 type Network struct {
-	//DelegatedSubnetResourceReference: Delegated subnet resource id used to setup vnet for a server.
+	// DelegatedSubnetResourceReference: Delegated subnet resource id used to setup vnet for a server.
 	DelegatedSubnetResourceReference *genruntime.ResourceReference `armReference:"DelegatedSubnetResourceId" json:"delegatedSubnetResourceReference,omitempty"`
 
-	//PrivateDnsZoneResourceReference: Private DNS zone resource id.
+	// PrivateDnsZoneResourceReference: Private DNS zone resource id.
 	PrivateDnsZoneResourceReference *genruntime.ResourceReference `armReference:"PrivateDnsZoneResourceId" json:"privateDnsZoneResourceReference,omitempty"`
 }
 
@@ -2514,14 +2514,14 @@ func (network *Network) AssignPropertiesToNetwork(destination *v20210501s.Networ
 }
 
 type Network_Status struct {
-	//DelegatedSubnetResourceId: Delegated subnet resource id used to setup vnet for a server.
+	// DelegatedSubnetResourceId: Delegated subnet resource id used to setup vnet for a server.
 	DelegatedSubnetResourceId *string `json:"delegatedSubnetResourceId,omitempty"`
 
-	//PrivateDnsZoneResourceId: Private DNS zone resource id.
+	// PrivateDnsZoneResourceId: Private DNS zone resource id.
 	PrivateDnsZoneResourceId *string `json:"privateDnsZoneResourceId,omitempty"`
 
-	//PublicNetworkAccess: Whether or not public network access is allowed for this server. Value is 'Disabled' when server
-	//has VNet integration.
+	// PublicNetworkAccess: Whether or not public network access is allowed for this server. Value is 'Disabled' when server
+	// has VNet integration.
 	PublicNetworkAccess *EnableStatusEnum_Status `json:"publicNetworkAccess,omitempty"`
 }
 
@@ -2675,14 +2675,14 @@ const (
 	ServerVersion_Status8021 = ServerVersion_Status("8.0.21")
 )
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Sku
+// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Sku
 type Sku struct {
 	// +kubebuilder:validation:Required
-	//Name: The name of the sku, e.g. Standard_D32s_v3.
+	// Name: The name of the sku, e.g. Standard_D32s_v3.
 	Name *string `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Tier: The tier of the particular SKU, e.g. GeneralPurpose.
+	// Tier: The tier of the particular SKU, e.g. GeneralPurpose.
 	Tier *SkuTier `json:"tier,omitempty"`
 }
 
@@ -2783,10 +2783,10 @@ func (sku *Sku) AssignPropertiesToSku(destination *v20210501s.Sku) error {
 }
 
 type Sku_Status struct {
-	//Name: The name of the sku, e.g. Standard_D32s_v3.
+	// Name: The name of the sku, e.g. Standard_D32s_v3.
 	Name *string `json:"name,omitempty"`
 
-	//Tier: The tier of the particular SKU, e.g. GeneralPurpose.
+	// Tier: The tier of the particular SKU, e.g. GeneralPurpose.
 	Tier *SkuStatusTier `json:"tier,omitempty"`
 }
 
@@ -2865,15 +2865,15 @@ func (sku *Sku_Status) AssignPropertiesToSkuStatus(destination *v20210501s.Sku_S
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Storage
+// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Storage
 type Storage struct {
-	//AutoGrow: Enable Storage Auto Grow or not.
+	// AutoGrow: Enable Storage Auto Grow or not.
 	AutoGrow *StorageAutoGrow `json:"autoGrow,omitempty"`
 
-	//Iops: Storage IOPS for a server.
+	// Iops: Storage IOPS for a server.
 	Iops *int `json:"iops,omitempty"`
 
-	//StorageSizeGB: Max storage size allowed for a server.
+	// StorageSizeGB: Max storage size allowed for a server.
 	StorageSizeGB *int `json:"storageSizeGB,omitempty"`
 }
 
@@ -2992,16 +2992,16 @@ func (storage *Storage) AssignPropertiesToStorage(destination *v20210501s.Storag
 }
 
 type Storage_Status struct {
-	//AutoGrow: Enable Storage Auto Grow or not.
+	// AutoGrow: Enable Storage Auto Grow or not.
 	AutoGrow *EnableStatusEnum_Status `json:"autoGrow,omitempty"`
 
-	//Iops: Storage IOPS for a server.
+	// Iops: Storage IOPS for a server.
 	Iops *int `json:"iops,omitempty"`
 
-	//StorageSizeGB: Max storage size allowed for a server.
+	// StorageSizeGB: Max storage size allowed for a server.
 	StorageSizeGB *int `json:"storageSizeGB,omitempty"`
 
-	//StorageSku: The sku name of the server storage.
+	// StorageSku: The sku name of the server storage.
 	StorageSku *string `json:"storageSku,omitempty"`
 }
 
@@ -3105,22 +3105,22 @@ func (storage *Storage_Status) AssignPropertiesToStorageStatus(destination *v202
 }
 
 type SystemData_Status struct {
-	//CreatedAt: The timestamp of resource creation (UTC).
+	// CreatedAt: The timestamp of resource creation (UTC).
 	CreatedAt *string `json:"createdAt,omitempty"`
 
-	//CreatedBy: The identity that created the resource.
+	// CreatedBy: The identity that created the resource.
 	CreatedBy *string `json:"createdBy,omitempty"`
 
-	//CreatedByType: The type of identity that created the resource.
+	// CreatedByType: The type of identity that created the resource.
 	CreatedByType *SystemDataStatusCreatedByType `json:"createdByType,omitempty"`
 
-	//LastModifiedAt: The timestamp of resource last modification (UTC)
+	// LastModifiedAt: The timestamp of resource last modification (UTC)
 	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
 
-	//LastModifiedBy: The identity that last modified the resource.
+	// LastModifiedBy: The identity that last modified the resource.
 	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
 
-	//LastModifiedByType: The type of identity that last modified the resource.
+	// LastModifiedByType: The type of identity that last modified the resource.
 	LastModifiedByType *SystemDataStatusLastModifiedByType `json:"lastModifiedByType,omitempty"`
 }
 

@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Deprecated version of Snapshot. Use v1beta20200930.Snapshot instead
+// Deprecated version of Snapshot. Use v1beta20200930.Snapshot instead
 type Snapshot struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -324,16 +324,16 @@ func (snapshot *Snapshot) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Deprecated version of Snapshot. Use v1beta20200930.Snapshot instead
+// Deprecated version of Snapshot. Use v1beta20200930.Snapshot instead
 type SnapshotList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Snapshot `json:"items"`
 }
 
-//Deprecated version of Snapshot_Status. Use v1beta20200930.Snapshot_Status instead
+// Deprecated version of Snapshot_Status. Use v1beta20200930.Snapshot_Status instead
 type Snapshot_Status struct {
-	//Conditions: The observed state of the resource
+	// Conditions: The observed state of the resource
 	Conditions                   []conditions.Condition                    `json:"conditions,omitempty"`
 	CreationData                 *CreationData_Status                      `json:"creationData,omitempty"`
 	DiskAccessId                 *string                                   `json:"diskAccessId,omitempty"`
@@ -971,8 +971,8 @@ func (snapshot *Snapshot_Status) AssignPropertiesToSnapshotStatus(destination *a
 }
 
 type Snapshots_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -990,9 +990,9 @@ type Snapshots_Spec struct {
 	OsType                       *SnapshotPropertiesOsType              `json:"osType,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a resources.azure.com/ResourceGroup resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
 	Owner        *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PurchasePlan *PurchasePlan                      `json:"purchasePlan,omitempty"`
 	Sku          *SnapshotSku                       `json:"sku,omitempty"`
@@ -1662,7 +1662,7 @@ func (snapshots *Snapshots_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (snapshots *Snapshots_Spec) SetAzureName(azureName string) { snapshots.AzureName = azureName }
 
-//Deprecated version of SnapshotPropertiesDiskState. Use v1beta20200930.SnapshotPropertiesDiskState instead
+// Deprecated version of SnapshotPropertiesDiskState. Use v1beta20200930.SnapshotPropertiesDiskState instead
 // +kubebuilder:validation:Enum={"ActiveSAS","ActiveUpload","Attached","ReadyToUpload","Reserved","Unattached"}
 type SnapshotPropertiesDiskState string
 
@@ -1675,7 +1675,7 @@ const (
 	SnapshotPropertiesDiskStateUnattached    = SnapshotPropertiesDiskState("Unattached")
 )
 
-//Deprecated version of SnapshotPropertiesHyperVGeneration. Use v1beta20200930.SnapshotPropertiesHyperVGeneration instead
+// Deprecated version of SnapshotPropertiesHyperVGeneration. Use v1beta20200930.SnapshotPropertiesHyperVGeneration instead
 // +kubebuilder:validation:Enum={"V1","V2"}
 type SnapshotPropertiesHyperVGeneration string
 
@@ -1684,8 +1684,8 @@ const (
 	SnapshotPropertiesHyperVGenerationV2 = SnapshotPropertiesHyperVGeneration("V2")
 )
 
-//Deprecated version of SnapshotPropertiesNetworkAccessPolicy. Use v1beta20200930.SnapshotPropertiesNetworkAccessPolicy
-//instead
+// Deprecated version of SnapshotPropertiesNetworkAccessPolicy. Use v1beta20200930.SnapshotPropertiesNetworkAccessPolicy
+// instead
 // +kubebuilder:validation:Enum={"AllowAll","AllowPrivate","DenyAll"}
 type SnapshotPropertiesNetworkAccessPolicy string
 
@@ -1695,7 +1695,7 @@ const (
 	SnapshotPropertiesNetworkAccessPolicyDenyAll      = SnapshotPropertiesNetworkAccessPolicy("DenyAll")
 )
 
-//Deprecated version of SnapshotPropertiesOsType. Use v1beta20200930.SnapshotPropertiesOsType instead
+// Deprecated version of SnapshotPropertiesOsType. Use v1beta20200930.SnapshotPropertiesOsType instead
 // +kubebuilder:validation:Enum={"Linux","Windows"}
 type SnapshotPropertiesOsType string
 
@@ -1704,8 +1704,8 @@ const (
 	SnapshotPropertiesOsTypeWindows = SnapshotPropertiesOsType("Windows")
 )
 
-//Deprecated version of SnapshotPropertiesStatusHyperVGeneration. Use
-//v1beta20200930.SnapshotPropertiesStatusHyperVGeneration instead
+// Deprecated version of SnapshotPropertiesStatusHyperVGeneration. Use
+// v1beta20200930.SnapshotPropertiesStatusHyperVGeneration instead
 type SnapshotPropertiesStatusHyperVGeneration string
 
 const (
@@ -1713,7 +1713,7 @@ const (
 	SnapshotPropertiesStatusHyperVGenerationV2 = SnapshotPropertiesStatusHyperVGeneration("V2")
 )
 
-//Deprecated version of SnapshotPropertiesStatusOsType. Use v1beta20200930.SnapshotPropertiesStatusOsType instead
+// Deprecated version of SnapshotPropertiesStatusOsType. Use v1beta20200930.SnapshotPropertiesStatusOsType instead
 type SnapshotPropertiesStatusOsType string
 
 const (
@@ -1721,7 +1721,7 @@ const (
 	SnapshotPropertiesStatusOsTypeWindows = SnapshotPropertiesStatusOsType("Windows")
 )
 
-//Deprecated version of SnapshotSku. Use v1beta20200930.SnapshotSku instead
+// Deprecated version of SnapshotSku. Use v1beta20200930.SnapshotSku instead
 type SnapshotSku struct {
 	Name *SnapshotSkuName `json:"name,omitempty"`
 }
@@ -1804,7 +1804,7 @@ func (snapshotSku *SnapshotSku) AssignPropertiesToSnapshotSku(destination *alpha
 	return nil
 }
 
-//Deprecated version of SnapshotSku_Status. Use v1beta20200930.SnapshotSku_Status instead
+// Deprecated version of SnapshotSku_Status. Use v1beta20200930.SnapshotSku_Status instead
 type SnapshotSku_Status struct {
 	Name *SnapshotSkuStatusName `json:"name,omitempty"`
 	Tier *string                `json:"tier,omitempty"`

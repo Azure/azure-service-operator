@@ -5,7 +5,7 @@ package v1alpha1api20210401
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-//Deprecated version of StorageAccounts_Spec. Use v1beta20210401.StorageAccounts_Spec instead
+// Deprecated version of StorageAccounts_Spec. Use v1beta20210401.StorageAccounts_Spec instead
 type StorageAccounts_SpecARM struct {
 	ExtendedLocation *ExtendedLocationARM                         `json:"extendedLocation,omitempty"`
 	Identity         *IdentityARM                                 `json:"identity,omitempty"`
@@ -34,24 +34,24 @@ func (accounts StorageAccounts_SpecARM) GetType() string {
 	return "Microsoft.Storage/storageAccounts"
 }
 
-//Deprecated version of ExtendedLocation. Use v1beta20210401.ExtendedLocation instead
+// Deprecated version of ExtendedLocation. Use v1beta20210401.ExtendedLocation instead
 type ExtendedLocationARM struct {
 	Name *string               `json:"name,omitempty"`
 	Type *ExtendedLocationType `json:"type,omitempty"`
 }
 
-//Deprecated version of Identity. Use v1beta20210401.Identity instead
+// Deprecated version of Identity. Use v1beta20210401.Identity instead
 type IdentityARM struct {
 	Type *IdentityType `json:"type,omitempty"`
 }
 
-//Deprecated version of Sku. Use v1beta20210401.Sku instead
+// Deprecated version of Sku. Use v1beta20210401.Sku instead
 type SkuARM struct {
 	Name *SkuName `json:"name,omitempty"`
 	Tier *SkuTier `json:"tier,omitempty"`
 }
 
-//Deprecated version of StorageAccountPropertiesCreateParameters. Use v1beta20210401.StorageAccountPropertiesCreateParameters instead
+// Deprecated version of StorageAccountPropertiesCreateParameters. Use v1beta20210401.StorageAccountPropertiesCreateParameters instead
 type StorageAccountPropertiesCreateParametersARM struct {
 	AccessTier                            *StorageAccountPropertiesCreateParametersAccessTier           `json:"accessTier,omitempty"`
 	AllowBlobPublicAccess                 *bool                                                         `json:"allowBlobPublicAccess,omitempty"`
@@ -71,7 +71,7 @@ type StorageAccountPropertiesCreateParametersARM struct {
 	SupportsHttpsTrafficOnly              *bool                                                         `json:"supportsHttpsTrafficOnly,omitempty"`
 }
 
-//Deprecated version of StorageAccountsSpecKind. Use v1beta20210401.StorageAccountsSpecKind instead
+// Deprecated version of StorageAccountsSpecKind. Use v1beta20210401.StorageAccountsSpecKind instead
 // +kubebuilder:validation:Enum={"BlobStorage","BlockBlobStorage","FileStorage","Storage","StorageV2"}
 type StorageAccountsSpecKind string
 
@@ -83,20 +83,20 @@ const (
 	StorageAccountsSpecKindStorageV2        = StorageAccountsSpecKind("StorageV2")
 )
 
-//Deprecated version of AzureFilesIdentityBasedAuthentication. Use v1beta20210401.AzureFilesIdentityBasedAuthentication instead
+// Deprecated version of AzureFilesIdentityBasedAuthentication. Use v1beta20210401.AzureFilesIdentityBasedAuthentication instead
 type AzureFilesIdentityBasedAuthenticationARM struct {
 	ActiveDirectoryProperties *ActiveDirectoryPropertiesARM                                 `json:"activeDirectoryProperties,omitempty"`
 	DefaultSharePermission    *AzureFilesIdentityBasedAuthenticationDefaultSharePermission  `json:"defaultSharePermission,omitempty"`
 	DirectoryServiceOptions   *AzureFilesIdentityBasedAuthenticationDirectoryServiceOptions `json:"directoryServiceOptions,omitempty"`
 }
 
-//Deprecated version of CustomDomain. Use v1beta20210401.CustomDomain instead
+// Deprecated version of CustomDomain. Use v1beta20210401.CustomDomain instead
 type CustomDomainARM struct {
 	Name             *string `json:"name,omitempty"`
 	UseSubDomainName *bool   `json:"useSubDomainName,omitempty"`
 }
 
-//Deprecated version of Encryption. Use v1beta20210401.Encryption instead
+// Deprecated version of Encryption. Use v1beta20210401.Encryption instead
 type EncryptionARM struct {
 	Identity                        *EncryptionIdentityARM `json:"identity,omitempty"`
 	KeySource                       *EncryptionKeySource   `json:"keySource,omitempty"`
@@ -105,13 +105,13 @@ type EncryptionARM struct {
 	Services                        *EncryptionServicesARM `json:"services,omitempty"`
 }
 
-//Deprecated version of ExtendedLocationType. Use v1beta20210401.ExtendedLocationType instead
+// Deprecated version of ExtendedLocationType. Use v1beta20210401.ExtendedLocationType instead
 // +kubebuilder:validation:Enum={"EdgeZone"}
 type ExtendedLocationType string
 
 const ExtendedLocationTypeEdgeZone = ExtendedLocationType("EdgeZone")
 
-//Deprecated version of IdentityType. Use v1beta20210401.IdentityType instead
+// Deprecated version of IdentityType. Use v1beta20210401.IdentityType instead
 // +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned,UserAssigned","UserAssigned"}
 type IdentityType string
 
@@ -122,12 +122,12 @@ const (
 	IdentityTypeUserAssigned               = IdentityType("UserAssigned")
 )
 
-//Deprecated version of KeyPolicy. Use v1beta20210401.KeyPolicy instead
+// Deprecated version of KeyPolicy. Use v1beta20210401.KeyPolicy instead
 type KeyPolicyARM struct {
 	KeyExpirationPeriodInDays *int `json:"keyExpirationPeriodInDays,omitempty"`
 }
 
-//Deprecated version of NetworkRuleSet. Use v1beta20210401.NetworkRuleSet instead
+// Deprecated version of NetworkRuleSet. Use v1beta20210401.NetworkRuleSet instead
 type NetworkRuleSetARM struct {
 	Bypass              *NetworkRuleSetBypass        `json:"bypass,omitempty"`
 	DefaultAction       *NetworkRuleSetDefaultAction `json:"defaultAction,omitempty"`
@@ -136,20 +136,20 @@ type NetworkRuleSetARM struct {
 	VirtualNetworkRules []VirtualNetworkRuleARM      `json:"virtualNetworkRules,omitempty"`
 }
 
-//Deprecated version of RoutingPreference. Use v1beta20210401.RoutingPreference instead
+// Deprecated version of RoutingPreference. Use v1beta20210401.RoutingPreference instead
 type RoutingPreferenceARM struct {
 	PublishInternetEndpoints  *bool                           `json:"publishInternetEndpoints,omitempty"`
 	PublishMicrosoftEndpoints *bool                           `json:"publishMicrosoftEndpoints,omitempty"`
 	RoutingChoice             *RoutingPreferenceRoutingChoice `json:"routingChoice,omitempty"`
 }
 
-//Deprecated version of SasPolicy. Use v1beta20210401.SasPolicy instead
+// Deprecated version of SasPolicy. Use v1beta20210401.SasPolicy instead
 type SasPolicyARM struct {
 	ExpirationAction    *SasPolicyExpirationAction `json:"expirationAction,omitempty"`
 	SasExpirationPeriod *string                    `json:"sasExpirationPeriod,omitempty"`
 }
 
-//Deprecated version of SkuName. Use v1beta20210401.SkuName instead
+// Deprecated version of SkuName. Use v1beta20210401.SkuName instead
 // +kubebuilder:validation:Enum={"Premium_LRS","Premium_ZRS","Standard_GRS","Standard_GZRS","Standard_LRS","Standard_RAGRS","Standard_RAGZRS","Standard_ZRS"}
 type SkuName string
 
@@ -164,7 +164,7 @@ const (
 	SkuNameStandardZRS    = SkuName("Standard_ZRS")
 )
 
-//Deprecated version of SkuTier. Use v1beta20210401.SkuTier instead
+// Deprecated version of SkuTier. Use v1beta20210401.SkuTier instead
 // +kubebuilder:validation:Enum={"Premium","Standard"}
 type SkuTier string
 
@@ -173,7 +173,7 @@ const (
 	SkuTierStandard = SkuTier("Standard")
 )
 
-//Deprecated version of ActiveDirectoryProperties. Use v1beta20210401.ActiveDirectoryProperties instead
+// Deprecated version of ActiveDirectoryProperties. Use v1beta20210401.ActiveDirectoryProperties instead
 type ActiveDirectoryPropertiesARM struct {
 	AzureStorageSid   *string `json:"azureStorageSid,omitempty"`
 	DomainGuid        *string `json:"domainGuid,omitempty"`
@@ -183,12 +183,12 @@ type ActiveDirectoryPropertiesARM struct {
 	NetBiosDomainName *string `json:"netBiosDomainName,omitempty"`
 }
 
-//Deprecated version of EncryptionIdentity. Use v1beta20210401.EncryptionIdentity instead
+// Deprecated version of EncryptionIdentity. Use v1beta20210401.EncryptionIdentity instead
 type EncryptionIdentityARM struct {
 	UserAssignedIdentity *string `json:"userAssignedIdentity,omitempty"`
 }
 
-//Deprecated version of EncryptionServices. Use v1beta20210401.EncryptionServices instead
+// Deprecated version of EncryptionServices. Use v1beta20210401.EncryptionServices instead
 type EncryptionServicesARM struct {
 	Blob  *EncryptionServiceARM `json:"blob,omitempty"`
 	File  *EncryptionServiceARM `json:"file,omitempty"`
@@ -196,33 +196,33 @@ type EncryptionServicesARM struct {
 	Table *EncryptionServiceARM `json:"table,omitempty"`
 }
 
-//Deprecated version of IPRule. Use v1beta20210401.IPRule instead
+// Deprecated version of IPRule. Use v1beta20210401.IPRule instead
 type IPRuleARM struct {
 	Action *IPRuleAction `json:"action,omitempty"`
 	Value  *string       `json:"value,omitempty"`
 }
 
-//Deprecated version of KeyVaultProperties. Use v1beta20210401.KeyVaultProperties instead
+// Deprecated version of KeyVaultProperties. Use v1beta20210401.KeyVaultProperties instead
 type KeyVaultPropertiesARM struct {
 	Keyname     *string `json:"keyname,omitempty"`
 	Keyvaulturi *string `json:"keyvaulturi,omitempty"`
 	Keyversion  *string `json:"keyversion,omitempty"`
 }
 
-//Deprecated version of ResourceAccessRule. Use v1beta20210401.ResourceAccessRule instead
+// Deprecated version of ResourceAccessRule. Use v1beta20210401.ResourceAccessRule instead
 type ResourceAccessRuleARM struct {
 	ResourceId *string `json:"resourceId,omitempty"`
 	TenantId   *string `json:"tenantId,omitempty"`
 }
 
-//Deprecated version of VirtualNetworkRule. Use v1beta20210401.VirtualNetworkRule instead
+// Deprecated version of VirtualNetworkRule. Use v1beta20210401.VirtualNetworkRule instead
 type VirtualNetworkRuleARM struct {
 	Action *VirtualNetworkRuleAction `json:"action,omitempty"`
 	Id     *string                   `json:"id,omitempty"`
 	State  *VirtualNetworkRuleState  `json:"state,omitempty"`
 }
 
-//Deprecated version of EncryptionService. Use v1beta20210401.EncryptionService instead
+// Deprecated version of EncryptionService. Use v1beta20210401.EncryptionService instead
 type EncryptionServiceARM struct {
 	Enabled *bool                     `json:"enabled,omitempty"`
 	KeyType *EncryptionServiceKeyType `json:"keyType,omitempty"`

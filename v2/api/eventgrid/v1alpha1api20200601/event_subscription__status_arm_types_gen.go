@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1alpha1api20200601
 
-//Deprecated version of EventSubscription_Status. Use v1beta20200601.EventSubscription_Status instead
+// Deprecated version of EventSubscription_Status. Use v1beta20200601.EventSubscription_Status instead
 type EventSubscription_StatusARM struct {
 	Id         *string                                `json:"id,omitempty"`
 	Name       *string                                `json:"name,omitempty"`
@@ -12,7 +12,7 @@ type EventSubscription_StatusARM struct {
 	Type       *string                                `json:"type,omitempty"`
 }
 
-//Deprecated version of EventSubscriptionProperties_Status. Use v1beta20200601.EventSubscriptionProperties_Status instead
+// Deprecated version of EventSubscriptionProperties_Status. Use v1beta20200601.EventSubscriptionProperties_Status instead
 type EventSubscriptionProperties_StatusARM struct {
 	DeadLetterDestination *DeadLetterDestination_StatusARM                      `json:"deadLetterDestination,omitempty"`
 	Destination           *EventSubscriptionDestination_StatusARM               `json:"destination,omitempty"`
@@ -25,17 +25,17 @@ type EventSubscriptionProperties_StatusARM struct {
 	Topic                 *string                                               `json:"topic,omitempty"`
 }
 
-//Deprecated version of DeadLetterDestination_Status. Use v1beta20200601.DeadLetterDestination_Status instead
+// Deprecated version of DeadLetterDestination_Status. Use v1beta20200601.DeadLetterDestination_Status instead
 type DeadLetterDestination_StatusARM struct {
 	EndpointType *DeadLetterDestinationStatusEndpointType `json:"endpointType,omitempty"`
 }
 
-//Deprecated version of EventSubscriptionDestination_Status. Use v1beta20200601.EventSubscriptionDestination_Status instead
+// Deprecated version of EventSubscriptionDestination_Status. Use v1beta20200601.EventSubscriptionDestination_Status instead
 type EventSubscriptionDestination_StatusARM struct {
 	EndpointType *EventSubscriptionDestinationStatusEndpointType `json:"endpointType,omitempty"`
 }
 
-//Deprecated version of EventSubscriptionFilter_Status. Use v1beta20200601.EventSubscriptionFilter_Status instead
+// Deprecated version of EventSubscriptionFilter_Status. Use v1beta20200601.EventSubscriptionFilter_Status instead
 type EventSubscriptionFilter_StatusARM struct {
 	AdvancedFilters        []AdvancedFilter_StatusARM `json:"advancedFilters,omitempty"`
 	IncludedEventTypes     []string                   `json:"includedEventTypes,omitempty"`
@@ -44,13 +44,13 @@ type EventSubscriptionFilter_StatusARM struct {
 	SubjectEndsWith        *string                    `json:"subjectEndsWith,omitempty"`
 }
 
-//Deprecated version of RetryPolicy_Status. Use v1beta20200601.RetryPolicy_Status instead
+// Deprecated version of RetryPolicy_Status. Use v1beta20200601.RetryPolicy_Status instead
 type RetryPolicy_StatusARM struct {
 	EventTimeToLiveInMinutes *int `json:"eventTimeToLiveInMinutes,omitempty"`
 	MaxDeliveryAttempts      *int `json:"maxDeliveryAttempts,omitempty"`
 }
 
-//Deprecated version of AdvancedFilter_Status. Use v1beta20200601.AdvancedFilter_Status instead
+// Deprecated version of AdvancedFilter_Status. Use v1beta20200601.AdvancedFilter_Status instead
 type AdvancedFilter_StatusARM struct {
 	Key          *string                           `json:"key,omitempty"`
 	OperatorType *AdvancedFilterStatusOperatorType `json:"operatorType,omitempty"`

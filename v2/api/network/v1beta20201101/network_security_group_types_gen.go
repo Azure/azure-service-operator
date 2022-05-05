@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/networkSecurityGroups
+// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/networkSecurityGroups
 type NetworkSecurityGroup struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -310,7 +310,7 @@ func (group *NetworkSecurityGroup) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/networkSecurityGroups
+// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/networkSecurityGroups
 type NetworkSecurityGroupList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -318,46 +318,46 @@ type NetworkSecurityGroupList struct {
 }
 
 type NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded struct {
-	//Conditions: The observed state of the resource
+	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
-	//DefaultSecurityRules: The default security rules of network security group.
+	// DefaultSecurityRules: The default security rules of network security group.
 	DefaultSecurityRules []SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded `json:"defaultSecurityRules,omitempty"`
 
-	//Etag: A unique read-only string that changes whenever the resource is updated.
+	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
-	//FlowLogs: A collection of references to flow log resources.
+	// FlowLogs: A collection of references to flow log resources.
 	FlowLogs []FlowLog_Status_SubResourceEmbedded `json:"flowLogs,omitempty"`
 
-	//Id: Resource ID.
+	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 
-	//Location: Resource location.
+	// Location: Resource location.
 	Location *string `json:"location,omitempty"`
 
-	//Name: Resource name.
+	// Name: Resource name.
 	Name *string `json:"name,omitempty"`
 
-	//NetworkInterfaces: A collection of references to network interfaces.
+	// NetworkInterfaces: A collection of references to network interfaces.
 	NetworkInterfaces []NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded `json:"networkInterfaces,omitempty"`
 
-	//ProvisioningState: The provisioning state of the network security group resource.
+	// ProvisioningState: The provisioning state of the network security group resource.
 	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
 
-	//ResourceGuid: The resource GUID property of the network security group resource.
+	// ResourceGuid: The resource GUID property of the network security group resource.
 	ResourceGuid *string `json:"resourceGuid,omitempty"`
 
-	//SecurityRules: A collection of security rules of the network security group.
+	// SecurityRules: A collection of security rules of the network security group.
 	SecurityRules []SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded `json:"securityRules,omitempty"`
 
-	//Subnets: A collection of references to subnets.
+	// Subnets: A collection of references to subnets.
 	Subnets []Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded `json:"subnets,omitempty"`
 
-	//Tags: Resource tags.
+	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 
-	//Type: Resource type.
+	// Type: Resource type.
 	Type *string `json:"type,omitempty"`
 }
 
@@ -825,20 +825,20 @@ type NetworkSecurityGroupsSpecAPIVersion string
 const NetworkSecurityGroupsSpecAPIVersion20201101 = NetworkSecurityGroupsSpecAPIVersion("2020-11-01")
 
 type NetworkSecurityGroups_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
-	//Location: Location to deploy resource to
+	// Location: Location to deploy resource to
 	Location *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a resources.azure.com/ResourceGroup resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
-	//Tags: Name-value pairs to add to the resource
+	// Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
@@ -1029,7 +1029,7 @@ func (groups *NetworkSecurityGroups_Spec) SetAzureName(azureName string) {
 }
 
 type FlowLog_Status_SubResourceEmbedded struct {
-	//Id: Resource ID.
+	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
@@ -1087,10 +1087,10 @@ func (embedded *FlowLog_Status_SubResourceEmbedded) AssignPropertiesToFlowLogSta
 }
 
 type NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded struct {
-	//ExtendedLocation: The extended location of the network interface.
+	// ExtendedLocation: The extended location of the network interface.
 	ExtendedLocation *ExtendedLocation_Status `json:"extendedLocation,omitempty"`
 
-	//Id: Resource ID.
+	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
@@ -1183,7 +1183,7 @@ func (embedded *NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded
 }
 
 type SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded struct {
-	//Id: Resource ID.
+	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
@@ -1241,7 +1241,7 @@ func (embedded *SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded) As
 }
 
 type Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded struct {
-	//Id: Resource ID.
+	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 

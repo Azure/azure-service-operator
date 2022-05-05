@@ -20,8 +20,8 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Storage version of v1alpha1api20210101.BatchAccount
-//Deprecated version of BatchAccount. Use v1beta20210101.BatchAccount instead
+// Storage version of v1alpha1api20210101.BatchAccount
+// Deprecated version of BatchAccount. Use v1beta20210101.BatchAccount instead
 type BatchAccount struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -191,16 +191,16 @@ func (account *BatchAccount) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Storage version of v1alpha1api20210101.BatchAccount
-//Deprecated version of BatchAccount. Use v1beta20210101.BatchAccount instead
+// Storage version of v1alpha1api20210101.BatchAccount
+// Deprecated version of BatchAccount. Use v1beta20210101.BatchAccount instead
 type BatchAccountList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []BatchAccount `json:"items"`
 }
 
-//Storage version of v1alpha1api20210101.BatchAccount_Status
-//Deprecated version of BatchAccount_Status. Use v1beta20210101.BatchAccount_Status instead
+// Storage version of v1alpha1api20210101.BatchAccount_Status
+// Deprecated version of BatchAccount_Status. Use v1beta20210101.BatchAccount_Status instead
 type BatchAccount_Status struct {
 	AccountEndpoint                       *string                                `json:"accountEndpoint,omitempty"`
 	ActiveJobAndJobScheduleQuota          *int                                   `json:"activeJobAndJobScheduleQuota,omitempty"`
@@ -576,15 +576,15 @@ func (account *BatchAccount_Status) AssignPropertiesToBatchAccountStatus(destina
 	return nil
 }
 
-//Storage version of v1alpha1api20210101.BatchAccounts_Spec
+// Storage version of v1alpha1api20210101.BatchAccounts_Spec
 type BatchAccounts_Spec struct {
 	AutoStorage *AutoStorageBaseProperties `json:"autoStorage,omitempty"`
 
 	// +kubebuilder:validation:MaxLength=24
 	// +kubebuilder:validation:MinLength=3
 	// +kubebuilder:validation:Pattern="^[a-zA-Z0-9]+$"
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName         string                `json:"azureName,omitempty"`
 	Encryption        *EncryptionProperties `json:"encryption,omitempty"`
 	Identity          *BatchAccountIdentity `json:"identity,omitempty"`
@@ -593,9 +593,9 @@ type BatchAccounts_Spec struct {
 	OriginalVersion   string                `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a resources.azure.com/ResourceGroup resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
 	Owner               *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PoolAllocationMode  *string                            `json:"poolAllocationMode,omitempty"`
 	PropertyBag         genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
@@ -833,8 +833,8 @@ func (accounts *BatchAccounts_Spec) AssignPropertiesToBatchAccountsSpec(destinat
 	return nil
 }
 
-//Storage version of v1alpha1api20210101.AutoStorageBaseProperties
-//Deprecated version of AutoStorageBaseProperties. Use v1beta20210101.AutoStorageBaseProperties instead
+// Storage version of v1alpha1api20210101.AutoStorageBaseProperties
+// Deprecated version of AutoStorageBaseProperties. Use v1beta20210101.AutoStorageBaseProperties instead
 type AutoStorageBaseProperties struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
@@ -890,8 +890,8 @@ func (properties *AutoStorageBaseProperties) AssignPropertiesToAutoStorageBasePr
 	return nil
 }
 
-//Storage version of v1alpha1api20210101.AutoStorageProperties_Status
-//Deprecated version of AutoStorageProperties_Status. Use v1beta20210101.AutoStorageProperties_Status instead
+// Storage version of v1alpha1api20210101.AutoStorageProperties_Status
+// Deprecated version of AutoStorageProperties_Status. Use v1beta20210101.AutoStorageProperties_Status instead
 type AutoStorageProperties_Status struct {
 	LastKeySync      *string                `json:"lastKeySync,omitempty"`
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -942,8 +942,8 @@ func (properties *AutoStorageProperties_Status) AssignPropertiesToAutoStoragePro
 	return nil
 }
 
-//Storage version of v1alpha1api20210101.BatchAccountIdentity
-//Deprecated version of BatchAccountIdentity. Use v1beta20210101.BatchAccountIdentity instead
+// Storage version of v1alpha1api20210101.BatchAccountIdentity
+// Deprecated version of BatchAccountIdentity. Use v1beta20210101.BatchAccountIdentity instead
 type BatchAccountIdentity struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Type        *string                `json:"type,omitempty"`
@@ -987,8 +987,8 @@ func (identity *BatchAccountIdentity) AssignPropertiesToBatchAccountIdentity(des
 	return nil
 }
 
-//Storage version of v1alpha1api20210101.BatchAccountIdentity_Status
-//Deprecated version of BatchAccountIdentity_Status. Use v1beta20210101.BatchAccountIdentity_Status instead
+// Storage version of v1alpha1api20210101.BatchAccountIdentity_Status
+// Deprecated version of BatchAccountIdentity_Status. Use v1beta20210101.BatchAccountIdentity_Status instead
 type BatchAccountIdentity_Status struct {
 	PrincipalId            *string                                                       `json:"principalId,omitempty"`
 	PropertyBag            genruntime.PropertyBag                                        `json:"$propertyBag,omitempty"`
@@ -1083,8 +1083,8 @@ func (identity *BatchAccountIdentity_Status) AssignPropertiesToBatchAccountIdent
 	return nil
 }
 
-//Storage version of v1alpha1api20210101.EncryptionProperties
-//Deprecated version of EncryptionProperties. Use v1beta20210101.EncryptionProperties instead
+// Storage version of v1alpha1api20210101.EncryptionProperties
+// Deprecated version of EncryptionProperties. Use v1beta20210101.EncryptionProperties instead
 type EncryptionProperties struct {
 	KeySource          *string                `json:"keySource,omitempty"`
 	KeyVaultProperties *KeyVaultProperties    `json:"keyVaultProperties,omitempty"`
@@ -1153,8 +1153,8 @@ func (properties *EncryptionProperties) AssignPropertiesToEncryptionProperties(d
 	return nil
 }
 
-//Storage version of v1alpha1api20210101.EncryptionProperties_Status
-//Deprecated version of EncryptionProperties_Status. Use v1beta20210101.EncryptionProperties_Status instead
+// Storage version of v1alpha1api20210101.EncryptionProperties_Status
+// Deprecated version of EncryptionProperties_Status. Use v1beta20210101.EncryptionProperties_Status instead
 type EncryptionProperties_Status struct {
 	KeySource          *string                    `json:"keySource,omitempty"`
 	KeyVaultProperties *KeyVaultProperties_Status `json:"keyVaultProperties,omitempty"`
@@ -1223,8 +1223,8 @@ func (properties *EncryptionProperties_Status) AssignPropertiesToEncryptionPrope
 	return nil
 }
 
-//Storage version of v1alpha1api20210101.KeyVaultReference
-//Deprecated version of KeyVaultReference. Use v1beta20210101.KeyVaultReference instead
+// Storage version of v1alpha1api20210101.KeyVaultReference
+// Deprecated version of KeyVaultReference. Use v1beta20210101.KeyVaultReference instead
 type KeyVaultReference struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
@@ -1287,8 +1287,8 @@ func (reference *KeyVaultReference) AssignPropertiesToKeyVaultReference(destinat
 	return nil
 }
 
-//Storage version of v1alpha1api20210101.KeyVaultReference_Status
-//Deprecated version of KeyVaultReference_Status. Use v1beta20210101.KeyVaultReference_Status instead
+// Storage version of v1alpha1api20210101.KeyVaultReference_Status
+// Deprecated version of KeyVaultReference_Status. Use v1beta20210101.KeyVaultReference_Status instead
 type KeyVaultReference_Status struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -1339,8 +1339,8 @@ func (reference *KeyVaultReference_Status) AssignPropertiesToKeyVaultReferenceSt
 	return nil
 }
 
-//Storage version of v1alpha1api20210101.PrivateEndpointConnection_Status
-//Deprecated version of PrivateEndpointConnection_Status. Use v1beta20210101.PrivateEndpointConnection_Status instead
+// Storage version of v1alpha1api20210101.PrivateEndpointConnection_Status
+// Deprecated version of PrivateEndpointConnection_Status. Use v1beta20210101.PrivateEndpointConnection_Status instead
 type PrivateEndpointConnection_Status struct {
 	Etag                              *string                                   `json:"etag,omitempty"`
 	Id                                *string                                   `json:"id,omitempty"`
@@ -1462,8 +1462,8 @@ func (connection *PrivateEndpointConnection_Status) AssignPropertiesToPrivateEnd
 	return nil
 }
 
-//Storage version of v1alpha1api20210101.VirtualMachineFamilyCoreQuota_Status
-//Deprecated version of VirtualMachineFamilyCoreQuota_Status. Use v1beta20210101.VirtualMachineFamilyCoreQuota_Status instead
+// Storage version of v1alpha1api20210101.VirtualMachineFamilyCoreQuota_Status
+// Deprecated version of VirtualMachineFamilyCoreQuota_Status. Use v1beta20210101.VirtualMachineFamilyCoreQuota_Status instead
 type VirtualMachineFamilyCoreQuota_Status struct {
 	CoreQuota   *int                   `json:"coreQuota,omitempty"`
 	Name        *string                `json:"name,omitempty"`
@@ -1514,8 +1514,8 @@ func (quota *VirtualMachineFamilyCoreQuota_Status) AssignPropertiesToVirtualMach
 	return nil
 }
 
-//Storage version of v1alpha1api20210101.BatchAccountIdentity_Status_UserAssignedIdentities
-//Deprecated version of BatchAccountIdentity_Status_UserAssignedIdentities. Use v1beta20210101.BatchAccountIdentity_Status_UserAssignedIdentities instead
+// Storage version of v1alpha1api20210101.BatchAccountIdentity_Status_UserAssignedIdentities
+// Deprecated version of BatchAccountIdentity_Status_UserAssignedIdentities. Use v1beta20210101.BatchAccountIdentity_Status_UserAssignedIdentities instead
 type BatchAccountIdentity_Status_UserAssignedIdentities struct {
 	ClientId    *string                `json:"clientId,omitempty"`
 	PrincipalId *string                `json:"principalId,omitempty"`
@@ -1566,8 +1566,8 @@ func (identities *BatchAccountIdentity_Status_UserAssignedIdentities) AssignProp
 	return nil
 }
 
-//Storage version of v1alpha1api20210101.KeyVaultProperties
-//Deprecated version of KeyVaultProperties. Use v1beta20210101.KeyVaultProperties instead
+// Storage version of v1alpha1api20210101.KeyVaultProperties
+// Deprecated version of KeyVaultProperties. Use v1beta20210101.KeyVaultProperties instead
 type KeyVaultProperties struct {
 	KeyIdentifier *string                `json:"keyIdentifier,omitempty"`
 	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -1611,8 +1611,8 @@ func (properties *KeyVaultProperties) AssignPropertiesToKeyVaultProperties(desti
 	return nil
 }
 
-//Storage version of v1alpha1api20210101.KeyVaultProperties_Status
-//Deprecated version of KeyVaultProperties_Status. Use v1beta20210101.KeyVaultProperties_Status instead
+// Storage version of v1alpha1api20210101.KeyVaultProperties_Status
+// Deprecated version of KeyVaultProperties_Status. Use v1beta20210101.KeyVaultProperties_Status instead
 type KeyVaultProperties_Status struct {
 	KeyIdentifier *string                `json:"keyIdentifier,omitempty"`
 	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -1656,8 +1656,8 @@ func (properties *KeyVaultProperties_Status) AssignPropertiesToKeyVaultPropertie
 	return nil
 }
 
-//Storage version of v1alpha1api20210101.PrivateEndpoint_Status
-//Deprecated version of PrivateEndpoint_Status. Use v1beta20210101.PrivateEndpoint_Status instead
+// Storage version of v1alpha1api20210101.PrivateEndpoint_Status
+// Deprecated version of PrivateEndpoint_Status. Use v1beta20210101.PrivateEndpoint_Status instead
 type PrivateEndpoint_Status struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -1701,8 +1701,8 @@ func (endpoint *PrivateEndpoint_Status) AssignPropertiesToPrivateEndpointStatus(
 	return nil
 }
 
-//Storage version of v1alpha1api20210101.PrivateLinkServiceConnectionState_Status
-//Deprecated version of PrivateLinkServiceConnectionState_Status. Use v1beta20210101.PrivateLinkServiceConnectionState_Status instead
+// Storage version of v1alpha1api20210101.PrivateLinkServiceConnectionState_Status
+// Deprecated version of PrivateLinkServiceConnectionState_Status. Use v1beta20210101.PrivateLinkServiceConnectionState_Status instead
 type PrivateLinkServiceConnectionState_Status struct {
 	ActionRequired *string                `json:"actionRequired,omitempty"`
 	Description    *string                `json:"description,omitempty"`

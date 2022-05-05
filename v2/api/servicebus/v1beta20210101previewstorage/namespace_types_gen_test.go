@@ -565,7 +565,7 @@ func RunJSONSerializationTestForPrivateEndpointConnectionStatusSubResourceEmbedd
 }
 
 // Generator of PrivateEndpointConnection_Status_SubResourceEmbedded instances for property testing - lazily
-//instantiated by PrivateEndpointConnectionStatusSubResourceEmbeddedGenerator()
+// instantiated by PrivateEndpointConnectionStatusSubResourceEmbeddedGenerator()
 var privateEndpointConnectionStatusSubResourceEmbeddedGenerator gopter.Gen
 
 // PrivateEndpointConnectionStatusSubResourceEmbeddedGenerator returns a generator of PrivateEndpointConnection_Status_SubResourceEmbedded instances for property testing.
@@ -825,7 +825,7 @@ func RunJSONSerializationTestForDictionaryValueStatus(subject DictionaryValue_St
 }
 
 // Generator of DictionaryValue_Status instances for property testing - lazily instantiated by
-//DictionaryValueStatusGenerator()
+// DictionaryValueStatusGenerator()
 var dictionaryValueStatusGenerator gopter.Gen
 
 // DictionaryValueStatusGenerator returns a generator of DictionaryValue_Status instances for property testing.
@@ -961,7 +961,7 @@ func RunJSONSerializationTestForKeyVaultPropertiesStatus(subject KeyVaultPropert
 }
 
 // Generator of KeyVaultProperties_Status instances for property testing - lazily instantiated by
-//KeyVaultPropertiesStatusGenerator()
+// KeyVaultPropertiesStatusGenerator()
 var keyVaultPropertiesStatusGenerator gopter.Gen
 
 // KeyVaultPropertiesStatusGenerator returns a generator of KeyVaultProperties_Status instances for property testing.
@@ -1037,7 +1037,7 @@ func RunJSONSerializationTestForUserAssignedIdentityProperties(subject UserAssig
 }
 
 // Generator of UserAssignedIdentityProperties instances for property testing - lazily instantiated by
-//UserAssignedIdentityPropertiesGenerator()
+// UserAssignedIdentityPropertiesGenerator()
 var userAssignedIdentityPropertiesGenerator gopter.Gen
 
 // UserAssignedIdentityPropertiesGenerator returns a generator of UserAssignedIdentityProperties instances for property testing.
@@ -1091,7 +1091,7 @@ func RunJSONSerializationTestForUserAssignedIdentityPropertiesStatus(subject Use
 }
 
 // Generator of UserAssignedIdentityProperties_Status instances for property testing - lazily instantiated by
-//UserAssignedIdentityPropertiesStatusGenerator()
+// UserAssignedIdentityPropertiesStatusGenerator()
 var userAssignedIdentityPropertiesStatusGenerator gopter.Gen
 
 // UserAssignedIdentityPropertiesStatusGenerator returns a generator of UserAssignedIdentityProperties_Status instances for property testing.

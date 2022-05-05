@@ -131,7 +131,7 @@ func RunJSONSerializationTestForDatabasePropertiesStatusARM(subject DatabaseProp
 }
 
 // Generator of DatabaseProperties_StatusARM instances for property testing - lazily instantiated by
-//DatabasePropertiesStatusARMGenerator()
+// DatabasePropertiesStatusARMGenerator()
 var databasePropertiesStatusARMGenerator gopter.Gen
 
 // DatabasePropertiesStatusARMGenerator returns a generator of DatabaseProperties_StatusARM instances for property testing.
@@ -298,7 +298,7 @@ func RunJSONSerializationTestForPersistenceStatusARM(subject Persistence_StatusA
 }
 
 // Generator of Persistence_StatusARM instances for property testing - lazily instantiated by
-//PersistenceStatusARMGenerator()
+// PersistenceStatusARMGenerator()
 var persistenceStatusARMGenerator gopter.Gen
 
 // PersistenceStatusARMGenerator returns a generator of Persistence_StatusARM instances for property testing.

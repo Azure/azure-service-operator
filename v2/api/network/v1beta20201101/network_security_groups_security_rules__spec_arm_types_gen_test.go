@@ -56,7 +56,7 @@ func RunJSONSerializationTestForNetworkSecurityGroupsSecurityRulesSpecARM(subjec
 }
 
 // Generator of NetworkSecurityGroupsSecurityRules_SpecARM instances for property testing - lazily instantiated by
-//NetworkSecurityGroupsSecurityRulesSpecARMGenerator()
+// NetworkSecurityGroupsSecurityRulesSpecARMGenerator()
 var networkSecurityGroupsSecurityRulesSpecARMGenerator gopter.Gen
 
 // NetworkSecurityGroupsSecurityRulesSpecARMGenerator returns a generator of NetworkSecurityGroupsSecurityRules_SpecARM instances for property testing.
@@ -132,7 +132,7 @@ func RunJSONSerializationTestForSecurityRulePropertiesFormatARM(subject Security
 }
 
 // Generator of SecurityRulePropertiesFormatARM instances for property testing - lazily instantiated by
-//SecurityRulePropertiesFormatARMGenerator()
+// SecurityRulePropertiesFormatARMGenerator()
 var securityRulePropertiesFormatARMGenerator gopter.Gen
 
 // SecurityRulePropertiesFormatARMGenerator returns a generator of SecurityRulePropertiesFormatARM instances for property testing.

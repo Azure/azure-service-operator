@@ -131,7 +131,7 @@ func RunJSONSerializationTestForManagedClusterAgentPoolProfilePropertiesStatusAR
 }
 
 // Generator of ManagedClusterAgentPoolProfileProperties_StatusARM instances for property testing - lazily instantiated
-//by ManagedClusterAgentPoolProfilePropertiesStatusARMGenerator()
+// by ManagedClusterAgentPoolProfilePropertiesStatusARMGenerator()
 var managedClusterAgentPoolProfilePropertiesStatusARMGenerator gopter.Gen
 
 // ManagedClusterAgentPoolProfilePropertiesStatusARMGenerator returns a generator of ManagedClusterAgentPoolProfileProperties_StatusARM instances for property testing.
@@ -244,7 +244,7 @@ func RunJSONSerializationTestForAgentPoolUpgradeSettingsStatusARM(subject AgentP
 }
 
 // Generator of AgentPoolUpgradeSettings_StatusARM instances for property testing - lazily instantiated by
-//AgentPoolUpgradeSettingsStatusARMGenerator()
+// AgentPoolUpgradeSettingsStatusARMGenerator()
 var agentPoolUpgradeSettingsStatusARMGenerator gopter.Gen
 
 // AgentPoolUpgradeSettingsStatusARMGenerator returns a generator of AgentPoolUpgradeSettings_StatusARM instances for property testing.
@@ -304,7 +304,7 @@ func RunJSONSerializationTestForKubeletConfigStatusARM(subject KubeletConfig_Sta
 }
 
 // Generator of KubeletConfig_StatusARM instances for property testing - lazily instantiated by
-//KubeletConfigStatusARMGenerator()
+// KubeletConfigStatusARMGenerator()
 var kubeletConfigStatusARMGenerator gopter.Gen
 
 // KubeletConfigStatusARMGenerator returns a generator of KubeletConfig_StatusARM instances for property testing.
@@ -374,7 +374,7 @@ func RunJSONSerializationTestForLinuxOSConfigStatusARM(subject LinuxOSConfig_Sta
 }
 
 // Generator of LinuxOSConfig_StatusARM instances for property testing - lazily instantiated by
-//LinuxOSConfigStatusARMGenerator()
+// LinuxOSConfigStatusARMGenerator()
 var linuxOSConfigStatusARMGenerator gopter.Gen
 
 // LinuxOSConfigStatusARMGenerator returns a generator of LinuxOSConfig_StatusARM instances for property testing.
@@ -450,7 +450,7 @@ func RunJSONSerializationTestForPowerStateStatusARM(subject PowerState_StatusARM
 }
 
 // Generator of PowerState_StatusARM instances for property testing - lazily instantiated by
-//PowerStateStatusARMGenerator()
+// PowerStateStatusARMGenerator()
 var powerStateStatusARMGenerator gopter.Gen
 
 // PowerStateStatusARMGenerator returns a generator of PowerState_StatusARM instances for property testing.
@@ -510,7 +510,7 @@ func RunJSONSerializationTestForSysctlConfigStatusARM(subject SysctlConfig_Statu
 }
 
 // Generator of SysctlConfig_StatusARM instances for property testing - lazily instantiated by
-//SysctlConfigStatusARMGenerator()
+// SysctlConfigStatusARMGenerator()
 var sysctlConfigStatusARMGenerator gopter.Gen
 
 // SysctlConfigStatusARMGenerator returns a generator of SysctlConfig_StatusARM instances for property testing.

@@ -56,7 +56,7 @@ func RunJSONSerializationTestForEventSubscriptionStatusARM(subject EventSubscrip
 }
 
 // Generator of EventSubscription_StatusARM instances for property testing - lazily instantiated by
-//EventSubscriptionStatusARMGenerator()
+// EventSubscriptionStatusARMGenerator()
 var eventSubscriptionStatusARMGenerator gopter.Gen
 
 // EventSubscriptionStatusARMGenerator returns a generator of EventSubscription_StatusARM instances for property testing.
@@ -133,7 +133,7 @@ func RunJSONSerializationTestForEventSubscriptionPropertiesStatusARM(subject Eve
 }
 
 // Generator of EventSubscriptionProperties_StatusARM instances for property testing - lazily instantiated by
-//EventSubscriptionPropertiesStatusARMGenerator()
+// EventSubscriptionPropertiesStatusARMGenerator()
 var eventSubscriptionPropertiesStatusARMGenerator gopter.Gen
 
 // EventSubscriptionPropertiesStatusARMGenerator returns a generator of EventSubscriptionProperties_StatusARM instances for property testing.
@@ -221,7 +221,7 @@ func RunJSONSerializationTestForDeadLetterDestinationStatusARM(subject DeadLette
 }
 
 // Generator of DeadLetterDestination_StatusARM instances for property testing - lazily instantiated by
-//DeadLetterDestinationStatusARMGenerator()
+// DeadLetterDestinationStatusARMGenerator()
 var deadLetterDestinationStatusARMGenerator gopter.Gen
 
 // DeadLetterDestinationStatusARMGenerator returns a generator of DeadLetterDestination_StatusARM instances for property testing.
@@ -281,7 +281,7 @@ func RunJSONSerializationTestForEventSubscriptionDestinationStatusARM(subject Ev
 }
 
 // Generator of EventSubscriptionDestination_StatusARM instances for property testing - lazily instantiated by
-//EventSubscriptionDestinationStatusARMGenerator()
+// EventSubscriptionDestinationStatusARMGenerator()
 var eventSubscriptionDestinationStatusARMGenerator gopter.Gen
 
 // EventSubscriptionDestinationStatusARMGenerator returns a generator of EventSubscriptionDestination_StatusARM instances for property testing.
@@ -348,7 +348,7 @@ func RunJSONSerializationTestForEventSubscriptionFilterStatusARM(subject EventSu
 }
 
 // Generator of EventSubscriptionFilter_StatusARM instances for property testing - lazily instantiated by
-//EventSubscriptionFilterStatusARMGenerator()
+// EventSubscriptionFilterStatusARMGenerator()
 var eventSubscriptionFilterStatusARMGenerator gopter.Gen
 
 // EventSubscriptionFilterStatusARMGenerator returns a generator of EventSubscriptionFilter_StatusARM instances for property testing.
@@ -425,7 +425,7 @@ func RunJSONSerializationTestForRetryPolicyStatusARM(subject RetryPolicy_StatusA
 }
 
 // Generator of RetryPolicy_StatusARM instances for property testing - lazily instantiated by
-//RetryPolicyStatusARMGenerator()
+// RetryPolicyStatusARMGenerator()
 var retryPolicyStatusARMGenerator gopter.Gen
 
 // RetryPolicyStatusARMGenerator returns a generator of RetryPolicy_StatusARM instances for property testing.
@@ -486,7 +486,7 @@ func RunJSONSerializationTestForAdvancedFilterStatusARM(subject AdvancedFilter_S
 }
 
 // Generator of AdvancedFilter_StatusARM instances for property testing - lazily instantiated by
-//AdvancedFilterStatusARMGenerator()
+// AdvancedFilterStatusARMGenerator()
 var advancedFilterStatusARMGenerator gopter.Gen
 
 // AdvancedFilterStatusARMGenerator returns a generator of AdvancedFilter_StatusARM instances for property testing.

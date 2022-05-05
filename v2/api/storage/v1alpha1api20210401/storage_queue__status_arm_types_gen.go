@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1alpha1api20210401
 
-//Deprecated version of StorageQueue_Status. Use v1beta20210401.StorageQueue_Status instead
+// Deprecated version of StorageQueue_Status. Use v1beta20210401.StorageQueue_Status instead
 type StorageQueue_StatusARM struct {
 	Id         *string                    `json:"id,omitempty"`
 	Name       *string                    `json:"name,omitempty"`
@@ -11,7 +11,7 @@ type StorageQueue_StatusARM struct {
 	Type       *string                    `json:"type,omitempty"`
 }
 
-//Deprecated version of QueueProperties_Status. Use v1beta20210401.QueueProperties_Status instead
+// Deprecated version of QueueProperties_Status. Use v1beta20210401.QueueProperties_Status instead
 type QueueProperties_StatusARM struct {
 	ApproximateMessageCount *int              `json:"approximateMessageCount,omitempty"`
 	Metadata                map[string]string `json:"metadata,omitempty"`

@@ -56,7 +56,7 @@ func RunJSONSerializationTestForAuthorizationRuleStatusARM(subject Authorization
 }
 
 // Generator of AuthorizationRule_StatusARM instances for property testing - lazily instantiated by
-//AuthorizationRuleStatusARMGenerator()
+// AuthorizationRuleStatusARMGenerator()
 var authorizationRuleStatusARMGenerator gopter.Gen
 
 // AuthorizationRuleStatusARMGenerator returns a generator of AuthorizationRule_StatusARM instances for property testing.
@@ -134,7 +134,7 @@ func RunJSONSerializationTestForAuthorizationRuleStatusPropertiesARM(subject Aut
 }
 
 // Generator of AuthorizationRule_Status_PropertiesARM instances for property testing - lazily instantiated by
-//AuthorizationRuleStatusPropertiesARMGenerator()
+// AuthorizationRuleStatusPropertiesARMGenerator()
 var authorizationRuleStatusPropertiesARMGenerator gopter.Gen
 
 // AuthorizationRuleStatusPropertiesARMGenerator returns a generator of AuthorizationRule_Status_PropertiesARM instances for property testing.
@@ -194,7 +194,7 @@ func RunJSONSerializationTestForSystemDataStatusARM(subject SystemData_StatusARM
 }
 
 // Generator of SystemData_StatusARM instances for property testing - lazily instantiated by
-//SystemDataStatusARMGenerator()
+// SystemDataStatusARMGenerator()
 var systemDataStatusARMGenerator gopter.Gen
 
 // SystemDataStatusARMGenerator returns a generator of SystemData_StatusARM instances for property testing.

@@ -9,15 +9,15 @@ import (
 	"github.com/pkg/errors"
 )
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json
+// Generated from: https://test.test/schemas/2020-01-01/test.json
 type Test struct {
-	//Bar: Mutually exclusive with all other properties
+	// Bar: Mutually exclusive with all other properties
 	Bar *Bar `json:"bar,omitempty"`
 
-	//Baz: Mutually exclusive with all other properties
+	// Baz: Mutually exclusive with all other properties
 	Baz *Baz `json:"baz,omitempty"`
 
-	//Foo: Mutually exclusive with all other properties
+	// Foo: Mutually exclusive with all other properties
 	Foo *Foo `json:"foo,omitempty"`
 }
 
@@ -116,7 +116,7 @@ func (test *Test) AssignPropertiesToTest(destination *v20200101s.Test) error {
 	return nil
 }
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Bar
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Bar
 type Bar struct {
 	// +kubebuilder:validation:Required
 	Size *int `json:"size,omitempty"`
@@ -151,7 +151,7 @@ func (bar *Bar) AssignPropertiesToBar(destination *v20200101s.Bar) error {
 	return nil
 }
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Baz
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Baz
 type Baz struct {
 	// +kubebuilder:validation:Required
 	Enabled *bool `json:"enabled,omitempty"`
@@ -196,7 +196,7 @@ func (baz *Baz) AssignPropertiesToBaz(destination *v20200101s.Baz) error {
 	return nil
 }
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
 type Foo struct {
 	Name *string `json:"name,omitempty"`
 }

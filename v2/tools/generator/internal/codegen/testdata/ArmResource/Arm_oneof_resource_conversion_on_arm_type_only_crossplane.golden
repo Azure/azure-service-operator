@@ -13,7 +13,7 @@ import (
 
 // +kubebuilder:object:root=true
 // +kubebuilder:storageversion
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/FakeResource
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/FakeResource
 type FakeResource struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -21,7 +21,7 @@ type FakeResource struct {
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/FakeResource
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/FakeResource
 type FakeResourceList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -47,19 +47,19 @@ type FakeResourceParameters struct {
 	ResourceGroupNameSelector *v1alpha1.Selector  `json:"resourceGroupNameSelector,omitempty"`
 }
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Properties
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Properties
 type Properties struct {
-	//Bar: Mutually exclusive with all other properties
+	// Bar: Mutually exclusive with all other properties
 	Bar *Bar `json:"bar,omitempty"`
 
-	//Baz: Mutually exclusive with all other properties
+	// Baz: Mutually exclusive with all other properties
 	Baz *Baz `json:"baz,omitempty"`
 
-	//Foo: Mutually exclusive with all other properties
+	// Foo: Mutually exclusive with all other properties
 	Foo *Foo `json:"foo,omitempty"`
 }
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Bar
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Bar
 type Bar struct {
 	// +kubebuilder:validation:Required
 	Discrim *BarDiscrim `json:"discrim,omitempty"`
@@ -68,7 +68,7 @@ type Bar struct {
 	Size *int `json:"size,omitempty"`
 }
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Baz
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Baz
 type Baz struct {
 	// +kubebuilder:validation:Required
 	Discrim *BazDiscrim `json:"discrim,omitempty"`
@@ -77,7 +77,7 @@ type Baz struct {
 	Enabled *bool `json:"enabled,omitempty"`
 }
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
 type Foo struct {
 	// +kubebuilder:validation:Required
 	Discrim *FooDiscrim `json:"discrim,omitempty"`

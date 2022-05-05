@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Deprecated version of Redis. Use v1beta20201201.Redis instead
+// Deprecated version of Redis. Use v1beta20201201.Redis instead
 type Redis struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -346,16 +346,16 @@ func (redis *Redis) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Deprecated version of Redis. Use v1beta20201201.Redis instead
+// Deprecated version of Redis. Use v1beta20201201.Redis instead
 type RedisList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Redis `json:"items"`
 }
 
-//Deprecated version of RedisResource_Status. Use v1beta20201201.RedisResource_Status instead
+// Deprecated version of RedisResource_Status. Use v1beta20201201.RedisResource_Status instead
 type RedisResource_Status struct {
-	//Conditions: The observed state of the resource
+	// Conditions: The observed state of the resource
 	Conditions                 []conditions.Condition                                 `json:"conditions,omitempty"`
 	EnableNonSslPort           *bool                                                  `json:"enableNonSslPort,omitempty"`
 	HostName                   *string                                                `json:"hostName,omitempty"`
@@ -1011,21 +1011,21 @@ func (resource *RedisResource_Status) AssignPropertiesToRedisResourceStatus(dest
 }
 
 type Redis_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName         string                                  `json:"azureName,omitempty"`
 	EnableNonSslPort  *bool                                   `json:"enableNonSslPort,omitempty"`
 	Location          *string                                 `json:"location,omitempty"`
 	MinimumTlsVersion *RedisCreatePropertiesMinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
 
-	//OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
-	//passed directly to Azure
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
 	OperatorSpec *RedisOperatorSpec `json:"operatorSpec,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a resources.azure.com/ResourceGroup resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
 	Owner               *genruntime.KnownResourceReference        `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PublicNetworkAccess *RedisCreatePropertiesPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 	RedisConfiguration  map[string]string                         `json:"redisConfiguration,omitempty"`
@@ -1597,7 +1597,7 @@ func (redis *Redis_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (redis *Redis_Spec) SetAzureName(azureName string) { redis.AzureName = azureName }
 
-//Deprecated version of PrivateEndpointConnection_Status_SubResourceEmbedded. Use v1beta20201201.PrivateEndpointConnection_Status_SubResourceEmbedded instead
+// Deprecated version of PrivateEndpointConnection_Status_SubResourceEmbedded. Use v1beta20201201.PrivateEndpointConnection_Status_SubResourceEmbedded instead
 type PrivateEndpointConnection_Status_SubResourceEmbedded struct {
 	Id *string `json:"id,omitempty"`
 }
@@ -1655,8 +1655,8 @@ func (embedded *PrivateEndpointConnection_Status_SubResourceEmbedded) AssignProp
 	return nil
 }
 
-//Deprecated version of RedisCreatePropertiesMinimumTlsVersion. Use v1beta20201201.RedisCreatePropertiesMinimumTlsVersion
-//instead
+// Deprecated version of RedisCreatePropertiesMinimumTlsVersion. Use v1beta20201201.RedisCreatePropertiesMinimumTlsVersion
+// instead
 // +kubebuilder:validation:Enum={"1.0","1.1","1.2"}
 type RedisCreatePropertiesMinimumTlsVersion string
 
@@ -1666,8 +1666,8 @@ const (
 	RedisCreatePropertiesMinimumTlsVersion12 = RedisCreatePropertiesMinimumTlsVersion("1.2")
 )
 
-//Deprecated version of RedisCreatePropertiesPublicNetworkAccess. Use
-//v1beta20201201.RedisCreatePropertiesPublicNetworkAccess instead
+// Deprecated version of RedisCreatePropertiesPublicNetworkAccess. Use
+// v1beta20201201.RedisCreatePropertiesPublicNetworkAccess instead
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type RedisCreatePropertiesPublicNetworkAccess string
 
@@ -1676,7 +1676,7 @@ const (
 	RedisCreatePropertiesPublicNetworkAccessEnabled  = RedisCreatePropertiesPublicNetworkAccess("Enabled")
 )
 
-//Deprecated version of RedisInstanceDetails_Status. Use v1beta20201201.RedisInstanceDetails_Status instead
+// Deprecated version of RedisInstanceDetails_Status. Use v1beta20201201.RedisInstanceDetails_Status instead
 type RedisInstanceDetails_Status struct {
 	IsMaster   *bool   `json:"isMaster,omitempty"`
 	IsPrimary  *bool   `json:"isPrimary,omitempty"`
@@ -1819,7 +1819,7 @@ func (details *RedisInstanceDetails_Status) AssignPropertiesToRedisInstanceDetai
 	return nil
 }
 
-//Deprecated version of RedisLinkedServer_Status. Use v1beta20201201.RedisLinkedServer_Status instead
+// Deprecated version of RedisLinkedServer_Status. Use v1beta20201201.RedisLinkedServer_Status instead
 type RedisLinkedServer_Status struct {
 	Id *string `json:"id,omitempty"`
 }
@@ -1877,9 +1877,9 @@ func (server *RedisLinkedServer_Status) AssignPropertiesToRedisLinkedServerStatu
 	return nil
 }
 
-//Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type RedisOperatorSpec struct {
-	//Secrets: configures where to place Azure generated secrets.
+	// Secrets: configures where to place Azure generated secrets.
 	Secrets *RedisOperatorSecrets `json:"secrets,omitempty"`
 }
 
@@ -1930,8 +1930,8 @@ func (operator *RedisOperatorSpec) AssignPropertiesToRedisOperatorSpec(destinati
 	return nil
 }
 
-//Deprecated version of RedisPropertiesStatusMinimumTlsVersion. Use v1beta20201201.RedisPropertiesStatusMinimumTlsVersion
-//instead
+// Deprecated version of RedisPropertiesStatusMinimumTlsVersion. Use v1beta20201201.RedisPropertiesStatusMinimumTlsVersion
+// instead
 type RedisPropertiesStatusMinimumTlsVersion string
 
 const (
@@ -1940,8 +1940,8 @@ const (
 	RedisPropertiesStatusMinimumTlsVersion12 = RedisPropertiesStatusMinimumTlsVersion("1.2")
 )
 
-//Deprecated version of RedisPropertiesStatusProvisioningState. Use v1beta20201201.RedisPropertiesStatusProvisioningState
-//instead
+// Deprecated version of RedisPropertiesStatusProvisioningState. Use v1beta20201201.RedisPropertiesStatusProvisioningState
+// instead
 type RedisPropertiesStatusProvisioningState string
 
 const (
@@ -1959,8 +1959,8 @@ const (
 	RedisPropertiesStatusProvisioningStateUpdating               = RedisPropertiesStatusProvisioningState("Updating")
 )
 
-//Deprecated version of RedisPropertiesStatusPublicNetworkAccess. Use
-//v1beta20201201.RedisPropertiesStatusPublicNetworkAccess instead
+// Deprecated version of RedisPropertiesStatusPublicNetworkAccess. Use
+// v1beta20201201.RedisPropertiesStatusPublicNetworkAccess instead
 type RedisPropertiesStatusPublicNetworkAccess string
 
 const (
@@ -1968,7 +1968,7 @@ const (
 	RedisPropertiesStatusPublicNetworkAccessEnabled  = RedisPropertiesStatusPublicNetworkAccess("Enabled")
 )
 
-//Deprecated version of Sku. Use v1beta20201201.Sku instead
+// Deprecated version of Sku. Use v1beta20201201.Sku instead
 type Sku struct {
 	// +kubebuilder:validation:Required
 	Capacity *int `json:"capacity,omitempty"`
@@ -2104,7 +2104,7 @@ func (sku *Sku) AssignPropertiesToSku(destination *alpha20201201s.Sku) error {
 	return nil
 }
 
-//Deprecated version of Sku_Status. Use v1beta20201201.Sku_Status instead
+// Deprecated version of Sku_Status. Use v1beta20201201.Sku_Status instead
 type Sku_Status struct {
 	Capacity *int             `json:"capacity,omitempty"`
 	Family   *SkuStatusFamily `json:"family,omitempty"`
@@ -2209,21 +2209,21 @@ func (sku *Sku_Status) AssignPropertiesToSkuStatus(destination *alpha20201201s.S
 }
 
 type RedisOperatorSecrets struct {
-	//HostName: indicates where the HostName secret should be placed. If omitted, the secret will not be retrieved from Azure.
+	// HostName: indicates where the HostName secret should be placed. If omitted, the secret will not be retrieved from Azure.
 	HostName *genruntime.SecretDestination `json:"hostName,omitempty"`
 
-	//Port: indicates where the Port secret should be placed. If omitted, the secret will not be retrieved from Azure.
+	// Port: indicates where the Port secret should be placed. If omitted, the secret will not be retrieved from Azure.
 	Port *genruntime.SecretDestination `json:"port,omitempty"`
 
-	//PrimaryKey: indicates where the PrimaryKey secret should be placed. If omitted, the secret will not be retrieved from
-	//Azure.
+	// PrimaryKey: indicates where the PrimaryKey secret should be placed. If omitted, the secret will not be retrieved from
+	// Azure.
 	PrimaryKey *genruntime.SecretDestination `json:"primaryKey,omitempty"`
 
-	//SSLPort: indicates where the SSLPort secret should be placed. If omitted, the secret will not be retrieved from Azure.
+	// SSLPort: indicates where the SSLPort secret should be placed. If omitted, the secret will not be retrieved from Azure.
 	SSLPort *genruntime.SecretDestination `json:"sslPort,omitempty"`
 
-	//SecondaryKey: indicates where the SecondaryKey secret should be placed. If omitted, the secret will not be retrieved
-	//from Azure.
+	// SecondaryKey: indicates where the SecondaryKey secret should be placed. If omitted, the secret will not be retrieved
+	// from Azure.
 	SecondaryKey *genruntime.SecretDestination `json:"secondaryKey,omitempty"`
 }
 
@@ -2330,7 +2330,7 @@ func (secrets *RedisOperatorSecrets) AssignPropertiesToRedisOperatorSecrets(dest
 	return nil
 }
 
-//Deprecated version of SkuFamily. Use v1beta20201201.SkuFamily instead
+// Deprecated version of SkuFamily. Use v1beta20201201.SkuFamily instead
 // +kubebuilder:validation:Enum={"C","P"}
 type SkuFamily string
 
@@ -2339,7 +2339,7 @@ const (
 	SkuFamilyP = SkuFamily("P")
 )
 
-//Deprecated version of SkuName. Use v1beta20201201.SkuName instead
+// Deprecated version of SkuName. Use v1beta20201201.SkuName instead
 // +kubebuilder:validation:Enum={"Basic","Premium","Standard"}
 type SkuName string
 
@@ -2349,7 +2349,7 @@ const (
 	SkuNameStandard = SkuName("Standard")
 )
 
-//Deprecated version of SkuStatusFamily. Use v1beta20201201.SkuStatusFamily instead
+// Deprecated version of SkuStatusFamily. Use v1beta20201201.SkuStatusFamily instead
 type SkuStatusFamily string
 
 const (
@@ -2357,7 +2357,7 @@ const (
 	SkuStatusFamilyP = SkuStatusFamily("P")
 )
 
-//Deprecated version of SkuStatusName. Use v1beta20201201.SkuStatusName instead
+// Deprecated version of SkuStatusName. Use v1beta20201201.SkuStatusName instead
 type SkuStatusName string
 
 const (

@@ -90,7 +90,7 @@ func RunPropertyAssignmentTestForNamespacesQueue(subject NamespacesQueue) string
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -192,7 +192,7 @@ func RunPropertyAssignmentTestForNamespacesQueuesSpec(subject NamespacesQueues_S
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -243,7 +243,7 @@ func RunJSONSerializationTestForNamespacesQueuesSpec(subject NamespacesQueues_Sp
 }
 
 // Generator of NamespacesQueues_Spec instances for property testing - lazily instantiated by
-//NamespacesQueuesSpecGenerator()
+// NamespacesQueuesSpecGenerator()
 var namespacesQueuesSpecGenerator gopter.Gen
 
 // NamespacesQueuesSpecGenerator returns a generator of NamespacesQueues_Spec instances for property testing.
@@ -311,7 +311,7 @@ func RunPropertyAssignmentTestForSBQueueStatus(subject SBQueue_Status) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -449,7 +449,7 @@ func RunPropertyAssignmentTestForMessageCountDetailsStatus(subject MessageCountD
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -500,7 +500,7 @@ func RunJSONSerializationTestForMessageCountDetailsStatus(subject MessageCountDe
 }
 
 // Generator of MessageCountDetails_Status instances for property testing - lazily instantiated by
-//MessageCountDetailsStatusGenerator()
+// MessageCountDetailsStatusGenerator()
 var messageCountDetailsStatusGenerator gopter.Gen
 
 // MessageCountDetailsStatusGenerator returns a generator of MessageCountDetails_Status instances for property testing.

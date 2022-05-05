@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_containers
+// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_containers
 type SqlDatabaseContainer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -310,7 +310,7 @@ func (container *SqlDatabaseContainer) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_containers
+// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_containers
 type SqlDatabaseContainerList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -323,32 +323,32 @@ type DatabaseAccountsSqlDatabasesContainersSpecAPIVersion string
 const DatabaseAccountsSqlDatabasesContainersSpecAPIVersion20210515 = DatabaseAccountsSqlDatabasesContainersSpecAPIVersion("2021-05-15")
 
 type DatabaseAccountsSqlDatabasesContainers_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
-	//Location: The location of the resource group to which the resource belongs.
+	// Location: The location of the resource group to which the resource belongs.
 	Location *string `json:"location,omitempty"`
 
-	//Options: CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are "If-Match",
-	//"If-None-Match", "Session-Token" and "Throughput"
+	// Options: CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are "If-Match",
+	// "If-None-Match", "Session-Token" and "Throughput"
 	Options *CreateUpdateOptions `json:"options,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a documentdb.azure.com/SqlDatabase resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a documentdb.azure.com/SqlDatabase resource
 	Owner *genruntime.KnownResourceReference `group:"documentdb.azure.com" json:"owner,omitempty" kind:"SqlDatabase"`
 
 	// +kubebuilder:validation:Required
-	//Resource: Cosmos DB SQL container resource object
+	// Resource: Cosmos DB SQL container resource object
 	Resource *SqlContainerResource `json:"resource,omitempty"`
 
-	//Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
-	//resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
-	//greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
-	//type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph",
-	//"DocumentDB", and "MongoDB".
+	// Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
+	// resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
+	// greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
+	// type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph",
+	// "DocumentDB", and "MongoDB".
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
@@ -636,22 +636,22 @@ func (containers *DatabaseAccountsSqlDatabasesContainers_Spec) SetAzureName(azur
 }
 
 type SqlContainerGetResults_Status struct {
-	//Conditions: The observed state of the resource
+	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
-	//Id: The unique resource identifier of the ARM resource.
+	// Id: The unique resource identifier of the ARM resource.
 	Id *string `json:"id,omitempty"`
 
-	//Location: The location of the resource group to which the resource belongs.
+	// Location: The location of the resource group to which the resource belongs.
 	Location *string `json:"location,omitempty"`
 
-	//Name: The name of the ARM resource.
+	// Name: The name of the ARM resource.
 	Name     *string                                    `json:"name,omitempty"`
 	Options  *OptionsResource_Status                    `json:"options,omitempty"`
 	Resource *SqlContainerGetProperties_Status_Resource `json:"resource,omitempty"`
 	Tags     map[string]string                          `json:"tags,omitempty"`
 
-	//Type: The type of Azure resource.
+	// Type: The type of Azure resource.
 	Type *string `json:"type,omitempty"`
 }
 
@@ -893,36 +893,36 @@ func (results *SqlContainerGetResults_Status) AssignPropertiesToSqlContainerGetR
 }
 
 type SqlContainerGetProperties_Status_Resource struct {
-	//AnalyticalStorageTtl: Analytical TTL.
+	// AnalyticalStorageTtl: Analytical TTL.
 	AnalyticalStorageTtl *int `json:"analyticalStorageTtl,omitempty"`
 
-	//ConflictResolutionPolicy: The conflict resolution policy for the container.
+	// ConflictResolutionPolicy: The conflict resolution policy for the container.
 	ConflictResolutionPolicy *ConflictResolutionPolicy_Status `json:"conflictResolutionPolicy,omitempty"`
 
-	//DefaultTtl: Default time to live
+	// DefaultTtl: Default time to live
 	DefaultTtl *int `json:"defaultTtl,omitempty"`
 
-	//Etag: A system generated property representing the resource etag required for optimistic concurrency control.
+	// Etag: A system generated property representing the resource etag required for optimistic concurrency control.
 	Etag *string `json:"_etag,omitempty"`
 
-	//Id: Name of the Cosmos DB SQL container
+	// Id: Name of the Cosmos DB SQL container
 	Id *string `json:"id,omitempty"`
 
-	//IndexingPolicy: The configuration of the indexing policy. By default, the indexing is automatic for all document paths
-	//within the container
+	// IndexingPolicy: The configuration of the indexing policy. By default, the indexing is automatic for all document paths
+	// within the container
 	IndexingPolicy *IndexingPolicy_Status `json:"indexingPolicy,omitempty"`
 
-	//PartitionKey: The configuration of the partition key to be used for partitioning data into multiple partitions
+	// PartitionKey: The configuration of the partition key to be used for partitioning data into multiple partitions
 	PartitionKey *ContainerPartitionKey_Status `json:"partitionKey,omitempty"`
 
-	//Rid: A system generated property. A unique identifier.
+	// Rid: A system generated property. A unique identifier.
 	Rid *string `json:"_rid,omitempty"`
 
-	//Ts: A system generated property that denotes the last updated timestamp of the resource.
+	// Ts: A system generated property that denotes the last updated timestamp of the resource.
 	Ts *float64 `json:"_ts,omitempty"`
 
-	//UniqueKeyPolicy: The unique key policy configuration for specifying uniqueness constraints on documents in the
-	//collection in the Azure Cosmos DB service.
+	// UniqueKeyPolicy: The unique key policy configuration for specifying uniqueness constraints on documents in the
+	// collection in the Azure Cosmos DB service.
 	UniqueKeyPolicy *UniqueKeyPolicy_Status `json:"uniqueKeyPolicy,omitempty"`
 }
 
@@ -1189,29 +1189,29 @@ func (resource *SqlContainerGetProperties_Status_Resource) AssignPropertiesToSql
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlContainerResource
+// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlContainerResource
 type SqlContainerResource struct {
-	//AnalyticalStorageTtl: Analytical TTL.
+	// AnalyticalStorageTtl: Analytical TTL.
 	AnalyticalStorageTtl *int `json:"analyticalStorageTtl,omitempty"`
 
-	//ConflictResolutionPolicy: The conflict resolution policy for the container.
+	// ConflictResolutionPolicy: The conflict resolution policy for the container.
 	ConflictResolutionPolicy *ConflictResolutionPolicy `json:"conflictResolutionPolicy,omitempty"`
 
-	//DefaultTtl: Default time to live
+	// DefaultTtl: Default time to live
 	DefaultTtl *int `json:"defaultTtl,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Id: Name of the Cosmos DB SQL container
+	// Id: Name of the Cosmos DB SQL container
 	Id *string `json:"id,omitempty"`
 
-	//IndexingPolicy: Cosmos DB indexing policy
+	// IndexingPolicy: Cosmos DB indexing policy
 	IndexingPolicy *IndexingPolicy `json:"indexingPolicy,omitempty"`
 
-	//PartitionKey: The configuration of the partition key to be used for partitioning data into multiple partitions
+	// PartitionKey: The configuration of the partition key to be used for partitioning data into multiple partitions
 	PartitionKey *ContainerPartitionKey `json:"partitionKey,omitempty"`
 
-	//UniqueKeyPolicy: The unique key policy configuration for specifying uniqueness constraints on documents in the
-	//collection in the Azure Cosmos DB service.
+	// UniqueKeyPolicy: The unique key policy configuration for specifying uniqueness constraints on documents in the
+	// collection in the Azure Cosmos DB service.
 	UniqueKeyPolicy *UniqueKeyPolicy `json:"uniqueKeyPolicy,omitempty"`
 }
 
@@ -1499,15 +1499,15 @@ func (resource *SqlContainerResource) AssignPropertiesToSqlContainerResource(des
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ConflictResolutionPolicy
+// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ConflictResolutionPolicy
 type ConflictResolutionPolicy struct {
-	//ConflictResolutionPath: The conflict resolution path in the case of LastWriterWins mode.
+	// ConflictResolutionPath: The conflict resolution path in the case of LastWriterWins mode.
 	ConflictResolutionPath *string `json:"conflictResolutionPath,omitempty"`
 
-	//ConflictResolutionProcedure: The procedure to resolve conflicts in the case of custom mode.
+	// ConflictResolutionProcedure: The procedure to resolve conflicts in the case of custom mode.
 	ConflictResolutionProcedure *string `json:"conflictResolutionProcedure,omitempty"`
 
-	//Mode: Indicates the conflict resolution mode.
+	// Mode: Indicates the conflict resolution mode.
 	Mode *ConflictResolutionPolicyMode `json:"mode,omitempty"`
 }
 
@@ -1626,13 +1626,13 @@ func (policy *ConflictResolutionPolicy) AssignPropertiesToConflictResolutionPoli
 }
 
 type ConflictResolutionPolicy_Status struct {
-	//ConflictResolutionPath: The conflict resolution path in the case of LastWriterWins mode.
+	// ConflictResolutionPath: The conflict resolution path in the case of LastWriterWins mode.
 	ConflictResolutionPath *string `json:"conflictResolutionPath,omitempty"`
 
-	//ConflictResolutionProcedure: The procedure to resolve conflicts in the case of custom mode.
+	// ConflictResolutionProcedure: The procedure to resolve conflicts in the case of custom mode.
 	ConflictResolutionProcedure *string `json:"conflictResolutionProcedure,omitempty"`
 
-	//Mode: Indicates the conflict resolution mode.
+	// Mode: Indicates the conflict resolution mode.
 	Mode *ConflictResolutionPolicyStatusMode `json:"mode,omitempty"`
 }
 
@@ -1723,18 +1723,18 @@ func (policy *ConflictResolutionPolicy_Status) AssignPropertiesToConflictResolut
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ContainerPartitionKey
+// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ContainerPartitionKey
 type ContainerPartitionKey struct {
-	//Kind: Indicates the kind of algorithm used for partitioning. For MultiHash, multiple partition keys (upto three maximum)
-	//are supported for container create.
+	// Kind: Indicates the kind of algorithm used for partitioning. For MultiHash, multiple partition keys (upto three maximum)
+	// are supported for container create.
 	Kind *ContainerPartitionKeyKind `json:"kind,omitempty"`
 
-	//Paths: List of paths using which data within the container can be partitioned
+	// Paths: List of paths using which data within the container can be partitioned
 	Paths []string `json:"paths,omitempty"`
 
 	// +kubebuilder:validation:Maximum=2
 	// +kubebuilder:validation:Minimum=1
-	//Version: Indicates the version of the partition key definition
+	// Version: Indicates the version of the partition key definition
 	Version *int `json:"version,omitempty"`
 }
 
@@ -1861,17 +1861,17 @@ func (partitionKey *ContainerPartitionKey) AssignPropertiesToContainerPartitionK
 }
 
 type ContainerPartitionKey_Status struct {
-	//Kind: Indicates the kind of algorithm used for partitioning. For MultiHash, multiple partition keys (upto three maximum)
-	//are supported for container create
+	// Kind: Indicates the kind of algorithm used for partitioning. For MultiHash, multiple partition keys (upto three maximum)
+	// are supported for container create
 	Kind *ContainerPartitionKeyStatusKind `json:"kind,omitempty"`
 
-	//Paths: List of paths using which data within the container can be partitioned
+	// Paths: List of paths using which data within the container can be partitioned
 	Paths []string `json:"paths,omitempty"`
 
-	//SystemKey: Indicates if the container is using a system generated partition key
+	// SystemKey: Indicates if the container is using a system generated partition key
 	SystemKey *bool `json:"systemKey,omitempty"`
 
-	//Version: Indicates the version of the partition key definition
+	// Version: Indicates the version of the partition key definition
 	Version *int `json:"version,omitempty"`
 }
 
@@ -1983,24 +1983,24 @@ func (partitionKey *ContainerPartitionKey_Status) AssignPropertiesToContainerPar
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/IndexingPolicy
+// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/IndexingPolicy
 type IndexingPolicy struct {
-	//Automatic: Indicates if the indexing policy is automatic
+	// Automatic: Indicates if the indexing policy is automatic
 	Automatic *bool `json:"automatic,omitempty"`
 
-	//CompositeIndexes: List of composite path list
+	// CompositeIndexes: List of composite path list
 	CompositeIndexes [][]CompositePath `json:"compositeIndexes,omitempty"`
 
-	//ExcludedPaths: List of paths to exclude from indexing
+	// ExcludedPaths: List of paths to exclude from indexing
 	ExcludedPaths []ExcludedPath `json:"excludedPaths,omitempty"`
 
-	//IncludedPaths: List of paths to include in the indexing
+	// IncludedPaths: List of paths to include in the indexing
 	IncludedPaths []IncludedPath `json:"includedPaths,omitempty"`
 
-	//IndexingMode: Indicates the indexing mode.
+	// IndexingMode: Indicates the indexing mode.
 	IndexingMode *IndexingPolicyIndexingMode `json:"indexingMode,omitempty"`
 
-	//SpatialIndexes: List of spatial specifics
+	// SpatialIndexes: List of spatial specifics
 	SpatialIndexes []SpatialSpec `json:"spatialIndexes,omitempty"`
 }
 
@@ -2359,22 +2359,22 @@ func (policy *IndexingPolicy) AssignPropertiesToIndexingPolicy(destination *v202
 }
 
 type IndexingPolicy_Status struct {
-	//Automatic: Indicates if the indexing policy is automatic
+	// Automatic: Indicates if the indexing policy is automatic
 	Automatic *bool `json:"automatic,omitempty"`
 
-	//CompositeIndexes: List of composite path list
+	// CompositeIndexes: List of composite path list
 	CompositeIndexes [][]CompositePath_Status `json:"compositeIndexes,omitempty"`
 
-	//ExcludedPaths: List of paths to exclude from indexing
+	// ExcludedPaths: List of paths to exclude from indexing
 	ExcludedPaths []ExcludedPath_Status `json:"excludedPaths,omitempty"`
 
-	//IncludedPaths: List of paths to include in the indexing
+	// IncludedPaths: List of paths to include in the indexing
 	IncludedPaths []IncludedPath_Status `json:"includedPaths,omitempty"`
 
-	//IndexingMode: Indicates the indexing mode.
+	// IndexingMode: Indicates the indexing mode.
 	IndexingMode *IndexingPolicyStatusIndexingMode `json:"indexingMode,omitempty"`
 
-	//SpatialIndexes: List of spatial specifics
+	// SpatialIndexes: List of spatial specifics
 	SpatialIndexes []SpatialSpec_Status `json:"spatialIndexes,omitempty"`
 }
 
@@ -2671,10 +2671,10 @@ func (policy *IndexingPolicy_Status) AssignPropertiesToIndexingPolicyStatus(dest
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/UniqueKeyPolicy
+// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/UniqueKeyPolicy
 type UniqueKeyPolicy struct {
-	//UniqueKeys: List of unique keys on that enforces uniqueness constraint on documents in the collection in the Azure
-	//Cosmos DB service.
+	// UniqueKeys: List of unique keys on that enforces uniqueness constraint on documents in the collection in the Azure
+	// Cosmos DB service.
 	UniqueKeys []UniqueKey `json:"uniqueKeys,omitempty"`
 }
 
@@ -2784,8 +2784,8 @@ func (policy *UniqueKeyPolicy) AssignPropertiesToUniqueKeyPolicy(destination *v2
 }
 
 type UniqueKeyPolicy_Status struct {
-	//UniqueKeys: List of unique keys on that enforces uniqueness constraint on documents in the collection in the Azure
-	//Cosmos DB service.
+	// UniqueKeys: List of unique keys on that enforces uniqueness constraint on documents in the collection in the Azure
+	// Cosmos DB service.
 	UniqueKeys []UniqueKey_Status `json:"uniqueKeys,omitempty"`
 }
 
@@ -2876,13 +2876,13 @@ func (policy *UniqueKeyPolicy_Status) AssignPropertiesToUniqueKeyPolicyStatus(de
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/CompositePath
+// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/CompositePath
 type CompositePath struct {
-	//Order: Sort order for composite paths.
+	// Order: Sort order for composite paths.
 	Order *CompositePathOrder `json:"order,omitempty"`
 
-	//Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
-	//(/path/*)
+	// Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
+	// (/path/*)
 	Path *string `json:"path,omitempty"`
 }
 
@@ -2983,11 +2983,11 @@ func (path *CompositePath) AssignPropertiesToCompositePath(destination *v2021051
 }
 
 type CompositePath_Status struct {
-	//Order: Sort order for composite paths.
+	// Order: Sort order for composite paths.
 	Order *CompositePathStatusOrder `json:"order,omitempty"`
 
-	//Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
-	//(/path/*)
+	// Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
+	// (/path/*)
 	Path *string `json:"path,omitempty"`
 }
 
@@ -3066,10 +3066,10 @@ func (path *CompositePath_Status) AssignPropertiesToCompositePathStatus(destinat
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ExcludedPath
+// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ExcludedPath
 type ExcludedPath struct {
-	//Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
-	//(/path/*)
+	// Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
+	// (/path/*)
 	Path *string `json:"path,omitempty"`
 }
 
@@ -3142,8 +3142,8 @@ func (path *ExcludedPath) AssignPropertiesToExcludedPath(destination *v20210515s
 }
 
 type ExcludedPath_Status struct {
-	//Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
-	//(/path/*)
+	// Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
+	// (/path/*)
 	Path *string `json:"path,omitempty"`
 }
 
@@ -3200,13 +3200,13 @@ func (path *ExcludedPath_Status) AssignPropertiesToExcludedPathStatus(destinatio
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/IncludedPath
+// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/IncludedPath
 type IncludedPath struct {
-	//Indexes: List of indexes for this path
+	// Indexes: List of indexes for this path
 	Indexes []Indexes `json:"indexes,omitempty"`
 
-	//Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
-	//(/path/*)
+	// Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
+	// (/path/*)
 	Path *string `json:"path,omitempty"`
 }
 
@@ -3334,11 +3334,11 @@ func (path *IncludedPath) AssignPropertiesToIncludedPath(destination *v20210515s
 }
 
 type IncludedPath_Status struct {
-	//Indexes: List of indexes for this path
+	// Indexes: List of indexes for this path
 	Indexes []Indexes_Status `json:"indexes,omitempty"`
 
-	//Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
-	//(/path/*)
+	// Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
+	// (/path/*)
 	Path *string `json:"path,omitempty"`
 }
 
@@ -3441,13 +3441,13 @@ func (path *IncludedPath_Status) AssignPropertiesToIncludedPathStatus(destinatio
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SpatialSpec
+// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SpatialSpec
 type SpatialSpec struct {
-	//Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
-	//(/path/*)
+	// Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
+	// (/path/*)
 	Path *string `json:"path,omitempty"`
 
-	//Types: List of path's spatial type
+	// Types: List of path's spatial type
 	Types []SpatialSpecTypes `json:"types,omitempty"`
 }
 
@@ -3556,11 +3556,11 @@ func (spatial *SpatialSpec) AssignPropertiesToSpatialSpec(destination *v20210515
 }
 
 type SpatialSpec_Status struct {
-	//Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
-	//(/path/*)
+	// Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
+	// (/path/*)
 	Path *string `json:"path,omitempty"`
 
-	//Types: List of path's spatial type
+	// Types: List of path's spatial type
 	Types []SpatialType_Status `json:"types,omitempty"`
 }
 
@@ -3648,9 +3648,9 @@ func (spatial *SpatialSpec_Status) AssignPropertiesToSpatialSpecStatus(destinati
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/UniqueKey
+// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/UniqueKey
 type UniqueKey struct {
-	//Paths: List of paths must be unique for each document in the Azure Cosmos DB service
+	// Paths: List of paths must be unique for each document in the Azure Cosmos DB service
 	Paths []string `json:"paths,omitempty"`
 }
 
@@ -3721,7 +3721,7 @@ func (uniqueKey *UniqueKey) AssignPropertiesToUniqueKey(destination *v20210515s.
 }
 
 type UniqueKey_Status struct {
-	//Paths: List of paths must be unique for each document in the Azure Cosmos DB service
+	// Paths: List of paths must be unique for each document in the Azure Cosmos DB service
 	Paths []string `json:"paths,omitempty"`
 }
 
@@ -3777,15 +3777,15 @@ func (uniqueKey *UniqueKey_Status) AssignPropertiesToUniqueKeyStatus(destination
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/Indexes
+// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/Indexes
 type Indexes struct {
-	//DataType: The datatype for which the indexing behavior is applied to.
+	// DataType: The datatype for which the indexing behavior is applied to.
 	DataType *IndexesDataType `json:"dataType,omitempty"`
 
-	//Kind: Indicates the type of index.
+	// Kind: Indicates the type of index.
 	Kind *IndexesKind `json:"kind,omitempty"`
 
-	//Precision: The precision of the index. -1 is maximum precision.
+	// Precision: The precision of the index. -1 is maximum precision.
 	Precision *int `json:"precision,omitempty"`
 }
 
@@ -3914,13 +3914,13 @@ func (indexes *Indexes) AssignPropertiesToIndexes(destination *v20210515s.Indexe
 }
 
 type Indexes_Status struct {
-	//DataType: The datatype for which the indexing behavior is applied to.
+	// DataType: The datatype for which the indexing behavior is applied to.
 	DataType *IndexesStatusDataType `json:"dataType,omitempty"`
 
-	//Kind: Indicates the type of index.
+	// Kind: Indicates the type of index.
 	Kind *IndexesStatusKind `json:"kind,omitempty"`
 
-	//Precision: The precision of the index. -1 is maximum precision.
+	// Precision: The precision of the index. -1 is maximum precision.
 	Precision *int `json:"precision,omitempty"`
 }
 

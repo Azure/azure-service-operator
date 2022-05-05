@@ -196,7 +196,7 @@ func RunJSONSerializationTestForNamespacesSpecPropertiesARM(subject Namespaces_S
 }
 
 // Generator of Namespaces_Spec_PropertiesARM instances for property testing - lazily instantiated by
-//NamespacesSpecPropertiesARMGenerator()
+// NamespacesSpecPropertiesARMGenerator()
 var namespacesSpecPropertiesARMGenerator gopter.Gen
 
 // NamespacesSpecPropertiesARMGenerator returns a generator of Namespaces_Spec_PropertiesARM instances for property testing.
@@ -412,7 +412,7 @@ func RunJSONSerializationTestForNamespacesSpecPropertiesPrivateEndpointConnectio
 }
 
 // Generator of Namespaces_Spec_Properties_PrivateEndpointConnectionsARM instances for property testing - lazily
-//instantiated by NamespacesSpecPropertiesPrivateEndpointConnectionsARMGenerator()
+// instantiated by NamespacesSpecPropertiesPrivateEndpointConnectionsARMGenerator()
 var namespacesSpecPropertiesPrivateEndpointConnectionsARMGenerator gopter.Gen
 
 // NamespacesSpecPropertiesPrivateEndpointConnectionsARMGenerator returns a generator of Namespaces_Spec_Properties_PrivateEndpointConnectionsARM instances for property testing.
@@ -472,7 +472,7 @@ func RunJSONSerializationTestForKeyVaultPropertiesARM(subject KeyVaultProperties
 }
 
 // Generator of KeyVaultPropertiesARM instances for property testing - lazily instantiated by
-//KeyVaultPropertiesARMGenerator()
+// KeyVaultPropertiesARMGenerator()
 var keyVaultPropertiesARMGenerator gopter.Gen
 
 // KeyVaultPropertiesARMGenerator returns a generator of KeyVaultPropertiesARM instances for property testing.
@@ -548,7 +548,7 @@ func RunJSONSerializationTestForPrivateEndpointConnectionPropertiesARM(subject P
 }
 
 // Generator of PrivateEndpointConnectionPropertiesARM instances for property testing - lazily instantiated by
-//PrivateEndpointConnectionPropertiesARMGenerator()
+// PrivateEndpointConnectionPropertiesARMGenerator()
 var privateEndpointConnectionPropertiesARMGenerator gopter.Gen
 
 // PrivateEndpointConnectionPropertiesARMGenerator returns a generator of PrivateEndpointConnectionPropertiesARM instances for property testing.
@@ -667,7 +667,7 @@ func RunJSONSerializationTestForUserAssignedIdentityPropertiesARM(subject UserAs
 }
 
 // Generator of UserAssignedIdentityPropertiesARM instances for property testing - lazily instantiated by
-//UserAssignedIdentityPropertiesARMGenerator()
+// UserAssignedIdentityPropertiesARMGenerator()
 var userAssignedIdentityPropertiesARMGenerator gopter.Gen
 
 // UserAssignedIdentityPropertiesARMGenerator returns a generator of UserAssignedIdentityPropertiesARM instances for property testing.

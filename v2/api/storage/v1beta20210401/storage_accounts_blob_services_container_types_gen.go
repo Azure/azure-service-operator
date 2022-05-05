@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/resourceDefinitions/storageAccounts_blobServices_containers
+// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/resourceDefinitions/storageAccounts_blobServices_containers
 type StorageAccountsBlobServicesContainer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -310,7 +310,7 @@ func (container *StorageAccountsBlobServicesContainer) OriginalGVK() *schema.Gro
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/resourceDefinitions/storageAccounts_blobServices_containers
+// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/resourceDefinitions/storageAccounts_blobServices_containers
 type StorageAccountsBlobServicesContainerList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -318,77 +318,77 @@ type StorageAccountsBlobServicesContainerList struct {
 }
 
 type BlobContainer_Status struct {
-	//Conditions: The observed state of the resource
+	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
-	//DefaultEncryptionScope: Default the container to use specified encryption scope for all writes.
+	// DefaultEncryptionScope: Default the container to use specified encryption scope for all writes.
 	DefaultEncryptionScope *string `json:"defaultEncryptionScope,omitempty"`
 
-	//Deleted: Indicates whether the blob container was deleted.
+	// Deleted: Indicates whether the blob container was deleted.
 	Deleted *bool `json:"deleted,omitempty"`
 
-	//DeletedTime: Blob container deletion time.
+	// DeletedTime: Blob container deletion time.
 	DeletedTime *string `json:"deletedTime,omitempty"`
 
-	//DenyEncryptionScopeOverride: Block override of encryption scope from the container default.
+	// DenyEncryptionScopeOverride: Block override of encryption scope from the container default.
 	DenyEncryptionScopeOverride *bool `json:"denyEncryptionScopeOverride,omitempty"`
 
-	//Etag: Resource Etag.
+	// Etag: Resource Etag.
 	Etag *string `json:"etag,omitempty"`
 
-	//HasImmutabilityPolicy: The hasImmutabilityPolicy public property is set to true by SRP if ImmutabilityPolicy has been
-	//created for this container. The hasImmutabilityPolicy public property is set to false by SRP if ImmutabilityPolicy has
-	//not been created for this container.
+	// HasImmutabilityPolicy: The hasImmutabilityPolicy public property is set to true by SRP if ImmutabilityPolicy has been
+	// created for this container. The hasImmutabilityPolicy public property is set to false by SRP if ImmutabilityPolicy has
+	// not been created for this container.
 	HasImmutabilityPolicy *bool `json:"hasImmutabilityPolicy,omitempty"`
 
-	//HasLegalHold: The hasLegalHold public property is set to true by SRP if there are at least one existing tag. The
-	//hasLegalHold public property is set to false by SRP if all existing legal hold tags are cleared out. There can be a
-	//maximum of 1000 blob containers with hasLegalHold=true for a given account.
+	// HasLegalHold: The hasLegalHold public property is set to true by SRP if there are at least one existing tag. The
+	// hasLegalHold public property is set to false by SRP if all existing legal hold tags are cleared out. There can be a
+	// maximum of 1000 blob containers with hasLegalHold=true for a given account.
 	HasLegalHold *bool `json:"hasLegalHold,omitempty"`
 
-	//Id: Fully qualified resource ID for the resource. Ex -
-	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+	// Id: Fully qualified resource ID for the resource. Ex -
+	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
 
-	//ImmutabilityPolicy: The ImmutabilityPolicy property of the container.
+	// ImmutabilityPolicy: The ImmutabilityPolicy property of the container.
 	ImmutabilityPolicy *ImmutabilityPolicyProperties_Status `json:"immutabilityPolicy,omitempty"`
 
-	//ImmutableStorageWithVersioning: The object level immutability property of the container. The property is immutable and
-	//can only be set to true at the container creation time. Existing containers must undergo a migration process.
+	// ImmutableStorageWithVersioning: The object level immutability property of the container. The property is immutable and
+	// can only be set to true at the container creation time. Existing containers must undergo a migration process.
 	ImmutableStorageWithVersioning *ImmutableStorageWithVersioning_Status `json:"immutableStorageWithVersioning,omitempty"`
 
-	//LastModifiedTime: Returns the date and time the container was last modified.
+	// LastModifiedTime: Returns the date and time the container was last modified.
 	LastModifiedTime *string `json:"lastModifiedTime,omitempty"`
 
-	//LeaseDuration: Specifies whether the lease on a container is of infinite or fixed duration, only when the container is
-	//leased.
+	// LeaseDuration: Specifies whether the lease on a container is of infinite or fixed duration, only when the container is
+	// leased.
 	LeaseDuration *ContainerPropertiesStatusLeaseDuration `json:"leaseDuration,omitempty"`
 
-	//LeaseState: Lease state of the container.
+	// LeaseState: Lease state of the container.
 	LeaseState *ContainerPropertiesStatusLeaseState `json:"leaseState,omitempty"`
 
-	//LeaseStatus: The lease status of the container.
+	// LeaseStatus: The lease status of the container.
 	LeaseStatus *ContainerPropertiesStatusLeaseStatus `json:"leaseStatus,omitempty"`
 
-	//LegalHold: The LegalHold property of the container.
+	// LegalHold: The LegalHold property of the container.
 	LegalHold *LegalHoldProperties_Status `json:"legalHold,omitempty"`
 
-	//Metadata: A name-value pair to associate with the container as metadata.
+	// Metadata: A name-value pair to associate with the container as metadata.
 	Metadata map[string]string `json:"metadata,omitempty"`
 
-	//Name: The name of the resource
+	// Name: The name of the resource
 	Name *string `json:"name,omitempty"`
 
-	//PublicAccess: Specifies whether data in the container may be accessed publicly and the level of access.
+	// PublicAccess: Specifies whether data in the container may be accessed publicly and the level of access.
 	PublicAccess *ContainerPropertiesStatusPublicAccess `json:"publicAccess,omitempty"`
 
-	//RemainingRetentionDays: Remaining retention days for soft deleted blob container.
+	// RemainingRetentionDays: Remaining retention days for soft deleted blob container.
 	RemainingRetentionDays *int `json:"remainingRetentionDays,omitempty"`
 
-	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 
-	//Version: The version of the deleted blob container.
+	// Version: The version of the deleted blob container.
 	Version *string `json:"version,omitempty"`
 }
 
@@ -953,35 +953,35 @@ const StorageAccountsBlobServicesContainersSpecAPIVersion20210401 = StorageAccou
 type StorageAccountsBlobServicesContainers_Spec struct {
 	// +kubebuilder:validation:MaxLength=63
 	// +kubebuilder:validation:MinLength=3
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
-	//DefaultEncryptionScope: Default the container to use specified encryption scope for all writes.
+	// DefaultEncryptionScope: Default the container to use specified encryption scope for all writes.
 	DefaultEncryptionScope *string `json:"defaultEncryptionScope,omitempty"`
 
-	//DenyEncryptionScopeOverride: Block override of encryption scope from the container default.
+	// DenyEncryptionScopeOverride: Block override of encryption scope from the container default.
 	DenyEncryptionScopeOverride *bool `json:"denyEncryptionScopeOverride,omitempty"`
 
-	//ImmutableStorageWithVersioning: Object level immutability properties of the container.
+	// ImmutableStorageWithVersioning: Object level immutability properties of the container.
 	ImmutableStorageWithVersioning *ImmutableStorageWithVersioning `json:"immutableStorageWithVersioning,omitempty"`
 
-	//Location: Location to deploy resource to
+	// Location: Location to deploy resource to
 	Location *string `json:"location,omitempty"`
 
-	//Metadata: A name-value pair to associate with the container as metadata.
+	// Metadata: A name-value pair to associate with the container as metadata.
 	Metadata map[string]string `json:"metadata,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a storage.azure.com/StorageAccountsBlobService resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a storage.azure.com/StorageAccountsBlobService resource
 	Owner *genruntime.KnownResourceReference `group:"storage.azure.com" json:"owner,omitempty" kind:"StorageAccountsBlobService"`
 
-	//PublicAccess: Specifies whether data in the container may be accessed publicly and the level of access.
+	// PublicAccess: Specifies whether data in the container may be accessed publicly and the level of access.
 	PublicAccess *ContainerPropertiesPublicAccess `json:"publicAccess,omitempty"`
 
-	//Tags: Name-value pairs to add to the resource
+	// Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
@@ -1336,23 +1336,23 @@ const (
 )
 
 type ImmutabilityPolicyProperties_Status struct {
-	//AllowProtectedAppendWrites: This property can only be changed for unlocked time-based retention policies. When enabled,
-	//new blocks can be written to an append blob while maintaining immutability protection and compliance. Only new blocks
-	//can be added and any existing blocks cannot be modified or deleted. This property cannot be changed with
-	//ExtendImmutabilityPolicy API
+	// AllowProtectedAppendWrites: This property can only be changed for unlocked time-based retention policies. When enabled,
+	// new blocks can be written to an append blob while maintaining immutability protection and compliance. Only new blocks
+	// can be added and any existing blocks cannot be modified or deleted. This property cannot be changed with
+	// ExtendImmutabilityPolicy API
 	AllowProtectedAppendWrites *bool `json:"allowProtectedAppendWrites,omitempty"`
 
-	//Etag: ImmutabilityPolicy Etag.
+	// Etag: ImmutabilityPolicy Etag.
 	Etag *string `json:"etag,omitempty"`
 
-	//ImmutabilityPeriodSinceCreationInDays: The immutability period for the blobs in the container since the policy creation,
-	//in days.
+	// ImmutabilityPeriodSinceCreationInDays: The immutability period for the blobs in the container since the policy creation,
+	// in days.
 	ImmutabilityPeriodSinceCreationInDays *int `json:"immutabilityPeriodSinceCreationInDays,omitempty"`
 
-	//State: The ImmutabilityPolicy state of a blob container, possible values include: Locked and Unlocked.
+	// State: The ImmutabilityPolicy state of a blob container, possible values include: Locked and Unlocked.
 	State *ImmutabilityPolicyPropertyStatusState `json:"state,omitempty"`
 
-	//UpdateHistory: The ImmutabilityPolicy update history of the blob container.
+	// UpdateHistory: The ImmutabilityPolicy update history of the blob container.
 	UpdateHistory []UpdateHistoryProperty_Status `json:"updateHistory,omitempty"`
 }
 
@@ -1520,9 +1520,9 @@ func (properties *ImmutabilityPolicyProperties_Status) AssignPropertiesToImmutab
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ImmutableStorageWithVersioning
+// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ImmutableStorageWithVersioning
 type ImmutableStorageWithVersioning struct {
-	//Enabled: This is an immutable property, when set to true it enables object level immutability at the container level.
+	// Enabled: This is an immutable property, when set to true it enables object level immutability at the container level.
 	Enabled *bool `json:"enabled,omitempty"`
 }
 
@@ -1605,13 +1605,13 @@ func (versioning *ImmutableStorageWithVersioning) AssignPropertiesToImmutableSto
 }
 
 type ImmutableStorageWithVersioning_Status struct {
-	//Enabled: This is an immutable property, when set to true it enables object level immutability at the container level.
+	// Enabled: This is an immutable property, when set to true it enables object level immutability at the container level.
 	Enabled *bool `json:"enabled,omitempty"`
 
-	//MigrationState: This property denotes the container level immutability to object level immutability migration state.
+	// MigrationState: This property denotes the container level immutability to object level immutability migration state.
 	MigrationState *ImmutableStorageWithVersioningStatusMigrationState `json:"migrationState,omitempty"`
 
-	//TimeStamp: Returns the date and time the object level immutability was enabled.
+	// TimeStamp: Returns the date and time the object level immutability was enabled.
 	TimeStamp *string `json:"timeStamp,omitempty"`
 }
 
@@ -1713,12 +1713,12 @@ func (versioning *ImmutableStorageWithVersioning_Status) AssignPropertiesToImmut
 }
 
 type LegalHoldProperties_Status struct {
-	//HasLegalHold: The hasLegalHold public property is set to true by SRP if there are at least one existing tag. The
-	//hasLegalHold public property is set to false by SRP if all existing legal hold tags are cleared out. There can be a
-	//maximum of 1000 blob containers with hasLegalHold=true for a given account.
+	// HasLegalHold: The hasLegalHold public property is set to true by SRP if there are at least one existing tag. The
+	// hasLegalHold public property is set to false by SRP if all existing legal hold tags are cleared out. There can be a
+	// maximum of 1000 blob containers with hasLegalHold=true for a given account.
 	HasLegalHold *bool `json:"hasLegalHold,omitempty"`
 
-	//Tags: The list of LegalHold tags of a blob container.
+	// Tags: The list of LegalHold tags of a blob container.
 	Tags []TagProperty_Status `json:"tags,omitempty"`
 }
 
@@ -1839,19 +1839,19 @@ const (
 )
 
 type TagProperty_Status struct {
-	//ObjectIdentifier: Returns the Object ID of the user who added the tag.
+	// ObjectIdentifier: Returns the Object ID of the user who added the tag.
 	ObjectIdentifier *string `json:"objectIdentifier,omitempty"`
 
-	//Tag: The tag value.
+	// Tag: The tag value.
 	Tag *string `json:"tag,omitempty"`
 
-	//TenantId: Returns the Tenant ID that issued the token for the user who added the tag.
+	// TenantId: Returns the Tenant ID that issued the token for the user who added the tag.
 	TenantId *string `json:"tenantId,omitempty"`
 
-	//Timestamp: Returns the date and time the tag was added.
+	// Timestamp: Returns the date and time the tag was added.
 	Timestamp *string `json:"timestamp,omitempty"`
 
-	//Upn: Returns the User Principal Name of the user who added the tag.
+	// Upn: Returns the User Principal Name of the user who added the tag.
 	Upn *string `json:"upn,omitempty"`
 }
 
@@ -1957,23 +1957,23 @@ func (property *TagProperty_Status) AssignPropertiesToTagPropertyStatus(destinat
 }
 
 type UpdateHistoryProperty_Status struct {
-	//ImmutabilityPeriodSinceCreationInDays: The immutability period for the blobs in the container since the policy creation,
-	//in days.
+	// ImmutabilityPeriodSinceCreationInDays: The immutability period for the blobs in the container since the policy creation,
+	// in days.
 	ImmutabilityPeriodSinceCreationInDays *int `json:"immutabilityPeriodSinceCreationInDays,omitempty"`
 
-	//ObjectIdentifier: Returns the Object ID of the user who updated the ImmutabilityPolicy.
+	// ObjectIdentifier: Returns the Object ID of the user who updated the ImmutabilityPolicy.
 	ObjectIdentifier *string `json:"objectIdentifier,omitempty"`
 
-	//TenantId: Returns the Tenant ID that issued the token for the user who updated the ImmutabilityPolicy.
+	// TenantId: Returns the Tenant ID that issued the token for the user who updated the ImmutabilityPolicy.
 	TenantId *string `json:"tenantId,omitempty"`
 
-	//Timestamp: Returns the date and time the ImmutabilityPolicy was updated.
+	// Timestamp: Returns the date and time the ImmutabilityPolicy was updated.
 	Timestamp *string `json:"timestamp,omitempty"`
 
-	//Update: The ImmutabilityPolicy update type of a blob container, possible values include: put, lock and extend.
+	// Update: The ImmutabilityPolicy update type of a blob container, possible values include: put, lock and extend.
 	Update *UpdateHistoryPropertyStatusUpdate `json:"update,omitempty"`
 
-	//Upn: Returns the User Principal Name of the user who updated the ImmutabilityPolicy.
+	// Upn: Returns the User Principal Name of the user who updated the ImmutabilityPolicy.
 	Upn *string `json:"upn,omitempty"`
 }
 

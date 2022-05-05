@@ -20,8 +20,8 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Storage version of v1alpha1api20210101preview.NamespacesQueue
-//Deprecated version of NamespacesQueue. Use v1beta20210101preview.NamespacesQueue instead
+// Storage version of v1alpha1api20210101preview.NamespacesQueue
+// Deprecated version of NamespacesQueue. Use v1beta20210101preview.NamespacesQueue instead
 type NamespacesQueue struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -191,21 +191,21 @@ func (queue *NamespacesQueue) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Storage version of v1alpha1api20210101preview.NamespacesQueue
-//Deprecated version of NamespacesQueue. Use v1beta20210101preview.NamespacesQueue instead
+// Storage version of v1alpha1api20210101preview.NamespacesQueue
+// Deprecated version of NamespacesQueue. Use v1beta20210101preview.NamespacesQueue instead
 type NamespacesQueueList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []NamespacesQueue `json:"items"`
 }
 
-//Storage version of v1alpha1api20210101preview.NamespacesQueues_Spec
+// Storage version of v1alpha1api20210101preview.NamespacesQueues_Spec
 type NamespacesQueues_Spec struct {
 	AutoDeleteOnIdle *string `json:"autoDeleteOnIdle,omitempty"`
 
 	// +kubebuilder:validation:MinLength=1
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName                           string  `json:"azureName,omitempty"`
 	DeadLetteringOnMessageExpiration    *bool   `json:"deadLetteringOnMessageExpiration,omitempty"`
 	DefaultMessageTimeToLive            *string `json:"defaultMessageTimeToLive,omitempty"`
@@ -222,9 +222,9 @@ type NamespacesQueues_Spec struct {
 	OriginalVersion                     string  `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a servicebus.azure.com/Namespace resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a servicebus.azure.com/Namespace resource
 	Owner                      *genruntime.KnownResourceReference `group:"servicebus.azure.com" json:"owner,omitempty" kind:"Namespace"`
 	PropertyBag                genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	RequiresDuplicateDetection *bool                              `json:"requiresDuplicateDetection,omitempty"`
@@ -498,8 +498,8 @@ func (queues *NamespacesQueues_Spec) AssignPropertiesToNamespacesQueuesSpec(dest
 	return nil
 }
 
-//Storage version of v1alpha1api20210101preview.SBQueue_Status
-//Deprecated version of SBQueue_Status. Use v1beta20210101preview.SBQueue_Status instead
+// Storage version of v1alpha1api20210101preview.SBQueue_Status
+// Deprecated version of SBQueue_Status. Use v1beta20210101preview.SBQueue_Status instead
 type SBQueue_Status struct {
 	AccessedAt                          *string                     `json:"accessedAt,omitempty"`
 	AutoDeleteOnIdle                    *string                     `json:"autoDeleteOnIdle,omitempty"`
@@ -864,8 +864,8 @@ func (queue *SBQueue_Status) AssignPropertiesToSBQueueStatus(destination *v20210
 	return nil
 }
 
-//Storage version of v1alpha1api20210101preview.MessageCountDetails_Status
-//Deprecated version of MessageCountDetails_Status. Use v1beta20210101preview.MessageCountDetails_Status instead
+// Storage version of v1alpha1api20210101preview.MessageCountDetails_Status
+// Deprecated version of MessageCountDetails_Status. Use v1beta20210101preview.MessageCountDetails_Status instead
 type MessageCountDetails_Status struct {
 	ActiveMessageCount             *int                   `json:"activeMessageCount,omitempty"`
 	DeadLetterMessageCount         *int                   `json:"deadLetterMessageCount,omitempty"`

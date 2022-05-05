@@ -56,7 +56,7 @@ func RunJSONSerializationTestForPublicIPAddressesSpecARM(subject PublicIPAddress
 }
 
 // Generator of PublicIPAddresses_SpecARM instances for property testing - lazily instantiated by
-//PublicIPAddressesSpecARMGenerator()
+// PublicIPAddressesSpecARMGenerator()
 var publicIPAddressesSpecARMGenerator gopter.Gen
 
 // PublicIPAddressesSpecARMGenerator returns a generator of PublicIPAddresses_SpecARM instances for property testing.
@@ -135,7 +135,7 @@ func RunJSONSerializationTestForPublicIPAddressPropertiesFormatARM(subject Publi
 }
 
 // Generator of PublicIPAddressPropertiesFormatARM instances for property testing - lazily instantiated by
-//PublicIPAddressPropertiesFormatARMGenerator()
+// PublicIPAddressPropertiesFormatARMGenerator()
 var publicIPAddressPropertiesFormatARMGenerator gopter.Gen
 
 // PublicIPAddressPropertiesFormatARMGenerator returns a generator of PublicIPAddressPropertiesFormatARM instances for property testing.
@@ -215,7 +215,7 @@ func RunJSONSerializationTestForPublicIPAddressSkuARM(subject PublicIPAddressSku
 }
 
 // Generator of PublicIPAddressSkuARM instances for property testing - lazily instantiated by
-//PublicIPAddressSkuARMGenerator()
+// PublicIPAddressSkuARMGenerator()
 var publicIPAddressSkuARMGenerator gopter.Gen
 
 // PublicIPAddressSkuARMGenerator returns a generator of PublicIPAddressSkuARM instances for property testing.
@@ -410,7 +410,7 @@ func RunJSONSerializationTestForPublicIPAddressDnsSettingsARM(subject PublicIPAd
 }
 
 // Generator of PublicIPAddressDnsSettingsARM instances for property testing - lazily instantiated by
-//PublicIPAddressDnsSettingsARMGenerator()
+// PublicIPAddressDnsSettingsARMGenerator()
 var publicIPAddressDnsSettingsARMGenerator gopter.Gen
 
 // PublicIPAddressDnsSettingsARMGenerator returns a generator of PublicIPAddressDnsSettingsARM instances for property testing.

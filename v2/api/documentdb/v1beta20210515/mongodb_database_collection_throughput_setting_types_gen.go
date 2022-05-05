@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_mongodbDatabases_collections_throughputSettings
+// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_mongodbDatabases_collections_throughputSettings
 type MongodbDatabaseCollectionThroughputSetting struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -303,7 +303,7 @@ func (setting *MongodbDatabaseCollectionThroughputSetting) OriginalGVK() *schema
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_mongodbDatabases_collections_throughputSettings
+// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_mongodbDatabases_collections_throughputSettings
 type MongodbDatabaseCollectionThroughputSettingList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -316,25 +316,25 @@ type DatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpecAPIVersion
 const DatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpecAPIVersion20210515 = DatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpecAPIVersion("2021-05-15")
 
 type DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec struct {
-	//Location: The location of the resource group to which the resource belongs.
+	// Location: The location of the resource group to which the resource belongs.
 	Location *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a documentdb.azure.com/MongodbDatabaseCollection resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a documentdb.azure.com/MongodbDatabaseCollection resource
 	Owner *genruntime.KnownResourceReference `group:"documentdb.azure.com" json:"owner,omitempty" kind:"MongodbDatabaseCollection"`
 
 	// +kubebuilder:validation:Required
-	//Resource: Cosmos DB resource throughput object. Either throughput is required or autoscaleSettings is required, but not
-	//both.
+	// Resource: Cosmos DB resource throughput object. Either throughput is required or autoscaleSettings is required, but not
+	// both.
 	Resource *ThroughputSettingsResource `json:"resource,omitempty"`
 
-	//Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
-	//resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
-	//greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
-	//type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph",
-	//"DocumentDB", and "MongoDB".
+	// Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
+	// resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
+	// greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
+	// type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph",
+	// "DocumentDB", and "MongoDB".
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
@@ -562,21 +562,21 @@ func (settings *DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Sp
 }
 
 type ThroughputSettingsGetResults_Status struct {
-	//Conditions: The observed state of the resource
+	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
-	//Id: The unique resource identifier of the ARM resource.
+	// Id: The unique resource identifier of the ARM resource.
 	Id *string `json:"id,omitempty"`
 
-	//Location: The location of the resource group to which the resource belongs.
+	// Location: The location of the resource group to which the resource belongs.
 	Location *string `json:"location,omitempty"`
 
-	//Name: The name of the ARM resource.
+	// Name: The name of the ARM resource.
 	Name     *string                                          `json:"name,omitempty"`
 	Resource *ThroughputSettingsGetProperties_Status_Resource `json:"resource,omitempty"`
 	Tags     map[string]string                                `json:"tags,omitempty"`
 
-	//Type: The type of Azure resource.
+	// Type: The type of Azure resource.
 	Type *string `json:"type,omitempty"`
 }
 
@@ -780,27 +780,27 @@ func (results *ThroughputSettingsGetResults_Status) AssignPropertiesToThroughput
 }
 
 type ThroughputSettingsGetProperties_Status_Resource struct {
-	//AutoscaleSettings: Cosmos DB resource for autoscale settings. Either throughput is required or autoscaleSettings is
-	//required, but not both.
+	// AutoscaleSettings: Cosmos DB resource for autoscale settings. Either throughput is required or autoscaleSettings is
+	// required, but not both.
 	AutoscaleSettings *AutoscaleSettingsResource_Status `json:"autoscaleSettings,omitempty"`
 
-	//Etag: A system generated property representing the resource etag required for optimistic concurrency control.
+	// Etag: A system generated property representing the resource etag required for optimistic concurrency control.
 	Etag *string `json:"_etag,omitempty"`
 
-	//MinimumThroughput: The minimum throughput of the resource
+	// MinimumThroughput: The minimum throughput of the resource
 	MinimumThroughput *string `json:"minimumThroughput,omitempty"`
 
-	//OfferReplacePending: The throughput replace is pending
+	// OfferReplacePending: The throughput replace is pending
 	OfferReplacePending *string `json:"offerReplacePending,omitempty"`
 
-	//Rid: A system generated property. A unique identifier.
+	// Rid: A system generated property. A unique identifier.
 	Rid *string `json:"_rid,omitempty"`
 
-	//Throughput: Value of the Cosmos DB resource throughput. Either throughput is required or autoscaleSettings is required,
-	//but not both.
+	// Throughput: Value of the Cosmos DB resource throughput. Either throughput is required or autoscaleSettings is required,
+	// but not both.
 	Throughput *int `json:"throughput,omitempty"`
 
-	//Ts: A system generated property that denotes the last updated timestamp of the resource.
+	// Ts: A system generated property that denotes the last updated timestamp of the resource.
 	Ts *float64 `json:"_ts,omitempty"`
 }
 
@@ -962,13 +962,13 @@ func (resource *ThroughputSettingsGetProperties_Status_Resource) AssignPropertie
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ThroughputSettingsResource
+// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ThroughputSettingsResource
 type ThroughputSettingsResource struct {
-	//AutoscaleSettings: Cosmos DB provisioned throughput settings object
+	// AutoscaleSettings: Cosmos DB provisioned throughput settings object
 	AutoscaleSettings *AutoscaleSettingsResource `json:"autoscaleSettings,omitempty"`
 
-	//Throughput: Value of the Cosmos DB resource throughput. Either throughput is required or autoscaleSettings is required,
-	//but not both.
+	// Throughput: Value of the Cosmos DB resource throughput. Either throughput is required or autoscaleSettings is required,
+	// but not both.
 	Throughput *int `json:"throughput,omitempty"`
 }
 
@@ -1085,13 +1085,13 @@ func (resource *ThroughputSettingsResource) AssignPropertiesToThroughputSettings
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/AutoscaleSettingsResource
+// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/AutoscaleSettingsResource
 type AutoscaleSettingsResource struct {
-	//AutoUpgradePolicy: Cosmos DB resource auto-upgrade policy
+	// AutoUpgradePolicy: Cosmos DB resource auto-upgrade policy
 	AutoUpgradePolicy *AutoUpgradePolicyResource `json:"autoUpgradePolicy,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//MaxThroughput: Represents maximum throughput container can scale up to.
+	// MaxThroughput: Represents maximum throughput container can scale up to.
 	MaxThroughput *int `json:"maxThroughput,omitempty"`
 }
 
@@ -1209,14 +1209,14 @@ func (resource *AutoscaleSettingsResource) AssignPropertiesToAutoscaleSettingsRe
 }
 
 type AutoscaleSettingsResource_Status struct {
-	//AutoUpgradePolicy: Cosmos DB resource auto-upgrade policy
+	// AutoUpgradePolicy: Cosmos DB resource auto-upgrade policy
 	AutoUpgradePolicy *AutoUpgradePolicyResource_Status `json:"autoUpgradePolicy,omitempty"`
 
-	//MaxThroughput: Represents maximum throughput container can scale up to.
+	// MaxThroughput: Represents maximum throughput container can scale up to.
 	MaxThroughput *int `json:"maxThroughput,omitempty"`
 
-	//TargetMaxThroughput: Represents target maximum throughput container can scale up to once offer is no longer in pending
-	//state.
+	// TargetMaxThroughput: Represents target maximum throughput container can scale up to once offer is no longer in pending
+	// state.
 	TargetMaxThroughput *int `json:"targetMaxThroughput,omitempty"`
 }
 
@@ -1320,9 +1320,9 @@ func (resource *AutoscaleSettingsResource_Status) AssignPropertiesToAutoscaleSet
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/AutoUpgradePolicyResource
+// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/AutoUpgradePolicyResource
 type AutoUpgradePolicyResource struct {
-	//ThroughputPolicy: Cosmos DB resource throughput policy
+	// ThroughputPolicy: Cosmos DB resource throughput policy
 	ThroughputPolicy *ThroughputPolicyResource `json:"throughputPolicy,omitempty"`
 }
 
@@ -1422,7 +1422,7 @@ func (resource *AutoUpgradePolicyResource) AssignPropertiesToAutoUpgradePolicyRe
 }
 
 type AutoUpgradePolicyResource_Status struct {
-	//ThroughputPolicy: Represents throughput policy which service must adhere to for auto-upgrade
+	// ThroughputPolicy: Represents throughput policy which service must adhere to for auto-upgrade
 	ThroughputPolicy *ThroughputPolicyResource_Status `json:"throughputPolicy,omitempty"`
 }
 
@@ -1502,12 +1502,12 @@ func (resource *AutoUpgradePolicyResource_Status) AssignPropertiesToAutoUpgradeP
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ThroughputPolicyResource
+// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ThroughputPolicyResource
 type ThroughputPolicyResource struct {
-	//IncrementPercent: Represents the percentage by which throughput can increase every time throughput policy kicks in.
+	// IncrementPercent: Represents the percentage by which throughput can increase every time throughput policy kicks in.
 	IncrementPercent *int `json:"incrementPercent,omitempty"`
 
-	//IsEnabled: Determines whether the ThroughputPolicy is active or not
+	// IsEnabled: Determines whether the ThroughputPolicy is active or not
 	IsEnabled *bool `json:"isEnabled,omitempty"`
 }
 
@@ -1608,10 +1608,10 @@ func (resource *ThroughputPolicyResource) AssignPropertiesToThroughputPolicyReso
 }
 
 type ThroughputPolicyResource_Status struct {
-	//IncrementPercent: Represents the percentage by which throughput can increase every time throughput policy kicks in.
+	// IncrementPercent: Represents the percentage by which throughput can increase every time throughput policy kicks in.
 	IncrementPercent *int `json:"incrementPercent,omitempty"`
 
-	//IsEnabled: Determines whether the ThroughputPolicy is active or not
+	// IsEnabled: Determines whether the ThroughputPolicy is active or not
 	IsEnabled *bool `json:"isEnabled,omitempty"`
 }
 

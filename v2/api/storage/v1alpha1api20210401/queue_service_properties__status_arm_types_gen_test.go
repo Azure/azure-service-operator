@@ -56,7 +56,7 @@ func RunJSONSerializationTestForQueueServicePropertiesStatusARM(subject QueueSer
 }
 
 // Generator of QueueServiceProperties_StatusARM instances for property testing - lazily instantiated by
-//QueueServicePropertiesStatusARMGenerator()
+// QueueServicePropertiesStatusARMGenerator()
 var queueServicePropertiesStatusARMGenerator gopter.Gen
 
 // QueueServicePropertiesStatusARMGenerator returns a generator of QueueServiceProperties_StatusARM instances for property testing.
@@ -132,7 +132,7 @@ func RunJSONSerializationTestForQueueServicePropertiesStatusPropertiesARM(subjec
 }
 
 // Generator of QueueServiceProperties_Status_PropertiesARM instances for property testing - lazily instantiated by
-//QueueServicePropertiesStatusPropertiesARMGenerator()
+// QueueServicePropertiesStatusPropertiesARMGenerator()
 var queueServicePropertiesStatusPropertiesARMGenerator gopter.Gen
 
 // QueueServicePropertiesStatusPropertiesARMGenerator returns a generator of QueueServiceProperties_Status_PropertiesARM instances for property testing.

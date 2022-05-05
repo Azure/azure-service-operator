@@ -21,8 +21,8 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Storage version of v1beta20210901.Registry
-//Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/resourceDefinitions/registries
+// Storage version of v1beta20210901.Registry
+// Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/resourceDefinitions/registries
 type Registry struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -121,23 +121,23 @@ func (registry *Registry) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Storage version of v1beta20210901.Registry
-//Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/resourceDefinitions/registries
+// Storage version of v1beta20210901.Registry
+// Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/resourceDefinitions/registries
 type RegistryList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Registry `json:"items"`
 }
 
-//Storage version of v1beta20210901.Registries_Spec
+// Storage version of v1beta20210901.Registries_Spec
 type Registries_Spec struct {
 	AdminUserEnabled *bool `json:"adminUserEnabled,omitempty"`
 
 	// +kubebuilder:validation:MaxLength=50
 	// +kubebuilder:validation:MinLength=5
 	// +kubebuilder:validation:Pattern="^[a-zA-Z0-9]*$"
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName                string              `json:"azureName,omitempty"`
 	DataEndpointEnabled      *bool               `json:"dataEndpointEnabled,omitempty"`
 	Encryption               *EncryptionProperty `json:"encryption,omitempty"`
@@ -148,9 +148,9 @@ type Registries_Spec struct {
 	OriginalVersion          string              `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a resources.azure.com/ResourceGroup resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
 	Owner               *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	Policies            *Policies                          `json:"policies,omitempty"`
 	PropertyBag         genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
@@ -180,7 +180,7 @@ func (registries *Registries_Spec) ConvertSpecTo(destination genruntime.Converti
 	return destination.ConvertSpecFrom(registries)
 }
 
-//Storage version of v1beta20210901.Registry_Status
+// Storage version of v1beta20210901.Registry_Status
 type Registry_Status struct {
 	AdminUserEnabled           *bool                                                  `json:"adminUserEnabled,omitempty"`
 	Conditions                 []conditions.Condition                                 `json:"conditions,omitempty"`
@@ -228,23 +228,23 @@ func (registry *Registry_Status) ConvertStatusTo(destination genruntime.Converti
 	return destination.ConvertStatusFrom(registry)
 }
 
-//Storage version of v1beta20210901.EncryptionProperty
-//Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/EncryptionProperty
+// Storage version of v1beta20210901.EncryptionProperty
+// Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/EncryptionProperty
 type EncryptionProperty struct {
 	KeyVaultProperties *KeyVaultProperties    `json:"keyVaultProperties,omitempty"`
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Status             *string                `json:"status,omitempty"`
 }
 
-//Storage version of v1beta20210901.EncryptionProperty_Status
+// Storage version of v1beta20210901.EncryptionProperty_Status
 type EncryptionProperty_Status struct {
 	KeyVaultProperties *KeyVaultProperties_Status `json:"keyVaultProperties,omitempty"`
 	PropertyBag        genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
 	Status             *string                    `json:"status,omitempty"`
 }
 
-//Storage version of v1beta20210901.IdentityProperties
-//Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/IdentityProperties
+// Storage version of v1beta20210901.IdentityProperties
+// Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/IdentityProperties
 type IdentityProperties struct {
 	PrincipalId            *string                           `json:"principalId,omitempty"`
 	PropertyBag            genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
@@ -253,7 +253,7 @@ type IdentityProperties struct {
 	UserAssignedIdentities map[string]UserIdentityProperties `json:"userAssignedIdentities,omitempty"`
 }
 
-//Storage version of v1beta20210901.IdentityProperties_Status
+// Storage version of v1beta20210901.IdentityProperties_Status
 type IdentityProperties_Status struct {
 	PrincipalId            *string                                  `json:"principalId,omitempty"`
 	PropertyBag            genruntime.PropertyBag                   `json:"$propertyBag,omitempty"`
@@ -262,23 +262,23 @@ type IdentityProperties_Status struct {
 	UserAssignedIdentities map[string]UserIdentityProperties_Status `json:"userAssignedIdentities,omitempty"`
 }
 
-//Storage version of v1beta20210901.NetworkRuleSet
-//Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/NetworkRuleSet
+// Storage version of v1beta20210901.NetworkRuleSet
+// Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/NetworkRuleSet
 type NetworkRuleSet struct {
 	DefaultAction *string                `json:"defaultAction,omitempty"`
 	IpRules       []IPRule               `json:"ipRules,omitempty"`
 	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1beta20210901.NetworkRuleSet_Status
+// Storage version of v1beta20210901.NetworkRuleSet_Status
 type NetworkRuleSet_Status struct {
 	DefaultAction *string                `json:"defaultAction,omitempty"`
 	IpRules       []IPRule_Status        `json:"ipRules,omitempty"`
 	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1beta20210901.Policies
-//Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/Policies
+// Storage version of v1beta20210901.Policies
+// Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/Policies
 type Policies struct {
 	ExportPolicy     *ExportPolicy          `json:"exportPolicy,omitempty"`
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -287,7 +287,7 @@ type Policies struct {
 	TrustPolicy      *TrustPolicy           `json:"trustPolicy,omitempty"`
 }
 
-//Storage version of v1beta20210901.Policies_Status
+// Storage version of v1beta20210901.Policies_Status
 type Policies_Status struct {
 	ExportPolicy     *ExportPolicy_Status     `json:"exportPolicy,omitempty"`
 	PropertyBag      genruntime.PropertyBag   `json:"$propertyBag,omitempty"`
@@ -296,28 +296,28 @@ type Policies_Status struct {
 	TrustPolicy      *TrustPolicy_Status      `json:"trustPolicy,omitempty"`
 }
 
-//Storage version of v1beta20210901.PrivateEndpointConnection_Status_SubResourceEmbedded
+// Storage version of v1beta20210901.PrivateEndpointConnection_Status_SubResourceEmbedded
 type PrivateEndpointConnection_Status_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SystemData  *SystemData_Status     `json:"systemData,omitempty"`
 }
 
-//Storage version of v1beta20210901.Sku
-//Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/Sku
+// Storage version of v1beta20210901.Sku
+// Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/Sku
 type Sku struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1beta20210901.Sku_Status
+// Storage version of v1beta20210901.Sku_Status
 type Sku_Status struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Tier        *string                `json:"tier,omitempty"`
 }
 
-//Storage version of v1beta20210901.Status_Status
+// Storage version of v1beta20210901.Status_Status
 type Status_Status struct {
 	DisplayStatus *string                `json:"displayStatus,omitempty"`
 	Message       *string                `json:"message,omitempty"`
@@ -325,7 +325,7 @@ type Status_Status struct {
 	Timestamp     *string                `json:"timestamp,omitempty"`
 }
 
-//Storage version of v1beta20210901.SystemData_Status
+// Storage version of v1beta20210901.SystemData_Status
 type SystemData_Status struct {
 	CreatedAt          *string                `json:"createdAt,omitempty"`
 	CreatedBy          *string                `json:"createdBy,omitempty"`
@@ -336,43 +336,43 @@ type SystemData_Status struct {
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1beta20210901.ExportPolicy
-//Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/ExportPolicy
+// Storage version of v1beta20210901.ExportPolicy
+// Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/ExportPolicy
 type ExportPolicy struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Status      *string                `json:"status,omitempty"`
 }
 
-//Storage version of v1beta20210901.ExportPolicy_Status
+// Storage version of v1beta20210901.ExportPolicy_Status
 type ExportPolicy_Status struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Status      *string                `json:"status,omitempty"`
 }
 
-//Storage version of v1beta20210901.IPRule
-//Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/IPRule
+// Storage version of v1beta20210901.IPRule
+// Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/IPRule
 type IPRule struct {
 	Action      *string                `json:"action,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Value       *string                `json:"value,omitempty"`
 }
 
-//Storage version of v1beta20210901.IPRule_Status
+// Storage version of v1beta20210901.IPRule_Status
 type IPRule_Status struct {
 	Action      *string                `json:"action,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Value       *string                `json:"value,omitempty"`
 }
 
-//Storage version of v1beta20210901.KeyVaultProperties
-//Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/KeyVaultProperties
+// Storage version of v1beta20210901.KeyVaultProperties
+// Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/KeyVaultProperties
 type KeyVaultProperties struct {
 	Identity      *string                `json:"identity,omitempty"`
 	KeyIdentifier *string                `json:"keyIdentifier,omitempty"`
 	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1beta20210901.KeyVaultProperties_Status
+// Storage version of v1beta20210901.KeyVaultProperties_Status
 type KeyVaultProperties_Status struct {
 	Identity                 *string                `json:"identity,omitempty"`
 	KeyIdentifier            *string                `json:"keyIdentifier,omitempty"`
@@ -382,28 +382,28 @@ type KeyVaultProperties_Status struct {
 	VersionedKeyIdentifier   *string                `json:"versionedKeyIdentifier,omitempty"`
 }
 
-//Storage version of v1beta20210901.QuarantinePolicy
-//Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/QuarantinePolicy
+// Storage version of v1beta20210901.QuarantinePolicy
+// Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/QuarantinePolicy
 type QuarantinePolicy struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Status      *string                `json:"status,omitempty"`
 }
 
-//Storage version of v1beta20210901.QuarantinePolicy_Status
+// Storage version of v1beta20210901.QuarantinePolicy_Status
 type QuarantinePolicy_Status struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Status      *string                `json:"status,omitempty"`
 }
 
-//Storage version of v1beta20210901.RetentionPolicy
-//Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/RetentionPolicy
+// Storage version of v1beta20210901.RetentionPolicy
+// Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/RetentionPolicy
 type RetentionPolicy struct {
 	Days        *int                   `json:"days,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Status      *string                `json:"status,omitempty"`
 }
 
-//Storage version of v1beta20210901.RetentionPolicy_Status
+// Storage version of v1beta20210901.RetentionPolicy_Status
 type RetentionPolicy_Status struct {
 	Days            *int                   `json:"days,omitempty"`
 	LastUpdatedTime *string                `json:"lastUpdatedTime,omitempty"`
@@ -411,30 +411,30 @@ type RetentionPolicy_Status struct {
 	Status          *string                `json:"status,omitempty"`
 }
 
-//Storage version of v1beta20210901.TrustPolicy
-//Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/TrustPolicy
+// Storage version of v1beta20210901.TrustPolicy
+// Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/TrustPolicy
 type TrustPolicy struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Status      *string                `json:"status,omitempty"`
 	Type        *string                `json:"type,omitempty"`
 }
 
-//Storage version of v1beta20210901.TrustPolicy_Status
+// Storage version of v1beta20210901.TrustPolicy_Status
 type TrustPolicy_Status struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Status      *string                `json:"status,omitempty"`
 	Type        *string                `json:"type,omitempty"`
 }
 
-//Storage version of v1beta20210901.UserIdentityProperties
-//Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/UserIdentityProperties
+// Storage version of v1beta20210901.UserIdentityProperties
+// Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/UserIdentityProperties
 type UserIdentityProperties struct {
 	ClientId    *string                `json:"clientId,omitempty"`
 	PrincipalId *string                `json:"principalId,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1beta20210901.UserIdentityProperties_Status
+// Storage version of v1beta20210901.UserIdentityProperties_Status
 type UserIdentityProperties_Status struct {
 	ClientId    *string                `json:"clientId,omitempty"`
 	PrincipalId *string                `json:"principalId,omitempty"`

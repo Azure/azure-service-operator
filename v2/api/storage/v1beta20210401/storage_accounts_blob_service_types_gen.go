@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/resourceDefinitions/storageAccounts_blobServices
+// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/resourceDefinitions/storageAccounts_blobServices
 type StorageAccountsBlobService struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -303,7 +303,7 @@ func (service *StorageAccountsBlobService) OriginalGVK() *schema.GroupVersionKin
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/resourceDefinitions/storageAccounts_blobServices
+// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/resourceDefinitions/storageAccounts_blobServices
 type StorageAccountsBlobServiceList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -311,50 +311,50 @@ type StorageAccountsBlobServiceList struct {
 }
 
 type BlobServiceProperties_Status struct {
-	//AutomaticSnapshotPolicyEnabled: Deprecated in favor of isVersioningEnabled property.
+	// AutomaticSnapshotPolicyEnabled: Deprecated in favor of isVersioningEnabled property.
 	AutomaticSnapshotPolicyEnabled *bool `json:"automaticSnapshotPolicyEnabled,omitempty"`
 
-	//ChangeFeed: The blob service properties for change feed events.
+	// ChangeFeed: The blob service properties for change feed events.
 	ChangeFeed *ChangeFeed_Status `json:"changeFeed,omitempty"`
 
-	//Conditions: The observed state of the resource
+	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
-	//ContainerDeleteRetentionPolicy: The blob service properties for container soft delete.
+	// ContainerDeleteRetentionPolicy: The blob service properties for container soft delete.
 	ContainerDeleteRetentionPolicy *DeleteRetentionPolicy_Status `json:"containerDeleteRetentionPolicy,omitempty"`
 
-	//Cors: Specifies CORS rules for the Blob service. You can include up to five CorsRule elements in the request. If no
-	//CorsRule elements are included in the request body, all CORS rules will be deleted, and CORS will be disabled for the
-	//Blob service.
+	// Cors: Specifies CORS rules for the Blob service. You can include up to five CorsRule elements in the request. If no
+	// CorsRule elements are included in the request body, all CORS rules will be deleted, and CORS will be disabled for the
+	// Blob service.
 	Cors *CorsRules_Status `json:"cors,omitempty"`
 
-	//DefaultServiceVersion: DefaultServiceVersion indicates the default version to use for requests to the Blob service if an
-	//incoming request’s version is not specified. Possible values include version 2008-10-27 and all more recent versions.
+	// DefaultServiceVersion: DefaultServiceVersion indicates the default version to use for requests to the Blob service if an
+	// incoming request’s version is not specified. Possible values include version 2008-10-27 and all more recent versions.
 	DefaultServiceVersion *string `json:"defaultServiceVersion,omitempty"`
 
-	//DeleteRetentionPolicy: The blob service properties for blob soft delete.
+	// DeleteRetentionPolicy: The blob service properties for blob soft delete.
 	DeleteRetentionPolicy *DeleteRetentionPolicy_Status `json:"deleteRetentionPolicy,omitempty"`
 
-	//Id: Fully qualified resource ID for the resource. Ex -
-	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+	// Id: Fully qualified resource ID for the resource. Ex -
+	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
 
-	//IsVersioningEnabled: Versioning is enabled if set to true.
+	// IsVersioningEnabled: Versioning is enabled if set to true.
 	IsVersioningEnabled *bool `json:"isVersioningEnabled,omitempty"`
 
-	//LastAccessTimeTrackingPolicy: The blob service property to configure last access time based tracking policy.
+	// LastAccessTimeTrackingPolicy: The blob service property to configure last access time based tracking policy.
 	LastAccessTimeTrackingPolicy *LastAccessTimeTrackingPolicy_Status `json:"lastAccessTimeTrackingPolicy,omitempty"`
 
-	//Name: The name of the resource
+	// Name: The name of the resource
 	Name *string `json:"name,omitempty"`
 
-	//RestorePolicy: The blob service properties for blob restore policy.
+	// RestorePolicy: The blob service properties for blob restore policy.
 	RestorePolicy *RestorePolicyProperties_Status `json:"restorePolicy,omitempty"`
 
-	//Sku: Sku name and tier.
+	// Sku: Sku name and tier.
 	Sku *Sku_Status `json:"sku,omitempty"`
 
-	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 }
 
@@ -827,44 +827,44 @@ type StorageAccountsBlobServicesSpecAPIVersion string
 const StorageAccountsBlobServicesSpecAPIVersion20210401 = StorageAccountsBlobServicesSpecAPIVersion("2021-04-01")
 
 type StorageAccountsBlobServices_Spec struct {
-	//AutomaticSnapshotPolicyEnabled: Deprecated in favor of isVersioningEnabled property.
+	// AutomaticSnapshotPolicyEnabled: Deprecated in favor of isVersioningEnabled property.
 	AutomaticSnapshotPolicyEnabled *bool `json:"automaticSnapshotPolicyEnabled,omitempty"`
 
-	//ChangeFeed: The blob service properties for change feed events.
+	// ChangeFeed: The blob service properties for change feed events.
 	ChangeFeed *ChangeFeed `json:"changeFeed,omitempty"`
 
-	//ContainerDeleteRetentionPolicy: The service properties for soft delete.
+	// ContainerDeleteRetentionPolicy: The service properties for soft delete.
 	ContainerDeleteRetentionPolicy *DeleteRetentionPolicy `json:"containerDeleteRetentionPolicy,omitempty"`
 
-	//Cors: Sets the CORS rules. You can include up to five CorsRule elements in the request.
+	// Cors: Sets the CORS rules. You can include up to five CorsRule elements in the request.
 	Cors *CorsRules `json:"cors,omitempty"`
 
-	//DefaultServiceVersion: DefaultServiceVersion indicates the default version to use for requests to the Blob service if an
-	//incoming request’s version is not specified. Possible values include version 2008-10-27 and all more recent versions.
+	// DefaultServiceVersion: DefaultServiceVersion indicates the default version to use for requests to the Blob service if an
+	// incoming request’s version is not specified. Possible values include version 2008-10-27 and all more recent versions.
 	DefaultServiceVersion *string `json:"defaultServiceVersion,omitempty"`
 
-	//DeleteRetentionPolicy: The service properties for soft delete.
+	// DeleteRetentionPolicy: The service properties for soft delete.
 	DeleteRetentionPolicy *DeleteRetentionPolicy `json:"deleteRetentionPolicy,omitempty"`
 
-	//IsVersioningEnabled: Versioning is enabled if set to true.
+	// IsVersioningEnabled: Versioning is enabled if set to true.
 	IsVersioningEnabled *bool `json:"isVersioningEnabled,omitempty"`
 
-	//LastAccessTimeTrackingPolicy: The blob service properties for Last access time based tracking policy.
+	// LastAccessTimeTrackingPolicy: The blob service properties for Last access time based tracking policy.
 	LastAccessTimeTrackingPolicy *LastAccessTimeTrackingPolicy `json:"lastAccessTimeTrackingPolicy,omitempty"`
 
-	//Location: Location to deploy resource to
+	// Location: Location to deploy resource to
 	Location *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a storage.azure.com/StorageAccount resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a storage.azure.com/StorageAccount resource
 	Owner *genruntime.KnownResourceReference `group:"storage.azure.com" json:"owner,omitempty" kind:"StorageAccount"`
 
-	//RestorePolicy: The blob service properties for blob restore policy
+	// RestorePolicy: The blob service properties for blob restore policy
 	RestorePolicy *RestorePolicyProperties `json:"restorePolicy,omitempty"`
 
-	//Tags: Name-value pairs to add to the resource
+	// Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
@@ -1406,15 +1406,15 @@ func (services *StorageAccountsBlobServices_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ChangeFeed
+// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ChangeFeed
 type ChangeFeed struct {
-	//Enabled: Indicates whether change feed event logging is enabled for the Blob service.
+	// Enabled: Indicates whether change feed event logging is enabled for the Blob service.
 	Enabled *bool `json:"enabled,omitempty"`
 
 	// +kubebuilder:validation:Maximum=146000
 	// +kubebuilder:validation:Minimum=1
-	//RetentionInDays: Indicates the duration of changeFeed retention in days. Minimum value is 1 day and maximum value is
-	//146000 days (400 years). A null value indicates an infinite retention of the change feed.
+	// RetentionInDays: Indicates the duration of changeFeed retention in days. Minimum value is 1 day and maximum value is
+	// 146000 days (400 years). A null value indicates an infinite retention of the change feed.
 	RetentionInDays *int `json:"retentionInDays,omitempty"`
 }
 
@@ -1525,11 +1525,11 @@ func (feed *ChangeFeed) AssignPropertiesToChangeFeed(destination *v20210401s.Cha
 }
 
 type ChangeFeed_Status struct {
-	//Enabled: Indicates whether change feed event logging is enabled for the Blob service.
+	// Enabled: Indicates whether change feed event logging is enabled for the Blob service.
 	Enabled *bool `json:"enabled,omitempty"`
 
-	//RetentionInDays: Indicates the duration of changeFeed retention in days. Minimum value is 1 day and maximum value is
-	//146000 days (400 years). A null value indicates an infinite retention of the change feed.
+	// RetentionInDays: Indicates the duration of changeFeed retention in days. Minimum value is 1 day and maximum value is
+	// 146000 days (400 years). A null value indicates an infinite retention of the change feed.
 	RetentionInDays *int `json:"retentionInDays,omitempty"`
 }
 
@@ -1608,9 +1608,9 @@ func (feed *ChangeFeed_Status) AssignPropertiesToChangeFeedStatus(destination *v
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/CorsRules
+// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/CorsRules
 type CorsRules struct {
-	//CorsRules: The List of CORS rules. You can include up to five CorsRule elements in the request.
+	// CorsRules: The List of CORS rules. You can include up to five CorsRule elements in the request.
 	CorsRules []CorsRule `json:"corsRules,omitempty"`
 }
 
@@ -1720,7 +1720,7 @@ func (rules *CorsRules) AssignPropertiesToCorsRules(destination *v20210401s.Cors
 }
 
 type CorsRules_Status struct {
-	//CorsRules: The List of CORS rules. You can include up to five CorsRule elements in the request.
+	// CorsRules: The List of CORS rules. You can include up to five CorsRule elements in the request.
 	CorsRules []CorsRule_Status `json:"corsRules,omitempty"`
 }
 
@@ -1811,15 +1811,15 @@ func (rules *CorsRules_Status) AssignPropertiesToCorsRulesStatus(destination *v2
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/DeleteRetentionPolicy
+// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/DeleteRetentionPolicy
 type DeleteRetentionPolicy struct {
 	// +kubebuilder:validation:Maximum=365
 	// +kubebuilder:validation:Minimum=1
-	//Days: Indicates the number of days that the deleted item should be retained. The minimum specified value can be 1 and
-	//the maximum value can be 365.
+	// Days: Indicates the number of days that the deleted item should be retained. The minimum specified value can be 1 and
+	// the maximum value can be 365.
 	Days *int `json:"days,omitempty"`
 
-	//Enabled: Indicates whether DeleteRetentionPolicy is enabled.
+	// Enabled: Indicates whether DeleteRetentionPolicy is enabled.
 	Enabled *bool `json:"enabled,omitempty"`
 }
 
@@ -1930,11 +1930,11 @@ func (policy *DeleteRetentionPolicy) AssignPropertiesToDeleteRetentionPolicy(des
 }
 
 type DeleteRetentionPolicy_Status struct {
-	//Days: Indicates the number of days that the deleted item should be retained. The minimum specified value can be 1 and
-	//the maximum value can be 365.
+	// Days: Indicates the number of days that the deleted item should be retained. The minimum specified value can be 1 and
+	// the maximum value can be 365.
 	Days *int `json:"days,omitempty"`
 
-	//Enabled: Indicates whether DeleteRetentionPolicy is enabled.
+	// Enabled: Indicates whether DeleteRetentionPolicy is enabled.
 	Enabled *bool `json:"enabled,omitempty"`
 }
 
@@ -2013,21 +2013,21 @@ func (policy *DeleteRetentionPolicy_Status) AssignPropertiesToDeleteRetentionPol
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/LastAccessTimeTrackingPolicy
+// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/LastAccessTimeTrackingPolicy
 type LastAccessTimeTrackingPolicy struct {
-	//BlobType: An array of predefined supported blob types. Only blockBlob is the supported value. This field is currently
-	//read only
+	// BlobType: An array of predefined supported blob types. Only blockBlob is the supported value. This field is currently
+	// read only
 	BlobType []string `json:"blobType,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Enable: When set to true last access time based tracking is enabled.
+	// Enable: When set to true last access time based tracking is enabled.
 	Enable *bool `json:"enable,omitempty"`
 
-	//Name: Name of the policy. The valid value is AccessTimeTracking. This field is currently read only.
+	// Name: Name of the policy. The valid value is AccessTimeTracking. This field is currently read only.
 	Name *LastAccessTimeTrackingPolicyName `json:"name,omitempty"`
 
-	//TrackingGranularityInDays: The field specifies blob object tracking granularity in days, typically how often the blob
-	//object should be tracked.This field is currently read only with value as 1
+	// TrackingGranularityInDays: The field specifies blob object tracking granularity in days, typically how often the blob
+	// object should be tracked.This field is currently read only with value as 1
 	TrackingGranularityInDays *int `json:"trackingGranularityInDays,omitempty"`
 }
 
@@ -2172,18 +2172,18 @@ func (policy *LastAccessTimeTrackingPolicy) AssignPropertiesToLastAccessTimeTrac
 }
 
 type LastAccessTimeTrackingPolicy_Status struct {
-	//BlobType: An array of predefined supported blob types. Only blockBlob is the supported value. This field is currently
-	//read only
+	// BlobType: An array of predefined supported blob types. Only blockBlob is the supported value. This field is currently
+	// read only
 	BlobType []string `json:"blobType,omitempty"`
 
-	//Enable: When set to true last access time based tracking is enabled.
+	// Enable: When set to true last access time based tracking is enabled.
 	Enable *bool `json:"enable,omitempty"`
 
-	//Name: Name of the policy. The valid value is AccessTimeTracking. This field is currently read only
+	// Name: Name of the policy. The valid value is AccessTimeTracking. This field is currently read only
 	Name *LastAccessTimeTrackingPolicyStatusName `json:"name,omitempty"`
 
-	//TrackingGranularityInDays: The field specifies blob object tracking granularity in days, typically how often the blob
-	//object should be tracked.This field is currently read only with value as 1
+	// TrackingGranularityInDays: The field specifies blob object tracking granularity in days, typically how often the blob
+	// object should be tracked.This field is currently read only with value as 1
 	TrackingGranularityInDays *int `json:"trackingGranularityInDays,omitempty"`
 }
 
@@ -2295,15 +2295,15 @@ func (policy *LastAccessTimeTrackingPolicy_Status) AssignPropertiesToLastAccessT
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/RestorePolicyProperties
+// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/RestorePolicyProperties
 type RestorePolicyProperties struct {
 	// +kubebuilder:validation:Maximum=365
 	// +kubebuilder:validation:Minimum=1
-	//Days: how long this blob can be restored. It should be great than zero and less than DeleteRetentionPolicy.days.
+	// Days: how long this blob can be restored. It should be great than zero and less than DeleteRetentionPolicy.days.
 	Days *int `json:"days,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Enabled: Blob restore is enabled if set to true.
+	// Enabled: Blob restore is enabled if set to true.
 	Enabled *bool `json:"enabled,omitempty"`
 }
 
@@ -2414,16 +2414,16 @@ func (properties *RestorePolicyProperties) AssignPropertiesToRestorePolicyProper
 }
 
 type RestorePolicyProperties_Status struct {
-	//Days: how long this blob can be restored. It should be great than zero and less than DeleteRetentionPolicy.days.
+	// Days: how long this blob can be restored. It should be great than zero and less than DeleteRetentionPolicy.days.
 	Days *int `json:"days,omitempty"`
 
-	//Enabled: Blob restore is enabled if set to true.
+	// Enabled: Blob restore is enabled if set to true.
 	Enabled *bool `json:"enabled,omitempty"`
 
-	//LastEnabledTime: Deprecated in favor of minRestoreTime property.
+	// LastEnabledTime: Deprecated in favor of minRestoreTime property.
 	LastEnabledTime *string `json:"lastEnabledTime,omitempty"`
 
-	//MinRestoreTime: Returns the minimum date and time that the restore can be started.
+	// MinRestoreTime: Returns the minimum date and time that the restore can be started.
 	MinRestoreTime *string `json:"minRestoreTime,omitempty"`
 }
 
@@ -2526,30 +2526,30 @@ func (properties *RestorePolicyProperties_Status) AssignPropertiesToRestorePolic
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/CorsRule
+// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/CorsRule
 type CorsRule struct {
 	// +kubebuilder:validation:Required
-	//AllowedHeaders: Required if CorsRule element is present. A list of headers allowed to be part of the cross-origin
-	//request.
+	// AllowedHeaders: Required if CorsRule element is present. A list of headers allowed to be part of the cross-origin
+	// request.
 	AllowedHeaders []string `json:"allowedHeaders,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//AllowedMethods: Required if CorsRule element is present. A list of HTTP methods that are allowed to be executed by the
-	//origin.
+	// AllowedMethods: Required if CorsRule element is present. A list of HTTP methods that are allowed to be executed by the
+	// origin.
 	AllowedMethods []CorsRuleAllowedMethods `json:"allowedMethods,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//AllowedOrigins: Required if CorsRule element is present. A list of origin domains that will be allowed via CORS, or "*"
-	//to allow all domains
+	// AllowedOrigins: Required if CorsRule element is present. A list of origin domains that will be allowed via CORS, or "*"
+	// to allow all domains
 	AllowedOrigins []string `json:"allowedOrigins,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//ExposedHeaders: Required if CorsRule element is present. A list of response headers to expose to CORS clients.
+	// ExposedHeaders: Required if CorsRule element is present. A list of response headers to expose to CORS clients.
 	ExposedHeaders []string `json:"exposedHeaders,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//MaxAgeInSeconds: Required if CorsRule element is present. The number of seconds that the client/browser should cache a
-	//preflight response.
+	// MaxAgeInSeconds: Required if CorsRule element is present. The number of seconds that the client/browser should cache a
+	// preflight response.
 	MaxAgeInSeconds *int `json:"maxAgeInSeconds,omitempty"`
 }
 
@@ -2706,23 +2706,23 @@ func (rule *CorsRule) AssignPropertiesToCorsRule(destination *v20210401s.CorsRul
 }
 
 type CorsRule_Status struct {
-	//AllowedHeaders: Required if CorsRule element is present. A list of headers allowed to be part of the cross-origin
-	//request.
+	// AllowedHeaders: Required if CorsRule element is present. A list of headers allowed to be part of the cross-origin
+	// request.
 	AllowedHeaders []string `json:"allowedHeaders,omitempty"`
 
-	//AllowedMethods: Required if CorsRule element is present. A list of HTTP methods that are allowed to be executed by the
-	//origin.
+	// AllowedMethods: Required if CorsRule element is present. A list of HTTP methods that are allowed to be executed by the
+	// origin.
 	AllowedMethods []CorsRuleStatusAllowedMethods `json:"allowedMethods,omitempty"`
 
-	//AllowedOrigins: Required if CorsRule element is present. A list of origin domains that will be allowed via CORS, or "*"
-	//to allow all domains
+	// AllowedOrigins: Required if CorsRule element is present. A list of origin domains that will be allowed via CORS, or "*"
+	// to allow all domains
 	AllowedOrigins []string `json:"allowedOrigins,omitempty"`
 
-	//ExposedHeaders: Required if CorsRule element is present. A list of response headers to expose to CORS clients.
+	// ExposedHeaders: Required if CorsRule element is present. A list of response headers to expose to CORS clients.
 	ExposedHeaders []string `json:"exposedHeaders,omitempty"`
 
-	//MaxAgeInSeconds: Required if CorsRule element is present. The number of seconds that the client/browser should cache a
-	//preflight response.
+	// MaxAgeInSeconds: Required if CorsRule element is present. The number of seconds that the client/browser should cache a
+	// preflight response.
 	MaxAgeInSeconds *int `json:"maxAgeInSeconds,omitempty"`
 }
 

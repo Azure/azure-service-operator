@@ -21,8 +21,8 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Storage version of v1beta20201201.RedisPatchSchedule
-//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/resourceDefinitions/redis_patchSchedules
+// Storage version of v1beta20201201.RedisPatchSchedule
+// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/resourceDefinitions/redis_patchSchedules
 type RedisPatchSchedule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -121,15 +121,15 @@ func (schedule *RedisPatchSchedule) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Storage version of v1beta20201201.RedisPatchSchedule
-//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/resourceDefinitions/redis_patchSchedules
+// Storage version of v1beta20201201.RedisPatchSchedule
+// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/resourceDefinitions/redis_patchSchedules
 type RedisPatchScheduleList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []RedisPatchSchedule `json:"items"`
 }
 
-//Storage version of v1beta20201201.RedisPatchSchedule_Status
+// Storage version of v1beta20201201.RedisPatchSchedule_Status
 type RedisPatchSchedule_Status struct {
 	Conditions      []conditions.Condition `json:"conditions,omitempty"`
 	Id              *string                `json:"id,omitempty"`
@@ -159,15 +159,15 @@ func (schedule *RedisPatchSchedule_Status) ConvertStatusTo(destination genruntim
 	return destination.ConvertStatusFrom(schedule)
 }
 
-//Storage version of v1beta20201201.RedisPatchSchedules_Spec
+// Storage version of v1beta20201201.RedisPatchSchedules_Spec
 type RedisPatchSchedules_Spec struct {
 	Location        *string `json:"location,omitempty"`
 	OriginalVersion string  `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a cache.azure.com/Redis resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a cache.azure.com/Redis resource
 	Owner           *genruntime.KnownResourceReference `group:"cache.azure.com" json:"owner,omitempty" kind:"Redis"`
 	PropertyBag     genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	ScheduleEntries []ScheduleEntry                    `json:"scheduleEntries,omitempty"`
@@ -194,8 +194,8 @@ func (schedules *RedisPatchSchedules_Spec) ConvertSpecTo(destination genruntime.
 	return destination.ConvertSpecFrom(schedules)
 }
 
-//Storage version of v1beta20201201.ScheduleEntry
-//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/definitions/ScheduleEntry
+// Storage version of v1beta20201201.ScheduleEntry
+// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/definitions/ScheduleEntry
 type ScheduleEntry struct {
 	DayOfWeek         *string                `json:"dayOfWeek,omitempty"`
 	MaintenanceWindow *string                `json:"maintenanceWindow,omitempty"`
@@ -203,7 +203,7 @@ type ScheduleEntry struct {
 	StartHourUtc      *int                   `json:"startHourUtc,omitempty"`
 }
 
-//Storage version of v1beta20201201.ScheduleEntry_Status
+// Storage version of v1beta20201201.ScheduleEntry_Status
 type ScheduleEntry_Status struct {
 	DayOfWeek         *string                `json:"dayOfWeek,omitempty"`
 	MaintenanceWindow *string                `json:"maintenanceWindow,omitempty"`

@@ -5,7 +5,7 @@ package v1alpha1api20210501
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-//Deprecated version of FlexibleServersDatabases_Spec. Use v1beta20210501.FlexibleServersDatabases_Spec instead
+// Deprecated version of FlexibleServersDatabases_Spec. Use v1beta20210501.FlexibleServersDatabases_Spec instead
 type FlexibleServersDatabases_SpecARM struct {
 	Location   *string                `json:"location,omitempty"`
 	Name       string                 `json:"name,omitempty"`
@@ -30,7 +30,7 @@ func (databases FlexibleServersDatabases_SpecARM) GetType() string {
 	return "Microsoft.DBforMySQL/flexibleServers/databases"
 }
 
-//Deprecated version of DatabaseProperties. Use v1beta20210501.DatabaseProperties instead
+// Deprecated version of DatabaseProperties. Use v1beta20210501.DatabaseProperties instead
 type DatabasePropertiesARM struct {
 	Charset   *string `json:"charset,omitempty"`
 	Collation *string `json:"collation,omitempty"`

@@ -6,33 +6,33 @@ package v1beta20210401
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type StorageAccounts_SpecARM struct {
-	//ExtendedLocation: The complex type of the extended location.
+	// ExtendedLocation: The complex type of the extended location.
 	ExtendedLocation *ExtendedLocationARM `json:"extendedLocation,omitempty"`
 
-	//Identity: Identity for the resource.
+	// Identity: Identity for the resource.
 	Identity *IdentityARM `json:"identity,omitempty"`
 
-	//Kind: Required. Indicates the type of storage account.
+	// Kind: Required. Indicates the type of storage account.
 	Kind *StorageAccountsSpecKind `json:"kind,omitempty"`
 
-	//Location: Required. Gets or sets the location of the resource. This will be one of the supported and registered Azure
-	//Geo Regions (e.g. West US, East US, Southeast Asia, etc.). The geo region of a resource cannot be changed once it is
-	//created, but if an identical geo region is specified on update, the request will succeed.
+	// Location: Required. Gets or sets the location of the resource. This will be one of the supported and registered Azure
+	// Geo Regions (e.g. West US, East US, Southeast Asia, etc.). The geo region of a resource cannot be changed once it is
+	// created, but if an identical geo region is specified on update, the request will succeed.
 	Location *string `json:"location,omitempty"`
 
-	//Name: The name of the storage account within the specified resource group. Storage account names must be between 3 and
-	//24 characters in length and use numbers and lower-case letters only.
+	// Name: The name of the storage account within the specified resource group. Storage account names must be between 3 and
+	// 24 characters in length and use numbers and lower-case letters only.
 	Name string `json:"name,omitempty"`
 
-	//Properties: The parameters used to create the storage account.
+	// Properties: The parameters used to create the storage account.
 	Properties *StorageAccountPropertiesCreateParametersARM `json:"properties,omitempty"`
 
-	//Sku: The SKU of the storage account.
+	// Sku: The SKU of the storage account.
 	Sku *SkuARM `json:"sku,omitempty"`
 
-	//Tags: Gets or sets a list of key value pairs that describe the resource. These tags can be used for viewing and grouping
-	//this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key
-	//with a length no greater than 128 characters and a value with a length no greater than 256 characters.
+	// Tags: Gets or sets a list of key value pairs that describe the resource. These tags can be used for viewing and grouping
+	// this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key
+	// with a length no greater than 128 characters and a value with a length no greater than 256 characters.
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
@@ -53,82 +53,82 @@ func (accounts StorageAccounts_SpecARM) GetType() string {
 	return "Microsoft.Storage/storageAccounts"
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ExtendedLocation
+// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ExtendedLocation
 type ExtendedLocationARM struct {
-	//Name: The name of the extended location.
+	// Name: The name of the extended location.
 	Name *string `json:"name,omitempty"`
 
-	//Type: The type of the extended location.
+	// Type: The type of the extended location.
 	Type *ExtendedLocationType `json:"type,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/Identity
+// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/Identity
 type IdentityARM struct {
-	//Type: The identity type.
+	// Type: The identity type.
 	Type *IdentityType `json:"type,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/Sku
+// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/Sku
 type SkuARM struct {
 	Name *SkuName `json:"name,omitempty"`
 	Tier *SkuTier `json:"tier,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/StorageAccountPropertiesCreateParameters
+// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/StorageAccountPropertiesCreateParameters
 type StorageAccountPropertiesCreateParametersARM struct {
-	//AccessTier: Required for storage accounts where kind = BlobStorage. The access tier used for billing.
+	// AccessTier: Required for storage accounts where kind = BlobStorage. The access tier used for billing.
 	AccessTier *StorageAccountPropertiesCreateParametersAccessTier `json:"accessTier,omitempty"`
 
-	//AllowBlobPublicAccess: Allow or disallow public access to all blobs or containers in the storage account. The default
-	//interpretation is true for this property.
+	// AllowBlobPublicAccess: Allow or disallow public access to all blobs or containers in the storage account. The default
+	// interpretation is true for this property.
 	AllowBlobPublicAccess *bool `json:"allowBlobPublicAccess,omitempty"`
 
-	//AllowCrossTenantReplication: Allow or disallow cross AAD tenant object replication. The default interpretation is true
-	//for this property.
+	// AllowCrossTenantReplication: Allow or disallow cross AAD tenant object replication. The default interpretation is true
+	// for this property.
 	AllowCrossTenantReplication *bool `json:"allowCrossTenantReplication,omitempty"`
 
-	//AllowSharedKeyAccess: Indicates whether the storage account permits requests to be authorized with the account access
-	//key via Shared Key. If false, then all requests, including shared access signatures, must be authorized with Azure
-	//Active Directory (Azure AD). The default value is null, which is equivalent to true.
+	// AllowSharedKeyAccess: Indicates whether the storage account permits requests to be authorized with the account access
+	// key via Shared Key. If false, then all requests, including shared access signatures, must be authorized with Azure
+	// Active Directory (Azure AD). The default value is null, which is equivalent to true.
 	AllowSharedKeyAccess *bool `json:"allowSharedKeyAccess,omitempty"`
 
-	//AzureFilesIdentityBasedAuthentication: Settings for Azure Files identity based authentication.
+	// AzureFilesIdentityBasedAuthentication: Settings for Azure Files identity based authentication.
 	AzureFilesIdentityBasedAuthentication *AzureFilesIdentityBasedAuthenticationARM `json:"azureFilesIdentityBasedAuthentication,omitempty"`
 
-	//CustomDomain: The custom domain assigned to this storage account. This can be set via Update.
+	// CustomDomain: The custom domain assigned to this storage account. This can be set via Update.
 	CustomDomain *CustomDomainARM `json:"customDomain,omitempty"`
 
-	//Encryption: The encryption settings on the storage account.
+	// Encryption: The encryption settings on the storage account.
 	Encryption *EncryptionARM `json:"encryption,omitempty"`
 
-	//IsHnsEnabled: Account HierarchicalNamespace enabled if sets to true.
+	// IsHnsEnabled: Account HierarchicalNamespace enabled if sets to true.
 	IsHnsEnabled *bool `json:"isHnsEnabled,omitempty"`
 
-	//IsNfsV3Enabled: NFS 3.0 protocol support enabled if set to true.
+	// IsNfsV3Enabled: NFS 3.0 protocol support enabled if set to true.
 	IsNfsV3Enabled *bool `json:"isNfsV3Enabled,omitempty"`
 
-	//KeyPolicy: KeyPolicy assigned to the storage account.
+	// KeyPolicy: KeyPolicy assigned to the storage account.
 	KeyPolicy *KeyPolicyARM `json:"keyPolicy,omitempty"`
 
-	//LargeFileSharesState: Allow large file shares if sets to Enabled. It cannot be disabled once it is enabled.
+	// LargeFileSharesState: Allow large file shares if sets to Enabled. It cannot be disabled once it is enabled.
 	LargeFileSharesState *StorageAccountPropertiesCreateParametersLargeFileSharesState `json:"largeFileSharesState,omitempty"`
 
-	//MinimumTlsVersion: Set the minimum TLS version to be permitted on requests to storage. The default interpretation is TLS
-	//1.0 for this property.
+	// MinimumTlsVersion: Set the minimum TLS version to be permitted on requests to storage. The default interpretation is TLS
+	// 1.0 for this property.
 	MinimumTlsVersion *StorageAccountPropertiesCreateParametersMinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
 
-	//NetworkAcls: Network rule set
+	// NetworkAcls: Network rule set
 	NetworkAcls *NetworkRuleSetARM `json:"networkAcls,omitempty"`
 
-	//RoutingPreference: Routing preference defines the type of network, either microsoft or internet routing to be used to
-	//deliver the user data, the default option is microsoft routing
+	// RoutingPreference: Routing preference defines the type of network, either microsoft or internet routing to be used to
+	// deliver the user data, the default option is microsoft routing
 	RoutingPreference *RoutingPreferenceARM `json:"routingPreference,omitempty"`
 
-	//SasPolicy: SasPolicy assigned to the storage account.
+	// SasPolicy: SasPolicy assigned to the storage account.
 	SasPolicy *SasPolicyARM `json:"sasPolicy,omitempty"`
 
-	//SupportsHttpsTrafficOnly: Allows https traffic only to storage service if sets to true. The default value is true since
-	//API version 2019-04-01.
+	// SupportsHttpsTrafficOnly: Allows https traffic only to storage service if sets to true. The default value is true since
+	// API version 2019-04-01.
 	SupportsHttpsTrafficOnly *bool `json:"supportsHttpsTrafficOnly,omitempty"`
 }
 
@@ -143,45 +143,45 @@ const (
 	StorageAccountsSpecKindStorageV2        = StorageAccountsSpecKind("StorageV2")
 )
 
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/AzureFilesIdentityBasedAuthentication
+// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/AzureFilesIdentityBasedAuthentication
 type AzureFilesIdentityBasedAuthenticationARM struct {
-	//ActiveDirectoryProperties: Settings properties for Active Directory (AD).
+	// ActiveDirectoryProperties: Settings properties for Active Directory (AD).
 	ActiveDirectoryProperties *ActiveDirectoryPropertiesARM `json:"activeDirectoryProperties,omitempty"`
 
-	//DefaultSharePermission: Default share permission for users using Kerberos authentication if RBAC role is not assigned.
+	// DefaultSharePermission: Default share permission for users using Kerberos authentication if RBAC role is not assigned.
 	DefaultSharePermission *AzureFilesIdentityBasedAuthenticationDefaultSharePermission `json:"defaultSharePermission,omitempty"`
 
-	//DirectoryServiceOptions: Indicates the directory service used.
+	// DirectoryServiceOptions: Indicates the directory service used.
 	DirectoryServiceOptions *AzureFilesIdentityBasedAuthenticationDirectoryServiceOptions `json:"directoryServiceOptions,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/CustomDomain
+// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/CustomDomain
 type CustomDomainARM struct {
-	//Name: Gets or sets the custom domain name assigned to the storage account. Name is the CNAME source.
+	// Name: Gets or sets the custom domain name assigned to the storage account. Name is the CNAME source.
 	Name *string `json:"name,omitempty"`
 
-	//UseSubDomainName: Indicates whether indirect CName validation is enabled. Default value is false. This should only be
-	//set on updates.
+	// UseSubDomainName: Indicates whether indirect CName validation is enabled. Default value is false. This should only be
+	// set on updates.
 	UseSubDomainName *bool `json:"useSubDomainName,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/Encryption
+// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/Encryption
 type EncryptionARM struct {
-	//Identity: Encryption identity for the storage account.
+	// Identity: Encryption identity for the storage account.
 	Identity *EncryptionIdentityARM `json:"identity,omitempty"`
 
-	//KeySource: The encryption keySource (provider). Possible values (case-insensitive):  Microsoft.Storage,
-	//Microsoft.Keyvault.
+	// KeySource: The encryption keySource (provider). Possible values (case-insensitive):  Microsoft.Storage,
+	// Microsoft.Keyvault.
 	KeySource *EncryptionKeySource `json:"keySource,omitempty"`
 
-	//Keyvaultproperties: Properties of key vault.
+	// Keyvaultproperties: Properties of key vault.
 	Keyvaultproperties *KeyVaultPropertiesARM `json:"keyvaultproperties,omitempty"`
 
-	//RequireInfrastructureEncryption: A boolean indicating whether or not the service applies a secondary layer of encryption
-	//with platform managed keys for data at rest.
+	// RequireInfrastructureEncryption: A boolean indicating whether or not the service applies a secondary layer of encryption
+	// with platform managed keys for data at rest.
 	RequireInfrastructureEncryption *bool `json:"requireInfrastructureEncryption,omitempty"`
 
-	//Services: A list of services that support encryption.
+	// Services: A list of services that support encryption.
 	Services *EncryptionServicesARM `json:"services,omitempty"`
 }
 
@@ -200,49 +200,49 @@ const (
 	IdentityTypeUserAssigned               = IdentityType("UserAssigned")
 )
 
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/KeyPolicy
+// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/KeyPolicy
 type KeyPolicyARM struct {
-	//KeyExpirationPeriodInDays: The key expiration period in days.
+	// KeyExpirationPeriodInDays: The key expiration period in days.
 	KeyExpirationPeriodInDays *int `json:"keyExpirationPeriodInDays,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/NetworkRuleSet
+// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/NetworkRuleSet
 type NetworkRuleSetARM struct {
-	//Bypass: Specifies whether traffic is bypassed for Logging/Metrics/AzureServices. Possible values are any combination of
-	//Logging|Metrics|AzureServices (For example, "Logging, Metrics"), or None to bypass none of those traffics.
+	// Bypass: Specifies whether traffic is bypassed for Logging/Metrics/AzureServices. Possible values are any combination of
+	// Logging|Metrics|AzureServices (For example, "Logging, Metrics"), or None to bypass none of those traffics.
 	Bypass *NetworkRuleSetBypass `json:"bypass,omitempty"`
 
-	//DefaultAction: Specifies the default action of allow or deny when no other rules match.
+	// DefaultAction: Specifies the default action of allow or deny when no other rules match.
 	DefaultAction *NetworkRuleSetDefaultAction `json:"defaultAction,omitempty"`
 
-	//IpRules: Sets the IP ACL rules
+	// IpRules: Sets the IP ACL rules
 	IpRules []IPRuleARM `json:"ipRules,omitempty"`
 
-	//ResourceAccessRules: Sets the resource access rules
+	// ResourceAccessRules: Sets the resource access rules
 	ResourceAccessRules []ResourceAccessRuleARM `json:"resourceAccessRules,omitempty"`
 
-	//VirtualNetworkRules: Sets the virtual network rules
+	// VirtualNetworkRules: Sets the virtual network rules
 	VirtualNetworkRules []VirtualNetworkRuleARM `json:"virtualNetworkRules,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/RoutingPreference
+// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/RoutingPreference
 type RoutingPreferenceARM struct {
-	//PublishInternetEndpoints: A boolean flag which indicates whether internet routing storage endpoints are to be published
+	// PublishInternetEndpoints: A boolean flag which indicates whether internet routing storage endpoints are to be published
 	PublishInternetEndpoints *bool `json:"publishInternetEndpoints,omitempty"`
 
-	//PublishMicrosoftEndpoints: A boolean flag which indicates whether microsoft routing storage endpoints are to be published
+	// PublishMicrosoftEndpoints: A boolean flag which indicates whether microsoft routing storage endpoints are to be published
 	PublishMicrosoftEndpoints *bool `json:"publishMicrosoftEndpoints,omitempty"`
 
-	//RoutingChoice: Routing Choice defines the kind of network routing opted by the user.
+	// RoutingChoice: Routing Choice defines the kind of network routing opted by the user.
 	RoutingChoice *RoutingPreferenceRoutingChoice `json:"routingChoice,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/SasPolicy
+// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/SasPolicy
 type SasPolicyARM struct {
-	//ExpirationAction: The SAS expiration action. Can only be Log.
+	// ExpirationAction: The SAS expiration action. Can only be Log.
 	ExpirationAction *SasPolicyExpirationAction `json:"expirationAction,omitempty"`
 
-	//SasExpirationPeriod: The SAS expiration period, DD.HH:MM:SS.
+	// SasExpirationPeriod: The SAS expiration period, DD.HH:MM:SS.
 	SasExpirationPeriod *string `json:"sasExpirationPeriod,omitempty"`
 }
 
@@ -268,92 +268,92 @@ const (
 	SkuTierStandard = SkuTier("Standard")
 )
 
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ActiveDirectoryProperties
+// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ActiveDirectoryProperties
 type ActiveDirectoryPropertiesARM struct {
-	//AzureStorageSid: Specifies the security identifier (SID) for Azure Storage.
+	// AzureStorageSid: Specifies the security identifier (SID) for Azure Storage.
 	AzureStorageSid *string `json:"azureStorageSid,omitempty"`
 
-	//DomainGuid: Specifies the domain GUID.
+	// DomainGuid: Specifies the domain GUID.
 	DomainGuid *string `json:"domainGuid,omitempty"`
 
-	//DomainName: Specifies the primary domain that the AD DNS server is authoritative for.
+	// DomainName: Specifies the primary domain that the AD DNS server is authoritative for.
 	DomainName *string `json:"domainName,omitempty"`
 
-	//DomainSid: Specifies the security identifier (SID).
+	// DomainSid: Specifies the security identifier (SID).
 	DomainSid *string `json:"domainSid,omitempty"`
 
-	//ForestName: Specifies the Active Directory forest to get.
+	// ForestName: Specifies the Active Directory forest to get.
 	ForestName *string `json:"forestName,omitempty"`
 
-	//NetBiosDomainName: Specifies the NetBIOS domain name.
+	// NetBiosDomainName: Specifies the NetBIOS domain name.
 	NetBiosDomainName *string `json:"netBiosDomainName,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/EncryptionIdentity
+// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/EncryptionIdentity
 type EncryptionIdentityARM struct {
 	UserAssignedIdentity *string `json:"userAssignedIdentity,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/EncryptionServices
+// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/EncryptionServices
 type EncryptionServicesARM struct {
-	//Blob: A service that allows server-side encryption to be used.
+	// Blob: A service that allows server-side encryption to be used.
 	Blob *EncryptionServiceARM `json:"blob,omitempty"`
 
-	//File: A service that allows server-side encryption to be used.
+	// File: A service that allows server-side encryption to be used.
 	File *EncryptionServiceARM `json:"file,omitempty"`
 
-	//Queue: A service that allows server-side encryption to be used.
+	// Queue: A service that allows server-side encryption to be used.
 	Queue *EncryptionServiceARM `json:"queue,omitempty"`
 
-	//Table: A service that allows server-side encryption to be used.
+	// Table: A service that allows server-side encryption to be used.
 	Table *EncryptionServiceARM `json:"table,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/IPRule
+// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/IPRule
 type IPRuleARM struct {
-	//Action: The action of IP ACL rule.
+	// Action: The action of IP ACL rule.
 	Action *IPRuleAction `json:"action,omitempty"`
 
-	//Value: Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed.
+	// Value: Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed.
 	Value *string `json:"value,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/KeyVaultProperties
+// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/KeyVaultProperties
 type KeyVaultPropertiesARM struct {
-	//Keyname: The name of KeyVault key.
+	// Keyname: The name of KeyVault key.
 	Keyname *string `json:"keyname,omitempty"`
 
-	//Keyvaulturi: The Uri of KeyVault.
+	// Keyvaulturi: The Uri of KeyVault.
 	Keyvaulturi *string `json:"keyvaulturi,omitempty"`
 
-	//Keyversion: The version of KeyVault key.
+	// Keyversion: The version of KeyVault key.
 	Keyversion *string `json:"keyversion,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ResourceAccessRule
+// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ResourceAccessRule
 type ResourceAccessRuleARM struct {
 	ResourceId *string `json:"resourceId,omitempty"`
 
-	//TenantId: Tenant Id
+	// TenantId: Tenant Id
 	TenantId *string `json:"tenantId,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/VirtualNetworkRule
+// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/VirtualNetworkRule
 type VirtualNetworkRuleARM struct {
-	//Action: The action of virtual network rule.
+	// Action: The action of virtual network rule.
 	Action *VirtualNetworkRuleAction `json:"action,omitempty"`
 	Id     *string                   `json:"id,omitempty"`
 
-	//State: Gets the state of virtual network rule.
+	// State: Gets the state of virtual network rule.
 	State *VirtualNetworkRuleState `json:"state,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/EncryptionService
+// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/EncryptionService
 type EncryptionServiceARM struct {
-	//Enabled: A boolean indicating whether or not the service encrypts the data as it is stored.
+	// Enabled: A boolean indicating whether or not the service encrypts the data as it is stored.
 	Enabled *bool `json:"enabled,omitempty"`
 
-	//KeyType: Encryption key type to be used for the encryption service. 'Account' key type implies that an account-scoped
-	//encryption key will be used. 'Service' key type implies that a default service key is used.
+	// KeyType: Encryption key type to be used for the encryption service. 'Account' key type implies that an account-scoped
+	// encryption key will be used. 'Service' key type implies that a default service key is used.
 	KeyType *EncryptionServiceKeyType `json:"keyType,omitempty"`
 }

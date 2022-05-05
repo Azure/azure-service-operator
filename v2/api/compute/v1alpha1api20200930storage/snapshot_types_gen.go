@@ -22,8 +22,8 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Storage version of v1alpha1api20200930.Snapshot
-//Deprecated version of Snapshot. Use v1beta20200930.Snapshot instead
+// Storage version of v1alpha1api20200930.Snapshot
+// Deprecated version of Snapshot. Use v1beta20200930.Snapshot instead
 type Snapshot struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -193,16 +193,16 @@ func (snapshot *Snapshot) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Storage version of v1alpha1api20200930.Snapshot
-//Deprecated version of Snapshot. Use v1beta20200930.Snapshot instead
+// Storage version of v1alpha1api20200930.Snapshot
+// Deprecated version of Snapshot. Use v1beta20200930.Snapshot instead
 type SnapshotList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Snapshot `json:"items"`
 }
 
-//Storage version of v1alpha1api20200930.Snapshot_Status
-//Deprecated version of Snapshot_Status. Use v1beta20200930.Snapshot_Status instead
+// Storage version of v1alpha1api20200930.Snapshot_Status
+// Deprecated version of Snapshot_Status. Use v1beta20200930.Snapshot_Status instead
 type Snapshot_Status struct {
 	Conditions                   []conditions.Condition               `json:"conditions,omitempty"`
 	CreationData                 *CreationData_Status                 `json:"creationData,omitempty"`
@@ -595,10 +595,10 @@ func (snapshot *Snapshot_Status) AssignPropertiesToSnapshotStatus(destination *v
 	return nil
 }
 
-//Storage version of v1alpha1api20200930.Snapshots_Spec
+// Storage version of v1alpha1api20200930.Snapshots_Spec
 type Snapshots_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName                    string                        `json:"azureName,omitempty"`
 	CreationData                 *CreationData                 `json:"creationData,omitempty"`
 	DiskAccessReference          *genruntime.ResourceReference `armReference:"DiskAccessId" json:"diskAccessReference,omitempty"`
@@ -615,9 +615,9 @@ type Snapshots_Spec struct {
 	OsType                       *string                       `json:"osType,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a resources.azure.com/ResourceGroup resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
 	Owner        *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PropertyBag  genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	PurchasePlan *PurchasePlan                      `json:"purchasePlan,omitempty"`
@@ -973,8 +973,8 @@ func (snapshots *Snapshots_Spec) AssignPropertiesToSnapshotsSpec(destination *v2
 	return nil
 }
 
-//Storage version of v1alpha1api20200930.SnapshotSku
-//Deprecated version of SnapshotSku. Use v1beta20200930.SnapshotSku instead
+// Storage version of v1alpha1api20200930.SnapshotSku
+// Deprecated version of SnapshotSku. Use v1beta20200930.SnapshotSku instead
 type SnapshotSku struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -1018,8 +1018,8 @@ func (snapshotSku *SnapshotSku) AssignPropertiesToSnapshotSku(destination *v2020
 	return nil
 }
 
-//Storage version of v1alpha1api20200930.SnapshotSku_Status
-//Deprecated version of SnapshotSku_Status. Use v1beta20200930.SnapshotSku_Status instead
+// Storage version of v1alpha1api20200930.SnapshotSku_Status
+// Deprecated version of SnapshotSku_Status. Use v1beta20200930.SnapshotSku_Status instead
 type SnapshotSku_Status struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`

@@ -23,7 +23,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/A
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/A
 type A struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -261,7 +261,7 @@ func (a *A) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/A
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/A
 type AList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -290,7 +290,7 @@ func (a A_SpecARM) GetType() string {
 	return "Microsoft.Azure/A"
 }
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/AProperties
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/AProperties
 type APropertiesARM struct {
 	Left  *Left_SubResourceEmbeddedARM    `json:"left,omitempty"`
 	Right *Right_SubResourceEmbedded_1ARM `json:"right,omitempty"`
@@ -302,14 +302,14 @@ type ASpecAPIVersion string
 const ASpecAPIVersion20200601 = ASpecAPIVersion("2020-06-01")
 
 type A_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a resources.azure.com/ResourceGroup resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
 	Owner      *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	Properties *AProperties                       `json:"properties,omitempty"`
 }
@@ -503,7 +503,7 @@ func (a *A_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (a *A_Spec) SetAzureName(azureName string) { a.AzureName = azureName }
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/AProperties
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/AProperties
 type AProperties struct {
 	Left  *Left_SubResourceEmbedded    `json:"left,omitempty"`
 	Right *Right_SubResourceEmbedded_1 `json:"right,omitempty"`
@@ -649,38 +649,38 @@ func (properties *AProperties) AssignPropertiesToAProperties(destination *v20200
 	return nil
 }
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Left
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Left
 type Left_SubResourceEmbeddedARM struct {
 	Name       *string                              `json:"name,omitempty"`
 	Properties *LeftPropertiesARM                   `json:"properties,omitempty"`
 	RefField   *FakeResource_SubResourceEmbeddedARM `json:"refField,omitempty"`
 }
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Right
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Right
 type Right_SubResourceEmbedded_1ARM struct {
 	Name       *string                                `json:"name,omitempty"`
 	Properties *RightPropertiesARM                    `json:"properties,omitempty"`
 	RefField   *FakeResource_SubResourceEmbedded_1ARM `json:"refField,omitempty"`
 }
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/FakeResource
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/FakeResource
 type FakeResource_SubResourceEmbeddedARM struct {
 	Name       *string                                        `json:"name,omitempty"`
 	Properties *FakeResourceProperties_SubResourceEmbeddedARM `json:"properties,omitempty"`
 }
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/FakeResource
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/FakeResource
 type FakeResource_SubResourceEmbedded_1ARM struct {
 	Name       *string                                          `json:"name,omitempty"`
 	Properties *FakeResourceProperties_SubResourceEmbedded_1ARM `json:"properties,omitempty"`
 }
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/LeftProperties
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/LeftProperties
 type LeftPropertiesARM struct {
 	StrField *string `json:"strField,omitempty"`
 }
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Left
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Left
 type Left_SubResourceEmbedded struct {
 	Name       *string                           `json:"name,omitempty"`
 	Properties *LeftProperties                   `json:"properties,omitempty"`
@@ -845,12 +845,12 @@ func (embedded *Left_SubResourceEmbedded) AssignPropertiesToLeftSubResourceEmbed
 	return nil
 }
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/RightProperties
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/RightProperties
 type RightPropertiesARM struct {
 	StrField *string `json:"strField,omitempty"`
 }
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Right
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Right
 type Right_SubResourceEmbedded_1 struct {
 	Name       *string                             `json:"name,omitempty"`
 	Properties *RightProperties                    `json:"properties,omitempty"`
@@ -1015,17 +1015,17 @@ func (embedded1 *Right_SubResourceEmbedded_1) AssignPropertiesToRightSubResource
 	return nil
 }
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/FakeResourceProperties
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/FakeResourceProperties
 type FakeResourceProperties_SubResourceEmbeddedARM struct {
 	Loop2 *Right_SubResourceEmbeddedARM `json:"loop2,omitempty"`
 }
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/FakeResourceProperties
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/FakeResourceProperties
 type FakeResourceProperties_SubResourceEmbedded_1ARM struct {
 	Loop1 *Left_SubResourceEmbedded_1ARM `json:"loop1,omitempty"`
 }
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/FakeResource
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/FakeResource
 type FakeResource_SubResourceEmbedded struct {
 	Name       *string                                     `json:"name,omitempty"`
 	Properties *FakeResourceProperties_SubResourceEmbedded `json:"properties,omitempty"`
@@ -1144,7 +1144,7 @@ func (embedded *FakeResource_SubResourceEmbedded) AssignPropertiesToFakeResource
 	return nil
 }
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/FakeResource
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/FakeResource
 type FakeResource_SubResourceEmbedded_1 struct {
 	Name       *string                                       `json:"name,omitempty"`
 	Properties *FakeResourceProperties_SubResourceEmbedded_1 `json:"properties,omitempty"`
@@ -1263,7 +1263,7 @@ func (embedded1 *FakeResource_SubResourceEmbedded_1) AssignPropertiesToFakeResou
 	return nil
 }
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/LeftProperties
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/LeftProperties
 type LeftProperties struct {
 	StrField *string `json:"strField,omitempty"`
 }
@@ -1336,7 +1336,7 @@ func (properties *LeftProperties) AssignPropertiesToLeftProperties(destination *
 	return nil
 }
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/RightProperties
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/RightProperties
 type RightProperties struct {
 	StrField *string `json:"strField,omitempty"`
 }
@@ -1409,7 +1409,7 @@ func (properties *RightProperties) AssignPropertiesToRightProperties(destination
 	return nil
 }
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/FakeResourceProperties
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/FakeResourceProperties
 type FakeResourceProperties_SubResourceEmbedded struct {
 	Loop2 *Right_SubResourceEmbedded `json:"loop2,omitempty"`
 }
@@ -1509,7 +1509,7 @@ func (embedded *FakeResourceProperties_SubResourceEmbedded) AssignPropertiesToFa
 	return nil
 }
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/FakeResourceProperties
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/FakeResourceProperties
 type FakeResourceProperties_SubResourceEmbedded_1 struct {
 	Loop1 *Left_SubResourceEmbedded_1 `json:"loop1,omitempty"`
 }
@@ -1609,19 +1609,19 @@ func (embedded1 *FakeResourceProperties_SubResourceEmbedded_1) AssignPropertiesT
 	return nil
 }
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Left
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Left
 type Left_SubResourceEmbedded_1ARM struct {
 	Name       *string            `json:"name,omitempty"`
 	Properties *LeftPropertiesARM `json:"properties,omitempty"`
 }
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Right
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Right
 type Right_SubResourceEmbeddedARM struct {
 	Name       *string             `json:"name,omitempty"`
 	Properties *RightPropertiesARM `json:"properties,omitempty"`
 }
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Left
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Left
 type Left_SubResourceEmbedded_1 struct {
 	Name       *string         `json:"name,omitempty"`
 	Properties *LeftProperties `json:"properties,omitempty"`
@@ -1740,7 +1740,7 @@ func (embedded1 *Left_SubResourceEmbedded_1) AssignPropertiesToLeftSubResourceEm
 	return nil
 }
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Right
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Right
 type Right_SubResourceEmbedded struct {
 	Name       *string          `json:"name,omitempty"`
 	Properties *RightProperties `json:"properties,omitempty"`

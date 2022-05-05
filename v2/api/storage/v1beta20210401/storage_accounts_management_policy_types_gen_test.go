@@ -90,7 +90,7 @@ func RunPropertyAssignmentTestForStorageAccountsManagementPolicy(subject Storage
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -141,7 +141,7 @@ func RunJSONSerializationTestForStorageAccountsManagementPolicy(subject StorageA
 }
 
 // Generator of StorageAccountsManagementPolicy instances for property testing - lazily instantiated by
-//StorageAccountsManagementPolicyGenerator()
+// StorageAccountsManagementPolicyGenerator()
 var storageAccountsManagementPolicyGenerator gopter.Gen
 
 // StorageAccountsManagementPolicyGenerator returns a generator of StorageAccountsManagementPolicy instances for property testing.
@@ -193,7 +193,7 @@ func RunPropertyAssignmentTestForManagementPolicyStatus(subject ManagementPolicy
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -244,7 +244,7 @@ func RunJSONSerializationTestForManagementPolicyStatus(subject ManagementPolicy_
 }
 
 // Generator of ManagementPolicy_Status instances for property testing - lazily instantiated by
-//ManagementPolicyStatusGenerator()
+// ManagementPolicyStatusGenerator()
 var managementPolicyStatusGenerator gopter.Gen
 
 // ManagementPolicyStatusGenerator returns a generator of ManagementPolicy_Status instances for property testing.
@@ -312,7 +312,7 @@ func RunPropertyAssignmentTestForStorageAccountsManagementPoliciesSpec(subject S
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -363,7 +363,7 @@ func RunJSONSerializationTestForStorageAccountsManagementPoliciesSpec(subject St
 }
 
 // Generator of StorageAccountsManagementPolicies_Spec instances for property testing - lazily instantiated by
-//StorageAccountsManagementPoliciesSpecGenerator()
+// StorageAccountsManagementPoliciesSpecGenerator()
 var storageAccountsManagementPoliciesSpecGenerator gopter.Gen
 
 // StorageAccountsManagementPoliciesSpecGenerator returns a generator of StorageAccountsManagementPolicies_Spec instances for property testing.
@@ -428,7 +428,7 @@ func RunPropertyAssignmentTestForManagementPolicySchema(subject ManagementPolicy
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -479,7 +479,7 @@ func RunJSONSerializationTestForManagementPolicySchema(subject ManagementPolicyS
 }
 
 // Generator of ManagementPolicySchema instances for property testing - lazily instantiated by
-//ManagementPolicySchemaGenerator()
+// ManagementPolicySchemaGenerator()
 var managementPolicySchemaGenerator gopter.Gen
 
 // ManagementPolicySchemaGenerator returns a generator of ManagementPolicySchema instances for property testing.
@@ -530,7 +530,7 @@ func RunPropertyAssignmentTestForManagementPolicySchemaStatus(subject Management
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -581,7 +581,7 @@ func RunJSONSerializationTestForManagementPolicySchemaStatus(subject ManagementP
 }
 
 // Generator of ManagementPolicySchema_Status instances for property testing - lazily instantiated by
-//ManagementPolicySchemaStatusGenerator()
+// ManagementPolicySchemaStatusGenerator()
 var managementPolicySchemaStatusGenerator gopter.Gen
 
 // ManagementPolicySchemaStatusGenerator returns a generator of ManagementPolicySchema_Status instances for property testing.
@@ -632,7 +632,7 @@ func RunPropertyAssignmentTestForManagementPolicyRule(subject ManagementPolicyRu
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -683,7 +683,7 @@ func RunJSONSerializationTestForManagementPolicyRule(subject ManagementPolicyRul
 }
 
 // Generator of ManagementPolicyRule instances for property testing - lazily instantiated by
-//ManagementPolicyRuleGenerator()
+// ManagementPolicyRuleGenerator()
 var managementPolicyRuleGenerator gopter.Gen
 
 // ManagementPolicyRuleGenerator returns a generator of ManagementPolicyRule instances for property testing.
@@ -750,7 +750,7 @@ func RunPropertyAssignmentTestForManagementPolicyRuleStatus(subject ManagementPo
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -801,7 +801,7 @@ func RunJSONSerializationTestForManagementPolicyRuleStatus(subject ManagementPol
 }
 
 // Generator of ManagementPolicyRule_Status instances for property testing - lazily instantiated by
-//ManagementPolicyRuleStatusGenerator()
+// ManagementPolicyRuleStatusGenerator()
 var managementPolicyRuleStatusGenerator gopter.Gen
 
 // ManagementPolicyRuleStatusGenerator returns a generator of ManagementPolicyRule_Status instances for property testing.
@@ -868,7 +868,7 @@ func RunPropertyAssignmentTestForManagementPolicyDefinition(subject ManagementPo
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -919,7 +919,7 @@ func RunJSONSerializationTestForManagementPolicyDefinition(subject ManagementPol
 }
 
 // Generator of ManagementPolicyDefinition instances for property testing - lazily instantiated by
-//ManagementPolicyDefinitionGenerator()
+// ManagementPolicyDefinitionGenerator()
 var managementPolicyDefinitionGenerator gopter.Gen
 
 // ManagementPolicyDefinitionGenerator returns a generator of ManagementPolicyDefinition instances for property testing.
@@ -971,7 +971,7 @@ func RunPropertyAssignmentTestForManagementPolicyDefinitionStatus(subject Manage
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1022,7 +1022,7 @@ func RunJSONSerializationTestForManagementPolicyDefinitionStatus(subject Managem
 }
 
 // Generator of ManagementPolicyDefinition_Status instances for property testing - lazily instantiated by
-//ManagementPolicyDefinitionStatusGenerator()
+// ManagementPolicyDefinitionStatusGenerator()
 var managementPolicyDefinitionStatusGenerator gopter.Gen
 
 // ManagementPolicyDefinitionStatusGenerator returns a generator of ManagementPolicyDefinition_Status instances for property testing.
@@ -1074,7 +1074,7 @@ func RunPropertyAssignmentTestForManagementPolicyAction(subject ManagementPolicy
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1125,7 +1125,7 @@ func RunJSONSerializationTestForManagementPolicyAction(subject ManagementPolicyA
 }
 
 // Generator of ManagementPolicyAction instances for property testing - lazily instantiated by
-//ManagementPolicyActionGenerator()
+// ManagementPolicyActionGenerator()
 var managementPolicyActionGenerator gopter.Gen
 
 // ManagementPolicyActionGenerator returns a generator of ManagementPolicyAction instances for property testing.
@@ -1178,7 +1178,7 @@ func RunPropertyAssignmentTestForManagementPolicyActionStatus(subject Management
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1229,7 +1229,7 @@ func RunJSONSerializationTestForManagementPolicyActionStatus(subject ManagementP
 }
 
 // Generator of ManagementPolicyAction_Status instances for property testing - lazily instantiated by
-//ManagementPolicyActionStatusGenerator()
+// ManagementPolicyActionStatusGenerator()
 var managementPolicyActionStatusGenerator gopter.Gen
 
 // ManagementPolicyActionStatusGenerator returns a generator of ManagementPolicyAction_Status instances for property testing.
@@ -1282,7 +1282,7 @@ func RunPropertyAssignmentTestForManagementPolicyFilter(subject ManagementPolicy
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1333,7 +1333,7 @@ func RunJSONSerializationTestForManagementPolicyFilter(subject ManagementPolicyF
 }
 
 // Generator of ManagementPolicyFilter instances for property testing - lazily instantiated by
-//ManagementPolicyFilterGenerator()
+// ManagementPolicyFilterGenerator()
 var managementPolicyFilterGenerator gopter.Gen
 
 // ManagementPolicyFilterGenerator returns a generator of ManagementPolicyFilter instances for property testing.
@@ -1399,7 +1399,7 @@ func RunPropertyAssignmentTestForManagementPolicyFilterStatus(subject Management
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1450,7 +1450,7 @@ func RunJSONSerializationTestForManagementPolicyFilterStatus(subject ManagementP
 }
 
 // Generator of ManagementPolicyFilter_Status instances for property testing - lazily instantiated by
-//ManagementPolicyFilterStatusGenerator()
+// ManagementPolicyFilterStatusGenerator()
 var managementPolicyFilterStatusGenerator gopter.Gen
 
 // ManagementPolicyFilterStatusGenerator returns a generator of ManagementPolicyFilter_Status instances for property testing.
@@ -1516,7 +1516,7 @@ func RunPropertyAssignmentTestForManagementPolicyBaseBlob(subject ManagementPoli
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1567,7 +1567,7 @@ func RunJSONSerializationTestForManagementPolicyBaseBlob(subject ManagementPolic
 }
 
 // Generator of ManagementPolicyBaseBlob instances for property testing - lazily instantiated by
-//ManagementPolicyBaseBlobGenerator()
+// ManagementPolicyBaseBlobGenerator()
 var managementPolicyBaseBlobGenerator gopter.Gen
 
 // ManagementPolicyBaseBlobGenerator returns a generator of ManagementPolicyBaseBlob instances for property testing.
@@ -1634,7 +1634,7 @@ func RunPropertyAssignmentTestForManagementPolicyBaseBlobStatus(subject Manageme
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1685,7 +1685,7 @@ func RunJSONSerializationTestForManagementPolicyBaseBlobStatus(subject Managemen
 }
 
 // Generator of ManagementPolicyBaseBlob_Status instances for property testing - lazily instantiated by
-//ManagementPolicyBaseBlobStatusGenerator()
+// ManagementPolicyBaseBlobStatusGenerator()
 var managementPolicyBaseBlobStatusGenerator gopter.Gen
 
 // ManagementPolicyBaseBlobStatusGenerator returns a generator of ManagementPolicyBaseBlob_Status instances for property testing.
@@ -1752,7 +1752,7 @@ func RunPropertyAssignmentTestForManagementPolicySnapShot(subject ManagementPoli
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1803,7 +1803,7 @@ func RunJSONSerializationTestForManagementPolicySnapShot(subject ManagementPolic
 }
 
 // Generator of ManagementPolicySnapShot instances for property testing - lazily instantiated by
-//ManagementPolicySnapShotGenerator()
+// ManagementPolicySnapShotGenerator()
 var managementPolicySnapShotGenerator gopter.Gen
 
 // ManagementPolicySnapShotGenerator returns a generator of ManagementPolicySnapShot instances for property testing.
@@ -1856,7 +1856,7 @@ func RunPropertyAssignmentTestForManagementPolicySnapShotStatus(subject Manageme
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1907,7 +1907,7 @@ func RunJSONSerializationTestForManagementPolicySnapShotStatus(subject Managemen
 }
 
 // Generator of ManagementPolicySnapShot_Status instances for property testing - lazily instantiated by
-//ManagementPolicySnapShotStatusGenerator()
+// ManagementPolicySnapShotStatusGenerator()
 var managementPolicySnapShotStatusGenerator gopter.Gen
 
 // ManagementPolicySnapShotStatusGenerator returns a generator of ManagementPolicySnapShot_Status instances for property testing.
@@ -1960,7 +1960,7 @@ func RunPropertyAssignmentTestForManagementPolicyVersion(subject ManagementPolic
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -2011,7 +2011,7 @@ func RunJSONSerializationTestForManagementPolicyVersion(subject ManagementPolicy
 }
 
 // Generator of ManagementPolicyVersion instances for property testing - lazily instantiated by
-//ManagementPolicyVersionGenerator()
+// ManagementPolicyVersionGenerator()
 var managementPolicyVersionGenerator gopter.Gen
 
 // ManagementPolicyVersionGenerator returns a generator of ManagementPolicyVersion instances for property testing.
@@ -2064,7 +2064,7 @@ func RunPropertyAssignmentTestForManagementPolicyVersionStatus(subject Managemen
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -2115,7 +2115,7 @@ func RunJSONSerializationTestForManagementPolicyVersionStatus(subject Management
 }
 
 // Generator of ManagementPolicyVersion_Status instances for property testing - lazily instantiated by
-//ManagementPolicyVersionStatusGenerator()
+// ManagementPolicyVersionStatusGenerator()
 var managementPolicyVersionStatusGenerator gopter.Gen
 
 // ManagementPolicyVersionStatusGenerator returns a generator of ManagementPolicyVersion_Status instances for property testing.
@@ -2168,7 +2168,7 @@ func RunPropertyAssignmentTestForTagFilter(subject TagFilter) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -2271,7 +2271,7 @@ func RunPropertyAssignmentTestForTagFilterStatus(subject TagFilter_Status) strin
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -2374,7 +2374,7 @@ func RunPropertyAssignmentTestForDateAfterCreation(subject DateAfterCreation) st
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -2475,7 +2475,7 @@ func RunPropertyAssignmentTestForDateAfterCreationStatus(subject DateAfterCreati
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -2526,7 +2526,7 @@ func RunJSONSerializationTestForDateAfterCreationStatus(subject DateAfterCreatio
 }
 
 // Generator of DateAfterCreation_Status instances for property testing - lazily instantiated by
-//DateAfterCreationStatusGenerator()
+// DateAfterCreationStatusGenerator()
 var dateAfterCreationStatusGenerator gopter.Gen
 
 // DateAfterCreationStatusGenerator returns a generator of DateAfterCreation_Status instances for property testing.
@@ -2577,7 +2577,7 @@ func RunPropertyAssignmentTestForDateAfterModification(subject DateAfterModifica
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -2628,7 +2628,7 @@ func RunJSONSerializationTestForDateAfterModification(subject DateAfterModificat
 }
 
 // Generator of DateAfterModification instances for property testing - lazily instantiated by
-//DateAfterModificationGenerator()
+// DateAfterModificationGenerator()
 var dateAfterModificationGenerator gopter.Gen
 
 // DateAfterModificationGenerator returns a generator of DateAfterModification instances for property testing.
@@ -2680,7 +2680,7 @@ func RunPropertyAssignmentTestForDateAfterModificationStatus(subject DateAfterMo
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -2731,7 +2731,7 @@ func RunJSONSerializationTestForDateAfterModificationStatus(subject DateAfterMod
 }
 
 // Generator of DateAfterModification_Status instances for property testing - lazily instantiated by
-//DateAfterModificationStatusGenerator()
+// DateAfterModificationStatusGenerator()
 var dateAfterModificationStatusGenerator gopter.Gen
 
 // DateAfterModificationStatusGenerator returns a generator of DateAfterModification_Status instances for property testing.

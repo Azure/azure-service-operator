@@ -4,44 +4,44 @@
 package v1beta20200601
 
 type DomainTopic_StatusARM struct {
-	//Id: Fully qualified identifier of the resource.
+	// Id: Fully qualified identifier of the resource.
 	Id *string `json:"id,omitempty"`
 
-	//Name: Name of the resource.
+	// Name: Name of the resource.
 	Name *string `json:"name,omitempty"`
 
-	//Properties: Properties of the Domain Topic.
+	// Properties: Properties of the Domain Topic.
 	Properties *DomainTopicProperties_StatusARM `json:"properties,omitempty"`
 
-	//SystemData: The system metadata relating to Domain Topic resource.
+	// SystemData: The system metadata relating to Domain Topic resource.
 	SystemData *SystemData_StatusARM `json:"systemData,omitempty"`
 
-	//Type: Type of the resource.
+	// Type: Type of the resource.
 	Type *string `json:"type,omitempty"`
 }
 
 type DomainTopicProperties_StatusARM struct {
-	//ProvisioningState: Provisioning state of the domain topic.
+	// ProvisioningState: Provisioning state of the domain topic.
 	ProvisioningState *DomainTopicPropertiesStatusProvisioningState `json:"provisioningState,omitempty"`
 }
 
 type SystemData_StatusARM struct {
-	//CreatedAt: The timestamp of resource creation (UTC).
+	// CreatedAt: The timestamp of resource creation (UTC).
 	CreatedAt *string `json:"createdAt,omitempty"`
 
-	//CreatedBy: The identity that created the resource.
+	// CreatedBy: The identity that created the resource.
 	CreatedBy *string `json:"createdBy,omitempty"`
 
-	//CreatedByType: The type of identity that created the resource.
+	// CreatedByType: The type of identity that created the resource.
 	CreatedByType *SystemDataStatusCreatedByType `json:"createdByType,omitempty"`
 
-	//LastModifiedAt: The timestamp of resource last modification (UTC)
+	// LastModifiedAt: The timestamp of resource last modification (UTC)
 	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
 
-	//LastModifiedBy: The identity that last modified the resource.
+	// LastModifiedBy: The identity that last modified the resource.
 	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
 
-	//LastModifiedByType: The type of identity that last modified the resource.
+	// LastModifiedByType: The type of identity that last modified the resource.
 	LastModifiedByType *SystemDataStatusLastModifiedByType `json:"lastModifiedByType,omitempty"`
 }
 

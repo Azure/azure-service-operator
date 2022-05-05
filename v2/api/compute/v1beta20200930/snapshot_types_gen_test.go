@@ -90,7 +90,7 @@ func RunPropertyAssignmentTestForSnapshot(subject Snapshot) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -192,7 +192,7 @@ func RunPropertyAssignmentTestForSnapshotStatus(subject Snapshot_Status) string 
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -334,7 +334,7 @@ func RunPropertyAssignmentTestForSnapshotsSpec(subject Snapshots_Spec) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -468,7 +468,7 @@ func RunPropertyAssignmentTestForSnapshotSku(subject SnapshotSku) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -569,7 +569,7 @@ func RunPropertyAssignmentTestForSnapshotSkuStatus(subject SnapshotSku_Status) s
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)

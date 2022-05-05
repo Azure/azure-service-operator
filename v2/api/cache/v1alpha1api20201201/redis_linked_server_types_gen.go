@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Deprecated version of RedisLinkedServer. Use v1beta20201201.RedisLinkedServer instead
+// Deprecated version of RedisLinkedServer. Use v1beta20201201.RedisLinkedServer instead
 type RedisLinkedServer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -324,16 +324,16 @@ func (server *RedisLinkedServer) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Deprecated version of RedisLinkedServer. Use v1beta20201201.RedisLinkedServer instead
+// Deprecated version of RedisLinkedServer. Use v1beta20201201.RedisLinkedServer instead
 type RedisLinkedServerList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []RedisLinkedServer `json:"items"`
 }
 
-//Deprecated version of RedisLinkedServerWithProperties_Status. Use v1beta20201201.RedisLinkedServerWithProperties_Status instead
+// Deprecated version of RedisLinkedServerWithProperties_Status. Use v1beta20201201.RedisLinkedServerWithProperties_Status instead
 type RedisLinkedServerWithProperties_Status struct {
-	//Conditions: The observed state of the resource
+	// Conditions: The observed state of the resource
 	Conditions               []conditions.Condition                       `json:"conditions,omitempty"`
 	Id                       *string                                      `json:"id,omitempty"`
 	LinkedRedisCacheId       *string                                      `json:"linkedRedisCacheId,omitempty"`
@@ -550,8 +550,8 @@ func (properties *RedisLinkedServerWithProperties_Status) AssignPropertiesToRedi
 }
 
 type RedisLinkedServers_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -562,9 +562,9 @@ type RedisLinkedServers_Spec struct {
 	Location                  *string                       `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a cache.azure.com/Redis resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a cache.azure.com/Redis resource
 	Owner *genruntime.KnownResourceReference `group:"cache.azure.com" json:"owner,omitempty" kind:"Redis"`
 
 	// +kubebuilder:validation:Required
@@ -837,8 +837,8 @@ func (servers *RedisLinkedServers_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (servers *RedisLinkedServers_Spec) SetAzureName(azureName string) { servers.AzureName = azureName }
 
-//Deprecated version of RedisLinkedServerCreatePropertiesServerRole. Use
-//v1beta20201201.RedisLinkedServerCreatePropertiesServerRole instead
+// Deprecated version of RedisLinkedServerCreatePropertiesServerRole. Use
+// v1beta20201201.RedisLinkedServerCreatePropertiesServerRole instead
 // +kubebuilder:validation:Enum={"Primary","Secondary"}
 type RedisLinkedServerCreatePropertiesServerRole string
 
@@ -847,8 +847,8 @@ const (
 	RedisLinkedServerCreatePropertiesServerRoleSecondary = RedisLinkedServerCreatePropertiesServerRole("Secondary")
 )
 
-//Deprecated version of RedisLinkedServerPropertiesStatusServerRole. Use
-//v1beta20201201.RedisLinkedServerPropertiesStatusServerRole instead
+// Deprecated version of RedisLinkedServerPropertiesStatusServerRole. Use
+// v1beta20201201.RedisLinkedServerPropertiesStatusServerRole instead
 type RedisLinkedServerPropertiesStatusServerRole string
 
 const (

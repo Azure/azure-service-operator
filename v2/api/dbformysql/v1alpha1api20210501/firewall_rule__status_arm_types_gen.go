@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1alpha1api20210501
 
-//Deprecated version of FirewallRule_Status. Use v1beta20210501.FirewallRule_Status instead
+// Deprecated version of FirewallRule_Status. Use v1beta20210501.FirewallRule_Status instead
 type FirewallRule_StatusARM struct {
 	Id         *string                           `json:"id,omitempty"`
 	Name       *string                           `json:"name,omitempty"`
@@ -12,7 +12,7 @@ type FirewallRule_StatusARM struct {
 	Type       *string                           `json:"type,omitempty"`
 }
 
-//Deprecated version of FirewallRuleProperties_Status. Use v1beta20210501.FirewallRuleProperties_Status instead
+// Deprecated version of FirewallRuleProperties_Status. Use v1beta20210501.FirewallRuleProperties_Status instead
 type FirewallRuleProperties_StatusARM struct {
 	EndIpAddress   *string `json:"endIpAddress,omitempty"`
 	StartIpAddress *string `json:"startIpAddress,omitempty"`

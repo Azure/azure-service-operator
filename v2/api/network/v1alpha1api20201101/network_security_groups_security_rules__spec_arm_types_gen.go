@@ -5,7 +5,7 @@ package v1alpha1api20201101
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-//Deprecated version of NetworkSecurityGroupsSecurityRules_Spec. Use v1beta20201101.NetworkSecurityGroupsSecurityRules_Spec instead
+// Deprecated version of NetworkSecurityGroupsSecurityRules_Spec. Use v1beta20201101.NetworkSecurityGroupsSecurityRules_Spec instead
 type NetworkSecurityGroupsSecurityRules_SpecARM struct {
 	Location   *string                          `json:"location,omitempty"`
 	Name       string                           `json:"name,omitempty"`
@@ -30,7 +30,7 @@ func (rules NetworkSecurityGroupsSecurityRules_SpecARM) GetType() string {
 	return "Microsoft.Network/networkSecurityGroups/securityRules"
 }
 
-//Deprecated version of SecurityRulePropertiesFormat. Use v1beta20201101.SecurityRulePropertiesFormat instead
+// Deprecated version of SecurityRulePropertiesFormat. Use v1beta20201101.SecurityRulePropertiesFormat instead
 type SecurityRulePropertiesFormatARM struct {
 	Access                               *SecurityRulePropertiesFormatAccess    `json:"access,omitempty"`
 	Description                          *string                                `json:"description,omitempty"`

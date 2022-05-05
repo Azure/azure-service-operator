@@ -56,7 +56,7 @@ func RunJSONSerializationTestForVirtualNetworkGatewaysSpecARM(subject VirtualNet
 }
 
 // Generator of VirtualNetworkGateways_SpecARM instances for property testing - lazily instantiated by
-//VirtualNetworkGatewaysSpecARMGenerator()
+// VirtualNetworkGatewaysSpecARMGenerator()
 var virtualNetworkGatewaysSpecARMGenerator gopter.Gen
 
 // VirtualNetworkGatewaysSpecARMGenerator returns a generator of VirtualNetworkGateways_SpecARM instances for property testing.
@@ -132,7 +132,7 @@ func RunJSONSerializationTestForVirtualNetworkGatewaysSpecPropertiesARM(subject 
 }
 
 // Generator of VirtualNetworkGateways_Spec_PropertiesARM instances for property testing - lazily instantiated by
-//VirtualNetworkGatewaysSpecPropertiesARMGenerator()
+// VirtualNetworkGatewaysSpecPropertiesARMGenerator()
 var virtualNetworkGatewaysSpecPropertiesARMGenerator gopter.Gen
 
 // VirtualNetworkGatewaysSpecPropertiesARMGenerator returns a generator of VirtualNetworkGateways_Spec_PropertiesARM instances for property testing.
@@ -357,7 +357,7 @@ func RunJSONSerializationTestForVirtualNetworkGatewaySkuARM(subject VirtualNetwo
 }
 
 // Generator of VirtualNetworkGatewaySkuARM instances for property testing - lazily instantiated by
-//VirtualNetworkGatewaySkuARMGenerator()
+// VirtualNetworkGatewaySkuARMGenerator()
 var virtualNetworkGatewaySkuARMGenerator gopter.Gen
 
 // VirtualNetworkGatewaySkuARMGenerator returns a generator of VirtualNetworkGatewaySkuARM instances for property testing.
@@ -452,7 +452,7 @@ func RunJSONSerializationTestForVirtualNetworkGatewaysSpecPropertiesIpConfigurat
 }
 
 // Generator of VirtualNetworkGateways_Spec_Properties_IpConfigurationsARM instances for property testing - lazily
-//instantiated by VirtualNetworkGatewaysSpecPropertiesIpConfigurationsARMGenerator()
+// instantiated by VirtualNetworkGatewaysSpecPropertiesIpConfigurationsARMGenerator()
 var virtualNetworkGatewaysSpecPropertiesIpConfigurationsARMGenerator gopter.Gen
 
 // VirtualNetworkGatewaysSpecPropertiesIpConfigurationsARMGenerator returns a generator of VirtualNetworkGateways_Spec_Properties_IpConfigurationsARM instances for property testing.
@@ -526,7 +526,7 @@ func RunJSONSerializationTestForVirtualNetworkGatewaysSpecPropertiesVpnClientCon
 }
 
 // Generator of VirtualNetworkGateways_Spec_Properties_VpnClientConfigurationARM instances for property testing - lazily
-//instantiated by VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationARMGenerator()
+// instantiated by VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationARMGenerator()
 var virtualNetworkGatewaysSpecPropertiesVpnClientConfigurationARMGenerator gopter.Gen
 
 // VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationARMGenerator returns a generator of VirtualNetworkGateways_Spec_Properties_VpnClientConfigurationARM instances for property testing.
@@ -610,7 +610,7 @@ func RunJSONSerializationTestForIPConfigurationBgpPeeringAddressARM(subject IPCo
 }
 
 // Generator of IPConfigurationBgpPeeringAddressARM instances for property testing - lazily instantiated by
-//IPConfigurationBgpPeeringAddressARMGenerator()
+// IPConfigurationBgpPeeringAddressARMGenerator()
 var ipConfigurationBgpPeeringAddressARMGenerator gopter.Gen
 
 // IPConfigurationBgpPeeringAddressARMGenerator returns a generator of IPConfigurationBgpPeeringAddressARM instances for property testing.
@@ -843,7 +843,7 @@ func RunJSONSerializationTestForVirtualNetworkGatewayIPConfigurationPropertiesFo
 }
 
 // Generator of VirtualNetworkGatewayIPConfigurationPropertiesFormatARM instances for property testing - lazily
-//instantiated by VirtualNetworkGatewayIPConfigurationPropertiesFormatARMGenerator()
+// instantiated by VirtualNetworkGatewayIPConfigurationPropertiesFormatARMGenerator()
 var virtualNetworkGatewayIPConfigurationPropertiesFormatARMGenerator gopter.Gen
 
 // VirtualNetworkGatewayIPConfigurationPropertiesFormatARMGenerator returns a generator of VirtualNetworkGatewayIPConfigurationPropertiesFormatARM instances for property testing.
@@ -918,8 +918,8 @@ func RunJSONSerializationTestForVirtualNetworkGatewaysSpecPropertiesVpnClientCon
 }
 
 // Generator of VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificatesARM instances
-//for property testing - lazily instantiated by
-//VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificatesARMGenerator()
+// for property testing - lazily instantiated by
+// VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificatesARMGenerator()
 var virtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificatesARMGenerator gopter.Gen
 
 // VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificatesARMGenerator returns a generator of VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificatesARM instances for property testing.
@@ -993,8 +993,8 @@ func RunJSONSerializationTestForVirtualNetworkGatewaysSpecPropertiesVpnClientCon
 }
 
 // Generator of VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificatesARM instances for
-//property testing - lazily instantiated by
-//VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificatesARMGenerator()
+// property testing - lazily instantiated by
+// VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificatesARMGenerator()
 var virtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificatesARMGenerator gopter.Gen
 
 // VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificatesARMGenerator returns a generator of VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificatesARM instances for property testing.
@@ -1068,7 +1068,7 @@ func RunJSONSerializationTestForVpnClientRevokedCertificatePropertiesFormatARM(s
 }
 
 // Generator of VpnClientRevokedCertificatePropertiesFormatARM instances for property testing - lazily instantiated by
-//VpnClientRevokedCertificatePropertiesFormatARMGenerator()
+// VpnClientRevokedCertificatePropertiesFormatARMGenerator()
 var vpnClientRevokedCertificatePropertiesFormatARMGenerator gopter.Gen
 
 // VpnClientRevokedCertificatePropertiesFormatARMGenerator returns a generator of VpnClientRevokedCertificatePropertiesFormatARM instances for property testing.
@@ -1128,7 +1128,7 @@ func RunJSONSerializationTestForVpnClientRootCertificatePropertiesFormatARM(subj
 }
 
 // Generator of VpnClientRootCertificatePropertiesFormatARM instances for property testing - lazily instantiated by
-//VpnClientRootCertificatePropertiesFormatARMGenerator()
+// VpnClientRootCertificatePropertiesFormatARMGenerator()
 var vpnClientRootCertificatePropertiesFormatARMGenerator gopter.Gen
 
 // VpnClientRootCertificatePropertiesFormatARMGenerator returns a generator of VpnClientRootCertificatePropertiesFormatARM instances for property testing.

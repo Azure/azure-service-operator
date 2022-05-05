@@ -258,7 +258,7 @@ func RunJSONSerializationTestForSignalRPropertiesARM(subject SignalRPropertiesAR
 }
 
 // Generator of SignalRPropertiesARM instances for property testing - lazily instantiated by
-//SignalRPropertiesARMGenerator()
+// SignalRPropertiesARMGenerator()
 var signalRPropertiesARMGenerator gopter.Gen
 
 // SignalRPropertiesARMGenerator returns a generator of SignalRPropertiesARM instances for property testing.
@@ -339,7 +339,7 @@ func RunJSONSerializationTestForResourceLogConfigurationARM(subject ResourceLogC
 }
 
 // Generator of ResourceLogConfigurationARM instances for property testing - lazily instantiated by
-//ResourceLogConfigurationARMGenerator()
+// ResourceLogConfigurationARMGenerator()
 var resourceLogConfigurationARMGenerator gopter.Gen
 
 // ResourceLogConfigurationARMGenerator returns a generator of ResourceLogConfigurationARM instances for property testing.
@@ -399,7 +399,7 @@ func RunJSONSerializationTestForServerlessUpstreamSettingsARM(subject Serverless
 }
 
 // Generator of ServerlessUpstreamSettingsARM instances for property testing - lazily instantiated by
-//ServerlessUpstreamSettingsARMGenerator()
+// ServerlessUpstreamSettingsARMGenerator()
 var serverlessUpstreamSettingsARMGenerator gopter.Gen
 
 // ServerlessUpstreamSettingsARMGenerator returns a generator of ServerlessUpstreamSettingsARM instances for property testing.
@@ -459,7 +459,7 @@ func RunJSONSerializationTestForSignalRCorsSettingsARM(subject SignalRCorsSettin
 }
 
 // Generator of SignalRCorsSettingsARM instances for property testing - lazily instantiated by
-//SignalRCorsSettingsARMGenerator()
+// SignalRCorsSettingsARMGenerator()
 var signalRCorsSettingsARMGenerator gopter.Gen
 
 // SignalRCorsSettingsARMGenerator returns a generator of SignalRCorsSettingsARM instances for property testing.
@@ -584,7 +584,7 @@ func RunJSONSerializationTestForSignalRNetworkACLsARM(subject SignalRNetworkACLs
 }
 
 // Generator of SignalRNetworkACLsARM instances for property testing - lazily instantiated by
-//SignalRNetworkACLsARMGenerator()
+// SignalRNetworkACLsARMGenerator()
 var signalRNetworkACLsARMGenerator gopter.Gen
 
 // SignalRNetworkACLsARMGenerator returns a generator of SignalRNetworkACLsARM instances for property testing.
@@ -659,7 +659,7 @@ func RunJSONSerializationTestForSignalRTlsSettingsARM(subject SignalRTlsSettings
 }
 
 // Generator of SignalRTlsSettingsARM instances for property testing - lazily instantiated by
-//SignalRTlsSettingsARMGenerator()
+// SignalRTlsSettingsARMGenerator()
 var signalRTlsSettingsARMGenerator gopter.Gen
 
 // SignalRTlsSettingsARMGenerator returns a generator of SignalRTlsSettingsARM instances for property testing.
@@ -787,7 +787,7 @@ func RunJSONSerializationTestForPrivateEndpointACLARM(subject PrivateEndpointACL
 }
 
 // Generator of PrivateEndpointACLARM instances for property testing - lazily instantiated by
-//PrivateEndpointACLARMGenerator()
+// PrivateEndpointACLARMGenerator()
 var privateEndpointACLARMGenerator gopter.Gen
 
 // PrivateEndpointACLARMGenerator returns a generator of PrivateEndpointACLARM instances for property testing.
@@ -857,7 +857,7 @@ func RunJSONSerializationTestForResourceLogCategoryARM(subject ResourceLogCatego
 }
 
 // Generator of ResourceLogCategoryARM instances for property testing - lazily instantiated by
-//ResourceLogCategoryARMGenerator()
+// ResourceLogCategoryARMGenerator()
 var resourceLogCategoryARMGenerator gopter.Gen
 
 // ResourceLogCategoryARMGenerator returns a generator of ResourceLogCategoryARM instances for property testing.
@@ -918,7 +918,7 @@ func RunJSONSerializationTestForUpstreamTemplateARM(subject UpstreamTemplateARM)
 }
 
 // Generator of UpstreamTemplateARM instances for property testing - lazily instantiated by
-//UpstreamTemplateARMGenerator()
+// UpstreamTemplateARMGenerator()
 var upstreamTemplateARMGenerator gopter.Gen
 
 // UpstreamTemplateARMGenerator returns a generator of UpstreamTemplateARM instances for property testing.
@@ -995,7 +995,7 @@ func RunJSONSerializationTestForUpstreamAuthSettingsARM(subject UpstreamAuthSett
 }
 
 // Generator of UpstreamAuthSettingsARM instances for property testing - lazily instantiated by
-//UpstreamAuthSettingsARMGenerator()
+// UpstreamAuthSettingsARMGenerator()
 var upstreamAuthSettingsARMGenerator gopter.Gen
 
 // UpstreamAuthSettingsARMGenerator returns a generator of UpstreamAuthSettingsARM instances for property testing.
@@ -1069,7 +1069,7 @@ func RunJSONSerializationTestForManagedIdentitySettingsARM(subject ManagedIdenti
 }
 
 // Generator of ManagedIdentitySettingsARM instances for property testing - lazily instantiated by
-//ManagedIdentitySettingsARMGenerator()
+// ManagedIdentitySettingsARMGenerator()
 var managedIdentitySettingsARMGenerator gopter.Gen
 
 // ManagedIdentitySettingsARMGenerator returns a generator of ManagedIdentitySettingsARM instances for property testing.

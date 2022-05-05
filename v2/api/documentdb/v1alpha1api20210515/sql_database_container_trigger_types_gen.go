@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Deprecated version of SqlDatabaseContainerTrigger. Use v1beta20210515.SqlDatabaseContainerTrigger instead
+// Deprecated version of SqlDatabaseContainerTrigger. Use v1beta20210515.SqlDatabaseContainerTrigger instead
 type SqlDatabaseContainerTrigger struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -324,7 +324,7 @@ func (trigger *SqlDatabaseContainerTrigger) OriginalGVK() *schema.GroupVersionKi
 }
 
 // +kubebuilder:object:root=true
-//Deprecated version of SqlDatabaseContainerTrigger. Use v1beta20210515.SqlDatabaseContainerTrigger instead
+// Deprecated version of SqlDatabaseContainerTrigger. Use v1beta20210515.SqlDatabaseContainerTrigger instead
 type SqlDatabaseContainerTriggerList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -332,16 +332,16 @@ type SqlDatabaseContainerTriggerList struct {
 }
 
 type DatabaseAccountsSqlDatabasesContainersTriggers_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName string               `json:"azureName,omitempty"`
 	Location  *string              `json:"location,omitempty"`
 	Options   *CreateUpdateOptions `json:"options,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a documentdb.azure.com/SqlDatabaseContainer resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a documentdb.azure.com/SqlDatabaseContainer resource
 	Owner *genruntime.KnownResourceReference `group:"documentdb.azure.com" json:"owner,omitempty" kind:"SqlDatabaseContainer"`
 
 	// +kubebuilder:validation:Required
@@ -632,9 +632,9 @@ func (triggers *DatabaseAccountsSqlDatabasesContainersTriggers_Spec) SetAzureNam
 	triggers.AzureName = azureName
 }
 
-//Deprecated version of SqlTriggerGetResults_Status. Use v1beta20210515.SqlTriggerGetResults_Status instead
+// Deprecated version of SqlTriggerGetResults_Status. Use v1beta20210515.SqlTriggerGetResults_Status instead
 type SqlTriggerGetResults_Status struct {
-	//Conditions: The observed state of the resource
+	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition                   `json:"conditions,omitempty"`
 	Id         *string                                  `json:"id,omitempty"`
 	Location   *string                                  `json:"location,omitempty"`
@@ -843,7 +843,7 @@ func (results *SqlTriggerGetResults_Status) AssignPropertiesToSqlTriggerGetResul
 	return nil
 }
 
-//Deprecated version of SqlTriggerGetProperties_Status_Resource. Use v1beta20210515.SqlTriggerGetProperties_Status_Resource instead
+// Deprecated version of SqlTriggerGetProperties_Status_Resource. Use v1beta20210515.SqlTriggerGetProperties_Status_Resource instead
 type SqlTriggerGetProperties_Status_Resource struct {
 	Body             *string                                                `json:"body,omitempty"`
 	Etag             *string                                                `json:"_etag,omitempty"`
@@ -1009,7 +1009,7 @@ func (resource *SqlTriggerGetProperties_Status_Resource) AssignPropertiesToSqlTr
 	return nil
 }
 
-//Deprecated version of SqlTriggerResource. Use v1beta20210515.SqlTriggerResource instead
+// Deprecated version of SqlTriggerResource. Use v1beta20210515.SqlTriggerResource instead
 type SqlTriggerResource struct {
 	Body *string `json:"body,omitempty"`
 
@@ -1161,8 +1161,8 @@ func (resource *SqlTriggerResource) AssignPropertiesToSqlTriggerResource(destina
 	return nil
 }
 
-//Deprecated version of SqlTriggerGetPropertiesStatusResourceTriggerOperation. Use
-//v1beta20210515.SqlTriggerGetPropertiesStatusResourceTriggerOperation instead
+// Deprecated version of SqlTriggerGetPropertiesStatusResourceTriggerOperation. Use
+// v1beta20210515.SqlTriggerGetPropertiesStatusResourceTriggerOperation instead
 type SqlTriggerGetPropertiesStatusResourceTriggerOperation string
 
 const (
@@ -1173,8 +1173,8 @@ const (
 	SqlTriggerGetPropertiesStatusResourceTriggerOperationUpdate  = SqlTriggerGetPropertiesStatusResourceTriggerOperation("Update")
 )
 
-//Deprecated version of SqlTriggerGetPropertiesStatusResourceTriggerType. Use
-//v1beta20210515.SqlTriggerGetPropertiesStatusResourceTriggerType instead
+// Deprecated version of SqlTriggerGetPropertiesStatusResourceTriggerType. Use
+// v1beta20210515.SqlTriggerGetPropertiesStatusResourceTriggerType instead
 type SqlTriggerGetPropertiesStatusResourceTriggerType string
 
 const (

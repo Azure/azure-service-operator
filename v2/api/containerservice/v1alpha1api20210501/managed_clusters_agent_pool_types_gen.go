@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Deprecated version of ManagedClustersAgentPool. Use v1beta20210501.ManagedClustersAgentPool instead
+// Deprecated version of ManagedClustersAgentPool. Use v1beta20210501.ManagedClustersAgentPool instead
 type ManagedClustersAgentPool struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -324,18 +324,18 @@ func (pool *ManagedClustersAgentPool) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Deprecated version of ManagedClustersAgentPool. Use v1beta20210501.ManagedClustersAgentPool instead
+// Deprecated version of ManagedClustersAgentPool. Use v1beta20210501.ManagedClustersAgentPool instead
 type ManagedClustersAgentPoolList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []ManagedClustersAgentPool `json:"items"`
 }
 
-//Deprecated version of AgentPool_Status. Use v1beta20210501.AgentPool_Status instead
+// Deprecated version of AgentPool_Status. Use v1beta20210501.AgentPool_Status instead
 type AgentPool_Status struct {
 	AvailabilityZones []string `json:"availabilityZones,omitempty"`
 
-	//Conditions: The observed state of the resource
+	// Conditions: The observed state of the resource
 	Conditions                []conditions.Condition           `json:"conditions,omitempty"`
 	Count                     *int                             `json:"count,omitempty"`
 	EnableAutoScaling         *bool                            `json:"enableAutoScaling,omitempty"`
@@ -1299,8 +1299,8 @@ func (pool *AgentPool_Status) AssignPropertiesToAgentPoolStatus(destination *alp
 type ManagedClustersAgentPools_Spec struct {
 	AvailabilityZones []string `json:"availabilityZones,omitempty"`
 
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName                     string                                                      `json:"azureName,omitempty"`
 	Count                         *int                                                        `json:"count,omitempty"`
 	EnableAutoScaling             *bool                                                       `json:"enableAutoScaling,omitempty"`
@@ -1330,9 +1330,9 @@ type ManagedClustersAgentPools_Spec struct {
 	OsType       *ManagedClusterAgentPoolProfilePropertiesOsType     `json:"osType,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a containerservice.azure.com/ManagedCluster resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a containerservice.azure.com/ManagedCluster resource
 	Owner                     *genruntime.KnownResourceReference                              `group:"containerservice.azure.com" json:"owner,omitempty" kind:"ManagedCluster"`
 	PodSubnetIDReference      *genruntime.ResourceReference                                   `armReference:"PodSubnetID" json:"podSubnetIDReference,omitempty"`
 	ProximityPlacementGroupID *string                                                         `json:"proximityPlacementGroupID,omitempty"`
@@ -2440,7 +2440,7 @@ func (pools *ManagedClustersAgentPools_Spec) SetAzureName(azureName string) {
 	pools.AzureName = azureName
 }
 
-//Deprecated version of AgentPoolUpgradeSettings. Use v1beta20210501.AgentPoolUpgradeSettings instead
+// Deprecated version of AgentPoolUpgradeSettings. Use v1beta20210501.AgentPoolUpgradeSettings instead
 type AgentPoolUpgradeSettings struct {
 	MaxSurge *string `json:"maxSurge,omitempty"`
 }
@@ -2513,7 +2513,7 @@ func (settings *AgentPoolUpgradeSettings) AssignPropertiesToAgentPoolUpgradeSett
 	return nil
 }
 
-//Deprecated version of AgentPoolUpgradeSettings_Status. Use v1beta20210501.AgentPoolUpgradeSettings_Status instead
+// Deprecated version of AgentPoolUpgradeSettings_Status. Use v1beta20210501.AgentPoolUpgradeSettings_Status instead
 type AgentPoolUpgradeSettings_Status struct {
 	MaxSurge *string `json:"maxSurge,omitempty"`
 }
@@ -2571,7 +2571,7 @@ func (settings *AgentPoolUpgradeSettings_Status) AssignPropertiesToAgentPoolUpgr
 	return nil
 }
 
-//Deprecated version of KubeletConfig. Use v1beta20210501.KubeletConfig instead
+// Deprecated version of KubeletConfig. Use v1beta20210501.KubeletConfig instead
 type KubeletConfig struct {
 	AllowedUnsafeSysctls []string `json:"allowedUnsafeSysctls,omitempty"`
 
@@ -2864,7 +2864,7 @@ func (config *KubeletConfig) AssignPropertiesToKubeletConfig(destination *alpha2
 	return nil
 }
 
-//Deprecated version of KubeletConfig_Status. Use v1beta20210501.KubeletConfig_Status instead
+// Deprecated version of KubeletConfig_Status. Use v1beta20210501.KubeletConfig_Status instead
 type KubeletConfig_Status struct {
 	AllowedUnsafeSysctls  []string `json:"allowedUnsafeSysctls,omitempty"`
 	ContainerLogMaxFiles  *int     `json:"containerLogMaxFiles,omitempty"`
@@ -3071,7 +3071,7 @@ func (config *KubeletConfig_Status) AssignPropertiesToKubeletConfigStatus(destin
 	return nil
 }
 
-//Deprecated version of LinuxOSConfig. Use v1beta20210501.LinuxOSConfig instead
+// Deprecated version of LinuxOSConfig. Use v1beta20210501.LinuxOSConfig instead
 type LinuxOSConfig struct {
 	SwapFileSizeMB             *int          `json:"swapFileSizeMB,omitempty"`
 	Sysctls                    *SysctlConfig `json:"sysctls,omitempty"`
@@ -3228,7 +3228,7 @@ func (config *LinuxOSConfig) AssignPropertiesToLinuxOSConfig(destination *alpha2
 	return nil
 }
 
-//Deprecated version of LinuxOSConfig_Status. Use v1beta20210501.LinuxOSConfig_Status instead
+// Deprecated version of LinuxOSConfig_Status. Use v1beta20210501.LinuxOSConfig_Status instead
 type LinuxOSConfig_Status struct {
 	SwapFileSizeMB             *int                 `json:"swapFileSizeMB,omitempty"`
 	Sysctls                    *SysctlConfig_Status `json:"sysctls,omitempty"`
@@ -3348,8 +3348,8 @@ func (config *LinuxOSConfig_Status) AssignPropertiesToLinuxOSConfigStatus(destin
 	return nil
 }
 
-//Deprecated version of ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfile. Use
-//v1beta20210501.ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfile instead
+// Deprecated version of ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfile. Use
+// v1beta20210501.ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfile instead
 // +kubebuilder:validation:Enum={"MIG1g","MIG2g","MIG3g","MIG4g","MIG7g"}
 type ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfile string
 
@@ -3361,8 +3361,8 @@ const (
 	ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfileMIG7G = ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfile("MIG7g")
 )
 
-//Deprecated version of ManagedClusterAgentPoolProfilePropertiesKubeletDiskType. Use
-//v1beta20210501.ManagedClusterAgentPoolProfilePropertiesKubeletDiskType instead
+// Deprecated version of ManagedClusterAgentPoolProfilePropertiesKubeletDiskType. Use
+// v1beta20210501.ManagedClusterAgentPoolProfilePropertiesKubeletDiskType instead
 // +kubebuilder:validation:Enum={"OS","Temporary"}
 type ManagedClusterAgentPoolProfilePropertiesKubeletDiskType string
 
@@ -3371,8 +3371,8 @@ const (
 	ManagedClusterAgentPoolProfilePropertiesKubeletDiskTypeTemporary = ManagedClusterAgentPoolProfilePropertiesKubeletDiskType("Temporary")
 )
 
-//Deprecated version of ManagedClusterAgentPoolProfilePropertiesMode. Use
-//v1beta20210501.ManagedClusterAgentPoolProfilePropertiesMode instead
+// Deprecated version of ManagedClusterAgentPoolProfilePropertiesMode. Use
+// v1beta20210501.ManagedClusterAgentPoolProfilePropertiesMode instead
 // +kubebuilder:validation:Enum={"System","User"}
 type ManagedClusterAgentPoolProfilePropertiesMode string
 
@@ -3381,8 +3381,8 @@ const (
 	ManagedClusterAgentPoolProfilePropertiesModeUser   = ManagedClusterAgentPoolProfilePropertiesMode("User")
 )
 
-//Deprecated version of ManagedClusterAgentPoolProfilePropertiesOsDiskType. Use
-//v1beta20210501.ManagedClusterAgentPoolProfilePropertiesOsDiskType instead
+// Deprecated version of ManagedClusterAgentPoolProfilePropertiesOsDiskType. Use
+// v1beta20210501.ManagedClusterAgentPoolProfilePropertiesOsDiskType instead
 // +kubebuilder:validation:Enum={"Ephemeral","Managed"}
 type ManagedClusterAgentPoolProfilePropertiesOsDiskType string
 
@@ -3391,8 +3391,8 @@ const (
 	ManagedClusterAgentPoolProfilePropertiesOsDiskTypeManaged   = ManagedClusterAgentPoolProfilePropertiesOsDiskType("Managed")
 )
 
-//Deprecated version of ManagedClusterAgentPoolProfilePropertiesOsSKU. Use
-//v1beta20210501.ManagedClusterAgentPoolProfilePropertiesOsSKU instead
+// Deprecated version of ManagedClusterAgentPoolProfilePropertiesOsSKU. Use
+// v1beta20210501.ManagedClusterAgentPoolProfilePropertiesOsSKU instead
 // +kubebuilder:validation:Enum={"CBLMariner","Ubuntu"}
 type ManagedClusterAgentPoolProfilePropertiesOsSKU string
 
@@ -3401,8 +3401,8 @@ const (
 	ManagedClusterAgentPoolProfilePropertiesOsSKUUbuntu     = ManagedClusterAgentPoolProfilePropertiesOsSKU("Ubuntu")
 )
 
-//Deprecated version of ManagedClusterAgentPoolProfilePropertiesOsType. Use
-//v1beta20210501.ManagedClusterAgentPoolProfilePropertiesOsType instead
+// Deprecated version of ManagedClusterAgentPoolProfilePropertiesOsType. Use
+// v1beta20210501.ManagedClusterAgentPoolProfilePropertiesOsType instead
 // +kubebuilder:validation:Enum={"Linux","Windows"}
 type ManagedClusterAgentPoolProfilePropertiesOsType string
 
@@ -3411,8 +3411,8 @@ const (
 	ManagedClusterAgentPoolProfilePropertiesOsTypeWindows = ManagedClusterAgentPoolProfilePropertiesOsType("Windows")
 )
 
-//Deprecated version of ManagedClusterAgentPoolProfilePropertiesScaleSetEvictionPolicy. Use
-//v1beta20210501.ManagedClusterAgentPoolProfilePropertiesScaleSetEvictionPolicy instead
+// Deprecated version of ManagedClusterAgentPoolProfilePropertiesScaleSetEvictionPolicy. Use
+// v1beta20210501.ManagedClusterAgentPoolProfilePropertiesScaleSetEvictionPolicy instead
 // +kubebuilder:validation:Enum={"Deallocate","Delete"}
 type ManagedClusterAgentPoolProfilePropertiesScaleSetEvictionPolicy string
 
@@ -3421,8 +3421,8 @@ const (
 	ManagedClusterAgentPoolProfilePropertiesScaleSetEvictionPolicyDelete     = ManagedClusterAgentPoolProfilePropertiesScaleSetEvictionPolicy("Delete")
 )
 
-//Deprecated version of ManagedClusterAgentPoolProfilePropertiesScaleSetPriority. Use
-//v1beta20210501.ManagedClusterAgentPoolProfilePropertiesScaleSetPriority instead
+// Deprecated version of ManagedClusterAgentPoolProfilePropertiesScaleSetPriority. Use
+// v1beta20210501.ManagedClusterAgentPoolProfilePropertiesScaleSetPriority instead
 // +kubebuilder:validation:Enum={"Regular","Spot"}
 type ManagedClusterAgentPoolProfilePropertiesScaleSetPriority string
 
@@ -3431,8 +3431,8 @@ const (
 	ManagedClusterAgentPoolProfilePropertiesScaleSetPrioritySpot    = ManagedClusterAgentPoolProfilePropertiesScaleSetPriority("Spot")
 )
 
-//Deprecated version of ManagedClusterAgentPoolProfilePropertiesType. Use
-//v1beta20210501.ManagedClusterAgentPoolProfilePropertiesType instead
+// Deprecated version of ManagedClusterAgentPoolProfilePropertiesType. Use
+// v1beta20210501.ManagedClusterAgentPoolProfilePropertiesType instead
 // +kubebuilder:validation:Enum={"AvailabilitySet","VirtualMachineScaleSets"}
 type ManagedClusterAgentPoolProfilePropertiesType string
 
@@ -3441,7 +3441,7 @@ const (
 	ManagedClusterAgentPoolProfilePropertiesTypeVirtualMachineScaleSets = ManagedClusterAgentPoolProfilePropertiesType("VirtualMachineScaleSets")
 )
 
-//Deprecated version of SysctlConfig. Use v1beta20210501.SysctlConfig instead
+// Deprecated version of SysctlConfig. Use v1beta20210501.SysctlConfig instead
 type SysctlConfig struct {
 	FsAioMaxNr                     *int    `json:"fsAioMaxNr,omitempty"`
 	FsFileMax                      *int    `json:"fsFileMax,omitempty"`
@@ -4037,7 +4037,7 @@ func (config *SysctlConfig) AssignPropertiesToSysctlConfig(destination *alpha202
 	return nil
 }
 
-//Deprecated version of SysctlConfig_Status. Use v1beta20210501.SysctlConfig_Status instead
+// Deprecated version of SysctlConfig_Status. Use v1beta20210501.SysctlConfig_Status instead
 type SysctlConfig_Status struct {
 	FsAioMaxNr                     *int    `json:"fsAioMaxNr,omitempty"`
 	FsFileMax                      *int    `json:"fsFileMax,omitempty"`

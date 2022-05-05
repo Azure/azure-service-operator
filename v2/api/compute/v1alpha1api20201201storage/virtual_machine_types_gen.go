@@ -23,8 +23,8 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Storage version of v1alpha1api20201201.VirtualMachine
-//Deprecated version of VirtualMachine. Use v1beta20201201.VirtualMachine instead
+// Storage version of v1alpha1api20201201.VirtualMachine
+// Deprecated version of VirtualMachine. Use v1beta20201201.VirtualMachine instead
 type VirtualMachine struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -194,16 +194,16 @@ func (machine *VirtualMachine) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Storage version of v1alpha1api20201201.VirtualMachine
-//Deprecated version of VirtualMachine. Use v1beta20201201.VirtualMachine instead
+// Storage version of v1alpha1api20201201.VirtualMachine
+// Deprecated version of VirtualMachine. Use v1beta20201201.VirtualMachine instead
 type VirtualMachineList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []VirtualMachine `json:"items"`
 }
 
-//Storage version of v1alpha1api20201201.VirtualMachine_Status
-//Deprecated version of VirtualMachine_Status. Use v1beta20201201.VirtualMachine_Status instead
+// Storage version of v1alpha1api20201201.VirtualMachine_Status
+// Deprecated version of VirtualMachine_Status. Use v1beta20201201.VirtualMachine_Status instead
 type VirtualMachine_Status struct {
 	AdditionalCapabilities  *AdditionalCapabilities_Status     `json:"additionalCapabilities,omitempty"`
 	AvailabilitySet         *SubResource_Status                `json:"availabilitySet,omitempty"`
@@ -920,13 +920,13 @@ func (machine *VirtualMachine_Status) AssignPropertiesToVirtualMachineStatus(des
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.VirtualMachines_Spec
+// Storage version of v1alpha1api20201201.VirtualMachines_Spec
 type VirtualMachines_Spec struct {
 	AdditionalCapabilities *AdditionalCapabilities `json:"additionalCapabilities,omitempty"`
 	AvailabilitySet        *SubResource            `json:"availabilitySet,omitempty"`
 
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName            string                                          `json:"azureName,omitempty"`
 	BillingProfile       *BillingProfile                                 `json:"billingProfile,omitempty"`
 	DiagnosticsProfile   *DiagnosticsProfile                             `json:"diagnosticsProfile,omitempty"`
@@ -944,9 +944,9 @@ type VirtualMachines_Spec struct {
 	OsProfile            *OSProfile                                      `json:"osProfile,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a resources.azure.com/ResourceGroup resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
 	Owner                   *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	Plan                    *Plan                              `json:"plan,omitempty"`
 	PlatformFaultDomain     *int                               `json:"platformFaultDomain,omitempty"`
@@ -1572,8 +1572,8 @@ func (machines *VirtualMachines_Spec) AssignPropertiesToVirtualMachinesSpec(dest
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.AdditionalCapabilities
-//Deprecated version of AdditionalCapabilities. Use v1beta20201201.AdditionalCapabilities instead
+// Storage version of v1alpha1api20201201.AdditionalCapabilities
+// Deprecated version of AdditionalCapabilities. Use v1beta20201201.AdditionalCapabilities instead
 type AdditionalCapabilities struct {
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	UltraSSDEnabled *bool                  `json:"ultraSSDEnabled,omitempty"`
@@ -1627,8 +1627,8 @@ func (capabilities *AdditionalCapabilities) AssignPropertiesToAdditionalCapabili
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.AdditionalCapabilities_Status
-//Deprecated version of AdditionalCapabilities_Status. Use v1beta20201201.AdditionalCapabilities_Status instead
+// Storage version of v1alpha1api20201201.AdditionalCapabilities_Status
+// Deprecated version of AdditionalCapabilities_Status. Use v1beta20201201.AdditionalCapabilities_Status instead
 type AdditionalCapabilities_Status struct {
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	UltraSSDEnabled *bool                  `json:"ultraSSDEnabled,omitempty"`
@@ -1682,8 +1682,8 @@ func (capabilities *AdditionalCapabilities_Status) AssignPropertiesToAdditionalC
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.BillingProfile
-//Deprecated version of BillingProfile. Use v1beta20201201.BillingProfile instead
+// Storage version of v1alpha1api20201201.BillingProfile
+// Deprecated version of BillingProfile. Use v1beta20201201.BillingProfile instead
 type BillingProfile struct {
 	MaxPrice    *float64               `json:"maxPrice,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -1737,8 +1737,8 @@ func (profile *BillingProfile) AssignPropertiesToBillingProfile(destination *v20
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.BillingProfile_Status
-//Deprecated version of BillingProfile_Status. Use v1beta20201201.BillingProfile_Status instead
+// Storage version of v1alpha1api20201201.BillingProfile_Status
+// Deprecated version of BillingProfile_Status. Use v1beta20201201.BillingProfile_Status instead
 type BillingProfile_Status struct {
 	MaxPrice    *float64               `json:"maxPrice,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -1792,8 +1792,8 @@ func (profile *BillingProfile_Status) AssignPropertiesToBillingProfileStatus(des
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.DiagnosticsProfile
-//Deprecated version of DiagnosticsProfile. Use v1beta20201201.DiagnosticsProfile instead
+// Storage version of v1alpha1api20201201.DiagnosticsProfile
+// Deprecated version of DiagnosticsProfile. Use v1beta20201201.DiagnosticsProfile instead
 type DiagnosticsProfile struct {
 	BootDiagnostics *BootDiagnostics       `json:"bootDiagnostics,omitempty"`
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -1855,8 +1855,8 @@ func (profile *DiagnosticsProfile) AssignPropertiesToDiagnosticsProfile(destinat
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.DiagnosticsProfile_Status
-//Deprecated version of DiagnosticsProfile_Status. Use v1beta20201201.DiagnosticsProfile_Status instead
+// Storage version of v1alpha1api20201201.DiagnosticsProfile_Status
+// Deprecated version of DiagnosticsProfile_Status. Use v1beta20201201.DiagnosticsProfile_Status instead
 type DiagnosticsProfile_Status struct {
 	BootDiagnostics *BootDiagnostics_Status `json:"bootDiagnostics,omitempty"`
 	PropertyBag     genruntime.PropertyBag  `json:"$propertyBag,omitempty"`
@@ -1918,8 +1918,8 @@ func (profile *DiagnosticsProfile_Status) AssignPropertiesToDiagnosticsProfileSt
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.ExtendedLocation
-//Deprecated version of ExtendedLocation. Use v1beta20201201.ExtendedLocation instead
+// Storage version of v1alpha1api20201201.ExtendedLocation
+// Deprecated version of ExtendedLocation. Use v1beta20201201.ExtendedLocation instead
 type ExtendedLocation struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -1970,8 +1970,8 @@ func (location *ExtendedLocation) AssignPropertiesToExtendedLocation(destination
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.ExtendedLocation_Status
-//Deprecated version of ExtendedLocation_Status. Use v1beta20201201.ExtendedLocation_Status instead
+// Storage version of v1alpha1api20201201.ExtendedLocation_Status
+// Deprecated version of ExtendedLocation_Status. Use v1beta20201201.ExtendedLocation_Status instead
 type ExtendedLocation_Status struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -2022,8 +2022,8 @@ func (location *ExtendedLocation_Status) AssignPropertiesToExtendedLocationStatu
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.HardwareProfile
-//Deprecated version of HardwareProfile. Use v1beta20201201.HardwareProfile instead
+// Storage version of v1alpha1api20201201.HardwareProfile
+// Deprecated version of HardwareProfile. Use v1beta20201201.HardwareProfile instead
 type HardwareProfile struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	VmSize      *string                `json:"vmSize,omitempty"`
@@ -2067,8 +2067,8 @@ func (profile *HardwareProfile) AssignPropertiesToHardwareProfile(destination *v
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.HardwareProfile_Status
-//Deprecated version of HardwareProfile_Status. Use v1beta20201201.HardwareProfile_Status instead
+// Storage version of v1alpha1api20201201.HardwareProfile_Status
+// Deprecated version of HardwareProfile_Status. Use v1beta20201201.HardwareProfile_Status instead
 type HardwareProfile_Status struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	VmSize      *string                `json:"vmSize,omitempty"`
@@ -2112,8 +2112,8 @@ func (profile *HardwareProfile_Status) AssignPropertiesToHardwareProfileStatus(d
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.NetworkProfile_Status
-//Deprecated version of NetworkProfile_Status. Use v1beta20201201.NetworkProfile_Status instead
+// Storage version of v1alpha1api20201201.NetworkProfile_Status
+// Deprecated version of NetworkProfile_Status. Use v1beta20201201.NetworkProfile_Status instead
 type NetworkProfile_Status struct {
 	NetworkInterfaces []NetworkInterfaceReference_Status `json:"networkInterfaces,omitempty"`
 	PropertyBag       genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
@@ -2187,8 +2187,8 @@ func (profile *NetworkProfile_Status) AssignPropertiesToNetworkProfileStatus(des
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.OSProfile
-//Deprecated version of OSProfile. Use v1beta20201201.OSProfile instead
+// Storage version of v1alpha1api20201201.OSProfile
+// Deprecated version of OSProfile. Use v1beta20201201.OSProfile instead
 type OSProfile struct {
 	AdminPassword               *genruntime.SecretReference `json:"adminPassword,omitempty"`
 	AdminUsername               *string                     `json:"adminUsername,omitempty"`
@@ -2384,8 +2384,8 @@ func (profile *OSProfile) AssignPropertiesToOSProfile(destination *v20201201s.OS
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.OSProfile_Status
-//Deprecated version of OSProfile_Status. Use v1beta20201201.OSProfile_Status instead
+// Storage version of v1alpha1api20201201.OSProfile_Status
+// Deprecated version of OSProfile_Status. Use v1beta20201201.OSProfile_Status instead
 type OSProfile_Status struct {
 	AdminPassword               *string                      `json:"adminPassword,omitempty"`
 	AdminUsername               *string                      `json:"adminUsername,omitempty"`
@@ -2571,8 +2571,8 @@ func (profile *OSProfile_Status) AssignPropertiesToOSProfileStatus(destination *
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.Plan
-//Deprecated version of Plan. Use v1beta20201201.Plan instead
+// Storage version of v1alpha1api20201201.Plan
+// Deprecated version of Plan. Use v1beta20201201.Plan instead
 type Plan struct {
 	Name          *string                `json:"name,omitempty"`
 	Product       *string                `json:"product,omitempty"`
@@ -2637,8 +2637,8 @@ func (plan *Plan) AssignPropertiesToPlan(destination *v20201201s.Plan) error {
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.Plan_Status
-//Deprecated version of Plan_Status. Use v1beta20201201.Plan_Status instead
+// Storage version of v1alpha1api20201201.Plan_Status
+// Deprecated version of Plan_Status. Use v1beta20201201.Plan_Status instead
 type Plan_Status struct {
 	Name          *string                `json:"name,omitempty"`
 	Product       *string                `json:"product,omitempty"`
@@ -2703,8 +2703,8 @@ func (plan *Plan_Status) AssignPropertiesToPlanStatus(destination *v20201201s.Pl
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.SecurityProfile
-//Deprecated version of SecurityProfile. Use v1beta20201201.SecurityProfile instead
+// Storage version of v1alpha1api20201201.SecurityProfile
+// Deprecated version of SecurityProfile. Use v1beta20201201.SecurityProfile instead
 type SecurityProfile struct {
 	EncryptionAtHost *bool                  `json:"encryptionAtHost,omitempty"`
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -2790,8 +2790,8 @@ func (profile *SecurityProfile) AssignPropertiesToSecurityProfile(destination *v
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.SecurityProfile_Status
-//Deprecated version of SecurityProfile_Status. Use v1beta20201201.SecurityProfile_Status instead
+// Storage version of v1alpha1api20201201.SecurityProfile_Status
+// Deprecated version of SecurityProfile_Status. Use v1beta20201201.SecurityProfile_Status instead
 type SecurityProfile_Status struct {
 	EncryptionAtHost *bool                  `json:"encryptionAtHost,omitempty"`
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -2877,8 +2877,8 @@ func (profile *SecurityProfile_Status) AssignPropertiesToSecurityProfileStatus(d
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.StorageProfile
-//Deprecated version of StorageProfile. Use v1beta20201201.StorageProfile instead
+// Storage version of v1alpha1api20201201.StorageProfile
+// Deprecated version of StorageProfile. Use v1beta20201201.StorageProfile instead
 type StorageProfile struct {
 	DataDisks      []DataDisk             `json:"dataDisks,omitempty"`
 	ImageReference *ImageReference        `json:"imageReference,omitempty"`
@@ -3002,8 +3002,8 @@ func (profile *StorageProfile) AssignPropertiesToStorageProfile(destination *v20
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.StorageProfile_Status
-//Deprecated version of StorageProfile_Status. Use v1beta20201201.StorageProfile_Status instead
+// Storage version of v1alpha1api20201201.StorageProfile_Status
+// Deprecated version of StorageProfile_Status. Use v1beta20201201.StorageProfile_Status instead
 type StorageProfile_Status struct {
 	DataDisks      []DataDisk_Status      `json:"dataDisks,omitempty"`
 	ImageReference *ImageReference_Status `json:"imageReference,omitempty"`
@@ -3127,8 +3127,8 @@ func (profile *StorageProfile_Status) AssignPropertiesToStorageProfileStatus(des
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.SubResource
-//Deprecated version of SubResource. Use v1beta20201201.SubResource instead
+// Storage version of v1alpha1api20201201.SubResource
+// Deprecated version of SubResource. Use v1beta20201201.SubResource instead
 type SubResource struct {
 	PropertyBag genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	Reference   *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
@@ -3182,8 +3182,8 @@ func (resource *SubResource) AssignPropertiesToSubResource(destination *alpha202
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.SubResource_Status
-//Deprecated version of SubResource_Status. Use v1beta20201201.SubResource_Status instead
+// Storage version of v1alpha1api20201201.SubResource_Status
+// Deprecated version of SubResource_Status. Use v1beta20201201.SubResource_Status instead
 type SubResource_Status struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -3227,8 +3227,8 @@ func (resource *SubResource_Status) AssignPropertiesToSubResourceStatus(destinat
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.VirtualMachineExtension_Status
-//Deprecated version of VirtualMachineExtension_Status. Use v1beta20201201.VirtualMachineExtension_Status instead
+// Storage version of v1alpha1api20201201.VirtualMachineExtension_Status
+// Deprecated version of VirtualMachineExtension_Status. Use v1beta20201201.VirtualMachineExtension_Status instead
 type VirtualMachineExtension_Status struct {
 	AutoUpgradeMinorVersion *bool                                       `json:"autoUpgradeMinorVersion,omitempty"`
 	EnableAutomaticUpgrade  *bool                                       `json:"enableAutomaticUpgrade,omitempty"`
@@ -3448,8 +3448,8 @@ func (extension *VirtualMachineExtension_Status) AssignPropertiesToVirtualMachin
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.VirtualMachineIdentity
-//Deprecated version of VirtualMachineIdentity. Use v1beta20201201.VirtualMachineIdentity instead
+// Storage version of v1alpha1api20201201.VirtualMachineIdentity
+// Deprecated version of VirtualMachineIdentity. Use v1beta20201201.VirtualMachineIdentity instead
 type VirtualMachineIdentity struct {
 	PropertyBag            genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Type                   *string                `json:"type,omitempty"`
@@ -3520,8 +3520,8 @@ func (identity *VirtualMachineIdentity) AssignPropertiesToVirtualMachineIdentity
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.VirtualMachineIdentity_Status
-//Deprecated version of VirtualMachineIdentity_Status. Use v1beta20201201.VirtualMachineIdentity_Status instead
+// Storage version of v1alpha1api20201201.VirtualMachineIdentity_Status
+// Deprecated version of VirtualMachineIdentity_Status. Use v1beta20201201.VirtualMachineIdentity_Status instead
 type VirtualMachineIdentity_Status struct {
 	PrincipalId            *string                                                         `json:"principalId,omitempty"`
 	PropertyBag            genruntime.PropertyBag                                          `json:"$propertyBag,omitempty"`
@@ -3616,8 +3616,8 @@ func (identity *VirtualMachineIdentity_Status) AssignPropertiesToVirtualMachineI
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.VirtualMachineInstanceView_Status
-//Deprecated version of VirtualMachineInstanceView_Status. Use v1beta20201201.VirtualMachineInstanceView_Status instead
+// Storage version of v1alpha1api20201201.VirtualMachineInstanceView_Status
+// Deprecated version of VirtualMachineInstanceView_Status. Use v1beta20201201.VirtualMachineInstanceView_Status instead
 type VirtualMachineInstanceView_Status struct {
 	AssignedHost              *string                                      `json:"assignedHost,omitempty"`
 	BootDiagnostics           *BootDiagnosticsInstanceView_Status          `json:"bootDiagnostics,omitempty"`
@@ -3946,8 +3946,8 @@ func (view *VirtualMachineInstanceView_Status) AssignPropertiesToVirtualMachineI
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.VirtualMachines_Spec_Properties_NetworkProfile
-//Deprecated version of VirtualMachines_Spec_Properties_NetworkProfile. Use v1beta20201201.VirtualMachines_Spec_Properties_NetworkProfile instead
+// Storage version of v1alpha1api20201201.VirtualMachines_Spec_Properties_NetworkProfile
+// Deprecated version of VirtualMachines_Spec_Properties_NetworkProfile. Use v1beta20201201.VirtualMachines_Spec_Properties_NetworkProfile instead
 type VirtualMachines_Spec_Properties_NetworkProfile struct {
 	NetworkInterfaces []VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces `json:"networkInterfaces,omitempty"`
 	PropertyBag       genruntime.PropertyBag                                             `json:"$propertyBag,omitempty"`
@@ -4021,8 +4021,8 @@ func (profile *VirtualMachines_Spec_Properties_NetworkProfile) AssignPropertiesT
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.BootDiagnostics
-//Deprecated version of BootDiagnostics. Use v1beta20201201.BootDiagnostics instead
+// Storage version of v1alpha1api20201201.BootDiagnostics
+// Deprecated version of BootDiagnostics. Use v1beta20201201.BootDiagnostics instead
 type BootDiagnostics struct {
 	Enabled     *bool                  `json:"enabled,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -4083,8 +4083,8 @@ func (diagnostics *BootDiagnostics) AssignPropertiesToBootDiagnostics(destinatio
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.BootDiagnosticsInstanceView_Status
-//Deprecated version of BootDiagnosticsInstanceView_Status. Use v1beta20201201.BootDiagnosticsInstanceView_Status instead
+// Storage version of v1alpha1api20201201.BootDiagnosticsInstanceView_Status
+// Deprecated version of BootDiagnosticsInstanceView_Status. Use v1beta20201201.BootDiagnosticsInstanceView_Status instead
 type BootDiagnosticsInstanceView_Status struct {
 	ConsoleScreenshotBlobUri *string                    `json:"consoleScreenshotBlobUri,omitempty"`
 	PropertyBag              genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
@@ -4160,8 +4160,8 @@ func (view *BootDiagnosticsInstanceView_Status) AssignPropertiesToBootDiagnostic
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.BootDiagnostics_Status
-//Deprecated version of BootDiagnostics_Status. Use v1beta20201201.BootDiagnostics_Status instead
+// Storage version of v1alpha1api20201201.BootDiagnostics_Status
+// Deprecated version of BootDiagnostics_Status. Use v1beta20201201.BootDiagnostics_Status instead
 type BootDiagnostics_Status struct {
 	Enabled     *bool                  `json:"enabled,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -4222,8 +4222,8 @@ func (diagnostics *BootDiagnostics_Status) AssignPropertiesToBootDiagnosticsStat
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.DataDisk
-//Deprecated version of DataDisk. Use v1beta20201201.DataDisk instead
+// Storage version of v1alpha1api20201201.DataDisk
+// Deprecated version of DataDisk. Use v1beta20201201.DataDisk instead
 type DataDisk struct {
 	Caching                 *string                `json:"caching,omitempty"`
 	CreateOption            *string                `json:"createOption,omitempty"`
@@ -4411,8 +4411,8 @@ func (disk *DataDisk) AssignPropertiesToDataDisk(destination *v20201201s.DataDis
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.DataDisk_Status
-//Deprecated version of DataDisk_Status. Use v1beta20201201.DataDisk_Status instead
+// Storage version of v1alpha1api20201201.DataDisk_Status
+// Deprecated version of DataDisk_Status. Use v1beta20201201.DataDisk_Status instead
 type DataDisk_Status struct {
 	Caching                 *string                       `json:"caching,omitempty"`
 	CreateOption            *string                       `json:"createOption,omitempty"`
@@ -4614,8 +4614,8 @@ func (disk *DataDisk_Status) AssignPropertiesToDataDiskStatus(destination *v2020
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.DiskInstanceView_Status
-//Deprecated version of DiskInstanceView_Status. Use v1beta20201201.DiskInstanceView_Status instead
+// Storage version of v1alpha1api20201201.DiskInstanceView_Status
+// Deprecated version of DiskInstanceView_Status. Use v1beta20201201.DiskInstanceView_Status instead
 type DiskInstanceView_Status struct {
 	EncryptionSettings []DiskEncryptionSettings_Status `json:"encryptionSettings,omitempty"`
 	Name               *string                         `json:"name,omitempty"`
@@ -4733,8 +4733,8 @@ func (view *DiskInstanceView_Status) AssignPropertiesToDiskInstanceViewStatus(de
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.ImageReference
-//Deprecated version of ImageReference. Use v1beta20201201.ImageReference instead
+// Storage version of v1alpha1api20201201.ImageReference
+// Deprecated version of ImageReference. Use v1beta20201201.ImageReference instead
 type ImageReference struct {
 	Offer       *string                       `json:"offer,omitempty"`
 	PropertyBag genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
@@ -4816,8 +4816,8 @@ func (reference *ImageReference) AssignPropertiesToImageReference(destination *v
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.ImageReference_Status
-//Deprecated version of ImageReference_Status. Use v1beta20201201.ImageReference_Status instead
+// Storage version of v1alpha1api20201201.ImageReference_Status
+// Deprecated version of ImageReference_Status. Use v1beta20201201.ImageReference_Status instead
 type ImageReference_Status struct {
 	ExactVersion *string                `json:"exactVersion,omitempty"`
 	Id           *string                `json:"id,omitempty"`
@@ -4896,8 +4896,8 @@ func (reference *ImageReference_Status) AssignPropertiesToImageReferenceStatus(d
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.InstanceViewStatus_Status
-//Deprecated version of InstanceViewStatus_Status. Use v1beta20201201.InstanceViewStatus_Status instead
+// Storage version of v1alpha1api20201201.InstanceViewStatus_Status
+// Deprecated version of InstanceViewStatus_Status. Use v1beta20201201.InstanceViewStatus_Status instead
 type InstanceViewStatus_Status struct {
 	Code          *string                `json:"code,omitempty"`
 	DisplayStatus *string                `json:"displayStatus,omitempty"`
@@ -4969,8 +4969,8 @@ func (view *InstanceViewStatus_Status) AssignPropertiesToInstanceViewStatusStatu
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.LinuxConfiguration
-//Deprecated version of LinuxConfiguration. Use v1beta20201201.LinuxConfiguration instead
+// Storage version of v1alpha1api20201201.LinuxConfiguration
+// Deprecated version of LinuxConfiguration. Use v1beta20201201.LinuxConfiguration instead
 type LinuxConfiguration struct {
 	DisablePasswordAuthentication *bool                  `json:"disablePasswordAuthentication,omitempty"`
 	PatchSettings                 *LinuxPatchSettings    `json:"patchSettings,omitempty"`
@@ -5091,8 +5091,8 @@ func (configuration *LinuxConfiguration) AssignPropertiesToLinuxConfiguration(de
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.LinuxConfiguration_Status
-//Deprecated version of LinuxConfiguration_Status. Use v1beta20201201.LinuxConfiguration_Status instead
+// Storage version of v1alpha1api20201201.LinuxConfiguration_Status
+// Deprecated version of LinuxConfiguration_Status. Use v1beta20201201.LinuxConfiguration_Status instead
 type LinuxConfiguration_Status struct {
 	DisablePasswordAuthentication *bool                      `json:"disablePasswordAuthentication,omitempty"`
 	PatchSettings                 *LinuxPatchSettings_Status `json:"patchSettings,omitempty"`
@@ -5213,8 +5213,8 @@ func (configuration *LinuxConfiguration_Status) AssignPropertiesToLinuxConfigura
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.MaintenanceRedeployStatus_Status
-//Deprecated version of MaintenanceRedeployStatus_Status. Use v1beta20201201.MaintenanceRedeployStatus_Status instead
+// Storage version of v1alpha1api20201201.MaintenanceRedeployStatus_Status
+// Deprecated version of MaintenanceRedeployStatus_Status. Use v1beta20201201.MaintenanceRedeployStatus_Status instead
 type MaintenanceRedeployStatus_Status struct {
 	IsCustomerInitiatedMaintenanceAllowed *bool                  `json:"isCustomerInitiatedMaintenanceAllowed,omitempty"`
 	LastOperationMessage                  *string                `json:"lastOperationMessage,omitempty"`
@@ -5310,8 +5310,8 @@ func (redeploy *MaintenanceRedeployStatus_Status) AssignPropertiesToMaintenanceR
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.NetworkInterfaceReference_Status
-//Deprecated version of NetworkInterfaceReference_Status. Use v1beta20201201.NetworkInterfaceReference_Status instead
+// Storage version of v1alpha1api20201201.NetworkInterfaceReference_Status
+// Deprecated version of NetworkInterfaceReference_Status. Use v1beta20201201.NetworkInterfaceReference_Status instead
 type NetworkInterfaceReference_Status struct {
 	Id          *string                `json:"id,omitempty"`
 	Primary     *bool                  `json:"primary,omitempty"`
@@ -5372,8 +5372,8 @@ func (reference *NetworkInterfaceReference_Status) AssignPropertiesToNetworkInte
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.OSDisk
-//Deprecated version of OSDisk. Use v1beta20201201.OSDisk instead
+// Storage version of v1alpha1api20201201.OSDisk
+// Deprecated version of OSDisk. Use v1beta20201201.OSDisk instead
 type OSDisk struct {
 	Caching                 *string                 `json:"caching,omitempty"`
 	CreateOption            *string                 `json:"createOption,omitempty"`
@@ -5587,8 +5587,8 @@ func (disk *OSDisk) AssignPropertiesToOSDisk(destination *v20201201s.OSDisk) err
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.OSDisk_Status
-//Deprecated version of OSDisk_Status. Use v1beta20201201.OSDisk_Status instead
+// Storage version of v1alpha1api20201201.OSDisk_Status
+// Deprecated version of OSDisk_Status. Use v1beta20201201.OSDisk_Status instead
 type OSDisk_Status struct {
 	Caching                 *string                        `json:"caching,omitempty"`
 	CreateOption            *string                        `json:"createOption,omitempty"`
@@ -5802,8 +5802,8 @@ func (disk *OSDisk_Status) AssignPropertiesToOSDiskStatus(destination *v20201201
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.UefiSettings
-//Deprecated version of UefiSettings. Use v1beta20201201.UefiSettings instead
+// Storage version of v1alpha1api20201201.UefiSettings
+// Deprecated version of UefiSettings. Use v1beta20201201.UefiSettings instead
 type UefiSettings struct {
 	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SecureBootEnabled *bool                  `json:"secureBootEnabled,omitempty"`
@@ -5874,8 +5874,8 @@ func (settings *UefiSettings) AssignPropertiesToUefiSettings(destination *v20201
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.UefiSettings_Status
-//Deprecated version of UefiSettings_Status. Use v1beta20201201.UefiSettings_Status instead
+// Storage version of v1alpha1api20201201.UefiSettings_Status
+// Deprecated version of UefiSettings_Status. Use v1beta20201201.UefiSettings_Status instead
 type UefiSettings_Status struct {
 	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SecureBootEnabled *bool                  `json:"secureBootEnabled,omitempty"`
@@ -5946,8 +5946,8 @@ func (settings *UefiSettings_Status) AssignPropertiesToUefiSettingsStatus(destin
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.VaultSecretGroup
-//Deprecated version of VaultSecretGroup. Use v1beta20201201.VaultSecretGroup instead
+// Storage version of v1alpha1api20201201.VaultSecretGroup
+// Deprecated version of VaultSecretGroup. Use v1beta20201201.VaultSecretGroup instead
 type VaultSecretGroup struct {
 	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SourceVault       *SubResource           `json:"sourceVault,omitempty"`
@@ -6056,8 +6056,8 @@ func (group *VaultSecretGroup) AssignPropertiesToVaultSecretGroup(destination *v
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.VaultSecretGroup_Status
-//Deprecated version of VaultSecretGroup_Status. Use v1beta20201201.VaultSecretGroup_Status instead
+// Storage version of v1alpha1api20201201.VaultSecretGroup_Status
+// Deprecated version of VaultSecretGroup_Status. Use v1beta20201201.VaultSecretGroup_Status instead
 type VaultSecretGroup_Status struct {
 	PropertyBag       genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
 	SourceVault       *SubResource_Status       `json:"sourceVault,omitempty"`
@@ -6166,8 +6166,8 @@ func (group *VaultSecretGroup_Status) AssignPropertiesToVaultSecretGroupStatus(d
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.VirtualMachineAgentInstanceView_Status
-//Deprecated version of VirtualMachineAgentInstanceView_Status. Use v1beta20201201.VirtualMachineAgentInstanceView_Status instead
+// Storage version of v1alpha1api20201201.VirtualMachineAgentInstanceView_Status
+// Deprecated version of VirtualMachineAgentInstanceView_Status. Use v1beta20201201.VirtualMachineAgentInstanceView_Status instead
 type VirtualMachineAgentInstanceView_Status struct {
 	ExtensionHandlers []VirtualMachineExtensionHandlerInstanceView_Status `json:"extensionHandlers,omitempty"`
 	PropertyBag       genruntime.PropertyBag                              `json:"$propertyBag,omitempty"`
@@ -6285,8 +6285,8 @@ func (view *VirtualMachineAgentInstanceView_Status) AssignPropertiesToVirtualMac
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.VirtualMachineExtensionInstanceView_Status
-//Deprecated version of VirtualMachineExtensionInstanceView_Status. Use v1beta20201201.VirtualMachineExtensionInstanceView_Status instead
+// Storage version of v1alpha1api20201201.VirtualMachineExtensionInstanceView_Status
+// Deprecated version of VirtualMachineExtensionInstanceView_Status. Use v1beta20201201.VirtualMachineExtensionInstanceView_Status instead
 type VirtualMachineExtensionInstanceView_Status struct {
 	Name               *string                     `json:"name,omitempty"`
 	PropertyBag        genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
@@ -6418,8 +6418,8 @@ func (view *VirtualMachineExtensionInstanceView_Status) AssignPropertiesToVirtua
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.VirtualMachineHealthStatus_Status
-//Deprecated version of VirtualMachineHealthStatus_Status. Use v1beta20201201.VirtualMachineHealthStatus_Status instead
+// Storage version of v1alpha1api20201201.VirtualMachineHealthStatus_Status
+// Deprecated version of VirtualMachineHealthStatus_Status. Use v1beta20201201.VirtualMachineHealthStatus_Status instead
 type VirtualMachineHealthStatus_Status struct {
 	PropertyBag genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
 	Status      *InstanceViewStatus_Status `json:"status,omitempty"`
@@ -6481,8 +6481,8 @@ func (health *VirtualMachineHealthStatus_Status) AssignPropertiesToVirtualMachin
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.VirtualMachineIdentity_Status_UserAssignedIdentities
-//Deprecated version of VirtualMachineIdentity_Status_UserAssignedIdentities. Use v1beta20201201.VirtualMachineIdentity_Status_UserAssignedIdentities instead
+// Storage version of v1alpha1api20201201.VirtualMachineIdentity_Status_UserAssignedIdentities
+// Deprecated version of VirtualMachineIdentity_Status_UserAssignedIdentities. Use v1beta20201201.VirtualMachineIdentity_Status_UserAssignedIdentities instead
 type VirtualMachineIdentity_Status_UserAssignedIdentities struct {
 	ClientId    *string                `json:"clientId,omitempty"`
 	PrincipalId *string                `json:"principalId,omitempty"`
@@ -6533,8 +6533,8 @@ func (identities *VirtualMachineIdentity_Status_UserAssignedIdentities) AssignPr
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.VirtualMachinePatchStatus_Status
-//Deprecated version of VirtualMachinePatchStatus_Status. Use v1beta20201201.VirtualMachinePatchStatus_Status instead
+// Storage version of v1alpha1api20201201.VirtualMachinePatchStatus_Status
+// Deprecated version of VirtualMachinePatchStatus_Status. Use v1beta20201201.VirtualMachinePatchStatus_Status instead
 type VirtualMachinePatchStatus_Status struct {
 	AvailablePatchSummary        *AvailablePatchSummary_Status        `json:"availablePatchSummary,omitempty"`
 	ConfigurationStatuses        []InstanceViewStatus_Status          `json:"configurationStatuses,omitempty"`
@@ -6658,8 +6658,8 @@ func (patch *VirtualMachinePatchStatus_Status) AssignPropertiesToVirtualMachineP
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces
-//Deprecated version of VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces. Use v1beta20201201.VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces instead
+// Storage version of v1alpha1api20201201.VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces
+// Deprecated version of VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces. Use v1beta20201201.VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces instead
 type VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces struct {
 	Primary     *bool                         `json:"primary,omitempty"`
 	PropertyBag genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
@@ -6730,8 +6730,8 @@ func (interfaces *VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfac
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.WindowsConfiguration
-//Deprecated version of WindowsConfiguration. Use v1beta20201201.WindowsConfiguration instead
+// Storage version of v1alpha1api20201201.WindowsConfiguration
+// Deprecated version of WindowsConfiguration. Use v1beta20201201.WindowsConfiguration instead
 type WindowsConfiguration struct {
 	AdditionalUnattendContent []AdditionalUnattendContent `json:"additionalUnattendContent,omitempty"`
 	EnableAutomaticUpdates    *bool                       `json:"enableAutomaticUpdates,omitempty"`
@@ -6896,8 +6896,8 @@ func (configuration *WindowsConfiguration) AssignPropertiesToWindowsConfiguratio
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.WindowsConfiguration_Status
-//Deprecated version of WindowsConfiguration_Status. Use v1beta20201201.WindowsConfiguration_Status instead
+// Storage version of v1alpha1api20201201.WindowsConfiguration_Status
+// Deprecated version of WindowsConfiguration_Status. Use v1beta20201201.WindowsConfiguration_Status instead
 type WindowsConfiguration_Status struct {
 	AdditionalUnattendContent []AdditionalUnattendContent_Status `json:"additionalUnattendContent,omitempty"`
 	EnableAutomaticUpdates    *bool                              `json:"enableAutomaticUpdates,omitempty"`
@@ -7062,8 +7062,8 @@ func (configuration *WindowsConfiguration_Status) AssignPropertiesToWindowsConfi
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.AdditionalUnattendContent
-//Deprecated version of AdditionalUnattendContent. Use v1beta20201201.AdditionalUnattendContent instead
+// Storage version of v1alpha1api20201201.AdditionalUnattendContent
+// Deprecated version of AdditionalUnattendContent. Use v1beta20201201.AdditionalUnattendContent instead
 type AdditionalUnattendContent struct {
 	ComponentName *string                `json:"componentName,omitempty"`
 	Content       *string                `json:"content,omitempty"`
@@ -7128,8 +7128,8 @@ func (content *AdditionalUnattendContent) AssignPropertiesToAdditionalUnattendCo
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.AdditionalUnattendContent_Status
-//Deprecated version of AdditionalUnattendContent_Status. Use v1beta20201201.AdditionalUnattendContent_Status instead
+// Storage version of v1alpha1api20201201.AdditionalUnattendContent_Status
+// Deprecated version of AdditionalUnattendContent_Status. Use v1beta20201201.AdditionalUnattendContent_Status instead
 type AdditionalUnattendContent_Status struct {
 	ComponentName *string                `json:"componentName,omitempty"`
 	Content       *string                `json:"content,omitempty"`
@@ -7194,8 +7194,8 @@ func (content *AdditionalUnattendContent_Status) AssignPropertiesToAdditionalUna
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.AvailablePatchSummary_Status
-//Deprecated version of AvailablePatchSummary_Status. Use v1beta20201201.AvailablePatchSummary_Status instead
+// Storage version of v1alpha1api20201201.AvailablePatchSummary_Status
+// Deprecated version of AvailablePatchSummary_Status. Use v1beta20201201.AvailablePatchSummary_Status instead
 type AvailablePatchSummary_Status struct {
 	AssessmentActivityId          *string                `json:"assessmentActivityId,omitempty"`
 	CriticalAndSecurityPatchCount *int                   `json:"criticalAndSecurityPatchCount,omitempty"`
@@ -7316,8 +7316,8 @@ func (summary *AvailablePatchSummary_Status) AssignPropertiesToAvailablePatchSum
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.DiffDiskSettings
-//Deprecated version of DiffDiskSettings. Use v1beta20201201.DiffDiskSettings instead
+// Storage version of v1alpha1api20201201.DiffDiskSettings
+// Deprecated version of DiffDiskSettings. Use v1beta20201201.DiffDiskSettings instead
 type DiffDiskSettings struct {
 	Option      *string                `json:"option,omitempty"`
 	Placement   *string                `json:"placement,omitempty"`
@@ -7368,8 +7368,8 @@ func (settings *DiffDiskSettings) AssignPropertiesToDiffDiskSettings(destination
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.DiffDiskSettings_Status
-//Deprecated version of DiffDiskSettings_Status. Use v1beta20201201.DiffDiskSettings_Status instead
+// Storage version of v1alpha1api20201201.DiffDiskSettings_Status
+// Deprecated version of DiffDiskSettings_Status. Use v1beta20201201.DiffDiskSettings_Status instead
 type DiffDiskSettings_Status struct {
 	Option      *string                `json:"option,omitempty"`
 	Placement   *string                `json:"placement,omitempty"`
@@ -7420,8 +7420,8 @@ func (settings *DiffDiskSettings_Status) AssignPropertiesToDiffDiskSettingsStatu
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.DiskEncryptionSettings
-//Deprecated version of DiskEncryptionSettings. Use v1beta20201201.DiskEncryptionSettings instead
+// Storage version of v1alpha1api20201201.DiskEncryptionSettings
+// Deprecated version of DiskEncryptionSettings. Use v1beta20201201.DiskEncryptionSettings instead
 type DiskEncryptionSettings struct {
 	DiskEncryptionKey *KeyVaultSecretReference `json:"diskEncryptionKey,omitempty"`
 	Enabled           *bool                    `json:"enabled,omitempty"`
@@ -7525,8 +7525,8 @@ func (settings *DiskEncryptionSettings) AssignPropertiesToDiskEncryptionSettings
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.DiskEncryptionSettings_Status
-//Deprecated version of DiskEncryptionSettings_Status. Use v1beta20201201.DiskEncryptionSettings_Status instead
+// Storage version of v1alpha1api20201201.DiskEncryptionSettings_Status
+// Deprecated version of DiskEncryptionSettings_Status. Use v1beta20201201.DiskEncryptionSettings_Status instead
 type DiskEncryptionSettings_Status struct {
 	DiskEncryptionKey *KeyVaultSecretReference_Status `json:"diskEncryptionKey,omitempty"`
 	Enabled           *bool                           `json:"enabled,omitempty"`
@@ -7630,8 +7630,8 @@ func (settings *DiskEncryptionSettings_Status) AssignPropertiesToDiskEncryptionS
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.LastPatchInstallationSummary_Status
-//Deprecated version of LastPatchInstallationSummary_Status. Use v1beta20201201.LastPatchInstallationSummary_Status instead
+// Storage version of v1alpha1api20201201.LastPatchInstallationSummary_Status
+// Deprecated version of LastPatchInstallationSummary_Status. Use v1beta20201201.LastPatchInstallationSummary_Status instead
 type LastPatchInstallationSummary_Status struct {
 	Error                     *ApiError_Status       `json:"error,omitempty"`
 	ExcludedPatchCount        *int                   `json:"excludedPatchCount,omitempty"`
@@ -7773,8 +7773,8 @@ func (summary *LastPatchInstallationSummary_Status) AssignPropertiesToLastPatchI
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.LinuxPatchSettings
-//Deprecated version of LinuxPatchSettings. Use v1beta20201201.LinuxPatchSettings instead
+// Storage version of v1alpha1api20201201.LinuxPatchSettings
+// Deprecated version of LinuxPatchSettings. Use v1beta20201201.LinuxPatchSettings instead
 type LinuxPatchSettings struct {
 	PatchMode   *string                `json:"patchMode,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -7818,8 +7818,8 @@ func (settings *LinuxPatchSettings) AssignPropertiesToLinuxPatchSettings(destina
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.LinuxPatchSettings_Status
-//Deprecated version of LinuxPatchSettings_Status. Use v1beta20201201.LinuxPatchSettings_Status instead
+// Storage version of v1alpha1api20201201.LinuxPatchSettings_Status
+// Deprecated version of LinuxPatchSettings_Status. Use v1beta20201201.LinuxPatchSettings_Status instead
 type LinuxPatchSettings_Status struct {
 	PatchMode   *string                `json:"patchMode,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -7863,8 +7863,8 @@ func (settings *LinuxPatchSettings_Status) AssignPropertiesToLinuxPatchSettingsS
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.ManagedDiskParameters
-//Deprecated version of ManagedDiskParameters. Use v1beta20201201.ManagedDiskParameters instead
+// Storage version of v1alpha1api20201201.ManagedDiskParameters
+// Deprecated version of ManagedDiskParameters. Use v1beta20201201.ManagedDiskParameters instead
 type ManagedDiskParameters struct {
 	DiskEncryptionSet  *DiskEncryptionSetParameters  `json:"diskEncryptionSet,omitempty"`
 	PropertyBag        genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
@@ -7960,8 +7960,8 @@ func (parameters *ManagedDiskParameters) AssignPropertiesToManagedDiskParameters
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.ManagedDiskParameters_Status
-//Deprecated version of ManagedDiskParameters_Status. Use v1beta20201201.ManagedDiskParameters_Status instead
+// Storage version of v1alpha1api20201201.ManagedDiskParameters_Status
+// Deprecated version of ManagedDiskParameters_Status. Use v1beta20201201.ManagedDiskParameters_Status instead
 type ManagedDiskParameters_Status struct {
 	DiskEncryptionSet  *SubResource_Status    `json:"diskEncryptionSet,omitempty"`
 	Id                 *string                `json:"id,omitempty"`
@@ -8047,8 +8047,8 @@ func (parameters *ManagedDiskParameters_Status) AssignPropertiesToManagedDiskPar
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.PatchSettings
-//Deprecated version of PatchSettings. Use v1beta20201201.PatchSettings instead
+// Storage version of v1alpha1api20201201.PatchSettings
+// Deprecated version of PatchSettings. Use v1beta20201201.PatchSettings instead
 type PatchSettings struct {
 	EnableHotpatching *bool                  `json:"enableHotpatching,omitempty"`
 	PatchMode         *string                `json:"patchMode,omitempty"`
@@ -8109,8 +8109,8 @@ func (settings *PatchSettings) AssignPropertiesToPatchSettings(destination *v202
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.PatchSettings_Status
-//Deprecated version of PatchSettings_Status. Use v1beta20201201.PatchSettings_Status instead
+// Storage version of v1alpha1api20201201.PatchSettings_Status
+// Deprecated version of PatchSettings_Status. Use v1beta20201201.PatchSettings_Status instead
 type PatchSettings_Status struct {
 	EnableHotpatching *bool                  `json:"enableHotpatching,omitempty"`
 	PatchMode         *string                `json:"patchMode,omitempty"`
@@ -8171,8 +8171,8 @@ func (settings *PatchSettings_Status) AssignPropertiesToPatchSettingsStatus(dest
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.SshConfiguration
-//Deprecated version of SshConfiguration. Use v1beta20201201.SshConfiguration instead
+// Storage version of v1alpha1api20201201.SshConfiguration
+// Deprecated version of SshConfiguration. Use v1beta20201201.SshConfiguration instead
 type SshConfiguration struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	PublicKeys  []SshPublicKey         `json:"publicKeys,omitempty"`
@@ -8246,8 +8246,8 @@ func (configuration *SshConfiguration) AssignPropertiesToSshConfiguration(destin
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.SshConfiguration_Status
-//Deprecated version of SshConfiguration_Status. Use v1beta20201201.SshConfiguration_Status instead
+// Storage version of v1alpha1api20201201.SshConfiguration_Status
+// Deprecated version of SshConfiguration_Status. Use v1beta20201201.SshConfiguration_Status instead
 type SshConfiguration_Status struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	PublicKeys  []SshPublicKey_Status  `json:"publicKeys,omitempty"`
@@ -8321,8 +8321,8 @@ func (configuration *SshConfiguration_Status) AssignPropertiesToSshConfiguration
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.VaultCertificate
-//Deprecated version of VaultCertificate. Use v1beta20201201.VaultCertificate instead
+// Storage version of v1alpha1api20201201.VaultCertificate
+// Deprecated version of VaultCertificate. Use v1beta20201201.VaultCertificate instead
 type VaultCertificate struct {
 	CertificateStore *string                `json:"certificateStore,omitempty"`
 	CertificateUrl   *string                `json:"certificateUrl,omitempty"`
@@ -8373,8 +8373,8 @@ func (certificate *VaultCertificate) AssignPropertiesToVaultCertificate(destinat
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.VaultCertificate_Status
-//Deprecated version of VaultCertificate_Status. Use v1beta20201201.VaultCertificate_Status instead
+// Storage version of v1alpha1api20201201.VaultCertificate_Status
+// Deprecated version of VaultCertificate_Status. Use v1beta20201201.VaultCertificate_Status instead
 type VaultCertificate_Status struct {
 	CertificateStore *string                `json:"certificateStore,omitempty"`
 	CertificateUrl   *string                `json:"certificateUrl,omitempty"`
@@ -8425,8 +8425,8 @@ func (certificate *VaultCertificate_Status) AssignPropertiesToVaultCertificateSt
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.VirtualHardDisk
-//Deprecated version of VirtualHardDisk. Use v1beta20201201.VirtualHardDisk instead
+// Storage version of v1alpha1api20201201.VirtualHardDisk
+// Deprecated version of VirtualHardDisk. Use v1beta20201201.VirtualHardDisk instead
 type VirtualHardDisk struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Uri         *string                `json:"uri,omitempty"`
@@ -8470,8 +8470,8 @@ func (disk *VirtualHardDisk) AssignPropertiesToVirtualHardDisk(destination *v202
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.VirtualHardDisk_Status
-//Deprecated version of VirtualHardDisk_Status. Use v1beta20201201.VirtualHardDisk_Status instead
+// Storage version of v1alpha1api20201201.VirtualHardDisk_Status
+// Deprecated version of VirtualHardDisk_Status. Use v1beta20201201.VirtualHardDisk_Status instead
 type VirtualHardDisk_Status struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Uri         *string                `json:"uri,omitempty"`
@@ -8515,8 +8515,8 @@ func (disk *VirtualHardDisk_Status) AssignPropertiesToVirtualHardDiskStatus(dest
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.VirtualMachineExtensionHandlerInstanceView_Status
-//Deprecated version of VirtualMachineExtensionHandlerInstanceView_Status. Use v1beta20201201.VirtualMachineExtensionHandlerInstanceView_Status instead
+// Storage version of v1alpha1api20201201.VirtualMachineExtensionHandlerInstanceView_Status
+// Deprecated version of VirtualMachineExtensionHandlerInstanceView_Status. Use v1beta20201201.VirtualMachineExtensionHandlerInstanceView_Status instead
 type VirtualMachineExtensionHandlerInstanceView_Status struct {
 	PropertyBag        genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
 	Status             *InstanceViewStatus_Status `json:"status,omitempty"`
@@ -8592,8 +8592,8 @@ func (view *VirtualMachineExtensionHandlerInstanceView_Status) AssignPropertiesT
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.WinRMConfiguration
-//Deprecated version of WinRMConfiguration. Use v1beta20201201.WinRMConfiguration instead
+// Storage version of v1alpha1api20201201.WinRMConfiguration
+// Deprecated version of WinRMConfiguration. Use v1beta20201201.WinRMConfiguration instead
 type WinRMConfiguration struct {
 	Listeners   []WinRMListener        `json:"listeners,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -8667,8 +8667,8 @@ func (configuration *WinRMConfiguration) AssignPropertiesToWinRMConfiguration(de
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.WinRMConfiguration_Status
-//Deprecated version of WinRMConfiguration_Status. Use v1beta20201201.WinRMConfiguration_Status instead
+// Storage version of v1alpha1api20201201.WinRMConfiguration_Status
+// Deprecated version of WinRMConfiguration_Status. Use v1beta20201201.WinRMConfiguration_Status instead
 type WinRMConfiguration_Status struct {
 	Listeners   []WinRMListener_Status `json:"listeners,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -8742,8 +8742,8 @@ func (configuration *WinRMConfiguration_Status) AssignPropertiesToWinRMConfigura
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.ApiError_Status
-//Deprecated version of ApiError_Status. Use v1beta20201201.ApiError_Status instead
+// Storage version of v1alpha1api20201201.ApiError_Status
+// Deprecated version of ApiError_Status. Use v1beta20201201.ApiError_Status instead
 type ApiError_Status struct {
 	Code        *string                `json:"code,omitempty"`
 	Details     []ApiErrorBase_Status  `json:"details,omitempty"`
@@ -8863,8 +8863,8 @@ func (error *ApiError_Status) AssignPropertiesToApiErrorStatus(destination *v202
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.DiskEncryptionSetParameters
-//Deprecated version of DiskEncryptionSetParameters. Use v1beta20201201.DiskEncryptionSetParameters instead
+// Storage version of v1alpha1api20201201.DiskEncryptionSetParameters
+// Deprecated version of DiskEncryptionSetParameters. Use v1beta20201201.DiskEncryptionSetParameters instead
 type DiskEncryptionSetParameters struct {
 	PropertyBag genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	Reference   *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
@@ -8918,8 +8918,8 @@ func (parameters *DiskEncryptionSetParameters) AssignPropertiesToDiskEncryptionS
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.KeyVaultKeyReference
-//Deprecated version of KeyVaultKeyReference. Use v1beta20201201.KeyVaultKeyReference instead
+// Storage version of v1alpha1api20201201.KeyVaultKeyReference
+// Deprecated version of KeyVaultKeyReference. Use v1beta20201201.KeyVaultKeyReference instead
 type KeyVaultKeyReference struct {
 	KeyUrl      *string                `json:"keyUrl,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -8998,8 +8998,8 @@ func (reference *KeyVaultKeyReference) AssignPropertiesToKeyVaultKeyReference(de
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.KeyVaultKeyReference_Status
-//Deprecated version of KeyVaultKeyReference_Status. Use v1beta20201201.KeyVaultKeyReference_Status instead
+// Storage version of v1alpha1api20201201.KeyVaultKeyReference_Status
+// Deprecated version of KeyVaultKeyReference_Status. Use v1beta20201201.KeyVaultKeyReference_Status instead
 type KeyVaultKeyReference_Status struct {
 	KeyUrl      *string                `json:"keyUrl,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -9078,8 +9078,8 @@ func (reference *KeyVaultKeyReference_Status) AssignPropertiesToKeyVaultKeyRefer
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.KeyVaultSecretReference
-//Deprecated version of KeyVaultSecretReference. Use v1beta20201201.KeyVaultSecretReference instead
+// Storage version of v1alpha1api20201201.KeyVaultSecretReference
+// Deprecated version of KeyVaultSecretReference. Use v1beta20201201.KeyVaultSecretReference instead
 type KeyVaultSecretReference struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SecretUrl   *string                `json:"secretUrl,omitempty"`
@@ -9158,8 +9158,8 @@ func (reference *KeyVaultSecretReference) AssignPropertiesToKeyVaultSecretRefere
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.KeyVaultSecretReference_Status
-//Deprecated version of KeyVaultSecretReference_Status. Use v1beta20201201.KeyVaultSecretReference_Status instead
+// Storage version of v1alpha1api20201201.KeyVaultSecretReference_Status
+// Deprecated version of KeyVaultSecretReference_Status. Use v1beta20201201.KeyVaultSecretReference_Status instead
 type KeyVaultSecretReference_Status struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SecretUrl   *string                `json:"secretUrl,omitempty"`
@@ -9238,8 +9238,8 @@ func (reference *KeyVaultSecretReference_Status) AssignPropertiesToKeyVaultSecre
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.SshPublicKey
-//Deprecated version of SshPublicKey. Use v1beta20201201.SshPublicKey instead
+// Storage version of v1alpha1api20201201.SshPublicKey
+// Deprecated version of SshPublicKey. Use v1beta20201201.SshPublicKey instead
 type SshPublicKey struct {
 	KeyData     *string                `json:"keyData,omitempty"`
 	Path        *string                `json:"path,omitempty"`
@@ -9290,8 +9290,8 @@ func (publicKey *SshPublicKey) AssignPropertiesToSshPublicKey(destination *v2020
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.SshPublicKey_Status
-//Deprecated version of SshPublicKey_Status. Use v1beta20201201.SshPublicKey_Status instead
+// Storage version of v1alpha1api20201201.SshPublicKey_Status
+// Deprecated version of SshPublicKey_Status. Use v1beta20201201.SshPublicKey_Status instead
 type SshPublicKey_Status struct {
 	KeyData     *string                `json:"keyData,omitempty"`
 	Path        *string                `json:"path,omitempty"`
@@ -9342,8 +9342,8 @@ func (publicKey *SshPublicKey_Status) AssignPropertiesToSshPublicKeyStatus(desti
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.WinRMListener
-//Deprecated version of WinRMListener. Use v1beta20201201.WinRMListener instead
+// Storage version of v1alpha1api20201201.WinRMListener
+// Deprecated version of WinRMListener. Use v1beta20201201.WinRMListener instead
 type WinRMListener struct {
 	CertificateUrl *string                `json:"certificateUrl,omitempty"`
 	PropertyBag    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -9394,8 +9394,8 @@ func (listener *WinRMListener) AssignPropertiesToWinRMListener(destination *v202
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.WinRMListener_Status
-//Deprecated version of WinRMListener_Status. Use v1beta20201201.WinRMListener_Status instead
+// Storage version of v1alpha1api20201201.WinRMListener_Status
+// Deprecated version of WinRMListener_Status. Use v1beta20201201.WinRMListener_Status instead
 type WinRMListener_Status struct {
 	CertificateUrl *string                `json:"certificateUrl,omitempty"`
 	PropertyBag    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -9446,8 +9446,8 @@ func (listener *WinRMListener_Status) AssignPropertiesToWinRMListenerStatus(dest
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.ApiErrorBase_Status
-//Deprecated version of ApiErrorBase_Status. Use v1beta20201201.ApiErrorBase_Status instead
+// Storage version of v1alpha1api20201201.ApiErrorBase_Status
+// Deprecated version of ApiErrorBase_Status. Use v1beta20201201.ApiErrorBase_Status instead
 type ApiErrorBase_Status struct {
 	Code        *string                `json:"code,omitempty"`
 	Message     *string                `json:"message,omitempty"`
@@ -9505,8 +9505,8 @@ func (base *ApiErrorBase_Status) AssignPropertiesToApiErrorBaseStatus(destinatio
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.InnerError_Status
-//Deprecated version of InnerError_Status. Use v1beta20201201.InnerError_Status instead
+// Storage version of v1alpha1api20201201.InnerError_Status
+// Deprecated version of InnerError_Status. Use v1beta20201201.InnerError_Status instead
 type InnerError_Status struct {
 	Errordetail   *string                `json:"errordetail,omitempty"`
 	Exceptiontype *string                `json:"exceptiontype,omitempty"`

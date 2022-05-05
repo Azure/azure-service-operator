@@ -23,7 +23,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/FakeResource
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/FakeResource
 type FakeResource struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -263,7 +263,7 @@ func (resource *FakeResource) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/FakeResource
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/FakeResource
 type FakeResourceList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -316,8 +316,8 @@ const (
 type FakeResource_Spec struct {
 	EmbeddedTestType `json:",inline,omitempty"`
 
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName string                 `json:"azureName,omitempty"`
 	Color     *FakeResourceSpecColor `json:"color,omitempty"`
 
@@ -326,9 +326,9 @@ type FakeResource_Spec struct {
 	OptionalFoo *Foo `json:"optionalFoo,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a resources.azure.com/ResourceGroup resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 }
 
@@ -594,7 +594,7 @@ func (resource *FakeResource_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (resource *FakeResource_Spec) SetAzureName(azureName string) { resource.AzureName = azureName }
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
 type FooARM struct {
 	EmbeddedTestTypeARM `json:",inline,omitempty"`
 	Name                *string `json:"name,omitempty"`
@@ -667,7 +667,7 @@ func (testType *EmbeddedTestType) AssignPropertiesToEmbeddedTestType(destination
 	return nil
 }
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
 type Foo struct {
 	EmbeddedTestType `json:",inline,omitempty"`
 	Name             *string `json:"name,omitempty"`

@@ -8,7 +8,7 @@ import (
 	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 )
 
-//Deprecated version of VirtualMachines_Spec. Use v1beta20201201.VirtualMachines_Spec instead
+// Deprecated version of VirtualMachines_Spec. Use v1beta20201201.VirtualMachines_Spec instead
 type VirtualMachines_SpecARM struct {
 	ExtendedLocation *ExtendedLocationARM                `json:"extendedLocation,omitempty"`
 	Identity         *VirtualMachineIdentityARM          `json:"identity,omitempty"`
@@ -37,13 +37,13 @@ func (machines VirtualMachines_SpecARM) GetType() string {
 	return "Microsoft.Compute/virtualMachines"
 }
 
-//Deprecated version of VirtualMachineIdentity. Use v1beta20201201.VirtualMachineIdentity instead
+// Deprecated version of VirtualMachineIdentity. Use v1beta20201201.VirtualMachineIdentity instead
 type VirtualMachineIdentityARM struct {
 	Type                   *VirtualMachineIdentityType `json:"type,omitempty"`
 	UserAssignedIdentities map[string]v1.JSON          `json:"userAssignedIdentities,omitempty"`
 }
 
-//Deprecated version of VirtualMachines_Spec_Properties. Use v1beta20201201.VirtualMachines_Spec_Properties instead
+// Deprecated version of VirtualMachines_Spec_Properties. Use v1beta20201201.VirtualMachines_Spec_Properties instead
 type VirtualMachines_Spec_PropertiesARM struct {
 	AdditionalCapabilities  *AdditionalCapabilitiesARM                         `json:"additionalCapabilities,omitempty"`
 	AvailabilitySet         *SubResourceARM                                    `json:"availabilitySet,omitempty"`
@@ -65,22 +65,22 @@ type VirtualMachines_Spec_PropertiesARM struct {
 	VirtualMachineScaleSet  *SubResourceARM                                    `json:"virtualMachineScaleSet,omitempty"`
 }
 
-//Deprecated version of BillingProfile. Use v1beta20201201.BillingProfile instead
+// Deprecated version of BillingProfile. Use v1beta20201201.BillingProfile instead
 type BillingProfileARM struct {
 	MaxPrice *float64 `json:"maxPrice,omitempty"`
 }
 
-//Deprecated version of DiagnosticsProfile. Use v1beta20201201.DiagnosticsProfile instead
+// Deprecated version of DiagnosticsProfile. Use v1beta20201201.DiagnosticsProfile instead
 type DiagnosticsProfileARM struct {
 	BootDiagnostics *BootDiagnosticsARM `json:"bootDiagnostics,omitempty"`
 }
 
-//Deprecated version of HardwareProfile. Use v1beta20201201.HardwareProfile instead
+// Deprecated version of HardwareProfile. Use v1beta20201201.HardwareProfile instead
 type HardwareProfileARM struct {
 	VmSize *HardwareProfileVmSize `json:"vmSize,omitempty"`
 }
 
-//Deprecated version of OSProfile. Use v1beta20201201.OSProfile instead
+// Deprecated version of OSProfile. Use v1beta20201201.OSProfile instead
 type OSProfileARM struct {
 	AdminPassword               *string                  `json:"adminPassword,omitempty"`
 	AdminUsername               *string                  `json:"adminUsername,omitempty"`
@@ -93,21 +93,21 @@ type OSProfileARM struct {
 	WindowsConfiguration        *WindowsConfigurationARM `json:"windowsConfiguration,omitempty"`
 }
 
-//Deprecated version of SecurityProfile. Use v1beta20201201.SecurityProfile instead
+// Deprecated version of SecurityProfile. Use v1beta20201201.SecurityProfile instead
 type SecurityProfileARM struct {
 	EncryptionAtHost *bool                        `json:"encryptionAtHost,omitempty"`
 	SecurityType     *SecurityProfileSecurityType `json:"securityType,omitempty"`
 	UefiSettings     *UefiSettingsARM             `json:"uefiSettings,omitempty"`
 }
 
-//Deprecated version of StorageProfile. Use v1beta20201201.StorageProfile instead
+// Deprecated version of StorageProfile. Use v1beta20201201.StorageProfile instead
 type StorageProfileARM struct {
 	DataDisks      []DataDiskARM      `json:"dataDisks,omitempty"`
 	ImageReference *ImageReferenceARM `json:"imageReference,omitempty"`
 	OsDisk         *OSDiskARM         `json:"osDisk,omitempty"`
 }
 
-//Deprecated version of VirtualMachineIdentityType. Use v1beta20201201.VirtualMachineIdentityType instead
+// Deprecated version of VirtualMachineIdentityType. Use v1beta20201201.VirtualMachineIdentityType instead
 // +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned, UserAssigned","UserAssigned"}
 type VirtualMachineIdentityType string
 
@@ -118,18 +118,18 @@ const (
 	VirtualMachineIdentityTypeUserAssigned               = VirtualMachineIdentityType("UserAssigned")
 )
 
-//Deprecated version of VirtualMachines_Spec_Properties_NetworkProfile. Use v1beta20201201.VirtualMachines_Spec_Properties_NetworkProfile instead
+// Deprecated version of VirtualMachines_Spec_Properties_NetworkProfile. Use v1beta20201201.VirtualMachines_Spec_Properties_NetworkProfile instead
 type VirtualMachines_Spec_Properties_NetworkProfileARM struct {
 	NetworkInterfaces []VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfacesARM `json:"networkInterfaces,omitempty"`
 }
 
-//Deprecated version of BootDiagnostics. Use v1beta20201201.BootDiagnostics instead
+// Deprecated version of BootDiagnostics. Use v1beta20201201.BootDiagnostics instead
 type BootDiagnosticsARM struct {
 	Enabled    *bool   `json:"enabled,omitempty"`
 	StorageUri *string `json:"storageUri,omitempty"`
 }
 
-//Deprecated version of DataDisk. Use v1beta20201201.DataDisk instead
+// Deprecated version of DataDisk. Use v1beta20201201.DataDisk instead
 type DataDiskARM struct {
 	Caching                 *DataDiskCaching          `json:"caching,omitempty"`
 	CreateOption            *DataDiskCreateOption     `json:"createOption,omitempty"`
@@ -144,7 +144,7 @@ type DataDiskARM struct {
 	WriteAcceleratorEnabled *bool                     `json:"writeAcceleratorEnabled,omitempty"`
 }
 
-//Deprecated version of ImageReference. Use v1beta20201201.ImageReference instead
+// Deprecated version of ImageReference. Use v1beta20201201.ImageReference instead
 type ImageReferenceARM struct {
 	Id        *string `json:"id,omitempty"`
 	Offer     *string `json:"offer,omitempty"`
@@ -153,7 +153,7 @@ type ImageReferenceARM struct {
 	Version   *string `json:"version,omitempty"`
 }
 
-//Deprecated version of LinuxConfiguration. Use v1beta20201201.LinuxConfiguration instead
+// Deprecated version of LinuxConfiguration. Use v1beta20201201.LinuxConfiguration instead
 type LinuxConfigurationARM struct {
 	DisablePasswordAuthentication *bool                  `json:"disablePasswordAuthentication,omitempty"`
 	PatchSettings                 *LinuxPatchSettingsARM `json:"patchSettings,omitempty"`
@@ -161,7 +161,7 @@ type LinuxConfigurationARM struct {
 	Ssh                           *SshConfigurationARM   `json:"ssh,omitempty"`
 }
 
-//Deprecated version of OSDisk. Use v1beta20201201.OSDisk instead
+// Deprecated version of OSDisk. Use v1beta20201201.OSDisk instead
 type OSDiskARM struct {
 	Caching                 *OSDiskCaching             `json:"caching,omitempty"`
 	CreateOption            *OSDiskCreateOption        `json:"createOption,omitempty"`
@@ -176,25 +176,25 @@ type OSDiskARM struct {
 	WriteAcceleratorEnabled *bool                      `json:"writeAcceleratorEnabled,omitempty"`
 }
 
-//Deprecated version of UefiSettings. Use v1beta20201201.UefiSettings instead
+// Deprecated version of UefiSettings. Use v1beta20201201.UefiSettings instead
 type UefiSettingsARM struct {
 	SecureBootEnabled *bool `json:"secureBootEnabled,omitempty"`
 	VTpmEnabled       *bool `json:"vTpmEnabled,omitempty"`
 }
 
-//Deprecated version of VaultSecretGroup. Use v1beta20201201.VaultSecretGroup instead
+// Deprecated version of VaultSecretGroup. Use v1beta20201201.VaultSecretGroup instead
 type VaultSecretGroupARM struct {
 	SourceVault       *SubResourceARM       `json:"sourceVault,omitempty"`
 	VaultCertificates []VaultCertificateARM `json:"vaultCertificates,omitempty"`
 }
 
-//Deprecated version of VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces. Use v1beta20201201.VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces instead
+// Deprecated version of VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces. Use v1beta20201201.VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces instead
 type VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfacesARM struct {
 	Id         *string                                 `json:"id,omitempty"`
 	Properties *NetworkInterfaceReferencePropertiesARM `json:"properties,omitempty"`
 }
 
-//Deprecated version of WindowsConfiguration. Use v1beta20201201.WindowsConfiguration instead
+// Deprecated version of WindowsConfiguration. Use v1beta20201201.WindowsConfiguration instead
 type WindowsConfigurationARM struct {
 	AdditionalUnattendContent []AdditionalUnattendContentARM `json:"additionalUnattendContent,omitempty"`
 	EnableAutomaticUpdates    *bool                          `json:"enableAutomaticUpdates,omitempty"`
@@ -204,7 +204,7 @@ type WindowsConfigurationARM struct {
 	WinRM                     *WinRMConfigurationARM         `json:"winRM,omitempty"`
 }
 
-//Deprecated version of AdditionalUnattendContent. Use v1beta20201201.AdditionalUnattendContent instead
+// Deprecated version of AdditionalUnattendContent. Use v1beta20201201.AdditionalUnattendContent instead
 type AdditionalUnattendContentARM struct {
 	ComponentName *AdditionalUnattendContentComponentName `json:"componentName,omitempty"`
 	Content       *string                                 `json:"content,omitempty"`
@@ -212,87 +212,87 @@ type AdditionalUnattendContentARM struct {
 	SettingName   *AdditionalUnattendContentSettingName   `json:"settingName,omitempty"`
 }
 
-//Deprecated version of DiffDiskSettings. Use v1beta20201201.DiffDiskSettings instead
+// Deprecated version of DiffDiskSettings. Use v1beta20201201.DiffDiskSettings instead
 type DiffDiskSettingsARM struct {
 	Option    *DiffDiskSettingsOption    `json:"option,omitempty"`
 	Placement *DiffDiskSettingsPlacement `json:"placement,omitempty"`
 }
 
-//Deprecated version of DiskEncryptionSettings. Use v1beta20201201.DiskEncryptionSettings instead
+// Deprecated version of DiskEncryptionSettings. Use v1beta20201201.DiskEncryptionSettings instead
 type DiskEncryptionSettingsARM struct {
 	DiskEncryptionKey *KeyVaultSecretReferenceARM `json:"diskEncryptionKey,omitempty"`
 	Enabled           *bool                       `json:"enabled,omitempty"`
 	KeyEncryptionKey  *KeyVaultKeyReferenceARM    `json:"keyEncryptionKey,omitempty"`
 }
 
-//Deprecated version of LinuxPatchSettings. Use v1beta20201201.LinuxPatchSettings instead
+// Deprecated version of LinuxPatchSettings. Use v1beta20201201.LinuxPatchSettings instead
 type LinuxPatchSettingsARM struct {
 	PatchMode *LinuxPatchSettingsPatchMode `json:"patchMode,omitempty"`
 }
 
-//Deprecated version of ManagedDiskParameters. Use v1beta20201201.ManagedDiskParameters instead
+// Deprecated version of ManagedDiskParameters. Use v1beta20201201.ManagedDiskParameters instead
 type ManagedDiskParametersARM struct {
 	DiskEncryptionSet  *DiskEncryptionSetParametersARM          `json:"diskEncryptionSet,omitempty"`
 	Id                 *string                                  `json:"id,omitempty"`
 	StorageAccountType *ManagedDiskParametersStorageAccountType `json:"storageAccountType,omitempty"`
 }
 
-//Deprecated version of NetworkInterfaceReferenceProperties. Use v1beta20201201.NetworkInterfaceReferenceProperties instead
+// Deprecated version of NetworkInterfaceReferenceProperties. Use v1beta20201201.NetworkInterfaceReferenceProperties instead
 type NetworkInterfaceReferencePropertiesARM struct {
 	Primary *bool `json:"primary,omitempty"`
 }
 
-//Deprecated version of PatchSettings. Use v1beta20201201.PatchSettings instead
+// Deprecated version of PatchSettings. Use v1beta20201201.PatchSettings instead
 type PatchSettingsARM struct {
 	EnableHotpatching *bool                   `json:"enableHotpatching,omitempty"`
 	PatchMode         *PatchSettingsPatchMode `json:"patchMode,omitempty"`
 }
 
-//Deprecated version of SshConfiguration. Use v1beta20201201.SshConfiguration instead
+// Deprecated version of SshConfiguration. Use v1beta20201201.SshConfiguration instead
 type SshConfigurationARM struct {
 	PublicKeys []SshPublicKeyARM `json:"publicKeys,omitempty"`
 }
 
-//Deprecated version of VaultCertificate. Use v1beta20201201.VaultCertificate instead
+// Deprecated version of VaultCertificate. Use v1beta20201201.VaultCertificate instead
 type VaultCertificateARM struct {
 	CertificateStore *string `json:"certificateStore,omitempty"`
 	CertificateUrl   *string `json:"certificateUrl,omitempty"`
 }
 
-//Deprecated version of VirtualHardDisk. Use v1beta20201201.VirtualHardDisk instead
+// Deprecated version of VirtualHardDisk. Use v1beta20201201.VirtualHardDisk instead
 type VirtualHardDiskARM struct {
 	Uri *string `json:"uri,omitempty"`
 }
 
-//Deprecated version of WinRMConfiguration. Use v1beta20201201.WinRMConfiguration instead
+// Deprecated version of WinRMConfiguration. Use v1beta20201201.WinRMConfiguration instead
 type WinRMConfigurationARM struct {
 	Listeners []WinRMListenerARM `json:"listeners,omitempty"`
 }
 
-//Deprecated version of DiskEncryptionSetParameters. Use v1beta20201201.DiskEncryptionSetParameters instead
+// Deprecated version of DiskEncryptionSetParameters. Use v1beta20201201.DiskEncryptionSetParameters instead
 type DiskEncryptionSetParametersARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
-//Deprecated version of KeyVaultKeyReference. Use v1beta20201201.KeyVaultKeyReference instead
+// Deprecated version of KeyVaultKeyReference. Use v1beta20201201.KeyVaultKeyReference instead
 type KeyVaultKeyReferenceARM struct {
 	KeyUrl      *string         `json:"keyUrl,omitempty"`
 	SourceVault *SubResourceARM `json:"sourceVault,omitempty"`
 }
 
-//Deprecated version of KeyVaultSecretReference. Use v1beta20201201.KeyVaultSecretReference instead
+// Deprecated version of KeyVaultSecretReference. Use v1beta20201201.KeyVaultSecretReference instead
 type KeyVaultSecretReferenceARM struct {
 	SecretUrl   *string         `json:"secretUrl,omitempty"`
 	SourceVault *SubResourceARM `json:"sourceVault,omitempty"`
 }
 
-//Deprecated version of SshPublicKey. Use v1beta20201201.SshPublicKey instead
+// Deprecated version of SshPublicKey. Use v1beta20201201.SshPublicKey instead
 type SshPublicKeyARM struct {
 	KeyData *string `json:"keyData,omitempty"`
 	Path    *string `json:"path,omitempty"`
 }
 
-//Deprecated version of WinRMListener. Use v1beta20201201.WinRMListener instead
+// Deprecated version of WinRMListener. Use v1beta20201201.WinRMListener instead
 type WinRMListenerARM struct {
 	CertificateUrl *string                `json:"certificateUrl,omitempty"`
 	Protocol       *WinRMListenerProtocol `json:"protocol,omitempty"`

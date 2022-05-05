@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1alpha1api20210601
 
-//Deprecated version of Configuration_Status. Use v1beta20210601.Configuration_Status instead
+// Deprecated version of Configuration_Status. Use v1beta20210601.Configuration_Status instead
 type Configuration_StatusARM struct {
 	Id         *string                            `json:"id,omitempty"`
 	Name       *string                            `json:"name,omitempty"`
@@ -12,7 +12,7 @@ type Configuration_StatusARM struct {
 	Type       *string                            `json:"type,omitempty"`
 }
 
-//Deprecated version of ConfigurationProperties_Status. Use v1beta20210601.ConfigurationProperties_Status instead
+// Deprecated version of ConfigurationProperties_Status. Use v1beta20210601.ConfigurationProperties_Status instead
 type ConfigurationProperties_StatusARM struct {
 	AllowedValues          *string                                `json:"allowedValues,omitempty"`
 	DataType               *ConfigurationPropertiesStatusDataType `json:"dataType,omitempty"`
@@ -27,7 +27,7 @@ type ConfigurationProperties_StatusARM struct {
 	Value                  *string                                `json:"value,omitempty"`
 }
 
-//Deprecated version of SystemData_Status. Use v1beta20210601.SystemData_Status instead
+// Deprecated version of SystemData_Status. Use v1beta20210601.SystemData_Status instead
 type SystemData_StatusARM struct {
 	CreatedAt          *string                             `json:"createdAt,omitempty"`
 	CreatedBy          *string                             `json:"createdBy,omitempty"`
@@ -37,8 +37,8 @@ type SystemData_StatusARM struct {
 	LastModifiedByType *SystemDataStatusLastModifiedByType `json:"lastModifiedByType,omitempty"`
 }
 
-//Deprecated version of ConfigurationPropertiesStatusDataType. Use v1beta20210601.ConfigurationPropertiesStatusDataType
-//instead
+// Deprecated version of ConfigurationPropertiesStatusDataType. Use v1beta20210601.ConfigurationPropertiesStatusDataType
+// instead
 type ConfigurationPropertiesStatusDataType string
 
 const (
@@ -48,7 +48,7 @@ const (
 	ConfigurationPropertiesStatusDataTypeNumeric     = ConfigurationPropertiesStatusDataType("Numeric")
 )
 
-//Deprecated version of SystemDataStatusCreatedByType. Use v1beta20210601.SystemDataStatusCreatedByType instead
+// Deprecated version of SystemDataStatusCreatedByType. Use v1beta20210601.SystemDataStatusCreatedByType instead
 type SystemDataStatusCreatedByType string
 
 const (
@@ -58,7 +58,7 @@ const (
 	SystemDataStatusCreatedByTypeUser            = SystemDataStatusCreatedByType("User")
 )
 
-//Deprecated version of SystemDataStatusLastModifiedByType. Use v1beta20210601.SystemDataStatusLastModifiedByType instead
+// Deprecated version of SystemDataStatusLastModifiedByType. Use v1beta20210601.SystemDataStatusLastModifiedByType instead
 type SystemDataStatusLastModifiedByType string
 
 const (

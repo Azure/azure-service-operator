@@ -21,8 +21,8 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Storage version of v1beta20210501.FlexibleServer
-//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/resourceDefinitions/flexibleServers
+// Storage version of v1beta20210501.FlexibleServer
+// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/resourceDefinitions/flexibleServers
 type FlexibleServer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -121,22 +121,22 @@ func (server *FlexibleServer) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Storage version of v1beta20210501.FlexibleServer
-//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/resourceDefinitions/flexibleServers
+// Storage version of v1beta20210501.FlexibleServer
+// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/resourceDefinitions/flexibleServers
 type FlexibleServerList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []FlexibleServer `json:"items"`
 }
 
-//Storage version of v1beta20210501.FlexibleServers_Spec
+// Storage version of v1beta20210501.FlexibleServers_Spec
 type FlexibleServers_Spec struct {
 	AdministratorLogin         *string                     `json:"administratorLogin,omitempty"`
 	AdministratorLoginPassword *genruntime.SecretReference `json:"administratorLoginPassword,omitempty"`
 	AvailabilityZone           *string                     `json:"availabilityZone,omitempty"`
 
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName         string             `json:"azureName,omitempty"`
 	Backup            *Backup            `json:"backup,omitempty"`
 	CreateMode        *string            `json:"createMode,omitempty"`
@@ -147,9 +147,9 @@ type FlexibleServers_Spec struct {
 	OriginalVersion   string             `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a resources.azure.com/ResourceGroup resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
 	Owner                  *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PropertyBag            genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	ReplicationRole        *string                            `json:"replicationRole,omitempty"`
@@ -181,7 +181,7 @@ func (servers *FlexibleServers_Spec) ConvertSpecTo(destination genruntime.Conver
 	return destination.ConvertSpecFrom(servers)
 }
 
-//Storage version of v1beta20210501.Server_Status
+// Storage version of v1beta20210501.Server_Status
 type Server_Status struct {
 	AdministratorLogin       *string                   `json:"administratorLogin,omitempty"`
 	AvailabilityZone         *string                   `json:"availabilityZone,omitempty"`
@@ -229,15 +229,15 @@ func (server *Server_Status) ConvertStatusTo(destination genruntime.ConvertibleS
 	return destination.ConvertStatusFrom(server)
 }
 
-//Storage version of v1beta20210501.Backup
-//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Backup
+// Storage version of v1beta20210501.Backup
+// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Backup
 type Backup struct {
 	BackupRetentionDays *int                   `json:"backupRetentionDays,omitempty"`
 	GeoRedundantBackup  *string                `json:"geoRedundantBackup,omitempty"`
 	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1beta20210501.Backup_Status
+// Storage version of v1beta20210501.Backup_Status
 type Backup_Status struct {
 	BackupRetentionDays *int                   `json:"backupRetentionDays,omitempty"`
 	EarliestRestoreDate *string                `json:"earliestRestoreDate,omitempty"`
@@ -245,15 +245,15 @@ type Backup_Status struct {
 	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1beta20210501.HighAvailability
-//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/HighAvailability
+// Storage version of v1beta20210501.HighAvailability
+// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/HighAvailability
 type HighAvailability struct {
 	Mode                    *string                `json:"mode,omitempty"`
 	PropertyBag             genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	StandbyAvailabilityZone *string                `json:"standbyAvailabilityZone,omitempty"`
 }
 
-//Storage version of v1beta20210501.HighAvailability_Status
+// Storage version of v1beta20210501.HighAvailability_Status
 type HighAvailability_Status struct {
 	Mode                    *string                `json:"mode,omitempty"`
 	PropertyBag             genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -261,8 +261,8 @@ type HighAvailability_Status struct {
 	State                   *string                `json:"state,omitempty"`
 }
 
-//Storage version of v1beta20210501.MaintenanceWindow
-//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/MaintenanceWindow
+// Storage version of v1beta20210501.MaintenanceWindow
+// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/MaintenanceWindow
 type MaintenanceWindow struct {
 	CustomWindow *string                `json:"customWindow,omitempty"`
 	DayOfWeek    *int                   `json:"dayOfWeek,omitempty"`
@@ -271,7 +271,7 @@ type MaintenanceWindow struct {
 	StartMinute  *int                   `json:"startMinute,omitempty"`
 }
 
-//Storage version of v1beta20210501.MaintenanceWindow_Status
+// Storage version of v1beta20210501.MaintenanceWindow_Status
 type MaintenanceWindow_Status struct {
 	CustomWindow *string                `json:"customWindow,omitempty"`
 	DayOfWeek    *int                   `json:"dayOfWeek,omitempty"`
@@ -280,18 +280,18 @@ type MaintenanceWindow_Status struct {
 	StartMinute  *int                   `json:"startMinute,omitempty"`
 }
 
-//Storage version of v1beta20210501.Network
-//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Network
+// Storage version of v1beta20210501.Network
+// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Network
 type Network struct {
-	//DelegatedSubnetResourceReference: Delegated subnet resource id used to setup vnet for a server.
+	// DelegatedSubnetResourceReference: Delegated subnet resource id used to setup vnet for a server.
 	DelegatedSubnetResourceReference *genruntime.ResourceReference `armReference:"DelegatedSubnetResourceId" json:"delegatedSubnetResourceReference,omitempty"`
 
-	//PrivateDnsZoneResourceReference: Private DNS zone resource id.
+	// PrivateDnsZoneResourceReference: Private DNS zone resource id.
 	PrivateDnsZoneResourceReference *genruntime.ResourceReference `armReference:"PrivateDnsZoneResourceId" json:"privateDnsZoneResourceReference,omitempty"`
 	PropertyBag                     genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1beta20210501.Network_Status
+// Storage version of v1beta20210501.Network_Status
 type Network_Status struct {
 	DelegatedSubnetResourceId *string                `json:"delegatedSubnetResourceId,omitempty"`
 	PrivateDnsZoneResourceId  *string                `json:"privateDnsZoneResourceId,omitempty"`
@@ -299,23 +299,23 @@ type Network_Status struct {
 	PublicNetworkAccess       *string                `json:"publicNetworkAccess,omitempty"`
 }
 
-//Storage version of v1beta20210501.Sku
-//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Sku
+// Storage version of v1beta20210501.Sku
+// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Sku
 type Sku struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Tier        *string                `json:"tier,omitempty"`
 }
 
-//Storage version of v1beta20210501.Sku_Status
+// Storage version of v1beta20210501.Sku_Status
 type Sku_Status struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Tier        *string                `json:"tier,omitempty"`
 }
 
-//Storage version of v1beta20210501.Storage
-//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Storage
+// Storage version of v1beta20210501.Storage
+// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Storage
 type Storage struct {
 	AutoGrow      *string                `json:"autoGrow,omitempty"`
 	Iops          *int                   `json:"iops,omitempty"`
@@ -323,7 +323,7 @@ type Storage struct {
 	StorageSizeGB *int                   `json:"storageSizeGB,omitempty"`
 }
 
-//Storage version of v1beta20210501.Storage_Status
+// Storage version of v1beta20210501.Storage_Status
 type Storage_Status struct {
 	AutoGrow      *string                `json:"autoGrow,omitempty"`
 	Iops          *int                   `json:"iops,omitempty"`
@@ -332,7 +332,7 @@ type Storage_Status struct {
 	StorageSku    *string                `json:"storageSku,omitempty"`
 }
 
-//Storage version of v1beta20210501.SystemData_Status
+// Storage version of v1beta20210501.SystemData_Status
 type SystemData_Status struct {
 	CreatedAt          *string                `json:"createdAt,omitempty"`
 	CreatedBy          *string                `json:"createdBy,omitempty"`

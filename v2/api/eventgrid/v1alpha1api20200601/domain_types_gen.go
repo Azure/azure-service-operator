@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Deprecated version of Domain. Use v1beta20200601.Domain instead
+// Deprecated version of Domain. Use v1beta20200601.Domain instead
 type Domain struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -324,16 +324,16 @@ func (domain *Domain) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Deprecated version of Domain. Use v1beta20200601.Domain instead
+// Deprecated version of Domain. Use v1beta20200601.Domain instead
 type DomainList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Domain `json:"items"`
 }
 
-//Deprecated version of Domain_Status. Use v1beta20200601.Domain_Status instead
+// Deprecated version of Domain_Status. Use v1beta20200601.Domain_Status instead
 type Domain_Status struct {
-	//Conditions: The observed state of the resource
+	// Conditions: The observed state of the resource
 	Conditions                 []conditions.Condition                                        `json:"conditions,omitempty"`
 	Endpoint                   *string                                                       `json:"endpoint,omitempty"`
 	Id                         *string                                                       `json:"id,omitempty"`
@@ -789,8 +789,8 @@ func (domain *Domain_Status) AssignPropertiesToDomainStatus(destination *alpha20
 }
 
 type Domains_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName          string                       `json:"azureName,omitempty"`
 	InboundIpRules     []InboundIpRule              `json:"inboundIpRules,omitempty"`
 	InputSchema        *DomainPropertiesInputSchema `json:"inputSchema,omitempty"`
@@ -798,9 +798,9 @@ type Domains_Spec struct {
 	Location           *string                      `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a resources.azure.com/ResourceGroup resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
 	Owner               *genruntime.KnownResourceReference   `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PublicNetworkAccess *DomainPropertiesPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 	Tags                map[string]string                    `json:"tags,omitempty"`
@@ -1158,7 +1158,7 @@ func (domains *Domains_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (domains *Domains_Spec) SetAzureName(azureName string) { domains.AzureName = azureName }
 
-//Deprecated version of DomainPropertiesInputSchema. Use v1beta20200601.DomainPropertiesInputSchema instead
+// Deprecated version of DomainPropertiesInputSchema. Use v1beta20200601.DomainPropertiesInputSchema instead
 // +kubebuilder:validation:Enum={"CloudEventSchemaV1_0","CustomEventSchema","EventGridSchema"}
 type DomainPropertiesInputSchema string
 
@@ -1168,7 +1168,7 @@ const (
 	DomainPropertiesInputSchemaEventGridSchema     = DomainPropertiesInputSchema("EventGridSchema")
 )
 
-//Deprecated version of DomainPropertiesPublicNetworkAccess. Use v1beta20200601.DomainPropertiesPublicNetworkAccess instead
+// Deprecated version of DomainPropertiesPublicNetworkAccess. Use v1beta20200601.DomainPropertiesPublicNetworkAccess instead
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type DomainPropertiesPublicNetworkAccess string
 
@@ -1177,7 +1177,7 @@ const (
 	DomainPropertiesPublicNetworkAccessEnabled  = DomainPropertiesPublicNetworkAccess("Enabled")
 )
 
-//Deprecated version of DomainPropertiesStatusInputSchema. Use v1beta20200601.DomainPropertiesStatusInputSchema instead
+// Deprecated version of DomainPropertiesStatusInputSchema. Use v1beta20200601.DomainPropertiesStatusInputSchema instead
 type DomainPropertiesStatusInputSchema string
 
 const (
@@ -1186,8 +1186,8 @@ const (
 	DomainPropertiesStatusInputSchemaEventGridSchema     = DomainPropertiesStatusInputSchema("EventGridSchema")
 )
 
-//Deprecated version of DomainPropertiesStatusProvisioningState. Use
-//v1beta20200601.DomainPropertiesStatusProvisioningState instead
+// Deprecated version of DomainPropertiesStatusProvisioningState. Use
+// v1beta20200601.DomainPropertiesStatusProvisioningState instead
 type DomainPropertiesStatusProvisioningState string
 
 const (
@@ -1199,8 +1199,8 @@ const (
 	DomainPropertiesStatusProvisioningStateUpdating  = DomainPropertiesStatusProvisioningState("Updating")
 )
 
-//Deprecated version of DomainPropertiesStatusPublicNetworkAccess. Use
-//v1beta20200601.DomainPropertiesStatusPublicNetworkAccess instead
+// Deprecated version of DomainPropertiesStatusPublicNetworkAccess. Use
+// v1beta20200601.DomainPropertiesStatusPublicNetworkAccess instead
 type DomainPropertiesStatusPublicNetworkAccess string
 
 const (
@@ -1208,7 +1208,7 @@ const (
 	DomainPropertiesStatusPublicNetworkAccessEnabled  = DomainPropertiesStatusPublicNetworkAccess("Enabled")
 )
 
-//Deprecated version of InboundIpRule. Use v1beta20200601.InboundIpRule instead
+// Deprecated version of InboundIpRule. Use v1beta20200601.InboundIpRule instead
 type InboundIpRule struct {
 	Action *InboundIpRuleAction `json:"action,omitempty"`
 	IpMask *string              `json:"ipMask,omitempty"`
@@ -1310,7 +1310,7 @@ func (rule *InboundIpRule) AssignPropertiesToInboundIpRule(destination *alpha202
 	return nil
 }
 
-//Deprecated version of InboundIpRule_Status. Use v1beta20200601.InboundIpRule_Status instead
+// Deprecated version of InboundIpRule_Status. Use v1beta20200601.InboundIpRule_Status instead
 type InboundIpRule_Status struct {
 	Action *InboundIpRuleStatusAction `json:"action,omitempty"`
 	IpMask *string                    `json:"ipMask,omitempty"`
@@ -1391,7 +1391,7 @@ func (rule *InboundIpRule_Status) AssignPropertiesToInboundIpRuleStatus(destinat
 	return nil
 }
 
-//Deprecated version of InputSchemaMapping_Status. Use v1beta20200601.InputSchemaMapping_Status instead
+// Deprecated version of InputSchemaMapping_Status. Use v1beta20200601.InputSchemaMapping_Status instead
 type InputSchemaMapping_Status struct {
 	InputSchemaMappingType *InputSchemaMappingStatusInputSchemaMappingType `json:"inputSchemaMappingType,omitempty"`
 }
@@ -1459,7 +1459,7 @@ func (mapping *InputSchemaMapping_Status) AssignPropertiesToInputSchemaMappingSt
 	return nil
 }
 
-//Deprecated version of JsonInputSchemaMapping. Use v1beta20200601.JsonInputSchemaMapping instead
+// Deprecated version of JsonInputSchemaMapping. Use v1beta20200601.JsonInputSchemaMapping instead
 type JsonInputSchemaMapping struct {
 	// +kubebuilder:validation:Required
 	InputSchemaMappingType *JsonInputSchemaMappingInputSchemaMappingType `json:"inputSchemaMappingType,omitempty"`
@@ -1589,7 +1589,7 @@ func (mapping *JsonInputSchemaMapping) AssignPropertiesToJsonInputSchemaMapping(
 	return nil
 }
 
-//Deprecated version of PrivateEndpointConnection_Status_Domain_SubResourceEmbedded. Use v1beta20200601.PrivateEndpointConnection_Status_Domain_SubResourceEmbedded instead
+// Deprecated version of PrivateEndpointConnection_Status_Domain_SubResourceEmbedded. Use v1beta20200601.PrivateEndpointConnection_Status_Domain_SubResourceEmbedded instead
 type PrivateEndpointConnection_Status_Domain_SubResourceEmbedded struct {
 	Id *string `json:"id,omitempty"`
 }
@@ -1647,7 +1647,7 @@ func (embedded *PrivateEndpointConnection_Status_Domain_SubResourceEmbedded) Ass
 	return nil
 }
 
-//Deprecated version of SystemData_Status. Use v1beta20200601.SystemData_Status instead
+// Deprecated version of SystemData_Status. Use v1beta20200601.SystemData_Status instead
 type SystemData_Status struct {
 	CreatedAt          *string                             `json:"createdAt,omitempty"`
 	CreatedBy          *string                             `json:"createdBy,omitempty"`
@@ -1790,31 +1790,31 @@ func (data *SystemData_Status) AssignPropertiesToSystemDataStatus(destination *a
 	return nil
 }
 
-//Deprecated version of InboundIpRuleAction. Use v1beta20200601.InboundIpRuleAction instead
+// Deprecated version of InboundIpRuleAction. Use v1beta20200601.InboundIpRuleAction instead
 // +kubebuilder:validation:Enum={"Allow"}
 type InboundIpRuleAction string
 
 const InboundIpRuleActionAllow = InboundIpRuleAction("Allow")
 
-//Deprecated version of InboundIpRuleStatusAction. Use v1beta20200601.InboundIpRuleStatusAction instead
+// Deprecated version of InboundIpRuleStatusAction. Use v1beta20200601.InboundIpRuleStatusAction instead
 type InboundIpRuleStatusAction string
 
 const InboundIpRuleStatusActionAllow = InboundIpRuleStatusAction("Allow")
 
-//Deprecated version of InputSchemaMappingStatusInputSchemaMappingType. Use
-//v1beta20200601.InputSchemaMappingStatusInputSchemaMappingType instead
+// Deprecated version of InputSchemaMappingStatusInputSchemaMappingType. Use
+// v1beta20200601.InputSchemaMappingStatusInputSchemaMappingType instead
 type InputSchemaMappingStatusInputSchemaMappingType string
 
 const InputSchemaMappingStatusInputSchemaMappingTypeJson = InputSchemaMappingStatusInputSchemaMappingType("Json")
 
-//Deprecated version of JsonInputSchemaMappingInputSchemaMappingType. Use
-//v1beta20200601.JsonInputSchemaMappingInputSchemaMappingType instead
+// Deprecated version of JsonInputSchemaMappingInputSchemaMappingType. Use
+// v1beta20200601.JsonInputSchemaMappingInputSchemaMappingType instead
 // +kubebuilder:validation:Enum={"Json"}
 type JsonInputSchemaMappingInputSchemaMappingType string
 
 const JsonInputSchemaMappingInputSchemaMappingTypeJson = JsonInputSchemaMappingInputSchemaMappingType("Json")
 
-//Deprecated version of JsonInputSchemaMappingProperties. Use v1beta20200601.JsonInputSchemaMappingProperties instead
+// Deprecated version of JsonInputSchemaMappingProperties. Use v1beta20200601.JsonInputSchemaMappingProperties instead
 type JsonInputSchemaMappingProperties struct {
 	DataVersion *JsonFieldWithDefault `json:"dataVersion,omitempty"`
 	EventTime   *JsonField            `json:"eventTime,omitempty"`
@@ -2144,7 +2144,7 @@ func (properties *JsonInputSchemaMappingProperties) AssignPropertiesToJsonInputS
 	return nil
 }
 
-//Deprecated version of JsonField. Use v1beta20200601.JsonField instead
+// Deprecated version of JsonField. Use v1beta20200601.JsonField instead
 type JsonField struct {
 	SourceField *string `json:"sourceField,omitempty"`
 }
@@ -2217,7 +2217,7 @@ func (field *JsonField) AssignPropertiesToJsonField(destination *alpha20200601s.
 	return nil
 }
 
-//Deprecated version of JsonFieldWithDefault. Use v1beta20200601.JsonFieldWithDefault instead
+// Deprecated version of JsonFieldWithDefault. Use v1beta20200601.JsonFieldWithDefault instead
 type JsonFieldWithDefault struct {
 	DefaultValue *string `json:"defaultValue,omitempty"`
 	SourceField  *string `json:"sourceField,omitempty"`

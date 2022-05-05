@@ -90,7 +90,7 @@ func RunPropertyAssignmentTestForWebtest(subject Webtest) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -192,7 +192,7 @@ func RunPropertyAssignmentTestForWebTestStatus(subject WebTest_Status) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -322,7 +322,7 @@ func RunPropertyAssignmentTestForWebtestsSpec(subject Webtests_Spec) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -451,7 +451,7 @@ func RunPropertyAssignmentTestForWebTestGeolocation(subject WebTestGeolocation) 
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -552,7 +552,7 @@ func RunPropertyAssignmentTestForWebTestGeolocationStatus(subject WebTestGeoloca
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -603,7 +603,7 @@ func RunJSONSerializationTestForWebTestGeolocationStatus(subject WebTestGeolocat
 }
 
 // Generator of WebTestGeolocation_Status instances for property testing - lazily instantiated by
-//WebTestGeolocationStatusGenerator()
+// WebTestGeolocationStatusGenerator()
 var webTestGeolocationStatusGenerator gopter.Gen
 
 // WebTestGeolocationStatusGenerator returns a generator of WebTestGeolocation_Status instances for property testing.
@@ -654,7 +654,7 @@ func RunPropertyAssignmentTestForWebTestPropertiesConfiguration(subject WebTestP
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -705,7 +705,7 @@ func RunJSONSerializationTestForWebTestPropertiesConfiguration(subject WebTestPr
 }
 
 // Generator of WebTestPropertiesConfiguration instances for property testing - lazily instantiated by
-//WebTestPropertiesConfigurationGenerator()
+// WebTestPropertiesConfigurationGenerator()
 var webTestPropertiesConfigurationGenerator gopter.Gen
 
 // WebTestPropertiesConfigurationGenerator returns a generator of WebTestPropertiesConfiguration instances for property testing.
@@ -756,7 +756,7 @@ func RunPropertyAssignmentTestForWebTestPropertiesRequest(subject WebTestPropert
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -807,7 +807,7 @@ func RunJSONSerializationTestForWebTestPropertiesRequest(subject WebTestProperti
 }
 
 // Generator of WebTestPropertiesRequest instances for property testing - lazily instantiated by
-//WebTestPropertiesRequestGenerator()
+// WebTestPropertiesRequestGenerator()
 var webTestPropertiesRequestGenerator gopter.Gen
 
 // WebTestPropertiesRequestGenerator returns a generator of WebTestPropertiesRequest instances for property testing.
@@ -876,7 +876,7 @@ func RunPropertyAssignmentTestForWebTestPropertiesValidationRules(subject WebTes
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -927,7 +927,7 @@ func RunJSONSerializationTestForWebTestPropertiesValidationRules(subject WebTest
 }
 
 // Generator of WebTestPropertiesValidationRules instances for property testing - lazily instantiated by
-//WebTestPropertiesValidationRulesGenerator()
+// WebTestPropertiesValidationRulesGenerator()
 var webTestPropertiesValidationRulesGenerator gopter.Gen
 
 // WebTestPropertiesValidationRulesGenerator returns a generator of WebTestPropertiesValidationRules instances for property testing.
@@ -995,7 +995,7 @@ func RunPropertyAssignmentTestForWebTestPropertiesStatusConfiguration(subject We
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1046,7 +1046,7 @@ func RunJSONSerializationTestForWebTestPropertiesStatusConfiguration(subject Web
 }
 
 // Generator of WebTestProperties_Status_Configuration instances for property testing - lazily instantiated by
-//WebTestPropertiesStatusConfigurationGenerator()
+// WebTestPropertiesStatusConfigurationGenerator()
 var webTestPropertiesStatusConfigurationGenerator gopter.Gen
 
 // WebTestPropertiesStatusConfigurationGenerator returns a generator of WebTestProperties_Status_Configuration instances for property testing.
@@ -1097,7 +1097,7 @@ func RunPropertyAssignmentTestForWebTestPropertiesStatusRequest(subject WebTestP
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1148,7 +1148,7 @@ func RunJSONSerializationTestForWebTestPropertiesStatusRequest(subject WebTestPr
 }
 
 // Generator of WebTestProperties_Status_Request instances for property testing - lazily instantiated by
-//WebTestPropertiesStatusRequestGenerator()
+// WebTestPropertiesStatusRequestGenerator()
 var webTestPropertiesStatusRequestGenerator gopter.Gen
 
 // WebTestPropertiesStatusRequestGenerator returns a generator of WebTestProperties_Status_Request instances for property testing.
@@ -1217,7 +1217,7 @@ func RunPropertyAssignmentTestForWebTestPropertiesStatusValidationRules(subject 
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1268,7 +1268,7 @@ func RunJSONSerializationTestForWebTestPropertiesStatusValidationRules(subject W
 }
 
 // Generator of WebTestProperties_Status_ValidationRules instances for property testing - lazily instantiated by
-//WebTestPropertiesStatusValidationRulesGenerator()
+// WebTestPropertiesStatusValidationRulesGenerator()
 var webTestPropertiesStatusValidationRulesGenerator gopter.Gen
 
 // WebTestPropertiesStatusValidationRulesGenerator returns a generator of WebTestProperties_Status_ValidationRules instances for property testing.
@@ -1336,7 +1336,7 @@ func RunPropertyAssignmentTestForHeaderField(subject HeaderField) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1438,7 +1438,7 @@ func RunPropertyAssignmentTestForHeaderFieldStatus(subject HeaderField_Status) s
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1540,7 +1540,7 @@ func RunPropertyAssignmentTestForWebTestPropertiesValidationRulesContentValidati
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1591,7 +1591,7 @@ func RunJSONSerializationTestForWebTestPropertiesValidationRulesContentValidatio
 }
 
 // Generator of WebTestPropertiesValidationRulesContentValidation instances for property testing - lazily instantiated
-//by WebTestPropertiesValidationRulesContentValidationGenerator()
+// by WebTestPropertiesValidationRulesContentValidationGenerator()
 var webTestPropertiesValidationRulesContentValidationGenerator gopter.Gen
 
 // WebTestPropertiesValidationRulesContentValidationGenerator returns a generator of WebTestPropertiesValidationRulesContentValidation instances for property testing.
@@ -1644,7 +1644,7 @@ func RunPropertyAssignmentTestForWebTestPropertiesStatusValidationRulesContentVa
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1695,7 +1695,7 @@ func RunJSONSerializationTestForWebTestPropertiesStatusValidationRulesContentVal
 }
 
 // Generator of WebTestProperties_Status_ValidationRules_ContentValidation instances for property testing - lazily
-//instantiated by WebTestPropertiesStatusValidationRulesContentValidationGenerator()
+// instantiated by WebTestPropertiesStatusValidationRulesContentValidationGenerator()
 var webTestPropertiesStatusValidationRulesContentValidationGenerator gopter.Gen
 
 // WebTestPropertiesStatusValidationRulesContentValidationGenerator returns a generator of WebTestProperties_Status_ValidationRules_ContentValidation instances for property testing.

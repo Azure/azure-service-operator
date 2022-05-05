@@ -56,7 +56,7 @@ func RunJSONSerializationTestForFlexibleServersFirewallRulesSpecARM(subject Flex
 }
 
 // Generator of FlexibleServersFirewallRules_SpecARM instances for property testing - lazily instantiated by
-//FlexibleServersFirewallRulesSpecARMGenerator()
+// FlexibleServersFirewallRulesSpecARMGenerator()
 var flexibleServersFirewallRulesSpecARMGenerator gopter.Gen
 
 // FlexibleServersFirewallRulesSpecARMGenerator returns a generator of FlexibleServersFirewallRules_SpecARM instances for property testing.
@@ -132,7 +132,7 @@ func RunJSONSerializationTestForFirewallRulePropertiesARM(subject FirewallRulePr
 }
 
 // Generator of FirewallRulePropertiesARM instances for property testing - lazily instantiated by
-//FirewallRulePropertiesARMGenerator()
+// FirewallRulePropertiesARMGenerator()
 var firewallRulePropertiesARMGenerator gopter.Gen
 
 // FirewallRulePropertiesARMGenerator returns a generator of FirewallRulePropertiesARM instances for property testing.

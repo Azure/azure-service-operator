@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/resourceDefinitions/domains
+// Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/resourceDefinitions/domains
 type Domain struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -310,7 +310,7 @@ func (domain *Domain) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/resourceDefinitions/domains
+// Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/resourceDefinitions/domains
 type DomainList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -318,52 +318,52 @@ type DomainList struct {
 }
 
 type Domain_Status struct {
-	//Conditions: The observed state of the resource
+	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
-	//Endpoint: Endpoint for the domain.
+	// Endpoint: Endpoint for the domain.
 	Endpoint *string `json:"endpoint,omitempty"`
 
-	//Id: Fully qualified identifier of the resource.
+	// Id: Fully qualified identifier of the resource.
 	Id *string `json:"id,omitempty"`
 
-	//InboundIpRules: This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered
-	//only if PublicNetworkAccess is enabled.
+	// InboundIpRules: This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered
+	// only if PublicNetworkAccess is enabled.
 	InboundIpRules []InboundIpRule_Status `json:"inboundIpRules,omitempty"`
 
-	//InputSchema: This determines the format that Event Grid should expect for incoming events published to the domain.
+	// InputSchema: This determines the format that Event Grid should expect for incoming events published to the domain.
 	InputSchema *DomainPropertiesStatusInputSchema `json:"inputSchema,omitempty"`
 
-	//InputSchemaMapping: Information about the InputSchemaMapping which specified the info about mapping event payload.
+	// InputSchemaMapping: Information about the InputSchemaMapping which specified the info about mapping event payload.
 	InputSchemaMapping *InputSchemaMapping_Status `json:"inputSchemaMapping,omitempty"`
 
-	//Location: Location of the resource.
+	// Location: Location of the resource.
 	Location *string `json:"location,omitempty"`
 
-	//MetricResourceId: Metric resource id for the domain.
+	// MetricResourceId: Metric resource id for the domain.
 	MetricResourceId *string `json:"metricResourceId,omitempty"`
 
-	//Name: Name of the resource.
+	// Name: Name of the resource.
 	Name *string `json:"name,omitempty"`
 
-	//PrivateEndpointConnections: List of private endpoint connections.
+	// PrivateEndpointConnections: List of private endpoint connections.
 	PrivateEndpointConnections []PrivateEndpointConnection_Status_Domain_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
 
-	//ProvisioningState: Provisioning state of the domain.
+	// ProvisioningState: Provisioning state of the domain.
 	ProvisioningState *DomainPropertiesStatusProvisioningState `json:"provisioningState,omitempty"`
 
-	//PublicNetworkAccess: This determines if traffic is allowed over public network. By default it is enabled.
-	//You can further restrict to specific IPs by configuring <seealso
-	//cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainProperties.InboundIpRules" />
+	// PublicNetworkAccess: This determines if traffic is allowed over public network. By default it is enabled.
+	// You can further restrict to specific IPs by configuring <seealso
+	// cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainProperties.InboundIpRules" />
 	PublicNetworkAccess *DomainPropertiesStatusPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 
-	//SystemData: The system metadata relating to Domain resource.
+	// SystemData: The system metadata relating to Domain resource.
 	SystemData *SystemData_Status `json:"systemData,omitempty"`
 
-	//Tags: Tags of the resource.
+	// Tags: Tags of the resource.
 	Tags map[string]string `json:"tags,omitempty"`
 
-	//Type: Type of the resource.
+	// Type: Type of the resource.
 	Type *string `json:"type,omitempty"`
 }
 
@@ -810,37 +810,37 @@ type DomainsSpecAPIVersion string
 const DomainsSpecAPIVersion20200601 = DomainsSpecAPIVersion("2020-06-01")
 
 type Domains_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
-	//InboundIpRules: This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered
-	//only if PublicNetworkAccess is enabled.
+	// InboundIpRules: This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered
+	// only if PublicNetworkAccess is enabled.
 	InboundIpRules []InboundIpRule `json:"inboundIpRules,omitempty"`
 
-	//InputSchema: This determines the format that Event Grid should expect for incoming events published to the domain.
+	// InputSchema: This determines the format that Event Grid should expect for incoming events published to the domain.
 	InputSchema *DomainPropertiesInputSchema `json:"inputSchema,omitempty"`
 
-	//InputSchemaMapping: By default, Event Grid expects events to be in the Event Grid event schema. Specifying an input
-	//schema mapping enables publishing to Event Grid using a custom input schema. Currently, the only supported type of
-	//InputSchemaMapping is 'JsonInputSchemaMapping'.
+	// InputSchemaMapping: By default, Event Grid expects events to be in the Event Grid event schema. Specifying an input
+	// schema mapping enables publishing to Event Grid using a custom input schema. Currently, the only supported type of
+	// InputSchemaMapping is 'JsonInputSchemaMapping'.
 	InputSchemaMapping *JsonInputSchemaMapping `json:"inputSchemaMapping,omitempty"`
 
-	//Location: Location to deploy resource to
+	// Location: Location to deploy resource to
 	Location *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a resources.azure.com/ResourceGroup resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
-	//PublicNetworkAccess: This determines if traffic is allowed over public network. By default it is enabled.
-	//You can further restrict to specific IPs by configuring <seealso
-	//cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainProperties.InboundIpRules" />.
+	// PublicNetworkAccess: This determines if traffic is allowed over public network. By default it is enabled.
+	// You can further restrict to specific IPs by configuring <seealso
+	// cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainProperties.InboundIpRules" />.
 	PublicNetworkAccess *DomainPropertiesPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 
-	//Tags: Name-value pairs to add to the resource
+	// Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
@@ -1239,12 +1239,12 @@ const (
 	DomainPropertiesStatusPublicNetworkAccessEnabled  = DomainPropertiesStatusPublicNetworkAccess("Enabled")
 )
 
-//Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/InboundIpRule
+// Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/InboundIpRule
 type InboundIpRule struct {
-	//Action: Action to perform based on the match or no match of the IpMask.
+	// Action: Action to perform based on the match or no match of the IpMask.
 	Action *InboundIpRuleAction `json:"action,omitempty"`
 
-	//IpMask: IP Address in CIDR notation e.g., 10.0.0.0/8.
+	// IpMask: IP Address in CIDR notation e.g., 10.0.0.0/8.
 	IpMask *string `json:"ipMask,omitempty"`
 }
 
@@ -1345,10 +1345,10 @@ func (rule *InboundIpRule) AssignPropertiesToInboundIpRule(destination *v2020060
 }
 
 type InboundIpRule_Status struct {
-	//Action: Action to perform based on the match or no match of the IpMask.
+	// Action: Action to perform based on the match or no match of the IpMask.
 	Action *InboundIpRuleStatusAction `json:"action,omitempty"`
 
-	//IpMask: IP Address in CIDR notation e.g., 10.0.0.0/8.
+	// IpMask: IP Address in CIDR notation e.g., 10.0.0.0/8.
 	IpMask *string `json:"ipMask,omitempty"`
 }
 
@@ -1428,7 +1428,7 @@ func (rule *InboundIpRule_Status) AssignPropertiesToInboundIpRuleStatus(destinat
 }
 
 type InputSchemaMapping_Status struct {
-	//InputSchemaMappingType: Type of the custom mapping
+	// InputSchemaMappingType: Type of the custom mapping
 	InputSchemaMappingType *InputSchemaMappingStatusInputSchemaMappingType `json:"inputSchemaMappingType,omitempty"`
 }
 
@@ -1495,13 +1495,13 @@ func (mapping *InputSchemaMapping_Status) AssignPropertiesToInputSchemaMappingSt
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/JsonInputSchemaMapping
+// Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/JsonInputSchemaMapping
 type JsonInputSchemaMapping struct {
 	// +kubebuilder:validation:Required
 	InputSchemaMappingType *JsonInputSchemaMappingInputSchemaMappingType `json:"inputSchemaMappingType,omitempty"`
 
-	//Properties: This can be used to map properties of a source schema (or default values, for certain supported properties)
-	//to properties of the EventGridEvent schema.
+	// Properties: This can be used to map properties of a source schema (or default values, for certain supported properties)
+	// to properties of the EventGridEvent schema.
 	Properties *JsonInputSchemaMappingProperties `json:"properties,omitempty"`
 }
 
@@ -1629,7 +1629,7 @@ func (mapping *JsonInputSchemaMapping) AssignPropertiesToJsonInputSchemaMapping(
 }
 
 type PrivateEndpointConnection_Status_Domain_SubResourceEmbedded struct {
-	//Id: Fully qualified identifier of the resource.
+	// Id: Fully qualified identifier of the resource.
 	Id *string `json:"id,omitempty"`
 }
 
@@ -1687,22 +1687,22 @@ func (embedded *PrivateEndpointConnection_Status_Domain_SubResourceEmbedded) Ass
 }
 
 type SystemData_Status struct {
-	//CreatedAt: The timestamp of resource creation (UTC).
+	// CreatedAt: The timestamp of resource creation (UTC).
 	CreatedAt *string `json:"createdAt,omitempty"`
 
-	//CreatedBy: The identity that created the resource.
+	// CreatedBy: The identity that created the resource.
 	CreatedBy *string `json:"createdBy,omitempty"`
 
-	//CreatedByType: The type of identity that created the resource.
+	// CreatedByType: The type of identity that created the resource.
 	CreatedByType *SystemDataStatusCreatedByType `json:"createdByType,omitempty"`
 
-	//LastModifiedAt: The timestamp of resource last modification (UTC)
+	// LastModifiedAt: The timestamp of resource last modification (UTC)
 	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
 
-	//LastModifiedBy: The identity that last modified the resource.
+	// LastModifiedBy: The identity that last modified the resource.
 	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
 
-	//LastModifiedByType: The type of identity that last modified the resource.
+	// LastModifiedByType: The type of identity that last modified the resource.
 	LastModifiedByType *SystemDataStatusLastModifiedByType `json:"lastModifiedByType,omitempty"`
 }
 
@@ -1857,39 +1857,39 @@ type JsonInputSchemaMappingInputSchemaMappingType string
 
 const JsonInputSchemaMappingInputSchemaMappingTypeJson = JsonInputSchemaMappingInputSchemaMappingType("Json")
 
-//Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/JsonInputSchemaMappingProperties
+// Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/JsonInputSchemaMappingProperties
 type JsonInputSchemaMappingProperties struct {
-	//DataVersion: This is used to express the source of an input schema mapping for a single target field
-	//in the Event Grid Event schema. This is currently used in the mappings for the 'subject',
-	//'eventtype' and 'dataversion' properties. This represents a field in the input event schema
-	//along with a default value to be used, and at least one of these two properties should be provided.
+	// DataVersion: This is used to express the source of an input schema mapping for a single target field
+	// in the Event Grid Event schema. This is currently used in the mappings for the 'subject',
+	// 'eventtype' and 'dataversion' properties. This represents a field in the input event schema
+	// along with a default value to be used, and at least one of these two properties should be provided.
 	DataVersion *JsonFieldWithDefault `json:"dataVersion,omitempty"`
 
-	//EventTime: This is used to express the source of an input schema mapping for a single target field in the Event Grid
-	//Event schema. This is currently used in the mappings for the 'id', 'topic' and 'eventtime' properties. This represents a
-	//field in the input event schema.
+	// EventTime: This is used to express the source of an input schema mapping for a single target field in the Event Grid
+	// Event schema. This is currently used in the mappings for the 'id', 'topic' and 'eventtime' properties. This represents a
+	// field in the input event schema.
 	EventTime *JsonField `json:"eventTime,omitempty"`
 
-	//EventType: This is used to express the source of an input schema mapping for a single target field
-	//in the Event Grid Event schema. This is currently used in the mappings for the 'subject',
-	//'eventtype' and 'dataversion' properties. This represents a field in the input event schema
-	//along with a default value to be used, and at least one of these two properties should be provided.
+	// EventType: This is used to express the source of an input schema mapping for a single target field
+	// in the Event Grid Event schema. This is currently used in the mappings for the 'subject',
+	// 'eventtype' and 'dataversion' properties. This represents a field in the input event schema
+	// along with a default value to be used, and at least one of these two properties should be provided.
 	EventType *JsonFieldWithDefault `json:"eventType,omitempty"`
 
-	//Id: This is used to express the source of an input schema mapping for a single target field in the Event Grid Event
-	//schema. This is currently used in the mappings for the 'id', 'topic' and 'eventtime' properties. This represents a field
-	//in the input event schema.
+	// Id: This is used to express the source of an input schema mapping for a single target field in the Event Grid Event
+	// schema. This is currently used in the mappings for the 'id', 'topic' and 'eventtime' properties. This represents a field
+	// in the input event schema.
 	Id *JsonField `json:"id,omitempty"`
 
-	//Subject: This is used to express the source of an input schema mapping for a single target field
-	//in the Event Grid Event schema. This is currently used in the mappings for the 'subject',
-	//'eventtype' and 'dataversion' properties. This represents a field in the input event schema
-	//along with a default value to be used, and at least one of these two properties should be provided.
+	// Subject: This is used to express the source of an input schema mapping for a single target field
+	// in the Event Grid Event schema. This is currently used in the mappings for the 'subject',
+	// 'eventtype' and 'dataversion' properties. This represents a field in the input event schema
+	// along with a default value to be used, and at least one of these two properties should be provided.
 	Subject *JsonFieldWithDefault `json:"subject,omitempty"`
 
-	//Topic: This is used to express the source of an input schema mapping for a single target field in the Event Grid Event
-	//schema. This is currently used in the mappings for the 'id', 'topic' and 'eventtime' properties. This represents a field
-	//in the input event schema.
+	// Topic: This is used to express the source of an input schema mapping for a single target field in the Event Grid Event
+	// schema. This is currently used in the mappings for the 'id', 'topic' and 'eventtime' properties. This represents a field
+	// in the input event schema.
 	Topic *JsonField `json:"topic,omitempty"`
 }
 
@@ -2213,9 +2213,9 @@ func (properties *JsonInputSchemaMappingProperties) AssignPropertiesToJsonInputS
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/JsonField
+// Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/JsonField
 type JsonField struct {
-	//SourceField: Name of a field in the input event schema that's to be used as the source of a mapping.
+	// SourceField: Name of a field in the input event schema that's to be used as the source of a mapping.
 	SourceField *string `json:"sourceField,omitempty"`
 }
 
@@ -2287,13 +2287,13 @@ func (field *JsonField) AssignPropertiesToJsonField(destination *v20200601s.Json
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/JsonFieldWithDefault
+// Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/JsonFieldWithDefault
 type JsonFieldWithDefault struct {
-	//DefaultValue: The default value to be used for mapping when a SourceField is not provided or if there's no property with
-	//the specified name in the published JSON event payload.
+	// DefaultValue: The default value to be used for mapping when a SourceField is not provided or if there's no property with
+	// the specified name in the published JSON event payload.
 	DefaultValue *string `json:"defaultValue,omitempty"`
 
-	//SourceField: Name of a field in the input event schema that's to be used as the source of a mapping.
+	// SourceField: Name of a field in the input event schema that's to be used as the source of a mapping.
 	SourceField *string `json:"sourceField,omitempty"`
 }
 

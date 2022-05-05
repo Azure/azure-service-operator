@@ -56,7 +56,7 @@ func RunJSONSerializationTestForBlobServicePropertiesStatusARM(subject BlobServi
 }
 
 // Generator of BlobServiceProperties_StatusARM instances for property testing - lazily instantiated by
-//BlobServicePropertiesStatusARMGenerator()
+// BlobServicePropertiesStatusARMGenerator()
 var blobServicePropertiesStatusARMGenerator gopter.Gen
 
 // BlobServicePropertiesStatusARMGenerator returns a generator of BlobServiceProperties_StatusARM instances for property testing.
@@ -133,7 +133,7 @@ func RunJSONSerializationTestForBlobServicePropertiesStatusPropertiesARM(subject
 }
 
 // Generator of BlobServiceProperties_Status_PropertiesARM instances for property testing - lazily instantiated by
-//BlobServicePropertiesStatusPropertiesARMGenerator()
+// BlobServicePropertiesStatusPropertiesARMGenerator()
 var blobServicePropertiesStatusPropertiesARMGenerator gopter.Gen
 
 // BlobServicePropertiesStatusPropertiesARMGenerator returns a generator of BlobServiceProperties_Status_PropertiesARM instances for property testing.
@@ -282,7 +282,7 @@ func RunJSONSerializationTestForChangeFeedStatusARM(subject ChangeFeed_StatusARM
 }
 
 // Generator of ChangeFeed_StatusARM instances for property testing - lazily instantiated by
-//ChangeFeedStatusARMGenerator()
+// ChangeFeedStatusARMGenerator()
 var changeFeedStatusARMGenerator gopter.Gen
 
 // ChangeFeedStatusARMGenerator returns a generator of ChangeFeed_StatusARM instances for property testing.
@@ -402,7 +402,7 @@ func RunJSONSerializationTestForDeleteRetentionPolicyStatusARM(subject DeleteRet
 }
 
 // Generator of DeleteRetentionPolicy_StatusARM instances for property testing - lazily instantiated by
-//DeleteRetentionPolicyStatusARMGenerator()
+// DeleteRetentionPolicyStatusARMGenerator()
 var deleteRetentionPolicyStatusARMGenerator gopter.Gen
 
 // DeleteRetentionPolicyStatusARMGenerator returns a generator of DeleteRetentionPolicy_StatusARM instances for property testing.
@@ -463,7 +463,7 @@ func RunJSONSerializationTestForLastAccessTimeTrackingPolicyStatusARM(subject La
 }
 
 // Generator of LastAccessTimeTrackingPolicy_StatusARM instances for property testing - lazily instantiated by
-//LastAccessTimeTrackingPolicyStatusARMGenerator()
+// LastAccessTimeTrackingPolicyStatusARMGenerator()
 var lastAccessTimeTrackingPolicyStatusARMGenerator gopter.Gen
 
 // LastAccessTimeTrackingPolicyStatusARMGenerator returns a generator of LastAccessTimeTrackingPolicy_StatusARM instances for property testing.
@@ -526,7 +526,7 @@ func RunJSONSerializationTestForRestorePolicyPropertiesStatusARM(subject Restore
 }
 
 // Generator of RestorePolicyProperties_StatusARM instances for property testing - lazily instantiated by
-//RestorePolicyPropertiesStatusARMGenerator()
+// RestorePolicyPropertiesStatusARMGenerator()
 var restorePolicyPropertiesStatusARMGenerator gopter.Gen
 
 // RestorePolicyPropertiesStatusARMGenerator returns a generator of RestorePolicyProperties_StatusARM instances for property testing.

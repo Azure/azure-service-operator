@@ -56,7 +56,7 @@ func RunJSONSerializationTestForRedisEnterpriseDatabase(subject RedisEnterpriseD
 }
 
 // Generator of RedisEnterpriseDatabase instances for property testing - lazily instantiated by
-//RedisEnterpriseDatabaseGenerator()
+// RedisEnterpriseDatabaseGenerator()
 var redisEnterpriseDatabaseGenerator gopter.Gen
 
 // RedisEnterpriseDatabaseGenerator returns a generator of RedisEnterpriseDatabase instances for property testing.
@@ -199,7 +199,7 @@ func RunJSONSerializationTestForRedisEnterpriseDatabasesSpec(subject RedisEnterp
 }
 
 // Generator of RedisEnterpriseDatabases_Spec instances for property testing - lazily instantiated by
-//RedisEnterpriseDatabasesSpecGenerator()
+// RedisEnterpriseDatabasesSpecGenerator()
 var redisEnterpriseDatabasesSpecGenerator gopter.Gen
 
 // RedisEnterpriseDatabasesSpecGenerator returns a generator of RedisEnterpriseDatabases_Spec instances for property testing.

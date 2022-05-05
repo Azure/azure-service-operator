@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Deprecated version of VirtualNetworkGateway. Use v1beta20201101.VirtualNetworkGateway instead
+// Deprecated version of VirtualNetworkGateway. Use v1beta20201101.VirtualNetworkGateway instead
 type VirtualNetworkGateway struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -324,19 +324,19 @@ func (gateway *VirtualNetworkGateway) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Deprecated version of VirtualNetworkGateway. Use v1beta20201101.VirtualNetworkGateway instead
+// Deprecated version of VirtualNetworkGateway. Use v1beta20201101.VirtualNetworkGateway instead
 type VirtualNetworkGatewayList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []VirtualNetworkGateway `json:"items"`
 }
 
-//Deprecated version of VirtualNetworkGateway_Status. Use v1beta20201101.VirtualNetworkGateway_Status instead
+// Deprecated version of VirtualNetworkGateway_Status. Use v1beta20201101.VirtualNetworkGateway_Status instead
 type VirtualNetworkGateway_Status struct {
 	ActiveActive *bool               `json:"activeActive,omitempty"`
 	BgpSettings  *BgpSettings_Status `json:"bgpSettings,omitempty"`
 
-	//Conditions: The observed state of the resource
+	// Conditions: The observed state of the resource
 	Conditions                     []conditions.Condition                                           `json:"conditions,omitempty"`
 	CustomRoutes                   *AddressSpace_Status                                             `json:"customRoutes,omitempty"`
 	EnableBgp                      *bool                                                            `json:"enableBgp,omitempty"`
@@ -1057,8 +1057,8 @@ func (gateway *VirtualNetworkGateway_Status) AssignPropertiesToVirtualNetworkGat
 type VirtualNetworkGateways_Spec struct {
 	ActiveActive *bool `json:"activeActive,omitempty"`
 
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName              string                                                    `json:"azureName,omitempty"`
 	BgpSettings            *BgpSettings                                              `json:"bgpSettings,omitempty"`
 	CustomRoutes           *AddressSpace                                             `json:"customRoutes,omitempty"`
@@ -1071,9 +1071,9 @@ type VirtualNetworkGateways_Spec struct {
 	Location               *string                                                   `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a resources.azure.com/ResourceGroup resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
 	Owner                                 *genruntime.KnownResourceReference                             `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	Sku                                   *VirtualNetworkGatewaySku                                      `json:"sku,omitempty"`
 	Tags                                  map[string]string                                              `json:"tags,omitempty"`
@@ -1850,7 +1850,7 @@ func (gateways *VirtualNetworkGateways_Spec) SetAzureName(azureName string) {
 	gateways.AzureName = azureName
 }
 
-//Deprecated version of BgpSettings. Use v1beta20201101.BgpSettings instead
+// Deprecated version of BgpSettings. Use v1beta20201101.BgpSettings instead
 type BgpSettings struct {
 	Asn                 *uint32                            `json:"asn,omitempty"`
 	BgpPeeringAddress   *string                            `json:"bgpPeeringAddress,omitempty"`
@@ -2027,7 +2027,7 @@ func (settings *BgpSettings) AssignPropertiesToBgpSettings(destination *alpha202
 	return nil
 }
 
-//Deprecated version of BgpSettings_Status. Use v1beta20201101.BgpSettings_Status instead
+// Deprecated version of BgpSettings_Status. Use v1beta20201101.BgpSettings_Status instead
 type BgpSettings_Status struct {
 	Asn                 *uint32                                   `json:"asn,omitempty"`
 	BgpPeeringAddress   *string                                   `json:"bgpPeeringAddress,omitempty"`
@@ -2168,7 +2168,7 @@ func (settings *BgpSettings_Status) AssignPropertiesToBgpSettingsStatus(destinat
 	return nil
 }
 
-//Deprecated version of VirtualNetworkGatewayIPConfiguration_Status. Use v1beta20201101.VirtualNetworkGatewayIPConfiguration_Status instead
+// Deprecated version of VirtualNetworkGatewayIPConfiguration_Status. Use v1beta20201101.VirtualNetworkGatewayIPConfiguration_Status instead
 type VirtualNetworkGatewayIPConfiguration_Status struct {
 	Etag                      *string                    `json:"etag,omitempty"`
 	Id                        *string                    `json:"id,omitempty"`
@@ -2398,8 +2398,8 @@ func (configuration *VirtualNetworkGatewayIPConfiguration_Status) AssignProperti
 	return nil
 }
 
-//Deprecated version of VirtualNetworkGatewayPropertiesFormatStatusGatewayType. Use
-//v1beta20201101.VirtualNetworkGatewayPropertiesFormatStatusGatewayType instead
+// Deprecated version of VirtualNetworkGatewayPropertiesFormatStatusGatewayType. Use
+// v1beta20201101.VirtualNetworkGatewayPropertiesFormatStatusGatewayType instead
 type VirtualNetworkGatewayPropertiesFormatStatusGatewayType string
 
 const (
@@ -2408,8 +2408,8 @@ const (
 	VirtualNetworkGatewayPropertiesFormatStatusGatewayTypeVpn          = VirtualNetworkGatewayPropertiesFormatStatusGatewayType("Vpn")
 )
 
-//Deprecated version of VirtualNetworkGatewayPropertiesFormatStatusVpnGatewayGeneration. Use
-//v1beta20201101.VirtualNetworkGatewayPropertiesFormatStatusVpnGatewayGeneration instead
+// Deprecated version of VirtualNetworkGatewayPropertiesFormatStatusVpnGatewayGeneration. Use
+// v1beta20201101.VirtualNetworkGatewayPropertiesFormatStatusVpnGatewayGeneration instead
 type VirtualNetworkGatewayPropertiesFormatStatusVpnGatewayGeneration string
 
 const (
@@ -2418,8 +2418,8 @@ const (
 	VirtualNetworkGatewayPropertiesFormatStatusVpnGatewayGenerationNone        = VirtualNetworkGatewayPropertiesFormatStatusVpnGatewayGeneration("None")
 )
 
-//Deprecated version of VirtualNetworkGatewayPropertiesFormatStatusVpnType. Use
-//v1beta20201101.VirtualNetworkGatewayPropertiesFormatStatusVpnType instead
+// Deprecated version of VirtualNetworkGatewayPropertiesFormatStatusVpnType. Use
+// v1beta20201101.VirtualNetworkGatewayPropertiesFormatStatusVpnType instead
 type VirtualNetworkGatewayPropertiesFormatStatusVpnType string
 
 const (
@@ -2427,7 +2427,7 @@ const (
 	VirtualNetworkGatewayPropertiesFormatStatusVpnTypeRouteBased  = VirtualNetworkGatewayPropertiesFormatStatusVpnType("RouteBased")
 )
 
-//Deprecated version of VirtualNetworkGatewaySku. Use v1beta20201101.VirtualNetworkGatewaySku instead
+// Deprecated version of VirtualNetworkGatewaySku. Use v1beta20201101.VirtualNetworkGatewaySku instead
 type VirtualNetworkGatewaySku struct {
 	Name *VirtualNetworkGatewaySkuName `json:"name,omitempty"`
 	Tier *VirtualNetworkGatewaySkuTier `json:"tier,omitempty"`
@@ -2539,7 +2539,7 @@ func (gatewaySku *VirtualNetworkGatewaySku) AssignPropertiesToVirtualNetworkGate
 	return nil
 }
 
-//Deprecated version of VirtualNetworkGatewaySku_Status. Use v1beta20201101.VirtualNetworkGatewaySku_Status instead
+// Deprecated version of VirtualNetworkGatewaySku_Status. Use v1beta20201101.VirtualNetworkGatewaySku_Status instead
 type VirtualNetworkGatewaySku_Status struct {
 	Capacity *int                                `json:"capacity,omitempty"`
 	Name     *VirtualNetworkGatewaySkuStatusName `json:"name,omitempty"`
@@ -2643,8 +2643,8 @@ func (gatewaySku *VirtualNetworkGatewaySku_Status) AssignPropertiesToVirtualNetw
 	return nil
 }
 
-//Deprecated version of VirtualNetworkGatewaysSpecPropertiesGatewayType. Use
-//v1beta20201101.VirtualNetworkGatewaysSpecPropertiesGatewayType instead
+// Deprecated version of VirtualNetworkGatewaysSpecPropertiesGatewayType. Use
+// v1beta20201101.VirtualNetworkGatewaysSpecPropertiesGatewayType instead
 // +kubebuilder:validation:Enum={"ExpressRoute","HyperNet","LocalGateway","Vpn"}
 type VirtualNetworkGatewaysSpecPropertiesGatewayType string
 
@@ -2655,8 +2655,8 @@ const (
 	VirtualNetworkGatewaysSpecPropertiesGatewayTypeVpn          = VirtualNetworkGatewaysSpecPropertiesGatewayType("Vpn")
 )
 
-//Deprecated version of VirtualNetworkGatewaysSpecPropertiesVpnGatewayGeneration. Use
-//v1beta20201101.VirtualNetworkGatewaysSpecPropertiesVpnGatewayGeneration instead
+// Deprecated version of VirtualNetworkGatewaysSpecPropertiesVpnGatewayGeneration. Use
+// v1beta20201101.VirtualNetworkGatewaysSpecPropertiesVpnGatewayGeneration instead
 // +kubebuilder:validation:Enum={"Generation1","Generation2","None"}
 type VirtualNetworkGatewaysSpecPropertiesVpnGatewayGeneration string
 
@@ -2666,8 +2666,8 @@ const (
 	VirtualNetworkGatewaysSpecPropertiesVpnGatewayGenerationNone        = VirtualNetworkGatewaysSpecPropertiesVpnGatewayGeneration("None")
 )
 
-//Deprecated version of VirtualNetworkGatewaysSpecPropertiesVpnType. Use
-//v1beta20201101.VirtualNetworkGatewaysSpecPropertiesVpnType instead
+// Deprecated version of VirtualNetworkGatewaysSpecPropertiesVpnType. Use
+// v1beta20201101.VirtualNetworkGatewaysSpecPropertiesVpnType instead
 // +kubebuilder:validation:Enum={"PolicyBased","RouteBased"}
 type VirtualNetworkGatewaysSpecPropertiesVpnType string
 
@@ -2676,7 +2676,7 @@ const (
 	VirtualNetworkGatewaysSpecPropertiesVpnTypeRouteBased  = VirtualNetworkGatewaysSpecPropertiesVpnType("RouteBased")
 )
 
-//Deprecated version of VirtualNetworkGateways_Spec_Properties_IpConfigurations. Use v1beta20201101.VirtualNetworkGateways_Spec_Properties_IpConfigurations instead
+// Deprecated version of VirtualNetworkGateways_Spec_Properties_IpConfigurations. Use v1beta20201101.VirtualNetworkGateways_Spec_Properties_IpConfigurations instead
 type VirtualNetworkGateways_Spec_Properties_IpConfigurations struct {
 	Name                      *string                                                                        `json:"name,omitempty"`
 	PrivateIPAllocationMethod *VirtualNetworkGatewayIPConfigurationPropertiesFormatPrivateIPAllocationMethod `json:"privateIPAllocationMethod,omitempty"`
@@ -2880,7 +2880,7 @@ func (configurations *VirtualNetworkGateways_Spec_Properties_IpConfigurations) A
 	return nil
 }
 
-//Deprecated version of VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration. Use v1beta20201101.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration instead
+// Deprecated version of VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration. Use v1beta20201101.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration instead
 type VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration struct {
 	AadAudience                  *string                                                                                      `json:"aadAudience,omitempty"`
 	AadIssuer                    *string                                                                                      `json:"aadIssuer,omitempty"`
@@ -3373,7 +3373,7 @@ func (configuration *VirtualNetworkGateways_Spec_Properties_VpnClientConfigurati
 	return nil
 }
 
-//Deprecated version of VpnClientConfiguration_Status. Use v1beta20201101.VpnClientConfiguration_Status instead
+// Deprecated version of VpnClientConfiguration_Status. Use v1beta20201101.VpnClientConfiguration_Status instead
 type VpnClientConfiguration_Status struct {
 	AadAudience                  *string                                              `json:"aadAudience,omitempty"`
 	AadIssuer                    *string                                              `json:"aadIssuer,omitempty"`
@@ -3771,7 +3771,7 @@ func (configuration *VpnClientConfiguration_Status) AssignPropertiesToVpnClientC
 	return nil
 }
 
-//Deprecated version of IPConfigurationBgpPeeringAddress. Use v1beta20201101.IPConfigurationBgpPeeringAddress instead
+// Deprecated version of IPConfigurationBgpPeeringAddress. Use v1beta20201101.IPConfigurationBgpPeeringAddress instead
 type IPConfigurationBgpPeeringAddress struct {
 	CustomBgpIpAddresses []string `json:"customBgpIpAddresses,omitempty"`
 	IpconfigurationId    *string  `json:"ipconfigurationId,omitempty"`
@@ -3861,7 +3861,7 @@ func (address *IPConfigurationBgpPeeringAddress) AssignPropertiesToIPConfigurati
 	return nil
 }
 
-//Deprecated version of IPConfigurationBgpPeeringAddress_Status. Use v1beta20201101.IPConfigurationBgpPeeringAddress_Status instead
+// Deprecated version of IPConfigurationBgpPeeringAddress_Status. Use v1beta20201101.IPConfigurationBgpPeeringAddress_Status instead
 type IPConfigurationBgpPeeringAddress_Status struct {
 	CustomBgpIpAddresses  []string `json:"customBgpIpAddresses,omitempty"`
 	DefaultBgpIpAddresses []string `json:"defaultBgpIpAddresses,omitempty"`
@@ -3955,7 +3955,7 @@ func (address *IPConfigurationBgpPeeringAddress_Status) AssignPropertiesToIPConf
 	return nil
 }
 
-//Deprecated version of IpsecPolicy. Use v1beta20201101.IpsecPolicy instead
+// Deprecated version of IpsecPolicy. Use v1beta20201101.IpsecPolicy instead
 type IpsecPolicy struct {
 	// +kubebuilder:validation:Required
 	DhGroup *IpsecPolicyDhGroup `json:"dhGroup,omitempty"`
@@ -4236,7 +4236,7 @@ func (policy *IpsecPolicy) AssignPropertiesToIpsecPolicy(destination *alpha20201
 	return nil
 }
 
-//Deprecated version of IpsecPolicy_Status. Use v1beta20201101.IpsecPolicy_Status instead
+// Deprecated version of IpsecPolicy_Status. Use v1beta20201101.IpsecPolicy_Status instead
 type IpsecPolicy_Status struct {
 	DhGroup             *DhGroup_Status         `json:"dhGroup,omitempty"`
 	IkeEncryption       *IkeEncryption_Status   `json:"ikeEncryption,omitempty"`
@@ -4445,7 +4445,7 @@ func (policy *IpsecPolicy_Status) AssignPropertiesToIpsecPolicyStatus(destinatio
 	return nil
 }
 
-//Deprecated version of RadiusServer. Use v1beta20201101.RadiusServer instead
+// Deprecated version of RadiusServer. Use v1beta20201101.RadiusServer instead
 type RadiusServer struct {
 	// +kubebuilder:validation:Required
 	RadiusServerAddress *string `json:"radiusServerAddress,omitempty"`
@@ -4557,7 +4557,7 @@ func (server *RadiusServer) AssignPropertiesToRadiusServer(destination *alpha202
 	return nil
 }
 
-//Deprecated version of RadiusServer_Status. Use v1beta20201101.RadiusServer_Status instead
+// Deprecated version of RadiusServer_Status. Use v1beta20201101.RadiusServer_Status instead
 type RadiusServer_Status struct {
 	RadiusServerAddress *string `json:"radiusServerAddress,omitempty"`
 	RadiusServerScore   *int    `json:"radiusServerScore,omitempty"`
@@ -4641,8 +4641,8 @@ func (server *RadiusServer_Status) AssignPropertiesToRadiusServerStatus(destinat
 	return nil
 }
 
-//Deprecated version of VirtualNetworkGatewayIPConfigurationPropertiesFormatPrivateIPAllocationMethod. Use
-//v1beta20201101.VirtualNetworkGatewayIPConfigurationPropertiesFormatPrivateIPAllocationMethod instead
+// Deprecated version of VirtualNetworkGatewayIPConfigurationPropertiesFormatPrivateIPAllocationMethod. Use
+// v1beta20201101.VirtualNetworkGatewayIPConfigurationPropertiesFormatPrivateIPAllocationMethod instead
 // +kubebuilder:validation:Enum={"Dynamic","Static"}
 type VirtualNetworkGatewayIPConfigurationPropertiesFormatPrivateIPAllocationMethod string
 
@@ -4651,7 +4651,7 @@ const (
 	VirtualNetworkGatewayIPConfigurationPropertiesFormatPrivateIPAllocationMethodStatic  = VirtualNetworkGatewayIPConfigurationPropertiesFormatPrivateIPAllocationMethod("Static")
 )
 
-//Deprecated version of VirtualNetworkGatewaySkuName. Use v1beta20201101.VirtualNetworkGatewaySkuName instead
+// Deprecated version of VirtualNetworkGatewaySkuName. Use v1beta20201101.VirtualNetworkGatewaySkuName instead
 // +kubebuilder:validation:Enum={"Basic","ErGw1AZ","ErGw2AZ","ErGw3AZ","HighPerformance","Standard","UltraPerformance","VpnGw1","VpnGw1AZ","VpnGw2","VpnGw2AZ","VpnGw3","VpnGw3AZ","VpnGw4","VpnGw4AZ","VpnGw5","VpnGw5AZ"}
 type VirtualNetworkGatewaySkuName string
 
@@ -4675,7 +4675,7 @@ const (
 	VirtualNetworkGatewaySkuNameVpnGw5AZ         = VirtualNetworkGatewaySkuName("VpnGw5AZ")
 )
 
-//Deprecated version of VirtualNetworkGatewaySkuStatusName. Use v1beta20201101.VirtualNetworkGatewaySkuStatusName instead
+// Deprecated version of VirtualNetworkGatewaySkuStatusName. Use v1beta20201101.VirtualNetworkGatewaySkuStatusName instead
 type VirtualNetworkGatewaySkuStatusName string
 
 const (
@@ -4698,7 +4698,7 @@ const (
 	VirtualNetworkGatewaySkuStatusNameVpnGw5AZ         = VirtualNetworkGatewaySkuStatusName("VpnGw5AZ")
 )
 
-//Deprecated version of VirtualNetworkGatewaySkuStatusTier. Use v1beta20201101.VirtualNetworkGatewaySkuStatusTier instead
+// Deprecated version of VirtualNetworkGatewaySkuStatusTier. Use v1beta20201101.VirtualNetworkGatewaySkuStatusTier instead
 type VirtualNetworkGatewaySkuStatusTier string
 
 const (
@@ -4721,7 +4721,7 @@ const (
 	VirtualNetworkGatewaySkuStatusTierVpnGw5AZ         = VirtualNetworkGatewaySkuStatusTier("VpnGw5AZ")
 )
 
-//Deprecated version of VirtualNetworkGatewaySkuTier. Use v1beta20201101.VirtualNetworkGatewaySkuTier instead
+// Deprecated version of VirtualNetworkGatewaySkuTier. Use v1beta20201101.VirtualNetworkGatewaySkuTier instead
 // +kubebuilder:validation:Enum={"Basic","ErGw1AZ","ErGw2AZ","ErGw3AZ","HighPerformance","Standard","UltraPerformance","VpnGw1","VpnGw1AZ","VpnGw2","VpnGw2AZ","VpnGw3","VpnGw3AZ","VpnGw4","VpnGw4AZ","VpnGw5","VpnGw5AZ"}
 type VirtualNetworkGatewaySkuTier string
 
@@ -4745,8 +4745,8 @@ const (
 	VirtualNetworkGatewaySkuTierVpnGw5AZ         = VirtualNetworkGatewaySkuTier("VpnGw5AZ")
 )
 
-//Deprecated version of VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnAuthenticationTypes. Use
-//v1beta20201101.VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnAuthenticationTypes instead
+// Deprecated version of VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnAuthenticationTypes. Use
+// v1beta20201101.VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnAuthenticationTypes instead
 // +kubebuilder:validation:Enum={"AAD","Certificate","Radius"}
 type VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnAuthenticationTypes string
 
@@ -4756,8 +4756,8 @@ const (
 	VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnAuthenticationTypesRadius      = VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnAuthenticationTypes("Radius")
 )
 
-//Deprecated version of VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientProtocols. Use
-//v1beta20201101.VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientProtocols instead
+// Deprecated version of VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientProtocols. Use
+// v1beta20201101.VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientProtocols instead
 // +kubebuilder:validation:Enum={"IkeV2","OpenVPN","SSTP"}
 type VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientProtocols string
 
@@ -4767,7 +4767,7 @@ const (
 	VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientProtocolsSSTP    = VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientProtocols("SSTP")
 )
 
-//Deprecated version of VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates. Use v1beta20201101.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates instead
+// Deprecated version of VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates. Use v1beta20201101.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates instead
 type VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates struct {
 	Name       *string `json:"name,omitempty"`
 	Thumbprint *string `json:"thumbprint,omitempty"`
@@ -4865,7 +4865,7 @@ func (certificates *VirtualNetworkGateways_Spec_Properties_VpnClientConfiguratio
 	return nil
 }
 
-//Deprecated version of VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates. Use v1beta20201101.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates instead
+// Deprecated version of VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates. Use v1beta20201101.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates instead
 type VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates struct {
 	Name *string `json:"name,omitempty"`
 
@@ -4965,8 +4965,8 @@ func (certificates *VirtualNetworkGateways_Spec_Properties_VpnClientConfiguratio
 	return nil
 }
 
-//Deprecated version of VpnClientConfigurationStatusVpnAuthenticationTypes. Use
-//v1beta20201101.VpnClientConfigurationStatusVpnAuthenticationTypes instead
+// Deprecated version of VpnClientConfigurationStatusVpnAuthenticationTypes. Use
+// v1beta20201101.VpnClientConfigurationStatusVpnAuthenticationTypes instead
 type VpnClientConfigurationStatusVpnAuthenticationTypes string
 
 const (
@@ -4975,8 +4975,8 @@ const (
 	VpnClientConfigurationStatusVpnAuthenticationTypesRadius      = VpnClientConfigurationStatusVpnAuthenticationTypes("Radius")
 )
 
-//Deprecated version of VpnClientConfigurationStatusVpnClientProtocols. Use
-//v1beta20201101.VpnClientConfigurationStatusVpnClientProtocols instead
+// Deprecated version of VpnClientConfigurationStatusVpnClientProtocols. Use
+// v1beta20201101.VpnClientConfigurationStatusVpnClientProtocols instead
 type VpnClientConfigurationStatusVpnClientProtocols string
 
 const (
@@ -4985,7 +4985,7 @@ const (
 	VpnClientConfigurationStatusVpnClientProtocolsSSTP    = VpnClientConfigurationStatusVpnClientProtocols("SSTP")
 )
 
-//Deprecated version of VpnClientRevokedCertificate_Status. Use v1beta20201101.VpnClientRevokedCertificate_Status instead
+// Deprecated version of VpnClientRevokedCertificate_Status. Use v1beta20201101.VpnClientRevokedCertificate_Status instead
 type VpnClientRevokedCertificate_Status struct {
 	Etag              *string                   `json:"etag,omitempty"`
 	Id                *string                   `json:"id,omitempty"`
@@ -5111,7 +5111,7 @@ func (certificate *VpnClientRevokedCertificate_Status) AssignPropertiesToVpnClie
 	return nil
 }
 
-//Deprecated version of VpnClientRootCertificate_Status. Use v1beta20201101.VpnClientRootCertificate_Status instead
+// Deprecated version of VpnClientRootCertificate_Status. Use v1beta20201101.VpnClientRootCertificate_Status instead
 type VpnClientRootCertificate_Status struct {
 	Etag              *string                   `json:"etag,omitempty"`
 	Id                *string                   `json:"id,omitempty"`
@@ -5237,7 +5237,7 @@ func (certificate *VpnClientRootCertificate_Status) AssignPropertiesToVpnClientR
 	return nil
 }
 
-//Deprecated version of DhGroup_Status. Use v1beta20201101.DhGroup_Status instead
+// Deprecated version of DhGroup_Status. Use v1beta20201101.DhGroup_Status instead
 type DhGroup_Status string
 
 const (
@@ -5251,7 +5251,7 @@ const (
 	DhGroup_StatusNone        = DhGroup_Status("None")
 )
 
-//Deprecated version of IkeEncryption_Status. Use v1beta20201101.IkeEncryption_Status instead
+// Deprecated version of IkeEncryption_Status. Use v1beta20201101.IkeEncryption_Status instead
 type IkeEncryption_Status string
 
 const (
@@ -5264,7 +5264,7 @@ const (
 	IkeEncryption_StatusGCMAES256 = IkeEncryption_Status("GCMAES256")
 )
 
-//Deprecated version of IkeIntegrity_Status. Use v1beta20201101.IkeIntegrity_Status instead
+// Deprecated version of IkeIntegrity_Status. Use v1beta20201101.IkeIntegrity_Status instead
 type IkeIntegrity_Status string
 
 const (
@@ -5276,7 +5276,7 @@ const (
 	IkeIntegrity_StatusSHA384    = IkeIntegrity_Status("SHA384")
 )
 
-//Deprecated version of IpsecEncryption_Status. Use v1beta20201101.IpsecEncryption_Status instead
+// Deprecated version of IpsecEncryption_Status. Use v1beta20201101.IpsecEncryption_Status instead
 type IpsecEncryption_Status string
 
 const (
@@ -5291,7 +5291,7 @@ const (
 	IpsecEncryption_StatusNone      = IpsecEncryption_Status("None")
 )
 
-//Deprecated version of IpsecIntegrity_Status. Use v1beta20201101.IpsecIntegrity_Status instead
+// Deprecated version of IpsecIntegrity_Status. Use v1beta20201101.IpsecIntegrity_Status instead
 type IpsecIntegrity_Status string
 
 const (
@@ -5303,7 +5303,7 @@ const (
 	IpsecIntegrity_StatusSHA256    = IpsecIntegrity_Status("SHA256")
 )
 
-//Deprecated version of IpsecPolicyDhGroup. Use v1beta20201101.IpsecPolicyDhGroup instead
+// Deprecated version of IpsecPolicyDhGroup. Use v1beta20201101.IpsecPolicyDhGroup instead
 // +kubebuilder:validation:Enum={"DHGroup1","DHGroup14","DHGroup2","DHGroup2048","DHGroup24","ECP256","ECP384","None"}
 type IpsecPolicyDhGroup string
 
@@ -5318,7 +5318,7 @@ const (
 	IpsecPolicyDhGroupNone        = IpsecPolicyDhGroup("None")
 )
 
-//Deprecated version of IpsecPolicyIkeEncryption. Use v1beta20201101.IpsecPolicyIkeEncryption instead
+// Deprecated version of IpsecPolicyIkeEncryption. Use v1beta20201101.IpsecPolicyIkeEncryption instead
 // +kubebuilder:validation:Enum={"AES128","AES192","AES256","DES","DES3","GCMAES128","GCMAES256"}
 type IpsecPolicyIkeEncryption string
 
@@ -5332,7 +5332,7 @@ const (
 	IpsecPolicyIkeEncryptionGCMAES256 = IpsecPolicyIkeEncryption("GCMAES256")
 )
 
-//Deprecated version of IpsecPolicyIkeIntegrity. Use v1beta20201101.IpsecPolicyIkeIntegrity instead
+// Deprecated version of IpsecPolicyIkeIntegrity. Use v1beta20201101.IpsecPolicyIkeIntegrity instead
 // +kubebuilder:validation:Enum={"GCMAES128","GCMAES256","MD5","SHA1","SHA256","SHA384"}
 type IpsecPolicyIkeIntegrity string
 
@@ -5345,7 +5345,7 @@ const (
 	IpsecPolicyIkeIntegritySHA384    = IpsecPolicyIkeIntegrity("SHA384")
 )
 
-//Deprecated version of IpsecPolicyIpsecEncryption. Use v1beta20201101.IpsecPolicyIpsecEncryption instead
+// Deprecated version of IpsecPolicyIpsecEncryption. Use v1beta20201101.IpsecPolicyIpsecEncryption instead
 // +kubebuilder:validation:Enum={"AES128","AES192","AES256","DES","DES3","GCMAES128","GCMAES192","GCMAES256","None"}
 type IpsecPolicyIpsecEncryption string
 
@@ -5361,7 +5361,7 @@ const (
 	IpsecPolicyIpsecEncryptionNone      = IpsecPolicyIpsecEncryption("None")
 )
 
-//Deprecated version of IpsecPolicyIpsecIntegrity. Use v1beta20201101.IpsecPolicyIpsecIntegrity instead
+// Deprecated version of IpsecPolicyIpsecIntegrity. Use v1beta20201101.IpsecPolicyIpsecIntegrity instead
 // +kubebuilder:validation:Enum={"GCMAES128","GCMAES192","GCMAES256","MD5","SHA1","SHA256"}
 type IpsecPolicyIpsecIntegrity string
 
@@ -5374,7 +5374,7 @@ const (
 	IpsecPolicyIpsecIntegritySHA256    = IpsecPolicyIpsecIntegrity("SHA256")
 )
 
-//Deprecated version of IpsecPolicyPfsGroup. Use v1beta20201101.IpsecPolicyPfsGroup instead
+// Deprecated version of IpsecPolicyPfsGroup. Use v1beta20201101.IpsecPolicyPfsGroup instead
 // +kubebuilder:validation:Enum={"ECP256","ECP384","None","PFS1","PFS14","PFS2","PFS2048","PFS24","PFSMM"}
 type IpsecPolicyPfsGroup string
 
@@ -5390,7 +5390,7 @@ const (
 	IpsecPolicyPfsGroupPFSMM   = IpsecPolicyPfsGroup("PFSMM")
 )
 
-//Deprecated version of PfsGroup_Status. Use v1beta20201101.PfsGroup_Status instead
+// Deprecated version of PfsGroup_Status. Use v1beta20201101.PfsGroup_Status instead
 type PfsGroup_Status string
 
 const (

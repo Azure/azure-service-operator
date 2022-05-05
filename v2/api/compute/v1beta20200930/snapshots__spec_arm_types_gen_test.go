@@ -133,7 +133,7 @@ func RunJSONSerializationTestForSnapshotPropertiesARM(subject SnapshotProperties
 }
 
 // Generator of SnapshotPropertiesARM instances for property testing - lazily instantiated by
-//SnapshotPropertiesARMGenerator()
+// SnapshotPropertiesARMGenerator()
 var snapshotPropertiesARMGenerator gopter.Gen
 
 // SnapshotPropertiesARMGenerator returns a generator of SnapshotPropertiesARM instances for property testing.

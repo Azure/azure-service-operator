@@ -15,8 +15,11 @@ TEMPLATEDIR=$3
 
 PATTERN='^v[0-9]((alpha|beta)[a-z0-9]+)?$'
 
-rm -rf $OUTPUTDIR
-mkdir $OUTPUTDIR
+# Create the output folder if it's missing
+mkdir $OUTPUTDIR --parents
+
+# Delete everything except _index.md
+rm $OUTPUTDIR/[a-z]*.md
 
 # Iterate through the directories
 for package in $(find "$APIROOT" -type d); 

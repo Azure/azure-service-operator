@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1alpha1api20200801preview
 
-//Deprecated version of RoleAssignment_Status. Use v1beta20200801preview.RoleAssignment_Status instead
+// Deprecated version of RoleAssignment_Status. Use v1beta20200801preview.RoleAssignment_Status instead
 type RoleAssignment_StatusARM struct {
 	Id         *string                             `json:"id,omitempty"`
 	Name       *string                             `json:"name,omitempty"`
@@ -11,7 +11,7 @@ type RoleAssignment_StatusARM struct {
 	Type       *string                             `json:"type,omitempty"`
 }
 
-//Deprecated version of RoleAssignmentProperties_Status. Use v1beta20200801preview.RoleAssignmentProperties_Status instead
+// Deprecated version of RoleAssignmentProperties_Status. Use v1beta20200801preview.RoleAssignmentProperties_Status instead
 type RoleAssignmentProperties_StatusARM struct {
 	Condition                          *string                                      `json:"condition,omitempty"`
 	ConditionVersion                   *string                                      `json:"conditionVersion,omitempty"`

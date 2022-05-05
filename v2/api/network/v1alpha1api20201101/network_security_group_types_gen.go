@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Deprecated version of NetworkSecurityGroup. Use v1beta20201101.NetworkSecurityGroup instead
+// Deprecated version of NetworkSecurityGroup. Use v1beta20201101.NetworkSecurityGroup instead
 type NetworkSecurityGroup struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -324,16 +324,16 @@ func (group *NetworkSecurityGroup) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Deprecated version of NetworkSecurityGroup. Use v1beta20201101.NetworkSecurityGroup instead
+// Deprecated version of NetworkSecurityGroup. Use v1beta20201101.NetworkSecurityGroup instead
 type NetworkSecurityGroupList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []NetworkSecurityGroup `json:"items"`
 }
 
-//Deprecated version of NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded. Use v1beta20201101.NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded instead
+// Deprecated version of NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded. Use v1beta20201101.NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded instead
 type NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded struct {
-	//Conditions: The observed state of the resource
+	// Conditions: The observed state of the resource
 	Conditions           []conditions.Condition                                             `json:"conditions,omitempty"`
 	DefaultSecurityRules []SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded     `json:"defaultSecurityRules,omitempty"`
 	Etag                 *string                                                            `json:"etag,omitempty"`
@@ -809,15 +809,15 @@ func (embedded *NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbe
 }
 
 type NetworkSecurityGroups_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName string  `json:"azureName,omitempty"`
 	Location  *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a resources.azure.com/ResourceGroup resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	Tags  map[string]string                  `json:"tags,omitempty"`
 }
@@ -1008,7 +1008,7 @@ func (groups *NetworkSecurityGroups_Spec) SetAzureName(azureName string) {
 	groups.AzureName = azureName
 }
 
-//Deprecated version of FlowLog_Status_SubResourceEmbedded. Use v1beta20201101.FlowLog_Status_SubResourceEmbedded instead
+// Deprecated version of FlowLog_Status_SubResourceEmbedded. Use v1beta20201101.FlowLog_Status_SubResourceEmbedded instead
 type FlowLog_Status_SubResourceEmbedded struct {
 	Id *string `json:"id,omitempty"`
 }
@@ -1066,7 +1066,7 @@ func (embedded *FlowLog_Status_SubResourceEmbedded) AssignPropertiesToFlowLogSta
 	return nil
 }
 
-//Deprecated version of NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded. Use v1beta20201101.NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded instead
+// Deprecated version of NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded. Use v1beta20201101.NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded instead
 type NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded struct {
 	ExtendedLocation *ExtendedLocation_Status `json:"extendedLocation,omitempty"`
 	Id               *string                  `json:"id,omitempty"`
@@ -1160,7 +1160,7 @@ func (embedded *NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded
 	return nil
 }
 
-//Deprecated version of SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded. Use v1beta20201101.SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded instead
+// Deprecated version of SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded. Use v1beta20201101.SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded instead
 type SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded struct {
 	Id *string `json:"id,omitempty"`
 }
@@ -1218,7 +1218,7 @@ func (embedded *SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded) As
 	return nil
 }
 
-//Deprecated version of Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded. Use v1beta20201101.Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded instead
+// Deprecated version of Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded. Use v1beta20201101.Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded instead
 type Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded struct {
 	Id *string `json:"id,omitempty"`
 }

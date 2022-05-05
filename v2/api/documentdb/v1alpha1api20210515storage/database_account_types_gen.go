@@ -20,8 +20,8 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Storage version of v1alpha1api20210515.DatabaseAccount
-//Deprecated version of DatabaseAccount. Use v1beta20210515.DatabaseAccount instead
+// Storage version of v1alpha1api20210515.DatabaseAccount
+// Deprecated version of DatabaseAccount. Use v1beta20210515.DatabaseAccount instead
 type DatabaseAccount struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -191,16 +191,16 @@ func (account *DatabaseAccount) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Storage version of v1alpha1api20210515.DatabaseAccount
-//Deprecated version of DatabaseAccount. Use v1beta20210515.DatabaseAccount instead
+// Storage version of v1alpha1api20210515.DatabaseAccount
+// Deprecated version of DatabaseAccount. Use v1beta20210515.DatabaseAccount instead
 type DatabaseAccountList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []DatabaseAccount `json:"items"`
 }
 
-//Storage version of v1alpha1api20210515.DatabaseAccountGetResults_Status
-//Deprecated version of DatabaseAccountGetResults_Status. Use v1beta20210515.DatabaseAccountGetResults_Status instead
+// Storage version of v1alpha1api20210515.DatabaseAccountGetResults_Status
+// Deprecated version of DatabaseAccountGetResults_Status. Use v1beta20210515.DatabaseAccountGetResults_Status instead
 type DatabaseAccountGetResults_Status struct {
 	AnalyticalStorageConfiguration     *AnalyticalStorageConfiguration_Status                 `json:"analyticalStorageConfiguration,omitempty"`
 	ApiProperties                      *ApiProperties_Status                                  `json:"apiProperties,omitempty"`
@@ -976,7 +976,7 @@ func (results *DatabaseAccountGetResults_Status) AssignPropertiesToDatabaseAccou
 	return nil
 }
 
-//Storage version of v1alpha1api20210515.DatabaseAccounts_Spec
+// Storage version of v1alpha1api20210515.DatabaseAccounts_Spec
 type DatabaseAccounts_Spec struct {
 	AnalyticalStorageConfiguration *AnalyticalStorageConfiguration `json:"analyticalStorageConfiguration,omitempty"`
 	ApiProperties                  *ApiProperties                  `json:"apiProperties,omitempty"`
@@ -984,8 +984,8 @@ type DatabaseAccounts_Spec struct {
 	// +kubebuilder:validation:MaxLength=50
 	// +kubebuilder:validation:MinLength=3
 	// +kubebuilder:validation:Pattern="^[a-z0-9]+(-[a-z0-9]+)*"
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName                          string                       `json:"azureName,omitempty"`
 	BackupPolicy                       *BackupPolicy                `json:"backupPolicy,omitempty"`
 	Capabilities                       []Capability                 `json:"capabilities,omitempty"`
@@ -1013,9 +1013,9 @@ type DatabaseAccounts_Spec struct {
 	OriginalVersion                    string                       `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a resources.azure.com/ResourceGroup resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
 	Owner               *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PropertyBag         genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	PublicNetworkAccess *string                            `json:"publicNetworkAccess,omitempty"`
@@ -1629,8 +1629,8 @@ func (accounts *DatabaseAccounts_Spec) AssignPropertiesToDatabaseAccountsSpec(de
 	return nil
 }
 
-//Storage version of v1alpha1api20210515.AnalyticalStorageConfiguration
-//Deprecated version of AnalyticalStorageConfiguration. Use v1beta20210515.AnalyticalStorageConfiguration instead
+// Storage version of v1alpha1api20210515.AnalyticalStorageConfiguration
+// Deprecated version of AnalyticalStorageConfiguration. Use v1beta20210515.AnalyticalStorageConfiguration instead
 type AnalyticalStorageConfiguration struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SchemaType  *string                `json:"schemaType,omitempty"`
@@ -1674,8 +1674,8 @@ func (configuration *AnalyticalStorageConfiguration) AssignPropertiesToAnalytica
 	return nil
 }
 
-//Storage version of v1alpha1api20210515.AnalyticalStorageConfiguration_Status
-//Deprecated version of AnalyticalStorageConfiguration_Status. Use v1beta20210515.AnalyticalStorageConfiguration_Status instead
+// Storage version of v1alpha1api20210515.AnalyticalStorageConfiguration_Status
+// Deprecated version of AnalyticalStorageConfiguration_Status. Use v1beta20210515.AnalyticalStorageConfiguration_Status instead
 type AnalyticalStorageConfiguration_Status struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SchemaType  *string                `json:"schemaType,omitempty"`
@@ -1719,8 +1719,8 @@ func (configuration *AnalyticalStorageConfiguration_Status) AssignPropertiesToAn
 	return nil
 }
 
-//Storage version of v1alpha1api20210515.ApiProperties
-//Deprecated version of ApiProperties. Use v1beta20210515.ApiProperties instead
+// Storage version of v1alpha1api20210515.ApiProperties
+// Deprecated version of ApiProperties. Use v1beta20210515.ApiProperties instead
 type ApiProperties struct {
 	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	ServerVersion *string                `json:"serverVersion,omitempty"`
@@ -1764,8 +1764,8 @@ func (properties *ApiProperties) AssignPropertiesToApiProperties(destination *v2
 	return nil
 }
 
-//Storage version of v1alpha1api20210515.ApiProperties_Status
-//Deprecated version of ApiProperties_Status. Use v1beta20210515.ApiProperties_Status instead
+// Storage version of v1alpha1api20210515.ApiProperties_Status
+// Deprecated version of ApiProperties_Status. Use v1beta20210515.ApiProperties_Status instead
 type ApiProperties_Status struct {
 	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	ServerVersion *string                `json:"serverVersion,omitempty"`
@@ -1809,8 +1809,8 @@ func (properties *ApiProperties_Status) AssignPropertiesToApiPropertiesStatus(de
 	return nil
 }
 
-//Storage version of v1alpha1api20210515.BackupPolicy
-//Deprecated version of BackupPolicy. Use v1beta20210515.BackupPolicy instead
+// Storage version of v1alpha1api20210515.BackupPolicy
+// Deprecated version of BackupPolicy. Use v1beta20210515.BackupPolicy instead
 type BackupPolicy struct {
 	Continuous  *ContinuousModeBackupPolicy `json:"continuousModeBackupPolicy,omitempty"`
 	Periodic    *PeriodicModeBackupPolicy   `json:"periodicModeBackupPolicy,omitempty"`
@@ -1897,8 +1897,8 @@ func (policy *BackupPolicy) AssignPropertiesToBackupPolicy(destination *v2021051
 	return nil
 }
 
-//Storage version of v1alpha1api20210515.BackupPolicy_Status
-//Deprecated version of BackupPolicy_Status. Use v1beta20210515.BackupPolicy_Status instead
+// Storage version of v1alpha1api20210515.BackupPolicy_Status
+// Deprecated version of BackupPolicy_Status. Use v1beta20210515.BackupPolicy_Status instead
 type BackupPolicy_Status struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Type        *string                `json:"type,omitempty"`
@@ -1942,8 +1942,8 @@ func (policy *BackupPolicy_Status) AssignPropertiesToBackupPolicyStatus(destinat
 	return nil
 }
 
-//Storage version of v1alpha1api20210515.Capability
-//Deprecated version of Capability. Use v1beta20210515.Capability instead
+// Storage version of v1alpha1api20210515.Capability
+// Deprecated version of Capability. Use v1beta20210515.Capability instead
 type Capability struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -1987,8 +1987,8 @@ func (capability *Capability) AssignPropertiesToCapability(destination *v2021051
 	return nil
 }
 
-//Storage version of v1alpha1api20210515.Capability_Status
-//Deprecated version of Capability_Status. Use v1beta20210515.Capability_Status instead
+// Storage version of v1alpha1api20210515.Capability_Status
+// Deprecated version of Capability_Status. Use v1beta20210515.Capability_Status instead
 type Capability_Status struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -2032,8 +2032,8 @@ func (capability *Capability_Status) AssignPropertiesToCapabilityStatus(destinat
 	return nil
 }
 
-//Storage version of v1alpha1api20210515.ConsistencyPolicy
-//Deprecated version of ConsistencyPolicy. Use v1beta20210515.ConsistencyPolicy instead
+// Storage version of v1alpha1api20210515.ConsistencyPolicy
+// Deprecated version of ConsistencyPolicy. Use v1beta20210515.ConsistencyPolicy instead
 type ConsistencyPolicy struct {
 	DefaultConsistencyLevel *string                `json:"defaultConsistencyLevel,omitempty"`
 	MaxIntervalInSeconds    *int                   `json:"maxIntervalInSeconds,omitempty"`
@@ -2091,8 +2091,8 @@ func (policy *ConsistencyPolicy) AssignPropertiesToConsistencyPolicy(destination
 	return nil
 }
 
-//Storage version of v1alpha1api20210515.ConsistencyPolicy_Status
-//Deprecated version of ConsistencyPolicy_Status. Use v1beta20210515.ConsistencyPolicy_Status instead
+// Storage version of v1alpha1api20210515.ConsistencyPolicy_Status
+// Deprecated version of ConsistencyPolicy_Status. Use v1beta20210515.ConsistencyPolicy_Status instead
 type ConsistencyPolicy_Status struct {
 	DefaultConsistencyLevel *string                `json:"defaultConsistencyLevel,omitempty"`
 	MaxIntervalInSeconds    *int                   `json:"maxIntervalInSeconds,omitempty"`
@@ -2150,8 +2150,8 @@ func (policy *ConsistencyPolicy_Status) AssignPropertiesToConsistencyPolicyStatu
 	return nil
 }
 
-//Storage version of v1alpha1api20210515.CorsPolicy
-//Deprecated version of CorsPolicy. Use v1beta20210515.CorsPolicy instead
+// Storage version of v1alpha1api20210515.CorsPolicy
+// Deprecated version of CorsPolicy. Use v1beta20210515.CorsPolicy instead
 type CorsPolicy struct {
 	AllowedHeaders  *string                `json:"allowedHeaders,omitempty"`
 	AllowedMethods  *string                `json:"allowedMethods,omitempty"`
@@ -2223,8 +2223,8 @@ func (policy *CorsPolicy) AssignPropertiesToCorsPolicy(destination *v20210515s.C
 	return nil
 }
 
-//Storage version of v1alpha1api20210515.CorsPolicy_Status
-//Deprecated version of CorsPolicy_Status. Use v1beta20210515.CorsPolicy_Status instead
+// Storage version of v1alpha1api20210515.CorsPolicy_Status
+// Deprecated version of CorsPolicy_Status. Use v1beta20210515.CorsPolicy_Status instead
 type CorsPolicy_Status struct {
 	AllowedHeaders  *string                `json:"allowedHeaders,omitempty"`
 	AllowedMethods  *string                `json:"allowedMethods,omitempty"`
@@ -2296,8 +2296,8 @@ func (policy *CorsPolicy_Status) AssignPropertiesToCorsPolicyStatus(destination 
 	return nil
 }
 
-//Storage version of v1alpha1api20210515.DatabaseAccountOperatorSpec
-//Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+// Storage version of v1alpha1api20210515.DatabaseAccountOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type DatabaseAccountOperatorSpec struct {
 	PropertyBag genruntime.PropertyBag          `json:"$propertyBag,omitempty"`
 	Secrets     *DatabaseAccountOperatorSecrets `json:"secrets,omitempty"`
@@ -2359,8 +2359,8 @@ func (operator *DatabaseAccountOperatorSpec) AssignPropertiesToDatabaseAccountOp
 	return nil
 }
 
-//Storage version of v1alpha1api20210515.FailoverPolicy_Status
-//Deprecated version of FailoverPolicy_Status. Use v1beta20210515.FailoverPolicy_Status instead
+// Storage version of v1alpha1api20210515.FailoverPolicy_Status
+// Deprecated version of FailoverPolicy_Status. Use v1beta20210515.FailoverPolicy_Status instead
 type FailoverPolicy_Status struct {
 	FailoverPriority *int                   `json:"failoverPriority,omitempty"`
 	Id               *string                `json:"id,omitempty"`
@@ -2418,8 +2418,8 @@ func (policy *FailoverPolicy_Status) AssignPropertiesToFailoverPolicyStatus(dest
 	return nil
 }
 
-//Storage version of v1alpha1api20210515.IpAddressOrRange
-//Deprecated version of IpAddressOrRange. Use v1beta20210515.IpAddressOrRange instead
+// Storage version of v1alpha1api20210515.IpAddressOrRange
+// Deprecated version of IpAddressOrRange. Use v1beta20210515.IpAddressOrRange instead
 type IpAddressOrRange struct {
 	IpAddressOrRange *string                `json:"ipAddressOrRange,omitempty"`
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -2463,8 +2463,8 @@ func (orRange *IpAddressOrRange) AssignPropertiesToIpAddressOrRange(destination 
 	return nil
 }
 
-//Storage version of v1alpha1api20210515.IpAddressOrRange_Status
-//Deprecated version of IpAddressOrRange_Status. Use v1beta20210515.IpAddressOrRange_Status instead
+// Storage version of v1alpha1api20210515.IpAddressOrRange_Status
+// Deprecated version of IpAddressOrRange_Status. Use v1beta20210515.IpAddressOrRange_Status instead
 type IpAddressOrRange_Status struct {
 	IpAddressOrRange *string                `json:"ipAddressOrRange,omitempty"`
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -2508,8 +2508,8 @@ func (orRange *IpAddressOrRange_Status) AssignPropertiesToIpAddressOrRangeStatus
 	return nil
 }
 
-//Storage version of v1alpha1api20210515.Location
-//Deprecated version of Location. Use v1beta20210515.Location instead
+// Storage version of v1alpha1api20210515.Location
+// Deprecated version of Location. Use v1beta20210515.Location instead
 type Location struct {
 	FailoverPriority *int                   `json:"failoverPriority,omitempty"`
 	IsZoneRedundant  *bool                  `json:"isZoneRedundant,omitempty"`
@@ -2577,8 +2577,8 @@ func (location *Location) AssignPropertiesToLocation(destination *v20210515s.Loc
 	return nil
 }
 
-//Storage version of v1alpha1api20210515.Location_Status
-//Deprecated version of Location_Status. Use v1beta20210515.Location_Status instead
+// Storage version of v1alpha1api20210515.Location_Status
+// Deprecated version of Location_Status. Use v1beta20210515.Location_Status instead
 type Location_Status struct {
 	DocumentEndpoint  *string                `json:"documentEndpoint,omitempty"`
 	FailoverPriority  *int                   `json:"failoverPriority,omitempty"`
@@ -2667,8 +2667,8 @@ func (location *Location_Status) AssignPropertiesToLocationStatus(destination *v
 	return nil
 }
 
-//Storage version of v1alpha1api20210515.ManagedServiceIdentity
-//Deprecated version of ManagedServiceIdentity. Use v1beta20210515.ManagedServiceIdentity instead
+// Storage version of v1alpha1api20210515.ManagedServiceIdentity
+// Deprecated version of ManagedServiceIdentity. Use v1beta20210515.ManagedServiceIdentity instead
 type ManagedServiceIdentity struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Type        *string                `json:"type,omitempty"`
@@ -2712,8 +2712,8 @@ func (identity *ManagedServiceIdentity) AssignPropertiesToManagedServiceIdentity
 	return nil
 }
 
-//Storage version of v1alpha1api20210515.ManagedServiceIdentity_Status
-//Deprecated version of ManagedServiceIdentity_Status. Use v1beta20210515.ManagedServiceIdentity_Status instead
+// Storage version of v1alpha1api20210515.ManagedServiceIdentity_Status
+// Deprecated version of ManagedServiceIdentity_Status. Use v1beta20210515.ManagedServiceIdentity_Status instead
 type ManagedServiceIdentity_Status struct {
 	PrincipalId            *string                                                         `json:"principalId,omitempty"`
 	PropertyBag            genruntime.PropertyBag                                          `json:"$propertyBag,omitempty"`
@@ -2808,8 +2808,8 @@ func (identity *ManagedServiceIdentity_Status) AssignPropertiesToManagedServiceI
 	return nil
 }
 
-//Storage version of v1alpha1api20210515.PrivateEndpointConnection_Status_SubResourceEmbedded
-//Deprecated version of PrivateEndpointConnection_Status_SubResourceEmbedded. Use v1beta20210515.PrivateEndpointConnection_Status_SubResourceEmbedded instead
+// Storage version of v1alpha1api20210515.PrivateEndpointConnection_Status_SubResourceEmbedded
+// Deprecated version of PrivateEndpointConnection_Status_SubResourceEmbedded. Use v1beta20210515.PrivateEndpointConnection_Status_SubResourceEmbedded instead
 type PrivateEndpointConnection_Status_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -2853,8 +2853,8 @@ func (embedded *PrivateEndpointConnection_Status_SubResourceEmbedded) AssignProp
 	return nil
 }
 
-//Storage version of v1alpha1api20210515.VirtualNetworkRule
-//Deprecated version of VirtualNetworkRule. Use v1beta20210515.VirtualNetworkRule instead
+// Storage version of v1alpha1api20210515.VirtualNetworkRule
+// Deprecated version of VirtualNetworkRule. Use v1beta20210515.VirtualNetworkRule instead
 type VirtualNetworkRule struct {
 	IgnoreMissingVNetServiceEndpoint *bool                         `json:"ignoreMissingVNetServiceEndpoint,omitempty"`
 	PropertyBag                      genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
@@ -2925,8 +2925,8 @@ func (rule *VirtualNetworkRule) AssignPropertiesToVirtualNetworkRule(destination
 	return nil
 }
 
-//Storage version of v1alpha1api20210515.VirtualNetworkRule_Status
-//Deprecated version of VirtualNetworkRule_Status. Use v1beta20210515.VirtualNetworkRule_Status instead
+// Storage version of v1alpha1api20210515.VirtualNetworkRule_Status
+// Deprecated version of VirtualNetworkRule_Status. Use v1beta20210515.VirtualNetworkRule_Status instead
 type VirtualNetworkRule_Status struct {
 	Id                               *string                `json:"id,omitempty"`
 	IgnoreMissingVNetServiceEndpoint *bool                  `json:"ignoreMissingVNetServiceEndpoint,omitempty"`
@@ -2987,8 +2987,8 @@ func (rule *VirtualNetworkRule_Status) AssignPropertiesToVirtualNetworkRuleStatu
 	return nil
 }
 
-//Storage version of v1alpha1api20210515.ContinuousModeBackupPolicy
-//Deprecated version of ContinuousModeBackupPolicy. Use v1beta20210515.ContinuousModeBackupPolicy instead
+// Storage version of v1alpha1api20210515.ContinuousModeBackupPolicy
+// Deprecated version of ContinuousModeBackupPolicy. Use v1beta20210515.ContinuousModeBackupPolicy instead
 type ContinuousModeBackupPolicy struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Type        *string                `json:"type,omitempty"`
@@ -3032,7 +3032,7 @@ func (policy *ContinuousModeBackupPolicy) AssignPropertiesToContinuousModeBackup
 	return nil
 }
 
-//Storage version of v1alpha1api20210515.DatabaseAccountOperatorSecrets
+// Storage version of v1alpha1api20210515.DatabaseAccountOperatorSecrets
 type DatabaseAccountOperatorSecrets struct {
 	DocumentEndpoint           *genruntime.SecretDestination `json:"documentEndpoint,omitempty"`
 	PrimaryMasterKey           *genruntime.SecretDestination `json:"primaryMasterKey,omitempty"`
@@ -3154,8 +3154,8 @@ func (secrets *DatabaseAccountOperatorSecrets) AssignPropertiesToDatabaseAccount
 	return nil
 }
 
-//Storage version of v1alpha1api20210515.ManagedServiceIdentity_Status_UserAssignedIdentities
-//Deprecated version of ManagedServiceIdentity_Status_UserAssignedIdentities. Use v1beta20210515.ManagedServiceIdentity_Status_UserAssignedIdentities instead
+// Storage version of v1alpha1api20210515.ManagedServiceIdentity_Status_UserAssignedIdentities
+// Deprecated version of ManagedServiceIdentity_Status_UserAssignedIdentities. Use v1beta20210515.ManagedServiceIdentity_Status_UserAssignedIdentities instead
 type ManagedServiceIdentity_Status_UserAssignedIdentities struct {
 	ClientId    *string                `json:"clientId,omitempty"`
 	PrincipalId *string                `json:"principalId,omitempty"`
@@ -3206,8 +3206,8 @@ func (identities *ManagedServiceIdentity_Status_UserAssignedIdentities) AssignPr
 	return nil
 }
 
-//Storage version of v1alpha1api20210515.PeriodicModeBackupPolicy
-//Deprecated version of PeriodicModeBackupPolicy. Use v1beta20210515.PeriodicModeBackupPolicy instead
+// Storage version of v1alpha1api20210515.PeriodicModeBackupPolicy
+// Deprecated version of PeriodicModeBackupPolicy. Use v1beta20210515.PeriodicModeBackupPolicy instead
 type PeriodicModeBackupPolicy struct {
 	PeriodicModeProperties *PeriodicModeProperties `json:"periodicModeProperties,omitempty"`
 	PropertyBag            genruntime.PropertyBag  `json:"$propertyBag,omitempty"`
@@ -3276,8 +3276,8 @@ func (policy *PeriodicModeBackupPolicy) AssignPropertiesToPeriodicModeBackupPoli
 	return nil
 }
 
-//Storage version of v1alpha1api20210515.PeriodicModeProperties
-//Deprecated version of PeriodicModeProperties. Use v1beta20210515.PeriodicModeProperties instead
+// Storage version of v1alpha1api20210515.PeriodicModeProperties
+// Deprecated version of PeriodicModeProperties. Use v1beta20210515.PeriodicModeProperties instead
 type PeriodicModeProperties struct {
 	BackupIntervalInMinutes        *int                   `json:"backupIntervalInMinutes,omitempty"`
 	BackupRetentionIntervalInHours *int                   `json:"backupRetentionIntervalInHours,omitempty"`

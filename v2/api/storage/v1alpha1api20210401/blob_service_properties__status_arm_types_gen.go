@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1alpha1api20210401
 
-//Deprecated version of BlobServiceProperties_Status. Use v1beta20210401.BlobServiceProperties_Status instead
+// Deprecated version of BlobServiceProperties_Status. Use v1beta20210401.BlobServiceProperties_Status instead
 type BlobServiceProperties_StatusARM struct {
 	Id         *string                                     `json:"id,omitempty"`
 	Name       *string                                     `json:"name,omitempty"`
@@ -12,7 +12,7 @@ type BlobServiceProperties_StatusARM struct {
 	Type       *string                                     `json:"type,omitempty"`
 }
 
-//Deprecated version of BlobServiceProperties_Status_Properties. Use v1beta20210401.BlobServiceProperties_Status_Properties instead
+// Deprecated version of BlobServiceProperties_Status_Properties. Use v1beta20210401.BlobServiceProperties_Status_Properties instead
 type BlobServiceProperties_Status_PropertiesARM struct {
 	AutomaticSnapshotPolicyEnabled *bool                                   `json:"automaticSnapshotPolicyEnabled,omitempty"`
 	ChangeFeed                     *ChangeFeed_StatusARM                   `json:"changeFeed,omitempty"`
@@ -25,30 +25,30 @@ type BlobServiceProperties_Status_PropertiesARM struct {
 	RestorePolicy                  *RestorePolicyProperties_StatusARM      `json:"restorePolicy,omitempty"`
 }
 
-//Deprecated version of Sku_Status. Use v1beta20210401.Sku_Status instead
+// Deprecated version of Sku_Status. Use v1beta20210401.Sku_Status instead
 type Sku_StatusARM struct {
 	Name *SkuName_Status `json:"name,omitempty"`
 	Tier *Tier_Status    `json:"tier,omitempty"`
 }
 
-//Deprecated version of ChangeFeed_Status. Use v1beta20210401.ChangeFeed_Status instead
+// Deprecated version of ChangeFeed_Status. Use v1beta20210401.ChangeFeed_Status instead
 type ChangeFeed_StatusARM struct {
 	Enabled         *bool `json:"enabled,omitempty"`
 	RetentionInDays *int  `json:"retentionInDays,omitempty"`
 }
 
-//Deprecated version of CorsRules_Status. Use v1beta20210401.CorsRules_Status instead
+// Deprecated version of CorsRules_Status. Use v1beta20210401.CorsRules_Status instead
 type CorsRules_StatusARM struct {
 	CorsRules []CorsRule_StatusARM `json:"corsRules,omitempty"`
 }
 
-//Deprecated version of DeleteRetentionPolicy_Status. Use v1beta20210401.DeleteRetentionPolicy_Status instead
+// Deprecated version of DeleteRetentionPolicy_Status. Use v1beta20210401.DeleteRetentionPolicy_Status instead
 type DeleteRetentionPolicy_StatusARM struct {
 	Days    *int  `json:"days,omitempty"`
 	Enabled *bool `json:"enabled,omitempty"`
 }
 
-//Deprecated version of LastAccessTimeTrackingPolicy_Status. Use v1beta20210401.LastAccessTimeTrackingPolicy_Status instead
+// Deprecated version of LastAccessTimeTrackingPolicy_Status. Use v1beta20210401.LastAccessTimeTrackingPolicy_Status instead
 type LastAccessTimeTrackingPolicy_StatusARM struct {
 	BlobType                  []string                                `json:"blobType,omitempty"`
 	Enable                    *bool                                   `json:"enable,omitempty"`
@@ -56,7 +56,7 @@ type LastAccessTimeTrackingPolicy_StatusARM struct {
 	TrackingGranularityInDays *int                                    `json:"trackingGranularityInDays,omitempty"`
 }
 
-//Deprecated version of RestorePolicyProperties_Status. Use v1beta20210401.RestorePolicyProperties_Status instead
+// Deprecated version of RestorePolicyProperties_Status. Use v1beta20210401.RestorePolicyProperties_Status instead
 type RestorePolicyProperties_StatusARM struct {
 	Days            *int    `json:"days,omitempty"`
 	Enabled         *bool   `json:"enabled,omitempty"`
@@ -64,7 +64,7 @@ type RestorePolicyProperties_StatusARM struct {
 	MinRestoreTime  *string `json:"minRestoreTime,omitempty"`
 }
 
-//Deprecated version of SkuName_Status. Use v1beta20210401.SkuName_Status instead
+// Deprecated version of SkuName_Status. Use v1beta20210401.SkuName_Status instead
 type SkuName_Status string
 
 const (
@@ -78,7 +78,7 @@ const (
 	SkuName_StatusStandardZRS    = SkuName_Status("Standard_ZRS")
 )
 
-//Deprecated version of Tier_Status. Use v1beta20210401.Tier_Status instead
+// Deprecated version of Tier_Status. Use v1beta20210401.Tier_Status instead
 type Tier_Status string
 
 const (
@@ -86,7 +86,7 @@ const (
 	Tier_StatusStandard = Tier_Status("Standard")
 )
 
-//Deprecated version of CorsRule_Status. Use v1beta20210401.CorsRule_Status instead
+// Deprecated version of CorsRule_Status. Use v1beta20210401.CorsRule_Status instead
 type CorsRule_StatusARM struct {
 	AllowedHeaders  []string                       `json:"allowedHeaders,omitempty"`
 	AllowedMethods  []CorsRuleStatusAllowedMethods `json:"allowedMethods,omitempty"`
@@ -95,13 +95,13 @@ type CorsRule_StatusARM struct {
 	MaxAgeInSeconds *int                           `json:"maxAgeInSeconds,omitempty"`
 }
 
-//Deprecated version of LastAccessTimeTrackingPolicyStatusName. Use v1beta20210401.LastAccessTimeTrackingPolicyStatusName
-//instead
+// Deprecated version of LastAccessTimeTrackingPolicyStatusName. Use v1beta20210401.LastAccessTimeTrackingPolicyStatusName
+// instead
 type LastAccessTimeTrackingPolicyStatusName string
 
 const LastAccessTimeTrackingPolicyStatusNameAccessTimeTracking = LastAccessTimeTrackingPolicyStatusName("AccessTimeTracking")
 
-//Deprecated version of CorsRuleStatusAllowedMethods. Use v1beta20210401.CorsRuleStatusAllowedMethods instead
+// Deprecated version of CorsRuleStatusAllowedMethods. Use v1beta20210401.CorsRuleStatusAllowedMethods instead
 type CorsRuleStatusAllowedMethods string
 
 const (

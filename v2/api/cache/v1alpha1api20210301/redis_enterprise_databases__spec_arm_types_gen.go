@@ -5,7 +5,7 @@ package v1alpha1api20210301
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-//Deprecated version of RedisEnterpriseDatabases_Spec. Use v1beta20210301.RedisEnterpriseDatabases_Spec instead
+// Deprecated version of RedisEnterpriseDatabases_Spec. Use v1beta20210301.RedisEnterpriseDatabases_Spec instead
 type RedisEnterpriseDatabases_SpecARM struct {
 	Location   *string                `json:"location,omitempty"`
 	Name       string                 `json:"name,omitempty"`
@@ -30,7 +30,7 @@ func (databases RedisEnterpriseDatabases_SpecARM) GetType() string {
 	return "Microsoft.Cache/redisEnterprise/databases"
 }
 
-//Deprecated version of DatabaseProperties. Use v1beta20210301.DatabaseProperties instead
+// Deprecated version of DatabaseProperties. Use v1beta20210301.DatabaseProperties instead
 type DatabasePropertiesARM struct {
 	ClientProtocol   *DatabasePropertiesClientProtocol   `json:"clientProtocol,omitempty"`
 	ClusteringPolicy *DatabasePropertiesClusteringPolicy `json:"clusteringPolicy,omitempty"`
@@ -40,13 +40,13 @@ type DatabasePropertiesARM struct {
 	Port             *int                                `json:"port,omitempty"`
 }
 
-//Deprecated version of Module. Use v1beta20210301.Module instead
+// Deprecated version of Module. Use v1beta20210301.Module instead
 type ModuleARM struct {
 	Args *string `json:"args,omitempty"`
 	Name *string `json:"name,omitempty"`
 }
 
-//Deprecated version of Persistence. Use v1beta20210301.Persistence instead
+// Deprecated version of Persistence. Use v1beta20210301.Persistence instead
 type PersistenceARM struct {
 	AofEnabled   *bool                    `json:"aofEnabled,omitempty"`
 	AofFrequency *PersistenceAofFrequency `json:"aofFrequency,omitempty"`

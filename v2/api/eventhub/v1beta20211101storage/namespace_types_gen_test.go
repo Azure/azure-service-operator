@@ -577,7 +577,7 @@ func RunJSONSerializationTestForNamespacesSpecPropertiesPrivateEndpointConnectio
 }
 
 // Generator of Namespaces_Spec_Properties_PrivateEndpointConnections instances for property testing - lazily
-//instantiated by NamespacesSpecPropertiesPrivateEndpointConnectionsGenerator()
+// instantiated by NamespacesSpecPropertiesPrivateEndpointConnectionsGenerator()
 var namespacesSpecPropertiesPrivateEndpointConnectionsGenerator gopter.Gen
 
 // NamespacesSpecPropertiesPrivateEndpointConnectionsGenerator returns a generator of Namespaces_Spec_Properties_PrivateEndpointConnections instances for property testing.
@@ -637,7 +637,7 @@ func RunJSONSerializationTestForPrivateEndpointConnectionStatusSubResourceEmbedd
 }
 
 // Generator of PrivateEndpointConnection_Status_SubResourceEmbedded instances for property testing - lazily
-//instantiated by PrivateEndpointConnectionStatusSubResourceEmbeddedGenerator()
+// instantiated by PrivateEndpointConnectionStatusSubResourceEmbeddedGenerator()
 var privateEndpointConnectionStatusSubResourceEmbeddedGenerator gopter.Gen
 
 // PrivateEndpointConnectionStatusSubResourceEmbeddedGenerator returns a generator of PrivateEndpointConnection_Status_SubResourceEmbedded instances for property testing.
@@ -972,7 +972,7 @@ func RunJSONSerializationTestForKeyVaultPropertiesStatus(subject KeyVaultPropert
 }
 
 // Generator of KeyVaultProperties_Status instances for property testing - lazily instantiated by
-//KeyVaultPropertiesStatusGenerator()
+// KeyVaultPropertiesStatusGenerator()
 var keyVaultPropertiesStatusGenerator gopter.Gen
 
 // KeyVaultPropertiesStatusGenerator returns a generator of KeyVaultProperties_Status instances for property testing.
@@ -1101,7 +1101,7 @@ func RunJSONSerializationTestForUserAssignedIdentityStatus(subject UserAssignedI
 }
 
 // Generator of UserAssignedIdentity_Status instances for property testing - lazily instantiated by
-//UserAssignedIdentityStatusGenerator()
+// UserAssignedIdentityStatusGenerator()
 var userAssignedIdentityStatusGenerator gopter.Gen
 
 // UserAssignedIdentityStatusGenerator returns a generator of UserAssignedIdentity_Status instances for property testing.
@@ -1162,7 +1162,7 @@ func RunJSONSerializationTestForUserAssignedIdentityProperties(subject UserAssig
 }
 
 // Generator of UserAssignedIdentityProperties instances for property testing - lazily instantiated by
-//UserAssignedIdentityPropertiesGenerator()
+// UserAssignedIdentityPropertiesGenerator()
 var userAssignedIdentityPropertiesGenerator gopter.Gen
 
 // UserAssignedIdentityPropertiesGenerator returns a generator of UserAssignedIdentityProperties instances for property testing.
@@ -1216,7 +1216,7 @@ func RunJSONSerializationTestForUserAssignedIdentityPropertiesStatus(subject Use
 }
 
 // Generator of UserAssignedIdentityProperties_Status instances for property testing - lazily instantiated by
-//UserAssignedIdentityPropertiesStatusGenerator()
+// UserAssignedIdentityPropertiesStatusGenerator()
 var userAssignedIdentityPropertiesStatusGenerator gopter.Gen
 
 // UserAssignedIdentityPropertiesStatusGenerator returns a generator of UserAssignedIdentityProperties_Status instances for property testing.

@@ -56,7 +56,7 @@ func RunJSONSerializationTestForNetworkSecurityGroupStatusNetworkSecurityGroupSu
 }
 
 // Generator of NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbeddedARM instances for property testing -
-//lazily instantiated by NetworkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbeddedARMGenerator()
+// lazily instantiated by NetworkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbeddedARMGenerator()
 var networkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbeddedARMGenerator gopter.Gen
 
 // NetworkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbeddedARMGenerator returns a generator of NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbeddedARM instances for property testing.
@@ -135,7 +135,7 @@ func RunJSONSerializationTestForNetworkSecurityGroupPropertiesFormatStatusARM(su
 }
 
 // Generator of NetworkSecurityGroupPropertiesFormat_StatusARM instances for property testing - lazily instantiated by
-//NetworkSecurityGroupPropertiesFormatStatusARMGenerator()
+// NetworkSecurityGroupPropertiesFormatStatusARMGenerator()
 var networkSecurityGroupPropertiesFormatStatusARMGenerator gopter.Gen
 
 // NetworkSecurityGroupPropertiesFormatStatusARMGenerator returns a generator of NetworkSecurityGroupPropertiesFormat_StatusARM instances for property testing.
@@ -218,7 +218,7 @@ func RunJSONSerializationTestForFlowLogStatusSubResourceEmbeddedARM(subject Flow
 }
 
 // Generator of FlowLog_Status_SubResourceEmbeddedARM instances for property testing - lazily instantiated by
-//FlowLogStatusSubResourceEmbeddedARMGenerator()
+// FlowLogStatusSubResourceEmbeddedARMGenerator()
 var flowLogStatusSubResourceEmbeddedARMGenerator gopter.Gen
 
 // FlowLogStatusSubResourceEmbeddedARMGenerator returns a generator of FlowLog_Status_SubResourceEmbeddedARM instances for property testing.
@@ -278,7 +278,7 @@ func RunJSONSerializationTestForNetworkInterfaceStatusNetworkSecurityGroupSubRes
 }
 
 // Generator of NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbeddedARM instances for property testing -
-//lazily instantiated by NetworkInterfaceStatusNetworkSecurityGroupSubResourceEmbeddedARMGenerator()
+// lazily instantiated by NetworkInterfaceStatusNetworkSecurityGroupSubResourceEmbeddedARMGenerator()
 var networkInterfaceStatusNetworkSecurityGroupSubResourceEmbeddedARMGenerator gopter.Gen
 
 // NetworkInterfaceStatusNetworkSecurityGroupSubResourceEmbeddedARMGenerator returns a generator of NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbeddedARM instances for property testing.
@@ -352,7 +352,7 @@ func RunJSONSerializationTestForSecurityRuleStatusNetworkSecurityGroupSubResourc
 }
 
 // Generator of SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbeddedARM instances for property testing - lazily
-//instantiated by SecurityRuleStatusNetworkSecurityGroupSubResourceEmbeddedARMGenerator()
+// instantiated by SecurityRuleStatusNetworkSecurityGroupSubResourceEmbeddedARMGenerator()
 var securityRuleStatusNetworkSecurityGroupSubResourceEmbeddedARMGenerator gopter.Gen
 
 // SecurityRuleStatusNetworkSecurityGroupSubResourceEmbeddedARMGenerator returns a generator of SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbeddedARM instances for property testing.
@@ -412,7 +412,7 @@ func RunJSONSerializationTestForSubnetStatusNetworkSecurityGroupSubResourceEmbed
 }
 
 // Generator of Subnet_Status_NetworkSecurityGroup_SubResourceEmbeddedARM instances for property testing - lazily
-//instantiated by SubnetStatusNetworkSecurityGroupSubResourceEmbeddedARMGenerator()
+// instantiated by SubnetStatusNetworkSecurityGroupSubResourceEmbeddedARMGenerator()
 var subnetStatusNetworkSecurityGroupSubResourceEmbeddedARMGenerator gopter.Gen
 
 // SubnetStatusNetworkSecurityGroupSubResourceEmbeddedARMGenerator returns a generator of Subnet_Status_NetworkSecurityGroup_SubResourceEmbeddedARM instances for property testing.
