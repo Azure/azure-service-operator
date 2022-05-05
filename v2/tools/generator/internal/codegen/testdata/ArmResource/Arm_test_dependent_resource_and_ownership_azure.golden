@@ -202,6 +202,7 @@ func (a *A) validateImmutableProperties(old runtime.Object) error {
 	if !ok {
 		return nil
 	}
+
 	return genruntime.ValidateImmutableProperties(oldObj, a)
 }
 
@@ -472,6 +473,7 @@ func (b *B) validateImmutableProperties(old runtime.Object) error {
 	if !ok {
 		return nil
 	}
+
 	return genruntime.ValidateImmutableProperties(oldObj, b)
 }
 
@@ -742,6 +744,7 @@ func (c *C) validateImmutableProperties(old runtime.Object) error {
 	if !ok {
 		return nil
 	}
+
 	return genruntime.ValidateImmutableProperties(oldObj, c)
 }
 
@@ -1012,6 +1015,7 @@ func (d *D) validateImmutableProperties(old runtime.Object) error {
 	if !ok {
 		return nil
 	}
+
 	return genruntime.ValidateImmutableProperties(oldObj, d)
 }
 

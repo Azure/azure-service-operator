@@ -235,6 +235,7 @@ func (networkInterface *NetworkInterface) validateImmutableProperties(old runtim
 	if !ok {
 		return nil
 	}
+
 	return genruntime.ValidateImmutableProperties(oldObj, networkInterface)
 }
 

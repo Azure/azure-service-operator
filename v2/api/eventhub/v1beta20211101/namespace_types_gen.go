@@ -235,6 +235,7 @@ func (namespace *Namespace) validateImmutableProperties(old runtime.Object) erro
 	if !ok {
 		return nil
 	}
+
 	return genruntime.ValidateImmutableProperties(oldObj, namespace)
 }
 

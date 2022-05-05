@@ -249,6 +249,7 @@ func (balancer *LoadBalancer) validateImmutableProperties(old runtime.Object) er
 	if !ok {
 		return nil
 	}
+
 	return genruntime.ValidateImmutableProperties(oldObj, balancer)
 }
 

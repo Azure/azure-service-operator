@@ -235,6 +235,7 @@ func (server *FlexibleServer) validateImmutableProperties(old runtime.Object) er
 	if !ok {
 		return nil
 	}
+
 	return genruntime.ValidateImmutableProperties(oldObj, server)
 }
 

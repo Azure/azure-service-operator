@@ -249,6 +249,7 @@ func (trigger *SqlDatabaseContainerTrigger) validateImmutableProperties(old runt
 	if !ok {
 		return nil
 	}
+
 	return genruntime.ValidateImmutableProperties(oldObj, trigger)
 }
 

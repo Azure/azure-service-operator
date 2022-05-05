@@ -235,6 +235,7 @@ func (group *NamespacesEventhubsConsumerGroup) validateImmutableProperties(old r
 	if !ok {
 		return nil
 	}
+
 	return genruntime.ValidateImmutableProperties(oldObj, group)
 }
 

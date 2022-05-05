@@ -235,6 +235,7 @@ func (procedure *SqlDatabaseContainerStoredProcedure) validateImmutablePropertie
 	if !ok {
 		return nil
 	}
+
 	return genruntime.ValidateImmutableProperties(oldObj, procedure)
 }
 

@@ -235,6 +235,7 @@ func (container *StorageAccountsBlobServicesContainer) validateImmutableProperti
 	if !ok {
 		return nil
 	}
+
 	return genruntime.ValidateImmutableProperties(oldObj, container)
 }
 

@@ -235,6 +235,7 @@ func (topic *DomainsTopic) validateImmutableProperties(old runtime.Object) error
 	if !ok {
 		return nil
 	}
+
 	return genruntime.ValidateImmutableProperties(oldObj, topic)
 }
 

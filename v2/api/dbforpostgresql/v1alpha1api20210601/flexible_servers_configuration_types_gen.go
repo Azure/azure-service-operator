@@ -249,6 +249,7 @@ func (configuration *FlexibleServersConfiguration) validateImmutableProperties(o
 	if !ok {
 		return nil
 	}
+
 	return genruntime.ValidateImmutableProperties(oldObj, configuration)
 }
 

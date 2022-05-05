@@ -236,6 +236,7 @@ func (machine *VirtualMachine) validateImmutableProperties(old runtime.Object) e
 	if !ok {
 		return nil
 	}
+
 	return genruntime.ValidateImmutableProperties(oldObj, machine)
 }
 

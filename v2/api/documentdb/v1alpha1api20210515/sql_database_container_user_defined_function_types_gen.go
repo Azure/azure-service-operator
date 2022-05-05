@@ -249,6 +249,7 @@ func (function *SqlDatabaseContainerUserDefinedFunction) validateImmutableProper
 	if !ok {
 		return nil
 	}
+
 	return genruntime.ValidateImmutableProperties(oldObj, function)
 }
 

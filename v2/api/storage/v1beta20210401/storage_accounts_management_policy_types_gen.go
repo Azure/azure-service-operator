@@ -228,6 +228,7 @@ func (policy *StorageAccountsManagementPolicy) validateImmutableProperties(old r
 	if !ok {
 		return nil
 	}
+
 	return genruntime.ValidateImmutableProperties(oldObj, policy)
 }
 

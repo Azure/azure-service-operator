@@ -235,6 +235,7 @@ func (image *Image) validateImmutableProperties(old runtime.Object) error {
 	if !ok {
 		return nil
 	}
+
 	return genruntime.ValidateImmutableProperties(oldObj, image)
 }
 

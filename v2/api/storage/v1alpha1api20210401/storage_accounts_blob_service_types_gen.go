@@ -242,6 +242,7 @@ func (service *StorageAccountsBlobService) validateImmutableProperties(old runti
 	if !ok {
 		return nil
 	}
+
 	return genruntime.ValidateImmutableProperties(oldObj, service)
 }
 

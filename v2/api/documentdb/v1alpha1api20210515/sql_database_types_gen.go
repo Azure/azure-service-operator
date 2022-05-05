@@ -249,6 +249,7 @@ func (database *SqlDatabase) validateImmutableProperties(old runtime.Object) err
 	if !ok {
 		return nil
 	}
+
 	return genruntime.ValidateImmutableProperties(oldObj, database)
 }
 

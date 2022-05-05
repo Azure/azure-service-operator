@@ -235,6 +235,7 @@ func (queue *StorageAccountsQueueServicesQueue) validateImmutableProperties(old 
 	if !ok {
 		return nil
 	}
+
 	return genruntime.ValidateImmutableProperties(oldObj, queue)
 }
 

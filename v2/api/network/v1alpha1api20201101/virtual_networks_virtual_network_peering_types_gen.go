@@ -249,6 +249,7 @@ func (peering *VirtualNetworksVirtualNetworkPeering) validateImmutableProperties
 	if !ok {
 		return nil
 	}
+
 	return genruntime.ValidateImmutableProperties(oldObj, peering)
 }
 

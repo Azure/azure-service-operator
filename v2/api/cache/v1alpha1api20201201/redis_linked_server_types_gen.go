@@ -249,6 +249,7 @@ func (server *RedisLinkedServer) validateImmutableProperties(old runtime.Object)
 	if !ok {
 		return nil
 	}
+
 	return genruntime.ValidateImmutableProperties(oldObj, server)
 }
 

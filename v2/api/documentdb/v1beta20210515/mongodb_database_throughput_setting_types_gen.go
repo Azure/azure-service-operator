@@ -228,6 +228,7 @@ func (setting *MongodbDatabaseThroughputSetting) validateImmutableProperties(old
 	if !ok {
 		return nil
 	}
+
 	return genruntime.ValidateImmutableProperties(oldObj, setting)
 }
 

@@ -249,6 +249,7 @@ func (enterprise *RedisEnterprise) validateImmutableProperties(old runtime.Objec
 	if !ok {
 		return nil
 	}
+
 	return genruntime.ValidateImmutableProperties(oldObj, enterprise)
 }
 

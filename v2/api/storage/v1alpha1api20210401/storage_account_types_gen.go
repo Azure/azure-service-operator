@@ -253,6 +253,7 @@ func (account *StorageAccount) validateImmutableProperties(old runtime.Object) e
 	if !ok {
 		return nil
 	}
+
 	return genruntime.ValidateImmutableProperties(oldObj, account)
 }
 

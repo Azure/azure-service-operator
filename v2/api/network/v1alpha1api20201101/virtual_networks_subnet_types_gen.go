@@ -249,6 +249,7 @@ func (subnet *VirtualNetworksSubnet) validateImmutableProperties(old runtime.Obj
 	if !ok {
 		return nil
 	}
+
 	return genruntime.ValidateImmutableProperties(oldObj, subnet)
 }
 

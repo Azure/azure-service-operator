@@ -235,6 +235,7 @@ func (address *PublicIPAddress) validateImmutableProperties(old runtime.Object) 
 	if !ok {
 		return nil
 	}
+
 	return genruntime.ValidateImmutableProperties(oldObj, address)
 }
 

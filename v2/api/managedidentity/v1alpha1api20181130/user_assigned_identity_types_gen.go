@@ -249,6 +249,7 @@ func (identity *UserAssignedIdentity) validateImmutableProperties(old runtime.Ob
 	if !ok {
 		return nil
 	}
+
 	return genruntime.ValidateImmutableProperties(oldObj, identity)
 }
 

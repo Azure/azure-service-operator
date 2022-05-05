@@ -235,6 +235,7 @@ func (rule *NamespacesEventhubsAuthorizationRule) validateImmutableProperties(ol
 	if !ok {
 		return nil
 	}
+
 	return genruntime.ValidateImmutableProperties(oldObj, rule)
 }
 

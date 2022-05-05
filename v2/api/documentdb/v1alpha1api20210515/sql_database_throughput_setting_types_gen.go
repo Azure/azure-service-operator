@@ -242,6 +242,7 @@ func (setting *SqlDatabaseThroughputSetting) validateImmutableProperties(old run
 	if !ok {
 		return nil
 	}
+
 	return genruntime.ValidateImmutableProperties(oldObj, setting)
 }
 

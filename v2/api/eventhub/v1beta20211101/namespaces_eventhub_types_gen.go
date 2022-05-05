@@ -235,6 +235,7 @@ func (eventhub *NamespacesEventhub) validateImmutableProperties(old runtime.Obje
 	if !ok {
 		return nil
 	}
+
 	return genruntime.ValidateImmutableProperties(oldObj, eventhub)
 }
 

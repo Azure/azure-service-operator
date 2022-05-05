@@ -248,6 +248,7 @@ func (subscription *EventSubscription) validateImmutableProperties(old runtime.O
 	if !ok {
 		return nil
 	}
+
 	return genruntime.ValidateImmutableProperties(oldObj, subscription)
 }
 

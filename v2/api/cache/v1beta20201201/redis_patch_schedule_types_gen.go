@@ -228,6 +228,7 @@ func (schedule *RedisPatchSchedule) validateImmutableProperties(old runtime.Obje
 	if !ok {
 		return nil
 	}
+
 	return genruntime.ValidateImmutableProperties(oldObj, schedule)
 }
 

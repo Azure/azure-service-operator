@@ -235,6 +235,7 @@ func (group *NetworkSecurityGroup) validateImmutableProperties(old runtime.Objec
 	if !ok {
 		return nil
 	}
+
 	return genruntime.ValidateImmutableProperties(oldObj, group)
 }
 

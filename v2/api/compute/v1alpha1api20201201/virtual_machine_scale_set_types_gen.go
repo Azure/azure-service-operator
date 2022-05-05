@@ -250,6 +250,7 @@ func (scaleSet *VirtualMachineScaleSet) validateImmutableProperties(old runtime.
 	if !ok {
 		return nil
 	}
+
 	return genruntime.ValidateImmutableProperties(oldObj, scaleSet)
 }
 

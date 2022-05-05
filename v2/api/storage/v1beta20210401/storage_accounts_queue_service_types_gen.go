@@ -228,6 +228,7 @@ func (service *StorageAccountsQueueService) validateImmutableProperties(old runt
 	if !ok {
 		return nil
 	}
+
 	return genruntime.ValidateImmutableProperties(oldObj, service)
 }
 

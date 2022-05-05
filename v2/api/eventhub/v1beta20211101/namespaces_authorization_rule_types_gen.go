@@ -235,6 +235,7 @@ func (rule *NamespacesAuthorizationRule) validateImmutableProperties(old runtime
 	if !ok {
 		return nil
 	}
+
 	return genruntime.ValidateImmutableProperties(oldObj, rule)
 }
 

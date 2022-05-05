@@ -235,6 +235,7 @@ func (rule *NetworkSecurityGroupsSecurityRule) validateImmutableProperties(old r
 	if !ok {
 		return nil
 	}
+
 	return genruntime.ValidateImmutableProperties(oldObj, rule)
 }
 

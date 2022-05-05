@@ -235,6 +235,7 @@ func (pool *ManagedClustersAgentPool) validateImmutableProperties(old runtime.Ob
 	if !ok {
 		return nil
 	}
+
 	return genruntime.ValidateImmutableProperties(oldObj, pool)
 }
 

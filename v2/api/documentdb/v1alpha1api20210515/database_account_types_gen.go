@@ -253,6 +253,7 @@ func (account *DatabaseAccount) validateImmutableProperties(old runtime.Object) 
 	if !ok {
 		return nil
 	}
+
 	return genruntime.ValidateImmutableProperties(oldObj, account)
 }
 

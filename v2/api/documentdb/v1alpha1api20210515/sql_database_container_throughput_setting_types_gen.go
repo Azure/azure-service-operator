@@ -242,6 +242,7 @@ func (setting *SqlDatabaseContainerThroughputSetting) validateImmutablePropertie
 	if !ok {
 		return nil
 	}
+
 	return genruntime.ValidateImmutableProperties(oldObj, setting)
 }
 

@@ -249,6 +249,7 @@ func (account *BatchAccount) validateImmutableProperties(old runtime.Object) err
 	if !ok {
 		return nil
 	}
+
 	return genruntime.ValidateImmutableProperties(oldObj, account)
 }
 

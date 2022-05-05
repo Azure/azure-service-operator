@@ -235,6 +235,7 @@ func (database *MongodbDatabase) validateImmutableProperties(old runtime.Object)
 	if !ok {
 		return nil
 	}
+
 	return genruntime.ValidateImmutableProperties(oldObj, database)
 }
 

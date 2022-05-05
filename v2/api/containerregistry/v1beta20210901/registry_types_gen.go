@@ -235,6 +235,7 @@ func (registry *Registry) validateImmutableProperties(old runtime.Object) error 
 	if !ok {
 		return nil
 	}
+
 	return genruntime.ValidateImmutableProperties(oldObj, registry)
 }
 
