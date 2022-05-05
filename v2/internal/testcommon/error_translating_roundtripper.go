@@ -48,7 +48,7 @@ func (w errorTranslation) ensureCassette() *cassette.Cassette {
 	if w.cassette == nil {
 		cassette, err := cassette.Load(w.cassetteName)
 		if err != nil {
-			panic(fmt.Sprintf("unable to load casette %q", w.cassetteName))
+			panic(fmt.Sprintf("unable to load cassette %q", w.cassetteName))
 		}
 
 		w.cassette = cassette
@@ -82,7 +82,7 @@ func (w errorTranslation) RoundTrip(req *http.Request) (*http.Response, error) {
 
 	if len(matchingBodies) == 0 {
 		return nil, conditions.NewReadyConditionImpactingError(
-			errors.Errorf("cannot find go-vcr recording for request from test %q (casette: %q) (no responses recorded for this method/URL): %s %s (attempt: %s)\n\n",
+			errors.Errorf("cannot find go-vcr recording for request from test %q (cassette: %q) (no responses recorded for this method/URL): %s %s (attempt: %s)\n\n",
 				w.t.Name(),
 				w.cassetteName,
 				req.Method,
@@ -102,7 +102,7 @@ func (w errorTranslation) RoundTrip(req *http.Request) (*http.Response, error) {
 	}
 
 	return nil, conditions.NewReadyConditionImpactingError(
-		errors.Errorf("cannot find go-vcr recording for request from test %q (casette: %q) (body mismatch): %s %s\nShortest body diff: %s\n\n",
+		errors.Errorf("cannot find go-vcr recording for request from test %q (cassette: %q) (body mismatch): %s %s\nShortest body diff: %s\n\n",
 			w.t.Name(),
 			w.cassetteName,
 			req.Method,
