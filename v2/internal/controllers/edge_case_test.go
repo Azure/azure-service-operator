@@ -238,7 +238,7 @@ func Test_AzureName_IsMutableIfNotSuccessfullyCreated(t *testing.T) {
 
 	// Patch the account to change AzureName
 	old := acct.DeepCopy()
-	acct.Spec.AzureName = "storagetestname"
+	acct.Spec.AzureName = tc.NoSpaceNamer.GenerateName("stor")
 	tc.PatchResourceAndWait(old, acct)
 
 	tc.Expect(acct.Owner().Name).ToNot(BeIdenticalTo(invalidAzureName))
