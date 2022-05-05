@@ -96,9 +96,7 @@ func validateImmutablePropertiesFunction(resourceFn *ResourceFunction, codeGener
 	fn := &astbuilder.FuncDetails{
 		Name:          methodName,
 		ReceiverIdent: receiverIdent,
-		ReceiverType: &dst.StarExpr{
-			X: receiverType,
-		},
+		ReceiverType:  astbuilder.Dereference(receiverType),
 		Returns: []*dst.Field{
 			{
 				Type: dst.NewIdent("error"),
@@ -135,6 +133,7 @@ func validateImmutablePropertiesFunctionBody(receiver astmodel.TypeName, codeGen
 			"ValidateImmutableProperties",
 			obj,
 			dst.NewIdent(receiverIdent)))
+	returnStmt.Decorations().Before = dst.EmptyLine
 
 	return astbuilder.Statements(
 		cast,
