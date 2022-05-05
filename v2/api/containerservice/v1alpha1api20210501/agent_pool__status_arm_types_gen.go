@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1alpha1api20210501
 
-//Deprecated version of AgentPool_Status. Use v1beta20210501.AgentPool_Status instead
+// Deprecated version of AgentPool_Status. Use v1beta20210501.AgentPool_Status instead
 type AgentPool_StatusARM struct {
 	Id         *string                                             `json:"id,omitempty"`
 	Name       *string                                             `json:"name,omitempty"`
@@ -11,7 +11,7 @@ type AgentPool_StatusARM struct {
 	Type       *string                                             `json:"type,omitempty"`
 }
 
-//Deprecated version of ManagedClusterAgentPoolProfileProperties_Status. Use v1beta20210501.ManagedClusterAgentPoolProfileProperties_Status instead
+// Deprecated version of ManagedClusterAgentPoolProfileProperties_Status. Use v1beta20210501.ManagedClusterAgentPoolProfileProperties_Status instead
 type ManagedClusterAgentPoolProfileProperties_StatusARM struct {
 	AvailabilityZones         []string                            `json:"availabilityZones,omitempty"`
 	Count                     *int                                `json:"count,omitempty"`
@@ -51,7 +51,7 @@ type ManagedClusterAgentPoolProfileProperties_StatusARM struct {
 	VnetSubnetID              *string                             `json:"vnetSubnetID,omitempty"`
 }
 
-//Deprecated version of AgentPoolMode_Status. Use v1beta20210501.AgentPoolMode_Status instead
+// Deprecated version of AgentPoolMode_Status. Use v1beta20210501.AgentPoolMode_Status instead
 type AgentPoolMode_Status string
 
 const (
@@ -59,7 +59,7 @@ const (
 	AgentPoolMode_StatusUser   = AgentPoolMode_Status("User")
 )
 
-//Deprecated version of AgentPoolType_Status. Use v1beta20210501.AgentPoolType_Status instead
+// Deprecated version of AgentPoolType_Status. Use v1beta20210501.AgentPoolType_Status instead
 type AgentPoolType_Status string
 
 const (
@@ -67,12 +67,12 @@ const (
 	AgentPoolType_StatusVirtualMachineScaleSets = AgentPoolType_Status("VirtualMachineScaleSets")
 )
 
-//Deprecated version of AgentPoolUpgradeSettings_Status. Use v1beta20210501.AgentPoolUpgradeSettings_Status instead
+// Deprecated version of AgentPoolUpgradeSettings_Status. Use v1beta20210501.AgentPoolUpgradeSettings_Status instead
 type AgentPoolUpgradeSettings_StatusARM struct {
 	MaxSurge *string `json:"maxSurge,omitempty"`
 }
 
-//Deprecated version of GPUInstanceProfile_Status. Use v1beta20210501.GPUInstanceProfile_Status instead
+// Deprecated version of GPUInstanceProfile_Status. Use v1beta20210501.GPUInstanceProfile_Status instead
 type GPUInstanceProfile_Status string
 
 const (
@@ -83,7 +83,7 @@ const (
 	GPUInstanceProfile_StatusMIG7G = GPUInstanceProfile_Status("MIG7g")
 )
 
-//Deprecated version of KubeletConfig_Status. Use v1beta20210501.KubeletConfig_Status instead
+// Deprecated version of KubeletConfig_Status. Use v1beta20210501.KubeletConfig_Status instead
 type KubeletConfig_StatusARM struct {
 	AllowedUnsafeSysctls  []string `json:"allowedUnsafeSysctls,omitempty"`
 	ContainerLogMaxFiles  *int     `json:"containerLogMaxFiles,omitempty"`
@@ -98,7 +98,7 @@ type KubeletConfig_StatusARM struct {
 	TopologyManagerPolicy *string  `json:"topologyManagerPolicy,omitempty"`
 }
 
-//Deprecated version of KubeletDiskType_Status. Use v1beta20210501.KubeletDiskType_Status instead
+// Deprecated version of KubeletDiskType_Status. Use v1beta20210501.KubeletDiskType_Status instead
 type KubeletDiskType_Status string
 
 const (
@@ -106,7 +106,7 @@ const (
 	KubeletDiskType_StatusTemporary = KubeletDiskType_Status("Temporary")
 )
 
-//Deprecated version of LinuxOSConfig_Status. Use v1beta20210501.LinuxOSConfig_Status instead
+// Deprecated version of LinuxOSConfig_Status. Use v1beta20210501.LinuxOSConfig_Status instead
 type LinuxOSConfig_StatusARM struct {
 	SwapFileSizeMB             *int                    `json:"swapFileSizeMB,omitempty"`
 	Sysctls                    *SysctlConfig_StatusARM `json:"sysctls,omitempty"`
@@ -114,7 +114,7 @@ type LinuxOSConfig_StatusARM struct {
 	TransparentHugePageEnabled *string                 `json:"transparentHugePageEnabled,omitempty"`
 }
 
-//Deprecated version of OSDiskType_Status. Use v1beta20210501.OSDiskType_Status instead
+// Deprecated version of OSDiskType_Status. Use v1beta20210501.OSDiskType_Status instead
 type OSDiskType_Status string
 
 const (
@@ -122,7 +122,7 @@ const (
 	OSDiskType_StatusManaged   = OSDiskType_Status("Managed")
 )
 
-//Deprecated version of OSSKU_Status. Use v1beta20210501.OSSKU_Status instead
+// Deprecated version of OSSKU_Status. Use v1beta20210501.OSSKU_Status instead
 type OSSKU_Status string
 
 const (
@@ -130,7 +130,7 @@ const (
 	OSSKU_StatusUbuntu     = OSSKU_Status("Ubuntu")
 )
 
-//Deprecated version of OSType_Status. Use v1beta20210501.OSType_Status instead
+// Deprecated version of OSType_Status. Use v1beta20210501.OSType_Status instead
 type OSType_Status string
 
 const (
@@ -138,12 +138,12 @@ const (
 	OSType_StatusWindows = OSType_Status("Windows")
 )
 
-//Deprecated version of PowerState_Status. Use v1beta20210501.PowerState_Status instead
+// Deprecated version of PowerState_Status. Use v1beta20210501.PowerState_Status instead
 type PowerState_StatusARM struct {
 	Code *PowerStateStatusCode `json:"code,omitempty"`
 }
 
-//Deprecated version of ScaleSetEvictionPolicy_Status. Use v1beta20210501.ScaleSetEvictionPolicy_Status instead
+// Deprecated version of ScaleSetEvictionPolicy_Status. Use v1beta20210501.ScaleSetEvictionPolicy_Status instead
 type ScaleSetEvictionPolicy_Status string
 
 const (
@@ -151,7 +151,7 @@ const (
 	ScaleSetEvictionPolicy_StatusDelete     = ScaleSetEvictionPolicy_Status("Delete")
 )
 
-//Deprecated version of ScaleSetPriority_Status. Use v1beta20210501.ScaleSetPriority_Status instead
+// Deprecated version of ScaleSetPriority_Status. Use v1beta20210501.ScaleSetPriority_Status instead
 type ScaleSetPriority_Status string
 
 const (
@@ -159,7 +159,7 @@ const (
 	ScaleSetPriority_StatusSpot    = ScaleSetPriority_Status("Spot")
 )
 
-//Deprecated version of PowerStateStatusCode. Use v1beta20210501.PowerStateStatusCode instead
+// Deprecated version of PowerStateStatusCode. Use v1beta20210501.PowerStateStatusCode instead
 type PowerStateStatusCode string
 
 const (
@@ -167,7 +167,7 @@ const (
 	PowerStateStatusCodeStopped = PowerStateStatusCode("Stopped")
 )
 
-//Deprecated version of SysctlConfig_Status. Use v1beta20210501.SysctlConfig_Status instead
+// Deprecated version of SysctlConfig_Status. Use v1beta20210501.SysctlConfig_Status instead
 type SysctlConfig_StatusARM struct {
 	FsAioMaxNr                     *int    `json:"fsAioMaxNr,omitempty"`
 	FsFileMax                      *int    `json:"fsFileMax,omitempty"`

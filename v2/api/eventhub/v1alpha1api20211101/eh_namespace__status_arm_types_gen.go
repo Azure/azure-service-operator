@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1alpha1api20211101
 
-//Deprecated version of EHNamespace_Status. Use v1beta20211101.EHNamespace_Status instead
+// Deprecated version of EHNamespace_Status. Use v1beta20211101.EHNamespace_Status instead
 type EHNamespace_StatusARM struct {
 	Id         *string                           `json:"id,omitempty"`
 	Identity   *Identity_StatusARM               `json:"identity,omitempty"`
@@ -16,7 +16,7 @@ type EHNamespace_StatusARM struct {
 	Type       *string                           `json:"type,omitempty"`
 }
 
-//Deprecated version of EHNamespace_Status_Properties. Use v1beta20211101.EHNamespace_Status_Properties instead
+// Deprecated version of EHNamespace_Status_Properties. Use v1beta20211101.EHNamespace_Status_Properties instead
 type EHNamespace_Status_PropertiesARM struct {
 	AlternateName              *string                                                   `json:"alternateName,omitempty"`
 	ClusterArmId               *string                                                   `json:"clusterArmId,omitempty"`
@@ -35,7 +35,7 @@ type EHNamespace_Status_PropertiesARM struct {
 	ZoneRedundant              *bool                                                     `json:"zoneRedundant,omitempty"`
 }
 
-//Deprecated version of Identity_Status. Use v1beta20211101.Identity_Status instead
+// Deprecated version of Identity_Status. Use v1beta20211101.Identity_Status instead
 type Identity_StatusARM struct {
 	PrincipalId            *string                                   `json:"principalId,omitempty"`
 	TenantId               *string                                   `json:"tenantId,omitempty"`
@@ -43,21 +43,21 @@ type Identity_StatusARM struct {
 	UserAssignedIdentities map[string]UserAssignedIdentity_StatusARM `json:"userAssignedIdentities,omitempty"`
 }
 
-//Deprecated version of Sku_Status. Use v1beta20211101.Sku_Status instead
+// Deprecated version of Sku_Status. Use v1beta20211101.Sku_Status instead
 type Sku_StatusARM struct {
 	Capacity *int           `json:"capacity,omitempty"`
 	Name     *SkuStatusName `json:"name,omitempty"`
 	Tier     *SkuStatusTier `json:"tier,omitempty"`
 }
 
-//Deprecated version of Encryption_Status. Use v1beta20211101.Encryption_Status instead
+// Deprecated version of Encryption_Status. Use v1beta20211101.Encryption_Status instead
 type Encryption_StatusARM struct {
 	KeySource                       *EncryptionStatusKeySource     `json:"keySource,omitempty"`
 	KeyVaultProperties              []KeyVaultProperties_StatusARM `json:"keyVaultProperties,omitempty"`
 	RequireInfrastructureEncryption *bool                          `json:"requireInfrastructureEncryption,omitempty"`
 }
 
-//Deprecated version of IdentityStatusType. Use v1beta20211101.IdentityStatusType instead
+// Deprecated version of IdentityStatusType. Use v1beta20211101.IdentityStatusType instead
 type IdentityStatusType string
 
 const (
@@ -67,13 +67,13 @@ const (
 	IdentityStatusTypeUserAssigned               = IdentityStatusType("UserAssigned")
 )
 
-//Deprecated version of PrivateEndpointConnection_Status_SubResourceEmbedded. Use v1beta20211101.PrivateEndpointConnection_Status_SubResourceEmbedded instead
+// Deprecated version of PrivateEndpointConnection_Status_SubResourceEmbedded. Use v1beta20211101.PrivateEndpointConnection_Status_SubResourceEmbedded instead
 type PrivateEndpointConnection_Status_SubResourceEmbeddedARM struct {
 	Id         *string               `json:"id,omitempty"`
 	SystemData *SystemData_StatusARM `json:"systemData,omitempty"`
 }
 
-//Deprecated version of SkuStatusName. Use v1beta20211101.SkuStatusName instead
+// Deprecated version of SkuStatusName. Use v1beta20211101.SkuStatusName instead
 type SkuStatusName string
 
 const (
@@ -82,7 +82,7 @@ const (
 	SkuStatusNameStandard = SkuStatusName("Standard")
 )
 
-//Deprecated version of SkuStatusTier. Use v1beta20211101.SkuStatusTier instead
+// Deprecated version of SkuStatusTier. Use v1beta20211101.SkuStatusTier instead
 type SkuStatusTier string
 
 const (
@@ -91,18 +91,18 @@ const (
 	SkuStatusTierStandard = SkuStatusTier("Standard")
 )
 
-//Deprecated version of UserAssignedIdentity_Status. Use v1beta20211101.UserAssignedIdentity_Status instead
+// Deprecated version of UserAssignedIdentity_Status. Use v1beta20211101.UserAssignedIdentity_Status instead
 type UserAssignedIdentity_StatusARM struct {
 	ClientId    *string `json:"clientId,omitempty"`
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
-//Deprecated version of EncryptionStatusKeySource. Use v1beta20211101.EncryptionStatusKeySource instead
+// Deprecated version of EncryptionStatusKeySource. Use v1beta20211101.EncryptionStatusKeySource instead
 type EncryptionStatusKeySource string
 
 const EncryptionStatusKeySourceMicrosoftKeyVault = EncryptionStatusKeySource("Microsoft.KeyVault")
 
-//Deprecated version of KeyVaultProperties_Status. Use v1beta20211101.KeyVaultProperties_Status instead
+// Deprecated version of KeyVaultProperties_Status. Use v1beta20211101.KeyVaultProperties_Status instead
 type KeyVaultProperties_StatusARM struct {
 	Identity    *UserAssignedIdentityProperties_StatusARM `json:"identity,omitempty"`
 	KeyName     *string                                   `json:"keyName,omitempty"`
@@ -110,7 +110,7 @@ type KeyVaultProperties_StatusARM struct {
 	KeyVersion  *string                                   `json:"keyVersion,omitempty"`
 }
 
-//Deprecated version of UserAssignedIdentityProperties_Status. Use v1beta20211101.UserAssignedIdentityProperties_Status instead
+// Deprecated version of UserAssignedIdentityProperties_Status. Use v1beta20211101.UserAssignedIdentityProperties_Status instead
 type UserAssignedIdentityProperties_StatusARM struct {
 	UserAssignedIdentity *string `json:"userAssignedIdentity,omitempty"`
 }

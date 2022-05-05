@@ -284,7 +284,7 @@ func RunJSONSerializationTestForExtendedLocationARM(subject ExtendedLocationARM)
 }
 
 // Generator of ExtendedLocationARM instances for property testing - lazily instantiated by
-//ExtendedLocationARMGenerator()
+// ExtendedLocationARMGenerator()
 var extendedLocationARMGenerator gopter.Gen
 
 // ExtendedLocationARMGenerator returns a generator of ExtendedLocationARM instances for property testing.
@@ -491,7 +491,7 @@ func RunJSONSerializationTestForEncryptionSettingsCollectionARM(subject Encrypti
 }
 
 // Generator of EncryptionSettingsCollectionARM instances for property testing - lazily instantiated by
-//EncryptionSettingsCollectionARMGenerator()
+// EncryptionSettingsCollectionARMGenerator()
 var encryptionSettingsCollectionARMGenerator gopter.Gen
 
 // EncryptionSettingsCollectionARMGenerator returns a generator of EncryptionSettingsCollectionARM instances for property testing.
@@ -628,7 +628,7 @@ func RunJSONSerializationTestForEncryptionSettingsElementARM(subject EncryptionS
 }
 
 // Generator of EncryptionSettingsElementARM instances for property testing - lazily instantiated by
-//EncryptionSettingsElementARMGenerator()
+// EncryptionSettingsElementARMGenerator()
 var encryptionSettingsElementARMGenerator gopter.Gen
 
 // EncryptionSettingsElementARMGenerator returns a generator of EncryptionSettingsElementARM instances for property testing.
@@ -689,7 +689,7 @@ func RunJSONSerializationTestForImageDiskReferenceARM(subject ImageDiskReference
 }
 
 // Generator of ImageDiskReferenceARM instances for property testing - lazily instantiated by
-//ImageDiskReferenceARMGenerator()
+// ImageDiskReferenceARMGenerator()
 var imageDiskReferenceARMGenerator gopter.Gen
 
 // ImageDiskReferenceARMGenerator returns a generator of ImageDiskReferenceARM instances for property testing.
@@ -750,7 +750,7 @@ func RunJSONSerializationTestForKeyVaultAndKeyReferenceARM(subject KeyVaultAndKe
 }
 
 // Generator of KeyVaultAndKeyReferenceARM instances for property testing - lazily instantiated by
-//KeyVaultAndKeyReferenceARMGenerator()
+// KeyVaultAndKeyReferenceARMGenerator()
 var keyVaultAndKeyReferenceARMGenerator gopter.Gen
 
 // KeyVaultAndKeyReferenceARMGenerator returns a generator of KeyVaultAndKeyReferenceARM instances for property testing.
@@ -824,7 +824,7 @@ func RunJSONSerializationTestForKeyVaultAndSecretReferenceARM(subject KeyVaultAn
 }
 
 // Generator of KeyVaultAndSecretReferenceARM instances for property testing - lazily instantiated by
-//KeyVaultAndSecretReferenceARMGenerator()
+// KeyVaultAndSecretReferenceARMGenerator()
 var keyVaultAndSecretReferenceARMGenerator gopter.Gen
 
 // KeyVaultAndSecretReferenceARMGenerator returns a generator of KeyVaultAndSecretReferenceARM instances for property testing.

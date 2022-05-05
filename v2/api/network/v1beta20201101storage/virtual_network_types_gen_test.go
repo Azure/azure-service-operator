@@ -116,7 +116,7 @@ func RunJSONSerializationTestForVirtualNetworkStatus(subject VirtualNetwork_Stat
 }
 
 // Generator of VirtualNetwork_Status instances for property testing - lazily instantiated by
-//VirtualNetworkStatusGenerator()
+// VirtualNetworkStatusGenerator()
 var virtualNetworkStatusGenerator gopter.Gen
 
 // VirtualNetworkStatusGenerator returns a generator of VirtualNetwork_Status instances for property testing.
@@ -204,7 +204,7 @@ func RunJSONSerializationTestForVirtualNetworksSpec(subject VirtualNetworks_Spec
 }
 
 // Generator of VirtualNetworks_Spec instances for property testing - lazily instantiated by
-//VirtualNetworksSpecGenerator()
+// VirtualNetworksSpecGenerator()
 var virtualNetworksSpecGenerator gopter.Gen
 
 // VirtualNetworksSpecGenerator returns a generator of VirtualNetworks_Spec instances for property testing.
@@ -524,7 +524,7 @@ func RunJSONSerializationTestForVirtualNetworkBgpCommunities(subject VirtualNetw
 }
 
 // Generator of VirtualNetworkBgpCommunities instances for property testing - lazily instantiated by
-//VirtualNetworkBgpCommunitiesGenerator()
+// VirtualNetworkBgpCommunitiesGenerator()
 var virtualNetworkBgpCommunitiesGenerator gopter.Gen
 
 // VirtualNetworkBgpCommunitiesGenerator returns a generator of VirtualNetworkBgpCommunities instances for property testing.
@@ -584,7 +584,7 @@ func RunJSONSerializationTestForVirtualNetworkBgpCommunitiesStatus(subject Virtu
 }
 
 // Generator of VirtualNetworkBgpCommunities_Status instances for property testing - lazily instantiated by
-//VirtualNetworkBgpCommunitiesStatusGenerator()
+// VirtualNetworkBgpCommunitiesStatusGenerator()
 var virtualNetworkBgpCommunitiesStatusGenerator gopter.Gen
 
 // VirtualNetworkBgpCommunitiesStatusGenerator returns a generator of VirtualNetworkBgpCommunities_Status instances for property testing.

@@ -21,8 +21,8 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Storage version of v1beta20210701.Image
-//Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.Compute.json#/resourceDefinitions/images
+// Storage version of v1beta20210701.Image
+// Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.Compute.json#/resourceDefinitions/images
 type Image struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -121,15 +121,15 @@ func (image *Image) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Storage version of v1beta20210701.Image
-//Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.Compute.json#/resourceDefinitions/images
+// Storage version of v1beta20210701.Image
+// Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.Compute.json#/resourceDefinitions/images
 type ImageList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Image `json:"items"`
 }
 
-//Storage version of v1beta20210701.Image_Status
+// Storage version of v1beta20210701.Image_Status
 type Image_Status struct {
 	Conditions           []conditions.Condition      `json:"conditions,omitempty"`
 	ExtendedLocation     *ExtendedLocation_Status    `json:"extendedLocation,omitempty"`
@@ -165,10 +165,10 @@ func (image *Image_Status) ConvertStatusTo(destination genruntime.ConvertibleSta
 	return destination.ConvertStatusFrom(image)
 }
 
-//Storage version of v1beta20210701.Images_Spec
+// Storage version of v1beta20210701.Images_Spec
 type Images_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName        string            `json:"azureName,omitempty"`
 	ExtendedLocation *ExtendedLocation `json:"extendedLocation,omitempty"`
 	HyperVGeneration *string           `json:"hyperVGeneration,omitempty"`
@@ -176,9 +176,9 @@ type Images_Spec struct {
 	OriginalVersion  string            `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a resources.azure.com/ResourceGroup resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
 	Owner                *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PropertyBag          genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	SourceVirtualMachine *SubResource                       `json:"sourceVirtualMachine,omitempty"`
@@ -206,23 +206,23 @@ func (images *Images_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec)
 	return destination.ConvertSpecFrom(images)
 }
 
-//Storage version of v1beta20210701.ExtendedLocation
-//Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.Compute.json#/definitions/ExtendedLocation
+// Storage version of v1beta20210701.ExtendedLocation
+// Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.Compute.json#/definitions/ExtendedLocation
 type ExtendedLocation struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Type        *string                `json:"type,omitempty"`
 }
 
-//Storage version of v1beta20210701.ExtendedLocation_Status
+// Storage version of v1beta20210701.ExtendedLocation_Status
 type ExtendedLocation_Status struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Type        *string                `json:"type,omitempty"`
 }
 
-//Storage version of v1beta20210701.ImageStorageProfile
-//Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.Compute.json#/definitions/ImageStorageProfile
+// Storage version of v1beta20210701.ImageStorageProfile
+// Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.Compute.json#/definitions/ImageStorageProfile
 type ImageStorageProfile struct {
 	DataDisks     []ImageDataDisk        `json:"dataDisks,omitempty"`
 	OsDisk        *ImageOSDisk           `json:"osDisk,omitempty"`
@@ -230,7 +230,7 @@ type ImageStorageProfile struct {
 	ZoneResilient *bool                  `json:"zoneResilient,omitempty"`
 }
 
-//Storage version of v1beta20210701.ImageStorageProfile_Status
+// Storage version of v1beta20210701.ImageStorageProfile_Status
 type ImageStorageProfile_Status struct {
 	DataDisks     []ImageDataDisk_Status `json:"dataDisks,omitempty"`
 	OsDisk        *ImageOSDisk_Status    `json:"osDisk,omitempty"`
@@ -238,23 +238,23 @@ type ImageStorageProfile_Status struct {
 	ZoneResilient *bool                  `json:"zoneResilient,omitempty"`
 }
 
-//Storage version of v1beta20210701.SubResource
-//Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.Compute.json#/definitions/SubResource
+// Storage version of v1beta20210701.SubResource
+// Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.Compute.json#/definitions/SubResource
 type SubResource struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
-	//Reference: Resource Id
+	// Reference: Resource Id
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
-//Storage version of v1beta20210701.SubResource_Status
+// Storage version of v1beta20210701.SubResource_Status
 type SubResource_Status struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1beta20210701.ImageDataDisk
-//Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.Compute.json#/definitions/ImageDataDisk
+// Storage version of v1beta20210701.ImageDataDisk
+// Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.Compute.json#/definitions/ImageDataDisk
 type ImageDataDisk struct {
 	BlobUri            *string                      `json:"blobUri,omitempty"`
 	Caching            *string                      `json:"caching,omitempty"`
@@ -267,7 +267,7 @@ type ImageDataDisk struct {
 	StorageAccountType *string                      `json:"storageAccountType,omitempty"`
 }
 
-//Storage version of v1beta20210701.ImageDataDisk_Status
+// Storage version of v1beta20210701.ImageDataDisk_Status
 type ImageDataDisk_Status struct {
 	BlobUri            *string                `json:"blobUri,omitempty"`
 	Caching            *string                `json:"caching,omitempty"`
@@ -280,8 +280,8 @@ type ImageDataDisk_Status struct {
 	StorageAccountType *string                `json:"storageAccountType,omitempty"`
 }
 
-//Storage version of v1beta20210701.ImageOSDisk
-//Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.Compute.json#/definitions/ImageOSDisk
+// Storage version of v1beta20210701.ImageOSDisk
+// Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.Compute.json#/definitions/ImageOSDisk
 type ImageOSDisk struct {
 	BlobUri            *string                      `json:"blobUri,omitempty"`
 	Caching            *string                      `json:"caching,omitempty"`
@@ -295,7 +295,7 @@ type ImageOSDisk struct {
 	StorageAccountType *string                      `json:"storageAccountType,omitempty"`
 }
 
-//Storage version of v1beta20210701.ImageOSDisk_Status
+// Storage version of v1beta20210701.ImageOSDisk_Status
 type ImageOSDisk_Status struct {
 	BlobUri            *string                `json:"blobUri,omitempty"`
 	Caching            *string                `json:"caching,omitempty"`
@@ -309,12 +309,12 @@ type ImageOSDisk_Status struct {
 	StorageAccountType *string                `json:"storageAccountType,omitempty"`
 }
 
-//Storage version of v1beta20210701.DiskEncryptionSetParameters
-//Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.Compute.json#/definitions/DiskEncryptionSetParameters
+// Storage version of v1beta20210701.DiskEncryptionSetParameters
+// Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.Compute.json#/definitions/DiskEncryptionSetParameters
 type DiskEncryptionSetParameters struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
-	//Reference: Resource Id
+	// Reference: Resource Id
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 

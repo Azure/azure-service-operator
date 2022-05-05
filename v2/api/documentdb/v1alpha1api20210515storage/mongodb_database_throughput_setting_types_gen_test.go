@@ -90,7 +90,7 @@ func RunPropertyAssignmentTestForMongodbDatabaseThroughputSetting(subject Mongod
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -141,7 +141,7 @@ func RunJSONSerializationTestForMongodbDatabaseThroughputSetting(subject Mongodb
 }
 
 // Generator of MongodbDatabaseThroughputSetting instances for property testing - lazily instantiated by
-//MongodbDatabaseThroughputSettingGenerator()
+// MongodbDatabaseThroughputSettingGenerator()
 var mongodbDatabaseThroughputSettingGenerator gopter.Gen
 
 // MongodbDatabaseThroughputSettingGenerator returns a generator of MongodbDatabaseThroughputSetting instances for property testing.
@@ -193,7 +193,7 @@ func RunPropertyAssignmentTestForDatabaseAccountsMongodbDatabasesThroughputSetti
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -244,7 +244,7 @@ func RunJSONSerializationTestForDatabaseAccountsMongodbDatabasesThroughputSettin
 }
 
 // Generator of DatabaseAccountsMongodbDatabasesThroughputSettings_Spec instances for property testing - lazily
-//instantiated by DatabaseAccountsMongodbDatabasesThroughputSettingsSpecGenerator()
+// instantiated by DatabaseAccountsMongodbDatabasesThroughputSettingsSpecGenerator()
 var databaseAccountsMongodbDatabasesThroughputSettingsSpecGenerator gopter.Gen
 
 // DatabaseAccountsMongodbDatabasesThroughputSettingsSpecGenerator returns a generator of DatabaseAccountsMongodbDatabasesThroughputSettings_Spec instances for property testing.

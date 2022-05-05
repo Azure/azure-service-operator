@@ -91,7 +91,7 @@ func RunPropertyAssignmentTestForSqlDatabaseContainerStoredProcedure(subject Sql
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -142,7 +142,7 @@ func RunJSONSerializationTestForSqlDatabaseContainerStoredProcedure(subject SqlD
 }
 
 // Generator of SqlDatabaseContainerStoredProcedure instances for property testing - lazily instantiated by
-//SqlDatabaseContainerStoredProcedureGenerator()
+// SqlDatabaseContainerStoredProcedureGenerator()
 var sqlDatabaseContainerStoredProcedureGenerator gopter.Gen
 
 // SqlDatabaseContainerStoredProcedureGenerator returns a generator of SqlDatabaseContainerStoredProcedure instances for property testing.
@@ -194,7 +194,7 @@ func RunPropertyAssignmentTestForDatabaseAccountsSqlDatabasesContainersStoredPro
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -245,7 +245,7 @@ func RunJSONSerializationTestForDatabaseAccountsSqlDatabasesContainersStoredProc
 }
 
 // Generator of DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec instances for property testing - lazily
-//instantiated by DatabaseAccountsSqlDatabasesContainersStoredProceduresSpecGenerator()
+// instantiated by DatabaseAccountsSqlDatabasesContainersStoredProceduresSpecGenerator()
 var databaseAccountsSqlDatabasesContainersStoredProceduresSpecGenerator gopter.Gen
 
 // DatabaseAccountsSqlDatabasesContainersStoredProceduresSpecGenerator returns a generator of DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec instances for property testing.
@@ -313,7 +313,7 @@ func RunPropertyAssignmentTestForSqlStoredProcedureGetResultsStatus(subject SqlS
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -364,7 +364,7 @@ func RunJSONSerializationTestForSqlStoredProcedureGetResultsStatus(subject SqlSt
 }
 
 // Generator of SqlStoredProcedureGetResults_Status instances for property testing - lazily instantiated by
-//SqlStoredProcedureGetResultsStatusGenerator()
+// SqlStoredProcedureGetResultsStatusGenerator()
 var sqlStoredProcedureGetResultsStatusGenerator gopter.Gen
 
 // SqlStoredProcedureGetResultsStatusGenerator returns a generator of SqlStoredProcedureGetResults_Status instances for property testing.
@@ -433,7 +433,7 @@ func RunPropertyAssignmentTestForSqlStoredProcedureGetPropertiesStatusResource(s
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -484,7 +484,7 @@ func RunJSONSerializationTestForSqlStoredProcedureGetPropertiesStatusResource(su
 }
 
 // Generator of SqlStoredProcedureGetProperties_Status_Resource instances for property testing - lazily instantiated by
-//SqlStoredProcedureGetPropertiesStatusResourceGenerator()
+// SqlStoredProcedureGetPropertiesStatusResourceGenerator()
 var sqlStoredProcedureGetPropertiesStatusResourceGenerator gopter.Gen
 
 // SqlStoredProcedureGetPropertiesStatusResourceGenerator returns a generator of SqlStoredProcedureGetProperties_Status_Resource instances for property testing.
@@ -539,7 +539,7 @@ func RunPropertyAssignmentTestForSqlStoredProcedureResource(subject SqlStoredPro
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -590,7 +590,7 @@ func RunJSONSerializationTestForSqlStoredProcedureResource(subject SqlStoredProc
 }
 
 // Generator of SqlStoredProcedureResource instances for property testing - lazily instantiated by
-//SqlStoredProcedureResourceGenerator()
+// SqlStoredProcedureResourceGenerator()
 var sqlStoredProcedureResourceGenerator gopter.Gen
 
 // SqlStoredProcedureResourceGenerator returns a generator of SqlStoredProcedureResource instances for property testing.

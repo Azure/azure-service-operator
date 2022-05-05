@@ -91,7 +91,7 @@ func RunPropertyAssignmentTestForSqlDatabaseContainer(subject SqlDatabaseContain
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -142,7 +142,7 @@ func RunJSONSerializationTestForSqlDatabaseContainer(subject SqlDatabaseContaine
 }
 
 // Generator of SqlDatabaseContainer instances for property testing - lazily instantiated by
-//SqlDatabaseContainerGenerator()
+// SqlDatabaseContainerGenerator()
 var sqlDatabaseContainerGenerator gopter.Gen
 
 // SqlDatabaseContainerGenerator returns a generator of SqlDatabaseContainer instances for property testing.
@@ -194,7 +194,7 @@ func RunPropertyAssignmentTestForDatabaseAccountsSqlDatabasesContainersSpec(subj
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -245,7 +245,7 @@ func RunJSONSerializationTestForDatabaseAccountsSqlDatabasesContainersSpec(subje
 }
 
 // Generator of DatabaseAccountsSqlDatabasesContainers_Spec instances for property testing - lazily instantiated by
-//DatabaseAccountsSqlDatabasesContainersSpecGenerator()
+// DatabaseAccountsSqlDatabasesContainersSpecGenerator()
 var databaseAccountsSqlDatabasesContainersSpecGenerator gopter.Gen
 
 // DatabaseAccountsSqlDatabasesContainersSpecGenerator returns a generator of DatabaseAccountsSqlDatabasesContainers_Spec instances for property testing.
@@ -313,7 +313,7 @@ func RunPropertyAssignmentTestForSqlContainerGetResultsStatus(subject SqlContain
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -364,7 +364,7 @@ func RunJSONSerializationTestForSqlContainerGetResultsStatus(subject SqlContaine
 }
 
 // Generator of SqlContainerGetResults_Status instances for property testing - lazily instantiated by
-//SqlContainerGetResultsStatusGenerator()
+// SqlContainerGetResultsStatusGenerator()
 var sqlContainerGetResultsStatusGenerator gopter.Gen
 
 // SqlContainerGetResultsStatusGenerator returns a generator of SqlContainerGetResults_Status instances for property testing.
@@ -434,7 +434,7 @@ func RunPropertyAssignmentTestForSqlContainerGetPropertiesStatusResource(subject
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -485,7 +485,7 @@ func RunJSONSerializationTestForSqlContainerGetPropertiesStatusResource(subject 
 }
 
 // Generator of SqlContainerGetProperties_Status_Resource instances for property testing - lazily instantiated by
-//SqlContainerGetPropertiesStatusResourceGenerator()
+// SqlContainerGetPropertiesStatusResourceGenerator()
 var sqlContainerGetPropertiesStatusResourceGenerator gopter.Gen
 
 // SqlContainerGetPropertiesStatusResourceGenerator returns a generator of SqlContainerGetProperties_Status_Resource instances for property testing.
@@ -558,7 +558,7 @@ func RunPropertyAssignmentTestForSqlContainerResource(subject SqlContainerResour
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -609,7 +609,7 @@ func RunJSONSerializationTestForSqlContainerResource(subject SqlContainerResourc
 }
 
 // Generator of SqlContainerResource instances for property testing - lazily instantiated by
-//SqlContainerResourceGenerator()
+// SqlContainerResourceGenerator()
 var sqlContainerResourceGenerator gopter.Gen
 
 // SqlContainerResourceGenerator returns a generator of SqlContainerResource instances for property testing.
@@ -679,7 +679,7 @@ func RunPropertyAssignmentTestForConflictResolutionPolicy(subject ConflictResolu
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -730,7 +730,7 @@ func RunJSONSerializationTestForConflictResolutionPolicy(subject ConflictResolut
 }
 
 // Generator of ConflictResolutionPolicy instances for property testing - lazily instantiated by
-//ConflictResolutionPolicyGenerator()
+// ConflictResolutionPolicyGenerator()
 var conflictResolutionPolicyGenerator gopter.Gen
 
 // ConflictResolutionPolicyGenerator returns a generator of ConflictResolutionPolicy instances for property testing.
@@ -783,7 +783,7 @@ func RunPropertyAssignmentTestForConflictResolutionPolicyStatus(subject Conflict
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -834,7 +834,7 @@ func RunJSONSerializationTestForConflictResolutionPolicyStatus(subject ConflictR
 }
 
 // Generator of ConflictResolutionPolicy_Status instances for property testing - lazily instantiated by
-//ConflictResolutionPolicyStatusGenerator()
+// ConflictResolutionPolicyStatusGenerator()
 var conflictResolutionPolicyStatusGenerator gopter.Gen
 
 // ConflictResolutionPolicyStatusGenerator returns a generator of ConflictResolutionPolicy_Status instances for property testing.
@@ -887,7 +887,7 @@ func RunPropertyAssignmentTestForContainerPartitionKey(subject ContainerPartitio
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -938,7 +938,7 @@ func RunJSONSerializationTestForContainerPartitionKey(subject ContainerPartition
 }
 
 // Generator of ContainerPartitionKey instances for property testing - lazily instantiated by
-//ContainerPartitionKeyGenerator()
+// ContainerPartitionKeyGenerator()
 var containerPartitionKeyGenerator gopter.Gen
 
 // ContainerPartitionKeyGenerator returns a generator of ContainerPartitionKey instances for property testing.
@@ -991,7 +991,7 @@ func RunPropertyAssignmentTestForContainerPartitionKeyStatus(subject ContainerPa
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1042,7 +1042,7 @@ func RunJSONSerializationTestForContainerPartitionKeyStatus(subject ContainerPar
 }
 
 // Generator of ContainerPartitionKey_Status instances for property testing - lazily instantiated by
-//ContainerPartitionKeyStatusGenerator()
+// ContainerPartitionKeyStatusGenerator()
 var containerPartitionKeyStatusGenerator gopter.Gen
 
 // ContainerPartitionKeyStatusGenerator returns a generator of ContainerPartitionKey_Status instances for property testing.
@@ -1096,7 +1096,7 @@ func RunPropertyAssignmentTestForIndexingPolicy(subject IndexingPolicy) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1215,7 +1215,7 @@ func RunPropertyAssignmentTestForIndexingPolicyStatus(subject IndexingPolicy_Sta
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1266,7 +1266,7 @@ func RunJSONSerializationTestForIndexingPolicyStatus(subject IndexingPolicy_Stat
 }
 
 // Generator of IndexingPolicy_Status instances for property testing - lazily instantiated by
-//IndexingPolicyStatusGenerator()
+// IndexingPolicyStatusGenerator()
 var indexingPolicyStatusGenerator gopter.Gen
 
 // IndexingPolicyStatusGenerator returns a generator of IndexingPolicy_Status instances for property testing.
@@ -1335,7 +1335,7 @@ func RunPropertyAssignmentTestForUniqueKeyPolicy(subject UniqueKeyPolicy) string
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1436,7 +1436,7 @@ func RunPropertyAssignmentTestForUniqueKeyPolicyStatus(subject UniqueKeyPolicy_S
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1487,7 +1487,7 @@ func RunJSONSerializationTestForUniqueKeyPolicyStatus(subject UniqueKeyPolicy_St
 }
 
 // Generator of UniqueKeyPolicy_Status instances for property testing - lazily instantiated by
-//UniqueKeyPolicyStatusGenerator()
+// UniqueKeyPolicyStatusGenerator()
 var uniqueKeyPolicyStatusGenerator gopter.Gen
 
 // UniqueKeyPolicyStatusGenerator returns a generator of UniqueKeyPolicy_Status instances for property testing.
@@ -1538,7 +1538,7 @@ func RunPropertyAssignmentTestForCompositePath(subject CompositePath) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1640,7 +1640,7 @@ func RunPropertyAssignmentTestForCompositePathStatus(subject CompositePath_Statu
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1691,7 +1691,7 @@ func RunJSONSerializationTestForCompositePathStatus(subject CompositePath_Status
 }
 
 // Generator of CompositePath_Status instances for property testing - lazily instantiated by
-//CompositePathStatusGenerator()
+// CompositePathStatusGenerator()
 var compositePathStatusGenerator gopter.Gen
 
 // CompositePathStatusGenerator returns a generator of CompositePath_Status instances for property testing.
@@ -1743,7 +1743,7 @@ func RunPropertyAssignmentTestForExcludedPath(subject ExcludedPath) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1844,7 +1844,7 @@ func RunPropertyAssignmentTestForExcludedPathStatus(subject ExcludedPath_Status)
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1945,7 +1945,7 @@ func RunPropertyAssignmentTestForIncludedPath(subject IncludedPath) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -2060,7 +2060,7 @@ func RunPropertyAssignmentTestForIncludedPathStatus(subject IncludedPath_Status)
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -2175,7 +2175,7 @@ func RunPropertyAssignmentTestForSpatialSpec(subject SpatialSpec) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -2281,7 +2281,7 @@ func RunPropertyAssignmentTestForSpatialSpecStatus(subject SpatialSpec_Status) s
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -2387,7 +2387,7 @@ func RunPropertyAssignmentTestForUniqueKey(subject UniqueKey) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -2488,7 +2488,7 @@ func RunPropertyAssignmentTestForUniqueKeyStatus(subject UniqueKey_Status) strin
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -2589,7 +2589,7 @@ func RunPropertyAssignmentTestForIndexes(subject Indexes) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -2698,7 +2698,7 @@ func RunPropertyAssignmentTestForIndexesStatus(subject Indexes_Status) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)

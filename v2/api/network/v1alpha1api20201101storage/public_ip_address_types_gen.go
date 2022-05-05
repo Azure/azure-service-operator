@@ -20,8 +20,8 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Storage version of v1alpha1api20201101.PublicIPAddress
-//Deprecated version of PublicIPAddress. Use v1beta20201101.PublicIPAddress instead
+// Storage version of v1alpha1api20201101.PublicIPAddress
+// Deprecated version of PublicIPAddress. Use v1beta20201101.PublicIPAddress instead
 type PublicIPAddress struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -191,16 +191,16 @@ func (address *PublicIPAddress) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Storage version of v1alpha1api20201101.PublicIPAddress
-//Deprecated version of PublicIPAddress. Use v1beta20201101.PublicIPAddress instead
+// Storage version of v1alpha1api20201101.PublicIPAddress
+// Deprecated version of PublicIPAddress. Use v1beta20201101.PublicIPAddress instead
 type PublicIPAddressList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []PublicIPAddress `json:"items"`
 }
 
-//Storage version of v1alpha1api20201101.PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded
-//Deprecated version of PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded. Use v1beta20201101.PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded instead
+// Storage version of v1alpha1api20201101.PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded
+// Deprecated version of PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded. Use v1beta20201101.PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded instead
 type PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded struct {
 	Conditions               []conditions.Condition                                      `json:"conditions,omitempty"`
 	DdosSettings             *DdosSettings_Status                                        `json:"ddosSettings,omitempty"`
@@ -604,10 +604,10 @@ func (embedded *PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded) Assi
 	return nil
 }
 
-//Storage version of v1alpha1api20201101.PublicIPAddresses_Spec
+// Storage version of v1alpha1api20201101.PublicIPAddresses_Spec
 type PublicIPAddresses_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName            string                      `json:"azureName,omitempty"`
 	DdosSettings         *DdosSettings               `json:"ddosSettings,omitempty"`
 	DnsSettings          *PublicIPAddressDnsSettings `json:"dnsSettings,omitempty"`
@@ -619,9 +619,9 @@ type PublicIPAddresses_Spec struct {
 	OriginalVersion      string                      `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a resources.azure.com/ResourceGroup resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
 	Owner                    *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PropertyBag              genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	PublicIPAddressVersion   *string                            `json:"publicIPAddressVersion,omitempty"`
@@ -940,8 +940,8 @@ func (addresses *PublicIPAddresses_Spec) AssignPropertiesToPublicIPAddressesSpec
 	return nil
 }
 
-//Storage version of v1alpha1api20201101.DdosSettings
-//Deprecated version of DdosSettings. Use v1beta20201101.DdosSettings instead
+// Storage version of v1alpha1api20201101.DdosSettings
+// Deprecated version of DdosSettings. Use v1beta20201101.DdosSettings instead
 type DdosSettings struct {
 	DdosCustomPolicy   *SubResource           `json:"ddosCustomPolicy,omitempty"`
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -1027,8 +1027,8 @@ func (settings *DdosSettings) AssignPropertiesToDdosSettings(destination *v20201
 	return nil
 }
 
-//Storage version of v1alpha1api20201101.DdosSettings_Status
-//Deprecated version of DdosSettings_Status. Use v1beta20201101.DdosSettings_Status instead
+// Storage version of v1alpha1api20201101.DdosSettings_Status
+// Deprecated version of DdosSettings_Status. Use v1beta20201101.DdosSettings_Status instead
 type DdosSettings_Status struct {
 	DdosCustomPolicy   *SubResource_Status    `json:"ddosCustomPolicy,omitempty"`
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -1114,8 +1114,8 @@ func (settings *DdosSettings_Status) AssignPropertiesToDdosSettingsStatus(destin
 	return nil
 }
 
-//Storage version of v1alpha1api20201101.IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded
-//Deprecated version of IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded. Use v1beta20201101.IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded instead
+// Storage version of v1alpha1api20201101.IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded
+// Deprecated version of IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded. Use v1beta20201101.IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded instead
 type IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded struct {
 	Etag                      *string                                            `json:"etag,omitempty"`
 	Id                        *string                                            `json:"id,omitempty"`
@@ -1219,8 +1219,8 @@ func (embedded *IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded) Assi
 	return nil
 }
 
-//Storage version of v1alpha1api20201101.IpTag
-//Deprecated version of IpTag. Use v1beta20201101.IpTag instead
+// Storage version of v1alpha1api20201101.IpTag
+// Deprecated version of IpTag. Use v1beta20201101.IpTag instead
 type IpTag struct {
 	IpTagType   *string                `json:"ipTagType,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -1271,8 +1271,8 @@ func (ipTag *IpTag) AssignPropertiesToIpTag(destination *v20201101s.IpTag) error
 	return nil
 }
 
-//Storage version of v1alpha1api20201101.IpTag_Status
-//Deprecated version of IpTag_Status. Use v1beta20201101.IpTag_Status instead
+// Storage version of v1alpha1api20201101.IpTag_Status
+// Deprecated version of IpTag_Status. Use v1beta20201101.IpTag_Status instead
 type IpTag_Status struct {
 	IpTagType   *string                `json:"ipTagType,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -1323,8 +1323,8 @@ func (ipTag *IpTag_Status) AssignPropertiesToIpTagStatus(destination *v20201101s
 	return nil
 }
 
-//Storage version of v1alpha1api20201101.NatGateway_Status_PublicIPAddress_SubResourceEmbedded
-//Deprecated version of NatGateway_Status_PublicIPAddress_SubResourceEmbedded. Use v1beta20201101.NatGateway_Status_PublicIPAddress_SubResourceEmbedded instead
+// Storage version of v1alpha1api20201101.NatGateway_Status_PublicIPAddress_SubResourceEmbedded
+// Deprecated version of NatGateway_Status_PublicIPAddress_SubResourceEmbedded. Use v1beta20201101.NatGateway_Status_PublicIPAddress_SubResourceEmbedded instead
 type NatGateway_Status_PublicIPAddress_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -1400,8 +1400,8 @@ func (embedded *NatGateway_Status_PublicIPAddress_SubResourceEmbedded) AssignPro
 	return nil
 }
 
-//Storage version of v1alpha1api20201101.PublicIPAddressDnsSettings
-//Deprecated version of PublicIPAddressDnsSettings. Use v1beta20201101.PublicIPAddressDnsSettings instead
+// Storage version of v1alpha1api20201101.PublicIPAddressDnsSettings
+// Deprecated version of PublicIPAddressDnsSettings. Use v1beta20201101.PublicIPAddressDnsSettings instead
 type PublicIPAddressDnsSettings struct {
 	DomainNameLabel *string                `json:"domainNameLabel,omitempty"`
 	Fqdn            *string                `json:"fqdn,omitempty"`
@@ -1459,8 +1459,8 @@ func (settings *PublicIPAddressDnsSettings) AssignPropertiesToPublicIPAddressDns
 	return nil
 }
 
-//Storage version of v1alpha1api20201101.PublicIPAddressDnsSettings_Status
-//Deprecated version of PublicIPAddressDnsSettings_Status. Use v1beta20201101.PublicIPAddressDnsSettings_Status instead
+// Storage version of v1alpha1api20201101.PublicIPAddressDnsSettings_Status
+// Deprecated version of PublicIPAddressDnsSettings_Status. Use v1beta20201101.PublicIPAddressDnsSettings_Status instead
 type PublicIPAddressDnsSettings_Status struct {
 	DomainNameLabel *string                `json:"domainNameLabel,omitempty"`
 	Fqdn            *string                `json:"fqdn,omitempty"`
@@ -1518,8 +1518,8 @@ func (settings *PublicIPAddressDnsSettings_Status) AssignPropertiesToPublicIPAdd
 	return nil
 }
 
-//Storage version of v1alpha1api20201101.PublicIPAddressSku
-//Deprecated version of PublicIPAddressSku. Use v1beta20201101.PublicIPAddressSku instead
+// Storage version of v1alpha1api20201101.PublicIPAddressSku
+// Deprecated version of PublicIPAddressSku. Use v1beta20201101.PublicIPAddressSku instead
 type PublicIPAddressSku struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -1570,8 +1570,8 @@ func (addressSku *PublicIPAddressSku) AssignPropertiesToPublicIPAddressSku(desti
 	return nil
 }
 
-//Storage version of v1alpha1api20201101.PublicIPAddressSku_Status
-//Deprecated version of PublicIPAddressSku_Status. Use v1beta20201101.PublicIPAddressSku_Status instead
+// Storage version of v1alpha1api20201101.PublicIPAddressSku_Status
+// Deprecated version of PublicIPAddressSku_Status. Use v1beta20201101.PublicIPAddressSku_Status instead
 type PublicIPAddressSku_Status struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -1622,8 +1622,8 @@ func (addressSku *PublicIPAddressSku_Status) AssignPropertiesToPublicIPAddressSk
 	return nil
 }
 
-//Storage version of v1alpha1api20201101.NatGatewaySku_Status
-//Deprecated version of NatGatewaySku_Status. Use v1beta20201101.NatGatewaySku_Status instead
+// Storage version of v1alpha1api20201101.NatGatewaySku_Status
+// Deprecated version of NatGatewaySku_Status. Use v1beta20201101.NatGatewaySku_Status instead
 type NatGatewaySku_Status struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -1667,8 +1667,8 @@ func (gatewaySku *NatGatewaySku_Status) AssignPropertiesToNatGatewaySkuStatus(de
 	return nil
 }
 
-//Storage version of v1alpha1api20201101.Subnet_Status_PublicIPAddress_SubResourceEmbedded
-//Deprecated version of Subnet_Status_PublicIPAddress_SubResourceEmbedded. Use v1beta20201101.Subnet_Status_PublicIPAddress_SubResourceEmbedded instead
+// Storage version of v1alpha1api20201101.Subnet_Status_PublicIPAddress_SubResourceEmbedded
+// Deprecated version of Subnet_Status_PublicIPAddress_SubResourceEmbedded. Use v1beta20201101.Subnet_Status_PublicIPAddress_SubResourceEmbedded instead
 type Subnet_Status_PublicIPAddress_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`

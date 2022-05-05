@@ -21,8 +21,8 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Storage version of v1alpha1api20210301.RedisEnterprise
-//Deprecated version of RedisEnterprise. Use v1beta20210301.RedisEnterprise instead
+// Storage version of v1alpha1api20210301.RedisEnterprise
+// Deprecated version of RedisEnterprise. Use v1beta20210301.RedisEnterprise instead
 type RedisEnterprise struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -192,16 +192,16 @@ func (enterprise *RedisEnterprise) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Storage version of v1alpha1api20210301.RedisEnterprise
-//Deprecated version of RedisEnterprise. Use v1beta20210301.RedisEnterprise instead
+// Storage version of v1alpha1api20210301.RedisEnterprise
+// Deprecated version of RedisEnterprise. Use v1beta20210301.RedisEnterprise instead
 type RedisEnterpriseList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []RedisEnterprise `json:"items"`
 }
 
-//Storage version of v1alpha1api20210301.Cluster_Status
-//Deprecated version of Cluster_Status. Use v1beta20210301.Cluster_Status instead
+// Storage version of v1alpha1api20210301.Cluster_Status
+// Deprecated version of Cluster_Status. Use v1beta20210301.Cluster_Status instead
 type Cluster_Status struct {
 	Conditions                 []conditions.Condition                                 `json:"conditions,omitempty"`
 	HostName                   *string                                                `json:"hostName,omitempty"`
@@ -454,19 +454,19 @@ func (cluster *Cluster_Status) AssignPropertiesToClusterStatus(destination *v202
 	return nil
 }
 
-//Storage version of v1alpha1api20210301.RedisEnterprise_Spec
+// Storage version of v1alpha1api20210301.RedisEnterprise_Spec
 type RedisEnterprise_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName         string  `json:"azureName,omitempty"`
 	Location          *string `json:"location,omitempty"`
 	MinimumTlsVersion *string `json:"minimumTlsVersion,omitempty"`
 	OriginalVersion   string  `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a resources.azure.com/ResourceGroup resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
 	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	Sku         *Sku                               `json:"sku,omitempty"`
@@ -642,8 +642,8 @@ func (enterprise *RedisEnterprise_Spec) AssignPropertiesToRedisEnterpriseSpec(de
 	return nil
 }
 
-//Storage version of v1alpha1api20210301.PrivateEndpointConnection_Status_SubResourceEmbedded
-//Deprecated version of PrivateEndpointConnection_Status_SubResourceEmbedded. Use v1beta20210301.PrivateEndpointConnection_Status_SubResourceEmbedded instead
+// Storage version of v1alpha1api20210301.PrivateEndpointConnection_Status_SubResourceEmbedded
+// Deprecated version of PrivateEndpointConnection_Status_SubResourceEmbedded. Use v1beta20210301.PrivateEndpointConnection_Status_SubResourceEmbedded instead
 type PrivateEndpointConnection_Status_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -687,8 +687,8 @@ func (embedded *PrivateEndpointConnection_Status_SubResourceEmbedded) AssignProp
 	return nil
 }
 
-//Storage version of v1alpha1api20210301.Sku
-//Deprecated version of Sku. Use v1beta20210301.Sku instead
+// Storage version of v1alpha1api20210301.Sku
+// Deprecated version of Sku. Use v1beta20210301.Sku instead
 type Sku struct {
 	Capacity    *int                   `json:"capacity,omitempty"`
 	Name        *string                `json:"name,omitempty"`
@@ -757,8 +757,8 @@ func (sku *Sku) AssignPropertiesToSku(destination *v20201201s.Sku) error {
 	return nil
 }
 
-//Storage version of v1alpha1api20210301.Sku_Status
-//Deprecated version of Sku_Status. Use v1beta20210301.Sku_Status instead
+// Storage version of v1alpha1api20210301.Sku_Status
+// Deprecated version of Sku_Status. Use v1beta20210301.Sku_Status instead
 type Sku_Status struct {
 	Capacity    *int                   `json:"capacity,omitempty"`
 	Name        *string                `json:"name,omitempty"`

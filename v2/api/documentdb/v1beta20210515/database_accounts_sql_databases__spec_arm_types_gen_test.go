@@ -56,7 +56,7 @@ func RunJSONSerializationTestForDatabaseAccountsSqlDatabasesSpecARM(subject Data
 }
 
 // Generator of DatabaseAccountsSqlDatabases_SpecARM instances for property testing - lazily instantiated by
-//DatabaseAccountsSqlDatabasesSpecARMGenerator()
+// DatabaseAccountsSqlDatabasesSpecARMGenerator()
 var databaseAccountsSqlDatabasesSpecARMGenerator gopter.Gen
 
 // DatabaseAccountsSqlDatabasesSpecARMGenerator returns a generator of DatabaseAccountsSqlDatabases_SpecARM instances for property testing.
@@ -132,7 +132,7 @@ func RunJSONSerializationTestForSqlDatabaseCreateUpdatePropertiesARM(subject Sql
 }
 
 // Generator of SqlDatabaseCreateUpdatePropertiesARM instances for property testing - lazily instantiated by
-//SqlDatabaseCreateUpdatePropertiesARMGenerator()
+// SqlDatabaseCreateUpdatePropertiesARMGenerator()
 var sqlDatabaseCreateUpdatePropertiesARMGenerator gopter.Gen
 
 // SqlDatabaseCreateUpdatePropertiesARMGenerator returns a generator of SqlDatabaseCreateUpdatePropertiesARM instances for property testing.
@@ -193,7 +193,7 @@ func RunJSONSerializationTestForSqlDatabaseResourceARM(subject SqlDatabaseResour
 }
 
 // Generator of SqlDatabaseResourceARM instances for property testing - lazily instantiated by
-//SqlDatabaseResourceARMGenerator()
+// SqlDatabaseResourceARMGenerator()
 var sqlDatabaseResourceARMGenerator gopter.Gen
 
 // SqlDatabaseResourceARMGenerator returns a generator of SqlDatabaseResourceARM instances for property testing.

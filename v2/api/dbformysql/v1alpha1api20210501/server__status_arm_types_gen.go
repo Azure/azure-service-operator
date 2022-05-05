@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1alpha1api20210501
 
-//Deprecated version of Server_Status. Use v1beta20210501.Server_Status instead
+// Deprecated version of Server_Status. Use v1beta20210501.Server_Status instead
 type Server_StatusARM struct {
 	Id         *string                     `json:"id,omitempty"`
 	Location   *string                     `json:"location,omitempty"`
@@ -15,7 +15,7 @@ type Server_StatusARM struct {
 	Type       *string                     `json:"type,omitempty"`
 }
 
-//Deprecated version of ServerProperties_Status. Use v1beta20210501.ServerProperties_Status instead
+// Deprecated version of ServerProperties_Status. Use v1beta20210501.ServerProperties_Status instead
 type ServerProperties_StatusARM struct {
 	AdministratorLogin       *string                           `json:"administratorLogin,omitempty"`
 	AvailabilityZone         *string                           `json:"availabilityZone,omitempty"`
@@ -34,27 +34,27 @@ type ServerProperties_StatusARM struct {
 	Version                  *ServerVersion_Status             `json:"version,omitempty"`
 }
 
-//Deprecated version of Sku_Status. Use v1beta20210501.Sku_Status instead
+// Deprecated version of Sku_Status. Use v1beta20210501.Sku_Status instead
 type Sku_StatusARM struct {
 	Name *string        `json:"name,omitempty"`
 	Tier *SkuStatusTier `json:"tier,omitempty"`
 }
 
-//Deprecated version of Backup_Status. Use v1beta20210501.Backup_Status instead
+// Deprecated version of Backup_Status. Use v1beta20210501.Backup_Status instead
 type Backup_StatusARM struct {
 	BackupRetentionDays *int                     `json:"backupRetentionDays,omitempty"`
 	EarliestRestoreDate *string                  `json:"earliestRestoreDate,omitempty"`
 	GeoRedundantBackup  *EnableStatusEnum_Status `json:"geoRedundantBackup,omitempty"`
 }
 
-//Deprecated version of HighAvailability_Status. Use v1beta20210501.HighAvailability_Status instead
+// Deprecated version of HighAvailability_Status. Use v1beta20210501.HighAvailability_Status instead
 type HighAvailability_StatusARM struct {
 	Mode                    *HighAvailabilityStatusMode  `json:"mode,omitempty"`
 	StandbyAvailabilityZone *string                      `json:"standbyAvailabilityZone,omitempty"`
 	State                   *HighAvailabilityStatusState `json:"state,omitempty"`
 }
 
-//Deprecated version of MaintenanceWindow_Status. Use v1beta20210501.MaintenanceWindow_Status instead
+// Deprecated version of MaintenanceWindow_Status. Use v1beta20210501.MaintenanceWindow_Status instead
 type MaintenanceWindow_StatusARM struct {
 	CustomWindow *string `json:"customWindow,omitempty"`
 	DayOfWeek    *int    `json:"dayOfWeek,omitempty"`
@@ -62,14 +62,14 @@ type MaintenanceWindow_StatusARM struct {
 	StartMinute  *int    `json:"startMinute,omitempty"`
 }
 
-//Deprecated version of Network_Status. Use v1beta20210501.Network_Status instead
+// Deprecated version of Network_Status. Use v1beta20210501.Network_Status instead
 type Network_StatusARM struct {
 	DelegatedSubnetResourceId *string                  `json:"delegatedSubnetResourceId,omitempty"`
 	PrivateDnsZoneResourceId  *string                  `json:"privateDnsZoneResourceId,omitempty"`
 	PublicNetworkAccess       *EnableStatusEnum_Status `json:"publicNetworkAccess,omitempty"`
 }
 
-//Deprecated version of SkuStatusTier. Use v1beta20210501.SkuStatusTier instead
+// Deprecated version of SkuStatusTier. Use v1beta20210501.SkuStatusTier instead
 type SkuStatusTier string
 
 const (
@@ -78,7 +78,7 @@ const (
 	SkuStatusTierMemoryOptimized = SkuStatusTier("MemoryOptimized")
 )
 
-//Deprecated version of Storage_Status. Use v1beta20210501.Storage_Status instead
+// Deprecated version of Storage_Status. Use v1beta20210501.Storage_Status instead
 type Storage_StatusARM struct {
 	AutoGrow      *EnableStatusEnum_Status `json:"autoGrow,omitempty"`
 	Iops          *int                     `json:"iops,omitempty"`

@@ -56,7 +56,7 @@ func RunJSONSerializationTestForSecurityRuleStatusNetworkSecurityGroupsSecurityR
 }
 
 // Generator of SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbeddedARM instances for property
-//testing - lazily instantiated by SecurityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbeddedARMGenerator()
+// testing - lazily instantiated by SecurityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbeddedARMGenerator()
 var securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbeddedARMGenerator gopter.Gen
 
 // SecurityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbeddedARMGenerator returns a generator of SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbeddedARM instances for property testing.
@@ -133,7 +133,7 @@ func RunJSONSerializationTestForSecurityRulePropertiesFormatStatusARM(subject Se
 }
 
 // Generator of SecurityRulePropertiesFormat_StatusARM instances for property testing - lazily instantiated by
-//SecurityRulePropertiesFormatStatusARMGenerator()
+// SecurityRulePropertiesFormatStatusARMGenerator()
 var securityRulePropertiesFormatStatusARMGenerator gopter.Gen
 
 // SecurityRulePropertiesFormatStatusARMGenerator returns a generator of SecurityRulePropertiesFormat_StatusARM instances for property testing.
@@ -231,8 +231,8 @@ func RunJSONSerializationTestForApplicationSecurityGroupStatusNetworkSecurityGro
 }
 
 // Generator of ApplicationSecurityGroup_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbeddedARM instances for
-//property testing - lazily instantiated by
-//ApplicationSecurityGroupStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbeddedARMGenerator()
+// property testing - lazily instantiated by
+// ApplicationSecurityGroupStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbeddedARMGenerator()
 var applicationSecurityGroupStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbeddedARMGenerator gopter.Gen
 
 // ApplicationSecurityGroupStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbeddedARMGenerator returns a generator of ApplicationSecurityGroup_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbeddedARM instances for property testing.

@@ -200,7 +200,7 @@ func RunJSONSerializationTestForRedisEnterpriseSpec(subject RedisEnterprise_Spec
 }
 
 // Generator of RedisEnterprise_Spec instances for property testing - lazily instantiated by
-//RedisEnterpriseSpecGenerator()
+// RedisEnterpriseSpecGenerator()
 var redisEnterpriseSpecGenerator gopter.Gen
 
 // RedisEnterpriseSpecGenerator returns a generator of RedisEnterprise_Spec instances for property testing.
@@ -279,7 +279,7 @@ func RunJSONSerializationTestForPrivateEndpointConnectionStatusSubResourceEmbedd
 }
 
 // Generator of PrivateEndpointConnection_Status_SubResourceEmbedded instances for property testing - lazily
-//instantiated by PrivateEndpointConnectionStatusSubResourceEmbeddedGenerator()
+// instantiated by PrivateEndpointConnectionStatusSubResourceEmbeddedGenerator()
 var privateEndpointConnectionStatusSubResourceEmbeddedGenerator gopter.Gen
 
 // PrivateEndpointConnectionStatusSubResourceEmbeddedGenerator returns a generator of PrivateEndpointConnection_Status_SubResourceEmbedded instances for property testing.

@@ -116,7 +116,7 @@ func RunJSONSerializationTestForNamespacesTopicsSpec(subject NamespacesTopics_Sp
 }
 
 // Generator of NamespacesTopics_Spec instances for property testing - lazily instantiated by
-//NamespacesTopicsSpecGenerator()
+// NamespacesTopicsSpecGenerator()
 var namespacesTopicsSpecGenerator gopter.Gen
 
 // NamespacesTopicsSpecGenerator returns a generator of NamespacesTopics_Spec instances for property testing.

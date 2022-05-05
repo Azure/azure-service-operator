@@ -91,7 +91,7 @@ func RunPropertyAssignmentTestForRedisPatchSchedule(subject RedisPatchSchedule) 
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -193,7 +193,7 @@ func RunPropertyAssignmentTestForRedisPatchScheduleStatus(subject RedisPatchSche
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -244,7 +244,7 @@ func RunJSONSerializationTestForRedisPatchScheduleStatus(subject RedisPatchSched
 }
 
 // Generator of RedisPatchSchedule_Status instances for property testing - lazily instantiated by
-//RedisPatchScheduleStatusGenerator()
+// RedisPatchScheduleStatusGenerator()
 var redisPatchScheduleStatusGenerator gopter.Gen
 
 // RedisPatchScheduleStatusGenerator returns a generator of RedisPatchSchedule_Status instances for property testing.
@@ -311,7 +311,7 @@ func RunPropertyAssignmentTestForRedisPatchSchedulesSpec(subject RedisPatchSched
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -362,7 +362,7 @@ func RunJSONSerializationTestForRedisPatchSchedulesSpec(subject RedisPatchSchedu
 }
 
 // Generator of RedisPatchSchedules_Spec instances for property testing - lazily instantiated by
-//RedisPatchSchedulesSpecGenerator()
+// RedisPatchSchedulesSpecGenerator()
 var redisPatchSchedulesSpecGenerator gopter.Gen
 
 // RedisPatchSchedulesSpecGenerator returns a generator of RedisPatchSchedules_Spec instances for property testing.
@@ -428,7 +428,7 @@ func RunPropertyAssignmentTestForScheduleEntry(subject ScheduleEntry) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -540,7 +540,7 @@ func RunPropertyAssignmentTestForScheduleEntryStatus(subject ScheduleEntry_Statu
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -591,7 +591,7 @@ func RunJSONSerializationTestForScheduleEntryStatus(subject ScheduleEntry_Status
 }
 
 // Generator of ScheduleEntry_Status instances for property testing - lazily instantiated by
-//ScheduleEntryStatusGenerator()
+// ScheduleEntryStatusGenerator()
 var scheduleEntryStatusGenerator gopter.Gen
 
 // ScheduleEntryStatusGenerator returns a generator of ScheduleEntry_Status instances for property testing.

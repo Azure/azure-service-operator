@@ -56,7 +56,7 @@ func RunJSONSerializationTestForDatabaseAccountsMongodbDatabasesSpecARM(subject 
 }
 
 // Generator of DatabaseAccountsMongodbDatabases_SpecARM instances for property testing - lazily instantiated by
-//DatabaseAccountsMongodbDatabasesSpecARMGenerator()
+// DatabaseAccountsMongodbDatabasesSpecARMGenerator()
 var databaseAccountsMongodbDatabasesSpecARMGenerator gopter.Gen
 
 // DatabaseAccountsMongodbDatabasesSpecARMGenerator returns a generator of DatabaseAccountsMongodbDatabases_SpecARM instances for property testing.
@@ -132,7 +132,7 @@ func RunJSONSerializationTestForMongoDBDatabaseCreateUpdatePropertiesARM(subject
 }
 
 // Generator of MongoDBDatabaseCreateUpdatePropertiesARM instances for property testing - lazily instantiated by
-//MongoDBDatabaseCreateUpdatePropertiesARMGenerator()
+// MongoDBDatabaseCreateUpdatePropertiesARMGenerator()
 var mongoDBDatabaseCreateUpdatePropertiesARMGenerator gopter.Gen
 
 // MongoDBDatabaseCreateUpdatePropertiesARMGenerator returns a generator of MongoDBDatabaseCreateUpdatePropertiesARM instances for property testing.
@@ -193,7 +193,7 @@ func RunJSONSerializationTestForMongoDBDatabaseResourceARM(subject MongoDBDataba
 }
 
 // Generator of MongoDBDatabaseResourceARM instances for property testing - lazily instantiated by
-//MongoDBDatabaseResourceARMGenerator()
+// MongoDBDatabaseResourceARMGenerator()
 var mongoDBDatabaseResourceARMGenerator gopter.Gen
 
 // MongoDBDatabaseResourceARMGenerator returns a generator of MongoDBDatabaseResourceARM instances for property testing.

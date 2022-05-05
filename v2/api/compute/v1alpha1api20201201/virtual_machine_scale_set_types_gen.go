@@ -25,7 +25,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Deprecated version of VirtualMachineScaleSet. Use v1beta20201201.VirtualMachineScaleSet instead
+// Deprecated version of VirtualMachineScaleSet. Use v1beta20201201.VirtualMachineScaleSet instead
 type VirtualMachineScaleSet struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -315,19 +315,19 @@ func (scaleSet *VirtualMachineScaleSet) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Deprecated version of VirtualMachineScaleSet. Use v1beta20201201.VirtualMachineScaleSet instead
+// Deprecated version of VirtualMachineScaleSet. Use v1beta20201201.VirtualMachineScaleSet instead
 type VirtualMachineScaleSetList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []VirtualMachineScaleSet `json:"items"`
 }
 
-//Deprecated version of VirtualMachineScaleSet_Status. Use v1beta20201201.VirtualMachineScaleSet_Status instead
+// Deprecated version of VirtualMachineScaleSet_Status. Use v1beta20201201.VirtualMachineScaleSet_Status instead
 type VirtualMachineScaleSet_Status struct {
 	AdditionalCapabilities *AdditionalCapabilities_Status `json:"additionalCapabilities,omitempty"`
 	AutomaticRepairsPolicy *AutomaticRepairsPolicy_Status `json:"automaticRepairsPolicy,omitempty"`
 
-	//Conditions: The observed state of the resource
+	// Conditions: The observed state of the resource
 	Conditions                             []conditions.Condition                  `json:"conditions,omitempty"`
 	DoNotRunExtensionsOnOverprovisionedVMs *bool                                   `json:"doNotRunExtensionsOnOverprovisionedVMs,omitempty"`
 	ExtendedLocation                       *ExtendedLocation_Status                `json:"extendedLocation,omitempty"`
@@ -1106,8 +1106,8 @@ type VirtualMachineScaleSets_Spec struct {
 	AdditionalCapabilities *AdditionalCapabilities `json:"additionalCapabilities,omitempty"`
 	AutomaticRepairsPolicy *AutomaticRepairsPolicy `json:"automaticRepairsPolicy,omitempty"`
 
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName                              string                                                  `json:"azureName,omitempty"`
 	DoNotRunExtensionsOnOverprovisionedVMs *bool                                                   `json:"doNotRunExtensionsOnOverprovisionedVMs,omitempty"`
 	ExtendedLocation                       *ExtendedLocation                                       `json:"extendedLocation,omitempty"`
@@ -1118,9 +1118,9 @@ type VirtualMachineScaleSets_Spec struct {
 	Overprovision                          *bool                                                   `json:"overprovision,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a resources.azure.com/ResourceGroup resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
 	Owner                    *genruntime.KnownResourceReference                             `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	Plan                     *Plan                                                          `json:"plan,omitempty"`
 	PlatformFaultDomainCount *int                                                           `json:"platformFaultDomainCount,omitempty"`
@@ -2018,7 +2018,7 @@ func (sets *VirtualMachineScaleSets_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (sets *VirtualMachineScaleSets_Spec) SetAzureName(azureName string) { sets.AzureName = azureName }
 
-//Deprecated version of AutomaticRepairsPolicy. Use v1beta20201201.AutomaticRepairsPolicy instead
+// Deprecated version of AutomaticRepairsPolicy. Use v1beta20201201.AutomaticRepairsPolicy instead
 type AutomaticRepairsPolicy struct {
 	Enabled     *bool   `json:"enabled,omitempty"`
 	GracePeriod *string `json:"gracePeriod,omitempty"`
@@ -2120,7 +2120,7 @@ func (policy *AutomaticRepairsPolicy) AssignPropertiesToAutomaticRepairsPolicy(d
 	return nil
 }
 
-//Deprecated version of AutomaticRepairsPolicy_Status. Use v1beta20201201.AutomaticRepairsPolicy_Status instead
+// Deprecated version of AutomaticRepairsPolicy_Status. Use v1beta20201201.AutomaticRepairsPolicy_Status instead
 type AutomaticRepairsPolicy_Status struct {
 	Enabled     *bool   `json:"enabled,omitempty"`
 	GracePeriod *string `json:"gracePeriod,omitempty"`
@@ -2201,7 +2201,7 @@ func (policy *AutomaticRepairsPolicy_Status) AssignPropertiesToAutomaticRepairsP
 	return nil
 }
 
-//Deprecated version of OrchestrationMode_Status. Use v1beta20201201.OrchestrationMode_Status instead
+// Deprecated version of OrchestrationMode_Status. Use v1beta20201201.OrchestrationMode_Status instead
 type OrchestrationMode_Status string
 
 const (
@@ -2209,7 +2209,7 @@ const (
 	OrchestrationMode_StatusUniform  = OrchestrationMode_Status("Uniform")
 )
 
-//Deprecated version of ScaleInPolicy. Use v1beta20201201.ScaleInPolicy instead
+// Deprecated version of ScaleInPolicy. Use v1beta20201201.ScaleInPolicy instead
 type ScaleInPolicy struct {
 	Rules []ScaleInPolicyRules `json:"rules,omitempty"`
 }
@@ -2300,7 +2300,7 @@ func (policy *ScaleInPolicy) AssignPropertiesToScaleInPolicy(destination *alpha2
 	return nil
 }
 
-//Deprecated version of ScaleInPolicy_Status. Use v1beta20201201.ScaleInPolicy_Status instead
+// Deprecated version of ScaleInPolicy_Status. Use v1beta20201201.ScaleInPolicy_Status instead
 type ScaleInPolicy_Status struct {
 	Rules []ScaleInPolicyStatusRules `json:"rules,omitempty"`
 }
@@ -2377,7 +2377,7 @@ func (policy *ScaleInPolicy_Status) AssignPropertiesToScaleInPolicyStatus(destin
 	return nil
 }
 
-//Deprecated version of Sku. Use v1beta20201201.Sku instead
+// Deprecated version of Sku. Use v1beta20201201.Sku instead
 type Sku struct {
 	Capacity *int    `json:"capacity,omitempty"`
 	Name     *string `json:"name,omitempty"`
@@ -2488,7 +2488,7 @@ func (sku *Sku) AssignPropertiesToSku(destination *alpha20201201s.Sku) error {
 	return nil
 }
 
-//Deprecated version of Sku_Status. Use v1beta20201201.Sku_Status instead
+// Deprecated version of Sku_Status. Use v1beta20201201.Sku_Status instead
 type Sku_Status struct {
 	Capacity *int    `json:"capacity,omitempty"`
 	Name     *string `json:"name,omitempty"`
@@ -2572,7 +2572,7 @@ func (sku *Sku_Status) AssignPropertiesToSkuStatus(destination *alpha20201201s.S
 	return nil
 }
 
-//Deprecated version of UpgradePolicy. Use v1beta20201201.UpgradePolicy instead
+// Deprecated version of UpgradePolicy. Use v1beta20201201.UpgradePolicy instead
 type UpgradePolicy struct {
 	AutomaticOSUpgradePolicy *AutomaticOSUpgradePolicy `json:"automaticOSUpgradePolicy,omitempty"`
 	Mode                     *UpgradePolicyMode        `json:"mode,omitempty"`
@@ -2747,7 +2747,7 @@ func (policy *UpgradePolicy) AssignPropertiesToUpgradePolicy(destination *alpha2
 	return nil
 }
 
-//Deprecated version of UpgradePolicy_Status. Use v1beta20201201.UpgradePolicy_Status instead
+// Deprecated version of UpgradePolicy_Status. Use v1beta20201201.UpgradePolicy_Status instead
 type UpgradePolicy_Status struct {
 	AutomaticOSUpgradePolicy *AutomaticOSUpgradePolicy_Status `json:"automaticOSUpgradePolicy,omitempty"`
 	Mode                     *UpgradePolicyStatusMode         `json:"mode,omitempty"`
@@ -2887,7 +2887,7 @@ func (policy *UpgradePolicy_Status) AssignPropertiesToUpgradePolicyStatus(destin
 	return nil
 }
 
-//Deprecated version of VirtualMachineScaleSetIdentity. Use v1beta20201201.VirtualMachineScaleSetIdentity instead
+// Deprecated version of VirtualMachineScaleSetIdentity. Use v1beta20201201.VirtualMachineScaleSetIdentity instead
 type VirtualMachineScaleSetIdentity struct {
 	Type *VirtualMachineScaleSetIdentityType `json:"type,omitempty"`
 }
@@ -2970,7 +2970,7 @@ func (identity *VirtualMachineScaleSetIdentity) AssignPropertiesToVirtualMachine
 	return nil
 }
 
-//Deprecated version of VirtualMachineScaleSetIdentity_Status. Use v1beta20201201.VirtualMachineScaleSetIdentity_Status instead
+// Deprecated version of VirtualMachineScaleSetIdentity_Status. Use v1beta20201201.VirtualMachineScaleSetIdentity_Status instead
 type VirtualMachineScaleSetIdentity_Status struct {
 	PrincipalId            *string                                                                 `json:"principalId,omitempty"`
 	TenantId               *string                                                                 `json:"tenantId,omitempty"`
@@ -3114,7 +3114,7 @@ func (identity *VirtualMachineScaleSetIdentity_Status) AssignPropertiesToVirtual
 	return nil
 }
 
-//Deprecated version of VirtualMachineScaleSetVMProfile_Status. Use v1beta20201201.VirtualMachineScaleSetVMProfile_Status instead
+// Deprecated version of VirtualMachineScaleSetVMProfile_Status. Use v1beta20201201.VirtualMachineScaleSetVMProfile_Status instead
 type VirtualMachineScaleSetVMProfile_Status struct {
 	BillingProfile         *BillingProfile_Status                         `json:"billingProfile,omitempty"`
 	DiagnosticsProfile     *DiagnosticsProfile_Status                     `json:"diagnosticsProfile,omitempty"`
@@ -3506,8 +3506,8 @@ func (profile *VirtualMachineScaleSetVMProfile_Status) AssignPropertiesToVirtual
 	return nil
 }
 
-//Deprecated version of VirtualMachineScaleSetsSpecPropertiesOrchestrationMode. Use
-//v1beta20201201.VirtualMachineScaleSetsSpecPropertiesOrchestrationMode instead
+// Deprecated version of VirtualMachineScaleSetsSpecPropertiesOrchestrationMode. Use
+// v1beta20201201.VirtualMachineScaleSetsSpecPropertiesOrchestrationMode instead
 // +kubebuilder:validation:Enum={"Flexible","Uniform"}
 type VirtualMachineScaleSetsSpecPropertiesOrchestrationMode string
 
@@ -3516,7 +3516,7 @@ const (
 	VirtualMachineScaleSetsSpecPropertiesOrchestrationModeUniform  = VirtualMachineScaleSetsSpecPropertiesOrchestrationMode("Uniform")
 )
 
-//Deprecated version of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile. Use v1beta20201201.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile instead
+// Deprecated version of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile. Use v1beta20201201.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile instead
 type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile struct {
 	BillingProfile         *BillingProfile                                                                 `json:"billingProfile,omitempty"`
 	DiagnosticsProfile     *DiagnosticsProfile                                                             `json:"diagnosticsProfile,omitempty"`
@@ -4015,7 +4015,7 @@ func (profile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile) As
 	return nil
 }
 
-//Deprecated version of AutomaticOSUpgradePolicy. Use v1beta20201201.AutomaticOSUpgradePolicy instead
+// Deprecated version of AutomaticOSUpgradePolicy. Use v1beta20201201.AutomaticOSUpgradePolicy instead
 type AutomaticOSUpgradePolicy struct {
 	DisableAutomaticRollback *bool `json:"disableAutomaticRollback,omitempty"`
 	EnableAutomaticOSUpgrade *bool `json:"enableAutomaticOSUpgrade,omitempty"`
@@ -4127,7 +4127,7 @@ func (policy *AutomaticOSUpgradePolicy) AssignPropertiesToAutomaticOSUpgradePoli
 	return nil
 }
 
-//Deprecated version of AutomaticOSUpgradePolicy_Status. Use v1beta20201201.AutomaticOSUpgradePolicy_Status instead
+// Deprecated version of AutomaticOSUpgradePolicy_Status. Use v1beta20201201.AutomaticOSUpgradePolicy_Status instead
 type AutomaticOSUpgradePolicy_Status struct {
 	DisableAutomaticRollback *bool `json:"disableAutomaticRollback,omitempty"`
 	EnableAutomaticOSUpgrade *bool `json:"enableAutomaticOSUpgrade,omitempty"`
@@ -4218,7 +4218,7 @@ func (policy *AutomaticOSUpgradePolicy_Status) AssignPropertiesToAutomaticOSUpgr
 	return nil
 }
 
-//Deprecated version of RollingUpgradePolicy. Use v1beta20201201.RollingUpgradePolicy instead
+// Deprecated version of RollingUpgradePolicy. Use v1beta20201201.RollingUpgradePolicy instead
 type RollingUpgradePolicy struct {
 	EnableCrossZoneUpgrade *bool `json:"enableCrossZoneUpgrade,omitempty"`
 
@@ -4445,7 +4445,7 @@ func (policy *RollingUpgradePolicy) AssignPropertiesToRollingUpgradePolicy(desti
 	return nil
 }
 
-//Deprecated version of RollingUpgradePolicy_Status. Use v1beta20201201.RollingUpgradePolicy_Status instead
+// Deprecated version of RollingUpgradePolicy_Status. Use v1beta20201201.RollingUpgradePolicy_Status instead
 type RollingUpgradePolicy_Status struct {
 	EnableCrossZoneUpgrade              *bool   `json:"enableCrossZoneUpgrade,omitempty"`
 	MaxBatchInstancePercent             *int    `json:"maxBatchInstancePercent,omitempty"`
@@ -4588,7 +4588,7 @@ func (policy *RollingUpgradePolicy_Status) AssignPropertiesToRollingUpgradePolic
 	return nil
 }
 
-//Deprecated version of ScaleInPolicyRules. Use v1beta20201201.ScaleInPolicyRules instead
+// Deprecated version of ScaleInPolicyRules. Use v1beta20201201.ScaleInPolicyRules instead
 // +kubebuilder:validation:Enum={"Default","NewestVM","OldestVM"}
 type ScaleInPolicyRules string
 
@@ -4598,7 +4598,7 @@ const (
 	ScaleInPolicyRulesOldestVM = ScaleInPolicyRules("OldestVM")
 )
 
-//Deprecated version of ScaleInPolicyStatusRules. Use v1beta20201201.ScaleInPolicyStatusRules instead
+// Deprecated version of ScaleInPolicyStatusRules. Use v1beta20201201.ScaleInPolicyStatusRules instead
 type ScaleInPolicyStatusRules string
 
 const (
@@ -4607,7 +4607,7 @@ const (
 	ScaleInPolicyStatusRulesOldestVM = ScaleInPolicyStatusRules("OldestVM")
 )
 
-//Deprecated version of ScheduledEventsProfile. Use v1beta20201201.ScheduledEventsProfile instead
+// Deprecated version of ScheduledEventsProfile. Use v1beta20201201.ScheduledEventsProfile instead
 type ScheduledEventsProfile struct {
 	TerminateNotificationProfile *TerminateNotificationProfile `json:"terminateNotificationProfile,omitempty"`
 }
@@ -4707,7 +4707,7 @@ func (profile *ScheduledEventsProfile) AssignPropertiesToScheduledEventsProfile(
 	return nil
 }
 
-//Deprecated version of ScheduledEventsProfile_Status. Use v1beta20201201.ScheduledEventsProfile_Status instead
+// Deprecated version of ScheduledEventsProfile_Status. Use v1beta20201201.ScheduledEventsProfile_Status instead
 type ScheduledEventsProfile_Status struct {
 	TerminateNotificationProfile *TerminateNotificationProfile_Status `json:"terminateNotificationProfile,omitempty"`
 }
@@ -4788,7 +4788,7 @@ func (profile *ScheduledEventsProfile_Status) AssignPropertiesToScheduledEventsP
 	return nil
 }
 
-//Deprecated version of UpgradePolicyMode. Use v1beta20201201.UpgradePolicyMode instead
+// Deprecated version of UpgradePolicyMode. Use v1beta20201201.UpgradePolicyMode instead
 // +kubebuilder:validation:Enum={"Automatic","Manual","Rolling"}
 type UpgradePolicyMode string
 
@@ -4798,7 +4798,7 @@ const (
 	UpgradePolicyModeRolling   = UpgradePolicyMode("Rolling")
 )
 
-//Deprecated version of UpgradePolicyStatusMode. Use v1beta20201201.UpgradePolicyStatusMode instead
+// Deprecated version of UpgradePolicyStatusMode. Use v1beta20201201.UpgradePolicyStatusMode instead
 type UpgradePolicyStatusMode string
 
 const (
@@ -4807,7 +4807,7 @@ const (
 	UpgradePolicyStatusModeRolling   = UpgradePolicyStatusMode("Rolling")
 )
 
-//Deprecated version of VirtualMachineScaleSetExtensionProfile_Status. Use v1beta20201201.VirtualMachineScaleSetExtensionProfile_Status instead
+// Deprecated version of VirtualMachineScaleSetExtensionProfile_Status. Use v1beta20201201.VirtualMachineScaleSetExtensionProfile_Status instead
 type VirtualMachineScaleSetExtensionProfile_Status struct {
 	Extensions           []VirtualMachineScaleSetExtension_Status `json:"extensions,omitempty"`
 	ExtensionsTimeBudget *string                                  `json:"extensionsTimeBudget,omitempty"`
@@ -4912,7 +4912,7 @@ func (profile *VirtualMachineScaleSetExtensionProfile_Status) AssignPropertiesTo
 	return nil
 }
 
-//Deprecated version of VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities. Use v1beta20201201.VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities instead
+// Deprecated version of VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities. Use v1beta20201201.VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities instead
 type VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities struct {
 	ClientId    *string `json:"clientId,omitempty"`
 	PrincipalId *string `json:"principalId,omitempty"`
@@ -4983,7 +4983,7 @@ func (identities *VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities) 
 	return nil
 }
 
-//Deprecated version of VirtualMachineScaleSetNetworkProfile_Status. Use v1beta20201201.VirtualMachineScaleSetNetworkProfile_Status instead
+// Deprecated version of VirtualMachineScaleSetNetworkProfile_Status. Use v1beta20201201.VirtualMachineScaleSetNetworkProfile_Status instead
 type VirtualMachineScaleSetNetworkProfile_Status struct {
 	HealthProbe                    *ApiEntityReference_Status                          `json:"healthProbe,omitempty"`
 	NetworkInterfaceConfigurations []VirtualMachineScaleSetNetworkConfiguration_Status `json:"networkInterfaceConfigurations,omitempty"`
@@ -5111,7 +5111,7 @@ func (profile *VirtualMachineScaleSetNetworkProfile_Status) AssignPropertiesToVi
 	return nil
 }
 
-//Deprecated version of VirtualMachineScaleSetOSProfile. Use v1beta20201201.VirtualMachineScaleSetOSProfile instead
+// Deprecated version of VirtualMachineScaleSetOSProfile. Use v1beta20201201.VirtualMachineScaleSetOSProfile instead
 type VirtualMachineScaleSetOSProfile struct {
 	AdminPassword        *genruntime.SecretReference `json:"adminPassword,omitempty"`
 	AdminUsername        *string                     `json:"adminUsername,omitempty"`
@@ -5399,7 +5399,7 @@ func (profile *VirtualMachineScaleSetOSProfile) AssignPropertiesToVirtualMachine
 	return nil
 }
 
-//Deprecated version of VirtualMachineScaleSetOSProfile_Status. Use v1beta20201201.VirtualMachineScaleSetOSProfile_Status instead
+// Deprecated version of VirtualMachineScaleSetOSProfile_Status. Use v1beta20201201.VirtualMachineScaleSetOSProfile_Status instead
 type VirtualMachineScaleSetOSProfile_Status struct {
 	AdminPassword        *string                      `json:"adminPassword,omitempty"`
 	AdminUsername        *string                      `json:"adminUsername,omitempty"`
@@ -5615,7 +5615,7 @@ func (profile *VirtualMachineScaleSetOSProfile_Status) AssignPropertiesToVirtual
 	return nil
 }
 
-//Deprecated version of VirtualMachineScaleSetStorageProfile. Use v1beta20201201.VirtualMachineScaleSetStorageProfile instead
+// Deprecated version of VirtualMachineScaleSetStorageProfile. Use v1beta20201201.VirtualMachineScaleSetStorageProfile instead
 type VirtualMachineScaleSetStorageProfile struct {
 	DataDisks      []VirtualMachineScaleSetDataDisk `json:"dataDisks,omitempty"`
 	ImageReference *ImageReference                  `json:"imageReference,omitempty"`
@@ -5817,7 +5817,7 @@ func (profile *VirtualMachineScaleSetStorageProfile) AssignPropertiesToVirtualMa
 	return nil
 }
 
-//Deprecated version of VirtualMachineScaleSetStorageProfile_Status. Use v1beta20201201.VirtualMachineScaleSetStorageProfile_Status instead
+// Deprecated version of VirtualMachineScaleSetStorageProfile_Status. Use v1beta20201201.VirtualMachineScaleSetStorageProfile_Status instead
 type VirtualMachineScaleSetStorageProfile_Status struct {
 	DataDisks      []VirtualMachineScaleSetDataDisk_Status `json:"dataDisks,omitempty"`
 	ImageReference *ImageReference_Status                  `json:"imageReference,omitempty"`
@@ -5981,8 +5981,8 @@ func (profile *VirtualMachineScaleSetStorageProfile_Status) AssignPropertiesToVi
 	return nil
 }
 
-//Deprecated version of VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileEvictionPolicy. Use
-//v1beta20201201.VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileEvictionPolicy instead
+// Deprecated version of VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileEvictionPolicy. Use
+// v1beta20201201.VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileEvictionPolicy instead
 // +kubebuilder:validation:Enum={"Deallocate","Delete"}
 type VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileEvictionPolicy string
 
@@ -5991,8 +5991,8 @@ const (
 	VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileEvictionPolicyDelete     = VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileEvictionPolicy("Delete")
 )
 
-//Deprecated version of VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfilePriority. Use
-//v1beta20201201.VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfilePriority instead
+// Deprecated version of VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfilePriority. Use
+// v1beta20201201.VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfilePriority instead
 // +kubebuilder:validation:Enum={"Low","Regular","Spot"}
 type VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfilePriority string
 
@@ -6002,7 +6002,7 @@ const (
 	VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfilePrioritySpot    = VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfilePriority("Spot")
 )
 
-//Deprecated version of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile. Use v1beta20201201.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile instead
+// Deprecated version of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile. Use v1beta20201201.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile instead
 type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile struct {
 	Extensions           []VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions `json:"extensions,omitempty"`
 	ExtensionsTimeBudget *string                                                                                     `json:"extensionsTimeBudget,omitempty"`
@@ -6131,7 +6131,7 @@ func (profile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_Ext
 	return nil
 }
 
-//Deprecated version of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile. Use v1beta20201201.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile instead
+// Deprecated version of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile. Use v1beta20201201.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile instead
 type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile struct {
 	HealthProbe                    *ApiEntityReference                                                                                           `json:"healthProbe,omitempty"`
 	NetworkInterfaceConfigurations []VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations `json:"networkInterfaceConfigurations,omitempty"`
@@ -6287,7 +6287,7 @@ func (profile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_Net
 	return nil
 }
 
-//Deprecated version of ApiEntityReference. Use v1beta20201201.ApiEntityReference instead
+// Deprecated version of ApiEntityReference. Use v1beta20201201.ApiEntityReference instead
 type ApiEntityReference struct {
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
@@ -6370,7 +6370,7 @@ func (reference *ApiEntityReference) AssignPropertiesToApiEntityReference(destin
 	return nil
 }
 
-//Deprecated version of ApiEntityReference_Status. Use v1beta20201201.ApiEntityReference_Status instead
+// Deprecated version of ApiEntityReference_Status. Use v1beta20201201.ApiEntityReference_Status instead
 type ApiEntityReference_Status struct {
 	Id *string `json:"id,omitempty"`
 }
@@ -6428,7 +6428,7 @@ func (reference *ApiEntityReference_Status) AssignPropertiesToApiEntityReference
 	return nil
 }
 
-//Deprecated version of TerminateNotificationProfile. Use v1beta20201201.TerminateNotificationProfile instead
+// Deprecated version of TerminateNotificationProfile. Use v1beta20201201.TerminateNotificationProfile instead
 type TerminateNotificationProfile struct {
 	Enable           *bool   `json:"enable,omitempty"`
 	NotBeforeTimeout *string `json:"notBeforeTimeout,omitempty"`
@@ -6530,7 +6530,7 @@ func (profile *TerminateNotificationProfile) AssignPropertiesToTerminateNotifica
 	return nil
 }
 
-//Deprecated version of TerminateNotificationProfile_Status. Use v1beta20201201.TerminateNotificationProfile_Status instead
+// Deprecated version of TerminateNotificationProfile_Status. Use v1beta20201201.TerminateNotificationProfile_Status instead
 type TerminateNotificationProfile_Status struct {
 	Enable           *bool   `json:"enable,omitempty"`
 	NotBeforeTimeout *string `json:"notBeforeTimeout,omitempty"`
@@ -6611,7 +6611,7 @@ func (profile *TerminateNotificationProfile_Status) AssignPropertiesToTerminateN
 	return nil
 }
 
-//Deprecated version of VirtualMachineScaleSetDataDisk. Use v1beta20201201.VirtualMachineScaleSetDataDisk instead
+// Deprecated version of VirtualMachineScaleSetDataDisk. Use v1beta20201201.VirtualMachineScaleSetDataDisk instead
 type VirtualMachineScaleSetDataDisk struct {
 	Caching *VirtualMachineScaleSetDataDiskCaching `json:"caching,omitempty"`
 
@@ -6897,7 +6897,7 @@ func (disk *VirtualMachineScaleSetDataDisk) AssignPropertiesToVirtualMachineScal
 	return nil
 }
 
-//Deprecated version of VirtualMachineScaleSetDataDisk_Status. Use v1beta20201201.VirtualMachineScaleSetDataDisk_Status instead
+// Deprecated version of VirtualMachineScaleSetDataDisk_Status. Use v1beta20201201.VirtualMachineScaleSetDataDisk_Status instead
 type VirtualMachineScaleSetDataDisk_Status struct {
 	Caching                 *Caching_Status                                     `json:"caching,omitempty"`
 	CreateOption            *CreateOption_Status                                `json:"createOption,omitempty"`
@@ -7112,7 +7112,7 @@ func (disk *VirtualMachineScaleSetDataDisk_Status) AssignPropertiesToVirtualMach
 	return nil
 }
 
-//Deprecated version of VirtualMachineScaleSetExtension_Status. Use v1beta20201201.VirtualMachineScaleSetExtension_Status instead
+// Deprecated version of VirtualMachineScaleSetExtension_Status. Use v1beta20201201.VirtualMachineScaleSetExtension_Status instead
 type VirtualMachineScaleSetExtension_Status struct {
 	AutoUpgradeMinorVersion  *bool              `json:"autoUpgradeMinorVersion,omitempty"`
 	EnableAutomaticUpgrade   *bool              `json:"enableAutomaticUpgrade,omitempty"`
@@ -7419,7 +7419,7 @@ func (extension *VirtualMachineScaleSetExtension_Status) AssignPropertiesToVirtu
 	return nil
 }
 
-//Deprecated version of VirtualMachineScaleSetNetworkConfiguration_Status. Use v1beta20201201.VirtualMachineScaleSetNetworkConfiguration_Status instead
+// Deprecated version of VirtualMachineScaleSetNetworkConfiguration_Status. Use v1beta20201201.VirtualMachineScaleSetNetworkConfiguration_Status instead
 type VirtualMachineScaleSetNetworkConfiguration_Status struct {
 	DnsSettings                 *VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status `json:"dnsSettings,omitempty"`
 	EnableAcceleratedNetworking *bool                                                         `json:"enableAcceleratedNetworking,omitempty"`
@@ -7722,7 +7722,7 @@ func (configuration *VirtualMachineScaleSetNetworkConfiguration_Status) AssignPr
 	return nil
 }
 
-//Deprecated version of VirtualMachineScaleSetOSDisk. Use v1beta20201201.VirtualMachineScaleSetOSDisk instead
+// Deprecated version of VirtualMachineScaleSetOSDisk. Use v1beta20201201.VirtualMachineScaleSetOSDisk instead
 type VirtualMachineScaleSetOSDisk struct {
 	Caching *VirtualMachineScaleSetOSDiskCaching `json:"caching,omitempty"`
 
@@ -8087,7 +8087,7 @@ func (disk *VirtualMachineScaleSetOSDisk) AssignPropertiesToVirtualMachineScaleS
 	return nil
 }
 
-//Deprecated version of VirtualMachineScaleSetOSDisk_Status. Use v1beta20201201.VirtualMachineScaleSetOSDisk_Status instead
+// Deprecated version of VirtualMachineScaleSetOSDisk_Status. Use v1beta20201201.VirtualMachineScaleSetOSDisk_Status instead
 type VirtualMachineScaleSetOSDisk_Status struct {
 	Caching                 *Caching_Status                                     `json:"caching,omitempty"`
 	CreateOption            *CreateOption_Status                                `json:"createOption,omitempty"`
@@ -8370,7 +8370,7 @@ func (disk *VirtualMachineScaleSetOSDisk_Status) AssignPropertiesToVirtualMachin
 	return nil
 }
 
-//Deprecated version of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions. Use v1beta20201201.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions instead
+// Deprecated version of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions. Use v1beta20201201.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions instead
 type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions struct {
 	Name *string `json:"name,omitempty"`
 
@@ -8596,7 +8596,7 @@ func (extensions *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_
 	return nil
 }
 
-//Deprecated version of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations. Use v1beta20201201.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations instead
+// Deprecated version of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations. Use v1beta20201201.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations instead
 type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations struct {
 	DnsSettings                 *VirtualMachineScaleSetNetworkConfigurationDnsSettings `json:"dnsSettings,omitempty"`
 	EnableAcceleratedNetworking *bool                                                  `json:"enableAcceleratedNetworking,omitempty"`
@@ -8974,8 +8974,8 @@ func (configurations *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProf
 	return nil
 }
 
-//Deprecated version of VirtualMachineScaleSetDataDiskCaching. Use v1beta20201201.VirtualMachineScaleSetDataDiskCaching
-//instead
+// Deprecated version of VirtualMachineScaleSetDataDiskCaching. Use v1beta20201201.VirtualMachineScaleSetDataDiskCaching
+// instead
 // +kubebuilder:validation:Enum={"None","ReadOnly","ReadWrite"}
 type VirtualMachineScaleSetDataDiskCaching string
 
@@ -8985,8 +8985,8 @@ const (
 	VirtualMachineScaleSetDataDiskCachingReadWrite = VirtualMachineScaleSetDataDiskCaching("ReadWrite")
 )
 
-//Deprecated version of VirtualMachineScaleSetDataDiskCreateOption. Use
-//v1beta20201201.VirtualMachineScaleSetDataDiskCreateOption instead
+// Deprecated version of VirtualMachineScaleSetDataDiskCreateOption. Use
+// v1beta20201201.VirtualMachineScaleSetDataDiskCreateOption instead
 // +kubebuilder:validation:Enum={"Attach","Empty","FromImage"}
 type VirtualMachineScaleSetDataDiskCreateOption string
 
@@ -8996,7 +8996,7 @@ const (
 	VirtualMachineScaleSetDataDiskCreateOptionFromImage = VirtualMachineScaleSetDataDiskCreateOption("FromImage")
 )
 
-//Deprecated version of VirtualMachineScaleSetIPConfiguration_Status. Use v1beta20201201.VirtualMachineScaleSetIPConfiguration_Status instead
+// Deprecated version of VirtualMachineScaleSetIPConfiguration_Status. Use v1beta20201201.VirtualMachineScaleSetIPConfiguration_Status instead
 type VirtualMachineScaleSetIPConfiguration_Status struct {
 	ApplicationGatewayBackendAddressPools []SubResource_Status                                                          `json:"applicationGatewayBackendAddressPools,omitempty"`
 	ApplicationSecurityGroups             []SubResource_Status                                                          `json:"applicationSecurityGroups,omitempty"`
@@ -9397,7 +9397,7 @@ func (configuration *VirtualMachineScaleSetIPConfiguration_Status) AssignPropert
 	return nil
 }
 
-//Deprecated version of VirtualMachineScaleSetManagedDiskParameters. Use v1beta20201201.VirtualMachineScaleSetManagedDiskParameters instead
+// Deprecated version of VirtualMachineScaleSetManagedDiskParameters. Use v1beta20201201.VirtualMachineScaleSetManagedDiskParameters instead
 type VirtualMachineScaleSetManagedDiskParameters struct {
 	DiskEncryptionSet  *DiskEncryptionSetParameters                                   `json:"diskEncryptionSet,omitempty"`
 	StorageAccountType *VirtualMachineScaleSetManagedDiskParametersStorageAccountType `json:"storageAccountType,omitempty"`
@@ -9526,7 +9526,7 @@ func (parameters *VirtualMachineScaleSetManagedDiskParameters) AssignPropertiesT
 	return nil
 }
 
-//Deprecated version of VirtualMachineScaleSetManagedDiskParameters_Status. Use v1beta20201201.VirtualMachineScaleSetManagedDiskParameters_Status instead
+// Deprecated version of VirtualMachineScaleSetManagedDiskParameters_Status. Use v1beta20201201.VirtualMachineScaleSetManagedDiskParameters_Status instead
 type VirtualMachineScaleSetManagedDiskParameters_Status struct {
 	DiskEncryptionSet  *SubResource_Status        `json:"diskEncryptionSet,omitempty"`
 	StorageAccountType *StorageAccountType_Status `json:"storageAccountType,omitempty"`
@@ -9630,7 +9630,7 @@ func (parameters *VirtualMachineScaleSetManagedDiskParameters_Status) AssignProp
 	return nil
 }
 
-//Deprecated version of VirtualMachineScaleSetNetworkConfigurationDnsSettings. Use v1beta20201201.VirtualMachineScaleSetNetworkConfigurationDnsSettings instead
+// Deprecated version of VirtualMachineScaleSetNetworkConfigurationDnsSettings. Use v1beta20201201.VirtualMachineScaleSetNetworkConfigurationDnsSettings instead
 type VirtualMachineScaleSetNetworkConfigurationDnsSettings struct {
 	DnsServers []string `json:"dnsServers,omitempty"`
 }
@@ -9701,7 +9701,7 @@ func (settings *VirtualMachineScaleSetNetworkConfigurationDnsSettings) AssignPro
 	return nil
 }
 
-//Deprecated version of VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status. Use v1beta20201201.VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status instead
+// Deprecated version of VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status. Use v1beta20201201.VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status instead
 type VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status struct {
 	DnsServers []string `json:"dnsServers,omitempty"`
 }
@@ -9758,7 +9758,7 @@ func (settings *VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status) As
 	return nil
 }
 
-//Deprecated version of VirtualMachineScaleSetOSDiskCaching. Use v1beta20201201.VirtualMachineScaleSetOSDiskCaching instead
+// Deprecated version of VirtualMachineScaleSetOSDiskCaching. Use v1beta20201201.VirtualMachineScaleSetOSDiskCaching instead
 // +kubebuilder:validation:Enum={"None","ReadOnly","ReadWrite"}
 type VirtualMachineScaleSetOSDiskCaching string
 
@@ -9768,8 +9768,8 @@ const (
 	VirtualMachineScaleSetOSDiskCachingReadWrite = VirtualMachineScaleSetOSDiskCaching("ReadWrite")
 )
 
-//Deprecated version of VirtualMachineScaleSetOSDiskCreateOption. Use
-//v1beta20201201.VirtualMachineScaleSetOSDiskCreateOption instead
+// Deprecated version of VirtualMachineScaleSetOSDiskCreateOption. Use
+// v1beta20201201.VirtualMachineScaleSetOSDiskCreateOption instead
 // +kubebuilder:validation:Enum={"Attach","Empty","FromImage"}
 type VirtualMachineScaleSetOSDiskCreateOption string
 
@@ -9779,7 +9779,7 @@ const (
 	VirtualMachineScaleSetOSDiskCreateOptionFromImage = VirtualMachineScaleSetOSDiskCreateOption("FromImage")
 )
 
-//Deprecated version of VirtualMachineScaleSetOSDiskOsType. Use v1beta20201201.VirtualMachineScaleSetOSDiskOsType instead
+// Deprecated version of VirtualMachineScaleSetOSDiskOsType. Use v1beta20201201.VirtualMachineScaleSetOSDiskOsType instead
 // +kubebuilder:validation:Enum={"Linux","Windows"}
 type VirtualMachineScaleSetOSDiskOsType string
 
@@ -9788,8 +9788,8 @@ const (
 	VirtualMachineScaleSetOSDiskOsTypeWindows = VirtualMachineScaleSetOSDiskOsType("Windows")
 )
 
-//Deprecated version of VirtualMachineScaleSetOSDiskStatusOsType. Use
-//v1beta20201201.VirtualMachineScaleSetOSDiskStatusOsType instead
+// Deprecated version of VirtualMachineScaleSetOSDiskStatusOsType. Use
+// v1beta20201201.VirtualMachineScaleSetOSDiskStatusOsType instead
 type VirtualMachineScaleSetOSDiskStatusOsType string
 
 const (
@@ -9797,7 +9797,7 @@ const (
 	VirtualMachineScaleSetOSDiskStatusOsTypeWindows = VirtualMachineScaleSetOSDiskStatusOsType("Windows")
 )
 
-//Deprecated version of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations. Use v1beta20201201.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations instead
+// Deprecated version of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations. Use v1beta20201201.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations instead
 type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations struct {
 	ApplicationGatewayBackendAddressPools []SubResource `json:"applicationGatewayBackendAddressPools,omitempty"`
 	ApplicationSecurityGroups             []SubResource `json:"applicationSecurityGroups,omitempty"`
@@ -10285,8 +10285,8 @@ func (configurations *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProf
 	return nil
 }
 
-//Deprecated version of VirtualMachineScaleSetIPConfigurationPropertiesStatusPrivateIPAddressVersion. Use
-//v1beta20201201.VirtualMachineScaleSetIPConfigurationPropertiesStatusPrivateIPAddressVersion instead
+// Deprecated version of VirtualMachineScaleSetIPConfigurationPropertiesStatusPrivateIPAddressVersion. Use
+// v1beta20201201.VirtualMachineScaleSetIPConfigurationPropertiesStatusPrivateIPAddressVersion instead
 type VirtualMachineScaleSetIPConfigurationPropertiesStatusPrivateIPAddressVersion string
 
 const (
@@ -10294,8 +10294,8 @@ const (
 	VirtualMachineScaleSetIPConfigurationPropertiesStatusPrivateIPAddressVersionIPv6 = VirtualMachineScaleSetIPConfigurationPropertiesStatusPrivateIPAddressVersion("IPv6")
 )
 
-//Deprecated version of VirtualMachineScaleSetManagedDiskParametersStorageAccountType. Use
-//v1beta20201201.VirtualMachineScaleSetManagedDiskParametersStorageAccountType instead
+// Deprecated version of VirtualMachineScaleSetManagedDiskParametersStorageAccountType. Use
+// v1beta20201201.VirtualMachineScaleSetManagedDiskParametersStorageAccountType instead
 // +kubebuilder:validation:Enum={"Premium_LRS","Premium_ZRS","Standard_LRS","StandardSSD_LRS","StandardSSD_ZRS","UltraSSD_LRS"}
 type VirtualMachineScaleSetManagedDiskParametersStorageAccountType string
 
@@ -10308,7 +10308,7 @@ const (
 	VirtualMachineScaleSetManagedDiskParametersStorageAccountTypeUltraSSDLRS    = VirtualMachineScaleSetManagedDiskParametersStorageAccountType("UltraSSD_LRS")
 )
 
-//Deprecated version of VirtualMachineScaleSetPublicIPAddressConfiguration_Status. Use v1beta20201201.VirtualMachineScaleSetPublicIPAddressConfiguration_Status instead
+// Deprecated version of VirtualMachineScaleSetPublicIPAddressConfiguration_Status. Use v1beta20201201.VirtualMachineScaleSetPublicIPAddressConfiguration_Status instead
 type VirtualMachineScaleSetPublicIPAddressConfiguration_Status struct {
 	DnsSettings            *VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status                     `json:"dnsSettings,omitempty"`
 	IdleTimeoutInMinutes   *int                                                                                      `json:"idleTimeoutInMinutes,omitempty"`
@@ -10536,11 +10536,11 @@ func (configuration *VirtualMachineScaleSetPublicIPAddressConfiguration_Status) 
 	return nil
 }
 
-//Deprecated version of
-//VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPrivateIPAddressVersion.
-//Use
-//v1beta20201201.VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPrivateIPAddressVersion
-//instead
+// Deprecated version of
+// VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPrivateIPAddressVersion.
+// Use
+// v1beta20201201.VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPrivateIPAddressVersion
+// instead
 // +kubebuilder:validation:Enum={"IPv4","IPv6"}
 type VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPrivateIPAddressVersion string
 
@@ -10549,7 +10549,7 @@ const (
 	VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPrivateIPAddressVersionIPv6 = VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPrivateIPAddressVersion("IPv6")
 )
 
-//Deprecated version of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration. Use v1beta20201201.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration instead
+// Deprecated version of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration. Use v1beta20201201.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration instead
 type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration struct {
 	DnsSettings          *VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings `json:"dnsSettings,omitempty"`
 	IdleTimeoutInMinutes *int                                                           `json:"idleTimeoutInMinutes,omitempty"`
@@ -10834,7 +10834,7 @@ func (configuration *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfi
 	return nil
 }
 
-//Deprecated version of VirtualMachineScaleSetIpTag. Use v1beta20201201.VirtualMachineScaleSetIpTag instead
+// Deprecated version of VirtualMachineScaleSetIpTag. Use v1beta20201201.VirtualMachineScaleSetIpTag instead
 type VirtualMachineScaleSetIpTag struct {
 	IpTagType *string `json:"ipTagType,omitempty"`
 	Tag       *string `json:"tag,omitempty"`
@@ -10926,7 +10926,7 @@ func (ipTag *VirtualMachineScaleSetIpTag) AssignPropertiesToVirtualMachineScaleS
 	return nil
 }
 
-//Deprecated version of VirtualMachineScaleSetIpTag_Status. Use v1beta20201201.VirtualMachineScaleSetIpTag_Status instead
+// Deprecated version of VirtualMachineScaleSetIpTag_Status. Use v1beta20201201.VirtualMachineScaleSetIpTag_Status instead
 type VirtualMachineScaleSetIpTag_Status struct {
 	IpTagType *string `json:"ipTagType,omitempty"`
 	Tag       *string `json:"tag,omitempty"`
@@ -10997,7 +10997,7 @@ func (ipTag *VirtualMachineScaleSetIpTag_Status) AssignPropertiesToVirtualMachin
 	return nil
 }
 
-//Deprecated version of VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings. Use v1beta20201201.VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings instead
+// Deprecated version of VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings. Use v1beta20201201.VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings instead
 type VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings struct {
 	// +kubebuilder:validation:Required
 	DomainNameLabel *string `json:"domainNameLabel,omitempty"`
@@ -11071,7 +11071,7 @@ func (settings *VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings) A
 	return nil
 }
 
-//Deprecated version of VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status. Use v1beta20201201.VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status instead
+// Deprecated version of VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status. Use v1beta20201201.VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status instead
 type VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status struct {
 	DomainNameLabel *string `json:"domainNameLabel,omitempty"`
 }
@@ -11129,8 +11129,8 @@ func (settings *VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_St
 	return nil
 }
 
-//Deprecated version of VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesPublicIPAddressVersion. Use
-//v1beta20201201.VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesPublicIPAddressVersion instead
+// Deprecated version of VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesPublicIPAddressVersion. Use
+// v1beta20201201.VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesPublicIPAddressVersion instead
 // +kubebuilder:validation:Enum={"IPv4","IPv6"}
 type VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesPublicIPAddressVersion string
 
@@ -11139,8 +11139,8 @@ const (
 	VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesPublicIPAddressVersionIPv6 = VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesPublicIPAddressVersion("IPv6")
 )
 
-//Deprecated version of VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesStatusPublicIPAddressVersion. Use
-//v1beta20201201.VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesStatusPublicIPAddressVersion instead
+// Deprecated version of VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesStatusPublicIPAddressVersion. Use
+// v1beta20201201.VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesStatusPublicIPAddressVersion instead
 type VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesStatusPublicIPAddressVersion string
 
 const (

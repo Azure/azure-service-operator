@@ -5,7 +5,7 @@ package v1alpha1api20201101
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-//Deprecated version of PublicIPAddresses_Spec. Use v1beta20201101.PublicIPAddresses_Spec instead
+// Deprecated version of PublicIPAddresses_Spec. Use v1beta20201101.PublicIPAddresses_Spec instead
 type PublicIPAddresses_SpecARM struct {
 	ExtendedLocation *ExtendedLocationARM                `json:"extendedLocation,omitempty"`
 	Location         *string                             `json:"location,omitempty"`
@@ -33,7 +33,7 @@ func (addresses PublicIPAddresses_SpecARM) GetType() string {
 	return "Microsoft.Network/publicIPAddresses"
 }
 
-//Deprecated version of PublicIPAddressPropertiesFormat. Use v1beta20201101.PublicIPAddressPropertiesFormat instead
+// Deprecated version of PublicIPAddressPropertiesFormat. Use v1beta20201101.PublicIPAddressPropertiesFormat instead
 type PublicIPAddressPropertiesFormatARM struct {
 	DdosSettings             *DdosSettingsARM                                         `json:"ddosSettings,omitempty"`
 	DnsSettings              *PublicIPAddressDnsSettingsARM                           `json:"dnsSettings,omitempty"`
@@ -45,33 +45,33 @@ type PublicIPAddressPropertiesFormatARM struct {
 	PublicIPPrefix           *SubResourceARM                                          `json:"publicIPPrefix,omitempty"`
 }
 
-//Deprecated version of PublicIPAddressSku. Use v1beta20201101.PublicIPAddressSku instead
+// Deprecated version of PublicIPAddressSku. Use v1beta20201101.PublicIPAddressSku instead
 type PublicIPAddressSkuARM struct {
 	Name *PublicIPAddressSkuName `json:"name,omitempty"`
 	Tier *PublicIPAddressSkuTier `json:"tier,omitempty"`
 }
 
-//Deprecated version of DdosSettings. Use v1beta20201101.DdosSettings instead
+// Deprecated version of DdosSettings. Use v1beta20201101.DdosSettings instead
 type DdosSettingsARM struct {
 	DdosCustomPolicy   *SubResourceARM                 `json:"ddosCustomPolicy,omitempty"`
 	ProtectedIP        *bool                           `json:"protectedIP,omitempty"`
 	ProtectionCoverage *DdosSettingsProtectionCoverage `json:"protectionCoverage,omitempty"`
 }
 
-//Deprecated version of IpTag. Use v1beta20201101.IpTag instead
+// Deprecated version of IpTag. Use v1beta20201101.IpTag instead
 type IpTagARM struct {
 	IpTagType *string `json:"ipTagType,omitempty"`
 	Tag       *string `json:"tag,omitempty"`
 }
 
-//Deprecated version of PublicIPAddressDnsSettings. Use v1beta20201101.PublicIPAddressDnsSettings instead
+// Deprecated version of PublicIPAddressDnsSettings. Use v1beta20201101.PublicIPAddressDnsSettings instead
 type PublicIPAddressDnsSettingsARM struct {
 	DomainNameLabel *string `json:"domainNameLabel,omitempty"`
 	Fqdn            *string `json:"fqdn,omitempty"`
 	ReverseFqdn     *string `json:"reverseFqdn,omitempty"`
 }
 
-//Deprecated version of PublicIPAddressSkuName. Use v1beta20201101.PublicIPAddressSkuName instead
+// Deprecated version of PublicIPAddressSkuName. Use v1beta20201101.PublicIPAddressSkuName instead
 // +kubebuilder:validation:Enum={"Basic","Standard"}
 type PublicIPAddressSkuName string
 
@@ -80,7 +80,7 @@ const (
 	PublicIPAddressSkuNameStandard = PublicIPAddressSkuName("Standard")
 )
 
-//Deprecated version of PublicIPAddressSkuTier. Use v1beta20201101.PublicIPAddressSkuTier instead
+// Deprecated version of PublicIPAddressSkuTier. Use v1beta20201101.PublicIPAddressSkuTier instead
 // +kubebuilder:validation:Enum={"Global","Regional"}
 type PublicIPAddressSkuTier string
 

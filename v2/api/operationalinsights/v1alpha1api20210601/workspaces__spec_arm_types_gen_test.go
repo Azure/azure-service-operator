@@ -132,7 +132,7 @@ func RunJSONSerializationTestForWorkspacePropertiesARM(subject WorkspaceProperti
 }
 
 // Generator of WorkspacePropertiesARM instances for property testing - lazily instantiated by
-//WorkspacePropertiesARMGenerator()
+// WorkspacePropertiesARMGenerator()
 var workspacePropertiesARMGenerator gopter.Gen
 
 // WorkspacePropertiesARMGenerator returns a generator of WorkspacePropertiesARM instances for property testing.
@@ -219,7 +219,7 @@ func RunJSONSerializationTestForWorkspaceCappingARM(subject WorkspaceCappingARM)
 }
 
 // Generator of WorkspaceCappingARM instances for property testing - lazily instantiated by
-//WorkspaceCappingARMGenerator()
+// WorkspaceCappingARMGenerator()
 var workspaceCappingARMGenerator gopter.Gen
 
 // WorkspaceCappingARMGenerator returns a generator of WorkspaceCappingARM instances for property testing.
@@ -279,7 +279,7 @@ func RunJSONSerializationTestForWorkspaceFeaturesARM(subject WorkspaceFeaturesAR
 }
 
 // Generator of WorkspaceFeaturesARM instances for property testing - lazily instantiated by
-//WorkspaceFeaturesARMGenerator()
+// WorkspaceFeaturesARMGenerator()
 var workspaceFeaturesARMGenerator gopter.Gen
 
 // WorkspaceFeaturesARMGenerator returns a generator of WorkspaceFeaturesARM instances for property testing.

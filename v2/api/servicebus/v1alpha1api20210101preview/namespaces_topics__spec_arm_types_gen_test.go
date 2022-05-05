@@ -56,7 +56,7 @@ func RunJSONSerializationTestForNamespacesTopicsSpecARM(subject NamespacesTopics
 }
 
 // Generator of NamespacesTopics_SpecARM instances for property testing - lazily instantiated by
-//NamespacesTopicsSpecARMGenerator()
+// NamespacesTopicsSpecARMGenerator()
 var namespacesTopicsSpecARMGenerator gopter.Gen
 
 // NamespacesTopicsSpecARMGenerator returns a generator of NamespacesTopics_SpecARM instances for property testing.
@@ -132,7 +132,7 @@ func RunJSONSerializationTestForSBTopicPropertiesARM(subject SBTopicPropertiesAR
 }
 
 // Generator of SBTopicPropertiesARM instances for property testing - lazily instantiated by
-//SBTopicPropertiesARMGenerator()
+// SBTopicPropertiesARMGenerator()
 var sbTopicPropertiesARMGenerator gopter.Gen
 
 // SBTopicPropertiesARMGenerator returns a generator of SBTopicPropertiesARM instances for property testing.

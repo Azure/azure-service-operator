@@ -116,7 +116,7 @@ func RunJSONSerializationTestForDatabaseAccountsMongodbDatabasesSpec(subject Dat
 }
 
 // Generator of DatabaseAccountsMongodbDatabases_Spec instances for property testing - lazily instantiated by
-//DatabaseAccountsMongodbDatabasesSpecGenerator()
+// DatabaseAccountsMongodbDatabasesSpecGenerator()
 var databaseAccountsMongodbDatabasesSpecGenerator gopter.Gen
 
 // DatabaseAccountsMongodbDatabasesSpecGenerator returns a generator of DatabaseAccountsMongodbDatabases_Spec instances for property testing.
@@ -194,7 +194,7 @@ func RunJSONSerializationTestForMongoDBDatabaseGetResultsStatus(subject MongoDBD
 }
 
 // Generator of MongoDBDatabaseGetResults_Status instances for property testing - lazily instantiated by
-//MongoDBDatabaseGetResultsStatusGenerator()
+// MongoDBDatabaseGetResultsStatusGenerator()
 var mongoDBDatabaseGetResultsStatusGenerator gopter.Gen
 
 // MongoDBDatabaseGetResultsStatusGenerator returns a generator of MongoDBDatabaseGetResults_Status instances for property testing.
@@ -273,7 +273,7 @@ func RunJSONSerializationTestForCreateUpdateOptions(subject CreateUpdateOptions)
 }
 
 // Generator of CreateUpdateOptions instances for property testing - lazily instantiated by
-//CreateUpdateOptionsGenerator()
+// CreateUpdateOptionsGenerator()
 var createUpdateOptionsGenerator gopter.Gen
 
 // CreateUpdateOptionsGenerator returns a generator of CreateUpdateOptions instances for property testing.
@@ -347,7 +347,7 @@ func RunJSONSerializationTestForMongoDBDatabaseGetPropertiesStatusResource(subje
 }
 
 // Generator of MongoDBDatabaseGetProperties_Status_Resource instances for property testing - lazily instantiated by
-//MongoDBDatabaseGetPropertiesStatusResourceGenerator()
+// MongoDBDatabaseGetPropertiesStatusResourceGenerator()
 var mongoDBDatabaseGetPropertiesStatusResourceGenerator gopter.Gen
 
 // MongoDBDatabaseGetPropertiesStatusResourceGenerator returns a generator of MongoDBDatabaseGetProperties_Status_Resource instances for property testing.
@@ -410,7 +410,7 @@ func RunJSONSerializationTestForMongoDBDatabaseResource(subject MongoDBDatabaseR
 }
 
 // Generator of MongoDBDatabaseResource instances for property testing - lazily instantiated by
-//MongoDBDatabaseResourceGenerator()
+// MongoDBDatabaseResourceGenerator()
 var mongoDBDatabaseResourceGenerator gopter.Gen
 
 // MongoDBDatabaseResourceGenerator returns a generator of MongoDBDatabaseResource instances for property testing.
@@ -470,7 +470,7 @@ func RunJSONSerializationTestForOptionsResourceStatus(subject OptionsResource_St
 }
 
 // Generator of OptionsResource_Status instances for property testing - lazily instantiated by
-//OptionsResourceStatusGenerator()
+// OptionsResourceStatusGenerator()
 var optionsResourceStatusGenerator gopter.Gen
 
 // OptionsResourceStatusGenerator returns a generator of OptionsResource_Status instances for property testing.
@@ -603,7 +603,7 @@ func RunJSONSerializationTestForAutoscaleSettingsStatus(subject AutoscaleSetting
 }
 
 // Generator of AutoscaleSettings_Status instances for property testing - lazily instantiated by
-//AutoscaleSettingsStatusGenerator()
+// AutoscaleSettingsStatusGenerator()
 var autoscaleSettingsStatusGenerator gopter.Gen
 
 // AutoscaleSettingsStatusGenerator returns a generator of AutoscaleSettings_Status instances for property testing.

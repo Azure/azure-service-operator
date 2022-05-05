@@ -91,7 +91,7 @@ func RunPropertyAssignmentTestForEventSubscription(subject EventSubscription) st
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -193,7 +193,7 @@ func RunPropertyAssignmentTestForEventSubscriptionStatus(subject EventSubscripti
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -244,7 +244,7 @@ func RunJSONSerializationTestForEventSubscriptionStatus(subject EventSubscriptio
 }
 
 // Generator of EventSubscription_Status instances for property testing - lazily instantiated by
-//EventSubscriptionStatusGenerator()
+// EventSubscriptionStatusGenerator()
 var eventSubscriptionStatusGenerator gopter.Gen
 
 // EventSubscriptionStatusGenerator returns a generator of EventSubscription_Status instances for property testing.
@@ -327,7 +327,7 @@ func RunPropertyAssignmentTestForEventSubscriptionsSpec(subject EventSubscriptio
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -378,7 +378,7 @@ func RunJSONSerializationTestForEventSubscriptionsSpec(subject EventSubscription
 }
 
 // Generator of EventSubscriptions_Spec instances for property testing - lazily instantiated by
-//EventSubscriptionsSpecGenerator()
+// EventSubscriptionsSpecGenerator()
 var eventSubscriptionsSpecGenerator gopter.Gen
 
 // EventSubscriptionsSpecGenerator returns a generator of EventSubscriptions_Spec instances for property testing.
@@ -451,7 +451,7 @@ func RunPropertyAssignmentTestForDeadLetterDestinationStatus(subject DeadLetterD
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -502,7 +502,7 @@ func RunJSONSerializationTestForDeadLetterDestinationStatus(subject DeadLetterDe
 }
 
 // Generator of DeadLetterDestination_Status instances for property testing - lazily instantiated by
-//DeadLetterDestinationStatusGenerator()
+// DeadLetterDestinationStatusGenerator()
 var deadLetterDestinationStatusGenerator gopter.Gen
 
 // DeadLetterDestinationStatusGenerator returns a generator of DeadLetterDestination_Status instances for property testing.
@@ -553,7 +553,7 @@ func RunPropertyAssignmentTestForEventSubscriptionDestination(subject EventSubsc
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -604,7 +604,7 @@ func RunJSONSerializationTestForEventSubscriptionDestination(subject EventSubscr
 }
 
 // Generator of EventSubscriptionDestination instances for property testing - lazily instantiated by
-//EventSubscriptionDestinationGenerator()
+// EventSubscriptionDestinationGenerator()
 var eventSubscriptionDestinationGenerator gopter.Gen
 
 // EventSubscriptionDestinationGenerator returns a generator of EventSubscriptionDestination instances for property testing.
@@ -683,7 +683,7 @@ func RunPropertyAssignmentTestForEventSubscriptionDestinationStatus(subject Even
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -734,7 +734,7 @@ func RunJSONSerializationTestForEventSubscriptionDestinationStatus(subject Event
 }
 
 // Generator of EventSubscriptionDestination_Status instances for property testing - lazily instantiated by
-//EventSubscriptionDestinationStatusGenerator()
+// EventSubscriptionDestinationStatusGenerator()
 var eventSubscriptionDestinationStatusGenerator gopter.Gen
 
 // EventSubscriptionDestinationStatusGenerator returns a generator of EventSubscriptionDestination_Status instances for property testing.
@@ -792,7 +792,7 @@ func RunPropertyAssignmentTestForEventSubscriptionFilter(subject EventSubscripti
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -843,7 +843,7 @@ func RunJSONSerializationTestForEventSubscriptionFilter(subject EventSubscriptio
 }
 
 // Generator of EventSubscriptionFilter instances for property testing - lazily instantiated by
-//EventSubscriptionFilterGenerator()
+// EventSubscriptionFilterGenerator()
 var eventSubscriptionFilterGenerator gopter.Gen
 
 // EventSubscriptionFilterGenerator returns a generator of EventSubscriptionFilter instances for property testing.
@@ -911,7 +911,7 @@ func RunPropertyAssignmentTestForEventSubscriptionFilterStatus(subject EventSubs
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -962,7 +962,7 @@ func RunJSONSerializationTestForEventSubscriptionFilterStatus(subject EventSubsc
 }
 
 // Generator of EventSubscriptionFilter_Status instances for property testing - lazily instantiated by
-//EventSubscriptionFilterStatusGenerator()
+// EventSubscriptionFilterStatusGenerator()
 var eventSubscriptionFilterStatusGenerator gopter.Gen
 
 // EventSubscriptionFilterStatusGenerator returns a generator of EventSubscriptionFilter_Status instances for property testing.
@@ -1030,7 +1030,7 @@ func RunPropertyAssignmentTestForRetryPolicy(subject RetryPolicy) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1132,7 +1132,7 @@ func RunPropertyAssignmentTestForRetryPolicyStatus(subject RetryPolicy_Status) s
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1234,7 +1234,7 @@ func RunPropertyAssignmentTestForStorageBlobDeadLetterDestination(subject Storag
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1285,7 +1285,7 @@ func RunJSONSerializationTestForStorageBlobDeadLetterDestination(subject Storage
 }
 
 // Generator of StorageBlobDeadLetterDestination instances for property testing - lazily instantiated by
-//StorageBlobDeadLetterDestinationGenerator()
+// StorageBlobDeadLetterDestinationGenerator()
 var storageBlobDeadLetterDestinationGenerator gopter.Gen
 
 // StorageBlobDeadLetterDestinationGenerator returns a generator of StorageBlobDeadLetterDestination instances for property testing.
@@ -1350,7 +1350,7 @@ func RunPropertyAssignmentTestForAdvancedFilter(subject AdvancedFilter) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1494,7 +1494,7 @@ func RunPropertyAssignmentTestForAdvancedFilterStatus(subject AdvancedFilter_Sta
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1545,7 +1545,7 @@ func RunJSONSerializationTestForAdvancedFilterStatus(subject AdvancedFilter_Stat
 }
 
 // Generator of AdvancedFilter_Status instances for property testing - lazily instantiated by
-//AdvancedFilterStatusGenerator()
+// AdvancedFilterStatusGenerator()
 var advancedFilterStatusGenerator gopter.Gen
 
 // AdvancedFilterStatusGenerator returns a generator of AdvancedFilter_Status instances for property testing.
@@ -1609,7 +1609,7 @@ func RunPropertyAssignmentTestForAzureFunctionEventSubscriptionDestination(subje
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1660,7 +1660,7 @@ func RunJSONSerializationTestForAzureFunctionEventSubscriptionDestination(subjec
 }
 
 // Generator of AzureFunctionEventSubscriptionDestination instances for property testing - lazily instantiated by
-//AzureFunctionEventSubscriptionDestinationGenerator()
+// AzureFunctionEventSubscriptionDestinationGenerator()
 var azureFunctionEventSubscriptionDestinationGenerator gopter.Gen
 
 // AzureFunctionEventSubscriptionDestinationGenerator returns a generator of AzureFunctionEventSubscriptionDestination instances for property testing.
@@ -1725,7 +1725,7 @@ func RunPropertyAssignmentTestForEventHubEventSubscriptionDestination(subject Ev
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1776,7 +1776,7 @@ func RunJSONSerializationTestForEventHubEventSubscriptionDestination(subject Eve
 }
 
 // Generator of EventHubEventSubscriptionDestination instances for property testing - lazily instantiated by
-//EventHubEventSubscriptionDestinationGenerator()
+// EventHubEventSubscriptionDestinationGenerator()
 var eventHubEventSubscriptionDestinationGenerator gopter.Gen
 
 // EventHubEventSubscriptionDestinationGenerator returns a generator of EventHubEventSubscriptionDestination instances for property testing.
@@ -1841,7 +1841,7 @@ func RunPropertyAssignmentTestForHybridConnectionEventSubscriptionDestination(su
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1892,7 +1892,7 @@ func RunJSONSerializationTestForHybridConnectionEventSubscriptionDestination(sub
 }
 
 // Generator of HybridConnectionEventSubscriptionDestination instances for property testing - lazily instantiated by
-//HybridConnectionEventSubscriptionDestinationGenerator()
+// HybridConnectionEventSubscriptionDestinationGenerator()
 var hybridConnectionEventSubscriptionDestinationGenerator gopter.Gen
 
 // HybridConnectionEventSubscriptionDestinationGenerator returns a generator of HybridConnectionEventSubscriptionDestination instances for property testing.
@@ -1957,7 +1957,7 @@ func RunPropertyAssignmentTestForServiceBusQueueEventSubscriptionDestination(sub
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -2008,7 +2008,7 @@ func RunJSONSerializationTestForServiceBusQueueEventSubscriptionDestination(subj
 }
 
 // Generator of ServiceBusQueueEventSubscriptionDestination instances for property testing - lazily instantiated by
-//ServiceBusQueueEventSubscriptionDestinationGenerator()
+// ServiceBusQueueEventSubscriptionDestinationGenerator()
 var serviceBusQueueEventSubscriptionDestinationGenerator gopter.Gen
 
 // ServiceBusQueueEventSubscriptionDestinationGenerator returns a generator of ServiceBusQueueEventSubscriptionDestination instances for property testing.
@@ -2073,7 +2073,7 @@ func RunPropertyAssignmentTestForServiceBusTopicEventSubscriptionDestination(sub
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -2124,7 +2124,7 @@ func RunJSONSerializationTestForServiceBusTopicEventSubscriptionDestination(subj
 }
 
 // Generator of ServiceBusTopicEventSubscriptionDestination instances for property testing - lazily instantiated by
-//ServiceBusTopicEventSubscriptionDestinationGenerator()
+// ServiceBusTopicEventSubscriptionDestinationGenerator()
 var serviceBusTopicEventSubscriptionDestinationGenerator gopter.Gen
 
 // ServiceBusTopicEventSubscriptionDestinationGenerator returns a generator of ServiceBusTopicEventSubscriptionDestination instances for property testing.
@@ -2189,7 +2189,7 @@ func RunPropertyAssignmentTestForStorageBlobDeadLetterDestinationProperties(subj
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -2240,7 +2240,7 @@ func RunJSONSerializationTestForStorageBlobDeadLetterDestinationProperties(subje
 }
 
 // Generator of StorageBlobDeadLetterDestinationProperties instances for property testing - lazily instantiated by
-//StorageBlobDeadLetterDestinationPropertiesGenerator()
+// StorageBlobDeadLetterDestinationPropertiesGenerator()
 var storageBlobDeadLetterDestinationPropertiesGenerator gopter.Gen
 
 // StorageBlobDeadLetterDestinationPropertiesGenerator returns a generator of StorageBlobDeadLetterDestinationProperties instances for property testing.
@@ -2291,7 +2291,7 @@ func RunPropertyAssignmentTestForStorageQueueEventSubscriptionDestination(subjec
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -2342,7 +2342,7 @@ func RunJSONSerializationTestForStorageQueueEventSubscriptionDestination(subject
 }
 
 // Generator of StorageQueueEventSubscriptionDestination instances for property testing - lazily instantiated by
-//StorageQueueEventSubscriptionDestinationGenerator()
+// StorageQueueEventSubscriptionDestinationGenerator()
 var storageQueueEventSubscriptionDestinationGenerator gopter.Gen
 
 // StorageQueueEventSubscriptionDestinationGenerator returns a generator of StorageQueueEventSubscriptionDestination instances for property testing.
@@ -2407,7 +2407,7 @@ func RunPropertyAssignmentTestForWebHookEventSubscriptionDestination(subject Web
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -2458,7 +2458,7 @@ func RunJSONSerializationTestForWebHookEventSubscriptionDestination(subject WebH
 }
 
 // Generator of WebHookEventSubscriptionDestination instances for property testing - lazily instantiated by
-//WebHookEventSubscriptionDestinationGenerator()
+// WebHookEventSubscriptionDestinationGenerator()
 var webHookEventSubscriptionDestinationGenerator gopter.Gen
 
 // WebHookEventSubscriptionDestinationGenerator returns a generator of WebHookEventSubscriptionDestination instances for property testing.
@@ -2523,7 +2523,7 @@ func RunPropertyAssignmentTestForAdvancedFilterBoolEquals(subject AdvancedFilter
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -2574,7 +2574,7 @@ func RunJSONSerializationTestForAdvancedFilterBoolEquals(subject AdvancedFilter_
 }
 
 // Generator of AdvancedFilter_BoolEquals instances for property testing - lazily instantiated by
-//AdvancedFilterBoolEqualsGenerator()
+// AdvancedFilterBoolEqualsGenerator()
 var advancedFilterBoolEqualsGenerator gopter.Gen
 
 // AdvancedFilterBoolEqualsGenerator returns a generator of AdvancedFilter_BoolEquals instances for property testing.
@@ -2627,7 +2627,7 @@ func RunPropertyAssignmentTestForAdvancedFilterNumberGreaterThan(subject Advance
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -2678,7 +2678,7 @@ func RunJSONSerializationTestForAdvancedFilterNumberGreaterThan(subject Advanced
 }
 
 // Generator of AdvancedFilter_NumberGreaterThan instances for property testing - lazily instantiated by
-//AdvancedFilterNumberGreaterThanGenerator()
+// AdvancedFilterNumberGreaterThanGenerator()
 var advancedFilterNumberGreaterThanGenerator gopter.Gen
 
 // AdvancedFilterNumberGreaterThanGenerator returns a generator of AdvancedFilter_NumberGreaterThan instances for property testing.
@@ -2731,7 +2731,7 @@ func RunPropertyAssignmentTestForAdvancedFilterNumberGreaterThanOrEquals(subject
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -2782,7 +2782,7 @@ func RunJSONSerializationTestForAdvancedFilterNumberGreaterThanOrEquals(subject 
 }
 
 // Generator of AdvancedFilter_NumberGreaterThanOrEquals instances for property testing - lazily instantiated by
-//AdvancedFilterNumberGreaterThanOrEqualsGenerator()
+// AdvancedFilterNumberGreaterThanOrEqualsGenerator()
 var advancedFilterNumberGreaterThanOrEqualsGenerator gopter.Gen
 
 // AdvancedFilterNumberGreaterThanOrEqualsGenerator returns a generator of AdvancedFilter_NumberGreaterThanOrEquals instances for property testing.
@@ -2835,7 +2835,7 @@ func RunPropertyAssignmentTestForAdvancedFilterNumberIn(subject AdvancedFilter_N
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -2886,7 +2886,7 @@ func RunJSONSerializationTestForAdvancedFilterNumberIn(subject AdvancedFilter_Nu
 }
 
 // Generator of AdvancedFilter_NumberIn instances for property testing - lazily instantiated by
-//AdvancedFilterNumberInGenerator()
+// AdvancedFilterNumberInGenerator()
 var advancedFilterNumberInGenerator gopter.Gen
 
 // AdvancedFilterNumberInGenerator returns a generator of AdvancedFilter_NumberIn instances for property testing.
@@ -2939,7 +2939,7 @@ func RunPropertyAssignmentTestForAdvancedFilterNumberLessThan(subject AdvancedFi
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -2990,7 +2990,7 @@ func RunJSONSerializationTestForAdvancedFilterNumberLessThan(subject AdvancedFil
 }
 
 // Generator of AdvancedFilter_NumberLessThan instances for property testing - lazily instantiated by
-//AdvancedFilterNumberLessThanGenerator()
+// AdvancedFilterNumberLessThanGenerator()
 var advancedFilterNumberLessThanGenerator gopter.Gen
 
 // AdvancedFilterNumberLessThanGenerator returns a generator of AdvancedFilter_NumberLessThan instances for property testing.
@@ -3043,7 +3043,7 @@ func RunPropertyAssignmentTestForAdvancedFilterNumberLessThanOrEquals(subject Ad
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -3094,7 +3094,7 @@ func RunJSONSerializationTestForAdvancedFilterNumberLessThanOrEquals(subject Adv
 }
 
 // Generator of AdvancedFilter_NumberLessThanOrEquals instances for property testing - lazily instantiated by
-//AdvancedFilterNumberLessThanOrEqualsGenerator()
+// AdvancedFilterNumberLessThanOrEqualsGenerator()
 var advancedFilterNumberLessThanOrEqualsGenerator gopter.Gen
 
 // AdvancedFilterNumberLessThanOrEqualsGenerator returns a generator of AdvancedFilter_NumberLessThanOrEquals instances for property testing.
@@ -3147,7 +3147,7 @@ func RunPropertyAssignmentTestForAdvancedFilterNumberNotIn(subject AdvancedFilte
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -3198,7 +3198,7 @@ func RunJSONSerializationTestForAdvancedFilterNumberNotIn(subject AdvancedFilter
 }
 
 // Generator of AdvancedFilter_NumberNotIn instances for property testing - lazily instantiated by
-//AdvancedFilterNumberNotInGenerator()
+// AdvancedFilterNumberNotInGenerator()
 var advancedFilterNumberNotInGenerator gopter.Gen
 
 // AdvancedFilterNumberNotInGenerator returns a generator of AdvancedFilter_NumberNotIn instances for property testing.
@@ -3251,7 +3251,7 @@ func RunPropertyAssignmentTestForAdvancedFilterStringBeginsWith(subject Advanced
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -3302,7 +3302,7 @@ func RunJSONSerializationTestForAdvancedFilterStringBeginsWith(subject AdvancedF
 }
 
 // Generator of AdvancedFilter_StringBeginsWith instances for property testing - lazily instantiated by
-//AdvancedFilterStringBeginsWithGenerator()
+// AdvancedFilterStringBeginsWithGenerator()
 var advancedFilterStringBeginsWithGenerator gopter.Gen
 
 // AdvancedFilterStringBeginsWithGenerator returns a generator of AdvancedFilter_StringBeginsWith instances for property testing.
@@ -3355,7 +3355,7 @@ func RunPropertyAssignmentTestForAdvancedFilterStringContains(subject AdvancedFi
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -3406,7 +3406,7 @@ func RunJSONSerializationTestForAdvancedFilterStringContains(subject AdvancedFil
 }
 
 // Generator of AdvancedFilter_StringContains instances for property testing - lazily instantiated by
-//AdvancedFilterStringContainsGenerator()
+// AdvancedFilterStringContainsGenerator()
 var advancedFilterStringContainsGenerator gopter.Gen
 
 // AdvancedFilterStringContainsGenerator returns a generator of AdvancedFilter_StringContains instances for property testing.
@@ -3459,7 +3459,7 @@ func RunPropertyAssignmentTestForAdvancedFilterStringEndsWith(subject AdvancedFi
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -3510,7 +3510,7 @@ func RunJSONSerializationTestForAdvancedFilterStringEndsWith(subject AdvancedFil
 }
 
 // Generator of AdvancedFilter_StringEndsWith instances for property testing - lazily instantiated by
-//AdvancedFilterStringEndsWithGenerator()
+// AdvancedFilterStringEndsWithGenerator()
 var advancedFilterStringEndsWithGenerator gopter.Gen
 
 // AdvancedFilterStringEndsWithGenerator returns a generator of AdvancedFilter_StringEndsWith instances for property testing.
@@ -3563,7 +3563,7 @@ func RunPropertyAssignmentTestForAdvancedFilterStringIn(subject AdvancedFilter_S
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -3614,7 +3614,7 @@ func RunJSONSerializationTestForAdvancedFilterStringIn(subject AdvancedFilter_St
 }
 
 // Generator of AdvancedFilter_StringIn instances for property testing - lazily instantiated by
-//AdvancedFilterStringInGenerator()
+// AdvancedFilterStringInGenerator()
 var advancedFilterStringInGenerator gopter.Gen
 
 // AdvancedFilterStringInGenerator returns a generator of AdvancedFilter_StringIn instances for property testing.
@@ -3667,7 +3667,7 @@ func RunPropertyAssignmentTestForAdvancedFilterStringNotIn(subject AdvancedFilte
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -3718,7 +3718,7 @@ func RunJSONSerializationTestForAdvancedFilterStringNotIn(subject AdvancedFilter
 }
 
 // Generator of AdvancedFilter_StringNotIn instances for property testing - lazily instantiated by
-//AdvancedFilterStringNotInGenerator()
+// AdvancedFilterStringNotInGenerator()
 var advancedFilterStringNotInGenerator gopter.Gen
 
 // AdvancedFilterStringNotInGenerator returns a generator of AdvancedFilter_StringNotIn instances for property testing.
@@ -3771,7 +3771,7 @@ func RunPropertyAssignmentTestForAzureFunctionEventSubscriptionDestinationProper
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -3822,7 +3822,7 @@ func RunJSONSerializationTestForAzureFunctionEventSubscriptionDestinationPropert
 }
 
 // Generator of AzureFunctionEventSubscriptionDestinationProperties instances for property testing - lazily instantiated
-//by AzureFunctionEventSubscriptionDestinationPropertiesGenerator()
+// by AzureFunctionEventSubscriptionDestinationPropertiesGenerator()
 var azureFunctionEventSubscriptionDestinationPropertiesGenerator gopter.Gen
 
 // AzureFunctionEventSubscriptionDestinationPropertiesGenerator returns a generator of AzureFunctionEventSubscriptionDestinationProperties instances for property testing.
@@ -3874,7 +3874,7 @@ func RunPropertyAssignmentTestForEventHubEventSubscriptionDestinationProperties(
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -3925,7 +3925,7 @@ func RunJSONSerializationTestForEventHubEventSubscriptionDestinationProperties(s
 }
 
 // Generator of EventHubEventSubscriptionDestinationProperties instances for property testing - lazily instantiated by
-//EventHubEventSubscriptionDestinationPropertiesGenerator()
+// EventHubEventSubscriptionDestinationPropertiesGenerator()
 var eventHubEventSubscriptionDestinationPropertiesGenerator gopter.Gen
 
 // EventHubEventSubscriptionDestinationPropertiesGenerator returns a generator of EventHubEventSubscriptionDestinationProperties instances for property testing.
@@ -3970,7 +3970,7 @@ func RunPropertyAssignmentTestForHybridConnectionEventSubscriptionDestinationPro
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -4021,7 +4021,7 @@ func RunJSONSerializationTestForHybridConnectionEventSubscriptionDestinationProp
 }
 
 // Generator of HybridConnectionEventSubscriptionDestinationProperties instances for property testing - lazily
-//instantiated by HybridConnectionEventSubscriptionDestinationPropertiesGenerator()
+// instantiated by HybridConnectionEventSubscriptionDestinationPropertiesGenerator()
 var hybridConnectionEventSubscriptionDestinationPropertiesGenerator gopter.Gen
 
 // HybridConnectionEventSubscriptionDestinationPropertiesGenerator returns a generator of HybridConnectionEventSubscriptionDestinationProperties instances for property testing.
@@ -4066,7 +4066,7 @@ func RunPropertyAssignmentTestForServiceBusQueueEventSubscriptionDestinationProp
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -4117,7 +4117,7 @@ func RunJSONSerializationTestForServiceBusQueueEventSubscriptionDestinationPrope
 }
 
 // Generator of ServiceBusQueueEventSubscriptionDestinationProperties instances for property testing - lazily
-//instantiated by ServiceBusQueueEventSubscriptionDestinationPropertiesGenerator()
+// instantiated by ServiceBusQueueEventSubscriptionDestinationPropertiesGenerator()
 var serviceBusQueueEventSubscriptionDestinationPropertiesGenerator gopter.Gen
 
 // ServiceBusQueueEventSubscriptionDestinationPropertiesGenerator returns a generator of ServiceBusQueueEventSubscriptionDestinationProperties instances for property testing.
@@ -4162,7 +4162,7 @@ func RunPropertyAssignmentTestForServiceBusTopicEventSubscriptionDestinationProp
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -4213,7 +4213,7 @@ func RunJSONSerializationTestForServiceBusTopicEventSubscriptionDestinationPrope
 }
 
 // Generator of ServiceBusTopicEventSubscriptionDestinationProperties instances for property testing - lazily
-//instantiated by ServiceBusTopicEventSubscriptionDestinationPropertiesGenerator()
+// instantiated by ServiceBusTopicEventSubscriptionDestinationPropertiesGenerator()
 var serviceBusTopicEventSubscriptionDestinationPropertiesGenerator gopter.Gen
 
 // ServiceBusTopicEventSubscriptionDestinationPropertiesGenerator returns a generator of ServiceBusTopicEventSubscriptionDestinationProperties instances for property testing.
@@ -4258,7 +4258,7 @@ func RunPropertyAssignmentTestForStorageQueueEventSubscriptionDestinationPropert
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -4309,7 +4309,7 @@ func RunJSONSerializationTestForStorageQueueEventSubscriptionDestinationProperti
 }
 
 // Generator of StorageQueueEventSubscriptionDestinationProperties instances for property testing - lazily instantiated
-//by StorageQueueEventSubscriptionDestinationPropertiesGenerator()
+// by StorageQueueEventSubscriptionDestinationPropertiesGenerator()
 var storageQueueEventSubscriptionDestinationPropertiesGenerator gopter.Gen
 
 // StorageQueueEventSubscriptionDestinationPropertiesGenerator returns a generator of StorageQueueEventSubscriptionDestinationProperties instances for property testing.
@@ -4360,7 +4360,7 @@ func RunPropertyAssignmentTestForWebHookEventSubscriptionDestinationProperties(s
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -4411,7 +4411,7 @@ func RunJSONSerializationTestForWebHookEventSubscriptionDestinationProperties(su
 }
 
 // Generator of WebHookEventSubscriptionDestinationProperties instances for property testing - lazily instantiated by
-//WebHookEventSubscriptionDestinationPropertiesGenerator()
+// WebHookEventSubscriptionDestinationPropertiesGenerator()
 var webHookEventSubscriptionDestinationPropertiesGenerator gopter.Gen
 
 // WebHookEventSubscriptionDestinationPropertiesGenerator returns a generator of WebHookEventSubscriptionDestinationProperties instances for property testing.

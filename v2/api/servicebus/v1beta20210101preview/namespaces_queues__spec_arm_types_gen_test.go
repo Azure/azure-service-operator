@@ -56,7 +56,7 @@ func RunJSONSerializationTestForNamespacesQueuesSpecARM(subject NamespacesQueues
 }
 
 // Generator of NamespacesQueues_SpecARM instances for property testing - lazily instantiated by
-//NamespacesQueuesSpecARMGenerator()
+// NamespacesQueuesSpecARMGenerator()
 var namespacesQueuesSpecARMGenerator gopter.Gen
 
 // NamespacesQueuesSpecARMGenerator returns a generator of NamespacesQueues_SpecARM instances for property testing.
@@ -132,7 +132,7 @@ func RunJSONSerializationTestForSBQueuePropertiesARM(subject SBQueuePropertiesAR
 }
 
 // Generator of SBQueuePropertiesARM instances for property testing - lazily instantiated by
-//SBQueuePropertiesARMGenerator()
+// SBQueuePropertiesARMGenerator()
 var sbQueuePropertiesARMGenerator gopter.Gen
 
 // SBQueuePropertiesARMGenerator returns a generator of SBQueuePropertiesARM instances for property testing.

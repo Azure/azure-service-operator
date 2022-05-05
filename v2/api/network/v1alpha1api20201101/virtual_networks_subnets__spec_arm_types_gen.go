@@ -5,7 +5,7 @@ package v1alpha1api20201101
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-//Deprecated version of VirtualNetworksSubnets_Spec. Use v1beta20201101.VirtualNetworksSubnets_Spec instead
+// Deprecated version of VirtualNetworksSubnets_Spec. Use v1beta20201101.VirtualNetworksSubnets_Spec instead
 type VirtualNetworksSubnets_SpecARM struct {
 	Name       string                                     `json:"name,omitempty"`
 	Properties *VirtualNetworksSubnets_Spec_PropertiesARM `json:"properties,omitempty"`
@@ -28,7 +28,7 @@ func (subnets VirtualNetworksSubnets_SpecARM) GetType() string {
 	return "Microsoft.Network/virtualNetworks/subnets"
 }
 
-//Deprecated version of VirtualNetworksSubnets_Spec_Properties. Use v1beta20201101.VirtualNetworksSubnets_Spec_Properties instead
+// Deprecated version of VirtualNetworksSubnets_Spec_Properties. Use v1beta20201101.VirtualNetworksSubnets_Spec_Properties instead
 type VirtualNetworksSubnets_Spec_PropertiesARM struct {
 	AddressPrefix                     *string                                                 `json:"addressPrefix,omitempty"`
 	AddressPrefixes                   []string                                                `json:"addressPrefixes,omitempty"`
@@ -43,19 +43,19 @@ type VirtualNetworksSubnets_Spec_PropertiesARM struct {
 	ServiceEndpoints                  []ServiceEndpointPropertiesFormatARM                    `json:"serviceEndpoints,omitempty"`
 }
 
-//Deprecated version of ServiceEndpointPropertiesFormat. Use v1beta20201101.ServiceEndpointPropertiesFormat instead
+// Deprecated version of ServiceEndpointPropertiesFormat. Use v1beta20201101.ServiceEndpointPropertiesFormat instead
 type ServiceEndpointPropertiesFormatARM struct {
 	Locations []string `json:"locations,omitempty"`
 	Service   *string  `json:"service,omitempty"`
 }
 
-//Deprecated version of VirtualNetworksSubnets_Spec_Properties_Delegations. Use v1beta20201101.VirtualNetworksSubnets_Spec_Properties_Delegations instead
+// Deprecated version of VirtualNetworksSubnets_Spec_Properties_Delegations. Use v1beta20201101.VirtualNetworksSubnets_Spec_Properties_Delegations instead
 type VirtualNetworksSubnets_Spec_Properties_DelegationsARM struct {
 	Name       *string                               `json:"name,omitempty"`
 	Properties *ServiceDelegationPropertiesFormatARM `json:"properties,omitempty"`
 }
 
-//Deprecated version of ServiceDelegationPropertiesFormat. Use v1beta20201101.ServiceDelegationPropertiesFormat instead
+// Deprecated version of ServiceDelegationPropertiesFormat. Use v1beta20201101.ServiceDelegationPropertiesFormat instead
 type ServiceDelegationPropertiesFormatARM struct {
 	ServiceName *string `json:"serviceName,omitempty"`
 }

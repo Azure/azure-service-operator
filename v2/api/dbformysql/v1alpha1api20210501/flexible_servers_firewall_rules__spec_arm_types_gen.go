@@ -5,7 +5,7 @@ package v1alpha1api20210501
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-//Deprecated version of FlexibleServersFirewallRules_Spec. Use v1beta20210501.FlexibleServersFirewallRules_Spec instead
+// Deprecated version of FlexibleServersFirewallRules_Spec. Use v1beta20210501.FlexibleServersFirewallRules_Spec instead
 type FlexibleServersFirewallRules_SpecARM struct {
 	Location   *string                    `json:"location,omitempty"`
 	Name       string                     `json:"name,omitempty"`
@@ -30,7 +30,7 @@ func (rules FlexibleServersFirewallRules_SpecARM) GetType() string {
 	return "Microsoft.DBforMySQL/flexibleServers/firewallRules"
 }
 
-//Deprecated version of FirewallRuleProperties. Use v1beta20210501.FirewallRuleProperties instead
+// Deprecated version of FirewallRuleProperties. Use v1beta20210501.FirewallRuleProperties instead
 type FirewallRulePropertiesARM struct {
 	EndIpAddress   *string `json:"endIpAddress,omitempty"`
 	StartIpAddress *string `json:"startIpAddress,omitempty"`

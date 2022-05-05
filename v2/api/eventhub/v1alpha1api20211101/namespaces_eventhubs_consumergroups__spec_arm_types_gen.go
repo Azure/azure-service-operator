@@ -5,7 +5,7 @@ package v1alpha1api20211101
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-//Deprecated version of NamespacesEventhubsConsumergroups_Spec. Use v1beta20211101.NamespacesEventhubsConsumergroups_Spec instead
+// Deprecated version of NamespacesEventhubsConsumergroups_Spec. Use v1beta20211101.NamespacesEventhubsConsumergroups_Spec instead
 type NamespacesEventhubsConsumergroups_SpecARM struct {
 	Location   *string                     `json:"location,omitempty"`
 	Name       string                      `json:"name,omitempty"`
@@ -30,7 +30,7 @@ func (consumergroups NamespacesEventhubsConsumergroups_SpecARM) GetType() string
 	return "Microsoft.EventHub/namespaces/eventhubs/consumergroups"
 }
 
-//Deprecated version of ConsumerGroupProperties. Use v1beta20211101.ConsumerGroupProperties instead
+// Deprecated version of ConsumerGroupProperties. Use v1beta20211101.ConsumerGroupProperties instead
 type ConsumerGroupPropertiesARM struct {
 	UserMetadata *string `json:"userMetadata,omitempty"`
 }

@@ -90,7 +90,7 @@ func RunPropertyAssignmentTestForRoleAssignment(subject RoleAssignment) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -192,7 +192,7 @@ func RunPropertyAssignmentTestForRoleAssignmentStatus(subject RoleAssignment_Sta
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -243,7 +243,7 @@ func RunJSONSerializationTestForRoleAssignmentStatus(subject RoleAssignment_Stat
 }
 
 // Generator of RoleAssignment_Status instances for property testing - lazily instantiated by
-//RoleAssignmentStatusGenerator()
+// RoleAssignmentStatusGenerator()
 var roleAssignmentStatusGenerator gopter.Gen
 
 // RoleAssignmentStatusGenerator returns a generator of RoleAssignment_Status instances for property testing.
@@ -308,7 +308,7 @@ func RunPropertyAssignmentTestForRoleAssignmentsSpec(subject RoleAssignments_Spe
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -359,7 +359,7 @@ func RunJSONSerializationTestForRoleAssignmentsSpec(subject RoleAssignments_Spec
 }
 
 // Generator of RoleAssignments_Spec instances for property testing - lazily instantiated by
-//RoleAssignmentsSpecGenerator()
+// RoleAssignmentsSpecGenerator()
 var roleAssignmentsSpecGenerator gopter.Gen
 
 // RoleAssignmentsSpecGenerator returns a generator of RoleAssignments_Spec instances for property testing.

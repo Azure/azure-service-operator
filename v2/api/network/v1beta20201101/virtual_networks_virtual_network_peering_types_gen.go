@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/virtualNetworks_virtualNetworkPeerings
+// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/virtualNetworks_virtualNetworkPeerings
 type VirtualNetworksVirtualNetworkPeering struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -300,7 +300,7 @@ func (peering *VirtualNetworksVirtualNetworkPeering) OriginalGVK() *schema.Group
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/virtualNetworks_virtualNetworkPeerings
+// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/virtualNetworks_virtualNetworkPeerings
 type VirtualNetworksVirtualNetworkPeeringList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -308,59 +308,59 @@ type VirtualNetworksVirtualNetworkPeeringList struct {
 }
 
 type VirtualNetworkPeering_Status struct {
-	//AllowForwardedTraffic: Whether the forwarded traffic from the VMs in the local virtual network will be
-	//allowed/disallowed in remote virtual network.
+	// AllowForwardedTraffic: Whether the forwarded traffic from the VMs in the local virtual network will be
+	// allowed/disallowed in remote virtual network.
 	AllowForwardedTraffic *bool `json:"allowForwardedTraffic,omitempty"`
 
-	//AllowGatewayTransit: If gateway links can be used in remote virtual networking to link to this virtual network.
+	// AllowGatewayTransit: If gateway links can be used in remote virtual networking to link to this virtual network.
 	AllowGatewayTransit *bool `json:"allowGatewayTransit,omitempty"`
 
-	//AllowVirtualNetworkAccess: Whether the VMs in the local virtual network space would be able to access the VMs in remote
-	//virtual network space.
+	// AllowVirtualNetworkAccess: Whether the VMs in the local virtual network space would be able to access the VMs in remote
+	// virtual network space.
 	AllowVirtualNetworkAccess *bool `json:"allowVirtualNetworkAccess,omitempty"`
 
-	//Conditions: The observed state of the resource
+	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
-	//DoNotVerifyRemoteGateways: If we need to verify the provisioning state of the remote gateway.
+	// DoNotVerifyRemoteGateways: If we need to verify the provisioning state of the remote gateway.
 	DoNotVerifyRemoteGateways *bool `json:"doNotVerifyRemoteGateways,omitempty"`
 
-	//Etag: A unique read-only string that changes whenever the resource is updated.
+	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
-	//Id: Resource ID.
+	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 
-	//Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
 	Name *string `json:"name,omitempty"`
 
-	//PeeringState: The status of the virtual network peering.
+	// PeeringState: The status of the virtual network peering.
 	PeeringState *VirtualNetworkPeeringPropertiesFormatStatusPeeringState `json:"peeringState,omitempty"`
 
-	//ProvisioningState: The provisioning state of the virtual network peering resource.
+	// ProvisioningState: The provisioning state of the virtual network peering resource.
 	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
 
-	//RemoteAddressSpace: The reference to the remote virtual network address space.
+	// RemoteAddressSpace: The reference to the remote virtual network address space.
 	RemoteAddressSpace *AddressSpace_Status `json:"remoteAddressSpace,omitempty"`
 
-	//RemoteBgpCommunities: The reference to the remote virtual network's Bgp Communities.
+	// RemoteBgpCommunities: The reference to the remote virtual network's Bgp Communities.
 	RemoteBgpCommunities *VirtualNetworkBgpCommunities_Status `json:"remoteBgpCommunities,omitempty"`
 
-	//RemoteVirtualNetwork: The reference to the remote virtual network. The remote virtual network can be in the same or
-	//different region (preview). See here to register for the preview and learn more
-	//(https://docs.microsoft.com/en-us/azure/virtual-network/virtual-network-create-peering).
+	// RemoteVirtualNetwork: The reference to the remote virtual network. The remote virtual network can be in the same or
+	// different region (preview). See here to register for the preview and learn more
+	// (https://docs.microsoft.com/en-us/azure/virtual-network/virtual-network-create-peering).
 	RemoteVirtualNetwork *SubResource_Status `json:"remoteVirtualNetwork,omitempty"`
 
-	//ResourceGuid: The resourceGuid property of the Virtual Network peering resource.
+	// ResourceGuid: The resourceGuid property of the Virtual Network peering resource.
 	ResourceGuid *string `json:"resourceGuid,omitempty"`
 
-	//Type: Resource type.
+	// Type: Resource type.
 	Type *string `json:"type,omitempty"`
 
-	//UseRemoteGateways: If remote gateways can be used on this virtual network. If the flag is set to true, and
-	//allowGatewayTransit on remote peering is also true, virtual network will use gateways of remote virtual network for
-	//transit. Only one peering can have this flag set to true. This flag cannot be set if virtual network already has a
-	//gateway.
+	// UseRemoteGateways: If remote gateways can be used on this virtual network. If the flag is set to true, and
+	// allowGatewayTransit on remote peering is also true, virtual network will use gateways of remote virtual network for
+	// transit. Only one peering can have this flag set to true. This flag cannot be set if virtual network already has a
+	// gateway.
 	UseRemoteGateways *bool `json:"useRemoteGateways,omitempty"`
 }
 
@@ -821,52 +821,52 @@ type VirtualNetworksVirtualNetworkPeeringsSpecAPIVersion string
 const VirtualNetworksVirtualNetworkPeeringsSpecAPIVersion20201101 = VirtualNetworksVirtualNetworkPeeringsSpecAPIVersion("2020-11-01")
 
 type VirtualNetworksVirtualNetworkPeerings_Spec struct {
-	//AllowForwardedTraffic: Whether the forwarded traffic from the VMs in the local virtual network will be
-	//allowed/disallowed in remote virtual network.
+	// AllowForwardedTraffic: Whether the forwarded traffic from the VMs in the local virtual network will be
+	// allowed/disallowed in remote virtual network.
 	AllowForwardedTraffic *bool `json:"allowForwardedTraffic,omitempty"`
 
-	//AllowGatewayTransit: If gateway links can be used in remote virtual networking to link to this virtual network.
+	// AllowGatewayTransit: If gateway links can be used in remote virtual networking to link to this virtual network.
 	AllowGatewayTransit *bool `json:"allowGatewayTransit,omitempty"`
 
-	//AllowVirtualNetworkAccess: Whether the VMs in the local virtual network space would be able to access the VMs in remote
-	//virtual network space.
+	// AllowVirtualNetworkAccess: Whether the VMs in the local virtual network space would be able to access the VMs in remote
+	// virtual network space.
 	AllowVirtualNetworkAccess *bool `json:"allowVirtualNetworkAccess,omitempty"`
 
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
-	//Location: Location to deploy resource to
+	// Location: Location to deploy resource to
 	Location *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a network.azure.com/VirtualNetwork resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a network.azure.com/VirtualNetwork resource
 	Owner *genruntime.KnownResourceReference `group:"network.azure.com" json:"owner,omitempty" kind:"VirtualNetwork"`
 
-	//PeeringState: The status of the virtual network peering.
+	// PeeringState: The status of the virtual network peering.
 	PeeringState *VirtualNetworkPeeringPropertiesFormatPeeringState `json:"peeringState,omitempty"`
 
-	//RemoteAddressSpace: The reference to the remote virtual network address space.
+	// RemoteAddressSpace: The reference to the remote virtual network address space.
 	RemoteAddressSpace *AddressSpace `json:"remoteAddressSpace,omitempty"`
 
-	//RemoteBgpCommunities: The reference to the remote virtual network's Bgp Communities.
+	// RemoteBgpCommunities: The reference to the remote virtual network's Bgp Communities.
 	RemoteBgpCommunities *VirtualNetworkBgpCommunities `json:"remoteBgpCommunities,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//RemoteVirtualNetwork: The reference to the remote virtual network. The remote virtual network can be in the same or
-	//different region (preview). See here to register for the preview and learn more
-	//(https://docs.microsoft.com/en-us/azure/virtual-network/virtual-network-create-peering).
+	// RemoteVirtualNetwork: The reference to the remote virtual network. The remote virtual network can be in the same or
+	// different region (preview). See here to register for the preview and learn more
+	// (https://docs.microsoft.com/en-us/azure/virtual-network/virtual-network-create-peering).
 	RemoteVirtualNetwork *SubResource `json:"remoteVirtualNetwork,omitempty"`
 
-	//Tags: Name-value pairs to add to the resource
+	// Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
 
-	//UseRemoteGateways: If remote gateways can be used on this virtual network. If the flag is set to true, and
-	//allowGatewayTransit on remote peering is also true, virtual network will use gateways of remote virtual network for
-	//transit. Only one peering can have this flag set to true. This flag cannot be set if virtual network already has a
-	//gateway.
+	// UseRemoteGateways: If remote gateways can be used on this virtual network. If the flag is set to true, and
+	// allowGatewayTransit on remote peering is also true, virtual network will use gateways of remote virtual network for
+	// transit. Only one peering can have this flag set to true. This flag cannot be set if virtual network already has a
+	// gateway.
 	UseRemoteGateways *bool `json:"useRemoteGateways,omitempty"`
 }
 

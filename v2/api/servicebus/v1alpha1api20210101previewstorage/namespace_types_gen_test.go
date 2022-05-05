@@ -90,7 +90,7 @@ func RunPropertyAssignmentTestForNamespace(subject Namespace) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -192,7 +192,7 @@ func RunPropertyAssignmentTestForNamespacesSpec(subject Namespaces_Spec) string 
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -313,7 +313,7 @@ func RunPropertyAssignmentTestForSBNamespaceStatus(subject SBNamespace_Status) s
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -443,7 +443,7 @@ func RunPropertyAssignmentTestForEncryption(subject Encryption) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -559,7 +559,7 @@ func RunPropertyAssignmentTestForEncryptionStatus(subject Encryption_Status) str
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -675,7 +675,7 @@ func RunPropertyAssignmentTestForIdentity(subject Identity) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -776,7 +776,7 @@ func RunPropertyAssignmentTestForIdentityStatus(subject Identity_Status) string 
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -893,7 +893,7 @@ func RunPropertyAssignmentTestForPrivateEndpointConnectionStatusSubResourceEmbed
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -944,7 +944,7 @@ func RunJSONSerializationTestForPrivateEndpointConnectionStatusSubResourceEmbedd
 }
 
 // Generator of PrivateEndpointConnection_Status_SubResourceEmbedded instances for property testing - lazily
-//instantiated by PrivateEndpointConnectionStatusSubResourceEmbeddedGenerator()
+// instantiated by PrivateEndpointConnectionStatusSubResourceEmbeddedGenerator()
 var privateEndpointConnectionStatusSubResourceEmbeddedGenerator gopter.Gen
 
 // PrivateEndpointConnectionStatusSubResourceEmbeddedGenerator returns a generator of PrivateEndpointConnection_Status_SubResourceEmbedded instances for property testing.
@@ -1009,7 +1009,7 @@ func RunPropertyAssignmentTestForSBSku(subject SBSku) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1112,7 +1112,7 @@ func RunPropertyAssignmentTestForSBSkuStatus(subject SBSku_Status) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1215,7 +1215,7 @@ func RunPropertyAssignmentTestForSystemDataStatus(subject SystemData_Status) str
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1321,7 +1321,7 @@ func RunPropertyAssignmentTestForDictionaryValueStatus(subject DictionaryValue_S
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1372,7 +1372,7 @@ func RunJSONSerializationTestForDictionaryValueStatus(subject DictionaryValue_St
 }
 
 // Generator of DictionaryValue_Status instances for property testing - lazily instantiated by
-//DictionaryValueStatusGenerator()
+// DictionaryValueStatusGenerator()
 var dictionaryValueStatusGenerator gopter.Gen
 
 // DictionaryValueStatusGenerator returns a generator of DictionaryValue_Status instances for property testing.
@@ -1424,7 +1424,7 @@ func RunPropertyAssignmentTestForKeyVaultProperties(subject KeyVaultProperties) 
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1541,7 +1541,7 @@ func RunPropertyAssignmentTestForKeyVaultPropertiesStatus(subject KeyVaultProper
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1592,7 +1592,7 @@ func RunJSONSerializationTestForKeyVaultPropertiesStatus(subject KeyVaultPropert
 }
 
 // Generator of KeyVaultProperties_Status instances for property testing - lazily instantiated by
-//KeyVaultPropertiesStatusGenerator()
+// KeyVaultPropertiesStatusGenerator()
 var keyVaultPropertiesStatusGenerator gopter.Gen
 
 // KeyVaultPropertiesStatusGenerator returns a generator of KeyVaultProperties_Status instances for property testing.
@@ -1659,7 +1659,7 @@ func RunPropertyAssignmentTestForUserAssignedIdentityProperties(subject UserAssi
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1710,7 +1710,7 @@ func RunJSONSerializationTestForUserAssignedIdentityProperties(subject UserAssig
 }
 
 // Generator of UserAssignedIdentityProperties instances for property testing - lazily instantiated by
-//UserAssignedIdentityPropertiesGenerator()
+// UserAssignedIdentityPropertiesGenerator()
 var userAssignedIdentityPropertiesGenerator gopter.Gen
 
 // UserAssignedIdentityPropertiesGenerator returns a generator of UserAssignedIdentityProperties instances for property testing.
@@ -1755,7 +1755,7 @@ func RunPropertyAssignmentTestForUserAssignedIdentityPropertiesStatus(subject Us
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1806,7 +1806,7 @@ func RunJSONSerializationTestForUserAssignedIdentityPropertiesStatus(subject Use
 }
 
 // Generator of UserAssignedIdentityProperties_Status instances for property testing - lazily instantiated by
-//UserAssignedIdentityPropertiesStatusGenerator()
+// UserAssignedIdentityPropertiesStatusGenerator()
 var userAssignedIdentityPropertiesStatusGenerator gopter.Gen
 
 // UserAssignedIdentityPropertiesStatusGenerator returns a generator of UserAssignedIdentityProperties_Status instances for property testing.

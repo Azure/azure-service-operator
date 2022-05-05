@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Deprecated version of BatchAccount. Use v1beta20210101.BatchAccount instead
+// Deprecated version of BatchAccount. Use v1beta20210101.BatchAccount instead
 type BatchAccount struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -314,20 +314,20 @@ func (account *BatchAccount) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Deprecated version of BatchAccount. Use v1beta20210101.BatchAccount instead
+// Deprecated version of BatchAccount. Use v1beta20210101.BatchAccount instead
 type BatchAccountList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []BatchAccount `json:"items"`
 }
 
-//Deprecated version of BatchAccount_Status. Use v1beta20210101.BatchAccount_Status instead
+// Deprecated version of BatchAccount_Status. Use v1beta20210101.BatchAccount_Status instead
 type BatchAccount_Status struct {
 	AccountEndpoint              *string                       `json:"accountEndpoint,omitempty"`
 	ActiveJobAndJobScheduleQuota *int                          `json:"activeJobAndJobScheduleQuota,omitempty"`
 	AutoStorage                  *AutoStorageProperties_Status `json:"autoStorage,omitempty"`
 
-	//Conditions: The observed state of the resource
+	// Conditions: The observed state of the resource
 	Conditions                            []conditions.Condition                         `json:"conditions,omitempty"`
 	DedicatedCoreQuota                    *int                                           `json:"dedicatedCoreQuota,omitempty"`
 	DedicatedCoreQuotaPerVMFamily         []VirtualMachineFamilyCoreQuota_Status         `json:"dedicatedCoreQuotaPerVMFamily,omitempty"`
@@ -937,8 +937,8 @@ type BatchAccounts_Spec struct {
 	// +kubebuilder:validation:MaxLength=24
 	// +kubebuilder:validation:MinLength=3
 	// +kubebuilder:validation:Pattern="^[a-zA-Z0-9]+$"
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName         string                `json:"azureName,omitempty"`
 	Encryption        *EncryptionProperties `json:"encryption,omitempty"`
 	Identity          *BatchAccountIdentity `json:"identity,omitempty"`
@@ -946,9 +946,9 @@ type BatchAccounts_Spec struct {
 	Location          *string               `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a resources.azure.com/ResourceGroup resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
 	Owner               *genruntime.KnownResourceReference               `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PoolAllocationMode  *BatchAccountCreatePropertiesPoolAllocationMode  `json:"poolAllocationMode,omitempty"`
 	PublicNetworkAccess *BatchAccountCreatePropertiesPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
@@ -1389,7 +1389,7 @@ func (accounts *BatchAccounts_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (accounts *BatchAccounts_Spec) SetAzureName(azureName string) { accounts.AzureName = azureName }
 
-//Deprecated version of AutoStorageBaseProperties. Use v1beta20210101.AutoStorageBaseProperties instead
+// Deprecated version of AutoStorageBaseProperties. Use v1beta20210101.AutoStorageBaseProperties instead
 type AutoStorageBaseProperties struct {
 	// +kubebuilder:validation:Required
 	StorageAccountReference *genruntime.ResourceReference `armReference:"StorageAccountId" json:"storageAccountReference,omitempty"`
@@ -1473,7 +1473,7 @@ func (properties *AutoStorageBaseProperties) AssignPropertiesToAutoStorageBasePr
 	return nil
 }
 
-//Deprecated version of AutoStorageProperties_Status. Use v1beta20210101.AutoStorageProperties_Status instead
+// Deprecated version of AutoStorageProperties_Status. Use v1beta20210101.AutoStorageProperties_Status instead
 type AutoStorageProperties_Status struct {
 	LastKeySync      *string `json:"lastKeySync,omitempty"`
 	StorageAccountId *string `json:"storageAccountId,omitempty"`
@@ -1544,8 +1544,8 @@ func (properties *AutoStorageProperties_Status) AssignPropertiesToAutoStoragePro
 	return nil
 }
 
-//Deprecated version of BatchAccountCreatePropertiesPoolAllocationMode. Use
-//v1beta20210101.BatchAccountCreatePropertiesPoolAllocationMode instead
+// Deprecated version of BatchAccountCreatePropertiesPoolAllocationMode. Use
+// v1beta20210101.BatchAccountCreatePropertiesPoolAllocationMode instead
 // +kubebuilder:validation:Enum={"BatchService","UserSubscription"}
 type BatchAccountCreatePropertiesPoolAllocationMode string
 
@@ -1554,8 +1554,8 @@ const (
 	BatchAccountCreatePropertiesPoolAllocationModeUserSubscription = BatchAccountCreatePropertiesPoolAllocationMode("UserSubscription")
 )
 
-//Deprecated version of BatchAccountCreatePropertiesPublicNetworkAccess. Use
-//v1beta20210101.BatchAccountCreatePropertiesPublicNetworkAccess instead
+// Deprecated version of BatchAccountCreatePropertiesPublicNetworkAccess. Use
+// v1beta20210101.BatchAccountCreatePropertiesPublicNetworkAccess instead
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type BatchAccountCreatePropertiesPublicNetworkAccess string
 
@@ -1564,7 +1564,7 @@ const (
 	BatchAccountCreatePropertiesPublicNetworkAccessEnabled  = BatchAccountCreatePropertiesPublicNetworkAccess("Enabled")
 )
 
-//Deprecated version of BatchAccountIdentity. Use v1beta20210101.BatchAccountIdentity instead
+// Deprecated version of BatchAccountIdentity. Use v1beta20210101.BatchAccountIdentity instead
 type BatchAccountIdentity struct {
 	// +kubebuilder:validation:Required
 	Type *BatchAccountIdentityType `json:"type,omitempty"`
@@ -1648,7 +1648,7 @@ func (identity *BatchAccountIdentity) AssignPropertiesToBatchAccountIdentity(des
 	return nil
 }
 
-//Deprecated version of BatchAccountIdentity_Status. Use v1beta20210101.BatchAccountIdentity_Status instead
+// Deprecated version of BatchAccountIdentity_Status. Use v1beta20210101.BatchAccountIdentity_Status instead
 type BatchAccountIdentity_Status struct {
 	PrincipalId            *string                                                       `json:"principalId,omitempty"`
 	TenantId               *string                                                       `json:"tenantId,omitempty"`
@@ -1792,8 +1792,8 @@ func (identity *BatchAccountIdentity_Status) AssignPropertiesToBatchAccountIdent
 	return nil
 }
 
-//Deprecated version of BatchAccountPropertiesStatusProvisioningState. Use
-//v1beta20210101.BatchAccountPropertiesStatusProvisioningState instead
+// Deprecated version of BatchAccountPropertiesStatusProvisioningState. Use
+// v1beta20210101.BatchAccountPropertiesStatusProvisioningState instead
 type BatchAccountPropertiesStatusProvisioningState string
 
 const (
@@ -1805,7 +1805,7 @@ const (
 	BatchAccountPropertiesStatusProvisioningStateSucceeded = BatchAccountPropertiesStatusProvisioningState("Succeeded")
 )
 
-//Deprecated version of EncryptionProperties. Use v1beta20210101.EncryptionProperties instead
+// Deprecated version of EncryptionProperties. Use v1beta20210101.EncryptionProperties instead
 type EncryptionProperties struct {
 	KeySource          *EncryptionPropertiesKeySource `json:"keySource,omitempty"`
 	KeyVaultProperties *KeyVaultProperties            `json:"keyVaultProperties,omitempty"`
@@ -1934,7 +1934,7 @@ func (properties *EncryptionProperties) AssignPropertiesToEncryptionProperties(d
 	return nil
 }
 
-//Deprecated version of EncryptionProperties_Status. Use v1beta20210101.EncryptionProperties_Status instead
+// Deprecated version of EncryptionProperties_Status. Use v1beta20210101.EncryptionProperties_Status instead
 type EncryptionProperties_Status struct {
 	KeySource          *EncryptionPropertiesStatusKeySource `json:"keySource,omitempty"`
 	KeyVaultProperties *KeyVaultProperties_Status           `json:"keyVaultProperties,omitempty"`
@@ -2038,7 +2038,7 @@ func (properties *EncryptionProperties_Status) AssignPropertiesToEncryptionPrope
 	return nil
 }
 
-//Deprecated version of KeyVaultReference. Use v1beta20210101.KeyVaultReference instead
+// Deprecated version of KeyVaultReference. Use v1beta20210101.KeyVaultReference instead
 type KeyVaultReference struct {
 	// +kubebuilder:validation:Required
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
@@ -2143,7 +2143,7 @@ func (reference *KeyVaultReference) AssignPropertiesToKeyVaultReference(destinat
 	return nil
 }
 
-//Deprecated version of KeyVaultReference_Status. Use v1beta20210101.KeyVaultReference_Status instead
+// Deprecated version of KeyVaultReference_Status. Use v1beta20210101.KeyVaultReference_Status instead
 type KeyVaultReference_Status struct {
 	Id  *string `json:"id,omitempty"`
 	Url *string `json:"url,omitempty"`
@@ -2214,7 +2214,7 @@ func (reference *KeyVaultReference_Status) AssignPropertiesToKeyVaultReferenceSt
 	return nil
 }
 
-//Deprecated version of PoolAllocationMode_Status. Use v1beta20210101.PoolAllocationMode_Status instead
+// Deprecated version of PoolAllocationMode_Status. Use v1beta20210101.PoolAllocationMode_Status instead
 type PoolAllocationMode_Status string
 
 const (
@@ -2222,7 +2222,7 @@ const (
 	PoolAllocationMode_StatusUserSubscription = PoolAllocationMode_Status("UserSubscription")
 )
 
-//Deprecated version of PrivateEndpointConnection_Status. Use v1beta20210101.PrivateEndpointConnection_Status instead
+// Deprecated version of PrivateEndpointConnection_Status. Use v1beta20210101.PrivateEndpointConnection_Status instead
 type PrivateEndpointConnection_Status struct {
 	Etag                              *string                                                     `json:"etag,omitempty"`
 	Id                                *string                                                     `json:"id,omitempty"`
@@ -2423,7 +2423,7 @@ func (connection *PrivateEndpointConnection_Status) AssignPropertiesToPrivateEnd
 	return nil
 }
 
-//Deprecated version of PublicNetworkAccessType_Status. Use v1beta20210101.PublicNetworkAccessType_Status instead
+// Deprecated version of PublicNetworkAccessType_Status. Use v1beta20210101.PublicNetworkAccessType_Status instead
 type PublicNetworkAccessType_Status string
 
 const (
@@ -2431,7 +2431,7 @@ const (
 	PublicNetworkAccessType_StatusEnabled  = PublicNetworkAccessType_Status("Enabled")
 )
 
-//Deprecated version of VirtualMachineFamilyCoreQuota_Status. Use v1beta20210101.VirtualMachineFamilyCoreQuota_Status instead
+// Deprecated version of VirtualMachineFamilyCoreQuota_Status. Use v1beta20210101.VirtualMachineFamilyCoreQuota_Status instead
 type VirtualMachineFamilyCoreQuota_Status struct {
 	CoreQuota *int    `json:"coreQuota,omitempty"`
 	Name      *string `json:"name,omitempty"`
@@ -2502,7 +2502,7 @@ func (quota *VirtualMachineFamilyCoreQuota_Status) AssignPropertiesToVirtualMach
 	return nil
 }
 
-//Deprecated version of BatchAccountIdentity_Status_UserAssignedIdentities. Use v1beta20210101.BatchAccountIdentity_Status_UserAssignedIdentities instead
+// Deprecated version of BatchAccountIdentity_Status_UserAssignedIdentities. Use v1beta20210101.BatchAccountIdentity_Status_UserAssignedIdentities instead
 type BatchAccountIdentity_Status_UserAssignedIdentities struct {
 	ClientId    *string `json:"clientId,omitempty"`
 	PrincipalId *string `json:"principalId,omitempty"`
@@ -2573,7 +2573,7 @@ func (identities *BatchAccountIdentity_Status_UserAssignedIdentities) AssignProp
 	return nil
 }
 
-//Deprecated version of EncryptionPropertiesKeySource. Use v1beta20210101.EncryptionPropertiesKeySource instead
+// Deprecated version of EncryptionPropertiesKeySource. Use v1beta20210101.EncryptionPropertiesKeySource instead
 // +kubebuilder:validation:Enum={"Microsoft.Batch","Microsoft.KeyVault"}
 type EncryptionPropertiesKeySource string
 
@@ -2582,7 +2582,7 @@ const (
 	EncryptionPropertiesKeySourceMicrosoftKeyVault = EncryptionPropertiesKeySource("Microsoft.KeyVault")
 )
 
-//Deprecated version of EncryptionPropertiesStatusKeySource. Use v1beta20210101.EncryptionPropertiesStatusKeySource instead
+// Deprecated version of EncryptionPropertiesStatusKeySource. Use v1beta20210101.EncryptionPropertiesStatusKeySource instead
 type EncryptionPropertiesStatusKeySource string
 
 const (
@@ -2590,7 +2590,7 @@ const (
 	EncryptionPropertiesStatusKeySourceMicrosoftKeyVault = EncryptionPropertiesStatusKeySource("Microsoft.KeyVault")
 )
 
-//Deprecated version of KeyVaultProperties. Use v1beta20210101.KeyVaultProperties instead
+// Deprecated version of KeyVaultProperties. Use v1beta20210101.KeyVaultProperties instead
 type KeyVaultProperties struct {
 	KeyIdentifier *string `json:"keyIdentifier,omitempty"`
 }
@@ -2663,7 +2663,7 @@ func (properties *KeyVaultProperties) AssignPropertiesToKeyVaultProperties(desti
 	return nil
 }
 
-//Deprecated version of KeyVaultProperties_Status. Use v1beta20210101.KeyVaultProperties_Status instead
+// Deprecated version of KeyVaultProperties_Status. Use v1beta20210101.KeyVaultProperties_Status instead
 type KeyVaultProperties_Status struct {
 	KeyIdentifier *string `json:"keyIdentifier,omitempty"`
 }
@@ -2721,8 +2721,8 @@ func (properties *KeyVaultProperties_Status) AssignPropertiesToKeyVaultPropertie
 	return nil
 }
 
-//Deprecated version of PrivateEndpointConnectionPropertiesStatusProvisioningState. Use
-//v1beta20210101.PrivateEndpointConnectionPropertiesStatusProvisioningState instead
+// Deprecated version of PrivateEndpointConnectionPropertiesStatusProvisioningState. Use
+// v1beta20210101.PrivateEndpointConnectionPropertiesStatusProvisioningState instead
 type PrivateEndpointConnectionPropertiesStatusProvisioningState string
 
 const (
@@ -2731,7 +2731,7 @@ const (
 	PrivateEndpointConnectionPropertiesStatusProvisioningStateUpdating  = PrivateEndpointConnectionPropertiesStatusProvisioningState("Updating")
 )
 
-//Deprecated version of PrivateEndpoint_Status. Use v1beta20210101.PrivateEndpoint_Status instead
+// Deprecated version of PrivateEndpoint_Status. Use v1beta20210101.PrivateEndpoint_Status instead
 type PrivateEndpoint_Status struct {
 	Id *string `json:"id,omitempty"`
 }
@@ -2789,7 +2789,7 @@ func (endpoint *PrivateEndpoint_Status) AssignPropertiesToPrivateEndpointStatus(
 	return nil
 }
 
-//Deprecated version of PrivateLinkServiceConnectionState_Status. Use v1beta20210101.PrivateLinkServiceConnectionState_Status instead
+// Deprecated version of PrivateLinkServiceConnectionState_Status. Use v1beta20210101.PrivateLinkServiceConnectionState_Status instead
 type PrivateLinkServiceConnectionState_Status struct {
 	ActionRequired *string                                    `json:"actionRequired,omitempty"`
 	Description    *string                                    `json:"description,omitempty"`
@@ -2883,8 +2883,8 @@ func (state *PrivateLinkServiceConnectionState_Status) AssignPropertiesToPrivate
 	return nil
 }
 
-//Deprecated version of PrivateLinkServiceConnectionStatus_Status. Use
-//v1beta20210101.PrivateLinkServiceConnectionStatus_Status instead
+// Deprecated version of PrivateLinkServiceConnectionStatus_Status. Use
+// v1beta20210101.PrivateLinkServiceConnectionStatus_Status instead
 type PrivateLinkServiceConnectionStatus_Status string
 
 const (

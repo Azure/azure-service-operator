@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1alpha1api20211101
 
-//Deprecated version of AuthorizationRule_Status. Use v1beta20211101.AuthorizationRule_Status instead
+// Deprecated version of AuthorizationRule_Status. Use v1beta20211101.AuthorizationRule_Status instead
 type AuthorizationRule_StatusARM struct {
 	Id         *string                                 `json:"id,omitempty"`
 	Location   *string                                 `json:"location,omitempty"`
@@ -13,12 +13,12 @@ type AuthorizationRule_StatusARM struct {
 	Type       *string                                 `json:"type,omitempty"`
 }
 
-//Deprecated version of AuthorizationRule_Status_Properties. Use v1beta20211101.AuthorizationRule_Status_Properties instead
+// Deprecated version of AuthorizationRule_Status_Properties. Use v1beta20211101.AuthorizationRule_Status_Properties instead
 type AuthorizationRule_Status_PropertiesARM struct {
 	Rights []AuthorizationRuleStatusPropertiesRights `json:"rights,omitempty"`
 }
 
-//Deprecated version of SystemData_Status. Use v1beta20211101.SystemData_Status instead
+// Deprecated version of SystemData_Status. Use v1beta20211101.SystemData_Status instead
 type SystemData_StatusARM struct {
 	CreatedAt          *string                             `json:"createdAt,omitempty"`
 	CreatedBy          *string                             `json:"createdBy,omitempty"`
@@ -28,8 +28,8 @@ type SystemData_StatusARM struct {
 	LastModifiedByType *SystemDataStatusLastModifiedByType `json:"lastModifiedByType,omitempty"`
 }
 
-//Deprecated version of AuthorizationRuleStatusPropertiesRights. Use
-//v1beta20211101.AuthorizationRuleStatusPropertiesRights instead
+// Deprecated version of AuthorizationRuleStatusPropertiesRights. Use
+// v1beta20211101.AuthorizationRuleStatusPropertiesRights instead
 type AuthorizationRuleStatusPropertiesRights string
 
 const (
@@ -38,7 +38,7 @@ const (
 	AuthorizationRuleStatusPropertiesRightsSend   = AuthorizationRuleStatusPropertiesRights("Send")
 )
 
-//Deprecated version of SystemDataStatusCreatedByType. Use v1beta20211101.SystemDataStatusCreatedByType instead
+// Deprecated version of SystemDataStatusCreatedByType. Use v1beta20211101.SystemDataStatusCreatedByType instead
 type SystemDataStatusCreatedByType string
 
 const (
@@ -48,7 +48,7 @@ const (
 	SystemDataStatusCreatedByTypeUser            = SystemDataStatusCreatedByType("User")
 )
 
-//Deprecated version of SystemDataStatusLastModifiedByType. Use v1beta20211101.SystemDataStatusLastModifiedByType instead
+// Deprecated version of SystemDataStatusLastModifiedByType. Use v1beta20211101.SystemDataStatusLastModifiedByType instead
 type SystemDataStatusLastModifiedByType string
 
 const (

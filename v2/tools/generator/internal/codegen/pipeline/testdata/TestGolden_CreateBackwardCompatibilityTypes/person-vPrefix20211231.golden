@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package vPrefix20211231
 
-//Deprecated version of Person_Spec. Use v20211231.Person_Spec instead
+// Deprecated version of Person_Spec. Use v20211231.Person_Spec instead
 type Person_Spec struct {
 	FamilyName string `json:"familyName,omitempty"`
 	FullName   string `json:"fullName,omitempty"`

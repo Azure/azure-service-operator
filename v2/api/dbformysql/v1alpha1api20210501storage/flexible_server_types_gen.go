@@ -20,8 +20,8 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Storage version of v1alpha1api20210501.FlexibleServer
-//Deprecated version of FlexibleServer. Use v1beta20210501.FlexibleServer instead
+// Storage version of v1alpha1api20210501.FlexibleServer
+// Deprecated version of FlexibleServer. Use v1beta20210501.FlexibleServer instead
 type FlexibleServer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -191,22 +191,22 @@ func (server *FlexibleServer) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Storage version of v1alpha1api20210501.FlexibleServer
-//Deprecated version of FlexibleServer. Use v1beta20210501.FlexibleServer instead
+// Storage version of v1alpha1api20210501.FlexibleServer
+// Deprecated version of FlexibleServer. Use v1beta20210501.FlexibleServer instead
 type FlexibleServerList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []FlexibleServer `json:"items"`
 }
 
-//Storage version of v1alpha1api20210501.FlexibleServers_Spec
+// Storage version of v1alpha1api20210501.FlexibleServers_Spec
 type FlexibleServers_Spec struct {
 	AdministratorLogin         *string                     `json:"administratorLogin,omitempty"`
 	AdministratorLoginPassword *genruntime.SecretReference `json:"administratorLoginPassword,omitempty"`
 	AvailabilityZone           *string                     `json:"availabilityZone,omitempty"`
 
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName         string             `json:"azureName,omitempty"`
 	Backup            *Backup            `json:"backup,omitempty"`
 	CreateMode        *string            `json:"createMode,omitempty"`
@@ -217,9 +217,9 @@ type FlexibleServers_Spec struct {
 	OriginalVersion   string             `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a resources.azure.com/ResourceGroup resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
 	Owner                  *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PropertyBag            genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	ReplicationRole        *string                            `json:"replicationRole,omitempty"`
@@ -555,8 +555,8 @@ func (servers *FlexibleServers_Spec) AssignPropertiesToFlexibleServersSpec(desti
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.Server_Status
-//Deprecated version of Server_Status. Use v1beta20210501.Server_Status instead
+// Storage version of v1alpha1api20210501.Server_Status
+// Deprecated version of Server_Status. Use v1beta20210501.Server_Status instead
 type Server_Status struct {
 	AdministratorLogin       *string                   `json:"administratorLogin,omitempty"`
 	AvailabilityZone         *string                   `json:"availabilityZone,omitempty"`
@@ -930,8 +930,8 @@ func (server *Server_Status) AssignPropertiesToServerStatus(destination *v202105
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.Backup
-//Deprecated version of Backup. Use v1beta20210501.Backup instead
+// Storage version of v1alpha1api20210501.Backup
+// Deprecated version of Backup. Use v1beta20210501.Backup instead
 type Backup struct {
 	BackupRetentionDays *int                   `json:"backupRetentionDays,omitempty"`
 	GeoRedundantBackup  *string                `json:"geoRedundantBackup,omitempty"`
@@ -982,8 +982,8 @@ func (backup *Backup) AssignPropertiesToBackup(destination *v20210501s.Backup) e
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.Backup_Status
-//Deprecated version of Backup_Status. Use v1beta20210501.Backup_Status instead
+// Storage version of v1alpha1api20210501.Backup_Status
+// Deprecated version of Backup_Status. Use v1beta20210501.Backup_Status instead
 type Backup_Status struct {
 	BackupRetentionDays *int                   `json:"backupRetentionDays,omitempty"`
 	EarliestRestoreDate *string                `json:"earliestRestoreDate,omitempty"`
@@ -1041,8 +1041,8 @@ func (backup *Backup_Status) AssignPropertiesToBackupStatus(destination *v202105
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.HighAvailability
-//Deprecated version of HighAvailability. Use v1beta20210501.HighAvailability instead
+// Storage version of v1alpha1api20210501.HighAvailability
+// Deprecated version of HighAvailability. Use v1beta20210501.HighAvailability instead
 type HighAvailability struct {
 	Mode                    *string                `json:"mode,omitempty"`
 	PropertyBag             genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -1093,8 +1093,8 @@ func (availability *HighAvailability) AssignPropertiesToHighAvailability(destina
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.HighAvailability_Status
-//Deprecated version of HighAvailability_Status. Use v1beta20210501.HighAvailability_Status instead
+// Storage version of v1alpha1api20210501.HighAvailability_Status
+// Deprecated version of HighAvailability_Status. Use v1beta20210501.HighAvailability_Status instead
 type HighAvailability_Status struct {
 	Mode                    *string                `json:"mode,omitempty"`
 	PropertyBag             genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -1152,8 +1152,8 @@ func (availability *HighAvailability_Status) AssignPropertiesToHighAvailabilityS
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.MaintenanceWindow
-//Deprecated version of MaintenanceWindow. Use v1beta20210501.MaintenanceWindow instead
+// Storage version of v1alpha1api20210501.MaintenanceWindow
+// Deprecated version of MaintenanceWindow. Use v1beta20210501.MaintenanceWindow instead
 type MaintenanceWindow struct {
 	CustomWindow *string                `json:"customWindow,omitempty"`
 	DayOfWeek    *int                   `json:"dayOfWeek,omitempty"`
@@ -1218,8 +1218,8 @@ func (window *MaintenanceWindow) AssignPropertiesToMaintenanceWindow(destination
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.MaintenanceWindow_Status
-//Deprecated version of MaintenanceWindow_Status. Use v1beta20210501.MaintenanceWindow_Status instead
+// Storage version of v1alpha1api20210501.MaintenanceWindow_Status
+// Deprecated version of MaintenanceWindow_Status. Use v1beta20210501.MaintenanceWindow_Status instead
 type MaintenanceWindow_Status struct {
 	CustomWindow *string                `json:"customWindow,omitempty"`
 	DayOfWeek    *int                   `json:"dayOfWeek,omitempty"`
@@ -1284,8 +1284,8 @@ func (window *MaintenanceWindow_Status) AssignPropertiesToMaintenanceWindowStatu
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.Network
-//Deprecated version of Network. Use v1beta20210501.Network instead
+// Storage version of v1alpha1api20210501.Network
+// Deprecated version of Network. Use v1beta20210501.Network instead
 type Network struct {
 	DelegatedSubnetResourceReference *genruntime.ResourceReference `armReference:"DelegatedSubnetResourceId" json:"delegatedSubnetResourceReference,omitempty"`
 	PrivateDnsZoneResourceReference  *genruntime.ResourceReference `armReference:"PrivateDnsZoneResourceId" json:"privateDnsZoneResourceReference,omitempty"`
@@ -1356,8 +1356,8 @@ func (network *Network) AssignPropertiesToNetwork(destination *v20210501s.Networ
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.Network_Status
-//Deprecated version of Network_Status. Use v1beta20210501.Network_Status instead
+// Storage version of v1alpha1api20210501.Network_Status
+// Deprecated version of Network_Status. Use v1beta20210501.Network_Status instead
 type Network_Status struct {
 	DelegatedSubnetResourceId *string                `json:"delegatedSubnetResourceId,omitempty"`
 	PrivateDnsZoneResourceId  *string                `json:"privateDnsZoneResourceId,omitempty"`
@@ -1415,8 +1415,8 @@ func (network *Network_Status) AssignPropertiesToNetworkStatus(destination *v202
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.Sku
-//Deprecated version of Sku. Use v1beta20210501.Sku instead
+// Storage version of v1alpha1api20210501.Sku
+// Deprecated version of Sku. Use v1beta20210501.Sku instead
 type Sku struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -1467,8 +1467,8 @@ func (sku *Sku) AssignPropertiesToSku(destination *v20210501s.Sku) error {
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.Sku_Status
-//Deprecated version of Sku_Status. Use v1beta20210501.Sku_Status instead
+// Storage version of v1alpha1api20210501.Sku_Status
+// Deprecated version of Sku_Status. Use v1beta20210501.Sku_Status instead
 type Sku_Status struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -1519,8 +1519,8 @@ func (sku *Sku_Status) AssignPropertiesToSkuStatus(destination *v20210501s.Sku_S
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.Storage
-//Deprecated version of Storage. Use v1beta20210501.Storage instead
+// Storage version of v1alpha1api20210501.Storage
+// Deprecated version of Storage. Use v1beta20210501.Storage instead
 type Storage struct {
 	AutoGrow      *string                `json:"autoGrow,omitempty"`
 	Iops          *int                   `json:"iops,omitempty"`
@@ -1578,8 +1578,8 @@ func (storage *Storage) AssignPropertiesToStorage(destination *v20210501s.Storag
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.Storage_Status
-//Deprecated version of Storage_Status. Use v1beta20210501.Storage_Status instead
+// Storage version of v1alpha1api20210501.Storage_Status
+// Deprecated version of Storage_Status. Use v1beta20210501.Storage_Status instead
 type Storage_Status struct {
 	AutoGrow      *string                `json:"autoGrow,omitempty"`
 	Iops          *int                   `json:"iops,omitempty"`
@@ -1644,8 +1644,8 @@ func (storage *Storage_Status) AssignPropertiesToStorageStatus(destination *v202
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.SystemData_Status
-//Deprecated version of SystemData_Status. Use v1beta20210501.SystemData_Status instead
+// Storage version of v1alpha1api20210501.SystemData_Status
+// Deprecated version of SystemData_Status. Use v1beta20210501.SystemData_Status instead
 type SystemData_Status struct {
 	CreatedAt          *string                `json:"createdAt,omitempty"`
 	CreatedBy          *string                `json:"createdBy,omitempty"`

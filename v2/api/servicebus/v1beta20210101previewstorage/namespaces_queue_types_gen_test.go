@@ -116,7 +116,7 @@ func RunJSONSerializationTestForNamespacesQueuesSpec(subject NamespacesQueues_Sp
 }
 
 // Generator of NamespacesQueues_Spec instances for property testing - lazily instantiated by
-//NamespacesQueuesSpecGenerator()
+// NamespacesQueuesSpecGenerator()
 var namespacesQueuesSpecGenerator gopter.Gen
 
 // NamespacesQueuesSpecGenerator returns a generator of NamespacesQueues_Spec instances for property testing.
@@ -289,7 +289,7 @@ func RunJSONSerializationTestForMessageCountDetailsStatus(subject MessageCountDe
 }
 
 // Generator of MessageCountDetails_Status instances for property testing - lazily instantiated by
-//MessageCountDetailsStatusGenerator()
+// MessageCountDetailsStatusGenerator()
 var messageCountDetailsStatusGenerator gopter.Gen
 
 // MessageCountDetailsStatusGenerator returns a generator of MessageCountDetails_Status instances for property testing.

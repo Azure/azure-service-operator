@@ -90,7 +90,7 @@ func RunPropertyAssignmentTestForManagedClustersAgentPool(subject ManagedCluster
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -141,7 +141,7 @@ func RunJSONSerializationTestForManagedClustersAgentPool(subject ManagedClusters
 }
 
 // Generator of ManagedClustersAgentPool instances for property testing - lazily instantiated by
-//ManagedClustersAgentPoolGenerator()
+// ManagedClustersAgentPoolGenerator()
 var managedClustersAgentPoolGenerator gopter.Gen
 
 // ManagedClustersAgentPoolGenerator returns a generator of ManagedClustersAgentPool instances for property testing.
@@ -193,7 +193,7 @@ func RunPropertyAssignmentTestForAgentPoolStatus(subject AgentPool_Status) strin
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -345,7 +345,7 @@ func RunPropertyAssignmentTestForManagedClustersAgentPoolsSpec(subject ManagedCl
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -396,7 +396,7 @@ func RunJSONSerializationTestForManagedClustersAgentPoolsSpec(subject ManagedClu
 }
 
 // Generator of ManagedClustersAgentPools_Spec instances for property testing - lazily instantiated by
-//ManagedClustersAgentPoolsSpecGenerator()
+// ManagedClustersAgentPoolsSpecGenerator()
 var managedClustersAgentPoolsSpecGenerator gopter.Gen
 
 // ManagedClustersAgentPoolsSpecGenerator returns a generator of ManagedClustersAgentPools_Spec instances for property testing.
@@ -492,7 +492,7 @@ func RunPropertyAssignmentTestForAgentPoolUpgradeSettings(subject AgentPoolUpgra
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -543,7 +543,7 @@ func RunJSONSerializationTestForAgentPoolUpgradeSettings(subject AgentPoolUpgrad
 }
 
 // Generator of AgentPoolUpgradeSettings instances for property testing - lazily instantiated by
-//AgentPoolUpgradeSettingsGenerator()
+// AgentPoolUpgradeSettingsGenerator()
 var agentPoolUpgradeSettingsGenerator gopter.Gen
 
 // AgentPoolUpgradeSettingsGenerator returns a generator of AgentPoolUpgradeSettings instances for property testing.
@@ -594,7 +594,7 @@ func RunPropertyAssignmentTestForAgentPoolUpgradeSettingsStatus(subject AgentPoo
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -645,7 +645,7 @@ func RunJSONSerializationTestForAgentPoolUpgradeSettingsStatus(subject AgentPool
 }
 
 // Generator of AgentPoolUpgradeSettings_Status instances for property testing - lazily instantiated by
-//AgentPoolUpgradeSettingsStatusGenerator()
+// AgentPoolUpgradeSettingsStatusGenerator()
 var agentPoolUpgradeSettingsStatusGenerator gopter.Gen
 
 // AgentPoolUpgradeSettingsStatusGenerator returns a generator of AgentPoolUpgradeSettings_Status instances for property testing.
@@ -696,7 +696,7 @@ func RunPropertyAssignmentTestForKubeletConfig(subject KubeletConfig) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -807,7 +807,7 @@ func RunPropertyAssignmentTestForKubeletConfigStatus(subject KubeletConfig_Statu
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -858,7 +858,7 @@ func RunJSONSerializationTestForKubeletConfigStatus(subject KubeletConfig_Status
 }
 
 // Generator of KubeletConfig_Status instances for property testing - lazily instantiated by
-//KubeletConfigStatusGenerator()
+// KubeletConfigStatusGenerator()
 var kubeletConfigStatusGenerator gopter.Gen
 
 // KubeletConfigStatusGenerator returns a generator of KubeletConfig_Status instances for property testing.
@@ -919,7 +919,7 @@ func RunPropertyAssignmentTestForLinuxOSConfig(subject LinuxOSConfig) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1036,7 +1036,7 @@ func RunPropertyAssignmentTestForLinuxOSConfigStatus(subject LinuxOSConfig_Statu
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1087,7 +1087,7 @@ func RunJSONSerializationTestForLinuxOSConfigStatus(subject LinuxOSConfig_Status
 }
 
 // Generator of LinuxOSConfig_Status instances for property testing - lazily instantiated by
-//LinuxOSConfigStatusGenerator()
+// LinuxOSConfigStatusGenerator()
 var linuxOSConfigStatusGenerator gopter.Gen
 
 // LinuxOSConfigStatusGenerator returns a generator of LinuxOSConfig_Status instances for property testing.
@@ -1154,7 +1154,7 @@ func RunPropertyAssignmentTestForSysctlConfig(subject SysctlConfig) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1282,7 +1282,7 @@ func RunPropertyAssignmentTestForSysctlConfigStatus(subject SysctlConfig_Status)
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)

@@ -56,7 +56,7 @@ func RunJSONSerializationTestForMongoDBDatabaseGetResultsStatusARM(subject Mongo
 }
 
 // Generator of MongoDBDatabaseGetResults_StatusARM instances for property testing - lazily instantiated by
-//MongoDBDatabaseGetResultsStatusARMGenerator()
+// MongoDBDatabaseGetResultsStatusARMGenerator()
 var mongoDBDatabaseGetResultsStatusARMGenerator gopter.Gen
 
 // MongoDBDatabaseGetResultsStatusARMGenerator returns a generator of MongoDBDatabaseGetResults_StatusARM instances for property testing.
@@ -134,7 +134,7 @@ func RunJSONSerializationTestForMongoDBDatabaseGetPropertiesStatusARM(subject Mo
 }
 
 // Generator of MongoDBDatabaseGetProperties_StatusARM instances for property testing - lazily instantiated by
-//MongoDBDatabaseGetPropertiesStatusARMGenerator()
+// MongoDBDatabaseGetPropertiesStatusARMGenerator()
 var mongoDBDatabaseGetPropertiesStatusARMGenerator gopter.Gen
 
 // MongoDBDatabaseGetPropertiesStatusARMGenerator returns a generator of MongoDBDatabaseGetProperties_StatusARM instances for property testing.
@@ -195,7 +195,7 @@ func RunJSONSerializationTestForMongoDBDatabaseGetPropertiesStatusResourceARM(su
 }
 
 // Generator of MongoDBDatabaseGetProperties_Status_ResourceARM instances for property testing - lazily instantiated by
-//MongoDBDatabaseGetPropertiesStatusResourceARMGenerator()
+// MongoDBDatabaseGetPropertiesStatusResourceARMGenerator()
 var mongoDBDatabaseGetPropertiesStatusResourceARMGenerator gopter.Gen
 
 // MongoDBDatabaseGetPropertiesStatusResourceARMGenerator returns a generator of MongoDBDatabaseGetProperties_Status_ResourceARM instances for property testing.

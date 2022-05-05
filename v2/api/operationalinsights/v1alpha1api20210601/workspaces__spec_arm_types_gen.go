@@ -8,7 +8,7 @@ import (
 	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 )
 
-//Deprecated version of Workspaces_Spec. Use v1beta20210601.Workspaces_Spec instead
+// Deprecated version of Workspaces_Spec. Use v1beta20210601.Workspaces_Spec instead
 type Workspaces_SpecARM struct {
 	ETag       *string                 `json:"eTag,omitempty"`
 	Location   *string                 `json:"location,omitempty"`
@@ -34,7 +34,7 @@ func (workspaces Workspaces_SpecARM) GetType() string {
 	return "Microsoft.OperationalInsights/workspaces"
 }
 
-//Deprecated version of WorkspaceProperties. Use v1beta20210601.WorkspaceProperties instead
+// Deprecated version of WorkspaceProperties. Use v1beta20210601.WorkspaceProperties instead
 type WorkspacePropertiesARM struct {
 	Features                        *WorkspaceFeaturesARM                               `json:"features,omitempty"`
 	ForceCmkForQuery                *bool                                               `json:"forceCmkForQuery,omitempty"`
@@ -46,12 +46,12 @@ type WorkspacePropertiesARM struct {
 	WorkspaceCapping                *WorkspaceCappingARM                                `json:"workspaceCapping,omitempty"`
 }
 
-//Deprecated version of WorkspaceCapping. Use v1beta20210601.WorkspaceCapping instead
+// Deprecated version of WorkspaceCapping. Use v1beta20210601.WorkspaceCapping instead
 type WorkspaceCappingARM struct {
 	DailyQuotaGb *float64 `json:"dailyQuotaGb,omitempty"`
 }
 
-//Deprecated version of WorkspaceFeatures. Use v1beta20210601.WorkspaceFeatures instead
+// Deprecated version of WorkspaceFeatures. Use v1beta20210601.WorkspaceFeatures instead
 type WorkspaceFeaturesARM struct {
 	AdditionalProperties                        map[string]v1.JSON `json:"additionalProperties,omitempty"`
 	ClusterResourceId                           *string            `json:"clusterResourceId,omitempty"`
@@ -61,7 +61,7 @@ type WorkspaceFeaturesARM struct {
 	ImmediatePurgeDataOn30Days                  *bool              `json:"immediatePurgeDataOn30Days,omitempty"`
 }
 
-//Deprecated version of WorkspaceSku. Use v1beta20210601.WorkspaceSku instead
+// Deprecated version of WorkspaceSku. Use v1beta20210601.WorkspaceSku instead
 type WorkspaceSkuARM struct {
 	CapacityReservationLevel *int              `json:"capacityReservationLevel,omitempty"`
 	Name                     *WorkspaceSkuName `json:"name,omitempty"`

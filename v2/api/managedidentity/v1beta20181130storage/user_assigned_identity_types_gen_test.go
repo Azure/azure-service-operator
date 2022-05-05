@@ -56,7 +56,7 @@ func RunJSONSerializationTestForUserAssignedIdentity(subject UserAssignedIdentit
 }
 
 // Generator of UserAssignedIdentity instances for property testing - lazily instantiated by
-//UserAssignedIdentityGenerator()
+// UserAssignedIdentityGenerator()
 var userAssignedIdentityGenerator gopter.Gen
 
 // UserAssignedIdentityGenerator returns a generator of UserAssignedIdentity instances for property testing.
@@ -183,7 +183,7 @@ func RunJSONSerializationTestForUserAssignedIdentitiesSpec(subject UserAssignedI
 }
 
 // Generator of UserAssignedIdentities_Spec instances for property testing - lazily instantiated by
-//UserAssignedIdentitiesSpecGenerator()
+// UserAssignedIdentitiesSpecGenerator()
 var userAssignedIdentitiesSpecGenerator gopter.Gen
 
 // UserAssignedIdentitiesSpecGenerator returns a generator of UserAssignedIdentities_Spec instances for property testing.

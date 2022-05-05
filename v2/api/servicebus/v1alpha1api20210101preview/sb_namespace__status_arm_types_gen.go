@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1alpha1api20210101preview
 
-//Deprecated version of SBNamespace_Status. Use v1beta20210101preview.SBNamespace_Status instead
+// Deprecated version of SBNamespace_Status. Use v1beta20210101preview.SBNamespace_Status instead
 type SBNamespace_StatusARM struct {
 	Id         *string                          `json:"id,omitempty"`
 	Identity   *Identity_StatusARM              `json:"identity,omitempty"`
@@ -16,7 +16,7 @@ type SBNamespace_StatusARM struct {
 	Type       *string                          `json:"type,omitempty"`
 }
 
-//Deprecated version of Identity_Status. Use v1beta20210101preview.Identity_Status instead
+// Deprecated version of Identity_Status. Use v1beta20210101preview.Identity_Status instead
 type Identity_StatusARM struct {
 	PrincipalId            *string                              `json:"principalId,omitempty"`
 	TenantId               *string                              `json:"tenantId,omitempty"`
@@ -24,7 +24,7 @@ type Identity_StatusARM struct {
 	UserAssignedIdentities map[string]DictionaryValue_StatusARM `json:"userAssignedIdentities,omitempty"`
 }
 
-//Deprecated version of SBNamespaceProperties_Status. Use v1beta20210101preview.SBNamespaceProperties_Status instead
+// Deprecated version of SBNamespaceProperties_Status. Use v1beta20210101preview.SBNamespaceProperties_Status instead
 type SBNamespaceProperties_StatusARM struct {
 	CreatedAt                  *string                                                   `json:"createdAt,omitempty"`
 	Encryption                 *Encryption_StatusARM                                     `json:"encryption,omitempty"`
@@ -37,14 +37,14 @@ type SBNamespaceProperties_StatusARM struct {
 	ZoneRedundant              *bool                                                     `json:"zoneRedundant,omitempty"`
 }
 
-//Deprecated version of SBSku_Status. Use v1beta20210101preview.SBSku_Status instead
+// Deprecated version of SBSku_Status. Use v1beta20210101preview.SBSku_Status instead
 type SBSku_StatusARM struct {
 	Capacity *int             `json:"capacity,omitempty"`
 	Name     *SBSkuStatusName `json:"name,omitempty"`
 	Tier     *SBSkuStatusTier `json:"tier,omitempty"`
 }
 
-//Deprecated version of SystemData_Status. Use v1beta20210101preview.SystemData_Status instead
+// Deprecated version of SystemData_Status. Use v1beta20210101preview.SystemData_Status instead
 type SystemData_StatusARM struct {
 	CreatedAt          *string                             `json:"createdAt,omitempty"`
 	CreatedBy          *string                             `json:"createdBy,omitempty"`
@@ -54,20 +54,20 @@ type SystemData_StatusARM struct {
 	LastModifiedByType *SystemDataStatusLastModifiedByType `json:"lastModifiedByType,omitempty"`
 }
 
-//Deprecated version of DictionaryValue_Status. Use v1beta20210101preview.DictionaryValue_Status instead
+// Deprecated version of DictionaryValue_Status. Use v1beta20210101preview.DictionaryValue_Status instead
 type DictionaryValue_StatusARM struct {
 	ClientId    *string `json:"clientId,omitempty"`
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
-//Deprecated version of Encryption_Status. Use v1beta20210101preview.Encryption_Status instead
+// Deprecated version of Encryption_Status. Use v1beta20210101preview.Encryption_Status instead
 type Encryption_StatusARM struct {
 	KeySource                       *EncryptionStatusKeySource     `json:"keySource,omitempty"`
 	KeyVaultProperties              []KeyVaultProperties_StatusARM `json:"keyVaultProperties,omitempty"`
 	RequireInfrastructureEncryption *bool                          `json:"requireInfrastructureEncryption,omitempty"`
 }
 
-//Deprecated version of IdentityStatusType. Use v1beta20210101preview.IdentityStatusType instead
+// Deprecated version of IdentityStatusType. Use v1beta20210101preview.IdentityStatusType instead
 type IdentityStatusType string
 
 const (
@@ -77,13 +77,13 @@ const (
 	IdentityStatusTypeUserAssigned               = IdentityStatusType("UserAssigned")
 )
 
-//Deprecated version of PrivateEndpointConnection_Status_SubResourceEmbedded. Use v1beta20210101preview.PrivateEndpointConnection_Status_SubResourceEmbedded instead
+// Deprecated version of PrivateEndpointConnection_Status_SubResourceEmbedded. Use v1beta20210101preview.PrivateEndpointConnection_Status_SubResourceEmbedded instead
 type PrivateEndpointConnection_Status_SubResourceEmbeddedARM struct {
 	Id         *string               `json:"id,omitempty"`
 	SystemData *SystemData_StatusARM `json:"systemData,omitempty"`
 }
 
-//Deprecated version of SBSkuStatusName. Use v1beta20210101preview.SBSkuStatusName instead
+// Deprecated version of SBSkuStatusName. Use v1beta20210101preview.SBSkuStatusName instead
 type SBSkuStatusName string
 
 const (
@@ -92,7 +92,7 @@ const (
 	SBSkuStatusNameStandard = SBSkuStatusName("Standard")
 )
 
-//Deprecated version of SBSkuStatusTier. Use v1beta20210101preview.SBSkuStatusTier instead
+// Deprecated version of SBSkuStatusTier. Use v1beta20210101preview.SBSkuStatusTier instead
 type SBSkuStatusTier string
 
 const (
@@ -101,7 +101,7 @@ const (
 	SBSkuStatusTierStandard = SBSkuStatusTier("Standard")
 )
 
-//Deprecated version of SystemDataStatusCreatedByType. Use v1beta20210101preview.SystemDataStatusCreatedByType instead
+// Deprecated version of SystemDataStatusCreatedByType. Use v1beta20210101preview.SystemDataStatusCreatedByType instead
 type SystemDataStatusCreatedByType string
 
 const (
@@ -111,8 +111,8 @@ const (
 	SystemDataStatusCreatedByTypeUser            = SystemDataStatusCreatedByType("User")
 )
 
-//Deprecated version of SystemDataStatusLastModifiedByType. Use v1beta20210101preview.SystemDataStatusLastModifiedByType
-//instead
+// Deprecated version of SystemDataStatusLastModifiedByType. Use v1beta20210101preview.SystemDataStatusLastModifiedByType
+// instead
 type SystemDataStatusLastModifiedByType string
 
 const (
@@ -122,7 +122,7 @@ const (
 	SystemDataStatusLastModifiedByTypeUser            = SystemDataStatusLastModifiedByType("User")
 )
 
-//Deprecated version of KeyVaultProperties_Status. Use v1beta20210101preview.KeyVaultProperties_Status instead
+// Deprecated version of KeyVaultProperties_Status. Use v1beta20210101preview.KeyVaultProperties_Status instead
 type KeyVaultProperties_StatusARM struct {
 	Identity    *UserAssignedIdentityProperties_StatusARM `json:"identity,omitempty"`
 	KeyName     *string                                   `json:"keyName,omitempty"`
@@ -130,7 +130,7 @@ type KeyVaultProperties_StatusARM struct {
 	KeyVersion  *string                                   `json:"keyVersion,omitempty"`
 }
 
-//Deprecated version of UserAssignedIdentityProperties_Status. Use v1beta20210101preview.UserAssignedIdentityProperties_Status instead
+// Deprecated version of UserAssignedIdentityProperties_Status. Use v1beta20210101preview.UserAssignedIdentityProperties_Status instead
 type UserAssignedIdentityProperties_StatusARM struct {
 	UserAssignedIdentity *string `json:"userAssignedIdentity,omitempty"`
 }

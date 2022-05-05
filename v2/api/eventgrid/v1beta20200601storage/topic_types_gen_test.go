@@ -263,7 +263,7 @@ func RunJSONSerializationTestForPrivateEndpointConnectionStatusTopicSubResourceE
 }
 
 // Generator of PrivateEndpointConnection_Status_Topic_SubResourceEmbedded instances for property testing - lazily
-//instantiated by PrivateEndpointConnectionStatusTopicSubResourceEmbeddedGenerator()
+// instantiated by PrivateEndpointConnectionStatusTopicSubResourceEmbeddedGenerator()
 var privateEndpointConnectionStatusTopicSubResourceEmbeddedGenerator gopter.Gen
 
 // PrivateEndpointConnectionStatusTopicSubResourceEmbeddedGenerator returns a generator of PrivateEndpointConnection_Status_Topic_SubResourceEmbedded instances for property testing.

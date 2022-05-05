@@ -56,7 +56,7 @@ func RunJSONSerializationTestForStorageAccountsBlobServicesContainersSpecARM(sub
 }
 
 // Generator of StorageAccountsBlobServicesContainers_SpecARM instances for property testing - lazily instantiated by
-//StorageAccountsBlobServicesContainersSpecARMGenerator()
+// StorageAccountsBlobServicesContainersSpecARMGenerator()
 var storageAccountsBlobServicesContainersSpecARMGenerator gopter.Gen
 
 // StorageAccountsBlobServicesContainersSpecARMGenerator returns a generator of StorageAccountsBlobServicesContainers_SpecARM instances for property testing.
@@ -132,7 +132,7 @@ func RunJSONSerializationTestForContainerPropertiesARM(subject ContainerProperti
 }
 
 // Generator of ContainerPropertiesARM instances for property testing - lazily instantiated by
-//ContainerPropertiesARMGenerator()
+// ContainerPropertiesARMGenerator()
 var containerPropertiesARMGenerator gopter.Gen
 
 // ContainerPropertiesARMGenerator returns a generator of ContainerPropertiesARM instances for property testing.
@@ -209,7 +209,7 @@ func RunJSONSerializationTestForImmutableStorageWithVersioningARM(subject Immuta
 }
 
 // Generator of ImmutableStorageWithVersioningARM instances for property testing - lazily instantiated by
-//ImmutableStorageWithVersioningARMGenerator()
+// ImmutableStorageWithVersioningARMGenerator()
 var immutableStorageWithVersioningARMGenerator gopter.Gen
 
 // ImmutableStorageWithVersioningARMGenerator returns a generator of ImmutableStorageWithVersioningARM instances for property testing.

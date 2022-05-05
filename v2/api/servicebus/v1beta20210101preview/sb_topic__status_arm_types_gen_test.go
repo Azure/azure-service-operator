@@ -132,7 +132,7 @@ func RunJSONSerializationTestForSBTopicPropertiesStatusARM(subject SBTopicProper
 }
 
 // Generator of SBTopicProperties_StatusARM instances for property testing - lazily instantiated by
-//SBTopicPropertiesStatusARMGenerator()
+// SBTopicPropertiesStatusARMGenerator()
 var sbTopicPropertiesStatusARMGenerator gopter.Gen
 
 // SBTopicPropertiesStatusARMGenerator returns a generator of SBTopicProperties_StatusARM instances for property testing.

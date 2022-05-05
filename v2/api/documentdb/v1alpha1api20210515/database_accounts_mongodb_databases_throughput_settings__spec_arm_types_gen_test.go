@@ -56,7 +56,7 @@ func RunJSONSerializationTestForDatabaseAccountsMongodbDatabasesThroughputSettin
 }
 
 // Generator of DatabaseAccountsMongodbDatabasesThroughputSettings_SpecARM instances for property testing - lazily
-//instantiated by DatabaseAccountsMongodbDatabasesThroughputSettingsSpecARMGenerator()
+// instantiated by DatabaseAccountsMongodbDatabasesThroughputSettingsSpecARMGenerator()
 var databaseAccountsMongodbDatabasesThroughputSettingsSpecARMGenerator gopter.Gen
 
 // DatabaseAccountsMongodbDatabasesThroughputSettingsSpecARMGenerator returns a generator of DatabaseAccountsMongodbDatabasesThroughputSettings_SpecARM instances for property testing.

@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Deprecated version of SqlDatabaseContainer. Use v1beta20210515.SqlDatabaseContainer instead
+// Deprecated version of SqlDatabaseContainer. Use v1beta20210515.SqlDatabaseContainer instead
 type SqlDatabaseContainer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -314,7 +314,7 @@ func (container *SqlDatabaseContainer) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Deprecated version of SqlDatabaseContainer. Use v1beta20210515.SqlDatabaseContainer instead
+// Deprecated version of SqlDatabaseContainer. Use v1beta20210515.SqlDatabaseContainer instead
 type SqlDatabaseContainerList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -322,16 +322,16 @@ type SqlDatabaseContainerList struct {
 }
 
 type DatabaseAccountsSqlDatabasesContainers_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName string               `json:"azureName,omitempty"`
 	Location  *string              `json:"location,omitempty"`
 	Options   *CreateUpdateOptions `json:"options,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a documentdb.azure.com/SqlDatabase resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a documentdb.azure.com/SqlDatabase resource
 	Owner *genruntime.KnownResourceReference `group:"documentdb.azure.com" json:"owner,omitempty" kind:"SqlDatabase"`
 
 	// +kubebuilder:validation:Required
@@ -622,9 +622,9 @@ func (containers *DatabaseAccountsSqlDatabasesContainers_Spec) SetAzureName(azur
 	containers.AzureName = azureName
 }
 
-//Deprecated version of SqlContainerGetResults_Status. Use v1beta20210515.SqlContainerGetResults_Status instead
+// Deprecated version of SqlContainerGetResults_Status. Use v1beta20210515.SqlContainerGetResults_Status instead
 type SqlContainerGetResults_Status struct {
-	//Conditions: The observed state of the resource
+	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition                     `json:"conditions,omitempty"`
 	Id         *string                                    `json:"id,omitempty"`
 	Location   *string                                    `json:"location,omitempty"`
@@ -872,7 +872,7 @@ func (results *SqlContainerGetResults_Status) AssignPropertiesToSqlContainerGetR
 	return nil
 }
 
-//Deprecated version of SqlContainerGetProperties_Status_Resource. Use v1beta20210515.SqlContainerGetProperties_Status_Resource instead
+// Deprecated version of SqlContainerGetProperties_Status_Resource. Use v1beta20210515.SqlContainerGetProperties_Status_Resource instead
 type SqlContainerGetProperties_Status_Resource struct {
 	AnalyticalStorageTtl     *int                             `json:"analyticalStorageTtl,omitempty"`
 	ConflictResolutionPolicy *ConflictResolutionPolicy_Status `json:"conflictResolutionPolicy,omitempty"`
@@ -1149,7 +1149,7 @@ func (resource *SqlContainerGetProperties_Status_Resource) AssignPropertiesToSql
 	return nil
 }
 
-//Deprecated version of SqlContainerResource. Use v1beta20210515.SqlContainerResource instead
+// Deprecated version of SqlContainerResource. Use v1beta20210515.SqlContainerResource instead
 type SqlContainerResource struct {
 	AnalyticalStorageTtl     *int                      `json:"analyticalStorageTtl,omitempty"`
 	ConflictResolutionPolicy *ConflictResolutionPolicy `json:"conflictResolutionPolicy,omitempty"`
@@ -1446,7 +1446,7 @@ func (resource *SqlContainerResource) AssignPropertiesToSqlContainerResource(des
 	return nil
 }
 
-//Deprecated version of ConflictResolutionPolicy. Use v1beta20210515.ConflictResolutionPolicy instead
+// Deprecated version of ConflictResolutionPolicy. Use v1beta20210515.ConflictResolutionPolicy instead
 type ConflictResolutionPolicy struct {
 	ConflictResolutionPath      *string                       `json:"conflictResolutionPath,omitempty"`
 	ConflictResolutionProcedure *string                       `json:"conflictResolutionProcedure,omitempty"`
@@ -1567,7 +1567,7 @@ func (policy *ConflictResolutionPolicy) AssignPropertiesToConflictResolutionPoli
 	return nil
 }
 
-//Deprecated version of ConflictResolutionPolicy_Status. Use v1beta20210515.ConflictResolutionPolicy_Status instead
+// Deprecated version of ConflictResolutionPolicy_Status. Use v1beta20210515.ConflictResolutionPolicy_Status instead
 type ConflictResolutionPolicy_Status struct {
 	ConflictResolutionPath      *string                             `json:"conflictResolutionPath,omitempty"`
 	ConflictResolutionProcedure *string                             `json:"conflictResolutionProcedure,omitempty"`
@@ -1661,7 +1661,7 @@ func (policy *ConflictResolutionPolicy_Status) AssignPropertiesToConflictResolut
 	return nil
 }
 
-//Deprecated version of ContainerPartitionKey. Use v1beta20210515.ContainerPartitionKey instead
+// Deprecated version of ContainerPartitionKey. Use v1beta20210515.ContainerPartitionKey instead
 type ContainerPartitionKey struct {
 	Kind  *ContainerPartitionKeyKind `json:"kind,omitempty"`
 	Paths []string                   `json:"paths,omitempty"`
@@ -1793,7 +1793,7 @@ func (partitionKey *ContainerPartitionKey) AssignPropertiesToContainerPartitionK
 	return nil
 }
 
-//Deprecated version of ContainerPartitionKey_Status. Use v1beta20210515.ContainerPartitionKey_Status instead
+// Deprecated version of ContainerPartitionKey_Status. Use v1beta20210515.ContainerPartitionKey_Status instead
 type ContainerPartitionKey_Status struct {
 	Kind      *ContainerPartitionKeyStatusKind `json:"kind,omitempty"`
 	Paths     []string                         `json:"paths,omitempty"`
@@ -1909,7 +1909,7 @@ func (partitionKey *ContainerPartitionKey_Status) AssignPropertiesToContainerPar
 	return nil
 }
 
-//Deprecated version of IndexingPolicy. Use v1beta20210515.IndexingPolicy instead
+// Deprecated version of IndexingPolicy. Use v1beta20210515.IndexingPolicy instead
 type IndexingPolicy struct {
 	Automatic        *bool                       `json:"automatic,omitempty"`
 	CompositeIndexes [][]CompositePath           `json:"compositeIndexes,omitempty"`
@@ -2273,7 +2273,7 @@ func (policy *IndexingPolicy) AssignPropertiesToIndexingPolicy(destination *alph
 	return nil
 }
 
-//Deprecated version of IndexingPolicy_Status. Use v1beta20210515.IndexingPolicy_Status instead
+// Deprecated version of IndexingPolicy_Status. Use v1beta20210515.IndexingPolicy_Status instead
 type IndexingPolicy_Status struct {
 	Automatic        *bool                             `json:"automatic,omitempty"`
 	CompositeIndexes [][]CompositePath_Status          `json:"compositeIndexes,omitempty"`
@@ -2576,7 +2576,7 @@ func (policy *IndexingPolicy_Status) AssignPropertiesToIndexingPolicyStatus(dest
 	return nil
 }
 
-//Deprecated version of UniqueKeyPolicy. Use v1beta20210515.UniqueKeyPolicy instead
+// Deprecated version of UniqueKeyPolicy. Use v1beta20210515.UniqueKeyPolicy instead
 type UniqueKeyPolicy struct {
 	UniqueKeys []UniqueKey `json:"uniqueKeys,omitempty"`
 }
@@ -2686,7 +2686,7 @@ func (policy *UniqueKeyPolicy) AssignPropertiesToUniqueKeyPolicy(destination *al
 	return nil
 }
 
-//Deprecated version of UniqueKeyPolicy_Status. Use v1beta20210515.UniqueKeyPolicy_Status instead
+// Deprecated version of UniqueKeyPolicy_Status. Use v1beta20210515.UniqueKeyPolicy_Status instead
 type UniqueKeyPolicy_Status struct {
 	UniqueKeys []UniqueKey_Status `json:"uniqueKeys,omitempty"`
 }
@@ -2778,7 +2778,7 @@ func (policy *UniqueKeyPolicy_Status) AssignPropertiesToUniqueKeyPolicyStatus(de
 	return nil
 }
 
-//Deprecated version of CompositePath. Use v1beta20210515.CompositePath instead
+// Deprecated version of CompositePath. Use v1beta20210515.CompositePath instead
 type CompositePath struct {
 	Order *CompositePathOrder `json:"order,omitempty"`
 	Path  *string             `json:"path,omitempty"`
@@ -2880,7 +2880,7 @@ func (path *CompositePath) AssignPropertiesToCompositePath(destination *alpha202
 	return nil
 }
 
-//Deprecated version of CompositePath_Status. Use v1beta20210515.CompositePath_Status instead
+// Deprecated version of CompositePath_Status. Use v1beta20210515.CompositePath_Status instead
 type CompositePath_Status struct {
 	Order *CompositePathStatusOrder `json:"order,omitempty"`
 	Path  *string                   `json:"path,omitempty"`
@@ -2961,7 +2961,7 @@ func (path *CompositePath_Status) AssignPropertiesToCompositePathStatus(destinat
 	return nil
 }
 
-//Deprecated version of ExcludedPath. Use v1beta20210515.ExcludedPath instead
+// Deprecated version of ExcludedPath. Use v1beta20210515.ExcludedPath instead
 type ExcludedPath struct {
 	Path *string `json:"path,omitempty"`
 }
@@ -3034,7 +3034,7 @@ func (path *ExcludedPath) AssignPropertiesToExcludedPath(destination *alpha20210
 	return nil
 }
 
-//Deprecated version of ExcludedPath_Status. Use v1beta20210515.ExcludedPath_Status instead
+// Deprecated version of ExcludedPath_Status. Use v1beta20210515.ExcludedPath_Status instead
 type ExcludedPath_Status struct {
 	Path *string `json:"path,omitempty"`
 }
@@ -3092,7 +3092,7 @@ func (path *ExcludedPath_Status) AssignPropertiesToExcludedPathStatus(destinatio
 	return nil
 }
 
-//Deprecated version of IncludedPath. Use v1beta20210515.IncludedPath instead
+// Deprecated version of IncludedPath. Use v1beta20210515.IncludedPath instead
 type IncludedPath struct {
 	Indexes []Indexes `json:"indexes,omitempty"`
 	Path    *string   `json:"path,omitempty"`
@@ -3221,7 +3221,7 @@ func (path *IncludedPath) AssignPropertiesToIncludedPath(destination *alpha20210
 	return nil
 }
 
-//Deprecated version of IncludedPath_Status. Use v1beta20210515.IncludedPath_Status instead
+// Deprecated version of IncludedPath_Status. Use v1beta20210515.IncludedPath_Status instead
 type IncludedPath_Status struct {
 	Indexes []Indexes_Status `json:"indexes,omitempty"`
 	Path    *string          `json:"path,omitempty"`
@@ -3326,7 +3326,7 @@ func (path *IncludedPath_Status) AssignPropertiesToIncludedPathStatus(destinatio
 	return nil
 }
 
-//Deprecated version of SpatialSpec. Use v1beta20210515.SpatialSpec instead
+// Deprecated version of SpatialSpec. Use v1beta20210515.SpatialSpec instead
 type SpatialSpec struct {
 	Path  *string            `json:"path,omitempty"`
 	Types []SpatialSpecTypes `json:"types,omitempty"`
@@ -3436,7 +3436,7 @@ func (spatial *SpatialSpec) AssignPropertiesToSpatialSpec(destination *alpha2021
 	return nil
 }
 
-//Deprecated version of SpatialSpec_Status. Use v1beta20210515.SpatialSpec_Status instead
+// Deprecated version of SpatialSpec_Status. Use v1beta20210515.SpatialSpec_Status instead
 type SpatialSpec_Status struct {
 	Path  *string              `json:"path,omitempty"`
 	Types []SpatialType_Status `json:"types,omitempty"`
@@ -3526,7 +3526,7 @@ func (spatial *SpatialSpec_Status) AssignPropertiesToSpatialSpecStatus(destinati
 	return nil
 }
 
-//Deprecated version of UniqueKey. Use v1beta20210515.UniqueKey instead
+// Deprecated version of UniqueKey. Use v1beta20210515.UniqueKey instead
 type UniqueKey struct {
 	Paths []string `json:"paths,omitempty"`
 }
@@ -3597,7 +3597,7 @@ func (uniqueKey *UniqueKey) AssignPropertiesToUniqueKey(destination *alpha202105
 	return nil
 }
 
-//Deprecated version of UniqueKey_Status. Use v1beta20210515.UniqueKey_Status instead
+// Deprecated version of UniqueKey_Status. Use v1beta20210515.UniqueKey_Status instead
 type UniqueKey_Status struct {
 	Paths []string `json:"paths,omitempty"`
 }
@@ -3654,7 +3654,7 @@ func (uniqueKey *UniqueKey_Status) AssignPropertiesToUniqueKeyStatus(destination
 	return nil
 }
 
-//Deprecated version of Indexes. Use v1beta20210515.Indexes instead
+// Deprecated version of Indexes. Use v1beta20210515.Indexes instead
 type Indexes struct {
 	DataType  *IndexesDataType `json:"dataType,omitempty"`
 	Kind      *IndexesKind     `json:"kind,omitempty"`
@@ -3785,7 +3785,7 @@ func (indexes *Indexes) AssignPropertiesToIndexes(destination *alpha20210515s.In
 	return nil
 }
 
-//Deprecated version of Indexes_Status. Use v1beta20210515.Indexes_Status instead
+// Deprecated version of Indexes_Status. Use v1beta20210515.Indexes_Status instead
 type Indexes_Status struct {
 	DataType  *IndexesStatusDataType `json:"dataType,omitempty"`
 	Kind      *IndexesStatusKind     `json:"kind,omitempty"`

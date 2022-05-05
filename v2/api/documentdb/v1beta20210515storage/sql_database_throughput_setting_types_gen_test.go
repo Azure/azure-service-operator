@@ -56,7 +56,7 @@ func RunJSONSerializationTestForSqlDatabaseThroughputSetting(subject SqlDatabase
 }
 
 // Generator of SqlDatabaseThroughputSetting instances for property testing - lazily instantiated by
-//SqlDatabaseThroughputSettingGenerator()
+// SqlDatabaseThroughputSettingGenerator()
 var sqlDatabaseThroughputSettingGenerator gopter.Gen
 
 // SqlDatabaseThroughputSettingGenerator returns a generator of SqlDatabaseThroughputSetting instances for property testing.
@@ -117,7 +117,7 @@ func RunJSONSerializationTestForDatabaseAccountsSqlDatabasesThroughputSettingsSp
 }
 
 // Generator of DatabaseAccountsSqlDatabasesThroughputSettings_Spec instances for property testing - lazily instantiated
-//by DatabaseAccountsSqlDatabasesThroughputSettingsSpecGenerator()
+// by DatabaseAccountsSqlDatabasesThroughputSettingsSpecGenerator()
 var databaseAccountsSqlDatabasesThroughputSettingsSpecGenerator gopter.Gen
 
 // DatabaseAccountsSqlDatabasesThroughputSettingsSpecGenerator returns a generator of DatabaseAccountsSqlDatabasesThroughputSettings_Spec instances for property testing.

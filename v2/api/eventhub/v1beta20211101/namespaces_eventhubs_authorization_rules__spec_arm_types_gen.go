@@ -6,16 +6,16 @@ package v1beta20211101
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type NamespacesEventhubsAuthorizationRules_SpecARM struct {
-	//Location: Location to deploy resource to
+	// Location: Location to deploy resource to
 	Location *string `json:"location,omitempty"`
 
-	//Name: The authorization rule name.
+	// Name: The authorization rule name.
 	Name string `json:"name,omitempty"`
 
-	//Properties: Properties supplied to create or update AuthorizationRule
+	// Properties: Properties supplied to create or update AuthorizationRule
 	Properties *AuthorizationRulePropertiesARM `json:"properties,omitempty"`
 
-	//Tags: Name-value pairs to add to the resource
+	// Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
