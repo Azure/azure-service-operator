@@ -240,17 +240,7 @@ func (enterprise *RedisEnterprise) updateValidations() []func(old runtime.Object
 		func(old runtime.Object) error {
 			return enterprise.validateResourceReferences()
 		},
-		enterprise.validateImmutableProperties}
-}
-
-// validateImmutableProperties validates all immutable properties
-func (enterprise *RedisEnterprise) validateImmutableProperties(old runtime.Object) error {
-	oldObj, ok := old.(*RedisEnterprise)
-	if !ok {
-		return nil
-	}
-
-	return genruntime.ValidateImmutableProperties(oldObj, enterprise)
+		enterprise.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -260,6 +250,16 @@ func (enterprise *RedisEnterprise) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (enterprise *RedisEnterprise) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*RedisEnterprise)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, enterprise)
 }
 
 // AssignPropertiesFromRedisEnterprise populates our RedisEnterprise from the provided source RedisEnterprise

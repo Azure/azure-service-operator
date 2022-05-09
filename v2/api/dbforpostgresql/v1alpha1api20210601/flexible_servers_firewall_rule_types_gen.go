@@ -240,17 +240,7 @@ func (rule *FlexibleServersFirewallRule) updateValidations() []func(old runtime.
 		func(old runtime.Object) error {
 			return rule.validateResourceReferences()
 		},
-		rule.validateImmutableProperties}
-}
-
-// validateImmutableProperties validates all immutable properties
-func (rule *FlexibleServersFirewallRule) validateImmutableProperties(old runtime.Object) error {
-	oldObj, ok := old.(*FlexibleServersFirewallRule)
-	if !ok {
-		return nil
-	}
-
-	return genruntime.ValidateImmutableProperties(oldObj, rule)
+		rule.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -260,6 +250,16 @@ func (rule *FlexibleServersFirewallRule) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (rule *FlexibleServersFirewallRule) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*FlexibleServersFirewallRule)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, rule)
 }
 
 // AssignPropertiesFromFlexibleServersFirewallRule populates our FlexibleServersFirewallRule from the provided source FlexibleServersFirewallRule

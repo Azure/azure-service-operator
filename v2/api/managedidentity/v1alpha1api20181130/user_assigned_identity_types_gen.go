@@ -240,17 +240,7 @@ func (identity *UserAssignedIdentity) updateValidations() []func(old runtime.Obj
 		func(old runtime.Object) error {
 			return identity.validateResourceReferences()
 		},
-		identity.validateImmutableProperties}
-}
-
-// validateImmutableProperties validates all immutable properties
-func (identity *UserAssignedIdentity) validateImmutableProperties(old runtime.Object) error {
-	oldObj, ok := old.(*UserAssignedIdentity)
-	if !ok {
-		return nil
-	}
-
-	return genruntime.ValidateImmutableProperties(oldObj, identity)
+		identity.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -260,6 +250,16 @@ func (identity *UserAssignedIdentity) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (identity *UserAssignedIdentity) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*UserAssignedIdentity)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, identity)
 }
 
 // AssignPropertiesFromUserAssignedIdentity populates our UserAssignedIdentity from the provided source UserAssignedIdentity

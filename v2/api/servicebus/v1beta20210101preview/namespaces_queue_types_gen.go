@@ -226,17 +226,7 @@ func (queue *NamespacesQueue) updateValidations() []func(old runtime.Object) err
 		func(old runtime.Object) error {
 			return queue.validateResourceReferences()
 		},
-		queue.validateImmutableProperties}
-}
-
-// validateImmutableProperties validates all immutable properties
-func (queue *NamespacesQueue) validateImmutableProperties(old runtime.Object) error {
-	oldObj, ok := old.(*NamespacesQueue)
-	if !ok {
-		return nil
-	}
-
-	return genruntime.ValidateImmutableProperties(oldObj, queue)
+		queue.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -246,6 +236,16 @@ func (queue *NamespacesQueue) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (queue *NamespacesQueue) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*NamespacesQueue)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, queue)
 }
 
 // AssignPropertiesFromNamespacesQueue populates our NamespacesQueue from the provided source NamespacesQueue

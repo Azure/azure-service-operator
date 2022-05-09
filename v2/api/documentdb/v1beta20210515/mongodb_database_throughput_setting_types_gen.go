@@ -219,17 +219,7 @@ func (setting *MongodbDatabaseThroughputSetting) updateValidations() []func(old 
 		func(old runtime.Object) error {
 			return setting.validateResourceReferences()
 		},
-		setting.validateImmutableProperties}
-}
-
-// validateImmutableProperties validates all immutable properties
-func (setting *MongodbDatabaseThroughputSetting) validateImmutableProperties(old runtime.Object) error {
-	oldObj, ok := old.(*MongodbDatabaseThroughputSetting)
-	if !ok {
-		return nil
-	}
-
-	return genruntime.ValidateImmutableProperties(oldObj, setting)
+		setting.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -239,6 +229,16 @@ func (setting *MongodbDatabaseThroughputSetting) validateResourceReferences() er
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (setting *MongodbDatabaseThroughputSetting) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*MongodbDatabaseThroughputSetting)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, setting)
 }
 
 // AssignPropertiesFromMongodbDatabaseThroughputSetting populates our MongodbDatabaseThroughputSetting from the provided source MongodbDatabaseThroughputSetting

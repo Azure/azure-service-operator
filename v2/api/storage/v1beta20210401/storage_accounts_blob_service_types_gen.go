@@ -219,17 +219,7 @@ func (service *StorageAccountsBlobService) updateValidations() []func(old runtim
 		func(old runtime.Object) error {
 			return service.validateResourceReferences()
 		},
-		service.validateImmutableProperties}
-}
-
-// validateImmutableProperties validates all immutable properties
-func (service *StorageAccountsBlobService) validateImmutableProperties(old runtime.Object) error {
-	oldObj, ok := old.(*StorageAccountsBlobService)
-	if !ok {
-		return nil
-	}
-
-	return genruntime.ValidateImmutableProperties(oldObj, service)
+		service.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -239,6 +229,16 @@ func (service *StorageAccountsBlobService) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (service *StorageAccountsBlobService) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*StorageAccountsBlobService)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, service)
 }
 
 // AssignPropertiesFromStorageAccountsBlobService populates our StorageAccountsBlobService from the provided source StorageAccountsBlobService

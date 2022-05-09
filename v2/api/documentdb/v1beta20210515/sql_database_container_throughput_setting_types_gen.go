@@ -219,17 +219,7 @@ func (setting *SqlDatabaseContainerThroughputSetting) updateValidations() []func
 		func(old runtime.Object) error {
 			return setting.validateResourceReferences()
 		},
-		setting.validateImmutableProperties}
-}
-
-// validateImmutableProperties validates all immutable properties
-func (setting *SqlDatabaseContainerThroughputSetting) validateImmutableProperties(old runtime.Object) error {
-	oldObj, ok := old.(*SqlDatabaseContainerThroughputSetting)
-	if !ok {
-		return nil
-	}
-
-	return genruntime.ValidateImmutableProperties(oldObj, setting)
+		setting.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -239,6 +229,16 @@ func (setting *SqlDatabaseContainerThroughputSetting) validateResourceReferences
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (setting *SqlDatabaseContainerThroughputSetting) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*SqlDatabaseContainerThroughputSetting)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, setting)
 }
 
 // AssignPropertiesFromSqlDatabaseContainerThroughputSetting populates our SqlDatabaseContainerThroughputSetting from the provided source SqlDatabaseContainerThroughputSetting

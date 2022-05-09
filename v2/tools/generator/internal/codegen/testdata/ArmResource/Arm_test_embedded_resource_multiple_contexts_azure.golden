@@ -193,17 +193,7 @@ func (a *A) updateValidations() []func(old runtime.Object) error {
 		func(old runtime.Object) error {
 			return a.validateResourceReferences()
 		},
-		a.validateImmutableProperties}
-}
-
-// validateImmutableProperties validates all immutable properties
-func (a *A) validateImmutableProperties(old runtime.Object) error {
-	oldObj, ok := old.(*A)
-	if !ok {
-		return nil
-	}
-
-	return genruntime.ValidateImmutableProperties(oldObj, a)
+		a.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -213,6 +203,16 @@ func (a *A) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (a *A) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*A)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, a)
 }
 
 // AssignPropertiesFromA populates our A from the provided source A

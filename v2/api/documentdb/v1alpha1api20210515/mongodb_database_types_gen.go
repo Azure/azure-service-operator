@@ -240,17 +240,7 @@ func (database *MongodbDatabase) updateValidations() []func(old runtime.Object) 
 		func(old runtime.Object) error {
 			return database.validateResourceReferences()
 		},
-		database.validateImmutableProperties}
-}
-
-// validateImmutableProperties validates all immutable properties
-func (database *MongodbDatabase) validateImmutableProperties(old runtime.Object) error {
-	oldObj, ok := old.(*MongodbDatabase)
-	if !ok {
-		return nil
-	}
-
-	return genruntime.ValidateImmutableProperties(oldObj, database)
+		database.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -260,6 +250,16 @@ func (database *MongodbDatabase) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (database *MongodbDatabase) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*MongodbDatabase)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, database)
 }
 
 // AssignPropertiesFromMongodbDatabase populates our MongodbDatabase from the provided source MongodbDatabase

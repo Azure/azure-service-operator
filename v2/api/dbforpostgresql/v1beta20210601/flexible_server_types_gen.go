@@ -226,17 +226,7 @@ func (server *FlexibleServer) updateValidations() []func(old runtime.Object) err
 		func(old runtime.Object) error {
 			return server.validateResourceReferences()
 		},
-		server.validateImmutableProperties}
-}
-
-// validateImmutableProperties validates all immutable properties
-func (server *FlexibleServer) validateImmutableProperties(old runtime.Object) error {
-	oldObj, ok := old.(*FlexibleServer)
-	if !ok {
-		return nil
-	}
-
-	return genruntime.ValidateImmutableProperties(oldObj, server)
+		server.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -246,6 +236,16 @@ func (server *FlexibleServer) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (server *FlexibleServer) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*FlexibleServer)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, server)
 }
 
 // AssignPropertiesFromFlexibleServer populates our FlexibleServer from the provided source FlexibleServer

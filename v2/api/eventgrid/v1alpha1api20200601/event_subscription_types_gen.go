@@ -239,17 +239,7 @@ func (subscription *EventSubscription) updateValidations() []func(old runtime.Ob
 		func(old runtime.Object) error {
 			return subscription.validateResourceReferences()
 		},
-		subscription.validateImmutableProperties}
-}
-
-// validateImmutableProperties validates all immutable properties
-func (subscription *EventSubscription) validateImmutableProperties(old runtime.Object) error {
-	oldObj, ok := old.(*EventSubscription)
-	if !ok {
-		return nil
-	}
-
-	return genruntime.ValidateImmutableProperties(oldObj, subscription)
+		subscription.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -259,6 +249,16 @@ func (subscription *EventSubscription) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (subscription *EventSubscription) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*EventSubscription)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, subscription)
 }
 
 // AssignPropertiesFromEventSubscription populates our EventSubscription from the provided source EventSubscription

@@ -226,17 +226,7 @@ func (container *StorageAccountsBlobServicesContainer) updateValidations() []fun
 		func(old runtime.Object) error {
 			return container.validateResourceReferences()
 		},
-		container.validateImmutableProperties}
-}
-
-// validateImmutableProperties validates all immutable properties
-func (container *StorageAccountsBlobServicesContainer) validateImmutableProperties(old runtime.Object) error {
-	oldObj, ok := old.(*StorageAccountsBlobServicesContainer)
-	if !ok {
-		return nil
-	}
-
-	return genruntime.ValidateImmutableProperties(oldObj, container)
+		container.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -246,6 +236,16 @@ func (container *StorageAccountsBlobServicesContainer) validateResourceReference
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (container *StorageAccountsBlobServicesContainer) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*StorageAccountsBlobServicesContainer)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, container)
 }
 
 // AssignPropertiesFromStorageAccountsBlobServicesContainer populates our StorageAccountsBlobServicesContainer from the provided source StorageAccountsBlobServicesContainer

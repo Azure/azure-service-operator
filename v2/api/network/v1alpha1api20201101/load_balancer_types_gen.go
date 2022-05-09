@@ -240,17 +240,7 @@ func (balancer *LoadBalancer) updateValidations() []func(old runtime.Object) err
 		func(old runtime.Object) error {
 			return balancer.validateResourceReferences()
 		},
-		balancer.validateImmutableProperties}
-}
-
-// validateImmutableProperties validates all immutable properties
-func (balancer *LoadBalancer) validateImmutableProperties(old runtime.Object) error {
-	oldObj, ok := old.(*LoadBalancer)
-	if !ok {
-		return nil
-	}
-
-	return genruntime.ValidateImmutableProperties(oldObj, balancer)
+		balancer.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -260,6 +250,16 @@ func (balancer *LoadBalancer) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (balancer *LoadBalancer) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*LoadBalancer)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, balancer)
 }
 
 // AssignPropertiesFromLoadBalancer populates our LoadBalancer from the provided source LoadBalancer

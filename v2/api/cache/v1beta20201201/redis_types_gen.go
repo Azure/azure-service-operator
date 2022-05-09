@@ -226,21 +226,11 @@ func (redis *Redis) updateValidations() []func(old runtime.Object) error {
 		func(old runtime.Object) error {
 			return redis.validateResourceReferences()
 		},
-		redis.validateImmutableProperties,
+		redis.validateWriteOnceProperties,
 		func(old runtime.Object) error {
 			return redis.validateSecretDestinations()
 		},
 	}
-}
-
-// validateImmutableProperties validates all immutable properties
-func (redis *Redis) validateImmutableProperties(old runtime.Object) error {
-	oldObj, ok := old.(*Redis)
-	if !ok {
-		return nil
-	}
-
-	return genruntime.ValidateImmutableProperties(oldObj, redis)
 }
 
 // validateResourceReferences validates all resource references
@@ -268,6 +258,16 @@ func (redis *Redis) validateSecretDestinations() error {
 		redis.Spec.OperatorSpec.Secrets.SecondaryKey,
 	}
 	return genruntime.ValidateSecretDestinations(secrets)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (redis *Redis) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*Redis)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, redis)
 }
 
 // AssignPropertiesFromRedis populates our Redis from the provided source Redis

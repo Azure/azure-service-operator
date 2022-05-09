@@ -226,17 +226,7 @@ func (container *SqlDatabaseContainer) updateValidations() []func(old runtime.Ob
 		func(old runtime.Object) error {
 			return container.validateResourceReferences()
 		},
-		container.validateImmutableProperties}
-}
-
-// validateImmutableProperties validates all immutable properties
-func (container *SqlDatabaseContainer) validateImmutableProperties(old runtime.Object) error {
-	oldObj, ok := old.(*SqlDatabaseContainer)
-	if !ok {
-		return nil
-	}
-
-	return genruntime.ValidateImmutableProperties(oldObj, container)
+		container.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -246,6 +236,16 @@ func (container *SqlDatabaseContainer) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (container *SqlDatabaseContainer) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*SqlDatabaseContainer)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, container)
 }
 
 // AssignPropertiesFromSqlDatabaseContainer populates our SqlDatabaseContainer from the provided source SqlDatabaseContainer

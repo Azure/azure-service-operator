@@ -22,12 +22,12 @@ func NewValidateResourceReferencesFunction(resource *astmodel.ResourceType, idFa
 		astmodel.NewPackageReferenceSet(astmodel.GenRuntimeReference, astmodel.ReflectHelpersReference))
 }
 
-func NewValidateImmutablePropertiesFunction(resource *astmodel.ResourceType, idFactory astmodel.IdentifierFactory) *ResourceFunction {
+func NewValidateWriteOncePropertiesFunction(resource *astmodel.ResourceType, idFactory astmodel.IdentifierFactory) *ResourceFunction {
 	return NewResourceFunction(
-		"validateImmutableProperties",
+		"validateWriteOnceProperties",
 		resource,
 		idFactory,
-		validateImmutablePropertiesFunction,
+		validateWriteOncePropertiesFunction,
 		astmodel.NewPackageReferenceSet())
 }
 
@@ -86,7 +86,7 @@ func validateResourceReferencesBody(codeGenerationContext *astmodel.CodeGenerati
 	return body
 }
 
-func validateImmutablePropertiesFunction(resourceFn *ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+func validateWriteOncePropertiesFunction(resourceFn *ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
 
 	receiverIdent := resourceFn.IdFactory().CreateReceiver(receiver.Name())
 	receiverType := receiver.AsType(codeGenerationContext)
@@ -102,24 +102,24 @@ func validateImmutablePropertiesFunction(resourceFn *ResourceFunction, codeGener
 				Type: dst.NewIdent("error"),
 			},
 		},
-		Body: validateImmutablePropertiesFunctionBody(receiver, codeGenerationContext, receiverIdent),
+		Body: validateWriteOncePropertiesFunctionBody(receiver, codeGenerationContext, receiverIdent),
 	}
 
 	fn.AddParameter("old", astbuilder.QualifiedTypeName(runtimePackage, "Object"))
-	fn.AddComments("validates all immutable properties")
+	fn.AddComments("validates all WriteOnce properties")
 
 	return fn.DefineFunc()
 }
 
-// validateImmutablePropertiesFunctionBody helps generate the body of the validateImmutablePropertiesFunctionBody function:
+// validateWriteOncePropertiesFunctionBody helps generate the body of the validateWriteOncePropertiesFunctionBody function:
 //
 //  oldObj, ok := old.(*Receiver)
 //  if !ok {
 //      return nil
 //  }
 //
-// return genruntime.ValidateImmutableProperties(oldObj, <receiverIndent>)
-func validateImmutablePropertiesFunctionBody(receiver astmodel.TypeName, codeGenerationContext *astmodel.CodeGenerationContext, receiverIdent string) []dst.Stmt {
+// return genruntime.ValidateWriteOnceProperties(oldObj, <receiverIndent>)
+func validateWriteOncePropertiesFunctionBody(receiver astmodel.TypeName, codeGenerationContext *astmodel.CodeGenerationContext, receiverIdent string) []dst.Stmt {
 
 	genRuntime := codeGenerationContext.MustGetImportedPackageName(astmodel.GenRuntimeReference)
 
@@ -131,7 +131,7 @@ func validateImmutablePropertiesFunctionBody(receiver astmodel.TypeName, codeGen
 	returnStmt := astbuilder.Returns(
 		astbuilder.CallQualifiedFunc(
 			genRuntime,
-			"ValidateImmutableProperties",
+			"ValidateWriteOnceProperties",
 			obj,
 			dst.NewIdent(receiverIdent)))
 	returnStmt.Decorations().Before = dst.EmptyLine

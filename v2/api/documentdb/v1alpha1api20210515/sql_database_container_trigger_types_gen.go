@@ -240,17 +240,7 @@ func (trigger *SqlDatabaseContainerTrigger) updateValidations() []func(old runti
 		func(old runtime.Object) error {
 			return trigger.validateResourceReferences()
 		},
-		trigger.validateImmutableProperties}
-}
-
-// validateImmutableProperties validates all immutable properties
-func (trigger *SqlDatabaseContainerTrigger) validateImmutableProperties(old runtime.Object) error {
-	oldObj, ok := old.(*SqlDatabaseContainerTrigger)
-	if !ok {
-		return nil
-	}
-
-	return genruntime.ValidateImmutableProperties(oldObj, trigger)
+		trigger.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -260,6 +250,16 @@ func (trigger *SqlDatabaseContainerTrigger) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (trigger *SqlDatabaseContainerTrigger) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*SqlDatabaseContainerTrigger)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, trigger)
 }
 
 // AssignPropertiesFromSqlDatabaseContainerTrigger populates our SqlDatabaseContainerTrigger from the provided source SqlDatabaseContainerTrigger

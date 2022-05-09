@@ -240,17 +240,7 @@ func (topic *DomainsTopic) updateValidations() []func(old runtime.Object) error 
 		func(old runtime.Object) error {
 			return topic.validateResourceReferences()
 		},
-		topic.validateImmutableProperties}
-}
-
-// validateImmutableProperties validates all immutable properties
-func (topic *DomainsTopic) validateImmutableProperties(old runtime.Object) error {
-	oldObj, ok := old.(*DomainsTopic)
-	if !ok {
-		return nil
-	}
-
-	return genruntime.ValidateImmutableProperties(oldObj, topic)
+		topic.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -260,6 +250,16 @@ func (topic *DomainsTopic) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (topic *DomainsTopic) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*DomainsTopic)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, topic)
 }
 
 // AssignPropertiesFromDomainsTopic populates our DomainsTopic from the provided source DomainsTopic

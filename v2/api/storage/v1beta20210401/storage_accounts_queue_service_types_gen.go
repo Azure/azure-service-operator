@@ -219,17 +219,7 @@ func (service *StorageAccountsQueueService) updateValidations() []func(old runti
 		func(old runtime.Object) error {
 			return service.validateResourceReferences()
 		},
-		service.validateImmutableProperties}
-}
-
-// validateImmutableProperties validates all immutable properties
-func (service *StorageAccountsQueueService) validateImmutableProperties(old runtime.Object) error {
-	oldObj, ok := old.(*StorageAccountsQueueService)
-	if !ok {
-		return nil
-	}
-
-	return genruntime.ValidateImmutableProperties(oldObj, service)
+		service.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -239,6 +229,16 @@ func (service *StorageAccountsQueueService) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (service *StorageAccountsQueueService) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*StorageAccountsQueueService)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, service)
 }
 
 // AssignPropertiesFromStorageAccountsQueueService populates our StorageAccountsQueueService from the provided source StorageAccountsQueueService

@@ -240,17 +240,7 @@ func (namespace *Namespace) updateValidations() []func(old runtime.Object) error
 		func(old runtime.Object) error {
 			return namespace.validateResourceReferences()
 		},
-		namespace.validateImmutableProperties}
-}
-
-// validateImmutableProperties validates all immutable properties
-func (namespace *Namespace) validateImmutableProperties(old runtime.Object) error {
-	oldObj, ok := old.(*Namespace)
-	if !ok {
-		return nil
-	}
-
-	return genruntime.ValidateImmutableProperties(oldObj, namespace)
+		namespace.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -260,6 +250,16 @@ func (namespace *Namespace) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (namespace *Namespace) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*Namespace)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, namespace)
 }
 
 // AssignPropertiesFromNamespace populates our Namespace from the provided source Namespace

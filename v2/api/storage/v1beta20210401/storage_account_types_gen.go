@@ -226,21 +226,11 @@ func (account *StorageAccount) updateValidations() []func(old runtime.Object) er
 		func(old runtime.Object) error {
 			return account.validateResourceReferences()
 		},
-		account.validateImmutableProperties,
+		account.validateWriteOnceProperties,
 		func(old runtime.Object) error {
 			return account.validateSecretDestinations()
 		},
 	}
-}
-
-// validateImmutableProperties validates all immutable properties
-func (account *StorageAccount) validateImmutableProperties(old runtime.Object) error {
-	oldObj, ok := old.(*StorageAccount)
-	if !ok {
-		return nil
-	}
-
-	return genruntime.ValidateImmutableProperties(oldObj, account)
 }
 
 // validateResourceReferences validates all resource references
@@ -271,6 +261,16 @@ func (account *StorageAccount) validateSecretDestinations() error {
 		account.Spec.OperatorSpec.Secrets.WebEndpoint,
 	}
 	return genruntime.ValidateSecretDestinations(secrets)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (account *StorageAccount) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*StorageAccount)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, account)
 }
 
 // AssignPropertiesFromStorageAccount populates our StorageAccount from the provided source StorageAccount

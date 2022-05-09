@@ -227,17 +227,7 @@ func (webtest *Webtest) updateValidations() []func(old runtime.Object) error {
 		func(old runtime.Object) error {
 			return webtest.validateResourceReferences()
 		},
-		webtest.validateImmutableProperties}
-}
-
-// validateImmutableProperties validates all immutable properties
-func (webtest *Webtest) validateImmutableProperties(old runtime.Object) error {
-	oldObj, ok := old.(*Webtest)
-	if !ok {
-		return nil
-	}
-
-	return genruntime.ValidateImmutableProperties(oldObj, webtest)
+		webtest.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -247,6 +237,16 @@ func (webtest *Webtest) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (webtest *Webtest) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*Webtest)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, webtest)
 }
 
 // AssignPropertiesFromWebtest populates our Webtest from the provided source Webtest

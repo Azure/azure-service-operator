@@ -240,17 +240,7 @@ func (gateway *VirtualNetworkGateway) updateValidations() []func(old runtime.Obj
 		func(old runtime.Object) error {
 			return gateway.validateResourceReferences()
 		},
-		gateway.validateImmutableProperties}
-}
-
-// validateImmutableProperties validates all immutable properties
-func (gateway *VirtualNetworkGateway) validateImmutableProperties(old runtime.Object) error {
-	oldObj, ok := old.(*VirtualNetworkGateway)
-	if !ok {
-		return nil
-	}
-
-	return genruntime.ValidateImmutableProperties(oldObj, gateway)
+		gateway.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -260,6 +250,16 @@ func (gateway *VirtualNetworkGateway) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (gateway *VirtualNetworkGateway) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*VirtualNetworkGateway)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, gateway)
 }
 
 // AssignPropertiesFromVirtualNetworkGateway populates our VirtualNetworkGateway from the provided source VirtualNetworkGateway

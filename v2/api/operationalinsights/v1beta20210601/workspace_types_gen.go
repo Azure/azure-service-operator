@@ -227,17 +227,7 @@ func (workspace *Workspace) updateValidations() []func(old runtime.Object) error
 		func(old runtime.Object) error {
 			return workspace.validateResourceReferences()
 		},
-		workspace.validateImmutableProperties}
-}
-
-// validateImmutableProperties validates all immutable properties
-func (workspace *Workspace) validateImmutableProperties(old runtime.Object) error {
-	oldObj, ok := old.(*Workspace)
-	if !ok {
-		return nil
-	}
-
-	return genruntime.ValidateImmutableProperties(oldObj, workspace)
+		workspace.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -247,6 +237,16 @@ func (workspace *Workspace) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (workspace *Workspace) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*Workspace)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, workspace)
 }
 
 // AssignPropertiesFromWorkspace populates our Workspace from the provided source Workspace

@@ -241,17 +241,7 @@ func (scaleSet *VirtualMachineScaleSet) updateValidations() []func(old runtime.O
 		func(old runtime.Object) error {
 			return scaleSet.validateResourceReferences()
 		},
-		scaleSet.validateImmutableProperties}
-}
-
-// validateImmutableProperties validates all immutable properties
-func (scaleSet *VirtualMachineScaleSet) validateImmutableProperties(old runtime.Object) error {
-	oldObj, ok := old.(*VirtualMachineScaleSet)
-	if !ok {
-		return nil
-	}
-
-	return genruntime.ValidateImmutableProperties(oldObj, scaleSet)
+		scaleSet.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -261,6 +251,16 @@ func (scaleSet *VirtualMachineScaleSet) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (scaleSet *VirtualMachineScaleSet) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*VirtualMachineScaleSet)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, scaleSet)
 }
 
 // AssignPropertiesFromVirtualMachineScaleSet populates our VirtualMachineScaleSet from the provided source VirtualMachineScaleSet

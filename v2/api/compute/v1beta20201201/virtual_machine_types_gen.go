@@ -227,17 +227,7 @@ func (machine *VirtualMachine) updateValidations() []func(old runtime.Object) er
 		func(old runtime.Object) error {
 			return machine.validateResourceReferences()
 		},
-		machine.validateImmutableProperties}
-}
-
-// validateImmutableProperties validates all immutable properties
-func (machine *VirtualMachine) validateImmutableProperties(old runtime.Object) error {
-	oldObj, ok := old.(*VirtualMachine)
-	if !ok {
-		return nil
-	}
-
-	return genruntime.ValidateImmutableProperties(oldObj, machine)
+		machine.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -247,6 +237,16 @@ func (machine *VirtualMachine) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (machine *VirtualMachine) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*VirtualMachine)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, machine)
 }
 
 // AssignPropertiesFromVirtualMachine populates our VirtualMachine from the provided source VirtualMachine

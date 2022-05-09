@@ -226,17 +226,7 @@ func (eventhub *NamespacesEventhub) updateValidations() []func(old runtime.Objec
 		func(old runtime.Object) error {
 			return eventhub.validateResourceReferences()
 		},
-		eventhub.validateImmutableProperties}
-}
-
-// validateImmutableProperties validates all immutable properties
-func (eventhub *NamespacesEventhub) validateImmutableProperties(old runtime.Object) error {
-	oldObj, ok := old.(*NamespacesEventhub)
-	if !ok {
-		return nil
-	}
-
-	return genruntime.ValidateImmutableProperties(oldObj, eventhub)
+		eventhub.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -246,6 +236,16 @@ func (eventhub *NamespacesEventhub) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (eventhub *NamespacesEventhub) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*NamespacesEventhub)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, eventhub)
 }
 
 // AssignPropertiesFromNamespacesEventhub populates our NamespacesEventhub from the provided source NamespacesEventhub

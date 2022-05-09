@@ -193,17 +193,7 @@ func (a *A) updateValidations() []func(old runtime.Object) error {
 		func(old runtime.Object) error {
 			return a.validateResourceReferences()
 		},
-		a.validateImmutableProperties}
-}
-
-// validateImmutableProperties validates all immutable properties
-func (a *A) validateImmutableProperties(old runtime.Object) error {
-	oldObj, ok := old.(*A)
-	if !ok {
-		return nil
-	}
-
-	return genruntime.ValidateImmutableProperties(oldObj, a)
+		a.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -213,6 +203,16 @@ func (a *A) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (a *A) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*A)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, a)
 }
 
 // AssignPropertiesFromA populates our A from the provided source A
@@ -464,17 +464,7 @@ func (b *B) updateValidations() []func(old runtime.Object) error {
 		func(old runtime.Object) error {
 			return b.validateResourceReferences()
 		},
-		b.validateImmutableProperties}
-}
-
-// validateImmutableProperties validates all immutable properties
-func (b *B) validateImmutableProperties(old runtime.Object) error {
-	oldObj, ok := old.(*B)
-	if !ok {
-		return nil
-	}
-
-	return genruntime.ValidateImmutableProperties(oldObj, b)
+		b.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -484,6 +474,16 @@ func (b *B) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (b *B) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*B)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, b)
 }
 
 // AssignPropertiesFromB populates our B from the provided source B
@@ -735,17 +735,7 @@ func (c *C) updateValidations() []func(old runtime.Object) error {
 		func(old runtime.Object) error {
 			return c.validateResourceReferences()
 		},
-		c.validateImmutableProperties}
-}
-
-// validateImmutableProperties validates all immutable properties
-func (c *C) validateImmutableProperties(old runtime.Object) error {
-	oldObj, ok := old.(*C)
-	if !ok {
-		return nil
-	}
-
-	return genruntime.ValidateImmutableProperties(oldObj, c)
+		c.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -755,6 +745,16 @@ func (c *C) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (c *C) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*C)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, c)
 }
 
 // AssignPropertiesFromC populates our C from the provided source C
@@ -1006,17 +1006,7 @@ func (d *D) updateValidations() []func(old runtime.Object) error {
 		func(old runtime.Object) error {
 			return d.validateResourceReferences()
 		},
-		d.validateImmutableProperties}
-}
-
-// validateImmutableProperties validates all immutable properties
-func (d *D) validateImmutableProperties(old runtime.Object) error {
-	oldObj, ok := old.(*D)
-	if !ok {
-		return nil
-	}
-
-	return genruntime.ValidateImmutableProperties(oldObj, d)
+		d.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -1026,6 +1016,16 @@ func (d *D) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (d *D) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*D)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, d)
 }
 
 // AssignPropertiesFromD populates our D from the provided source D

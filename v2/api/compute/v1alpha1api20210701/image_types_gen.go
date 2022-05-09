@@ -240,17 +240,7 @@ func (image *Image) updateValidations() []func(old runtime.Object) error {
 		func(old runtime.Object) error {
 			return image.validateResourceReferences()
 		},
-		image.validateImmutableProperties}
-}
-
-// validateImmutableProperties validates all immutable properties
-func (image *Image) validateImmutableProperties(old runtime.Object) error {
-	oldObj, ok := old.(*Image)
-	if !ok {
-		return nil
-	}
-
-	return genruntime.ValidateImmutableProperties(oldObj, image)
+		image.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -260,6 +250,16 @@ func (image *Image) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (image *Image) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*Image)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, image)
 }
 
 // AssignPropertiesFromImage populates our Image from the provided source Image

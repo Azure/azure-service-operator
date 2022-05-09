@@ -226,17 +226,7 @@ func (disk *Disk) updateValidations() []func(old runtime.Object) error {
 		func(old runtime.Object) error {
 			return disk.validateResourceReferences()
 		},
-		disk.validateImmutableProperties}
-}
-
-// validateImmutableProperties validates all immutable properties
-func (disk *Disk) validateImmutableProperties(old runtime.Object) error {
-	oldObj, ok := old.(*Disk)
-	if !ok {
-		return nil
-	}
-
-	return genruntime.ValidateImmutableProperties(oldObj, disk)
+		disk.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -246,6 +236,16 @@ func (disk *Disk) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (disk *Disk) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*Disk)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, disk)
 }
 
 // AssignPropertiesFromDisk populates our Disk from the provided source Disk

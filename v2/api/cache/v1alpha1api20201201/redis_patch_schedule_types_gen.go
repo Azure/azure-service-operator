@@ -233,17 +233,7 @@ func (schedule *RedisPatchSchedule) updateValidations() []func(old runtime.Objec
 		func(old runtime.Object) error {
 			return schedule.validateResourceReferences()
 		},
-		schedule.validateImmutableProperties}
-}
-
-// validateImmutableProperties validates all immutable properties
-func (schedule *RedisPatchSchedule) validateImmutableProperties(old runtime.Object) error {
-	oldObj, ok := old.(*RedisPatchSchedule)
-	if !ok {
-		return nil
-	}
-
-	return genruntime.ValidateImmutableProperties(oldObj, schedule)
+		schedule.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -253,6 +243,16 @@ func (schedule *RedisPatchSchedule) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (schedule *RedisPatchSchedule) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*RedisPatchSchedule)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, schedule)
 }
 
 // AssignPropertiesFromRedisPatchSchedule populates our RedisPatchSchedule from the provided source RedisPatchSchedule

@@ -240,17 +240,7 @@ func (peering *VirtualNetworksVirtualNetworkPeering) updateValidations() []func(
 		func(old runtime.Object) error {
 			return peering.validateResourceReferences()
 		},
-		peering.validateImmutableProperties}
-}
-
-// validateImmutableProperties validates all immutable properties
-func (peering *VirtualNetworksVirtualNetworkPeering) validateImmutableProperties(old runtime.Object) error {
-	oldObj, ok := old.(*VirtualNetworksVirtualNetworkPeering)
-	if !ok {
-		return nil
-	}
-
-	return genruntime.ValidateImmutableProperties(oldObj, peering)
+		peering.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -260,6 +250,16 @@ func (peering *VirtualNetworksVirtualNetworkPeering) validateResourceReferences(
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (peering *VirtualNetworksVirtualNetworkPeering) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*VirtualNetworksVirtualNetworkPeering)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, peering)
 }
 
 // AssignPropertiesFromVirtualNetworksVirtualNetworkPeering populates our VirtualNetworksVirtualNetworkPeering from the provided source VirtualNetworksVirtualNetworkPeering

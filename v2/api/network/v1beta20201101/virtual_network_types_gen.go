@@ -226,17 +226,7 @@ func (network *VirtualNetwork) updateValidations() []func(old runtime.Object) er
 		func(old runtime.Object) error {
 			return network.validateResourceReferences()
 		},
-		network.validateImmutableProperties}
-}
-
-// validateImmutableProperties validates all immutable properties
-func (network *VirtualNetwork) validateImmutableProperties(old runtime.Object) error {
-	oldObj, ok := old.(*VirtualNetwork)
-	if !ok {
-		return nil
-	}
-
-	return genruntime.ValidateImmutableProperties(oldObj, network)
+		network.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -246,6 +236,16 @@ func (network *VirtualNetwork) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (network *VirtualNetwork) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*VirtualNetwork)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, network)
 }
 
 // AssignPropertiesFromVirtualNetwork populates our VirtualNetwork from the provided source VirtualNetwork

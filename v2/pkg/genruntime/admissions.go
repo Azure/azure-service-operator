@@ -29,8 +29,8 @@ type Defaulter interface {
 	CustomDefault()
 }
 
-// ValidateImmutableProperties function validates the update on immutable properties.
-func ValidateImmutableProperties(oldObj MetaObject, newObj MetaObject) error {
+// ValidateWriteOnceProperties function validates the update on WriteOnce properties.
+func ValidateWriteOnceProperties(oldObj MetaObject, newObj MetaObject) error {
 	var errs []error
 
 	if !IsResourceCreatedSuccessfully(newObj) {

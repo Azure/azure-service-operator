@@ -240,17 +240,7 @@ func (topic *NamespacesTopic) updateValidations() []func(old runtime.Object) err
 		func(old runtime.Object) error {
 			return topic.validateResourceReferences()
 		},
-		topic.validateImmutableProperties}
-}
-
-// validateImmutableProperties validates all immutable properties
-func (topic *NamespacesTopic) validateImmutableProperties(old runtime.Object) error {
-	oldObj, ok := old.(*NamespacesTopic)
-	if !ok {
-		return nil
-	}
-
-	return genruntime.ValidateImmutableProperties(oldObj, topic)
+		topic.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -260,6 +250,16 @@ func (topic *NamespacesTopic) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (topic *NamespacesTopic) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*NamespacesTopic)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, topic)
 }
 
 // AssignPropertiesFromNamespacesTopic populates our NamespacesTopic from the provided source NamespacesTopic

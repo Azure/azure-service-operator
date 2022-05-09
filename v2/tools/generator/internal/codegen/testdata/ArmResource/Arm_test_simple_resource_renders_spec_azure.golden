@@ -195,17 +195,7 @@ func (resource *FakeResource) updateValidations() []func(old runtime.Object) err
 		func(old runtime.Object) error {
 			return resource.validateResourceReferences()
 		},
-		resource.validateImmutableProperties}
-}
-
-// validateImmutableProperties validates all immutable properties
-func (resource *FakeResource) validateImmutableProperties(old runtime.Object) error {
-	oldObj, ok := old.(*FakeResource)
-	if !ok {
-		return nil
-	}
-
-	return genruntime.ValidateImmutableProperties(oldObj, resource)
+		resource.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -215,6 +205,16 @@ func (resource *FakeResource) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (resource *FakeResource) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*FakeResource)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, resource)
 }
 
 // AssignPropertiesFromFakeResource populates our FakeResource from the provided source FakeResource

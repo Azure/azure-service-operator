@@ -226,17 +226,7 @@ func (rule *NamespacesEventhubsAuthorizationRule) updateValidations() []func(old
 		func(old runtime.Object) error {
 			return rule.validateResourceReferences()
 		},
-		rule.validateImmutableProperties}
-}
-
-// validateImmutableProperties validates all immutable properties
-func (rule *NamespacesEventhubsAuthorizationRule) validateImmutableProperties(old runtime.Object) error {
-	oldObj, ok := old.(*NamespacesEventhubsAuthorizationRule)
-	if !ok {
-		return nil
-	}
-
-	return genruntime.ValidateImmutableProperties(oldObj, rule)
+		rule.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -246,6 +236,16 @@ func (rule *NamespacesEventhubsAuthorizationRule) validateResourceReferences() e
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (rule *NamespacesEventhubsAuthorizationRule) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*NamespacesEventhubsAuthorizationRule)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, rule)
 }
 
 // AssignPropertiesFromNamespacesEventhubsAuthorizationRule populates our NamespacesEventhubsAuthorizationRule from the provided source NamespacesEventhubsAuthorizationRule
