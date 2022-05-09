@@ -21,6 +21,7 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/cache"
 	"sigs.k8s.io/controller-runtime/pkg/controller"
+	"sigs.k8s.io/controller-runtime/pkg/healthz"
 
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/controllers"
@@ -40,10 +41,12 @@ func main() {
 	setupLog := ctrl.Log.WithName("setup")
 
 	var metricsAddr string
+	var healthAddr string
 	var enableLeaderElection bool
 
 	// default here for 'metricsAddr' is set to "0", which sets metrics to be disabled if 'metrics-addr' flag is omitted.
 	flagSet.StringVar(&metricsAddr, "metrics-addr", "0", "The address the metric endpoint binds to.")
+	flagSet.StringVar(&healthAddr, "health-addr", "", "The address the healthz endpoint binds to.")
 	flagSet.BoolVar(&enableLeaderElection, "enable-leader-election", false,
 		"Enable leader election for controllers manager. Enabling this will ensure there is only one active controllers manager.")
 	flagSet.Parse(os.Args[1:]) //nolint:errcheck
@@ -67,13 +70,15 @@ func main() {
 	}
 
 	mgr, err := ctrl.NewManager(ctrl.GetConfigOrDie(), ctrl.Options{
-		Scheme:             scheme,
-		MetricsBindAddress: metricsAddr,
-		NewCache:           cacheFunc,
-		LeaderElection:     enableLeaderElection,
-		LeaderElectionID:   "controllers-leader-election-azinfra-generated",
-		Port:               9443,
+		Scheme:                 scheme,
+		MetricsBindAddress:     metricsAddr,
+		NewCache:               cacheFunc,
+		LeaderElection:         enableLeaderElection,
+		LeaderElectionID:       "controllers-leader-election-azinfra-generated",
+		Port:                   9443,
+		HealthProbeBindAddress: healthAddr,
 	})
+
 	if err != nil {
 		setupLog.Error(err, "unable to start manager")
 		os.Exit(1)
@@ -124,6 +129,13 @@ func main() {
 			setupLog.Error(err, "failed to register webhook for gvks")
 			os.Exit(1)
 		}
+	}
+
+	// Healthz liveness probe endpoint
+	err = mgr.AddHealthzCheck("healthz", healthz.Ping)
+	if err != nil {
+		setupLog.Error(err, "Failed setting up health check")
+		os.Exit(1)
 	}
 
 	setupLog.Info("starting manager")
