@@ -98,15 +98,29 @@ func (omc *ObjectModelConfiguration) VerifyExportConsumed() error {
 // name if found. Returns a NotConfiguredError if no export is configured.
 func (omc *ObjectModelConfiguration) LookupExportAs(name astmodel.TypeName) (string, error) {
 	var exportAs string
-	visitor := NewSingleTypeConfigurationVisitor(
+	typeVisitor := NewSingleTypeConfigurationVisitor(
 		name,
 		func(configuration *TypeConfiguration) error {
 			ea, err := configuration.LookupExportAs()
 			exportAs = ea
 			return err
 		})
-	err := visitor.Visit(omc)
+	err := typeVisitor.Visit(omc)
 	if err != nil {
+		// No need to wrap this error, it already has all the details
+		return "", err
+	}
+
+	// Add an alias so that any existing configuration can be found via the new name
+	versionVisitor := NewSingleVersionConfigurationVisitor(
+		name.PackageReference,
+		func(configuration *VersionConfiguration) error {
+			err := configuration.addTypeAlias(name.Name(), exportAs)
+			return err
+		})
+	err = versionVisitor.Visit(omc)
+	if err != nil {
+		// No need to wrap this error, it already has all the details
 		return "", err
 	}
 

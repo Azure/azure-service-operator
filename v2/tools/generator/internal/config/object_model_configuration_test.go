@@ -15,6 +15,10 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
 )
 
+/*
+ * YAML tests
+ */
+
 func TestObjectModelConfiguration_WhenYAMLWellFormed_ReturnsExpectedResult(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
@@ -37,6 +41,10 @@ func TestObjectModelConfiguration_WhenYAMLBadlyFormed_ReturnsError(t *testing.T)
 	err := yaml.Unmarshal(yamlBytes, &model)
 	g.Expect(err).NotTo(Succeed())
 }
+
+/*
+ * Type Rename Tests
+ */
 
 func TestObjectModelConfiguration_TypeRename_WhenTypeFound_ReturnsExpectedResult(t *testing.T) {
 	t.Parallel()
@@ -119,6 +127,10 @@ func TestObjectModelConfiguration_VerifyTypeRenamesConsumed_WhenRenameUnused_Ret
 
 	g.Expect(omc.VerifyNameInNextVersionConsumed()).NotTo(Succeed())
 }
+
+/*
+ * ARM Reference Tests
+ */
 
 func TestObjectModelConfiguration_ARMReference_WhenSpousePropertyFound_ReturnsExpectedResult(t *testing.T) {
 	t.Parallel()
@@ -225,6 +237,41 @@ func TestObjectModelConfiguration_VerifyARMReferencesConsumed_WhenReferenceNotUs
 		omc.VerifyARMReferencesConsumed()).NotTo(Succeed())
 }
 
+/*
+ * Export As Tests
+ */
+
+func TestObjectModelConfiguration_LookupExportAs_AfterConsumption_CanLookupUsingNewName(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	typeName := astmodel.MakeTypeName(test.Pkg2020, "People")
+	omc := NewObjectModelConfiguration()
+	g.Expect(
+		omc.ModifyType(
+			typeName,
+			func(tc *TypeConfiguration) error {
+				tc.exportAs.write("Person")
+				tc.nameInNextVersion.write("Party")
+				return nil
+			})).
+		To(Succeed())
+
+	// Lookup the new name for the type
+	exportAs, err := omc.LookupExportAs(typeName)
+	g.Expect(err).To(BeNil())
+
+	// Lookup the name in next version using the new name of the type
+	newTypeName := typeName.WithName(exportAs)
+	nextName, err := omc.LookupNameInNextVersion(newTypeName)
+	g.Expect(err).To(BeNil())
+	g.Expect(nextName).To(Equal("Party"))
+}
+
+/*
+ * Modify Group Tests
+ */
+
 func TestObjectModelConfiguration_ModifyGroup_WhenGroupDoesNotExist_CallsActionWithNewGroup(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
@@ -270,6 +317,10 @@ func TestObjectModelConfiguration_ModifyGroup_WhenGroupExists_CallsActionWithExi
 	g.Expect(first).To(Equal(second))
 }
 
+/*
+ * Modify Version Tests
+ */
+
 func TestObjectModelConfiguration_ModifyVersion_WhenVersionDoesNotExist_CallsActionWithNewVersion(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
@@ -314,6 +365,10 @@ func TestObjectModelConfiguration_ModifyVersion_WhenVersionExists_CallsActionWit
 
 	g.Expect(first).To(Equal(second))
 }
+
+/*
+ * Modify Type Tests
+ */
 
 func TestObjectModelConfiguration_ModifyType_WhenTypeDoesNotExist_CallsActionWithNewType(t *testing.T) {
 	t.Parallel()
@@ -361,6 +416,10 @@ func TestObjectModelConfiguration_ModifyType_WhenTypeExists_CallsActionWithExist
 
 	g.Expect(first).To(Equal(second))
 }
+
+/*
+ * Modify Property Tests
+ */
 
 func TestObjectModelConfiguration_ModifyProperty_WhenPropertyDoesNotExist_CallsActionWithNewProperty(t *testing.T) {
 	t.Parallel()

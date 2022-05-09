@@ -34,3 +34,40 @@ func TestVersionConfiguration_WhenYAMLBadlyFormed_ReturnsError(t *testing.T) {
 	err := yaml.Unmarshal(yamlBytes, &versionConfig)
 	g.Expect(err).NotTo(Succeed())
 }
+
+func TestVersionConfiguration_AddTypeAlias_WhenTypeKnown_AddsAlias(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	person := NewTypeConfiguration("Person")
+	vc := NewVersionConfiguration("1")
+	vc.add(person)
+
+	g.Expect(vc.addTypeAlias("Person", "Party")).To(Succeed())
+
+	party, err := vc.findType("Party")
+	g.Expect(party).To(Equal(person))
+	g.Expect(err).To(BeNil())
+}
+
+func TestVersionConfiguration_AddTypeAlias_WhenTypeUnknown_ReturnsError(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	vc := NewVersionConfiguration("1")
+
+	g.Expect(vc.addTypeAlias("Person", "Party")).NotTo(Succeed())
+}
+
+func TestVersionConfiguration_AddTypeAlias_WhenTypeClashes_ReturnsError(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	person := NewTypeConfiguration("Person")
+	party := NewTypeConfiguration("Party")
+	vc := NewVersionConfiguration("1")
+	vc.add(person)
+	vc.add(party)
+
+	g.Expect(vc.addTypeAlias("Person", "Party")).NotTo(Succeed())
+}

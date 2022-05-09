@@ -88,6 +88,34 @@ func (vc *VersionConfiguration) findType(name string) (*TypeConfiguration, error
 	return nil, NewNotConfiguredError(msg).WithOptions("types", vc.configuredTypes())
 }
 
+// addTypeAlias adds an alias for the specified type, so it may be found with an alternative name
+// We use this when $exportedAs is used to rename a type so that any remaining configuration is still accessible under
+// the new name.
+func (vc *VersionConfiguration) addTypeAlias(name string, alias string) error {
+	// Lookup the existing configuration for 'name'
+	tc, err := vc.findType(name)
+	if err != nil {
+		return errors.Wrapf(err, "unable to create type alias %s", alias)
+	}
+
+	// Make sure we don't already have configuration for 'alias'
+	other, err := vc.findType(alias)
+	if other != nil && other != tc {
+		return errors.Errorf(
+			"unable to create type alias %s for %s because that would conflict with existing configuration",
+			alias,
+			name)
+	}
+	if err != nil && !IsNotConfiguredError(err) {
+		return errors.Wrapf(err, "unable to create type alias %s", alias)
+	}
+
+	// Add the alias as another route to the existing configuration
+	a := strings.ToLower(alias)
+	vc.types[a] = tc
+	return nil
+}
+
 // UnmarshalYAML populates our instance from the YAML.
 // Nested objects are handled by a *pair* of nodes (!!), one for the id and one for the content of the object
 func (vc *VersionConfiguration) UnmarshalYAML(value *yaml.Node) error {
