@@ -20,7 +20,6 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
-	"github.com/Azure/azure-service-operator/v2/internal/metrics"
 	"github.com/dnaeon/go-vcr/cassette"
 	"github.com/dnaeon/go-vcr/recorder"
 	"github.com/go-logr/logr"
@@ -31,6 +30,7 @@ import (
 
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
+	"github.com/Azure/azure-service-operator/v2/internal/metrics"
 )
 
 // Use WestUS2 as some things (such as VM quota) are hard to get in West US.
@@ -284,6 +284,8 @@ var responseHeadersToRemove = []string{
 	"X-Ms-Correlation-Request-Id",
 	"X-Ms-Request-Id",
 	"X-Ms-Routing-Request-Id",
+	"X-Ms-Client-Request-Id",
+	"Client-Request-Id",
 
 	// Quota limits
 	"X-Ms-Ratelimit-Remaining-Subscription-Deletes",

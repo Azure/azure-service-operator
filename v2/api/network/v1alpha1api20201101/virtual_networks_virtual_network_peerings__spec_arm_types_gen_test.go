@@ -56,7 +56,7 @@ func RunJSONSerializationTestForVirtualNetworksVirtualNetworkPeeringsSpecARM(sub
 }
 
 // Generator of VirtualNetworksVirtualNetworkPeerings_SpecARM instances for property testing - lazily instantiated by
-//VirtualNetworksVirtualNetworkPeeringsSpecARMGenerator()
+// VirtualNetworksVirtualNetworkPeeringsSpecARMGenerator()
 var virtualNetworksVirtualNetworkPeeringsSpecARMGenerator gopter.Gen
 
 // VirtualNetworksVirtualNetworkPeeringsSpecARMGenerator returns a generator of VirtualNetworksVirtualNetworkPeerings_SpecARM instances for property testing.
@@ -132,7 +132,7 @@ func RunJSONSerializationTestForVirtualNetworkPeeringPropertiesFormatARM(subject
 }
 
 // Generator of VirtualNetworkPeeringPropertiesFormatARM instances for property testing - lazily instantiated by
-//VirtualNetworkPeeringPropertiesFormatARMGenerator()
+// VirtualNetworkPeeringPropertiesFormatARMGenerator()
 var virtualNetworkPeeringPropertiesFormatARMGenerator gopter.Gen
 
 // VirtualNetworkPeeringPropertiesFormatARMGenerator returns a generator of VirtualNetworkPeeringPropertiesFormatARM instances for property testing.
@@ -212,7 +212,7 @@ func RunJSONSerializationTestForVirtualNetworkBgpCommunitiesARM(subject VirtualN
 }
 
 // Generator of VirtualNetworkBgpCommunitiesARM instances for property testing - lazily instantiated by
-//VirtualNetworkBgpCommunitiesARMGenerator()
+// VirtualNetworkBgpCommunitiesARMGenerator()
 var virtualNetworkBgpCommunitiesARMGenerator gopter.Gen
 
 // VirtualNetworkBgpCommunitiesARMGenerator returns a generator of VirtualNetworkBgpCommunitiesARM instances for property testing.

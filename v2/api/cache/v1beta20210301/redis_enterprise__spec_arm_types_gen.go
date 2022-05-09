@@ -6,22 +6,22 @@ package v1beta20210301
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type RedisEnterprise_SpecARM struct {
-	//Location: The geo-location where the resource lives
+	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 
-	//Name: The name of the RedisEnterprise cluster.
+	// Name: The name of the RedisEnterprise cluster.
 	Name string `json:"name,omitempty"`
 
-	//Properties: Properties of RedisEnterprise clusters, as opposed to general resource properties like location, tags
+	// Properties: Properties of RedisEnterprise clusters, as opposed to general resource properties like location, tags
 	Properties *ClusterPropertiesARM `json:"properties,omitempty"`
 
-	//Sku: SKU parameters supplied to the create RedisEnterprise operation.
+	// Sku: SKU parameters supplied to the create RedisEnterprise operation.
 	Sku *SkuARM `json:"sku,omitempty"`
 
-	//Tags: Name-value pairs to add to the resource
+	// Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
 
-	//Zones: The Availability Zones where this cluster will be deployed.
+	// Zones: The Availability Zones where this cluster will be deployed.
 	Zones []string `json:"zones,omitempty"`
 }
 
@@ -42,19 +42,19 @@ func (enterprise RedisEnterprise_SpecARM) GetType() string {
 	return "Microsoft.Cache/redisEnterprise"
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-03-01/Microsoft.Cache.Enterprise.json#/definitions/ClusterProperties
+// Generated from: https://schema.management.azure.com/schemas/2021-03-01/Microsoft.Cache.Enterprise.json#/definitions/ClusterProperties
 type ClusterPropertiesARM struct {
-	//MinimumTlsVersion: The minimum TLS version for the cluster to support, e.g. '1.2'.
+	// MinimumTlsVersion: The minimum TLS version for the cluster to support, e.g. '1.2'.
 	MinimumTlsVersion *ClusterPropertiesMinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-03-01/Microsoft.Cache.Enterprise.json#/definitions/Sku
+// Generated from: https://schema.management.azure.com/schemas/2021-03-01/Microsoft.Cache.Enterprise.json#/definitions/Sku
 type SkuARM struct {
-	//Capacity: The size of the RedisEnterprise cluster. Defaults to 2 or 3 depending on SKU. Valid values are (2, 4, 6, ...)
-	//for Enterprise SKUs and (3, 9, 15, ...) for Flash SKUs.
+	// Capacity: The size of the RedisEnterprise cluster. Defaults to 2 or 3 depending on SKU. Valid values are (2, 4, 6, ...)
+	// for Enterprise SKUs and (3, 9, 15, ...) for Flash SKUs.
 	Capacity *int `json:"capacity,omitempty"`
 
-	//Name: The type of RedisEnterprise cluster to deploy. Possible values: (Enterprise_E10, EnterpriseFlash_F300 etc.).
+	// Name: The type of RedisEnterprise cluster to deploy. Possible values: (Enterprise_E10, EnterpriseFlash_F300 etc.).
 	Name *SkuName `json:"name,omitempty"`
 }
 

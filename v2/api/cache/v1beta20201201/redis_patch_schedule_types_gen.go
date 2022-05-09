@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/resourceDefinitions/redis_patchSchedules
+// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/resourceDefinitions/redis_patchSchedules
 type RedisPatchSchedule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -303,7 +303,7 @@ func (schedule *RedisPatchSchedule) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/resourceDefinitions/redis_patchSchedules
+// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/resourceDefinitions/redis_patchSchedules
 type RedisPatchScheduleList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -311,20 +311,20 @@ type RedisPatchScheduleList struct {
 }
 
 type RedisPatchSchedule_Status struct {
-	//Conditions: The observed state of the resource
+	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
-	//Id: Fully qualified resource ID for the resource. Ex -
-	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+	// Id: Fully qualified resource ID for the resource. Ex -
+	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
 
-	//Name: The name of the resource
+	// Name: The name of the resource
 	Name *string `json:"name,omitempty"`
 
-	//ScheduleEntries: List of patch schedules for a Redis cache.
+	// ScheduleEntries: List of patch schedules for a Redis cache.
 	ScheduleEntries []ScheduleEntry_Status `json:"scheduleEntries,omitempty"`
 
-	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 }
 
@@ -518,20 +518,20 @@ type RedisPatchSchedulesSpecAPIVersion string
 const RedisPatchSchedulesSpecAPIVersion20201201 = RedisPatchSchedulesSpecAPIVersion("2020-12-01")
 
 type RedisPatchSchedules_Spec struct {
-	//Location: Location to deploy resource to
+	// Location: Location to deploy resource to
 	Location *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a cache.azure.com/Redis resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a cache.azure.com/Redis resource
 	Owner *genruntime.KnownResourceReference `group:"cache.azure.com" json:"owner,omitempty" kind:"Redis"`
 
 	// +kubebuilder:validation:Required
-	//ScheduleEntries: List of patch schedules for a Redis cache.
+	// ScheduleEntries: List of patch schedules for a Redis cache.
 	ScheduleEntries []ScheduleEntry `json:"scheduleEntries,omitempty"`
 
-	//Tags: Name-value pairs to add to the resource
+	// Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
@@ -768,17 +768,17 @@ func (schedules *RedisPatchSchedules_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/definitions/ScheduleEntry
+// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/definitions/ScheduleEntry
 type ScheduleEntry struct {
 	// +kubebuilder:validation:Required
-	//DayOfWeek: Day of the week when a cache can be patched.
+	// DayOfWeek: Day of the week when a cache can be patched.
 	DayOfWeek *ScheduleEntryDayOfWeek `json:"dayOfWeek,omitempty"`
 
-	//MaintenanceWindow: ISO8601 timespan specifying how much time cache patching can take.
+	// MaintenanceWindow: ISO8601 timespan specifying how much time cache patching can take.
 	MaintenanceWindow *string `json:"maintenanceWindow,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//StartHourUtc: Start hour after which cache patching can start.
+	// StartHourUtc: Start hour after which cache patching can start.
 	StartHourUtc *int `json:"startHourUtc,omitempty"`
 }
 
@@ -907,13 +907,13 @@ func (entry *ScheduleEntry) AssignPropertiesToScheduleEntry(destination *v202012
 }
 
 type ScheduleEntry_Status struct {
-	//DayOfWeek: Day of the week when a cache can be patched.
+	// DayOfWeek: Day of the week when a cache can be patched.
 	DayOfWeek *ScheduleEntryStatusDayOfWeek `json:"dayOfWeek,omitempty"`
 
-	//MaintenanceWindow: ISO8601 timespan specifying how much time cache patching can take.
+	// MaintenanceWindow: ISO8601 timespan specifying how much time cache patching can take.
 	MaintenanceWindow *string `json:"maintenanceWindow,omitempty"`
 
-	//StartHourUtc: Start hour after which cache patching can start.
+	// StartHourUtc: Start hour after which cache patching can start.
 	StartHourUtc *int `json:"startHourUtc,omitempty"`
 }
 

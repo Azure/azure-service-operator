@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Deprecated version of NamespacesEventhub. Use v1beta20211101.NamespacesEventhub instead
+// Deprecated version of NamespacesEventhub. Use v1beta20211101.NamespacesEventhub instead
 type NamespacesEventhub struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -324,18 +324,18 @@ func (eventhub *NamespacesEventhub) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Deprecated version of NamespacesEventhub. Use v1beta20211101.NamespacesEventhub instead
+// Deprecated version of NamespacesEventhub. Use v1beta20211101.NamespacesEventhub instead
 type NamespacesEventhubList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []NamespacesEventhub `json:"items"`
 }
 
-//Deprecated version of Eventhub_Status. Use v1beta20211101.Eventhub_Status instead
+// Deprecated version of Eventhub_Status. Use v1beta20211101.Eventhub_Status instead
 type Eventhub_Status struct {
 	CaptureDescription *CaptureDescription_Status `json:"captureDescription,omitempty"`
 
-	//Conditions: The observed state of the resource
+	// Conditions: The observed state of the resource
 	Conditions             []conditions.Condition          `json:"conditions,omitempty"`
 	CreatedAt              *string                         `json:"createdAt,omitempty"`
 	Id                     *string                         `json:"id,omitempty"`
@@ -672,8 +672,8 @@ func (eventhub *Eventhub_Status) AssignPropertiesToEventhubStatus(destination *a
 type NamespacesEventhubs_Spec struct {
 	// +kubebuilder:validation:MaxLength=256
 	// +kubebuilder:validation:MinLength=1
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName          string                                                  `json:"azureName,omitempty"`
 	CaptureDescription *NamespacesEventhubs_Spec_Properties_CaptureDescription `json:"captureDescription,omitempty"`
 	Location           *string                                                 `json:"location,omitempty"`
@@ -682,9 +682,9 @@ type NamespacesEventhubs_Spec struct {
 	MessageRetentionInDays *int `json:"messageRetentionInDays,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a eventhub.azure.com/Namespace resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a eventhub.azure.com/Namespace resource
 	Owner *genruntime.KnownResourceReference `group:"eventhub.azure.com" json:"owner,omitempty" kind:"Namespace"`
 
 	// +kubebuilder:validation:Minimum=1
@@ -989,7 +989,7 @@ func (eventhubs *NamespacesEventhubs_Spec) SetAzureName(azureName string) {
 	eventhubs.AzureName = azureName
 }
 
-//Deprecated version of CaptureDescription_Status. Use v1beta20211101.CaptureDescription_Status instead
+// Deprecated version of CaptureDescription_Status. Use v1beta20211101.CaptureDescription_Status instead
 type CaptureDescription_Status struct {
 	Destination       *Destination_Status               `json:"destination,omitempty"`
 	Enabled           *bool                             `json:"enabled,omitempty"`
@@ -1165,7 +1165,7 @@ func (description *CaptureDescription_Status) AssignPropertiesToCaptureDescripti
 	return nil
 }
 
-//Deprecated version of NamespacesEventhubs_Spec_Properties_CaptureDescription. Use v1beta20211101.NamespacesEventhubs_Spec_Properties_CaptureDescription instead
+// Deprecated version of NamespacesEventhubs_Spec_Properties_CaptureDescription. Use v1beta20211101.NamespacesEventhubs_Spec_Properties_CaptureDescription instead
 type NamespacesEventhubs_Spec_Properties_CaptureDescription struct {
 	Destination       *NamespacesEventhubs_Spec_Properties_CaptureDescription_Destination `json:"destination,omitempty"`
 	Enabled           *bool                                                               `json:"enabled,omitempty"`
@@ -1390,7 +1390,7 @@ func (description *NamespacesEventhubs_Spec_Properties_CaptureDescription) Assig
 	return nil
 }
 
-//Deprecated version of Destination_Status. Use v1beta20211101.Destination_Status instead
+// Deprecated version of Destination_Status. Use v1beta20211101.Destination_Status instead
 type Destination_Status struct {
 	ArchiveNameFormat        *string `json:"archiveNameFormat,omitempty"`
 	BlobContainer            *string `json:"blobContainer,omitempty"`
@@ -1544,8 +1544,8 @@ func (destination *Destination_Status) AssignPropertiesToDestinationStatus(targe
 	return nil
 }
 
-//Deprecated version of NamespacesEventhubsSpecPropertiesCaptureDescriptionEncoding. Use
-//v1beta20211101.NamespacesEventhubsSpecPropertiesCaptureDescriptionEncoding instead
+// Deprecated version of NamespacesEventhubsSpecPropertiesCaptureDescriptionEncoding. Use
+// v1beta20211101.NamespacesEventhubsSpecPropertiesCaptureDescriptionEncoding instead
 // +kubebuilder:validation:Enum={"Avro","AvroDeflate"}
 type NamespacesEventhubsSpecPropertiesCaptureDescriptionEncoding string
 
@@ -1554,7 +1554,7 @@ const (
 	NamespacesEventhubsSpecPropertiesCaptureDescriptionEncodingAvroDeflate = NamespacesEventhubsSpecPropertiesCaptureDescriptionEncoding("AvroDeflate")
 )
 
-//Deprecated version of NamespacesEventhubs_Spec_Properties_CaptureDescription_Destination. Use v1beta20211101.NamespacesEventhubs_Spec_Properties_CaptureDescription_Destination instead
+// Deprecated version of NamespacesEventhubs_Spec_Properties_CaptureDescription_Destination. Use v1beta20211101.NamespacesEventhubs_Spec_Properties_CaptureDescription_Destination instead
 type NamespacesEventhubs_Spec_Properties_CaptureDescription_Destination struct {
 	ArchiveNameFormat   *string `json:"archiveNameFormat,omitempty"`
 	BlobContainer       *string `json:"blobContainer,omitempty"`

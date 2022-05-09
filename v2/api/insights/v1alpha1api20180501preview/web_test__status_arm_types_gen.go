@@ -5,7 +5,7 @@ package v1alpha1api20180501preview
 
 import "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 
-//Deprecated version of WebTest_Status. Use v1beta20180501preview.WebTest_Status instead
+// Deprecated version of WebTest_Status. Use v1beta20180501preview.WebTest_Status instead
 type WebTest_StatusARM struct {
 	Id         *string                      `json:"id,omitempty"`
 	Location   *string                      `json:"location,omitempty"`
@@ -15,7 +15,7 @@ type WebTest_StatusARM struct {
 	Type       *string                      `json:"type,omitempty"`
 }
 
-//Deprecated version of WebTestProperties_Status. Use v1beta20180501preview.WebTestProperties_Status instead
+// Deprecated version of WebTestProperties_Status. Use v1beta20180501preview.WebTestProperties_Status instead
 type WebTestProperties_StatusARM struct {
 	Configuration      *WebTestProperties_Status_ConfigurationARM   `json:"Configuration,omitempty"`
 	Description        *string                                      `json:"Description,omitempty"`
@@ -32,12 +32,12 @@ type WebTestProperties_StatusARM struct {
 	ValidationRules    *WebTestProperties_Status_ValidationRulesARM `json:"ValidationRules,omitempty"`
 }
 
-//Deprecated version of WebTestGeolocation_Status. Use v1beta20180501preview.WebTestGeolocation_Status instead
+// Deprecated version of WebTestGeolocation_Status. Use v1beta20180501preview.WebTestGeolocation_Status instead
 type WebTestGeolocation_StatusARM struct {
 	Id *string `json:"Id,omitempty"`
 }
 
-//Deprecated version of WebTestPropertiesStatusKind. Use v1beta20180501preview.WebTestPropertiesStatusKind instead
+// Deprecated version of WebTestPropertiesStatusKind. Use v1beta20180501preview.WebTestPropertiesStatusKind instead
 type WebTestPropertiesStatusKind string
 
 const (
@@ -47,12 +47,12 @@ const (
 	WebTestPropertiesStatusKindStandard  = WebTestPropertiesStatusKind("standard")
 )
 
-//Deprecated version of WebTestProperties_Status_Configuration. Use v1beta20180501preview.WebTestProperties_Status_Configuration instead
+// Deprecated version of WebTestProperties_Status_Configuration. Use v1beta20180501preview.WebTestProperties_Status_Configuration instead
 type WebTestProperties_Status_ConfigurationARM struct {
 	WebTest *string `json:"WebTest,omitempty"`
 }
 
-//Deprecated version of WebTestProperties_Status_Request. Use v1beta20180501preview.WebTestProperties_Status_Request instead
+// Deprecated version of WebTestProperties_Status_Request. Use v1beta20180501preview.WebTestProperties_Status_Request instead
 type WebTestProperties_Status_RequestARM struct {
 	FollowRedirects        *bool                   `json:"FollowRedirects,omitempty"`
 	Headers                []HeaderField_StatusARM `json:"Headers,omitempty"`
@@ -62,7 +62,7 @@ type WebTestProperties_Status_RequestARM struct {
 	RequestUrl             *string                 `json:"RequestUrl,omitempty"`
 }
 
-//Deprecated version of WebTestProperties_Status_ValidationRules. Use v1beta20180501preview.WebTestProperties_Status_ValidationRules instead
+// Deprecated version of WebTestProperties_Status_ValidationRules. Use v1beta20180501preview.WebTestProperties_Status_ValidationRules instead
 type WebTestProperties_Status_ValidationRulesARM struct {
 	ContentValidation             *WebTestProperties_Status_ValidationRules_ContentValidationARM `json:"ContentValidation,omitempty"`
 	ExpectedHttpStatusCode        *int                                                           `json:"ExpectedHttpStatusCode,omitempty"`
@@ -71,13 +71,13 @@ type WebTestProperties_Status_ValidationRulesARM struct {
 	SSLCheck                      *bool                                                          `json:"SSLCheck,omitempty"`
 }
 
-//Deprecated version of HeaderField_Status. Use v1beta20180501preview.HeaderField_Status instead
+// Deprecated version of HeaderField_Status. Use v1beta20180501preview.HeaderField_Status instead
 type HeaderField_StatusARM struct {
 	Key   *string `json:"key,omitempty"`
 	Value *string `json:"value,omitempty"`
 }
 
-//Deprecated version of WebTestProperties_Status_ValidationRules_ContentValidation. Use v1beta20180501preview.WebTestProperties_Status_ValidationRules_ContentValidation instead
+// Deprecated version of WebTestProperties_Status_ValidationRules_ContentValidation. Use v1beta20180501preview.WebTestProperties_Status_ValidationRules_ContentValidation instead
 type WebTestProperties_Status_ValidationRules_ContentValidationARM struct {
 	ContentMatch    *string `json:"ContentMatch,omitempty"`
 	IgnoreCase      *bool   `json:"IgnoreCase,omitempty"`

@@ -56,7 +56,7 @@ func RunJSONSerializationTestForDatabaseAccountsSpecARM(subject DatabaseAccounts
 }
 
 // Generator of DatabaseAccounts_SpecARM instances for property testing - lazily instantiated by
-//DatabaseAccountsSpecARMGenerator()
+// DatabaseAccountsSpecARMGenerator()
 var databaseAccountsSpecARMGenerator gopter.Gen
 
 // DatabaseAccountsSpecARMGenerator returns a generator of DatabaseAccounts_SpecARM instances for property testing.
@@ -134,7 +134,7 @@ func RunJSONSerializationTestForDatabaseAccountCreateUpdatePropertiesARM(subject
 }
 
 // Generator of DatabaseAccountCreateUpdatePropertiesARM instances for property testing - lazily instantiated by
-//DatabaseAccountCreateUpdatePropertiesARMGenerator()
+// DatabaseAccountCreateUpdatePropertiesARMGenerator()
 var databaseAccountCreateUpdatePropertiesARMGenerator gopter.Gen
 
 // DatabaseAccountCreateUpdatePropertiesARMGenerator returns a generator of DatabaseAccountCreateUpdatePropertiesARM instances for property testing.
@@ -229,7 +229,7 @@ func RunJSONSerializationTestForManagedServiceIdentityARM(subject ManagedService
 }
 
 // Generator of ManagedServiceIdentityARM instances for property testing - lazily instantiated by
-//ManagedServiceIdentityARMGenerator()
+// ManagedServiceIdentityARMGenerator()
 var managedServiceIdentityARMGenerator gopter.Gen
 
 // ManagedServiceIdentityARMGenerator returns a generator of ManagedServiceIdentityARM instances for property testing.
@@ -293,7 +293,7 @@ func RunJSONSerializationTestForAnalyticalStorageConfigurationARM(subject Analyt
 }
 
 // Generator of AnalyticalStorageConfigurationARM instances for property testing - lazily instantiated by
-//AnalyticalStorageConfigurationARMGenerator()
+// AnalyticalStorageConfigurationARMGenerator()
 var analyticalStorageConfigurationARMGenerator gopter.Gen
 
 // AnalyticalStorageConfigurationARMGenerator returns a generator of AnalyticalStorageConfigurationARM instances for property testing.
@@ -543,7 +543,7 @@ func RunJSONSerializationTestForConsistencyPolicyARM(subject ConsistencyPolicyAR
 }
 
 // Generator of ConsistencyPolicyARM instances for property testing - lazily instantiated by
-//ConsistencyPolicyARMGenerator()
+// ConsistencyPolicyARMGenerator()
 var consistencyPolicyARMGenerator gopter.Gen
 
 // ConsistencyPolicyARMGenerator returns a generator of ConsistencyPolicyARM instances for property testing.
@@ -673,7 +673,7 @@ func RunJSONSerializationTestForIpAddressOrRangeARM(subject IpAddressOrRangeARM)
 }
 
 // Generator of IpAddressOrRangeARM instances for property testing - lazily instantiated by
-//IpAddressOrRangeARMGenerator()
+// IpAddressOrRangeARMGenerator()
 var ipAddressOrRangeARMGenerator gopter.Gen
 
 // IpAddressOrRangeARMGenerator returns a generator of IpAddressOrRangeARM instances for property testing.
@@ -794,7 +794,7 @@ func RunJSONSerializationTestForVirtualNetworkRuleARM(subject VirtualNetworkRule
 }
 
 // Generator of VirtualNetworkRuleARM instances for property testing - lazily instantiated by
-//VirtualNetworkRuleARMGenerator()
+// VirtualNetworkRuleARMGenerator()
 var virtualNetworkRuleARMGenerator gopter.Gen
 
 // VirtualNetworkRuleARMGenerator returns a generator of VirtualNetworkRuleARM instances for property testing.
@@ -855,7 +855,7 @@ func RunJSONSerializationTestForContinuousModeBackupPolicyARM(subject Continuous
 }
 
 // Generator of ContinuousModeBackupPolicyARM instances for property testing - lazily instantiated by
-//ContinuousModeBackupPolicyARMGenerator()
+// ContinuousModeBackupPolicyARMGenerator()
 var continuousModeBackupPolicyARMGenerator gopter.Gen
 
 // ContinuousModeBackupPolicyARMGenerator returns a generator of ContinuousModeBackupPolicyARM instances for property testing.
@@ -915,7 +915,7 @@ func RunJSONSerializationTestForPeriodicModeBackupPolicyARM(subject PeriodicMode
 }
 
 // Generator of PeriodicModeBackupPolicyARM instances for property testing - lazily instantiated by
-//PeriodicModeBackupPolicyARMGenerator()
+// PeriodicModeBackupPolicyARMGenerator()
 var periodicModeBackupPolicyARMGenerator gopter.Gen
 
 // PeriodicModeBackupPolicyARMGenerator returns a generator of PeriodicModeBackupPolicyARM instances for property testing.
@@ -989,7 +989,7 @@ func RunJSONSerializationTestForPeriodicModePropertiesARM(subject PeriodicModePr
 }
 
 // Generator of PeriodicModePropertiesARM instances for property testing - lazily instantiated by
-//PeriodicModePropertiesARMGenerator()
+// PeriodicModePropertiesARMGenerator()
 var periodicModePropertiesARMGenerator gopter.Gen
 
 // PeriodicModePropertiesARMGenerator returns a generator of PeriodicModePropertiesARM instances for property testing.

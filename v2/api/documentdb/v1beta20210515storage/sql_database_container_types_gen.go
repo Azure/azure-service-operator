@@ -21,8 +21,8 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Storage version of v1beta20210515.SqlDatabaseContainer
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_containers
+// Storage version of v1beta20210515.SqlDatabaseContainer
+// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_containers
 type SqlDatabaseContainer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -121,27 +121,27 @@ func (container *SqlDatabaseContainer) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Storage version of v1beta20210515.SqlDatabaseContainer
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_containers
+// Storage version of v1beta20210515.SqlDatabaseContainer
+// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_containers
 type SqlDatabaseContainerList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []SqlDatabaseContainer `json:"items"`
 }
 
-//Storage version of v1beta20210515.DatabaseAccountsSqlDatabasesContainers_Spec
+// Storage version of v1beta20210515.DatabaseAccountsSqlDatabasesContainers_Spec
 type DatabaseAccountsSqlDatabasesContainers_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName       string               `json:"azureName,omitempty"`
 	Location        *string              `json:"location,omitempty"`
 	Options         *CreateUpdateOptions `json:"options,omitempty"`
 	OriginalVersion string               `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a documentdb.azure.com/SqlDatabase resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a documentdb.azure.com/SqlDatabase resource
 	Owner       *genruntime.KnownResourceReference `group:"documentdb.azure.com" json:"owner,omitempty" kind:"SqlDatabase"`
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	Resource    *SqlContainerResource              `json:"resource,omitempty"`
@@ -168,7 +168,7 @@ func (containers *DatabaseAccountsSqlDatabasesContainers_Spec) ConvertSpecTo(des
 	return destination.ConvertSpecFrom(containers)
 }
 
-//Storage version of v1beta20210515.SqlContainerGetResults_Status
+// Storage version of v1beta20210515.SqlContainerGetResults_Status
 type SqlContainerGetResults_Status struct {
 	Conditions  []conditions.Condition                     `json:"conditions,omitempty"`
 	Id          *string                                    `json:"id,omitempty"`
@@ -201,7 +201,7 @@ func (results *SqlContainerGetResults_Status) ConvertStatusTo(destination genrun
 	return destination.ConvertStatusFrom(results)
 }
 
-//Storage version of v1beta20210515.SqlContainerGetProperties_Status_Resource
+// Storage version of v1beta20210515.SqlContainerGetProperties_Status_Resource
 type SqlContainerGetProperties_Status_Resource struct {
 	AnalyticalStorageTtl     *int                             `json:"analyticalStorageTtl,omitempty"`
 	ConflictResolutionPolicy *ConflictResolutionPolicy_Status `json:"conflictResolutionPolicy,omitempty"`
@@ -216,8 +216,8 @@ type SqlContainerGetProperties_Status_Resource struct {
 	UniqueKeyPolicy          *UniqueKeyPolicy_Status          `json:"uniqueKeyPolicy,omitempty"`
 }
 
-//Storage version of v1beta20210515.SqlContainerResource
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlContainerResource
+// Storage version of v1beta20210515.SqlContainerResource
+// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlContainerResource
 type SqlContainerResource struct {
 	AnalyticalStorageTtl     *int                      `json:"analyticalStorageTtl,omitempty"`
 	ConflictResolutionPolicy *ConflictResolutionPolicy `json:"conflictResolutionPolicy,omitempty"`
@@ -229,8 +229,8 @@ type SqlContainerResource struct {
 	UniqueKeyPolicy          *UniqueKeyPolicy          `json:"uniqueKeyPolicy,omitempty"`
 }
 
-//Storage version of v1beta20210515.ConflictResolutionPolicy
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ConflictResolutionPolicy
+// Storage version of v1beta20210515.ConflictResolutionPolicy
+// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ConflictResolutionPolicy
 type ConflictResolutionPolicy struct {
 	ConflictResolutionPath      *string                `json:"conflictResolutionPath,omitempty"`
 	ConflictResolutionProcedure *string                `json:"conflictResolutionProcedure,omitempty"`
@@ -238,7 +238,7 @@ type ConflictResolutionPolicy struct {
 	PropertyBag                 genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1beta20210515.ConflictResolutionPolicy_Status
+// Storage version of v1beta20210515.ConflictResolutionPolicy_Status
 type ConflictResolutionPolicy_Status struct {
 	ConflictResolutionPath      *string                `json:"conflictResolutionPath,omitempty"`
 	ConflictResolutionProcedure *string                `json:"conflictResolutionProcedure,omitempty"`
@@ -246,8 +246,8 @@ type ConflictResolutionPolicy_Status struct {
 	PropertyBag                 genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1beta20210515.ContainerPartitionKey
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ContainerPartitionKey
+// Storage version of v1beta20210515.ContainerPartitionKey
+// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ContainerPartitionKey
 type ContainerPartitionKey struct {
 	Kind        *string                `json:"kind,omitempty"`
 	Paths       []string               `json:"paths,omitempty"`
@@ -255,7 +255,7 @@ type ContainerPartitionKey struct {
 	Version     *int                   `json:"version,omitempty"`
 }
 
-//Storage version of v1beta20210515.ContainerPartitionKey_Status
+// Storage version of v1beta20210515.ContainerPartitionKey_Status
 type ContainerPartitionKey_Status struct {
 	Kind        *string                `json:"kind,omitempty"`
 	Paths       []string               `json:"paths,omitempty"`
@@ -264,8 +264,8 @@ type ContainerPartitionKey_Status struct {
 	Version     *int                   `json:"version,omitempty"`
 }
 
-//Storage version of v1beta20210515.IndexingPolicy
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/IndexingPolicy
+// Storage version of v1beta20210515.IndexingPolicy
+// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/IndexingPolicy
 type IndexingPolicy struct {
 	Automatic        *bool                  `json:"automatic,omitempty"`
 	CompositeIndexes [][]CompositePath      `json:"compositeIndexes,omitempty"`
@@ -276,7 +276,7 @@ type IndexingPolicy struct {
 	SpatialIndexes   []SpatialSpec          `json:"spatialIndexes,omitempty"`
 }
 
-//Storage version of v1beta20210515.IndexingPolicy_Status
+// Storage version of v1beta20210515.IndexingPolicy_Status
 type IndexingPolicy_Status struct {
 	Automatic        *bool                    `json:"automatic,omitempty"`
 	CompositeIndexes [][]CompositePath_Status `json:"compositeIndexes,omitempty"`
@@ -287,92 +287,92 @@ type IndexingPolicy_Status struct {
 	SpatialIndexes   []SpatialSpec_Status     `json:"spatialIndexes,omitempty"`
 }
 
-//Storage version of v1beta20210515.UniqueKeyPolicy
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/UniqueKeyPolicy
+// Storage version of v1beta20210515.UniqueKeyPolicy
+// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/UniqueKeyPolicy
 type UniqueKeyPolicy struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	UniqueKeys  []UniqueKey            `json:"uniqueKeys,omitempty"`
 }
 
-//Storage version of v1beta20210515.UniqueKeyPolicy_Status
+// Storage version of v1beta20210515.UniqueKeyPolicy_Status
 type UniqueKeyPolicy_Status struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	UniqueKeys  []UniqueKey_Status     `json:"uniqueKeys,omitempty"`
 }
 
-//Storage version of v1beta20210515.CompositePath
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/CompositePath
+// Storage version of v1beta20210515.CompositePath
+// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/CompositePath
 type CompositePath struct {
 	Order       *string                `json:"order,omitempty"`
 	Path        *string                `json:"path,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1beta20210515.CompositePath_Status
+// Storage version of v1beta20210515.CompositePath_Status
 type CompositePath_Status struct {
 	Order       *string                `json:"order,omitempty"`
 	Path        *string                `json:"path,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1beta20210515.ExcludedPath
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ExcludedPath
+// Storage version of v1beta20210515.ExcludedPath
+// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ExcludedPath
 type ExcludedPath struct {
 	Path        *string                `json:"path,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1beta20210515.ExcludedPath_Status
+// Storage version of v1beta20210515.ExcludedPath_Status
 type ExcludedPath_Status struct {
 	Path        *string                `json:"path,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1beta20210515.IncludedPath
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/IncludedPath
+// Storage version of v1beta20210515.IncludedPath
+// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/IncludedPath
 type IncludedPath struct {
 	Indexes     []Indexes              `json:"indexes,omitempty"`
 	Path        *string                `json:"path,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1beta20210515.IncludedPath_Status
+// Storage version of v1beta20210515.IncludedPath_Status
 type IncludedPath_Status struct {
 	Indexes     []Indexes_Status       `json:"indexes,omitempty"`
 	Path        *string                `json:"path,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1beta20210515.SpatialSpec
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SpatialSpec
+// Storage version of v1beta20210515.SpatialSpec
+// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SpatialSpec
 type SpatialSpec struct {
 	Path        *string                `json:"path,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Types       []string               `json:"types,omitempty"`
 }
 
-//Storage version of v1beta20210515.SpatialSpec_Status
+// Storage version of v1beta20210515.SpatialSpec_Status
 type SpatialSpec_Status struct {
 	Path        *string                `json:"path,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Types       []string               `json:"types,omitempty"`
 }
 
-//Storage version of v1beta20210515.UniqueKey
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/UniqueKey
+// Storage version of v1beta20210515.UniqueKey
+// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/UniqueKey
 type UniqueKey struct {
 	Paths       []string               `json:"paths,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1beta20210515.UniqueKey_Status
+// Storage version of v1beta20210515.UniqueKey_Status
 type UniqueKey_Status struct {
 	Paths       []string               `json:"paths,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1beta20210515.Indexes
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/Indexes
+// Storage version of v1beta20210515.Indexes
+// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/Indexes
 type Indexes struct {
 	DataType    *string                `json:"dataType,omitempty"`
 	Kind        *string                `json:"kind,omitempty"`
@@ -380,7 +380,7 @@ type Indexes struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1beta20210515.Indexes_Status
+// Storage version of v1beta20210515.Indexes_Status
 type Indexes_Status struct {
 	DataType    *string                `json:"dataType,omitempty"`
 	Kind        *string                `json:"kind,omitempty"`

@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_containers_userDefinedFunctions
+// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_containers_userDefinedFunctions
 type SqlDatabaseContainerUserDefinedFunction struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -310,7 +310,7 @@ func (function *SqlDatabaseContainerUserDefinedFunction) OriginalGVK() *schema.G
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_containers_userDefinedFunctions
+// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_containers_userDefinedFunctions
 type SqlDatabaseContainerUserDefinedFunctionList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -323,32 +323,32 @@ type DatabaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpecAPIVersion st
 const DatabaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpecAPIVersion20210515 = DatabaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpecAPIVersion("2021-05-15")
 
 type DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
-	//Location: The location of the resource group to which the resource belongs.
+	// Location: The location of the resource group to which the resource belongs.
 	Location *string `json:"location,omitempty"`
 
-	//Options: CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are "If-Match",
-	//"If-None-Match", "Session-Token" and "Throughput"
+	// Options: CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are "If-Match",
+	// "If-None-Match", "Session-Token" and "Throughput"
 	Options *CreateUpdateOptions `json:"options,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a documentdb.azure.com/SqlDatabaseContainer resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a documentdb.azure.com/SqlDatabaseContainer resource
 	Owner *genruntime.KnownResourceReference `group:"documentdb.azure.com" json:"owner,omitempty" kind:"SqlDatabaseContainer"`
 
 	// +kubebuilder:validation:Required
-	//Resource: Cosmos DB SQL userDefinedFunction resource object
+	// Resource: Cosmos DB SQL userDefinedFunction resource object
 	Resource *SqlUserDefinedFunctionResource `json:"resource,omitempty"`
 
-	//Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
-	//resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
-	//greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
-	//type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph",
-	//"DocumentDB", and "MongoDB".
+	// Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
+	// resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
+	// greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
+	// type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph",
+	// "DocumentDB", and "MongoDB".
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
@@ -636,21 +636,21 @@ func (functions *DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec
 }
 
 type SqlUserDefinedFunctionGetResults_Status struct {
-	//Conditions: The observed state of the resource
+	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
-	//Id: The unique resource identifier of the ARM resource.
+	// Id: The unique resource identifier of the ARM resource.
 	Id *string `json:"id,omitempty"`
 
-	//Location: The location of the resource group to which the resource belongs.
+	// Location: The location of the resource group to which the resource belongs.
 	Location *string `json:"location,omitempty"`
 
-	//Name: The name of the ARM resource.
+	// Name: The name of the ARM resource.
 	Name     *string                                              `json:"name,omitempty"`
 	Resource *SqlUserDefinedFunctionGetProperties_Status_Resource `json:"resource,omitempty"`
 	Tags     map[string]string                                    `json:"tags,omitempty"`
 
-	//Type: The type of Azure resource.
+	// Type: The type of Azure resource.
 	Type *string `json:"type,omitempty"`
 }
 
@@ -854,19 +854,19 @@ func (results *SqlUserDefinedFunctionGetResults_Status) AssignPropertiesToSqlUse
 }
 
 type SqlUserDefinedFunctionGetProperties_Status_Resource struct {
-	//Body: Body of the User Defined Function
+	// Body: Body of the User Defined Function
 	Body *string `json:"body,omitempty"`
 
-	//Etag: A system generated property representing the resource etag required for optimistic concurrency control.
+	// Etag: A system generated property representing the resource etag required for optimistic concurrency control.
 	Etag *string `json:"_etag,omitempty"`
 
-	//Id: Name of the Cosmos DB SQL userDefinedFunction
+	// Id: Name of the Cosmos DB SQL userDefinedFunction
 	Id *string `json:"id,omitempty"`
 
-	//Rid: A system generated property. A unique identifier.
+	// Rid: A system generated property. A unique identifier.
 	Rid *string `json:"_rid,omitempty"`
 
-	//Ts: A system generated property that denotes the last updated timestamp of the resource.
+	// Ts: A system generated property that denotes the last updated timestamp of the resource.
 	Ts *float64 `json:"_ts,omitempty"`
 }
 
@@ -981,13 +981,13 @@ func (resource *SqlUserDefinedFunctionGetProperties_Status_Resource) AssignPrope
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlUserDefinedFunctionResource
+// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlUserDefinedFunctionResource
 type SqlUserDefinedFunctionResource struct {
-	//Body: Body of the User Defined Function
+	// Body: Body of the User Defined Function
 	Body *string `json:"body,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Id: Name of the Cosmos DB SQL userDefinedFunction
+	// Id: Name of the Cosmos DB SQL userDefinedFunction
 	Id *string `json:"id,omitempty"`
 }
 

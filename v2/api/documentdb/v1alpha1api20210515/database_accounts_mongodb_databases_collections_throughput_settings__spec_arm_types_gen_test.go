@@ -56,7 +56,7 @@ func RunJSONSerializationTestForDatabaseAccountsMongodbDatabasesCollectionsThrou
 }
 
 // Generator of DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SpecARM instances for property testing -
-//lazily instantiated by DatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpecARMGenerator()
+// lazily instantiated by DatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpecARMGenerator()
 var databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpecARMGenerator gopter.Gen
 
 // DatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpecARMGenerator returns a generator of DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SpecARM instances for property testing.
@@ -132,7 +132,7 @@ func RunJSONSerializationTestForThroughputSettingsUpdatePropertiesARM(subject Th
 }
 
 // Generator of ThroughputSettingsUpdatePropertiesARM instances for property testing - lazily instantiated by
-//ThroughputSettingsUpdatePropertiesARMGenerator()
+// ThroughputSettingsUpdatePropertiesARMGenerator()
 var throughputSettingsUpdatePropertiesARMGenerator gopter.Gen
 
 // ThroughputSettingsUpdatePropertiesARMGenerator returns a generator of ThroughputSettingsUpdatePropertiesARM instances for property testing.
@@ -192,7 +192,7 @@ func RunJSONSerializationTestForThroughputSettingsResourceARM(subject Throughput
 }
 
 // Generator of ThroughputSettingsResourceARM instances for property testing - lazily instantiated by
-//ThroughputSettingsResourceARMGenerator()
+// ThroughputSettingsResourceARMGenerator()
 var throughputSettingsResourceARMGenerator gopter.Gen
 
 // ThroughputSettingsResourceARMGenerator returns a generator of ThroughputSettingsResourceARM instances for property testing.
@@ -266,7 +266,7 @@ func RunJSONSerializationTestForAutoscaleSettingsResourceARM(subject AutoscaleSe
 }
 
 // Generator of AutoscaleSettingsResourceARM instances for property testing - lazily instantiated by
-//AutoscaleSettingsResourceARMGenerator()
+// AutoscaleSettingsResourceARMGenerator()
 var autoscaleSettingsResourceARMGenerator gopter.Gen
 
 // AutoscaleSettingsResourceARMGenerator returns a generator of AutoscaleSettingsResourceARM instances for property testing.
@@ -340,7 +340,7 @@ func RunJSONSerializationTestForAutoUpgradePolicyResourceARM(subject AutoUpgrade
 }
 
 // Generator of AutoUpgradePolicyResourceARM instances for property testing - lazily instantiated by
-//AutoUpgradePolicyResourceARMGenerator()
+// AutoUpgradePolicyResourceARMGenerator()
 var autoUpgradePolicyResourceARMGenerator gopter.Gen
 
 // AutoUpgradePolicyResourceARMGenerator returns a generator of AutoUpgradePolicyResourceARM instances for property testing.
@@ -400,7 +400,7 @@ func RunJSONSerializationTestForThroughputPolicyResourceARM(subject ThroughputPo
 }
 
 // Generator of ThroughputPolicyResourceARM instances for property testing - lazily instantiated by
-//ThroughputPolicyResourceARMGenerator()
+// ThroughputPolicyResourceARMGenerator()
 var throughputPolicyResourceARMGenerator gopter.Gen
 
 // ThroughputPolicyResourceARMGenerator returns a generator of ThroughputPolicyResourceARM instances for property testing.

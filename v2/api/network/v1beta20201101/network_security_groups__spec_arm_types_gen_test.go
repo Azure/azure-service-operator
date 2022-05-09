@@ -56,7 +56,7 @@ func RunJSONSerializationTestForNetworkSecurityGroupsSpecARM(subject NetworkSecu
 }
 
 // Generator of NetworkSecurityGroups_SpecARM instances for property testing - lazily instantiated by
-//NetworkSecurityGroupsSpecARMGenerator()
+// NetworkSecurityGroupsSpecARMGenerator()
 var networkSecurityGroupsSpecARMGenerator gopter.Gen
 
 // NetworkSecurityGroupsSpecARMGenerator returns a generator of NetworkSecurityGroups_SpecARM instances for property testing.

@@ -132,7 +132,7 @@ func RunJSONSerializationTestForSBQueuePropertiesStatusARM(subject SBQueueProper
 }
 
 // Generator of SBQueueProperties_StatusARM instances for property testing - lazily instantiated by
-//SBQueuePropertiesStatusARMGenerator()
+// SBQueuePropertiesStatusARMGenerator()
 var sbQueuePropertiesStatusARMGenerator gopter.Gen
 
 // SBQueuePropertiesStatusARMGenerator returns a generator of SBQueueProperties_StatusARM instances for property testing.
@@ -234,7 +234,7 @@ func RunJSONSerializationTestForMessageCountDetailsStatusARM(subject MessageCoun
 }
 
 // Generator of MessageCountDetails_StatusARM instances for property testing - lazily instantiated by
-//MessageCountDetailsStatusARMGenerator()
+// MessageCountDetailsStatusARMGenerator()
 var messageCountDetailsStatusARMGenerator gopter.Gen
 
 // MessageCountDetailsStatusARMGenerator returns a generator of MessageCountDetails_StatusARM instances for property testing.

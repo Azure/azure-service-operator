@@ -56,7 +56,7 @@ func RunJSONSerializationTestForFlexibleServersConfiguration(subject FlexibleSer
 }
 
 // Generator of FlexibleServersConfiguration instances for property testing - lazily instantiated by
-//FlexibleServersConfigurationGenerator()
+// FlexibleServersConfigurationGenerator()
 var flexibleServersConfigurationGenerator gopter.Gen
 
 // FlexibleServersConfigurationGenerator returns a generator of FlexibleServersConfiguration instances for property testing.
@@ -117,7 +117,7 @@ func RunJSONSerializationTestForConfigurationStatus(subject Configuration_Status
 }
 
 // Generator of Configuration_Status instances for property testing - lazily instantiated by
-//ConfigurationStatusGenerator()
+// ConfigurationStatusGenerator()
 var configurationStatusGenerator gopter.Gen
 
 // ConfigurationStatusGenerator returns a generator of Configuration_Status instances for property testing.
@@ -204,7 +204,7 @@ func RunJSONSerializationTestForFlexibleServersConfigurationsSpec(subject Flexib
 }
 
 // Generator of FlexibleServersConfigurations_Spec instances for property testing - lazily instantiated by
-//FlexibleServersConfigurationsSpecGenerator()
+// FlexibleServersConfigurationsSpecGenerator()
 var flexibleServersConfigurationsSpecGenerator gopter.Gen
 
 // FlexibleServersConfigurationsSpecGenerator returns a generator of FlexibleServersConfigurations_Spec instances for property testing.

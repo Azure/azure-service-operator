@@ -90,7 +90,7 @@ func RunPropertyAssignmentTestForRedis(subject Redis) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -192,7 +192,7 @@ func RunPropertyAssignmentTestForRedisResourceStatus(subject RedisResource_Statu
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -243,7 +243,7 @@ func RunJSONSerializationTestForRedisResourceStatus(subject RedisResource_Status
 }
 
 // Generator of RedisResource_Status instances for property testing - lazily instantiated by
-//RedisResourceStatusGenerator()
+// RedisResourceStatusGenerator()
 var redisResourceStatusGenerator gopter.Gen
 
 // RedisResourceStatusGenerator returns a generator of RedisResource_Status instances for property testing.
@@ -343,7 +343,7 @@ func RunPropertyAssignmentTestForRedisSpec(subject Redis_Spec) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -472,7 +472,7 @@ func RunPropertyAssignmentTestForPrivateEndpointConnectionStatusSubResourceEmbed
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -523,7 +523,7 @@ func RunJSONSerializationTestForPrivateEndpointConnectionStatusSubResourceEmbedd
 }
 
 // Generator of PrivateEndpointConnection_Status_SubResourceEmbedded instances for property testing - lazily
-//instantiated by PrivateEndpointConnectionStatusSubResourceEmbeddedGenerator()
+// instantiated by PrivateEndpointConnectionStatusSubResourceEmbeddedGenerator()
 var privateEndpointConnectionStatusSubResourceEmbeddedGenerator gopter.Gen
 
 // PrivateEndpointConnectionStatusSubResourceEmbeddedGenerator returns a generator of PrivateEndpointConnection_Status_SubResourceEmbedded instances for property testing.
@@ -574,7 +574,7 @@ func RunPropertyAssignmentTestForRedisInstanceDetailsStatus(subject RedisInstanc
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -625,7 +625,7 @@ func RunJSONSerializationTestForRedisInstanceDetailsStatus(subject RedisInstance
 }
 
 // Generator of RedisInstanceDetails_Status instances for property testing - lazily instantiated by
-//RedisInstanceDetailsStatusGenerator()
+// RedisInstanceDetailsStatusGenerator()
 var redisInstanceDetailsStatusGenerator gopter.Gen
 
 // RedisInstanceDetailsStatusGenerator returns a generator of RedisInstanceDetails_Status instances for property testing.
@@ -681,7 +681,7 @@ func RunPropertyAssignmentTestForRedisLinkedServerStatus(subject RedisLinkedServ
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -732,7 +732,7 @@ func RunJSONSerializationTestForRedisLinkedServerStatus(subject RedisLinkedServe
 }
 
 // Generator of RedisLinkedServer_Status instances for property testing - lazily instantiated by
-//RedisLinkedServerStatusGenerator()
+// RedisLinkedServerStatusGenerator()
 var redisLinkedServerStatusGenerator gopter.Gen
 
 // RedisLinkedServerStatusGenerator returns a generator of RedisLinkedServer_Status instances for property testing.
@@ -783,7 +783,7 @@ func RunPropertyAssignmentTestForRedisOperatorSpec(subject RedisOperatorSpec) st
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -884,7 +884,7 @@ func RunPropertyAssignmentTestForSku(subject Sku) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -987,7 +987,7 @@ func RunPropertyAssignmentTestForSkuStatus(subject Sku_Status) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1090,7 +1090,7 @@ func RunPropertyAssignmentTestForRedisOperatorSecrets(subject RedisOperatorSecre
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1141,7 +1141,7 @@ func RunJSONSerializationTestForRedisOperatorSecrets(subject RedisOperatorSecret
 }
 
 // Generator of RedisOperatorSecrets instances for property testing - lazily instantiated by
-//RedisOperatorSecretsGenerator()
+// RedisOperatorSecretsGenerator()
 var redisOperatorSecretsGenerator gopter.Gen
 
 // RedisOperatorSecretsGenerator returns a generator of RedisOperatorSecrets instances for property testing.

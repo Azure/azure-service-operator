@@ -5,7 +5,7 @@ package v1alpha1api20200601
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-//Deprecated version of Domains_Spec. Use v1beta20200601.Domains_Spec instead
+// Deprecated version of Domains_Spec. Use v1beta20200601.Domains_Spec instead
 type Domains_SpecARM struct {
 	Location   *string              `json:"location,omitempty"`
 	Name       string               `json:"name,omitempty"`
@@ -30,7 +30,7 @@ func (domains Domains_SpecARM) GetType() string {
 	return "Microsoft.EventGrid/domains"
 }
 
-//Deprecated version of DomainProperties. Use v1beta20200601.DomainProperties instead
+// Deprecated version of DomainProperties. Use v1beta20200601.DomainProperties instead
 type DomainPropertiesARM struct {
 	InboundIpRules      []InboundIpRuleARM                   `json:"inboundIpRules,omitempty"`
 	InputSchema         *DomainPropertiesInputSchema         `json:"inputSchema,omitempty"`
@@ -38,19 +38,19 @@ type DomainPropertiesARM struct {
 	PublicNetworkAccess *DomainPropertiesPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 }
 
-//Deprecated version of InboundIpRule. Use v1beta20200601.InboundIpRule instead
+// Deprecated version of InboundIpRule. Use v1beta20200601.InboundIpRule instead
 type InboundIpRuleARM struct {
 	Action *InboundIpRuleAction `json:"action,omitempty"`
 	IpMask *string              `json:"ipMask,omitempty"`
 }
 
-//Deprecated version of JsonInputSchemaMapping. Use v1beta20200601.JsonInputSchemaMapping instead
+// Deprecated version of JsonInputSchemaMapping. Use v1beta20200601.JsonInputSchemaMapping instead
 type JsonInputSchemaMappingARM struct {
 	InputSchemaMappingType *JsonInputSchemaMappingInputSchemaMappingType `json:"inputSchemaMappingType,omitempty"`
 	Properties             *JsonInputSchemaMappingPropertiesARM          `json:"properties,omitempty"`
 }
 
-//Deprecated version of JsonInputSchemaMappingProperties. Use v1beta20200601.JsonInputSchemaMappingProperties instead
+// Deprecated version of JsonInputSchemaMappingProperties. Use v1beta20200601.JsonInputSchemaMappingProperties instead
 type JsonInputSchemaMappingPropertiesARM struct {
 	DataVersion *JsonFieldWithDefaultARM `json:"dataVersion,omitempty"`
 	EventTime   *JsonFieldARM            `json:"eventTime,omitempty"`
@@ -60,12 +60,12 @@ type JsonInputSchemaMappingPropertiesARM struct {
 	Topic       *JsonFieldARM            `json:"topic,omitempty"`
 }
 
-//Deprecated version of JsonField. Use v1beta20200601.JsonField instead
+// Deprecated version of JsonField. Use v1beta20200601.JsonField instead
 type JsonFieldARM struct {
 	SourceField *string `json:"sourceField,omitempty"`
 }
 
-//Deprecated version of JsonFieldWithDefault. Use v1beta20200601.JsonFieldWithDefault instead
+// Deprecated version of JsonFieldWithDefault. Use v1beta20200601.JsonFieldWithDefault instead
 type JsonFieldWithDefaultARM struct {
 	DefaultValue *string `json:"defaultValue,omitempty"`
 	SourceField  *string `json:"sourceField,omitempty"`

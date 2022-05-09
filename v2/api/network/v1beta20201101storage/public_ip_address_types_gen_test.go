@@ -116,7 +116,7 @@ func RunJSONSerializationTestForPublicIPAddressStatusPublicIPAddressSubResourceE
 }
 
 // Generator of PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded instances for property testing - lazily
-//instantiated by PublicIPAddressStatusPublicIPAddressSubResourceEmbeddedGenerator()
+// instantiated by PublicIPAddressStatusPublicIPAddressSubResourceEmbeddedGenerator()
 var publicIPAddressStatusPublicIPAddressSubResourceEmbeddedGenerator gopter.Gen
 
 // PublicIPAddressStatusPublicIPAddressSubResourceEmbeddedGenerator returns a generator of PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded instances for property testing.
@@ -210,7 +210,7 @@ func RunJSONSerializationTestForPublicIPAddressesSpec(subject PublicIPAddresses_
 }
 
 // Generator of PublicIPAddresses_Spec instances for property testing - lazily instantiated by
-//PublicIPAddressesSpecGenerator()
+// PublicIPAddressesSpecGenerator()
 var publicIPAddressesSpecGenerator gopter.Gen
 
 // PublicIPAddressesSpecGenerator returns a generator of PublicIPAddresses_Spec instances for property testing.
@@ -445,7 +445,7 @@ func RunJSONSerializationTestForIPConfigurationStatusPublicIPAddressSubResourceE
 }
 
 // Generator of IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded instances for property testing - lazily
-//instantiated by IPConfigurationStatusPublicIPAddressSubResourceEmbeddedGenerator()
+// instantiated by IPConfigurationStatusPublicIPAddressSubResourceEmbeddedGenerator()
 var ipConfigurationStatusPublicIPAddressSubResourceEmbeddedGenerator gopter.Gen
 
 // IPConfigurationStatusPublicIPAddressSubResourceEmbeddedGenerator returns a generator of IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded instances for property testing.
@@ -644,7 +644,7 @@ func RunJSONSerializationTestForNatGatewayStatusPublicIPAddressSubResourceEmbedd
 }
 
 // Generator of NatGateway_Status_PublicIPAddress_SubResourceEmbedded instances for property testing - lazily
-//instantiated by NatGatewayStatusPublicIPAddressSubResourceEmbeddedGenerator()
+// instantiated by NatGatewayStatusPublicIPAddressSubResourceEmbeddedGenerator()
 var natGatewayStatusPublicIPAddressSubResourceEmbeddedGenerator gopter.Gen
 
 // NatGatewayStatusPublicIPAddressSubResourceEmbeddedGenerator returns a generator of NatGateway_Status_PublicIPAddress_SubResourceEmbedded instances for property testing.
@@ -719,7 +719,7 @@ func RunJSONSerializationTestForPublicIPAddressDnsSettings(subject PublicIPAddre
 }
 
 // Generator of PublicIPAddressDnsSettings instances for property testing - lazily instantiated by
-//PublicIPAddressDnsSettingsGenerator()
+// PublicIPAddressDnsSettingsGenerator()
 var publicIPAddressDnsSettingsGenerator gopter.Gen
 
 // PublicIPAddressDnsSettingsGenerator returns a generator of PublicIPAddressDnsSettings instances for property testing.
@@ -781,7 +781,7 @@ func RunJSONSerializationTestForPublicIPAddressDnsSettingsStatus(subject PublicI
 }
 
 // Generator of PublicIPAddressDnsSettings_Status instances for property testing - lazily instantiated by
-//PublicIPAddressDnsSettingsStatusGenerator()
+// PublicIPAddressDnsSettingsStatusGenerator()
 var publicIPAddressDnsSettingsStatusGenerator gopter.Gen
 
 // PublicIPAddressDnsSettingsStatusGenerator returns a generator of PublicIPAddressDnsSettings_Status instances for property testing.
@@ -903,7 +903,7 @@ func RunJSONSerializationTestForPublicIPAddressSkuStatus(subject PublicIPAddress
 }
 
 // Generator of PublicIPAddressSku_Status instances for property testing - lazily instantiated by
-//PublicIPAddressSkuStatusGenerator()
+// PublicIPAddressSkuStatusGenerator()
 var publicIPAddressSkuStatusGenerator gopter.Gen
 
 // PublicIPAddressSkuStatusGenerator returns a generator of PublicIPAddressSku_Status instances for property testing.
@@ -964,7 +964,7 @@ func RunJSONSerializationTestForNatGatewaySkuStatus(subject NatGatewaySku_Status
 }
 
 // Generator of NatGatewaySku_Status instances for property testing - lazily instantiated by
-//NatGatewaySkuStatusGenerator()
+// NatGatewaySkuStatusGenerator()
 var natGatewaySkuStatusGenerator gopter.Gen
 
 // NatGatewaySkuStatusGenerator returns a generator of NatGatewaySku_Status instances for property testing.
@@ -1024,7 +1024,7 @@ func RunJSONSerializationTestForSubnetStatusPublicIPAddressSubResourceEmbedded(s
 }
 
 // Generator of Subnet_Status_PublicIPAddress_SubResourceEmbedded instances for property testing - lazily instantiated
-//by SubnetStatusPublicIPAddressSubResourceEmbeddedGenerator()
+// by SubnetStatusPublicIPAddressSubResourceEmbeddedGenerator()
 var subnetStatusPublicIPAddressSubResourceEmbeddedGenerator gopter.Gen
 
 // SubnetStatusPublicIPAddressSubResourceEmbeddedGenerator returns a generator of Subnet_Status_PublicIPAddress_SubResourceEmbedded instances for property testing.

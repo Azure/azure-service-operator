@@ -90,7 +90,7 @@ func RunPropertyAssignmentTestForPerson(subject Person) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -192,7 +192,7 @@ func RunPropertyAssignmentTestForPersonSpec(subject Person_Spec) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -295,7 +295,7 @@ func RunPropertyAssignmentTestForPersonStatus(subject Person_Status) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)

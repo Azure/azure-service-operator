@@ -5,7 +5,7 @@ package v1alpha1api20210401
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-//Deprecated version of StorageAccountsBlobServices_Spec. Use v1beta20210401.StorageAccountsBlobServices_Spec instead
+// Deprecated version of StorageAccountsBlobServices_Spec. Use v1beta20210401.StorageAccountsBlobServices_Spec instead
 type StorageAccountsBlobServices_SpecARM struct {
 	Location   *string                             `json:"location,omitempty"`
 	Name       string                              `json:"name,omitempty"`
@@ -30,7 +30,7 @@ func (services StorageAccountsBlobServices_SpecARM) GetType() string {
 	return "Microsoft.Storage/storageAccounts/blobServices"
 }
 
-//Deprecated version of BlobServicePropertiesProperties. Use v1beta20210401.BlobServicePropertiesProperties instead
+// Deprecated version of BlobServicePropertiesProperties. Use v1beta20210401.BlobServicePropertiesProperties instead
 type BlobServicePropertiesPropertiesARM struct {
 	AutomaticSnapshotPolicyEnabled *bool                            `json:"automaticSnapshotPolicyEnabled,omitempty"`
 	ChangeFeed                     *ChangeFeedARM                   `json:"changeFeed,omitempty"`
@@ -43,24 +43,24 @@ type BlobServicePropertiesPropertiesARM struct {
 	RestorePolicy                  *RestorePolicyPropertiesARM      `json:"restorePolicy,omitempty"`
 }
 
-//Deprecated version of ChangeFeed. Use v1beta20210401.ChangeFeed instead
+// Deprecated version of ChangeFeed. Use v1beta20210401.ChangeFeed instead
 type ChangeFeedARM struct {
 	Enabled         *bool `json:"enabled,omitempty"`
 	RetentionInDays *int  `json:"retentionInDays,omitempty"`
 }
 
-//Deprecated version of CorsRules. Use v1beta20210401.CorsRules instead
+// Deprecated version of CorsRules. Use v1beta20210401.CorsRules instead
 type CorsRulesARM struct {
 	CorsRules []CorsRuleARM `json:"corsRules,omitempty"`
 }
 
-//Deprecated version of DeleteRetentionPolicy. Use v1beta20210401.DeleteRetentionPolicy instead
+// Deprecated version of DeleteRetentionPolicy. Use v1beta20210401.DeleteRetentionPolicy instead
 type DeleteRetentionPolicyARM struct {
 	Days    *int  `json:"days,omitempty"`
 	Enabled *bool `json:"enabled,omitempty"`
 }
 
-//Deprecated version of LastAccessTimeTrackingPolicy. Use v1beta20210401.LastAccessTimeTrackingPolicy instead
+// Deprecated version of LastAccessTimeTrackingPolicy. Use v1beta20210401.LastAccessTimeTrackingPolicy instead
 type LastAccessTimeTrackingPolicyARM struct {
 	BlobType                  []string                          `json:"blobType,omitempty"`
 	Enable                    *bool                             `json:"enable,omitempty"`
@@ -68,13 +68,13 @@ type LastAccessTimeTrackingPolicyARM struct {
 	TrackingGranularityInDays *int                              `json:"trackingGranularityInDays,omitempty"`
 }
 
-//Deprecated version of RestorePolicyProperties. Use v1beta20210401.RestorePolicyProperties instead
+// Deprecated version of RestorePolicyProperties. Use v1beta20210401.RestorePolicyProperties instead
 type RestorePolicyPropertiesARM struct {
 	Days    *int  `json:"days,omitempty"`
 	Enabled *bool `json:"enabled,omitempty"`
 }
 
-//Deprecated version of CorsRule. Use v1beta20210401.CorsRule instead
+// Deprecated version of CorsRule. Use v1beta20210401.CorsRule instead
 type CorsRuleARM struct {
 	AllowedHeaders  []string                 `json:"allowedHeaders,omitempty"`
 	AllowedMethods  []CorsRuleAllowedMethods `json:"allowedMethods,omitempty"`

@@ -56,7 +56,7 @@ func RunJSONSerializationTestForManagedClusterStatusARM(subject ManagedCluster_S
 }
 
 // Generator of ManagedCluster_StatusARM instances for property testing - lazily instantiated by
-//ManagedClusterStatusARMGenerator()
+// ManagedClusterStatusARMGenerator()
 var managedClusterStatusARMGenerator gopter.Gen
 
 // ManagedClusterStatusARMGenerator returns a generator of ManagedCluster_StatusARM instances for property testing.
@@ -137,7 +137,7 @@ func RunJSONSerializationTestForExtendedLocationStatusARM(subject ExtendedLocati
 }
 
 // Generator of ExtendedLocation_StatusARM instances for property testing - lazily instantiated by
-//ExtendedLocationStatusARMGenerator()
+// ExtendedLocationStatusARMGenerator()
 var extendedLocationStatusARMGenerator gopter.Gen
 
 // ExtendedLocationStatusARMGenerator returns a generator of ExtendedLocation_StatusARM instances for property testing.
@@ -198,7 +198,7 @@ func RunJSONSerializationTestForManagedClusterIdentityStatusARM(subject ManagedC
 }
 
 // Generator of ManagedClusterIdentity_StatusARM instances for property testing - lazily instantiated by
-//ManagedClusterIdentityStatusARMGenerator()
+// ManagedClusterIdentityStatusARMGenerator()
 var managedClusterIdentityStatusARMGenerator gopter.Gen
 
 // ManagedClusterIdentityStatusARMGenerator returns a generator of ManagedClusterIdentity_StatusARM instances for property testing.
@@ -274,7 +274,7 @@ func RunJSONSerializationTestForManagedClusterPropertiesStatusARM(subject Manage
 }
 
 // Generator of ManagedClusterProperties_StatusARM instances for property testing - lazily instantiated by
-//ManagedClusterPropertiesStatusARMGenerator()
+// ManagedClusterPropertiesStatusARMGenerator()
 var managedClusterPropertiesStatusARMGenerator gopter.Gen
 
 // ManagedClusterPropertiesStatusARMGenerator returns a generator of ManagedClusterProperties_StatusARM instances for property testing.
@@ -372,7 +372,7 @@ func RunJSONSerializationTestForManagedClusterSKUStatusARM(subject ManagedCluste
 }
 
 // Generator of ManagedClusterSKU_StatusARM instances for property testing - lazily instantiated by
-//ManagedClusterSKUStatusARMGenerator()
+// ManagedClusterSKUStatusARMGenerator()
 var managedClusterSKUStatusARMGenerator gopter.Gen
 
 // ManagedClusterSKUStatusARMGenerator returns a generator of ManagedClusterSKU_StatusARM instances for property testing.
@@ -433,7 +433,7 @@ func RunJSONSerializationTestForContainerServiceLinuxProfileStatusARM(subject Co
 }
 
 // Generator of ContainerServiceLinuxProfile_StatusARM instances for property testing - lazily instantiated by
-//ContainerServiceLinuxProfileStatusARMGenerator()
+// ContainerServiceLinuxProfileStatusARMGenerator()
 var containerServiceLinuxProfileStatusARMGenerator gopter.Gen
 
 // ContainerServiceLinuxProfileStatusARMGenerator returns a generator of ContainerServiceLinuxProfile_StatusARM instances for property testing.
@@ -507,7 +507,7 @@ func RunJSONSerializationTestForContainerServiceNetworkProfileStatusARM(subject 
 }
 
 // Generator of ContainerServiceNetworkProfile_StatusARM instances for property testing - lazily instantiated by
-//ContainerServiceNetworkProfileStatusARMGenerator()
+// ContainerServiceNetworkProfileStatusARMGenerator()
 var containerServiceNetworkProfileStatusARMGenerator gopter.Gen
 
 // ContainerServiceNetworkProfileStatusARMGenerator returns a generator of ContainerServiceNetworkProfile_StatusARM instances for property testing.
@@ -589,7 +589,7 @@ func RunJSONSerializationTestForManagedClusterAADProfileStatusARM(subject Manage
 }
 
 // Generator of ManagedClusterAADProfile_StatusARM instances for property testing - lazily instantiated by
-//ManagedClusterAADProfileStatusARMGenerator()
+// ManagedClusterAADProfileStatusARMGenerator()
 var managedClusterAADProfileStatusARMGenerator gopter.Gen
 
 // ManagedClusterAADProfileStatusARMGenerator returns a generator of ManagedClusterAADProfile_StatusARM instances for property testing.
@@ -655,7 +655,7 @@ func RunJSONSerializationTestForManagedClusterAPIServerAccessProfileStatusARM(su
 }
 
 // Generator of ManagedClusterAPIServerAccessProfile_StatusARM instances for property testing - lazily instantiated by
-//ManagedClusterAPIServerAccessProfileStatusARMGenerator()
+// ManagedClusterAPIServerAccessProfileStatusARMGenerator()
 var managedClusterAPIServerAccessProfileStatusARMGenerator gopter.Gen
 
 // ManagedClusterAPIServerAccessProfileStatusARMGenerator returns a generator of ManagedClusterAPIServerAccessProfile_StatusARM instances for property testing.
@@ -718,7 +718,7 @@ func RunJSONSerializationTestForManagedClusterAgentPoolProfileStatusARM(subject 
 }
 
 // Generator of ManagedClusterAgentPoolProfile_StatusARM instances for property testing - lazily instantiated by
-//ManagedClusterAgentPoolProfileStatusARMGenerator()
+// ManagedClusterAgentPoolProfileStatusARMGenerator()
 var managedClusterAgentPoolProfileStatusARMGenerator gopter.Gen
 
 // ManagedClusterAgentPoolProfileStatusARMGenerator returns a generator of ManagedClusterAgentPoolProfile_StatusARM instances for property testing.
@@ -832,7 +832,7 @@ func RunJSONSerializationTestForManagedClusterAutoUpgradeProfileStatusARM(subjec
 }
 
 // Generator of ManagedClusterAutoUpgradeProfile_StatusARM instances for property testing - lazily instantiated by
-//ManagedClusterAutoUpgradeProfileStatusARMGenerator()
+// ManagedClusterAutoUpgradeProfileStatusARMGenerator()
 var managedClusterAutoUpgradeProfileStatusARMGenerator gopter.Gen
 
 // ManagedClusterAutoUpgradeProfileStatusARMGenerator returns a generator of ManagedClusterAutoUpgradeProfile_StatusARM instances for property testing.
@@ -897,7 +897,7 @@ func RunJSONSerializationTestForManagedClusterHTTPProxyConfigStatusARM(subject M
 }
 
 // Generator of ManagedClusterHTTPProxyConfig_StatusARM instances for property testing - lazily instantiated by
-//ManagedClusterHTTPProxyConfigStatusARMGenerator()
+// ManagedClusterHTTPProxyConfigStatusARMGenerator()
 var managedClusterHTTPProxyConfigStatusARMGenerator gopter.Gen
 
 // ManagedClusterHTTPProxyConfigStatusARMGenerator returns a generator of ManagedClusterHTTPProxyConfig_StatusARM instances for property testing.
@@ -960,7 +960,7 @@ func RunJSONSerializationTestForManagedClusterIdentityStatusUserAssignedIdentiti
 }
 
 // Generator of ManagedClusterIdentity_Status_UserAssignedIdentitiesARM instances for property testing - lazily
-//instantiated by ManagedClusterIdentityStatusUserAssignedIdentitiesARMGenerator()
+// instantiated by ManagedClusterIdentityStatusUserAssignedIdentitiesARMGenerator()
 var managedClusterIdentityStatusUserAssignedIdentitiesARMGenerator gopter.Gen
 
 // ManagedClusterIdentityStatusUserAssignedIdentitiesARMGenerator returns a generator of ManagedClusterIdentity_Status_UserAssignedIdentitiesARM instances for property testing.
@@ -1021,7 +1021,7 @@ func RunJSONSerializationTestForManagedClusterPodIdentityProfileStatusARM(subjec
 }
 
 // Generator of ManagedClusterPodIdentityProfile_StatusARM instances for property testing - lazily instantiated by
-//ManagedClusterPodIdentityProfileStatusARMGenerator()
+// ManagedClusterPodIdentityProfileStatusARMGenerator()
 var managedClusterPodIdentityProfileStatusARMGenerator gopter.Gen
 
 // ManagedClusterPodIdentityProfileStatusARMGenerator returns a generator of ManagedClusterPodIdentityProfile_StatusARM instances for property testing.
@@ -1097,7 +1097,7 @@ func RunJSONSerializationTestForManagedClusterPropertiesStatusAutoScalerProfileA
 }
 
 // Generator of ManagedClusterProperties_Status_AutoScalerProfileARM instances for property testing - lazily
-//instantiated by ManagedClusterPropertiesStatusAutoScalerProfileARMGenerator()
+// instantiated by ManagedClusterPropertiesStatusAutoScalerProfileARMGenerator()
 var managedClusterPropertiesStatusAutoScalerProfileARMGenerator gopter.Gen
 
 // ManagedClusterPropertiesStatusAutoScalerProfileARMGenerator returns a generator of ManagedClusterProperties_Status_AutoScalerProfileARM instances for property testing.
@@ -1177,7 +1177,7 @@ func RunJSONSerializationTestForManagedClusterServicePrincipalProfileStatusARM(s
 }
 
 // Generator of ManagedClusterServicePrincipalProfile_StatusARM instances for property testing - lazily instantiated by
-//ManagedClusterServicePrincipalProfileStatusARMGenerator()
+// ManagedClusterServicePrincipalProfileStatusARMGenerator()
 var managedClusterServicePrincipalProfileStatusARMGenerator gopter.Gen
 
 // ManagedClusterServicePrincipalProfileStatusARMGenerator returns a generator of ManagedClusterServicePrincipalProfile_StatusARM instances for property testing.
@@ -1238,7 +1238,7 @@ func RunJSONSerializationTestForManagedClusterWindowsProfileStatusARM(subject Ma
 }
 
 // Generator of ManagedClusterWindowsProfile_StatusARM instances for property testing - lazily instantiated by
-//ManagedClusterWindowsProfileStatusARMGenerator()
+// ManagedClusterWindowsProfileStatusARMGenerator()
 var managedClusterWindowsProfileStatusARMGenerator gopter.Gen
 
 // ManagedClusterWindowsProfileStatusARMGenerator returns a generator of ManagedClusterWindowsProfile_StatusARM instances for property testing.
@@ -1301,7 +1301,7 @@ func RunJSONSerializationTestForPrivateLinkResourceStatusARM(subject PrivateLink
 }
 
 // Generator of PrivateLinkResource_StatusARM instances for property testing - lazily instantiated by
-//PrivateLinkResourceStatusARMGenerator()
+// PrivateLinkResourceStatusARMGenerator()
 var privateLinkResourceStatusARMGenerator gopter.Gen
 
 // PrivateLinkResourceStatusARMGenerator returns a generator of PrivateLinkResource_StatusARM instances for property testing.
@@ -1366,7 +1366,7 @@ func RunJSONSerializationTestForContainerServiceSshConfigurationStatusARM(subjec
 }
 
 // Generator of ContainerServiceSshConfiguration_StatusARM instances for property testing - lazily instantiated by
-//ContainerServiceSshConfigurationStatusARMGenerator()
+// ContainerServiceSshConfigurationStatusARMGenerator()
 var containerServiceSshConfigurationStatusARMGenerator gopter.Gen
 
 // ContainerServiceSshConfigurationStatusARMGenerator returns a generator of ContainerServiceSshConfiguration_StatusARM instances for property testing.
@@ -1426,7 +1426,7 @@ func RunJSONSerializationTestForManagedClusterLoadBalancerProfileStatusARM(subje
 }
 
 // Generator of ManagedClusterLoadBalancerProfile_StatusARM instances for property testing - lazily instantiated by
-//ManagedClusterLoadBalancerProfileStatusARMGenerator()
+// ManagedClusterLoadBalancerProfileStatusARMGenerator()
 var managedClusterLoadBalancerProfileStatusARMGenerator gopter.Gen
 
 // ManagedClusterLoadBalancerProfileStatusARMGenerator returns a generator of ManagedClusterLoadBalancerProfile_StatusARM instances for property testing.
@@ -1504,7 +1504,7 @@ func RunJSONSerializationTestForManagedClusterPodIdentityExceptionStatusARM(subj
 }
 
 // Generator of ManagedClusterPodIdentityException_StatusARM instances for property testing - lazily instantiated by
-//ManagedClusterPodIdentityExceptionStatusARMGenerator()
+// ManagedClusterPodIdentityExceptionStatusARMGenerator()
 var managedClusterPodIdentityExceptionStatusARMGenerator gopter.Gen
 
 // ManagedClusterPodIdentityExceptionStatusARMGenerator returns a generator of ManagedClusterPodIdentityException_StatusARM instances for property testing.
@@ -1566,7 +1566,7 @@ func RunJSONSerializationTestForManagedClusterPodIdentityStatusARM(subject Manag
 }
 
 // Generator of ManagedClusterPodIdentity_StatusARM instances for property testing - lazily instantiated by
-//ManagedClusterPodIdentityStatusARMGenerator()
+// ManagedClusterPodIdentityStatusARMGenerator()
 var managedClusterPodIdentityStatusARMGenerator gopter.Gen
 
 // ManagedClusterPodIdentityStatusARMGenerator returns a generator of ManagedClusterPodIdentity_StatusARM instances for property testing.
@@ -1648,7 +1648,7 @@ func RunJSONSerializationTestForContainerServiceSshPublicKeyStatusARM(subject Co
 }
 
 // Generator of ContainerServiceSshPublicKey_StatusARM instances for property testing - lazily instantiated by
-//ContainerServiceSshPublicKeyStatusARMGenerator()
+// ContainerServiceSshPublicKeyStatusARMGenerator()
 var containerServiceSshPublicKeyStatusARMGenerator gopter.Gen
 
 // ContainerServiceSshPublicKeyStatusARMGenerator returns a generator of ContainerServiceSshPublicKey_StatusARM instances for property testing.
@@ -1708,7 +1708,7 @@ func RunJSONSerializationTestForManagedClusterLoadBalancerProfileStatusManagedOu
 }
 
 // Generator of ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPsARM instances for property testing - lazily
-//instantiated by ManagedClusterLoadBalancerProfileStatusManagedOutboundIPsARMGenerator()
+// instantiated by ManagedClusterLoadBalancerProfileStatusManagedOutboundIPsARMGenerator()
 var managedClusterLoadBalancerProfileStatusManagedOutboundIPsARMGenerator gopter.Gen
 
 // ManagedClusterLoadBalancerProfileStatusManagedOutboundIPsARMGenerator returns a generator of ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPsARM instances for property testing.
@@ -1768,7 +1768,7 @@ func RunJSONSerializationTestForManagedClusterLoadBalancerProfileStatusOutboundI
 }
 
 // Generator of ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixesARM instances for property testing - lazily
-//instantiated by ManagedClusterLoadBalancerProfileStatusOutboundIPPrefixesARMGenerator()
+// instantiated by ManagedClusterLoadBalancerProfileStatusOutboundIPPrefixesARMGenerator()
 var managedClusterLoadBalancerProfileStatusOutboundIPPrefixesARMGenerator gopter.Gen
 
 // ManagedClusterLoadBalancerProfileStatusOutboundIPPrefixesARMGenerator returns a generator of ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixesARM instances for property testing.
@@ -1828,7 +1828,7 @@ func RunJSONSerializationTestForManagedClusterLoadBalancerProfileStatusOutboundI
 }
 
 // Generator of ManagedClusterLoadBalancerProfile_Status_OutboundIPsARM instances for property testing - lazily
-//instantiated by ManagedClusterLoadBalancerProfileStatusOutboundIPsARMGenerator()
+// instantiated by ManagedClusterLoadBalancerProfileStatusOutboundIPsARMGenerator()
 var managedClusterLoadBalancerProfileStatusOutboundIPsARMGenerator gopter.Gen
 
 // ManagedClusterLoadBalancerProfileStatusOutboundIPsARMGenerator returns a generator of ManagedClusterLoadBalancerProfile_Status_OutboundIPsARM instances for property testing.
@@ -1888,7 +1888,7 @@ func RunJSONSerializationTestForManagedClusterPodIdentityStatusProvisioningInfoA
 }
 
 // Generator of ManagedClusterPodIdentity_Status_ProvisioningInfoARM instances for property testing - lazily
-//instantiated by ManagedClusterPodIdentityStatusProvisioningInfoARMGenerator()
+// instantiated by ManagedClusterPodIdentityStatusProvisioningInfoARMGenerator()
 var managedClusterPodIdentityStatusProvisioningInfoARMGenerator gopter.Gen
 
 // ManagedClusterPodIdentityStatusProvisioningInfoARMGenerator returns a generator of ManagedClusterPodIdentity_Status_ProvisioningInfoARM instances for property testing.
@@ -1948,7 +1948,7 @@ func RunJSONSerializationTestForResourceReferenceStatusARM(subject ResourceRefer
 }
 
 // Generator of ResourceReference_StatusARM instances for property testing - lazily instantiated by
-//ResourceReferenceStatusARMGenerator()
+// ResourceReferenceStatusARMGenerator()
 var resourceReferenceStatusARMGenerator gopter.Gen
 
 // ResourceReferenceStatusARMGenerator returns a generator of ResourceReference_StatusARM instances for property testing.
@@ -2008,7 +2008,7 @@ func RunJSONSerializationTestForUserAssignedIdentityStatusARM(subject UserAssign
 }
 
 // Generator of UserAssignedIdentity_StatusARM instances for property testing - lazily instantiated by
-//UserAssignedIdentityStatusARMGenerator()
+// UserAssignedIdentityStatusARMGenerator()
 var userAssignedIdentityStatusARMGenerator gopter.Gen
 
 // UserAssignedIdentityStatusARMGenerator returns a generator of UserAssignedIdentity_StatusARM instances for property testing.
@@ -2070,7 +2070,7 @@ func RunJSONSerializationTestForManagedClusterPodIdentityProvisioningErrorStatus
 }
 
 // Generator of ManagedClusterPodIdentityProvisioningError_StatusARM instances for property testing - lazily
-//instantiated by ManagedClusterPodIdentityProvisioningErrorStatusARMGenerator()
+// instantiated by ManagedClusterPodIdentityProvisioningErrorStatusARMGenerator()
 var managedClusterPodIdentityProvisioningErrorStatusARMGenerator gopter.Gen
 
 // ManagedClusterPodIdentityProvisioningErrorStatusARMGenerator returns a generator of ManagedClusterPodIdentityProvisioningError_StatusARM instances for property testing.
@@ -2130,7 +2130,7 @@ func RunJSONSerializationTestForManagedClusterPodIdentityProvisioningErrorBodySt
 }
 
 // Generator of ManagedClusterPodIdentityProvisioningErrorBody_StatusARM instances for property testing - lazily
-//instantiated by ManagedClusterPodIdentityProvisioningErrorBodyStatusARMGenerator()
+// instantiated by ManagedClusterPodIdentityProvisioningErrorBodyStatusARMGenerator()
 var managedClusterPodIdentityProvisioningErrorBodyStatusARMGenerator gopter.Gen
 
 // ManagedClusterPodIdentityProvisioningErrorBodyStatusARMGenerator returns a generator of ManagedClusterPodIdentityProvisioningErrorBody_StatusARM instances for property testing.
@@ -2206,7 +2206,7 @@ func RunJSONSerializationTestForManagedClusterPodIdentityProvisioningErrorBodySt
 }
 
 // Generator of ManagedClusterPodIdentityProvisioningErrorBody_Status_UnrolledARM instances for property testing -
-//lazily instantiated by ManagedClusterPodIdentityProvisioningErrorBodyStatusUnrolledARMGenerator()
+// lazily instantiated by ManagedClusterPodIdentityProvisioningErrorBodyStatusUnrolledARMGenerator()
 var managedClusterPodIdentityProvisioningErrorBodyStatusUnrolledARMGenerator gopter.Gen
 
 // ManagedClusterPodIdentityProvisioningErrorBodyStatusUnrolledARMGenerator returns a generator of ManagedClusterPodIdentityProvisioningErrorBody_Status_UnrolledARM instances for property testing.

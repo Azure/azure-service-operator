@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/FakeResource
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/FakeResource
 type FakeResource struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -264,7 +264,7 @@ func (resource *FakeResource) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/FakeResource
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/FakeResource
 type FakeResourceList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -299,14 +299,14 @@ type FakeResourceSpecAPIVersion string
 const FakeResourceSpecAPIVersion20200601 = FakeResourceSpecAPIVersion("2020-06-01")
 
 type FakeResource_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a resources.azure.com/ResourceGroup resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
 	Owner      *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	Properties *Properties                        `json:"properties,omitempty"`
 }
@@ -500,15 +500,15 @@ func (resource *FakeResource_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (resource *FakeResource_Spec) SetAzureName(azureName string) { resource.AzureName = azureName }
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Properties
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Properties
 type PropertiesARM struct {
-	//Bar: Mutually exclusive with all other properties
+	// Bar: Mutually exclusive with all other properties
 	Bar *BarARM `json:"bar,omitempty"`
 
-	//Baz: Mutually exclusive with all other properties
+	// Baz: Mutually exclusive with all other properties
 	Baz *BazARM `json:"baz,omitempty"`
 
-	//Foo: Mutually exclusive with all other properties
+	// Foo: Mutually exclusive with all other properties
 	Foo *FooARM `json:"foo,omitempty"`
 }
 
@@ -551,33 +551,33 @@ func (properties *PropertiesARM) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Bar
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Bar
 type BarARM struct {
 	Discrim BarDiscrim `json:"discrim,omitempty"`
 	Size    *int       `json:"size,omitempty"`
 }
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Baz
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Baz
 type BazARM struct {
 	Discrim BazDiscrim `json:"discrim,omitempty"`
 	Enabled *bool      `json:"enabled,omitempty"`
 }
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
 type FooARM struct {
 	Discrim FooDiscrim `json:"discrim,omitempty"`
 	Name    *string    `json:"name,omitempty"`
 }
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Properties
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Properties
 type Properties struct {
-	//Bar: Mutually exclusive with all other properties
+	// Bar: Mutually exclusive with all other properties
 	Bar *Bar `json:"bar,omitempty"`
 
-	//Baz: Mutually exclusive with all other properties
+	// Baz: Mutually exclusive with all other properties
 	Baz *Baz `json:"baz,omitempty"`
 
-	//Foo: Mutually exclusive with all other properties
+	// Foo: Mutually exclusive with all other properties
 	Foo *Foo `json:"foo,omitempty"`
 }
 
@@ -766,7 +766,7 @@ func (properties *Properties) AssignPropertiesToProperties(destination *v2020010
 	return nil
 }
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Bar
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Bar
 type Bar struct {
 	// +kubebuilder:validation:Required
 	Discrim *BarDiscrim `json:"discrim,omitempty"`
@@ -872,7 +872,7 @@ type BarDiscrim string
 
 const BarDiscrimBar = BarDiscrim("bar")
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Baz
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Baz
 type Baz struct {
 	// +kubebuilder:validation:Required
 	Discrim *BazDiscrim `json:"discrim,omitempty"`
@@ -988,7 +988,7 @@ type BazDiscrim string
 
 const BazDiscrimBaz = BazDiscrim("baz")
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
 type Foo struct {
 	// +kubebuilder:validation:Required
 	Discrim *FooDiscrim `json:"discrim,omitempty"`

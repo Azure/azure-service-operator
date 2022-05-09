@@ -56,7 +56,7 @@ func RunJSONSerializationTestForDatabaseAccountsSqlDatabasesContainersUserDefine
 }
 
 // Generator of DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SpecARM instances for property testing -
-//lazily instantiated by DatabaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpecARMGenerator()
+// lazily instantiated by DatabaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpecARMGenerator()
 var databaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpecARMGenerator gopter.Gen
 
 // DatabaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpecARMGenerator returns a generator of DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SpecARM instances for property testing.
@@ -132,7 +132,7 @@ func RunJSONSerializationTestForSqlUserDefinedFunctionCreateUpdatePropertiesARM(
 }
 
 // Generator of SqlUserDefinedFunctionCreateUpdatePropertiesARM instances for property testing - lazily instantiated by
-//SqlUserDefinedFunctionCreateUpdatePropertiesARMGenerator()
+// SqlUserDefinedFunctionCreateUpdatePropertiesARMGenerator()
 var sqlUserDefinedFunctionCreateUpdatePropertiesARMGenerator gopter.Gen
 
 // SqlUserDefinedFunctionCreateUpdatePropertiesARMGenerator returns a generator of SqlUserDefinedFunctionCreateUpdatePropertiesARM instances for property testing.
@@ -193,7 +193,7 @@ func RunJSONSerializationTestForSqlUserDefinedFunctionResourceARM(subject SqlUse
 }
 
 // Generator of SqlUserDefinedFunctionResourceARM instances for property testing - lazily instantiated by
-//SqlUserDefinedFunctionResourceARMGenerator()
+// SqlUserDefinedFunctionResourceARMGenerator()
 var sqlUserDefinedFunctionResourceARMGenerator gopter.Gen
 
 // SqlUserDefinedFunctionResourceARMGenerator returns a generator of SqlUserDefinedFunctionResourceARM instances for property testing.

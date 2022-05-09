@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1alpha1api20210301
 
-//Deprecated version of Database_Status. Use v1beta20210301.Database_Status instead
+// Deprecated version of Database_Status. Use v1beta20210301.Database_Status instead
 type Database_StatusARM struct {
 	Id         *string                       `json:"id,omitempty"`
 	Name       *string                       `json:"name,omitempty"`
@@ -11,7 +11,7 @@ type Database_StatusARM struct {
 	Type       *string                       `json:"type,omitempty"`
 }
 
-//Deprecated version of DatabaseProperties_Status. Use v1beta20210301.DatabaseProperties_Status instead
+// Deprecated version of DatabaseProperties_Status. Use v1beta20210301.DatabaseProperties_Status instead
 type DatabaseProperties_StatusARM struct {
 	ClientProtocol    *DatabasePropertiesStatusClientProtocol   `json:"clientProtocol,omitempty"`
 	ClusteringPolicy  *DatabasePropertiesStatusClusteringPolicy `json:"clusteringPolicy,omitempty"`
@@ -23,8 +23,8 @@ type DatabaseProperties_StatusARM struct {
 	ResourceState     *ResourceState_Status                     `json:"resourceState,omitempty"`
 }
 
-//Deprecated version of DatabasePropertiesStatusClientProtocol. Use v1beta20210301.DatabasePropertiesStatusClientProtocol
-//instead
+// Deprecated version of DatabasePropertiesStatusClientProtocol. Use v1beta20210301.DatabasePropertiesStatusClientProtocol
+// instead
 type DatabasePropertiesStatusClientProtocol string
 
 const (
@@ -32,8 +32,8 @@ const (
 	DatabasePropertiesStatusClientProtocolPlaintext = DatabasePropertiesStatusClientProtocol("Plaintext")
 )
 
-//Deprecated version of DatabasePropertiesStatusClusteringPolicy. Use
-//v1beta20210301.DatabasePropertiesStatusClusteringPolicy instead
+// Deprecated version of DatabasePropertiesStatusClusteringPolicy. Use
+// v1beta20210301.DatabasePropertiesStatusClusteringPolicy instead
 type DatabasePropertiesStatusClusteringPolicy string
 
 const (
@@ -41,8 +41,8 @@ const (
 	DatabasePropertiesStatusClusteringPolicyOSSCluster        = DatabasePropertiesStatusClusteringPolicy("OSSCluster")
 )
 
-//Deprecated version of DatabasePropertiesStatusEvictionPolicy. Use v1beta20210301.DatabasePropertiesStatusEvictionPolicy
-//instead
+// Deprecated version of DatabasePropertiesStatusEvictionPolicy. Use v1beta20210301.DatabasePropertiesStatusEvictionPolicy
+// instead
 type DatabasePropertiesStatusEvictionPolicy string
 
 const (
@@ -56,14 +56,14 @@ const (
 	DatabasePropertiesStatusEvictionPolicyVolatileTTL    = DatabasePropertiesStatusEvictionPolicy("VolatileTTL")
 )
 
-//Deprecated version of Module_Status. Use v1beta20210301.Module_Status instead
+// Deprecated version of Module_Status. Use v1beta20210301.Module_Status instead
 type Module_StatusARM struct {
 	Args    *string `json:"args,omitempty"`
 	Name    *string `json:"name,omitempty"`
 	Version *string `json:"version,omitempty"`
 }
 
-//Deprecated version of Persistence_Status. Use v1beta20210301.Persistence_Status instead
+// Deprecated version of Persistence_Status. Use v1beta20210301.Persistence_Status instead
 type Persistence_StatusARM struct {
 	AofEnabled   *bool                          `json:"aofEnabled,omitempty"`
 	AofFrequency *PersistenceStatusAofFrequency `json:"aofFrequency,omitempty"`
@@ -71,7 +71,7 @@ type Persistence_StatusARM struct {
 	RdbFrequency *PersistenceStatusRdbFrequency `json:"rdbFrequency,omitempty"`
 }
 
-//Deprecated version of PersistenceStatusAofFrequency. Use v1beta20210301.PersistenceStatusAofFrequency instead
+// Deprecated version of PersistenceStatusAofFrequency. Use v1beta20210301.PersistenceStatusAofFrequency instead
 type PersistenceStatusAofFrequency string
 
 const (
@@ -79,7 +79,7 @@ const (
 	PersistenceStatusAofFrequencyAlways = PersistenceStatusAofFrequency("always")
 )
 
-//Deprecated version of PersistenceStatusRdbFrequency. Use v1beta20210301.PersistenceStatusRdbFrequency instead
+// Deprecated version of PersistenceStatusRdbFrequency. Use v1beta20210301.PersistenceStatusRdbFrequency instead
 type PersistenceStatusRdbFrequency string
 
 const (

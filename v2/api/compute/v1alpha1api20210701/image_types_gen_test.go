@@ -91,7 +91,7 @@ func RunPropertyAssignmentTestForImage(subject Image) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -193,7 +193,7 @@ func RunPropertyAssignmentTestForImageStatus(subject Image_Status) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -316,7 +316,7 @@ func RunPropertyAssignmentTestForImagesSpec(subject Images_Spec) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -436,7 +436,7 @@ func RunPropertyAssignmentTestForExtendedLocation(subject ExtendedLocation) stri
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -538,7 +538,7 @@ func RunPropertyAssignmentTestForExtendedLocationStatus(subject ExtendedLocation
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -589,7 +589,7 @@ func RunJSONSerializationTestForExtendedLocationStatus(subject ExtendedLocation_
 }
 
 // Generator of ExtendedLocation_Status instances for property testing - lazily instantiated by
-//ExtendedLocationStatusGenerator()
+// ExtendedLocationStatusGenerator()
 var extendedLocationStatusGenerator gopter.Gen
 
 // ExtendedLocationStatusGenerator returns a generator of ExtendedLocation_Status instances for property testing.
@@ -641,7 +641,7 @@ func RunPropertyAssignmentTestForImageStorageProfile(subject ImageStorageProfile
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -692,7 +692,7 @@ func RunJSONSerializationTestForImageStorageProfile(subject ImageStorageProfile)
 }
 
 // Generator of ImageStorageProfile instances for property testing - lazily instantiated by
-//ImageStorageProfileGenerator()
+// ImageStorageProfileGenerator()
 var imageStorageProfileGenerator gopter.Gen
 
 // ImageStorageProfileGenerator returns a generator of ImageStorageProfile instances for property testing.
@@ -758,7 +758,7 @@ func RunPropertyAssignmentTestForImageStorageProfileStatus(subject ImageStorageP
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -809,7 +809,7 @@ func RunJSONSerializationTestForImageStorageProfileStatus(subject ImageStoragePr
 }
 
 // Generator of ImageStorageProfile_Status instances for property testing - lazily instantiated by
-//ImageStorageProfileStatusGenerator()
+// ImageStorageProfileStatusGenerator()
 var imageStorageProfileStatusGenerator gopter.Gen
 
 // ImageStorageProfileStatusGenerator returns a generator of ImageStorageProfile_Status instances for property testing.
@@ -875,7 +875,7 @@ func RunPropertyAssignmentTestForSubResource(subject SubResource) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -970,7 +970,7 @@ func RunPropertyAssignmentTestForSubResourceStatus(subject SubResource_Status) s
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1071,7 +1071,7 @@ func RunPropertyAssignmentTestForImageDataDisk(subject ImageDataDisk) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1198,7 +1198,7 @@ func RunPropertyAssignmentTestForImageDataDiskStatus(subject ImageDataDisk_Statu
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1249,7 +1249,7 @@ func RunJSONSerializationTestForImageDataDiskStatus(subject ImageDataDisk_Status
 }
 
 // Generator of ImageDataDisk_Status instances for property testing - lazily instantiated by
-//ImageDataDiskStatusGenerator()
+// ImageDataDiskStatusGenerator()
 var imageDataDiskStatusGenerator gopter.Gen
 
 // ImageDataDiskStatusGenerator returns a generator of ImageDataDisk_Status instances for property testing.
@@ -1326,7 +1326,7 @@ func RunPropertyAssignmentTestForImageOSDisk(subject ImageOSDisk) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1454,7 +1454,7 @@ func RunPropertyAssignmentTestForImageOSDiskStatus(subject ImageOSDisk_Status) s
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1582,7 +1582,7 @@ func RunPropertyAssignmentTestForDiskEncryptionSetParameters(subject DiskEncrypt
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1633,7 +1633,7 @@ func RunJSONSerializationTestForDiskEncryptionSetParameters(subject DiskEncrypti
 }
 
 // Generator of DiskEncryptionSetParameters instances for property testing - lazily instantiated by
-//DiskEncryptionSetParametersGenerator()
+// DiskEncryptionSetParametersGenerator()
 var diskEncryptionSetParametersGenerator gopter.Gen
 
 // DiskEncryptionSetParametersGenerator returns a generator of DiskEncryptionSetParameters instances for property testing.

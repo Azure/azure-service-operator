@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1alpha1api20201201
 
-//Deprecated version of RedisLinkedServerWithProperties_Status. Use v1beta20201201.RedisLinkedServerWithProperties_Status instead
+// Deprecated version of RedisLinkedServerWithProperties_Status. Use v1beta20201201.RedisLinkedServerWithProperties_Status instead
 type RedisLinkedServerWithProperties_StatusARM struct {
 	Id         *string                                `json:"id,omitempty"`
 	Name       *string                                `json:"name,omitempty"`
@@ -11,7 +11,7 @@ type RedisLinkedServerWithProperties_StatusARM struct {
 	Type       *string                                `json:"type,omitempty"`
 }
 
-//Deprecated version of RedisLinkedServerProperties_Status. Use v1beta20201201.RedisLinkedServerProperties_Status instead
+// Deprecated version of RedisLinkedServerProperties_Status. Use v1beta20201201.RedisLinkedServerProperties_Status instead
 type RedisLinkedServerProperties_StatusARM struct {
 	LinkedRedisCacheId       *string                                      `json:"linkedRedisCacheId,omitempty"`
 	LinkedRedisCacheLocation *string                                      `json:"linkedRedisCacheLocation,omitempty"`

@@ -131,7 +131,7 @@ func RunJSONSerializationTestForWebTestPropertiesARM(subject WebTestPropertiesAR
 }
 
 // Generator of WebTestPropertiesARM instances for property testing - lazily instantiated by
-//WebTestPropertiesARMGenerator()
+// WebTestPropertiesARMGenerator()
 var webTestPropertiesARMGenerator gopter.Gen
 
 // WebTestPropertiesARMGenerator returns a generator of WebTestPropertiesARM instances for property testing.
@@ -219,7 +219,7 @@ func RunJSONSerializationTestForWebTestGeolocationARM(subject WebTestGeolocation
 }
 
 // Generator of WebTestGeolocationARM instances for property testing - lazily instantiated by
-//WebTestGeolocationARMGenerator()
+// WebTestGeolocationARMGenerator()
 var webTestGeolocationARMGenerator gopter.Gen
 
 // WebTestGeolocationARMGenerator returns a generator of WebTestGeolocationARM instances for property testing.
@@ -279,7 +279,7 @@ func RunJSONSerializationTestForWebTestPropertiesConfigurationARM(subject WebTes
 }
 
 // Generator of WebTestPropertiesConfigurationARM instances for property testing - lazily instantiated by
-//WebTestPropertiesConfigurationARMGenerator()
+// WebTestPropertiesConfigurationARMGenerator()
 var webTestPropertiesConfigurationARMGenerator gopter.Gen
 
 // WebTestPropertiesConfigurationARMGenerator returns a generator of WebTestPropertiesConfigurationARM instances for property testing.
@@ -339,7 +339,7 @@ func RunJSONSerializationTestForWebTestPropertiesRequestARM(subject WebTestPrope
 }
 
 // Generator of WebTestPropertiesRequestARM instances for property testing - lazily instantiated by
-//WebTestPropertiesRequestARMGenerator()
+// WebTestPropertiesRequestARMGenerator()
 var webTestPropertiesRequestARMGenerator gopter.Gen
 
 // WebTestPropertiesRequestARMGenerator returns a generator of WebTestPropertiesRequestARM instances for property testing.
@@ -417,7 +417,7 @@ func RunJSONSerializationTestForWebTestPropertiesValidationRulesARM(subject WebT
 }
 
 // Generator of WebTestPropertiesValidationRulesARM instances for property testing - lazily instantiated by
-//WebTestPropertiesValidationRulesARMGenerator()
+// WebTestPropertiesValidationRulesARMGenerator()
 var webTestPropertiesValidationRulesARMGenerator gopter.Gen
 
 // WebTestPropertiesValidationRulesARMGenerator returns a generator of WebTestPropertiesValidationRulesARM instances for property testing.
@@ -554,7 +554,7 @@ func RunJSONSerializationTestForWebTestPropertiesValidationRulesContentValidatio
 }
 
 // Generator of WebTestPropertiesValidationRulesContentValidationARM instances for property testing - lazily
-//instantiated by WebTestPropertiesValidationRulesContentValidationARMGenerator()
+// instantiated by WebTestPropertiesValidationRulesContentValidationARMGenerator()
 var webTestPropertiesValidationRulesContentValidationARMGenerator gopter.Gen
 
 // WebTestPropertiesValidationRulesContentValidationARMGenerator returns a generator of WebTestPropertiesValidationRulesContentValidationARM instances for property testing.

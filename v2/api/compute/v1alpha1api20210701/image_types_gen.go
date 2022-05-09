@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Deprecated version of Image. Use v1beta20210701.Image instead
+// Deprecated version of Image. Use v1beta20210701.Image instead
 type Image struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -324,16 +324,16 @@ func (image *Image) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Deprecated version of Image. Use v1beta20210701.Image instead
+// Deprecated version of Image. Use v1beta20210701.Image instead
 type ImageList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Image `json:"items"`
 }
 
-//Deprecated version of Image_Status. Use v1beta20210701.Image_Status instead
+// Deprecated version of Image_Status. Use v1beta20210701.Image_Status instead
 type Image_Status struct {
-	//Conditions: The observed state of the resource
+	// Conditions: The observed state of the resource
 	Conditions           []conditions.Condition       `json:"conditions,omitempty"`
 	ExtendedLocation     *ExtendedLocation_Status     `json:"extendedLocation,omitempty"`
 	HyperVGeneration     *HyperVGenerationType_Status `json:"hyperVGeneration,omitempty"`
@@ -660,17 +660,17 @@ func (image *Image_Status) AssignPropertiesToImageStatus(destination *alpha20210
 }
 
 type Images_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName        string                           `json:"azureName,omitempty"`
 	ExtendedLocation *ExtendedLocation                `json:"extendedLocation,omitempty"`
 	HyperVGeneration *ImagePropertiesHyperVGeneration `json:"hyperVGeneration,omitempty"`
 	Location         *string                          `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a resources.azure.com/ResourceGroup resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
 	Owner                *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	SourceVirtualMachine *SubResource                       `json:"sourceVirtualMachine,omitempty"`
 	StorageProfile       *ImageStorageProfile               `json:"storageProfile,omitempty"`
@@ -1034,7 +1034,7 @@ func (images *Images_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (images *Images_Spec) SetAzureName(azureName string) { images.AzureName = azureName }
 
-//Deprecated version of ExtendedLocation. Use v1beta20210701.ExtendedLocation instead
+// Deprecated version of ExtendedLocation. Use v1beta20210701.ExtendedLocation instead
 type ExtendedLocation struct {
 	Name *string               `json:"name,omitempty"`
 	Type *ExtendedLocationType `json:"type,omitempty"`
@@ -1136,7 +1136,7 @@ func (location *ExtendedLocation) AssignPropertiesToExtendedLocation(destination
 	return nil
 }
 
-//Deprecated version of ExtendedLocation_Status. Use v1beta20210701.ExtendedLocation_Status instead
+// Deprecated version of ExtendedLocation_Status. Use v1beta20210701.ExtendedLocation_Status instead
 type ExtendedLocation_Status struct {
 	Name *string                      `json:"name,omitempty"`
 	Type *ExtendedLocationType_Status `json:"type,omitempty"`
@@ -1217,7 +1217,7 @@ func (location *ExtendedLocation_Status) AssignPropertiesToExtendedLocationStatu
 	return nil
 }
 
-//Deprecated version of HyperVGenerationType_Status. Use v1beta20210701.HyperVGenerationType_Status instead
+// Deprecated version of HyperVGenerationType_Status. Use v1beta20210701.HyperVGenerationType_Status instead
 type HyperVGenerationType_Status string
 
 const (
@@ -1225,7 +1225,7 @@ const (
 	HyperVGenerationType_StatusV2 = HyperVGenerationType_Status("V2")
 )
 
-//Deprecated version of ImagePropertiesHyperVGeneration. Use v1beta20210701.ImagePropertiesHyperVGeneration instead
+// Deprecated version of ImagePropertiesHyperVGeneration. Use v1beta20210701.ImagePropertiesHyperVGeneration instead
 // +kubebuilder:validation:Enum={"V1","V2"}
 type ImagePropertiesHyperVGeneration string
 
@@ -1234,7 +1234,7 @@ const (
 	ImagePropertiesHyperVGenerationV2 = ImagePropertiesHyperVGeneration("V2")
 )
 
-//Deprecated version of ImageStorageProfile. Use v1beta20210701.ImageStorageProfile instead
+// Deprecated version of ImageStorageProfile. Use v1beta20210701.ImageStorageProfile instead
 type ImageStorageProfile struct {
 	DataDisks     []ImageDataDisk `json:"dataDisks,omitempty"`
 	OsDisk        *ImageOSDisk    `json:"osDisk,omitempty"`
@@ -1419,7 +1419,7 @@ func (profile *ImageStorageProfile) AssignPropertiesToImageStorageProfile(destin
 	return nil
 }
 
-//Deprecated version of ImageStorageProfile_Status. Use v1beta20210701.ImageStorageProfile_Status instead
+// Deprecated version of ImageStorageProfile_Status. Use v1beta20210701.ImageStorageProfile_Status instead
 type ImageStorageProfile_Status struct {
 	DataDisks     []ImageDataDisk_Status `json:"dataDisks,omitempty"`
 	OsDisk        *ImageOSDisk_Status    `json:"osDisk,omitempty"`
@@ -1570,7 +1570,7 @@ func (profile *ImageStorageProfile_Status) AssignPropertiesToImageStorageProfile
 	return nil
 }
 
-//Deprecated version of SubResource. Use v1beta20210701.SubResource instead
+// Deprecated version of SubResource. Use v1beta20210701.SubResource instead
 type SubResource struct {
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
@@ -1653,7 +1653,7 @@ func (resource *SubResource) AssignPropertiesToSubResource(destination *alpha202
 	return nil
 }
 
-//Deprecated version of SubResource_Status. Use v1beta20210701.SubResource_Status instead
+// Deprecated version of SubResource_Status. Use v1beta20210701.SubResource_Status instead
 type SubResource_Status struct {
 	Id *string `json:"id,omitempty"`
 }
@@ -1711,7 +1711,7 @@ func (resource *SubResource_Status) AssignPropertiesToSubResourceStatus(destinat
 	return nil
 }
 
-//Deprecated version of ImageDataDisk. Use v1beta20210701.ImageDataDisk instead
+// Deprecated version of ImageDataDisk. Use v1beta20210701.ImageDataDisk instead
 type ImageDataDisk struct {
 	BlobUri           *string                      `json:"blobUri,omitempty"`
 	Caching           *ImageDataDiskCaching        `json:"caching,omitempty"`
@@ -2020,7 +2020,7 @@ func (disk *ImageDataDisk) AssignPropertiesToImageDataDisk(destination *alpha202
 	return nil
 }
 
-//Deprecated version of ImageDataDisk_Status. Use v1beta20210701.ImageDataDisk_Status instead
+// Deprecated version of ImageDataDisk_Status. Use v1beta20210701.ImageDataDisk_Status instead
 type ImageDataDisk_Status struct {
 	BlobUri            *string                     `json:"blobUri,omitempty"`
 	Caching            *ImageDataDiskStatusCaching `json:"caching,omitempty"`
@@ -2258,7 +2258,7 @@ func (disk *ImageDataDisk_Status) AssignPropertiesToImageDataDiskStatus(destinat
 	return nil
 }
 
-//Deprecated version of ImageOSDisk. Use v1beta20210701.ImageOSDisk instead
+// Deprecated version of ImageOSDisk. Use v1beta20210701.ImageOSDisk instead
 type ImageOSDisk struct {
 	BlobUri           *string                      `json:"blobUri,omitempty"`
 	Caching           *ImageOSDiskCaching          `json:"caching,omitempty"`
@@ -2608,7 +2608,7 @@ func (disk *ImageOSDisk) AssignPropertiesToImageOSDisk(destination *alpha2021070
 	return nil
 }
 
-//Deprecated version of ImageOSDisk_Status. Use v1beta20210701.ImageOSDisk_Status instead
+// Deprecated version of ImageOSDisk_Status. Use v1beta20210701.ImageOSDisk_Status instead
 type ImageOSDisk_Status struct {
 	BlobUri            *string                    `json:"blobUri,omitempty"`
 	Caching            *ImageOSDiskStatusCaching  `json:"caching,omitempty"`
@@ -2879,7 +2879,7 @@ func (disk *ImageOSDisk_Status) AssignPropertiesToImageOSDiskStatus(destination 
 	return nil
 }
 
-//Deprecated version of DiskEncryptionSetParameters. Use v1beta20210701.DiskEncryptionSetParameters instead
+// Deprecated version of DiskEncryptionSetParameters. Use v1beta20210701.DiskEncryptionSetParameters instead
 type DiskEncryptionSetParameters struct {
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
@@ -2962,7 +2962,7 @@ func (parameters *DiskEncryptionSetParameters) AssignPropertiesToDiskEncryptionS
 	return nil
 }
 
-//Deprecated version of ImageDataDiskCaching. Use v1beta20210701.ImageDataDiskCaching instead
+// Deprecated version of ImageDataDiskCaching. Use v1beta20210701.ImageDataDiskCaching instead
 // +kubebuilder:validation:Enum={"None","ReadOnly","ReadWrite"}
 type ImageDataDiskCaching string
 
@@ -2972,7 +2972,7 @@ const (
 	ImageDataDiskCachingReadWrite = ImageDataDiskCaching("ReadWrite")
 )
 
-//Deprecated version of ImageDataDiskStatusCaching. Use v1beta20210701.ImageDataDiskStatusCaching instead
+// Deprecated version of ImageDataDiskStatusCaching. Use v1beta20210701.ImageDataDiskStatusCaching instead
 type ImageDataDiskStatusCaching string
 
 const (
@@ -2981,7 +2981,7 @@ const (
 	ImageDataDiskStatusCachingReadWrite = ImageDataDiskStatusCaching("ReadWrite")
 )
 
-//Deprecated version of ImageDataDiskStorageAccountType. Use v1beta20210701.ImageDataDiskStorageAccountType instead
+// Deprecated version of ImageDataDiskStorageAccountType. Use v1beta20210701.ImageDataDiskStorageAccountType instead
 // +kubebuilder:validation:Enum={"Premium_LRS","Premium_ZRS","Standard_LRS","StandardSSD_LRS","StandardSSD_ZRS","UltraSSD_LRS"}
 type ImageDataDiskStorageAccountType string
 
@@ -2994,7 +2994,7 @@ const (
 	ImageDataDiskStorageAccountTypeUltraSSDLRS    = ImageDataDiskStorageAccountType("UltraSSD_LRS")
 )
 
-//Deprecated version of ImageOSDiskCaching. Use v1beta20210701.ImageOSDiskCaching instead
+// Deprecated version of ImageOSDiskCaching. Use v1beta20210701.ImageOSDiskCaching instead
 // +kubebuilder:validation:Enum={"None","ReadOnly","ReadWrite"}
 type ImageOSDiskCaching string
 
@@ -3004,7 +3004,7 @@ const (
 	ImageOSDiskCachingReadWrite = ImageOSDiskCaching("ReadWrite")
 )
 
-//Deprecated version of ImageOSDiskOsState. Use v1beta20210701.ImageOSDiskOsState instead
+// Deprecated version of ImageOSDiskOsState. Use v1beta20210701.ImageOSDiskOsState instead
 // +kubebuilder:validation:Enum={"Generalized","Specialized"}
 type ImageOSDiskOsState string
 
@@ -3013,7 +3013,7 @@ const (
 	ImageOSDiskOsStateSpecialized = ImageOSDiskOsState("Specialized")
 )
 
-//Deprecated version of ImageOSDiskOsType. Use v1beta20210701.ImageOSDiskOsType instead
+// Deprecated version of ImageOSDiskOsType. Use v1beta20210701.ImageOSDiskOsType instead
 // +kubebuilder:validation:Enum={"Linux","Windows"}
 type ImageOSDiskOsType string
 
@@ -3022,7 +3022,7 @@ const (
 	ImageOSDiskOsTypeWindows = ImageOSDiskOsType("Windows")
 )
 
-//Deprecated version of ImageOSDiskStatusCaching. Use v1beta20210701.ImageOSDiskStatusCaching instead
+// Deprecated version of ImageOSDiskStatusCaching. Use v1beta20210701.ImageOSDiskStatusCaching instead
 type ImageOSDiskStatusCaching string
 
 const (
@@ -3031,7 +3031,7 @@ const (
 	ImageOSDiskStatusCachingReadWrite = ImageOSDiskStatusCaching("ReadWrite")
 )
 
-//Deprecated version of ImageOSDiskStatusOsState. Use v1beta20210701.ImageOSDiskStatusOsState instead
+// Deprecated version of ImageOSDiskStatusOsState. Use v1beta20210701.ImageOSDiskStatusOsState instead
 type ImageOSDiskStatusOsState string
 
 const (
@@ -3039,7 +3039,7 @@ const (
 	ImageOSDiskStatusOsStateSpecialized = ImageOSDiskStatusOsState("Specialized")
 )
 
-//Deprecated version of ImageOSDiskStatusOsType. Use v1beta20210701.ImageOSDiskStatusOsType instead
+// Deprecated version of ImageOSDiskStatusOsType. Use v1beta20210701.ImageOSDiskStatusOsType instead
 type ImageOSDiskStatusOsType string
 
 const (
@@ -3047,7 +3047,7 @@ const (
 	ImageOSDiskStatusOsTypeWindows = ImageOSDiskStatusOsType("Windows")
 )
 
-//Deprecated version of ImageOSDiskStorageAccountType. Use v1beta20210701.ImageOSDiskStorageAccountType instead
+// Deprecated version of ImageOSDiskStorageAccountType. Use v1beta20210701.ImageOSDiskStorageAccountType instead
 // +kubebuilder:validation:Enum={"Premium_LRS","Premium_ZRS","Standard_LRS","StandardSSD_LRS","StandardSSD_ZRS","UltraSSD_LRS"}
 type ImageOSDiskStorageAccountType string
 
@@ -3060,7 +3060,7 @@ const (
 	ImageOSDiskStorageAccountTypeUltraSSDLRS    = ImageOSDiskStorageAccountType("UltraSSD_LRS")
 )
 
-//Deprecated version of StorageAccountType_Status. Use v1beta20210701.StorageAccountType_Status instead
+// Deprecated version of StorageAccountType_Status. Use v1beta20210701.StorageAccountType_Status instead
 type StorageAccountType_Status string
 
 const (

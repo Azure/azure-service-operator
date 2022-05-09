@@ -5,7 +5,7 @@ package v1alpha1api20201101
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-//Deprecated version of NetworkSecurityGroups_Spec. Use v1beta20201101.NetworkSecurityGroups_Spec instead
+// Deprecated version of NetworkSecurityGroups_Spec. Use v1beta20201101.NetworkSecurityGroups_Spec instead
 type NetworkSecurityGroups_SpecARM struct {
 	Location *string           `json:"location,omitempty"`
 	Name     string            `json:"name,omitempty"`

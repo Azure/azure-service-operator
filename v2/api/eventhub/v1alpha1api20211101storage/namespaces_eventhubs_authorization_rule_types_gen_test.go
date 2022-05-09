@@ -90,7 +90,7 @@ func RunPropertyAssignmentTestForNamespacesEventhubsAuthorizationRule(subject Na
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -141,7 +141,7 @@ func RunJSONSerializationTestForNamespacesEventhubsAuthorizationRule(subject Nam
 }
 
 // Generator of NamespacesEventhubsAuthorizationRule instances for property testing - lazily instantiated by
-//NamespacesEventhubsAuthorizationRuleGenerator()
+// NamespacesEventhubsAuthorizationRuleGenerator()
 var namespacesEventhubsAuthorizationRuleGenerator gopter.Gen
 
 // NamespacesEventhubsAuthorizationRuleGenerator returns a generator of NamespacesEventhubsAuthorizationRule instances for property testing.
@@ -193,7 +193,7 @@ func RunPropertyAssignmentTestForNamespacesEventhubsAuthorizationRulesSpec(subje
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -244,7 +244,7 @@ func RunJSONSerializationTestForNamespacesEventhubsAuthorizationRulesSpec(subjec
 }
 
 // Generator of NamespacesEventhubsAuthorizationRules_Spec instances for property testing - lazily instantiated by
-//NamespacesEventhubsAuthorizationRulesSpecGenerator()
+// NamespacesEventhubsAuthorizationRulesSpecGenerator()
 var namespacesEventhubsAuthorizationRulesSpecGenerator gopter.Gen
 
 // NamespacesEventhubsAuthorizationRulesSpecGenerator returns a generator of NamespacesEventhubsAuthorizationRules_Spec instances for property testing.

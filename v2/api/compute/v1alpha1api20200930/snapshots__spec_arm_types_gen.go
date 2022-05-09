@@ -5,7 +5,7 @@ package v1alpha1api20200930
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-//Deprecated version of Snapshots_Spec. Use v1beta20200930.Snapshots_Spec instead
+// Deprecated version of Snapshots_Spec. Use v1beta20200930.Snapshots_Spec instead
 type Snapshots_SpecARM struct {
 	ExtendedLocation *ExtendedLocationARM   `json:"extendedLocation,omitempty"`
 	Location         *string                `json:"location,omitempty"`
@@ -32,7 +32,7 @@ func (snapshots Snapshots_SpecARM) GetType() string {
 	return "Microsoft.Compute/snapshots"
 }
 
-//Deprecated version of SnapshotProperties. Use v1beta20200930.SnapshotProperties instead
+// Deprecated version of SnapshotProperties. Use v1beta20200930.SnapshotProperties instead
 type SnapshotPropertiesARM struct {
 	CreationData                 *CreationDataARM                       `json:"creationData,omitempty"`
 	DiskAccessId                 *string                                `json:"diskAccessId,omitempty"`
@@ -47,12 +47,12 @@ type SnapshotPropertiesARM struct {
 	PurchasePlan                 *PurchasePlanARM                       `json:"purchasePlan,omitempty"`
 }
 
-//Deprecated version of SnapshotSku. Use v1beta20200930.SnapshotSku instead
+// Deprecated version of SnapshotSku. Use v1beta20200930.SnapshotSku instead
 type SnapshotSkuARM struct {
 	Name *SnapshotSkuName `json:"name,omitempty"`
 }
 
-//Deprecated version of SnapshotSkuName. Use v1beta20200930.SnapshotSkuName instead
+// Deprecated version of SnapshotSkuName. Use v1beta20200930.SnapshotSkuName instead
 // +kubebuilder:validation:Enum={"Premium_LRS","Standard_LRS","Standard_ZRS"}
 type SnapshotSkuName string
 

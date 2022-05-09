@@ -91,7 +91,7 @@ func RunPropertyAssignmentTestForNetworkSecurityGroup(subject NetworkSecurityGro
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -142,7 +142,7 @@ func RunJSONSerializationTestForNetworkSecurityGroup(subject NetworkSecurityGrou
 }
 
 // Generator of NetworkSecurityGroup instances for property testing - lazily instantiated by
-//NetworkSecurityGroupGenerator()
+// NetworkSecurityGroupGenerator()
 var networkSecurityGroupGenerator gopter.Gen
 
 // NetworkSecurityGroupGenerator returns a generator of NetworkSecurityGroup instances for property testing.
@@ -194,7 +194,7 @@ func RunPropertyAssignmentTestForNetworkSecurityGroupStatusNetworkSecurityGroupS
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -245,7 +245,7 @@ func RunJSONSerializationTestForNetworkSecurityGroupStatusNetworkSecurityGroupSu
 }
 
 // Generator of NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded instances for property testing -
-//lazily instantiated by NetworkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbeddedGenerator()
+// lazily instantiated by NetworkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbeddedGenerator()
 var networkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbeddedGenerator gopter.Gen
 
 // NetworkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbeddedGenerator returns a generator of NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded instances for property testing.
@@ -325,7 +325,7 @@ func RunPropertyAssignmentTestForNetworkSecurityGroupsSpec(subject NetworkSecuri
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -376,7 +376,7 @@ func RunJSONSerializationTestForNetworkSecurityGroupsSpec(subject NetworkSecurit
 }
 
 // Generator of NetworkSecurityGroups_Spec instances for property testing - lazily instantiated by
-//NetworkSecurityGroupsSpecGenerator()
+// NetworkSecurityGroupsSpecGenerator()
 var networkSecurityGroupsSpecGenerator gopter.Gen
 
 // NetworkSecurityGroupsSpecGenerator returns a generator of NetworkSecurityGroups_Spec instances for property testing.
@@ -429,7 +429,7 @@ func RunPropertyAssignmentTestForFlowLogStatusSubResourceEmbedded(subject FlowLo
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -480,7 +480,7 @@ func RunJSONSerializationTestForFlowLogStatusSubResourceEmbedded(subject FlowLog
 }
 
 // Generator of FlowLog_Status_SubResourceEmbedded instances for property testing - lazily instantiated by
-//FlowLogStatusSubResourceEmbeddedGenerator()
+// FlowLogStatusSubResourceEmbeddedGenerator()
 var flowLogStatusSubResourceEmbeddedGenerator gopter.Gen
 
 // FlowLogStatusSubResourceEmbeddedGenerator returns a generator of FlowLog_Status_SubResourceEmbedded instances for property testing.
@@ -531,7 +531,7 @@ func RunPropertyAssignmentTestForNetworkInterfaceStatusNetworkSecurityGroupSubRe
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -582,7 +582,7 @@ func RunJSONSerializationTestForNetworkInterfaceStatusNetworkSecurityGroupSubRes
 }
 
 // Generator of NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded instances for property testing - lazily
-//instantiated by NetworkInterfaceStatusNetworkSecurityGroupSubResourceEmbeddedGenerator()
+// instantiated by NetworkInterfaceStatusNetworkSecurityGroupSubResourceEmbeddedGenerator()
 var networkInterfaceStatusNetworkSecurityGroupSubResourceEmbeddedGenerator gopter.Gen
 
 // NetworkInterfaceStatusNetworkSecurityGroupSubResourceEmbeddedGenerator returns a generator of NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded instances for property testing.
@@ -647,7 +647,7 @@ func RunPropertyAssignmentTestForSecurityRuleStatusNetworkSecurityGroupSubResour
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -698,7 +698,7 @@ func RunJSONSerializationTestForSecurityRuleStatusNetworkSecurityGroupSubResourc
 }
 
 // Generator of SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded instances for property testing - lazily
-//instantiated by SecurityRuleStatusNetworkSecurityGroupSubResourceEmbeddedGenerator()
+// instantiated by SecurityRuleStatusNetworkSecurityGroupSubResourceEmbeddedGenerator()
 var securityRuleStatusNetworkSecurityGroupSubResourceEmbeddedGenerator gopter.Gen
 
 // SecurityRuleStatusNetworkSecurityGroupSubResourceEmbeddedGenerator returns a generator of SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded instances for property testing.
@@ -749,7 +749,7 @@ func RunPropertyAssignmentTestForSubnetStatusNetworkSecurityGroupSubResourceEmbe
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -800,7 +800,7 @@ func RunJSONSerializationTestForSubnetStatusNetworkSecurityGroupSubResourceEmbed
 }
 
 // Generator of Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded instances for property testing - lazily
-//instantiated by SubnetStatusNetworkSecurityGroupSubResourceEmbeddedGenerator()
+// instantiated by SubnetStatusNetworkSecurityGroupSubResourceEmbeddedGenerator()
 var subnetStatusNetworkSecurityGroupSubResourceEmbeddedGenerator gopter.Gen
 
 // SubnetStatusNetworkSecurityGroupSubResourceEmbeddedGenerator returns a generator of Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded instances for property testing.

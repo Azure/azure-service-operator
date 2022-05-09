@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1alpha1api20200601
 
-//Deprecated version of Topic_Status. Use v1beta20200601.Topic_Status instead
+// Deprecated version of Topic_Status. Use v1beta20200601.Topic_Status instead
 type Topic_StatusARM struct {
 	Id         *string                    `json:"id,omitempty"`
 	Location   *string                    `json:"location,omitempty"`
@@ -14,7 +14,7 @@ type Topic_StatusARM struct {
 	Type       *string                    `json:"type,omitempty"`
 }
 
-//Deprecated version of TopicProperties_Status. Use v1beta20200601.TopicProperties_Status instead
+// Deprecated version of TopicProperties_Status. Use v1beta20200601.TopicProperties_Status instead
 type TopicProperties_StatusARM struct {
 	Endpoint                   *string                                                         `json:"endpoint,omitempty"`
 	InboundIpRules             []InboundIpRule_StatusARM                                       `json:"inboundIpRules,omitempty"`
@@ -26,7 +26,7 @@ type TopicProperties_StatusARM struct {
 	PublicNetworkAccess        *TopicPropertiesStatusPublicNetworkAccess                       `json:"publicNetworkAccess,omitempty"`
 }
 
-//Deprecated version of PrivateEndpointConnection_Status_Topic_SubResourceEmbedded. Use v1beta20200601.PrivateEndpointConnection_Status_Topic_SubResourceEmbedded instead
+// Deprecated version of PrivateEndpointConnection_Status_Topic_SubResourceEmbedded. Use v1beta20200601.PrivateEndpointConnection_Status_Topic_SubResourceEmbedded instead
 type PrivateEndpointConnection_Status_Topic_SubResourceEmbeddedARM struct {
 	Id *string `json:"id,omitempty"`
 }

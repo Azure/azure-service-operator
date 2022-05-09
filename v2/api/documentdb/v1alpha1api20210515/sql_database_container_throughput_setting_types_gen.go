@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Deprecated version of SqlDatabaseContainerThroughputSetting. Use v1beta20210515.SqlDatabaseContainerThroughputSetting instead
+// Deprecated version of SqlDatabaseContainerThroughputSetting. Use v1beta20210515.SqlDatabaseContainerThroughputSetting instead
 type SqlDatabaseContainerThroughputSetting struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -317,7 +317,7 @@ func (setting *SqlDatabaseContainerThroughputSetting) OriginalGVK() *schema.Grou
 }
 
 // +kubebuilder:object:root=true
-//Deprecated version of SqlDatabaseContainerThroughputSetting. Use v1beta20210515.SqlDatabaseContainerThroughputSetting instead
+// Deprecated version of SqlDatabaseContainerThroughputSetting. Use v1beta20210515.SqlDatabaseContainerThroughputSetting instead
 type SqlDatabaseContainerThroughputSettingList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -328,9 +328,9 @@ type DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec struct {
 	Location *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a documentdb.azure.com/SqlDatabaseContainer resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a documentdb.azure.com/SqlDatabaseContainer resource
 	Owner *genruntime.KnownResourceReference `group:"documentdb.azure.com" json:"owner,omitempty" kind:"SqlDatabaseContainer"`
 
 	// +kubebuilder:validation:Required

@@ -56,7 +56,7 @@ func RunJSONSerializationTestForSqlDatabaseGetResultsStatusARM(subject SqlDataba
 }
 
 // Generator of SqlDatabaseGetResults_StatusARM instances for property testing - lazily instantiated by
-//SqlDatabaseGetResultsStatusARMGenerator()
+// SqlDatabaseGetResultsStatusARMGenerator()
 var sqlDatabaseGetResultsStatusARMGenerator gopter.Gen
 
 // SqlDatabaseGetResultsStatusARMGenerator returns a generator of SqlDatabaseGetResults_StatusARM instances for property testing.
@@ -134,7 +134,7 @@ func RunJSONSerializationTestForSqlDatabaseGetPropertiesStatusARM(subject SqlDat
 }
 
 // Generator of SqlDatabaseGetProperties_StatusARM instances for property testing - lazily instantiated by
-//SqlDatabaseGetPropertiesStatusARMGenerator()
+// SqlDatabaseGetPropertiesStatusARMGenerator()
 var sqlDatabaseGetPropertiesStatusARMGenerator gopter.Gen
 
 // SqlDatabaseGetPropertiesStatusARMGenerator returns a generator of SqlDatabaseGetProperties_StatusARM instances for property testing.
@@ -195,7 +195,7 @@ func RunJSONSerializationTestForSqlDatabaseGetPropertiesStatusResourceARM(subjec
 }
 
 // Generator of SqlDatabaseGetProperties_Status_ResourceARM instances for property testing - lazily instantiated by
-//SqlDatabaseGetPropertiesStatusResourceARMGenerator()
+// SqlDatabaseGetPropertiesStatusResourceARMGenerator()
 var sqlDatabaseGetPropertiesStatusResourceARMGenerator gopter.Gen
 
 // SqlDatabaseGetPropertiesStatusResourceARMGenerator returns a generator of SqlDatabaseGetProperties_Status_ResourceARM instances for property testing.

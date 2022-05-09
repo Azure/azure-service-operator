@@ -135,7 +135,7 @@ func RunJSONSerializationTestForServerPropertiesStatusARM(subject ServerProperti
 }
 
 // Generator of ServerProperties_StatusARM instances for property testing - lazily instantiated by
-//ServerPropertiesStatusARMGenerator()
+// ServerPropertiesStatusARMGenerator()
 var serverPropertiesStatusARMGenerator gopter.Gen
 
 // ServerPropertiesStatusARMGenerator returns a generator of ServerProperties_StatusARM instances for property testing.
@@ -353,7 +353,7 @@ func RunJSONSerializationTestForHighAvailabilityStatusARM(subject HighAvailabili
 }
 
 // Generator of HighAvailability_StatusARM instances for property testing - lazily instantiated by
-//HighAvailabilityStatusARMGenerator()
+// HighAvailabilityStatusARMGenerator()
 var highAvailabilityStatusARMGenerator gopter.Gen
 
 // HighAvailabilityStatusARMGenerator returns a generator of HighAvailability_StatusARM instances for property testing.
@@ -421,7 +421,7 @@ func RunJSONSerializationTestForMaintenanceWindowStatusARM(subject MaintenanceWi
 }
 
 // Generator of MaintenanceWindow_StatusARM instances for property testing - lazily instantiated by
-//MaintenanceWindowStatusARMGenerator()
+// MaintenanceWindowStatusARMGenerator()
 var maintenanceWindowStatusARMGenerator gopter.Gen
 
 // MaintenanceWindowStatusARMGenerator returns a generator of MaintenanceWindow_StatusARM instances for property testing.

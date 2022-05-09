@@ -21,8 +21,8 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Storage version of v1beta20211101.NamespacesAuthorizationRule
-//Generated from: https://schema.management.azure.com/schemas/2021-11-01/Microsoft.EventHub.json#/resourceDefinitions/namespaces_authorizationRules
+// Storage version of v1beta20211101.NamespacesAuthorizationRule
+// Generated from: https://schema.management.azure.com/schemas/2021-11-01/Microsoft.EventHub.json#/resourceDefinitions/namespaces_authorizationRules
 type NamespacesAuthorizationRule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -121,15 +121,15 @@ func (rule *NamespacesAuthorizationRule) OriginalGVK() *schema.GroupVersionKind 
 }
 
 // +kubebuilder:object:root=true
-//Storage version of v1beta20211101.NamespacesAuthorizationRule
-//Generated from: https://schema.management.azure.com/schemas/2021-11-01/Microsoft.EventHub.json#/resourceDefinitions/namespaces_authorizationRules
+// Storage version of v1beta20211101.NamespacesAuthorizationRule
+// Generated from: https://schema.management.azure.com/schemas/2021-11-01/Microsoft.EventHub.json#/resourceDefinitions/namespaces_authorizationRules
 type NamespacesAuthorizationRuleList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []NamespacesAuthorizationRule `json:"items"`
 }
 
-//Storage version of v1beta20211101.AuthorizationRule_Status
+// Storage version of v1beta20211101.AuthorizationRule_Status
 type AuthorizationRule_Status struct {
 	Conditions  []conditions.Condition `json:"conditions,omitempty"`
 	Id          *string                `json:"id,omitempty"`
@@ -161,19 +161,19 @@ func (rule *AuthorizationRule_Status) ConvertStatusTo(destination genruntime.Con
 	return destination.ConvertStatusFrom(rule)
 }
 
-//Storage version of v1beta20211101.NamespacesAuthorizationRules_Spec
+// Storage version of v1beta20211101.NamespacesAuthorizationRules_Spec
 type NamespacesAuthorizationRules_Spec struct {
 	// +kubebuilder:validation:MinLength=1
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName       string  `json:"azureName,omitempty"`
 	Location        *string `json:"location,omitempty"`
 	OriginalVersion string  `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a eventhub.azure.com/Namespace resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a eventhub.azure.com/Namespace resource
 	Owner       *genruntime.KnownResourceReference `group:"eventhub.azure.com" json:"owner,omitempty" kind:"Namespace"`
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	Rights      []string                           `json:"rights,omitempty"`

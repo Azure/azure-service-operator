@@ -91,7 +91,7 @@ func RunPropertyAssignmentTestForNamespacesEventhubsConsumerGroup(subject Namesp
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -142,7 +142,7 @@ func RunJSONSerializationTestForNamespacesEventhubsConsumerGroup(subject Namespa
 }
 
 // Generator of NamespacesEventhubsConsumerGroup instances for property testing - lazily instantiated by
-//NamespacesEventhubsConsumerGroupGenerator()
+// NamespacesEventhubsConsumerGroupGenerator()
 var namespacesEventhubsConsumerGroupGenerator gopter.Gen
 
 // NamespacesEventhubsConsumerGroupGenerator returns a generator of NamespacesEventhubsConsumerGroup instances for property testing.
@@ -194,7 +194,7 @@ func RunPropertyAssignmentTestForConsumerGroupStatus(subject ConsumerGroup_Statu
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -245,7 +245,7 @@ func RunJSONSerializationTestForConsumerGroupStatus(subject ConsumerGroup_Status
 }
 
 // Generator of ConsumerGroup_Status instances for property testing - lazily instantiated by
-//ConsumerGroupStatusGenerator()
+// ConsumerGroupStatusGenerator()
 var consumerGroupStatusGenerator gopter.Gen
 
 // ConsumerGroupStatusGenerator returns a generator of ConsumerGroup_Status instances for property testing.
@@ -316,7 +316,7 @@ func RunPropertyAssignmentTestForNamespacesEventhubsConsumergroupsSpec(subject N
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -367,7 +367,7 @@ func RunJSONSerializationTestForNamespacesEventhubsConsumergroupsSpec(subject Na
 }
 
 // Generator of NamespacesEventhubsConsumergroups_Spec instances for property testing - lazily instantiated by
-//NamespacesEventhubsConsumergroupsSpecGenerator()
+// NamespacesEventhubsConsumergroupsSpecGenerator()
 var namespacesEventhubsConsumergroupsSpecGenerator gopter.Gen
 
 // NamespacesEventhubsConsumergroupsSpecGenerator returns a generator of NamespacesEventhubsConsumergroups_Spec instances for property testing.

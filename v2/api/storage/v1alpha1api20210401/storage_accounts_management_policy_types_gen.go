@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Deprecated version of StorageAccountsManagementPolicy. Use v1beta20210401.StorageAccountsManagementPolicy instead
+// Deprecated version of StorageAccountsManagementPolicy. Use v1beta20210401.StorageAccountsManagementPolicy instead
 type StorageAccountsManagementPolicy struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -317,16 +317,16 @@ func (policy *StorageAccountsManagementPolicy) OriginalGVK() *schema.GroupVersio
 }
 
 // +kubebuilder:object:root=true
-//Deprecated version of StorageAccountsManagementPolicy. Use v1beta20210401.StorageAccountsManagementPolicy instead
+// Deprecated version of StorageAccountsManagementPolicy. Use v1beta20210401.StorageAccountsManagementPolicy instead
 type StorageAccountsManagementPolicyList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []StorageAccountsManagementPolicy `json:"items"`
 }
 
-//Deprecated version of ManagementPolicy_Status. Use v1beta20210401.ManagementPolicy_Status instead
+// Deprecated version of ManagementPolicy_Status. Use v1beta20210401.ManagementPolicy_Status instead
 type ManagementPolicy_Status struct {
-	//Conditions: The observed state of the resource
+	// Conditions: The observed state of the resource
 	Conditions       []conditions.Condition         `json:"conditions,omitempty"`
 	Id               *string                        `json:"id,omitempty"`
 	LastModifiedTime *string                        `json:"lastModifiedTime,omitempty"`
@@ -525,9 +525,9 @@ func (policy *ManagementPolicy_Status) AssignPropertiesToManagementPolicyStatus(
 
 type StorageAccountsManagementPolicies_Spec struct {
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a storage.azure.com/StorageAccount resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a storage.azure.com/StorageAccount resource
 	Owner *genruntime.KnownResourceReference `group:"storage.azure.com" json:"owner,omitempty" kind:"StorageAccount"`
 
 	// +kubebuilder:validation:Required
@@ -740,7 +740,7 @@ func (policies *StorageAccountsManagementPolicies_Spec) OriginalVersion() string
 	return GroupVersion.Version
 }
 
-//Deprecated version of ManagementPolicySchema. Use v1beta20210401.ManagementPolicySchema instead
+// Deprecated version of ManagementPolicySchema. Use v1beta20210401.ManagementPolicySchema instead
 type ManagementPolicySchema struct {
 	// +kubebuilder:validation:Required
 	Rules []ManagementPolicyRule `json:"rules,omitempty"`
@@ -851,7 +851,7 @@ func (schema *ManagementPolicySchema) AssignPropertiesToManagementPolicySchema(d
 	return nil
 }
 
-//Deprecated version of ManagementPolicySchema_Status. Use v1beta20210401.ManagementPolicySchema_Status instead
+// Deprecated version of ManagementPolicySchema_Status. Use v1beta20210401.ManagementPolicySchema_Status instead
 type ManagementPolicySchema_Status struct {
 	Rules []ManagementPolicyRule_Status `json:"rules,omitempty"`
 }
@@ -943,7 +943,7 @@ func (schema *ManagementPolicySchema_Status) AssignPropertiesToManagementPolicyS
 	return nil
 }
 
-//Deprecated version of ManagementPolicyRule. Use v1beta20210401.ManagementPolicyRule instead
+// Deprecated version of ManagementPolicyRule. Use v1beta20210401.ManagementPolicyRule instead
 type ManagementPolicyRule struct {
 	// +kubebuilder:validation:Required
 	Definition *ManagementPolicyDefinition `json:"definition,omitempty"`
@@ -1125,7 +1125,7 @@ func (rule *ManagementPolicyRule) AssignPropertiesToManagementPolicyRule(destina
 	return nil
 }
 
-//Deprecated version of ManagementPolicyRule_Status. Use v1beta20210401.ManagementPolicyRule_Status instead
+// Deprecated version of ManagementPolicyRule_Status. Use v1beta20210401.ManagementPolicyRule_Status instead
 type ManagementPolicyRule_Status struct {
 	Definition *ManagementPolicyDefinition_Status `json:"definition,omitempty"`
 	Enabled    *bool                              `json:"enabled,omitempty"`
@@ -1265,7 +1265,7 @@ func (rule *ManagementPolicyRule_Status) AssignPropertiesToManagementPolicyRuleS
 	return nil
 }
 
-//Deprecated version of ManagementPolicyDefinition. Use v1beta20210401.ManagementPolicyDefinition instead
+// Deprecated version of ManagementPolicyDefinition. Use v1beta20210401.ManagementPolicyDefinition instead
 type ManagementPolicyDefinition struct {
 	// +kubebuilder:validation:Required
 	Actions *ManagementPolicyAction `json:"actions,omitempty"`
@@ -1412,7 +1412,7 @@ func (definition *ManagementPolicyDefinition) AssignPropertiesToManagementPolicy
 	return nil
 }
 
-//Deprecated version of ManagementPolicyDefinition_Status. Use v1beta20210401.ManagementPolicyDefinition_Status instead
+// Deprecated version of ManagementPolicyDefinition_Status. Use v1beta20210401.ManagementPolicyDefinition_Status instead
 type ManagementPolicyDefinition_Status struct {
 	Actions *ManagementPolicyAction_Status `json:"actions,omitempty"`
 	Filters *ManagementPolicyFilter_Status `json:"filters,omitempty"`
@@ -1529,7 +1529,7 @@ func (definition *ManagementPolicyDefinition_Status) AssignPropertiesToManagemen
 	return nil
 }
 
-//Deprecated version of ManagementPolicyAction. Use v1beta20210401.ManagementPolicyAction instead
+// Deprecated version of ManagementPolicyAction. Use v1beta20210401.ManagementPolicyAction instead
 type ManagementPolicyAction struct {
 	BaseBlob *ManagementPolicyBaseBlob `json:"baseBlob,omitempty"`
 	Snapshot *ManagementPolicySnapShot `json:"snapshot,omitempty"`
@@ -1721,7 +1721,7 @@ func (action *ManagementPolicyAction) AssignPropertiesToManagementPolicyAction(d
 	return nil
 }
 
-//Deprecated version of ManagementPolicyAction_Status. Use v1beta20210401.ManagementPolicyAction_Status instead
+// Deprecated version of ManagementPolicyAction_Status. Use v1beta20210401.ManagementPolicyAction_Status instead
 type ManagementPolicyAction_Status struct {
 	BaseBlob *ManagementPolicyBaseBlob_Status `json:"baseBlob,omitempty"`
 	Snapshot *ManagementPolicySnapShot_Status `json:"snapshot,omitempty"`
@@ -1874,7 +1874,7 @@ func (action *ManagementPolicyAction_Status) AssignPropertiesToManagementPolicyA
 	return nil
 }
 
-//Deprecated version of ManagementPolicyFilter. Use v1beta20210401.ManagementPolicyFilter instead
+// Deprecated version of ManagementPolicyFilter. Use v1beta20210401.ManagementPolicyFilter instead
 type ManagementPolicyFilter struct {
 	BlobIndexMatch []TagFilter `json:"blobIndexMatch,omitempty"`
 
@@ -2020,7 +2020,7 @@ func (filter *ManagementPolicyFilter) AssignPropertiesToManagementPolicyFilter(d
 	return nil
 }
 
-//Deprecated version of ManagementPolicyFilter_Status. Use v1beta20210401.ManagementPolicyFilter_Status instead
+// Deprecated version of ManagementPolicyFilter_Status. Use v1beta20210401.ManagementPolicyFilter_Status instead
 type ManagementPolicyFilter_Status struct {
 	BlobIndexMatch []TagFilter_Status `json:"blobIndexMatch,omitempty"`
 	BlobTypes      []string           `json:"blobTypes,omitempty"`
@@ -2136,7 +2136,7 @@ func (filter *ManagementPolicyFilter_Status) AssignPropertiesToManagementPolicyF
 	return nil
 }
 
-//Deprecated version of ManagementPolicyBaseBlob. Use v1beta20210401.ManagementPolicyBaseBlob instead
+// Deprecated version of ManagementPolicyBaseBlob. Use v1beta20210401.ManagementPolicyBaseBlob instead
 type ManagementPolicyBaseBlob struct {
 	Delete                      *DateAfterModification `json:"delete,omitempty"`
 	EnableAutoTierToHotFromCool *bool                  `json:"enableAutoTierToHotFromCool,omitempty"`
@@ -2357,7 +2357,7 @@ func (blob *ManagementPolicyBaseBlob) AssignPropertiesToManagementPolicyBaseBlob
 	return nil
 }
 
-//Deprecated version of ManagementPolicyBaseBlob_Status. Use v1beta20210401.ManagementPolicyBaseBlob_Status instead
+// Deprecated version of ManagementPolicyBaseBlob_Status. Use v1beta20210401.ManagementPolicyBaseBlob_Status instead
 type ManagementPolicyBaseBlob_Status struct {
 	Delete                      *DateAfterModification_Status `json:"delete,omitempty"`
 	EnableAutoTierToHotFromCool *bool                         `json:"enableAutoTierToHotFromCool,omitempty"`
@@ -2533,7 +2533,7 @@ func (blob *ManagementPolicyBaseBlob_Status) AssignPropertiesToManagementPolicyB
 	return nil
 }
 
-//Deprecated version of ManagementPolicySnapShot. Use v1beta20210401.ManagementPolicySnapShot instead
+// Deprecated version of ManagementPolicySnapShot. Use v1beta20210401.ManagementPolicySnapShot instead
 type ManagementPolicySnapShot struct {
 	Delete        *DateAfterCreation `json:"delete,omitempty"`
 	TierToArchive *DateAfterCreation `json:"tierToArchive,omitempty"`
@@ -2725,7 +2725,7 @@ func (shot *ManagementPolicySnapShot) AssignPropertiesToManagementPolicySnapShot
 	return nil
 }
 
-//Deprecated version of ManagementPolicySnapShot_Status. Use v1beta20210401.ManagementPolicySnapShot_Status instead
+// Deprecated version of ManagementPolicySnapShot_Status. Use v1beta20210401.ManagementPolicySnapShot_Status instead
 type ManagementPolicySnapShot_Status struct {
 	Delete        *DateAfterCreation_Status `json:"delete,omitempty"`
 	TierToArchive *DateAfterCreation_Status `json:"tierToArchive,omitempty"`
@@ -2878,7 +2878,7 @@ func (shot *ManagementPolicySnapShot_Status) AssignPropertiesToManagementPolicyS
 	return nil
 }
 
-//Deprecated version of ManagementPolicyVersion. Use v1beta20210401.ManagementPolicyVersion instead
+// Deprecated version of ManagementPolicyVersion. Use v1beta20210401.ManagementPolicyVersion instead
 type ManagementPolicyVersion struct {
 	Delete        *DateAfterCreation `json:"delete,omitempty"`
 	TierToArchive *DateAfterCreation `json:"tierToArchive,omitempty"`
@@ -3070,7 +3070,7 @@ func (version *ManagementPolicyVersion) AssignPropertiesToManagementPolicyVersio
 	return nil
 }
 
-//Deprecated version of ManagementPolicyVersion_Status. Use v1beta20210401.ManagementPolicyVersion_Status instead
+// Deprecated version of ManagementPolicyVersion_Status. Use v1beta20210401.ManagementPolicyVersion_Status instead
 type ManagementPolicyVersion_Status struct {
 	Delete        *DateAfterCreation_Status `json:"delete,omitempty"`
 	TierToArchive *DateAfterCreation_Status `json:"tierToArchive,omitempty"`
@@ -3223,7 +3223,7 @@ func (version *ManagementPolicyVersion_Status) AssignPropertiesToManagementPolic
 	return nil
 }
 
-//Deprecated version of TagFilter. Use v1beta20210401.TagFilter instead
+// Deprecated version of TagFilter. Use v1beta20210401.TagFilter instead
 type TagFilter struct {
 	// +kubebuilder:validation:Required
 	// +kubebuilder:validation:MaxLength=128
@@ -3363,7 +3363,7 @@ func (filter *TagFilter) AssignPropertiesToTagFilter(destination *alpha20210401s
 	return nil
 }
 
-//Deprecated version of TagFilter_Status. Use v1beta20210401.TagFilter_Status instead
+// Deprecated version of TagFilter_Status. Use v1beta20210401.TagFilter_Status instead
 type TagFilter_Status struct {
 	Name  *string `json:"name,omitempty"`
 	Op    *string `json:"op,omitempty"`
@@ -3447,7 +3447,7 @@ func (filter *TagFilter_Status) AssignPropertiesToTagFilterStatus(destination *a
 	return nil
 }
 
-//Deprecated version of DateAfterCreation. Use v1beta20210401.DateAfterCreation instead
+// Deprecated version of DateAfterCreation. Use v1beta20210401.DateAfterCreation instead
 type DateAfterCreation struct {
 	// +kubebuilder:validation:Required
 	// +kubebuilder:validation:Minimum=0
@@ -3533,7 +3533,7 @@ func (creation *DateAfterCreation) AssignPropertiesToDateAfterCreation(destinati
 	return nil
 }
 
-//Deprecated version of DateAfterCreation_Status. Use v1beta20210401.DateAfterCreation_Status instead
+// Deprecated version of DateAfterCreation_Status. Use v1beta20210401.DateAfterCreation_Status instead
 type DateAfterCreation_Status struct {
 	DaysAfterCreationGreaterThan *float64 `json:"daysAfterCreationGreaterThan,omitempty"`
 }
@@ -3601,7 +3601,7 @@ func (creation *DateAfterCreation_Status) AssignPropertiesToDateAfterCreationSta
 	return nil
 }
 
-//Deprecated version of DateAfterModification. Use v1beta20210401.DateAfterModification instead
+// Deprecated version of DateAfterModification. Use v1beta20210401.DateAfterModification instead
 type DateAfterModification struct {
 	// +kubebuilder:validation:Minimum=0
 	// +kubebuilder:validation:MultipleOf=1
@@ -3718,7 +3718,7 @@ func (modification *DateAfterModification) AssignPropertiesToDateAfterModificati
 	return nil
 }
 
-//Deprecated version of DateAfterModification_Status. Use v1beta20210401.DateAfterModification_Status instead
+// Deprecated version of DateAfterModification_Status. Use v1beta20210401.DateAfterModification_Status instead
 type DateAfterModification_Status struct {
 	DaysAfterLastAccessTimeGreaterThan *float64 `json:"daysAfterLastAccessTimeGreaterThan,omitempty"`
 	DaysAfterModificationGreaterThan   *float64 `json:"daysAfterModificationGreaterThan,omitempty"`

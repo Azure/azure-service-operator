@@ -56,7 +56,7 @@ func RunJSONSerializationTestForRoleAssignmentsSpecARM(subject RoleAssignments_S
 }
 
 // Generator of RoleAssignments_SpecARM instances for property testing - lazily instantiated by
-//RoleAssignmentsSpecARMGenerator()
+// RoleAssignmentsSpecARMGenerator()
 var roleAssignmentsSpecARMGenerator gopter.Gen
 
 // RoleAssignmentsSpecARMGenerator returns a generator of RoleAssignments_SpecARM instances for property testing.
@@ -132,7 +132,7 @@ func RunJSONSerializationTestForRoleAssignmentPropertiesARM(subject RoleAssignme
 }
 
 // Generator of RoleAssignmentPropertiesARM instances for property testing - lazily instantiated by
-//RoleAssignmentPropertiesARMGenerator()
+// RoleAssignmentPropertiesARMGenerator()
 var roleAssignmentPropertiesARMGenerator gopter.Gen
 
 // RoleAssignmentPropertiesARMGenerator returns a generator of RoleAssignmentPropertiesARM instances for property testing.

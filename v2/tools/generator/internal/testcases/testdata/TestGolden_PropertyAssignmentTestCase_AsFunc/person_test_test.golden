@@ -44,7 +44,7 @@
 +		return err.Error()
 +	}
 +
-+	//Check for a match
++	// Check for a match
 +	match := cmp.Equal(subject, actual)
 +	if !match {
 +		actualFmt := pretty.Sprint(actual)

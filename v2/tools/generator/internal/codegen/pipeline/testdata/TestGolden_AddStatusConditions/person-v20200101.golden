@@ -42,13 +42,13 @@
  }
  
  type Person_Spec struct {
- 	//FullName: As would be used to address mail
+ 	// FullName: As would be used to address mail
  	FullName string `json:"fullName,omitempty"`
  }
  
  type Person_Status struct {
 -	Status string `json:"status,omitempty"`
-+	//Conditions: The observed state of the resource
++	// Conditions: The observed state of the resource
 +	Conditions []conditions.Condition `json:"conditions,omitempty"`
 +	Status     string                 `json:"status,omitempty"`
  }

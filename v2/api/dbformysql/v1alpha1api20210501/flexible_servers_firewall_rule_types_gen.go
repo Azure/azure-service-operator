@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Deprecated version of FlexibleServersFirewallRule. Use v1beta20210501.FlexibleServersFirewallRule instead
+// Deprecated version of FlexibleServersFirewallRule. Use v1beta20210501.FlexibleServersFirewallRule instead
 type FlexibleServersFirewallRule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -324,16 +324,16 @@ func (rule *FlexibleServersFirewallRule) OriginalGVK() *schema.GroupVersionKind 
 }
 
 // +kubebuilder:object:root=true
-//Deprecated version of FlexibleServersFirewallRule. Use v1beta20210501.FlexibleServersFirewallRule instead
+// Deprecated version of FlexibleServersFirewallRule. Use v1beta20210501.FlexibleServersFirewallRule instead
 type FlexibleServersFirewallRuleList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []FlexibleServersFirewallRule `json:"items"`
 }
 
-//Deprecated version of FirewallRule_Status. Use v1beta20210501.FirewallRule_Status instead
+// Deprecated version of FirewallRule_Status. Use v1beta20210501.FirewallRule_Status instead
 type FirewallRule_Status struct {
-	//Conditions: The observed state of the resource
+	// Conditions: The observed state of the resource
 	Conditions     []conditions.Condition `json:"conditions,omitempty"`
 	EndIpAddress   *string                `json:"endIpAddress,omitempty"`
 	Id             *string                `json:"id,omitempty"`
@@ -544,8 +544,8 @@ func (rule *FirewallRule_Status) AssignPropertiesToFirewallRuleStatus(destinatio
 }
 
 type FlexibleServersFirewallRules_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -554,9 +554,9 @@ type FlexibleServersFirewallRules_Spec struct {
 	Location     *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a dbformysql.azure.com/FlexibleServer resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a dbformysql.azure.com/FlexibleServer resource
 	Owner *genruntime.KnownResourceReference `group:"dbformysql.azure.com" json:"owner,omitempty" kind:"FlexibleServer"`
 
 	// +kubebuilder:validation:Required

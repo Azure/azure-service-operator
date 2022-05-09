@@ -56,7 +56,7 @@ func RunJSONSerializationTestForSqlTriggerGetResultsStatusARM(subject SqlTrigger
 }
 
 // Generator of SqlTriggerGetResults_StatusARM instances for property testing - lazily instantiated by
-//SqlTriggerGetResultsStatusARMGenerator()
+// SqlTriggerGetResultsStatusARMGenerator()
 var sqlTriggerGetResultsStatusARMGenerator gopter.Gen
 
 // SqlTriggerGetResultsStatusARMGenerator returns a generator of SqlTriggerGetResults_StatusARM instances for property testing.
@@ -134,7 +134,7 @@ func RunJSONSerializationTestForSqlTriggerGetPropertiesStatusARM(subject SqlTrig
 }
 
 // Generator of SqlTriggerGetProperties_StatusARM instances for property testing - lazily instantiated by
-//SqlTriggerGetPropertiesStatusARMGenerator()
+// SqlTriggerGetPropertiesStatusARMGenerator()
 var sqlTriggerGetPropertiesStatusARMGenerator gopter.Gen
 
 // SqlTriggerGetPropertiesStatusARMGenerator returns a generator of SqlTriggerGetProperties_StatusARM instances for property testing.
@@ -194,7 +194,7 @@ func RunJSONSerializationTestForSqlTriggerGetPropertiesStatusResourceARM(subject
 }
 
 // Generator of SqlTriggerGetProperties_Status_ResourceARM instances for property testing - lazily instantiated by
-//SqlTriggerGetPropertiesStatusResourceARMGenerator()
+// SqlTriggerGetPropertiesStatusResourceARMGenerator()
 var sqlTriggerGetPropertiesStatusResourceARMGenerator gopter.Gen
 
 // SqlTriggerGetPropertiesStatusResourceARMGenerator returns a generator of SqlTriggerGetProperties_Status_ResourceARM instances for property testing.

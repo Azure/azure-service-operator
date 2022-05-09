@@ -91,7 +91,7 @@ func RunPropertyAssignmentTestForDomain(subject Domain) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -193,7 +193,7 @@ func RunPropertyAssignmentTestForDomainStatus(subject Domain_Status) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -326,7 +326,7 @@ func RunPropertyAssignmentTestForDomainsSpec(subject Domains_Spec) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -446,7 +446,7 @@ func RunPropertyAssignmentTestForInboundIpRule(subject InboundIpRule) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -548,7 +548,7 @@ func RunPropertyAssignmentTestForInboundIpRuleStatus(subject InboundIpRule_Statu
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -599,7 +599,7 @@ func RunJSONSerializationTestForInboundIpRuleStatus(subject InboundIpRule_Status
 }
 
 // Generator of InboundIpRule_Status instances for property testing - lazily instantiated by
-//InboundIpRuleStatusGenerator()
+// InboundIpRuleStatusGenerator()
 var inboundIpRuleStatusGenerator gopter.Gen
 
 // InboundIpRuleStatusGenerator returns a generator of InboundIpRule_Status instances for property testing.
@@ -651,7 +651,7 @@ func RunPropertyAssignmentTestForInputSchemaMappingStatus(subject InputSchemaMap
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -702,7 +702,7 @@ func RunJSONSerializationTestForInputSchemaMappingStatus(subject InputSchemaMapp
 }
 
 // Generator of InputSchemaMapping_Status instances for property testing - lazily instantiated by
-//InputSchemaMappingStatusGenerator()
+// InputSchemaMappingStatusGenerator()
 var inputSchemaMappingStatusGenerator gopter.Gen
 
 // InputSchemaMappingStatusGenerator returns a generator of InputSchemaMapping_Status instances for property testing.
@@ -753,7 +753,7 @@ func RunPropertyAssignmentTestForJsonInputSchemaMapping(subject JsonInputSchemaM
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -804,7 +804,7 @@ func RunJSONSerializationTestForJsonInputSchemaMapping(subject JsonInputSchemaMa
 }
 
 // Generator of JsonInputSchemaMapping instances for property testing - lazily instantiated by
-//JsonInputSchemaMappingGenerator()
+// JsonInputSchemaMappingGenerator()
 var jsonInputSchemaMappingGenerator gopter.Gen
 
 // JsonInputSchemaMappingGenerator returns a generator of JsonInputSchemaMapping instances for property testing.
@@ -869,7 +869,7 @@ func RunPropertyAssignmentTestForPrivateEndpointConnectionStatusDomainSubResourc
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -920,7 +920,7 @@ func RunJSONSerializationTestForPrivateEndpointConnectionStatusDomainSubResource
 }
 
 // Generator of PrivateEndpointConnection_Status_Domain_SubResourceEmbedded instances for property testing - lazily
-//instantiated by PrivateEndpointConnectionStatusDomainSubResourceEmbeddedGenerator()
+// instantiated by PrivateEndpointConnectionStatusDomainSubResourceEmbeddedGenerator()
 var privateEndpointConnectionStatusDomainSubResourceEmbeddedGenerator gopter.Gen
 
 // PrivateEndpointConnectionStatusDomainSubResourceEmbeddedGenerator returns a generator of PrivateEndpointConnection_Status_Domain_SubResourceEmbedded instances for property testing.
@@ -971,7 +971,7 @@ func RunPropertyAssignmentTestForSystemDataStatus(subject SystemData_Status) str
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1085,7 +1085,7 @@ func RunPropertyAssignmentTestForJsonInputSchemaMappingProperties(subject JsonIn
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1136,7 +1136,7 @@ func RunJSONSerializationTestForJsonInputSchemaMappingProperties(subject JsonInp
 }
 
 // Generator of JsonInputSchemaMappingProperties instances for property testing - lazily instantiated by
-//JsonInputSchemaMappingPropertiesGenerator()
+// JsonInputSchemaMappingPropertiesGenerator()
 var jsonInputSchemaMappingPropertiesGenerator gopter.Gen
 
 // JsonInputSchemaMappingPropertiesGenerator returns a generator of JsonInputSchemaMappingProperties instances for property testing.
@@ -1192,7 +1192,7 @@ func RunPropertyAssignmentTestForJsonField(subject JsonField) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1293,7 +1293,7 @@ func RunPropertyAssignmentTestForJsonFieldWithDefault(subject JsonFieldWithDefau
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1344,7 +1344,7 @@ func RunJSONSerializationTestForJsonFieldWithDefault(subject JsonFieldWithDefaul
 }
 
 // Generator of JsonFieldWithDefault instances for property testing - lazily instantiated by
-//JsonFieldWithDefaultGenerator()
+// JsonFieldWithDefaultGenerator()
 var jsonFieldWithDefaultGenerator gopter.Gen
 
 // JsonFieldWithDefaultGenerator returns a generator of JsonFieldWithDefault instances for property testing.

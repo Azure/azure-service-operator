@@ -103,7 +103,7 @@
  }
  
  type Person_Spec struct {
- 	//FullName: As would be used to address mail
+ 	// FullName: As would be used to address mail
  	FullName string `json:"fullName,omitempty"`
  }
  

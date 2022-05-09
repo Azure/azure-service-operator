@@ -20,8 +20,8 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Storage version of v1alpha1api20210101preview.Namespace
-//Deprecated version of Namespace. Use v1beta20210101preview.Namespace instead
+// Storage version of v1alpha1api20210101preview.Namespace
+// Deprecated version of Namespace. Use v1beta20210101preview.Namespace instead
 type Namespace struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -191,18 +191,18 @@ func (namespace *Namespace) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Storage version of v1alpha1api20210101preview.Namespace
-//Deprecated version of Namespace. Use v1beta20210101preview.Namespace instead
+// Storage version of v1alpha1api20210101preview.Namespace
+// Deprecated version of Namespace. Use v1beta20210101preview.Namespace instead
 type NamespaceList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Namespace `json:"items"`
 }
 
-//Storage version of v1alpha1api20210101preview.Namespaces_Spec
+// Storage version of v1alpha1api20210101preview.Namespaces_Spec
 type Namespaces_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName       string      `json:"azureName,omitempty"`
 	Encryption      *Encryption `json:"encryption,omitempty"`
 	Identity        *Identity   `json:"identity,omitempty"`
@@ -210,9 +210,9 @@ type Namespaces_Spec struct {
 	OriginalVersion string      `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a resources.azure.com/ResourceGroup resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
 	Owner         *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PropertyBag   genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	Sku           *SBSku                             `json:"sku,omitempty"`
@@ -430,8 +430,8 @@ func (namespaces *Namespaces_Spec) AssignPropertiesToNamespacesSpec(destination 
 	return nil
 }
 
-//Storage version of v1alpha1api20210101preview.SBNamespace_Status
-//Deprecated version of SBNamespace_Status. Use v1beta20210101preview.SBNamespace_Status instead
+// Storage version of v1alpha1api20210101preview.SBNamespace_Status
+// Deprecated version of SBNamespace_Status. Use v1beta20210101preview.SBNamespace_Status instead
 type SBNamespace_Status struct {
 	Conditions                 []conditions.Condition                                 `json:"conditions,omitempty"`
 	CreatedAt                  *string                                                `json:"createdAt,omitempty"`
@@ -756,8 +756,8 @@ func (namespace *SBNamespace_Status) AssignPropertiesToSBNamespaceStatus(destina
 	return nil
 }
 
-//Storage version of v1alpha1api20210101preview.Encryption
-//Deprecated version of Encryption. Use v1beta20210101preview.Encryption instead
+// Storage version of v1alpha1api20210101preview.Encryption
+// Deprecated version of Encryption. Use v1beta20210101preview.Encryption instead
 type Encryption struct {
 	KeySource                       *string                `json:"keySource,omitempty"`
 	KeyVaultProperties              []KeyVaultProperties   `json:"keyVaultProperties,omitempty"`
@@ -855,8 +855,8 @@ func (encryption *Encryption) AssignPropertiesToEncryption(destination *v2021010
 	return nil
 }
 
-//Storage version of v1alpha1api20210101preview.Encryption_Status
-//Deprecated version of Encryption_Status. Use v1beta20210101preview.Encryption_Status instead
+// Storage version of v1alpha1api20210101preview.Encryption_Status
+// Deprecated version of Encryption_Status. Use v1beta20210101preview.Encryption_Status instead
 type Encryption_Status struct {
 	KeySource                       *string                     `json:"keySource,omitempty"`
 	KeyVaultProperties              []KeyVaultProperties_Status `json:"keyVaultProperties,omitempty"`
@@ -954,8 +954,8 @@ func (encryption *Encryption_Status) AssignPropertiesToEncryptionStatus(destinat
 	return nil
 }
 
-//Storage version of v1alpha1api20210101preview.Identity
-//Deprecated version of Identity. Use v1beta20210101preview.Identity instead
+// Storage version of v1alpha1api20210101preview.Identity
+// Deprecated version of Identity. Use v1beta20210101preview.Identity instead
 type Identity struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Type        *string                `json:"type,omitempty"`
@@ -999,8 +999,8 @@ func (identity *Identity) AssignPropertiesToIdentity(destination *v20210101ps.Id
 	return nil
 }
 
-//Storage version of v1alpha1api20210101preview.Identity_Status
-//Deprecated version of Identity_Status. Use v1beta20210101preview.Identity_Status instead
+// Storage version of v1alpha1api20210101preview.Identity_Status
+// Deprecated version of Identity_Status. Use v1beta20210101preview.Identity_Status instead
 type Identity_Status struct {
 	PrincipalId            *string                           `json:"principalId,omitempty"`
 	PropertyBag            genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
@@ -1095,8 +1095,8 @@ func (identity *Identity_Status) AssignPropertiesToIdentityStatus(destination *v
 	return nil
 }
 
-//Storage version of v1alpha1api20210101preview.PrivateEndpointConnection_Status_SubResourceEmbedded
-//Deprecated version of PrivateEndpointConnection_Status_SubResourceEmbedded. Use v1beta20210101preview.PrivateEndpointConnection_Status_SubResourceEmbedded instead
+// Storage version of v1alpha1api20210101preview.PrivateEndpointConnection_Status_SubResourceEmbedded
+// Deprecated version of PrivateEndpointConnection_Status_SubResourceEmbedded. Use v1beta20210101preview.PrivateEndpointConnection_Status_SubResourceEmbedded instead
 type PrivateEndpointConnection_Status_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -1165,8 +1165,8 @@ func (embedded *PrivateEndpointConnection_Status_SubResourceEmbedded) AssignProp
 	return nil
 }
 
-//Storage version of v1alpha1api20210101preview.SBSku
-//Deprecated version of SBSku. Use v1beta20210101preview.SBSku instead
+// Storage version of v1alpha1api20210101preview.SBSku
+// Deprecated version of SBSku. Use v1beta20210101preview.SBSku instead
 type SBSku struct {
 	Capacity    *int                   `json:"capacity,omitempty"`
 	Name        *string                `json:"name,omitempty"`
@@ -1224,8 +1224,8 @@ func (sbSku *SBSku) AssignPropertiesToSBSku(destination *v20210101ps.SBSku) erro
 	return nil
 }
 
-//Storage version of v1alpha1api20210101preview.SBSku_Status
-//Deprecated version of SBSku_Status. Use v1beta20210101preview.SBSku_Status instead
+// Storage version of v1alpha1api20210101preview.SBSku_Status
+// Deprecated version of SBSku_Status. Use v1beta20210101preview.SBSku_Status instead
 type SBSku_Status struct {
 	Capacity    *int                   `json:"capacity,omitempty"`
 	Name        *string                `json:"name,omitempty"`
@@ -1283,8 +1283,8 @@ func (sbSku *SBSku_Status) AssignPropertiesToSBSkuStatus(destination *v20210101p
 	return nil
 }
 
-//Storage version of v1alpha1api20210101preview.SystemData_Status
-//Deprecated version of SystemData_Status. Use v1beta20210101preview.SystemData_Status instead
+// Storage version of v1alpha1api20210101preview.SystemData_Status
+// Deprecated version of SystemData_Status. Use v1beta20210101preview.SystemData_Status instead
 type SystemData_Status struct {
 	CreatedAt          *string                `json:"createdAt,omitempty"`
 	CreatedBy          *string                `json:"createdBy,omitempty"`
@@ -1363,8 +1363,8 @@ func (data *SystemData_Status) AssignPropertiesToSystemDataStatus(destination *v
 	return nil
 }
 
-//Storage version of v1alpha1api20210101preview.DictionaryValue_Status
-//Deprecated version of DictionaryValue_Status. Use v1beta20210101preview.DictionaryValue_Status instead
+// Storage version of v1alpha1api20210101preview.DictionaryValue_Status
+// Deprecated version of DictionaryValue_Status. Use v1beta20210101preview.DictionaryValue_Status instead
 type DictionaryValue_Status struct {
 	ClientId    *string                `json:"clientId,omitempty"`
 	PrincipalId *string                `json:"principalId,omitempty"`
@@ -1415,8 +1415,8 @@ func (value *DictionaryValue_Status) AssignPropertiesToDictionaryValueStatus(des
 	return nil
 }
 
-//Storage version of v1alpha1api20210101preview.KeyVaultProperties
-//Deprecated version of KeyVaultProperties. Use v1beta20210101preview.KeyVaultProperties instead
+// Storage version of v1alpha1api20210101preview.KeyVaultProperties
+// Deprecated version of KeyVaultProperties. Use v1beta20210101preview.KeyVaultProperties instead
 type KeyVaultProperties struct {
 	Identity    *UserAssignedIdentityProperties `json:"identity,omitempty"`
 	KeyName     *string                         `json:"keyName,omitempty"`
@@ -1499,8 +1499,8 @@ func (properties *KeyVaultProperties) AssignPropertiesToKeyVaultProperties(desti
 	return nil
 }
 
-//Storage version of v1alpha1api20210101preview.KeyVaultProperties_Status
-//Deprecated version of KeyVaultProperties_Status. Use v1beta20210101preview.KeyVaultProperties_Status instead
+// Storage version of v1alpha1api20210101preview.KeyVaultProperties_Status
+// Deprecated version of KeyVaultProperties_Status. Use v1beta20210101preview.KeyVaultProperties_Status instead
 type KeyVaultProperties_Status struct {
 	Identity    *UserAssignedIdentityProperties_Status `json:"identity,omitempty"`
 	KeyName     *string                                `json:"keyName,omitempty"`
@@ -1583,8 +1583,8 @@ func (properties *KeyVaultProperties_Status) AssignPropertiesToKeyVaultPropertie
 	return nil
 }
 
-//Storage version of v1alpha1api20210101preview.UserAssignedIdentityProperties
-//Deprecated version of UserAssignedIdentityProperties. Use v1beta20210101preview.UserAssignedIdentityProperties instead
+// Storage version of v1alpha1api20210101preview.UserAssignedIdentityProperties
+// Deprecated version of UserAssignedIdentityProperties. Use v1beta20210101preview.UserAssignedIdentityProperties instead
 type UserAssignedIdentityProperties struct {
 	PropertyBag                   genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	UserAssignedIdentityReference *genruntime.ResourceReference `armReference:"UserAssignedIdentity" json:"userAssignedIdentityReference,omitempty"`
@@ -1638,8 +1638,8 @@ func (properties *UserAssignedIdentityProperties) AssignPropertiesToUserAssigned
 	return nil
 }
 
-//Storage version of v1alpha1api20210101preview.UserAssignedIdentityProperties_Status
-//Deprecated version of UserAssignedIdentityProperties_Status. Use v1beta20210101preview.UserAssignedIdentityProperties_Status instead
+// Storage version of v1alpha1api20210101preview.UserAssignedIdentityProperties_Status
+// Deprecated version of UserAssignedIdentityProperties_Status. Use v1beta20210101preview.UserAssignedIdentityProperties_Status instead
 type UserAssignedIdentityProperties_Status struct {
 	PropertyBag          genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	UserAssignedIdentity *string                `json:"userAssignedIdentity,omitempty"`

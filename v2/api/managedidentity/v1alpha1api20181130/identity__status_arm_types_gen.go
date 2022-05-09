@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1alpha1api20181130
 
-//Deprecated version of Identity_Status. Use v1beta20181130.Identity_Status instead
+// Deprecated version of Identity_Status. Use v1beta20181130.Identity_Status instead
 type Identity_StatusARM struct {
 	Id         *string                                   `json:"id,omitempty"`
 	Location   *string                                   `json:"location,omitempty"`
@@ -13,7 +13,7 @@ type Identity_StatusARM struct {
 	Type       *string                                   `json:"type,omitempty"`
 }
 
-//Deprecated version of UserAssignedIdentityProperties_Status. Use v1beta20181130.UserAssignedIdentityProperties_Status instead
+// Deprecated version of UserAssignedIdentityProperties_Status. Use v1beta20181130.UserAssignedIdentityProperties_Status instead
 type UserAssignedIdentityProperties_StatusARM struct {
 	ClientId    *string `json:"clientId,omitempty"`
 	PrincipalId *string `json:"principalId,omitempty"`

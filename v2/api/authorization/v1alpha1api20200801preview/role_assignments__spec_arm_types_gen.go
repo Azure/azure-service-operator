@@ -5,7 +5,7 @@ package v1alpha1api20200801preview
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-//Deprecated version of RoleAssignments_Spec. Use v1beta20200801preview.RoleAssignments_Spec instead
+// Deprecated version of RoleAssignments_Spec. Use v1beta20200801preview.RoleAssignments_Spec instead
 type RoleAssignments_SpecARM struct {
 	Location   *string                      `json:"location,omitempty"`
 	Name       string                       `json:"name,omitempty"`
@@ -30,7 +30,7 @@ func (assignments RoleAssignments_SpecARM) GetType() string {
 	return "Microsoft.Authorization/roleAssignments"
 }
 
-//Deprecated version of RoleAssignmentProperties. Use v1beta20200801preview.RoleAssignmentProperties instead
+// Deprecated version of RoleAssignmentProperties. Use v1beta20200801preview.RoleAssignmentProperties instead
 type RoleAssignmentPropertiesARM struct {
 	Condition                          *string                                `json:"condition,omitempty"`
 	ConditionVersion                   *string                                `json:"conditionVersion,omitempty"`

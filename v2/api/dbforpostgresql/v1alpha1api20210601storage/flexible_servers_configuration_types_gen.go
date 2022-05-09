@@ -20,8 +20,8 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Storage version of v1alpha1api20210601.FlexibleServersConfiguration
-//Deprecated version of FlexibleServersConfiguration. Use v1beta20210601.FlexibleServersConfiguration instead
+// Storage version of v1alpha1api20210601.FlexibleServersConfiguration
+// Deprecated version of FlexibleServersConfiguration. Use v1beta20210601.FlexibleServersConfiguration instead
 type FlexibleServersConfiguration struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -191,16 +191,16 @@ func (configuration *FlexibleServersConfiguration) OriginalGVK() *schema.GroupVe
 }
 
 // +kubebuilder:object:root=true
-//Storage version of v1alpha1api20210601.FlexibleServersConfiguration
-//Deprecated version of FlexibleServersConfiguration. Use v1beta20210601.FlexibleServersConfiguration instead
+// Storage version of v1alpha1api20210601.FlexibleServersConfiguration
+// Deprecated version of FlexibleServersConfiguration. Use v1beta20210601.FlexibleServersConfiguration instead
 type FlexibleServersConfigurationList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []FlexibleServersConfiguration `json:"items"`
 }
 
-//Storage version of v1alpha1api20210601.Configuration_Status
-//Deprecated version of Configuration_Status. Use v1beta20210601.Configuration_Status instead
+// Storage version of v1alpha1api20210601.Configuration_Status
+// Deprecated version of Configuration_Status. Use v1beta20210601.Configuration_Status instead
 type Configuration_Status struct {
 	AllowedValues          *string                `json:"allowedValues,omitempty"`
 	Conditions             []conditions.Condition `json:"conditions,omitempty"`
@@ -447,18 +447,18 @@ func (configuration *Configuration_Status) AssignPropertiesToConfigurationStatus
 	return nil
 }
 
-//Storage version of v1alpha1api20210601.FlexibleServersConfigurations_Spec
+// Storage version of v1alpha1api20210601.FlexibleServersConfigurations_Spec
 type FlexibleServersConfigurations_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName       string  `json:"azureName,omitempty"`
 	Location        *string `json:"location,omitempty"`
 	OriginalVersion string  `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a dbforpostgresql.azure.com/FlexibleServer resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a dbforpostgresql.azure.com/FlexibleServer resource
 	Owner       *genruntime.KnownResourceReference `group:"dbforpostgresql.azure.com" json:"owner,omitempty" kind:"FlexibleServer"`
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	Source      *string                            `json:"source,omitempty"`

@@ -6,22 +6,22 @@ package v1beta20210101preview
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type Namespaces_SpecARM struct {
-	//Identity: Properties to configure User Assigned Identities for Bring your Own Keys
+	// Identity: Properties to configure User Assigned Identities for Bring your Own Keys
 	Identity *IdentityARM `json:"identity,omitempty"`
 
-	//Location: The Geo-location where the resource lives
+	// Location: The Geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 
-	//Name: Name of the resource
+	// Name: Name of the resource
 	Name string `json:"name,omitempty"`
 
-	//Properties: Properties of the namespace.
+	// Properties: Properties of the namespace.
 	Properties *Namespaces_Spec_PropertiesARM `json:"properties,omitempty"`
 
-	//Sku: SKU of the namespace.
+	// Sku: SKU of the namespace.
 	Sku *SBSkuARM `json:"sku,omitempty"`
 
-	//Tags: Name-value pairs to add to the resource
+	// Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
@@ -42,41 +42,41 @@ func (namespaces Namespaces_SpecARM) GetType() string {
 	return "Microsoft.ServiceBus/namespaces"
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/Identity
+// Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/Identity
 type IdentityARM struct {
-	//Type: Type of managed service identity.
+	// Type: Type of managed service identity.
 	Type *IdentityType `json:"type,omitempty"`
 }
 
 type Namespaces_Spec_PropertiesARM struct {
-	//Encryption: Properties to configure Encryption
+	// Encryption: Properties to configure Encryption
 	Encryption *EncryptionARM `json:"encryption,omitempty"`
 
-	//ZoneRedundant: Enabling this property creates a Premium Service Bus Namespace in regions supported availability zones.
+	// ZoneRedundant: Enabling this property creates a Premium Service Bus Namespace in regions supported availability zones.
 	ZoneRedundant *bool `json:"zoneRedundant,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/SBSku
+// Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/SBSku
 type SBSkuARM struct {
-	//Capacity: The specified messaging units for the tier. For Premium tier, capacity are 1,2 and 4.
+	// Capacity: The specified messaging units for the tier. For Premium tier, capacity are 1,2 and 4.
 	Capacity *int `json:"capacity,omitempty"`
 
-	//Name: Name of this SKU.
+	// Name: Name of this SKU.
 	Name *SBSkuName `json:"name,omitempty"`
 
-	//Tier: The billing tier of this particular SKU.
+	// Tier: The billing tier of this particular SKU.
 	Tier *SBSkuTier `json:"tier,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/Encryption
+// Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/Encryption
 type EncryptionARM struct {
-	//KeySource: Enumerates the possible value of keySource for Encryption.
+	// KeySource: Enumerates the possible value of keySource for Encryption.
 	KeySource *EncryptionKeySource `json:"keySource,omitempty"`
 
-	//KeyVaultProperties: Properties of KeyVault
+	// KeyVaultProperties: Properties of KeyVault
 	KeyVaultProperties []KeyVaultPropertiesARM `json:"keyVaultProperties,omitempty"`
 
-	//RequireInfrastructureEncryption: Enable Infrastructure Encryption (Double Encryption)
+	// RequireInfrastructureEncryption: Enable Infrastructure Encryption (Double Encryption)
 	RequireInfrastructureEncryption *bool `json:"requireInfrastructureEncryption,omitempty"`
 }
 
@@ -108,21 +108,21 @@ const (
 	SBSkuTierStandard = SBSkuTier("Standard")
 )
 
-//Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/KeyVaultProperties
+// Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/KeyVaultProperties
 type KeyVaultPropertiesARM struct {
 	Identity *UserAssignedIdentityPropertiesARM `json:"identity,omitempty"`
 
-	//KeyName: Name of the Key from KeyVault
+	// KeyName: Name of the Key from KeyVault
 	KeyName *string `json:"keyName,omitempty"`
 
-	//KeyVaultUri: Uri of KeyVault
+	// KeyVaultUri: Uri of KeyVault
 	KeyVaultUri *string `json:"keyVaultUri,omitempty"`
 
-	//KeyVersion: Version of KeyVault
+	// KeyVersion: Version of KeyVault
 	KeyVersion *string `json:"keyVersion,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/UserAssignedIdentityProperties
+// Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/UserAssignedIdentityProperties
 type UserAssignedIdentityPropertiesARM struct {
 	UserAssignedIdentity *string `json:"userAssignedIdentity,omitempty"`
 }

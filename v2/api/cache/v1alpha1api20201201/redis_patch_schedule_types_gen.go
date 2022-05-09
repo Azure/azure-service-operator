@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Deprecated version of RedisPatchSchedule. Use v1beta20201201.RedisPatchSchedule instead
+// Deprecated version of RedisPatchSchedule. Use v1beta20201201.RedisPatchSchedule instead
 type RedisPatchSchedule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -317,16 +317,16 @@ func (schedule *RedisPatchSchedule) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Deprecated version of RedisPatchSchedule. Use v1beta20201201.RedisPatchSchedule instead
+// Deprecated version of RedisPatchSchedule. Use v1beta20201201.RedisPatchSchedule instead
 type RedisPatchScheduleList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []RedisPatchSchedule `json:"items"`
 }
 
-//Deprecated version of RedisPatchSchedule_Status. Use v1beta20201201.RedisPatchSchedule_Status instead
+// Deprecated version of RedisPatchSchedule_Status. Use v1beta20201201.RedisPatchSchedule_Status instead
 type RedisPatchSchedule_Status struct {
-	//Conditions: The observed state of the resource
+	// Conditions: The observed state of the resource
 	Conditions      []conditions.Condition `json:"conditions,omitempty"`
 	Id              *string                `json:"id,omitempty"`
 	Name            *string                `json:"name,omitempty"`
@@ -522,9 +522,9 @@ type RedisPatchSchedules_Spec struct {
 	Location *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a cache.azure.com/Redis resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a cache.azure.com/Redis resource
 	Owner *genruntime.KnownResourceReference `group:"cache.azure.com" json:"owner,omitempty" kind:"Redis"`
 
 	// +kubebuilder:validation:Required
@@ -765,7 +765,7 @@ func (schedules *RedisPatchSchedules_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
-//Deprecated version of ScheduleEntry. Use v1beta20201201.ScheduleEntry instead
+// Deprecated version of ScheduleEntry. Use v1beta20201201.ScheduleEntry instead
 type ScheduleEntry struct {
 	// +kubebuilder:validation:Required
 	DayOfWeek         *ScheduleEntryDayOfWeek `json:"dayOfWeek,omitempty"`
@@ -899,7 +899,7 @@ func (entry *ScheduleEntry) AssignPropertiesToScheduleEntry(destination *alpha20
 	return nil
 }
 
-//Deprecated version of ScheduleEntry_Status. Use v1beta20201201.ScheduleEntry_Status instead
+// Deprecated version of ScheduleEntry_Status. Use v1beta20201201.ScheduleEntry_Status instead
 type ScheduleEntry_Status struct {
 	DayOfWeek         *ScheduleEntryStatusDayOfWeek `json:"dayOfWeek,omitempty"`
 	MaintenanceWindow *string                       `json:"maintenanceWindow,omitempty"`
@@ -993,7 +993,7 @@ func (entry *ScheduleEntry_Status) AssignPropertiesToScheduleEntryStatus(destina
 	return nil
 }
 
-//Deprecated version of ScheduleEntryDayOfWeek. Use v1beta20201201.ScheduleEntryDayOfWeek instead
+// Deprecated version of ScheduleEntryDayOfWeek. Use v1beta20201201.ScheduleEntryDayOfWeek instead
 // +kubebuilder:validation:Enum={"Everyday","Friday","Monday","Saturday","Sunday","Thursday","Tuesday","Wednesday","Weekend"}
 type ScheduleEntryDayOfWeek string
 
@@ -1009,7 +1009,7 @@ const (
 	ScheduleEntryDayOfWeekWeekend   = ScheduleEntryDayOfWeek("Weekend")
 )
 
-//Deprecated version of ScheduleEntryStatusDayOfWeek. Use v1beta20201201.ScheduleEntryStatusDayOfWeek instead
+// Deprecated version of ScheduleEntryStatusDayOfWeek. Use v1beta20201201.ScheduleEntryStatusDayOfWeek instead
 type ScheduleEntryStatusDayOfWeek string
 
 const (

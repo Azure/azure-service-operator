@@ -5,7 +5,7 @@ package v1alpha1api20201201
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-//Deprecated version of RedisPatchSchedules_Spec. Use v1beta20201201.RedisPatchSchedules_Spec instead
+// Deprecated version of RedisPatchSchedules_Spec. Use v1beta20201201.RedisPatchSchedules_Spec instead
 type RedisPatchSchedules_SpecARM struct {
 	Location   *string             `json:"location,omitempty"`
 	Name       string              `json:"name,omitempty"`
@@ -30,12 +30,12 @@ func (schedules RedisPatchSchedules_SpecARM) GetType() string {
 	return "Microsoft.Cache/redis/patchSchedules"
 }
 
-//Deprecated version of ScheduleEntries. Use v1beta20201201.ScheduleEntries instead
+// Deprecated version of ScheduleEntries. Use v1beta20201201.ScheduleEntries instead
 type ScheduleEntriesARM struct {
 	ScheduleEntries []ScheduleEntryARM `json:"scheduleEntries,omitempty"`
 }
 
-//Deprecated version of ScheduleEntry. Use v1beta20201201.ScheduleEntry instead
+// Deprecated version of ScheduleEntry. Use v1beta20201201.ScheduleEntry instead
 type ScheduleEntryARM struct {
 	DayOfWeek         *ScheduleEntryDayOfWeek `json:"dayOfWeek,omitempty"`
 	MaintenanceWindow *string                 `json:"maintenanceWindow,omitempty"`

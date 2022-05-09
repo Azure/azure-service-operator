@@ -133,7 +133,7 @@ func RunJSONSerializationTestForIdentityPropertiesARM(subject IdentityProperties
 }
 
 // Generator of IdentityPropertiesARM instances for property testing - lazily instantiated by
-//IdentityPropertiesARMGenerator()
+// IdentityPropertiesARMGenerator()
 var identityPropertiesARMGenerator gopter.Gen
 
 // IdentityPropertiesARMGenerator returns a generator of IdentityPropertiesARM instances for property testing.
@@ -213,7 +213,7 @@ func RunJSONSerializationTestForRegistryPropertiesARM(subject RegistryProperties
 }
 
 // Generator of RegistryPropertiesARM instances for property testing - lazily instantiated by
-//RegistryPropertiesARMGenerator()
+// RegistryPropertiesARMGenerator()
 var registryPropertiesARMGenerator gopter.Gen
 
 // RegistryPropertiesARMGenerator returns a generator of RegistryPropertiesARM instances for property testing.
@@ -356,7 +356,7 @@ func RunJSONSerializationTestForEncryptionPropertyARM(subject EncryptionProperty
 }
 
 // Generator of EncryptionPropertyARM instances for property testing - lazily instantiated by
-//EncryptionPropertyARMGenerator()
+// EncryptionPropertyARMGenerator()
 var encryptionPropertyARMGenerator gopter.Gen
 
 // EncryptionPropertyARMGenerator returns a generator of EncryptionPropertyARM instances for property testing.
@@ -565,7 +565,7 @@ func RunJSONSerializationTestForUserIdentityPropertiesARM(subject UserIdentityPr
 }
 
 // Generator of UserIdentityPropertiesARM instances for property testing - lazily instantiated by
-//UserIdentityPropertiesARMGenerator()
+// UserIdentityPropertiesARMGenerator()
 var userIdentityPropertiesARMGenerator gopter.Gen
 
 // UserIdentityPropertiesARMGenerator returns a generator of UserIdentityPropertiesARM instances for property testing.
@@ -745,7 +745,7 @@ func RunJSONSerializationTestForKeyVaultPropertiesARM(subject KeyVaultProperties
 }
 
 // Generator of KeyVaultPropertiesARM instances for property testing - lazily instantiated by
-//KeyVaultPropertiesARMGenerator()
+// KeyVaultPropertiesARMGenerator()
 var keyVaultPropertiesARMGenerator gopter.Gen
 
 // KeyVaultPropertiesARMGenerator returns a generator of KeyVaultPropertiesARM instances for property testing.
@@ -806,7 +806,7 @@ func RunJSONSerializationTestForQuarantinePolicyARM(subject QuarantinePolicyARM)
 }
 
 // Generator of QuarantinePolicyARM instances for property testing - lazily instantiated by
-//QuarantinePolicyARMGenerator()
+// QuarantinePolicyARMGenerator()
 var quarantinePolicyARMGenerator gopter.Gen
 
 // QuarantinePolicyARMGenerator returns a generator of QuarantinePolicyARM instances for property testing.

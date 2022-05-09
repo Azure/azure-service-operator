@@ -5,7 +5,7 @@ package v1alpha1api20180501preview
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-//Deprecated version of Webtests_Spec. Use v1beta20180501preview.Webtests_Spec instead
+// Deprecated version of Webtests_Spec. Use v1beta20180501preview.Webtests_Spec instead
 type Webtests_SpecARM struct {
 	Location   *string               `json:"location,omitempty"`
 	Name       string                `json:"name,omitempty"`
@@ -30,7 +30,7 @@ func (webtests Webtests_SpecARM) GetType() string {
 	return "Microsoft.Insights/webtests"
 }
 
-//Deprecated version of WebTestProperties. Use v1beta20180501preview.WebTestProperties instead
+// Deprecated version of WebTestProperties. Use v1beta20180501preview.WebTestProperties instead
 type WebTestPropertiesARM struct {
 	Configuration      *WebTestPropertiesConfigurationARM   `json:"Configuration,omitempty"`
 	Description        *string                              `json:"Description,omitempty"`
@@ -46,17 +46,17 @@ type WebTestPropertiesARM struct {
 	ValidationRules    *WebTestPropertiesValidationRulesARM `json:"ValidationRules,omitempty"`
 }
 
-//Deprecated version of WebTestGeolocation. Use v1beta20180501preview.WebTestGeolocation instead
+// Deprecated version of WebTestGeolocation. Use v1beta20180501preview.WebTestGeolocation instead
 type WebTestGeolocationARM struct {
 	Id *string `json:"Id,omitempty"`
 }
 
-//Deprecated version of WebTestPropertiesConfiguration. Use v1beta20180501preview.WebTestPropertiesConfiguration instead
+// Deprecated version of WebTestPropertiesConfiguration. Use v1beta20180501preview.WebTestPropertiesConfiguration instead
 type WebTestPropertiesConfigurationARM struct {
 	WebTest *string `json:"WebTest,omitempty"`
 }
 
-//Deprecated version of WebTestPropertiesRequest. Use v1beta20180501preview.WebTestPropertiesRequest instead
+// Deprecated version of WebTestPropertiesRequest. Use v1beta20180501preview.WebTestPropertiesRequest instead
 type WebTestPropertiesRequestARM struct {
 	FollowRedirects        *bool            `json:"FollowRedirects,omitempty"`
 	Headers                []HeaderFieldARM `json:"Headers,omitempty"`
@@ -66,7 +66,7 @@ type WebTestPropertiesRequestARM struct {
 	RequestUrl             *string          `json:"RequestUrl,omitempty"`
 }
 
-//Deprecated version of WebTestPropertiesValidationRules. Use v1beta20180501preview.WebTestPropertiesValidationRules instead
+// Deprecated version of WebTestPropertiesValidationRules. Use v1beta20180501preview.WebTestPropertiesValidationRules instead
 type WebTestPropertiesValidationRulesARM struct {
 	ContentValidation             *WebTestPropertiesValidationRulesContentValidationARM `json:"ContentValidation,omitempty"`
 	ExpectedHttpStatusCode        *int                                                  `json:"ExpectedHttpStatusCode,omitempty"`
@@ -75,13 +75,13 @@ type WebTestPropertiesValidationRulesARM struct {
 	SSLCheck                      *bool                                                 `json:"SSLCheck,omitempty"`
 }
 
-//Deprecated version of HeaderField. Use v1beta20180501preview.HeaderField instead
+// Deprecated version of HeaderField. Use v1beta20180501preview.HeaderField instead
 type HeaderFieldARM struct {
 	Key   *string `json:"key,omitempty"`
 	Value *string `json:"value,omitempty"`
 }
 
-//Deprecated version of WebTestPropertiesValidationRulesContentValidation. Use v1beta20180501preview.WebTestPropertiesValidationRulesContentValidation instead
+// Deprecated version of WebTestPropertiesValidationRulesContentValidation. Use v1beta20180501preview.WebTestPropertiesValidationRulesContentValidation instead
 type WebTestPropertiesValidationRulesContentValidationARM struct {
 	ContentMatch    *string `json:"ContentMatch,omitempty"`
 	IgnoreCase      *bool   `json:"IgnoreCase,omitempty"`

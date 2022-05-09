@@ -6,16 +6,16 @@ package v1beta20200801preview
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type RoleAssignments_SpecARM struct {
-	//Location: Location to deploy resource to
+	// Location: Location to deploy resource to
 	Location *string `json:"location,omitempty"`
 
-	//Name: The name of the role assignment. It can be any valid GUID.
+	// Name: The name of the role assignment. It can be any valid GUID.
 	Name string `json:"name,omitempty"`
 
-	//Properties: Role assignment properties.
+	// Properties: Role assignment properties.
 	Properties *RoleAssignmentPropertiesARM `json:"properties,omitempty"`
 
-	//Tags: Name-value pairs to add to the resource
+	// Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
@@ -36,26 +36,26 @@ func (assignments RoleAssignments_SpecARM) GetType() string {
 	return "Microsoft.Authorization/roleAssignments"
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2020-08-01-preview/Microsoft.Authorization.Authz.json#/definitions/RoleAssignmentProperties
+// Generated from: https://schema.management.azure.com/schemas/2020-08-01-preview/Microsoft.Authorization.Authz.json#/definitions/RoleAssignmentProperties
 type RoleAssignmentPropertiesARM struct {
-	//Condition: The conditions on the role assignment. This limits the resources it can be assigned to. e.g.:
-	//@Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName] StringEqualsIgnoreCase
-	//'foo_storage_container'
+	// Condition: The conditions on the role assignment. This limits the resources it can be assigned to. e.g.:
+	// @Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName] StringEqualsIgnoreCase
+	// 'foo_storage_container'
 	Condition *string `json:"condition,omitempty"`
 
-	//ConditionVersion: Version of the condition. Currently accepted value is '2.0'
+	// ConditionVersion: Version of the condition. Currently accepted value is '2.0'
 	ConditionVersion *string `json:"conditionVersion,omitempty"`
 
-	//DelegatedManagedIdentityResourceId: Id of the delegated managed identity resource
+	// DelegatedManagedIdentityResourceId: Id of the delegated managed identity resource
 	DelegatedManagedIdentityResourceId *string `json:"delegatedManagedIdentityResourceId,omitempty"`
 
-	//Description: Description of role assignment
+	// Description: Description of role assignment
 	Description *string `json:"description,omitempty"`
 
-	//PrincipalId: The principal ID.
+	// PrincipalId: The principal ID.
 	PrincipalId *string `json:"principalId,omitempty"`
 
-	//PrincipalType: The principal type of the assigned principal ID.
+	// PrincipalType: The principal type of the assigned principal ID.
 	PrincipalType    *RoleAssignmentPropertiesPrincipalType `json:"principalType,omitempty"`
 	RoleDefinitionId *string                                `json:"roleDefinitionId,omitempty"`
 }

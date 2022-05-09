@@ -136,7 +136,7 @@ func RunJSONSerializationTestForSnapshotPropertiesStatusARM(subject SnapshotProp
 }
 
 // Generator of SnapshotProperties_StatusARM instances for property testing - lazily instantiated by
-//SnapshotPropertiesStatusARMGenerator()
+// SnapshotPropertiesStatusARMGenerator()
 var snapshotPropertiesStatusARMGenerator gopter.Gen
 
 // SnapshotPropertiesStatusARMGenerator returns a generator of SnapshotProperties_StatusARM instances for property testing.
@@ -229,7 +229,7 @@ func RunJSONSerializationTestForSnapshotSkuStatusARM(subject SnapshotSku_StatusA
 }
 
 // Generator of SnapshotSku_StatusARM instances for property testing - lazily instantiated by
-//SnapshotSkuStatusARMGenerator()
+// SnapshotSkuStatusARMGenerator()
 var snapshotSkuStatusARMGenerator gopter.Gen
 
 // SnapshotSkuStatusARMGenerator returns a generator of SnapshotSku_StatusARM instances for property testing.

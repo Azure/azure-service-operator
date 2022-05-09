@@ -90,7 +90,7 @@ func RunPropertyAssignmentTestForVirtualNetworkGateway(subject VirtualNetworkGat
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -141,7 +141,7 @@ func RunJSONSerializationTestForVirtualNetworkGateway(subject VirtualNetworkGate
 }
 
 // Generator of VirtualNetworkGateway instances for property testing - lazily instantiated by
-//VirtualNetworkGatewayGenerator()
+// VirtualNetworkGatewayGenerator()
 var virtualNetworkGatewayGenerator gopter.Gen
 
 // VirtualNetworkGatewayGenerator returns a generator of VirtualNetworkGateway instances for property testing.
@@ -193,7 +193,7 @@ func RunPropertyAssignmentTestForVirtualNetworkGatewayStatus(subject VirtualNetw
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -244,7 +244,7 @@ func RunJSONSerializationTestForVirtualNetworkGatewayStatus(subject VirtualNetwo
 }
 
 // Generator of VirtualNetworkGateway_Status instances for property testing - lazily instantiated by
-//VirtualNetworkGatewayStatusGenerator()
+// VirtualNetworkGatewayStatusGenerator()
 var virtualNetworkGatewayStatusGenerator gopter.Gen
 
 // VirtualNetworkGatewayStatusGenerator returns a generator of VirtualNetworkGateway_Status instances for property testing.
@@ -331,7 +331,7 @@ func RunPropertyAssignmentTestForVirtualNetworkGatewaysSpec(subject VirtualNetwo
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -382,7 +382,7 @@ func RunJSONSerializationTestForVirtualNetworkGatewaysSpec(subject VirtualNetwor
 }
 
 // Generator of VirtualNetworkGateways_Spec instances for property testing - lazily instantiated by
-//VirtualNetworkGatewaysSpecGenerator()
+// VirtualNetworkGatewaysSpecGenerator()
 var virtualNetworkGatewaysSpecGenerator gopter.Gen
 
 // VirtualNetworkGatewaysSpecGenerator returns a generator of VirtualNetworkGateways_Spec instances for property testing.
@@ -463,7 +463,7 @@ func RunPropertyAssignmentTestForBgpSettings(subject BgpSettings) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -580,7 +580,7 @@ func RunPropertyAssignmentTestForBgpSettingsStatus(subject BgpSettings_Status) s
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -697,7 +697,7 @@ func RunPropertyAssignmentTestForVirtualNetworkGatewayIPConfigurationStatus(subj
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -748,7 +748,7 @@ func RunJSONSerializationTestForVirtualNetworkGatewayIPConfigurationStatus(subje
 }
 
 // Generator of VirtualNetworkGatewayIPConfiguration_Status instances for property testing - lazily instantiated by
-//VirtualNetworkGatewayIPConfigurationStatusGenerator()
+// VirtualNetworkGatewayIPConfigurationStatusGenerator()
 var virtualNetworkGatewayIPConfigurationStatusGenerator gopter.Gen
 
 // VirtualNetworkGatewayIPConfigurationStatusGenerator returns a generator of VirtualNetworkGatewayIPConfiguration_Status instances for property testing.
@@ -819,7 +819,7 @@ func RunPropertyAssignmentTestForVirtualNetworkGatewaySku(subject VirtualNetwork
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -870,7 +870,7 @@ func RunJSONSerializationTestForVirtualNetworkGatewaySku(subject VirtualNetworkG
 }
 
 // Generator of VirtualNetworkGatewaySku instances for property testing - lazily instantiated by
-//VirtualNetworkGatewaySkuGenerator()
+// VirtualNetworkGatewaySkuGenerator()
 var virtualNetworkGatewaySkuGenerator gopter.Gen
 
 // VirtualNetworkGatewaySkuGenerator returns a generator of VirtualNetworkGatewaySku instances for property testing.
@@ -922,7 +922,7 @@ func RunPropertyAssignmentTestForVirtualNetworkGatewaySkuStatus(subject VirtualN
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -973,7 +973,7 @@ func RunJSONSerializationTestForVirtualNetworkGatewaySkuStatus(subject VirtualNe
 }
 
 // Generator of VirtualNetworkGatewaySku_Status instances for property testing - lazily instantiated by
-//VirtualNetworkGatewaySkuStatusGenerator()
+// VirtualNetworkGatewaySkuStatusGenerator()
 var virtualNetworkGatewaySkuStatusGenerator gopter.Gen
 
 // VirtualNetworkGatewaySkuStatusGenerator returns a generator of VirtualNetworkGatewaySku_Status instances for property testing.
@@ -1026,7 +1026,7 @@ func RunPropertyAssignmentTestForVirtualNetworkGatewaysSpecPropertiesIpConfigura
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1077,7 +1077,7 @@ func RunJSONSerializationTestForVirtualNetworkGatewaysSpecPropertiesIpConfigurat
 }
 
 // Generator of VirtualNetworkGateways_Spec_Properties_IpConfigurations instances for property testing - lazily
-//instantiated by VirtualNetworkGatewaysSpecPropertiesIpConfigurationsGenerator()
+// instantiated by VirtualNetworkGatewaysSpecPropertiesIpConfigurationsGenerator()
 var virtualNetworkGatewaysSpecPropertiesIpConfigurationsGenerator gopter.Gen
 
 // VirtualNetworkGatewaysSpecPropertiesIpConfigurationsGenerator returns a generator of VirtualNetworkGateways_Spec_Properties_IpConfigurations instances for property testing.
@@ -1144,7 +1144,7 @@ func RunPropertyAssignmentTestForVirtualNetworkGatewaysSpecPropertiesVpnClientCo
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1195,7 +1195,7 @@ func RunJSONSerializationTestForVirtualNetworkGatewaysSpecPropertiesVpnClientCon
 }
 
 // Generator of VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration instances for property testing - lazily
-//instantiated by VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationGenerator()
+// instantiated by VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationGenerator()
 var virtualNetworkGatewaysSpecPropertiesVpnClientConfigurationGenerator gopter.Gen
 
 // VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationGenerator returns a generator of VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration instances for property testing.
@@ -1270,7 +1270,7 @@ func RunPropertyAssignmentTestForVpnClientConfigurationStatus(subject VpnClientC
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1321,7 +1321,7 @@ func RunJSONSerializationTestForVpnClientConfigurationStatus(subject VpnClientCo
 }
 
 // Generator of VpnClientConfiguration_Status instances for property testing - lazily instantiated by
-//VpnClientConfigurationStatusGenerator()
+// VpnClientConfigurationStatusGenerator()
 var vpnClientConfigurationStatusGenerator gopter.Gen
 
 // VpnClientConfigurationStatusGenerator returns a generator of VpnClientConfiguration_Status instances for property testing.
@@ -1396,7 +1396,7 @@ func RunPropertyAssignmentTestForIPConfigurationBgpPeeringAddress(subject IPConf
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1447,7 +1447,7 @@ func RunJSONSerializationTestForIPConfigurationBgpPeeringAddress(subject IPConfi
 }
 
 // Generator of IPConfigurationBgpPeeringAddress instances for property testing - lazily instantiated by
-//IPConfigurationBgpPeeringAddressGenerator()
+// IPConfigurationBgpPeeringAddressGenerator()
 var ipConfigurationBgpPeeringAddressGenerator gopter.Gen
 
 // IPConfigurationBgpPeeringAddressGenerator returns a generator of IPConfigurationBgpPeeringAddress instances for property testing.
@@ -1499,7 +1499,7 @@ func RunPropertyAssignmentTestForIPConfigurationBgpPeeringAddressStatus(subject 
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1550,7 +1550,7 @@ func RunJSONSerializationTestForIPConfigurationBgpPeeringAddressStatus(subject I
 }
 
 // Generator of IPConfigurationBgpPeeringAddress_Status instances for property testing - lazily instantiated by
-//IPConfigurationBgpPeeringAddressStatusGenerator()
+// IPConfigurationBgpPeeringAddressStatusGenerator()
 var ipConfigurationBgpPeeringAddressStatusGenerator gopter.Gen
 
 // IPConfigurationBgpPeeringAddressStatusGenerator returns a generator of IPConfigurationBgpPeeringAddress_Status instances for property testing.
@@ -1604,7 +1604,7 @@ func RunPropertyAssignmentTestForIpsecPolicy(subject IpsecPolicy) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1712,7 +1712,7 @@ func RunPropertyAssignmentTestForIpsecPolicyStatus(subject IpsecPolicy_Status) s
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1820,7 +1820,7 @@ func RunPropertyAssignmentTestForRadiusServer(subject RadiusServer) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1923,7 +1923,7 @@ func RunPropertyAssignmentTestForRadiusServerStatus(subject RadiusServer_Status)
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -2026,7 +2026,7 @@ func RunPropertyAssignmentTestForVirtualNetworkGatewaysSpecPropertiesVpnClientCo
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -2077,8 +2077,8 @@ func RunJSONSerializationTestForVirtualNetworkGatewaysSpecPropertiesVpnClientCon
 }
 
 // Generator of VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates instances for
-//property testing - lazily instantiated by
-//VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificatesGenerator()
+// property testing - lazily instantiated by
+// VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificatesGenerator()
 var virtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificatesGenerator gopter.Gen
 
 // VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificatesGenerator returns a generator of VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates instances for property testing.
@@ -2130,7 +2130,7 @@ func RunPropertyAssignmentTestForVirtualNetworkGatewaysSpecPropertiesVpnClientCo
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -2181,8 +2181,8 @@ func RunJSONSerializationTestForVirtualNetworkGatewaysSpecPropertiesVpnClientCon
 }
 
 // Generator of VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates instances for
-//property testing - lazily instantiated by
-//VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificatesGenerator()
+// property testing - lazily instantiated by
+// VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificatesGenerator()
 var virtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificatesGenerator gopter.Gen
 
 // VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificatesGenerator returns a generator of VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates instances for property testing.
@@ -2234,7 +2234,7 @@ func RunPropertyAssignmentTestForVpnClientRevokedCertificateStatus(subject VpnCl
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -2285,7 +2285,7 @@ func RunJSONSerializationTestForVpnClientRevokedCertificateStatus(subject VpnCli
 }
 
 // Generator of VpnClientRevokedCertificate_Status instances for property testing - lazily instantiated by
-//VpnClientRevokedCertificateStatusGenerator()
+// VpnClientRevokedCertificateStatusGenerator()
 var vpnClientRevokedCertificateStatusGenerator gopter.Gen
 
 // VpnClientRevokedCertificateStatusGenerator returns a generator of VpnClientRevokedCertificate_Status instances for property testing.
@@ -2340,7 +2340,7 @@ func RunPropertyAssignmentTestForVpnClientRootCertificateStatus(subject VpnClien
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -2391,7 +2391,7 @@ func RunJSONSerializationTestForVpnClientRootCertificateStatus(subject VpnClient
 }
 
 // Generator of VpnClientRootCertificate_Status instances for property testing - lazily instantiated by
-//VpnClientRootCertificateStatusGenerator()
+// VpnClientRootCertificateStatusGenerator()
 var vpnClientRootCertificateStatusGenerator gopter.Gen
 
 // VpnClientRootCertificateStatusGenerator returns a generator of VpnClientRootCertificate_Status instances for property testing.

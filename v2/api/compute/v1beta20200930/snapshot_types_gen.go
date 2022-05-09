@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/resourceDefinitions/snapshots
+// Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/resourceDefinitions/snapshots
 type Snapshot struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -310,7 +310,7 @@ func (snapshot *Snapshot) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/resourceDefinitions/snapshots
+// Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/resourceDefinitions/snapshots
 type SnapshotList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -318,76 +318,76 @@ type SnapshotList struct {
 }
 
 type Snapshot_Status struct {
-	//Conditions: The observed state of the resource
+	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
-	//CreationData: Disk source information. CreationData information cannot be changed after the disk has been created.
+	// CreationData: Disk source information. CreationData information cannot be changed after the disk has been created.
 	CreationData *CreationData_Status `json:"creationData,omitempty"`
 
-	//DiskAccessId: ARM id of the DiskAccess resource for using private endpoints on disks.
+	// DiskAccessId: ARM id of the DiskAccess resource for using private endpoints on disks.
 	DiskAccessId *string `json:"diskAccessId,omitempty"`
 
-	//DiskSizeBytes: The size of the disk in bytes. This field is read only.
+	// DiskSizeBytes: The size of the disk in bytes. This field is read only.
 	DiskSizeBytes *int `json:"diskSizeBytes,omitempty"`
 
-	//DiskSizeGB: If creationData.createOption is Empty, this field is mandatory and it indicates the size of the disk to
-	//create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only
-	//allowed if the disk is not attached to a running VM, and can only increase the disk's size.
+	// DiskSizeGB: If creationData.createOption is Empty, this field is mandatory and it indicates the size of the disk to
+	// create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only
+	// allowed if the disk is not attached to a running VM, and can only increase the disk's size.
 	DiskSizeGB *int `json:"diskSizeGB,omitempty"`
 
-	//DiskState: The state of the snapshot.
+	// DiskState: The state of the snapshot.
 	DiskState *DiskState_Status `json:"diskState,omitempty"`
 
-	//Encryption: Encryption property can be used to encrypt data at rest with customer managed keys or platform managed keys.
+	// Encryption: Encryption property can be used to encrypt data at rest with customer managed keys or platform managed keys.
 	Encryption *Encryption_Status `json:"encryption,omitempty"`
 
-	//EncryptionSettingsCollection: Encryption settings collection used be Azure Disk Encryption, can contain multiple
-	//encryption settings per disk or snapshot.
+	// EncryptionSettingsCollection: Encryption settings collection used be Azure Disk Encryption, can contain multiple
+	// encryption settings per disk or snapshot.
 	EncryptionSettingsCollection *EncryptionSettingsCollection_Status `json:"encryptionSettingsCollection,omitempty"`
 
-	//ExtendedLocation: The extended location where the snapshot will be created. Extended location cannot be changed.
+	// ExtendedLocation: The extended location where the snapshot will be created. Extended location cannot be changed.
 	ExtendedLocation *ExtendedLocation_Status `json:"extendedLocation,omitempty"`
 
-	//HyperVGeneration: The hypervisor generation of the Virtual Machine. Applicable to OS disks only.
+	// HyperVGeneration: The hypervisor generation of the Virtual Machine. Applicable to OS disks only.
 	HyperVGeneration *SnapshotPropertiesStatusHyperVGeneration `json:"hyperVGeneration,omitempty"`
 
-	//Id: Resource Id
+	// Id: Resource Id
 	Id *string `json:"id,omitempty"`
 
-	//Incremental: Whether a snapshot is incremental. Incremental snapshots on the same disk occupy less space than full
-	//snapshots and can be diffed.
+	// Incremental: Whether a snapshot is incremental. Incremental snapshots on the same disk occupy less space than full
+	// snapshots and can be diffed.
 	Incremental *bool `json:"incremental,omitempty"`
 
-	//Location: Resource location
+	// Location: Resource location
 	Location *string `json:"location,omitempty"`
 
-	//ManagedBy: Unused. Always Null.
+	// ManagedBy: Unused. Always Null.
 	ManagedBy *string `json:"managedBy,omitempty"`
 
-	//Name: Resource name
+	// Name: Resource name
 	Name                *string                     `json:"name,omitempty"`
 	NetworkAccessPolicy *NetworkAccessPolicy_Status `json:"networkAccessPolicy,omitempty"`
 
-	//OsType: The Operating System type.
+	// OsType: The Operating System type.
 	OsType *SnapshotPropertiesStatusOsType `json:"osType,omitempty"`
 
-	//ProvisioningState: The disk provisioning state.
+	// ProvisioningState: The disk provisioning state.
 	ProvisioningState *string `json:"provisioningState,omitempty"`
 
-	//PurchasePlan: Purchase plan information for the image from which the source disk for the snapshot was originally created.
+	// PurchasePlan: Purchase plan information for the image from which the source disk for the snapshot was originally created.
 	PurchasePlan *PurchasePlan_Status `json:"purchasePlan,omitempty"`
 	Sku          *SnapshotSku_Status  `json:"sku,omitempty"`
 
-	//Tags: Resource tags
+	// Tags: Resource tags
 	Tags map[string]string `json:"tags,omitempty"`
 
-	//TimeCreated: The time when the snapshot was created.
+	// TimeCreated: The time when the snapshot was created.
 	TimeCreated *string `json:"timeCreated,omitempty"`
 
-	//Type: Resource type
+	// Type: Resource type
 	Type *string `json:"type,omitempty"`
 
-	//UniqueId: Unique Guid identifying the resource.
+	// UniqueId: Unique Guid identifying the resource.
 	UniqueId *string `json:"uniqueId,omitempty"`
 }
 
@@ -1007,62 +1007,62 @@ type SnapshotsSpecAPIVersion string
 const SnapshotsSpecAPIVersion20200930 = SnapshotsSpecAPIVersion("2020-09-30")
 
 type Snapshots_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//CreationData: Data used when creating a disk.
+	// CreationData: Data used when creating a disk.
 	CreationData *CreationData `json:"creationData,omitempty"`
 
-	//DiskAccessReference: ARM id of the DiskAccess resource for using private endpoints on disks.
+	// DiskAccessReference: ARM id of the DiskAccess resource for using private endpoints on disks.
 	DiskAccessReference *genruntime.ResourceReference `armReference:"DiskAccessId" json:"diskAccessReference,omitempty"`
 
-	//DiskSizeGB: If creationData.createOption is Empty, this field is mandatory and it indicates the size of the disk to
-	//create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only
-	//allowed if the disk is not attached to a running VM, and can only increase the disk's size.
+	// DiskSizeGB: If creationData.createOption is Empty, this field is mandatory and it indicates the size of the disk to
+	// create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only
+	// allowed if the disk is not attached to a running VM, and can only increase the disk's size.
 	DiskSizeGB *int `json:"diskSizeGB,omitempty"`
 
-	//DiskState: The state of the snapshot.
+	// DiskState: The state of the snapshot.
 	DiskState *SnapshotPropertiesDiskState `json:"diskState,omitempty"`
 
-	//Encryption: Encryption at rest settings for disk or snapshot
+	// Encryption: Encryption at rest settings for disk or snapshot
 	Encryption *Encryption `json:"encryption,omitempty"`
 
-	//EncryptionSettingsCollection: Encryption settings for disk or snapshot
+	// EncryptionSettingsCollection: Encryption settings for disk or snapshot
 	EncryptionSettingsCollection *EncryptionSettingsCollection `json:"encryptionSettingsCollection,omitempty"`
 
-	//ExtendedLocation: The complex type of the extended location.
+	// ExtendedLocation: The complex type of the extended location.
 	ExtendedLocation *ExtendedLocation `json:"extendedLocation,omitempty"`
 
-	//HyperVGeneration: The hypervisor generation of the Virtual Machine. Applicable to OS disks only.
+	// HyperVGeneration: The hypervisor generation of the Virtual Machine. Applicable to OS disks only.
 	HyperVGeneration *SnapshotPropertiesHyperVGeneration `json:"hyperVGeneration,omitempty"`
 
-	//Incremental: Whether a snapshot is incremental. Incremental snapshots on the same disk occupy less space than full
-	//snapshots and can be diffed.
+	// Incremental: Whether a snapshot is incremental. Incremental snapshots on the same disk occupy less space than full
+	// snapshots and can be diffed.
 	Incremental *bool `json:"incremental,omitempty"`
 
-	//Location: Location to deploy resource to
+	// Location: Location to deploy resource to
 	Location            *string                                `json:"location,omitempty"`
 	NetworkAccessPolicy *SnapshotPropertiesNetworkAccessPolicy `json:"networkAccessPolicy,omitempty"`
 
-	//OsType: The Operating System type.
+	// OsType: The Operating System type.
 	OsType *SnapshotPropertiesOsType `json:"osType,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a resources.azure.com/ResourceGroup resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
-	//PurchasePlan: Used for establishing the purchase context of any 3rd Party artifact through MarketPlace.
+	// PurchasePlan: Used for establishing the purchase context of any 3rd Party artifact through MarketPlace.
 	PurchasePlan *PurchasePlan `json:"purchasePlan,omitempty"`
 
-	//Sku: The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS. This is an optional parameter for
-	//incremental snapshot and the default behavior is the SKU will be set to the same sku as the previous snapshot
+	// Sku: The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS. This is an optional parameter for
+	// incremental snapshot and the default behavior is the SKU will be set to the same sku as the previous snapshot
 	Sku *SnapshotSku `json:"sku,omitempty"`
 
-	//Tags: Name-value pairs to add to the resource
+	// Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
@@ -1780,9 +1780,9 @@ const (
 	SnapshotPropertiesStatusOsTypeWindows = SnapshotPropertiesStatusOsType("Windows")
 )
 
-//Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/SnapshotSku
+// Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/SnapshotSku
 type SnapshotSku struct {
-	//Name: The sku name.
+	// Name: The sku name.
 	Name *SnapshotSkuName `json:"name,omitempty"`
 }
 
@@ -1865,10 +1865,10 @@ func (snapshotSku *SnapshotSku) AssignPropertiesToSnapshotSku(destination *v2020
 }
 
 type SnapshotSku_Status struct {
-	//Name: The sku name.
+	// Name: The sku name.
 	Name *SnapshotSkuStatusName `json:"name,omitempty"`
 
-	//Tier: The sku tier.
+	// Tier: The sku tier.
 	Tier *string `json:"tier,omitempty"`
 }
 

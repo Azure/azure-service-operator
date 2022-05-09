@@ -6,16 +6,16 @@ package v1beta20210501
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type FlexibleServersFirewallRules_SpecARM struct {
-	//Location: Location to deploy resource to
+	// Location: Location to deploy resource to
 	Location *string `json:"location,omitempty"`
 
-	//Name: The name of the server firewall rule.
+	// Name: The name of the server firewall rule.
 	Name string `json:"name,omitempty"`
 
-	//Properties: The properties of a server firewall rule.
+	// Properties: The properties of a server firewall rule.
 	Properties *FirewallRulePropertiesARM `json:"properties,omitempty"`
 
-	//Tags: Name-value pairs to add to the resource
+	// Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
@@ -36,11 +36,11 @@ func (rules FlexibleServersFirewallRules_SpecARM) GetType() string {
 	return "Microsoft.DBforMySQL/flexibleServers/firewallRules"
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/FirewallRuleProperties
+// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/FirewallRuleProperties
 type FirewallRulePropertiesARM struct {
-	//EndIpAddress: The end IP address of the server firewall rule. Must be IPv4 format.
+	// EndIpAddress: The end IP address of the server firewall rule. Must be IPv4 format.
 	EndIpAddress *string `json:"endIpAddress,omitempty"`
 
-	//StartIpAddress: The start IP address of the server firewall rule. Must be IPv4 format.
+	// StartIpAddress: The start IP address of the server firewall rule. Must be IPv4 format.
 	StartIpAddress *string `json:"startIpAddress,omitempty"`
 }

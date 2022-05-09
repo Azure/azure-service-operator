@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1alpha1api20210515
 
-//Deprecated version of SqlStoredProcedureGetResults_Status. Use v1beta20210515.SqlStoredProcedureGetResults_Status instead
+// Deprecated version of SqlStoredProcedureGetResults_Status. Use v1beta20210515.SqlStoredProcedureGetResults_Status instead
 type SqlStoredProcedureGetResults_StatusARM struct {
 	Id         *string                                    `json:"id,omitempty"`
 	Location   *string                                    `json:"location,omitempty"`
@@ -13,12 +13,12 @@ type SqlStoredProcedureGetResults_StatusARM struct {
 	Type       *string                                    `json:"type,omitempty"`
 }
 
-//Deprecated version of SqlStoredProcedureGetProperties_Status. Use v1beta20210515.SqlStoredProcedureGetProperties_Status instead
+// Deprecated version of SqlStoredProcedureGetProperties_Status. Use v1beta20210515.SqlStoredProcedureGetProperties_Status instead
 type SqlStoredProcedureGetProperties_StatusARM struct {
 	Resource *SqlStoredProcedureGetProperties_Status_ResourceARM `json:"resource,omitempty"`
 }
 
-//Deprecated version of SqlStoredProcedureGetProperties_Status_Resource. Use v1beta20210515.SqlStoredProcedureGetProperties_Status_Resource instead
+// Deprecated version of SqlStoredProcedureGetProperties_Status_Resource. Use v1beta20210515.SqlStoredProcedureGetProperties_Status_Resource instead
 type SqlStoredProcedureGetProperties_Status_ResourceARM struct {
 	Body *string  `json:"body,omitempty"`
 	Etag *string  `json:"_etag,omitempty"`

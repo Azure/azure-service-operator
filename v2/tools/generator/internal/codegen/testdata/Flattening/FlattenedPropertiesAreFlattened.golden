@@ -9,7 +9,7 @@ import (
 	"github.com/pkg/errors"
 )
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json
+// Generated from: https://test.test/schemas/2020-01-01/test.json
 type Test struct {
 	InnerFlat    *Inner `json:"inner_flat,omitempty"`
 	InnerNotFlat *Inner `json:"inner_not_flat,omitempty"`
@@ -86,7 +86,7 @@ func (test *Test) AssignPropertiesToTest(destination *v20200101s.Test) error {
 	return nil
 }
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Inner
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Inner
 type Inner struct {
 	Color *string `json:"color,omitempty"`
 	Name  *string `json:"name,omitempty"`

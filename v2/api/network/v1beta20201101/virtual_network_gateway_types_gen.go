@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/virtualNetworkGateways
+// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/virtualNetworkGateways
 type VirtualNetworkGateway struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -310,7 +310,7 @@ func (gateway *VirtualNetworkGateway) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/virtualNetworkGateways
+// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/virtualNetworkGateways
 type VirtualNetworkGatewayList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -318,84 +318,84 @@ type VirtualNetworkGatewayList struct {
 }
 
 type VirtualNetworkGateway_Status struct {
-	//ActiveActive: ActiveActive flag.
+	// ActiveActive: ActiveActive flag.
 	ActiveActive *bool `json:"activeActive,omitempty"`
 
-	//BgpSettings: Virtual network gateway's BGP speaker settings.
+	// BgpSettings: Virtual network gateway's BGP speaker settings.
 	BgpSettings *BgpSettings_Status `json:"bgpSettings,omitempty"`
 
-	//Conditions: The observed state of the resource
+	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
-	//CustomRoutes: The reference to the address space resource which represents the custom routes address space specified by
-	//the customer for virtual network gateway and VpnClient.
+	// CustomRoutes: The reference to the address space resource which represents the custom routes address space specified by
+	// the customer for virtual network gateway and VpnClient.
 	CustomRoutes *AddressSpace_Status `json:"customRoutes,omitempty"`
 
-	//EnableBgp: Whether BGP is enabled for this virtual network gateway or not.
+	// EnableBgp: Whether BGP is enabled for this virtual network gateway or not.
 	EnableBgp *bool `json:"enableBgp,omitempty"`
 
-	//EnableDnsForwarding: Whether dns forwarding is enabled or not.
+	// EnableDnsForwarding: Whether dns forwarding is enabled or not.
 	EnableDnsForwarding *bool `json:"enableDnsForwarding,omitempty"`
 
-	//EnablePrivateIpAddress: Whether private IP needs to be enabled on this gateway for connections or not.
+	// EnablePrivateIpAddress: Whether private IP needs to be enabled on this gateway for connections or not.
 	EnablePrivateIpAddress *bool `json:"enablePrivateIpAddress,omitempty"`
 
-	//Etag: A unique read-only string that changes whenever the resource is updated.
+	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
-	//ExtendedLocation: The extended location of type local virtual network gateway.
+	// ExtendedLocation: The extended location of type local virtual network gateway.
 	ExtendedLocation *ExtendedLocation_Status `json:"extendedLocation,omitempty"`
 
-	//GatewayDefaultSite: The reference to the LocalNetworkGateway resource which represents local network site having default
-	//routes. Assign Null value in case of removing existing default site setting.
+	// GatewayDefaultSite: The reference to the LocalNetworkGateway resource which represents local network site having default
+	// routes. Assign Null value in case of removing existing default site setting.
 	GatewayDefaultSite *SubResource_Status `json:"gatewayDefaultSite,omitempty"`
 
-	//GatewayType: The type of this virtual network gateway.
+	// GatewayType: The type of this virtual network gateway.
 	GatewayType *VirtualNetworkGatewayPropertiesFormatStatusGatewayType `json:"gatewayType,omitempty"`
 
-	//Id: Resource ID.
+	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 
-	//InboundDnsForwardingEndpoint: The IP address allocated by the gateway to which dns requests can be sent.
+	// InboundDnsForwardingEndpoint: The IP address allocated by the gateway to which dns requests can be sent.
 	InboundDnsForwardingEndpoint *string `json:"inboundDnsForwardingEndpoint,omitempty"`
 
-	//IpConfigurations: IP configurations for virtual network gateway.
+	// IpConfigurations: IP configurations for virtual network gateway.
 	IpConfigurations []VirtualNetworkGatewayIPConfiguration_Status `json:"ipConfigurations,omitempty"`
 
-	//Location: Resource location.
+	// Location: Resource location.
 	Location *string `json:"location,omitempty"`
 
-	//Name: Resource name.
+	// Name: Resource name.
 	Name *string `json:"name,omitempty"`
 
-	//ProvisioningState: The provisioning state of the virtual network gateway resource.
+	// ProvisioningState: The provisioning state of the virtual network gateway resource.
 	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
 
-	//ResourceGuid: The resource GUID property of the virtual network gateway resource.
+	// ResourceGuid: The resource GUID property of the virtual network gateway resource.
 	ResourceGuid *string `json:"resourceGuid,omitempty"`
 
-	//Sku: The reference to the VirtualNetworkGatewaySku resource which represents the SKU selected for Virtual network
-	//gateway.
+	// Sku: The reference to the VirtualNetworkGatewaySku resource which represents the SKU selected for Virtual network
+	// gateway.
 	Sku *VirtualNetworkGatewaySku_Status `json:"sku,omitempty"`
 
-	//Tags: Resource tags.
+	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 
-	//Type: Resource type.
+	// Type: Resource type.
 	Type *string `json:"type,omitempty"`
 
-	//VNetExtendedLocationResourceId: Customer vnet resource id. VirtualNetworkGateway of type local gateway is associated
-	//with the customer vnet.
+	// VNetExtendedLocationResourceId: Customer vnet resource id. VirtualNetworkGateway of type local gateway is associated
+	// with the customer vnet.
 	VNetExtendedLocationResourceId *string `json:"vNetExtendedLocationResourceId,omitempty"`
 
-	//VpnClientConfiguration: The reference to the VpnClientConfiguration resource which represents the P2S VpnClient
-	//configurations.
+	// VpnClientConfiguration: The reference to the VpnClientConfiguration resource which represents the P2S VpnClient
+	// configurations.
 	VpnClientConfiguration *VpnClientConfiguration_Status `json:"vpnClientConfiguration,omitempty"`
 
-	//VpnGatewayGeneration: The generation for this VirtualNetworkGateway. Must be None if gatewayType is not VPN.
+	// VpnGatewayGeneration: The generation for this VirtualNetworkGateway. Must be None if gatewayType is not VPN.
 	VpnGatewayGeneration *VirtualNetworkGatewayPropertiesFormatStatusVpnGatewayGeneration `json:"vpnGatewayGeneration,omitempty"`
 
-	//VpnType: The type of this virtual network gateway.
+	// VpnType: The type of this virtual network gateway.
 	VpnType *VirtualNetworkGatewayPropertiesFormatStatusVpnType `json:"vpnType,omitempty"`
 }
 
@@ -1097,70 +1097,70 @@ type VirtualNetworkGatewaysSpecAPIVersion string
 const VirtualNetworkGatewaysSpecAPIVersion20201101 = VirtualNetworkGatewaysSpecAPIVersion("2020-11-01")
 
 type VirtualNetworkGateways_Spec struct {
-	//ActiveActive: ActiveActive flag.
+	// ActiveActive: ActiveActive flag.
 	ActiveActive *bool `json:"activeActive,omitempty"`
 
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
-	//BgpSettings: Virtual network gateway's BGP speaker settings.
+	// BgpSettings: Virtual network gateway's BGP speaker settings.
 	BgpSettings *BgpSettings `json:"bgpSettings,omitempty"`
 
-	//CustomRoutes: The reference to the address space resource which represents the custom routes address space specified by
-	//the customer for virtual network gateway and VpnClient.
+	// CustomRoutes: The reference to the address space resource which represents the custom routes address space specified by
+	// the customer for virtual network gateway and VpnClient.
 	CustomRoutes *AddressSpace `json:"customRoutes,omitempty"`
 
-	//EnableBgp: Whether BGP is enabled for this virtual network gateway or not.
+	// EnableBgp: Whether BGP is enabled for this virtual network gateway or not.
 	EnableBgp *bool `json:"enableBgp,omitempty"`
 
-	//EnableDnsForwarding: Whether dns forwarding is enabled or not.
+	// EnableDnsForwarding: Whether dns forwarding is enabled or not.
 	EnableDnsForwarding *bool `json:"enableDnsForwarding,omitempty"`
 
-	//EnablePrivateIpAddress: Whether private IP needs to be enabled on this gateway for connections or not.
+	// EnablePrivateIpAddress: Whether private IP needs to be enabled on this gateway for connections or not.
 	EnablePrivateIpAddress *bool `json:"enablePrivateIpAddress,omitempty"`
 
-	//GatewayDefaultSite: The reference to the LocalNetworkGateway resource which represents local network site having default
-	//routes. Assign Null value in case of removing existing default site setting.
+	// GatewayDefaultSite: The reference to the LocalNetworkGateway resource which represents local network site having default
+	// routes. Assign Null value in case of removing existing default site setting.
 	GatewayDefaultSite *SubResource `json:"gatewayDefaultSite,omitempty"`
 
-	//GatewayType: The type of this virtual network gateway.
+	// GatewayType: The type of this virtual network gateway.
 	GatewayType *VirtualNetworkGatewaysSpecPropertiesGatewayType `json:"gatewayType,omitempty"`
 
-	//IpConfigurations: IP configurations for virtual network gateway.
+	// IpConfigurations: IP configurations for virtual network gateway.
 	IpConfigurations []VirtualNetworkGateways_Spec_Properties_IpConfigurations `json:"ipConfigurations,omitempty"`
 
-	//Location: Location to deploy resource to
+	// Location: Location to deploy resource to
 	Location *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a resources.azure.com/ResourceGroup resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
-	//Sku: The reference to the VirtualNetworkGatewaySku resource which represents the SKU selected for Virtual network
-	//gateway.
+	// Sku: The reference to the VirtualNetworkGatewaySku resource which represents the SKU selected for Virtual network
+	// gateway.
 	Sku *VirtualNetworkGatewaySku `json:"sku,omitempty"`
 
-	//Tags: Name-value pairs to add to the resource
+	// Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
 
-	//VNetExtendedLocationResourceReference: MAS FIJI customer vnet resource id. VirtualNetworkGateway of type local gateway
-	//is associated with the customer vnet.
+	// VNetExtendedLocationResourceReference: MAS FIJI customer vnet resource id. VirtualNetworkGateway of type local gateway
+	// is associated with the customer vnet.
 	VNetExtendedLocationResourceReference *genruntime.ResourceReference `armReference:"VNetExtendedLocationResourceId" json:"vNetExtendedLocationResourceReference,omitempty"`
 
-	//VirtualNetworkExtendedLocation: The extended location of type local virtual network gateway.
+	// VirtualNetworkExtendedLocation: The extended location of type local virtual network gateway.
 	VirtualNetworkExtendedLocation *ExtendedLocation `json:"virtualNetworkExtendedLocation,omitempty"`
 
-	//VpnClientConfiguration: The reference to the VpnClientConfiguration resource which represents the P2S VpnClient
-	//configurations.
+	// VpnClientConfiguration: The reference to the VpnClientConfiguration resource which represents the P2S VpnClient
+	// configurations.
 	VpnClientConfiguration *VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration `json:"vpnClientConfiguration,omitempty"`
 
-	//VpnGatewayGeneration: The generation for this VirtualNetworkGateway. Must be None if gatewayType is not VPN.
+	// VpnGatewayGeneration: The generation for this VirtualNetworkGateway. Must be None if gatewayType is not VPN.
 	VpnGatewayGeneration *VirtualNetworkGatewaysSpecPropertiesVpnGatewayGeneration `json:"vpnGatewayGeneration,omitempty"`
 
-	//VpnType: The type of this virtual network gateway.
+	// VpnType: The type of this virtual network gateway.
 	VpnType *VirtualNetworkGatewaysSpecPropertiesVpnType `json:"vpnType,omitempty"`
 }
 
@@ -1930,18 +1930,18 @@ func (gateways *VirtualNetworkGateways_Spec) SetAzureName(azureName string) {
 	gateways.AzureName = azureName
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/BgpSettings
+// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/BgpSettings
 type BgpSettings struct {
-	//Asn: The BGP speaker's ASN.
+	// Asn: The BGP speaker's ASN.
 	Asn *uint32 `json:"asn,omitempty"`
 
-	//BgpPeeringAddress: The BGP peering address and BGP identifier of this BGP speaker.
+	// BgpPeeringAddress: The BGP peering address and BGP identifier of this BGP speaker.
 	BgpPeeringAddress *string `json:"bgpPeeringAddress,omitempty"`
 
-	//BgpPeeringAddresses: BGP peering address with IP configuration ID for virtual network gateway.
+	// BgpPeeringAddresses: BGP peering address with IP configuration ID for virtual network gateway.
 	BgpPeeringAddresses []IPConfigurationBgpPeeringAddress `json:"bgpPeeringAddresses,omitempty"`
 
-	//PeerWeight: The weight added to routes learned from this BGP speaker.
+	// PeerWeight: The weight added to routes learned from this BGP speaker.
 	PeerWeight *int `json:"peerWeight,omitempty"`
 }
 
@@ -2115,16 +2115,16 @@ func (settings *BgpSettings) AssignPropertiesToBgpSettings(destination *v2020110
 }
 
 type BgpSettings_Status struct {
-	//Asn: The BGP speaker's ASN.
+	// Asn: The BGP speaker's ASN.
 	Asn *uint32 `json:"asn,omitempty"`
 
-	//BgpPeeringAddress: The BGP peering address and BGP identifier of this BGP speaker.
+	// BgpPeeringAddress: The BGP peering address and BGP identifier of this BGP speaker.
 	BgpPeeringAddress *string `json:"bgpPeeringAddress,omitempty"`
 
-	//BgpPeeringAddresses: BGP peering address with IP configuration ID for virtual network gateway.
+	// BgpPeeringAddresses: BGP peering address with IP configuration ID for virtual network gateway.
 	BgpPeeringAddresses []IPConfigurationBgpPeeringAddress_Status `json:"bgpPeeringAddresses,omitempty"`
 
-	//PeerWeight: The weight added to routes learned from this BGP speaker.
+	// PeerWeight: The weight added to routes learned from this BGP speaker.
 	PeerWeight *int `json:"peerWeight,omitempty"`
 }
 
@@ -2262,28 +2262,28 @@ func (settings *BgpSettings_Status) AssignPropertiesToBgpSettingsStatus(destinat
 }
 
 type VirtualNetworkGatewayIPConfiguration_Status struct {
-	//Etag: A unique read-only string that changes whenever the resource is updated.
+	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
-	//Id: Resource ID.
+	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 
-	//Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
 	Name *string `json:"name,omitempty"`
 
-	//PrivateIPAddress: Private IP Address for this gateway.
+	// PrivateIPAddress: Private IP Address for this gateway.
 	PrivateIPAddress *string `json:"privateIPAddress,omitempty"`
 
-	//PrivateIPAllocationMethod: The private IP address allocation method.
+	// PrivateIPAllocationMethod: The private IP address allocation method.
 	PrivateIPAllocationMethod *IPAllocationMethod_Status `json:"privateIPAllocationMethod,omitempty"`
 
-	//ProvisioningState: The provisioning state of the virtual network gateway IP configuration resource.
+	// ProvisioningState: The provisioning state of the virtual network gateway IP configuration resource.
 	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
 
-	//PublicIPAddress: The reference to the public IP resource.
+	// PublicIPAddress: The reference to the public IP resource.
 	PublicIPAddress *SubResource_Status `json:"publicIPAddress,omitempty"`
 
-	//Subnet: The reference to the subnet resource.
+	// Subnet: The reference to the subnet resource.
 	Subnet *SubResource_Status `json:"subnet,omitempty"`
 }
 
@@ -2528,12 +2528,12 @@ const (
 	VirtualNetworkGatewayPropertiesFormatStatusVpnTypeRouteBased  = VirtualNetworkGatewayPropertiesFormatStatusVpnType("RouteBased")
 )
 
-//Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/VirtualNetworkGatewaySku
+// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/VirtualNetworkGatewaySku
 type VirtualNetworkGatewaySku struct {
-	//Name: Gateway SKU name.
+	// Name: Gateway SKU name.
 	Name *VirtualNetworkGatewaySkuName `json:"name,omitempty"`
 
-	//Tier: Gateway SKU tier.
+	// Tier: Gateway SKU tier.
 	Tier *VirtualNetworkGatewaySkuTier `json:"tier,omitempty"`
 }
 
@@ -2644,13 +2644,13 @@ func (gatewaySku *VirtualNetworkGatewaySku) AssignPropertiesToVirtualNetworkGate
 }
 
 type VirtualNetworkGatewaySku_Status struct {
-	//Capacity: The capacity.
+	// Capacity: The capacity.
 	Capacity *int `json:"capacity,omitempty"`
 
-	//Name: Gateway SKU name.
+	// Name: Gateway SKU name.
 	Name *VirtualNetworkGatewaySkuStatusName `json:"name,omitempty"`
 
-	//Tier: Gateway SKU tier.
+	// Tier: Gateway SKU tier.
 	Tier *VirtualNetworkGatewaySkuStatusTier `json:"tier,omitempty"`
 }
 
@@ -2779,16 +2779,16 @@ const (
 )
 
 type VirtualNetworkGateways_Spec_Properties_IpConfigurations struct {
-	//Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
 	Name *string `json:"name,omitempty"`
 
-	//PrivateIPAllocationMethod: The private IP address allocation method.
+	// PrivateIPAllocationMethod: The private IP address allocation method.
 	PrivateIPAllocationMethod *VirtualNetworkGatewayIPConfigurationPropertiesFormatPrivateIPAllocationMethod `json:"privateIPAllocationMethod,omitempty"`
 
-	//PublicIPAddress: The reference to the public IP resource.
+	// PublicIPAddress: The reference to the public IP resource.
 	PublicIPAddress *SubResource `json:"publicIPAddress,omitempty"`
 
-	//Subnet: The reference to the subnet resource.
+	// Subnet: The reference to the subnet resource.
 	Subnet *SubResource `json:"subnet,omitempty"`
 }
 
@@ -2989,43 +2989,43 @@ func (configurations *VirtualNetworkGateways_Spec_Properties_IpConfigurations) A
 }
 
 type VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration struct {
-	//AadAudience: The AADAudience property of the VirtualNetworkGateway resource for vpn client connection used for AAD
-	//authentication.
+	// AadAudience: The AADAudience property of the VirtualNetworkGateway resource for vpn client connection used for AAD
+	// authentication.
 	AadAudience *string `json:"aadAudience,omitempty"`
 
-	//AadIssuer: The AADIssuer property of the VirtualNetworkGateway resource for vpn client connection used for AAD
-	//authentication.
+	// AadIssuer: The AADIssuer property of the VirtualNetworkGateway resource for vpn client connection used for AAD
+	// authentication.
 	AadIssuer *string `json:"aadIssuer,omitempty"`
 
-	//AadTenant: The AADTenant property of the VirtualNetworkGateway resource for vpn client connection used for AAD
-	//authentication.
+	// AadTenant: The AADTenant property of the VirtualNetworkGateway resource for vpn client connection used for AAD
+	// authentication.
 	AadTenant *string `json:"aadTenant,omitempty"`
 
-	//RadiusServerAddress: The radius server address property of the VirtualNetworkGateway resource for vpn client connection.
+	// RadiusServerAddress: The radius server address property of the VirtualNetworkGateway resource for vpn client connection.
 	RadiusServerAddress *string `json:"radiusServerAddress,omitempty"`
 
-	//RadiusServerSecret: The radius secret property of the VirtualNetworkGateway resource for vpn client connection.
+	// RadiusServerSecret: The radius secret property of the VirtualNetworkGateway resource for vpn client connection.
 	RadiusServerSecret *string `json:"radiusServerSecret,omitempty"`
 
-	//RadiusServers: The radiusServers property for multiple radius server configuration.
+	// RadiusServers: The radiusServers property for multiple radius server configuration.
 	RadiusServers []RadiusServer `json:"radiusServers,omitempty"`
 
-	//VpnAuthenticationTypes: VPN authentication types for the virtual network gateway..
+	// VpnAuthenticationTypes: VPN authentication types for the virtual network gateway..
 	VpnAuthenticationTypes []VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnAuthenticationTypes `json:"vpnAuthenticationTypes,omitempty"`
 
-	//VpnClientAddressPool: The reference to the address space resource which represents Address space for P2S VpnClient.
+	// VpnClientAddressPool: The reference to the address space resource which represents Address space for P2S VpnClient.
 	VpnClientAddressPool *AddressSpace `json:"vpnClientAddressPool,omitempty"`
 
-	//VpnClientIpsecPolicies: VpnClientIpsecPolicies for virtual network gateway P2S client.
+	// VpnClientIpsecPolicies: VpnClientIpsecPolicies for virtual network gateway P2S client.
 	VpnClientIpsecPolicies []IpsecPolicy `json:"vpnClientIpsecPolicies,omitempty"`
 
-	//VpnClientProtocols: VpnClientProtocols for Virtual network gateway.
+	// VpnClientProtocols: VpnClientProtocols for Virtual network gateway.
 	VpnClientProtocols []VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientProtocols `json:"vpnClientProtocols,omitempty"`
 
-	//VpnClientRevokedCertificates: VpnClientRevokedCertificate for Virtual network gateway.
+	// VpnClientRevokedCertificates: VpnClientRevokedCertificate for Virtual network gateway.
 	VpnClientRevokedCertificates []VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates `json:"vpnClientRevokedCertificates,omitempty"`
 
-	//VpnClientRootCertificates: VpnClientRootCertificate for virtual network gateway.
+	// VpnClientRootCertificates: VpnClientRootCertificate for virtual network gateway.
 	VpnClientRootCertificates []VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates `json:"vpnClientRootCertificates,omitempty"`
 }
 
@@ -3507,43 +3507,43 @@ func (configuration *VirtualNetworkGateways_Spec_Properties_VpnClientConfigurati
 }
 
 type VpnClientConfiguration_Status struct {
-	//AadAudience: The AADAudience property of the VirtualNetworkGateway resource for vpn client connection used for AAD
-	//authentication.
+	// AadAudience: The AADAudience property of the VirtualNetworkGateway resource for vpn client connection used for AAD
+	// authentication.
 	AadAudience *string `json:"aadAudience,omitempty"`
 
-	//AadIssuer: The AADIssuer property of the VirtualNetworkGateway resource for vpn client connection used for AAD
-	//authentication.
+	// AadIssuer: The AADIssuer property of the VirtualNetworkGateway resource for vpn client connection used for AAD
+	// authentication.
 	AadIssuer *string `json:"aadIssuer,omitempty"`
 
-	//AadTenant: The AADTenant property of the VirtualNetworkGateway resource for vpn client connection used for AAD
-	//authentication.
+	// AadTenant: The AADTenant property of the VirtualNetworkGateway resource for vpn client connection used for AAD
+	// authentication.
 	AadTenant *string `json:"aadTenant,omitempty"`
 
-	//RadiusServerAddress: The radius server address property of the VirtualNetworkGateway resource for vpn client connection.
+	// RadiusServerAddress: The radius server address property of the VirtualNetworkGateway resource for vpn client connection.
 	RadiusServerAddress *string `json:"radiusServerAddress,omitempty"`
 
-	//RadiusServerSecret: The radius secret property of the VirtualNetworkGateway resource for vpn client connection.
+	// RadiusServerSecret: The radius secret property of the VirtualNetworkGateway resource for vpn client connection.
 	RadiusServerSecret *string `json:"radiusServerSecret,omitempty"`
 
-	//RadiusServers: The radiusServers property for multiple radius server configuration.
+	// RadiusServers: The radiusServers property for multiple radius server configuration.
 	RadiusServers []RadiusServer_Status `json:"radiusServers,omitempty"`
 
-	//VpnAuthenticationTypes: VPN authentication types for the virtual network gateway..
+	// VpnAuthenticationTypes: VPN authentication types for the virtual network gateway..
 	VpnAuthenticationTypes []VpnClientConfigurationStatusVpnAuthenticationTypes `json:"vpnAuthenticationTypes,omitempty"`
 
-	//VpnClientAddressPool: The reference to the address space resource which represents Address space for P2S VpnClient.
+	// VpnClientAddressPool: The reference to the address space resource which represents Address space for P2S VpnClient.
 	VpnClientAddressPool *AddressSpace_Status `json:"vpnClientAddressPool,omitempty"`
 
-	//VpnClientIpsecPolicies: VpnClientIpsecPolicies for virtual network gateway P2S client.
+	// VpnClientIpsecPolicies: VpnClientIpsecPolicies for virtual network gateway P2S client.
 	VpnClientIpsecPolicies []IpsecPolicy_Status `json:"vpnClientIpsecPolicies,omitempty"`
 
-	//VpnClientProtocols: VpnClientProtocols for Virtual network gateway.
+	// VpnClientProtocols: VpnClientProtocols for Virtual network gateway.
 	VpnClientProtocols []VpnClientConfigurationStatusVpnClientProtocols `json:"vpnClientProtocols,omitempty"`
 
-	//VpnClientRevokedCertificates: VpnClientRevokedCertificate for Virtual network gateway.
+	// VpnClientRevokedCertificates: VpnClientRevokedCertificate for Virtual network gateway.
 	VpnClientRevokedCertificates []VpnClientRevokedCertificate_Status `json:"vpnClientRevokedCertificates,omitempty"`
 
-	//VpnClientRootCertificates: VpnClientRootCertificate for virtual network gateway.
+	// VpnClientRootCertificates: VpnClientRootCertificate for virtual network gateway.
 	VpnClientRootCertificates []VpnClientRootCertificate_Status `json:"vpnClientRootCertificates,omitempty"`
 }
 
@@ -3929,12 +3929,12 @@ func (configuration *VpnClientConfiguration_Status) AssignPropertiesToVpnClientC
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/IPConfigurationBgpPeeringAddress
+// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/IPConfigurationBgpPeeringAddress
 type IPConfigurationBgpPeeringAddress struct {
-	//CustomBgpIpAddresses: The list of custom BGP peering addresses which belong to IP configuration.
+	// CustomBgpIpAddresses: The list of custom BGP peering addresses which belong to IP configuration.
 	CustomBgpIpAddresses []string `json:"customBgpIpAddresses,omitempty"`
 
-	//IpconfigurationId: The ID of IP configuration which belongs to gateway.
+	// IpconfigurationId: The ID of IP configuration which belongs to gateway.
 	IpconfigurationId *string `json:"ipconfigurationId,omitempty"`
 }
 
@@ -4023,16 +4023,16 @@ func (address *IPConfigurationBgpPeeringAddress) AssignPropertiesToIPConfigurati
 }
 
 type IPConfigurationBgpPeeringAddress_Status struct {
-	//CustomBgpIpAddresses: The list of custom BGP peering addresses which belong to IP configuration.
+	// CustomBgpIpAddresses: The list of custom BGP peering addresses which belong to IP configuration.
 	CustomBgpIpAddresses []string `json:"customBgpIpAddresses,omitempty"`
 
-	//DefaultBgpIpAddresses: The list of default BGP peering addresses which belong to IP configuration.
+	// DefaultBgpIpAddresses: The list of default BGP peering addresses which belong to IP configuration.
 	DefaultBgpIpAddresses []string `json:"defaultBgpIpAddresses,omitempty"`
 
-	//IpconfigurationId: The ID of IP configuration which belongs to gateway.
+	// IpconfigurationId: The ID of IP configuration which belongs to gateway.
 	IpconfigurationId *string `json:"ipconfigurationId,omitempty"`
 
-	//TunnelIpAddresses: The list of tunnel public IP addresses which belong to IP configuration.
+	// TunnelIpAddresses: The list of tunnel public IP addresses which belong to IP configuration.
 	TunnelIpAddresses []string `json:"tunnelIpAddresses,omitempty"`
 }
 
@@ -4122,40 +4122,40 @@ func (address *IPConfigurationBgpPeeringAddress_Status) AssignPropertiesToIPConf
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/IpsecPolicy
+// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/IpsecPolicy
 type IpsecPolicy struct {
 	// +kubebuilder:validation:Required
-	//DhGroup: The DH Group used in IKE Phase 1 for initial SA.
+	// DhGroup: The DH Group used in IKE Phase 1 for initial SA.
 	DhGroup *IpsecPolicyDhGroup `json:"dhGroup,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//IkeEncryption: The IKE encryption algorithm (IKE phase 2).
+	// IkeEncryption: The IKE encryption algorithm (IKE phase 2).
 	IkeEncryption *IpsecPolicyIkeEncryption `json:"ikeEncryption,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//IkeIntegrity: The IKE integrity algorithm (IKE phase 2).
+	// IkeIntegrity: The IKE integrity algorithm (IKE phase 2).
 	IkeIntegrity *IpsecPolicyIkeIntegrity `json:"ikeIntegrity,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//IpsecEncryption: The IPSec encryption algorithm (IKE phase 1).
+	// IpsecEncryption: The IPSec encryption algorithm (IKE phase 1).
 	IpsecEncryption *IpsecPolicyIpsecEncryption `json:"ipsecEncryption,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//IpsecIntegrity: The IPSec integrity algorithm (IKE phase 1).
+	// IpsecIntegrity: The IPSec integrity algorithm (IKE phase 1).
 	IpsecIntegrity *IpsecPolicyIpsecIntegrity `json:"ipsecIntegrity,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//PfsGroup: The Pfs Group used in IKE Phase 2 for new child SA.
+	// PfsGroup: The Pfs Group used in IKE Phase 2 for new child SA.
 	PfsGroup *IpsecPolicyPfsGroup `json:"pfsGroup,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//SaDataSizeKilobytes: The IPSec Security Association (also called Quick Mode or Phase 2 SA) payload size in KB for a site
-	//to site VPN tunnel.
+	// SaDataSizeKilobytes: The IPSec Security Association (also called Quick Mode or Phase 2 SA) payload size in KB for a site
+	// to site VPN tunnel.
 	SaDataSizeKilobytes *int `json:"saDataSizeKilobytes,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//SaLifeTimeSeconds: The IPSec Security Association (also called Quick Mode or Phase 2 SA) lifetime in seconds for a site
-	//to site VPN tunnel.
+	// SaLifeTimeSeconds: The IPSec Security Association (also called Quick Mode or Phase 2 SA) lifetime in seconds for a site
+	// to site VPN tunnel.
 	SaLifeTimeSeconds *int `json:"saLifeTimeSeconds,omitempty"`
 }
 
@@ -4414,30 +4414,30 @@ func (policy *IpsecPolicy) AssignPropertiesToIpsecPolicy(destination *v20201101s
 }
 
 type IpsecPolicy_Status struct {
-	//DhGroup: The DH Group used in IKE Phase 1 for initial SA.
+	// DhGroup: The DH Group used in IKE Phase 1 for initial SA.
 	DhGroup *DhGroup_Status `json:"dhGroup,omitempty"`
 
-	//IkeEncryption: The IKE encryption algorithm (IKE phase 2).
+	// IkeEncryption: The IKE encryption algorithm (IKE phase 2).
 	IkeEncryption *IkeEncryption_Status `json:"ikeEncryption,omitempty"`
 
-	//IkeIntegrity: The IKE integrity algorithm (IKE phase 2).
+	// IkeIntegrity: The IKE integrity algorithm (IKE phase 2).
 	IkeIntegrity *IkeIntegrity_Status `json:"ikeIntegrity,omitempty"`
 
-	//IpsecEncryption: The IPSec encryption algorithm (IKE phase 1).
+	// IpsecEncryption: The IPSec encryption algorithm (IKE phase 1).
 	IpsecEncryption *IpsecEncryption_Status `json:"ipsecEncryption,omitempty"`
 
-	//IpsecIntegrity: The IPSec integrity algorithm (IKE phase 1).
+	// IpsecIntegrity: The IPSec integrity algorithm (IKE phase 1).
 	IpsecIntegrity *IpsecIntegrity_Status `json:"ipsecIntegrity,omitempty"`
 
-	//PfsGroup: The Pfs Group used in IKE Phase 2 for new child SA.
+	// PfsGroup: The Pfs Group used in IKE Phase 2 for new child SA.
 	PfsGroup *PfsGroup_Status `json:"pfsGroup,omitempty"`
 
-	//SaDataSizeKilobytes: The IPSec Security Association (also called Quick Mode or Phase 2 SA) payload size in KB for a site
-	//to site VPN tunnel.
+	// SaDataSizeKilobytes: The IPSec Security Association (also called Quick Mode or Phase 2 SA) payload size in KB for a site
+	// to site VPN tunnel.
 	SaDataSizeKilobytes *int `json:"saDataSizeKilobytes,omitempty"`
 
-	//SaLifeTimeSeconds: The IPSec Security Association (also called Quick Mode or Phase 2 SA) lifetime in seconds for a site
-	//to site VPN tunnel.
+	// SaLifeTimeSeconds: The IPSec Security Association (also called Quick Mode or Phase 2 SA) lifetime in seconds for a site
+	// to site VPN tunnel.
 	SaLifeTimeSeconds *int `json:"saLifeTimeSeconds,omitempty"`
 }
 
@@ -4638,16 +4638,16 @@ func (policy *IpsecPolicy_Status) AssignPropertiesToIpsecPolicyStatus(destinatio
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/RadiusServer
+// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/RadiusServer
 type RadiusServer struct {
 	// +kubebuilder:validation:Required
-	//RadiusServerAddress: The address of this radius server.
+	// RadiusServerAddress: The address of this radius server.
 	RadiusServerAddress *string `json:"radiusServerAddress,omitempty"`
 
-	//RadiusServerScore: The initial score assigned to this radius server.
+	// RadiusServerScore: The initial score assigned to this radius server.
 	RadiusServerScore *int `json:"radiusServerScore,omitempty"`
 
-	//RadiusServerSecret: The secret used for this radius server.
+	// RadiusServerSecret: The secret used for this radius server.
 	RadiusServerSecret *string `json:"radiusServerSecret,omitempty"`
 }
 
@@ -4756,13 +4756,13 @@ func (server *RadiusServer) AssignPropertiesToRadiusServer(destination *v2020110
 }
 
 type RadiusServer_Status struct {
-	//RadiusServerAddress: The address of this radius server.
+	// RadiusServerAddress: The address of this radius server.
 	RadiusServerAddress *string `json:"radiusServerAddress,omitempty"`
 
-	//RadiusServerScore: The initial score assigned to this radius server.
+	// RadiusServerScore: The initial score assigned to this radius server.
 	RadiusServerScore *int `json:"radiusServerScore,omitempty"`
 
-	//RadiusServerSecret: The secret used for this radius server.
+	// RadiusServerSecret: The secret used for this radius server.
 	RadiusServerSecret *string `json:"radiusServerSecret,omitempty"`
 }
 
@@ -4960,10 +4960,10 @@ const (
 )
 
 type VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates struct {
-	//Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
 	Name *string `json:"name,omitempty"`
 
-	//Thumbprint: The revoked VPN client certificate thumbprint.
+	// Thumbprint: The revoked VPN client certificate thumbprint.
 	Thumbprint *string `json:"thumbprint,omitempty"`
 }
 
@@ -5060,11 +5060,11 @@ func (certificates *VirtualNetworkGateways_Spec_Properties_VpnClientConfiguratio
 }
 
 type VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates struct {
-	//Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
 	Name *string `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//PublicCertData: The certificate public data.
+	// PublicCertData: The certificate public data.
 	PublicCertData *string `json:"publicCertData,omitempty"`
 }
 
@@ -5177,19 +5177,19 @@ const (
 )
 
 type VpnClientRevokedCertificate_Status struct {
-	//Etag: A unique read-only string that changes whenever the resource is updated.
+	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
-	//Id: Resource ID.
+	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 
-	//Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
 	Name *string `json:"name,omitempty"`
 
-	//ProvisioningState: The provisioning state of the VPN client revoked certificate resource.
+	// ProvisioningState: The provisioning state of the VPN client revoked certificate resource.
 	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
 
-	//Thumbprint: The revoked VPN client certificate thumbprint.
+	// Thumbprint: The revoked VPN client certificate thumbprint.
 	Thumbprint *string `json:"thumbprint,omitempty"`
 }
 
@@ -5311,19 +5311,19 @@ func (certificate *VpnClientRevokedCertificate_Status) AssignPropertiesToVpnClie
 }
 
 type VpnClientRootCertificate_Status struct {
-	//Etag: A unique read-only string that changes whenever the resource is updated.
+	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
-	//Id: Resource ID.
+	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 
-	//Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
 	Name *string `json:"name,omitempty"`
 
-	//ProvisioningState: The provisioning state of the VPN client root certificate resource.
+	// ProvisioningState: The provisioning state of the VPN client root certificate resource.
 	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
 
-	//PublicCertData: The certificate public data.
+	// PublicCertData: The certificate public data.
 	PublicCertData *string `json:"publicCertData,omitempty"`
 }
 

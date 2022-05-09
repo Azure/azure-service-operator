@@ -25,7 +25,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Deprecated version of Workspace. Use v1beta20210601.Workspace instead
+// Deprecated version of Workspace. Use v1beta20210601.Workspace instead
 type Workspace struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -325,16 +325,16 @@ func (workspace *Workspace) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Deprecated version of Workspace. Use v1beta20210601.Workspace instead
+// Deprecated version of Workspace. Use v1beta20210601.Workspace instead
 type WorkspaceList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Workspace `json:"items"`
 }
 
-//Deprecated version of Workspace_Status. Use v1beta20210601.Workspace_Status instead
+// Deprecated version of Workspace_Status. Use v1beta20210601.Workspace_Status instead
 type Workspace_Status struct {
-	//Conditions: The observed state of the resource
+	// Conditions: The observed state of the resource
 	Conditions                      []conditions.Condition                      `json:"conditions,omitempty"`
 	CreatedDate                     *string                                     `json:"createdDate,omitempty"`
 	CustomerId                      *string                                     `json:"customerId,omitempty"`
@@ -856,8 +856,8 @@ type Workspaces_Spec struct {
 	// +kubebuilder:validation:MaxLength=63
 	// +kubebuilder:validation:MinLength=4
 	// +kubebuilder:validation:Pattern="^[A-Za-z0-9][A-Za-z0-9-]+[A-Za-z0-9]$"
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName        string             `json:"azureName,omitempty"`
 	ETag             *string            `json:"eTag,omitempty"`
 	Features         *WorkspaceFeatures `json:"features,omitempty"`
@@ -865,9 +865,9 @@ type Workspaces_Spec struct {
 	Location         *string            `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a resources.azure.com/ResourceGroup resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
 	Owner                           *genruntime.KnownResourceReference                  `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	ProvisioningState               *WorkspacePropertiesProvisioningState               `json:"provisioningState,omitempty"`
 	PublicNetworkAccessForIngestion *WorkspacePropertiesPublicNetworkAccessForIngestion `json:"publicNetworkAccessForIngestion,omitempty"`
@@ -1365,7 +1365,7 @@ func (workspaces *Workspaces_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (workspaces *Workspaces_Spec) SetAzureName(azureName string) { workspaces.AzureName = azureName }
 
-//Deprecated version of PrivateLinkScopedResource_Status. Use v1beta20210601.PrivateLinkScopedResource_Status instead
+// Deprecated version of PrivateLinkScopedResource_Status. Use v1beta20210601.PrivateLinkScopedResource_Status instead
 type PrivateLinkScopedResource_Status struct {
 	ResourceId *string `json:"resourceId,omitempty"`
 	ScopeId    *string `json:"scopeId,omitempty"`
@@ -1436,7 +1436,7 @@ func (resource *PrivateLinkScopedResource_Status) AssignPropertiesToPrivateLinkS
 	return nil
 }
 
-//Deprecated version of PublicNetworkAccessType_Status. Use v1beta20210601.PublicNetworkAccessType_Status instead
+// Deprecated version of PublicNetworkAccessType_Status. Use v1beta20210601.PublicNetworkAccessType_Status instead
 type PublicNetworkAccessType_Status string
 
 const (
@@ -1444,7 +1444,7 @@ const (
 	PublicNetworkAccessType_StatusEnabled  = PublicNetworkAccessType_Status("Enabled")
 )
 
-//Deprecated version of WorkspaceCapping. Use v1beta20210601.WorkspaceCapping instead
+// Deprecated version of WorkspaceCapping. Use v1beta20210601.WorkspaceCapping instead
 type WorkspaceCapping struct {
 	DailyQuotaGb *float64 `json:"dailyQuotaGb,omitempty"`
 }
@@ -1527,7 +1527,7 @@ func (capping *WorkspaceCapping) AssignPropertiesToWorkspaceCapping(destination 
 	return nil
 }
 
-//Deprecated version of WorkspaceCapping_Status. Use v1beta20210601.WorkspaceCapping_Status instead
+// Deprecated version of WorkspaceCapping_Status. Use v1beta20210601.WorkspaceCapping_Status instead
 type WorkspaceCapping_Status struct {
 	DailyQuotaGb        *float64                                   `json:"dailyQuotaGb,omitempty"`
 	DataIngestionStatus *WorkspaceCappingStatusDataIngestionStatus `json:"dataIngestionStatus,omitempty"`
@@ -1631,7 +1631,7 @@ func (capping *WorkspaceCapping_Status) AssignPropertiesToWorkspaceCappingStatus
 	return nil
 }
 
-//Deprecated version of WorkspaceFeatures. Use v1beta20210601.WorkspaceFeatures instead
+// Deprecated version of WorkspaceFeatures. Use v1beta20210601.WorkspaceFeatures instead
 type WorkspaceFeatures struct {
 	AdditionalProperties                        map[string]v1.JSON            `json:"additionalProperties,omitempty"`
 	ClusterResourceReference                    *genruntime.ResourceReference `armReference:"ClusterResourceId" json:"clusterResourceReference,omitempty"`
@@ -1873,7 +1873,7 @@ func (features *WorkspaceFeatures) AssignPropertiesToWorkspaceFeatures(destinati
 	return nil
 }
 
-//Deprecated version of WorkspaceFeatures_Status. Use v1beta20210601.WorkspaceFeatures_Status instead
+// Deprecated version of WorkspaceFeatures_Status. Use v1beta20210601.WorkspaceFeatures_Status instead
 type WorkspaceFeatures_Status struct {
 	ClusterResourceId                           *string `json:"clusterResourceId,omitempty"`
 	DisableLocalAuth                            *bool   `json:"disableLocalAuth,omitempty"`
@@ -2023,8 +2023,8 @@ func (features *WorkspaceFeatures_Status) AssignPropertiesToWorkspaceFeaturesSta
 	return nil
 }
 
-//Deprecated version of WorkspacePropertiesProvisioningState. Use v1beta20210601.WorkspacePropertiesProvisioningState
-//instead
+// Deprecated version of WorkspacePropertiesProvisioningState. Use v1beta20210601.WorkspacePropertiesProvisioningState
+// instead
 // +kubebuilder:validation:Enum={"Canceled","Creating","Deleting","Failed","ProvisioningAccount","Succeeded","Updating"}
 type WorkspacePropertiesProvisioningState string
 
@@ -2038,8 +2038,8 @@ const (
 	WorkspacePropertiesProvisioningStateUpdating            = WorkspacePropertiesProvisioningState("Updating")
 )
 
-//Deprecated version of WorkspacePropertiesPublicNetworkAccessForIngestion. Use
-//v1beta20210601.WorkspacePropertiesPublicNetworkAccessForIngestion instead
+// Deprecated version of WorkspacePropertiesPublicNetworkAccessForIngestion. Use
+// v1beta20210601.WorkspacePropertiesPublicNetworkAccessForIngestion instead
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type WorkspacePropertiesPublicNetworkAccessForIngestion string
 
@@ -2048,8 +2048,8 @@ const (
 	WorkspacePropertiesPublicNetworkAccessForIngestionEnabled  = WorkspacePropertiesPublicNetworkAccessForIngestion("Enabled")
 )
 
-//Deprecated version of WorkspacePropertiesPublicNetworkAccessForQuery. Use
-//v1beta20210601.WorkspacePropertiesPublicNetworkAccessForQuery instead
+// Deprecated version of WorkspacePropertiesPublicNetworkAccessForQuery. Use
+// v1beta20210601.WorkspacePropertiesPublicNetworkAccessForQuery instead
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type WorkspacePropertiesPublicNetworkAccessForQuery string
 
@@ -2058,8 +2058,8 @@ const (
 	WorkspacePropertiesPublicNetworkAccessForQueryEnabled  = WorkspacePropertiesPublicNetworkAccessForQuery("Enabled")
 )
 
-//Deprecated version of WorkspacePropertiesStatusProvisioningState. Use
-//v1beta20210601.WorkspacePropertiesStatusProvisioningState instead
+// Deprecated version of WorkspacePropertiesStatusProvisioningState. Use
+// v1beta20210601.WorkspacePropertiesStatusProvisioningState instead
 type WorkspacePropertiesStatusProvisioningState string
 
 const (
@@ -2072,7 +2072,7 @@ const (
 	WorkspacePropertiesStatusProvisioningStateUpdating            = WorkspacePropertiesStatusProvisioningState("Updating")
 )
 
-//Deprecated version of WorkspaceSku. Use v1beta20210601.WorkspaceSku instead
+// Deprecated version of WorkspaceSku. Use v1beta20210601.WorkspaceSku instead
 type WorkspaceSku struct {
 	CapacityReservationLevel *int `json:"capacityReservationLevel,omitempty"`
 
@@ -2176,7 +2176,7 @@ func (workspaceSku *WorkspaceSku) AssignPropertiesToWorkspaceSku(destination *al
 	return nil
 }
 
-//Deprecated version of WorkspaceSku_Status. Use v1beta20210601.WorkspaceSku_Status instead
+// Deprecated version of WorkspaceSku_Status. Use v1beta20210601.WorkspaceSku_Status instead
 type WorkspaceSku_Status struct {
 	CapacityReservationLevel *WorkspaceSkuStatusCapacityReservationLevel `json:"capacityReservationLevel,omitempty"`
 	LastSkuUpdate            *string                                     `json:"lastSkuUpdate,omitempty"`
@@ -2280,8 +2280,8 @@ func (workspaceSku *WorkspaceSku_Status) AssignPropertiesToWorkspaceSkuStatus(de
 	return nil
 }
 
-//Deprecated version of WorkspaceCappingStatusDataIngestionStatus. Use
-//v1beta20210601.WorkspaceCappingStatusDataIngestionStatus instead
+// Deprecated version of WorkspaceCappingStatusDataIngestionStatus. Use
+// v1beta20210601.WorkspaceCappingStatusDataIngestionStatus instead
 type WorkspaceCappingStatusDataIngestionStatus string
 
 const (
@@ -2293,7 +2293,7 @@ const (
 	WorkspaceCappingStatusDataIngestionStatusSubscriptionSuspended = WorkspaceCappingStatusDataIngestionStatus("SubscriptionSuspended")
 )
 
-//Deprecated version of WorkspaceSkuName. Use v1beta20210601.WorkspaceSkuName instead
+// Deprecated version of WorkspaceSkuName. Use v1beta20210601.WorkspaceSkuName instead
 // +kubebuilder:validation:Enum={"CapacityReservation","Free","LACluster","PerGB2018","PerNode","Premium","Standalone","Standard"}
 type WorkspaceSkuName string
 
@@ -2308,8 +2308,8 @@ const (
 	WorkspaceSkuNameStandard            = WorkspaceSkuName("Standard")
 )
 
-//Deprecated version of WorkspaceSkuStatusCapacityReservationLevel. Use
-//v1beta20210601.WorkspaceSkuStatusCapacityReservationLevel instead
+// Deprecated version of WorkspaceSkuStatusCapacityReservationLevel. Use
+// v1beta20210601.WorkspaceSkuStatusCapacityReservationLevel instead
 type WorkspaceSkuStatusCapacityReservationLevel int
 
 const (
@@ -2323,7 +2323,7 @@ const (
 	WorkspaceSkuStatusCapacityReservationLevel5000 = WorkspaceSkuStatusCapacityReservationLevel(5000)
 )
 
-//Deprecated version of WorkspaceSkuStatusName. Use v1beta20210601.WorkspaceSkuStatusName instead
+// Deprecated version of WorkspaceSkuStatusName. Use v1beta20210601.WorkspaceSkuStatusName instead
 type WorkspaceSkuStatusName string
 
 const (

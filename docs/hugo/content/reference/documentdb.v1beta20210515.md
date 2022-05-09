@@ -8504,7 +8504,7 @@ map[string]./api/documentdb/v1beta20210515.ManagedServiceIdentity_Status_UserAss
 <td>
 <p>UserAssignedIdentities: The list of user identities associated with resource. The user identity dictionary key
 references will be ARM resource ids in the form:
-&lsquo;/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}&rsquo;.</p>
+&lsquo;/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.ManagedIdentity/&#x200b;userAssignedIdentities/&#x200b;{identityName}&rsquo;.</&#x200b;p>
 </td>
 </tr>
 </tbody>
@@ -8574,7 +8574,7 @@ map[string]./api/documentdb/v1beta20210515.ManagedServiceIdentity_Status_UserAss
 <td>
 <p>UserAssignedIdentities: The list of user identities associated with resource. The user identity dictionary key
 references will be ARM resource ids in the form:
-&lsquo;/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}&rsquo;.</p>
+&lsquo;/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.ManagedIdentity/&#x200b;userAssignedIdentities/&#x200b;{identityName}&rsquo;.</&#x200b;p>
 </td>
 </tr>
 </tbody>
@@ -10963,7 +10963,7 @@ string
 </td>
 <td>
 <p>Id: Fully qualified resource ID for the resource. Ex -
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}</p>
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
 </td>
 </tr>
 </tbody>
@@ -10992,7 +10992,7 @@ string
 </td>
 <td>
 <p>Id: Fully qualified resource ID for the resource. Ex -
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}</p>
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
 </td>
 </tr>
 </tbody>
@@ -15977,7 +15977,7 @@ genruntime.ResourceReference
 </td>
 <td>
 <p>Reference: Resource ID of a subnet, for example:
-/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}.</p>
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{groupName}/&#x200b;providers/&#x200b;Microsoft.Network/&#x200b;virtualNetworks/&#x200b;{virtualNetworkName}/&#x200b;subnets/&#x200b;{subnetName}.</&#x200b;p>
 </td>
 </tr>
 </tbody>
@@ -16045,7 +16045,7 @@ string
 </td>
 <td>
 <p>Id: Resource ID of a subnet, for example:
-/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}.</p>
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{groupName}/&#x200b;providers/&#x200b;Microsoft.Network/&#x200b;virtualNetworks/&#x200b;{virtualNetworkName}/&#x200b;subnets/&#x200b;{subnetName}.</&#x200b;p>
 </td>
 </tr>
 <tr>
@@ -16085,7 +16085,7 @@ string
 </td>
 <td>
 <p>Id: Resource ID of a subnet, for example:
-/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}.</p>
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{groupName}/&#x200b;providers/&#x200b;Microsoft.Network/&#x200b;virtualNetworks/&#x200b;{virtualNetworkName}/&#x200b;subnets/&#x200b;{subnetName}.</&#x200b;p>
 </td>
 </tr>
 <tr>

@@ -199,7 +199,7 @@ func RunJSONSerializationTestForNamespacesEventhubsSpec(subject NamespacesEventh
 }
 
 // Generator of NamespacesEventhubs_Spec instances for property testing - lazily instantiated by
-//NamespacesEventhubsSpecGenerator()
+// NamespacesEventhubsSpecGenerator()
 var namespacesEventhubsSpecGenerator gopter.Gen
 
 // NamespacesEventhubsSpecGenerator returns a generator of NamespacesEventhubs_Spec instances for property testing.
@@ -278,7 +278,7 @@ func RunJSONSerializationTestForCaptureDescriptionStatus(subject CaptureDescript
 }
 
 // Generator of CaptureDescription_Status instances for property testing - lazily instantiated by
-//CaptureDescriptionStatusGenerator()
+// CaptureDescriptionStatusGenerator()
 var captureDescriptionStatusGenerator gopter.Gen
 
 // CaptureDescriptionStatusGenerator returns a generator of CaptureDescription_Status instances for property testing.
@@ -356,7 +356,7 @@ func RunJSONSerializationTestForNamespacesEventhubsSpecPropertiesCaptureDescript
 }
 
 // Generator of NamespacesEventhubs_Spec_Properties_CaptureDescription instances for property testing - lazily
-//instantiated by NamespacesEventhubsSpecPropertiesCaptureDescriptionGenerator()
+// instantiated by NamespacesEventhubsSpecPropertiesCaptureDescriptionGenerator()
 var namespacesEventhubsSpecPropertiesCaptureDescriptionGenerator gopter.Gen
 
 // NamespacesEventhubsSpecPropertiesCaptureDescriptionGenerator returns a generator of NamespacesEventhubs_Spec_Properties_CaptureDescription instances for property testing.
@@ -499,7 +499,7 @@ func RunJSONSerializationTestForNamespacesEventhubsSpecPropertiesCaptureDescript
 }
 
 // Generator of NamespacesEventhubs_Spec_Properties_CaptureDescription_Destination instances for property testing -
-//lazily instantiated by NamespacesEventhubsSpecPropertiesCaptureDescriptionDestinationGenerator()
+// lazily instantiated by NamespacesEventhubsSpecPropertiesCaptureDescriptionDestinationGenerator()
 var namespacesEventhubsSpecPropertiesCaptureDescriptionDestinationGenerator gopter.Gen
 
 // NamespacesEventhubsSpecPropertiesCaptureDescriptionDestinationGenerator returns a generator of NamespacesEventhubs_Spec_Properties_CaptureDescription_Destination instances for property testing.

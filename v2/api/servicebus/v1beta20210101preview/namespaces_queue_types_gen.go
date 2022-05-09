@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/resourceDefinitions/namespaces_queues
+// Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/resourceDefinitions/namespaces_queues
 type NamespacesQueue struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -310,7 +310,7 @@ func (queue *NamespacesQueue) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/resourceDefinitions/namespaces_queues
+// Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/resourceDefinitions/namespaces_queues
 type NamespacesQueueList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -323,72 +323,72 @@ type NamespacesQueuesSpecAPIVersion string
 const NamespacesQueuesSpecAPIVersion20210101Preview = NamespacesQueuesSpecAPIVersion("2021-01-01-preview")
 
 type NamespacesQueues_Spec struct {
-	//AutoDeleteOnIdle: ISO 8061 timeSpan idle interval after which the queue is automatically deleted. The minimum duration
-	//is 5 minutes.
+	// AutoDeleteOnIdle: ISO 8061 timeSpan idle interval after which the queue is automatically deleted. The minimum duration
+	// is 5 minutes.
 	AutoDeleteOnIdle *string `json:"autoDeleteOnIdle,omitempty"`
 
 	// +kubebuilder:validation:MinLength=1
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
-	//DeadLetteringOnMessageExpiration: A value that indicates whether this queue has dead letter support when a message
-	//expires.
+	// DeadLetteringOnMessageExpiration: A value that indicates whether this queue has dead letter support when a message
+	// expires.
 	DeadLetteringOnMessageExpiration *bool `json:"deadLetteringOnMessageExpiration,omitempty"`
 
-	//DefaultMessageTimeToLive: ISO 8601 default message timespan to live value. This is the duration after which the message
-	//expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not
-	//set on a message itself.
+	// DefaultMessageTimeToLive: ISO 8601 default message timespan to live value. This is the duration after which the message
+	// expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not
+	// set on a message itself.
 	DefaultMessageTimeToLive *string `json:"defaultMessageTimeToLive,omitempty"`
 
-	//DuplicateDetectionHistoryTimeWindow: ISO 8601 timeSpan structure that defines the duration of the duplicate detection
-	//history. The default value is 10 minutes.
+	// DuplicateDetectionHistoryTimeWindow: ISO 8601 timeSpan structure that defines the duration of the duplicate detection
+	// history. The default value is 10 minutes.
 	DuplicateDetectionHistoryTimeWindow *string `json:"duplicateDetectionHistoryTimeWindow,omitempty"`
 
-	//EnableBatchedOperations: Value that indicates whether server-side batched operations are enabled.
+	// EnableBatchedOperations: Value that indicates whether server-side batched operations are enabled.
 	EnableBatchedOperations *bool `json:"enableBatchedOperations,omitempty"`
 
-	//EnableExpress: A value that indicates whether Express Entities are enabled. An express queue holds a message in memory
-	//temporarily before writing it to persistent storage.
+	// EnableExpress: A value that indicates whether Express Entities are enabled. An express queue holds a message in memory
+	// temporarily before writing it to persistent storage.
 	EnableExpress *bool `json:"enableExpress,omitempty"`
 
-	//EnablePartitioning: A value that indicates whether the queue is to be partitioned across multiple message brokers.
+	// EnablePartitioning: A value that indicates whether the queue is to be partitioned across multiple message brokers.
 	EnablePartitioning *bool `json:"enablePartitioning,omitempty"`
 
-	//ForwardDeadLetteredMessagesTo: Queue/Topic name to forward the Dead Letter message
+	// ForwardDeadLetteredMessagesTo: Queue/Topic name to forward the Dead Letter message
 	ForwardDeadLetteredMessagesTo *string `json:"forwardDeadLetteredMessagesTo,omitempty"`
 
-	//ForwardTo: Queue/Topic name to forward the messages
+	// ForwardTo: Queue/Topic name to forward the messages
 	ForwardTo *string `json:"forwardTo,omitempty"`
 
-	//Location: Location to deploy resource to
+	// Location: Location to deploy resource to
 	Location *string `json:"location,omitempty"`
 
-	//LockDuration: ISO 8601 timespan duration of a peek-lock; that is, the amount of time that the message is locked for
-	//other receivers. The maximum value for LockDuration is 5 minutes; the default value is 1 minute.
+	// LockDuration: ISO 8601 timespan duration of a peek-lock; that is, the amount of time that the message is locked for
+	// other receivers. The maximum value for LockDuration is 5 minutes; the default value is 1 minute.
 	LockDuration *string `json:"lockDuration,omitempty"`
 
-	//MaxDeliveryCount: The maximum delivery count. A message is automatically deadlettered after this number of deliveries.
-	//default value is 10.
+	// MaxDeliveryCount: The maximum delivery count. A message is automatically deadlettered after this number of deliveries.
+	// default value is 10.
 	MaxDeliveryCount *int `json:"maxDeliveryCount,omitempty"`
 
-	//MaxSizeInMegabytes: The maximum size of the queue in megabytes, which is the size of memory allocated for the queue.
-	//Default is 1024.
+	// MaxSizeInMegabytes: The maximum size of the queue in megabytes, which is the size of memory allocated for the queue.
+	// Default is 1024.
 	MaxSizeInMegabytes *int `json:"maxSizeInMegabytes,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a servicebus.azure.com/Namespace resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a servicebus.azure.com/Namespace resource
 	Owner *genruntime.KnownResourceReference `group:"servicebus.azure.com" json:"owner,omitempty" kind:"Namespace"`
 
-	//RequiresDuplicateDetection: A value indicating if this queue requires duplicate detection.
+	// RequiresDuplicateDetection: A value indicating if this queue requires duplicate detection.
 	RequiresDuplicateDetection *bool `json:"requiresDuplicateDetection,omitempty"`
 
-	//RequiresSession: A value that indicates whether the queue supports the concept of sessions.
+	// RequiresSession: A value that indicates whether the queue supports the concept of sessions.
 	RequiresSession *bool `json:"requiresSession,omitempty"`
 
-	//Tags: Name-value pairs to add to the resource
+	// Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
@@ -961,91 +961,91 @@ func (queues *NamespacesQueues_Spec) OriginalVersion() string {
 func (queues *NamespacesQueues_Spec) SetAzureName(azureName string) { queues.AzureName = azureName }
 
 type SBQueue_Status struct {
-	//AccessedAt: Last time a message was sent, or the last time there was a receive request to this queue.
+	// AccessedAt: Last time a message was sent, or the last time there was a receive request to this queue.
 	AccessedAt *string `json:"accessedAt,omitempty"`
 
-	//AutoDeleteOnIdle: ISO 8061 timeSpan idle interval after which the queue is automatically deleted. The minimum duration
-	//is 5 minutes.
+	// AutoDeleteOnIdle: ISO 8061 timeSpan idle interval after which the queue is automatically deleted. The minimum duration
+	// is 5 minutes.
 	AutoDeleteOnIdle *string `json:"autoDeleteOnIdle,omitempty"`
 
-	//Conditions: The observed state of the resource
+	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
-	//CountDetails: Message Count Details.
+	// CountDetails: Message Count Details.
 	CountDetails *MessageCountDetails_Status `json:"countDetails,omitempty"`
 
-	//CreatedAt: The exact time the message was created.
+	// CreatedAt: The exact time the message was created.
 	CreatedAt *string `json:"createdAt,omitempty"`
 
-	//DeadLetteringOnMessageExpiration: A value that indicates whether this queue has dead letter support when a message
-	//expires.
+	// DeadLetteringOnMessageExpiration: A value that indicates whether this queue has dead letter support when a message
+	// expires.
 	DeadLetteringOnMessageExpiration *bool `json:"deadLetteringOnMessageExpiration,omitempty"`
 
-	//DefaultMessageTimeToLive: ISO 8601 default message timespan to live value. This is the duration after which the message
-	//expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not
-	//set on a message itself.
+	// DefaultMessageTimeToLive: ISO 8601 default message timespan to live value. This is the duration after which the message
+	// expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not
+	// set on a message itself.
 	DefaultMessageTimeToLive *string `json:"defaultMessageTimeToLive,omitempty"`
 
-	//DuplicateDetectionHistoryTimeWindow: ISO 8601 timeSpan structure that defines the duration of the duplicate detection
-	//history. The default value is 10 minutes.
+	// DuplicateDetectionHistoryTimeWindow: ISO 8601 timeSpan structure that defines the duration of the duplicate detection
+	// history. The default value is 10 minutes.
 	DuplicateDetectionHistoryTimeWindow *string `json:"duplicateDetectionHistoryTimeWindow,omitempty"`
 
-	//EnableBatchedOperations: Value that indicates whether server-side batched operations are enabled.
+	// EnableBatchedOperations: Value that indicates whether server-side batched operations are enabled.
 	EnableBatchedOperations *bool `json:"enableBatchedOperations,omitempty"`
 
-	//EnableExpress: A value that indicates whether Express Entities are enabled. An express queue holds a message in memory
-	//temporarily before writing it to persistent storage.
+	// EnableExpress: A value that indicates whether Express Entities are enabled. An express queue holds a message in memory
+	// temporarily before writing it to persistent storage.
 	EnableExpress *bool `json:"enableExpress,omitempty"`
 
-	//EnablePartitioning: A value that indicates whether the queue is to be partitioned across multiple message brokers.
+	// EnablePartitioning: A value that indicates whether the queue is to be partitioned across multiple message brokers.
 	EnablePartitioning *bool `json:"enablePartitioning,omitempty"`
 
-	//ForwardDeadLetteredMessagesTo: Queue/Topic name to forward the Dead Letter message
+	// ForwardDeadLetteredMessagesTo: Queue/Topic name to forward the Dead Letter message
 	ForwardDeadLetteredMessagesTo *string `json:"forwardDeadLetteredMessagesTo,omitempty"`
 
-	//ForwardTo: Queue/Topic name to forward the messages
+	// ForwardTo: Queue/Topic name to forward the messages
 	ForwardTo *string `json:"forwardTo,omitempty"`
 
-	//Id: Resource Id
+	// Id: Resource Id
 	Id *string `json:"id,omitempty"`
 
-	//LockDuration: ISO 8601 timespan duration of a peek-lock; that is, the amount of time that the message is locked for
-	//other receivers. The maximum value for LockDuration is 5 minutes; the default value is 1 minute.
+	// LockDuration: ISO 8601 timespan duration of a peek-lock; that is, the amount of time that the message is locked for
+	// other receivers. The maximum value for LockDuration is 5 minutes; the default value is 1 minute.
 	LockDuration *string `json:"lockDuration,omitempty"`
 
-	//MaxDeliveryCount: The maximum delivery count. A message is automatically deadlettered after this number of deliveries.
-	//default value is 10.
+	// MaxDeliveryCount: The maximum delivery count. A message is automatically deadlettered after this number of deliveries.
+	// default value is 10.
 	MaxDeliveryCount *int `json:"maxDeliveryCount,omitempty"`
 
-	//MaxSizeInMegabytes: The maximum size of the queue in megabytes, which is the size of memory allocated for the queue.
-	//Default is 1024.
+	// MaxSizeInMegabytes: The maximum size of the queue in megabytes, which is the size of memory allocated for the queue.
+	// Default is 1024.
 	MaxSizeInMegabytes *int `json:"maxSizeInMegabytes,omitempty"`
 
-	//MessageCount: The number of messages in the queue.
+	// MessageCount: The number of messages in the queue.
 	MessageCount *int `json:"messageCount,omitempty"`
 
-	//Name: Resource name
+	// Name: Resource name
 	Name *string `json:"name,omitempty"`
 
-	//RequiresDuplicateDetection: A value indicating if this queue requires duplicate detection.
+	// RequiresDuplicateDetection: A value indicating if this queue requires duplicate detection.
 	RequiresDuplicateDetection *bool `json:"requiresDuplicateDetection,omitempty"`
 
-	//RequiresSession: A value that indicates whether the queue supports the concept of sessions.
+	// RequiresSession: A value that indicates whether the queue supports the concept of sessions.
 	RequiresSession *bool `json:"requiresSession,omitempty"`
 
-	//SizeInBytes: The size of the queue, in bytes.
+	// SizeInBytes: The size of the queue, in bytes.
 	SizeInBytes *int `json:"sizeInBytes,omitempty"`
 
-	//Status: Enumerates the possible values for the status of a messaging entity.
+	// Status: Enumerates the possible values for the status of a messaging entity.
 	Status *EntityStatus_Status `json:"status,omitempty"`
 
-	//SystemData: The system meta data relating to this resource.
+	// SystemData: The system meta data relating to this resource.
 	SystemData *SystemData_Status `json:"systemData,omitempty"`
 
-	//Type: Resource type
+	// Type: Resource type
 	Type *string `json:"type,omitempty"`
 
-	//UpdatedAt: The exact time the message was updated.
+	// UpdatedAt: The exact time the message was updated.
 	UpdatedAt *string `json:"updatedAt,omitempty"`
 }
 
@@ -1642,19 +1642,19 @@ const (
 )
 
 type MessageCountDetails_Status struct {
-	//ActiveMessageCount: Number of active messages in the queue, topic, or subscription.
+	// ActiveMessageCount: Number of active messages in the queue, topic, or subscription.
 	ActiveMessageCount *int `json:"activeMessageCount,omitempty"`
 
-	//DeadLetterMessageCount: Number of messages that are dead lettered.
+	// DeadLetterMessageCount: Number of messages that are dead lettered.
 	DeadLetterMessageCount *int `json:"deadLetterMessageCount,omitempty"`
 
-	//ScheduledMessageCount: Number of scheduled messages.
+	// ScheduledMessageCount: Number of scheduled messages.
 	ScheduledMessageCount *int `json:"scheduledMessageCount,omitempty"`
 
-	//TransferDeadLetterMessageCount: Number of messages transferred into dead letters.
+	// TransferDeadLetterMessageCount: Number of messages transferred into dead letters.
 	TransferDeadLetterMessageCount *int `json:"transferDeadLetterMessageCount,omitempty"`
 
-	//TransferMessageCount: Number of messages transferred to another queue, topic, or subscription.
+	// TransferMessageCount: Number of messages transferred to another queue, topic, or subscription.
 	TransferMessageCount *int `json:"transferMessageCount,omitempty"`
 }
 

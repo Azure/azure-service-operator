@@ -90,7 +90,7 @@ func RunPropertyAssignmentTestForRedisEnterprise(subject RedisEnterprise) string
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -192,7 +192,7 @@ func RunPropertyAssignmentTestForClusterStatus(subject Cluster_Status) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -336,7 +336,7 @@ func RunPropertyAssignmentTestForRedisEnterpriseSpec(subject RedisEnterprise_Spe
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -387,7 +387,7 @@ func RunJSONSerializationTestForRedisEnterpriseSpec(subject RedisEnterprise_Spec
 }
 
 // Generator of RedisEnterprise_Spec instances for property testing - lazily instantiated by
-//RedisEnterpriseSpecGenerator()
+// RedisEnterpriseSpecGenerator()
 var redisEnterpriseSpecGenerator gopter.Gen
 
 // RedisEnterpriseSpecGenerator returns a generator of RedisEnterprise_Spec instances for property testing.
@@ -456,7 +456,7 @@ func RunPropertyAssignmentTestForPrivateEndpointConnectionStatusSubResourceEmbed
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -507,7 +507,7 @@ func RunJSONSerializationTestForPrivateEndpointConnectionStatusSubResourceEmbedd
 }
 
 // Generator of PrivateEndpointConnection_Status_SubResourceEmbedded instances for property testing - lazily
-//instantiated by PrivateEndpointConnectionStatusSubResourceEmbeddedGenerator()
+// instantiated by PrivateEndpointConnectionStatusSubResourceEmbeddedGenerator()
 var privateEndpointConnectionStatusSubResourceEmbeddedGenerator gopter.Gen
 
 // PrivateEndpointConnectionStatusSubResourceEmbeddedGenerator returns a generator of PrivateEndpointConnection_Status_SubResourceEmbedded instances for property testing.
@@ -558,7 +558,7 @@ func RunPropertyAssignmentTestForSku(subject Sku) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -667,7 +667,7 @@ func RunPropertyAssignmentTestForSkuStatus(subject Sku_Status) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)

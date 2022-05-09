@@ -56,7 +56,7 @@ func RunJSONSerializationTestForConfigurationStatusARM(subject Configuration_Sta
 }
 
 // Generator of Configuration_StatusARM instances for property testing - lazily instantiated by
-//ConfigurationStatusARMGenerator()
+// ConfigurationStatusARMGenerator()
 var configurationStatusARMGenerator gopter.Gen
 
 // ConfigurationStatusARMGenerator returns a generator of Configuration_StatusARM instances for property testing.
@@ -133,7 +133,7 @@ func RunJSONSerializationTestForConfigurationPropertiesStatusARM(subject Configu
 }
 
 // Generator of ConfigurationProperties_StatusARM instances for property testing - lazily instantiated by
-//ConfigurationPropertiesStatusARMGenerator()
+// ConfigurationPropertiesStatusARMGenerator()
 var configurationPropertiesStatusARMGenerator gopter.Gen
 
 // ConfigurationPropertiesStatusARMGenerator returns a generator of ConfigurationProperties_StatusARM instances for property testing.
@@ -207,7 +207,7 @@ func RunJSONSerializationTestForSystemDataStatusARM(subject SystemData_StatusARM
 }
 
 // Generator of SystemData_StatusARM instances for property testing - lazily instantiated by
-//SystemDataStatusARMGenerator()
+// SystemDataStatusARMGenerator()
 var systemDataStatusARMGenerator gopter.Gen
 
 // SystemDataStatusARMGenerator returns a generator of SystemData_StatusARM instances for property testing.

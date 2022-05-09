@@ -4,93 +4,93 @@
 package v1beta20210101
 
 type BatchAccount_StatusARM struct {
-	//Id: The ID of the resource.
+	// Id: The ID of the resource.
 	Id *string `json:"id,omitempty"`
 
-	//Identity: The identity of the Batch account.
+	// Identity: The identity of the Batch account.
 	Identity *BatchAccountIdentity_StatusARM `json:"identity,omitempty"`
 
-	//Location: The location of the resource.
+	// Location: The location of the resource.
 	Location *string `json:"location,omitempty"`
 
-	//Name: The name of the resource.
+	// Name: The name of the resource.
 	Name *string `json:"name,omitempty"`
 
-	//Properties: The properties associated with the account.
+	// Properties: The properties associated with the account.
 	Properties *BatchAccountProperties_StatusARM `json:"properties,omitempty"`
 
-	//Tags: The tags of the resource.
+	// Tags: The tags of the resource.
 	Tags map[string]string `json:"tags,omitempty"`
 
-	//Type: The type of the resource.
+	// Type: The type of the resource.
 	Type *string `json:"type,omitempty"`
 }
 
 type BatchAccountIdentity_StatusARM struct {
-	//PrincipalId: The principal id of the Batch account. This property will only be provided for a system assigned identity.
+	// PrincipalId: The principal id of the Batch account. This property will only be provided for a system assigned identity.
 	PrincipalId *string `json:"principalId,omitempty"`
 
-	//TenantId: The tenant id associated with the Batch account. This property will only be provided for a system assigned
-	//identity.
+	// TenantId: The tenant id associated with the Batch account. This property will only be provided for a system assigned
+	// identity.
 	TenantId *string `json:"tenantId,omitempty"`
 
-	//Type: The type of identity used for the Batch account.
+	// Type: The type of identity used for the Batch account.
 	Type *BatchAccountIdentityStatusType `json:"type,omitempty"`
 
-	//UserAssignedIdentities: The list of user identities associated with the Batch account. The user identity dictionary key
-	//references will be ARM resource ids in the form:
-	//'/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+	// UserAssignedIdentities: The list of user identities associated with the Batch account. The user identity dictionary key
+	// references will be ARM resource ids in the form:
+	// '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
 	UserAssignedIdentities map[string]BatchAccountIdentity_Status_UserAssignedIdentitiesARM `json:"userAssignedIdentities,omitempty"`
 }
 
 type BatchAccountProperties_StatusARM struct {
-	//AccountEndpoint: The account endpoint used to interact with the Batch service.
+	// AccountEndpoint: The account endpoint used to interact with the Batch service.
 	AccountEndpoint              *string                          `json:"accountEndpoint,omitempty"`
 	ActiveJobAndJobScheduleQuota *int                             `json:"activeJobAndJobScheduleQuota,omitempty"`
 	AutoStorage                  *AutoStorageProperties_StatusARM `json:"autoStorage,omitempty"`
 
-	//DedicatedCoreQuota: For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription
-	//so this value is not returned.
+	// DedicatedCoreQuota: For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription
+	// so this value is not returned.
 	DedicatedCoreQuota *int `json:"dedicatedCoreQuota,omitempty"`
 
-	//DedicatedCoreQuotaPerVMFamily: A list of the dedicated core quota per Virtual Machine family for the Batch account. For
-	//accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not
-	//returned.
+	// DedicatedCoreQuotaPerVMFamily: A list of the dedicated core quota per Virtual Machine family for the Batch account. For
+	// accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not
+	// returned.
 	DedicatedCoreQuotaPerVMFamily []VirtualMachineFamilyCoreQuota_StatusARM `json:"dedicatedCoreQuotaPerVMFamily,omitempty"`
 
-	//DedicatedCoreQuotaPerVMFamilyEnforced: Batch is transitioning its core quota system for dedicated cores to be enforced
-	//per Virtual Machine family. During this transitional phase, the dedicated core quota per Virtual Machine family may not
-	//yet be enforced. If this flag is false, dedicated core quota is enforced via the old dedicatedCoreQuota property on the
-	//account and does not consider Virtual Machine family. If this flag is true, dedicated core quota is enforced via the
-	//dedicatedCoreQuotaPerVMFamily property on the account, and the old dedicatedCoreQuota does not apply.
+	// DedicatedCoreQuotaPerVMFamilyEnforced: Batch is transitioning its core quota system for dedicated cores to be enforced
+	// per Virtual Machine family. During this transitional phase, the dedicated core quota per Virtual Machine family may not
+	// yet be enforced. If this flag is false, dedicated core quota is enforced via the old dedicatedCoreQuota property on the
+	// account and does not consider Virtual Machine family. If this flag is true, dedicated core quota is enforced via the
+	// dedicatedCoreQuotaPerVMFamily property on the account, and the old dedicatedCoreQuota does not apply.
 	DedicatedCoreQuotaPerVMFamilyEnforced *bool `json:"dedicatedCoreQuotaPerVMFamilyEnforced,omitempty"`
 
-	//Encryption: Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using
-	//a Microsoft managed key. For additional control, a customer-managed key can be used instead.
+	// Encryption: Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using
+	// a Microsoft managed key. For additional control, a customer-managed key can be used instead.
 	Encryption        *EncryptionProperties_StatusARM `json:"encryption,omitempty"`
 	KeyVaultReference *KeyVaultReference_StatusARM    `json:"keyVaultReference,omitempty"`
 
-	//LowPriorityCoreQuota: For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription
-	//so this value is not returned.
+	// LowPriorityCoreQuota: For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription
+	// so this value is not returned.
 	LowPriorityCoreQuota *int                       `json:"lowPriorityCoreQuota,omitempty"`
 	PoolAllocationMode   *PoolAllocationMode_Status `json:"poolAllocationMode,omitempty"`
 	PoolQuota            *int                       `json:"poolQuota,omitempty"`
 
-	//PrivateEndpointConnections: List of private endpoint connections associated with the Batch account
+	// PrivateEndpointConnections: List of private endpoint connections associated with the Batch account
 	PrivateEndpointConnections []PrivateEndpointConnection_StatusARM `json:"privateEndpointConnections,omitempty"`
 
-	//ProvisioningState: The provisioned state of the resource
+	// ProvisioningState: The provisioned state of the resource
 	ProvisioningState *BatchAccountPropertiesStatusProvisioningState `json:"provisioningState,omitempty"`
 
-	//PublicNetworkAccess: If not specified, the default value is 'enabled'.
+	// PublicNetworkAccess: If not specified, the default value is 'enabled'.
 	PublicNetworkAccess *PublicNetworkAccessType_Status `json:"publicNetworkAccess,omitempty"`
 }
 
 type AutoStorageProperties_StatusARM struct {
-	//LastKeySync: The UTC time at which storage keys were last synchronized with the Batch account.
+	// LastKeySync: The UTC time at which storage keys were last synchronized with the Batch account.
 	LastKeySync *string `json:"lastKeySync,omitempty"`
 
-	//StorageAccountId: The resource ID of the storage account to be used for auto-storage account.
+	// StorageAccountId: The resource ID of the storage account to be used for auto-storage account.
 	StorageAccountId *string `json:"storageAccountId,omitempty"`
 }
 
@@ -103,61 +103,61 @@ const (
 )
 
 type BatchAccountIdentity_Status_UserAssignedIdentitiesARM struct {
-	//ClientId: The client id of user assigned identity.
+	// ClientId: The client id of user assigned identity.
 	ClientId *string `json:"clientId,omitempty"`
 
-	//PrincipalId: The principal id of user assigned identity.
+	// PrincipalId: The principal id of user assigned identity.
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
 type EncryptionProperties_StatusARM struct {
-	//KeySource: Type of the key source.
+	// KeySource: Type of the key source.
 	KeySource *EncryptionPropertiesStatusKeySource `json:"keySource,omitempty"`
 
-	//KeyVaultProperties: Additional details when using Microsoft.KeyVault
+	// KeyVaultProperties: Additional details when using Microsoft.KeyVault
 	KeyVaultProperties *KeyVaultProperties_StatusARM `json:"keyVaultProperties,omitempty"`
 }
 
 type KeyVaultReference_StatusARM struct {
-	//Id: The resource ID of the Azure key vault associated with the Batch account.
+	// Id: The resource ID of the Azure key vault associated with the Batch account.
 	Id *string `json:"id,omitempty"`
 
-	//Url: The URL of the Azure key vault associated with the Batch account.
+	// Url: The URL of the Azure key vault associated with the Batch account.
 	Url *string `json:"url,omitempty"`
 }
 
 type PrivateEndpointConnection_StatusARM struct {
-	//Etag: The ETag of the resource, used for concurrency statements.
+	// Etag: The ETag of the resource, used for concurrency statements.
 	Etag *string `json:"etag,omitempty"`
 
-	//Id: The ID of the resource.
+	// Id: The ID of the resource.
 	Id *string `json:"id,omitempty"`
 
-	//Name: The name of the resource.
+	// Name: The name of the resource.
 	Name *string `json:"name,omitempty"`
 
-	//Properties: The properties associated with the private endpoint connection.
+	// Properties: The properties associated with the private endpoint connection.
 	Properties *PrivateEndpointConnectionProperties_StatusARM `json:"properties,omitempty"`
 
-	//Type: The type of the resource.
+	// Type: The type of the resource.
 	Type *string `json:"type,omitempty"`
 }
 
 type VirtualMachineFamilyCoreQuota_StatusARM struct {
-	//CoreQuota: The core quota for the VM family for the Batch account.
+	// CoreQuota: The core quota for the VM family for the Batch account.
 	CoreQuota *int `json:"coreQuota,omitempty"`
 
-	//Name: The Virtual Machine family name.
+	// Name: The Virtual Machine family name.
 	Name *string `json:"name,omitempty"`
 }
 
 type KeyVaultProperties_StatusARM struct {
-	//KeyIdentifier: Full path to the versioned secret. Example
-	//https://mykeyvault.vault.azure.net/keys/testkey/6e34a81fef704045975661e297a4c053. To be usable the following
-	//prerequisites must be met:
-	//The Batch Account has a System Assigned identity
-	//The account identity has been granted Key/Get, Key/Unwrap and Key/Wrap permissions
-	//The KeyVault has soft-delete and purge protection enabled
+	// KeyIdentifier: Full path to the versioned secret. Example
+	// https://mykeyvault.vault.azure.net/keys/testkey/6e34a81fef704045975661e297a4c053. To be usable the following
+	// prerequisites must be met:
+	// The Batch Account has a System Assigned identity
+	// The account identity has been granted Key/Get, Key/Unwrap and Key/Wrap permissions
+	// The KeyVault has soft-delete and purge protection enabled
 	KeyIdentifier *string `json:"keyIdentifier,omitempty"`
 }
 

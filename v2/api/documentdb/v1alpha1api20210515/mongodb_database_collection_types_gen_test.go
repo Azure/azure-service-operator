@@ -91,7 +91,7 @@ func RunPropertyAssignmentTestForMongodbDatabaseCollection(subject MongodbDataba
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -142,7 +142,7 @@ func RunJSONSerializationTestForMongodbDatabaseCollection(subject MongodbDatabas
 }
 
 // Generator of MongodbDatabaseCollection instances for property testing - lazily instantiated by
-//MongodbDatabaseCollectionGenerator()
+// MongodbDatabaseCollectionGenerator()
 var mongodbDatabaseCollectionGenerator gopter.Gen
 
 // MongodbDatabaseCollectionGenerator returns a generator of MongodbDatabaseCollection instances for property testing.
@@ -194,7 +194,7 @@ func RunPropertyAssignmentTestForDatabaseAccountsMongodbDatabasesCollectionsSpec
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -245,7 +245,7 @@ func RunJSONSerializationTestForDatabaseAccountsMongodbDatabasesCollectionsSpec(
 }
 
 // Generator of DatabaseAccountsMongodbDatabasesCollections_Spec instances for property testing - lazily instantiated by
-//DatabaseAccountsMongodbDatabasesCollectionsSpecGenerator()
+// DatabaseAccountsMongodbDatabasesCollectionsSpecGenerator()
 var databaseAccountsMongodbDatabasesCollectionsSpecGenerator gopter.Gen
 
 // DatabaseAccountsMongodbDatabasesCollectionsSpecGenerator returns a generator of DatabaseAccountsMongodbDatabasesCollections_Spec instances for property testing.
@@ -313,7 +313,7 @@ func RunPropertyAssignmentTestForMongoDBCollectionGetResultsStatus(subject Mongo
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -364,7 +364,7 @@ func RunJSONSerializationTestForMongoDBCollectionGetResultsStatus(subject MongoD
 }
 
 // Generator of MongoDBCollectionGetResults_Status instances for property testing - lazily instantiated by
-//MongoDBCollectionGetResultsStatusGenerator()
+// MongoDBCollectionGetResultsStatusGenerator()
 var mongoDBCollectionGetResultsStatusGenerator gopter.Gen
 
 // MongoDBCollectionGetResultsStatusGenerator returns a generator of MongoDBCollectionGetResults_Status instances for property testing.
@@ -434,7 +434,7 @@ func RunPropertyAssignmentTestForMongoDBCollectionGetPropertiesStatusResource(su
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -485,7 +485,7 @@ func RunJSONSerializationTestForMongoDBCollectionGetPropertiesStatusResource(sub
 }
 
 // Generator of MongoDBCollectionGetProperties_Status_Resource instances for property testing - lazily instantiated by
-//MongoDBCollectionGetPropertiesStatusResourceGenerator()
+// MongoDBCollectionGetPropertiesStatusResourceGenerator()
 var mongoDBCollectionGetPropertiesStatusResourceGenerator gopter.Gen
 
 // MongoDBCollectionGetPropertiesStatusResourceGenerator returns a generator of MongoDBCollectionGetProperties_Status_Resource instances for property testing.
@@ -555,7 +555,7 @@ func RunPropertyAssignmentTestForMongoDBCollectionResource(subject MongoDBCollec
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -606,7 +606,7 @@ func RunJSONSerializationTestForMongoDBCollectionResource(subject MongoDBCollect
 }
 
 // Generator of MongoDBCollectionResource instances for property testing - lazily instantiated by
-//MongoDBCollectionResourceGenerator()
+// MongoDBCollectionResourceGenerator()
 var mongoDBCollectionResourceGenerator gopter.Gen
 
 // MongoDBCollectionResourceGenerator returns a generator of MongoDBCollectionResource instances for property testing.
@@ -673,7 +673,7 @@ func RunPropertyAssignmentTestForMongoIndex(subject MongoIndex) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -775,7 +775,7 @@ func RunPropertyAssignmentTestForMongoIndexStatus(subject MongoIndex_Status) str
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -877,7 +877,7 @@ func RunPropertyAssignmentTestForMongoIndexKeys(subject MongoIndexKeys) string {
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -978,7 +978,7 @@ func RunPropertyAssignmentTestForMongoIndexKeysStatus(subject MongoIndexKeys_Sta
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1029,7 +1029,7 @@ func RunJSONSerializationTestForMongoIndexKeysStatus(subject MongoIndexKeys_Stat
 }
 
 // Generator of MongoIndexKeys_Status instances for property testing - lazily instantiated by
-//MongoIndexKeysStatusGenerator()
+// MongoIndexKeysStatusGenerator()
 var mongoIndexKeysStatusGenerator gopter.Gen
 
 // MongoIndexKeysStatusGenerator returns a generator of MongoIndexKeys_Status instances for property testing.
@@ -1080,7 +1080,7 @@ func RunPropertyAssignmentTestForMongoIndexOptions(subject MongoIndexOptions) st
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1182,7 +1182,7 @@ func RunPropertyAssignmentTestForMongoIndexOptionsStatus(subject MongoIndexOptio
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1233,7 +1233,7 @@ func RunJSONSerializationTestForMongoIndexOptionsStatus(subject MongoIndexOption
 }
 
 // Generator of MongoIndexOptions_Status instances for property testing - lazily instantiated by
-//MongoIndexOptionsStatusGenerator()
+// MongoIndexOptionsStatusGenerator()
 var mongoIndexOptionsStatusGenerator gopter.Gen
 
 // MongoIndexOptionsStatusGenerator returns a generator of MongoIndexOptions_Status instances for property testing.

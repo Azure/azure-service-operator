@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Deprecated version of VirtualNetworksSubnet. Use v1beta20201101.VirtualNetworksSubnet instead
+// Deprecated version of VirtualNetworksSubnet. Use v1beta20201101.VirtualNetworksSubnet instead
 type VirtualNetworksSubnet struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -324,20 +324,20 @@ func (subnet *VirtualNetworksSubnet) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Deprecated version of VirtualNetworksSubnet. Use v1beta20201101.VirtualNetworksSubnet instead
+// Deprecated version of VirtualNetworksSubnet. Use v1beta20201101.VirtualNetworksSubnet instead
 type VirtualNetworksSubnetList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []VirtualNetworksSubnet `json:"items"`
 }
 
-//Deprecated version of Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded. Use v1beta20201101.Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded instead
+// Deprecated version of Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded. Use v1beta20201101.Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded instead
 type Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded struct {
 	AddressPrefix                      *string                                    `json:"addressPrefix,omitempty"`
 	AddressPrefixes                    []string                                   `json:"addressPrefixes,omitempty"`
 	ApplicationGatewayIpConfigurations []ApplicationGatewayIPConfiguration_Status `json:"applicationGatewayIpConfigurations,omitempty"`
 
-	//Conditions: The observed state of the resource
+	// Conditions: The observed state of the resource
 	Conditions                        []conditions.Condition                                                    `json:"conditions,omitempty"`
 	Delegations                       []Delegation_Status                                                       `json:"delegations,omitempty"`
 	Etag                              *string                                                                   `json:"etag,omitempty"`
@@ -1236,8 +1236,8 @@ type VirtualNetworksSubnets_Spec struct {
 	AddressPrefix   *string  `json:"addressPrefix,omitempty"`
 	AddressPrefixes []string `json:"addressPrefixes,omitempty"`
 
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName            string                                               `json:"azureName,omitempty"`
 	Delegations          []VirtualNetworksSubnets_Spec_Properties_Delegations `json:"delegations,omitempty"`
 	IpAllocations        []SubResource                                        `json:"ipAllocations,omitempty"`
@@ -1245,9 +1245,9 @@ type VirtualNetworksSubnets_Spec struct {
 	NetworkSecurityGroup *SubResource                                         `json:"networkSecurityGroup,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a network.azure.com/VirtualNetwork resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a network.azure.com/VirtualNetwork resource
 	Owner                             *genruntime.KnownResourceReference `group:"network.azure.com" json:"owner,omitempty" kind:"VirtualNetwork"`
 	PrivateEndpointNetworkPolicies    *string                            `json:"privateEndpointNetworkPolicies,omitempty"`
 	PrivateLinkServiceNetworkPolicies *string                            `json:"privateLinkServiceNetworkPolicies,omitempty"`
@@ -1853,7 +1853,7 @@ func (subnets *VirtualNetworksSubnets_Spec) SetAzureName(azureName string) {
 	subnets.AzureName = azureName
 }
 
-//Deprecated version of ApplicationGatewayIPConfiguration_Status. Use v1beta20201101.ApplicationGatewayIPConfiguration_Status instead
+// Deprecated version of ApplicationGatewayIPConfiguration_Status. Use v1beta20201101.ApplicationGatewayIPConfiguration_Status instead
 type ApplicationGatewayIPConfiguration_Status struct {
 	Etag              *string                   `json:"etag,omitempty"`
 	Id                *string                   `json:"id,omitempty"`
@@ -2015,7 +2015,7 @@ func (configuration *ApplicationGatewayIPConfiguration_Status) AssignPropertiesT
 	return nil
 }
 
-//Deprecated version of Delegation_Status. Use v1beta20201101.Delegation_Status instead
+// Deprecated version of Delegation_Status. Use v1beta20201101.Delegation_Status instead
 type Delegation_Status struct {
 	Actions           []string                  `json:"actions,omitempty"`
 	Etag              *string                   `json:"etag,omitempty"`
@@ -2169,7 +2169,7 @@ func (delegation *Delegation_Status) AssignPropertiesToDelegationStatus(destinat
 	return nil
 }
 
-//Deprecated version of IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded. Use v1beta20201101.IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded instead
+// Deprecated version of IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded. Use v1beta20201101.IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded instead
 type IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded struct {
 	Etag              *string                   `json:"etag,omitempty"`
 	Id                *string                   `json:"id,omitempty"`
@@ -2292,7 +2292,7 @@ func (embedded *IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceE
 	return nil
 }
 
-//Deprecated version of IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded. Use v1beta20201101.IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded instead
+// Deprecated version of IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded. Use v1beta20201101.IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded instead
 type IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded struct {
 	Etag                      *string                                                           `json:"etag,omitempty"`
 	Id                        *string                                                           `json:"id,omitempty"`
@@ -2483,7 +2483,7 @@ func (embedded *IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded
 	return nil
 }
 
-//Deprecated version of NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded. Use v1beta20201101.NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded instead
+// Deprecated version of NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded. Use v1beta20201101.NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded instead
 type NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded struct {
 	Id *string `json:"id,omitempty"`
 }
@@ -2541,7 +2541,7 @@ func (embedded *NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmb
 	return nil
 }
 
-//Deprecated version of PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded. Use v1beta20201101.PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded instead
+// Deprecated version of PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded. Use v1beta20201101.PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded instead
 type PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded struct {
 	ExtendedLocation *ExtendedLocation_Status `json:"extendedLocation,omitempty"`
 	Id               *string                  `json:"id,omitempty"`
@@ -2635,7 +2635,7 @@ func (embedded *PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded
 	return nil
 }
 
-//Deprecated version of ResourceNavigationLink_Status. Use v1beta20201101.ResourceNavigationLink_Status instead
+// Deprecated version of ResourceNavigationLink_Status. Use v1beta20201101.ResourceNavigationLink_Status instead
 type ResourceNavigationLink_Status struct {
 	Etag               *string                   `json:"etag,omitempty"`
 	Id                 *string                   `json:"id,omitempty"`
@@ -2790,7 +2790,7 @@ func (link *ResourceNavigationLink_Status) AssignPropertiesToResourceNavigationL
 	return nil
 }
 
-//Deprecated version of RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded. Use v1beta20201101.RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded instead
+// Deprecated version of RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded. Use v1beta20201101.RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded instead
 type RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded struct {
 	Id *string `json:"id,omitempty"`
 }
@@ -2848,7 +2848,7 @@ func (embedded *RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded) Ass
 	return nil
 }
 
-//Deprecated version of ServiceAssociationLink_Status. Use v1beta20201101.ServiceAssociationLink_Status instead
+// Deprecated version of ServiceAssociationLink_Status. Use v1beta20201101.ServiceAssociationLink_Status instead
 type ServiceAssociationLink_Status struct {
 	AllowDelete        *bool                     `json:"allowDelete,omitempty"`
 	Etag               *string                   `json:"etag,omitempty"`
@@ -3044,7 +3044,7 @@ func (link *ServiceAssociationLink_Status) AssignPropertiesToServiceAssociationL
 	return nil
 }
 
-//Deprecated version of ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded. Use v1beta20201101.ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded instead
+// Deprecated version of ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded. Use v1beta20201101.ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded instead
 type ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded struct {
 	Id   *string `json:"id,omitempty"`
 	Kind *string `json:"kind,omitempty"`
@@ -3115,7 +3115,7 @@ func (embedded *ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEm
 	return nil
 }
 
-//Deprecated version of ServiceEndpointPropertiesFormat. Use v1beta20201101.ServiceEndpointPropertiesFormat instead
+// Deprecated version of ServiceEndpointPropertiesFormat. Use v1beta20201101.ServiceEndpointPropertiesFormat instead
 type ServiceEndpointPropertiesFormat struct {
 	Locations []string `json:"locations,omitempty"`
 	Service   *string  `json:"service,omitempty"`
@@ -3205,7 +3205,7 @@ func (format *ServiceEndpointPropertiesFormat) AssignPropertiesToServiceEndpoint
 	return nil
 }
 
-//Deprecated version of ServiceEndpointPropertiesFormat_Status. Use v1beta20201101.ServiceEndpointPropertiesFormat_Status instead
+// Deprecated version of ServiceEndpointPropertiesFormat_Status. Use v1beta20201101.ServiceEndpointPropertiesFormat_Status instead
 type ServiceEndpointPropertiesFormat_Status struct {
 	Locations         []string                  `json:"locations,omitempty"`
 	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
@@ -3298,7 +3298,7 @@ func (format *ServiceEndpointPropertiesFormat_Status) AssignPropertiesToServiceE
 	return nil
 }
 
-//Deprecated version of VirtualNetworksSubnets_Spec_Properties_Delegations. Use v1beta20201101.VirtualNetworksSubnets_Spec_Properties_Delegations instead
+// Deprecated version of VirtualNetworksSubnets_Spec_Properties_Delegations. Use v1beta20201101.VirtualNetworksSubnets_Spec_Properties_Delegations instead
 type VirtualNetworksSubnets_Spec_Properties_Delegations struct {
 	// +kubebuilder:validation:Required
 	Name        *string `json:"name,omitempty"`
@@ -3397,7 +3397,7 @@ func (delegations *VirtualNetworksSubnets_Spec_Properties_Delegations) AssignPro
 	return nil
 }
 
-//Deprecated version of PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded. Use v1beta20201101.PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded instead
+// Deprecated version of PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded. Use v1beta20201101.PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded instead
 type PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded struct {
 	ExtendedLocation *ExtendedLocation_Status   `json:"extendedLocation,omitempty"`
 	Id               *string                    `json:"id,omitempty"`

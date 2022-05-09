@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Generated from: https://schema.management.azure.com/schemas/2021-11-01/Microsoft.EventHub.json#/resourceDefinitions/namespaces_eventhubs
+// Generated from: https://schema.management.azure.com/schemas/2021-11-01/Microsoft.EventHub.json#/resourceDefinitions/namespaces_eventhubs
 type NamespacesEventhub struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -310,7 +310,7 @@ func (eventhub *NamespacesEventhub) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://schema.management.azure.com/schemas/2021-11-01/Microsoft.EventHub.json#/resourceDefinitions/namespaces_eventhubs
+// Generated from: https://schema.management.azure.com/schemas/2021-11-01/Microsoft.EventHub.json#/resourceDefinitions/namespaces_eventhubs
 type NamespacesEventhubList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -318,44 +318,44 @@ type NamespacesEventhubList struct {
 }
 
 type Eventhub_Status struct {
-	//CaptureDescription: Properties of capture description
+	// CaptureDescription: Properties of capture description
 	CaptureDescription *CaptureDescription_Status `json:"captureDescription,omitempty"`
 
-	//Conditions: The observed state of the resource
+	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
-	//CreatedAt: Exact time the Event Hub was created.
+	// CreatedAt: Exact time the Event Hub was created.
 	CreatedAt *string `json:"createdAt,omitempty"`
 
-	//Id: Fully qualified resource ID for the resource. Ex -
-	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+	// Id: Fully qualified resource ID for the resource. Ex -
+	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
 
-	//Location: The geo-location where the resource lives
+	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 
-	//MessageRetentionInDays: Number of days to retain the events for this Event Hub, value should be 1 to 7 days
+	// MessageRetentionInDays: Number of days to retain the events for this Event Hub, value should be 1 to 7 days
 	MessageRetentionInDays *int `json:"messageRetentionInDays,omitempty"`
 
-	//Name: The name of the resource
+	// Name: The name of the resource
 	Name *string `json:"name,omitempty"`
 
-	//PartitionCount: Number of partitions created for the Event Hub, allowed values are from 1 to 32 partitions.
+	// PartitionCount: Number of partitions created for the Event Hub, allowed values are from 1 to 32 partitions.
 	PartitionCount *int `json:"partitionCount,omitempty"`
 
-	//PartitionIds: Current number of shards on the Event Hub.
+	// PartitionIds: Current number of shards on the Event Hub.
 	PartitionIds []string `json:"partitionIds,omitempty"`
 
-	//Status: Enumerates the possible values for the status of the Event Hub.
+	// Status: Enumerates the possible values for the status of the Event Hub.
 	Status *EventhubStatusPropertiesStatus `json:"status,omitempty"`
 
-	//SystemData: The system meta data relating to this resource.
+	// SystemData: The system meta data relating to this resource.
 	SystemData *SystemData_Status `json:"systemData,omitempty"`
 
-	//Type: The type of the resource. E.g. "Microsoft.EventHub/Namespaces" or "Microsoft.EventHub/Namespaces/EventHubs"
+	// Type: The type of the resource. E.g. "Microsoft.EventHub/Namespaces" or "Microsoft.EventHub/Namespaces/EventHubs"
 	Type *string `json:"type,omitempty"`
 
-	//UpdatedAt: The exact time the message was updated.
+	// UpdatedAt: The exact time the message was updated.
 	UpdatedAt *string `json:"updatedAt,omitempty"`
 }
 
@@ -686,31 +686,31 @@ const NamespacesEventhubsSpecAPIVersion20211101 = NamespacesEventhubsSpecAPIVers
 type NamespacesEventhubs_Spec struct {
 	// +kubebuilder:validation:MaxLength=256
 	// +kubebuilder:validation:MinLength=1
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
-	//CaptureDescription: Properties to configure capture description for eventhub
+	// CaptureDescription: Properties to configure capture description for eventhub
 	CaptureDescription *NamespacesEventhubs_Spec_Properties_CaptureDescription `json:"captureDescription,omitempty"`
 
-	//Location: Location to deploy resource to
+	// Location: Location to deploy resource to
 	Location *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Minimum=1
-	//MessageRetentionInDays: Number of days to retain the events for this Event Hub, value should be 1 to 7 days
+	// MessageRetentionInDays: Number of days to retain the events for this Event Hub, value should be 1 to 7 days
 	MessageRetentionInDays *int `json:"messageRetentionInDays,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a eventhub.azure.com/Namespace resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a eventhub.azure.com/Namespace resource
 	Owner *genruntime.KnownResourceReference `group:"eventhub.azure.com" json:"owner,omitempty" kind:"Namespace"`
 
 	// +kubebuilder:validation:Minimum=1
-	//PartitionCount: Number of partitions created for the Event Hub, allowed values are from 1 to 32 partitions.
+	// PartitionCount: Number of partitions created for the Event Hub, allowed values are from 1 to 32 partitions.
 	PartitionCount *int `json:"partitionCount,omitempty"`
 
-	//Tags: Name-value pairs to add to the resource
+	// Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
@@ -1012,25 +1012,25 @@ func (eventhubs *NamespacesEventhubs_Spec) SetAzureName(azureName string) {
 }
 
 type CaptureDescription_Status struct {
-	//Destination: Properties of Destination where capture will be stored. (Storage Account, Blob Names)
+	// Destination: Properties of Destination where capture will be stored. (Storage Account, Blob Names)
 	Destination *Destination_Status `json:"destination,omitempty"`
 
-	//Enabled: A value that indicates whether capture description is enabled.
+	// Enabled: A value that indicates whether capture description is enabled.
 	Enabled *bool `json:"enabled,omitempty"`
 
-	//Encoding: Enumerates the possible values for the encoding format of capture description. Note: 'AvroDeflate' will be
-	//deprecated in New API Version
+	// Encoding: Enumerates the possible values for the encoding format of capture description. Note: 'AvroDeflate' will be
+	// deprecated in New API Version
 	Encoding *CaptureDescriptionStatusEncoding `json:"encoding,omitempty"`
 
-	//IntervalInSeconds: The time window allows you to set the frequency with which the capture to Azure Blobs will happen,
-	//value should between 60 to 900 seconds
+	// IntervalInSeconds: The time window allows you to set the frequency with which the capture to Azure Blobs will happen,
+	// value should between 60 to 900 seconds
 	IntervalInSeconds *int `json:"intervalInSeconds,omitempty"`
 
-	//SizeLimitInBytes: The size window defines the amount of data built up in your Event Hub before an capture operation,
-	//value should be between 10485760 to 524288000 bytes
+	// SizeLimitInBytes: The size window defines the amount of data built up in your Event Hub before an capture operation,
+	// value should be between 10485760 to 524288000 bytes
 	SizeLimitInBytes *int `json:"sizeLimitInBytes,omitempty"`
 
-	//SkipEmptyArchives: A value that indicates whether to Skip Empty Archives
+	// SkipEmptyArchives: A value that indicates whether to Skip Empty Archives
 	SkipEmptyArchives *bool `json:"skipEmptyArchives,omitempty"`
 }
 
@@ -1201,25 +1201,25 @@ func (description *CaptureDescription_Status) AssignPropertiesToCaptureDescripti
 }
 
 type NamespacesEventhubs_Spec_Properties_CaptureDescription struct {
-	//Destination: Capture storage details for capture description
+	// Destination: Capture storage details for capture description
 	Destination *NamespacesEventhubs_Spec_Properties_CaptureDescription_Destination `json:"destination,omitempty"`
 
-	//Enabled: A value that indicates whether capture description is enabled.
+	// Enabled: A value that indicates whether capture description is enabled.
 	Enabled *bool `json:"enabled,omitempty"`
 
-	//Encoding: Enumerates the possible values for the encoding format of capture description. Note: 'AvroDeflate' will be
-	//deprecated in New API Version.
+	// Encoding: Enumerates the possible values for the encoding format of capture description. Note: 'AvroDeflate' will be
+	// deprecated in New API Version.
 	Encoding *NamespacesEventhubsSpecPropertiesCaptureDescriptionEncoding `json:"encoding,omitempty"`
 
-	//IntervalInSeconds: The time window allows you to set the frequency with which the capture to Azure Blobs will happen,
-	//value should between 60 to 900 seconds
+	// IntervalInSeconds: The time window allows you to set the frequency with which the capture to Azure Blobs will happen,
+	// value should between 60 to 900 seconds
 	IntervalInSeconds *int `json:"intervalInSeconds,omitempty"`
 
-	//SizeLimitInBytes: The size window defines the amount of data built up in your Event Hub before an capture operation,
-	//value should be between 10485760 to 524288000 bytes
+	// SizeLimitInBytes: The size window defines the amount of data built up in your Event Hub before an capture operation,
+	// value should be between 10485760 to 524288000 bytes
 	SizeLimitInBytes *int `json:"sizeLimitInBytes,omitempty"`
 
-	//SkipEmptyArchives: A value that indicates whether to Skip Empty Archives
+	// SkipEmptyArchives: A value that indicates whether to Skip Empty Archives
 	SkipEmptyArchives *bool `json:"skipEmptyArchives,omitempty"`
 }
 
@@ -1439,27 +1439,27 @@ func (description *NamespacesEventhubs_Spec_Properties_CaptureDescription) Assig
 }
 
 type Destination_Status struct {
-	//ArchiveNameFormat: Blob naming convention for archive, e.g.
-	//{Namespace}/{EventHub}/{PartitionId}/{Year}/{Month}/{Day}/{Hour}/{Minute}/{Second}. Here all the parameters
-	//(Namespace,EventHub .. etc) are mandatory irrespective of order
+	// ArchiveNameFormat: Blob naming convention for archive, e.g.
+	// {Namespace}/{EventHub}/{PartitionId}/{Year}/{Month}/{Day}/{Hour}/{Minute}/{Second}. Here all the parameters
+	// (Namespace,EventHub .. etc) are mandatory irrespective of order
 	ArchiveNameFormat *string `json:"archiveNameFormat,omitempty"`
 
-	//BlobContainer: Blob container Name
+	// BlobContainer: Blob container Name
 	BlobContainer *string `json:"blobContainer,omitempty"`
 
-	//DataLakeAccountName: The Azure Data Lake Store name for the captured events
+	// DataLakeAccountName: The Azure Data Lake Store name for the captured events
 	DataLakeAccountName *string `json:"dataLakeAccountName,omitempty"`
 
-	//DataLakeFolderPath: The destination folder path for the captured events
+	// DataLakeFolderPath: The destination folder path for the captured events
 	DataLakeFolderPath *string `json:"dataLakeFolderPath,omitempty"`
 
-	//DataLakeSubscriptionId: Subscription Id of Azure Data Lake Store
+	// DataLakeSubscriptionId: Subscription Id of Azure Data Lake Store
 	DataLakeSubscriptionId *string `json:"dataLakeSubscriptionId,omitempty"`
 
-	//Name: Name for capture destination
+	// Name: Name for capture destination
 	Name *string `json:"name,omitempty"`
 
-	//StorageAccountResourceId: Resource id of the storage account to be used to create the blobs
+	// StorageAccountResourceId: Resource id of the storage account to be used to create the blobs
 	StorageAccountResourceId *string `json:"storageAccountResourceId,omitempty"`
 }
 
@@ -1615,28 +1615,28 @@ const (
 )
 
 type NamespacesEventhubs_Spec_Properties_CaptureDescription_Destination struct {
-	//ArchiveNameFormat: Blob naming convention for archive, e.g.
-	//{Namespace}/{EventHub}/{PartitionId}/{Year}/{Month}/{Day}/{Hour}/{Minute}/{Second}. Here all the parameters
-	//(Namespace,EventHub .. etc) are mandatory irrespective of order
+	// ArchiveNameFormat: Blob naming convention for archive, e.g.
+	// {Namespace}/{EventHub}/{PartitionId}/{Year}/{Month}/{Day}/{Hour}/{Minute}/{Second}. Here all the parameters
+	// (Namespace,EventHub .. etc) are mandatory irrespective of order
 	ArchiveNameFormat *string `json:"archiveNameFormat,omitempty"`
 
-	//BlobContainer: Blob container Name
+	// BlobContainer: Blob container Name
 	BlobContainer *string `json:"blobContainer,omitempty"`
 
-	//DataLakeAccountName: The Azure Data Lake Store name for the captured events
+	// DataLakeAccountName: The Azure Data Lake Store name for the captured events
 	DataLakeAccountName *string `json:"dataLakeAccountName,omitempty"`
 
-	//DataLakeFolderPath: The destination folder path for the captured events
+	// DataLakeFolderPath: The destination folder path for the captured events
 	DataLakeFolderPath *string `json:"dataLakeFolderPath,omitempty"`
 
 	// +kubebuilder:validation:Pattern="^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$"
-	//DataLakeSubscriptionId: Subscription Id of Azure Data Lake Store
+	// DataLakeSubscriptionId: Subscription Id of Azure Data Lake Store
 	DataLakeSubscriptionId *string `json:"dataLakeSubscriptionId,omitempty"`
 
-	//Name: Name for capture destination
+	// Name: Name for capture destination
 	Name *string `json:"name,omitempty"`
 
-	//StorageAccountResourceReference: Resource id of the storage account to be used to create the blobs
+	// StorageAccountResourceReference: Resource id of the storage account to be used to create the blobs
 	StorageAccountResourceReference *genruntime.ResourceReference `armReference:"StorageAccountResourceId" json:"storageAccountResourceReference,omitempty"`
 }
 

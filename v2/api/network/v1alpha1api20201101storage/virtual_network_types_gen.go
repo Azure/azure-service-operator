@@ -20,8 +20,8 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Storage version of v1alpha1api20201101.VirtualNetwork
-//Deprecated version of VirtualNetwork. Use v1beta20201101.VirtualNetwork instead
+// Storage version of v1alpha1api20201101.VirtualNetwork
+// Deprecated version of VirtualNetwork. Use v1beta20201101.VirtualNetwork instead
 type VirtualNetwork struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -191,16 +191,16 @@ func (network *VirtualNetwork) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Storage version of v1alpha1api20201101.VirtualNetwork
-//Deprecated version of VirtualNetwork. Use v1beta20201101.VirtualNetwork instead
+// Storage version of v1alpha1api20201101.VirtualNetwork
+// Deprecated version of VirtualNetwork. Use v1beta20201101.VirtualNetwork instead
 type VirtualNetworkList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []VirtualNetwork `json:"items"`
 }
 
-//Storage version of v1alpha1api20201101.VirtualNetwork_Status
-//Deprecated version of VirtualNetwork_Status. Use v1beta20201101.VirtualNetwork_Status instead
+// Storage version of v1alpha1api20201101.VirtualNetwork_Status
+// Deprecated version of VirtualNetwork_Status. Use v1beta20201101.VirtualNetwork_Status instead
 type VirtualNetwork_Status struct {
 	AddressSpace         *AddressSpace_Status                 `json:"addressSpace,omitempty"`
 	BgpCommunities       *VirtualNetworkBgpCommunities_Status `json:"bgpCommunities,omitempty"`
@@ -546,12 +546,12 @@ func (network *VirtualNetwork_Status) AssignPropertiesToVirtualNetworkStatus(des
 	return nil
 }
 
-//Storage version of v1alpha1api20201101.VirtualNetworks_Spec
+// Storage version of v1alpha1api20201101.VirtualNetworks_Spec
 type VirtualNetworks_Spec struct {
 	AddressSpace *AddressSpace `json:"addressSpace,omitempty"`
 
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName            string                        `json:"azureName,omitempty"`
 	BgpCommunities       *VirtualNetworkBgpCommunities `json:"bgpCommunities,omitempty"`
 	DdosProtectionPlan   *SubResource                  `json:"ddosProtectionPlan,omitempty"`
@@ -564,9 +564,9 @@ type VirtualNetworks_Spec struct {
 	OriginalVersion      string                        `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a resources.azure.com/ResourceGroup resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
 	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	Tags        map[string]string                  `json:"tags,omitempty"`
@@ -882,8 +882,8 @@ func (networks *VirtualNetworks_Spec) AssignPropertiesToVirtualNetworksSpec(dest
 	return nil
 }
 
-//Storage version of v1alpha1api20201101.AddressSpace
-//Deprecated version of AddressSpace. Use v1beta20201101.AddressSpace instead
+// Storage version of v1alpha1api20201101.AddressSpace
+// Deprecated version of AddressSpace. Use v1beta20201101.AddressSpace instead
 type AddressSpace struct {
 	AddressPrefixes []string               `json:"addressPrefixes,omitempty"`
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -927,8 +927,8 @@ func (space *AddressSpace) AssignPropertiesToAddressSpace(destination *v20201101
 	return nil
 }
 
-//Storage version of v1alpha1api20201101.AddressSpace_Status
-//Deprecated version of AddressSpace_Status. Use v1beta20201101.AddressSpace_Status instead
+// Storage version of v1alpha1api20201101.AddressSpace_Status
+// Deprecated version of AddressSpace_Status. Use v1beta20201101.AddressSpace_Status instead
 type AddressSpace_Status struct {
 	AddressPrefixes []string               `json:"addressPrefixes,omitempty"`
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -972,8 +972,8 @@ func (space *AddressSpace_Status) AssignPropertiesToAddressSpaceStatus(destinati
 	return nil
 }
 
-//Storage version of v1alpha1api20201101.DhcpOptions
-//Deprecated version of DhcpOptions. Use v1beta20201101.DhcpOptions instead
+// Storage version of v1alpha1api20201101.DhcpOptions
+// Deprecated version of DhcpOptions. Use v1beta20201101.DhcpOptions instead
 type DhcpOptions struct {
 	DnsServers  []string               `json:"dnsServers,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -1017,8 +1017,8 @@ func (options *DhcpOptions) AssignPropertiesToDhcpOptions(destination *v20201101
 	return nil
 }
 
-//Storage version of v1alpha1api20201101.DhcpOptions_Status
-//Deprecated version of DhcpOptions_Status. Use v1beta20201101.DhcpOptions_Status instead
+// Storage version of v1alpha1api20201101.DhcpOptions_Status
+// Deprecated version of DhcpOptions_Status. Use v1beta20201101.DhcpOptions_Status instead
 type DhcpOptions_Status struct {
 	DnsServers  []string               `json:"dnsServers,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -1062,8 +1062,8 @@ func (options *DhcpOptions_Status) AssignPropertiesToDhcpOptionsStatus(destinati
 	return nil
 }
 
-//Storage version of v1alpha1api20201101.VirtualNetworkBgpCommunities
-//Deprecated version of VirtualNetworkBgpCommunities. Use v1beta20201101.VirtualNetworkBgpCommunities instead
+// Storage version of v1alpha1api20201101.VirtualNetworkBgpCommunities
+// Deprecated version of VirtualNetworkBgpCommunities. Use v1beta20201101.VirtualNetworkBgpCommunities instead
 type VirtualNetworkBgpCommunities struct {
 	PropertyBag             genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	VirtualNetworkCommunity *string                `json:"virtualNetworkCommunity,omitempty"`
@@ -1107,8 +1107,8 @@ func (communities *VirtualNetworkBgpCommunities) AssignPropertiesToVirtualNetwor
 	return nil
 }
 
-//Storage version of v1alpha1api20201101.VirtualNetworkBgpCommunities_Status
-//Deprecated version of VirtualNetworkBgpCommunities_Status. Use v1beta20201101.VirtualNetworkBgpCommunities_Status instead
+// Storage version of v1alpha1api20201101.VirtualNetworkBgpCommunities_Status
+// Deprecated version of VirtualNetworkBgpCommunities_Status. Use v1beta20201101.VirtualNetworkBgpCommunities_Status instead
 type VirtualNetworkBgpCommunities_Status struct {
 	PropertyBag             genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	RegionalCommunity       *string                `json:"regionalCommunity,omitempty"`

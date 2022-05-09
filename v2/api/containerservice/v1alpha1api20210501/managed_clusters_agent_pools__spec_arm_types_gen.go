@@ -5,7 +5,7 @@ package v1alpha1api20210501
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-//Deprecated version of ManagedClustersAgentPools_Spec. Use v1beta20210501.ManagedClustersAgentPools_Spec instead
+// Deprecated version of ManagedClustersAgentPools_Spec. Use v1beta20210501.ManagedClustersAgentPools_Spec instead
 type ManagedClustersAgentPools_SpecARM struct {
 	Location   *string                                      `json:"location,omitempty"`
 	Name       string                                       `json:"name,omitempty"`
@@ -29,7 +29,7 @@ func (pools ManagedClustersAgentPools_SpecARM) GetType() string {
 	return "Microsoft.ContainerService/managedClusters/agentPools"
 }
 
-//Deprecated version of ManagedClusterAgentPoolProfileProperties. Use v1beta20210501.ManagedClusterAgentPoolProfileProperties instead
+// Deprecated version of ManagedClusterAgentPoolProfileProperties. Use v1beta20210501.ManagedClusterAgentPoolProfileProperties instead
 type ManagedClusterAgentPoolProfilePropertiesARM struct {
 	AvailabilityZones         []string                                                        `json:"availabilityZones,omitempty"`
 	Count                     *int                                                            `json:"count,omitempty"`
@@ -66,12 +66,12 @@ type ManagedClusterAgentPoolProfilePropertiesARM struct {
 	VnetSubnetID              *string                                                         `json:"vnetSubnetID,omitempty"`
 }
 
-//Deprecated version of AgentPoolUpgradeSettings. Use v1beta20210501.AgentPoolUpgradeSettings instead
+// Deprecated version of AgentPoolUpgradeSettings. Use v1beta20210501.AgentPoolUpgradeSettings instead
 type AgentPoolUpgradeSettingsARM struct {
 	MaxSurge *string `json:"maxSurge,omitempty"`
 }
 
-//Deprecated version of KubeletConfig. Use v1beta20210501.KubeletConfig instead
+// Deprecated version of KubeletConfig. Use v1beta20210501.KubeletConfig instead
 type KubeletConfigARM struct {
 	AllowedUnsafeSysctls  []string `json:"allowedUnsafeSysctls,omitempty"`
 	ContainerLogMaxFiles  *int     `json:"containerLogMaxFiles,omitempty"`
@@ -86,7 +86,7 @@ type KubeletConfigARM struct {
 	TopologyManagerPolicy *string  `json:"topologyManagerPolicy,omitempty"`
 }
 
-//Deprecated version of LinuxOSConfig. Use v1beta20210501.LinuxOSConfig instead
+// Deprecated version of LinuxOSConfig. Use v1beta20210501.LinuxOSConfig instead
 type LinuxOSConfigARM struct {
 	SwapFileSizeMB             *int             `json:"swapFileSizeMB,omitempty"`
 	Sysctls                    *SysctlConfigARM `json:"sysctls,omitempty"`
@@ -94,7 +94,7 @@ type LinuxOSConfigARM struct {
 	TransparentHugePageEnabled *string          `json:"transparentHugePageEnabled,omitempty"`
 }
 
-//Deprecated version of SysctlConfig. Use v1beta20210501.SysctlConfig instead
+// Deprecated version of SysctlConfig. Use v1beta20210501.SysctlConfig instead
 type SysctlConfigARM struct {
 	FsAioMaxNr                     *int    `json:"fsAioMaxNr,omitempty"`
 	FsFileMax                      *int    `json:"fsFileMax,omitempty"`

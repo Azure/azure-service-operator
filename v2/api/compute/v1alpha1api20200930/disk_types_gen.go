@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Deprecated version of Disk. Use v1beta20200930.Disk instead
+// Deprecated version of Disk. Use v1beta20200930.Disk instead
 type Disk struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -324,18 +324,18 @@ func (disk *Disk) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Deprecated version of Disk. Use v1beta20200930.Disk instead
+// Deprecated version of Disk. Use v1beta20200930.Disk instead
 type DiskList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Disk `json:"items"`
 }
 
-//Deprecated version of Disk_Status. Use v1beta20200930.Disk_Status instead
+// Deprecated version of Disk_Status. Use v1beta20200930.Disk_Status instead
 type Disk_Status struct {
 	BurstingEnabled *bool `json:"burstingEnabled,omitempty"`
 
-	//Conditions: The observed state of the resource
+	// Conditions: The observed state of the resource
 	Conditions                   []conditions.Condition                `json:"conditions,omitempty"`
 	CreationData                 *CreationData_Status                  `json:"creationData,omitempty"`
 	DiskAccessId                 *string                               `json:"diskAccessId,omitempty"`
@@ -1142,8 +1142,8 @@ func (disk *Disk_Status) AssignPropertiesToDiskStatus(destination *alpha20200930
 }
 
 type Disks_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName       string `json:"azureName,omitempty"`
 	BurstingEnabled *bool  `json:"burstingEnabled,omitempty"`
 
@@ -1165,9 +1165,9 @@ type Disks_Spec struct {
 	OsType                       *DiskPropertiesOsType              `json:"osType,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a resources.azure.com/ResourceGroup resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
 	Owner        *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PurchasePlan *PurchasePlan                      `json:"purchasePlan,omitempty"`
 	Sku          *DiskSku                           `json:"sku,omitempty"`
@@ -1945,7 +1945,7 @@ func (disks *Disks_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (disks *Disks_Spec) SetAzureName(azureName string) { disks.AzureName = azureName }
 
-//Deprecated version of CreationData. Use v1beta20200930.CreationData instead
+// Deprecated version of CreationData. Use v1beta20200930.CreationData instead
 type CreationData struct {
 	// +kubebuilder:validation:Required
 	CreateOption            *CreationDataCreateOption     `json:"createOption,omitempty"`
@@ -2226,7 +2226,7 @@ func (data *CreationData) AssignPropertiesToCreationData(destination *alpha20200
 	return nil
 }
 
-//Deprecated version of CreationData_Status. Use v1beta20200930.CreationData_Status instead
+// Deprecated version of CreationData_Status. Use v1beta20200930.CreationData_Status instead
 type CreationData_Status struct {
 	CreateOption          *CreationDataStatusCreateOption `json:"createOption,omitempty"`
 	GalleryImageReference *ImageDiskReference_Status      `json:"galleryImageReference,omitempty"`
@@ -2444,7 +2444,7 @@ func (data *CreationData_Status) AssignPropertiesToCreationDataStatus(destinatio
 	return nil
 }
 
-//Deprecated version of DiskPropertiesHyperVGeneration. Use v1beta20200930.DiskPropertiesHyperVGeneration instead
+// Deprecated version of DiskPropertiesHyperVGeneration. Use v1beta20200930.DiskPropertiesHyperVGeneration instead
 // +kubebuilder:validation:Enum={"V1","V2"}
 type DiskPropertiesHyperVGeneration string
 
@@ -2453,7 +2453,7 @@ const (
 	DiskPropertiesHyperVGenerationV2 = DiskPropertiesHyperVGeneration("V2")
 )
 
-//Deprecated version of DiskPropertiesNetworkAccessPolicy. Use v1beta20200930.DiskPropertiesNetworkAccessPolicy instead
+// Deprecated version of DiskPropertiesNetworkAccessPolicy. Use v1beta20200930.DiskPropertiesNetworkAccessPolicy instead
 // +kubebuilder:validation:Enum={"AllowAll","AllowPrivate","DenyAll"}
 type DiskPropertiesNetworkAccessPolicy string
 
@@ -2463,7 +2463,7 @@ const (
 	DiskPropertiesNetworkAccessPolicyDenyAll      = DiskPropertiesNetworkAccessPolicy("DenyAll")
 )
 
-//Deprecated version of DiskPropertiesOsType. Use v1beta20200930.DiskPropertiesOsType instead
+// Deprecated version of DiskPropertiesOsType. Use v1beta20200930.DiskPropertiesOsType instead
 // +kubebuilder:validation:Enum={"Linux","Windows"}
 type DiskPropertiesOsType string
 
@@ -2472,8 +2472,8 @@ const (
 	DiskPropertiesOsTypeWindows = DiskPropertiesOsType("Windows")
 )
 
-//Deprecated version of DiskPropertiesStatusHyperVGeneration. Use v1beta20200930.DiskPropertiesStatusHyperVGeneration
-//instead
+// Deprecated version of DiskPropertiesStatusHyperVGeneration. Use v1beta20200930.DiskPropertiesStatusHyperVGeneration
+// instead
 type DiskPropertiesStatusHyperVGeneration string
 
 const (
@@ -2481,7 +2481,7 @@ const (
 	DiskPropertiesStatusHyperVGenerationV2 = DiskPropertiesStatusHyperVGeneration("V2")
 )
 
-//Deprecated version of DiskPropertiesStatusOsType. Use v1beta20200930.DiskPropertiesStatusOsType instead
+// Deprecated version of DiskPropertiesStatusOsType. Use v1beta20200930.DiskPropertiesStatusOsType instead
 type DiskPropertiesStatusOsType string
 
 const (
@@ -2489,7 +2489,7 @@ const (
 	DiskPropertiesStatusOsTypeWindows = DiskPropertiesStatusOsType("Windows")
 )
 
-//Deprecated version of DiskSku. Use v1beta20200930.DiskSku instead
+// Deprecated version of DiskSku. Use v1beta20200930.DiskSku instead
 type DiskSku struct {
 	Name *DiskSkuName `json:"name,omitempty"`
 }
@@ -2572,7 +2572,7 @@ func (diskSku *DiskSku) AssignPropertiesToDiskSku(destination *alpha20200930s.Di
 	return nil
 }
 
-//Deprecated version of DiskSku_Status. Use v1beta20200930.DiskSku_Status instead
+// Deprecated version of DiskSku_Status. Use v1beta20200930.DiskSku_Status instead
 type DiskSku_Status struct {
 	Name *DiskSkuStatusName `json:"name,omitempty"`
 	Tier *string            `json:"tier,omitempty"`
@@ -2653,7 +2653,7 @@ func (diskSku *DiskSku_Status) AssignPropertiesToDiskSkuStatus(destination *alph
 	return nil
 }
 
-//Deprecated version of DiskState_Status. Use v1beta20200930.DiskState_Status instead
+// Deprecated version of DiskState_Status. Use v1beta20200930.DiskState_Status instead
 type DiskState_Status string
 
 const (
@@ -2665,7 +2665,7 @@ const (
 	DiskState_StatusUnattached    = DiskState_Status("Unattached")
 )
 
-//Deprecated version of Encryption. Use v1beta20200930.Encryption instead
+// Deprecated version of Encryption. Use v1beta20200930.Encryption instead
 type Encryption struct {
 	DiskEncryptionSetReference *genruntime.ResourceReference `armReference:"DiskEncryptionSetId" json:"diskEncryptionSetReference,omitempty"`
 	Type                       *EncryptionType               `json:"type,omitempty"`
@@ -2777,7 +2777,7 @@ func (encryption *Encryption) AssignPropertiesToEncryption(destination *alpha202
 	return nil
 }
 
-//Deprecated version of EncryptionSettingsCollection. Use v1beta20200930.EncryptionSettingsCollection instead
+// Deprecated version of EncryptionSettingsCollection. Use v1beta20200930.EncryptionSettingsCollection instead
 type EncryptionSettingsCollection struct {
 	// +kubebuilder:validation:Required
 	Enabled                   *bool                       `json:"enabled,omitempty"`
@@ -2936,7 +2936,7 @@ func (collection *EncryptionSettingsCollection) AssignPropertiesToEncryptionSett
 	return nil
 }
 
-//Deprecated version of EncryptionSettingsCollection_Status. Use v1beta20200930.EncryptionSettingsCollection_Status instead
+// Deprecated version of EncryptionSettingsCollection_Status. Use v1beta20200930.EncryptionSettingsCollection_Status instead
 type EncryptionSettingsCollection_Status struct {
 	Enabled                   *bool                              `json:"enabled,omitempty"`
 	EncryptionSettings        []EncryptionSettingsElement_Status `json:"encryptionSettings,omitempty"`
@@ -3064,7 +3064,7 @@ func (collection *EncryptionSettingsCollection_Status) AssignPropertiesToEncrypt
 	return nil
 }
 
-//Deprecated version of Encryption_Status. Use v1beta20200930.Encryption_Status instead
+// Deprecated version of Encryption_Status. Use v1beta20200930.Encryption_Status instead
 type Encryption_Status struct {
 	DiskEncryptionSetId *string                `json:"diskEncryptionSetId,omitempty"`
 	Type                *EncryptionType_Status `json:"type,omitempty"`
@@ -3145,7 +3145,7 @@ func (encryption *Encryption_Status) AssignPropertiesToEncryptionStatus(destinat
 	return nil
 }
 
-//Deprecated version of ExtendedLocation. Use v1beta20200930.ExtendedLocation instead
+// Deprecated version of ExtendedLocation. Use v1beta20200930.ExtendedLocation instead
 type ExtendedLocation struct {
 	Name *string               `json:"name,omitempty"`
 	Type *ExtendedLocationType `json:"type,omitempty"`
@@ -3247,7 +3247,7 @@ func (location *ExtendedLocation) AssignPropertiesToExtendedLocation(destination
 	return nil
 }
 
-//Deprecated version of ExtendedLocation_Status. Use v1beta20200930.ExtendedLocation_Status instead
+// Deprecated version of ExtendedLocation_Status. Use v1beta20200930.ExtendedLocation_Status instead
 type ExtendedLocation_Status struct {
 	Name *string                      `json:"name,omitempty"`
 	Type *ExtendedLocationType_Status `json:"type,omitempty"`
@@ -3328,7 +3328,7 @@ func (location *ExtendedLocation_Status) AssignPropertiesToExtendedLocationStatu
 	return nil
 }
 
-//Deprecated version of NetworkAccessPolicy_Status. Use v1beta20200930.NetworkAccessPolicy_Status instead
+// Deprecated version of NetworkAccessPolicy_Status. Use v1beta20200930.NetworkAccessPolicy_Status instead
 type NetworkAccessPolicy_Status string
 
 const (
@@ -3337,7 +3337,7 @@ const (
 	NetworkAccessPolicy_StatusDenyAll      = NetworkAccessPolicy_Status("DenyAll")
 )
 
-//Deprecated version of PurchasePlan. Use v1beta20200930.PurchasePlan instead
+// Deprecated version of PurchasePlan. Use v1beta20200930.PurchasePlan instead
 type PurchasePlan struct {
 	// +kubebuilder:validation:Required
 	Name *string `json:"name,omitempty"`
@@ -3472,7 +3472,7 @@ func (plan *PurchasePlan) AssignPropertiesToPurchasePlan(destination *alpha20200
 	return nil
 }
 
-//Deprecated version of PurchasePlan_Status. Use v1beta20200930.PurchasePlan_Status instead
+// Deprecated version of PurchasePlan_Status. Use v1beta20200930.PurchasePlan_Status instead
 type PurchasePlan_Status struct {
 	Name          *string `json:"name,omitempty"`
 	Product       *string `json:"product,omitempty"`
@@ -3569,7 +3569,7 @@ func (plan *PurchasePlan_Status) AssignPropertiesToPurchasePlanStatus(destinatio
 	return nil
 }
 
-//Deprecated version of ShareInfoElement_Status. Use v1beta20200930.ShareInfoElement_Status instead
+// Deprecated version of ShareInfoElement_Status. Use v1beta20200930.ShareInfoElement_Status instead
 type ShareInfoElement_Status struct {
 	VmUri *string `json:"vmUri,omitempty"`
 }
@@ -3627,7 +3627,7 @@ func (element *ShareInfoElement_Status) AssignPropertiesToShareInfoElementStatus
 	return nil
 }
 
-//Deprecated version of CreationDataCreateOption. Use v1beta20200930.CreationDataCreateOption instead
+// Deprecated version of CreationDataCreateOption. Use v1beta20200930.CreationDataCreateOption instead
 // +kubebuilder:validation:Enum={"Attach","Copy","Empty","FromImage","Import","Restore","Upload"}
 type CreationDataCreateOption string
 
@@ -3641,7 +3641,7 @@ const (
 	CreationDataCreateOptionUpload    = CreationDataCreateOption("Upload")
 )
 
-//Deprecated version of CreationDataStatusCreateOption. Use v1beta20200930.CreationDataStatusCreateOption instead
+// Deprecated version of CreationDataStatusCreateOption. Use v1beta20200930.CreationDataStatusCreateOption instead
 type CreationDataStatusCreateOption string
 
 const (
@@ -3654,7 +3654,7 @@ const (
 	CreationDataStatusCreateOptionUpload    = CreationDataStatusCreateOption("Upload")
 )
 
-//Deprecated version of EncryptionSettingsElement. Use v1beta20200930.EncryptionSettingsElement instead
+// Deprecated version of EncryptionSettingsElement. Use v1beta20200930.EncryptionSettingsElement instead
 type EncryptionSettingsElement struct {
 	DiskEncryptionKey *KeyVaultAndSecretReference `json:"diskEncryptionKey,omitempty"`
 	KeyEncryptionKey  *KeyVaultAndKeyReference    `json:"keyEncryptionKey,omitempty"`
@@ -3800,7 +3800,7 @@ func (element *EncryptionSettingsElement) AssignPropertiesToEncryptionSettingsEl
 	return nil
 }
 
-//Deprecated version of EncryptionSettingsElement_Status. Use v1beta20200930.EncryptionSettingsElement_Status instead
+// Deprecated version of EncryptionSettingsElement_Status. Use v1beta20200930.EncryptionSettingsElement_Status instead
 type EncryptionSettingsElement_Status struct {
 	DiskEncryptionKey *KeyVaultAndSecretReference_Status `json:"diskEncryptionKey,omitempty"`
 	KeyEncryptionKey  *KeyVaultAndKeyReference_Status    `json:"keyEncryptionKey,omitempty"`
@@ -3917,7 +3917,7 @@ func (element *EncryptionSettingsElement_Status) AssignPropertiesToEncryptionSet
 	return nil
 }
 
-//Deprecated version of EncryptionType. Use v1beta20200930.EncryptionType instead
+// Deprecated version of EncryptionType. Use v1beta20200930.EncryptionType instead
 // +kubebuilder:validation:Enum={"EncryptionAtRestWithCustomerKey","EncryptionAtRestWithPlatformAndCustomerKeys","EncryptionAtRestWithPlatformKey"}
 type EncryptionType string
 
@@ -3927,7 +3927,7 @@ const (
 	EncryptionTypeEncryptionAtRestWithPlatformKey             = EncryptionType("EncryptionAtRestWithPlatformKey")
 )
 
-//Deprecated version of EncryptionType_Status. Use v1beta20200930.EncryptionType_Status instead
+// Deprecated version of EncryptionType_Status. Use v1beta20200930.EncryptionType_Status instead
 type EncryptionType_Status string
 
 const (
@@ -3936,7 +3936,7 @@ const (
 	EncryptionType_StatusEncryptionAtRestWithPlatformKey             = EncryptionType_Status("EncryptionAtRestWithPlatformKey")
 )
 
-//Deprecated version of ImageDiskReference. Use v1beta20200930.ImageDiskReference instead
+// Deprecated version of ImageDiskReference. Use v1beta20200930.ImageDiskReference instead
 type ImageDiskReference struct {
 	Lun *int `json:"lun,omitempty"`
 
@@ -4040,7 +4040,7 @@ func (reference *ImageDiskReference) AssignPropertiesToImageDiskReference(destin
 	return nil
 }
 
-//Deprecated version of ImageDiskReference_Status. Use v1beta20200930.ImageDiskReference_Status instead
+// Deprecated version of ImageDiskReference_Status. Use v1beta20200930.ImageDiskReference_Status instead
 type ImageDiskReference_Status struct {
 	Id  *string `json:"id,omitempty"`
 	Lun *int    `json:"lun,omitempty"`
@@ -4111,7 +4111,7 @@ func (reference *ImageDiskReference_Status) AssignPropertiesToImageDiskReference
 	return nil
 }
 
-//Deprecated version of KeyVaultAndKeyReference. Use v1beta20200930.KeyVaultAndKeyReference instead
+// Deprecated version of KeyVaultAndKeyReference. Use v1beta20200930.KeyVaultAndKeyReference instead
 type KeyVaultAndKeyReference struct {
 	// +kubebuilder:validation:Required
 	KeyUrl *string `json:"keyUrl,omitempty"`
@@ -4233,7 +4233,7 @@ func (reference *KeyVaultAndKeyReference) AssignPropertiesToKeyVaultAndKeyRefere
 	return nil
 }
 
-//Deprecated version of KeyVaultAndKeyReference_Status. Use v1beta20200930.KeyVaultAndKeyReference_Status instead
+// Deprecated version of KeyVaultAndKeyReference_Status. Use v1beta20200930.KeyVaultAndKeyReference_Status instead
 type KeyVaultAndKeyReference_Status struct {
 	KeyUrl      *string             `json:"keyUrl,omitempty"`
 	SourceVault *SourceVault_Status `json:"sourceVault,omitempty"`
@@ -4327,7 +4327,7 @@ func (reference *KeyVaultAndKeyReference_Status) AssignPropertiesToKeyVaultAndKe
 	return nil
 }
 
-//Deprecated version of KeyVaultAndSecretReference. Use v1beta20200930.KeyVaultAndSecretReference instead
+// Deprecated version of KeyVaultAndSecretReference. Use v1beta20200930.KeyVaultAndSecretReference instead
 type KeyVaultAndSecretReference struct {
 	// +kubebuilder:validation:Required
 	SecretUrl *string `json:"secretUrl,omitempty"`
@@ -4449,7 +4449,7 @@ func (reference *KeyVaultAndSecretReference) AssignPropertiesToKeyVaultAndSecret
 	return nil
 }
 
-//Deprecated version of KeyVaultAndSecretReference_Status. Use v1beta20200930.KeyVaultAndSecretReference_Status instead
+// Deprecated version of KeyVaultAndSecretReference_Status. Use v1beta20200930.KeyVaultAndSecretReference_Status instead
 type KeyVaultAndSecretReference_Status struct {
 	SecretUrl   *string             `json:"secretUrl,omitempty"`
 	SourceVault *SourceVault_Status `json:"sourceVault,omitempty"`
@@ -4543,7 +4543,7 @@ func (reference *KeyVaultAndSecretReference_Status) AssignPropertiesToKeyVaultAn
 	return nil
 }
 
-//Deprecated version of SourceVault. Use v1beta20200930.SourceVault instead
+// Deprecated version of SourceVault. Use v1beta20200930.SourceVault instead
 type SourceVault struct {
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
@@ -4626,7 +4626,7 @@ func (vault *SourceVault) AssignPropertiesToSourceVault(destination *alpha202009
 	return nil
 }
 
-//Deprecated version of SourceVault_Status. Use v1beta20200930.SourceVault_Status instead
+// Deprecated version of SourceVault_Status. Use v1beta20200930.SourceVault_Status instead
 type SourceVault_Status struct {
 	Id *string `json:"id,omitempty"`
 }

@@ -5,7 +5,7 @@ package v1alpha1api20210901
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-//Deprecated version of Registries_Spec. Use v1beta20210901.Registries_Spec instead
+// Deprecated version of Registries_Spec. Use v1beta20210901.Registries_Spec instead
 type Registries_SpecARM struct {
 	Identity   *IdentityPropertiesARM `json:"identity,omitempty"`
 	Location   *string                `json:"location,omitempty"`
@@ -32,7 +32,7 @@ func (registries Registries_SpecARM) GetType() string {
 	return "Microsoft.ContainerRegistry/registries"
 }
 
-//Deprecated version of IdentityProperties. Use v1beta20210901.IdentityProperties instead
+// Deprecated version of IdentityProperties. Use v1beta20210901.IdentityProperties instead
 type IdentityPropertiesARM struct {
 	PrincipalId            *string                              `json:"principalId,omitempty"`
 	TenantId               *string                              `json:"tenantId,omitempty"`
@@ -40,7 +40,7 @@ type IdentityPropertiesARM struct {
 	UserAssignedIdentities map[string]UserIdentityPropertiesARM `json:"userAssignedIdentities,omitempty"`
 }
 
-//Deprecated version of RegistryProperties. Use v1beta20210901.RegistryProperties instead
+// Deprecated version of RegistryProperties. Use v1beta20210901.RegistryProperties instead
 type RegistryPropertiesARM struct {
 	AdminUserEnabled         *bool                                       `json:"adminUserEnabled,omitempty"`
 	DataEndpointEnabled      *bool                                       `json:"dataEndpointEnabled,omitempty"`
@@ -52,18 +52,18 @@ type RegistryPropertiesARM struct {
 	ZoneRedundancy           *RegistryPropertiesZoneRedundancy           `json:"zoneRedundancy,omitempty"`
 }
 
-//Deprecated version of Sku. Use v1beta20210901.Sku instead
+// Deprecated version of Sku. Use v1beta20210901.Sku instead
 type SkuARM struct {
 	Name *SkuName `json:"name,omitempty"`
 }
 
-//Deprecated version of EncryptionProperty. Use v1beta20210901.EncryptionProperty instead
+// Deprecated version of EncryptionProperty. Use v1beta20210901.EncryptionProperty instead
 type EncryptionPropertyARM struct {
 	KeyVaultProperties *KeyVaultPropertiesARM    `json:"keyVaultProperties,omitempty"`
 	Status             *EncryptionPropertyStatus `json:"status,omitempty"`
 }
 
-//Deprecated version of IdentityPropertiesType. Use v1beta20210901.IdentityPropertiesType instead
+// Deprecated version of IdentityPropertiesType. Use v1beta20210901.IdentityPropertiesType instead
 // +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned, UserAssigned","UserAssigned"}
 type IdentityPropertiesType string
 
@@ -74,13 +74,13 @@ const (
 	IdentityPropertiesTypeUserAssigned               = IdentityPropertiesType("UserAssigned")
 )
 
-//Deprecated version of NetworkRuleSet. Use v1beta20210901.NetworkRuleSet instead
+// Deprecated version of NetworkRuleSet. Use v1beta20210901.NetworkRuleSet instead
 type NetworkRuleSetARM struct {
 	DefaultAction *NetworkRuleSetDefaultAction `json:"defaultAction,omitempty"`
 	IpRules       []IPRuleARM                  `json:"ipRules,omitempty"`
 }
 
-//Deprecated version of Policies. Use v1beta20210901.Policies instead
+// Deprecated version of Policies. Use v1beta20210901.Policies instead
 type PoliciesARM struct {
 	ExportPolicy     *ExportPolicyARM     `json:"exportPolicy,omitempty"`
 	QuarantinePolicy *QuarantinePolicyARM `json:"quarantinePolicy,omitempty"`
@@ -88,8 +88,8 @@ type PoliciesARM struct {
 	TrustPolicy      *TrustPolicyARM      `json:"trustPolicy,omitempty"`
 }
 
-//Deprecated version of RegistryPropertiesNetworkRuleBypassOptions. Use
-//v1beta20210901.RegistryPropertiesNetworkRuleBypassOptions instead
+// Deprecated version of RegistryPropertiesNetworkRuleBypassOptions. Use
+// v1beta20210901.RegistryPropertiesNetworkRuleBypassOptions instead
 // +kubebuilder:validation:Enum={"AzureServices","None"}
 type RegistryPropertiesNetworkRuleBypassOptions string
 
@@ -98,8 +98,8 @@ const (
 	RegistryPropertiesNetworkRuleBypassOptionsNone          = RegistryPropertiesNetworkRuleBypassOptions("None")
 )
 
-//Deprecated version of RegistryPropertiesPublicNetworkAccess. Use v1beta20210901.RegistryPropertiesPublicNetworkAccess
-//instead
+// Deprecated version of RegistryPropertiesPublicNetworkAccess. Use v1beta20210901.RegistryPropertiesPublicNetworkAccess
+// instead
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type RegistryPropertiesPublicNetworkAccess string
 
@@ -108,7 +108,7 @@ const (
 	RegistryPropertiesPublicNetworkAccessEnabled  = RegistryPropertiesPublicNetworkAccess("Enabled")
 )
 
-//Deprecated version of RegistryPropertiesZoneRedundancy. Use v1beta20210901.RegistryPropertiesZoneRedundancy instead
+// Deprecated version of RegistryPropertiesZoneRedundancy. Use v1beta20210901.RegistryPropertiesZoneRedundancy instead
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type RegistryPropertiesZoneRedundancy string
 
@@ -117,7 +117,7 @@ const (
 	RegistryPropertiesZoneRedundancyEnabled  = RegistryPropertiesZoneRedundancy("Enabled")
 )
 
-//Deprecated version of SkuName. Use v1beta20210901.SkuName instead
+// Deprecated version of SkuName. Use v1beta20210901.SkuName instead
 // +kubebuilder:validation:Enum={"Basic","Classic","Premium","Standard"}
 type SkuName string
 
@@ -128,13 +128,13 @@ const (
 	SkuNameStandard = SkuName("Standard")
 )
 
-//Deprecated version of UserIdentityProperties. Use v1beta20210901.UserIdentityProperties instead
+// Deprecated version of UserIdentityProperties. Use v1beta20210901.UserIdentityProperties instead
 type UserIdentityPropertiesARM struct {
 	ClientId    *string `json:"clientId,omitempty"`
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
-//Deprecated version of EncryptionPropertyStatus. Use v1beta20210901.EncryptionPropertyStatus instead
+// Deprecated version of EncryptionPropertyStatus. Use v1beta20210901.EncryptionPropertyStatus instead
 // +kubebuilder:validation:Enum={"disabled","enabled"}
 type EncryptionPropertyStatus string
 
@@ -143,24 +143,24 @@ const (
 	EncryptionPropertyStatusEnabled  = EncryptionPropertyStatus("enabled")
 )
 
-//Deprecated version of ExportPolicy. Use v1beta20210901.ExportPolicy instead
+// Deprecated version of ExportPolicy. Use v1beta20210901.ExportPolicy instead
 type ExportPolicyARM struct {
 	Status *ExportPolicyStatus `json:"status,omitempty"`
 }
 
-//Deprecated version of IPRule. Use v1beta20210901.IPRule instead
+// Deprecated version of IPRule. Use v1beta20210901.IPRule instead
 type IPRuleARM struct {
 	Action *IPRuleAction `json:"action,omitempty"`
 	Value  *string       `json:"value,omitempty"`
 }
 
-//Deprecated version of KeyVaultProperties. Use v1beta20210901.KeyVaultProperties instead
+// Deprecated version of KeyVaultProperties. Use v1beta20210901.KeyVaultProperties instead
 type KeyVaultPropertiesARM struct {
 	Identity      *string `json:"identity,omitempty"`
 	KeyIdentifier *string `json:"keyIdentifier,omitempty"`
 }
 
-//Deprecated version of NetworkRuleSetDefaultAction. Use v1beta20210901.NetworkRuleSetDefaultAction instead
+// Deprecated version of NetworkRuleSetDefaultAction. Use v1beta20210901.NetworkRuleSetDefaultAction instead
 // +kubebuilder:validation:Enum={"Allow","Deny"}
 type NetworkRuleSetDefaultAction string
 
@@ -169,24 +169,24 @@ const (
 	NetworkRuleSetDefaultActionDeny  = NetworkRuleSetDefaultAction("Deny")
 )
 
-//Deprecated version of QuarantinePolicy. Use v1beta20210901.QuarantinePolicy instead
+// Deprecated version of QuarantinePolicy. Use v1beta20210901.QuarantinePolicy instead
 type QuarantinePolicyARM struct {
 	Status *QuarantinePolicyStatus `json:"status,omitempty"`
 }
 
-//Deprecated version of RetentionPolicy. Use v1beta20210901.RetentionPolicy instead
+// Deprecated version of RetentionPolicy. Use v1beta20210901.RetentionPolicy instead
 type RetentionPolicyARM struct {
 	Days   *int                   `json:"days,omitempty"`
 	Status *RetentionPolicyStatus `json:"status,omitempty"`
 }
 
-//Deprecated version of TrustPolicy. Use v1beta20210901.TrustPolicy instead
+// Deprecated version of TrustPolicy. Use v1beta20210901.TrustPolicy instead
 type TrustPolicyARM struct {
 	Status *TrustPolicyStatus `json:"status,omitempty"`
 	Type   *TrustPolicyType   `json:"type,omitempty"`
 }
 
-//Deprecated version of ExportPolicyStatus. Use v1beta20210901.ExportPolicyStatus instead
+// Deprecated version of ExportPolicyStatus. Use v1beta20210901.ExportPolicyStatus instead
 // +kubebuilder:validation:Enum={"disabled","enabled"}
 type ExportPolicyStatus string
 
@@ -195,13 +195,13 @@ const (
 	ExportPolicyStatusEnabled  = ExportPolicyStatus("enabled")
 )
 
-//Deprecated version of IPRuleAction. Use v1beta20210901.IPRuleAction instead
+// Deprecated version of IPRuleAction. Use v1beta20210901.IPRuleAction instead
 // +kubebuilder:validation:Enum={"Allow"}
 type IPRuleAction string
 
 const IPRuleActionAllow = IPRuleAction("Allow")
 
-//Deprecated version of QuarantinePolicyStatus. Use v1beta20210901.QuarantinePolicyStatus instead
+// Deprecated version of QuarantinePolicyStatus. Use v1beta20210901.QuarantinePolicyStatus instead
 // +kubebuilder:validation:Enum={"disabled","enabled"}
 type QuarantinePolicyStatus string
 
@@ -210,7 +210,7 @@ const (
 	QuarantinePolicyStatusEnabled  = QuarantinePolicyStatus("enabled")
 )
 
-//Deprecated version of RetentionPolicyStatus. Use v1beta20210901.RetentionPolicyStatus instead
+// Deprecated version of RetentionPolicyStatus. Use v1beta20210901.RetentionPolicyStatus instead
 // +kubebuilder:validation:Enum={"disabled","enabled"}
 type RetentionPolicyStatus string
 
@@ -219,7 +219,7 @@ const (
 	RetentionPolicyStatusEnabled  = RetentionPolicyStatus("enabled")
 )
 
-//Deprecated version of TrustPolicyStatus. Use v1beta20210901.TrustPolicyStatus instead
+// Deprecated version of TrustPolicyStatus. Use v1beta20210901.TrustPolicyStatus instead
 // +kubebuilder:validation:Enum={"disabled","enabled"}
 type TrustPolicyStatus string
 
@@ -228,7 +228,7 @@ const (
 	TrustPolicyStatusEnabled  = TrustPolicyStatus("enabled")
 )
 
-//Deprecated version of TrustPolicyType. Use v1beta20210901.TrustPolicyType instead
+// Deprecated version of TrustPolicyType. Use v1beta20210901.TrustPolicyType instead
 // +kubebuilder:validation:Enum={"Notary"}
 type TrustPolicyType string
 

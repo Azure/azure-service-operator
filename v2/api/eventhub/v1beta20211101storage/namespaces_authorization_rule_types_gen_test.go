@@ -56,7 +56,7 @@ func RunJSONSerializationTestForNamespacesAuthorizationRule(subject NamespacesAu
 }
 
 // Generator of NamespacesAuthorizationRule instances for property testing - lazily instantiated by
-//NamespacesAuthorizationRuleGenerator()
+// NamespacesAuthorizationRuleGenerator()
 var namespacesAuthorizationRuleGenerator gopter.Gen
 
 // NamespacesAuthorizationRuleGenerator returns a generator of NamespacesAuthorizationRule instances for property testing.
@@ -117,7 +117,7 @@ func RunJSONSerializationTestForAuthorizationRuleStatus(subject AuthorizationRul
 }
 
 // Generator of AuthorizationRule_Status instances for property testing - lazily instantiated by
-//AuthorizationRuleStatusGenerator()
+// AuthorizationRuleStatusGenerator()
 var authorizationRuleStatusGenerator gopter.Gen
 
 // AuthorizationRuleStatusGenerator returns a generator of AuthorizationRule_Status instances for property testing.
@@ -195,7 +195,7 @@ func RunJSONSerializationTestForNamespacesAuthorizationRulesSpec(subject Namespa
 }
 
 // Generator of NamespacesAuthorizationRules_Spec instances for property testing - lazily instantiated by
-//NamespacesAuthorizationRulesSpecGenerator()
+// NamespacesAuthorizationRulesSpecGenerator()
 var namespacesAuthorizationRulesSpecGenerator gopter.Gen
 
 // NamespacesAuthorizationRulesSpecGenerator returns a generator of NamespacesAuthorizationRules_Spec instances for property testing.

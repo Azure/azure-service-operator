@@ -350,7 +350,7 @@ func RunJSONSerializationTestForWebTestGeolocationStatus(subject WebTestGeolocat
 }
 
 // Generator of WebTestGeolocation_Status instances for property testing - lazily instantiated by
-//WebTestGeolocationStatusGenerator()
+// WebTestGeolocationStatusGenerator()
 var webTestGeolocationStatusGenerator gopter.Gen
 
 // WebTestGeolocationStatusGenerator returns a generator of WebTestGeolocation_Status instances for property testing.
@@ -410,7 +410,7 @@ func RunJSONSerializationTestForWebTestPropertiesConfiguration(subject WebTestPr
 }
 
 // Generator of WebTestPropertiesConfiguration instances for property testing - lazily instantiated by
-//WebTestPropertiesConfigurationGenerator()
+// WebTestPropertiesConfigurationGenerator()
 var webTestPropertiesConfigurationGenerator gopter.Gen
 
 // WebTestPropertiesConfigurationGenerator returns a generator of WebTestPropertiesConfiguration instances for property testing.
@@ -470,7 +470,7 @@ func RunJSONSerializationTestForWebTestPropertiesRequest(subject WebTestProperti
 }
 
 // Generator of WebTestPropertiesRequest instances for property testing - lazily instantiated by
-//WebTestPropertiesRequestGenerator()
+// WebTestPropertiesRequestGenerator()
 var webTestPropertiesRequestGenerator gopter.Gen
 
 // WebTestPropertiesRequestGenerator returns a generator of WebTestPropertiesRequest instances for property testing.
@@ -548,7 +548,7 @@ func RunJSONSerializationTestForWebTestPropertiesValidationRules(subject WebTest
 }
 
 // Generator of WebTestPropertiesValidationRules instances for property testing - lazily instantiated by
-//WebTestPropertiesValidationRulesGenerator()
+// WebTestPropertiesValidationRulesGenerator()
 var webTestPropertiesValidationRulesGenerator gopter.Gen
 
 // WebTestPropertiesValidationRulesGenerator returns a generator of WebTestPropertiesValidationRules instances for property testing.
@@ -625,7 +625,7 @@ func RunJSONSerializationTestForWebTestPropertiesStatusConfiguration(subject Web
 }
 
 // Generator of WebTestProperties_Status_Configuration instances for property testing - lazily instantiated by
-//WebTestPropertiesStatusConfigurationGenerator()
+// WebTestPropertiesStatusConfigurationGenerator()
 var webTestPropertiesStatusConfigurationGenerator gopter.Gen
 
 // WebTestPropertiesStatusConfigurationGenerator returns a generator of WebTestProperties_Status_Configuration instances for property testing.
@@ -685,7 +685,7 @@ func RunJSONSerializationTestForWebTestPropertiesStatusRequest(subject WebTestPr
 }
 
 // Generator of WebTestProperties_Status_Request instances for property testing - lazily instantiated by
-//WebTestPropertiesStatusRequestGenerator()
+// WebTestPropertiesStatusRequestGenerator()
 var webTestPropertiesStatusRequestGenerator gopter.Gen
 
 // WebTestPropertiesStatusRequestGenerator returns a generator of WebTestProperties_Status_Request instances for property testing.
@@ -763,7 +763,7 @@ func RunJSONSerializationTestForWebTestPropertiesStatusValidationRules(subject W
 }
 
 // Generator of WebTestProperties_Status_ValidationRules instances for property testing - lazily instantiated by
-//WebTestPropertiesStatusValidationRulesGenerator()
+// WebTestPropertiesStatusValidationRulesGenerator()
 var webTestPropertiesStatusValidationRulesGenerator gopter.Gen
 
 // WebTestPropertiesStatusValidationRulesGenerator returns a generator of WebTestProperties_Status_ValidationRules instances for property testing.
@@ -960,7 +960,7 @@ func RunJSONSerializationTestForWebTestPropertiesValidationRulesContentValidatio
 }
 
 // Generator of WebTestPropertiesValidationRulesContentValidation instances for property testing - lazily instantiated
-//by WebTestPropertiesValidationRulesContentValidationGenerator()
+// by WebTestPropertiesValidationRulesContentValidationGenerator()
 var webTestPropertiesValidationRulesContentValidationGenerator gopter.Gen
 
 // WebTestPropertiesValidationRulesContentValidationGenerator returns a generator of WebTestPropertiesValidationRulesContentValidation instances for property testing.
@@ -1022,7 +1022,7 @@ func RunJSONSerializationTestForWebTestPropertiesStatusValidationRulesContentVal
 }
 
 // Generator of WebTestProperties_Status_ValidationRules_ContentValidation instances for property testing - lazily
-//instantiated by WebTestPropertiesStatusValidationRulesContentValidationGenerator()
+// instantiated by WebTestPropertiesStatusValidationRulesContentValidationGenerator()
 var webTestPropertiesStatusValidationRulesContentValidationGenerator gopter.Gen
 
 // WebTestPropertiesStatusValidationRulesContentValidationGenerator returns a generator of WebTestProperties_Status_ValidationRules_ContentValidation instances for property testing.

@@ -135,7 +135,7 @@ func RunJSONSerializationTestForClusterPropertiesStatusARM(subject ClusterProper
 }
 
 // Generator of ClusterProperties_StatusARM instances for property testing - lazily instantiated by
-//ClusterPropertiesStatusARMGenerator()
+// ClusterPropertiesStatusARMGenerator()
 var clusterPropertiesStatusARMGenerator gopter.Gen
 
 // ClusterPropertiesStatusARMGenerator returns a generator of ClusterProperties_StatusARM instances for property testing.
@@ -298,7 +298,7 @@ func RunJSONSerializationTestForPrivateEndpointConnectionStatusSubResourceEmbedd
 }
 
 // Generator of PrivateEndpointConnection_Status_SubResourceEmbeddedARM instances for property testing - lazily
-//instantiated by PrivateEndpointConnectionStatusSubResourceEmbeddedARMGenerator()
+// instantiated by PrivateEndpointConnectionStatusSubResourceEmbeddedARMGenerator()
 var privateEndpointConnectionStatusSubResourceEmbeddedARMGenerator gopter.Gen
 
 // PrivateEndpointConnectionStatusSubResourceEmbeddedARMGenerator returns a generator of PrivateEndpointConnection_Status_SubResourceEmbeddedARM instances for property testing.

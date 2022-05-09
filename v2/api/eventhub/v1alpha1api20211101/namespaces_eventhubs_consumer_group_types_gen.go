@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Deprecated version of NamespacesEventhubsConsumerGroup. Use v1beta20211101.NamespacesEventhubsConsumerGroup instead
+// Deprecated version of NamespacesEventhubsConsumerGroup. Use v1beta20211101.NamespacesEventhubsConsumerGroup instead
 type NamespacesEventhubsConsumerGroup struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -324,16 +324,16 @@ func (group *NamespacesEventhubsConsumerGroup) OriginalGVK() *schema.GroupVersio
 }
 
 // +kubebuilder:object:root=true
-//Deprecated version of NamespacesEventhubsConsumerGroup. Use v1beta20211101.NamespacesEventhubsConsumerGroup instead
+// Deprecated version of NamespacesEventhubsConsumerGroup. Use v1beta20211101.NamespacesEventhubsConsumerGroup instead
 type NamespacesEventhubsConsumerGroupList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []NamespacesEventhubsConsumerGroup `json:"items"`
 }
 
-//Deprecated version of ConsumerGroup_Status. Use v1beta20211101.ConsumerGroup_Status instead
+// Deprecated version of ConsumerGroup_Status. Use v1beta20211101.ConsumerGroup_Status instead
 type ConsumerGroup_Status struct {
-	//Conditions: The observed state of the resource
+	// Conditions: The observed state of the resource
 	Conditions   []conditions.Condition `json:"conditions,omitempty"`
 	CreatedAt    *string                `json:"createdAt,omitempty"`
 	Id           *string                `json:"id,omitempty"`
@@ -575,15 +575,15 @@ func (group *ConsumerGroup_Status) AssignPropertiesToConsumerGroupStatus(destina
 type NamespacesEventhubsConsumergroups_Spec struct {
 	// +kubebuilder:validation:MaxLength=50
 	// +kubebuilder:validation:MinLength=1
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName string  `json:"azureName,omitempty"`
 	Location  *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a eventhub.azure.com/NamespacesEventhub resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a eventhub.azure.com/NamespacesEventhub resource
 	Owner        *genruntime.KnownResourceReference `group:"eventhub.azure.com" json:"owner,omitempty" kind:"NamespacesEventhub"`
 	Tags         map[string]string                  `json:"tags,omitempty"`
 	UserMetadata *string                            `json:"userMetadata,omitempty"`

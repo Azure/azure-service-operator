@@ -20,8 +20,8 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Storage version of v1alpha1api20201101.LoadBalancer
-//Deprecated version of LoadBalancer. Use v1beta20201101.LoadBalancer instead
+// Storage version of v1alpha1api20201101.LoadBalancer
+// Deprecated version of LoadBalancer. Use v1beta20201101.LoadBalancer instead
 type LoadBalancer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -191,16 +191,16 @@ func (balancer *LoadBalancer) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Storage version of v1alpha1api20201101.LoadBalancer
-//Deprecated version of LoadBalancer. Use v1beta20201101.LoadBalancer instead
+// Storage version of v1alpha1api20201101.LoadBalancer
+// Deprecated version of LoadBalancer. Use v1beta20201101.LoadBalancer instead
 type LoadBalancerList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []LoadBalancer `json:"items"`
 }
 
-//Storage version of v1alpha1api20201101.LoadBalancer_Status
-//Deprecated version of LoadBalancer_Status. Use v1beta20201101.LoadBalancer_Status instead
+// Storage version of v1alpha1api20201101.LoadBalancer_Status
+// Deprecated version of LoadBalancer_Status. Use v1beta20201101.LoadBalancer_Status instead
 type LoadBalancer_Status struct {
 	BackendAddressPools      []BackendAddressPool_Status_LoadBalancer_SubResourceEmbedded      `json:"backendAddressPools,omitempty"`
 	Conditions               []conditions.Condition                                            `json:"conditions,omitempty"`
@@ -659,10 +659,10 @@ func (balancer *LoadBalancer_Status) AssignPropertiesToLoadBalancerStatus(destin
 	return nil
 }
 
-//Storage version of v1alpha1api20201101.LoadBalancers_Spec
+// Storage version of v1alpha1api20201101.LoadBalancers_Spec
 type LoadBalancers_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName                string                                                   `json:"azureName,omitempty"`
 	BackendAddressPools      []LoadBalancers_Spec_Properties_BackendAddressPools      `json:"backendAddressPools,omitempty"`
 	ExtendedLocation         *ExtendedLocation                                        `json:"extendedLocation,omitempty"`
@@ -674,9 +674,9 @@ type LoadBalancers_Spec struct {
 	OutboundRules            []LoadBalancers_Spec_Properties_OutboundRules            `json:"outboundRules,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a resources.azure.com/ResourceGroup resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
 	Owner       *genruntime.KnownResourceReference     `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	Probes      []LoadBalancers_Spec_Properties_Probes `json:"probes,omitempty"`
 	PropertyBag genruntime.PropertyBag                 `json:"$propertyBag,omitempty"`
@@ -1070,8 +1070,8 @@ func (balancers *LoadBalancers_Spec) AssignPropertiesToLoadBalancersSpec(destina
 	return nil
 }
 
-//Storage version of v1alpha1api20201101.BackendAddressPool_Status_LoadBalancer_SubResourceEmbedded
-//Deprecated version of BackendAddressPool_Status_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.BackendAddressPool_Status_LoadBalancer_SubResourceEmbedded instead
+// Storage version of v1alpha1api20201101.BackendAddressPool_Status_LoadBalancer_SubResourceEmbedded
+// Deprecated version of BackendAddressPool_Status_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.BackendAddressPool_Status_LoadBalancer_SubResourceEmbedded instead
 type BackendAddressPool_Status_LoadBalancer_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -1115,8 +1115,8 @@ func (embedded *BackendAddressPool_Status_LoadBalancer_SubResourceEmbedded) Assi
 	return nil
 }
 
-//Storage version of v1alpha1api20201101.ExtendedLocation
-//Deprecated version of ExtendedLocation. Use v1beta20201101.ExtendedLocation instead
+// Storage version of v1alpha1api20201101.ExtendedLocation
+// Deprecated version of ExtendedLocation. Use v1beta20201101.ExtendedLocation instead
 type ExtendedLocation struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -1167,8 +1167,8 @@ func (location *ExtendedLocation) AssignPropertiesToExtendedLocation(destination
 	return nil
 }
 
-//Storage version of v1alpha1api20201101.ExtendedLocation_Status
-//Deprecated version of ExtendedLocation_Status. Use v1beta20201101.ExtendedLocation_Status instead
+// Storage version of v1alpha1api20201101.ExtendedLocation_Status
+// Deprecated version of ExtendedLocation_Status. Use v1beta20201101.ExtendedLocation_Status instead
 type ExtendedLocation_Status struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -1219,8 +1219,8 @@ func (location *ExtendedLocation_Status) AssignPropertiesToExtendedLocationStatu
 	return nil
 }
 
-//Storage version of v1alpha1api20201101.FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded
-//Deprecated version of FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded instead
+// Storage version of v1alpha1api20201101.FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded
+// Deprecated version of FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded instead
 type FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded struct {
 	Etag                      *string                                                  `json:"etag,omitempty"`
 	Id                        *string                                                  `json:"id,omitempty"`
@@ -1543,8 +1543,8 @@ func (embedded *FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded)
 	return nil
 }
 
-//Storage version of v1alpha1api20201101.InboundNatPool_Status
-//Deprecated version of InboundNatPool_Status. Use v1beta20201101.InboundNatPool_Status instead
+// Storage version of v1alpha1api20201101.InboundNatPool_Status
+// Deprecated version of InboundNatPool_Status. Use v1beta20201101.InboundNatPool_Status instead
 type InboundNatPool_Status struct {
 	BackendPort             *int                   `json:"backendPort,omitempty"`
 	EnableFloatingIP        *bool                  `json:"enableFloatingIP,omitempty"`
@@ -1710,8 +1710,8 @@ func (pool *InboundNatPool_Status) AssignPropertiesToInboundNatPoolStatus(destin
 	return nil
 }
 
-//Storage version of v1alpha1api20201101.InboundNatRule_Status_LoadBalancer_SubResourceEmbedded
-//Deprecated version of InboundNatRule_Status_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.InboundNatRule_Status_LoadBalancer_SubResourceEmbedded instead
+// Storage version of v1alpha1api20201101.InboundNatRule_Status_LoadBalancer_SubResourceEmbedded
+// Deprecated version of InboundNatRule_Status_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.InboundNatRule_Status_LoadBalancer_SubResourceEmbedded instead
 type InboundNatRule_Status_LoadBalancer_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -1755,8 +1755,8 @@ func (embedded *InboundNatRule_Status_LoadBalancer_SubResourceEmbedded) AssignPr
 	return nil
 }
 
-//Storage version of v1alpha1api20201101.LoadBalancerSku
-//Deprecated version of LoadBalancerSku. Use v1beta20201101.LoadBalancerSku instead
+// Storage version of v1alpha1api20201101.LoadBalancerSku
+// Deprecated version of LoadBalancerSku. Use v1beta20201101.LoadBalancerSku instead
 type LoadBalancerSku struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -1807,8 +1807,8 @@ func (balancerSku *LoadBalancerSku) AssignPropertiesToLoadBalancerSku(destinatio
 	return nil
 }
 
-//Storage version of v1alpha1api20201101.LoadBalancerSku_Status
-//Deprecated version of LoadBalancerSku_Status. Use v1beta20201101.LoadBalancerSku_Status instead
+// Storage version of v1alpha1api20201101.LoadBalancerSku_Status
+// Deprecated version of LoadBalancerSku_Status. Use v1beta20201101.LoadBalancerSku_Status instead
 type LoadBalancerSku_Status struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -1859,8 +1859,8 @@ func (balancerSku *LoadBalancerSku_Status) AssignPropertiesToLoadBalancerSkuStat
 	return nil
 }
 
-//Storage version of v1alpha1api20201101.LoadBalancers_Spec_Properties_BackendAddressPools
-//Deprecated version of LoadBalancers_Spec_Properties_BackendAddressPools. Use v1beta20201101.LoadBalancers_Spec_Properties_BackendAddressPools instead
+// Storage version of v1alpha1api20201101.LoadBalancers_Spec_Properties_BackendAddressPools
+// Deprecated version of LoadBalancers_Spec_Properties_BackendAddressPools. Use v1beta20201101.LoadBalancers_Spec_Properties_BackendAddressPools instead
 type LoadBalancers_Spec_Properties_BackendAddressPools struct {
 	LoadBalancerBackendAddresses []LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses `json:"loadBalancerBackendAddresses,omitempty"`
 	Location                     *string                                                                                     `json:"location,omitempty"`
@@ -1948,8 +1948,8 @@ func (pools *LoadBalancers_Spec_Properties_BackendAddressPools) AssignProperties
 	return nil
 }
 
-//Storage version of v1alpha1api20201101.LoadBalancers_Spec_Properties_FrontendIPConfigurations
-//Deprecated version of LoadBalancers_Spec_Properties_FrontendIPConfigurations. Use v1beta20201101.LoadBalancers_Spec_Properties_FrontendIPConfigurations instead
+// Storage version of v1alpha1api20201101.LoadBalancers_Spec_Properties_FrontendIPConfigurations
+// Deprecated version of LoadBalancers_Spec_Properties_FrontendIPConfigurations. Use v1beta20201101.LoadBalancers_Spec_Properties_FrontendIPConfigurations instead
 type LoadBalancers_Spec_Properties_FrontendIPConfigurations struct {
 	Name                      *string                `json:"name,omitempty"`
 	PrivateIPAddress          *string                `json:"privateIPAddress,omitempty"`
@@ -2096,8 +2096,8 @@ func (configurations *LoadBalancers_Spec_Properties_FrontendIPConfigurations) As
 	return nil
 }
 
-//Storage version of v1alpha1api20201101.LoadBalancers_Spec_Properties_InboundNatPools
-//Deprecated version of LoadBalancers_Spec_Properties_InboundNatPools. Use v1beta20201101.LoadBalancers_Spec_Properties_InboundNatPools instead
+// Storage version of v1alpha1api20201101.LoadBalancers_Spec_Properties_InboundNatPools
+// Deprecated version of LoadBalancers_Spec_Properties_InboundNatPools. Use v1beta20201101.LoadBalancers_Spec_Properties_InboundNatPools instead
 type LoadBalancers_Spec_Properties_InboundNatPools struct {
 	BackendPort             *int                   `json:"backendPort,omitempty"`
 	EnableFloatingIP        *bool                  `json:"enableFloatingIP,omitempty"`
@@ -2235,8 +2235,8 @@ func (pools *LoadBalancers_Spec_Properties_InboundNatPools) AssignPropertiesToLo
 	return nil
 }
 
-//Storage version of v1alpha1api20201101.LoadBalancers_Spec_Properties_LoadBalancingRules
-//Deprecated version of LoadBalancers_Spec_Properties_LoadBalancingRules. Use v1beta20201101.LoadBalancers_Spec_Properties_LoadBalancingRules instead
+// Storage version of v1alpha1api20201101.LoadBalancers_Spec_Properties_LoadBalancingRules
+// Deprecated version of LoadBalancers_Spec_Properties_LoadBalancingRules. Use v1beta20201101.LoadBalancers_Spec_Properties_LoadBalancingRules instead
 type LoadBalancers_Spec_Properties_LoadBalancingRules struct {
 	BackendAddressPool      *SubResource           `json:"backendAddressPool,omitempty"`
 	BackendPort             *int                   `json:"backendPort,omitempty"`
@@ -2441,8 +2441,8 @@ func (rules *LoadBalancers_Spec_Properties_LoadBalancingRules) AssignPropertiesT
 	return nil
 }
 
-//Storage version of v1alpha1api20201101.LoadBalancers_Spec_Properties_OutboundRules
-//Deprecated version of LoadBalancers_Spec_Properties_OutboundRules. Use v1beta20201101.LoadBalancers_Spec_Properties_OutboundRules instead
+// Storage version of v1alpha1api20201101.LoadBalancers_Spec_Properties_OutboundRules
+// Deprecated version of LoadBalancers_Spec_Properties_OutboundRules. Use v1beta20201101.LoadBalancers_Spec_Properties_OutboundRules instead
 type LoadBalancers_Spec_Properties_OutboundRules struct {
 	AllocatedOutboundPorts   *int                   `json:"allocatedOutboundPorts,omitempty"`
 	BackendAddressPool       *SubResource           `json:"backendAddressPool,omitempty"`
@@ -2586,8 +2586,8 @@ func (rules *LoadBalancers_Spec_Properties_OutboundRules) AssignPropertiesToLoad
 	return nil
 }
 
-//Storage version of v1alpha1api20201101.LoadBalancers_Spec_Properties_Probes
-//Deprecated version of LoadBalancers_Spec_Properties_Probes. Use v1beta20201101.LoadBalancers_Spec_Properties_Probes instead
+// Storage version of v1alpha1api20201101.LoadBalancers_Spec_Properties_Probes
+// Deprecated version of LoadBalancers_Spec_Properties_Probes. Use v1beta20201101.LoadBalancers_Spec_Properties_Probes instead
 type LoadBalancers_Spec_Properties_Probes struct {
 	IntervalInSeconds *int                   `json:"intervalInSeconds,omitempty"`
 	Name              *string                `json:"name,omitempty"`
@@ -2666,8 +2666,8 @@ func (probes *LoadBalancers_Spec_Properties_Probes) AssignPropertiesToLoadBalanc
 	return nil
 }
 
-//Storage version of v1alpha1api20201101.LoadBalancingRule_Status
-//Deprecated version of LoadBalancingRule_Status. Use v1beta20201101.LoadBalancingRule_Status instead
+// Storage version of v1alpha1api20201101.LoadBalancingRule_Status
+// Deprecated version of LoadBalancingRule_Status. Use v1beta20201101.LoadBalancingRule_Status instead
 type LoadBalancingRule_Status struct {
 	BackendAddressPool      *SubResource_Status    `json:"backendAddressPool,omitempty"`
 	BackendPort             *int                   `json:"backendPort,omitempty"`
@@ -2900,8 +2900,8 @@ func (rule *LoadBalancingRule_Status) AssignPropertiesToLoadBalancingRuleStatus(
 	return nil
 }
 
-//Storage version of v1alpha1api20201101.OutboundRule_Status
-//Deprecated version of OutboundRule_Status. Use v1beta20201101.OutboundRule_Status instead
+// Storage version of v1alpha1api20201101.OutboundRule_Status
+// Deprecated version of OutboundRule_Status. Use v1beta20201101.OutboundRule_Status instead
 type OutboundRule_Status struct {
 	AllocatedOutboundPorts   *int                   `json:"allocatedOutboundPorts,omitempty"`
 	BackendAddressPool       *SubResource_Status    `json:"backendAddressPool,omitempty"`
@@ -3073,8 +3073,8 @@ func (rule *OutboundRule_Status) AssignPropertiesToOutboundRuleStatus(destinatio
 	return nil
 }
 
-//Storage version of v1alpha1api20201101.Probe_Status
-//Deprecated version of Probe_Status. Use v1beta20201101.Probe_Status instead
+// Storage version of v1alpha1api20201101.Probe_Status
+// Deprecated version of Probe_Status. Use v1beta20201101.Probe_Status instead
 type Probe_Status struct {
 	Etag               *string                `json:"etag,omitempty"`
 	Id                 *string                `json:"id,omitempty"`
@@ -3218,8 +3218,8 @@ func (probe *Probe_Status) AssignPropertiesToProbeStatus(destination *v20201101s
 	return nil
 }
 
-//Storage version of v1alpha1api20201101.LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses
-//Deprecated version of LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses. Use v1beta20201101.LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses instead
+// Storage version of v1alpha1api20201101.LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses
+// Deprecated version of LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses. Use v1beta20201101.LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses instead
 type LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses struct {
 	IpAddress                           *string                `json:"ipAddress,omitempty"`
 	LoadBalancerFrontendIPConfiguration *SubResource           `json:"loadBalancerFrontendIPConfiguration,omitempty"`
@@ -3345,8 +3345,8 @@ func (addresses *LoadBalancers_Spec_Properties_BackendAddressPools_Properties_Lo
 	return nil
 }
 
-//Storage version of v1alpha1api20201101.PublicIPAddress_Status_LoadBalancer_SubResourceEmbedded
-//Deprecated version of PublicIPAddress_Status_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.PublicIPAddress_Status_LoadBalancer_SubResourceEmbedded instead
+// Storage version of v1alpha1api20201101.PublicIPAddress_Status_LoadBalancer_SubResourceEmbedded
+// Deprecated version of PublicIPAddress_Status_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.PublicIPAddress_Status_LoadBalancer_SubResourceEmbedded instead
 type PublicIPAddress_Status_LoadBalancer_SubResourceEmbedded struct {
 	ExtendedLocation *ExtendedLocation_Status   `json:"extendedLocation,omitempty"`
 	Id               *string                    `json:"id,omitempty"`
@@ -3447,8 +3447,8 @@ func (embedded *PublicIPAddress_Status_LoadBalancer_SubResourceEmbedded) AssignP
 	return nil
 }
 
-//Storage version of v1alpha1api20201101.Subnet_Status_LoadBalancer_SubResourceEmbedded
-//Deprecated version of Subnet_Status_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.Subnet_Status_LoadBalancer_SubResourceEmbedded instead
+// Storage version of v1alpha1api20201101.Subnet_Status_LoadBalancer_SubResourceEmbedded
+// Deprecated version of Subnet_Status_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.Subnet_Status_LoadBalancer_SubResourceEmbedded instead
 type Subnet_Status_LoadBalancer_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
