@@ -357,6 +357,109 @@ func (omc *ObjectModelConfiguration) configuredGroups() []string {
 	return result
 }
 
+// ModifyGroup allows the configuration of a specific group to be modified.
+// If configuration for that group doesn't exist, it will be created.
+// While intended for test use, this isn't in a _test.go file as we want to use it from tests in multiple packages.
+func (omc *ObjectModelConfiguration) ModifyGroup(
+	ref astmodel.PackageReference,
+	action func(configuration *GroupConfiguration) error) error {
+	group, _, ok := ref.GroupVersion()
+	if !ok {
+		return errors.Errorf(
+			"external package reference %s not supported",
+			ref)
+	}
+
+	grp, err := omc.findGroup(ref)
+	if err != nil && !IsNotConfiguredError(err) {
+		return errors.Wrapf(err, "configuring group %s", group)
+	}
+
+	if grp == nil {
+		grp = NewGroupConfiguration(group)
+		omc.add(grp)
+	}
+
+	return action(grp)
+}
+
+// ModifyVersion allows the configuration of a specific version to be modified.
+// If configuration for that version doesn't exist, it will be created.
+// While intended for test use, this isn't in a _test.go file as we want to use it from tests in multiple packages.
+func (omc *ObjectModelConfiguration) ModifyVersion(
+	ref astmodel.PackageReference,
+	action func(configuration *VersionConfiguration) error) error {
+	_, version, ok := ref.GroupVersion()
+	if !ok {
+		return errors.Errorf(
+			"external package reference %s not supported",
+			ref)
+	}
+
+	return omc.ModifyGroup(
+		ref,
+		func(configuration *GroupConfiguration) error {
+			ver, err := configuration.findVersion(ref)
+			if err != nil && !IsNotConfiguredError(err) {
+				return errors.Wrapf(err, "configuring version %s", version)
+			}
+
+			if ver == nil {
+				ver = NewVersionConfiguration(version)
+				configuration.add(ver)
+			}
+
+			return action(ver)
+		})
+}
+
+// ModifyType allows the configuration of a specific type to be modified.
+// If configuration for that type doesn't exist, it will be created.
+// While intended for test use, this isn't in a _test.go file as we want to use it from tests in multiple packages.
+func (omc *ObjectModelConfiguration) ModifyType(
+	name astmodel.TypeName,
+	action func(typeConfiguration *TypeConfiguration) error) error {
+	return omc.ModifyVersion(
+		name.PackageReference,
+		func(versionConfiguration *VersionConfiguration) error {
+			typ, err := versionConfiguration.findType(name.Name())
+			if err != nil && !IsNotConfiguredError(err) {
+				return errors.Wrapf(err, "configuring type %s", name.Name())
+			}
+
+			if typ == nil {
+				typ = NewTypeConfiguration(name.Name())
+				versionConfiguration.add(typ)
+			}
+
+			return action(typ)
+		})
+}
+
+// ModifyProperty allows the configuration of a specific property to be modified.
+// If configuration for that property doesn't exist, it will be created.
+// While intended for test use, this isn't in a _test.go file as we want to use it from tests in multiple packages.
+func (omc *ObjectModelConfiguration) ModifyProperty(
+	typeName astmodel.TypeName,
+	property astmodel.PropertyName,
+	action func(propertyConfiguration *PropertyConfiguration) error) error {
+	return omc.ModifyType(
+		typeName,
+		func(typeConfiguration *TypeConfiguration) error {
+			prop, err := typeConfiguration.findProperty(property)
+			if err != nil && !IsNotConfiguredError(err) {
+				return errors.Wrapf(err, "configuring property %s", property)
+			}
+
+			if prop == nil {
+				prop = NewPropertyConfiguration(property.String())
+				typeConfiguration.add(prop)
+			}
+
+			return action(prop)
+		})
+}
+
 // CreateTestObjectModelConfiguration builds up a new configuration for a particular type, returning both the top level
 // configuration and the type configuration.
 // While intended only for test use, this isn't in a _test.go file as we want to use it from tests in multiple packages.

@@ -169,3 +169,190 @@ func TestObjectModelConfiguration_VerifyARMReferencesConsumed_WhenReferenceNotUs
 
 	g.Expect(omc.VerifyARMReferencesConsumed()).NotTo(Succeed())
 }
+
+func TestObjectModelConfiguration_ModifyGroup_WhenGroupDoesNotExist_CallsActionWithNewGroup(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	omc := NewObjectModelConfiguration()
+	var cfg *GroupConfiguration
+
+	g.Expect(
+		omc.ModifyGroup(
+			test.Pkg2020,
+			func(configuration *GroupConfiguration) error {
+				cfg = configuration
+				return nil
+			})).To(Succeed())
+
+	g.Expect(cfg).NotTo(BeNil())
+}
+
+func TestObjectModelConfiguration_ModifyGroup_WhenGroupExists_CallsActionWithExistingGroup(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	omc := NewObjectModelConfiguration()
+	var first *GroupConfiguration
+	var second *GroupConfiguration
+
+	g.Expect(
+		omc.ModifyGroup(
+			test.Pkg2020,
+			func(configuration *GroupConfiguration) error {
+				first = configuration
+				return nil
+			})).To(Succeed())
+
+	g.Expect(
+		omc.ModifyGroup(
+			test.Pkg2020,
+			func(configuration *GroupConfiguration) error {
+				second = configuration
+				return nil
+			})).To(Succeed())
+
+	g.Expect(first).To(Equal(second))
+}
+
+func TestObjectModelConfiguration_ModifyVersion_WhenVersionDoesNotExist_CallsActionWithNewVersion(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	omc := NewObjectModelConfiguration()
+	var cfg *VersionConfiguration
+
+	g.Expect(
+		omc.ModifyVersion(
+			test.Pkg2020,
+			func(configuration *VersionConfiguration) error {
+				cfg = configuration
+				return nil
+			})).To(Succeed())
+
+	g.Expect(cfg).NotTo(BeNil())
+}
+
+func TestObjectModelConfiguration_ModifyVersion_WhenVersionExists_CallsActionWithExistingVersion(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	omc := NewObjectModelConfiguration()
+	var first *VersionConfiguration
+	var second *VersionConfiguration
+
+	g.Expect(
+		omc.ModifyVersion(
+			test.Pkg2020,
+			func(configuration *VersionConfiguration) error {
+				first = configuration
+				return nil
+			})).To(Succeed())
+
+	g.Expect(
+		omc.ModifyVersion(
+			test.Pkg2020,
+			func(configuration *VersionConfiguration) error {
+				second = configuration
+				return nil
+			})).To(Succeed())
+
+	g.Expect(first).To(Equal(second))
+}
+
+func TestObjectModelConfiguration_ModifyType_WhenTypeDoesNotExist_CallsActionWithNewType(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	omc := NewObjectModelConfiguration()
+	typeName := astmodel.MakeTypeName(test.Pkg2020, "Person")
+	var cfg *TypeConfiguration
+
+	g.Expect(
+		omc.ModifyType(
+			typeName,
+			func(configuration *TypeConfiguration) error {
+				cfg = configuration
+				return nil
+			})).To(Succeed())
+
+	g.Expect(cfg).NotTo(BeNil())
+}
+
+func TestObjectModelConfiguration_ModifyType_WhenTypeExists_CallsActionWithExistingType(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	omc := NewObjectModelConfiguration()
+	typeName := astmodel.MakeTypeName(test.Pkg2020, "Person")
+	var first *TypeConfiguration
+	var second *TypeConfiguration
+
+	g.Expect(
+		omc.ModifyType(
+			typeName,
+			func(configuration *TypeConfiguration) error {
+				first = configuration
+				return nil
+			})).To(Succeed())
+
+	g.Expect(
+		omc.ModifyType(
+			typeName,
+			func(configuration *TypeConfiguration) error {
+				second = configuration
+				return nil
+			})).To(Succeed())
+
+	g.Expect(first).To(Equal(second))
+}
+
+func TestObjectModelConfiguration_ModifyProperty_WhenPropertyDoesNotExist_CallsActionWithNewProperty(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	omc := NewObjectModelConfiguration()
+	typeName := astmodel.MakeTypeName(test.Pkg2020, "Person")
+	var cfg *PropertyConfiguration
+
+	g.Expect(
+		omc.ModifyProperty(
+			typeName,
+			"FullName",
+			func(configuration *PropertyConfiguration) error {
+				cfg = configuration
+				return nil
+			})).To(Succeed())
+
+	g.Expect(cfg).NotTo(BeNil())
+}
+
+func TestObjectModelConfiguration_ModifyProperty_WhenPropertyExists_CallsActionWithExistingProperty(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	omc := NewObjectModelConfiguration()
+	typeName := astmodel.MakeTypeName(test.Pkg2020, "Person")
+	var first *PropertyConfiguration
+	var second *PropertyConfiguration
+
+	g.Expect(
+		omc.ModifyProperty(
+			typeName,
+			"FullName",
+			func(configuration *PropertyConfiguration) error {
+				first = configuration
+				return nil
+			})).To(Succeed())
+
+	g.Expect(
+		omc.ModifyProperty(
+			typeName,
+			"FullName",
+			func(configuration *PropertyConfiguration) error {
+				second = configuration
+				return nil
+			})).To(Succeed())
+
+	g.Expect(first).To(Equal(second))
+}
