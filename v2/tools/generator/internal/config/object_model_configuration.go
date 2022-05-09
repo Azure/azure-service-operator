@@ -263,10 +263,10 @@ func (omc *ObjectModelConfiguration) add(group *GroupConfiguration) {
 // visitGroup invokes the provided visitor on the specified group if present.
 // Returns a NotConfiguredError if the group is not found; otherwise whatever error is returned by the visitor.
 func (omc *ObjectModelConfiguration) visitGroup(
-	name astmodel.TypeName,
+	ref astmodel.PackageReference,
 	visitor *configurationVisitor,
 ) error {
-	group, err := omc.findGroup(name)
+	group, err := omc.findGroup(ref)
 	if err != nil {
 		return err
 	}
@@ -288,12 +288,12 @@ func (omc *ObjectModelConfiguration) visitGroups(visitor *configurationVisitor) 
 }
 
 // findGroup uses the provided TypeName to work out which nested GroupConfiguration should be used
-func (omc *ObjectModelConfiguration) findGroup(name astmodel.TypeName) (*GroupConfiguration, error) {
-	group, _, ok := name.PackageReference.GroupVersion()
+func (omc *ObjectModelConfiguration) findGroup(ref astmodel.PackageReference) (*GroupConfiguration, error) {
+	group, _, ok := ref.GroupVersion()
 	if !ok {
 		return nil, errors.Errorf(
 			"external package reference %s not supported",
-			name.PackageReference)
+			ref)
 	}
 
 	if omc == nil || omc.groups == nil {

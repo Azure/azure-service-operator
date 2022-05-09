@@ -11,9 +11,28 @@ import (
 	. "github.com/onsi/gomega"
 
 	"github.com/Azure/azure-service-operator/v2/internal/set"
+
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
 )
+
+func TestConfigurationVisitor_WhenVisitingASpecificVersion_VisitsExpectedVersion(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	omc := createTestObjectModelConfigurationForVisitor()
+	seen := set.Make[string]()
+	visitor := NewSingleVersionConfigurationVisitor(
+		test.Pkg2022,
+		func(configuration *VersionConfiguration) error {
+			seen.Add(configuration.name)
+			return nil
+		})
+
+	g.Expect(visitor.Visit(omc)).To(Succeed())
+	g.Expect(seen).To(HaveLen(1))
+	g.Expect(seen).To(HaveKey(test.Pkg2022.Version()))
+}
 
 func TestConfigurationVisitor_WhenVisitingEveryType_VisitsExpectedTypes(t *testing.T) {
 	t.Parallel()

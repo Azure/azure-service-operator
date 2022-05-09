@@ -14,6 +14,7 @@ import (
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/v2/internal/set"
+
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
@@ -58,10 +59,10 @@ func (gc *GroupConfiguration) add(version *VersionConfiguration) {
 // visitVersion invokes the provided visitor on the specified version if present.
 // Returns a NotConfiguredError if the version is not found; otherwise whatever error is returned by the visitor.
 func (gc *GroupConfiguration) visitVersion(
-	name astmodel.TypeName,
+	ref astmodel.PackageReference,
 	visitor *configurationVisitor,
 ) error {
-	vc, err := gc.findVersion(name.PackageReference)
+	vc, err := gc.findVersion(ref)
 	if err != nil {
 		return err
 	}

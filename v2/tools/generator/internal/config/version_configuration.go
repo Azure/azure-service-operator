@@ -12,8 +12,6 @@ import (
 	"github.com/pkg/errors"
 	"gopkg.in/yaml.v3"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
-
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
 // VersionConfiguration contains additional information about a specific version of a group and forms part of a
@@ -49,10 +47,10 @@ func (vc *VersionConfiguration) add(tc *TypeConfiguration) {
 // visitType invokes the provided visitor on the specified type if present.
 // Returns a NotConfiguredError if the type is not found; otherwise whatever error is returned by the visitor.
 func (vc *VersionConfiguration) visitType(
-	typeName astmodel.TypeName,
+	typeName string,
 	visitor *configurationVisitor,
 ) error {
-	tc, err := vc.findType(typeName.Name())
+	tc, err := vc.findType(typeName)
 	if err != nil {
 		return err
 	}
