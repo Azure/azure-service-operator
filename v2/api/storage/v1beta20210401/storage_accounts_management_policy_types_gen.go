@@ -219,7 +219,7 @@ func (policy *StorageAccountsManagementPolicy) updateValidations() []func(old ru
 		func(old runtime.Object) error {
 			return policy.validateResourceReferences()
 		},
-	}
+		policy.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -229,6 +229,16 @@ func (policy *StorageAccountsManagementPolicy) validateResourceReferences() erro
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (policy *StorageAccountsManagementPolicy) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*StorageAccountsManagementPolicy)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, policy)
 }
 
 // AssignPropertiesFromStorageAccountsManagementPolicy populates our StorageAccountsManagementPolicy from the provided source StorageAccountsManagementPolicy

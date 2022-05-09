@@ -240,7 +240,7 @@ func (database *SqlDatabase) updateValidations() []func(old runtime.Object) erro
 		func(old runtime.Object) error {
 			return database.validateResourceReferences()
 		},
-	}
+		database.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -250,6 +250,16 @@ func (database *SqlDatabase) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (database *SqlDatabase) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*SqlDatabase)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, database)
 }
 
 // AssignPropertiesFromSqlDatabase populates our SqlDatabase from the provided source SqlDatabase

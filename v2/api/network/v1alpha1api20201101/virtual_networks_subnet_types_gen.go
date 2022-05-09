@@ -240,7 +240,7 @@ func (subnet *VirtualNetworksSubnet) updateValidations() []func(old runtime.Obje
 		func(old runtime.Object) error {
 			return subnet.validateResourceReferences()
 		},
-	}
+		subnet.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -250,6 +250,16 @@ func (subnet *VirtualNetworksSubnet) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (subnet *VirtualNetworksSubnet) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*VirtualNetworksSubnet)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, subnet)
 }
 
 // AssignPropertiesFromVirtualNetworksSubnet populates our VirtualNetworksSubnet from the provided source VirtualNetworksSubnet

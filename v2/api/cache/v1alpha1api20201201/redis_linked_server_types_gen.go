@@ -240,7 +240,7 @@ func (server *RedisLinkedServer) updateValidations() []func(old runtime.Object) 
 		func(old runtime.Object) error {
 			return server.validateResourceReferences()
 		},
-	}
+		server.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -250,6 +250,16 @@ func (server *RedisLinkedServer) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (server *RedisLinkedServer) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*RedisLinkedServer)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, server)
 }
 
 // AssignPropertiesFromRedisLinkedServer populates our RedisLinkedServer from the provided source RedisLinkedServer

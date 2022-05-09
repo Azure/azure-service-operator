@@ -70,6 +70,7 @@ func getValidations(
 		},
 		functions.ValidationKindUpdate: {
 			functions.NewValidateResourceReferencesFunction(resource, idFactory),
+			functions.NewValidateWriteOncePropertiesFunction(resource, idFactory),
 		},
 	}
 

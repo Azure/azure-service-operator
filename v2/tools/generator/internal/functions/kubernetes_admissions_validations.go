@@ -8,10 +8,9 @@ package functions
 import (
 	"go/token"
 
-	"github.com/dave/dst"
-
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
+	"github.com/dave/dst"
 )
 
 func NewValidateResourceReferencesFunction(resource *astmodel.ResourceType, idFactory astmodel.IdentifierFactory) *ResourceFunction {
@@ -21,6 +20,15 @@ func NewValidateResourceReferencesFunction(resource *astmodel.ResourceType, idFa
 		idFactory,
 		validateResourceReferences,
 		astmodel.NewPackageReferenceSet(astmodel.GenRuntimeReference, astmodel.ReflectHelpersReference))
+}
+
+func NewValidateWriteOncePropertiesFunction(resource *astmodel.ResourceType, idFactory astmodel.IdentifierFactory) *ResourceFunction {
+	return NewResourceFunction(
+		"validateWriteOnceProperties",
+		resource,
+		idFactory,
+		validateWriteOncePropertiesFunction,
+		astmodel.NewPackageReferenceSet())
 }
 
 func validateResourceReferences(k *ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
@@ -76,4 +84,60 @@ func validateResourceReferencesBody(codeGenerationContext *astmodel.CodeGenerati
 				dst.NewIdent("refs"))))
 
 	return body
+}
+
+func validateWriteOncePropertiesFunction(resourceFn *ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+
+	receiverIdent := resourceFn.IdFactory().CreateReceiver(receiver.Name())
+	receiverType := receiver.AsType(codeGenerationContext)
+
+	runtimePackage := codeGenerationContext.MustGetImportedPackageName(astmodel.APIMachineryRuntimeReference)
+
+	fn := &astbuilder.FuncDetails{
+		Name:          methodName,
+		ReceiverIdent: receiverIdent,
+		ReceiverType:  astbuilder.Dereference(receiverType),
+		Returns: []*dst.Field{
+			{
+				Type: dst.NewIdent("error"),
+			},
+		},
+		Body: validateWriteOncePropertiesFunctionBody(receiver, codeGenerationContext, receiverIdent),
+	}
+
+	fn.AddParameter("old", astbuilder.QualifiedTypeName(runtimePackage, "Object"))
+	fn.AddComments("validates all WriteOnce properties")
+
+	return fn.DefineFunc()
+}
+
+// validateWriteOncePropertiesFunctionBody helps generate the body of the validateWriteOncePropertiesFunctionBody function:
+//
+//  oldObj, ok := old.(*Receiver)
+//  if !ok {
+//      return nil
+//  }
+//
+// return genruntime.ValidateWriteOnceProperties(oldObj, <receiverIndent>)
+func validateWriteOncePropertiesFunctionBody(receiver astmodel.TypeName, codeGenerationContext *astmodel.CodeGenerationContext, receiverIdent string) []dst.Stmt {
+
+	genRuntime := codeGenerationContext.MustGetImportedPackageName(astmodel.GenRuntimeReference)
+
+	obj := dst.NewIdent("oldObj")
+
+	cast := astbuilder.TypeAssert(obj, dst.NewIdent("old"), astbuilder.Dereference(receiver.AsType(codeGenerationContext)))
+	checkAssert := astbuilder.ReturnIfNotOk(astbuilder.Nil())
+
+	returnStmt := astbuilder.Returns(
+		astbuilder.CallQualifiedFunc(
+			genRuntime,
+			"ValidateWriteOnceProperties",
+			obj,
+			dst.NewIdent(receiverIdent)))
+	returnStmt.Decorations().Before = dst.EmptyLine
+
+	return astbuilder.Statements(
+		cast,
+		checkAssert,
+		returnStmt)
 }

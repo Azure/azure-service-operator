@@ -227,7 +227,7 @@ func (cluster *ManagedCluster) updateValidations() []func(old runtime.Object) er
 		func(old runtime.Object) error {
 			return cluster.validateResourceReferences()
 		},
-	}
+		cluster.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -237,6 +237,16 @@ func (cluster *ManagedCluster) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (cluster *ManagedCluster) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*ManagedCluster)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, cluster)
 }
 
 // AssignPropertiesFromManagedCluster populates our ManagedCluster from the provided source ManagedCluster

@@ -219,7 +219,7 @@ func (setting *SqlDatabaseThroughputSetting) updateValidations() []func(old runt
 		func(old runtime.Object) error {
 			return setting.validateResourceReferences()
 		},
-	}
+		setting.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -229,6 +229,16 @@ func (setting *SqlDatabaseThroughputSetting) validateResourceReferences() error 
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (setting *SqlDatabaseThroughputSetting) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*SqlDatabaseThroughputSetting)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, setting)
 }
 
 // AssignPropertiesFromSqlDatabaseThroughputSetting populates our SqlDatabaseThroughputSetting from the provided source SqlDatabaseThroughputSetting

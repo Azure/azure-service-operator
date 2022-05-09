@@ -240,7 +240,7 @@ func (account *BatchAccount) updateValidations() []func(old runtime.Object) erro
 		func(old runtime.Object) error {
 			return account.validateResourceReferences()
 		},
-	}
+		account.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -250,6 +250,16 @@ func (account *BatchAccount) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (account *BatchAccount) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*BatchAccount)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, account)
 }
 
 // AssignPropertiesFromBatchAccount populates our BatchAccount from the provided source BatchAccount

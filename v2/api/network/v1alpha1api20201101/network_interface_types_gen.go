@@ -240,7 +240,7 @@ func (networkInterface *NetworkInterface) updateValidations() []func(old runtime
 		func(old runtime.Object) error {
 			return networkInterface.validateResourceReferences()
 		},
-	}
+		networkInterface.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -250,6 +250,16 @@ func (networkInterface *NetworkInterface) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (networkInterface *NetworkInterface) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*NetworkInterface)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, networkInterface)
 }
 
 // AssignPropertiesFromNetworkInterface populates our NetworkInterface from the provided source NetworkInterface

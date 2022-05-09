@@ -226,7 +226,7 @@ func (function *SqlDatabaseContainerUserDefinedFunction) updateValidations() []f
 		func(old runtime.Object) error {
 			return function.validateResourceReferences()
 		},
-	}
+		function.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -236,6 +236,16 @@ func (function *SqlDatabaseContainerUserDefinedFunction) validateResourceReferen
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (function *SqlDatabaseContainerUserDefinedFunction) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*SqlDatabaseContainerUserDefinedFunction)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, function)
 }
 
 // AssignPropertiesFromSqlDatabaseContainerUserDefinedFunction populates our SqlDatabaseContainerUserDefinedFunction from the provided source SqlDatabaseContainerUserDefinedFunction

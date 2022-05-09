@@ -240,7 +240,7 @@ func (database *RedisEnterpriseDatabase) updateValidations() []func(old runtime.
 		func(old runtime.Object) error {
 			return database.validateResourceReferences()
 		},
-	}
+		database.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -250,6 +250,16 @@ func (database *RedisEnterpriseDatabase) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (database *RedisEnterpriseDatabase) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*RedisEnterpriseDatabase)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, database)
 }
 
 // AssignPropertiesFromRedisEnterpriseDatabase populates our RedisEnterpriseDatabase from the provided source RedisEnterpriseDatabase

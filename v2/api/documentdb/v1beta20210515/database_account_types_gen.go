@@ -226,6 +226,7 @@ func (account *DatabaseAccount) updateValidations() []func(old runtime.Object) e
 		func(old runtime.Object) error {
 			return account.validateResourceReferences()
 		},
+		account.validateWriteOnceProperties,
 		func(old runtime.Object) error {
 			return account.validateSecretDestinations()
 		},
@@ -257,6 +258,16 @@ func (account *DatabaseAccount) validateSecretDestinations() error {
 		account.Spec.OperatorSpec.Secrets.SecondaryReadonlyMasterKey,
 	}
 	return genruntime.ValidateSecretDestinations(secrets)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (account *DatabaseAccount) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*DatabaseAccount)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, account)
 }
 
 // AssignPropertiesFromDatabaseAccount populates our DatabaseAccount from the provided source DatabaseAccount

@@ -226,7 +226,7 @@ func (collection *MongodbDatabaseCollection) updateValidations() []func(old runt
 		func(old runtime.Object) error {
 			return collection.validateResourceReferences()
 		},
-	}
+		collection.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -236,6 +236,16 @@ func (collection *MongodbDatabaseCollection) validateResourceReferences() error 
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (collection *MongodbDatabaseCollection) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*MongodbDatabaseCollection)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, collection)
 }
 
 // AssignPropertiesFromMongodbDatabaseCollection populates our MongodbDatabaseCollection from the provided source MongodbDatabaseCollection

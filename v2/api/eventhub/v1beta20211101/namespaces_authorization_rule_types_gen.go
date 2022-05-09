@@ -226,7 +226,7 @@ func (rule *NamespacesAuthorizationRule) updateValidations() []func(old runtime.
 		func(old runtime.Object) error {
 			return rule.validateResourceReferences()
 		},
-	}
+		rule.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -236,6 +236,16 @@ func (rule *NamespacesAuthorizationRule) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (rule *NamespacesAuthorizationRule) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*NamespacesAuthorizationRule)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, rule)
 }
 
 // AssignPropertiesFromNamespacesAuthorizationRule populates our NamespacesAuthorizationRule from the provided source NamespacesAuthorizationRule

@@ -226,7 +226,7 @@ func (group *NamespacesEventhubsConsumerGroup) updateValidations() []func(old ru
 		func(old runtime.Object) error {
 			return group.validateResourceReferences()
 		},
-	}
+		group.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -236,6 +236,16 @@ func (group *NamespacesEventhubsConsumerGroup) validateResourceReferences() erro
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (group *NamespacesEventhubsConsumerGroup) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*NamespacesEventhubsConsumerGroup)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, group)
 }
 
 // AssignPropertiesFromNamespacesEventhubsConsumerGroup populates our NamespacesEventhubsConsumerGroup from the provided source NamespacesEventhubsConsumerGroup

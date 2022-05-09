@@ -240,7 +240,7 @@ func (group *NetworkSecurityGroup) updateValidations() []func(old runtime.Object
 		func(old runtime.Object) error {
 			return group.validateResourceReferences()
 		},
-	}
+		group.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -250,6 +250,16 @@ func (group *NetworkSecurityGroup) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (group *NetworkSecurityGroup) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*NetworkSecurityGroup)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, group)
 }
 
 // AssignPropertiesFromNetworkSecurityGroup populates our NetworkSecurityGroup from the provided source NetworkSecurityGroup

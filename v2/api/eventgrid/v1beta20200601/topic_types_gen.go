@@ -226,7 +226,7 @@ func (topic *Topic) updateValidations() []func(old runtime.Object) error {
 		func(old runtime.Object) error {
 			return topic.validateResourceReferences()
 		},
-	}
+		topic.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -236,6 +236,16 @@ func (topic *Topic) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (topic *Topic) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*Topic)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, topic)
 }
 
 // AssignPropertiesFromTopic populates our Topic from the provided source Topic

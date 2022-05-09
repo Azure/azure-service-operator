@@ -195,7 +195,7 @@ func (resource *AResource) updateValidations() []func(old runtime.Object) error 
 		func(old runtime.Object) error {
 			return resource.validateResourceReferences()
 		},
-	}
+		resource.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -205,6 +205,16 @@ func (resource *AResource) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (resource *AResource) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*AResource)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, resource)
 }
 
 // AssignPropertiesFromAResource populates our AResource from the provided source AResource

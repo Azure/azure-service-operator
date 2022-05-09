@@ -226,7 +226,7 @@ func (snapshot *Snapshot) updateValidations() []func(old runtime.Object) error {
 		func(old runtime.Object) error {
 			return snapshot.validateResourceReferences()
 		},
-	}
+		snapshot.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -236,6 +236,16 @@ func (snapshot *Snapshot) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (snapshot *Snapshot) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*Snapshot)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, snapshot)
 }
 
 // AssignPropertiesFromSnapshot populates our Snapshot from the provided source Snapshot

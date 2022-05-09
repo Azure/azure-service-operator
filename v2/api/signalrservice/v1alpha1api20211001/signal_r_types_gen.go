@@ -241,7 +241,7 @@ func (signalR *SignalR) updateValidations() []func(old runtime.Object) error {
 		func(old runtime.Object) error {
 			return signalR.validateResourceReferences()
 		},
-	}
+		signalR.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -251,6 +251,16 @@ func (signalR *SignalR) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (signalR *SignalR) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*SignalR)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, signalR)
 }
 
 // AssignPropertiesFromSignalR populates our SignalR from the provided source SignalR

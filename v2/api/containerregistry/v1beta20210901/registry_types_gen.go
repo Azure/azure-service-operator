@@ -226,7 +226,7 @@ func (registry *Registry) updateValidations() []func(old runtime.Object) error {
 		func(old runtime.Object) error {
 			return registry.validateResourceReferences()
 		},
-	}
+		registry.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -236,6 +236,16 @@ func (registry *Registry) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (registry *Registry) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*Registry)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, registry)
 }
 
 // AssignPropertiesFromRegistry populates our Registry from the provided source Registry

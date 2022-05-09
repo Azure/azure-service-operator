@@ -240,7 +240,7 @@ func (domain *Domain) updateValidations() []func(old runtime.Object) error {
 		func(old runtime.Object) error {
 			return domain.validateResourceReferences()
 		},
-	}
+		domain.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -250,6 +250,16 @@ func (domain *Domain) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (domain *Domain) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*Domain)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, domain)
 }
 
 // AssignPropertiesFromDomain populates our Domain from the provided source Domain

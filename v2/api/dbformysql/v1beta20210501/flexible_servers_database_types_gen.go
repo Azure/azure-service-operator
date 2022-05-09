@@ -226,7 +226,7 @@ func (database *FlexibleServersDatabase) updateValidations() []func(old runtime.
 		func(old runtime.Object) error {
 			return database.validateResourceReferences()
 		},
-	}
+		database.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -236,6 +236,16 @@ func (database *FlexibleServersDatabase) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (database *FlexibleServersDatabase) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*FlexibleServersDatabase)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, database)
 }
 
 // AssignPropertiesFromFlexibleServersDatabase populates our FlexibleServersDatabase from the provided source FlexibleServersDatabase

@@ -226,7 +226,7 @@ func (pool *ManagedClustersAgentPool) updateValidations() []func(old runtime.Obj
 		func(old runtime.Object) error {
 			return pool.validateResourceReferences()
 		},
-	}
+		pool.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -236,6 +236,16 @@ func (pool *ManagedClustersAgentPool) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (pool *ManagedClustersAgentPool) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*ManagedClustersAgentPool)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, pool)
 }
 
 // AssignPropertiesFromManagedClustersAgentPool populates our ManagedClustersAgentPool from the provided source ManagedClustersAgentPool

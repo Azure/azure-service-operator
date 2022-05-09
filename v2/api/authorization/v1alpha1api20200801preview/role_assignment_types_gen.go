@@ -239,7 +239,7 @@ func (assignment *RoleAssignment) updateValidations() []func(old runtime.Object)
 		func(old runtime.Object) error {
 			return assignment.validateResourceReferences()
 		},
-	}
+		assignment.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -249,6 +249,16 @@ func (assignment *RoleAssignment) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (assignment *RoleAssignment) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*RoleAssignment)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, assignment)
 }
 
 // AssignPropertiesFromRoleAssignment populates our RoleAssignment from the provided source RoleAssignment

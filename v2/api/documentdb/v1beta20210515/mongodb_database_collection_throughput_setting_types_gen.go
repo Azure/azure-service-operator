@@ -219,7 +219,7 @@ func (setting *MongodbDatabaseCollectionThroughputSetting) updateValidations() [
 		func(old runtime.Object) error {
 			return setting.validateResourceReferences()
 		},
-	}
+		setting.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -229,6 +229,16 @@ func (setting *MongodbDatabaseCollectionThroughputSetting) validateResourceRefer
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (setting *MongodbDatabaseCollectionThroughputSetting) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*MongodbDatabaseCollectionThroughputSetting)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, setting)
 }
 
 // AssignPropertiesFromMongodbDatabaseCollectionThroughputSetting populates our MongodbDatabaseCollectionThroughputSetting from the provided source MongodbDatabaseCollectionThroughputSetting

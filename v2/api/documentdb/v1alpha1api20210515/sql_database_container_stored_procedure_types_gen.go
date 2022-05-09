@@ -240,7 +240,7 @@ func (procedure *SqlDatabaseContainerStoredProcedure) updateValidations() []func
 		func(old runtime.Object) error {
 			return procedure.validateResourceReferences()
 		},
-	}
+		procedure.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -250,6 +250,16 @@ func (procedure *SqlDatabaseContainerStoredProcedure) validateResourceReferences
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (procedure *SqlDatabaseContainerStoredProcedure) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*SqlDatabaseContainerStoredProcedure)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, procedure)
 }
 
 // AssignPropertiesFromSqlDatabaseContainerStoredProcedure populates our SqlDatabaseContainerStoredProcedure from the provided source SqlDatabaseContainerStoredProcedure

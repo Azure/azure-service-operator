@@ -240,7 +240,7 @@ func (configuration *FlexibleServersConfiguration) updateValidations() []func(ol
 		func(old runtime.Object) error {
 			return configuration.validateResourceReferences()
 		},
-	}
+		configuration.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -250,6 +250,16 @@ func (configuration *FlexibleServersConfiguration) validateResourceReferences() 
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (configuration *FlexibleServersConfiguration) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*FlexibleServersConfiguration)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, configuration)
 }
 
 // AssignPropertiesFromFlexibleServersConfiguration populates our FlexibleServersConfiguration from the provided source FlexibleServersConfiguration

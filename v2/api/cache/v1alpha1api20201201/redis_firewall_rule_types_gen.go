@@ -240,7 +240,7 @@ func (rule *RedisFirewallRule) updateValidations() []func(old runtime.Object) er
 		func(old runtime.Object) error {
 			return rule.validateResourceReferences()
 		},
-	}
+		rule.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -250,6 +250,16 @@ func (rule *RedisFirewallRule) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (rule *RedisFirewallRule) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*RedisFirewallRule)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, rule)
 }
 
 // AssignPropertiesFromRedisFirewallRule populates our RedisFirewallRule from the provided source RedisFirewallRule

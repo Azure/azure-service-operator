@@ -424,6 +424,10 @@ func (tc *KubePerTestContext) Patch(old client.Object, new client.Object) {
 	tc.Expect(tc.kubeClient.Patch(tc.Ctx, new, client.MergeFrom(old))).To(gomega.Succeed())
 }
 
+func (tc *KubePerTestContext) PatchAndExpectError(old client.Object, new client.Object) error {
+	return tc.kubeClient.Patch(tc.Ctx, new, client.MergeFrom(old))
+}
+
 // DeleteResourceAndWait deletes the given resource in K8s and waits for
 // it to update to the Deleted state.
 func (tc *KubePerTestContext) DeleteResourceAndWait(obj client.Object) {

@@ -240,7 +240,7 @@ func (queue *StorageAccountsQueueServicesQueue) updateValidations() []func(old r
 		func(old runtime.Object) error {
 			return queue.validateResourceReferences()
 		},
-	}
+		queue.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -250,6 +250,16 @@ func (queue *StorageAccountsQueueServicesQueue) validateResourceReferences() err
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (queue *StorageAccountsQueueServicesQueue) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*StorageAccountsQueueServicesQueue)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, queue)
 }
 
 // AssignPropertiesFromStorageAccountsQueueServicesQueue populates our StorageAccountsQueueServicesQueue from the provided source StorageAccountsQueueServicesQueue

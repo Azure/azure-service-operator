@@ -226,7 +226,7 @@ func (address *PublicIPAddress) updateValidations() []func(old runtime.Object) e
 		func(old runtime.Object) error {
 			return address.validateResourceReferences()
 		},
-	}
+		address.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -236,6 +236,16 @@ func (address *PublicIPAddress) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (address *PublicIPAddress) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*PublicIPAddress)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, address)
 }
 
 // AssignPropertiesFromPublicIPAddress populates our PublicIPAddress from the provided source PublicIPAddress

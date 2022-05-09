@@ -226,7 +226,7 @@ func (rule *NetworkSecurityGroupsSecurityRule) updateValidations() []func(old ru
 		func(old runtime.Object) error {
 			return rule.validateResourceReferences()
 		},
-	}
+		rule.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -236,6 +236,16 @@ func (rule *NetworkSecurityGroupsSecurityRule) validateResourceReferences() erro
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (rule *NetworkSecurityGroupsSecurityRule) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*NetworkSecurityGroupsSecurityRule)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, rule)
 }
 
 // AssignPropertiesFromNetworkSecurityGroupsSecurityRule populates our NetworkSecurityGroupsSecurityRule from the provided source NetworkSecurityGroupsSecurityRule

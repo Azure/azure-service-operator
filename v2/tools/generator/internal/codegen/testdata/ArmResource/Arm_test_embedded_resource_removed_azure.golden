@@ -193,7 +193,7 @@ func (a *A) updateValidations() []func(old runtime.Object) error {
 		func(old runtime.Object) error {
 			return a.validateResourceReferences()
 		},
-	}
+		a.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -203,6 +203,16 @@ func (a *A) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (a *A) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*A)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, a)
 }
 
 // AssignPropertiesFromA populates our A from the provided source A
@@ -455,7 +465,7 @@ func (b *B) updateValidations() []func(old runtime.Object) error {
 		func(old runtime.Object) error {
 			return b.validateResourceReferences()
 		},
-	}
+		b.validateWriteOnceProperties}
 }
 
 // validateResourceReferences validates all resource references
@@ -465,6 +475,16 @@ func (b *B) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (b *B) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*B)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, b)
 }
 
 // AssignPropertiesFromB populates our B from the provided source B
