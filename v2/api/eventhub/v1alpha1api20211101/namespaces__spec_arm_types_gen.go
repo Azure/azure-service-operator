@@ -5,7 +5,7 @@ package v1alpha1api20211101
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-//Deprecated version of Namespaces_Spec. Use v1beta20211101.Namespaces_Spec instead
+// Deprecated version of Namespaces_Spec. Use v1beta20211101.Namespaces_Spec instead
 type Namespaces_SpecARM struct {
 	Identity   *IdentityARM                   `json:"identity,omitempty"`
 	Location   *string                        `json:"location,omitempty"`
@@ -32,12 +32,12 @@ func (namespaces Namespaces_SpecARM) GetType() string {
 	return "Microsoft.EventHub/namespaces"
 }
 
-//Deprecated version of Identity. Use v1beta20211101.Identity instead
+// Deprecated version of Identity. Use v1beta20211101.Identity instead
 type IdentityARM struct {
 	Type *IdentityType `json:"type,omitempty"`
 }
 
-//Deprecated version of Namespaces_Spec_Properties. Use v1beta20211101.Namespaces_Spec_Properties instead
+// Deprecated version of Namespaces_Spec_Properties. Use v1beta20211101.Namespaces_Spec_Properties instead
 type Namespaces_Spec_PropertiesARM struct {
 	AlternateName              *string                                                    `json:"alternateName,omitempty"`
 	ClusterArmId               *string                                                    `json:"clusterArmId,omitempty"`
@@ -50,21 +50,21 @@ type Namespaces_Spec_PropertiesARM struct {
 	ZoneRedundant              *bool                                                      `json:"zoneRedundant,omitempty"`
 }
 
-//Deprecated version of Sku. Use v1beta20211101.Sku instead
+// Deprecated version of Sku. Use v1beta20211101.Sku instead
 type SkuARM struct {
 	Capacity *int     `json:"capacity,omitempty"`
 	Name     *SkuName `json:"name,omitempty"`
 	Tier     *SkuTier `json:"tier,omitempty"`
 }
 
-//Deprecated version of Encryption. Use v1beta20211101.Encryption instead
+// Deprecated version of Encryption. Use v1beta20211101.Encryption instead
 type EncryptionARM struct {
 	KeySource                       *EncryptionKeySource    `json:"keySource,omitempty"`
 	KeyVaultProperties              []KeyVaultPropertiesARM `json:"keyVaultProperties,omitempty"`
 	RequireInfrastructureEncryption *bool                   `json:"requireInfrastructureEncryption,omitempty"`
 }
 
-//Deprecated version of IdentityType. Use v1beta20211101.IdentityType instead
+// Deprecated version of IdentityType. Use v1beta20211101.IdentityType instead
 // +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned, UserAssigned","UserAssigned"}
 type IdentityType string
 
@@ -75,12 +75,12 @@ const (
 	IdentityTypeUserAssigned               = IdentityType("UserAssigned")
 )
 
-//Deprecated version of Namespaces_Spec_Properties_PrivateEndpointConnections. Use v1beta20211101.Namespaces_Spec_Properties_PrivateEndpointConnections instead
+// Deprecated version of Namespaces_Spec_Properties_PrivateEndpointConnections. Use v1beta20211101.Namespaces_Spec_Properties_PrivateEndpointConnections instead
 type Namespaces_Spec_Properties_PrivateEndpointConnectionsARM struct {
 	Properties *PrivateEndpointConnectionPropertiesARM `json:"properties,omitempty"`
 }
 
-//Deprecated version of SkuName. Use v1beta20211101.SkuName instead
+// Deprecated version of SkuName. Use v1beta20211101.SkuName instead
 // +kubebuilder:validation:Enum={"Basic","Premium","Standard"}
 type SkuName string
 
@@ -90,7 +90,7 @@ const (
 	SkuNameStandard = SkuName("Standard")
 )
 
-//Deprecated version of SkuTier. Use v1beta20211101.SkuTier instead
+// Deprecated version of SkuTier. Use v1beta20211101.SkuTier instead
 // +kubebuilder:validation:Enum={"Basic","Premium","Standard"}
 type SkuTier string
 
@@ -100,7 +100,7 @@ const (
 	SkuTierStandard = SkuTier("Standard")
 )
 
-//Deprecated version of KeyVaultProperties. Use v1beta20211101.KeyVaultProperties instead
+// Deprecated version of KeyVaultProperties. Use v1beta20211101.KeyVaultProperties instead
 type KeyVaultPropertiesARM struct {
 	Identity    *UserAssignedIdentityPropertiesARM `json:"identity,omitempty"`
 	KeyName     *string                            `json:"keyName,omitempty"`
@@ -108,17 +108,17 @@ type KeyVaultPropertiesARM struct {
 	KeyVersion  *string                            `json:"keyVersion,omitempty"`
 }
 
-//Deprecated version of PrivateEndpointConnectionProperties. Use v1beta20211101.PrivateEndpointConnectionProperties instead
+// Deprecated version of PrivateEndpointConnectionProperties. Use v1beta20211101.PrivateEndpointConnectionProperties instead
 type PrivateEndpointConnectionPropertiesARM struct {
 	PrivateEndpoint *PrivateEndpointARM `json:"privateEndpoint,omitempty"`
 }
 
-//Deprecated version of PrivateEndpoint. Use v1beta20211101.PrivateEndpoint instead
+// Deprecated version of PrivateEndpoint. Use v1beta20211101.PrivateEndpoint instead
 type PrivateEndpointARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
-//Deprecated version of UserAssignedIdentityProperties. Use v1beta20211101.UserAssignedIdentityProperties instead
+// Deprecated version of UserAssignedIdentityProperties. Use v1beta20211101.UserAssignedIdentityProperties instead
 type UserAssignedIdentityPropertiesARM struct {
 	UserAssignedIdentity *string `json:"userAssignedIdentity,omitempty"`
 }

@@ -9,7 +9,7 @@ import (
 	"github.com/pkg/errors"
 )
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json
+// Generated from: https://test.test/schemas/2020-01-01/test.json
 type Test struct {
 	Error *Error `json:"error,omitempty"`
 }
@@ -61,7 +61,7 @@ func (test *Test) AssignPropertiesToTest(destination *v20200101s.Test) error {
 	return nil
 }
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Error
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Error
 type Error struct {
 	Error *Error_Unrolled `json:"error,omitempty"`
 	Name  *string         `json:"name,omitempty"`

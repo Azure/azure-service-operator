@@ -1,5 +1,7 @@
-# Azure Service Operator v2
-
+---
+title: Azure Service Operator v2
+type: docs
+---
 ## Project Status
 This project is a beta. We follow the [Kubernetes definition of beta](https://kubernetes.io/docs/reference/command-line-tools-reference/feature-gates/#feature-stages).
 
@@ -50,7 +52,7 @@ See the list of supported resources [here](https://azure.github.io/azure-service
    Next, create a service principal with Contributor permissions for your subscription.
 
    ```bash
-   az ad sp create-for-rbac -n "azure-service-operator" --role contributor \
+   az ad sp create-for-rbac -n azure-service-operator --role contributor \
        --scopes /subscriptions/$AZURE_SUBSCRIPTION_ID
    ```
 

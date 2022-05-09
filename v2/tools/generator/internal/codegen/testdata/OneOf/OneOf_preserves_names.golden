@@ -9,12 +9,12 @@ import (
 	"github.com/pkg/errors"
 )
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json
+// Generated from: https://test.test/schemas/2020-01-01/test.json
 type Test struct {
-	//Base: Mutually exclusive with all other properties
+	// Base: Mutually exclusive with all other properties
 	Base *Test_Base `json:"base,omitempty"`
 
-	//Inherited: Mutually exclusive with all other properties
+	// Inherited: Mutually exclusive with all other properties
 	Inherited *Test_Inherited `json:"inherited,omitempty"`
 }
 

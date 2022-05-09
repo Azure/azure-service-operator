@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1alpha1api20210515
 
-//Deprecated version of SqlUserDefinedFunctionGetResults_Status. Use v1beta20210515.SqlUserDefinedFunctionGetResults_Status instead
+// Deprecated version of SqlUserDefinedFunctionGetResults_Status. Use v1beta20210515.SqlUserDefinedFunctionGetResults_Status instead
 type SqlUserDefinedFunctionGetResults_StatusARM struct {
 	Id         *string                                        `json:"id,omitempty"`
 	Location   *string                                        `json:"location,omitempty"`
@@ -13,12 +13,12 @@ type SqlUserDefinedFunctionGetResults_StatusARM struct {
 	Type       *string                                        `json:"type,omitempty"`
 }
 
-//Deprecated version of SqlUserDefinedFunctionGetProperties_Status. Use v1beta20210515.SqlUserDefinedFunctionGetProperties_Status instead
+// Deprecated version of SqlUserDefinedFunctionGetProperties_Status. Use v1beta20210515.SqlUserDefinedFunctionGetProperties_Status instead
 type SqlUserDefinedFunctionGetProperties_StatusARM struct {
 	Resource *SqlUserDefinedFunctionGetProperties_Status_ResourceARM `json:"resource,omitempty"`
 }
 
-//Deprecated version of SqlUserDefinedFunctionGetProperties_Status_Resource. Use v1beta20210515.SqlUserDefinedFunctionGetProperties_Status_Resource instead
+// Deprecated version of SqlUserDefinedFunctionGetProperties_Status_Resource. Use v1beta20210515.SqlUserDefinedFunctionGetProperties_Status_Resource instead
 type SqlUserDefinedFunctionGetProperties_Status_ResourceARM struct {
 	Body *string  `json:"body,omitempty"`
 	Etag *string  `json:"_etag,omitempty"`

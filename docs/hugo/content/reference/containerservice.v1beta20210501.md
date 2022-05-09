@@ -1,4 +1,5 @@
 ---
+title: containerservice.azure.com/v1beta20210501
 ---
 <h2 id="containerservice.azure.com/v1beta20210501">containerservice.azure.com/v1beta20210501</h2>
 <div>
@@ -435,7 +436,7 @@ string
 </td>
 <td>
 <p>NodePublicIPPrefixID: This is of the form:
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIPPrefixName}</p>
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.Network/&#x200b;publicIPPrefixes/&#x200b;{publicIPPrefixName}</&#x200b;p>
 </td>
 </tr>
 <tr>
@@ -520,7 +521,7 @@ string
 <td>
 <p>PodSubnetID: If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is
 of the form:
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}</p>
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.Network/&#x200b;virtualNetworks/&#x200b;{virtualNetworkName}/&#x200b;subnets/&#x200b;{subnetName}</&#x200b;p>
 </td>
 </tr>
 <tr>
@@ -668,7 +669,7 @@ string
 <td>
 <p>VnetSubnetID: If this is not specified, a VNET and subnet will be generated and used. If no podSubnetID is specified,
 this applies to nodes and pods, otherwise it applies to just nodes. This is of the form:
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}</p>
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.Network/&#x200b;virtualNetworks/&#x200b;{virtualNetworkName}/&#x200b;subnets/&#x200b;{subnetName}</&#x200b;p>
 </td>
 </tr>
 </tbody>
@@ -3274,7 +3275,7 @@ genruntime.ResourceReference
 </td>
 <td>
 <p>DiskEncryptionSetIDReference: This is of the form:
-&lsquo;/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{encryptionSetName}&rsquo;</p>
+&lsquo;/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.Compute/&#x200b;diskEncryptionSets/&#x200b;{encryptionSetName}&rsquo;</&#x200b;p>
 </td>
 </tr>
 <tr>
@@ -4507,7 +4508,7 @@ genruntime.ResourceReference
 </td>
 <td>
 <p>NodePublicIPPrefixIDReference: This is of the form:
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIPPrefixName}</p>
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.Network/&#x200b;publicIPPrefixes/&#x200b;{publicIPPrefixName}</&#x200b;p>
 </td>
 </tr>
 <tr>
@@ -4596,7 +4597,7 @@ genruntime.ResourceReference
 <td>
 <p>PodSubnetIDReference: If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more
 details). This is of the form:
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}</p>
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.Network/&#x200b;virtualNetworks/&#x200b;{virtualNetworkName}/&#x200b;subnets/&#x200b;{subnetName}</&#x200b;p>
 </td>
 </tr>
 <tr>
@@ -4711,7 +4712,7 @@ genruntime.ResourceReference
 <td>
 <p>VnetSubnetIDReference: If this is not specified, a VNET and subnet will be generated and used. If no podSubnetID is
 specified, this applies to nodes and pods, otherwise it applies to just nodes. This is of the form:
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}</p>
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.Network/&#x200b;virtualNetworks/&#x200b;{virtualNetworkName}/&#x200b;subnets/&#x200b;{subnetName}</&#x200b;p>
 </td>
 </tr>
 </tbody>
@@ -6101,7 +6102,7 @@ string
 </td>
 <td>
 <p>NodePublicIPPrefixID: This is of the form:
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIPPrefixName}</p>
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.Network/&#x200b;publicIPPrefixes/&#x200b;{publicIPPrefixName}</&#x200b;p>
 </td>
 </tr>
 <tr>
@@ -6186,7 +6187,7 @@ string
 <td>
 <p>PodSubnetID: If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is
 of the form:
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}</p>
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.Network/&#x200b;virtualNetworks/&#x200b;{virtualNetworkName}/&#x200b;subnets/&#x200b;{subnetName}</&#x200b;p>
 </td>
 </tr>
 <tr>
@@ -6323,7 +6324,7 @@ string
 <td>
 <p>VnetSubnetID: If this is not specified, a VNET and subnet will be generated and used. If no podSubnetID is specified,
 this applies to nodes and pods, otherwise it applies to just nodes. This is of the form:
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}</p>
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.Network/&#x200b;virtualNetworks/&#x200b;{virtualNetworkName}/&#x200b;subnets/&#x200b;{subnetName}</&#x200b;p>
 </td>
 </tr>
 </tbody>
@@ -6627,7 +6628,7 @@ string
 </td>
 <td>
 <p>NodePublicIPPrefixID: This is of the form:
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIPPrefixName}</p>
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.Network/&#x200b;publicIPPrefixes/&#x200b;{publicIPPrefixName}</&#x200b;p>
 </td>
 </tr>
 <tr>
@@ -6712,7 +6713,7 @@ string
 <td>
 <p>PodSubnetID: If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is
 of the form:
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}</p>
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.Network/&#x200b;virtualNetworks/&#x200b;{virtualNetworkName}/&#x200b;subnets/&#x200b;{subnetName}</&#x200b;p>
 </td>
 </tr>
 <tr>
@@ -6849,7 +6850,7 @@ string
 <td>
 <p>VnetSubnetID: If this is not specified, a VNET and subnet will be generated and used. If no podSubnetID is specified,
 this applies to nodes and pods, otherwise it applies to just nodes. This is of the form:
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}</p>
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.Network/&#x200b;virtualNetworks/&#x200b;{virtualNetworkName}/&#x200b;subnets/&#x200b;{subnetName}</&#x200b;p>
 </td>
 </tr>
 </tbody>
@@ -7093,7 +7094,7 @@ string
 </td>
 <td>
 <p>NodePublicIPPrefixID: This is of the form:
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIPPrefixName}</p>
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.Network/&#x200b;publicIPPrefixes/&#x200b;{publicIPPrefixName}</&#x200b;p>
 </td>
 </tr>
 <tr>
@@ -7178,7 +7179,7 @@ string
 <td>
 <p>PodSubnetID: If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is
 of the form:
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}</p>
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.Network/&#x200b;virtualNetworks/&#x200b;{virtualNetworkName}/&#x200b;subnets/&#x200b;{subnetName}</&#x200b;p>
 </td>
 </tr>
 <tr>
@@ -7315,7 +7316,7 @@ string
 <td>
 <p>VnetSubnetID: If this is not specified, a VNET and subnet will be generated and used. If no podSubnetID is specified,
 this applies to nodes and pods, otherwise it applies to just nodes. This is of the form:
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}</p>
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.Network/&#x200b;virtualNetworks/&#x200b;{virtualNetworkName}/&#x200b;subnets/&#x200b;{subnetName}</&#x200b;p>
 </td>
 </tr>
 </tbody>
@@ -7785,7 +7786,7 @@ map[string]k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
 </td>
 <td>
 <p>UserAssignedIdentities: The keys must be ARM resource IDs in the form:
-&lsquo;/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}&rsquo;.</p>
+&lsquo;/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.ManagedIdentity/&#x200b;userAssignedIdentities/&#x200b;{identityName}&rsquo;.</&#x200b;p>
 </td>
 </tr>
 </tbody>
@@ -7831,7 +7832,7 @@ map[string]k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
 </td>
 <td>
 <p>UserAssignedIdentities: The keys must be ARM resource IDs in the form:
-&lsquo;/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}&rsquo;.</p>
+&lsquo;/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.ManagedIdentity/&#x200b;userAssignedIdentities/&#x200b;{identityName}&rsquo;.</&#x200b;p>
 </td>
 </tr>
 </tbody>
@@ -7942,7 +7943,7 @@ map[string]./api/containerservice/v1beta20210501.ManagedClusterIdentity_Status_U
 </td>
 <td>
 <p>UserAssignedIdentities: The keys must be ARM resource IDs in the form:
-&lsquo;/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}&rsquo;.</p>
+&lsquo;/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.ManagedIdentity/&#x200b;userAssignedIdentities/&#x200b;{identityName}&rsquo;.</&#x200b;p>
 </td>
 </tr>
 </tbody>
@@ -8009,7 +8010,7 @@ map[string]./api/containerservice/v1beta20210501.ManagedClusterIdentity_Status_U
 </td>
 <td>
 <p>UserAssignedIdentities: The keys must be ARM resource IDs in the form:
-&lsquo;/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}&rsquo;.</p>
+&lsquo;/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.ManagedIdentity/&#x200b;userAssignedIdentities/&#x200b;{identityName}&rsquo;.</&#x200b;p>
 </td>
 </tr>
 </tbody>
@@ -10883,7 +10884,7 @@ string
 </td>
 <td>
 <p>DiskEncryptionSetID: This is of the form:
-&lsquo;/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{encryptionSetName}&rsquo;</p>
+&lsquo;/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.Compute/&#x200b;diskEncryptionSets/&#x200b;{encryptionSetName}&rsquo;</&#x200b;p>
 </td>
 </tr>
 <tr>
@@ -12468,7 +12469,7 @@ string
 </td>
 <td>
 <p>DiskEncryptionSetID: This is of the form:
-&lsquo;/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{encryptionSetName}&rsquo;</p>
+&lsquo;/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.Compute/&#x200b;diskEncryptionSets/&#x200b;{encryptionSetName}&rsquo;</&#x200b;p>
 </td>
 </tr>
 <tr>
@@ -13190,7 +13191,7 @@ genruntime.ResourceReference
 </td>
 <td>
 <p>NodePublicIPPrefixIDReference: This is of the form:
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIPPrefixName}</p>
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.Network/&#x200b;publicIPPrefixes/&#x200b;{publicIPPrefixName}</&#x200b;p>
 </td>
 </tr>
 <tr>
@@ -13294,7 +13295,7 @@ genruntime.ResourceReference
 <td>
 <p>PodSubnetIDReference: If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more
 details). This is of the form:
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}</p>
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.Network/&#x200b;virtualNetworks/&#x200b;{virtualNetworkName}/&#x200b;subnets/&#x200b;{subnetName}</&#x200b;p>
 </td>
 </tr>
 <tr>
@@ -13409,7 +13410,7 @@ genruntime.ResourceReference
 <td>
 <p>VnetSubnetIDReference: If this is not specified, a VNET and subnet will be generated and used. If no podSubnetID is
 specified, this applies to nodes and pods, otherwise it applies to just nodes. This is of the form:
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}</p>
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.Network/&#x200b;virtualNetworks/&#x200b;{virtualNetworkName}/&#x200b;subnets/&#x200b;{subnetName}</&#x200b;p>
 </td>
 </tr>
 </table>
@@ -13688,7 +13689,7 @@ genruntime.ResourceReference
 </td>
 <td>
 <p>NodePublicIPPrefixIDReference: This is of the form:
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIPPrefixName}</p>
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.Network/&#x200b;publicIPPrefixes/&#x200b;{publicIPPrefixName}</&#x200b;p>
 </td>
 </tr>
 <tr>
@@ -13792,7 +13793,7 @@ genruntime.ResourceReference
 <td>
 <p>PodSubnetIDReference: If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more
 details). This is of the form:
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}</p>
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.Network/&#x200b;virtualNetworks/&#x200b;{virtualNetworkName}/&#x200b;subnets/&#x200b;{subnetName}</&#x200b;p>
 </td>
 </tr>
 <tr>
@@ -13907,7 +13908,7 @@ genruntime.ResourceReference
 <td>
 <p>VnetSubnetIDReference: If this is not specified, a VNET and subnet will be generated and used. If no podSubnetID is
 specified, this applies to nodes and pods, otherwise it applies to just nodes. This is of the form:
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}</p>
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.Network/&#x200b;virtualNetworks/&#x200b;{virtualNetworkName}/&#x200b;subnets/&#x200b;{subnetName}</&#x200b;p>
 </td>
 </tr>
 </tbody>
@@ -14105,7 +14106,7 @@ genruntime.ResourceReference
 </td>
 <td>
 <p>DiskEncryptionSetIDReference: This is of the form:
-&lsquo;/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{encryptionSetName}&rsquo;</p>
+&lsquo;/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.Compute/&#x200b;diskEncryptionSets/&#x200b;{encryptionSetName}&rsquo;</&#x200b;p>
 </td>
 </tr>
 <tr>

@@ -289,7 +289,7 @@ func RunJSONSerializationTestForPrivateLinkScopedResourceStatus(subject PrivateL
 }
 
 // Generator of PrivateLinkScopedResource_Status instances for property testing - lazily instantiated by
-//PrivateLinkScopedResourceStatusGenerator()
+// PrivateLinkScopedResourceStatusGenerator()
 var privateLinkScopedResourceStatusGenerator gopter.Gen
 
 // PrivateLinkScopedResourceStatusGenerator returns a generator of PrivateLinkScopedResource_Status instances for property testing.
@@ -409,7 +409,7 @@ func RunJSONSerializationTestForWorkspaceCappingStatus(subject WorkspaceCapping_
 }
 
 // Generator of WorkspaceCapping_Status instances for property testing - lazily instantiated by
-//WorkspaceCappingStatusGenerator()
+// WorkspaceCappingStatusGenerator()
 var workspaceCappingStatusGenerator gopter.Gen
 
 // WorkspaceCappingStatusGenerator returns a generator of WorkspaceCapping_Status instances for property testing.
@@ -533,7 +533,7 @@ func RunJSONSerializationTestForWorkspaceFeaturesStatus(subject WorkspaceFeature
 }
 
 // Generator of WorkspaceFeatures_Status instances for property testing - lazily instantiated by
-//WorkspaceFeaturesStatusGenerator()
+// WorkspaceFeaturesStatusGenerator()
 var workspaceFeaturesStatusGenerator gopter.Gen
 
 // WorkspaceFeaturesStatusGenerator returns a generator of WorkspaceFeatures_Status instances for property testing.

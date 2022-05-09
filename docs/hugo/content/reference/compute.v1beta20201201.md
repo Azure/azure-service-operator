@@ -1,4 +1,5 @@
 ---
+title: compute.azure.com/v1beta20201201
 ---
 <h2 id="compute.azure.com/v1beta20201201">compute.azure.com/v1beta20201201</h2>
 <div>
@@ -548,7 +549,7 @@ genruntime.ResourceReference
 </em>
 </td>
 <td>
-<p>Reference: The ARM resource id in the form of /subscriptions/{SubscriptionId}/resourceGroups/{ResourceGroupName}/&hellip;</p>
+<p>Reference: The ARM resource id in the form of /&#x200b;subscriptions/&#x200b;{SubscriptionId}/&#x200b;resourceGroups/&#x200b;{ResourceGroupName}/&#x200b;&hellip;</&#x200b;p>
 </td>
 </tr>
 </tbody>
@@ -604,7 +605,7 @@ string
 </em>
 </td>
 <td>
-<p>Id: The ARM resource id in the form of /subscriptions/{SubscriptionId}/resourceGroups/{ResourceGroupName}/&hellip;</p>
+<p>Id: The ARM resource id in the form of /&#x200b;subscriptions/&#x200b;{SubscriptionId}/&#x200b;resourceGroups/&#x200b;{ResourceGroupName}/&#x200b;&hellip;</&#x200b;p>
 </td>
 </tr>
 </tbody>
@@ -632,7 +633,7 @@ string
 </em>
 </td>
 <td>
-<p>Id: The ARM resource id in the form of /subscriptions/{SubscriptionId}/resourceGroups/{ResourceGroupName}/&hellip;</p>
+<p>Id: The ARM resource id in the form of /&#x200b;subscriptions/&#x200b;{SubscriptionId}/&#x200b;resourceGroups/&#x200b;{ResourceGroupName}/&#x200b;&hellip;</&#x200b;p>
 </td>
 </tr>
 </tbody>
@@ -13320,7 +13321,7 @@ map[string]k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
 <td>
 <p>UserAssignedIdentities: The list of user identities associated with the Virtual Machine. The user identity dictionary
 key references will be ARM resource ids in the form:
-&lsquo;/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}&rsquo;.</p>
+&lsquo;/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.ManagedIdentity/&#x200b;userAssignedIdentities/&#x200b;{identityName}&rsquo;.</&#x200b;p>
 </td>
 </tr>
 </tbody>
@@ -13368,7 +13369,7 @@ map[string]k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
 <td>
 <p>UserAssignedIdentities: The list of user identities associated with the Virtual Machine. The user identity dictionary
 key references will be ARM resource ids in the form:
-&lsquo;/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}&rsquo;.</p>
+&lsquo;/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.ManagedIdentity/&#x200b;userAssignedIdentities/&#x200b;{identityName}&rsquo;.</&#x200b;p>
 </td>
 </tr>
 </tbody>
@@ -13487,7 +13488,7 @@ map[string]./api/compute/v1beta20201201.VirtualMachineIdentity_Status_UserAssign
 <td>
 <p>UserAssignedIdentities: The list of user identities associated with the Virtual Machine. The user identity dictionary
 key references will be ARM resource ids in the form:
-&lsquo;/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}&rsquo;.</p>
+&lsquo;/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.ManagedIdentity/&#x200b;userAssignedIdentities/&#x200b;{identityName}&rsquo;.</&#x200b;p>
 </td>
 </tr>
 </tbody>
@@ -13558,7 +13559,7 @@ map[string]./api/compute/v1beta20201201.VirtualMachineIdentity_Status_UserAssign
 <td>
 <p>UserAssignedIdentities: The list of user identities associated with the Virtual Machine. The user identity dictionary
 key references will be ARM resource ids in the form:
-&lsquo;/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}&rsquo;.</p>
+&lsquo;/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.ManagedIdentity/&#x200b;userAssignedIdentities/&#x200b;{identityName}&rsquo;.</&#x200b;p>
 </td>
 </tr>
 </tbody>
@@ -16420,7 +16421,7 @@ map[string]./api/compute/v1beta20201201.VirtualMachineScaleSetIdentity_Status_Us
 <td>
 <p>UserAssignedIdentities: The list of user identities associated with the virtual machine scale set. The user identity
 dictionary key references will be ARM resource ids in the form:
-&lsquo;/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}&rsquo;.</p>
+&lsquo;/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.ManagedIdentity/&#x200b;userAssignedIdentities/&#x200b;{identityName}&rsquo;.</&#x200b;p>
 </td>
 </tr>
 </tbody>
@@ -16491,7 +16492,7 @@ map[string]./api/compute/v1beta20201201.VirtualMachineScaleSetIdentity_Status_Us
 <td>
 <p>UserAssignedIdentities: The list of user identities associated with the virtual machine scale set. The user identity
 dictionary key references will be ARM resource ids in the form:
-&lsquo;/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}&rsquo;.</p>
+&lsquo;/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.ManagedIdentity/&#x200b;userAssignedIdentities/&#x200b;{identityName}&rsquo;.</&#x200b;p>
 </td>
 </tr>
 </tbody>
@@ -17358,7 +17359,7 @@ ApiEntityReference_Status
 <td>
 <p>HealthProbe: A reference to a load balancer probe used to determine the health of an instance in the virtual machine
 scale set. The reference will be in the form:
-&lsquo;/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/probes/{probeName}&rsquo;.</p>
+&lsquo;/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.Network/&#x200b;loadBalancers/&#x200b;{loadBalancerName}/&#x200b;probes/&#x200b;{probeName}&rsquo;.</&#x200b;p>
 </td>
 </tr>
 <tr>
@@ -17403,7 +17404,7 @@ ApiEntityReference_StatusARM
 <td>
 <p>HealthProbe: A reference to a load balancer probe used to determine the health of an instance in the virtual machine
 scale set. The reference will be in the form:
-&lsquo;/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/probes/{probeName}&rsquo;.</p>
+&lsquo;/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.Network/&#x200b;loadBalancers/&#x200b;{loadBalancerName}/&#x200b;probes/&#x200b;{probeName}&rsquo;.</&#x200b;p>
 </td>
 </tr>
 <tr>

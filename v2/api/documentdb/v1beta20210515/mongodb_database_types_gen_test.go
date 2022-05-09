@@ -90,7 +90,7 @@ func RunPropertyAssignmentTestForMongodbDatabase(subject MongodbDatabase) string
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -192,7 +192,7 @@ func RunPropertyAssignmentTestForDatabaseAccountsMongodbDatabasesSpec(subject Da
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -243,7 +243,7 @@ func RunJSONSerializationTestForDatabaseAccountsMongodbDatabasesSpec(subject Dat
 }
 
 // Generator of DatabaseAccountsMongodbDatabases_Spec instances for property testing - lazily instantiated by
-//DatabaseAccountsMongodbDatabasesSpecGenerator()
+// DatabaseAccountsMongodbDatabasesSpecGenerator()
 var databaseAccountsMongodbDatabasesSpecGenerator gopter.Gen
 
 // DatabaseAccountsMongodbDatabasesSpecGenerator returns a generator of DatabaseAccountsMongodbDatabases_Spec instances for property testing.
@@ -311,7 +311,7 @@ func RunPropertyAssignmentTestForMongoDBDatabaseGetResultsStatus(subject MongoDB
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -362,7 +362,7 @@ func RunJSONSerializationTestForMongoDBDatabaseGetResultsStatus(subject MongoDBD
 }
 
 // Generator of MongoDBDatabaseGetResults_Status instances for property testing - lazily instantiated by
-//MongoDBDatabaseGetResultsStatusGenerator()
+// MongoDBDatabaseGetResultsStatusGenerator()
 var mongoDBDatabaseGetResultsStatusGenerator gopter.Gen
 
 // MongoDBDatabaseGetResultsStatusGenerator returns a generator of MongoDBDatabaseGetResults_Status instances for property testing.
@@ -432,7 +432,7 @@ func RunPropertyAssignmentTestForCreateUpdateOptions(subject CreateUpdateOptions
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -483,7 +483,7 @@ func RunJSONSerializationTestForCreateUpdateOptions(subject CreateUpdateOptions)
 }
 
 // Generator of CreateUpdateOptions instances for property testing - lazily instantiated by
-//CreateUpdateOptionsGenerator()
+// CreateUpdateOptionsGenerator()
 var createUpdateOptionsGenerator gopter.Gen
 
 // CreateUpdateOptionsGenerator returns a generator of CreateUpdateOptions instances for property testing.
@@ -548,7 +548,7 @@ func RunPropertyAssignmentTestForMongoDBDatabaseGetPropertiesStatusResource(subj
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -599,7 +599,7 @@ func RunJSONSerializationTestForMongoDBDatabaseGetPropertiesStatusResource(subje
 }
 
 // Generator of MongoDBDatabaseGetProperties_Status_Resource instances for property testing - lazily instantiated by
-//MongoDBDatabaseGetPropertiesStatusResourceGenerator()
+// MongoDBDatabaseGetPropertiesStatusResourceGenerator()
 var mongoDBDatabaseGetPropertiesStatusResourceGenerator gopter.Gen
 
 // MongoDBDatabaseGetPropertiesStatusResourceGenerator returns a generator of MongoDBDatabaseGetProperties_Status_Resource instances for property testing.
@@ -653,7 +653,7 @@ func RunPropertyAssignmentTestForMongoDBDatabaseResource(subject MongoDBDatabase
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -704,7 +704,7 @@ func RunJSONSerializationTestForMongoDBDatabaseResource(subject MongoDBDatabaseR
 }
 
 // Generator of MongoDBDatabaseResource instances for property testing - lazily instantiated by
-//MongoDBDatabaseResourceGenerator()
+// MongoDBDatabaseResourceGenerator()
 var mongoDBDatabaseResourceGenerator gopter.Gen
 
 // MongoDBDatabaseResourceGenerator returns a generator of MongoDBDatabaseResource instances for property testing.
@@ -755,7 +755,7 @@ func RunPropertyAssignmentTestForOptionsResourceStatus(subject OptionsResource_S
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -806,7 +806,7 @@ func RunJSONSerializationTestForOptionsResourceStatus(subject OptionsResource_St
 }
 
 // Generator of OptionsResource_Status instances for property testing - lazily instantiated by
-//OptionsResourceStatusGenerator()
+// OptionsResourceStatusGenerator()
 var optionsResourceStatusGenerator gopter.Gen
 
 // OptionsResourceStatusGenerator returns a generator of OptionsResource_Status instances for property testing.
@@ -871,7 +871,7 @@ func RunPropertyAssignmentTestForAutoscaleSettings(subject AutoscaleSettings) st
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -972,7 +972,7 @@ func RunPropertyAssignmentTestForAutoscaleSettingsStatus(subject AutoscaleSettin
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -1023,7 +1023,7 @@ func RunJSONSerializationTestForAutoscaleSettingsStatus(subject AutoscaleSetting
 }
 
 // Generator of AutoscaleSettings_Status instances for property testing - lazily instantiated by
-//AutoscaleSettingsStatusGenerator()
+// AutoscaleSettingsStatusGenerator()
 var autoscaleSettingsStatusGenerator gopter.Gen
 
 // AutoscaleSettingsStatusGenerator returns a generator of AutoscaleSettings_Status instances for property testing.

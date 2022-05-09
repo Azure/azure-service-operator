@@ -20,8 +20,8 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Storage version of v1alpha1api20201201.RedisPatchSchedule
-//Deprecated version of RedisPatchSchedule. Use v1beta20201201.RedisPatchSchedule instead
+// Storage version of v1alpha1api20201201.RedisPatchSchedule
+// Deprecated version of RedisPatchSchedule. Use v1beta20201201.RedisPatchSchedule instead
 type RedisPatchSchedule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -191,16 +191,16 @@ func (schedule *RedisPatchSchedule) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Storage version of v1alpha1api20201201.RedisPatchSchedule
-//Deprecated version of RedisPatchSchedule. Use v1beta20201201.RedisPatchSchedule instead
+// Storage version of v1alpha1api20201201.RedisPatchSchedule
+// Deprecated version of RedisPatchSchedule. Use v1beta20201201.RedisPatchSchedule instead
 type RedisPatchScheduleList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []RedisPatchSchedule `json:"items"`
 }
 
-//Storage version of v1alpha1api20201201.RedisPatchSchedule_Status
-//Deprecated version of RedisPatchSchedule_Status. Use v1beta20201201.RedisPatchSchedule_Status instead
+// Storage version of v1alpha1api20201201.RedisPatchSchedule_Status
+// Deprecated version of RedisPatchSchedule_Status. Use v1beta20201201.RedisPatchSchedule_Status instead
 type RedisPatchSchedule_Status struct {
 	Conditions      []conditions.Condition `json:"conditions,omitempty"`
 	Id              *string                `json:"id,omitempty"`
@@ -352,15 +352,15 @@ func (schedule *RedisPatchSchedule_Status) AssignPropertiesToRedisPatchScheduleS
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.RedisPatchSchedules_Spec
+// Storage version of v1alpha1api20201201.RedisPatchSchedules_Spec
 type RedisPatchSchedules_Spec struct {
 	Location        *string `json:"location,omitempty"`
 	OriginalVersion string  `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a cache.azure.com/Redis resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a cache.azure.com/Redis resource
 	Owner           *genruntime.KnownResourceReference `group:"cache.azure.com" json:"owner,omitempty" kind:"Redis"`
 	PropertyBag     genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	ScheduleEntries []ScheduleEntry                    `json:"scheduleEntries,omitempty"`
@@ -519,8 +519,8 @@ func (schedules *RedisPatchSchedules_Spec) AssignPropertiesToRedisPatchSchedules
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.ScheduleEntry
-//Deprecated version of ScheduleEntry. Use v1beta20201201.ScheduleEntry instead
+// Storage version of v1alpha1api20201201.ScheduleEntry
+// Deprecated version of ScheduleEntry. Use v1beta20201201.ScheduleEntry instead
 type ScheduleEntry struct {
 	DayOfWeek         *string                `json:"dayOfWeek,omitempty"`
 	MaintenanceWindow *string                `json:"maintenanceWindow,omitempty"`
@@ -578,8 +578,8 @@ func (entry *ScheduleEntry) AssignPropertiesToScheduleEntry(destination *v202012
 	return nil
 }
 
-//Storage version of v1alpha1api20201201.ScheduleEntry_Status
-//Deprecated version of ScheduleEntry_Status. Use v1beta20201201.ScheduleEntry_Status instead
+// Storage version of v1alpha1api20201201.ScheduleEntry_Status
+// Deprecated version of ScheduleEntry_Status. Use v1beta20201201.ScheduleEntry_Status instead
 type ScheduleEntry_Status struct {
 	DayOfWeek         *string                `json:"dayOfWeek,omitempty"`
 	MaintenanceWindow *string                `json:"maintenanceWindow,omitempty"`

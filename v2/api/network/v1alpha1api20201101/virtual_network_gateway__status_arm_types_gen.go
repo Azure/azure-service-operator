@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1alpha1api20201101
 
-//Deprecated version of VirtualNetworkGateway_Status. Use v1beta20201101.VirtualNetworkGateway_Status instead
+// Deprecated version of VirtualNetworkGateway_Status. Use v1beta20201101.VirtualNetworkGateway_Status instead
 type VirtualNetworkGateway_StatusARM struct {
 	Etag             *string                                          `json:"etag,omitempty"`
 	ExtendedLocation *ExtendedLocation_StatusARM                      `json:"extendedLocation,omitempty"`
@@ -15,7 +15,7 @@ type VirtualNetworkGateway_StatusARM struct {
 	Type             *string                                          `json:"type,omitempty"`
 }
 
-//Deprecated version of VirtualNetworkGatewayPropertiesFormat_Status. Use v1beta20201101.VirtualNetworkGatewayPropertiesFormat_Status instead
+// Deprecated version of VirtualNetworkGatewayPropertiesFormat_Status. Use v1beta20201101.VirtualNetworkGatewayPropertiesFormat_Status instead
 type VirtualNetworkGatewayPropertiesFormat_StatusARM struct {
 	ActiveActive                   *bool                                                            `json:"activeActive,omitempty"`
 	BgpSettings                    *BgpSettings_StatusARM                                           `json:"bgpSettings,omitempty"`
@@ -36,12 +36,12 @@ type VirtualNetworkGatewayPropertiesFormat_StatusARM struct {
 	VpnType                        *VirtualNetworkGatewayPropertiesFormatStatusVpnType              `json:"vpnType,omitempty"`
 }
 
-//Deprecated version of AddressSpace_Status. Use v1beta20201101.AddressSpace_Status instead
+// Deprecated version of AddressSpace_Status. Use v1beta20201101.AddressSpace_Status instead
 type AddressSpace_StatusARM struct {
 	AddressPrefixes []string `json:"addressPrefixes,omitempty"`
 }
 
-//Deprecated version of BgpSettings_Status. Use v1beta20201101.BgpSettings_Status instead
+// Deprecated version of BgpSettings_Status. Use v1beta20201101.BgpSettings_Status instead
 type BgpSettings_StatusARM struct {
 	Asn                 *uint32                                      `json:"asn,omitempty"`
 	BgpPeeringAddress   *string                                      `json:"bgpPeeringAddress,omitempty"`
@@ -49,7 +49,7 @@ type BgpSettings_StatusARM struct {
 	PeerWeight          *int                                         `json:"peerWeight,omitempty"`
 }
 
-//Deprecated version of VirtualNetworkGatewayIPConfiguration_Status. Use v1beta20201101.VirtualNetworkGatewayIPConfiguration_Status instead
+// Deprecated version of VirtualNetworkGatewayIPConfiguration_Status. Use v1beta20201101.VirtualNetworkGatewayIPConfiguration_Status instead
 type VirtualNetworkGatewayIPConfiguration_StatusARM struct {
 	Etag       *string                                                         `json:"etag,omitempty"`
 	Id         *string                                                         `json:"id,omitempty"`
@@ -57,14 +57,14 @@ type VirtualNetworkGatewayIPConfiguration_StatusARM struct {
 	Properties *VirtualNetworkGatewayIPConfigurationPropertiesFormat_StatusARM `json:"properties,omitempty"`
 }
 
-//Deprecated version of VirtualNetworkGatewaySku_Status. Use v1beta20201101.VirtualNetworkGatewaySku_Status instead
+// Deprecated version of VirtualNetworkGatewaySku_Status. Use v1beta20201101.VirtualNetworkGatewaySku_Status instead
 type VirtualNetworkGatewaySku_StatusARM struct {
 	Capacity *int                                `json:"capacity,omitempty"`
 	Name     *VirtualNetworkGatewaySkuStatusName `json:"name,omitempty"`
 	Tier     *VirtualNetworkGatewaySkuStatusTier `json:"tier,omitempty"`
 }
 
-//Deprecated version of VpnClientConfiguration_Status. Use v1beta20201101.VpnClientConfiguration_Status instead
+// Deprecated version of VpnClientConfiguration_Status. Use v1beta20201101.VpnClientConfiguration_Status instead
 type VpnClientConfiguration_StatusARM struct {
 	AadAudience                  *string                                              `json:"aadAudience,omitempty"`
 	AadIssuer                    *string                                              `json:"aadIssuer,omitempty"`
@@ -80,7 +80,7 @@ type VpnClientConfiguration_StatusARM struct {
 	VpnClientRootCertificates    []VpnClientRootCertificate_StatusARM                 `json:"vpnClientRootCertificates,omitempty"`
 }
 
-//Deprecated version of IPConfigurationBgpPeeringAddress_Status. Use v1beta20201101.IPConfigurationBgpPeeringAddress_Status instead
+// Deprecated version of IPConfigurationBgpPeeringAddress_Status. Use v1beta20201101.IPConfigurationBgpPeeringAddress_Status instead
 type IPConfigurationBgpPeeringAddress_StatusARM struct {
 	CustomBgpIpAddresses  []string `json:"customBgpIpAddresses,omitempty"`
 	DefaultBgpIpAddresses []string `json:"defaultBgpIpAddresses,omitempty"`
@@ -88,7 +88,7 @@ type IPConfigurationBgpPeeringAddress_StatusARM struct {
 	TunnelIpAddresses     []string `json:"tunnelIpAddresses,omitempty"`
 }
 
-//Deprecated version of IpsecPolicy_Status. Use v1beta20201101.IpsecPolicy_Status instead
+// Deprecated version of IpsecPolicy_Status. Use v1beta20201101.IpsecPolicy_Status instead
 type IpsecPolicy_StatusARM struct {
 	DhGroup             *DhGroup_Status         `json:"dhGroup,omitempty"`
 	IkeEncryption       *IkeEncryption_Status   `json:"ikeEncryption,omitempty"`
@@ -100,14 +100,14 @@ type IpsecPolicy_StatusARM struct {
 	SaLifeTimeSeconds   *int                    `json:"saLifeTimeSeconds,omitempty"`
 }
 
-//Deprecated version of RadiusServer_Status. Use v1beta20201101.RadiusServer_Status instead
+// Deprecated version of RadiusServer_Status. Use v1beta20201101.RadiusServer_Status instead
 type RadiusServer_StatusARM struct {
 	RadiusServerAddress *string `json:"radiusServerAddress,omitempty"`
 	RadiusServerScore   *int    `json:"radiusServerScore,omitempty"`
 	RadiusServerSecret  *string `json:"radiusServerSecret,omitempty"`
 }
 
-//Deprecated version of VirtualNetworkGatewayIPConfigurationPropertiesFormat_Status. Use v1beta20201101.VirtualNetworkGatewayIPConfigurationPropertiesFormat_Status instead
+// Deprecated version of VirtualNetworkGatewayIPConfigurationPropertiesFormat_Status. Use v1beta20201101.VirtualNetworkGatewayIPConfigurationPropertiesFormat_Status instead
 type VirtualNetworkGatewayIPConfigurationPropertiesFormat_StatusARM struct {
 	PrivateIPAddress          *string                    `json:"privateIPAddress,omitempty"`
 	PrivateIPAllocationMethod *IPAllocationMethod_Status `json:"privateIPAllocationMethod,omitempty"`
@@ -116,7 +116,7 @@ type VirtualNetworkGatewayIPConfigurationPropertiesFormat_StatusARM struct {
 	Subnet                    *SubResource_StatusARM     `json:"subnet,omitempty"`
 }
 
-//Deprecated version of VpnClientRevokedCertificate_Status. Use v1beta20201101.VpnClientRevokedCertificate_Status instead
+// Deprecated version of VpnClientRevokedCertificate_Status. Use v1beta20201101.VpnClientRevokedCertificate_Status instead
 type VpnClientRevokedCertificate_StatusARM struct {
 	Etag       *string                                                `json:"etag,omitempty"`
 	Id         *string                                                `json:"id,omitempty"`
@@ -124,7 +124,7 @@ type VpnClientRevokedCertificate_StatusARM struct {
 	Properties *VpnClientRevokedCertificatePropertiesFormat_StatusARM `json:"properties,omitempty"`
 }
 
-//Deprecated version of VpnClientRootCertificate_Status. Use v1beta20201101.VpnClientRootCertificate_Status instead
+// Deprecated version of VpnClientRootCertificate_Status. Use v1beta20201101.VpnClientRootCertificate_Status instead
 type VpnClientRootCertificate_StatusARM struct {
 	Etag       *string                                             `json:"etag,omitempty"`
 	Id         *string                                             `json:"id,omitempty"`
@@ -132,13 +132,13 @@ type VpnClientRootCertificate_StatusARM struct {
 	Properties *VpnClientRootCertificatePropertiesFormat_StatusARM `json:"properties,omitempty"`
 }
 
-//Deprecated version of VpnClientRevokedCertificatePropertiesFormat_Status. Use v1beta20201101.VpnClientRevokedCertificatePropertiesFormat_Status instead
+// Deprecated version of VpnClientRevokedCertificatePropertiesFormat_Status. Use v1beta20201101.VpnClientRevokedCertificatePropertiesFormat_Status instead
 type VpnClientRevokedCertificatePropertiesFormat_StatusARM struct {
 	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
 	Thumbprint        *string                   `json:"thumbprint,omitempty"`
 }
 
-//Deprecated version of VpnClientRootCertificatePropertiesFormat_Status. Use v1beta20201101.VpnClientRootCertificatePropertiesFormat_Status instead
+// Deprecated version of VpnClientRootCertificatePropertiesFormat_Status. Use v1beta20201101.VpnClientRootCertificatePropertiesFormat_Status instead
 type VpnClientRootCertificatePropertiesFormat_StatusARM struct {
 	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
 	PublicCertData    *string                   `json:"publicCertData,omitempty"`

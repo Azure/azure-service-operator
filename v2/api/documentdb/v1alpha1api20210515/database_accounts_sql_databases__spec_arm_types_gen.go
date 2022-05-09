@@ -5,7 +5,7 @@ package v1alpha1api20210515
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-//Deprecated version of DatabaseAccountsSqlDatabases_Spec. Use v1beta20210515.DatabaseAccountsSqlDatabases_Spec instead
+// Deprecated version of DatabaseAccountsSqlDatabases_Spec. Use v1beta20210515.DatabaseAccountsSqlDatabases_Spec instead
 type DatabaseAccountsSqlDatabases_SpecARM struct {
 	Location   *string                               `json:"location,omitempty"`
 	Name       string                                `json:"name,omitempty"`
@@ -30,13 +30,13 @@ func (databases DatabaseAccountsSqlDatabases_SpecARM) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases"
 }
 
-//Deprecated version of SqlDatabaseCreateUpdateProperties. Use v1beta20210515.SqlDatabaseCreateUpdateProperties instead
+// Deprecated version of SqlDatabaseCreateUpdateProperties. Use v1beta20210515.SqlDatabaseCreateUpdateProperties instead
 type SqlDatabaseCreateUpdatePropertiesARM struct {
 	Options  *CreateUpdateOptionsARM `json:"options,omitempty"`
 	Resource *SqlDatabaseResourceARM `json:"resource,omitempty"`
 }
 
-//Deprecated version of SqlDatabaseResource. Use v1beta20210515.SqlDatabaseResource instead
+// Deprecated version of SqlDatabaseResource. Use v1beta20210515.SqlDatabaseResource instead
 type SqlDatabaseResourceARM struct {
 	Id *string `json:"id,omitempty"`
 }

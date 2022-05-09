@@ -1,4 +1,5 @@
 ---
+title: batch.azure.com/v1beta20210101
 ---
 <h2 id="batch.azure.com/v1beta20210101">batch.azure.com/v1beta20210101</h2>
 <div>
@@ -626,7 +627,7 @@ map[string]./api/batch/v1beta20210101.BatchAccountIdentity_Status_UserAssignedId
 <td>
 <p>UserAssignedIdentities: The list of user identities associated with the Batch account. The user identity dictionary key
 references will be ARM resource ids in the form:
-&lsquo;/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}&rsquo;.</p>
+&lsquo;/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.ManagedIdentity/&#x200b;userAssignedIdentities/&#x200b;{identityName}&rsquo;.</&#x200b;p>
 </td>
 </tr>
 </tbody>
@@ -694,7 +695,7 @@ map[string]./api/batch/v1beta20210101.BatchAccountIdentity_Status_UserAssignedId
 <td>
 <p>UserAssignedIdentities: The list of user identities associated with the Batch account. The user identity dictionary key
 references will be ARM resource ids in the form:
-&lsquo;/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}&rsquo;.</p>
+&lsquo;/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;Microsoft.ManagedIdentity/&#x200b;userAssignedIdentities/&#x200b;{identityName}&rsquo;.</&#x200b;p>
 </td>
 </tr>
 </tbody>

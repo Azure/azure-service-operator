@@ -56,7 +56,7 @@ func RunJSONSerializationTestForConsumerGroupStatusARM(subject ConsumerGroup_Sta
 }
 
 // Generator of ConsumerGroup_StatusARM instances for property testing - lazily instantiated by
-//ConsumerGroupStatusARMGenerator()
+// ConsumerGroupStatusARMGenerator()
 var consumerGroupStatusARMGenerator gopter.Gen
 
 // ConsumerGroupStatusARMGenerator returns a generator of ConsumerGroup_StatusARM instances for property testing.
@@ -134,7 +134,7 @@ func RunJSONSerializationTestForConsumerGroupStatusPropertiesARM(subject Consume
 }
 
 // Generator of ConsumerGroup_Status_PropertiesARM instances for property testing - lazily instantiated by
-//ConsumerGroupStatusPropertiesARMGenerator()
+// ConsumerGroupStatusPropertiesARMGenerator()
 var consumerGroupStatusPropertiesARMGenerator gopter.Gen
 
 // ConsumerGroupStatusPropertiesARMGenerator returns a generator of ConsumerGroup_Status_PropertiesARM instances for property testing.

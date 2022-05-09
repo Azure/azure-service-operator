@@ -25,17 +25,17 @@ type PersonList struct {
 }
 
 type Person_Spec struct {
-	//FamilyName: Shared name of the family
+	// FamilyName: Shared name of the family
 	FamilyName string `json:"familyName,omitempty"`
 
-	//FullName: As would be used to address mail
+	// FullName: As would be used to address mail
 	FullName string `json:"fullName,omitempty"`
 
-	//KnownAs: How the person is generally known
+	// KnownAs: How the person is generally known
 	KnownAs string `json:"knownAs,omitempty"`
 
-	//OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
-	//passed directly to Azure
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
 	OperatorSpec *PersonOperatorSpec `json:"operatorSpec,omitempty"`
 }
 
@@ -43,14 +43,14 @@ type Person_Status struct {
 	Status string `json:"status,omitempty"`
 }
 
-//Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type PersonOperatorSpec struct {
-	//Secrets: configures where to place Azure generated secrets.
+	// Secrets: configures where to place Azure generated secrets.
 	Secrets *PersonOperatorSecrets `json:"secrets,omitempty"`
 }
 
 type PersonOperatorSecrets struct {
-	//Key1: indicates where the key1 secret should be placed. If omitted, the secret will not be retrieved from Azure.
+	// Key1: indicates where the key1 secret should be placed. If omitted, the secret will not be retrieved from Azure.
 	Key1 *genruntime.SecretDestination `json:"key1,omitempty"`
 }
 

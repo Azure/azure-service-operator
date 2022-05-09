@@ -1,5 +1,6 @@
-# Understanding Conditions
-
+---
+title: Understanding Conditions
+---
 Each resource reports a `Ready` condition in `.status.conditions`. It is also visible when you examine
 the resource with `kubectl get`, for example:
 

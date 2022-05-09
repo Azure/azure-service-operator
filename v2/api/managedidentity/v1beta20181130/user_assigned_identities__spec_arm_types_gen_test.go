@@ -56,7 +56,7 @@ func RunJSONSerializationTestForUserAssignedIdentitiesSpecARM(subject UserAssign
 }
 
 // Generator of UserAssignedIdentities_SpecARM instances for property testing - lazily instantiated by
-//UserAssignedIdentitiesSpecARMGenerator()
+// UserAssignedIdentitiesSpecARMGenerator()
 var userAssignedIdentitiesSpecARMGenerator gopter.Gen
 
 // UserAssignedIdentitiesSpecARMGenerator returns a generator of UserAssignedIdentities_SpecARM instances for property testing.

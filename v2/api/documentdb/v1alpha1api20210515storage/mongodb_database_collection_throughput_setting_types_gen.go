@@ -20,8 +20,8 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Storage version of v1alpha1api20210515.MongodbDatabaseCollectionThroughputSetting
-//Deprecated version of MongodbDatabaseCollectionThroughputSetting. Use v1beta20210515.MongodbDatabaseCollectionThroughputSetting instead
+// Storage version of v1alpha1api20210515.MongodbDatabaseCollectionThroughputSetting
+// Deprecated version of MongodbDatabaseCollectionThroughputSetting. Use v1beta20210515.MongodbDatabaseCollectionThroughputSetting instead
 type MongodbDatabaseCollectionThroughputSetting struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -191,23 +191,23 @@ func (setting *MongodbDatabaseCollectionThroughputSetting) OriginalGVK() *schema
 }
 
 // +kubebuilder:object:root=true
-//Storage version of v1alpha1api20210515.MongodbDatabaseCollectionThroughputSetting
-//Deprecated version of MongodbDatabaseCollectionThroughputSetting. Use v1beta20210515.MongodbDatabaseCollectionThroughputSetting instead
+// Storage version of v1alpha1api20210515.MongodbDatabaseCollectionThroughputSetting
+// Deprecated version of MongodbDatabaseCollectionThroughputSetting. Use v1beta20210515.MongodbDatabaseCollectionThroughputSetting instead
 type MongodbDatabaseCollectionThroughputSettingList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []MongodbDatabaseCollectionThroughputSetting `json:"items"`
 }
 
-//Storage version of v1alpha1api20210515.DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec
+// Storage version of v1alpha1api20210515.DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec
 type DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec struct {
 	Location        *string `json:"location,omitempty"`
 	OriginalVersion string  `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a documentdb.azure.com/MongodbDatabaseCollection resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a documentdb.azure.com/MongodbDatabaseCollection resource
 	Owner       *genruntime.KnownResourceReference `group:"documentdb.azure.com" json:"owner,omitempty" kind:"MongodbDatabaseCollection"`
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	Resource    *ThroughputSettingsResource        `json:"resource,omitempty"`
@@ -354,8 +354,8 @@ func (settings *DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Sp
 	return nil
 }
 
-//Storage version of v1alpha1api20210515.ThroughputSettingsGetResults_Status
-//Deprecated version of ThroughputSettingsGetResults_Status. Use v1beta20210515.ThroughputSettingsGetResults_Status instead
+// Storage version of v1alpha1api20210515.ThroughputSettingsGetResults_Status
+// Deprecated version of ThroughputSettingsGetResults_Status. Use v1beta20210515.ThroughputSettingsGetResults_Status instead
 type ThroughputSettingsGetResults_Status struct {
 	Conditions  []conditions.Condition                           `json:"conditions,omitempty"`
 	Id          *string                                          `json:"id,omitempty"`
@@ -509,8 +509,8 @@ func (results *ThroughputSettingsGetResults_Status) AssignPropertiesToThroughput
 	return nil
 }
 
-//Storage version of v1alpha1api20210515.ThroughputSettingsGetProperties_Status_Resource
-//Deprecated version of ThroughputSettingsGetProperties_Status_Resource. Use v1beta20210515.ThroughputSettingsGetProperties_Status_Resource instead
+// Storage version of v1alpha1api20210515.ThroughputSettingsGetProperties_Status_Resource
+// Deprecated version of ThroughputSettingsGetProperties_Status_Resource. Use v1beta20210515.ThroughputSettingsGetProperties_Status_Resource instead
 type ThroughputSettingsGetProperties_Status_Resource struct {
 	AutoscaleSettings   *AutoscaleSettingsResource_Status `json:"autoscaleSettings,omitempty"`
 	Etag                *string                           `json:"_etag,omitempty"`
@@ -624,8 +624,8 @@ func (resource *ThroughputSettingsGetProperties_Status_Resource) AssignPropertie
 	return nil
 }
 
-//Storage version of v1alpha1api20210515.ThroughputSettingsResource
-//Deprecated version of ThroughputSettingsResource. Use v1beta20210515.ThroughputSettingsResource instead
+// Storage version of v1alpha1api20210515.ThroughputSettingsResource
+// Deprecated version of ThroughputSettingsResource. Use v1beta20210515.ThroughputSettingsResource instead
 type ThroughputSettingsResource struct {
 	AutoscaleSettings *AutoscaleSettingsResource `json:"autoscaleSettings,omitempty"`
 	PropertyBag       genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
@@ -694,8 +694,8 @@ func (resource *ThroughputSettingsResource) AssignPropertiesToThroughputSettings
 	return nil
 }
 
-//Storage version of v1alpha1api20210515.AutoscaleSettingsResource
-//Deprecated version of AutoscaleSettingsResource. Use v1beta20210515.AutoscaleSettingsResource instead
+// Storage version of v1alpha1api20210515.AutoscaleSettingsResource
+// Deprecated version of AutoscaleSettingsResource. Use v1beta20210515.AutoscaleSettingsResource instead
 type AutoscaleSettingsResource struct {
 	AutoUpgradePolicy *AutoUpgradePolicyResource `json:"autoUpgradePolicy,omitempty"`
 	MaxThroughput     *int                       `json:"maxThroughput,omitempty"`
@@ -764,8 +764,8 @@ func (resource *AutoscaleSettingsResource) AssignPropertiesToAutoscaleSettingsRe
 	return nil
 }
 
-//Storage version of v1alpha1api20210515.AutoscaleSettingsResource_Status
-//Deprecated version of AutoscaleSettingsResource_Status. Use v1beta20210515.AutoscaleSettingsResource_Status instead
+// Storage version of v1alpha1api20210515.AutoscaleSettingsResource_Status
+// Deprecated version of AutoscaleSettingsResource_Status. Use v1beta20210515.AutoscaleSettingsResource_Status instead
 type AutoscaleSettingsResource_Status struct {
 	AutoUpgradePolicy   *AutoUpgradePolicyResource_Status `json:"autoUpgradePolicy,omitempty"`
 	MaxThroughput       *int                              `json:"maxThroughput,omitempty"`
@@ -841,8 +841,8 @@ func (resource *AutoscaleSettingsResource_Status) AssignPropertiesToAutoscaleSet
 	return nil
 }
 
-//Storage version of v1alpha1api20210515.AutoUpgradePolicyResource
-//Deprecated version of AutoUpgradePolicyResource. Use v1beta20210515.AutoUpgradePolicyResource instead
+// Storage version of v1alpha1api20210515.AutoUpgradePolicyResource
+// Deprecated version of AutoUpgradePolicyResource. Use v1beta20210515.AutoUpgradePolicyResource instead
 type AutoUpgradePolicyResource struct {
 	PropertyBag      genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
 	ThroughputPolicy *ThroughputPolicyResource `json:"throughputPolicy,omitempty"`
@@ -904,8 +904,8 @@ func (resource *AutoUpgradePolicyResource) AssignPropertiesToAutoUpgradePolicyRe
 	return nil
 }
 
-//Storage version of v1alpha1api20210515.AutoUpgradePolicyResource_Status
-//Deprecated version of AutoUpgradePolicyResource_Status. Use v1beta20210515.AutoUpgradePolicyResource_Status instead
+// Storage version of v1alpha1api20210515.AutoUpgradePolicyResource_Status
+// Deprecated version of AutoUpgradePolicyResource_Status. Use v1beta20210515.AutoUpgradePolicyResource_Status instead
 type AutoUpgradePolicyResource_Status struct {
 	PropertyBag      genruntime.PropertyBag           `json:"$propertyBag,omitempty"`
 	ThroughputPolicy *ThroughputPolicyResource_Status `json:"throughputPolicy,omitempty"`
@@ -967,8 +967,8 @@ func (resource *AutoUpgradePolicyResource_Status) AssignPropertiesToAutoUpgradeP
 	return nil
 }
 
-//Storage version of v1alpha1api20210515.ThroughputPolicyResource
-//Deprecated version of ThroughputPolicyResource. Use v1beta20210515.ThroughputPolicyResource instead
+// Storage version of v1alpha1api20210515.ThroughputPolicyResource
+// Deprecated version of ThroughputPolicyResource. Use v1beta20210515.ThroughputPolicyResource instead
 type ThroughputPolicyResource struct {
 	IncrementPercent *int                   `json:"incrementPercent,omitempty"`
 	IsEnabled        *bool                  `json:"isEnabled,omitempty"`
@@ -1029,8 +1029,8 @@ func (resource *ThroughputPolicyResource) AssignPropertiesToThroughputPolicyReso
 	return nil
 }
 
-//Storage version of v1alpha1api20210515.ThroughputPolicyResource_Status
-//Deprecated version of ThroughputPolicyResource_Status. Use v1beta20210515.ThroughputPolicyResource_Status instead
+// Storage version of v1alpha1api20210515.ThroughputPolicyResource_Status
+// Deprecated version of ThroughputPolicyResource_Status. Use v1beta20210515.ThroughputPolicyResource_Status instead
 type ThroughputPolicyResource_Status struct {
 	IncrementPercent *int                   `json:"incrementPercent,omitempty"`
 	IsEnabled        *bool                  `json:"isEnabled,omitempty"`

@@ -5,7 +5,7 @@ package v1alpha1api20201201
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-//Deprecated version of RedisFirewallRules_Spec. Use v1beta20201201.RedisFirewallRules_Spec instead
+// Deprecated version of RedisFirewallRules_Spec. Use v1beta20201201.RedisFirewallRules_Spec instead
 type RedisFirewallRules_SpecARM struct {
 	Location   *string                         `json:"location,omitempty"`
 	Name       string                          `json:"name,omitempty"`
@@ -30,7 +30,7 @@ func (rules RedisFirewallRules_SpecARM) GetType() string {
 	return "Microsoft.Cache/redis/firewallRules"
 }
 
-//Deprecated version of RedisFirewallRuleProperties. Use v1beta20201201.RedisFirewallRuleProperties instead
+// Deprecated version of RedisFirewallRuleProperties. Use v1beta20201201.RedisFirewallRuleProperties instead
 type RedisFirewallRulePropertiesARM struct {
 	EndIP   *string `json:"endIP,omitempty"`
 	StartIP *string `json:"startIP,omitempty"`

@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1alpha1api20210701
 
-//Deprecated version of Image_Status. Use v1beta20210701.Image_Status instead
+// Deprecated version of Image_Status. Use v1beta20210701.Image_Status instead
 type Image_StatusARM struct {
 	ExtendedLocation *ExtendedLocation_StatusARM `json:"extendedLocation,omitempty"`
 	Id               *string                     `json:"id,omitempty"`
@@ -14,13 +14,13 @@ type Image_StatusARM struct {
 	Type             *string                     `json:"type,omitempty"`
 }
 
-//Deprecated version of ExtendedLocation_Status. Use v1beta20210701.ExtendedLocation_Status instead
+// Deprecated version of ExtendedLocation_Status. Use v1beta20210701.ExtendedLocation_Status instead
 type ExtendedLocation_StatusARM struct {
 	Name *string                      `json:"name,omitempty"`
 	Type *ExtendedLocationType_Status `json:"type,omitempty"`
 }
 
-//Deprecated version of ImageProperties_Status. Use v1beta20210701.ImageProperties_Status instead
+// Deprecated version of ImageProperties_Status. Use v1beta20210701.ImageProperties_Status instead
 type ImageProperties_StatusARM struct {
 	HyperVGeneration     *HyperVGenerationType_Status   `json:"hyperVGeneration,omitempty"`
 	ProvisioningState    *string                        `json:"provisioningState,omitempty"`
@@ -28,24 +28,24 @@ type ImageProperties_StatusARM struct {
 	StorageProfile       *ImageStorageProfile_StatusARM `json:"storageProfile,omitempty"`
 }
 
-//Deprecated version of ExtendedLocationType_Status. Use v1beta20210701.ExtendedLocationType_Status instead
+// Deprecated version of ExtendedLocationType_Status. Use v1beta20210701.ExtendedLocationType_Status instead
 type ExtendedLocationType_Status string
 
 const ExtendedLocationType_StatusEdgeZone = ExtendedLocationType_Status("EdgeZone")
 
-//Deprecated version of ImageStorageProfile_Status. Use v1beta20210701.ImageStorageProfile_Status instead
+// Deprecated version of ImageStorageProfile_Status. Use v1beta20210701.ImageStorageProfile_Status instead
 type ImageStorageProfile_StatusARM struct {
 	DataDisks     []ImageDataDisk_StatusARM `json:"dataDisks,omitempty"`
 	OsDisk        *ImageOSDisk_StatusARM    `json:"osDisk,omitempty"`
 	ZoneResilient *bool                     `json:"zoneResilient,omitempty"`
 }
 
-//Deprecated version of SubResource_Status. Use v1beta20210701.SubResource_Status instead
+// Deprecated version of SubResource_Status. Use v1beta20210701.SubResource_Status instead
 type SubResource_StatusARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
-//Deprecated version of ImageDataDisk_Status. Use v1beta20210701.ImageDataDisk_Status instead
+// Deprecated version of ImageDataDisk_Status. Use v1beta20210701.ImageDataDisk_Status instead
 type ImageDataDisk_StatusARM struct {
 	BlobUri            *string                     `json:"blobUri,omitempty"`
 	Caching            *ImageDataDiskStatusCaching `json:"caching,omitempty"`
@@ -57,7 +57,7 @@ type ImageDataDisk_StatusARM struct {
 	StorageAccountType *StorageAccountType_Status  `json:"storageAccountType,omitempty"`
 }
 
-//Deprecated version of ImageOSDisk_Status. Use v1beta20210701.ImageOSDisk_Status instead
+// Deprecated version of ImageOSDisk_Status. Use v1beta20210701.ImageOSDisk_Status instead
 type ImageOSDisk_StatusARM struct {
 	BlobUri            *string                    `json:"blobUri,omitempty"`
 	Caching            *ImageOSDiskStatusCaching  `json:"caching,omitempty"`

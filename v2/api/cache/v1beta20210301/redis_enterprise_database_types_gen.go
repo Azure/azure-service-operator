@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Generated from: https://schema.management.azure.com/schemas/2021-03-01/Microsoft.Cache.Enterprise.json#/resourceDefinitions/redisEnterprise_databases
+// Generated from: https://schema.management.azure.com/schemas/2021-03-01/Microsoft.Cache.Enterprise.json#/resourceDefinitions/redisEnterprise_databases
 type RedisEnterpriseDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -300,7 +300,7 @@ func (database *RedisEnterpriseDatabase) OriginalGVK() *schema.GroupVersionKind 
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://schema.management.azure.com/schemas/2021-03-01/Microsoft.Cache.Enterprise.json#/resourceDefinitions/redisEnterprise_databases
+// Generated from: https://schema.management.azure.com/schemas/2021-03-01/Microsoft.Cache.Enterprise.json#/resourceDefinitions/redisEnterprise_databases
 type RedisEnterpriseDatabaseList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -308,42 +308,42 @@ type RedisEnterpriseDatabaseList struct {
 }
 
 type Database_Status struct {
-	//ClientProtocol: Specifies whether redis clients can connect using TLS-encrypted or plaintext redis protocols. Default is
-	//TLS-encrypted.
+	// ClientProtocol: Specifies whether redis clients can connect using TLS-encrypted or plaintext redis protocols. Default is
+	// TLS-encrypted.
 	ClientProtocol *DatabasePropertiesStatusClientProtocol `json:"clientProtocol,omitempty"`
 
-	//ClusteringPolicy: Clustering policy - default is OSSCluster. Specified at create time.
+	// ClusteringPolicy: Clustering policy - default is OSSCluster. Specified at create time.
 	ClusteringPolicy *DatabasePropertiesStatusClusteringPolicy `json:"clusteringPolicy,omitempty"`
 
-	//Conditions: The observed state of the resource
+	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
-	//EvictionPolicy: Redis eviction policy - default is VolatileLRU
+	// EvictionPolicy: Redis eviction policy - default is VolatileLRU
 	EvictionPolicy *DatabasePropertiesStatusEvictionPolicy `json:"evictionPolicy,omitempty"`
 
-	//Id: Fully qualified resource ID for the resource. Ex -
-	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+	// Id: Fully qualified resource ID for the resource. Ex -
+	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
 
-	//Modules: Optional set of redis modules to enable in this database - modules can only be added at creation time.
+	// Modules: Optional set of redis modules to enable in this database - modules can only be added at creation time.
 	Modules []Module_Status `json:"modules,omitempty"`
 
-	//Name: The name of the resource
+	// Name: The name of the resource
 	Name *string `json:"name,omitempty"`
 
-	//Persistence: Persistence settings
+	// Persistence: Persistence settings
 	Persistence *Persistence_Status `json:"persistence,omitempty"`
 
-	//Port: TCP port of the database endpoint. Specified at create time. Defaults to an available port.
+	// Port: TCP port of the database endpoint. Specified at create time. Defaults to an available port.
 	Port *int `json:"port,omitempty"`
 
-	//ProvisioningState: Current provisioning status of the database
+	// ProvisioningState: Current provisioning status of the database
 	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
 
-	//ResourceState: Current resource status of the database
+	// ResourceState: Current resource status of the database
 	ResourceState *ResourceState_Status `json:"resourceState,omitempty"`
 
-	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 }
 
@@ -715,39 +715,39 @@ type RedisEnterpriseDatabasesSpecAPIVersion string
 const RedisEnterpriseDatabasesSpecAPIVersion20210301 = RedisEnterpriseDatabasesSpecAPIVersion("2021-03-01")
 
 type RedisEnterpriseDatabases_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
-	//ClientProtocol: Specifies whether redis clients can connect using TLS-encrypted or plaintext redis protocols. Default is
-	//TLS-encrypted.
+	// ClientProtocol: Specifies whether redis clients can connect using TLS-encrypted or plaintext redis protocols. Default is
+	// TLS-encrypted.
 	ClientProtocol *DatabasePropertiesClientProtocol `json:"clientProtocol,omitempty"`
 
-	//ClusteringPolicy: Clustering policy - default is OSSCluster. Specified at create time.
+	// ClusteringPolicy: Clustering policy - default is OSSCluster. Specified at create time.
 	ClusteringPolicy *DatabasePropertiesClusteringPolicy `json:"clusteringPolicy,omitempty"`
 
-	//EvictionPolicy: Redis eviction policy - default is VolatileLRU.
+	// EvictionPolicy: Redis eviction policy - default is VolatileLRU.
 	EvictionPolicy *DatabasePropertiesEvictionPolicy `json:"evictionPolicy,omitempty"`
 
-	//Location: Location to deploy resource to
+	// Location: Location to deploy resource to
 	Location *string `json:"location,omitempty"`
 
-	//Modules: Optional set of redis modules to enable in this database - modules can only be added at creation time.
+	// Modules: Optional set of redis modules to enable in this database - modules can only be added at creation time.
 	Modules []Module `json:"modules,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a cache.azure.com/RedisEnterprise resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a cache.azure.com/RedisEnterprise resource
 	Owner *genruntime.KnownResourceReference `group:"cache.azure.com" json:"owner,omitempty" kind:"RedisEnterprise"`
 
-	//Persistence: Persistence-related configuration for the RedisEnterprise database
+	// Persistence: Persistence-related configuration for the RedisEnterprise database
 	Persistence *Persistence `json:"persistence,omitempty"`
 
-	//Port: TCP port of the database endpoint. Specified at create time. Defaults to an available port.
+	// Port: TCP port of the database endpoint. Specified at create time. Defaults to an available port.
 	Port *int `json:"port,omitempty"`
 
-	//Tags: Name-value pairs to add to the resource
+	// Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
@@ -1185,13 +1185,13 @@ const (
 	DatabasePropertiesEvictionPolicyVolatileTTL    = DatabasePropertiesEvictionPolicy("VolatileTTL")
 )
 
-//Generated from: https://schema.management.azure.com/schemas/2021-03-01/Microsoft.Cache.Enterprise.json#/definitions/Module
+// Generated from: https://schema.management.azure.com/schemas/2021-03-01/Microsoft.Cache.Enterprise.json#/definitions/Module
 type Module struct {
-	//Args: Configuration options for the module, e.g. 'ERROR_RATE 0.00 INITIAL_SIZE 400'.
+	// Args: Configuration options for the module, e.g. 'ERROR_RATE 0.00 INITIAL_SIZE 400'.
 	Args *string `json:"args,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Name: The name of the module, e.g. 'RedisBloom', 'RediSearch', 'RedisTimeSeries'
+	// Name: The name of the module, e.g. 'RedisBloom', 'RediSearch', 'RedisTimeSeries'
 	Name *string `json:"name,omitempty"`
 }
 
@@ -1282,13 +1282,13 @@ func (module *Module) AssignPropertiesToModule(destination *v20210301s.Module) e
 }
 
 type Module_Status struct {
-	//Args: Configuration options for the module, e.g. 'ERROR_RATE 0.00 INITIAL_SIZE 400'.
+	// Args: Configuration options for the module, e.g. 'ERROR_RATE 0.00 INITIAL_SIZE 400'.
 	Args *string `json:"args,omitempty"`
 
-	//Name: The name of the module, e.g. 'RedisBloom', 'RediSearch', 'RedisTimeSeries'
+	// Name: The name of the module, e.g. 'RedisBloom', 'RediSearch', 'RedisTimeSeries'
 	Name *string `json:"name,omitempty"`
 
-	//Version: The version of the module, e.g. '1.0'.
+	// Version: The version of the module, e.g. '1.0'.
 	Version *string `json:"version,omitempty"`
 }
 
@@ -1369,18 +1369,18 @@ func (module *Module_Status) AssignPropertiesToModuleStatus(destination *v202103
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-03-01/Microsoft.Cache.Enterprise.json#/definitions/Persistence
+// Generated from: https://schema.management.azure.com/schemas/2021-03-01/Microsoft.Cache.Enterprise.json#/definitions/Persistence
 type Persistence struct {
-	//AofEnabled: Sets whether AOF is enabled.
+	// AofEnabled: Sets whether AOF is enabled.
 	AofEnabled *bool `json:"aofEnabled,omitempty"`
 
-	//AofFrequency: Sets the frequency at which data is written to disk.
+	// AofFrequency: Sets the frequency at which data is written to disk.
 	AofFrequency *PersistenceAofFrequency `json:"aofFrequency,omitempty"`
 
-	//RdbEnabled: Sets whether RDB is enabled.
+	// RdbEnabled: Sets whether RDB is enabled.
 	RdbEnabled *bool `json:"rdbEnabled,omitempty"`
 
-	//RdbFrequency: Sets the frequency at which a snapshot of the database is created.
+	// RdbFrequency: Sets the frequency at which a snapshot of the database is created.
 	RdbFrequency *PersistenceRdbFrequency `json:"rdbFrequency,omitempty"`
 }
 
@@ -1547,16 +1547,16 @@ func (persistence *Persistence) AssignPropertiesToPersistence(destination *v2021
 }
 
 type Persistence_Status struct {
-	//AofEnabled: Sets whether AOF is enabled.
+	// AofEnabled: Sets whether AOF is enabled.
 	AofEnabled *bool `json:"aofEnabled,omitempty"`
 
-	//AofFrequency: Sets the frequency at which data is written to disk.
+	// AofFrequency: Sets the frequency at which data is written to disk.
 	AofFrequency *PersistenceStatusAofFrequency `json:"aofFrequency,omitempty"`
 
-	//RdbEnabled: Sets whether RDB is enabled.
+	// RdbEnabled: Sets whether RDB is enabled.
 	RdbEnabled *bool `json:"rdbEnabled,omitempty"`
 
-	//RdbFrequency: Sets the frequency at which a snapshot of the database is created.
+	// RdbFrequency: Sets the frequency at which a snapshot of the database is created.
 	RdbFrequency *PersistenceStatusRdbFrequency `json:"rdbFrequency,omitempty"`
 }
 

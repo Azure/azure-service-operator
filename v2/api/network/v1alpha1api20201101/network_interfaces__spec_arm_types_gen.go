@@ -5,7 +5,7 @@ package v1alpha1api20201101
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-//Deprecated version of NetworkInterfaces_Spec. Use v1beta20201101.NetworkInterfaces_Spec instead
+// Deprecated version of NetworkInterfaces_Spec. Use v1beta20201101.NetworkInterfaces_Spec instead
 type NetworkInterfaces_SpecARM struct {
 	ExtendedLocation *ExtendedLocationARM                  `json:"extendedLocation,omitempty"`
 	Location         *string                               `json:"location,omitempty"`
@@ -31,7 +31,7 @@ func (interfaces NetworkInterfaces_SpecARM) GetType() string {
 	return "Microsoft.Network/networkInterfaces"
 }
 
-//Deprecated version of NetworkInterfaces_Spec_Properties. Use v1beta20201101.NetworkInterfaces_Spec_Properties instead
+// Deprecated version of NetworkInterfaces_Spec_Properties. Use v1beta20201101.NetworkInterfaces_Spec_Properties instead
 type NetworkInterfaces_Spec_PropertiesARM struct {
 	DnsSettings                 *NetworkInterfaceDnsSettingsARM                         `json:"dnsSettings,omitempty"`
 	EnableAcceleratedNetworking *bool                                                   `json:"enableAcceleratedNetworking,omitempty"`
@@ -40,24 +40,24 @@ type NetworkInterfaces_Spec_PropertiesARM struct {
 	NetworkSecurityGroup        *SubResourceARM                                         `json:"networkSecurityGroup,omitempty"`
 }
 
-//Deprecated version of NetworkInterfaceDnsSettings. Use v1beta20201101.NetworkInterfaceDnsSettings instead
+// Deprecated version of NetworkInterfaceDnsSettings. Use v1beta20201101.NetworkInterfaceDnsSettings instead
 type NetworkInterfaceDnsSettingsARM struct {
 	DnsServers           []string `json:"dnsServers,omitempty"`
 	InternalDnsNameLabel *string  `json:"internalDnsNameLabel,omitempty"`
 }
 
-//Deprecated version of NetworkInterfaces_Spec_Properties_IpConfigurations. Use v1beta20201101.NetworkInterfaces_Spec_Properties_IpConfigurations instead
+// Deprecated version of NetworkInterfaces_Spec_Properties_IpConfigurations. Use v1beta20201101.NetworkInterfaces_Spec_Properties_IpConfigurations instead
 type NetworkInterfaces_Spec_Properties_IpConfigurationsARM struct {
 	Name       *string                                             `json:"name,omitempty"`
 	Properties *NetworkInterfaceIPConfigurationPropertiesFormatARM `json:"properties,omitempty"`
 }
 
-//Deprecated version of SubResource. Use v1beta20201101.SubResource instead
+// Deprecated version of SubResource. Use v1beta20201101.SubResource instead
 type SubResourceARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
-//Deprecated version of NetworkInterfaceIPConfigurationPropertiesFormat. Use v1beta20201101.NetworkInterfaceIPConfigurationPropertiesFormat instead
+// Deprecated version of NetworkInterfaceIPConfigurationPropertiesFormat. Use v1beta20201101.NetworkInterfaceIPConfigurationPropertiesFormat instead
 type NetworkInterfaceIPConfigurationPropertiesFormatARM struct {
 	ApplicationGatewayBackendAddressPools []SubResourceARM                                                          `json:"applicationGatewayBackendAddressPools,omitempty"`
 	ApplicationSecurityGroups             []SubResourceARM                                                          `json:"applicationSecurityGroups,omitempty"`

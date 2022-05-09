@@ -71,10 +71,14 @@ tasks:
   build-docs-site:
     dir: docs/hugo
     cmds:
+    - npm install -g postcss postcss-cli autoprefixer
     - hugo 
     # - htmltest 
     # disabled pending: https://github.com/wjdp/htmltest/issues/45
     # , or us moving to a no-directory URL
+    env:
+      NODE_PATH:
+        sh: npm root -g
 
   ############### Generator targets ###############
   basic-checks:
@@ -692,6 +696,12 @@ tasks:
     desc: Ensure all files have an appropriate license header.
     cmds:
       - "{{.SCRIPTS_ROOT}}/check_headers.py"
+
+  frontmatter-check:
+    desc: Ensure all Markdown documentation has frontmatter.
+    dir: docs/hugo/content
+    cmds:
+      - "../../../{{.SCRIPTS_ROOT}}/check_frontmatter.py"
 
   specifier-check:
     desc: Check that format specifiers %v and %+v are not used

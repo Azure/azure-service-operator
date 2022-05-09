@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1alpha1api20210515
 
-//Deprecated version of MongoDBCollectionGetResults_Status. Use v1beta20210515.MongoDBCollectionGetResults_Status instead
+// Deprecated version of MongoDBCollectionGetResults_Status. Use v1beta20210515.MongoDBCollectionGetResults_Status instead
 type MongoDBCollectionGetResults_StatusARM struct {
 	Id         *string                                   `json:"id,omitempty"`
 	Location   *string                                   `json:"location,omitempty"`
@@ -13,13 +13,13 @@ type MongoDBCollectionGetResults_StatusARM struct {
 	Type       *string                                   `json:"type,omitempty"`
 }
 
-//Deprecated version of MongoDBCollectionGetProperties_Status. Use v1beta20210515.MongoDBCollectionGetProperties_Status instead
+// Deprecated version of MongoDBCollectionGetProperties_Status. Use v1beta20210515.MongoDBCollectionGetProperties_Status instead
 type MongoDBCollectionGetProperties_StatusARM struct {
 	Options  *OptionsResource_StatusARM                         `json:"options,omitempty"`
 	Resource *MongoDBCollectionGetProperties_Status_ResourceARM `json:"resource,omitempty"`
 }
 
-//Deprecated version of MongoDBCollectionGetProperties_Status_Resource. Use v1beta20210515.MongoDBCollectionGetProperties_Status_Resource instead
+// Deprecated version of MongoDBCollectionGetProperties_Status_Resource. Use v1beta20210515.MongoDBCollectionGetProperties_Status_Resource instead
 type MongoDBCollectionGetProperties_Status_ResourceARM struct {
 	AnalyticalStorageTtl *int                   `json:"analyticalStorageTtl,omitempty"`
 	Etag                 *string                `json:"_etag,omitempty"`
@@ -30,29 +30,29 @@ type MongoDBCollectionGetProperties_Status_ResourceARM struct {
 	Ts                   *float64               `json:"_ts,omitempty"`
 }
 
-//Deprecated version of OptionsResource_Status. Use v1beta20210515.OptionsResource_Status instead
+// Deprecated version of OptionsResource_Status. Use v1beta20210515.OptionsResource_Status instead
 type OptionsResource_StatusARM struct {
 	AutoscaleSettings *AutoscaleSettings_StatusARM `json:"autoscaleSettings,omitempty"`
 	Throughput        *int                         `json:"throughput,omitempty"`
 }
 
-//Deprecated version of AutoscaleSettings_Status. Use v1beta20210515.AutoscaleSettings_Status instead
+// Deprecated version of AutoscaleSettings_Status. Use v1beta20210515.AutoscaleSettings_Status instead
 type AutoscaleSettings_StatusARM struct {
 	MaxThroughput *int `json:"maxThroughput,omitempty"`
 }
 
-//Deprecated version of MongoIndex_Status. Use v1beta20210515.MongoIndex_Status instead
+// Deprecated version of MongoIndex_Status. Use v1beta20210515.MongoIndex_Status instead
 type MongoIndex_StatusARM struct {
 	Key     *MongoIndexKeys_StatusARM    `json:"key,omitempty"`
 	Options *MongoIndexOptions_StatusARM `json:"options,omitempty"`
 }
 
-//Deprecated version of MongoIndexKeys_Status. Use v1beta20210515.MongoIndexKeys_Status instead
+// Deprecated version of MongoIndexKeys_Status. Use v1beta20210515.MongoIndexKeys_Status instead
 type MongoIndexKeys_StatusARM struct {
 	Keys []string `json:"keys,omitempty"`
 }
 
-//Deprecated version of MongoIndexOptions_Status. Use v1beta20210515.MongoIndexOptions_Status instead
+// Deprecated version of MongoIndexOptions_Status. Use v1beta20210515.MongoIndexOptions_Status instead
 type MongoIndexOptions_StatusARM struct {
 	ExpireAfterSeconds *int  `json:"expireAfterSeconds,omitempty"`
 	Unique             *bool `json:"unique,omitempty"`

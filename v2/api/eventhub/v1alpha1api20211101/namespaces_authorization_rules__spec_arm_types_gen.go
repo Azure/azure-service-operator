@@ -5,7 +5,7 @@ package v1alpha1api20211101
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-//Deprecated version of NamespacesAuthorizationRules_Spec. Use v1beta20211101.NamespacesAuthorizationRules_Spec instead
+// Deprecated version of NamespacesAuthorizationRules_Spec. Use v1beta20211101.NamespacesAuthorizationRules_Spec instead
 type NamespacesAuthorizationRules_SpecARM struct {
 	Location   *string                         `json:"location,omitempty"`
 	Name       string                          `json:"name,omitempty"`
@@ -30,7 +30,7 @@ func (rules NamespacesAuthorizationRules_SpecARM) GetType() string {
 	return "Microsoft.EventHub/namespaces/authorizationRules"
 }
 
-//Deprecated version of AuthorizationRuleProperties. Use v1beta20211101.AuthorizationRuleProperties instead
+// Deprecated version of AuthorizationRuleProperties. Use v1beta20211101.AuthorizationRuleProperties instead
 type AuthorizationRulePropertiesARM struct {
 	Rights []AuthorizationRulePropertiesRights `json:"rights,omitempty"`
 }

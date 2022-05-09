@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Deprecated version of StorageAccountsBlobService. Use v1beta20210401.StorageAccountsBlobService instead
+// Deprecated version of StorageAccountsBlobService. Use v1beta20210401.StorageAccountsBlobService instead
 type StorageAccountsBlobService struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -307,19 +307,19 @@ func (service *StorageAccountsBlobService) OriginalGVK() *schema.GroupVersionKin
 }
 
 // +kubebuilder:object:root=true
-//Deprecated version of StorageAccountsBlobService. Use v1beta20210401.StorageAccountsBlobService instead
+// Deprecated version of StorageAccountsBlobService. Use v1beta20210401.StorageAccountsBlobService instead
 type StorageAccountsBlobServiceList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []StorageAccountsBlobService `json:"items"`
 }
 
-//Deprecated version of BlobServiceProperties_Status. Use v1beta20210401.BlobServiceProperties_Status instead
+// Deprecated version of BlobServiceProperties_Status. Use v1beta20210401.BlobServiceProperties_Status instead
 type BlobServiceProperties_Status struct {
 	AutomaticSnapshotPolicyEnabled *bool              `json:"automaticSnapshotPolicyEnabled,omitempty"`
 	ChangeFeed                     *ChangeFeed_Status `json:"changeFeed,omitempty"`
 
-	//Conditions: The observed state of the resource
+	// Conditions: The observed state of the resource
 	Conditions                     []conditions.Condition               `json:"conditions,omitempty"`
 	ContainerDeleteRetentionPolicy *DeleteRetentionPolicy_Status        `json:"containerDeleteRetentionPolicy,omitempty"`
 	Cors                           *CorsRules_Status                    `json:"cors,omitempty"`
@@ -809,9 +809,9 @@ type StorageAccountsBlobServices_Spec struct {
 	Location                       *string                       `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a storage.azure.com/StorageAccount resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a storage.azure.com/StorageAccount resource
 	Owner         *genruntime.KnownResourceReference `group:"storage.azure.com" json:"owner,omitempty" kind:"StorageAccount"`
 	RestorePolicy *RestorePolicyProperties           `json:"restorePolicy,omitempty"`
 	Tags          map[string]string                  `json:"tags,omitempty"`
@@ -1355,7 +1355,7 @@ func (services *StorageAccountsBlobServices_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
-//Deprecated version of ChangeFeed. Use v1beta20210401.ChangeFeed instead
+// Deprecated version of ChangeFeed. Use v1beta20210401.ChangeFeed instead
 type ChangeFeed struct {
 	Enabled *bool `json:"enabled,omitempty"`
 
@@ -1470,7 +1470,7 @@ func (feed *ChangeFeed) AssignPropertiesToChangeFeed(destination *alpha20210401s
 	return nil
 }
 
-//Deprecated version of ChangeFeed_Status. Use v1beta20210401.ChangeFeed_Status instead
+// Deprecated version of ChangeFeed_Status. Use v1beta20210401.ChangeFeed_Status instead
 type ChangeFeed_Status struct {
 	Enabled         *bool `json:"enabled,omitempty"`
 	RetentionInDays *int  `json:"retentionInDays,omitempty"`
@@ -1551,7 +1551,7 @@ func (feed *ChangeFeed_Status) AssignPropertiesToChangeFeedStatus(destination *a
 	return nil
 }
 
-//Deprecated version of CorsRules. Use v1beta20210401.CorsRules instead
+// Deprecated version of CorsRules. Use v1beta20210401.CorsRules instead
 type CorsRules struct {
 	CorsRules []CorsRule `json:"corsRules,omitempty"`
 }
@@ -1661,7 +1661,7 @@ func (rules *CorsRules) AssignPropertiesToCorsRules(destination *alpha20210401s.
 	return nil
 }
 
-//Deprecated version of CorsRules_Status. Use v1beta20210401.CorsRules_Status instead
+// Deprecated version of CorsRules_Status. Use v1beta20210401.CorsRules_Status instead
 type CorsRules_Status struct {
 	CorsRules []CorsRule_Status `json:"corsRules,omitempty"`
 }
@@ -1753,7 +1753,7 @@ func (rules *CorsRules_Status) AssignPropertiesToCorsRulesStatus(destination *al
 	return nil
 }
 
-//Deprecated version of DeleteRetentionPolicy. Use v1beta20210401.DeleteRetentionPolicy instead
+// Deprecated version of DeleteRetentionPolicy. Use v1beta20210401.DeleteRetentionPolicy instead
 type DeleteRetentionPolicy struct {
 	// +kubebuilder:validation:Maximum=365
 	// +kubebuilder:validation:Minimum=1
@@ -1867,7 +1867,7 @@ func (policy *DeleteRetentionPolicy) AssignPropertiesToDeleteRetentionPolicy(des
 	return nil
 }
 
-//Deprecated version of DeleteRetentionPolicy_Status. Use v1beta20210401.DeleteRetentionPolicy_Status instead
+// Deprecated version of DeleteRetentionPolicy_Status. Use v1beta20210401.DeleteRetentionPolicy_Status instead
 type DeleteRetentionPolicy_Status struct {
 	Days    *int  `json:"days,omitempty"`
 	Enabled *bool `json:"enabled,omitempty"`
@@ -1948,7 +1948,7 @@ func (policy *DeleteRetentionPolicy_Status) AssignPropertiesToDeleteRetentionPol
 	return nil
 }
 
-//Deprecated version of LastAccessTimeTrackingPolicy. Use v1beta20210401.LastAccessTimeTrackingPolicy instead
+// Deprecated version of LastAccessTimeTrackingPolicy. Use v1beta20210401.LastAccessTimeTrackingPolicy instead
 type LastAccessTimeTrackingPolicy struct {
 	BlobType []string `json:"blobType,omitempty"`
 
@@ -2098,7 +2098,7 @@ func (policy *LastAccessTimeTrackingPolicy) AssignPropertiesToLastAccessTimeTrac
 	return nil
 }
 
-//Deprecated version of LastAccessTimeTrackingPolicy_Status. Use v1beta20210401.LastAccessTimeTrackingPolicy_Status instead
+// Deprecated version of LastAccessTimeTrackingPolicy_Status. Use v1beta20210401.LastAccessTimeTrackingPolicy_Status instead
 type LastAccessTimeTrackingPolicy_Status struct {
 	BlobType                  []string                                `json:"blobType,omitempty"`
 	Enable                    *bool                                   `json:"enable,omitempty"`
@@ -2214,7 +2214,7 @@ func (policy *LastAccessTimeTrackingPolicy_Status) AssignPropertiesToLastAccessT
 	return nil
 }
 
-//Deprecated version of RestorePolicyProperties. Use v1beta20210401.RestorePolicyProperties instead
+// Deprecated version of RestorePolicyProperties. Use v1beta20210401.RestorePolicyProperties instead
 type RestorePolicyProperties struct {
 	// +kubebuilder:validation:Maximum=365
 	// +kubebuilder:validation:Minimum=1
@@ -2330,7 +2330,7 @@ func (properties *RestorePolicyProperties) AssignPropertiesToRestorePolicyProper
 	return nil
 }
 
-//Deprecated version of RestorePolicyProperties_Status. Use v1beta20210401.RestorePolicyProperties_Status instead
+// Deprecated version of RestorePolicyProperties_Status. Use v1beta20210401.RestorePolicyProperties_Status instead
 type RestorePolicyProperties_Status struct {
 	Days            *int    `json:"days,omitempty"`
 	Enabled         *bool   `json:"enabled,omitempty"`
@@ -2437,7 +2437,7 @@ func (properties *RestorePolicyProperties_Status) AssignPropertiesToRestorePolic
 	return nil
 }
 
-//Deprecated version of CorsRule. Use v1beta20210401.CorsRule instead
+// Deprecated version of CorsRule. Use v1beta20210401.CorsRule instead
 type CorsRule struct {
 	// +kubebuilder:validation:Required
 	AllowedHeaders []string `json:"allowedHeaders,omitempty"`
@@ -2607,7 +2607,7 @@ func (rule *CorsRule) AssignPropertiesToCorsRule(destination *alpha20210401s.Cor
 	return nil
 }
 
-//Deprecated version of CorsRule_Status. Use v1beta20210401.CorsRule_Status instead
+// Deprecated version of CorsRule_Status. Use v1beta20210401.CorsRule_Status instead
 type CorsRule_Status struct {
 	AllowedHeaders  []string                       `json:"allowedHeaders,omitempty"`
 	AllowedMethods  []CorsRuleStatusAllowedMethods `json:"allowedMethods,omitempty"`
@@ -2733,13 +2733,13 @@ func (rule *CorsRule_Status) AssignPropertiesToCorsRuleStatus(destination *alpha
 	return nil
 }
 
-//Deprecated version of LastAccessTimeTrackingPolicyName. Use v1beta20210401.LastAccessTimeTrackingPolicyName instead
+// Deprecated version of LastAccessTimeTrackingPolicyName. Use v1beta20210401.LastAccessTimeTrackingPolicyName instead
 // +kubebuilder:validation:Enum={"AccessTimeTracking"}
 type LastAccessTimeTrackingPolicyName string
 
 const LastAccessTimeTrackingPolicyNameAccessTimeTracking = LastAccessTimeTrackingPolicyName("AccessTimeTracking")
 
-//Deprecated version of CorsRuleAllowedMethods. Use v1beta20210401.CorsRuleAllowedMethods instead
+// Deprecated version of CorsRuleAllowedMethods. Use v1beta20210401.CorsRuleAllowedMethods instead
 // +kubebuilder:validation:Enum={"DELETE","GET","HEAD","MERGE","OPTIONS","POST","PUT"}
 type CorsRuleAllowedMethods string
 

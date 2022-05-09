@@ -1,5 +1,6 @@
-# Type references and ownership
-
+---
+title: Type References & ownership
+---
 ## Related reading
 - [Kubernetes garbage collection](https://kubernetes.io/docs/concepts/workloads/controllers/garbage-collection/).
 - [Kubernetes RBAC](https://kubernetes.io/docs/reference/access-authn-authz/rbac/)

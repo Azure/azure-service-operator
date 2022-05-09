@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1alpha1api20210515
 
-//Deprecated version of MongoDBDatabaseGetResults_Status. Use v1beta20210515.MongoDBDatabaseGetResults_Status instead
+// Deprecated version of MongoDBDatabaseGetResults_Status. Use v1beta20210515.MongoDBDatabaseGetResults_Status instead
 type MongoDBDatabaseGetResults_StatusARM struct {
 	Id         *string                                 `json:"id,omitempty"`
 	Location   *string                                 `json:"location,omitempty"`
@@ -13,13 +13,13 @@ type MongoDBDatabaseGetResults_StatusARM struct {
 	Type       *string                                 `json:"type,omitempty"`
 }
 
-//Deprecated version of MongoDBDatabaseGetProperties_Status. Use v1beta20210515.MongoDBDatabaseGetProperties_Status instead
+// Deprecated version of MongoDBDatabaseGetProperties_Status. Use v1beta20210515.MongoDBDatabaseGetProperties_Status instead
 type MongoDBDatabaseGetProperties_StatusARM struct {
 	Options  *OptionsResource_StatusARM                       `json:"options,omitempty"`
 	Resource *MongoDBDatabaseGetProperties_Status_ResourceARM `json:"resource,omitempty"`
 }
 
-//Deprecated version of MongoDBDatabaseGetProperties_Status_Resource. Use v1beta20210515.MongoDBDatabaseGetProperties_Status_Resource instead
+// Deprecated version of MongoDBDatabaseGetProperties_Status_Resource. Use v1beta20210515.MongoDBDatabaseGetProperties_Status_Resource instead
 type MongoDBDatabaseGetProperties_Status_ResourceARM struct {
 	Etag *string  `json:"_etag,omitempty"`
 	Id   *string  `json:"id,omitempty"`

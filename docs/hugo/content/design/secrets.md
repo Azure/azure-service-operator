@@ -1,5 +1,7 @@
-# Azure Service Operator support for managing data plane secrets
-
+---
+title: Managing dataplane secrets
+linktitle: Dataplane secrets
+---
 ## What secrets are we talking about?
 
 The secrets discussed in this document are associated with accessing the data plane of various services.

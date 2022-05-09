@@ -136,7 +136,7 @@ func RunJSONSerializationTestForIdentityPropertiesStatusARM(subject IdentityProp
 }
 
 // Generator of IdentityProperties_StatusARM instances for property testing - lazily instantiated by
-//IdentityPropertiesStatusARMGenerator()
+// IdentityPropertiesStatusARMGenerator()
 var identityPropertiesStatusARMGenerator gopter.Gen
 
 // IdentityPropertiesStatusARMGenerator returns a generator of IdentityProperties_StatusARM instances for property testing.
@@ -216,7 +216,7 @@ func RunJSONSerializationTestForRegistryPropertiesStatusARM(subject RegistryProp
 }
 
 // Generator of RegistryProperties_StatusARM instances for property testing - lazily instantiated by
-//RegistryPropertiesStatusARMGenerator()
+// RegistryPropertiesStatusARMGenerator()
 var registryPropertiesStatusARMGenerator gopter.Gen
 
 // RegistryPropertiesStatusARMGenerator returns a generator of RegistryProperties_StatusARM instances for property testing.
@@ -376,7 +376,7 @@ func RunJSONSerializationTestForSystemDataStatusARM(subject SystemData_StatusARM
 }
 
 // Generator of SystemData_StatusARM instances for property testing - lazily instantiated by
-//SystemDataStatusARMGenerator()
+// SystemDataStatusARMGenerator()
 var systemDataStatusARMGenerator gopter.Gen
 
 // SystemDataStatusARMGenerator returns a generator of SystemData_StatusARM instances for property testing.
@@ -449,7 +449,7 @@ func RunJSONSerializationTestForEncryptionPropertyStatusARM(subject EncryptionPr
 }
 
 // Generator of EncryptionProperty_StatusARM instances for property testing - lazily instantiated by
-//EncryptionPropertyStatusARMGenerator()
+// EncryptionPropertyStatusARMGenerator()
 var encryptionPropertyStatusARMGenerator gopter.Gen
 
 // EncryptionPropertyStatusARMGenerator returns a generator of EncryptionProperty_StatusARM instances for property testing.
@@ -523,7 +523,7 @@ func RunJSONSerializationTestForNetworkRuleSetStatusARM(subject NetworkRuleSet_S
 }
 
 // Generator of NetworkRuleSet_StatusARM instances for property testing - lazily instantiated by
-//NetworkRuleSetStatusARMGenerator()
+// NetworkRuleSetStatusARMGenerator()
 var networkRuleSetStatusARMGenerator gopter.Gen
 
 // NetworkRuleSetStatusARMGenerator returns a generator of NetworkRuleSet_StatusARM instances for property testing.
@@ -659,7 +659,7 @@ func RunJSONSerializationTestForPrivateEndpointConnectionStatusSubResourceEmbedd
 }
 
 // Generator of PrivateEndpointConnection_Status_SubResourceEmbeddedARM instances for property testing - lazily
-//instantiated by PrivateEndpointConnectionStatusSubResourceEmbeddedARMGenerator()
+// instantiated by PrivateEndpointConnectionStatusSubResourceEmbeddedARMGenerator()
 var privateEndpointConnectionStatusSubResourceEmbeddedARMGenerator gopter.Gen
 
 // PrivateEndpointConnectionStatusSubResourceEmbeddedARMGenerator returns a generator of PrivateEndpointConnection_Status_SubResourceEmbeddedARM instances for property testing.
@@ -794,7 +794,7 @@ func RunJSONSerializationTestForUserIdentityPropertiesStatusARM(subject UserIden
 }
 
 // Generator of UserIdentityProperties_StatusARM instances for property testing - lazily instantiated by
-//UserIdentityPropertiesStatusARMGenerator()
+// UserIdentityPropertiesStatusARMGenerator()
 var userIdentityPropertiesStatusARMGenerator gopter.Gen
 
 // UserIdentityPropertiesStatusARMGenerator returns a generator of UserIdentityProperties_StatusARM instances for property testing.
@@ -855,7 +855,7 @@ func RunJSONSerializationTestForExportPolicyStatusARM(subject ExportPolicy_Statu
 }
 
 // Generator of ExportPolicy_StatusARM instances for property testing - lazily instantiated by
-//ExportPolicyStatusARMGenerator()
+// ExportPolicyStatusARMGenerator()
 var exportPolicyStatusARMGenerator gopter.Gen
 
 // ExportPolicyStatusARMGenerator returns a generator of ExportPolicy_StatusARM instances for property testing.
@@ -975,7 +975,7 @@ func RunJSONSerializationTestForKeyVaultPropertiesStatusARM(subject KeyVaultProp
 }
 
 // Generator of KeyVaultProperties_StatusARM instances for property testing - lazily instantiated by
-//KeyVaultPropertiesStatusARMGenerator()
+// KeyVaultPropertiesStatusARMGenerator()
 var keyVaultPropertiesStatusARMGenerator gopter.Gen
 
 // KeyVaultPropertiesStatusARMGenerator returns a generator of KeyVaultProperties_StatusARM instances for property testing.
@@ -1039,7 +1039,7 @@ func RunJSONSerializationTestForQuarantinePolicyStatusARM(subject QuarantinePoli
 }
 
 // Generator of QuarantinePolicy_StatusARM instances for property testing - lazily instantiated by
-//QuarantinePolicyStatusARMGenerator()
+// QuarantinePolicyStatusARMGenerator()
 var quarantinePolicyStatusARMGenerator gopter.Gen
 
 // QuarantinePolicyStatusARMGenerator returns a generator of QuarantinePolicy_StatusARM instances for property testing.
@@ -1099,7 +1099,7 @@ func RunJSONSerializationTestForRetentionPolicyStatusARM(subject RetentionPolicy
 }
 
 // Generator of RetentionPolicy_StatusARM instances for property testing - lazily instantiated by
-//RetentionPolicyStatusARMGenerator()
+// RetentionPolicyStatusARMGenerator()
 var retentionPolicyStatusARMGenerator gopter.Gen
 
 // RetentionPolicyStatusARMGenerator returns a generator of RetentionPolicy_StatusARM instances for property testing.
@@ -1161,7 +1161,7 @@ func RunJSONSerializationTestForTrustPolicyStatusARM(subject TrustPolicy_StatusA
 }
 
 // Generator of TrustPolicy_StatusARM instances for property testing - lazily instantiated by
-//TrustPolicyStatusARMGenerator()
+// TrustPolicyStatusARMGenerator()
 var trustPolicyStatusARMGenerator gopter.Gen
 
 // TrustPolicyStatusARMGenerator returns a generator of TrustPolicy_StatusARM instances for property testing.

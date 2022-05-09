@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1alpha1api20200930
 
-//Deprecated version of Snapshot_Status. Use v1beta20200930.Snapshot_Status instead
+// Deprecated version of Snapshot_Status. Use v1beta20200930.Snapshot_Status instead
 type Snapshot_StatusARM struct {
 	ExtendedLocation *ExtendedLocation_StatusARM   `json:"extendedLocation,omitempty"`
 	Id               *string                       `json:"id,omitempty"`
@@ -16,7 +16,7 @@ type Snapshot_StatusARM struct {
 	Type             *string                       `json:"type,omitempty"`
 }
 
-//Deprecated version of SnapshotProperties_Status. Use v1beta20200930.SnapshotProperties_Status instead
+// Deprecated version of SnapshotProperties_Status. Use v1beta20200930.SnapshotProperties_Status instead
 type SnapshotProperties_StatusARM struct {
 	CreationData                 *CreationData_StatusARM                   `json:"creationData,omitempty"`
 	DiskAccessId                 *string                                   `json:"diskAccessId,omitempty"`
@@ -35,13 +35,13 @@ type SnapshotProperties_StatusARM struct {
 	UniqueId                     *string                                   `json:"uniqueId,omitempty"`
 }
 
-//Deprecated version of SnapshotSku_Status. Use v1beta20200930.SnapshotSku_Status instead
+// Deprecated version of SnapshotSku_Status. Use v1beta20200930.SnapshotSku_Status instead
 type SnapshotSku_StatusARM struct {
 	Name *SnapshotSkuStatusName `json:"name,omitempty"`
 	Tier *string                `json:"tier,omitempty"`
 }
 
-//Deprecated version of SnapshotSkuStatusName. Use v1beta20200930.SnapshotSkuStatusName instead
+// Deprecated version of SnapshotSkuStatusName. Use v1beta20200930.SnapshotSkuStatusName instead
 type SnapshotSkuStatusName string
 
 const (

@@ -6,22 +6,22 @@ package v1beta20211101
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type Namespaces_SpecARM struct {
-	//Identity: Properties to configure Identity for Bring your Own Keys
+	// Identity: Properties to configure Identity for Bring your Own Keys
 	Identity *IdentityARM `json:"identity,omitempty"`
 
-	//Location: Location to deploy resource to
+	// Location: Location to deploy resource to
 	Location *string `json:"location,omitempty"`
 
-	//Name: Name of the resource
+	// Name: Name of the resource
 	Name string `json:"name,omitempty"`
 
-	//Properties: Namespace properties supplied for create namespace operation.
+	// Properties: Namespace properties supplied for create namespace operation.
 	Properties *Namespaces_Spec_PropertiesARM `json:"properties,omitempty"`
 
-	//Sku: SKU parameters supplied to the create namespace operation
+	// Sku: SKU parameters supplied to the create namespace operation
 	Sku *SkuARM `json:"sku,omitempty"`
 
-	//Tags: Name-value pairs to add to the resource
+	// Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
@@ -42,62 +42,62 @@ func (namespaces Namespaces_SpecARM) GetType() string {
 	return "Microsoft.EventHub/namespaces"
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-11-01/Microsoft.EventHub.json#/definitions/Identity
+// Generated from: https://schema.management.azure.com/schemas/2021-11-01/Microsoft.EventHub.json#/definitions/Identity
 type IdentityARM struct {
-	//Type: Type of managed service identity.
+	// Type: Type of managed service identity.
 	Type *IdentityType `json:"type,omitempty"`
 }
 
 type Namespaces_Spec_PropertiesARM struct {
-	//AlternateName: Alternate name specified when alias and namespace names are same.
+	// AlternateName: Alternate name specified when alias and namespace names are same.
 	AlternateName *string `json:"alternateName,omitempty"`
 	ClusterArmId  *string `json:"clusterArmId,omitempty"`
 
-	//DisableLocalAuth: This property disables SAS authentication for the Event Hubs namespace.
+	// DisableLocalAuth: This property disables SAS authentication for the Event Hubs namespace.
 	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
 
-	//Encryption: Properties to configure Encryption
+	// Encryption: Properties to configure Encryption
 	Encryption *EncryptionARM `json:"encryption,omitempty"`
 
-	//IsAutoInflateEnabled: Value that indicates whether AutoInflate is enabled for eventhub namespace.
+	// IsAutoInflateEnabled: Value that indicates whether AutoInflate is enabled for eventhub namespace.
 	IsAutoInflateEnabled *bool `json:"isAutoInflateEnabled,omitempty"`
 
-	//KafkaEnabled: Value that indicates whether Kafka is enabled for eventhub namespace.
+	// KafkaEnabled: Value that indicates whether Kafka is enabled for eventhub namespace.
 	KafkaEnabled *bool `json:"kafkaEnabled,omitempty"`
 
-	//MaximumThroughputUnits: Upper limit of throughput units when AutoInflate is enabled, value should be within 0 to 20
-	//throughput units. ( '0' if AutoInflateEnabled = true)
+	// MaximumThroughputUnits: Upper limit of throughput units when AutoInflate is enabled, value should be within 0 to 20
+	// throughput units. ( '0' if AutoInflateEnabled = true)
 	MaximumThroughputUnits *int `json:"maximumThroughputUnits,omitempty"`
 
-	//PrivateEndpointConnections: List of private endpoint connections.
+	// PrivateEndpointConnections: List of private endpoint connections.
 	PrivateEndpointConnections []Namespaces_Spec_Properties_PrivateEndpointConnectionsARM `json:"privateEndpointConnections,omitempty"`
 
-	//ZoneRedundant: Enabling this property creates a Standard Event Hubs Namespace in regions supported availability zones.
+	// ZoneRedundant: Enabling this property creates a Standard Event Hubs Namespace in regions supported availability zones.
 	ZoneRedundant *bool `json:"zoneRedundant,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-11-01/Microsoft.EventHub.json#/definitions/Sku
+// Generated from: https://schema.management.azure.com/schemas/2021-11-01/Microsoft.EventHub.json#/definitions/Sku
 type SkuARM struct {
-	//Capacity: The Event Hubs throughput units for Basic or Standard tiers, where value should be 0 to 20 throughput units.
-	//The Event Hubs premium units for Premium tier, where value should be 0 to 10 premium units.
+	// Capacity: The Event Hubs throughput units for Basic or Standard tiers, where value should be 0 to 20 throughput units.
+	// The Event Hubs premium units for Premium tier, where value should be 0 to 10 premium units.
 	Capacity *int `json:"capacity,omitempty"`
 
-	//Name: Name of this SKU.
+	// Name: Name of this SKU.
 	Name *SkuName `json:"name,omitempty"`
 
-	//Tier: The billing tier of this particular SKU.
+	// Tier: The billing tier of this particular SKU.
 	Tier *SkuTier `json:"tier,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-11-01/Microsoft.EventHub.json#/definitions/Encryption
+// Generated from: https://schema.management.azure.com/schemas/2021-11-01/Microsoft.EventHub.json#/definitions/Encryption
 type EncryptionARM struct {
-	//KeySource: Enumerates the possible value of keySource for Encryption.
+	// KeySource: Enumerates the possible value of keySource for Encryption.
 	KeySource *EncryptionKeySource `json:"keySource,omitempty"`
 
-	//KeyVaultProperties: Properties of KeyVault
+	// KeyVaultProperties: Properties of KeyVault
 	KeyVaultProperties []KeyVaultPropertiesARM `json:"keyVaultProperties,omitempty"`
 
-	//RequireInfrastructureEncryption: Enable Infrastructure Encryption (Double Encryption)
+	// RequireInfrastructureEncryption: Enable Infrastructure Encryption (Double Encryption)
 	RequireInfrastructureEncryption *bool `json:"requireInfrastructureEncryption,omitempty"`
 }
 
@@ -112,7 +112,7 @@ const (
 )
 
 type Namespaces_Spec_Properties_PrivateEndpointConnectionsARM struct {
-	//Properties: Properties of the private endpoint connection resource.
+	// Properties: Properties of the private endpoint connection resource.
 	Properties *PrivateEndpointConnectionPropertiesARM `json:"properties,omitempty"`
 }
 
@@ -134,32 +134,32 @@ const (
 	SkuTierStandard = SkuTier("Standard")
 )
 
-//Generated from: https://schema.management.azure.com/schemas/2021-11-01/Microsoft.EventHub.json#/definitions/KeyVaultProperties
+// Generated from: https://schema.management.azure.com/schemas/2021-11-01/Microsoft.EventHub.json#/definitions/KeyVaultProperties
 type KeyVaultPropertiesARM struct {
 	Identity *UserAssignedIdentityPropertiesARM `json:"identity,omitempty"`
 
-	//KeyName: Name of the Key from KeyVault
+	// KeyName: Name of the Key from KeyVault
 	KeyName *string `json:"keyName,omitempty"`
 
-	//KeyVaultUri: Uri of KeyVault
+	// KeyVaultUri: Uri of KeyVault
 	KeyVaultUri *string `json:"keyVaultUri,omitempty"`
 
-	//KeyVersion: Key Version
+	// KeyVersion: Key Version
 	KeyVersion *string `json:"keyVersion,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-11-01/Microsoft.EventHub.json#/definitions/PrivateEndpointConnectionProperties
+// Generated from: https://schema.management.azure.com/schemas/2021-11-01/Microsoft.EventHub.json#/definitions/PrivateEndpointConnectionProperties
 type PrivateEndpointConnectionPropertiesARM struct {
-	//PrivateEndpoint: PrivateEndpoint information.
+	// PrivateEndpoint: PrivateEndpoint information.
 	PrivateEndpoint *PrivateEndpointARM `json:"privateEndpoint,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-11-01/Microsoft.EventHub.json#/definitions/PrivateEndpoint
+// Generated from: https://schema.management.azure.com/schemas/2021-11-01/Microsoft.EventHub.json#/definitions/PrivateEndpoint
 type PrivateEndpointARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-11-01/Microsoft.EventHub.json#/definitions/UserAssignedIdentityProperties
+// Generated from: https://schema.management.azure.com/schemas/2021-11-01/Microsoft.EventHub.json#/definitions/UserAssignedIdentityProperties
 type UserAssignedIdentityPropertiesARM struct {
 	UserAssignedIdentity *string `json:"userAssignedIdentity,omitempty"`
 }

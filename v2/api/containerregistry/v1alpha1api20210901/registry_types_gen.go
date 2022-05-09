@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Deprecated version of Registry. Use v1beta20210901.Registry instead
+// Deprecated version of Registry. Use v1beta20210901.Registry instead
 type Registry struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -314,7 +314,7 @@ func (registry *Registry) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Deprecated version of Registry. Use v1beta20210901.Registry instead
+// Deprecated version of Registry. Use v1beta20210901.Registry instead
 type RegistryList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -327,8 +327,8 @@ type Registries_Spec struct {
 	// +kubebuilder:validation:MaxLength=50
 	// +kubebuilder:validation:MinLength=5
 	// +kubebuilder:validation:Pattern="^[a-zA-Z0-9]*$"
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName                string                                      `json:"azureName,omitempty"`
 	DataEndpointEnabled      *bool                                       `json:"dataEndpointEnabled,omitempty"`
 	Encryption               *EncryptionProperty                         `json:"encryption,omitempty"`
@@ -338,9 +338,9 @@ type Registries_Spec struct {
 	NetworkRuleSet           *NetworkRuleSet                             `json:"networkRuleSet,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a resources.azure.com/ResourceGroup resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
 	Owner               *genruntime.KnownResourceReference     `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	Policies            *Policies                              `json:"policies,omitempty"`
 	PublicNetworkAccess *RegistryPropertiesPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
@@ -920,11 +920,11 @@ func (registries *Registries_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (registries *Registries_Spec) SetAzureName(azureName string) { registries.AzureName = azureName }
 
-//Deprecated version of Registry_Status. Use v1beta20210901.Registry_Status instead
+// Deprecated version of Registry_Status. Use v1beta20210901.Registry_Status instead
 type Registry_Status struct {
 	AdminUserEnabled *bool `json:"adminUserEnabled,omitempty"`
 
-	//Conditions: The observed state of the resource
+	// Conditions: The observed state of the resource
 	Conditions                 []conditions.Condition                                 `json:"conditions,omitempty"`
 	CreationDate               *string                                                `json:"creationDate,omitempty"`
 	DataEndpointEnabled        *bool                                                  `json:"dataEndpointEnabled,omitempty"`
@@ -1610,7 +1610,7 @@ func (registry *Registry_Status) AssignPropertiesToRegistryStatus(destination *a
 	return nil
 }
 
-//Deprecated version of EncryptionProperty. Use v1beta20210901.EncryptionProperty instead
+// Deprecated version of EncryptionProperty. Use v1beta20210901.EncryptionProperty instead
 type EncryptionProperty struct {
 	KeyVaultProperties *KeyVaultProperties       `json:"keyVaultProperties,omitempty"`
 	Status             *EncryptionPropertyStatus `json:"status,omitempty"`
@@ -1739,7 +1739,7 @@ func (property *EncryptionProperty) AssignPropertiesToEncryptionProperty(destina
 	return nil
 }
 
-//Deprecated version of EncryptionProperty_Status. Use v1beta20210901.EncryptionProperty_Status instead
+// Deprecated version of EncryptionProperty_Status. Use v1beta20210901.EncryptionProperty_Status instead
 type EncryptionProperty_Status struct {
 	KeyVaultProperties *KeyVaultProperties_Status      `json:"keyVaultProperties,omitempty"`
 	Status             *EncryptionPropertyStatusStatus `json:"status,omitempty"`
@@ -1843,7 +1843,7 @@ func (property *EncryptionProperty_Status) AssignPropertiesToEncryptionPropertyS
 	return nil
 }
 
-//Deprecated version of IdentityProperties. Use v1beta20210901.IdentityProperties instead
+// Deprecated version of IdentityProperties. Use v1beta20210901.IdentityProperties instead
 type IdentityProperties struct {
 	PrincipalId            *string                           `json:"principalId,omitempty"`
 	TenantId               *string                           `json:"tenantId,omitempty"`
@@ -2026,7 +2026,7 @@ func (properties *IdentityProperties) AssignPropertiesToIdentityProperties(desti
 	return nil
 }
 
-//Deprecated version of IdentityProperties_Status. Use v1beta20210901.IdentityProperties_Status instead
+// Deprecated version of IdentityProperties_Status. Use v1beta20210901.IdentityProperties_Status instead
 type IdentityProperties_Status struct {
 	PrincipalId            *string                                  `json:"principalId,omitempty"`
 	TenantId               *string                                  `json:"tenantId,omitempty"`
@@ -2170,7 +2170,7 @@ func (properties *IdentityProperties_Status) AssignPropertiesToIdentityPropertie
 	return nil
 }
 
-//Deprecated version of NetworkRuleSet. Use v1beta20210901.NetworkRuleSet instead
+// Deprecated version of NetworkRuleSet. Use v1beta20210901.NetworkRuleSet instead
 type NetworkRuleSet struct {
 	// +kubebuilder:validation:Required
 	DefaultAction *NetworkRuleSetDefaultAction `json:"defaultAction,omitempty"`
@@ -2310,7 +2310,7 @@ func (ruleSet *NetworkRuleSet) AssignPropertiesToNetworkRuleSet(destination *alp
 	return nil
 }
 
-//Deprecated version of NetworkRuleSet_Status. Use v1beta20210901.NetworkRuleSet_Status instead
+// Deprecated version of NetworkRuleSet_Status. Use v1beta20210901.NetworkRuleSet_Status instead
 type NetworkRuleSet_Status struct {
 	DefaultAction *NetworkRuleSetStatusDefaultAction `json:"defaultAction,omitempty"`
 	IpRules       []IPRule_Status                    `json:"ipRules,omitempty"`
@@ -2425,7 +2425,7 @@ func (ruleSet *NetworkRuleSet_Status) AssignPropertiesToNetworkRuleSetStatus(des
 	return nil
 }
 
-//Deprecated version of Policies. Use v1beta20210901.Policies instead
+// Deprecated version of Policies. Use v1beta20210901.Policies instead
 type Policies struct {
 	ExportPolicy     *ExportPolicy     `json:"exportPolicy,omitempty"`
 	QuarantinePolicy *QuarantinePolicy `json:"quarantinePolicy,omitempty"`
@@ -2663,7 +2663,7 @@ func (policies *Policies) AssignPropertiesToPolicies(destination *alpha20210901s
 	return nil
 }
 
-//Deprecated version of Policies_Status. Use v1beta20210901.Policies_Status instead
+// Deprecated version of Policies_Status. Use v1beta20210901.Policies_Status instead
 type Policies_Status struct {
 	ExportPolicy     *ExportPolicy_Status     `json:"exportPolicy,omitempty"`
 	QuarantinePolicy *QuarantinePolicy_Status `json:"quarantinePolicy,omitempty"`
@@ -2852,7 +2852,7 @@ func (policies *Policies_Status) AssignPropertiesToPoliciesStatus(destination *a
 	return nil
 }
 
-//Deprecated version of PrivateEndpointConnection_Status_SubResourceEmbedded. Use v1beta20210901.PrivateEndpointConnection_Status_SubResourceEmbedded instead
+// Deprecated version of PrivateEndpointConnection_Status_SubResourceEmbedded. Use v1beta20210901.PrivateEndpointConnection_Status_SubResourceEmbedded instead
 type PrivateEndpointConnection_Status_SubResourceEmbedded struct {
 	Id         *string            `json:"id,omitempty"`
 	SystemData *SystemData_Status `json:"systemData,omitempty"`
@@ -2946,8 +2946,8 @@ func (embedded *PrivateEndpointConnection_Status_SubResourceEmbedded) AssignProp
 	return nil
 }
 
-//Deprecated version of RegistryPropertiesStatusNetworkRuleBypassOptions. Use
-//v1beta20210901.RegistryPropertiesStatusNetworkRuleBypassOptions instead
+// Deprecated version of RegistryPropertiesStatusNetworkRuleBypassOptions. Use
+// v1beta20210901.RegistryPropertiesStatusNetworkRuleBypassOptions instead
 type RegistryPropertiesStatusNetworkRuleBypassOptions string
 
 const (
@@ -2955,8 +2955,8 @@ const (
 	RegistryPropertiesStatusNetworkRuleBypassOptionsNone          = RegistryPropertiesStatusNetworkRuleBypassOptions("None")
 )
 
-//Deprecated version of RegistryPropertiesStatusProvisioningState. Use
-//v1beta20210901.RegistryPropertiesStatusProvisioningState instead
+// Deprecated version of RegistryPropertiesStatusProvisioningState. Use
+// v1beta20210901.RegistryPropertiesStatusProvisioningState instead
 type RegistryPropertiesStatusProvisioningState string
 
 const (
@@ -2968,8 +2968,8 @@ const (
 	RegistryPropertiesStatusProvisioningStateUpdating  = RegistryPropertiesStatusProvisioningState("Updating")
 )
 
-//Deprecated version of RegistryPropertiesStatusPublicNetworkAccess. Use
-//v1beta20210901.RegistryPropertiesStatusPublicNetworkAccess instead
+// Deprecated version of RegistryPropertiesStatusPublicNetworkAccess. Use
+// v1beta20210901.RegistryPropertiesStatusPublicNetworkAccess instead
 type RegistryPropertiesStatusPublicNetworkAccess string
 
 const (
@@ -2977,8 +2977,8 @@ const (
 	RegistryPropertiesStatusPublicNetworkAccessEnabled  = RegistryPropertiesStatusPublicNetworkAccess("Enabled")
 )
 
-//Deprecated version of RegistryPropertiesStatusZoneRedundancy. Use v1beta20210901.RegistryPropertiesStatusZoneRedundancy
-//instead
+// Deprecated version of RegistryPropertiesStatusZoneRedundancy. Use v1beta20210901.RegistryPropertiesStatusZoneRedundancy
+// instead
 type RegistryPropertiesStatusZoneRedundancy string
 
 const (
@@ -2986,7 +2986,7 @@ const (
 	RegistryPropertiesStatusZoneRedundancyEnabled  = RegistryPropertiesStatusZoneRedundancy("Enabled")
 )
 
-//Deprecated version of Sku. Use v1beta20210901.Sku instead
+// Deprecated version of Sku. Use v1beta20210901.Sku instead
 type Sku struct {
 	// +kubebuilder:validation:Required
 	Name *SkuName `json:"name,omitempty"`
@@ -3070,7 +3070,7 @@ func (sku *Sku) AssignPropertiesToSku(destination *alpha20210901s.Sku) error {
 	return nil
 }
 
-//Deprecated version of Sku_Status. Use v1beta20210901.Sku_Status instead
+// Deprecated version of Sku_Status. Use v1beta20210901.Sku_Status instead
 type Sku_Status struct {
 	Name *SkuStatusName `json:"name,omitempty"`
 	Tier *SkuStatusTier `json:"tier,omitempty"`
@@ -3161,7 +3161,7 @@ func (sku *Sku_Status) AssignPropertiesToSkuStatus(destination *alpha20210901s.S
 	return nil
 }
 
-//Deprecated version of Status_Status. Use v1beta20210901.Status_Status instead
+// Deprecated version of Status_Status. Use v1beta20210901.Status_Status instead
 type Status_Status struct {
 	DisplayStatus *string `json:"displayStatus,omitempty"`
 	Message       *string `json:"message,omitempty"`
@@ -3245,7 +3245,7 @@ func (status *Status_Status) AssignPropertiesToStatusStatus(destination *alpha20
 	return nil
 }
 
-//Deprecated version of SystemData_Status. Use v1beta20210901.SystemData_Status instead
+// Deprecated version of SystemData_Status. Use v1beta20210901.SystemData_Status instead
 type SystemData_Status struct {
 	CreatedAt          *string                             `json:"createdAt,omitempty"`
 	CreatedBy          *string                             `json:"createdBy,omitempty"`
@@ -3388,7 +3388,7 @@ func (data *SystemData_Status) AssignPropertiesToSystemDataStatus(destination *a
 	return nil
 }
 
-//Deprecated version of EncryptionPropertyStatusStatus. Use v1beta20210901.EncryptionPropertyStatusStatus instead
+// Deprecated version of EncryptionPropertyStatusStatus. Use v1beta20210901.EncryptionPropertyStatusStatus instead
 type EncryptionPropertyStatusStatus string
 
 const (
@@ -3396,7 +3396,7 @@ const (
 	EncryptionPropertyStatusStatusEnabled  = EncryptionPropertyStatusStatus("enabled")
 )
 
-//Deprecated version of ExportPolicy. Use v1beta20210901.ExportPolicy instead
+// Deprecated version of ExportPolicy. Use v1beta20210901.ExportPolicy instead
 type ExportPolicy struct {
 	Status *ExportPolicyStatus `json:"status,omitempty"`
 }
@@ -3479,7 +3479,7 @@ func (policy *ExportPolicy) AssignPropertiesToExportPolicy(destination *alpha202
 	return nil
 }
 
-//Deprecated version of ExportPolicy_Status. Use v1beta20210901.ExportPolicy_Status instead
+// Deprecated version of ExportPolicy_Status. Use v1beta20210901.ExportPolicy_Status instead
 type ExportPolicy_Status struct {
 	Status *ExportPolicyStatusStatus `json:"status,omitempty"`
 }
@@ -3547,7 +3547,7 @@ func (policy *ExportPolicy_Status) AssignPropertiesToExportPolicyStatus(destinat
 	return nil
 }
 
-//Deprecated version of IPRule. Use v1beta20210901.IPRule instead
+// Deprecated version of IPRule. Use v1beta20210901.IPRule instead
 type IPRule struct {
 	Action *IPRuleAction `json:"action,omitempty"`
 
@@ -3651,7 +3651,7 @@ func (rule *IPRule) AssignPropertiesToIPRule(destination *alpha20210901s.IPRule)
 	return nil
 }
 
-//Deprecated version of IPRule_Status. Use v1beta20210901.IPRule_Status instead
+// Deprecated version of IPRule_Status. Use v1beta20210901.IPRule_Status instead
 type IPRule_Status struct {
 	Action *IPRuleStatusAction `json:"action,omitempty"`
 	Value  *string             `json:"value,omitempty"`
@@ -3732,7 +3732,7 @@ func (rule *IPRule_Status) AssignPropertiesToIPRuleStatus(destination *alpha2021
 	return nil
 }
 
-//Deprecated version of KeyVaultProperties. Use v1beta20210901.KeyVaultProperties instead
+// Deprecated version of KeyVaultProperties. Use v1beta20210901.KeyVaultProperties instead
 type KeyVaultProperties struct {
 	Identity      *string `json:"identity,omitempty"`
 	KeyIdentifier *string `json:"keyIdentifier,omitempty"`
@@ -3824,7 +3824,7 @@ func (properties *KeyVaultProperties) AssignPropertiesToKeyVaultProperties(desti
 	return nil
 }
 
-//Deprecated version of KeyVaultProperties_Status. Use v1beta20210901.KeyVaultProperties_Status instead
+// Deprecated version of KeyVaultProperties_Status. Use v1beta20210901.KeyVaultProperties_Status instead
 type KeyVaultProperties_Status struct {
 	Identity                 *string `json:"identity,omitempty"`
 	KeyIdentifier            *string `json:"keyIdentifier,omitempty"`
@@ -3944,7 +3944,7 @@ func (properties *KeyVaultProperties_Status) AssignPropertiesToKeyVaultPropertie
 	return nil
 }
 
-//Deprecated version of NetworkRuleSetStatusDefaultAction. Use v1beta20210901.NetworkRuleSetStatusDefaultAction instead
+// Deprecated version of NetworkRuleSetStatusDefaultAction. Use v1beta20210901.NetworkRuleSetStatusDefaultAction instead
 type NetworkRuleSetStatusDefaultAction string
 
 const (
@@ -3952,7 +3952,7 @@ const (
 	NetworkRuleSetStatusDefaultActionDeny  = NetworkRuleSetStatusDefaultAction("Deny")
 )
 
-//Deprecated version of QuarantinePolicy. Use v1beta20210901.QuarantinePolicy instead
+// Deprecated version of QuarantinePolicy. Use v1beta20210901.QuarantinePolicy instead
 type QuarantinePolicy struct {
 	Status *QuarantinePolicyStatus `json:"status,omitempty"`
 }
@@ -4035,7 +4035,7 @@ func (policy *QuarantinePolicy) AssignPropertiesToQuarantinePolicy(destination *
 	return nil
 }
 
-//Deprecated version of QuarantinePolicy_Status. Use v1beta20210901.QuarantinePolicy_Status instead
+// Deprecated version of QuarantinePolicy_Status. Use v1beta20210901.QuarantinePolicy_Status instead
 type QuarantinePolicy_Status struct {
 	Status *QuarantinePolicyStatusStatus `json:"status,omitempty"`
 }
@@ -4103,7 +4103,7 @@ func (policy *QuarantinePolicy_Status) AssignPropertiesToQuarantinePolicyStatus(
 	return nil
 }
 
-//Deprecated version of RetentionPolicy. Use v1beta20210901.RetentionPolicy instead
+// Deprecated version of RetentionPolicy. Use v1beta20210901.RetentionPolicy instead
 type RetentionPolicy struct {
 	Days   *int                   `json:"days,omitempty"`
 	Status *RetentionPolicyStatus `json:"status,omitempty"`
@@ -4205,7 +4205,7 @@ func (policy *RetentionPolicy) AssignPropertiesToRetentionPolicy(destination *al
 	return nil
 }
 
-//Deprecated version of RetentionPolicy_Status. Use v1beta20210901.RetentionPolicy_Status instead
+// Deprecated version of RetentionPolicy_Status. Use v1beta20210901.RetentionPolicy_Status instead
 type RetentionPolicy_Status struct {
 	Days            *int                         `json:"days,omitempty"`
 	LastUpdatedTime *string                      `json:"lastUpdatedTime,omitempty"`
@@ -4299,7 +4299,7 @@ func (policy *RetentionPolicy_Status) AssignPropertiesToRetentionPolicyStatus(de
 	return nil
 }
 
-//Deprecated version of TrustPolicy. Use v1beta20210901.TrustPolicy instead
+// Deprecated version of TrustPolicy. Use v1beta20210901.TrustPolicy instead
 type TrustPolicy struct {
 	Status *TrustPolicyStatus `json:"status,omitempty"`
 	Type   *TrustPolicyType   `json:"type,omitempty"`
@@ -4411,7 +4411,7 @@ func (policy *TrustPolicy) AssignPropertiesToTrustPolicy(destination *alpha20210
 	return nil
 }
 
-//Deprecated version of TrustPolicy_Status. Use v1beta20210901.TrustPolicy_Status instead
+// Deprecated version of TrustPolicy_Status. Use v1beta20210901.TrustPolicy_Status instead
 type TrustPolicy_Status struct {
 	Status *TrustPolicyStatusStatus `json:"status,omitempty"`
 	Type   *TrustPolicyStatusType   `json:"type,omitempty"`
@@ -4502,7 +4502,7 @@ func (policy *TrustPolicy_Status) AssignPropertiesToTrustPolicyStatus(destinatio
 	return nil
 }
 
-//Deprecated version of UserIdentityProperties. Use v1beta20210901.UserIdentityProperties instead
+// Deprecated version of UserIdentityProperties. Use v1beta20210901.UserIdentityProperties instead
 type UserIdentityProperties struct {
 	ClientId    *string `json:"clientId,omitempty"`
 	PrincipalId *string `json:"principalId,omitempty"`
@@ -4594,7 +4594,7 @@ func (properties *UserIdentityProperties) AssignPropertiesToUserIdentityProperti
 	return nil
 }
 
-//Deprecated version of UserIdentityProperties_Status. Use v1beta20210901.UserIdentityProperties_Status instead
+// Deprecated version of UserIdentityProperties_Status. Use v1beta20210901.UserIdentityProperties_Status instead
 type UserIdentityProperties_Status struct {
 	ClientId    *string `json:"clientId,omitempty"`
 	PrincipalId *string `json:"principalId,omitempty"`
@@ -4665,7 +4665,7 @@ func (properties *UserIdentityProperties_Status) AssignPropertiesToUserIdentityP
 	return nil
 }
 
-//Deprecated version of ExportPolicyStatusStatus. Use v1beta20210901.ExportPolicyStatusStatus instead
+// Deprecated version of ExportPolicyStatusStatus. Use v1beta20210901.ExportPolicyStatusStatus instead
 type ExportPolicyStatusStatus string
 
 const (
@@ -4673,12 +4673,12 @@ const (
 	ExportPolicyStatusStatusEnabled  = ExportPolicyStatusStatus("enabled")
 )
 
-//Deprecated version of IPRuleStatusAction. Use v1beta20210901.IPRuleStatusAction instead
+// Deprecated version of IPRuleStatusAction. Use v1beta20210901.IPRuleStatusAction instead
 type IPRuleStatusAction string
 
 const IPRuleStatusActionAllow = IPRuleStatusAction("Allow")
 
-//Deprecated version of QuarantinePolicyStatusStatus. Use v1beta20210901.QuarantinePolicyStatusStatus instead
+// Deprecated version of QuarantinePolicyStatusStatus. Use v1beta20210901.QuarantinePolicyStatusStatus instead
 type QuarantinePolicyStatusStatus string
 
 const (
@@ -4686,7 +4686,7 @@ const (
 	QuarantinePolicyStatusStatusEnabled  = QuarantinePolicyStatusStatus("enabled")
 )
 
-//Deprecated version of RetentionPolicyStatusStatus. Use v1beta20210901.RetentionPolicyStatusStatus instead
+// Deprecated version of RetentionPolicyStatusStatus. Use v1beta20210901.RetentionPolicyStatusStatus instead
 type RetentionPolicyStatusStatus string
 
 const (
@@ -4694,7 +4694,7 @@ const (
 	RetentionPolicyStatusStatusEnabled  = RetentionPolicyStatusStatus("enabled")
 )
 
-//Deprecated version of TrustPolicyStatusStatus. Use v1beta20210901.TrustPolicyStatusStatus instead
+// Deprecated version of TrustPolicyStatusStatus. Use v1beta20210901.TrustPolicyStatusStatus instead
 type TrustPolicyStatusStatus string
 
 const (
@@ -4702,7 +4702,7 @@ const (
 	TrustPolicyStatusStatusEnabled  = TrustPolicyStatusStatus("enabled")
 )
 
-//Deprecated version of TrustPolicyStatusType. Use v1beta20210901.TrustPolicyStatusType instead
+// Deprecated version of TrustPolicyStatusType. Use v1beta20210901.TrustPolicyStatusType instead
 type TrustPolicyStatusType string
 
 const TrustPolicyStatusTypeNotary = TrustPolicyStatusType("Notary")

@@ -25,7 +25,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.OperationalInsights.json#/resourceDefinitions/workspaces
+// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.OperationalInsights.json#/resourceDefinitions/workspaces
 type Workspace struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -301,7 +301,7 @@ func (workspace *Workspace) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.OperationalInsights.json#/resourceDefinitions/workspaces
+// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.OperationalInsights.json#/resourceDefinitions/workspaces
 type WorkspaceList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -309,63 +309,63 @@ type WorkspaceList struct {
 }
 
 type Workspace_Status struct {
-	//Conditions: The observed state of the resource
+	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
-	//CreatedDate: Workspace creation date.
+	// CreatedDate: Workspace creation date.
 	CreatedDate *string `json:"createdDate,omitempty"`
 
-	//CustomerId: This is a read-only property. Represents the ID associated with the workspace.
+	// CustomerId: This is a read-only property. Represents the ID associated with the workspace.
 	CustomerId *string `json:"customerId,omitempty"`
 
-	//ETag: The ETag of the workspace.
+	// ETag: The ETag of the workspace.
 	ETag *string `json:"eTag,omitempty"`
 
-	//Features: Workspace features.
+	// Features: Workspace features.
 	Features *WorkspaceFeatures_Status `json:"features,omitempty"`
 
-	//ForceCmkForQuery: Indicates whether customer managed storage is mandatory for query management.
+	// ForceCmkForQuery: Indicates whether customer managed storage is mandatory for query management.
 	ForceCmkForQuery *bool `json:"forceCmkForQuery,omitempty"`
 
-	//Id: Fully qualified resource ID for the resource. Ex -
-	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+	// Id: Fully qualified resource ID for the resource. Ex -
+	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
 
-	//Location: The geo-location where the resource lives
+	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 
-	//ModifiedDate: Workspace modification date.
+	// ModifiedDate: Workspace modification date.
 	ModifiedDate *string `json:"modifiedDate,omitempty"`
 
-	//Name: The name of the resource
+	// Name: The name of the resource
 	Name *string `json:"name,omitempty"`
 
-	//PrivateLinkScopedResources: List of linked private link scope resources.
+	// PrivateLinkScopedResources: List of linked private link scope resources.
 	PrivateLinkScopedResources []PrivateLinkScopedResource_Status `json:"privateLinkScopedResources,omitempty"`
 
-	//ProvisioningState: The provisioning state of the workspace.
+	// ProvisioningState: The provisioning state of the workspace.
 	ProvisioningState *WorkspacePropertiesStatusProvisioningState `json:"provisioningState,omitempty"`
 
-	//PublicNetworkAccessForIngestion: The network access type for accessing Log Analytics ingestion.
+	// PublicNetworkAccessForIngestion: The network access type for accessing Log Analytics ingestion.
 	PublicNetworkAccessForIngestion *PublicNetworkAccessType_Status `json:"publicNetworkAccessForIngestion,omitempty"`
 
-	//PublicNetworkAccessForQuery: The network access type for accessing Log Analytics query.
+	// PublicNetworkAccessForQuery: The network access type for accessing Log Analytics query.
 	PublicNetworkAccessForQuery *PublicNetworkAccessType_Status `json:"publicNetworkAccessForQuery,omitempty"`
 
-	//RetentionInDays: The workspace data retention in days. Allowed values are per pricing plan. See pricing tiers
-	//documentation for details.
+	// RetentionInDays: The workspace data retention in days. Allowed values are per pricing plan. See pricing tiers
+	// documentation for details.
 	RetentionInDays *int `json:"retentionInDays,omitempty"`
 
-	//Sku: The SKU of the workspace.
+	// Sku: The SKU of the workspace.
 	Sku *WorkspaceSku_Status `json:"sku,omitempty"`
 
-	//Tags: Resource tags.
+	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 
-	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 
-	//WorkspaceCapping: The daily volume cap for ingestion.
+	// WorkspaceCapping: The daily volume cap for ingestion.
 	WorkspaceCapping *WorkspaceCapping_Status `json:"workspaceCapping,omitempty"`
 }
 
@@ -874,48 +874,48 @@ type Workspaces_Spec struct {
 	// +kubebuilder:validation:MaxLength=63
 	// +kubebuilder:validation:MinLength=4
 	// +kubebuilder:validation:Pattern="^[A-Za-z0-9][A-Za-z0-9-]+[A-Za-z0-9]$"
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
-	//ETag: The ETag of the workspace.
+	// ETag: The ETag of the workspace.
 	ETag *string `json:"eTag,omitempty"`
 
-	//Features: Workspace features.
+	// Features: Workspace features.
 	Features *WorkspaceFeatures `json:"features,omitempty"`
 
-	//ForceCmkForQuery: Indicates whether customer managed storage is mandatory for query management.
+	// ForceCmkForQuery: Indicates whether customer managed storage is mandatory for query management.
 	ForceCmkForQuery *bool `json:"forceCmkForQuery,omitempty"`
 
-	//Location: The geo-location where the resource lives
+	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a resources.azure.com/ResourceGroup resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
-	//ProvisioningState: The provisioning state of the workspace.
+	// ProvisioningState: The provisioning state of the workspace.
 	ProvisioningState *WorkspacePropertiesProvisioningState `json:"provisioningState,omitempty"`
 
-	//PublicNetworkAccessForIngestion: The network access type for accessing Log Analytics ingestion.
+	// PublicNetworkAccessForIngestion: The network access type for accessing Log Analytics ingestion.
 	PublicNetworkAccessForIngestion *WorkspacePropertiesPublicNetworkAccessForIngestion `json:"publicNetworkAccessForIngestion,omitempty"`
 
-	//PublicNetworkAccessForQuery: The network access type for accessing Log Analytics query.
+	// PublicNetworkAccessForQuery: The network access type for accessing Log Analytics query.
 	PublicNetworkAccessForQuery *WorkspacePropertiesPublicNetworkAccessForQuery `json:"publicNetworkAccessForQuery,omitempty"`
 
-	//RetentionInDays: The workspace data retention in days. Allowed values are per pricing plan. See pricing tiers
-	//documentation for details.
+	// RetentionInDays: The workspace data retention in days. Allowed values are per pricing plan. See pricing tiers
+	// documentation for details.
 	RetentionInDays *int `json:"retentionInDays,omitempty"`
 
-	//Sku: The SKU (tier) of a workspace.
+	// Sku: The SKU (tier) of a workspace.
 	Sku *WorkspaceSku `json:"sku,omitempty"`
 
-	//Tags: Name-value pairs to add to the resource
+	// Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
 
-	//WorkspaceCapping: The daily volume cap for ingestion.
+	// WorkspaceCapping: The daily volume cap for ingestion.
 	WorkspaceCapping *WorkspaceCapping `json:"workspaceCapping,omitempty"`
 }
 
@@ -1407,10 +1407,10 @@ func (workspaces *Workspaces_Spec) OriginalVersion() string {
 func (workspaces *Workspaces_Spec) SetAzureName(azureName string) { workspaces.AzureName = azureName }
 
 type PrivateLinkScopedResource_Status struct {
-	//ResourceId: The full resource Id of the private link scope resource.
+	// ResourceId: The full resource Id of the private link scope resource.
 	ResourceId *string `json:"resourceId,omitempty"`
 
-	//ScopeId: The private link scope unique Identifier.
+	// ScopeId: The private link scope unique Identifier.
 	ScopeId *string `json:"scopeId,omitempty"`
 }
 
@@ -1486,9 +1486,9 @@ const (
 	PublicNetworkAccessType_StatusEnabled  = PublicNetworkAccessType_Status("Enabled")
 )
 
-//Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.OperationalInsights.json#/definitions/WorkspaceCapping
+// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.OperationalInsights.json#/definitions/WorkspaceCapping
 type WorkspaceCapping struct {
-	//DailyQuotaGb: The workspace daily quota for ingestion.
+	// DailyQuotaGb: The workspace daily quota for ingestion.
 	DailyQuotaGb *float64 `json:"dailyQuotaGb,omitempty"`
 }
 
@@ -1571,13 +1571,13 @@ func (capping *WorkspaceCapping) AssignPropertiesToWorkspaceCapping(destination 
 }
 
 type WorkspaceCapping_Status struct {
-	//DailyQuotaGb: The workspace daily quota for ingestion.
+	// DailyQuotaGb: The workspace daily quota for ingestion.
 	DailyQuotaGb *float64 `json:"dailyQuotaGb,omitempty"`
 
-	//DataIngestionStatus: The status of data ingestion for this workspace.
+	// DataIngestionStatus: The status of data ingestion for this workspace.
 	DataIngestionStatus *WorkspaceCappingStatusDataIngestionStatus `json:"dataIngestionStatus,omitempty"`
 
-	//QuotaNextResetTime: The time when the quota will be rest.
+	// QuotaNextResetTime: The time when the quota will be rest.
 	QuotaNextResetTime *string `json:"quotaNextResetTime,omitempty"`
 }
 
@@ -1678,24 +1678,24 @@ func (capping *WorkspaceCapping_Status) AssignPropertiesToWorkspaceCappingStatus
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.OperationalInsights.json#/definitions/WorkspaceFeatures
+// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.OperationalInsights.json#/definitions/WorkspaceFeatures
 type WorkspaceFeatures struct {
-	//AdditionalProperties: Unmatched properties from the message are deserialized this collection
+	// AdditionalProperties: Unmatched properties from the message are deserialized this collection
 	AdditionalProperties map[string]v1.JSON `json:"additionalProperties,omitempty"`
 
-	//ClusterResourceReference: Dedicated LA cluster resourceId that is linked to the workspaces.
+	// ClusterResourceReference: Dedicated LA cluster resourceId that is linked to the workspaces.
 	ClusterResourceReference *genruntime.ResourceReference `armReference:"ClusterResourceId" json:"clusterResourceReference,omitempty"`
 
-	//DisableLocalAuth: Disable Non-AAD based Auth.
+	// DisableLocalAuth: Disable Non-AAD based Auth.
 	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
 
-	//EnableDataExport: Flag that indicate if data should be exported.
+	// EnableDataExport: Flag that indicate if data should be exported.
 	EnableDataExport *bool `json:"enableDataExport,omitempty"`
 
-	//EnableLogAccessUsingOnlyResourcePermissions: Flag that indicate which permission to use - resource or workspace or both.
+	// EnableLogAccessUsingOnlyResourcePermissions: Flag that indicate which permission to use - resource or workspace or both.
 	EnableLogAccessUsingOnlyResourcePermissions *bool `json:"enableLogAccessUsingOnlyResourcePermissions,omitempty"`
 
-	//ImmediatePurgeDataOn30Days: Flag that describes if we want to remove the data after 30 days.
+	// ImmediatePurgeDataOn30Days: Flag that describes if we want to remove the data after 30 days.
 	ImmediatePurgeDataOn30Days *bool `json:"immediatePurgeDataOn30Days,omitempty"`
 }
 
@@ -1932,19 +1932,19 @@ func (features *WorkspaceFeatures) AssignPropertiesToWorkspaceFeatures(destinati
 }
 
 type WorkspaceFeatures_Status struct {
-	//ClusterResourceId: Dedicated LA cluster resourceId that is linked to the workspaces.
+	// ClusterResourceId: Dedicated LA cluster resourceId that is linked to the workspaces.
 	ClusterResourceId *string `json:"clusterResourceId,omitempty"`
 
-	//DisableLocalAuth: Disable Non-AAD based Auth.
+	// DisableLocalAuth: Disable Non-AAD based Auth.
 	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
 
-	//EnableDataExport: Flag that indicate if data should be exported.
+	// EnableDataExport: Flag that indicate if data should be exported.
 	EnableDataExport *bool `json:"enableDataExport,omitempty"`
 
-	//EnableLogAccessUsingOnlyResourcePermissions: Flag that indicate which permission to use - resource or workspace or both.
+	// EnableLogAccessUsingOnlyResourcePermissions: Flag that indicate which permission to use - resource or workspace or both.
 	EnableLogAccessUsingOnlyResourcePermissions *bool `json:"enableLogAccessUsingOnlyResourcePermissions,omitempty"`
 
-	//ImmediatePurgeDataOn30Days: Flag that describes if we want to remove the data after 30 days.
+	// ImmediatePurgeDataOn30Days: Flag that describes if we want to remove the data after 30 days.
 	ImmediatePurgeDataOn30Days *bool `json:"immediatePurgeDataOn30Days,omitempty"`
 }
 
@@ -2130,14 +2130,14 @@ const (
 	WorkspacePropertiesStatusProvisioningStateUpdating            = WorkspacePropertiesStatusProvisioningState("Updating")
 )
 
-//Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.OperationalInsights.json#/definitions/WorkspaceSku
+// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.OperationalInsights.json#/definitions/WorkspaceSku
 type WorkspaceSku struct {
-	//CapacityReservationLevel: The capacity reservation level in GB for this workspace, when CapacityReservation sku is
-	//selected.
+	// CapacityReservationLevel: The capacity reservation level in GB for this workspace, when CapacityReservation sku is
+	// selected.
 	CapacityReservationLevel *int `json:"capacityReservationLevel,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Name: The name of the SKU.
+	// Name: The name of the SKU.
 	Name *WorkspaceSkuName `json:"name,omitempty"`
 }
 
@@ -2238,14 +2238,14 @@ func (workspaceSku *WorkspaceSku) AssignPropertiesToWorkspaceSku(destination *v2
 }
 
 type WorkspaceSku_Status struct {
-	//CapacityReservationLevel: The capacity reservation level in GB for this workspace, when CapacityReservation sku is
-	//selected.
+	// CapacityReservationLevel: The capacity reservation level in GB for this workspace, when CapacityReservation sku is
+	// selected.
 	CapacityReservationLevel *WorkspaceSkuStatusCapacityReservationLevel `json:"capacityReservationLevel,omitempty"`
 
-	//LastSkuUpdate: The last time when the sku was updated.
+	// LastSkuUpdate: The last time when the sku was updated.
 	LastSkuUpdate *string `json:"lastSkuUpdate,omitempty"`
 
-	//Name: The name of the SKU.
+	// Name: The name of the SKU.
 	Name *WorkspaceSkuStatusName `json:"name,omitempty"`
 }
 

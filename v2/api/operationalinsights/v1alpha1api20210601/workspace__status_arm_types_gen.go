@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1alpha1api20210601
 
-//Deprecated version of Workspace_Status. Use v1beta20210601.Workspace_Status instead
+// Deprecated version of Workspace_Status. Use v1beta20210601.Workspace_Status instead
 type Workspace_StatusARM struct {
 	ETag       *string                        `json:"eTag,omitempty"`
 	Id         *string                        `json:"id,omitempty"`
@@ -14,7 +14,7 @@ type Workspace_StatusARM struct {
 	Type       *string                        `json:"type,omitempty"`
 }
 
-//Deprecated version of WorkspaceProperties_Status. Use v1beta20210601.WorkspaceProperties_Status instead
+// Deprecated version of WorkspaceProperties_Status. Use v1beta20210601.WorkspaceProperties_Status instead
 type WorkspaceProperties_StatusARM struct {
 	CreatedDate                     *string                                     `json:"createdDate,omitempty"`
 	CustomerId                      *string                                     `json:"customerId,omitempty"`
@@ -30,20 +30,20 @@ type WorkspaceProperties_StatusARM struct {
 	WorkspaceCapping                *WorkspaceCapping_StatusARM                 `json:"workspaceCapping,omitempty"`
 }
 
-//Deprecated version of PrivateLinkScopedResource_Status. Use v1beta20210601.PrivateLinkScopedResource_Status instead
+// Deprecated version of PrivateLinkScopedResource_Status. Use v1beta20210601.PrivateLinkScopedResource_Status instead
 type PrivateLinkScopedResource_StatusARM struct {
 	ResourceId *string `json:"resourceId,omitempty"`
 	ScopeId    *string `json:"scopeId,omitempty"`
 }
 
-//Deprecated version of WorkspaceCapping_Status. Use v1beta20210601.WorkspaceCapping_Status instead
+// Deprecated version of WorkspaceCapping_Status. Use v1beta20210601.WorkspaceCapping_Status instead
 type WorkspaceCapping_StatusARM struct {
 	DailyQuotaGb        *float64                                   `json:"dailyQuotaGb,omitempty"`
 	DataIngestionStatus *WorkspaceCappingStatusDataIngestionStatus `json:"dataIngestionStatus,omitempty"`
 	QuotaNextResetTime  *string                                    `json:"quotaNextResetTime,omitempty"`
 }
 
-//Deprecated version of WorkspaceFeatures_Status. Use v1beta20210601.WorkspaceFeatures_Status instead
+// Deprecated version of WorkspaceFeatures_Status. Use v1beta20210601.WorkspaceFeatures_Status instead
 type WorkspaceFeatures_StatusARM struct {
 	ClusterResourceId                           *string `json:"clusterResourceId,omitempty"`
 	DisableLocalAuth                            *bool   `json:"disableLocalAuth,omitempty"`
@@ -52,7 +52,7 @@ type WorkspaceFeatures_StatusARM struct {
 	ImmediatePurgeDataOn30Days                  *bool   `json:"immediatePurgeDataOn30Days,omitempty"`
 }
 
-//Deprecated version of WorkspaceSku_Status. Use v1beta20210601.WorkspaceSku_Status instead
+// Deprecated version of WorkspaceSku_Status. Use v1beta20210601.WorkspaceSku_Status instead
 type WorkspaceSku_StatusARM struct {
 	CapacityReservationLevel *WorkspaceSkuStatusCapacityReservationLevel `json:"capacityReservationLevel,omitempty"`
 	LastSkuUpdate            *string                                     `json:"lastSkuUpdate,omitempty"`

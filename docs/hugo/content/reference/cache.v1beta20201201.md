@@ -1,4 +1,5 @@
 ---
+title: cache.azure.com/v1beta20201201
 ---
 <h2 id="cache.azure.com/v1beta20201201">cache.azure.com/v1beta20201201</h2>
 <div>
@@ -30,7 +31,7 @@ string
 </td>
 <td>
 <p>Id: Fully qualified resource ID for the resource. Ex -
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}</p>
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
 </td>
 </tr>
 </tbody>
@@ -59,7 +60,7 @@ string
 </td>
 <td>
 <p>Id: Fully qualified resource ID for the resource. Ex -
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}</p>
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
 </td>
 </tr>
 </tbody>
@@ -289,7 +290,7 @@ genruntime.ResourceReference
 </td>
 <td>
 <p>SubnetReference: The full resource ID of a subnet in a virtual network to deploy the Redis cache in. Example format:
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1</p>
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;Microsoft.{Network|ClassicNetwork}/&#x200b;VirtualNetworks/&#x200b;vnet1/&#x200b;subnets/&#x200b;subnet1</&#x200b;p>
 </td>
 </tr>
 <tr>
@@ -800,7 +801,7 @@ string
 </td>
 <td>
 <p>Id: Fully qualified resource ID for the resource. Ex -
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}</p>
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
 </td>
 </tr>
 <tr>
@@ -859,7 +860,7 @@ string
 </td>
 <td>
 <p>Id: Fully qualified resource ID for the resource. Ex -
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}</p>
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
 </td>
 </tr>
 <tr>
@@ -1563,7 +1564,7 @@ string
 </td>
 <td>
 <p>Id: Fully qualified resource ID for the resource. Ex -
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}</p>
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
 </td>
 </tr>
 <tr>
@@ -1657,7 +1658,7 @@ string
 </td>
 <td>
 <p>Id: Fully qualified resource ID for the resource. Ex -
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}</p>
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
 </td>
 </tr>
 <tr>
@@ -2190,7 +2191,7 @@ string
 </td>
 <td>
 <p>Id: Fully qualified resource ID for the resource. Ex -
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}</p>
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
 </td>
 </tr>
 <tr>
@@ -2251,7 +2252,7 @@ string
 </td>
 <td>
 <p>Id: Fully qualified resource ID for the resource. Ex -
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}</p>
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
 </td>
 </tr>
 <tr>
@@ -2746,7 +2747,7 @@ string
 </td>
 <td>
 <p>SubnetId: The full resource ID of a subnet in a virtual network to deploy the Redis cache in. Example format:
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1</p>
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;Microsoft.{Network|ClassicNetwork}/&#x200b;VirtualNetworks/&#x200b;vnet1/&#x200b;subnets/&#x200b;subnet1</&#x200b;p>
 </td>
 </tr>
 <tr>
@@ -2821,7 +2822,7 @@ string
 </td>
 <td>
 <p>Id: Fully qualified resource ID for the resource. Ex -
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}</p>
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
 </td>
 </tr>
 <tr>
@@ -3040,7 +3041,7 @@ string
 </td>
 <td>
 <p>SubnetId: The full resource ID of a subnet in a virtual network to deploy the Redis cache in. Example format:
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1</p>
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;Microsoft.{Network|ClassicNetwork}/&#x200b;VirtualNetworks/&#x200b;vnet1/&#x200b;subnets/&#x200b;subnet1</&#x200b;p>
 </td>
 </tr>
 <tr>
@@ -3110,7 +3111,7 @@ string
 </td>
 <td>
 <p>Id: Fully qualified resource ID for the resource. Ex -
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}</p>
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
 </td>
 </tr>
 <tr>
@@ -3398,7 +3399,7 @@ genruntime.ResourceReference
 </td>
 <td>
 <p>SubnetReference: The full resource ID of a subnet in a virtual network to deploy the Redis cache in. Example format:
-/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1</p>
+/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;Microsoft.{Network|ClassicNetwork}/&#x200b;VirtualNetworks/&#x200b;vnet1/&#x200b;subnets/&#x200b;subnet1</&#x200b;p>
 </td>
 </tr>
 <tr>

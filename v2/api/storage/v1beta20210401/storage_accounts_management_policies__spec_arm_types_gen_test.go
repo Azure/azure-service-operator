@@ -56,7 +56,7 @@ func RunJSONSerializationTestForStorageAccountsManagementPoliciesSpecARM(subject
 }
 
 // Generator of StorageAccountsManagementPolicies_SpecARM instances for property testing - lazily instantiated by
-//StorageAccountsManagementPoliciesSpecARMGenerator()
+// StorageAccountsManagementPoliciesSpecARMGenerator()
 var storageAccountsManagementPoliciesSpecARMGenerator gopter.Gen
 
 // StorageAccountsManagementPoliciesSpecARMGenerator returns a generator of StorageAccountsManagementPolicies_SpecARM instances for property testing.
@@ -131,7 +131,7 @@ func RunJSONSerializationTestForManagementPolicyPropertiesARM(subject Management
 }
 
 // Generator of ManagementPolicyPropertiesARM instances for property testing - lazily instantiated by
-//ManagementPolicyPropertiesARMGenerator()
+// ManagementPolicyPropertiesARMGenerator()
 var managementPolicyPropertiesARMGenerator gopter.Gen
 
 // ManagementPolicyPropertiesARMGenerator returns a generator of ManagementPolicyPropertiesARM instances for property testing.
@@ -191,7 +191,7 @@ func RunJSONSerializationTestForManagementPolicySchemaARM(subject ManagementPoli
 }
 
 // Generator of ManagementPolicySchemaARM instances for property testing - lazily instantiated by
-//ManagementPolicySchemaARMGenerator()
+// ManagementPolicySchemaARMGenerator()
 var managementPolicySchemaARMGenerator gopter.Gen
 
 // ManagementPolicySchemaARMGenerator returns a generator of ManagementPolicySchemaARM instances for property testing.
@@ -251,7 +251,7 @@ func RunJSONSerializationTestForManagementPolicyRuleARM(subject ManagementPolicy
 }
 
 // Generator of ManagementPolicyRuleARM instances for property testing - lazily instantiated by
-//ManagementPolicyRuleARMGenerator()
+// ManagementPolicyRuleARMGenerator()
 var managementPolicyRuleARMGenerator gopter.Gen
 
 // ManagementPolicyRuleARMGenerator returns a generator of ManagementPolicyRuleARM instances for property testing.
@@ -327,7 +327,7 @@ func RunJSONSerializationTestForManagementPolicyDefinitionARM(subject Management
 }
 
 // Generator of ManagementPolicyDefinitionARM instances for property testing - lazily instantiated by
-//ManagementPolicyDefinitionARMGenerator()
+// ManagementPolicyDefinitionARMGenerator()
 var managementPolicyDefinitionARMGenerator gopter.Gen
 
 // ManagementPolicyDefinitionARMGenerator returns a generator of ManagementPolicyDefinitionARM instances for property testing.
@@ -388,7 +388,7 @@ func RunJSONSerializationTestForManagementPolicyActionARM(subject ManagementPoli
 }
 
 // Generator of ManagementPolicyActionARM instances for property testing - lazily instantiated by
-//ManagementPolicyActionARMGenerator()
+// ManagementPolicyActionARMGenerator()
 var managementPolicyActionARMGenerator gopter.Gen
 
 // ManagementPolicyActionARMGenerator returns a generator of ManagementPolicyActionARM instances for property testing.
@@ -450,7 +450,7 @@ func RunJSONSerializationTestForManagementPolicyFilterARM(subject ManagementPoli
 }
 
 // Generator of ManagementPolicyFilterARM instances for property testing - lazily instantiated by
-//ManagementPolicyFilterARMGenerator()
+// ManagementPolicyFilterARMGenerator()
 var managementPolicyFilterARMGenerator gopter.Gen
 
 // ManagementPolicyFilterARMGenerator returns a generator of ManagementPolicyFilterARM instances for property testing.
@@ -525,7 +525,7 @@ func RunJSONSerializationTestForManagementPolicyBaseBlobARM(subject ManagementPo
 }
 
 // Generator of ManagementPolicyBaseBlobARM instances for property testing - lazily instantiated by
-//ManagementPolicyBaseBlobARMGenerator()
+// ManagementPolicyBaseBlobARMGenerator()
 var managementPolicyBaseBlobARMGenerator gopter.Gen
 
 // ManagementPolicyBaseBlobARMGenerator returns a generator of ManagementPolicyBaseBlobARM instances for property testing.
@@ -601,7 +601,7 @@ func RunJSONSerializationTestForManagementPolicySnapShotARM(subject ManagementPo
 }
 
 // Generator of ManagementPolicySnapShotARM instances for property testing - lazily instantiated by
-//ManagementPolicySnapShotARMGenerator()
+// ManagementPolicySnapShotARMGenerator()
 var managementPolicySnapShotARMGenerator gopter.Gen
 
 // ManagementPolicySnapShotARMGenerator returns a generator of ManagementPolicySnapShotARM instances for property testing.
@@ -663,7 +663,7 @@ func RunJSONSerializationTestForManagementPolicyVersionARM(subject ManagementPol
 }
 
 // Generator of ManagementPolicyVersionARM instances for property testing - lazily instantiated by
-//ManagementPolicyVersionARMGenerator()
+// ManagementPolicyVersionARMGenerator()
 var managementPolicyVersionARMGenerator gopter.Gen
 
 // ManagementPolicyVersionARMGenerator returns a generator of ManagementPolicyVersionARM instances for property testing.
@@ -786,7 +786,7 @@ func RunJSONSerializationTestForDateAfterCreationARM(subject DateAfterCreationAR
 }
 
 // Generator of DateAfterCreationARM instances for property testing - lazily instantiated by
-//DateAfterCreationARMGenerator()
+// DateAfterCreationARMGenerator()
 var dateAfterCreationARMGenerator gopter.Gen
 
 // DateAfterCreationARMGenerator returns a generator of DateAfterCreationARM instances for property testing.
@@ -846,7 +846,7 @@ func RunJSONSerializationTestForDateAfterModificationARM(subject DateAfterModifi
 }
 
 // Generator of DateAfterModificationARM instances for property testing - lazily instantiated by
-//DateAfterModificationARMGenerator()
+// DateAfterModificationARMGenerator()
 var dateAfterModificationARMGenerator gopter.Gen
 
 // DateAfterModificationARMGenerator returns a generator of DateAfterModificationARM instances for property testing.

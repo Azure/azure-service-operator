@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1alpha1api20201101
 
-//Deprecated version of NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded. Use v1beta20201101.NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded instead
+// Deprecated version of NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded. Use v1beta20201101.NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded instead
 type NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbeddedARM struct {
 	Etag       *string                                         `json:"etag,omitempty"`
 	Id         *string                                         `json:"id,omitempty"`
@@ -14,7 +14,7 @@ type NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbeddedARM str
 	Type       *string                                         `json:"type,omitempty"`
 }
 
-//Deprecated version of NetworkSecurityGroupPropertiesFormat_Status. Use v1beta20201101.NetworkSecurityGroupPropertiesFormat_Status instead
+// Deprecated version of NetworkSecurityGroupPropertiesFormat_Status. Use v1beta20201101.NetworkSecurityGroupPropertiesFormat_Status instead
 type NetworkSecurityGroupPropertiesFormat_StatusARM struct {
 	DefaultSecurityRules []SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbeddedARM     `json:"defaultSecurityRules,omitempty"`
 	FlowLogs             []FlowLog_Status_SubResourceEmbeddedARM                               `json:"flowLogs,omitempty"`
@@ -25,23 +25,23 @@ type NetworkSecurityGroupPropertiesFormat_StatusARM struct {
 	Subnets              []Subnet_Status_NetworkSecurityGroup_SubResourceEmbeddedARM           `json:"subnets,omitempty"`
 }
 
-//Deprecated version of FlowLog_Status_SubResourceEmbedded. Use v1beta20201101.FlowLog_Status_SubResourceEmbedded instead
+// Deprecated version of FlowLog_Status_SubResourceEmbedded. Use v1beta20201101.FlowLog_Status_SubResourceEmbedded instead
 type FlowLog_Status_SubResourceEmbeddedARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
-//Deprecated version of NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded. Use v1beta20201101.NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded instead
+// Deprecated version of NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded. Use v1beta20201101.NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded instead
 type NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbeddedARM struct {
 	ExtendedLocation *ExtendedLocation_StatusARM `json:"extendedLocation,omitempty"`
 	Id               *string                     `json:"id,omitempty"`
 }
 
-//Deprecated version of SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded. Use v1beta20201101.SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded instead
+// Deprecated version of SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded. Use v1beta20201101.SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded instead
 type SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbeddedARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
-//Deprecated version of Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded. Use v1beta20201101.Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded instead
+// Deprecated version of Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded. Use v1beta20201101.Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded instead
 type Subnet_Status_NetworkSecurityGroup_SubResourceEmbeddedARM struct {
 	Id *string `json:"id,omitempty"`
 }

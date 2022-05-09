@@ -56,7 +56,7 @@ func RunJSONSerializationTestForMongoDBCollectionGetResultsStatusARM(subject Mon
 }
 
 // Generator of MongoDBCollectionGetResults_StatusARM instances for property testing - lazily instantiated by
-//MongoDBCollectionGetResultsStatusARMGenerator()
+// MongoDBCollectionGetResultsStatusARMGenerator()
 var mongoDBCollectionGetResultsStatusARMGenerator gopter.Gen
 
 // MongoDBCollectionGetResultsStatusARMGenerator returns a generator of MongoDBCollectionGetResults_StatusARM instances for property testing.
@@ -134,7 +134,7 @@ func RunJSONSerializationTestForMongoDBCollectionGetPropertiesStatusARM(subject 
 }
 
 // Generator of MongoDBCollectionGetProperties_StatusARM instances for property testing - lazily instantiated by
-//MongoDBCollectionGetPropertiesStatusARMGenerator()
+// MongoDBCollectionGetPropertiesStatusARMGenerator()
 var mongoDBCollectionGetPropertiesStatusARMGenerator gopter.Gen
 
 // MongoDBCollectionGetPropertiesStatusARMGenerator returns a generator of MongoDBCollectionGetProperties_StatusARM instances for property testing.
@@ -195,7 +195,7 @@ func RunJSONSerializationTestForMongoDBCollectionGetPropertiesStatusResourceARM(
 }
 
 // Generator of MongoDBCollectionGetProperties_Status_ResourceARM instances for property testing - lazily instantiated
-//by MongoDBCollectionGetPropertiesStatusResourceARMGenerator()
+// by MongoDBCollectionGetPropertiesStatusResourceARMGenerator()
 var mongoDBCollectionGetPropertiesStatusResourceARMGenerator gopter.Gen
 
 // MongoDBCollectionGetPropertiesStatusResourceARMGenerator returns a generator of MongoDBCollectionGetProperties_Status_ResourceARM instances for property testing.
@@ -274,7 +274,7 @@ func RunJSONSerializationTestForOptionsResourceStatusARM(subject OptionsResource
 }
 
 // Generator of OptionsResource_StatusARM instances for property testing - lazily instantiated by
-//OptionsResourceStatusARMGenerator()
+// OptionsResourceStatusARMGenerator()
 var optionsResourceStatusARMGenerator gopter.Gen
 
 // OptionsResourceStatusARMGenerator returns a generator of OptionsResource_StatusARM instances for property testing.
@@ -348,7 +348,7 @@ func RunJSONSerializationTestForAutoscaleSettingsStatusARM(subject AutoscaleSett
 }
 
 // Generator of AutoscaleSettings_StatusARM instances for property testing - lazily instantiated by
-//AutoscaleSettingsStatusARMGenerator()
+// AutoscaleSettingsStatusARMGenerator()
 var autoscaleSettingsStatusARMGenerator gopter.Gen
 
 // AutoscaleSettingsStatusARMGenerator returns a generator of AutoscaleSettings_StatusARM instances for property testing.
@@ -408,7 +408,7 @@ func RunJSONSerializationTestForMongoIndexStatusARM(subject MongoIndex_StatusARM
 }
 
 // Generator of MongoIndex_StatusARM instances for property testing - lazily instantiated by
-//MongoIndexStatusARMGenerator()
+// MongoIndexStatusARMGenerator()
 var mongoIndexStatusARMGenerator gopter.Gen
 
 // MongoIndexStatusARMGenerator returns a generator of MongoIndex_StatusARM instances for property testing.
@@ -469,7 +469,7 @@ func RunJSONSerializationTestForMongoIndexKeysStatusARM(subject MongoIndexKeys_S
 }
 
 // Generator of MongoIndexKeys_StatusARM instances for property testing - lazily instantiated by
-//MongoIndexKeysStatusARMGenerator()
+// MongoIndexKeysStatusARMGenerator()
 var mongoIndexKeysStatusARMGenerator gopter.Gen
 
 // MongoIndexKeysStatusARMGenerator returns a generator of MongoIndexKeys_StatusARM instances for property testing.
@@ -529,7 +529,7 @@ func RunJSONSerializationTestForMongoIndexOptionsStatusARM(subject MongoIndexOpt
 }
 
 // Generator of MongoIndexOptions_StatusARM instances for property testing - lazily instantiated by
-//MongoIndexOptionsStatusARMGenerator()
+// MongoIndexOptionsStatusARMGenerator()
 var mongoIndexOptionsStatusARMGenerator gopter.Gen
 
 // MongoIndexOptionsStatusARMGenerator returns a generator of MongoIndexOptions_StatusARM instances for property testing.

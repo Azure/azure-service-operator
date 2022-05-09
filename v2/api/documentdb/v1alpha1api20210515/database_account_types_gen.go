@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Deprecated version of DatabaseAccount. Use v1beta20210515.DatabaseAccount instead
+// Deprecated version of DatabaseAccount. Use v1beta20210515.DatabaseAccount instead
 type DatabaseAccount struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -335,21 +335,21 @@ func (account *DatabaseAccount) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Deprecated version of DatabaseAccount. Use v1beta20210515.DatabaseAccount instead
+// Deprecated version of DatabaseAccount. Use v1beta20210515.DatabaseAccount instead
 type DatabaseAccountList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []DatabaseAccount `json:"items"`
 }
 
-//Deprecated version of DatabaseAccountGetResults_Status. Use v1beta20210515.DatabaseAccountGetResults_Status instead
+// Deprecated version of DatabaseAccountGetResults_Status. Use v1beta20210515.DatabaseAccountGetResults_Status instead
 type DatabaseAccountGetResults_Status struct {
 	AnalyticalStorageConfiguration *AnalyticalStorageConfiguration_Status `json:"analyticalStorageConfiguration,omitempty"`
 	ApiProperties                  *ApiProperties_Status                  `json:"apiProperties,omitempty"`
 	BackupPolicy                   *BackupPolicy_Status                   `json:"backupPolicy,omitempty"`
 	Capabilities                   []Capability_Status                    `json:"capabilities,omitempty"`
 
-	//Conditions: The observed state of the resource
+	// Conditions: The observed state of the resource
 	Conditions                         []conditions.Condition                                 `json:"conditions,omitempty"`
 	ConnectorOffer                     *ConnectorOffer_Status                                 `json:"connectorOffer,omitempty"`
 	ConsistencyPolicy                  *ConsistencyPolicy_Status                              `json:"consistencyPolicy,omitempty"`
@@ -1552,8 +1552,8 @@ type DatabaseAccounts_Spec struct {
 	// +kubebuilder:validation:MaxLength=50
 	// +kubebuilder:validation:MinLength=3
 	// +kubebuilder:validation:Pattern="^[a-z0-9]+(-[a-z0-9]+)*"
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName         string                                               `json:"azureName,omitempty"`
 	BackupPolicy      *BackupPolicy                                        `json:"backupPolicy,omitempty"`
 	Capabilities      []Capability                                         `json:"capabilities,omitempty"`
@@ -1582,14 +1582,14 @@ type DatabaseAccounts_Spec struct {
 	NetworkAclBypass            *DatabaseAccountCreateUpdatePropertiesNetworkAclBypass `json:"networkAclBypass,omitempty"`
 	NetworkAclBypassResourceIds []string                                               `json:"networkAclBypassResourceIds,omitempty"`
 
-	//OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
-	//passed directly to Azure
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
 	OperatorSpec *DatabaseAccountOperatorSpec `json:"operatorSpec,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a resources.azure.com/ResourceGroup resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
 	Owner               *genruntime.KnownResourceReference                        `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PublicNetworkAccess *DatabaseAccountCreateUpdatePropertiesPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 	Tags                map[string]string                                         `json:"tags,omitempty"`
@@ -2744,7 +2744,7 @@ func (accounts *DatabaseAccounts_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (accounts *DatabaseAccounts_Spec) SetAzureName(azureName string) { accounts.AzureName = azureName }
 
-//Deprecated version of AnalyticalStorageConfiguration. Use v1beta20210515.AnalyticalStorageConfiguration instead
+// Deprecated version of AnalyticalStorageConfiguration. Use v1beta20210515.AnalyticalStorageConfiguration instead
 type AnalyticalStorageConfiguration struct {
 	SchemaType *AnalyticalStorageConfigurationSchemaType `json:"schemaType,omitempty"`
 }
@@ -2827,7 +2827,7 @@ func (configuration *AnalyticalStorageConfiguration) AssignPropertiesToAnalytica
 	return nil
 }
 
-//Deprecated version of AnalyticalStorageConfiguration_Status. Use v1beta20210515.AnalyticalStorageConfiguration_Status instead
+// Deprecated version of AnalyticalStorageConfiguration_Status. Use v1beta20210515.AnalyticalStorageConfiguration_Status instead
 type AnalyticalStorageConfiguration_Status struct {
 	SchemaType *AnalyticalStorageSchemaType_Status `json:"schemaType,omitempty"`
 }
@@ -2895,7 +2895,7 @@ func (configuration *AnalyticalStorageConfiguration_Status) AssignPropertiesToAn
 	return nil
 }
 
-//Deprecated version of ApiProperties. Use v1beta20210515.ApiProperties instead
+// Deprecated version of ApiProperties. Use v1beta20210515.ApiProperties instead
 type ApiProperties struct {
 	ServerVersion *ApiPropertiesServerVersion `json:"serverVersion,omitempty"`
 }
@@ -2978,7 +2978,7 @@ func (properties *ApiProperties) AssignPropertiesToApiProperties(destination *al
 	return nil
 }
 
-//Deprecated version of ApiProperties_Status. Use v1beta20210515.ApiProperties_Status instead
+// Deprecated version of ApiProperties_Status. Use v1beta20210515.ApiProperties_Status instead
 type ApiProperties_Status struct {
 	ServerVersion *ApiPropertiesStatusServerVersion `json:"serverVersion,omitempty"`
 }
@@ -3046,7 +3046,7 @@ func (properties *ApiProperties_Status) AssignPropertiesToApiPropertiesStatus(de
 	return nil
 }
 
-//Deprecated version of BackupPolicy. Use v1beta20210515.BackupPolicy instead
+// Deprecated version of BackupPolicy. Use v1beta20210515.BackupPolicy instead
 type BackupPolicy struct {
 	Continuous *ContinuousModeBackupPolicy `json:"continuousModeBackupPolicy,omitempty"`
 	Periodic   *PeriodicModeBackupPolicy   `json:"periodicModeBackupPolicy,omitempty"`
@@ -3192,7 +3192,7 @@ func (policy *BackupPolicy) AssignPropertiesToBackupPolicy(destination *alpha202
 	return nil
 }
 
-//Deprecated version of BackupPolicy_Status. Use v1beta20210515.BackupPolicy_Status instead
+// Deprecated version of BackupPolicy_Status. Use v1beta20210515.BackupPolicy_Status instead
 type BackupPolicy_Status struct {
 	Type *BackupPolicyType_Status `json:"type,omitempty"`
 }
@@ -3260,7 +3260,7 @@ func (policy *BackupPolicy_Status) AssignPropertiesToBackupPolicyStatus(destinat
 	return nil
 }
 
-//Deprecated version of Capability. Use v1beta20210515.Capability instead
+// Deprecated version of Capability. Use v1beta20210515.Capability instead
 type Capability struct {
 	Name *string `json:"name,omitempty"`
 }
@@ -3333,7 +3333,7 @@ func (capability *Capability) AssignPropertiesToCapability(destination *alpha202
 	return nil
 }
 
-//Deprecated version of Capability_Status. Use v1beta20210515.Capability_Status instead
+// Deprecated version of Capability_Status. Use v1beta20210515.Capability_Status instead
 type Capability_Status struct {
 	Name *string `json:"name,omitempty"`
 }
@@ -3391,12 +3391,12 @@ func (capability *Capability_Status) AssignPropertiesToCapabilityStatus(destinat
 	return nil
 }
 
-//Deprecated version of ConnectorOffer_Status. Use v1beta20210515.ConnectorOffer_Status instead
+// Deprecated version of ConnectorOffer_Status. Use v1beta20210515.ConnectorOffer_Status instead
 type ConnectorOffer_Status string
 
 const ConnectorOffer_StatusSmall = ConnectorOffer_Status("Small")
 
-//Deprecated version of ConsistencyPolicy. Use v1beta20210515.ConsistencyPolicy instead
+// Deprecated version of ConsistencyPolicy. Use v1beta20210515.ConsistencyPolicy instead
 type ConsistencyPolicy struct {
 	// +kubebuilder:validation:Required
 	DefaultConsistencyLevel *ConsistencyPolicyDefaultConsistencyLevel `json:"defaultConsistencyLevel,omitempty"`
@@ -3544,7 +3544,7 @@ func (policy *ConsistencyPolicy) AssignPropertiesToConsistencyPolicy(destination
 	return nil
 }
 
-//Deprecated version of ConsistencyPolicy_Status. Use v1beta20210515.ConsistencyPolicy_Status instead
+// Deprecated version of ConsistencyPolicy_Status. Use v1beta20210515.ConsistencyPolicy_Status instead
 type ConsistencyPolicy_Status struct {
 	DefaultConsistencyLevel *ConsistencyPolicyStatusDefaultConsistencyLevel `json:"defaultConsistencyLevel,omitempty"`
 	MaxIntervalInSeconds    *int                                            `json:"maxIntervalInSeconds,omitempty"`
@@ -3638,7 +3638,7 @@ func (policy *ConsistencyPolicy_Status) AssignPropertiesToConsistencyPolicyStatu
 	return nil
 }
 
-//Deprecated version of CorsPolicy. Use v1beta20210515.CorsPolicy instead
+// Deprecated version of CorsPolicy. Use v1beta20210515.CorsPolicy instead
 type CorsPolicy struct {
 	AllowedHeaders *string `json:"allowedHeaders,omitempty"`
 	AllowedMethods *string `json:"allowedMethods,omitempty"`
@@ -3802,7 +3802,7 @@ func (policy *CorsPolicy) AssignPropertiesToCorsPolicy(destination *alpha2021051
 	return nil
 }
 
-//Deprecated version of CorsPolicy_Status. Use v1beta20210515.CorsPolicy_Status instead
+// Deprecated version of CorsPolicy_Status. Use v1beta20210515.CorsPolicy_Status instead
 type CorsPolicy_Status struct {
 	AllowedHeaders  *string `json:"allowedHeaders,omitempty"`
 	AllowedMethods  *string `json:"allowedMethods,omitempty"`
@@ -3912,22 +3912,22 @@ func (policy *CorsPolicy_Status) AssignPropertiesToCorsPolicyStatus(destination 
 	return nil
 }
 
-//Deprecated version of DatabaseAccountCreateUpdatePropertiesConnectorOffer. Use
-//v1beta20210515.DatabaseAccountCreateUpdatePropertiesConnectorOffer instead
+// Deprecated version of DatabaseAccountCreateUpdatePropertiesConnectorOffer. Use
+// v1beta20210515.DatabaseAccountCreateUpdatePropertiesConnectorOffer instead
 // +kubebuilder:validation:Enum={"Small"}
 type DatabaseAccountCreateUpdatePropertiesConnectorOffer string
 
 const DatabaseAccountCreateUpdatePropertiesConnectorOfferSmall = DatabaseAccountCreateUpdatePropertiesConnectorOffer("Small")
 
-//Deprecated version of DatabaseAccountCreateUpdatePropertiesDatabaseAccountOfferType. Use
-//v1beta20210515.DatabaseAccountCreateUpdatePropertiesDatabaseAccountOfferType instead
+// Deprecated version of DatabaseAccountCreateUpdatePropertiesDatabaseAccountOfferType. Use
+// v1beta20210515.DatabaseAccountCreateUpdatePropertiesDatabaseAccountOfferType instead
 // +kubebuilder:validation:Enum={"Standard"}
 type DatabaseAccountCreateUpdatePropertiesDatabaseAccountOfferType string
 
 const DatabaseAccountCreateUpdatePropertiesDatabaseAccountOfferTypeStandard = DatabaseAccountCreateUpdatePropertiesDatabaseAccountOfferType("Standard")
 
-//Deprecated version of DatabaseAccountCreateUpdatePropertiesNetworkAclBypass. Use
-//v1beta20210515.DatabaseAccountCreateUpdatePropertiesNetworkAclBypass instead
+// Deprecated version of DatabaseAccountCreateUpdatePropertiesNetworkAclBypass. Use
+// v1beta20210515.DatabaseAccountCreateUpdatePropertiesNetworkAclBypass instead
 // +kubebuilder:validation:Enum={"AzureServices","None"}
 type DatabaseAccountCreateUpdatePropertiesNetworkAclBypass string
 
@@ -3936,8 +3936,8 @@ const (
 	DatabaseAccountCreateUpdatePropertiesNetworkAclBypassNone          = DatabaseAccountCreateUpdatePropertiesNetworkAclBypass("None")
 )
 
-//Deprecated version of DatabaseAccountCreateUpdatePropertiesPublicNetworkAccess. Use
-//v1beta20210515.DatabaseAccountCreateUpdatePropertiesPublicNetworkAccess instead
+// Deprecated version of DatabaseAccountCreateUpdatePropertiesPublicNetworkAccess. Use
+// v1beta20210515.DatabaseAccountCreateUpdatePropertiesPublicNetworkAccess instead
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type DatabaseAccountCreateUpdatePropertiesPublicNetworkAccess string
 
@@ -3946,14 +3946,14 @@ const (
 	DatabaseAccountCreateUpdatePropertiesPublicNetworkAccessEnabled  = DatabaseAccountCreateUpdatePropertiesPublicNetworkAccess("Enabled")
 )
 
-//Deprecated version of DatabaseAccountOfferType_Status. Use v1beta20210515.DatabaseAccountOfferType_Status instead
+// Deprecated version of DatabaseAccountOfferType_Status. Use v1beta20210515.DatabaseAccountOfferType_Status instead
 type DatabaseAccountOfferType_Status string
 
 const DatabaseAccountOfferType_StatusStandard = DatabaseAccountOfferType_Status("Standard")
 
-//Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type DatabaseAccountOperatorSpec struct {
-	//Secrets: configures where to place Azure generated secrets.
+	// Secrets: configures where to place Azure generated secrets.
 	Secrets *DatabaseAccountOperatorSecrets `json:"secrets,omitempty"`
 }
 
@@ -4004,7 +4004,7 @@ func (operator *DatabaseAccountOperatorSpec) AssignPropertiesToDatabaseAccountOp
 	return nil
 }
 
-//Deprecated version of FailoverPolicy_Status. Use v1beta20210515.FailoverPolicy_Status instead
+// Deprecated version of FailoverPolicy_Status. Use v1beta20210515.FailoverPolicy_Status instead
 type FailoverPolicy_Status struct {
 	FailoverPriority *int    `json:"failoverPriority,omitempty"`
 	Id               *string `json:"id,omitempty"`
@@ -4088,7 +4088,7 @@ func (policy *FailoverPolicy_Status) AssignPropertiesToFailoverPolicyStatus(dest
 	return nil
 }
 
-//Deprecated version of IpAddressOrRange. Use v1beta20210515.IpAddressOrRange instead
+// Deprecated version of IpAddressOrRange. Use v1beta20210515.IpAddressOrRange instead
 type IpAddressOrRange struct {
 	IpAddressOrRange *string `json:"ipAddressOrRange,omitempty"`
 }
@@ -4161,7 +4161,7 @@ func (orRange *IpAddressOrRange) AssignPropertiesToIpAddressOrRange(destination 
 	return nil
 }
 
-//Deprecated version of IpAddressOrRange_Status. Use v1beta20210515.IpAddressOrRange_Status instead
+// Deprecated version of IpAddressOrRange_Status. Use v1beta20210515.IpAddressOrRange_Status instead
 type IpAddressOrRange_Status struct {
 	IpAddressOrRange *string `json:"ipAddressOrRange,omitempty"`
 }
@@ -4219,7 +4219,7 @@ func (orRange *IpAddressOrRange_Status) AssignPropertiesToIpAddressOrRangeStatus
 	return nil
 }
 
-//Deprecated version of Location. Use v1beta20210515.Location instead
+// Deprecated version of Location. Use v1beta20210515.Location instead
 type Location struct {
 	// +kubebuilder:validation:Minimum=0
 	FailoverPriority *int    `json:"failoverPriority,omitempty"`
@@ -4351,7 +4351,7 @@ func (location *Location) AssignPropertiesToLocation(destination *alpha20210515s
 	return nil
 }
 
-//Deprecated version of Location_Status. Use v1beta20210515.Location_Status instead
+// Deprecated version of Location_Status. Use v1beta20210515.Location_Status instead
 type Location_Status struct {
 	DocumentEndpoint  *string `json:"documentEndpoint,omitempty"`
 	FailoverPriority  *int    `json:"failoverPriority,omitempty"`
@@ -4484,7 +4484,7 @@ func (location *Location_Status) AssignPropertiesToLocationStatus(destination *a
 	return nil
 }
 
-//Deprecated version of ManagedServiceIdentity. Use v1beta20210515.ManagedServiceIdentity instead
+// Deprecated version of ManagedServiceIdentity. Use v1beta20210515.ManagedServiceIdentity instead
 type ManagedServiceIdentity struct {
 	Type *ManagedServiceIdentityType `json:"type,omitempty"`
 }
@@ -4567,7 +4567,7 @@ func (identity *ManagedServiceIdentity) AssignPropertiesToManagedServiceIdentity
 	return nil
 }
 
-//Deprecated version of ManagedServiceIdentity_Status. Use v1beta20210515.ManagedServiceIdentity_Status instead
+// Deprecated version of ManagedServiceIdentity_Status. Use v1beta20210515.ManagedServiceIdentity_Status instead
 type ManagedServiceIdentity_Status struct {
 	PrincipalId            *string                                                         `json:"principalId,omitempty"`
 	TenantId               *string                                                         `json:"tenantId,omitempty"`
@@ -4711,7 +4711,7 @@ func (identity *ManagedServiceIdentity_Status) AssignPropertiesToManagedServiceI
 	return nil
 }
 
-//Deprecated version of NetworkAclBypass_Status. Use v1beta20210515.NetworkAclBypass_Status instead
+// Deprecated version of NetworkAclBypass_Status. Use v1beta20210515.NetworkAclBypass_Status instead
 type NetworkAclBypass_Status string
 
 const (
@@ -4719,7 +4719,7 @@ const (
 	NetworkAclBypass_StatusNone          = NetworkAclBypass_Status("None")
 )
 
-//Deprecated version of PrivateEndpointConnection_Status_SubResourceEmbedded. Use v1beta20210515.PrivateEndpointConnection_Status_SubResourceEmbedded instead
+// Deprecated version of PrivateEndpointConnection_Status_SubResourceEmbedded. Use v1beta20210515.PrivateEndpointConnection_Status_SubResourceEmbedded instead
 type PrivateEndpointConnection_Status_SubResourceEmbedded struct {
 	Id *string `json:"id,omitempty"`
 }
@@ -4777,7 +4777,7 @@ func (embedded *PrivateEndpointConnection_Status_SubResourceEmbedded) AssignProp
 	return nil
 }
 
-//Deprecated version of PublicNetworkAccess_Status. Use v1beta20210515.PublicNetworkAccess_Status instead
+// Deprecated version of PublicNetworkAccess_Status. Use v1beta20210515.PublicNetworkAccess_Status instead
 type PublicNetworkAccess_Status string
 
 const (
@@ -4785,7 +4785,7 @@ const (
 	PublicNetworkAccess_StatusEnabled  = PublicNetworkAccess_Status("Enabled")
 )
 
-//Deprecated version of VirtualNetworkRule. Use v1beta20210515.VirtualNetworkRule instead
+// Deprecated version of VirtualNetworkRule. Use v1beta20210515.VirtualNetworkRule instead
 type VirtualNetworkRule struct {
 	IgnoreMissingVNetServiceEndpoint *bool                         `json:"ignoreMissingVNetServiceEndpoint,omitempty"`
 	Reference                        *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
@@ -4897,7 +4897,7 @@ func (rule *VirtualNetworkRule) AssignPropertiesToVirtualNetworkRule(destination
 	return nil
 }
 
-//Deprecated version of VirtualNetworkRule_Status. Use v1beta20210515.VirtualNetworkRule_Status instead
+// Deprecated version of VirtualNetworkRule_Status. Use v1beta20210515.VirtualNetworkRule_Status instead
 type VirtualNetworkRule_Status struct {
 	Id                               *string `json:"id,omitempty"`
 	IgnoreMissingVNetServiceEndpoint *bool   `json:"ignoreMissingVNetServiceEndpoint,omitempty"`
@@ -4978,8 +4978,8 @@ func (rule *VirtualNetworkRule_Status) AssignPropertiesToVirtualNetworkRuleStatu
 	return nil
 }
 
-//Deprecated version of AnalyticalStorageConfigurationSchemaType. Use
-//v1beta20210515.AnalyticalStorageConfigurationSchemaType instead
+// Deprecated version of AnalyticalStorageConfigurationSchemaType. Use
+// v1beta20210515.AnalyticalStorageConfigurationSchemaType instead
 // +kubebuilder:validation:Enum={"FullFidelity","WellDefined"}
 type AnalyticalStorageConfigurationSchemaType string
 
@@ -4988,7 +4988,7 @@ const (
 	AnalyticalStorageConfigurationSchemaTypeWellDefined  = AnalyticalStorageConfigurationSchemaType("WellDefined")
 )
 
-//Deprecated version of AnalyticalStorageSchemaType_Status. Use v1beta20210515.AnalyticalStorageSchemaType_Status instead
+// Deprecated version of AnalyticalStorageSchemaType_Status. Use v1beta20210515.AnalyticalStorageSchemaType_Status instead
 type AnalyticalStorageSchemaType_Status string
 
 const (
@@ -4996,7 +4996,7 @@ const (
 	AnalyticalStorageSchemaType_StatusWellDefined  = AnalyticalStorageSchemaType_Status("WellDefined")
 )
 
-//Deprecated version of ApiPropertiesServerVersion. Use v1beta20210515.ApiPropertiesServerVersion instead
+// Deprecated version of ApiPropertiesServerVersion. Use v1beta20210515.ApiPropertiesServerVersion instead
 // +kubebuilder:validation:Enum={"3.2","3.6","4.0"}
 type ApiPropertiesServerVersion string
 
@@ -5006,7 +5006,7 @@ const (
 	ApiPropertiesServerVersion40 = ApiPropertiesServerVersion("4.0")
 )
 
-//Deprecated version of ApiPropertiesStatusServerVersion. Use v1beta20210515.ApiPropertiesStatusServerVersion instead
+// Deprecated version of ApiPropertiesStatusServerVersion. Use v1beta20210515.ApiPropertiesStatusServerVersion instead
 type ApiPropertiesStatusServerVersion string
 
 const (
@@ -5015,7 +5015,7 @@ const (
 	ApiPropertiesStatusServerVersion40 = ApiPropertiesStatusServerVersion("4.0")
 )
 
-//Deprecated version of BackupPolicyType_Status. Use v1beta20210515.BackupPolicyType_Status instead
+// Deprecated version of BackupPolicyType_Status. Use v1beta20210515.BackupPolicyType_Status instead
 type BackupPolicyType_Status string
 
 const (
@@ -5023,8 +5023,8 @@ const (
 	BackupPolicyType_StatusPeriodic   = BackupPolicyType_Status("Periodic")
 )
 
-//Deprecated version of ConsistencyPolicyDefaultConsistencyLevel. Use
-//v1beta20210515.ConsistencyPolicyDefaultConsistencyLevel instead
+// Deprecated version of ConsistencyPolicyDefaultConsistencyLevel. Use
+// v1beta20210515.ConsistencyPolicyDefaultConsistencyLevel instead
 // +kubebuilder:validation:Enum={"BoundedStaleness","ConsistentPrefix","Eventual","Session","Strong"}
 type ConsistencyPolicyDefaultConsistencyLevel string
 
@@ -5036,8 +5036,8 @@ const (
 	ConsistencyPolicyDefaultConsistencyLevelStrong           = ConsistencyPolicyDefaultConsistencyLevel("Strong")
 )
 
-//Deprecated version of ConsistencyPolicyStatusDefaultConsistencyLevel. Use
-//v1beta20210515.ConsistencyPolicyStatusDefaultConsistencyLevel instead
+// Deprecated version of ConsistencyPolicyStatusDefaultConsistencyLevel. Use
+// v1beta20210515.ConsistencyPolicyStatusDefaultConsistencyLevel instead
 type ConsistencyPolicyStatusDefaultConsistencyLevel string
 
 const (
@@ -5048,7 +5048,7 @@ const (
 	ConsistencyPolicyStatusDefaultConsistencyLevelStrong           = ConsistencyPolicyStatusDefaultConsistencyLevel("Strong")
 )
 
-//Deprecated version of ContinuousModeBackupPolicy. Use v1beta20210515.ContinuousModeBackupPolicy instead
+// Deprecated version of ContinuousModeBackupPolicy. Use v1beta20210515.ContinuousModeBackupPolicy instead
 type ContinuousModeBackupPolicy struct {
 	// +kubebuilder:validation:Required
 	Type *ContinuousModeBackupPolicyType `json:"type,omitempty"`
@@ -5129,24 +5129,24 @@ func (policy *ContinuousModeBackupPolicy) AssignPropertiesToContinuousModeBackup
 }
 
 type DatabaseAccountOperatorSecrets struct {
-	//DocumentEndpoint: indicates where the DocumentEndpoint secret should be placed. If omitted, the secret will not be
-	//retrieved from Azure.
+	// DocumentEndpoint: indicates where the DocumentEndpoint secret should be placed. If omitted, the secret will not be
+	// retrieved from Azure.
 	DocumentEndpoint *genruntime.SecretDestination `json:"documentEndpoint,omitempty"`
 
-	//PrimaryMasterKey: indicates where the PrimaryMasterKey secret should be placed. If omitted, the secret will not be
-	//retrieved from Azure.
+	// PrimaryMasterKey: indicates where the PrimaryMasterKey secret should be placed. If omitted, the secret will not be
+	// retrieved from Azure.
 	PrimaryMasterKey *genruntime.SecretDestination `json:"primaryMasterKey,omitempty"`
 
-	//PrimaryReadonlyMasterKey: indicates where the PrimaryReadonlyMasterKey secret should be placed. If omitted, the secret
-	//will not be retrieved from Azure.
+	// PrimaryReadonlyMasterKey: indicates where the PrimaryReadonlyMasterKey secret should be placed. If omitted, the secret
+	// will not be retrieved from Azure.
 	PrimaryReadonlyMasterKey *genruntime.SecretDestination `json:"primaryReadonlyMasterKey,omitempty"`
 
-	//SecondaryMasterKey: indicates where the SecondaryMasterKey secret should be placed. If omitted, the secret will not be
-	//retrieved from Azure.
+	// SecondaryMasterKey: indicates where the SecondaryMasterKey secret should be placed. If omitted, the secret will not be
+	// retrieved from Azure.
 	SecondaryMasterKey *genruntime.SecretDestination `json:"secondaryMasterKey,omitempty"`
 
-	//SecondaryReadonlyMasterKey: indicates where the SecondaryReadonlyMasterKey secret should be placed. If omitted, the
-	//secret will not be retrieved from Azure.
+	// SecondaryReadonlyMasterKey: indicates where the SecondaryReadonlyMasterKey secret should be placed. If omitted, the
+	// secret will not be retrieved from Azure.
 	SecondaryReadonlyMasterKey *genruntime.SecretDestination `json:"secondaryReadonlyMasterKey,omitempty"`
 }
 
@@ -5253,7 +5253,7 @@ func (secrets *DatabaseAccountOperatorSecrets) AssignPropertiesToDatabaseAccount
 	return nil
 }
 
-//Deprecated version of ManagedServiceIdentity_Status_UserAssignedIdentities. Use v1beta20210515.ManagedServiceIdentity_Status_UserAssignedIdentities instead
+// Deprecated version of ManagedServiceIdentity_Status_UserAssignedIdentities. Use v1beta20210515.ManagedServiceIdentity_Status_UserAssignedIdentities instead
 type ManagedServiceIdentity_Status_UserAssignedIdentities struct {
 	ClientId    *string `json:"clientId,omitempty"`
 	PrincipalId *string `json:"principalId,omitempty"`
@@ -5324,7 +5324,7 @@ func (identities *ManagedServiceIdentity_Status_UserAssignedIdentities) AssignPr
 	return nil
 }
 
-//Deprecated version of PeriodicModeBackupPolicy. Use v1beta20210515.PeriodicModeBackupPolicy instead
+// Deprecated version of PeriodicModeBackupPolicy. Use v1beta20210515.PeriodicModeBackupPolicy instead
 type PeriodicModeBackupPolicy struct {
 	PeriodicModeProperties *PeriodicModeProperties `json:"periodicModeProperties,omitempty"`
 
@@ -5451,19 +5451,19 @@ func (policy *PeriodicModeBackupPolicy) AssignPropertiesToPeriodicModeBackupPoli
 	return nil
 }
 
-//Deprecated version of ContinuousModeBackupPolicyType. Use v1beta20210515.ContinuousModeBackupPolicyType instead
+// Deprecated version of ContinuousModeBackupPolicyType. Use v1beta20210515.ContinuousModeBackupPolicyType instead
 // +kubebuilder:validation:Enum={"Continuous"}
 type ContinuousModeBackupPolicyType string
 
 const ContinuousModeBackupPolicyTypeContinuous = ContinuousModeBackupPolicyType("Continuous")
 
-//Deprecated version of PeriodicModeBackupPolicyType. Use v1beta20210515.PeriodicModeBackupPolicyType instead
+// Deprecated version of PeriodicModeBackupPolicyType. Use v1beta20210515.PeriodicModeBackupPolicyType instead
 // +kubebuilder:validation:Enum={"Periodic"}
 type PeriodicModeBackupPolicyType string
 
 const PeriodicModeBackupPolicyTypePeriodic = PeriodicModeBackupPolicyType("Periodic")
 
-//Deprecated version of PeriodicModeProperties. Use v1beta20210515.PeriodicModeProperties instead
+// Deprecated version of PeriodicModeProperties. Use v1beta20210515.PeriodicModeProperties instead
 type PeriodicModeProperties struct {
 	// +kubebuilder:validation:Minimum=0
 	BackupIntervalInMinutes *int `json:"backupIntervalInMinutes,omitempty"`

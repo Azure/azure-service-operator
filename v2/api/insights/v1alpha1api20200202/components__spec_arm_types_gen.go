@@ -5,7 +5,7 @@ package v1alpha1api20200202
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-//Deprecated version of Components_Spec. Use v1beta20200202.Components_Spec instead
+// Deprecated version of Components_Spec. Use v1beta20200202.Components_Spec instead
 type Components_SpecARM struct {
 	Etag       *string                                    `json:"etag,omitempty"`
 	Kind       *string                                    `json:"kind,omitempty"`
@@ -32,7 +32,7 @@ func (components Components_SpecARM) GetType() string {
 	return "Microsoft.Insights/components"
 }
 
-//Deprecated version of ApplicationInsightsComponentProperties. Use v1beta20200202.ApplicationInsightsComponentProperties instead
+// Deprecated version of ApplicationInsightsComponentProperties. Use v1beta20200202.ApplicationInsightsComponentProperties instead
 type ApplicationInsightsComponentPropertiesARM struct {
 	ApplicationType                 *ApplicationInsightsComponentPropertiesApplicationType                 `json:"Application_Type,omitempty"`
 	DisableIpMasking                *bool                                                                  `json:"DisableIpMasking,omitempty"`

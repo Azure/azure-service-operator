@@ -21,8 +21,8 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Storage version of v1beta20210515.SqlDatabase
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases
+// Storage version of v1beta20210515.SqlDatabase
+// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases
 type SqlDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -121,27 +121,27 @@ func (database *SqlDatabase) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Storage version of v1beta20210515.SqlDatabase
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases
+// Storage version of v1beta20210515.SqlDatabase
+// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases
 type SqlDatabaseList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []SqlDatabase `json:"items"`
 }
 
-//Storage version of v1beta20210515.DatabaseAccountsSqlDatabases_Spec
+// Storage version of v1beta20210515.DatabaseAccountsSqlDatabases_Spec
 type DatabaseAccountsSqlDatabases_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName       string               `json:"azureName,omitempty"`
 	Location        *string              `json:"location,omitempty"`
 	Options         *CreateUpdateOptions `json:"options,omitempty"`
 	OriginalVersion string               `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a documentdb.azure.com/DatabaseAccount resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a documentdb.azure.com/DatabaseAccount resource
 	Owner       *genruntime.KnownResourceReference `group:"documentdb.azure.com" json:"owner,omitempty" kind:"DatabaseAccount"`
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	Resource    *SqlDatabaseResource               `json:"resource,omitempty"`
@@ -168,7 +168,7 @@ func (databases *DatabaseAccountsSqlDatabases_Spec) ConvertSpecTo(destination ge
 	return destination.ConvertSpecFrom(databases)
 }
 
-//Storage version of v1beta20210515.SqlDatabaseGetResults_Status
+// Storage version of v1beta20210515.SqlDatabaseGetResults_Status
 type SqlDatabaseGetResults_Status struct {
 	Conditions  []conditions.Condition                    `json:"conditions,omitempty"`
 	Id          *string                                   `json:"id,omitempty"`
@@ -201,7 +201,7 @@ func (results *SqlDatabaseGetResults_Status) ConvertStatusTo(destination genrunt
 	return destination.ConvertStatusFrom(results)
 }
 
-//Storage version of v1beta20210515.SqlDatabaseGetProperties_Status_Resource
+// Storage version of v1beta20210515.SqlDatabaseGetProperties_Status_Resource
 type SqlDatabaseGetProperties_Status_Resource struct {
 	Colls       *string                `json:"_colls,omitempty"`
 	Etag        *string                `json:"_etag,omitempty"`
@@ -212,8 +212,8 @@ type SqlDatabaseGetProperties_Status_Resource struct {
 	Users       *string                `json:"_users,omitempty"`
 }
 
-//Storage version of v1beta20210515.SqlDatabaseResource
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlDatabaseResource
+// Storage version of v1beta20210515.SqlDatabaseResource
+// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlDatabaseResource
 type SqlDatabaseResource struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`

@@ -134,7 +134,7 @@ func RunJSONSerializationTestForDomainPropertiesStatusARM(subject DomainProperti
 }
 
 // Generator of DomainProperties_StatusARM instances for property testing - lazily instantiated by
-//DomainPropertiesStatusARMGenerator()
+// DomainPropertiesStatusARMGenerator()
 var domainPropertiesStatusARMGenerator gopter.Gen
 
 // DomainPropertiesStatusARMGenerator returns a generator of DomainProperties_StatusARM instances for property testing.
@@ -220,7 +220,7 @@ func RunJSONSerializationTestForInboundIpRuleStatusARM(subject InboundIpRule_Sta
 }
 
 // Generator of InboundIpRule_StatusARM instances for property testing - lazily instantiated by
-//InboundIpRuleStatusARMGenerator()
+// InboundIpRuleStatusARMGenerator()
 var inboundIpRuleStatusARMGenerator gopter.Gen
 
 // InboundIpRuleStatusARMGenerator returns a generator of InboundIpRule_StatusARM instances for property testing.
@@ -281,7 +281,7 @@ func RunJSONSerializationTestForInputSchemaMappingStatusARM(subject InputSchemaM
 }
 
 // Generator of InputSchemaMapping_StatusARM instances for property testing - lazily instantiated by
-//InputSchemaMappingStatusARMGenerator()
+// InputSchemaMappingStatusARMGenerator()
 var inputSchemaMappingStatusARMGenerator gopter.Gen
 
 // InputSchemaMappingStatusARMGenerator returns a generator of InputSchemaMapping_StatusARM instances for property testing.
@@ -341,7 +341,7 @@ func RunJSONSerializationTestForPrivateEndpointConnectionStatusDomainSubResource
 }
 
 // Generator of PrivateEndpointConnection_Status_Domain_SubResourceEmbeddedARM instances for property testing - lazily
-//instantiated by PrivateEndpointConnectionStatusDomainSubResourceEmbeddedARMGenerator()
+// instantiated by PrivateEndpointConnectionStatusDomainSubResourceEmbeddedARMGenerator()
 var privateEndpointConnectionStatusDomainSubResourceEmbeddedARMGenerator gopter.Gen
 
 // PrivateEndpointConnectionStatusDomainSubResourceEmbeddedARMGenerator returns a generator of PrivateEndpointConnection_Status_Domain_SubResourceEmbeddedARM instances for property testing.

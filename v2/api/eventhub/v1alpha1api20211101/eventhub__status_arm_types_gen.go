@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1alpha1api20211101
 
-//Deprecated version of Eventhub_Status. Use v1beta20211101.Eventhub_Status instead
+// Deprecated version of Eventhub_Status. Use v1beta20211101.Eventhub_Status instead
 type Eventhub_StatusARM struct {
 	Id         *string                        `json:"id,omitempty"`
 	Location   *string                        `json:"location,omitempty"`
@@ -13,7 +13,7 @@ type Eventhub_StatusARM struct {
 	Type       *string                        `json:"type,omitempty"`
 }
 
-//Deprecated version of Eventhub_Status_Properties. Use v1beta20211101.Eventhub_Status_Properties instead
+// Deprecated version of Eventhub_Status_Properties. Use v1beta20211101.Eventhub_Status_Properties instead
 type Eventhub_Status_PropertiesARM struct {
 	CaptureDescription     *CaptureDescription_StatusARM   `json:"captureDescription,omitempty"`
 	CreatedAt              *string                         `json:"createdAt,omitempty"`
@@ -24,7 +24,7 @@ type Eventhub_Status_PropertiesARM struct {
 	UpdatedAt              *string                         `json:"updatedAt,omitempty"`
 }
 
-//Deprecated version of CaptureDescription_Status. Use v1beta20211101.CaptureDescription_Status instead
+// Deprecated version of CaptureDescription_Status. Use v1beta20211101.CaptureDescription_Status instead
 type CaptureDescription_StatusARM struct {
 	Destination       *Destination_StatusARM            `json:"destination,omitempty"`
 	Enabled           *bool                             `json:"enabled,omitempty"`
@@ -34,7 +34,7 @@ type CaptureDescription_StatusARM struct {
 	SkipEmptyArchives *bool                             `json:"skipEmptyArchives,omitempty"`
 }
 
-//Deprecated version of EventhubStatusPropertiesStatus. Use v1beta20211101.EventhubStatusPropertiesStatus instead
+// Deprecated version of EventhubStatusPropertiesStatus. Use v1beta20211101.EventhubStatusPropertiesStatus instead
 type EventhubStatusPropertiesStatus string
 
 const (
@@ -49,7 +49,7 @@ const (
 	EventhubStatusPropertiesStatusUnknown         = EventhubStatusPropertiesStatus("Unknown")
 )
 
-//Deprecated version of CaptureDescriptionStatusEncoding. Use v1beta20211101.CaptureDescriptionStatusEncoding instead
+// Deprecated version of CaptureDescriptionStatusEncoding. Use v1beta20211101.CaptureDescriptionStatusEncoding instead
 type CaptureDescriptionStatusEncoding string
 
 const (
@@ -57,13 +57,13 @@ const (
 	CaptureDescriptionStatusEncodingAvroDeflate = CaptureDescriptionStatusEncoding("AvroDeflate")
 )
 
-//Deprecated version of Destination_Status. Use v1beta20211101.Destination_Status instead
+// Deprecated version of Destination_Status. Use v1beta20211101.Destination_Status instead
 type Destination_StatusARM struct {
 	Name       *string                           `json:"name,omitempty"`
 	Properties *Destination_Status_PropertiesARM `json:"properties,omitempty"`
 }
 
-//Deprecated version of Destination_Status_Properties. Use v1beta20211101.Destination_Status_Properties instead
+// Deprecated version of Destination_Status_Properties. Use v1beta20211101.Destination_Status_Properties instead
 type Destination_Status_PropertiesARM struct {
 	ArchiveNameFormat        *string `json:"archiveNameFormat,omitempty"`
 	BlobContainer            *string `json:"blobContainer,omitempty"`

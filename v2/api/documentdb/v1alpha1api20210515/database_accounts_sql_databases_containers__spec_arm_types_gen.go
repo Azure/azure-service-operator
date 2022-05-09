@@ -5,7 +5,7 @@ package v1alpha1api20210515
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-//Deprecated version of DatabaseAccountsSqlDatabasesContainers_Spec. Use v1beta20210515.DatabaseAccountsSqlDatabasesContainers_Spec instead
+// Deprecated version of DatabaseAccountsSqlDatabasesContainers_Spec. Use v1beta20210515.DatabaseAccountsSqlDatabasesContainers_Spec instead
 type DatabaseAccountsSqlDatabasesContainers_SpecARM struct {
 	Location   *string                                `json:"location,omitempty"`
 	Name       string                                 `json:"name,omitempty"`
@@ -30,13 +30,13 @@ func (containers DatabaseAccountsSqlDatabasesContainers_SpecARM) GetType() strin
 	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers"
 }
 
-//Deprecated version of SqlContainerCreateUpdateProperties. Use v1beta20210515.SqlContainerCreateUpdateProperties instead
+// Deprecated version of SqlContainerCreateUpdateProperties. Use v1beta20210515.SqlContainerCreateUpdateProperties instead
 type SqlContainerCreateUpdatePropertiesARM struct {
 	Options  *CreateUpdateOptionsARM  `json:"options,omitempty"`
 	Resource *SqlContainerResourceARM `json:"resource,omitempty"`
 }
 
-//Deprecated version of SqlContainerResource. Use v1beta20210515.SqlContainerResource instead
+// Deprecated version of SqlContainerResource. Use v1beta20210515.SqlContainerResource instead
 type SqlContainerResourceARM struct {
 	AnalyticalStorageTtl     *int                         `json:"analyticalStorageTtl,omitempty"`
 	ConflictResolutionPolicy *ConflictResolutionPolicyARM `json:"conflictResolutionPolicy,omitempty"`
@@ -47,21 +47,21 @@ type SqlContainerResourceARM struct {
 	UniqueKeyPolicy          *UniqueKeyPolicyARM          `json:"uniqueKeyPolicy,omitempty"`
 }
 
-//Deprecated version of ConflictResolutionPolicy. Use v1beta20210515.ConflictResolutionPolicy instead
+// Deprecated version of ConflictResolutionPolicy. Use v1beta20210515.ConflictResolutionPolicy instead
 type ConflictResolutionPolicyARM struct {
 	ConflictResolutionPath      *string                       `json:"conflictResolutionPath,omitempty"`
 	ConflictResolutionProcedure *string                       `json:"conflictResolutionProcedure,omitempty"`
 	Mode                        *ConflictResolutionPolicyMode `json:"mode,omitempty"`
 }
 
-//Deprecated version of ContainerPartitionKey. Use v1beta20210515.ContainerPartitionKey instead
+// Deprecated version of ContainerPartitionKey. Use v1beta20210515.ContainerPartitionKey instead
 type ContainerPartitionKeyARM struct {
 	Kind    *ContainerPartitionKeyKind `json:"kind,omitempty"`
 	Paths   []string                   `json:"paths,omitempty"`
 	Version *int                       `json:"version,omitempty"`
 }
 
-//Deprecated version of IndexingPolicy. Use v1beta20210515.IndexingPolicy instead
+// Deprecated version of IndexingPolicy. Use v1beta20210515.IndexingPolicy instead
 type IndexingPolicyARM struct {
 	Automatic        *bool                       `json:"automatic,omitempty"`
 	CompositeIndexes [][]CompositePathARM        `json:"compositeIndexes,omitempty"`
@@ -71,18 +71,18 @@ type IndexingPolicyARM struct {
 	SpatialIndexes   []SpatialSpecARM            `json:"spatialIndexes,omitempty"`
 }
 
-//Deprecated version of UniqueKeyPolicy. Use v1beta20210515.UniqueKeyPolicy instead
+// Deprecated version of UniqueKeyPolicy. Use v1beta20210515.UniqueKeyPolicy instead
 type UniqueKeyPolicyARM struct {
 	UniqueKeys []UniqueKeyARM `json:"uniqueKeys,omitempty"`
 }
 
-//Deprecated version of CompositePath. Use v1beta20210515.CompositePath instead
+// Deprecated version of CompositePath. Use v1beta20210515.CompositePath instead
 type CompositePathARM struct {
 	Order *CompositePathOrder `json:"order,omitempty"`
 	Path  *string             `json:"path,omitempty"`
 }
 
-//Deprecated version of ConflictResolutionPolicyMode. Use v1beta20210515.ConflictResolutionPolicyMode instead
+// Deprecated version of ConflictResolutionPolicyMode. Use v1beta20210515.ConflictResolutionPolicyMode instead
 // +kubebuilder:validation:Enum={"Custom","LastWriterWins"}
 type ConflictResolutionPolicyMode string
 
@@ -91,7 +91,7 @@ const (
 	ConflictResolutionPolicyModeLastWriterWins = ConflictResolutionPolicyMode("LastWriterWins")
 )
 
-//Deprecated version of ContainerPartitionKeyKind. Use v1beta20210515.ContainerPartitionKeyKind instead
+// Deprecated version of ContainerPartitionKeyKind. Use v1beta20210515.ContainerPartitionKeyKind instead
 // +kubebuilder:validation:Enum={"Hash","MultiHash","Range"}
 type ContainerPartitionKeyKind string
 
@@ -101,18 +101,18 @@ const (
 	ContainerPartitionKeyKindRange     = ContainerPartitionKeyKind("Range")
 )
 
-//Deprecated version of ExcludedPath. Use v1beta20210515.ExcludedPath instead
+// Deprecated version of ExcludedPath. Use v1beta20210515.ExcludedPath instead
 type ExcludedPathARM struct {
 	Path *string `json:"path,omitempty"`
 }
 
-//Deprecated version of IncludedPath. Use v1beta20210515.IncludedPath instead
+// Deprecated version of IncludedPath. Use v1beta20210515.IncludedPath instead
 type IncludedPathARM struct {
 	Indexes []IndexesARM `json:"indexes,omitempty"`
 	Path    *string      `json:"path,omitempty"`
 }
 
-//Deprecated version of IndexingPolicyIndexingMode. Use v1beta20210515.IndexingPolicyIndexingMode instead
+// Deprecated version of IndexingPolicyIndexingMode. Use v1beta20210515.IndexingPolicyIndexingMode instead
 // +kubebuilder:validation:Enum={"consistent","lazy","none"}
 type IndexingPolicyIndexingMode string
 
@@ -122,18 +122,18 @@ const (
 	IndexingPolicyIndexingModeNone       = IndexingPolicyIndexingMode("none")
 )
 
-//Deprecated version of SpatialSpec. Use v1beta20210515.SpatialSpec instead
+// Deprecated version of SpatialSpec. Use v1beta20210515.SpatialSpec instead
 type SpatialSpecARM struct {
 	Path  *string            `json:"path,omitempty"`
 	Types []SpatialSpecTypes `json:"types,omitempty"`
 }
 
-//Deprecated version of UniqueKey. Use v1beta20210515.UniqueKey instead
+// Deprecated version of UniqueKey. Use v1beta20210515.UniqueKey instead
 type UniqueKeyARM struct {
 	Paths []string `json:"paths,omitempty"`
 }
 
-//Deprecated version of CompositePathOrder. Use v1beta20210515.CompositePathOrder instead
+// Deprecated version of CompositePathOrder. Use v1beta20210515.CompositePathOrder instead
 // +kubebuilder:validation:Enum={"ascending","descending"}
 type CompositePathOrder string
 
@@ -142,14 +142,14 @@ const (
 	CompositePathOrderDescending = CompositePathOrder("descending")
 )
 
-//Deprecated version of Indexes. Use v1beta20210515.Indexes instead
+// Deprecated version of Indexes. Use v1beta20210515.Indexes instead
 type IndexesARM struct {
 	DataType  *IndexesDataType `json:"dataType,omitempty"`
 	Kind      *IndexesKind     `json:"kind,omitempty"`
 	Precision *int             `json:"precision,omitempty"`
 }
 
-//Deprecated version of SpatialSpecTypes. Use v1beta20210515.SpatialSpecTypes instead
+// Deprecated version of SpatialSpecTypes. Use v1beta20210515.SpatialSpecTypes instead
 // +kubebuilder:validation:Enum={"LineString","MultiPolygon","Point","Polygon"}
 type SpatialSpecTypes string
 
@@ -160,7 +160,7 @@ const (
 	SpatialSpecTypesPolygon      = SpatialSpecTypes("Polygon")
 )
 
-//Deprecated version of IndexesDataType. Use v1beta20210515.IndexesDataType instead
+// Deprecated version of IndexesDataType. Use v1beta20210515.IndexesDataType instead
 // +kubebuilder:validation:Enum={"LineString","MultiPolygon","Number","Point","Polygon","String"}
 type IndexesDataType string
 
@@ -173,7 +173,7 @@ const (
 	IndexesDataTypeString       = IndexesDataType("String")
 )
 
-//Deprecated version of IndexesKind. Use v1beta20210515.IndexesKind instead
+// Deprecated version of IndexesKind. Use v1beta20210515.IndexesKind instead
 // +kubebuilder:validation:Enum={"Hash","Range","Spatial"}
 type IndexesKind string
 

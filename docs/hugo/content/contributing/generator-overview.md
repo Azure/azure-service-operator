@@ -1,4 +1,6 @@
-# Code Generator Overview
+---
+title: Code Generator
+---
 
 Core to Azure Service Operator (ASO) v2 is our code generator. This consumes ARM JSON Schema and Swagger specifications and generates code for each desired resource that works with our generic operator reconciler.
 

@@ -56,7 +56,7 @@ func RunJSONSerializationTestForDomainTopicStatusARM(subject DomainTopic_StatusA
 }
 
 // Generator of DomainTopic_StatusARM instances for property testing - lazily instantiated by
-//DomainTopicStatusARMGenerator()
+// DomainTopicStatusARMGenerator()
 var domainTopicStatusARMGenerator gopter.Gen
 
 // DomainTopicStatusARMGenerator returns a generator of DomainTopic_StatusARM instances for property testing.
@@ -133,7 +133,7 @@ func RunJSONSerializationTestForDomainTopicPropertiesStatusARM(subject DomainTop
 }
 
 // Generator of DomainTopicProperties_StatusARM instances for property testing - lazily instantiated by
-//DomainTopicPropertiesStatusARMGenerator()
+// DomainTopicPropertiesStatusARMGenerator()
 var domainTopicPropertiesStatusARMGenerator gopter.Gen
 
 // DomainTopicPropertiesStatusARMGenerator returns a generator of DomainTopicProperties_StatusARM instances for property testing.
@@ -199,7 +199,7 @@ func RunJSONSerializationTestForSystemDataStatusARM(subject SystemData_StatusARM
 }
 
 // Generator of SystemData_StatusARM instances for property testing - lazily instantiated by
-//SystemDataStatusARMGenerator()
+// SystemDataStatusARMGenerator()
 var systemDataStatusARMGenerator gopter.Gen
 
 // SystemDataStatusARMGenerator returns a generator of SystemData_StatusARM instances for property testing.

@@ -90,7 +90,7 @@ func RunPropertyAssignmentTestForRedisLinkedServer(subject RedisLinkedServer) st
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -192,7 +192,7 @@ func RunPropertyAssignmentTestForRedisLinkedServerWithPropertiesStatus(subject R
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -243,7 +243,7 @@ func RunJSONSerializationTestForRedisLinkedServerWithPropertiesStatus(subject Re
 }
 
 // Generator of RedisLinkedServerWithProperties_Status instances for property testing - lazily instantiated by
-//RedisLinkedServerWithPropertiesStatusGenerator()
+// RedisLinkedServerWithPropertiesStatusGenerator()
 var redisLinkedServerWithPropertiesStatusGenerator gopter.Gen
 
 // RedisLinkedServerWithPropertiesStatusGenerator returns a generator of RedisLinkedServerWithProperties_Status instances for property testing.
@@ -300,7 +300,7 @@ func RunPropertyAssignmentTestForRedisLinkedServersSpec(subject RedisLinkedServe
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -351,7 +351,7 @@ func RunJSONSerializationTestForRedisLinkedServersSpec(subject RedisLinkedServer
 }
 
 // Generator of RedisLinkedServers_Spec instances for property testing - lazily instantiated by
-//RedisLinkedServersSpecGenerator()
+// RedisLinkedServersSpecGenerator()
 var redisLinkedServersSpecGenerator gopter.Gen
 
 // RedisLinkedServersSpecGenerator returns a generator of RedisLinkedServers_Spec instances for property testing.

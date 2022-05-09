@@ -20,8 +20,8 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Storage version of v1alpha1api20200601.Domain
-//Deprecated version of Domain. Use v1beta20200601.Domain instead
+// Storage version of v1alpha1api20200601.Domain
+// Deprecated version of Domain. Use v1beta20200601.Domain instead
 type Domain struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -191,16 +191,16 @@ func (domain *Domain) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Storage version of v1alpha1api20200601.Domain
-//Deprecated version of Domain. Use v1beta20200601.Domain instead
+// Storage version of v1alpha1api20200601.Domain
+// Deprecated version of Domain. Use v1beta20200601.Domain instead
 type DomainList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Domain `json:"items"`
 }
 
-//Storage version of v1alpha1api20200601.Domain_Status
-//Deprecated version of Domain_Status. Use v1beta20200601.Domain_Status instead
+// Storage version of v1alpha1api20200601.Domain_Status
+// Deprecated version of Domain_Status. Use v1beta20200601.Domain_Status instead
 type Domain_Status struct {
 	Conditions                 []conditions.Condition                                        `json:"conditions,omitempty"`
 	Endpoint                   *string                                                       `json:"endpoint,omitempty"`
@@ -488,10 +488,10 @@ func (domain *Domain_Status) AssignPropertiesToDomainStatus(destination *v202006
 	return nil
 }
 
-//Storage version of v1alpha1api20200601.Domains_Spec
+// Storage version of v1alpha1api20200601.Domains_Spec
 type Domains_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName          string                  `json:"azureName,omitempty"`
 	InboundIpRules     []InboundIpRule         `json:"inboundIpRules,omitempty"`
 	InputSchema        *string                 `json:"inputSchema,omitempty"`
@@ -500,9 +500,9 @@ type Domains_Spec struct {
 	OriginalVersion    string                  `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a resources.azure.com/ResourceGroup resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
 	Owner               *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PropertyBag         genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	PublicNetworkAccess *string                            `json:"publicNetworkAccess,omitempty"`
@@ -703,8 +703,8 @@ func (domains *Domains_Spec) AssignPropertiesToDomainsSpec(destination *v2020060
 	return nil
 }
 
-//Storage version of v1alpha1api20200601.InboundIpRule
-//Deprecated version of InboundIpRule. Use v1beta20200601.InboundIpRule instead
+// Storage version of v1alpha1api20200601.InboundIpRule
+// Deprecated version of InboundIpRule. Use v1beta20200601.InboundIpRule instead
 type InboundIpRule struct {
 	Action      *string                `json:"action,omitempty"`
 	IpMask      *string                `json:"ipMask,omitempty"`
@@ -755,8 +755,8 @@ func (rule *InboundIpRule) AssignPropertiesToInboundIpRule(destination *v2020060
 	return nil
 }
 
-//Storage version of v1alpha1api20200601.InboundIpRule_Status
-//Deprecated version of InboundIpRule_Status. Use v1beta20200601.InboundIpRule_Status instead
+// Storage version of v1alpha1api20200601.InboundIpRule_Status
+// Deprecated version of InboundIpRule_Status. Use v1beta20200601.InboundIpRule_Status instead
 type InboundIpRule_Status struct {
 	Action      *string                `json:"action,omitempty"`
 	IpMask      *string                `json:"ipMask,omitempty"`
@@ -807,8 +807,8 @@ func (rule *InboundIpRule_Status) AssignPropertiesToInboundIpRuleStatus(destinat
 	return nil
 }
 
-//Storage version of v1alpha1api20200601.InputSchemaMapping_Status
-//Deprecated version of InputSchemaMapping_Status. Use v1beta20200601.InputSchemaMapping_Status instead
+// Storage version of v1alpha1api20200601.InputSchemaMapping_Status
+// Deprecated version of InputSchemaMapping_Status. Use v1beta20200601.InputSchemaMapping_Status instead
 type InputSchemaMapping_Status struct {
 	InputSchemaMappingType *string                `json:"inputSchemaMappingType,omitempty"`
 	PropertyBag            genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -852,8 +852,8 @@ func (mapping *InputSchemaMapping_Status) AssignPropertiesToInputSchemaMappingSt
 	return nil
 }
 
-//Storage version of v1alpha1api20200601.JsonInputSchemaMapping
-//Deprecated version of JsonInputSchemaMapping. Use v1beta20200601.JsonInputSchemaMapping instead
+// Storage version of v1alpha1api20200601.JsonInputSchemaMapping
+// Deprecated version of JsonInputSchemaMapping. Use v1beta20200601.JsonInputSchemaMapping instead
 type JsonInputSchemaMapping struct {
 	InputSchemaMappingType *string                           `json:"inputSchemaMappingType,omitempty"`
 	Properties             *JsonInputSchemaMappingProperties `json:"properties,omitempty"`
@@ -922,8 +922,8 @@ func (mapping *JsonInputSchemaMapping) AssignPropertiesToJsonInputSchemaMapping(
 	return nil
 }
 
-//Storage version of v1alpha1api20200601.PrivateEndpointConnection_Status_Domain_SubResourceEmbedded
-//Deprecated version of PrivateEndpointConnection_Status_Domain_SubResourceEmbedded. Use v1beta20200601.PrivateEndpointConnection_Status_Domain_SubResourceEmbedded instead
+// Storage version of v1alpha1api20200601.PrivateEndpointConnection_Status_Domain_SubResourceEmbedded
+// Deprecated version of PrivateEndpointConnection_Status_Domain_SubResourceEmbedded. Use v1beta20200601.PrivateEndpointConnection_Status_Domain_SubResourceEmbedded instead
 type PrivateEndpointConnection_Status_Domain_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -967,8 +967,8 @@ func (embedded *PrivateEndpointConnection_Status_Domain_SubResourceEmbedded) Ass
 	return nil
 }
 
-//Storage version of v1alpha1api20200601.SystemData_Status
-//Deprecated version of SystemData_Status. Use v1beta20200601.SystemData_Status instead
+// Storage version of v1alpha1api20200601.SystemData_Status
+// Deprecated version of SystemData_Status. Use v1beta20200601.SystemData_Status instead
 type SystemData_Status struct {
 	CreatedAt          *string                `json:"createdAt,omitempty"`
 	CreatedBy          *string                `json:"createdBy,omitempty"`
@@ -1047,8 +1047,8 @@ func (data *SystemData_Status) AssignPropertiesToSystemDataStatus(destination *v
 	return nil
 }
 
-//Storage version of v1alpha1api20200601.JsonInputSchemaMappingProperties
-//Deprecated version of JsonInputSchemaMappingProperties. Use v1beta20200601.JsonInputSchemaMappingProperties instead
+// Storage version of v1alpha1api20200601.JsonInputSchemaMappingProperties
+// Deprecated version of JsonInputSchemaMappingProperties. Use v1beta20200601.JsonInputSchemaMappingProperties instead
 type JsonInputSchemaMappingProperties struct {
 	DataVersion *JsonFieldWithDefault  `json:"dataVersion,omitempty"`
 	EventTime   *JsonField             `json:"eventTime,omitempty"`
@@ -1235,8 +1235,8 @@ func (properties *JsonInputSchemaMappingProperties) AssignPropertiesToJsonInputS
 	return nil
 }
 
-//Storage version of v1alpha1api20200601.JsonField
-//Deprecated version of JsonField. Use v1beta20200601.JsonField instead
+// Storage version of v1alpha1api20200601.JsonField
+// Deprecated version of JsonField. Use v1beta20200601.JsonField instead
 type JsonField struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SourceField *string                `json:"sourceField,omitempty"`
@@ -1280,8 +1280,8 @@ func (field *JsonField) AssignPropertiesToJsonField(destination *v20200601s.Json
 	return nil
 }
 
-//Storage version of v1alpha1api20200601.JsonFieldWithDefault
-//Deprecated version of JsonFieldWithDefault. Use v1beta20200601.JsonFieldWithDefault instead
+// Storage version of v1alpha1api20200601.JsonFieldWithDefault
+// Deprecated version of JsonFieldWithDefault. Use v1beta20200601.JsonFieldWithDefault instead
 type JsonFieldWithDefault struct {
 	DefaultValue *string                `json:"defaultValue,omitempty"`
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`

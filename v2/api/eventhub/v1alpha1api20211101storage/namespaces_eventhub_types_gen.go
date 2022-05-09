@@ -20,8 +20,8 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Storage version of v1alpha1api20211101.NamespacesEventhub
-//Deprecated version of NamespacesEventhub. Use v1beta20211101.NamespacesEventhub instead
+// Storage version of v1alpha1api20211101.NamespacesEventhub
+// Deprecated version of NamespacesEventhub. Use v1beta20211101.NamespacesEventhub instead
 type NamespacesEventhub struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -191,16 +191,16 @@ func (eventhub *NamespacesEventhub) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Storage version of v1alpha1api20211101.NamespacesEventhub
-//Deprecated version of NamespacesEventhub. Use v1beta20211101.NamespacesEventhub instead
+// Storage version of v1alpha1api20211101.NamespacesEventhub
+// Deprecated version of NamespacesEventhub. Use v1beta20211101.NamespacesEventhub instead
 type NamespacesEventhubList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []NamespacesEventhub `json:"items"`
 }
 
-//Storage version of v1alpha1api20211101.Eventhub_Status
-//Deprecated version of Eventhub_Status. Use v1beta20211101.Eventhub_Status instead
+// Storage version of v1alpha1api20211101.Eventhub_Status
+// Deprecated version of Eventhub_Status. Use v1beta20211101.Eventhub_Status instead
 type Eventhub_Status struct {
 	CaptureDescription     *CaptureDescription_Status `json:"captureDescription,omitempty"`
 	Conditions             []conditions.Condition     `json:"conditions,omitempty"`
@@ -414,12 +414,12 @@ func (eventhub *Eventhub_Status) AssignPropertiesToEventhubStatus(destination *v
 	return nil
 }
 
-//Storage version of v1alpha1api20211101.NamespacesEventhubs_Spec
+// Storage version of v1alpha1api20211101.NamespacesEventhubs_Spec
 type NamespacesEventhubs_Spec struct {
 	// +kubebuilder:validation:MaxLength=256
 	// +kubebuilder:validation:MinLength=1
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName              string                                                  `json:"azureName,omitempty"`
 	CaptureDescription     *NamespacesEventhubs_Spec_Properties_CaptureDescription `json:"captureDescription,omitempty"`
 	Location               *string                                                 `json:"location,omitempty"`
@@ -427,9 +427,9 @@ type NamespacesEventhubs_Spec struct {
 	OriginalVersion        string                                                  `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a eventhub.azure.com/Namespace resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a eventhub.azure.com/Namespace resource
 	Owner          *genruntime.KnownResourceReference `group:"eventhub.azure.com" json:"owner,omitempty" kind:"Namespace"`
 	PartitionCount *int                               `json:"partitionCount,omitempty"`
 	PropertyBag    genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
@@ -594,8 +594,8 @@ func (eventhubs *NamespacesEventhubs_Spec) AssignPropertiesToNamespacesEventhubs
 	return nil
 }
 
-//Storage version of v1alpha1api20211101.CaptureDescription_Status
-//Deprecated version of CaptureDescription_Status. Use v1beta20211101.CaptureDescription_Status instead
+// Storage version of v1alpha1api20211101.CaptureDescription_Status
+// Deprecated version of CaptureDescription_Status. Use v1beta20211101.CaptureDescription_Status instead
 type CaptureDescription_Status struct {
 	Destination       *Destination_Status    `json:"destination,omitempty"`
 	Enabled           *bool                  `json:"enabled,omitempty"`
@@ -712,8 +712,8 @@ func (description *CaptureDescription_Status) AssignPropertiesToCaptureDescripti
 	return nil
 }
 
-//Storage version of v1alpha1api20211101.NamespacesEventhubs_Spec_Properties_CaptureDescription
-//Deprecated version of NamespacesEventhubs_Spec_Properties_CaptureDescription. Use v1beta20211101.NamespacesEventhubs_Spec_Properties_CaptureDescription instead
+// Storage version of v1alpha1api20211101.NamespacesEventhubs_Spec_Properties_CaptureDescription
+// Deprecated version of NamespacesEventhubs_Spec_Properties_CaptureDescription. Use v1beta20211101.NamespacesEventhubs_Spec_Properties_CaptureDescription instead
 type NamespacesEventhubs_Spec_Properties_CaptureDescription struct {
 	Destination       *NamespacesEventhubs_Spec_Properties_CaptureDescription_Destination `json:"destination,omitempty"`
 	Enabled           *bool                                                               `json:"enabled,omitempty"`
@@ -830,8 +830,8 @@ func (description *NamespacesEventhubs_Spec_Properties_CaptureDescription) Assig
 	return nil
 }
 
-//Storage version of v1alpha1api20211101.Destination_Status
-//Deprecated version of Destination_Status. Use v1beta20211101.Destination_Status instead
+// Storage version of v1alpha1api20211101.Destination_Status
+// Deprecated version of Destination_Status. Use v1beta20211101.Destination_Status instead
 type Destination_Status struct {
 	ArchiveNameFormat        *string                `json:"archiveNameFormat,omitempty"`
 	BlobContainer            *string                `json:"blobContainer,omitempty"`
@@ -917,8 +917,8 @@ func (destination *Destination_Status) AssignPropertiesToDestinationStatus(targe
 	return nil
 }
 
-//Storage version of v1alpha1api20211101.NamespacesEventhubs_Spec_Properties_CaptureDescription_Destination
-//Deprecated version of NamespacesEventhubs_Spec_Properties_CaptureDescription_Destination. Use v1beta20211101.NamespacesEventhubs_Spec_Properties_CaptureDescription_Destination instead
+// Storage version of v1alpha1api20211101.NamespacesEventhubs_Spec_Properties_CaptureDescription_Destination
+// Deprecated version of NamespacesEventhubs_Spec_Properties_CaptureDescription_Destination. Use v1beta20211101.NamespacesEventhubs_Spec_Properties_CaptureDescription_Destination instead
 type NamespacesEventhubs_Spec_Properties_CaptureDescription_Destination struct {
 	ArchiveNameFormat               *string                       `json:"archiveNameFormat,omitempty"`
 	BlobContainer                   *string                       `json:"blobContainer,omitempty"`

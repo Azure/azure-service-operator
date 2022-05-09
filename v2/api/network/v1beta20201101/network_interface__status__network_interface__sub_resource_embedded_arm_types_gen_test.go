@@ -56,7 +56,7 @@ func RunJSONSerializationTestForNetworkInterfaceStatusNetworkInterfaceSubResourc
 }
 
 // Generator of NetworkInterface_Status_NetworkInterface_SubResourceEmbeddedARM instances for property testing - lazily
-//instantiated by NetworkInterfaceStatusNetworkInterfaceSubResourceEmbeddedARMGenerator()
+// instantiated by NetworkInterfaceStatusNetworkInterfaceSubResourceEmbeddedARMGenerator()
 var networkInterfaceStatusNetworkInterfaceSubResourceEmbeddedARMGenerator gopter.Gen
 
 // NetworkInterfaceStatusNetworkInterfaceSubResourceEmbeddedARMGenerator returns a generator of NetworkInterface_Status_NetworkInterface_SubResourceEmbeddedARM instances for property testing.
@@ -136,7 +136,7 @@ func RunJSONSerializationTestForNetworkInterfacePropertiesFormatStatusARM(subjec
 }
 
 // Generator of NetworkInterfacePropertiesFormat_StatusARM instances for property testing - lazily instantiated by
-//NetworkInterfacePropertiesFormatStatusARMGenerator()
+// NetworkInterfacePropertiesFormatStatusARMGenerator()
 var networkInterfacePropertiesFormatStatusARMGenerator gopter.Gen
 
 // NetworkInterfacePropertiesFormatStatusARMGenerator returns a generator of NetworkInterfacePropertiesFormat_StatusARM instances for property testing.
@@ -234,7 +234,7 @@ func RunJSONSerializationTestForNetworkInterfaceDnsSettingsStatusARM(subject Net
 }
 
 // Generator of NetworkInterfaceDnsSettings_StatusARM instances for property testing - lazily instantiated by
-//NetworkInterfaceDnsSettingsStatusARMGenerator()
+// NetworkInterfaceDnsSettingsStatusARMGenerator()
 var networkInterfaceDnsSettingsStatusARMGenerator gopter.Gen
 
 // NetworkInterfaceDnsSettingsStatusARMGenerator returns a generator of NetworkInterfaceDnsSettings_StatusARM instances for property testing.
@@ -298,7 +298,7 @@ func RunJSONSerializationTestForNetworkInterfaceIPConfigurationStatusNetworkInte
 }
 
 // Generator of NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResourceEmbeddedARM instances for property
-//testing - lazily instantiated by NetworkInterfaceIPConfigurationStatusNetworkInterfaceSubResourceEmbeddedARMGenerator()
+// testing - lazily instantiated by NetworkInterfaceIPConfigurationStatusNetworkInterfaceSubResourceEmbeddedARMGenerator()
 var networkInterfaceIPConfigurationStatusNetworkInterfaceSubResourceEmbeddedARMGenerator gopter.Gen
 
 // NetworkInterfaceIPConfigurationStatusNetworkInterfaceSubResourceEmbeddedARMGenerator returns a generator of NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResourceEmbeddedARM instances for property testing.
@@ -375,7 +375,7 @@ func RunJSONSerializationTestForNetworkInterfaceTapConfigurationStatusNetworkInt
 }
 
 // Generator of NetworkInterfaceTapConfiguration_Status_NetworkInterface_SubResourceEmbeddedARM instances for property
-//testing - lazily instantiated by NetworkInterfaceTapConfigurationStatusNetworkInterfaceSubResourceEmbeddedARMGenerator()
+// testing - lazily instantiated by NetworkInterfaceTapConfigurationStatusNetworkInterfaceSubResourceEmbeddedARMGenerator()
 var networkInterfaceTapConfigurationStatusNetworkInterfaceSubResourceEmbeddedARMGenerator gopter.Gen
 
 // NetworkInterfaceTapConfigurationStatusNetworkInterfaceSubResourceEmbeddedARMGenerator returns a generator of NetworkInterfaceTapConfiguration_Status_NetworkInterface_SubResourceEmbeddedARM instances for property testing.
@@ -435,7 +435,7 @@ func RunJSONSerializationTestForNetworkSecurityGroupStatusNetworkInterfaceSubRes
 }
 
 // Generator of NetworkSecurityGroup_Status_NetworkInterface_SubResourceEmbeddedARM instances for property testing -
-//lazily instantiated by NetworkSecurityGroupStatusNetworkInterfaceSubResourceEmbeddedARMGenerator()
+// lazily instantiated by NetworkSecurityGroupStatusNetworkInterfaceSubResourceEmbeddedARMGenerator()
 var networkSecurityGroupStatusNetworkInterfaceSubResourceEmbeddedARMGenerator gopter.Gen
 
 // NetworkSecurityGroupStatusNetworkInterfaceSubResourceEmbeddedARMGenerator returns a generator of NetworkSecurityGroup_Status_NetworkInterface_SubResourceEmbeddedARM instances for property testing.
@@ -495,7 +495,7 @@ func RunJSONSerializationTestForPrivateEndpointStatusNetworkInterfaceSubResource
 }
 
 // Generator of PrivateEndpoint_Status_NetworkInterface_SubResourceEmbeddedARM instances for property testing - lazily
-//instantiated by PrivateEndpointStatusNetworkInterfaceSubResourceEmbeddedARMGenerator()
+// instantiated by PrivateEndpointStatusNetworkInterfaceSubResourceEmbeddedARMGenerator()
 var privateEndpointStatusNetworkInterfaceSubResourceEmbeddedARMGenerator gopter.Gen
 
 // PrivateEndpointStatusNetworkInterfaceSubResourceEmbeddedARMGenerator returns a generator of PrivateEndpoint_Status_NetworkInterface_SubResourceEmbeddedARM instances for property testing.
@@ -569,7 +569,7 @@ func RunJSONSerializationTestForPrivateLinkServiceStatusNetworkInterfaceSubResou
 }
 
 // Generator of PrivateLinkService_Status_NetworkInterface_SubResourceEmbeddedARM instances for property testing -
-//lazily instantiated by PrivateLinkServiceStatusNetworkInterfaceSubResourceEmbeddedARMGenerator()
+// lazily instantiated by PrivateLinkServiceStatusNetworkInterfaceSubResourceEmbeddedARMGenerator()
 var privateLinkServiceStatusNetworkInterfaceSubResourceEmbeddedARMGenerator gopter.Gen
 
 // PrivateLinkServiceStatusNetworkInterfaceSubResourceEmbeddedARMGenerator returns a generator of PrivateLinkService_Status_NetworkInterface_SubResourceEmbeddedARM instances for property testing.
@@ -643,7 +643,7 @@ func RunJSONSerializationTestForSubResourceStatusARM(subject SubResource_StatusA
 }
 
 // Generator of SubResource_StatusARM instances for property testing - lazily instantiated by
-//SubResourceStatusARMGenerator()
+// SubResourceStatusARMGenerator()
 var subResourceStatusARMGenerator gopter.Gen
 
 // SubResourceStatusARMGenerator returns a generator of SubResource_StatusARM instances for property testing.
@@ -703,8 +703,8 @@ func RunJSONSerializationTestForNetworkInterfaceIPConfigurationPropertiesFormatS
 }
 
 // Generator of NetworkInterfaceIPConfigurationPropertiesFormat_Status_NetworkInterface_SubResourceEmbeddedARM instances
-//for property testing - lazily instantiated by
-//NetworkInterfaceIPConfigurationPropertiesFormatStatusNetworkInterfaceSubResourceEmbeddedARMGenerator()
+// for property testing - lazily instantiated by
+// NetworkInterfaceIPConfigurationPropertiesFormatStatusNetworkInterfaceSubResourceEmbeddedARMGenerator()
 var networkInterfaceIPConfigurationPropertiesFormatStatusNetworkInterfaceSubResourceEmbeddedARMGenerator gopter.Gen
 
 // NetworkInterfaceIPConfigurationPropertiesFormatStatusNetworkInterfaceSubResourceEmbeddedARMGenerator returns a generator of NetworkInterfaceIPConfigurationPropertiesFormat_Status_NetworkInterface_SubResourceEmbeddedARM instances for property testing.
@@ -793,8 +793,8 @@ func RunJSONSerializationTestForApplicationGatewayBackendAddressPoolStatusNetwor
 }
 
 // Generator of ApplicationGatewayBackendAddressPool_Status_NetworkInterface_SubResourceEmbeddedARM instances for
-//property testing - lazily instantiated by
-//ApplicationGatewayBackendAddressPoolStatusNetworkInterfaceSubResourceEmbeddedARMGenerator()
+// property testing - lazily instantiated by
+// ApplicationGatewayBackendAddressPoolStatusNetworkInterfaceSubResourceEmbeddedARMGenerator()
 var applicationGatewayBackendAddressPoolStatusNetworkInterfaceSubResourceEmbeddedARMGenerator gopter.Gen
 
 // ApplicationGatewayBackendAddressPoolStatusNetworkInterfaceSubResourceEmbeddedARMGenerator returns a generator of ApplicationGatewayBackendAddressPool_Status_NetworkInterface_SubResourceEmbeddedARM instances for property testing.
@@ -871,7 +871,7 @@ func RunJSONSerializationTestForApplicationSecurityGroupStatusNetworkInterfaceSu
 }
 
 // Generator of ApplicationSecurityGroup_Status_NetworkInterface_SubResourceEmbeddedARM instances for property testing -
-//lazily instantiated by ApplicationSecurityGroupStatusNetworkInterfaceSubResourceEmbeddedARMGenerator()
+// lazily instantiated by ApplicationSecurityGroupStatusNetworkInterfaceSubResourceEmbeddedARMGenerator()
 var applicationSecurityGroupStatusNetworkInterfaceSubResourceEmbeddedARMGenerator gopter.Gen
 
 // ApplicationSecurityGroupStatusNetworkInterfaceSubResourceEmbeddedARMGenerator returns a generator of ApplicationSecurityGroup_Status_NetworkInterface_SubResourceEmbeddedARM instances for property testing.
@@ -931,7 +931,7 @@ func RunJSONSerializationTestForBackendAddressPoolStatusNetworkInterfaceSubResou
 }
 
 // Generator of BackendAddressPool_Status_NetworkInterface_SubResourceEmbeddedARM instances for property testing -
-//lazily instantiated by BackendAddressPoolStatusNetworkInterfaceSubResourceEmbeddedARMGenerator()
+// lazily instantiated by BackendAddressPoolStatusNetworkInterfaceSubResourceEmbeddedARMGenerator()
 var backendAddressPoolStatusNetworkInterfaceSubResourceEmbeddedARMGenerator gopter.Gen
 
 // BackendAddressPoolStatusNetworkInterfaceSubResourceEmbeddedARMGenerator returns a generator of BackendAddressPool_Status_NetworkInterface_SubResourceEmbeddedARM instances for property testing.
@@ -991,7 +991,7 @@ func RunJSONSerializationTestForInboundNatRuleStatusNetworkInterfaceSubResourceE
 }
 
 // Generator of InboundNatRule_Status_NetworkInterface_SubResourceEmbeddedARM instances for property testing - lazily
-//instantiated by InboundNatRuleStatusNetworkInterfaceSubResourceEmbeddedARMGenerator()
+// instantiated by InboundNatRuleStatusNetworkInterfaceSubResourceEmbeddedARMGenerator()
 var inboundNatRuleStatusNetworkInterfaceSubResourceEmbeddedARMGenerator gopter.Gen
 
 // InboundNatRuleStatusNetworkInterfaceSubResourceEmbeddedARMGenerator returns a generator of InboundNatRule_Status_NetworkInterface_SubResourceEmbeddedARM instances for property testing.
@@ -1051,7 +1051,7 @@ func RunJSONSerializationTestForNetworkInterfaceIPConfigurationPrivateLinkConnec
 }
 
 // Generator of NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_StatusARM instances for property testing
-//- lazily instantiated by NetworkInterfaceIPConfigurationPrivateLinkConnectionPropertiesStatusARMGenerator()
+// - lazily instantiated by NetworkInterfaceIPConfigurationPrivateLinkConnectionPropertiesStatusARMGenerator()
 var networkInterfaceIPConfigurationPrivateLinkConnectionPropertiesStatusARMGenerator gopter.Gen
 
 // NetworkInterfaceIPConfigurationPrivateLinkConnectionPropertiesStatusARMGenerator returns a generator of NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_StatusARM instances for property testing.
@@ -1113,7 +1113,7 @@ func RunJSONSerializationTestForPublicIPAddressStatusNetworkInterfaceSubResource
 }
 
 // Generator of PublicIPAddress_Status_NetworkInterface_SubResourceEmbeddedARM instances for property testing - lazily
-//instantiated by PublicIPAddressStatusNetworkInterfaceSubResourceEmbeddedARMGenerator()
+// instantiated by PublicIPAddressStatusNetworkInterfaceSubResourceEmbeddedARMGenerator()
 var publicIPAddressStatusNetworkInterfaceSubResourceEmbeddedARMGenerator gopter.Gen
 
 // PublicIPAddressStatusNetworkInterfaceSubResourceEmbeddedARMGenerator returns a generator of PublicIPAddress_Status_NetworkInterface_SubResourceEmbeddedARM instances for property testing.
@@ -1189,7 +1189,7 @@ func RunJSONSerializationTestForSubnetStatusNetworkInterfaceSubResourceEmbeddedA
 }
 
 // Generator of Subnet_Status_NetworkInterface_SubResourceEmbeddedARM instances for property testing - lazily
-//instantiated by SubnetStatusNetworkInterfaceSubResourceEmbeddedARMGenerator()
+// instantiated by SubnetStatusNetworkInterfaceSubResourceEmbeddedARMGenerator()
 var subnetStatusNetworkInterfaceSubResourceEmbeddedARMGenerator gopter.Gen
 
 // SubnetStatusNetworkInterfaceSubResourceEmbeddedARMGenerator returns a generator of Subnet_Status_NetworkInterface_SubResourceEmbeddedARM instances for property testing.
@@ -1249,7 +1249,7 @@ func RunJSONSerializationTestForVirtualNetworkTapStatusNetworkInterfaceSubResour
 }
 
 // Generator of VirtualNetworkTap_Status_NetworkInterface_SubResourceEmbeddedARM instances for property testing - lazily
-//instantiated by VirtualNetworkTapStatusNetworkInterfaceSubResourceEmbeddedARMGenerator()
+// instantiated by VirtualNetworkTapStatusNetworkInterfaceSubResourceEmbeddedARMGenerator()
 var virtualNetworkTapStatusNetworkInterfaceSubResourceEmbeddedARMGenerator gopter.Gen
 
 // VirtualNetworkTapStatusNetworkInterfaceSubResourceEmbeddedARMGenerator returns a generator of VirtualNetworkTap_Status_NetworkInterface_SubResourceEmbeddedARM instances for property testing.
@@ -1309,8 +1309,8 @@ func RunJSONSerializationTestForApplicationGatewayBackendAddressPoolPropertiesFo
 }
 
 // Generator of ApplicationGatewayBackendAddressPoolPropertiesFormat_Status_NetworkInterface_SubResourceEmbeddedARM
-//instances for property testing - lazily instantiated by
-//ApplicationGatewayBackendAddressPoolPropertiesFormatStatusNetworkInterfaceSubResourceEmbeddedARMGenerator()
+// instances for property testing - lazily instantiated by
+// ApplicationGatewayBackendAddressPoolPropertiesFormatStatusNetworkInterfaceSubResourceEmbeddedARMGenerator()
 var applicationGatewayBackendAddressPoolPropertiesFormatStatusNetworkInterfaceSubResourceEmbeddedARMGenerator gopter.Gen
 
 // ApplicationGatewayBackendAddressPoolPropertiesFormatStatusNetworkInterfaceSubResourceEmbeddedARMGenerator returns a generator of ApplicationGatewayBackendAddressPoolPropertiesFormat_Status_NetworkInterface_SubResourceEmbeddedARM instances for property testing.
@@ -1388,7 +1388,7 @@ func RunJSONSerializationTestForApplicationGatewayBackendAddressStatusARM(subjec
 }
 
 // Generator of ApplicationGatewayBackendAddress_StatusARM instances for property testing - lazily instantiated by
-//ApplicationGatewayBackendAddressStatusARMGenerator()
+// ApplicationGatewayBackendAddressStatusARMGenerator()
 var applicationGatewayBackendAddressStatusARMGenerator gopter.Gen
 
 // ApplicationGatewayBackendAddressStatusARMGenerator returns a generator of ApplicationGatewayBackendAddress_StatusARM instances for property testing.

@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Deprecated version of LoadBalancer. Use v1beta20201101.LoadBalancer instead
+// Deprecated version of LoadBalancer. Use v1beta20201101.LoadBalancer instead
 type LoadBalancer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -314,18 +314,18 @@ func (balancer *LoadBalancer) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Deprecated version of LoadBalancer. Use v1beta20201101.LoadBalancer instead
+// Deprecated version of LoadBalancer. Use v1beta20201101.LoadBalancer instead
 type LoadBalancerList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []LoadBalancer `json:"items"`
 }
 
-//Deprecated version of LoadBalancer_Status. Use v1beta20201101.LoadBalancer_Status instead
+// Deprecated version of LoadBalancer_Status. Use v1beta20201101.LoadBalancer_Status instead
 type LoadBalancer_Status struct {
 	BackendAddressPools []BackendAddressPool_Status_LoadBalancer_SubResourceEmbedded `json:"backendAddressPools,omitempty"`
 
-	//Conditions: The observed state of the resource
+	// Conditions: The observed state of the resource
 	Conditions               []conditions.Condition                                            `json:"conditions,omitempty"`
 	Etag                     *string                                                           `json:"etag,omitempty"`
 	ExtendedLocation         *ExtendedLocation_Status                                          `json:"extendedLocation,omitempty"`
@@ -972,8 +972,8 @@ func (balancer *LoadBalancer_Status) AssignPropertiesToLoadBalancerStatus(destin
 }
 
 type LoadBalancers_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName                string                                                   `json:"azureName,omitempty"`
 	BackendAddressPools      []LoadBalancers_Spec_Properties_BackendAddressPools      `json:"backendAddressPools,omitempty"`
 	ExtendedLocation         *ExtendedLocation                                        `json:"extendedLocation,omitempty"`
@@ -984,9 +984,9 @@ type LoadBalancers_Spec struct {
 	OutboundRules            []LoadBalancers_Spec_Properties_OutboundRules            `json:"outboundRules,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a resources.azure.com/ResourceGroup resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
 	Owner  *genruntime.KnownResourceReference     `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	Probes []LoadBalancers_Spec_Properties_Probes `json:"probes,omitempty"`
 	Sku    *LoadBalancerSku                       `json:"sku,omitempty"`
@@ -1613,7 +1613,7 @@ func (balancers *LoadBalancers_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (balancers *LoadBalancers_Spec) SetAzureName(azureName string) { balancers.AzureName = azureName }
 
-//Deprecated version of BackendAddressPool_Status_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.BackendAddressPool_Status_LoadBalancer_SubResourceEmbedded instead
+// Deprecated version of BackendAddressPool_Status_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.BackendAddressPool_Status_LoadBalancer_SubResourceEmbedded instead
 type BackendAddressPool_Status_LoadBalancer_SubResourceEmbedded struct {
 	Id *string `json:"id,omitempty"`
 }
@@ -1671,7 +1671,7 @@ func (embedded *BackendAddressPool_Status_LoadBalancer_SubResourceEmbedded) Assi
 	return nil
 }
 
-//Deprecated version of ExtendedLocation. Use v1beta20201101.ExtendedLocation instead
+// Deprecated version of ExtendedLocation. Use v1beta20201101.ExtendedLocation instead
 type ExtendedLocation struct {
 	// +kubebuilder:validation:Required
 	Name *string `json:"name,omitempty"`
@@ -1776,7 +1776,7 @@ func (location *ExtendedLocation) AssignPropertiesToExtendedLocation(destination
 	return nil
 }
 
-//Deprecated version of ExtendedLocation_Status. Use v1beta20201101.ExtendedLocation_Status instead
+// Deprecated version of ExtendedLocation_Status. Use v1beta20201101.ExtendedLocation_Status instead
 type ExtendedLocation_Status struct {
 	Name *string                      `json:"name,omitempty"`
 	Type *ExtendedLocationType_Status `json:"type,omitempty"`
@@ -1857,7 +1857,7 @@ func (location *ExtendedLocation_Status) AssignPropertiesToExtendedLocationStatu
 	return nil
 }
 
-//Deprecated version of FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded instead
+// Deprecated version of FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded instead
 type FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded struct {
 	Etag                      *string                                                  `json:"etag,omitempty"`
 	Id                        *string                                                  `json:"id,omitempty"`
@@ -2377,7 +2377,7 @@ func (embedded *FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded)
 	return nil
 }
 
-//Deprecated version of InboundNatPool_Status. Use v1beta20201101.InboundNatPool_Status instead
+// Deprecated version of InboundNatPool_Status. Use v1beta20201101.InboundNatPool_Status instead
 type InboundNatPool_Status struct {
 	BackendPort             *int                      `json:"backendPort,omitempty"`
 	EnableFloatingIP        *bool                     `json:"enableFloatingIP,omitempty"`
@@ -2681,7 +2681,7 @@ func (pool *InboundNatPool_Status) AssignPropertiesToInboundNatPoolStatus(destin
 	return nil
 }
 
-//Deprecated version of InboundNatRule_Status_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.InboundNatRule_Status_LoadBalancer_SubResourceEmbedded instead
+// Deprecated version of InboundNatRule_Status_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.InboundNatRule_Status_LoadBalancer_SubResourceEmbedded instead
 type InboundNatRule_Status_LoadBalancer_SubResourceEmbedded struct {
 	Id *string `json:"id,omitempty"`
 }
@@ -2739,7 +2739,7 @@ func (embedded *InboundNatRule_Status_LoadBalancer_SubResourceEmbedded) AssignPr
 	return nil
 }
 
-//Deprecated version of LoadBalancerSku. Use v1beta20201101.LoadBalancerSku instead
+// Deprecated version of LoadBalancerSku. Use v1beta20201101.LoadBalancerSku instead
 type LoadBalancerSku struct {
 	Name *LoadBalancerSkuName `json:"name,omitempty"`
 	Tier *LoadBalancerSkuTier `json:"tier,omitempty"`
@@ -2851,7 +2851,7 @@ func (balancerSku *LoadBalancerSku) AssignPropertiesToLoadBalancerSku(destinatio
 	return nil
 }
 
-//Deprecated version of LoadBalancerSku_Status. Use v1beta20201101.LoadBalancerSku_Status instead
+// Deprecated version of LoadBalancerSku_Status. Use v1beta20201101.LoadBalancerSku_Status instead
 type LoadBalancerSku_Status struct {
 	Name *LoadBalancerSkuStatusName `json:"name,omitempty"`
 	Tier *LoadBalancerSkuStatusTier `json:"tier,omitempty"`
@@ -2942,7 +2942,7 @@ func (balancerSku *LoadBalancerSku_Status) AssignPropertiesToLoadBalancerSkuStat
 	return nil
 }
 
-//Deprecated version of LoadBalancers_Spec_Properties_BackendAddressPools. Use v1beta20201101.LoadBalancers_Spec_Properties_BackendAddressPools instead
+// Deprecated version of LoadBalancers_Spec_Properties_BackendAddressPools. Use v1beta20201101.LoadBalancers_Spec_Properties_BackendAddressPools instead
 type LoadBalancers_Spec_Properties_BackendAddressPools struct {
 	LoadBalancerBackendAddresses []LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses `json:"loadBalancerBackendAddresses,omitempty"`
 	Location                     *string                                                                                     `json:"location,omitempty"`
@@ -3099,7 +3099,7 @@ func (pools *LoadBalancers_Spec_Properties_BackendAddressPools) AssignProperties
 	return nil
 }
 
-//Deprecated version of LoadBalancers_Spec_Properties_FrontendIPConfigurations. Use v1beta20201101.LoadBalancers_Spec_Properties_FrontendIPConfigurations instead
+// Deprecated version of LoadBalancers_Spec_Properties_FrontendIPConfigurations. Use v1beta20201101.LoadBalancers_Spec_Properties_FrontendIPConfigurations instead
 type LoadBalancers_Spec_Properties_FrontendIPConfigurations struct {
 	// +kubebuilder:validation:Required
 	Name                      *string                                                           `json:"name,omitempty"`
@@ -3421,7 +3421,7 @@ func (configurations *LoadBalancers_Spec_Properties_FrontendIPConfigurations) As
 	return nil
 }
 
-//Deprecated version of LoadBalancers_Spec_Properties_InboundNatPools. Use v1beta20201101.LoadBalancers_Spec_Properties_InboundNatPools instead
+// Deprecated version of LoadBalancers_Spec_Properties_InboundNatPools. Use v1beta20201101.LoadBalancers_Spec_Properties_InboundNatPools instead
 type LoadBalancers_Spec_Properties_InboundNatPools struct {
 	// +kubebuilder:validation:Required
 	BackendPort      *int  `json:"backendPort,omitempty"`
@@ -3734,7 +3734,7 @@ func (pools *LoadBalancers_Spec_Properties_InboundNatPools) AssignPropertiesToLo
 	return nil
 }
 
-//Deprecated version of LoadBalancers_Spec_Properties_LoadBalancingRules. Use v1beta20201101.LoadBalancers_Spec_Properties_LoadBalancingRules instead
+// Deprecated version of LoadBalancers_Spec_Properties_LoadBalancingRules. Use v1beta20201101.LoadBalancers_Spec_Properties_LoadBalancingRules instead
 type LoadBalancers_Spec_Properties_LoadBalancingRules struct {
 	BackendAddressPool *SubResource `json:"backendAddressPool,omitempty"`
 
@@ -4183,7 +4183,7 @@ func (rules *LoadBalancers_Spec_Properties_LoadBalancingRules) AssignPropertiesT
 	return nil
 }
 
-//Deprecated version of LoadBalancers_Spec_Properties_OutboundRules. Use v1beta20201101.LoadBalancers_Spec_Properties_OutboundRules instead
+// Deprecated version of LoadBalancers_Spec_Properties_OutboundRules. Use v1beta20201101.LoadBalancers_Spec_Properties_OutboundRules instead
 type LoadBalancers_Spec_Properties_OutboundRules struct {
 	AllocatedOutboundPorts *int `json:"allocatedOutboundPorts,omitempty"`
 
@@ -4476,7 +4476,7 @@ func (rules *LoadBalancers_Spec_Properties_OutboundRules) AssignPropertiesToLoad
 	return nil
 }
 
-//Deprecated version of LoadBalancers_Spec_Properties_Probes. Use v1beta20201101.LoadBalancers_Spec_Properties_Probes instead
+// Deprecated version of LoadBalancers_Spec_Properties_Probes. Use v1beta20201101.LoadBalancers_Spec_Properties_Probes instead
 type LoadBalancers_Spec_Properties_Probes struct {
 	IntervalInSeconds *int `json:"intervalInSeconds,omitempty"`
 
@@ -4676,7 +4676,7 @@ func (probes *LoadBalancers_Spec_Properties_Probes) AssignPropertiesToLoadBalanc
 	return nil
 }
 
-//Deprecated version of LoadBalancingRule_Status. Use v1beta20201101.LoadBalancingRule_Status instead
+// Deprecated version of LoadBalancingRule_Status. Use v1beta20201101.LoadBalancingRule_Status instead
 type LoadBalancingRule_Status struct {
 	BackendAddressPool      *SubResource_Status                                      `json:"backendAddressPool,omitempty"`
 	BackendPort             *int                                                     `json:"backendPort,omitempty"`
@@ -5094,7 +5094,7 @@ func (rule *LoadBalancingRule_Status) AssignPropertiesToLoadBalancingRuleStatus(
 	return nil
 }
 
-//Deprecated version of OutboundRule_Status. Use v1beta20201101.OutboundRule_Status instead
+// Deprecated version of OutboundRule_Status. Use v1beta20201101.OutboundRule_Status instead
 type OutboundRule_Status struct {
 	AllocatedOutboundPorts   *int                                        `json:"allocatedOutboundPorts,omitempty"`
 	BackendAddressPool       *SubResource_Status                         `json:"backendAddressPool,omitempty"`
@@ -5390,7 +5390,7 @@ func (rule *OutboundRule_Status) AssignPropertiesToOutboundRuleStatus(destinatio
 	return nil
 }
 
-//Deprecated version of Probe_Status. Use v1beta20201101.Probe_Status instead
+// Deprecated version of Probe_Status. Use v1beta20201101.Probe_Status instead
 type Probe_Status struct {
 	Etag               *string                              `json:"etag,omitempty"`
 	Id                 *string                              `json:"id,omitempty"`
@@ -5653,7 +5653,7 @@ func (probe *Probe_Status) AssignPropertiesToProbeStatus(destination *alpha20201
 	return nil
 }
 
-//Deprecated version of ProvisioningState_Status. Use v1beta20201101.ProvisioningState_Status instead
+// Deprecated version of ProvisioningState_Status. Use v1beta20201101.ProvisioningState_Status instead
 type ProvisioningState_Status string
 
 const (
@@ -5663,8 +5663,8 @@ const (
 	ProvisioningState_StatusUpdating  = ProvisioningState_Status("Updating")
 )
 
-//Deprecated version of FrontendIPConfigurationPropertiesFormatPrivateIPAddressVersion. Use
-//v1beta20201101.FrontendIPConfigurationPropertiesFormatPrivateIPAddressVersion instead
+// Deprecated version of FrontendIPConfigurationPropertiesFormatPrivateIPAddressVersion. Use
+// v1beta20201101.FrontendIPConfigurationPropertiesFormatPrivateIPAddressVersion instead
 // +kubebuilder:validation:Enum={"IPv4","IPv6"}
 type FrontendIPConfigurationPropertiesFormatPrivateIPAddressVersion string
 
@@ -5673,8 +5673,8 @@ const (
 	FrontendIPConfigurationPropertiesFormatPrivateIPAddressVersionIPv6 = FrontendIPConfigurationPropertiesFormatPrivateIPAddressVersion("IPv6")
 )
 
-//Deprecated version of FrontendIPConfigurationPropertiesFormatPrivateIPAllocationMethod. Use
-//v1beta20201101.FrontendIPConfigurationPropertiesFormatPrivateIPAllocationMethod instead
+// Deprecated version of FrontendIPConfigurationPropertiesFormatPrivateIPAllocationMethod. Use
+// v1beta20201101.FrontendIPConfigurationPropertiesFormatPrivateIPAllocationMethod instead
 // +kubebuilder:validation:Enum={"Dynamic","Static"}
 type FrontendIPConfigurationPropertiesFormatPrivateIPAllocationMethod string
 
@@ -5683,8 +5683,8 @@ const (
 	FrontendIPConfigurationPropertiesFormatPrivateIPAllocationMethodStatic  = FrontendIPConfigurationPropertiesFormatPrivateIPAllocationMethod("Static")
 )
 
-//Deprecated version of InboundNatPoolPropertiesFormatProtocol. Use v1beta20201101.InboundNatPoolPropertiesFormatProtocol
-//instead
+// Deprecated version of InboundNatPoolPropertiesFormatProtocol. Use v1beta20201101.InboundNatPoolPropertiesFormatProtocol
+// instead
 // +kubebuilder:validation:Enum={"All","Tcp","Udp"}
 type InboundNatPoolPropertiesFormatProtocol string
 
@@ -5694,7 +5694,7 @@ const (
 	InboundNatPoolPropertiesFormatProtocolUdp = InboundNatPoolPropertiesFormatProtocol("Udp")
 )
 
-//Deprecated version of LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses. Use v1beta20201101.LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses instead
+// Deprecated version of LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses. Use v1beta20201101.LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses instead
 type LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses struct {
 	IpAddress                           *string      `json:"ipAddress,omitempty"`
 	LoadBalancerFrontendIPConfiguration *SubResource `json:"loadBalancerFrontendIPConfiguration,omitempty"`
@@ -5936,8 +5936,8 @@ func (addresses *LoadBalancers_Spec_Properties_BackendAddressPools_Properties_Lo
 	return nil
 }
 
-//Deprecated version of LoadBalancingRulePropertiesFormatLoadDistribution. Use
-//v1beta20201101.LoadBalancingRulePropertiesFormatLoadDistribution instead
+// Deprecated version of LoadBalancingRulePropertiesFormatLoadDistribution. Use
+// v1beta20201101.LoadBalancingRulePropertiesFormatLoadDistribution instead
 // +kubebuilder:validation:Enum={"Default","SourceIP","SourceIPProtocol"}
 type LoadBalancingRulePropertiesFormatLoadDistribution string
 
@@ -5947,8 +5947,8 @@ const (
 	LoadBalancingRulePropertiesFormatLoadDistributionSourceIPProtocol = LoadBalancingRulePropertiesFormatLoadDistribution("SourceIPProtocol")
 )
 
-//Deprecated version of LoadBalancingRulePropertiesFormatProtocol. Use
-//v1beta20201101.LoadBalancingRulePropertiesFormatProtocol instead
+// Deprecated version of LoadBalancingRulePropertiesFormatProtocol. Use
+// v1beta20201101.LoadBalancingRulePropertiesFormatProtocol instead
 // +kubebuilder:validation:Enum={"All","Tcp","Udp"}
 type LoadBalancingRulePropertiesFormatProtocol string
 
@@ -5958,8 +5958,8 @@ const (
 	LoadBalancingRulePropertiesFormatProtocolUdp = LoadBalancingRulePropertiesFormatProtocol("Udp")
 )
 
-//Deprecated version of LoadBalancingRulePropertiesFormatStatusLoadDistribution. Use
-//v1beta20201101.LoadBalancingRulePropertiesFormatStatusLoadDistribution instead
+// Deprecated version of LoadBalancingRulePropertiesFormatStatusLoadDistribution. Use
+// v1beta20201101.LoadBalancingRulePropertiesFormatStatusLoadDistribution instead
 type LoadBalancingRulePropertiesFormatStatusLoadDistribution string
 
 const (
@@ -5968,8 +5968,8 @@ const (
 	LoadBalancingRulePropertiesFormatStatusLoadDistributionSourceIPProtocol = LoadBalancingRulePropertiesFormatStatusLoadDistribution("SourceIPProtocol")
 )
 
-//Deprecated version of OutboundRulePropertiesFormatProtocol. Use v1beta20201101.OutboundRulePropertiesFormatProtocol
-//instead
+// Deprecated version of OutboundRulePropertiesFormatProtocol. Use v1beta20201101.OutboundRulePropertiesFormatProtocol
+// instead
 // +kubebuilder:validation:Enum={"All","Tcp","Udp"}
 type OutboundRulePropertiesFormatProtocol string
 
@@ -5979,8 +5979,8 @@ const (
 	OutboundRulePropertiesFormatProtocolUdp = OutboundRulePropertiesFormatProtocol("Udp")
 )
 
-//Deprecated version of OutboundRulePropertiesFormatStatusProtocol. Use
-//v1beta20201101.OutboundRulePropertiesFormatStatusProtocol instead
+// Deprecated version of OutboundRulePropertiesFormatStatusProtocol. Use
+// v1beta20201101.OutboundRulePropertiesFormatStatusProtocol instead
 type OutboundRulePropertiesFormatStatusProtocol string
 
 const (
@@ -5989,7 +5989,7 @@ const (
 	OutboundRulePropertiesFormatStatusProtocolUdp = OutboundRulePropertiesFormatStatusProtocol("Udp")
 )
 
-//Deprecated version of ProbePropertiesFormatProtocol. Use v1beta20201101.ProbePropertiesFormatProtocol instead
+// Deprecated version of ProbePropertiesFormatProtocol. Use v1beta20201101.ProbePropertiesFormatProtocol instead
 // +kubebuilder:validation:Enum={"Http","Https","Tcp"}
 type ProbePropertiesFormatProtocol string
 
@@ -5999,7 +5999,7 @@ const (
 	ProbePropertiesFormatProtocolTcp   = ProbePropertiesFormatProtocol("Tcp")
 )
 
-//Deprecated version of ProbePropertiesFormatStatusProtocol. Use v1beta20201101.ProbePropertiesFormatStatusProtocol instead
+// Deprecated version of ProbePropertiesFormatStatusProtocol. Use v1beta20201101.ProbePropertiesFormatStatusProtocol instead
 type ProbePropertiesFormatStatusProtocol string
 
 const (
@@ -6008,7 +6008,7 @@ const (
 	ProbePropertiesFormatStatusProtocolTcp   = ProbePropertiesFormatStatusProtocol("Tcp")
 )
 
-//Deprecated version of PublicIPAddress_Status_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.PublicIPAddress_Status_LoadBalancer_SubResourceEmbedded instead
+// Deprecated version of PublicIPAddress_Status_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.PublicIPAddress_Status_LoadBalancer_SubResourceEmbedded instead
 type PublicIPAddress_Status_LoadBalancer_SubResourceEmbedded struct {
 	ExtendedLocation *ExtendedLocation_Status   `json:"extendedLocation,omitempty"`
 	Id               *string                    `json:"id,omitempty"`
@@ -6150,7 +6150,7 @@ func (embedded *PublicIPAddress_Status_LoadBalancer_SubResourceEmbedded) AssignP
 	return nil
 }
 
-//Deprecated version of Subnet_Status_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.Subnet_Status_LoadBalancer_SubResourceEmbedded instead
+// Deprecated version of Subnet_Status_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.Subnet_Status_LoadBalancer_SubResourceEmbedded instead
 type Subnet_Status_LoadBalancer_SubResourceEmbedded struct {
 	Id *string `json:"id,omitempty"`
 }
@@ -6208,7 +6208,7 @@ func (embedded *Subnet_Status_LoadBalancer_SubResourceEmbedded) AssignProperties
 	return nil
 }
 
-//Deprecated version of TransportProtocol_Status. Use v1beta20201101.TransportProtocol_Status instead
+// Deprecated version of TransportProtocol_Status. Use v1beta20201101.TransportProtocol_Status instead
 type TransportProtocol_Status string
 
 const (

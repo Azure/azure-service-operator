@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1alpha1api20211101
 
-//Deprecated version of ConsumerGroup_Status. Use v1beta20211101.ConsumerGroup_Status instead
+// Deprecated version of ConsumerGroup_Status. Use v1beta20211101.ConsumerGroup_Status instead
 type ConsumerGroup_StatusARM struct {
 	Id         *string                             `json:"id,omitempty"`
 	Location   *string                             `json:"location,omitempty"`
@@ -13,7 +13,7 @@ type ConsumerGroup_StatusARM struct {
 	Type       *string                             `json:"type,omitempty"`
 }
 
-//Deprecated version of ConsumerGroup_Status_Properties. Use v1beta20211101.ConsumerGroup_Status_Properties instead
+// Deprecated version of ConsumerGroup_Status_Properties. Use v1beta20211101.ConsumerGroup_Status_Properties instead
 type ConsumerGroup_Status_PropertiesARM struct {
 	CreatedAt    *string `json:"createdAt,omitempty"`
 	UpdatedAt    *string `json:"updatedAt,omitempty"`

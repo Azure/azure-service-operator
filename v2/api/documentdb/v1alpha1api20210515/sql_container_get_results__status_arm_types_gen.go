@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1alpha1api20210515
 
-//Deprecated version of SqlContainerGetResults_Status. Use v1beta20210515.SqlContainerGetResults_Status instead
+// Deprecated version of SqlContainerGetResults_Status. Use v1beta20210515.SqlContainerGetResults_Status instead
 type SqlContainerGetResults_StatusARM struct {
 	Id         *string                              `json:"id,omitempty"`
 	Location   *string                              `json:"location,omitempty"`
@@ -13,13 +13,13 @@ type SqlContainerGetResults_StatusARM struct {
 	Type       *string                              `json:"type,omitempty"`
 }
 
-//Deprecated version of SqlContainerGetProperties_Status. Use v1beta20210515.SqlContainerGetProperties_Status instead
+// Deprecated version of SqlContainerGetProperties_Status. Use v1beta20210515.SqlContainerGetProperties_Status instead
 type SqlContainerGetProperties_StatusARM struct {
 	Options  *OptionsResource_StatusARM                    `json:"options,omitempty"`
 	Resource *SqlContainerGetProperties_Status_ResourceARM `json:"resource,omitempty"`
 }
 
-//Deprecated version of SqlContainerGetProperties_Status_Resource. Use v1beta20210515.SqlContainerGetProperties_Status_Resource instead
+// Deprecated version of SqlContainerGetProperties_Status_Resource. Use v1beta20210515.SqlContainerGetProperties_Status_Resource instead
 type SqlContainerGetProperties_Status_ResourceARM struct {
 	AnalyticalStorageTtl     *int                                `json:"analyticalStorageTtl,omitempty"`
 	ConflictResolutionPolicy *ConflictResolutionPolicy_StatusARM `json:"conflictResolutionPolicy,omitempty"`
@@ -33,14 +33,14 @@ type SqlContainerGetProperties_Status_ResourceARM struct {
 	UniqueKeyPolicy          *UniqueKeyPolicy_StatusARM          `json:"uniqueKeyPolicy,omitempty"`
 }
 
-//Deprecated version of ConflictResolutionPolicy_Status. Use v1beta20210515.ConflictResolutionPolicy_Status instead
+// Deprecated version of ConflictResolutionPolicy_Status. Use v1beta20210515.ConflictResolutionPolicy_Status instead
 type ConflictResolutionPolicy_StatusARM struct {
 	ConflictResolutionPath      *string                             `json:"conflictResolutionPath,omitempty"`
 	ConflictResolutionProcedure *string                             `json:"conflictResolutionProcedure,omitempty"`
 	Mode                        *ConflictResolutionPolicyStatusMode `json:"mode,omitempty"`
 }
 
-//Deprecated version of ContainerPartitionKey_Status. Use v1beta20210515.ContainerPartitionKey_Status instead
+// Deprecated version of ContainerPartitionKey_Status. Use v1beta20210515.ContainerPartitionKey_Status instead
 type ContainerPartitionKey_StatusARM struct {
 	Kind      *ContainerPartitionKeyStatusKind `json:"kind,omitempty"`
 	Paths     []string                         `json:"paths,omitempty"`
@@ -48,7 +48,7 @@ type ContainerPartitionKey_StatusARM struct {
 	Version   *int                             `json:"version,omitempty"`
 }
 
-//Deprecated version of IndexingPolicy_Status. Use v1beta20210515.IndexingPolicy_Status instead
+// Deprecated version of IndexingPolicy_Status. Use v1beta20210515.IndexingPolicy_Status instead
 type IndexingPolicy_StatusARM struct {
 	Automatic        *bool                             `json:"automatic,omitempty"`
 	CompositeIndexes [][]CompositePath_StatusARM       `json:"compositeIndexes,omitempty"`
@@ -58,18 +58,18 @@ type IndexingPolicy_StatusARM struct {
 	SpatialIndexes   []SpatialSpec_StatusARM           `json:"spatialIndexes,omitempty"`
 }
 
-//Deprecated version of UniqueKeyPolicy_Status. Use v1beta20210515.UniqueKeyPolicy_Status instead
+// Deprecated version of UniqueKeyPolicy_Status. Use v1beta20210515.UniqueKeyPolicy_Status instead
 type UniqueKeyPolicy_StatusARM struct {
 	UniqueKeys []UniqueKey_StatusARM `json:"uniqueKeys,omitempty"`
 }
 
-//Deprecated version of CompositePath_Status. Use v1beta20210515.CompositePath_Status instead
+// Deprecated version of CompositePath_Status. Use v1beta20210515.CompositePath_Status instead
 type CompositePath_StatusARM struct {
 	Order *CompositePathStatusOrder `json:"order,omitempty"`
 	Path  *string                   `json:"path,omitempty"`
 }
 
-//Deprecated version of ConflictResolutionPolicyStatusMode. Use v1beta20210515.ConflictResolutionPolicyStatusMode instead
+// Deprecated version of ConflictResolutionPolicyStatusMode. Use v1beta20210515.ConflictResolutionPolicyStatusMode instead
 type ConflictResolutionPolicyStatusMode string
 
 const (
@@ -77,7 +77,7 @@ const (
 	ConflictResolutionPolicyStatusModeLastWriterWins = ConflictResolutionPolicyStatusMode("LastWriterWins")
 )
 
-//Deprecated version of ContainerPartitionKeyStatusKind. Use v1beta20210515.ContainerPartitionKeyStatusKind instead
+// Deprecated version of ContainerPartitionKeyStatusKind. Use v1beta20210515.ContainerPartitionKeyStatusKind instead
 type ContainerPartitionKeyStatusKind string
 
 const (
@@ -86,18 +86,18 @@ const (
 	ContainerPartitionKeyStatusKindRange     = ContainerPartitionKeyStatusKind("Range")
 )
 
-//Deprecated version of ExcludedPath_Status. Use v1beta20210515.ExcludedPath_Status instead
+// Deprecated version of ExcludedPath_Status. Use v1beta20210515.ExcludedPath_Status instead
 type ExcludedPath_StatusARM struct {
 	Path *string `json:"path,omitempty"`
 }
 
-//Deprecated version of IncludedPath_Status. Use v1beta20210515.IncludedPath_Status instead
+// Deprecated version of IncludedPath_Status. Use v1beta20210515.IncludedPath_Status instead
 type IncludedPath_StatusARM struct {
 	Indexes []Indexes_StatusARM `json:"indexes,omitempty"`
 	Path    *string             `json:"path,omitempty"`
 }
 
-//Deprecated version of IndexingPolicyStatusIndexingMode. Use v1beta20210515.IndexingPolicyStatusIndexingMode instead
+// Deprecated version of IndexingPolicyStatusIndexingMode. Use v1beta20210515.IndexingPolicyStatusIndexingMode instead
 type IndexingPolicyStatusIndexingMode string
 
 const (
@@ -106,18 +106,18 @@ const (
 	IndexingPolicyStatusIndexingModeNone       = IndexingPolicyStatusIndexingMode("none")
 )
 
-//Deprecated version of SpatialSpec_Status. Use v1beta20210515.SpatialSpec_Status instead
+// Deprecated version of SpatialSpec_Status. Use v1beta20210515.SpatialSpec_Status instead
 type SpatialSpec_StatusARM struct {
 	Path  *string              `json:"path,omitempty"`
 	Types []SpatialType_Status `json:"types,omitempty"`
 }
 
-//Deprecated version of UniqueKey_Status. Use v1beta20210515.UniqueKey_Status instead
+// Deprecated version of UniqueKey_Status. Use v1beta20210515.UniqueKey_Status instead
 type UniqueKey_StatusARM struct {
 	Paths []string `json:"paths,omitempty"`
 }
 
-//Deprecated version of CompositePathStatusOrder. Use v1beta20210515.CompositePathStatusOrder instead
+// Deprecated version of CompositePathStatusOrder. Use v1beta20210515.CompositePathStatusOrder instead
 type CompositePathStatusOrder string
 
 const (
@@ -125,14 +125,14 @@ const (
 	CompositePathStatusOrderDescending = CompositePathStatusOrder("descending")
 )
 
-//Deprecated version of Indexes_Status. Use v1beta20210515.Indexes_Status instead
+// Deprecated version of Indexes_Status. Use v1beta20210515.Indexes_Status instead
 type Indexes_StatusARM struct {
 	DataType  *IndexesStatusDataType `json:"dataType,omitempty"`
 	Kind      *IndexesStatusKind     `json:"kind,omitempty"`
 	Precision *int                   `json:"precision,omitempty"`
 }
 
-//Deprecated version of SpatialType_Status. Use v1beta20210515.SpatialType_Status instead
+// Deprecated version of SpatialType_Status. Use v1beta20210515.SpatialType_Status instead
 type SpatialType_Status string
 
 const (
@@ -142,7 +142,7 @@ const (
 	SpatialType_StatusPolygon      = SpatialType_Status("Polygon")
 )
 
-//Deprecated version of IndexesStatusDataType. Use v1beta20210515.IndexesStatusDataType instead
+// Deprecated version of IndexesStatusDataType. Use v1beta20210515.IndexesStatusDataType instead
 type IndexesStatusDataType string
 
 const (
@@ -154,7 +154,7 @@ const (
 	IndexesStatusDataTypeString       = IndexesStatusDataType("String")
 )
 
-//Deprecated version of IndexesStatusKind. Use v1beta20210515.IndexesStatusKind instead
+// Deprecated version of IndexesStatusKind. Use v1beta20210515.IndexesStatusKind instead
 type IndexesStatusKind string
 
 const (

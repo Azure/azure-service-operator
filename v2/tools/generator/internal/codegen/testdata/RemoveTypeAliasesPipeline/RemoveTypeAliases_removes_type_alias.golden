@@ -9,7 +9,7 @@ import (
 	"github.com/pkg/errors"
 )
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json
+// Generated from: https://test.test/schemas/2020-01-01/test.json
 type Test struct {
 	Foo              *Foo     `json:"foo,omitempty"`
 	FooAlias         *Foo     `json:"fooAlias,omitempty"`
@@ -100,7 +100,7 @@ func (test *Test) AssignPropertiesToTest(destination *v20200101s.Test) error {
 	return nil
 }
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
 type Foo struct {
 	Name *string `json:"name,omitempty"`
 }

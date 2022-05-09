@@ -1,9 +1,6 @@
 ---
 title: '2021-02: Property Conversions'
-date: 2021-02-09
 ---
-
-# Property Conversions 
 
 ## Context
 

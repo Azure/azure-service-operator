@@ -1,4 +1,11 @@
 ---
 title: "For Contributors"
-weight: 2 # want this rendered second
+linkTitle: "Contributing"
+weight: 30
+menu:
+  main:
+    weight: 30
+cascade:
+- type: docs
+- render: always
 ---

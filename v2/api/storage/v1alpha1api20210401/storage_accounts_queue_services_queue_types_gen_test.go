@@ -91,7 +91,7 @@ func RunPropertyAssignmentTestForStorageAccountsQueueServicesQueue(subject Stora
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -142,7 +142,7 @@ func RunJSONSerializationTestForStorageAccountsQueueServicesQueue(subject Storag
 }
 
 // Generator of StorageAccountsQueueServicesQueue instances for property testing - lazily instantiated by
-//StorageAccountsQueueServicesQueueGenerator()
+// StorageAccountsQueueServicesQueueGenerator()
 var storageAccountsQueueServicesQueueGenerator gopter.Gen
 
 // StorageAccountsQueueServicesQueueGenerator returns a generator of StorageAccountsQueueServicesQueue instances for property testing.
@@ -194,7 +194,7 @@ func RunPropertyAssignmentTestForStorageAccountsQueueServicesQueuesSpec(subject 
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
@@ -245,7 +245,7 @@ func RunJSONSerializationTestForStorageAccountsQueueServicesQueuesSpec(subject S
 }
 
 // Generator of StorageAccountsQueueServicesQueues_Spec instances for property testing - lazily instantiated by
-//StorageAccountsQueueServicesQueuesSpecGenerator()
+// StorageAccountsQueueServicesQueuesSpecGenerator()
 var storageAccountsQueueServicesQueuesSpecGenerator gopter.Gen
 
 // StorageAccountsQueueServicesQueuesSpecGenerator returns a generator of StorageAccountsQueueServicesQueues_Spec instances for property testing.
@@ -299,7 +299,7 @@ func RunPropertyAssignmentTestForStorageQueueStatus(subject StorageQueue_Status)
 		return err.Error()
 	}
 
-	//Check for a match
+	// Check for a match
 	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)

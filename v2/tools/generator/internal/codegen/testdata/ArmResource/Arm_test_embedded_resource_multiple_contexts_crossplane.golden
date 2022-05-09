@@ -13,7 +13,7 @@ import (
 
 // +kubebuilder:object:root=true
 // +kubebuilder:storageversion
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/A
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/A
 type A struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -21,7 +21,7 @@ type A struct {
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/A
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/A
 type AList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -47,43 +47,43 @@ type AParameters struct {
 	ResourceGroupNameSelector *v1alpha1.Selector  `json:"resourceGroupNameSelector,omitempty"`
 }
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/AProperties
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/AProperties
 type AProperties struct {
 	Left  *Left  `json:"left,omitempty"`
 	Right *Right `json:"right,omitempty"`
 }
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Left
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Left
 type Left struct {
 	Name       *string         `json:"name,omitempty"`
 	Properties *LeftProperties `json:"properties,omitempty"`
 	RefField   *FakeResource   `json:"refField,omitempty"`
 }
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Right
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Right
 type Right struct {
 	Name       *string          `json:"name,omitempty"`
 	Properties *RightProperties `json:"properties,omitempty"`
 	RefField   *FakeResource    `json:"refField,omitempty"`
 }
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/FakeResource
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/FakeResource
 type FakeResource struct {
 	Name       *string                 `json:"name,omitempty"`
 	Properties *FakeResourceProperties `json:"properties,omitempty"`
 }
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/LeftProperties
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/LeftProperties
 type LeftProperties struct {
 	StrField *string `json:"strField,omitempty"`
 }
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/RightProperties
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/RightProperties
 type RightProperties struct {
 	StrField *string `json:"strField,omitempty"`
 }
 
-//Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/FakeResourceProperties
+// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/FakeResourceProperties
 type FakeResourceProperties struct {
 	Loop1 *Left  `json:"loop1,omitempty"`
 	Loop2 *Right `json:"loop2,omitempty"`

@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Deprecated version of NamespacesAuthorizationRule. Use v1beta20211101.NamespacesAuthorizationRule instead
+// Deprecated version of NamespacesAuthorizationRule. Use v1beta20211101.NamespacesAuthorizationRule instead
 type NamespacesAuthorizationRule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -314,16 +314,16 @@ func (rule *NamespacesAuthorizationRule) OriginalGVK() *schema.GroupVersionKind 
 }
 
 // +kubebuilder:object:root=true
-//Deprecated version of NamespacesAuthorizationRule. Use v1beta20211101.NamespacesAuthorizationRule instead
+// Deprecated version of NamespacesAuthorizationRule. Use v1beta20211101.NamespacesAuthorizationRule instead
 type NamespacesAuthorizationRuleList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []NamespacesAuthorizationRule `json:"items"`
 }
 
-//Deprecated version of AuthorizationRule_Status. Use v1beta20211101.AuthorizationRule_Status instead
+// Deprecated version of AuthorizationRule_Status. Use v1beta20211101.AuthorizationRule_Status instead
 type AuthorizationRule_Status struct {
-	//Conditions: The observed state of the resource
+	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition                    `json:"conditions,omitempty"`
 	Id         *string                                   `json:"id,omitempty"`
 	Location   *string                                   `json:"location,omitempty"`
@@ -551,15 +551,15 @@ func (rule *AuthorizationRule_Status) AssignPropertiesToAuthorizationRuleStatus(
 
 type NamespacesAuthorizationRules_Spec struct {
 	// +kubebuilder:validation:MinLength=1
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName string  `json:"azureName,omitempty"`
 	Location  *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a eventhub.azure.com/Namespace resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a eventhub.azure.com/Namespace resource
 	Owner *genruntime.KnownResourceReference `group:"eventhub.azure.com" json:"owner,omitempty" kind:"Namespace"`
 
 	// +kubebuilder:validation:Required
@@ -795,7 +795,7 @@ func (rules *NamespacesAuthorizationRules_Spec) SetAzureName(azureName string) {
 	rules.AzureName = azureName
 }
 
-//Deprecated version of AuthorizationRulePropertiesRights. Use v1beta20211101.AuthorizationRulePropertiesRights instead
+// Deprecated version of AuthorizationRulePropertiesRights. Use v1beta20211101.AuthorizationRulePropertiesRights instead
 // +kubebuilder:validation:Enum={"Listen","Manage","Send"}
 type AuthorizationRulePropertiesRights string
 

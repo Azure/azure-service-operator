@@ -21,8 +21,8 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Storage version of v1alpha1api20210501.ManagedCluster
-//Deprecated version of ManagedCluster. Use v1beta20210501.ManagedCluster instead
+// Storage version of v1alpha1api20210501.ManagedCluster
+// Deprecated version of ManagedCluster. Use v1beta20210501.ManagedCluster instead
 type ManagedCluster struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -192,16 +192,16 @@ func (cluster *ManagedCluster) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Storage version of v1alpha1api20210501.ManagedCluster
-//Deprecated version of ManagedCluster. Use v1beta20210501.ManagedCluster instead
+// Storage version of v1alpha1api20210501.ManagedCluster
+// Deprecated version of ManagedCluster. Use v1beta20210501.ManagedCluster instead
 type ManagedClusterList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []ManagedCluster `json:"items"`
 }
 
-//Storage version of v1alpha1api20210501.ManagedCluster_Status
-//Deprecated version of ManagedCluster_Status. Use v1beta20210501.ManagedCluster_Status instead
+// Storage version of v1alpha1api20210501.ManagedCluster_Status
+// Deprecated version of ManagedCluster_Status. Use v1beta20210501.ManagedCluster_Status instead
 type ManagedCluster_Status struct {
 	AadProfile              *ManagedClusterAADProfile_Status                   `json:"aadProfile,omitempty"`
 	AddonProfiles           *v1.JSON                                           `json:"addonProfiles,omitempty"`
@@ -909,7 +909,7 @@ func (cluster *ManagedCluster_Status) AssignPropertiesToManagedClusterStatus(des
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.ManagedClusters_Spec
+// Storage version of v1alpha1api20210501.ManagedClusters_Spec
 type ManagedClusters_Spec struct {
 	AadProfile             *ManagedClusterAADProfile                  `json:"aadProfile,omitempty"`
 	AddonProfiles          map[string]ManagedClusterAddonProfile      `json:"addonProfiles,omitempty"`
@@ -921,8 +921,8 @@ type ManagedClusters_Spec struct {
 	// +kubebuilder:validation:MaxLength=63
 	// +kubebuilder:validation:MinLength=1
 	// +kubebuilder:validation:Pattern="^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$"
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName                    string                                                                                                  `json:"azureName,omitempty"`
 	DisableLocalAccounts         *bool                                                                                                   `json:"disableLocalAccounts,omitempty"`
 	DiskEncryptionSetIDReference *genruntime.ResourceReference                                                                           `armReference:"DiskEncryptionSetID" json:"diskEncryptionSetIDReference,omitempty"`
@@ -942,9 +942,9 @@ type ManagedClusters_Spec struct {
 	OriginalVersion              string                                                                                                  `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a resources.azure.com/ResourceGroup resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
 	Owner                   *genruntime.KnownResourceReference     `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PodIdentityProfile      *ManagedClusterPodIdentityProfile      `json:"podIdentityProfile,omitempty"`
 	PrivateLinkResources    []PrivateLinkResource                  `json:"privateLinkResources,omitempty"`
@@ -1621,8 +1621,8 @@ func (clusters *ManagedClusters_Spec) AssignPropertiesToManagedClustersSpec(dest
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties
-//Deprecated version of Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties. Use v1beta20210501.Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties instead
+// Storage version of v1alpha1api20210501.Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties
+// Deprecated version of Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties. Use v1beta20210501.Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties instead
 type Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties struct {
 	ClientId          *string                       `json:"clientId,omitempty"`
 	ObjectId          *string                       `json:"objectId,omitempty"`
@@ -1690,8 +1690,8 @@ func (etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproper
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.ContainerServiceLinuxProfile
-//Deprecated version of ContainerServiceLinuxProfile. Use v1beta20210501.ContainerServiceLinuxProfile instead
+// Storage version of v1alpha1api20210501.ContainerServiceLinuxProfile
+// Deprecated version of ContainerServiceLinuxProfile. Use v1beta20210501.ContainerServiceLinuxProfile instead
 type ContainerServiceLinuxProfile struct {
 	AdminUsername *string                           `json:"adminUsername,omitempty"`
 	PropertyBag   genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
@@ -1760,8 +1760,8 @@ func (profile *ContainerServiceLinuxProfile) AssignPropertiesToContainerServiceL
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.ContainerServiceLinuxProfile_Status
-//Deprecated version of ContainerServiceLinuxProfile_Status. Use v1beta20210501.ContainerServiceLinuxProfile_Status instead
+// Storage version of v1alpha1api20210501.ContainerServiceLinuxProfile_Status
+// Deprecated version of ContainerServiceLinuxProfile_Status. Use v1beta20210501.ContainerServiceLinuxProfile_Status instead
 type ContainerServiceLinuxProfile_Status struct {
 	AdminUsername *string                                  `json:"adminUsername,omitempty"`
 	PropertyBag   genruntime.PropertyBag                   `json:"$propertyBag,omitempty"`
@@ -1830,8 +1830,8 @@ func (profile *ContainerServiceLinuxProfile_Status) AssignPropertiesToContainerS
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.ContainerServiceNetworkProfile
-//Deprecated version of ContainerServiceNetworkProfile. Use v1beta20210501.ContainerServiceNetworkProfile instead
+// Storage version of v1alpha1api20210501.ContainerServiceNetworkProfile
+// Deprecated version of ContainerServiceNetworkProfile. Use v1beta20210501.ContainerServiceNetworkProfile instead
 type ContainerServiceNetworkProfile struct {
 	DnsServiceIP        *string                            `json:"dnsServiceIP,omitempty"`
 	DockerBridgeCidr    *string                            `json:"dockerBridgeCidr,omitempty"`
@@ -1956,8 +1956,8 @@ func (profile *ContainerServiceNetworkProfile) AssignPropertiesToContainerServic
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.ContainerServiceNetworkProfile_Status
-//Deprecated version of ContainerServiceNetworkProfile_Status. Use v1beta20210501.ContainerServiceNetworkProfile_Status instead
+// Storage version of v1alpha1api20210501.ContainerServiceNetworkProfile_Status
+// Deprecated version of ContainerServiceNetworkProfile_Status. Use v1beta20210501.ContainerServiceNetworkProfile_Status instead
 type ContainerServiceNetworkProfile_Status struct {
 	DnsServiceIP        *string                                   `json:"dnsServiceIP,omitempty"`
 	DockerBridgeCidr    *string                                   `json:"dockerBridgeCidr,omitempty"`
@@ -2082,8 +2082,8 @@ func (profile *ContainerServiceNetworkProfile_Status) AssignPropertiesToContaine
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.ExtendedLocation
-//Deprecated version of ExtendedLocation. Use v1beta20210501.ExtendedLocation instead
+// Storage version of v1alpha1api20210501.ExtendedLocation
+// Deprecated version of ExtendedLocation. Use v1beta20210501.ExtendedLocation instead
 type ExtendedLocation struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -2134,8 +2134,8 @@ func (location *ExtendedLocation) AssignPropertiesToExtendedLocation(destination
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.ExtendedLocation_Status
-//Deprecated version of ExtendedLocation_Status. Use v1beta20210501.ExtendedLocation_Status instead
+// Storage version of v1alpha1api20210501.ExtendedLocation_Status
+// Deprecated version of ExtendedLocation_Status. Use v1beta20210501.ExtendedLocation_Status instead
 type ExtendedLocation_Status struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -2186,8 +2186,8 @@ func (location *ExtendedLocation_Status) AssignPropertiesToExtendedLocationStatu
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.ManagedClusterAADProfile
-//Deprecated version of ManagedClusterAADProfile. Use v1beta20210501.ManagedClusterAADProfile instead
+// Storage version of v1alpha1api20210501.ManagedClusterAADProfile
+// Deprecated version of ManagedClusterAADProfile. Use v1beta20210501.ManagedClusterAADProfile instead
 type ManagedClusterAADProfile struct {
 	AdminGroupObjectIDs []string               `json:"adminGroupObjectIDs,omitempty"`
 	ClientAppID         *string                `json:"clientAppID,omitempty"`
@@ -2293,8 +2293,8 @@ func (profile *ManagedClusterAADProfile) AssignPropertiesToManagedClusterAADProf
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.ManagedClusterAADProfile_Status
-//Deprecated version of ManagedClusterAADProfile_Status. Use v1beta20210501.ManagedClusterAADProfile_Status instead
+// Storage version of v1alpha1api20210501.ManagedClusterAADProfile_Status
+// Deprecated version of ManagedClusterAADProfile_Status. Use v1beta20210501.ManagedClusterAADProfile_Status instead
 type ManagedClusterAADProfile_Status struct {
 	AdminGroupObjectIDs []string               `json:"adminGroupObjectIDs,omitempty"`
 	ClientAppID         *string                `json:"clientAppID,omitempty"`
@@ -2400,8 +2400,8 @@ func (profile *ManagedClusterAADProfile_Status) AssignPropertiesToManagedCluster
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.ManagedClusterAPIServerAccessProfile
-//Deprecated version of ManagedClusterAPIServerAccessProfile. Use v1beta20210501.ManagedClusterAPIServerAccessProfile instead
+// Storage version of v1alpha1api20210501.ManagedClusterAPIServerAccessProfile
+// Deprecated version of ManagedClusterAPIServerAccessProfile. Use v1beta20210501.ManagedClusterAPIServerAccessProfile instead
 type ManagedClusterAPIServerAccessProfile struct {
 	AuthorizedIPRanges             []string               `json:"authorizedIPRanges,omitempty"`
 	EnablePrivateCluster           *bool                  `json:"enablePrivateCluster,omitempty"`
@@ -2486,8 +2486,8 @@ func (profile *ManagedClusterAPIServerAccessProfile) AssignPropertiesToManagedCl
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.ManagedClusterAPIServerAccessProfile_Status
-//Deprecated version of ManagedClusterAPIServerAccessProfile_Status. Use v1beta20210501.ManagedClusterAPIServerAccessProfile_Status instead
+// Storage version of v1alpha1api20210501.ManagedClusterAPIServerAccessProfile_Status
+// Deprecated version of ManagedClusterAPIServerAccessProfile_Status. Use v1beta20210501.ManagedClusterAPIServerAccessProfile_Status instead
 type ManagedClusterAPIServerAccessProfile_Status struct {
 	AuthorizedIPRanges             []string               `json:"authorizedIPRanges,omitempty"`
 	EnablePrivateCluster           *bool                  `json:"enablePrivateCluster,omitempty"`
@@ -2572,8 +2572,8 @@ func (profile *ManagedClusterAPIServerAccessProfile_Status) AssignPropertiesToMa
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.ManagedClusterAddonProfile
-//Deprecated version of ManagedClusterAddonProfile. Use v1beta20210501.ManagedClusterAddonProfile instead
+// Storage version of v1alpha1api20210501.ManagedClusterAddonProfile
+// Deprecated version of ManagedClusterAddonProfile. Use v1beta20210501.ManagedClusterAddonProfile instead
 type ManagedClusterAddonProfile struct {
 	Config      map[string]string      `json:"config,omitempty"`
 	Enabled     *bool                  `json:"enabled,omitempty"`
@@ -2634,8 +2634,8 @@ func (profile *ManagedClusterAddonProfile) AssignPropertiesToManagedClusterAddon
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.ManagedClusterAgentPoolProfile
-//Deprecated version of ManagedClusterAgentPoolProfile. Use v1beta20210501.ManagedClusterAgentPoolProfile instead
+// Storage version of v1alpha1api20210501.ManagedClusterAgentPoolProfile
+// Deprecated version of ManagedClusterAgentPoolProfile. Use v1beta20210501.ManagedClusterAgentPoolProfile instead
 type ManagedClusterAgentPoolProfile struct {
 	AvailabilityZones             []string                      `json:"availabilityZones,omitempty"`
 	Count                         *int                          `json:"count,omitempty"`
@@ -3054,8 +3054,8 @@ func (profile *ManagedClusterAgentPoolProfile) AssignPropertiesToManagedClusterA
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.ManagedClusterAgentPoolProfile_Status
-//Deprecated version of ManagedClusterAgentPoolProfile_Status. Use v1beta20210501.ManagedClusterAgentPoolProfile_Status instead
+// Storage version of v1alpha1api20210501.ManagedClusterAgentPoolProfile_Status
+// Deprecated version of ManagedClusterAgentPoolProfile_Status. Use v1beta20210501.ManagedClusterAgentPoolProfile_Status instead
 type ManagedClusterAgentPoolProfile_Status struct {
 	AvailabilityZones         []string                         `json:"availabilityZones,omitempty"`
 	Count                     *int                             `json:"count,omitempty"`
@@ -3483,8 +3483,8 @@ func (profile *ManagedClusterAgentPoolProfile_Status) AssignPropertiesToManagedC
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.ManagedClusterAutoUpgradeProfile
-//Deprecated version of ManagedClusterAutoUpgradeProfile. Use v1beta20210501.ManagedClusterAutoUpgradeProfile instead
+// Storage version of v1alpha1api20210501.ManagedClusterAutoUpgradeProfile
+// Deprecated version of ManagedClusterAutoUpgradeProfile. Use v1beta20210501.ManagedClusterAutoUpgradeProfile instead
 type ManagedClusterAutoUpgradeProfile struct {
 	PropertyBag    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	UpgradeChannel *string                `json:"upgradeChannel,omitempty"`
@@ -3528,8 +3528,8 @@ func (profile *ManagedClusterAutoUpgradeProfile) AssignPropertiesToManagedCluste
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.ManagedClusterAutoUpgradeProfile_Status
-//Deprecated version of ManagedClusterAutoUpgradeProfile_Status. Use v1beta20210501.ManagedClusterAutoUpgradeProfile_Status instead
+// Storage version of v1alpha1api20210501.ManagedClusterAutoUpgradeProfile_Status
+// Deprecated version of ManagedClusterAutoUpgradeProfile_Status. Use v1beta20210501.ManagedClusterAutoUpgradeProfile_Status instead
 type ManagedClusterAutoUpgradeProfile_Status struct {
 	PropertyBag    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	UpgradeChannel *string                `json:"upgradeChannel,omitempty"`
@@ -3573,8 +3573,8 @@ func (profile *ManagedClusterAutoUpgradeProfile_Status) AssignPropertiesToManage
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.ManagedClusterHTTPProxyConfig
-//Deprecated version of ManagedClusterHTTPProxyConfig. Use v1beta20210501.ManagedClusterHTTPProxyConfig instead
+// Storage version of v1alpha1api20210501.ManagedClusterHTTPProxyConfig
+// Deprecated version of ManagedClusterHTTPProxyConfig. Use v1beta20210501.ManagedClusterHTTPProxyConfig instead
 type ManagedClusterHTTPProxyConfig struct {
 	HttpProxy   *string                `json:"httpProxy,omitempty"`
 	HttpsProxy  *string                `json:"httpsProxy,omitempty"`
@@ -3639,8 +3639,8 @@ func (config *ManagedClusterHTTPProxyConfig) AssignPropertiesToManagedClusterHTT
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.ManagedClusterHTTPProxyConfig_Status
-//Deprecated version of ManagedClusterHTTPProxyConfig_Status. Use v1beta20210501.ManagedClusterHTTPProxyConfig_Status instead
+// Storage version of v1alpha1api20210501.ManagedClusterHTTPProxyConfig_Status
+// Deprecated version of ManagedClusterHTTPProxyConfig_Status. Use v1beta20210501.ManagedClusterHTTPProxyConfig_Status instead
 type ManagedClusterHTTPProxyConfig_Status struct {
 	HttpProxy   *string                `json:"httpProxy,omitempty"`
 	HttpsProxy  *string                `json:"httpsProxy,omitempty"`
@@ -3705,8 +3705,8 @@ func (config *ManagedClusterHTTPProxyConfig_Status) AssignPropertiesToManagedClu
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.ManagedClusterIdentity
-//Deprecated version of ManagedClusterIdentity. Use v1beta20210501.ManagedClusterIdentity instead
+// Storage version of v1alpha1api20210501.ManagedClusterIdentity
+// Deprecated version of ManagedClusterIdentity. Use v1beta20210501.ManagedClusterIdentity instead
 type ManagedClusterIdentity struct {
 	PropertyBag            genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Type                   *string                `json:"type,omitempty"`
@@ -3777,8 +3777,8 @@ func (identity *ManagedClusterIdentity) AssignPropertiesToManagedClusterIdentity
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.ManagedClusterIdentity_Status
-//Deprecated version of ManagedClusterIdentity_Status. Use v1beta20210501.ManagedClusterIdentity_Status instead
+// Storage version of v1alpha1api20210501.ManagedClusterIdentity_Status
+// Deprecated version of ManagedClusterIdentity_Status. Use v1beta20210501.ManagedClusterIdentity_Status instead
 type ManagedClusterIdentity_Status struct {
 	PrincipalId            *string                                                         `json:"principalId,omitempty"`
 	PropertyBag            genruntime.PropertyBag                                          `json:"$propertyBag,omitempty"`
@@ -3873,8 +3873,8 @@ func (identity *ManagedClusterIdentity_Status) AssignPropertiesToManagedClusterI
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.ManagedClusterPodIdentityProfile
-//Deprecated version of ManagedClusterPodIdentityProfile. Use v1beta20210501.ManagedClusterPodIdentityProfile instead
+// Storage version of v1alpha1api20210501.ManagedClusterPodIdentityProfile
+// Deprecated version of ManagedClusterPodIdentityProfile. Use v1beta20210501.ManagedClusterPodIdentityProfile instead
 type ManagedClusterPodIdentityProfile struct {
 	AllowNetworkPluginKubenet      *bool                                `json:"allowNetworkPluginKubenet,omitempty"`
 	Enabled                        *bool                                `json:"enabled,omitempty"`
@@ -4019,8 +4019,8 @@ func (profile *ManagedClusterPodIdentityProfile) AssignPropertiesToManagedCluste
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.ManagedClusterPodIdentityProfile_Status
-//Deprecated version of ManagedClusterPodIdentityProfile_Status. Use v1beta20210501.ManagedClusterPodIdentityProfile_Status instead
+// Storage version of v1alpha1api20210501.ManagedClusterPodIdentityProfile_Status
+// Deprecated version of ManagedClusterPodIdentityProfile_Status. Use v1beta20210501.ManagedClusterPodIdentityProfile_Status instead
 type ManagedClusterPodIdentityProfile_Status struct {
 	AllowNetworkPluginKubenet      *bool                                       `json:"allowNetworkPluginKubenet,omitempty"`
 	Enabled                        *bool                                       `json:"enabled,omitempty"`
@@ -4165,8 +4165,8 @@ func (profile *ManagedClusterPodIdentityProfile_Status) AssignPropertiesToManage
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.ManagedClusterPropertiesAutoScalerProfile
-//Deprecated version of ManagedClusterPropertiesAutoScalerProfile. Use v1beta20210501.ManagedClusterPropertiesAutoScalerProfile instead
+// Storage version of v1alpha1api20210501.ManagedClusterPropertiesAutoScalerProfile
+// Deprecated version of ManagedClusterPropertiesAutoScalerProfile. Use v1beta20210501.ManagedClusterPropertiesAutoScalerProfile instead
 type ManagedClusterPropertiesAutoScalerProfile struct {
 	BalanceSimilarNodeGroups      *string                `json:"balance-similar-node-groups,omitempty"`
 	Expander                      *string                `json:"expander,omitempty"`
@@ -4322,8 +4322,8 @@ func (profile *ManagedClusterPropertiesAutoScalerProfile) AssignPropertiesToMana
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.ManagedClusterProperties_Status_AutoScalerProfile
-//Deprecated version of ManagedClusterProperties_Status_AutoScalerProfile. Use v1beta20210501.ManagedClusterProperties_Status_AutoScalerProfile instead
+// Storage version of v1alpha1api20210501.ManagedClusterProperties_Status_AutoScalerProfile
+// Deprecated version of ManagedClusterProperties_Status_AutoScalerProfile. Use v1beta20210501.ManagedClusterProperties_Status_AutoScalerProfile instead
 type ManagedClusterProperties_Status_AutoScalerProfile struct {
 	BalanceSimilarNodeGroups      *string                `json:"balance-similar-node-groups,omitempty"`
 	Expander                      *string                `json:"expander,omitempty"`
@@ -4479,8 +4479,8 @@ func (profile *ManagedClusterProperties_Status_AutoScalerProfile) AssignProperti
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.ManagedClusterSKU
-//Deprecated version of ManagedClusterSKU. Use v1beta20210501.ManagedClusterSKU instead
+// Storage version of v1alpha1api20210501.ManagedClusterSKU
+// Deprecated version of ManagedClusterSKU. Use v1beta20210501.ManagedClusterSKU instead
 type ManagedClusterSKU struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -4531,8 +4531,8 @@ func (clusterSKU *ManagedClusterSKU) AssignPropertiesToManagedClusterSKU(destina
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.ManagedClusterSKU_Status
-//Deprecated version of ManagedClusterSKU_Status. Use v1beta20210501.ManagedClusterSKU_Status instead
+// Storage version of v1alpha1api20210501.ManagedClusterSKU_Status
+// Deprecated version of ManagedClusterSKU_Status. Use v1beta20210501.ManagedClusterSKU_Status instead
 type ManagedClusterSKU_Status struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -4583,8 +4583,8 @@ func (clusterSKU *ManagedClusterSKU_Status) AssignPropertiesToManagedClusterSKUS
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.ManagedClusterServicePrincipalProfile
-//Deprecated version of ManagedClusterServicePrincipalProfile. Use v1beta20210501.ManagedClusterServicePrincipalProfile instead
+// Storage version of v1alpha1api20210501.ManagedClusterServicePrincipalProfile
+// Deprecated version of ManagedClusterServicePrincipalProfile. Use v1beta20210501.ManagedClusterServicePrincipalProfile instead
 type ManagedClusterServicePrincipalProfile struct {
 	ClientId    *string                `json:"clientId,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -4635,8 +4635,8 @@ func (profile *ManagedClusterServicePrincipalProfile) AssignPropertiesToManagedC
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.ManagedClusterServicePrincipalProfile_Status
-//Deprecated version of ManagedClusterServicePrincipalProfile_Status. Use v1beta20210501.ManagedClusterServicePrincipalProfile_Status instead
+// Storage version of v1alpha1api20210501.ManagedClusterServicePrincipalProfile_Status
+// Deprecated version of ManagedClusterServicePrincipalProfile_Status. Use v1beta20210501.ManagedClusterServicePrincipalProfile_Status instead
 type ManagedClusterServicePrincipalProfile_Status struct {
 	ClientId    *string                `json:"clientId,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -4687,8 +4687,8 @@ func (profile *ManagedClusterServicePrincipalProfile_Status) AssignPropertiesToM
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.ManagedClusterWindowsProfile
-//Deprecated version of ManagedClusterWindowsProfile. Use v1beta20210501.ManagedClusterWindowsProfile instead
+// Storage version of v1alpha1api20210501.ManagedClusterWindowsProfile
+// Deprecated version of ManagedClusterWindowsProfile. Use v1beta20210501.ManagedClusterWindowsProfile instead
 type ManagedClusterWindowsProfile struct {
 	AdminPassword  *string                `json:"adminPassword,omitempty"`
 	AdminUsername  *string                `json:"adminUsername,omitempty"`
@@ -4763,8 +4763,8 @@ func (profile *ManagedClusterWindowsProfile) AssignPropertiesToManagedClusterWin
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.ManagedClusterWindowsProfile_Status
-//Deprecated version of ManagedClusterWindowsProfile_Status. Use v1beta20210501.ManagedClusterWindowsProfile_Status instead
+// Storage version of v1alpha1api20210501.ManagedClusterWindowsProfile_Status
+// Deprecated version of ManagedClusterWindowsProfile_Status. Use v1beta20210501.ManagedClusterWindowsProfile_Status instead
 type ManagedClusterWindowsProfile_Status struct {
 	AdminPassword  *string                `json:"adminPassword,omitempty"`
 	AdminUsername  *string                `json:"adminUsername,omitempty"`
@@ -4839,8 +4839,8 @@ func (profile *ManagedClusterWindowsProfile_Status) AssignPropertiesToManagedClu
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.PowerState_Status
-//Deprecated version of PowerState_Status. Use v1beta20210501.PowerState_Status instead
+// Storage version of v1alpha1api20210501.PowerState_Status
+// Deprecated version of PowerState_Status. Use v1beta20210501.PowerState_Status instead
 type PowerState_Status struct {
 	Code        *string                `json:"code,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -4884,8 +4884,8 @@ func (state *PowerState_Status) AssignPropertiesToPowerStateStatus(destination *
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.PrivateLinkResource
-//Deprecated version of PrivateLinkResource. Use v1beta20210501.PrivateLinkResource instead
+// Storage version of v1alpha1api20210501.PrivateLinkResource
+// Deprecated version of PrivateLinkResource. Use v1beta20210501.PrivateLinkResource instead
 type PrivateLinkResource struct {
 	GroupId         *string                       `json:"groupId,omitempty"`
 	Name            *string                       `json:"name,omitempty"`
@@ -4967,8 +4967,8 @@ func (resource *PrivateLinkResource) AssignPropertiesToPrivateLinkResource(desti
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.PrivateLinkResource_Status
-//Deprecated version of PrivateLinkResource_Status. Use v1beta20210501.PrivateLinkResource_Status instead
+// Storage version of v1alpha1api20210501.PrivateLinkResource_Status
+// Deprecated version of PrivateLinkResource_Status. Use v1beta20210501.PrivateLinkResource_Status instead
 type PrivateLinkResource_Status struct {
 	GroupId              *string                `json:"groupId,omitempty"`
 	Id                   *string                `json:"id,omitempty"`
@@ -5047,8 +5047,8 @@ func (resource *PrivateLinkResource_Status) AssignPropertiesToPrivateLinkResourc
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.ContainerServiceSshConfiguration
-//Deprecated version of ContainerServiceSshConfiguration. Use v1beta20210501.ContainerServiceSshConfiguration instead
+// Storage version of v1alpha1api20210501.ContainerServiceSshConfiguration
+// Deprecated version of ContainerServiceSshConfiguration. Use v1beta20210501.ContainerServiceSshConfiguration instead
 type ContainerServiceSshConfiguration struct {
 	PropertyBag genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
 	PublicKeys  []ContainerServiceSshPublicKey `json:"publicKeys,omitempty"`
@@ -5122,8 +5122,8 @@ func (configuration *ContainerServiceSshConfiguration) AssignPropertiesToContain
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.ContainerServiceSshConfiguration_Status
-//Deprecated version of ContainerServiceSshConfiguration_Status. Use v1beta20210501.ContainerServiceSshConfiguration_Status instead
+// Storage version of v1alpha1api20210501.ContainerServiceSshConfiguration_Status
+// Deprecated version of ContainerServiceSshConfiguration_Status. Use v1beta20210501.ContainerServiceSshConfiguration_Status instead
 type ContainerServiceSshConfiguration_Status struct {
 	PropertyBag genruntime.PropertyBag                `json:"$propertyBag,omitempty"`
 	PublicKeys  []ContainerServiceSshPublicKey_Status `json:"publicKeys,omitempty"`
@@ -5197,8 +5197,8 @@ func (configuration *ContainerServiceSshConfiguration_Status) AssignPropertiesTo
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.ManagedClusterIdentity_Status_UserAssignedIdentities
-//Deprecated version of ManagedClusterIdentity_Status_UserAssignedIdentities. Use v1beta20210501.ManagedClusterIdentity_Status_UserAssignedIdentities instead
+// Storage version of v1alpha1api20210501.ManagedClusterIdentity_Status_UserAssignedIdentities
+// Deprecated version of ManagedClusterIdentity_Status_UserAssignedIdentities. Use v1beta20210501.ManagedClusterIdentity_Status_UserAssignedIdentities instead
 type ManagedClusterIdentity_Status_UserAssignedIdentities struct {
 	ClientId    *string                `json:"clientId,omitempty"`
 	PrincipalId *string                `json:"principalId,omitempty"`
@@ -5249,8 +5249,8 @@ func (identities *ManagedClusterIdentity_Status_UserAssignedIdentities) AssignPr
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.ManagedClusterLoadBalancerProfile
-//Deprecated version of ManagedClusterLoadBalancerProfile. Use v1beta20210501.ManagedClusterLoadBalancerProfile instead
+// Storage version of v1alpha1api20210501.ManagedClusterLoadBalancerProfile
+// Deprecated version of ManagedClusterLoadBalancerProfile. Use v1beta20210501.ManagedClusterLoadBalancerProfile instead
 type ManagedClusterLoadBalancerProfile struct {
 	AllocatedOutboundPorts *int                                                 `json:"allocatedOutboundPorts,omitempty"`
 	EffectiveOutboundIPs   []ResourceReference                                  `json:"effectiveOutboundIPs,omitempty"`
@@ -5413,8 +5413,8 @@ func (profile *ManagedClusterLoadBalancerProfile) AssignPropertiesToManagedClust
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.ManagedClusterLoadBalancerProfile_Status
-//Deprecated version of ManagedClusterLoadBalancerProfile_Status. Use v1beta20210501.ManagedClusterLoadBalancerProfile_Status instead
+// Storage version of v1alpha1api20210501.ManagedClusterLoadBalancerProfile_Status
+// Deprecated version of ManagedClusterLoadBalancerProfile_Status. Use v1beta20210501.ManagedClusterLoadBalancerProfile_Status instead
 type ManagedClusterLoadBalancerProfile_Status struct {
 	AllocatedOutboundPorts *int                                                         `json:"allocatedOutboundPorts,omitempty"`
 	EffectiveOutboundIPs   []ResourceReference_Status                                   `json:"effectiveOutboundIPs,omitempty"`
@@ -5577,8 +5577,8 @@ func (profile *ManagedClusterLoadBalancerProfile_Status) AssignPropertiesToManag
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.ManagedClusterPodIdentity
-//Deprecated version of ManagedClusterPodIdentity. Use v1beta20210501.ManagedClusterPodIdentity instead
+// Storage version of v1alpha1api20210501.ManagedClusterPodIdentity
+// Deprecated version of ManagedClusterPodIdentity. Use v1beta20210501.ManagedClusterPodIdentity instead
 type ManagedClusterPodIdentity struct {
 	BindingSelector *string                `json:"bindingSelector,omitempty"`
 	Identity        *UserAssignedIdentity  `json:"identity,omitempty"`
@@ -5661,8 +5661,8 @@ func (identity *ManagedClusterPodIdentity) AssignPropertiesToManagedClusterPodId
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.ManagedClusterPodIdentityException
-//Deprecated version of ManagedClusterPodIdentityException. Use v1beta20210501.ManagedClusterPodIdentityException instead
+// Storage version of v1alpha1api20210501.ManagedClusterPodIdentityException
+// Deprecated version of ManagedClusterPodIdentityException. Use v1beta20210501.ManagedClusterPodIdentityException instead
 type ManagedClusterPodIdentityException struct {
 	Name        *string                `json:"name,omitempty"`
 	Namespace   *string                `json:"namespace,omitempty"`
@@ -5720,8 +5720,8 @@ func (exception *ManagedClusterPodIdentityException) AssignPropertiesToManagedCl
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.ManagedClusterPodIdentityException_Status
-//Deprecated version of ManagedClusterPodIdentityException_Status. Use v1beta20210501.ManagedClusterPodIdentityException_Status instead
+// Storage version of v1alpha1api20210501.ManagedClusterPodIdentityException_Status
+// Deprecated version of ManagedClusterPodIdentityException_Status. Use v1beta20210501.ManagedClusterPodIdentityException_Status instead
 type ManagedClusterPodIdentityException_Status struct {
 	Name        *string                `json:"name,omitempty"`
 	Namespace   *string                `json:"namespace,omitempty"`
@@ -5779,8 +5779,8 @@ func (exception *ManagedClusterPodIdentityException_Status) AssignPropertiesToMa
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.ManagedClusterPodIdentity_Status
-//Deprecated version of ManagedClusterPodIdentity_Status. Use v1beta20210501.ManagedClusterPodIdentity_Status instead
+// Storage version of v1alpha1api20210501.ManagedClusterPodIdentity_Status
+// Deprecated version of ManagedClusterPodIdentity_Status. Use v1beta20210501.ManagedClusterPodIdentity_Status instead
 type ManagedClusterPodIdentity_Status struct {
 	BindingSelector   *string                                            `json:"bindingSelector,omitempty"`
 	Identity          *UserAssignedIdentity_Status                       `json:"identity,omitempty"`
@@ -5895,8 +5895,8 @@ func (identity *ManagedClusterPodIdentity_Status) AssignPropertiesToManagedClust
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.ContainerServiceSshPublicKey
-//Deprecated version of ContainerServiceSshPublicKey. Use v1beta20210501.ContainerServiceSshPublicKey instead
+// Storage version of v1alpha1api20210501.ContainerServiceSshPublicKey
+// Deprecated version of ContainerServiceSshPublicKey. Use v1beta20210501.ContainerServiceSshPublicKey instead
 type ContainerServiceSshPublicKey struct {
 	KeyData     *string                `json:"keyData,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -5940,8 +5940,8 @@ func (publicKey *ContainerServiceSshPublicKey) AssignPropertiesToContainerServic
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.ContainerServiceSshPublicKey_Status
-//Deprecated version of ContainerServiceSshPublicKey_Status. Use v1beta20210501.ContainerServiceSshPublicKey_Status instead
+// Storage version of v1alpha1api20210501.ContainerServiceSshPublicKey_Status
+// Deprecated version of ContainerServiceSshPublicKey_Status. Use v1beta20210501.ContainerServiceSshPublicKey_Status instead
 type ContainerServiceSshPublicKey_Status struct {
 	KeyData     *string                `json:"keyData,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -5985,8 +5985,8 @@ func (publicKey *ContainerServiceSshPublicKey_Status) AssignPropertiesToContaine
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.ManagedClusterLoadBalancerProfileManagedOutboundIPs
-//Deprecated version of ManagedClusterLoadBalancerProfileManagedOutboundIPs. Use v1beta20210501.ManagedClusterLoadBalancerProfileManagedOutboundIPs instead
+// Storage version of v1alpha1api20210501.ManagedClusterLoadBalancerProfileManagedOutboundIPs
+// Deprecated version of ManagedClusterLoadBalancerProfileManagedOutboundIPs. Use v1beta20210501.ManagedClusterLoadBalancerProfileManagedOutboundIPs instead
 type ManagedClusterLoadBalancerProfileManagedOutboundIPs struct {
 	Count       *int                   `json:"count,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -6030,8 +6030,8 @@ func (iPs *ManagedClusterLoadBalancerProfileManagedOutboundIPs) AssignProperties
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.ManagedClusterLoadBalancerProfileOutboundIPPrefixes
-//Deprecated version of ManagedClusterLoadBalancerProfileOutboundIPPrefixes. Use v1beta20210501.ManagedClusterLoadBalancerProfileOutboundIPPrefixes instead
+// Storage version of v1alpha1api20210501.ManagedClusterLoadBalancerProfileOutboundIPPrefixes
+// Deprecated version of ManagedClusterLoadBalancerProfileOutboundIPPrefixes. Use v1beta20210501.ManagedClusterLoadBalancerProfileOutboundIPPrefixes instead
 type ManagedClusterLoadBalancerProfileOutboundIPPrefixes struct {
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	PublicIPPrefixes []ResourceReference    `json:"publicIPPrefixes,omitempty"`
@@ -6105,8 +6105,8 @@ func (prefixes *ManagedClusterLoadBalancerProfileOutboundIPPrefixes) AssignPrope
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.ManagedClusterLoadBalancerProfileOutboundIPs
-//Deprecated version of ManagedClusterLoadBalancerProfileOutboundIPs. Use v1beta20210501.ManagedClusterLoadBalancerProfileOutboundIPs instead
+// Storage version of v1alpha1api20210501.ManagedClusterLoadBalancerProfileOutboundIPs
+// Deprecated version of ManagedClusterLoadBalancerProfileOutboundIPs. Use v1beta20210501.ManagedClusterLoadBalancerProfileOutboundIPs instead
 type ManagedClusterLoadBalancerProfileOutboundIPs struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	PublicIPs   []ResourceReference    `json:"publicIPs,omitempty"`
@@ -6180,8 +6180,8 @@ func (iPs *ManagedClusterLoadBalancerProfileOutboundIPs) AssignPropertiesToManag
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPs
-//Deprecated version of ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPs. Use v1beta20210501.ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPs instead
+// Storage version of v1alpha1api20210501.ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPs
+// Deprecated version of ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPs. Use v1beta20210501.ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPs instead
 type ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPs struct {
 	Count       *int                   `json:"count,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -6225,8 +6225,8 @@ func (iPs *ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPs) AssignPr
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixes
-//Deprecated version of ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixes. Use v1beta20210501.ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixes instead
+// Storage version of v1alpha1api20210501.ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixes
+// Deprecated version of ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixes. Use v1beta20210501.ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixes instead
 type ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixes struct {
 	PropertyBag      genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
 	PublicIPPrefixes []ResourceReference_Status `json:"publicIPPrefixes,omitempty"`
@@ -6300,8 +6300,8 @@ func (prefixes *ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixes) Ass
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.ManagedClusterLoadBalancerProfile_Status_OutboundIPs
-//Deprecated version of ManagedClusterLoadBalancerProfile_Status_OutboundIPs. Use v1beta20210501.ManagedClusterLoadBalancerProfile_Status_OutboundIPs instead
+// Storage version of v1alpha1api20210501.ManagedClusterLoadBalancerProfile_Status_OutboundIPs
+// Deprecated version of ManagedClusterLoadBalancerProfile_Status_OutboundIPs. Use v1beta20210501.ManagedClusterLoadBalancerProfile_Status_OutboundIPs instead
 type ManagedClusterLoadBalancerProfile_Status_OutboundIPs struct {
 	PropertyBag genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
 	PublicIPs   []ResourceReference_Status `json:"publicIPs,omitempty"`
@@ -6375,8 +6375,8 @@ func (iPs *ManagedClusterLoadBalancerProfile_Status_OutboundIPs) AssignPropertie
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.ManagedClusterPodIdentity_Status_ProvisioningInfo
-//Deprecated version of ManagedClusterPodIdentity_Status_ProvisioningInfo. Use v1beta20210501.ManagedClusterPodIdentity_Status_ProvisioningInfo instead
+// Storage version of v1alpha1api20210501.ManagedClusterPodIdentity_Status_ProvisioningInfo
+// Deprecated version of ManagedClusterPodIdentity_Status_ProvisioningInfo. Use v1beta20210501.ManagedClusterPodIdentity_Status_ProvisioningInfo instead
 type ManagedClusterPodIdentity_Status_ProvisioningInfo struct {
 	Error       *ManagedClusterPodIdentityProvisioningError_Status `json:"error,omitempty"`
 	PropertyBag genruntime.PropertyBag                             `json:"$propertyBag,omitempty"`
@@ -6438,8 +6438,8 @@ func (info *ManagedClusterPodIdentity_Status_ProvisioningInfo) AssignPropertiesT
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.ResourceReference
-//Deprecated version of ResourceReference. Use v1beta20210501.ResourceReference instead
+// Storage version of v1alpha1api20210501.ResourceReference
+// Deprecated version of ResourceReference. Use v1beta20210501.ResourceReference instead
 type ResourceReference struct {
 	PropertyBag genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	Reference   *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
@@ -6493,8 +6493,8 @@ func (reference *ResourceReference) AssignPropertiesToResourceReference(destinat
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.ResourceReference_Status
-//Deprecated version of ResourceReference_Status. Use v1beta20210501.ResourceReference_Status instead
+// Storage version of v1alpha1api20210501.ResourceReference_Status
+// Deprecated version of ResourceReference_Status. Use v1beta20210501.ResourceReference_Status instead
 type ResourceReference_Status struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -6538,8 +6538,8 @@ func (reference *ResourceReference_Status) AssignPropertiesToResourceReferenceSt
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.UserAssignedIdentity
-//Deprecated version of UserAssignedIdentity. Use v1beta20210501.UserAssignedIdentity instead
+// Storage version of v1alpha1api20210501.UserAssignedIdentity
+// Deprecated version of UserAssignedIdentity. Use v1beta20210501.UserAssignedIdentity instead
 type UserAssignedIdentity struct {
 	ClientId          *string                       `json:"clientId,omitempty"`
 	ObjectId          *string                       `json:"objectId,omitempty"`
@@ -6607,8 +6607,8 @@ func (identity *UserAssignedIdentity) AssignPropertiesToUserAssignedIdentity(des
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.UserAssignedIdentity_Status
-//Deprecated version of UserAssignedIdentity_Status. Use v1beta20210501.UserAssignedIdentity_Status instead
+// Storage version of v1alpha1api20210501.UserAssignedIdentity_Status
+// Deprecated version of UserAssignedIdentity_Status. Use v1beta20210501.UserAssignedIdentity_Status instead
 type UserAssignedIdentity_Status struct {
 	ClientId    *string                `json:"clientId,omitempty"`
 	ObjectId    *string                `json:"objectId,omitempty"`
@@ -6666,8 +6666,8 @@ func (identity *UserAssignedIdentity_Status) AssignPropertiesToUserAssignedIdent
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.ManagedClusterPodIdentityProvisioningError_Status
-//Deprecated version of ManagedClusterPodIdentityProvisioningError_Status. Use v1beta20210501.ManagedClusterPodIdentityProvisioningError_Status instead
+// Storage version of v1alpha1api20210501.ManagedClusterPodIdentityProvisioningError_Status
+// Deprecated version of ManagedClusterPodIdentityProvisioningError_Status. Use v1beta20210501.ManagedClusterPodIdentityProvisioningError_Status instead
 type ManagedClusterPodIdentityProvisioningError_Status struct {
 	Error       *ManagedClusterPodIdentityProvisioningErrorBody_Status `json:"error,omitempty"`
 	PropertyBag genruntime.PropertyBag                                 `json:"$propertyBag,omitempty"`
@@ -6729,8 +6729,8 @@ func (error *ManagedClusterPodIdentityProvisioningError_Status) AssignProperties
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.ManagedClusterPodIdentityProvisioningErrorBody_Status
-//Deprecated version of ManagedClusterPodIdentityProvisioningErrorBody_Status. Use v1beta20210501.ManagedClusterPodIdentityProvisioningErrorBody_Status instead
+// Storage version of v1alpha1api20210501.ManagedClusterPodIdentityProvisioningErrorBody_Status
+// Deprecated version of ManagedClusterPodIdentityProvisioningErrorBody_Status. Use v1beta20210501.ManagedClusterPodIdentityProvisioningErrorBody_Status instead
 type ManagedClusterPodIdentityProvisioningErrorBody_Status struct {
 	Code        *string                                                          `json:"code,omitempty"`
 	Details     []ManagedClusterPodIdentityProvisioningErrorBody_Status_Unrolled `json:"details,omitempty"`
@@ -6825,8 +6825,8 @@ func (body *ManagedClusterPodIdentityProvisioningErrorBody_Status) AssignPropert
 	return nil
 }
 
-//Storage version of v1alpha1api20210501.ManagedClusterPodIdentityProvisioningErrorBody_Status_Unrolled
-//Deprecated version of ManagedClusterPodIdentityProvisioningErrorBody_Status_Unrolled. Use v1beta20210501.ManagedClusterPodIdentityProvisioningErrorBody_Status_Unrolled instead
+// Storage version of v1alpha1api20210501.ManagedClusterPodIdentityProvisioningErrorBody_Status_Unrolled
+// Deprecated version of ManagedClusterPodIdentityProvisioningErrorBody_Status_Unrolled. Use v1beta20210501.ManagedClusterPodIdentityProvisioningErrorBody_Status_Unrolled instead
 type ManagedClusterPodIdentityProvisioningErrorBody_Status_Unrolled struct {
 	Code        *string                `json:"code,omitempty"`
 	Message     *string                `json:"message,omitempty"`

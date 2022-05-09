@@ -1,4 +1,7 @@
-# Annotations understood by the operator
+---
+title: Annotations understood by the operator
+linktitle: Annotations
+---
 
 ## Annotations specified by the user
 

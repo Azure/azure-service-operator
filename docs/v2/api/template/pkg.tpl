@@ -1,6 +1,10 @@
 {{ define "packages" }}
 
 {{ range .packages }}
+    ---
+    title: {{ packageDisplayName . }}
+    ---
+
     <h2 id="{{- packageAnchorID . -}}">
         {{- packageDisplayName . -}}
     </h2>

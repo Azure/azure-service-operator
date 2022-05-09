@@ -1,4 +1,7 @@
-# Adding a new code generated resource to ASO v2
+---
+title: Adding a new code generated resource to ASO v2
+linktitle: Add a resource
+---
 
 This document discusses how to add a new resource to the ASO v2 code generation configuration. Check out [this PR](https://github.com/Azure/azure-service-operator/pull/1568) if you'd like to see what the end product looks like.
 

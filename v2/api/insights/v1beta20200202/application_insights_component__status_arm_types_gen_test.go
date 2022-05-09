@@ -56,7 +56,7 @@ func RunJSONSerializationTestForApplicationInsightsComponentStatusARM(subject Ap
 }
 
 // Generator of ApplicationInsightsComponent_StatusARM instances for property testing - lazily instantiated by
-//ApplicationInsightsComponentStatusARMGenerator()
+// ApplicationInsightsComponentStatusARMGenerator()
 var applicationInsightsComponentStatusARMGenerator gopter.Gen
 
 // ApplicationInsightsComponentStatusARMGenerator returns a generator of ApplicationInsightsComponent_StatusARM instances for property testing.
@@ -135,7 +135,7 @@ func RunJSONSerializationTestForApplicationInsightsComponentPropertiesStatusARM(
 }
 
 // Generator of ApplicationInsightsComponentProperties_StatusARM instances for property testing - lazily instantiated by
-//ApplicationInsightsComponentPropertiesStatusARMGenerator()
+// ApplicationInsightsComponentPropertiesStatusARMGenerator()
 var applicationInsightsComponentPropertiesStatusARMGenerator gopter.Gen
 
 // ApplicationInsightsComponentPropertiesStatusARMGenerator returns a generator of ApplicationInsightsComponentProperties_StatusARM instances for property testing.
@@ -232,7 +232,7 @@ func RunJSONSerializationTestForPrivateLinkScopedResourceStatusARM(subject Priva
 }
 
 // Generator of PrivateLinkScopedResource_StatusARM instances for property testing - lazily instantiated by
-//PrivateLinkScopedResourceStatusARMGenerator()
+// PrivateLinkScopedResourceStatusARMGenerator()
 var privateLinkScopedResourceStatusARMGenerator gopter.Gen
 
 // PrivateLinkScopedResourceStatusARMGenerator returns a generator of PrivateLinkScopedResource_StatusARM instances for property testing.

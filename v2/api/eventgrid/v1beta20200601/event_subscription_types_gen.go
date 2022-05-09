@@ -24,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/unknown_resourceDefinitions/eventSubscriptions
+// Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/unknown_resourceDefinitions/eventSubscriptions
 type EventSubscription struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -299,7 +299,7 @@ func (subscription *EventSubscription) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/unknown_resourceDefinitions/eventSubscriptions
+// Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/unknown_resourceDefinitions/eventSubscriptions
 type EventSubscriptionList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -307,47 +307,47 @@ type EventSubscriptionList struct {
 }
 
 type EventSubscription_Status struct {
-	//Conditions: The observed state of the resource
+	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
-	//DeadLetterDestination: The DeadLetter destination of the event subscription.
+	// DeadLetterDestination: The DeadLetter destination of the event subscription.
 	DeadLetterDestination *DeadLetterDestination_Status `json:"deadLetterDestination,omitempty"`
 
-	//Destination: Information about the destination where events have to be delivered for the event subscription.
+	// Destination: Information about the destination where events have to be delivered for the event subscription.
 	Destination *EventSubscriptionDestination_Status `json:"destination,omitempty"`
 
-	//EventDeliverySchema: The event delivery schema for the event subscription.
+	// EventDeliverySchema: The event delivery schema for the event subscription.
 	EventDeliverySchema *EventSubscriptionPropertiesStatusEventDeliverySchema `json:"eventDeliverySchema,omitempty"`
 
-	//ExpirationTimeUtc: Expiration time of the event subscription.
+	// ExpirationTimeUtc: Expiration time of the event subscription.
 	ExpirationTimeUtc *string `json:"expirationTimeUtc,omitempty"`
 
-	//Filter: Information about the filter for the event subscription.
+	// Filter: Information about the filter for the event subscription.
 	Filter *EventSubscriptionFilter_Status `json:"filter,omitempty"`
 
-	//Id: Fully qualified identifier of the resource.
+	// Id: Fully qualified identifier of the resource.
 	Id *string `json:"id,omitempty"`
 
-	//Labels: List of user defined labels.
+	// Labels: List of user defined labels.
 	Labels []string `json:"labels,omitempty"`
 
-	//Name: Name of the resource.
+	// Name: Name of the resource.
 	Name *string `json:"name,omitempty"`
 
-	//ProvisioningState: Provisioning state of the event subscription.
+	// ProvisioningState: Provisioning state of the event subscription.
 	ProvisioningState *EventSubscriptionPropertiesStatusProvisioningState `json:"provisioningState,omitempty"`
 
-	//RetryPolicy: The retry policy for events. This can be used to configure maximum number of delivery attempts and time to
-	//live for events.
+	// RetryPolicy: The retry policy for events. This can be used to configure maximum number of delivery attempts and time to
+	// live for events.
 	RetryPolicy *RetryPolicy_Status `json:"retryPolicy,omitempty"`
 
-	//SystemData: The system metadata relating to Event Subscription resource.
+	// SystemData: The system metadata relating to Event Subscription resource.
 	SystemData *SystemData_Status `json:"systemData,omitempty"`
 
-	//Topic: Name of the topic of the event subscription.
+	// Topic: Name of the topic of the event subscription.
 	Topic *string `json:"topic,omitempty"`
 
-	//Type: Type of the resource.
+	// Type: Type of the resource.
 	Type *string `json:"type,omitempty"`
 }
 
@@ -773,43 +773,43 @@ type EventSubscriptionsSpecAPIVersion string
 const EventSubscriptionsSpecAPIVersion20200601 = EventSubscriptionsSpecAPIVersion("2020-06-01")
 
 type EventSubscriptions_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
-	//DeadLetterDestination: Information about the dead letter destination for an event subscription. To configure a
-	//deadletter destination, do not directly instantiate an object of this class. Instead, instantiate an object of a derived
-	//class. Currently, StorageBlobDeadLetterDestination is the only class that derives from this class.
+	// DeadLetterDestination: Information about the dead letter destination for an event subscription. To configure a
+	// deadletter destination, do not directly instantiate an object of this class. Instead, instantiate an object of a derived
+	// class. Currently, StorageBlobDeadLetterDestination is the only class that derives from this class.
 	DeadLetterDestination *StorageBlobDeadLetterDestination `json:"deadLetterDestination,omitempty"`
 
-	//Destination: Information about the destination for an event subscription.
+	// Destination: Information about the destination for an event subscription.
 	Destination *EventSubscriptionDestination `json:"destination,omitempty"`
 
-	//EventDeliverySchema: The event delivery schema for the event subscription.
+	// EventDeliverySchema: The event delivery schema for the event subscription.
 	EventDeliverySchema *EventSubscriptionPropertiesEventDeliverySchema `json:"eventDeliverySchema,omitempty"`
 
-	//ExpirationTimeUtc: Expiration time of the event subscription.
+	// ExpirationTimeUtc: Expiration time of the event subscription.
 	ExpirationTimeUtc *string `json:"expirationTimeUtc,omitempty"`
 
-	//Filter: Filter for the Event Subscription.
+	// Filter: Filter for the Event Subscription.
 	Filter *EventSubscriptionFilter `json:"filter,omitempty"`
 
-	//Labels: List of user defined labels.
+	// Labels: List of user defined labels.
 	Labels []string `json:"labels,omitempty"`
 
-	//Location: Location to deploy resource to
+	// Location: Location to deploy resource to
 	Location *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. This resource is an
-	//extension resource, which means that any other Azure resource can be its owner.
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. This resource is an
+	// extension resource, which means that any other Azure resource can be its owner.
 	Owner *genruntime.ArbitraryOwnerReference `json:"owner,omitempty"`
 
-	//RetryPolicy: Information about the retry policy for an event subscription.
+	// RetryPolicy: Information about the retry policy for an event subscription.
 	RetryPolicy *RetryPolicy `json:"retryPolicy,omitempty"`
 
-	//Tags: Name-value pairs to add to the resource
+	// Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
@@ -1268,7 +1268,7 @@ func (subscriptions *EventSubscriptions_Spec) SetAzureName(azureName string) {
 }
 
 type DeadLetterDestination_Status struct {
-	//EndpointType: Type of the endpoint for the dead letter destination
+	// EndpointType: Type of the endpoint for the dead letter destination
 	EndpointType *DeadLetterDestinationStatusEndpointType `json:"endpointType,omitempty"`
 }
 
@@ -1335,27 +1335,27 @@ func (destination *DeadLetterDestination_Status) AssignPropertiesToDeadLetterDes
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/EventSubscriptionDestination
+// Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/EventSubscriptionDestination
 type EventSubscriptionDestination struct {
-	//AzureFunction: Mutually exclusive with all other properties
+	// AzureFunction: Mutually exclusive with all other properties
 	AzureFunction *AzureFunctionEventSubscriptionDestination `json:"azureFunctionEventSubscriptionDestination,omitempty"`
 
-	//EventHub: Mutually exclusive with all other properties
+	// EventHub: Mutually exclusive with all other properties
 	EventHub *EventHubEventSubscriptionDestination `json:"eventHubEventSubscriptionDestination,omitempty"`
 
-	//HybridConnection: Mutually exclusive with all other properties
+	// HybridConnection: Mutually exclusive with all other properties
 	HybridConnection *HybridConnectionEventSubscriptionDestination `json:"hybridConnectionEventSubscriptionDestination,omitempty"`
 
-	//ServiceBusQueue: Mutually exclusive with all other properties
+	// ServiceBusQueue: Mutually exclusive with all other properties
 	ServiceBusQueue *ServiceBusQueueEventSubscriptionDestination `json:"serviceBusQueueEventSubscriptionDestination,omitempty"`
 
-	//ServiceBusTopic: Mutually exclusive with all other properties
+	// ServiceBusTopic: Mutually exclusive with all other properties
 	ServiceBusTopic *ServiceBusTopicEventSubscriptionDestination `json:"serviceBusTopicEventSubscriptionDestination,omitempty"`
 
-	//StorageQueue: Mutually exclusive with all other properties
+	// StorageQueue: Mutually exclusive with all other properties
 	StorageQueue *StorageQueueEventSubscriptionDestination `json:"storageQueueEventSubscriptionDestination,omitempty"`
 
-	//WebHook: Mutually exclusive with all other properties
+	// WebHook: Mutually exclusive with all other properties
 	WebHook *WebHookEventSubscriptionDestination `json:"webHookEventSubscriptionDestination,omitempty"`
 }
 
@@ -1725,7 +1725,7 @@ func (destination *EventSubscriptionDestination) AssignPropertiesToEventSubscrip
 }
 
 type EventSubscriptionDestination_Status struct {
-	//EndpointType: Type of the endpoint for the event subscription destination.
+	// EndpointType: Type of the endpoint for the event subscription destination.
 	EndpointType *EventSubscriptionDestinationStatusEndpointType `json:"endpointType,omitempty"`
 }
 
@@ -1792,26 +1792,26 @@ func (destination *EventSubscriptionDestination_Status) AssignPropertiesToEventS
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/EventSubscriptionFilter
+// Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/EventSubscriptionFilter
 type EventSubscriptionFilter struct {
-	//AdvancedFilters: An array of advanced filters that are used for filtering event subscriptions.
+	// AdvancedFilters: An array of advanced filters that are used for filtering event subscriptions.
 	AdvancedFilters []AdvancedFilter `json:"advancedFilters,omitempty"`
 
-	//IncludedEventTypes: A list of applicable event types that need to be part of the event subscription. If it is desired to
-	//subscribe to all default event types, set the IncludedEventTypes to null.
+	// IncludedEventTypes: A list of applicable event types that need to be part of the event subscription. If it is desired to
+	// subscribe to all default event types, set the IncludedEventTypes to null.
 	IncludedEventTypes []string `json:"includedEventTypes,omitempty"`
 
-	//IsSubjectCaseSensitive: Specifies if the SubjectBeginsWith and SubjectEndsWith properties of the filter
-	//should be compared in a case sensitive manner.
+	// IsSubjectCaseSensitive: Specifies if the SubjectBeginsWith and SubjectEndsWith properties of the filter
+	// should be compared in a case sensitive manner.
 	IsSubjectCaseSensitive *bool `json:"isSubjectCaseSensitive,omitempty"`
 
-	//SubjectBeginsWith: An optional string to filter events for an event subscription based on a resource path prefix.
-	//The format of this depends on the publisher of the events.
-	//Wildcard characters are not supported in this path.
+	// SubjectBeginsWith: An optional string to filter events for an event subscription based on a resource path prefix.
+	// The format of this depends on the publisher of the events.
+	// Wildcard characters are not supported in this path.
 	SubjectBeginsWith *string `json:"subjectBeginsWith,omitempty"`
 
-	//SubjectEndsWith: An optional string to filter events for an event subscription based on a resource path suffix.
-	//Wildcard characters are not supported in this path.
+	// SubjectEndsWith: An optional string to filter events for an event subscription based on a resource path suffix.
+	// Wildcard characters are not supported in this path.
 	SubjectEndsWith *string `json:"subjectEndsWith,omitempty"`
 }
 
@@ -2001,24 +2001,24 @@ func (filter *EventSubscriptionFilter) AssignPropertiesToEventSubscriptionFilter
 }
 
 type EventSubscriptionFilter_Status struct {
-	//AdvancedFilters: An array of advanced filters that are used for filtering event subscriptions.
+	// AdvancedFilters: An array of advanced filters that are used for filtering event subscriptions.
 	AdvancedFilters []AdvancedFilter_Status `json:"advancedFilters,omitempty"`
 
-	//IncludedEventTypes: A list of applicable event types that need to be part of the event subscription. If it is desired to
-	//subscribe to all default event types, set the IncludedEventTypes to null.
+	// IncludedEventTypes: A list of applicable event types that need to be part of the event subscription. If it is desired to
+	// subscribe to all default event types, set the IncludedEventTypes to null.
 	IncludedEventTypes []string `json:"includedEventTypes,omitempty"`
 
-	//IsSubjectCaseSensitive: Specifies if the SubjectBeginsWith and SubjectEndsWith properties of the filter
-	//should be compared in a case sensitive manner.
+	// IsSubjectCaseSensitive: Specifies if the SubjectBeginsWith and SubjectEndsWith properties of the filter
+	// should be compared in a case sensitive manner.
 	IsSubjectCaseSensitive *bool `json:"isSubjectCaseSensitive,omitempty"`
 
-	//SubjectBeginsWith: An optional string to filter events for an event subscription based on a resource path prefix.
-	//The format of this depends on the publisher of the events.
-	//Wildcard characters are not supported in this path.
+	// SubjectBeginsWith: An optional string to filter events for an event subscription based on a resource path prefix.
+	// The format of this depends on the publisher of the events.
+	// Wildcard characters are not supported in this path.
 	SubjectBeginsWith *string `json:"subjectBeginsWith,omitempty"`
 
-	//SubjectEndsWith: An optional string to filter events for an event subscription based on a resource path suffix.
-	//Wildcard characters are not supported in this path.
+	// SubjectEndsWith: An optional string to filter events for an event subscription based on a resource path suffix.
+	// Wildcard characters are not supported in this path.
 	SubjectEndsWith *string `json:"subjectEndsWith,omitempty"`
 }
 
@@ -2195,12 +2195,12 @@ const (
 	EventSubscriptionPropertiesStatusProvisioningStateUpdating             = EventSubscriptionPropertiesStatusProvisioningState("Updating")
 )
 
-//Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/RetryPolicy
+// Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/RetryPolicy
 type RetryPolicy struct {
-	//EventTimeToLiveInMinutes: Time To Live (in minutes) for events.
+	// EventTimeToLiveInMinutes: Time To Live (in minutes) for events.
 	EventTimeToLiveInMinutes *int `json:"eventTimeToLiveInMinutes,omitempty"`
 
-	//MaxDeliveryAttempts: Maximum number of delivery retry attempts for events.
+	// MaxDeliveryAttempts: Maximum number of delivery retry attempts for events.
 	MaxDeliveryAttempts *int `json:"maxDeliveryAttempts,omitempty"`
 }
 
@@ -2291,10 +2291,10 @@ func (policy *RetryPolicy) AssignPropertiesToRetryPolicy(destination *v20200601s
 }
 
 type RetryPolicy_Status struct {
-	//EventTimeToLiveInMinutes: Time To Live (in minutes) for events.
+	// EventTimeToLiveInMinutes: Time To Live (in minutes) for events.
 	EventTimeToLiveInMinutes *int `json:"eventTimeToLiveInMinutes,omitempty"`
 
-	//MaxDeliveryAttempts: Maximum number of delivery retry attempts for events.
+	// MaxDeliveryAttempts: Maximum number of delivery retry attempts for events.
 	MaxDeliveryAttempts *int `json:"maxDeliveryAttempts,omitempty"`
 }
 
@@ -2363,12 +2363,12 @@ func (policy *RetryPolicy_Status) AssignPropertiesToRetryPolicyStatus(destinatio
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/StorageBlobDeadLetterDestination
+// Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/StorageBlobDeadLetterDestination
 type StorageBlobDeadLetterDestination struct {
 	// +kubebuilder:validation:Required
 	EndpointType *StorageBlobDeadLetterDestinationEndpointType `json:"endpointType,omitempty"`
 
-	//Properties: Properties of the storage blob based dead letter destination.
+	// Properties: Properties of the storage blob based dead letter destination.
 	Properties *StorageBlobDeadLetterDestinationProperties `json:"properties,omitempty"`
 }
 
@@ -2495,42 +2495,42 @@ func (destination *StorageBlobDeadLetterDestination) AssignPropertiesToStorageBl
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/AdvancedFilter
+// Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/AdvancedFilter
 type AdvancedFilter struct {
-	//BoolEquals: Mutually exclusive with all other properties
+	// BoolEquals: Mutually exclusive with all other properties
 	BoolEquals *AdvancedFilter_BoolEquals `json:"boolEqualsAdvancedFilter,omitempty"`
 
-	//NumberGreaterThan: Mutually exclusive with all other properties
+	// NumberGreaterThan: Mutually exclusive with all other properties
 	NumberGreaterThan *AdvancedFilter_NumberGreaterThan `json:"numberGreaterThanAdvancedFilter,omitempty"`
 
-	//NumberGreaterThanOrEquals: Mutually exclusive with all other properties
+	// NumberGreaterThanOrEquals: Mutually exclusive with all other properties
 	NumberGreaterThanOrEquals *AdvancedFilter_NumberGreaterThanOrEquals `json:"numberGreaterThanOrEqualsAdvancedFilter,omitempty"`
 
-	//NumberIn: Mutually exclusive with all other properties
+	// NumberIn: Mutually exclusive with all other properties
 	NumberIn *AdvancedFilter_NumberIn `json:"numberInAdvancedFilter,omitempty"`
 
-	//NumberLessThan: Mutually exclusive with all other properties
+	// NumberLessThan: Mutually exclusive with all other properties
 	NumberLessThan *AdvancedFilter_NumberLessThan `json:"numberLessThanAdvancedFilter,omitempty"`
 
-	//NumberLessThanOrEquals: Mutually exclusive with all other properties
+	// NumberLessThanOrEquals: Mutually exclusive with all other properties
 	NumberLessThanOrEquals *AdvancedFilter_NumberLessThanOrEquals `json:"numberLessThanOrEqualsAdvancedFilter,omitempty"`
 
-	//NumberNotIn: Mutually exclusive with all other properties
+	// NumberNotIn: Mutually exclusive with all other properties
 	NumberNotIn *AdvancedFilter_NumberNotIn `json:"numberNotInAdvancedFilter,omitempty"`
 
-	//StringBeginsWith: Mutually exclusive with all other properties
+	// StringBeginsWith: Mutually exclusive with all other properties
 	StringBeginsWith *AdvancedFilter_StringBeginsWith `json:"stringBeginsWithAdvancedFilter,omitempty"`
 
-	//StringContains: Mutually exclusive with all other properties
+	// StringContains: Mutually exclusive with all other properties
 	StringContains *AdvancedFilter_StringContains `json:"stringContainsAdvancedFilter,omitempty"`
 
-	//StringEndsWith: Mutually exclusive with all other properties
+	// StringEndsWith: Mutually exclusive with all other properties
 	StringEndsWith *AdvancedFilter_StringEndsWith `json:"stringEndsWithAdvancedFilter,omitempty"`
 
-	//StringIn: Mutually exclusive with all other properties
+	// StringIn: Mutually exclusive with all other properties
 	StringIn *AdvancedFilter_StringIn `json:"stringInAdvancedFilter,omitempty"`
 
-	//StringNotIn: Mutually exclusive with all other properties
+	// StringNotIn: Mutually exclusive with all other properties
 	StringNotIn *AdvancedFilter_StringNotIn `json:"stringNotInAdvancedFilter,omitempty"`
 }
 
@@ -3125,10 +3125,10 @@ func (filter *AdvancedFilter) AssignPropertiesToAdvancedFilter(destination *v202
 }
 
 type AdvancedFilter_Status struct {
-	//Key: The field/property in the event based on which you want to filter.
+	// Key: The field/property in the event based on which you want to filter.
 	Key *string `json:"key,omitempty"`
 
-	//OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
+	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
 	OperatorType *AdvancedFilterStatusOperatorType `json:"operatorType,omitempty"`
 }
 
@@ -3207,12 +3207,12 @@ func (filter *AdvancedFilter_Status) AssignPropertiesToAdvancedFilterStatus(dest
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/AzureFunctionEventSubscriptionDestination
+// Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/AzureFunctionEventSubscriptionDestination
 type AzureFunctionEventSubscriptionDestination struct {
 	// +kubebuilder:validation:Required
 	EndpointType *AzureFunctionEventSubscriptionDestinationEndpointType `json:"endpointType,omitempty"`
 
-	//Properties: The properties that represent the Azure Function destination of an event subscription.
+	// Properties: The properties that represent the Azure Function destination of an event subscription.
 	Properties *AzureFunctionEventSubscriptionDestinationProperties `json:"properties,omitempty"`
 }
 
@@ -3339,12 +3339,12 @@ type DeadLetterDestinationStatusEndpointType string
 
 const DeadLetterDestinationStatusEndpointTypeStorageBlob = DeadLetterDestinationStatusEndpointType("StorageBlob")
 
-//Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/EventHubEventSubscriptionDestination
+// Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/EventHubEventSubscriptionDestination
 type EventHubEventSubscriptionDestination struct {
 	// +kubebuilder:validation:Required
 	EndpointType *EventHubEventSubscriptionDestinationEndpointType `json:"endpointType,omitempty"`
 
-	//Properties: The properties for a event hub destination.
+	// Properties: The properties for a event hub destination.
 	Properties *EventHubEventSubscriptionDestinationProperties `json:"properties,omitempty"`
 }
 
@@ -3479,12 +3479,12 @@ const (
 	EventSubscriptionDestinationStatusEndpointTypeWebHook          = EventSubscriptionDestinationStatusEndpointType("WebHook")
 )
 
-//Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/HybridConnectionEventSubscriptionDestination
+// Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/HybridConnectionEventSubscriptionDestination
 type HybridConnectionEventSubscriptionDestination struct {
 	// +kubebuilder:validation:Required
 	EndpointType *HybridConnectionEventSubscriptionDestinationEndpointType `json:"endpointType,omitempty"`
 
-	//Properties: The properties for a hybrid connection destination.
+	// Properties: The properties for a hybrid connection destination.
 	Properties *HybridConnectionEventSubscriptionDestinationProperties `json:"properties,omitempty"`
 }
 
@@ -3607,12 +3607,12 @@ func (destination *HybridConnectionEventSubscriptionDestination) AssignPropertie
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/ServiceBusQueueEventSubscriptionDestination
+// Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/ServiceBusQueueEventSubscriptionDestination
 type ServiceBusQueueEventSubscriptionDestination struct {
 	// +kubebuilder:validation:Required
 	EndpointType *ServiceBusQueueEventSubscriptionDestinationEndpointType `json:"endpointType,omitempty"`
 
-	//Properties: The properties that represent the Service Bus destination of an event subscription.
+	// Properties: The properties that represent the Service Bus destination of an event subscription.
 	Properties *ServiceBusQueueEventSubscriptionDestinationProperties `json:"properties,omitempty"`
 }
 
@@ -3735,12 +3735,12 @@ func (destination *ServiceBusQueueEventSubscriptionDestination) AssignProperties
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/ServiceBusTopicEventSubscriptionDestination
+// Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/ServiceBusTopicEventSubscriptionDestination
 type ServiceBusTopicEventSubscriptionDestination struct {
 	// +kubebuilder:validation:Required
 	EndpointType *ServiceBusTopicEventSubscriptionDestinationEndpointType `json:"endpointType,omitempty"`
 
-	//Properties: The properties that represent the Service Bus Topic destination of an event subscription.
+	// Properties: The properties that represent the Service Bus Topic destination of an event subscription.
 	Properties *ServiceBusTopicEventSubscriptionDestinationProperties `json:"properties,omitempty"`
 }
 
@@ -3868,12 +3868,12 @@ type StorageBlobDeadLetterDestinationEndpointType string
 
 const StorageBlobDeadLetterDestinationEndpointTypeStorageBlob = StorageBlobDeadLetterDestinationEndpointType("StorageBlob")
 
-//Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/StorageBlobDeadLetterDestinationProperties
+// Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/StorageBlobDeadLetterDestinationProperties
 type StorageBlobDeadLetterDestinationProperties struct {
-	//BlobContainerName: The name of the Storage blob container that is the destination of the deadletter events
+	// BlobContainerName: The name of the Storage blob container that is the destination of the deadletter events
 	BlobContainerName *string `json:"blobContainerName,omitempty"`
 
-	//ResourceReference: The Azure Resource ID of the storage account that is the destination of the deadletter events
+	// ResourceReference: The Azure Resource ID of the storage account that is the destination of the deadletter events
 	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
 }
 
@@ -3973,12 +3973,12 @@ func (properties *StorageBlobDeadLetterDestinationProperties) AssignPropertiesTo
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/StorageQueueEventSubscriptionDestination
+// Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/StorageQueueEventSubscriptionDestination
 type StorageQueueEventSubscriptionDestination struct {
 	// +kubebuilder:validation:Required
 	EndpointType *StorageQueueEventSubscriptionDestinationEndpointType `json:"endpointType,omitempty"`
 
-	//Properties: The properties for a storage queue destination.
+	// Properties: The properties for a storage queue destination.
 	Properties *StorageQueueEventSubscriptionDestinationProperties `json:"properties,omitempty"`
 }
 
@@ -4101,12 +4101,12 @@ func (destination *StorageQueueEventSubscriptionDestination) AssignPropertiesToS
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/WebHookEventSubscriptionDestination
+// Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/WebHookEventSubscriptionDestination
 type WebHookEventSubscriptionDestination struct {
 	// +kubebuilder:validation:Required
 	EndpointType *WebHookEventSubscriptionDestinationEndpointType `json:"endpointType,omitempty"`
 
-	//Properties: Information about the webhook destination properties for an event subscription.
+	// Properties: Information about the webhook destination properties for an event subscription.
 	Properties *WebHookEventSubscriptionDestinationProperties `json:"properties,omitempty"`
 }
 
@@ -4247,13 +4247,13 @@ const (
 )
 
 type AdvancedFilter_BoolEquals struct {
-	//Key: The field/property in the event based on which you want to filter.
+	// Key: The field/property in the event based on which you want to filter.
 	Key *string `json:"key,omitempty"`
 
 	// +kubebuilder:validation:Required
 	OperatorType *AdvancedFilterBoolEqualsOperatorType `json:"operatorType,omitempty"`
 
-	//Value: The boolean filter value.
+	// Value: The boolean filter value.
 	Value *bool `json:"value,omitempty"`
 }
 
@@ -4378,13 +4378,13 @@ func (equals *AdvancedFilter_BoolEquals) AssignPropertiesToAdvancedFilterBoolEqu
 }
 
 type AdvancedFilter_NumberGreaterThan struct {
-	//Key: The field/property in the event based on which you want to filter.
+	// Key: The field/property in the event based on which you want to filter.
 	Key *string `json:"key,omitempty"`
 
 	// +kubebuilder:validation:Required
 	OperatorType *AdvancedFilterNumberGreaterThanOperatorType `json:"operatorType,omitempty"`
 
-	//Value: The filter value.
+	// Value: The filter value.
 	Value *float64 `json:"value,omitempty"`
 }
 
@@ -4509,13 +4509,13 @@ func (than *AdvancedFilter_NumberGreaterThan) AssignPropertiesToAdvancedFilterNu
 }
 
 type AdvancedFilter_NumberGreaterThanOrEquals struct {
-	//Key: The field/property in the event based on which you want to filter.
+	// Key: The field/property in the event based on which you want to filter.
 	Key *string `json:"key,omitempty"`
 
 	// +kubebuilder:validation:Required
 	OperatorType *AdvancedFilterNumberGreaterThanOrEqualsOperatorType `json:"operatorType,omitempty"`
 
-	//Value: The filter value.
+	// Value: The filter value.
 	Value *float64 `json:"value,omitempty"`
 }
 
@@ -4640,13 +4640,13 @@ func (equals *AdvancedFilter_NumberGreaterThanOrEquals) AssignPropertiesToAdvanc
 }
 
 type AdvancedFilter_NumberIn struct {
-	//Key: The field/property in the event based on which you want to filter.
+	// Key: The field/property in the event based on which you want to filter.
 	Key *string `json:"key,omitempty"`
 
 	// +kubebuilder:validation:Required
 	OperatorType *AdvancedFilterNumberInOperatorType `json:"operatorType,omitempty"`
 
-	//Values: The set of filter values.
+	// Values: The set of filter values.
 	Values []float64 `json:"values,omitempty"`
 }
 
@@ -4779,13 +4779,13 @@ func (numberIn *AdvancedFilter_NumberIn) AssignPropertiesToAdvancedFilterNumberI
 }
 
 type AdvancedFilter_NumberLessThan struct {
-	//Key: The field/property in the event based on which you want to filter.
+	// Key: The field/property in the event based on which you want to filter.
 	Key *string `json:"key,omitempty"`
 
 	// +kubebuilder:validation:Required
 	OperatorType *AdvancedFilterNumberLessThanOperatorType `json:"operatorType,omitempty"`
 
-	//Value: The filter value.
+	// Value: The filter value.
 	Value *float64 `json:"value,omitempty"`
 }
 
@@ -4910,13 +4910,13 @@ func (than *AdvancedFilter_NumberLessThan) AssignPropertiesToAdvancedFilterNumbe
 }
 
 type AdvancedFilter_NumberLessThanOrEquals struct {
-	//Key: The field/property in the event based on which you want to filter.
+	// Key: The field/property in the event based on which you want to filter.
 	Key *string `json:"key,omitempty"`
 
 	// +kubebuilder:validation:Required
 	OperatorType *AdvancedFilterNumberLessThanOrEqualsOperatorType `json:"operatorType,omitempty"`
 
-	//Value: The filter value.
+	// Value: The filter value.
 	Value *float64 `json:"value,omitempty"`
 }
 
@@ -5041,13 +5041,13 @@ func (equals *AdvancedFilter_NumberLessThanOrEquals) AssignPropertiesToAdvancedF
 }
 
 type AdvancedFilter_NumberNotIn struct {
-	//Key: The field/property in the event based on which you want to filter.
+	// Key: The field/property in the event based on which you want to filter.
 	Key *string `json:"key,omitempty"`
 
 	// +kubebuilder:validation:Required
 	OperatorType *AdvancedFilterNumberNotInOperatorType `json:"operatorType,omitempty"`
 
-	//Values: The set of filter values.
+	// Values: The set of filter values.
 	Values []float64 `json:"values,omitempty"`
 }
 
@@ -5180,13 +5180,13 @@ func (notIn *AdvancedFilter_NumberNotIn) AssignPropertiesToAdvancedFilterNumberN
 }
 
 type AdvancedFilter_StringBeginsWith struct {
-	//Key: The field/property in the event based on which you want to filter.
+	// Key: The field/property in the event based on which you want to filter.
 	Key *string `json:"key,omitempty"`
 
 	// +kubebuilder:validation:Required
 	OperatorType *AdvancedFilterStringBeginsWithOperatorType `json:"operatorType,omitempty"`
 
-	//Values: The set of filter values.
+	// Values: The set of filter values.
 	Values []string `json:"values,omitempty"`
 }
 
@@ -5299,13 +5299,13 @@ func (with *AdvancedFilter_StringBeginsWith) AssignPropertiesToAdvancedFilterStr
 }
 
 type AdvancedFilter_StringContains struct {
-	//Key: The field/property in the event based on which you want to filter.
+	// Key: The field/property in the event based on which you want to filter.
 	Key *string `json:"key,omitempty"`
 
 	// +kubebuilder:validation:Required
 	OperatorType *AdvancedFilterStringContainsOperatorType `json:"operatorType,omitempty"`
 
-	//Values: The set of filter values.
+	// Values: The set of filter values.
 	Values []string `json:"values,omitempty"`
 }
 
@@ -5418,13 +5418,13 @@ func (contains *AdvancedFilter_StringContains) AssignPropertiesToAdvancedFilterS
 }
 
 type AdvancedFilter_StringEndsWith struct {
-	//Key: The field/property in the event based on which you want to filter.
+	// Key: The field/property in the event based on which you want to filter.
 	Key *string `json:"key,omitempty"`
 
 	// +kubebuilder:validation:Required
 	OperatorType *AdvancedFilterStringEndsWithOperatorType `json:"operatorType,omitempty"`
 
-	//Values: The set of filter values.
+	// Values: The set of filter values.
 	Values []string `json:"values,omitempty"`
 }
 
@@ -5537,13 +5537,13 @@ func (with *AdvancedFilter_StringEndsWith) AssignPropertiesToAdvancedFilterStrin
 }
 
 type AdvancedFilter_StringIn struct {
-	//Key: The field/property in the event based on which you want to filter.
+	// Key: The field/property in the event based on which you want to filter.
 	Key *string `json:"key,omitempty"`
 
 	// +kubebuilder:validation:Required
 	OperatorType *AdvancedFilterStringInOperatorType `json:"operatorType,omitempty"`
 
-	//Values: The set of filter values.
+	// Values: The set of filter values.
 	Values []string `json:"values,omitempty"`
 }
 
@@ -5656,13 +5656,13 @@ func (stringIn *AdvancedFilter_StringIn) AssignPropertiesToAdvancedFilterStringI
 }
 
 type AdvancedFilter_StringNotIn struct {
-	//Key: The field/property in the event based on which you want to filter.
+	// Key: The field/property in the event based on which you want to filter.
 	Key *string `json:"key,omitempty"`
 
 	// +kubebuilder:validation:Required
 	OperatorType *AdvancedFilterStringNotInOperatorType `json:"operatorType,omitempty"`
 
-	//Values: The set of filter values.
+	// Values: The set of filter values.
 	Values []string `json:"values,omitempty"`
 }
 
@@ -5779,16 +5779,16 @@ type AzureFunctionEventSubscriptionDestinationEndpointType string
 
 const AzureFunctionEventSubscriptionDestinationEndpointTypeAzureFunction = AzureFunctionEventSubscriptionDestinationEndpointType("AzureFunction")
 
-//Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/AzureFunctionEventSubscriptionDestinationProperties
+// Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/AzureFunctionEventSubscriptionDestinationProperties
 type AzureFunctionEventSubscriptionDestinationProperties struct {
-	//MaxEventsPerBatch: Maximum number of events per batch.
+	// MaxEventsPerBatch: Maximum number of events per batch.
 	MaxEventsPerBatch *int `json:"maxEventsPerBatch,omitempty"`
 
-	//PreferredBatchSizeInKilobytes: Preferred batch size in Kilobytes.
+	// PreferredBatchSizeInKilobytes: Preferred batch size in Kilobytes.
 	PreferredBatchSizeInKilobytes *int `json:"preferredBatchSizeInKilobytes,omitempty"`
 
-	//ResourceReference: The Azure Resource Id that represents the endpoint of the Azure Function destination of an event
-	//subscription.
+	// ResourceReference: The Azure Resource Id that represents the endpoint of the Azure Function destination of an event
+	// subscription.
 	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
 }
 
@@ -5911,10 +5911,10 @@ type EventHubEventSubscriptionDestinationEndpointType string
 
 const EventHubEventSubscriptionDestinationEndpointTypeEventHub = EventHubEventSubscriptionDestinationEndpointType("EventHub")
 
-//Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/EventHubEventSubscriptionDestinationProperties
+// Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/EventHubEventSubscriptionDestinationProperties
 type EventHubEventSubscriptionDestinationProperties struct {
-	//ResourceReference: The Azure Resource Id that represents the endpoint of an Event Hub destination of an event
-	//subscription.
+	// ResourceReference: The Azure Resource Id that represents the endpoint of an Event Hub destination of an event
+	// subscription.
 	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
 }
 
@@ -6001,9 +6001,9 @@ type HybridConnectionEventSubscriptionDestinationEndpointType string
 
 const HybridConnectionEventSubscriptionDestinationEndpointTypeHybridConnection = HybridConnectionEventSubscriptionDestinationEndpointType("HybridConnection")
 
-//Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/HybridConnectionEventSubscriptionDestinationProperties
+// Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/HybridConnectionEventSubscriptionDestinationProperties
 type HybridConnectionEventSubscriptionDestinationProperties struct {
-	//ResourceReference: The Azure Resource ID of an hybrid connection that is the destination of an event subscription.
+	// ResourceReference: The Azure Resource ID of an hybrid connection that is the destination of an event subscription.
 	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
 }
 
@@ -6090,10 +6090,10 @@ type ServiceBusQueueEventSubscriptionDestinationEndpointType string
 
 const ServiceBusQueueEventSubscriptionDestinationEndpointTypeServiceBusQueue = ServiceBusQueueEventSubscriptionDestinationEndpointType("ServiceBusQueue")
 
-//Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/ServiceBusQueueEventSubscriptionDestinationProperties
+// Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/ServiceBusQueueEventSubscriptionDestinationProperties
 type ServiceBusQueueEventSubscriptionDestinationProperties struct {
-	//ResourceReference: The Azure Resource Id that represents the endpoint of the Service Bus destination of an event
-	//subscription.
+	// ResourceReference: The Azure Resource Id that represents the endpoint of the Service Bus destination of an event
+	// subscription.
 	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
 }
 
@@ -6180,10 +6180,10 @@ type ServiceBusTopicEventSubscriptionDestinationEndpointType string
 
 const ServiceBusTopicEventSubscriptionDestinationEndpointTypeServiceBusTopic = ServiceBusTopicEventSubscriptionDestinationEndpointType("ServiceBusTopic")
 
-//Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/ServiceBusTopicEventSubscriptionDestinationProperties
+// Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/ServiceBusTopicEventSubscriptionDestinationProperties
 type ServiceBusTopicEventSubscriptionDestinationProperties struct {
-	//ResourceReference: The Azure Resource Id that represents the endpoint of the Service Bus Topic destination of an event
-	//subscription.
+	// ResourceReference: The Azure Resource Id that represents the endpoint of the Service Bus Topic destination of an event
+	// subscription.
 	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
 }
 
@@ -6270,13 +6270,13 @@ type StorageQueueEventSubscriptionDestinationEndpointType string
 
 const StorageQueueEventSubscriptionDestinationEndpointTypeStorageQueue = StorageQueueEventSubscriptionDestinationEndpointType("StorageQueue")
 
-//Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/StorageQueueEventSubscriptionDestinationProperties
+// Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/StorageQueueEventSubscriptionDestinationProperties
 type StorageQueueEventSubscriptionDestinationProperties struct {
-	//QueueName: The name of the Storage queue under a storage account that is the destination of an event subscription.
+	// QueueName: The name of the Storage queue under a storage account that is the destination of an event subscription.
 	QueueName *string `json:"queueName,omitempty"`
 
-	//ResourceReference: The Azure Resource ID of the storage account that contains the queue that is the destination of an
-	//event subscription.
+	// ResourceReference: The Azure Resource ID of the storage account that contains the queue that is the destination of an
+	// event subscription.
 	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
 }
 
@@ -6381,23 +6381,23 @@ type WebHookEventSubscriptionDestinationEndpointType string
 
 const WebHookEventSubscriptionDestinationEndpointTypeWebHook = WebHookEventSubscriptionDestinationEndpointType("WebHook")
 
-//Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/WebHookEventSubscriptionDestinationProperties
+// Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/WebHookEventSubscriptionDestinationProperties
 type WebHookEventSubscriptionDestinationProperties struct {
-	//AzureActiveDirectoryApplicationIdOrUri: The Azure Active Directory Application ID or URI to get the access token that
-	//will be included as the bearer token in delivery requests.
+	// AzureActiveDirectoryApplicationIdOrUri: The Azure Active Directory Application ID or URI to get the access token that
+	// will be included as the bearer token in delivery requests.
 	AzureActiveDirectoryApplicationIdOrUri *string `json:"azureActiveDirectoryApplicationIdOrUri,omitempty"`
 
-	//AzureActiveDirectoryTenantId: The Azure Active Directory Tenant ID to get the access token that will be included as the
-	//bearer token in delivery requests.
+	// AzureActiveDirectoryTenantId: The Azure Active Directory Tenant ID to get the access token that will be included as the
+	// bearer token in delivery requests.
 	AzureActiveDirectoryTenantId *string `json:"azureActiveDirectoryTenantId,omitempty"`
 
-	//EndpointUrl: The URL that represents the endpoint of the destination of an event subscription.
+	// EndpointUrl: The URL that represents the endpoint of the destination of an event subscription.
 	EndpointUrl *string `json:"endpointUrl,omitempty"`
 
-	//MaxEventsPerBatch: Maximum number of events per batch.
+	// MaxEventsPerBatch: Maximum number of events per batch.
 	MaxEventsPerBatch *int `json:"maxEventsPerBatch,omitempty"`
 
-	//PreferredBatchSizeInKilobytes: Preferred batch size in Kilobytes.
+	// PreferredBatchSizeInKilobytes: Preferred batch size in Kilobytes.
 	PreferredBatchSizeInKilobytes *int `json:"preferredBatchSizeInKilobytes,omitempty"`
 }
 

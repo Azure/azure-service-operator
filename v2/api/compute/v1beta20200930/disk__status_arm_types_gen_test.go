@@ -138,7 +138,7 @@ func RunJSONSerializationTestForDiskPropertiesStatusARM(subject DiskProperties_S
 }
 
 // Generator of DiskProperties_StatusARM instances for property testing - lazily instantiated by
-//DiskPropertiesStatusARMGenerator()
+// DiskPropertiesStatusARMGenerator()
 var diskPropertiesStatusARMGenerator gopter.Gen
 
 // DiskPropertiesStatusARMGenerator returns a generator of DiskProperties_StatusARM instances for property testing.
@@ -302,7 +302,7 @@ func RunJSONSerializationTestForExtendedLocationStatusARM(subject ExtendedLocati
 }
 
 // Generator of ExtendedLocation_StatusARM instances for property testing - lazily instantiated by
-//ExtendedLocationStatusARMGenerator()
+// ExtendedLocationStatusARMGenerator()
 var extendedLocationStatusARMGenerator gopter.Gen
 
 // ExtendedLocationStatusARMGenerator returns a generator of ExtendedLocation_StatusARM instances for property testing.
@@ -363,7 +363,7 @@ func RunJSONSerializationTestForCreationDataStatusARM(subject CreationData_Statu
 }
 
 // Generator of CreationData_StatusARM instances for property testing - lazily instantiated by
-//CreationDataStatusARMGenerator()
+// CreationDataStatusARMGenerator()
 var creationDataStatusARMGenerator gopter.Gen
 
 // CreationDataStatusARMGenerator returns a generator of CreationData_StatusARM instances for property testing.
@@ -451,7 +451,7 @@ func RunJSONSerializationTestForEncryptionSettingsCollectionStatusARM(subject En
 }
 
 // Generator of EncryptionSettingsCollection_StatusARM instances for property testing - lazily instantiated by
-//EncryptionSettingsCollectionStatusARMGenerator()
+// EncryptionSettingsCollectionStatusARMGenerator()
 var encryptionSettingsCollectionStatusARMGenerator gopter.Gen
 
 // EncryptionSettingsCollectionStatusARMGenerator returns a generator of EncryptionSettingsCollection_StatusARM instances for property testing.
@@ -526,7 +526,7 @@ func RunJSONSerializationTestForEncryptionStatusARM(subject Encryption_StatusARM
 }
 
 // Generator of Encryption_StatusARM instances for property testing - lazily instantiated by
-//EncryptionStatusARMGenerator()
+// EncryptionStatusARMGenerator()
 var encryptionStatusARMGenerator gopter.Gen
 
 // EncryptionStatusARMGenerator returns a generator of Encryption_StatusARM instances for property testing.
@@ -587,7 +587,7 @@ func RunJSONSerializationTestForPurchasePlanStatusARM(subject PurchasePlan_Statu
 }
 
 // Generator of PurchasePlan_StatusARM instances for property testing - lazily instantiated by
-//PurchasePlanStatusARMGenerator()
+// PurchasePlanStatusARMGenerator()
 var purchasePlanStatusARMGenerator gopter.Gen
 
 // PurchasePlanStatusARMGenerator returns a generator of PurchasePlan_StatusARM instances for property testing.
@@ -650,7 +650,7 @@ func RunJSONSerializationTestForShareInfoElementStatusARM(subject ShareInfoEleme
 }
 
 // Generator of ShareInfoElement_StatusARM instances for property testing - lazily instantiated by
-//ShareInfoElementStatusARMGenerator()
+// ShareInfoElementStatusARMGenerator()
 var shareInfoElementStatusARMGenerator gopter.Gen
 
 // ShareInfoElementStatusARMGenerator returns a generator of ShareInfoElement_StatusARM instances for property testing.
@@ -710,7 +710,7 @@ func RunJSONSerializationTestForEncryptionSettingsElementStatusARM(subject Encry
 }
 
 // Generator of EncryptionSettingsElement_StatusARM instances for property testing - lazily instantiated by
-//EncryptionSettingsElementStatusARMGenerator()
+// EncryptionSettingsElementStatusARMGenerator()
 var encryptionSettingsElementStatusARMGenerator gopter.Gen
 
 // EncryptionSettingsElementStatusARMGenerator returns a generator of EncryptionSettingsElement_StatusARM instances for property testing.
@@ -771,7 +771,7 @@ func RunJSONSerializationTestForImageDiskReferenceStatusARM(subject ImageDiskRef
 }
 
 // Generator of ImageDiskReference_StatusARM instances for property testing - lazily instantiated by
-//ImageDiskReferenceStatusARMGenerator()
+// ImageDiskReferenceStatusARMGenerator()
 var imageDiskReferenceStatusARMGenerator gopter.Gen
 
 // ImageDiskReferenceStatusARMGenerator returns a generator of ImageDiskReference_StatusARM instances for property testing.
@@ -832,7 +832,7 @@ func RunJSONSerializationTestForKeyVaultAndKeyReferenceStatusARM(subject KeyVaul
 }
 
 // Generator of KeyVaultAndKeyReference_StatusARM instances for property testing - lazily instantiated by
-//KeyVaultAndKeyReferenceStatusARMGenerator()
+// KeyVaultAndKeyReferenceStatusARMGenerator()
 var keyVaultAndKeyReferenceStatusARMGenerator gopter.Gen
 
 // KeyVaultAndKeyReferenceStatusARMGenerator returns a generator of KeyVaultAndKeyReference_StatusARM instances for property testing.
@@ -906,7 +906,7 @@ func RunJSONSerializationTestForKeyVaultAndSecretReferenceStatusARM(subject KeyV
 }
 
 // Generator of KeyVaultAndSecretReference_StatusARM instances for property testing - lazily instantiated by
-//KeyVaultAndSecretReferenceStatusARMGenerator()
+// KeyVaultAndSecretReferenceStatusARMGenerator()
 var keyVaultAndSecretReferenceStatusARMGenerator gopter.Gen
 
 // KeyVaultAndSecretReferenceStatusARMGenerator returns a generator of KeyVaultAndSecretReference_StatusARM instances for property testing.
@@ -980,7 +980,7 @@ func RunJSONSerializationTestForSourceVaultStatusARM(subject SourceVault_StatusA
 }
 
 // Generator of SourceVault_StatusARM instances for property testing - lazily instantiated by
-//SourceVaultStatusARMGenerator()
+// SourceVaultStatusARMGenerator()
 var sourceVaultStatusARMGenerator gopter.Gen
 
 // SourceVaultStatusARMGenerator returns a generator of SourceVault_StatusARM instances for property testing.

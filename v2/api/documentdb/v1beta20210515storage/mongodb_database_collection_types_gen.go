@@ -21,8 +21,8 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Storage version of v1beta20210515.MongodbDatabaseCollection
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_mongodbDatabases_collections
+// Storage version of v1beta20210515.MongodbDatabaseCollection
+// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_mongodbDatabases_collections
 type MongodbDatabaseCollection struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -121,27 +121,27 @@ func (collection *MongodbDatabaseCollection) OriginalGVK() *schema.GroupVersionK
 }
 
 // +kubebuilder:object:root=true
-//Storage version of v1beta20210515.MongodbDatabaseCollection
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_mongodbDatabases_collections
+// Storage version of v1beta20210515.MongodbDatabaseCollection
+// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_mongodbDatabases_collections
 type MongodbDatabaseCollectionList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []MongodbDatabaseCollection `json:"items"`
 }
 
-//Storage version of v1beta20210515.DatabaseAccountsMongodbDatabasesCollections_Spec
+// Storage version of v1beta20210515.DatabaseAccountsMongodbDatabasesCollections_Spec
 type DatabaseAccountsMongodbDatabasesCollections_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName       string               `json:"azureName,omitempty"`
 	Location        *string              `json:"location,omitempty"`
 	Options         *CreateUpdateOptions `json:"options,omitempty"`
 	OriginalVersion string               `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a documentdb.azure.com/MongodbDatabase resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a documentdb.azure.com/MongodbDatabase resource
 	Owner       *genruntime.KnownResourceReference `group:"documentdb.azure.com" json:"owner,omitempty" kind:"MongodbDatabase"`
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	Resource    *MongoDBCollectionResource         `json:"resource,omitempty"`
@@ -168,7 +168,7 @@ func (collections *DatabaseAccountsMongodbDatabasesCollections_Spec) ConvertSpec
 	return destination.ConvertSpecFrom(collections)
 }
 
-//Storage version of v1beta20210515.MongoDBCollectionGetResults_Status
+// Storage version of v1beta20210515.MongoDBCollectionGetResults_Status
 type MongoDBCollectionGetResults_Status struct {
 	Conditions  []conditions.Condition                          `json:"conditions,omitempty"`
 	Id          *string                                         `json:"id,omitempty"`
@@ -201,7 +201,7 @@ func (results *MongoDBCollectionGetResults_Status) ConvertStatusTo(destination g
 	return destination.ConvertStatusFrom(results)
 }
 
-//Storage version of v1beta20210515.MongoDBCollectionGetProperties_Status_Resource
+// Storage version of v1beta20210515.MongoDBCollectionGetProperties_Status_Resource
 type MongoDBCollectionGetProperties_Status_Resource struct {
 	AnalyticalStorageTtl *int                   `json:"analyticalStorageTtl,omitempty"`
 	Etag                 *string                `json:"_etag,omitempty"`
@@ -213,8 +213,8 @@ type MongoDBCollectionGetProperties_Status_Resource struct {
 	Ts                   *float64               `json:"_ts,omitempty"`
 }
 
-//Storage version of v1beta20210515.MongoDBCollectionResource
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/MongoDBCollectionResource
+// Storage version of v1beta20210515.MongoDBCollectionResource
+// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/MongoDBCollectionResource
 type MongoDBCollectionResource struct {
 	AnalyticalStorageTtl *int                   `json:"analyticalStorageTtl,omitempty"`
 	Id                   *string                `json:"id,omitempty"`
@@ -223,43 +223,43 @@ type MongoDBCollectionResource struct {
 	ShardKey             map[string]string      `json:"shardKey,omitempty"`
 }
 
-//Storage version of v1beta20210515.MongoIndex
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/MongoIndex
+// Storage version of v1beta20210515.MongoIndex
+// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/MongoIndex
 type MongoIndex struct {
 	Key         *MongoIndexKeys        `json:"key,omitempty"`
 	Options     *MongoIndexOptions     `json:"options,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1beta20210515.MongoIndex_Status
+// Storage version of v1beta20210515.MongoIndex_Status
 type MongoIndex_Status struct {
 	Key         *MongoIndexKeys_Status    `json:"key,omitempty"`
 	Options     *MongoIndexOptions_Status `json:"options,omitempty"`
 	PropertyBag genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1beta20210515.MongoIndexKeys
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/MongoIndexKeys
+// Storage version of v1beta20210515.MongoIndexKeys
+// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/MongoIndexKeys
 type MongoIndexKeys struct {
 	Keys        []string               `json:"keys,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1beta20210515.MongoIndexKeys_Status
+// Storage version of v1beta20210515.MongoIndexKeys_Status
 type MongoIndexKeys_Status struct {
 	Keys        []string               `json:"keys,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1beta20210515.MongoIndexOptions
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/MongoIndexOptions
+// Storage version of v1beta20210515.MongoIndexOptions
+// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/MongoIndexOptions
 type MongoIndexOptions struct {
 	ExpireAfterSeconds *int                   `json:"expireAfterSeconds,omitempty"`
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Unique             *bool                  `json:"unique,omitempty"`
 }
 
-//Storage version of v1beta20210515.MongoIndexOptions_Status
+// Storage version of v1beta20210515.MongoIndexOptions_Status
 type MongoIndexOptions_Status struct {
 	ExpireAfterSeconds *int                   `json:"expireAfterSeconds,omitempty"`
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`

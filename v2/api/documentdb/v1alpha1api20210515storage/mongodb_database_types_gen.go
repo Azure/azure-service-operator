@@ -20,8 +20,8 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Storage version of v1alpha1api20210515.MongodbDatabase
-//Deprecated version of MongodbDatabase. Use v1beta20210515.MongodbDatabase instead
+// Storage version of v1alpha1api20210515.MongodbDatabase
+// Deprecated version of MongodbDatabase. Use v1beta20210515.MongodbDatabase instead
 type MongodbDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -191,27 +191,27 @@ func (database *MongodbDatabase) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Storage version of v1alpha1api20210515.MongodbDatabase
-//Deprecated version of MongodbDatabase. Use v1beta20210515.MongodbDatabase instead
+// Storage version of v1alpha1api20210515.MongodbDatabase
+// Deprecated version of MongodbDatabase. Use v1beta20210515.MongodbDatabase instead
 type MongodbDatabaseList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []MongodbDatabase `json:"items"`
 }
 
-//Storage version of v1alpha1api20210515.DatabaseAccountsMongodbDatabases_Spec
+// Storage version of v1alpha1api20210515.DatabaseAccountsMongodbDatabases_Spec
 type DatabaseAccountsMongodbDatabases_Spec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
 	AzureName       string               `json:"azureName,omitempty"`
 	Location        *string              `json:"location,omitempty"`
 	Options         *CreateUpdateOptions `json:"options,omitempty"`
 	OriginalVersion string               `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a documentdb.azure.com/DatabaseAccount resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a documentdb.azure.com/DatabaseAccount resource
 	Owner       *genruntime.KnownResourceReference `group:"documentdb.azure.com" json:"owner,omitempty" kind:"DatabaseAccount"`
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	Resource    *MongoDBDatabaseResource           `json:"resource,omitempty"`
@@ -388,8 +388,8 @@ func (databases *DatabaseAccountsMongodbDatabases_Spec) AssignPropertiesToDataba
 	return nil
 }
 
-//Storage version of v1alpha1api20210515.MongoDBDatabaseGetResults_Status
-//Deprecated version of MongoDBDatabaseGetResults_Status. Use v1beta20210515.MongoDBDatabaseGetResults_Status instead
+// Storage version of v1alpha1api20210515.MongoDBDatabaseGetResults_Status
+// Deprecated version of MongoDBDatabaseGetResults_Status. Use v1beta20210515.MongoDBDatabaseGetResults_Status instead
 type MongoDBDatabaseGetResults_Status struct {
 	Conditions  []conditions.Condition                        `json:"conditions,omitempty"`
 	Id          *string                                       `json:"id,omitempty"`
@@ -568,8 +568,8 @@ func (results *MongoDBDatabaseGetResults_Status) AssignPropertiesToMongoDBDataba
 	return nil
 }
 
-//Storage version of v1alpha1api20210515.CreateUpdateOptions
-//Deprecated version of CreateUpdateOptions. Use v1beta20210515.CreateUpdateOptions instead
+// Storage version of v1alpha1api20210515.CreateUpdateOptions
+// Deprecated version of CreateUpdateOptions. Use v1beta20210515.CreateUpdateOptions instead
 type CreateUpdateOptions struct {
 	AutoscaleSettings *AutoscaleSettings     `json:"autoscaleSettings,omitempty"`
 	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -638,8 +638,8 @@ func (options *CreateUpdateOptions) AssignPropertiesToCreateUpdateOptions(destin
 	return nil
 }
 
-//Storage version of v1alpha1api20210515.MongoDBDatabaseGetProperties_Status_Resource
-//Deprecated version of MongoDBDatabaseGetProperties_Status_Resource. Use v1beta20210515.MongoDBDatabaseGetProperties_Status_Resource instead
+// Storage version of v1alpha1api20210515.MongoDBDatabaseGetProperties_Status_Resource
+// Deprecated version of MongoDBDatabaseGetProperties_Status_Resource. Use v1beta20210515.MongoDBDatabaseGetProperties_Status_Resource instead
 type MongoDBDatabaseGetProperties_Status_Resource struct {
 	Etag        *string                `json:"_etag,omitempty"`
 	Id          *string                `json:"id,omitempty"`
@@ -714,8 +714,8 @@ func (resource *MongoDBDatabaseGetProperties_Status_Resource) AssignPropertiesTo
 	return nil
 }
 
-//Storage version of v1alpha1api20210515.MongoDBDatabaseResource
-//Deprecated version of MongoDBDatabaseResource. Use v1beta20210515.MongoDBDatabaseResource instead
+// Storage version of v1alpha1api20210515.MongoDBDatabaseResource
+// Deprecated version of MongoDBDatabaseResource. Use v1beta20210515.MongoDBDatabaseResource instead
 type MongoDBDatabaseResource struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -759,8 +759,8 @@ func (resource *MongoDBDatabaseResource) AssignPropertiesToMongoDBDatabaseResour
 	return nil
 }
 
-//Storage version of v1alpha1api20210515.OptionsResource_Status
-//Deprecated version of OptionsResource_Status. Use v1beta20210515.OptionsResource_Status instead
+// Storage version of v1alpha1api20210515.OptionsResource_Status
+// Deprecated version of OptionsResource_Status. Use v1beta20210515.OptionsResource_Status instead
 type OptionsResource_Status struct {
 	AutoscaleSettings *AutoscaleSettings_Status `json:"autoscaleSettings,omitempty"`
 	PropertyBag       genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
@@ -829,8 +829,8 @@ func (resource *OptionsResource_Status) AssignPropertiesToOptionsResourceStatus(
 	return nil
 }
 
-//Storage version of v1alpha1api20210515.AutoscaleSettings
-//Deprecated version of AutoscaleSettings. Use v1beta20210515.AutoscaleSettings instead
+// Storage version of v1alpha1api20210515.AutoscaleSettings
+// Deprecated version of AutoscaleSettings. Use v1beta20210515.AutoscaleSettings instead
 type AutoscaleSettings struct {
 	MaxThroughput *int                   `json:"maxThroughput,omitempty"`
 	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -874,8 +874,8 @@ func (settings *AutoscaleSettings) AssignPropertiesToAutoscaleSettings(destinati
 	return nil
 }
 
-//Storage version of v1alpha1api20210515.AutoscaleSettings_Status
-//Deprecated version of AutoscaleSettings_Status. Use v1beta20210515.AutoscaleSettings_Status instead
+// Storage version of v1alpha1api20210515.AutoscaleSettings_Status
+// Deprecated version of AutoscaleSettings_Status. Use v1beta20210515.AutoscaleSettings_Status instead
 type AutoscaleSettings_Status struct {
 	MaxThroughput *int                   `json:"maxThroughput,omitempty"`
 	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`

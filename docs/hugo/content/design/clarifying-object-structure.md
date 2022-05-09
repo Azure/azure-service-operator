@@ -1,5 +1,6 @@
-# Clarifying object structure
-
+---
+title: Clarifying object structure
+---
 Today we have resources that look like:
 ```yaml
 apiVersion: microsoft.storage.infra.azure.com/v1alpha1api20190401

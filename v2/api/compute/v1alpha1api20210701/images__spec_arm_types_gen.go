@@ -5,7 +5,7 @@ package v1alpha1api20210701
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-//Deprecated version of Images_Spec. Use v1beta20210701.Images_Spec instead
+// Deprecated version of Images_Spec. Use v1beta20210701.Images_Spec instead
 type Images_SpecARM struct {
 	ExtendedLocation *ExtendedLocationARM `json:"extendedLocation,omitempty"`
 	Location         *string              `json:"location,omitempty"`
@@ -31,38 +31,38 @@ func (images Images_SpecARM) GetType() string {
 	return "Microsoft.Compute/images"
 }
 
-//Deprecated version of ExtendedLocation. Use v1beta20210701.ExtendedLocation instead
+// Deprecated version of ExtendedLocation. Use v1beta20210701.ExtendedLocation instead
 type ExtendedLocationARM struct {
 	Name *string               `json:"name,omitempty"`
 	Type *ExtendedLocationType `json:"type,omitempty"`
 }
 
-//Deprecated version of ImageProperties. Use v1beta20210701.ImageProperties instead
+// Deprecated version of ImageProperties. Use v1beta20210701.ImageProperties instead
 type ImagePropertiesARM struct {
 	HyperVGeneration     *ImagePropertiesHyperVGeneration `json:"hyperVGeneration,omitempty"`
 	SourceVirtualMachine *SubResourceARM                  `json:"sourceVirtualMachine,omitempty"`
 	StorageProfile       *ImageStorageProfileARM          `json:"storageProfile,omitempty"`
 }
 
-//Deprecated version of ExtendedLocationType. Use v1beta20210701.ExtendedLocationType instead
+// Deprecated version of ExtendedLocationType. Use v1beta20210701.ExtendedLocationType instead
 // +kubebuilder:validation:Enum={"EdgeZone"}
 type ExtendedLocationType string
 
 const ExtendedLocationTypeEdgeZone = ExtendedLocationType("EdgeZone")
 
-//Deprecated version of ImageStorageProfile. Use v1beta20210701.ImageStorageProfile instead
+// Deprecated version of ImageStorageProfile. Use v1beta20210701.ImageStorageProfile instead
 type ImageStorageProfileARM struct {
 	DataDisks     []ImageDataDiskARM `json:"dataDisks,omitempty"`
 	OsDisk        *ImageOSDiskARM    `json:"osDisk,omitempty"`
 	ZoneResilient *bool              `json:"zoneResilient,omitempty"`
 }
 
-//Deprecated version of SubResource. Use v1beta20210701.SubResource instead
+// Deprecated version of SubResource. Use v1beta20210701.SubResource instead
 type SubResourceARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
-//Deprecated version of ImageDataDisk. Use v1beta20210701.ImageDataDisk instead
+// Deprecated version of ImageDataDisk. Use v1beta20210701.ImageDataDisk instead
 type ImageDataDiskARM struct {
 	BlobUri            *string                          `json:"blobUri,omitempty"`
 	Caching            *ImageDataDiskCaching            `json:"caching,omitempty"`
@@ -74,7 +74,7 @@ type ImageDataDiskARM struct {
 	StorageAccountType *ImageDataDiskStorageAccountType `json:"storageAccountType,omitempty"`
 }
 
-//Deprecated version of ImageOSDisk. Use v1beta20210701.ImageOSDisk instead
+// Deprecated version of ImageOSDisk. Use v1beta20210701.ImageOSDisk instead
 type ImageOSDiskARM struct {
 	BlobUri            *string                         `json:"blobUri,omitempty"`
 	Caching            *ImageOSDiskCaching             `json:"caching,omitempty"`
@@ -87,7 +87,7 @@ type ImageOSDiskARM struct {
 	StorageAccountType *ImageOSDiskStorageAccountType  `json:"storageAccountType,omitempty"`
 }
 
-//Deprecated version of DiskEncryptionSetParameters. Use v1beta20210701.DiskEncryptionSetParameters instead
+// Deprecated version of DiskEncryptionSetParameters. Use v1beta20210701.DiskEncryptionSetParameters instead
 type DiskEncryptionSetParametersARM struct {
 	Id *string `json:"id,omitempty"`
 }
