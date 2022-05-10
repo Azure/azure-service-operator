@@ -115,8 +115,7 @@ func (omc *ObjectModelConfiguration) LookupExportAs(name astmodel.TypeName) (str
 	versionVisitor := NewSingleVersionConfigurationVisitor(
 		name.PackageReference,
 		func(configuration *VersionConfiguration) error {
-			err := configuration.addTypeAlias(name.Name(), exportAs)
-			return err
+			return configuration.addTypeAlias(name.Name(), exportAs)
 		})
 	err = versionVisitor.Visit(omc)
 	if err != nil {
