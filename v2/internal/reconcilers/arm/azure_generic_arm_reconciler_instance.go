@@ -99,7 +99,15 @@ func (r *azureDeploymentReconcilerInstance) Delete(ctx context.Context) (ctrl.Re
 	return result, nil
 }
 
-func (r *azureDeploymentReconcilerInstance) MakeReadyConditionImpactingErrorFromError(cloudError *genericarmclient.CloudError) error {
+func (r *azureDeploymentReconcilerInstance) MakeReadyConditionImpactingErrorFromError(azureErr error) error {
+	var cloudError *genericarmclient.CloudError
+	isCloudErr := errors.As(azureErr, &cloudError)
+	if !isCloudErr {
+		// This shouldn't happen, as all errors from ARM should be in one of the shapes that CloudError supports. In case
+		// we've somehow gotten one that isn't formatted correctly, create a sensible default error
+		return conditions.NewReadyConditionImpactingError(azureErr, conditions.ConditionSeverityWarning, core.UnknownErrorCode)
+	}
+
 	classifier := extensions.CreateErrorClassifier(r.Extension, ClassifyCloudError, r.Obj.GetAPIVersion(), r.Log)
 	details, err := classifier(cloudError)
 	if err != nil {
@@ -330,18 +338,12 @@ func (r *azureDeploymentReconcilerInstance) BeginCreateOrUpdateResource(ctx cont
 }
 
 func (r *azureDeploymentReconcilerInstance) handlePollerFailed(err error) error {
-	var cloudError *genericarmclient.CloudError
-	isCloudErr := errors.As(err, &cloudError)
-
 	r.Log.V(Status).Info(
 		"Resource creation failure",
 		"resourceID", genruntime.GetResourceIDOrDefault(r.Obj),
 		"error", err.Error())
 
-	if isCloudErr {
-		err = r.MakeReadyConditionImpactingErrorFromError(cloudError)
-	}
-
+	err = r.MakeReadyConditionImpactingErrorFromError(err)
 	ClearPollerResumeToken(r.Obj)
 
 	return err
