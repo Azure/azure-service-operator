@@ -145,7 +145,15 @@ func Test_ConversionGraph_WhenRenameConfigured_FindsRenamedType(t *testing.T) {
 	defs.AddAll(person2020s, party2021s)
 
 	// Create configuration for our rename
-	omc := config.CreateTestObjectModelConfigurationForRename(person2020.Name(), party2021.Name().Name())
+	omc := config.NewObjectModelConfiguration()
+	g.Expect(
+		omc.ModifyType(
+			person2020.Name(),
+			func(tc *config.TypeConfiguration) error {
+				tc.WriteNameInNextVersion(party2021.Name().Name())
+				return nil
+			})).
+		To(Succeed())
 
 	// Create a builder use it to configure a graph to test
 	builder := NewConversionGraphBuilder(omc, "v")
@@ -178,7 +186,15 @@ func Test_ConversionGraph_WhenRenameSpecifiesMissingType_ReturnsError(t *testing
 	defs.AddAll(person2020s, party2021s)
 
 	// Create mis-configuration for our rename specifying a type that doesn't exist
-	omc := config.CreateTestObjectModelConfigurationForRename(person2020.Name(), "Phantom")
+	omc := config.NewObjectModelConfiguration()
+	g.Expect(
+		omc.ModifyType(
+			person2020.Name(),
+			func(tc *config.TypeConfiguration) error {
+				tc.WriteNameInNextVersion("Phantom")
+				return nil
+			})).
+		To(Succeed())
 
 	// Create a builder use it to configure a graph to test
 	builder := NewConversionGraphBuilder(omc, "v")
@@ -214,7 +230,15 @@ func Test_ConversionGraph_WhenRenameSpecifiesConflictingType_ReturnsError(t *tes
 	defs.AddAll(person2020s, person2021s, party2021s)
 
 	// Create mis-configuration for our rename that conflicts with the second type
-	omc := config.CreateTestObjectModelConfigurationForRename(person2020.Name(), party2021.Name().Name())
+	omc := config.NewObjectModelConfiguration()
+	g.Expect(
+		omc.ModifyType(
+			person2020.Name(),
+			func(tc *config.TypeConfiguration) error {
+				tc.WriteNameInNextVersion(party2021.Name().Name())
+				return nil
+			})).
+		To(Succeed())
 
 	// Create a builder use it to configure a graph to test
 	builder := NewConversionGraphBuilder(omc, "v")

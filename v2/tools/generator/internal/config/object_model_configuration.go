@@ -459,34 +459,3 @@ func (omc *ObjectModelConfiguration) ModifyProperty(
 			return action(prop)
 		})
 }
-
-// CreateTestObjectModelConfiguration builds up a new configuration for a particular type, returning both the top level
-// configuration and the type configuration.
-// While intended only for test use, this isn't in a _test.go file as we want to use it from tests in multiple packages.
-func CreateTestObjectModelConfiguration(name astmodel.TypeName) (*ObjectModelConfiguration, *TypeConfiguration) {
-	group, version, ok := name.PackageReference.GroupVersion()
-	if !ok {
-		panic(fmt.Sprintf("unexpected external package reference for resource name %s", name))
-	}
-
-	typeConfig := NewTypeConfiguration(name.Name())
-
-	versionConfig := NewVersionConfiguration(version)
-	versionConfig.add(typeConfig)
-
-	groupConfig := NewGroupConfiguration(group)
-	groupConfig.add(versionConfig)
-
-	objectModelConfig := NewObjectModelConfiguration()
-	objectModelConfig.add(groupConfig)
-
-	return objectModelConfig, typeConfig
-}
-
-// CreateTestObjectModelConfigurationForRename builds up a new configuring for testing rename of a particular type.
-// While intended only for test use, this isn't in a _test.go file as we want to use it from tests in multiple packages.
-func CreateTestObjectModelConfigurationForRename(name astmodel.TypeName, newName string) *ObjectModelConfiguration {
-	omc, tc := CreateTestObjectModelConfiguration(name)
-	tc.nameInNextVersion.write(newName)
-	return omc
-}

@@ -29,8 +29,13 @@ func TestAddOperatorSpec_AddsSpecWithConfiguredSecrets(t *testing.T) {
 	defs.AddAll(resource, status, spec)
 
 	idFactory := astmodel.NewIdentifierFactory()
-	omc, tc := config.CreateTestObjectModelConfiguration(resource.Name())
-	tc.SetAzureGeneratedSecrets([]string{"key1"})
+	omc := config.NewObjectModelConfiguration()
+	omc.ModifyType(
+		resource.Name(),
+		func(tc *config.TypeConfiguration) error {
+			tc.SetAzureGeneratedSecrets([]string{"key1"})
+			return nil
+		})
 
 	configuration := config.NewConfiguration()
 	configuration.ObjectModelConfiguration = omc

@@ -67,6 +67,11 @@ func (tc *TypeConfiguration) VerifyNameInNextVersionConsumed() error {
 	return nil
 }
 
+// WriteNameInNextVersion sets the $nameInNextVersion for testing purposes
+func (tc *TypeConfiguration) WriteNameInNextVersion(name string) {
+	tc.nameInNextVersion.write(name)
+}
+
 // LookupExport checks to see whether this type is configured for export, returning either that value or a
 // NotConfiguredError.
 func (tc *TypeConfiguration) LookupExport() (bool, error) {

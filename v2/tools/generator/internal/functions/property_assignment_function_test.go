@@ -354,13 +354,21 @@ func TestGolden_PropertyAssignmentFunction_WhenTypeRenamed(t *testing.T) {
 		"Event",
 		whereVenueProperty)
 
-	modelConfig := config.CreateTestObjectModelConfigurationForRename(location.Name(), venue.Name().Name())
+	omc := config.NewObjectModelConfiguration()
+	g.Expect(
+		omc.ModifyType(
+			location.Name(),
+			func(tc *config.TypeConfiguration) error {
+				tc.WriteNameInNextVersion(venue.Name().Name())
+				return nil
+			})).
+		To(Succeed())
 
 	defs := make(astmodel.TypeDefinitionSet)
 	defs.AddAll(location, venue)
 
 	conversionContext := conversions.NewPropertyConversionContext(defs, idFactory).
-		WithConfiguration(modelConfig)
+		WithConfiguration(omc)
 
 	assignFrom, err := NewPropertyAssignmentFunction(event2020, event2021, conversionContext, conversions.ConvertFrom)
 	g.Expect(err).To(Succeed())
