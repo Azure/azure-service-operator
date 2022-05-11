@@ -53,7 +53,6 @@ tasks:
     - generator:ci
     - controller:ci
     - crossplane:ci
-    - produce-markdown-summary
     cmds:
     - task: verify-no-changes
 
@@ -107,6 +106,11 @@ tasks:
     desc: Run {{.GENERATOR_APP}} unit tests and output coverage.
     dir: '{{.GENERATOR_ROOT}}'
     cmds:
+    - defer: # want to run even on failure
+        task: produce-markdown-summary
+        vars:
+          INPUT_FILE: '{{.GENERATOR_ROOT}}/generator-unit-tests.json'
+          OUTPUT_FILE: '{{.GENERATOR_ROOT}}/generator-unit-tests.md'
     - go test ./... -tags=noexit -race -covermode atomic -coverprofile=generator-coverage.out -json -coverpkg=./... -run '{{default ".*" .TEST_FILTER}}' > generator-unit-tests.json
 
   generator:update-golden-tests:
@@ -207,6 +211,11 @@ tasks:
     dir: "{{.CONTROLLER_ROOT}}"
     deps: [controller:generate-crds]
     cmds:
+    - defer: # want to run even on failure
+        task: produce-markdown-summary
+        vars:
+          INPUT_FILE: '{{.CONTROLLER_ROOT}}/controller-unit-tests.json'
+          OUTPUT_FILE: '{{.CONTROLLER_ROOT}}/controller-unit-tests.md'
     # -race fails at the moment in gopter - possibly due to our shared generator variable?
     - go test -short -tags=noexit -timeout 10m -covermode atomic -coverprofile=controller-coverage.out -json -coverpkg="./..." -run '{{default ".*" .TEST_FILTER}}' ./... > controller-unit-tests.json
 
@@ -280,6 +289,11 @@ tasks:
     dir: "{{.CONTROLLER_ROOT}}"
     deps: [controller:run-kustomize-for-envtest]
     cmds:
+    - defer: # want to run even on failure
+        task: produce-markdown-summary
+        vars:
+          INPUT_FILE: '{{.CONTROLLER_ROOT}}/controller-integration-tests.json'
+          OUTPUT_FILE: '{{.CONTROLLER_ROOT}}/controller-integration-tests.md'
     # -race fails at the moment in controller-runtime
     - go test -covermode atomic -coverprofile=coverage-integration-envtest.out -coverpkg="./..." -json -timeout 15m -run '{{default ".*" .TEST_FILTER}}' ./internal/controllers > controller-integration-tests.json
 
@@ -727,8 +741,5 @@ tasks:
 
   produce-markdown-summary:
     desc: Builds a test output summary for Github
-    deps:
-    - generator:ci
-    - controller:ci
     cmds:
-    - cmd: go run v2/tools/mangle-test-json/main.go "{{.GENERATOR_ROOT}}/generator-unit-tests.json" "{{.CONTROLLER_ROOT}}/controller-unit-tests.json" "{{.CONTROLLER_ROOT}}/controller-integration-tests.json" > test-summary.md
+    - cmd: go run v2/tools/mangle-test-json/main.go "{{.INPUT_FILE}}" > "{{.OUTPUT_FILE}}"
