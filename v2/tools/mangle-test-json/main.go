@@ -114,9 +114,8 @@ func loadJSON(testOutputFile string) map[string][]TestRun {
 			runTimes[key(d)] += d.Time.Sub(startTimes[key(d)])
 			startTimes[key(d)] = time.Time{}
 		case "cont":
-			if startTimes[key(d)] != (time.Time{}) {
-				panic("cont while still running")
-			}
+			// cont while still in running state happens sometimes (???)
+			// so don't check
 			startTimes[key(d)] = d.Time
 		case "output":
 			outputs[key(d)] = append(outputs[key(d)], d.Output)
