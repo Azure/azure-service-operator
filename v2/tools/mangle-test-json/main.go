@@ -147,10 +147,7 @@ func printSummary(packages []string, byPackage map[string][]TestRun) {
 	for _, pkg := range packages {
 		tests := byPackage[pkg]
 		if len(tests) == 1 {
-			// assertion: tests[0].Action == "skip"
-			if tests[0].Action != "skip" {
-				panic(fmt.Sprintf("expected only 'skip' for empty package, got: %s", tests[0].Action))
-			}
+			// package-only
 			continue
 		}
 
@@ -167,10 +164,7 @@ func printDetails(packages []string, byPackage map[string][]TestRun) {
 	for _, pkg := range packages {
 		tests := byPackage[pkg]
 		if len(tests) == 1 {
-			// assertion: tests[0].Action == "skip"
-			if tests[0].Action != "skip" {
-				panic(fmt.Sprintf("expected only 'skip' for empty package, got: %s", tests[0].Action))
-			}
+			// skip package-only output
 			continue
 		}
 
