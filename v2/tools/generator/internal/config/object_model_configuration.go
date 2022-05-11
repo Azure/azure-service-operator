@@ -261,8 +261,8 @@ func (omc *ObjectModelConfiguration) VerifyIsResourceLifecycleOwnedByParentConsu
 	return visitor.Visit(omc)
 }
 
-// Add includes the provided GroupConfiguration in this model configuration
-func (omc *ObjectModelConfiguration) add(group *GroupConfiguration) {
+// addGroup includes the provided GroupConfiguration in this model configuration
+func (omc *ObjectModelConfiguration) addGroup(name string, group *GroupConfiguration) {
 	if omc.groups == nil {
 		// Initialize the map just-in-time
 		omc.groups = make(map[string]*GroupConfiguration)
@@ -270,7 +270,7 @@ func (omc *ObjectModelConfiguration) add(group *GroupConfiguration) {
 
 	// store the group name using lowercase,
 	// so we can do case-insensitive lookups later
-	omc.groups[strings.ToLower(group.name)] = group
+	omc.groups[strings.ToLower(name)] = group
 }
 
 // visitGroup invokes the provided visitor on the specified group if present.
@@ -346,7 +346,7 @@ func (omc *ObjectModelConfiguration) UnmarshalYAML(value *yaml.Node) error {
 				return errors.Wrapf(err, "decoding yaml for %q", lastId)
 			}
 
-			omc.add(g)
+			omc.addGroup(lastId, g)
 			continue
 		}
 
@@ -376,7 +376,7 @@ func (omc *ObjectModelConfiguration) configuredGroups() []string {
 func (omc *ObjectModelConfiguration) ModifyGroup(
 	ref astmodel.PackageReference,
 	action func(configuration *GroupConfiguration) error) error {
-	group, _, ok := ref.GroupVersion()
+	groupName, _, ok := ref.GroupVersion()
 	if !ok {
 		return errors.Errorf(
 			"external package reference %s not supported",
@@ -385,12 +385,12 @@ func (omc *ObjectModelConfiguration) ModifyGroup(
 
 	grp, err := omc.findGroup(ref)
 	if err != nil && !IsNotConfiguredError(err) {
-		return errors.Wrapf(err, "configuring group %s", group)
+		return errors.Wrapf(err, "configuring groupName %s", groupName)
 	}
 
 	if grp == nil {
-		grp = NewGroupConfiguration(group)
-		omc.add(grp)
+		grp = NewGroupConfiguration(groupName)
+		omc.addGroup(groupName, grp)
 	}
 
 	return action(grp)
@@ -419,7 +419,7 @@ func (omc *ObjectModelConfiguration) ModifyVersion(
 
 			if ver == nil {
 				ver = NewVersionConfiguration(version)
-				configuration.add(ver)
+				configuration.addVersion(version, ver)
 			}
 
 			return action(ver)
@@ -435,14 +435,15 @@ func (omc *ObjectModelConfiguration) ModifyType(
 	return omc.ModifyVersion(
 		name.PackageReference,
 		func(versionConfiguration *VersionConfiguration) error {
-			typ, err := versionConfiguration.findType(name.Name())
+			typeName := name.Name()
+			typ, err := versionConfiguration.findType(typeName)
 			if err != nil && !IsNotConfiguredError(err) {
-				return errors.Wrapf(err, "configuring type %s", name.Name())
+				return errors.Wrapf(err, "configuring type %s", typeName)
 			}
 
 			if typ == nil {
-				typ = NewTypeConfiguration(name.Name())
-				versionConfiguration.add(typ)
+				typ = NewTypeConfiguration(typeName)
+				versionConfiguration.addType(typeName, typ)
 			}
 
 			return action(typ)
@@ -465,8 +466,9 @@ func (omc *ObjectModelConfiguration) ModifyProperty(
 			}
 
 			if prop == nil {
-				prop = NewPropertyConfiguration(property.String())
-				typeConfiguration.add(prop)
+				name := property.String()
+				prop = NewPropertyConfiguration(name)
+				typeConfiguration.addProperty(name, prop)
 			}
 
 			return action(prop)

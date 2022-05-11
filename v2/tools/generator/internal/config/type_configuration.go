@@ -144,9 +144,9 @@ func (tc *TypeConfiguration) VerifyAzureGeneratedSecretsConsumed() error {
 }
 
 // Add includes configuration for the specified property as a part of this type configuration
-func (tc *TypeConfiguration) add(property *PropertyConfiguration) {
+func (tc *TypeConfiguration) addProperty(name string, property *PropertyConfiguration) {
 	// Indexed by lowercase name of the property to allow case-insensitive lookups
-	tc.properties[strings.ToLower(property.name)] = property
+	tc.properties[strings.ToLower(name)] = property
 }
 
 // visitProperty invokes the provided visitor on the specified property if present.
@@ -222,7 +222,7 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 				return errors.Wrapf(err, "decoding yaml for %q", lastId)
 			}
 
-			tc.add(p)
+			tc.addProperty(lastId, p)
 			continue
 		}
 

@@ -46,13 +46,13 @@ func NewGroupConfiguration(name string) *GroupConfiguration {
 // In addition to indexing by the name of the version, we also index by the local-package-name and storage-package-name
 // of the version, so we can do lookups via TypeName. All indexing is lower-case to allow case-insensitive lookups (this
 // makes our configuration more forgiving).
-func (gc *GroupConfiguration) add(version *VersionConfiguration) {
+func (gc *GroupConfiguration) addVersion(name string, version *VersionConfiguration) {
 	// Convert version.name into a package version
 	// We do this by constructing a local package reference because this avoids replicating the logic here and risking
 	// inconsistency if things are changed in the future.
-	local := astmodel.MakeLocalPackageReference("prefix", "group", astmodel.GeneratorVersion, version.name)
+	local := astmodel.MakeLocalPackageReference("prefix", "group", astmodel.GeneratorVersion, name)
 
-	gc.versions[strings.ToLower(version.name)] = version
+	gc.versions[strings.ToLower(name)] = version
 	gc.versions[strings.ToLower(local.ApiVersion())] = version
 }
 
@@ -156,7 +156,7 @@ func (gc *GroupConfiguration) UnmarshalYAML(value *yaml.Node) error {
 				return errors.Wrapf(err, "decoding yaml for %q", lastId)
 			}
 
-			gc.add(v)
+			gc.addVersion(lastId, v)
 			continue
 		}
 

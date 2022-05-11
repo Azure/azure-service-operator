@@ -38,10 +38,10 @@ func NewVersionConfiguration(name string) *VersionConfiguration {
 	}
 }
 
-// Add includes configuration for the specified type as a part of this version configuration
-func (vc *VersionConfiguration) add(tc *TypeConfiguration) {
+// addType includes configuration for the specified type as a part of this version configuration
+func (vc *VersionConfiguration) addType(name string, tc *TypeConfiguration) {
 	// Indexed by lowercase name of the type to allow case-insensitive lookups
-	vc.types[strings.ToLower(tc.name)] = tc
+	vc.types[strings.ToLower(name)] = tc
 }
 
 // visitType invokes the provided visitor on the specified type if present.
@@ -116,8 +116,7 @@ func (vc *VersionConfiguration) addTypeAlias(name string, alias string) error {
 	}
 
 	// Add the alias as another route to the existing configuration
-	a := strings.ToLower(alias)
-	vc.types[a] = tc
+	vc.addType(alias, tc)
 	return nil
 }
 
@@ -146,7 +145,7 @@ func (vc *VersionConfiguration) UnmarshalYAML(value *yaml.Node) error {
 				return errors.Wrapf(err, "decoding yaml for %q", lastId)
 			}
 
-			vc.add(tc)
+			vc.addType(lastId, tc)
 			continue
 		}
 
