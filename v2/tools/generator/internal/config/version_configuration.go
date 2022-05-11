@@ -98,16 +98,21 @@ func (vc *VersionConfiguration) addTypeAlias(name string, alias string) error {
 		return errors.Wrapf(err, "unable to create type alias %s", alias)
 	}
 
-	// Make sure we don't already have configuration for 'alias'
+	// Make sure we don't already have a conflicting configuration for 'alias'
 	other, err := vc.findType(alias)
-	if other != nil && other != tc {
-		return errors.Errorf(
-			"unable to create type alias %s for %s because that would conflict with existing configuration",
-			alias,
-			name)
-	}
-	if err != nil && !IsNotConfiguredError(err) {
-		return errors.Wrapf(err, "unable to create type alias %s", alias)
+	if err != nil {
+		// A NotConfiguredError is good, anything else we return
+		if !IsNotConfiguredError(err) {
+			return errors.Wrapf(err, "unable to create type alias %s", alias)
+		}
+	} else {
+		// if it's already aliased, it's ok if it's the same config, otherwise return an error
+		if other != tc {
+			return errors.Errorf(
+				"unable to create type alias %s for %s because that would conflict with existing configuration",
+				alias,
+				name)
+		}
 	}
 
 	// Add the alias as another route to the existing configuration
