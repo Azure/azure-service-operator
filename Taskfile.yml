@@ -53,6 +53,7 @@ tasks:
     - generator:ci
     - controller:ci
     - crossplane:ci
+    - produce-markdown-summary
     cmds:
     - task: verify-no-changes
 
@@ -106,7 +107,7 @@ tasks:
     desc: Run {{.GENERATOR_APP}} unit tests and output coverage.
     dir: '{{.GENERATOR_ROOT}}'
     cmds:
-    - go test ./... -tags=noexit -race -covermode atomic -coverprofile=generator-coverage.out -coverpkg=./... -run '{{default ".*" .TEST_FILTER}}'
+    - go test ./... -tags=noexit -race -covermode atomic -coverprofile=generator-coverage.out -json -coverpkg=./... -run '{{default ".*" .TEST_FILTER}}' > generator-unit-tests.json
 
   generator:update-golden-tests:
     desc: Update {{.GENERATOR_APP}} golden test outputs.
@@ -207,7 +208,7 @@ tasks:
     deps: [controller:generate-crds]
     cmds:
     # -race fails at the moment in gopter - possibly due to our shared generator variable?
-    - go test -short -tags=noexit -timeout 10m -covermode atomic -coverprofile=controller-coverage.out -coverpkg="./..." -run '{{default ".*" .TEST_FILTER}}' ./...
+    - go test -short -tags=noexit -timeout 10m -covermode atomic -coverprofile=controller-coverage.out -json -coverpkg="./..." -run '{{default ".*" .TEST_FILTER}}' ./... > controller-unit-tests.json
 
   controller:build:
     desc: Generate the {{.CONTROLLER_APP}} binary.
@@ -280,7 +281,7 @@ tasks:
     deps: [controller:run-kustomize-for-envtest]
     cmds:
     # -race fails at the moment in controller-runtime
-    - go test -covermode atomic -coverprofile=coverage-integration-envtest.out -coverpkg="./..." -timeout 15m -run '{{default ".*" .TEST_FILTER}}' ./internal/controllers
+    - go test -covermode atomic -coverprofile=coverage-integration-envtest.out -coverpkg="./..." -json -timeout 15m -run '{{default ".*" .TEST_FILTER}}' ./internal/controllers > controller-integration-tests.json
 
   controller:test-integration-envtest-live:
     desc: Run integration tests with envtest against live data and output coverage.
@@ -723,3 +724,8 @@ tasks:
     vars:
       CHANGED:
         sh: git status --porcelain
+
+  produce-markdown-summary:
+    desc: Builds a test output summary for Github
+    cmds:
+    - cmd: go run v2/tools/mangle-test-json/main.go "{{.GENERATOR_ROOT}}/generator-unit-tests.json" "{{.CONTROLLER_ROOT}}/controller-unit-tests.json" "{{.CONTROLLER_ROOT}}/controller-integration-tests.json" > test-summary.md
