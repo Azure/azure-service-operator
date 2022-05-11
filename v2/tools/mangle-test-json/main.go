@@ -101,25 +101,26 @@ func loadJSON(testOutputFile string) map[string][]TestRun {
 	// package → list of tests
 	byPackage := make(map[string][]TestRun, len(data))
 	for _, d := range data {
-		if d.Action == "run" {
+		switch d.Action {
+		case "run":
 			if startTimes[key(d)] != (time.Time{}) {
 				panic("run while already running")
 			}
 			startTimes[key(d)] = d.Time
-		} else if d.Action == "pause" {
+		case "pause":
 			if startTimes[key(d)] == (time.Time{}) {
 				panic("pause while not running")
 			}
 			runTimes[key(d)] += d.Time.Sub(startTimes[key(d)])
 			startTimes[key(d)] = time.Time{}
-		} else if d.Action == "cont" {
+		case "cont":
 			if startTimes[key(d)] != (time.Time{}) {
 				panic("cont while still running")
 			}
 			startTimes[key(d)] = d.Time
-		} else if d.Action == "output" {
+		case "output":
 			outputs[key(d)] = append(outputs[key(d)], d.Output)
-		} else if d.Action == "pass" || d.Action == "fail" || d.Action == "skip" {
+		case "pass", "fail", "skip":
 			if d.Test != "" && startTimes[key(d)] == (time.Time{}) {
 				panic("finished when not running")
 			}
