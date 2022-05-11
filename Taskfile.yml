@@ -16,6 +16,9 @@ vars:
   TEST_LIVE_RESOURCE_PREFIX: asolivetest
   SCRIPTS_ROOT: ./scripts
 
+  HEADER_FILE: 
+    sh: 'realpath v2/boilerplate.go.txt'
+
   VERSION: 
     # Version tags for the v2 controller must start with "v2", e.g. "v2.0.0-alpha.0".
     sh: "{{.SCRIPTS_ROOT}}/build-version.py v2"
@@ -402,8 +405,6 @@ tasks:
     - cd v2/api && controller-gen {{.CRD_OPTIONS}} {{.WEBHOOK_OPTIONS}} {{.RBAC_OPTIONS}} paths=./...
     - cd v2/api && gofmt -l -s -w . # format all generated code
     vars:
-      HEADER_FILE:
-        sh: 'realpath v2/boilerplate.go.txt #controller:generate-crds'
       OBJECT_OPTIONS: object:headerFile={{.HEADER_FILE}} 
 
       OUTPUT:
@@ -422,8 +423,6 @@ tasks:
       - cd pkg/genruntime && controller-gen {{.OBJECT_OPTIONS}} paths=./...
       - cd pkg/genruntime && gofmt -l -s -w .  # We do this because controller-gen can generate these files in a way that isn't gofmt'ed which can break things down the line
     vars:
-      HEADER_FILE:
-        sh: 'realpath boilerplate.go.txt #controller:generate-genruntime-deepcopy'
       OBJECT_OPTIONS: object:headerFile={{.HEADER_FILE}}
 
   controller:generate-kustomize:
@@ -663,8 +662,6 @@ tasks:
       - cd apis && controller-gen {{.CRD_OPTIONS}} {{.WEBHOOK_OPTIONS}} {{.RBAC_OPTIONS}} paths=./...
       - cd apis && gofmt -l -s -w . # format all generated code
     vars:
-      HEADER_FILE: 
-        sh: 'realpath ../../v2/boilerplate.go.txt #crossplane:generate-crds'
       OBJECT_OPTIONS: object:headerFile={{.HEADER_FILE}}
 
       OUTPUT:
