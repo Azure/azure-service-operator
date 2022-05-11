@@ -727,5 +727,8 @@ tasks:
 
   produce-markdown-summary:
     desc: Builds a test output summary for Github
+    deps:
+    - generator:ci
+    - controller:ci
     cmds:
     - cmd: go run v2/tools/mangle-test-json/main.go "{{.GENERATOR_ROOT}}/generator-unit-tests.json" "{{.CONTROLLER_ROOT}}/controller-unit-tests.json" "{{.CONTROLLER_ROOT}}/controller-integration-tests.json" > test-summary.md
