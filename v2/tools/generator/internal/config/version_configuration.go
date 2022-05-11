@@ -12,8 +12,6 @@ import (
 	"github.com/pkg/errors"
 	"gopkg.in/yaml.v3"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
-
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
 // VersionConfiguration contains additional information about a specific version of a group and forms part of a
@@ -40,19 +38,19 @@ func NewVersionConfiguration(name string) *VersionConfiguration {
 	}
 }
 
-// Add includes configuration for the specified type as a part of this version configuration
-func (vc *VersionConfiguration) add(tc *TypeConfiguration) {
+// addType includes configuration for the specified type as a part of this version configuration
+func (vc *VersionConfiguration) addType(name string, tc *TypeConfiguration) {
 	// Indexed by lowercase name of the type to allow case-insensitive lookups
-	vc.types[strings.ToLower(tc.name)] = tc
+	vc.types[strings.ToLower(name)] = tc
 }
 
 // visitType invokes the provided visitor on the specified type if present.
 // Returns a NotConfiguredError if the type is not found; otherwise whatever error is returned by the visitor.
 func (vc *VersionConfiguration) visitType(
-	typeName astmodel.TypeName,
+	typeName string,
 	visitor *configurationVisitor,
 ) error {
-	tc, err := vc.findType(typeName.Name())
+	tc, err := vc.findType(typeName)
 	if err != nil {
 		return err
 	}
@@ -90,6 +88,38 @@ func (vc *VersionConfiguration) findType(name string) (*TypeConfiguration, error
 	return nil, NewNotConfiguredError(msg).WithOptions("types", vc.configuredTypes())
 }
 
+// addTypeAlias adds an alias for the specified type, so it may be found with an alternative name
+// We use this when $exportedAs is used to rename a type so that any remaining configuration is still accessible under
+// the new name.
+func (vc *VersionConfiguration) addTypeAlias(name string, alias string) error {
+	// Lookup the existing configuration for 'name'
+	tc, err := vc.findType(name)
+	if err != nil {
+		return errors.Wrapf(err, "unable to create type alias %s", alias)
+	}
+
+	// Make sure we don't already have a conflicting configuration for 'alias'
+	other, err := vc.findType(alias)
+	if err != nil {
+		// A NotConfiguredError is good, anything else we return
+		if !IsNotConfiguredError(err) {
+			return errors.Wrapf(err, "unable to create type alias %s", alias)
+		}
+	} else {
+		// if it's already aliased, it's ok if it's the same config, otherwise return an error
+		if other != tc {
+			return errors.Errorf(
+				"unable to create type alias %s for %s because that would conflict with existing configuration",
+				alias,
+				name)
+		}
+	}
+
+	// Add the alias as another route to the existing configuration
+	vc.addType(alias, tc)
+	return nil
+}
+
 // UnmarshalYAML populates our instance from the YAML.
 // Nested objects are handled by a *pair* of nodes (!!), one for the id and one for the content of the object
 func (vc *VersionConfiguration) UnmarshalYAML(value *yaml.Node) error {
@@ -115,7 +145,7 @@ func (vc *VersionConfiguration) UnmarshalYAML(value *yaml.Node) error {
 				return errors.Wrapf(err, "decoding yaml for %q", lastId)
 			}
 
-			vc.add(tc)
+			vc.addType(lastId, tc)
 			continue
 		}
 

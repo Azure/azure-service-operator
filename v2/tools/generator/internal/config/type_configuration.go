@@ -67,6 +67,11 @@ func (tc *TypeConfiguration) VerifyNameInNextVersionConsumed() error {
 	return nil
 }
 
+// WriteNameInNextVersion sets the $nameInNextVersion for testing purposes
+func (tc *TypeConfiguration) WriteNameInNextVersion(name string) {
+	tc.nameInNextVersion.write(name)
+}
+
 // LookupExport checks to see whether this type is configured for export, returning either that value or a
 // NotConfiguredError.
 func (tc *TypeConfiguration) LookupExport() (bool, error) {
@@ -139,9 +144,9 @@ func (tc *TypeConfiguration) VerifyAzureGeneratedSecretsConsumed() error {
 }
 
 // Add includes configuration for the specified property as a part of this type configuration
-func (tc *TypeConfiguration) add(property *PropertyConfiguration) {
+func (tc *TypeConfiguration) addProperty(name string, property *PropertyConfiguration) {
 	// Indexed by lowercase name of the property to allow case-insensitive lookups
-	tc.properties[strings.ToLower(property.name)] = property
+	tc.properties[strings.ToLower(name)] = property
 }
 
 // visitProperty invokes the provided visitor on the specified property if present.
@@ -217,7 +222,7 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 				return errors.Wrapf(err, "decoding yaml for %q", lastId)
 			}
 
-			tc.add(p)
+			tc.addProperty(lastId, p)
 			continue
 		}
 

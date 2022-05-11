@@ -56,7 +56,7 @@ func TestGroupConfiguration_FindVersion_GivenTypeName_ReturnsExpectedVersion(t *
 
 	groupConfiguration := NewGroupConfiguration("demo")
 	versionConfig := NewVersionConfiguration("2021-01-01")
-	groupConfiguration.add(versionConfig)
+	groupConfiguration.addVersion(versionConfig.name, versionConfig)
 
 	cases := []struct {
 		name          string

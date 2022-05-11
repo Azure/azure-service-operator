@@ -98,15 +98,28 @@ func (omc *ObjectModelConfiguration) VerifyExportConsumed() error {
 // name if found. Returns a NotConfiguredError if no export is configured.
 func (omc *ObjectModelConfiguration) LookupExportAs(name astmodel.TypeName) (string, error) {
 	var exportAs string
-	visitor := NewSingleTypeConfigurationVisitor(
+	typeVisitor := NewSingleTypeConfigurationVisitor(
 		name,
 		func(configuration *TypeConfiguration) error {
 			ea, err := configuration.LookupExportAs()
 			exportAs = ea
 			return err
 		})
-	err := visitor.Visit(omc)
+	err := typeVisitor.Visit(omc)
 	if err != nil {
+		// No need to wrap this error, it already has all the details
+		return "", err
+	}
+
+	// Add an alias so that any existing configuration can be found via the new name
+	versionVisitor := NewSingleVersionConfigurationVisitor(
+		name.PackageReference,
+		func(configuration *VersionConfiguration) error {
+			return configuration.addTypeAlias(name.Name(), exportAs)
+		})
+	err = versionVisitor.Visit(omc)
+	if err != nil {
+		// No need to wrap this error, it already has all the details
 		return "", err
 	}
 
@@ -248,8 +261,8 @@ func (omc *ObjectModelConfiguration) VerifyIsResourceLifecycleOwnedByParentConsu
 	return visitor.Visit(omc)
 }
 
-// Add includes the provided GroupConfiguration in this model configuration
-func (omc *ObjectModelConfiguration) add(group *GroupConfiguration) {
+// addGroup includes the provided GroupConfiguration in this model configuration
+func (omc *ObjectModelConfiguration) addGroup(name string, group *GroupConfiguration) {
 	if omc.groups == nil {
 		// Initialize the map just-in-time
 		omc.groups = make(map[string]*GroupConfiguration)
@@ -257,16 +270,16 @@ func (omc *ObjectModelConfiguration) add(group *GroupConfiguration) {
 
 	// store the group name using lowercase,
 	// so we can do case-insensitive lookups later
-	omc.groups[strings.ToLower(group.name)] = group
+	omc.groups[strings.ToLower(name)] = group
 }
 
 // visitGroup invokes the provided visitor on the specified group if present.
 // Returns a NotConfiguredError if the group is not found; otherwise whatever error is returned by the visitor.
 func (omc *ObjectModelConfiguration) visitGroup(
-	name astmodel.TypeName,
+	ref astmodel.PackageReference,
 	visitor *configurationVisitor,
 ) error {
-	group, err := omc.findGroup(name)
+	group, err := omc.findGroup(ref)
 	if err != nil {
 		return err
 	}
@@ -288,12 +301,12 @@ func (omc *ObjectModelConfiguration) visitGroups(visitor *configurationVisitor) 
 }
 
 // findGroup uses the provided TypeName to work out which nested GroupConfiguration should be used
-func (omc *ObjectModelConfiguration) findGroup(name astmodel.TypeName) (*GroupConfiguration, error) {
-	group, _, ok := name.PackageReference.GroupVersion()
+func (omc *ObjectModelConfiguration) findGroup(ref astmodel.PackageReference) (*GroupConfiguration, error) {
+	group, _, ok := ref.GroupVersion()
 	if !ok {
 		return nil, errors.Errorf(
 			"external package reference %s not supported",
-			name.PackageReference)
+			ref)
 	}
 
 	if omc == nil || omc.groups == nil {
@@ -333,7 +346,7 @@ func (omc *ObjectModelConfiguration) UnmarshalYAML(value *yaml.Node) error {
 				return errors.Wrapf(err, "decoding yaml for %q", lastId)
 			}
 
-			omc.add(g)
+			omc.addGroup(lastId, g)
 			continue
 		}
 
@@ -357,33 +370,107 @@ func (omc *ObjectModelConfiguration) configuredGroups() []string {
 	return result
 }
 
-// CreateTestObjectModelConfiguration builds up a new configuration for a particular type, returning both the top level
-// configuration and the type configuration.
-// While intended only for test use, this isn't in a _test.go file as we want to use it from tests in multiple packages.
-func CreateTestObjectModelConfiguration(name astmodel.TypeName) (*ObjectModelConfiguration, *TypeConfiguration) {
-	group, version, ok := name.PackageReference.GroupVersion()
+// ModifyGroup allows the configuration of a specific group to be modified.
+// If configuration for that group doesn't exist, it will be created.
+// While intended for test use, this isn't in a _test.go file as we want to use it from tests in multiple packages.
+func (omc *ObjectModelConfiguration) ModifyGroup(
+	ref astmodel.PackageReference,
+	action func(configuration *GroupConfiguration) error) error {
+	groupName, _, ok := ref.GroupVersion()
 	if !ok {
-		panic(fmt.Sprintf("unexpected external package reference for resource name %s", name))
+		return errors.Errorf(
+			"external package reference %s not supported",
+			ref)
 	}
 
-	typeConfig := NewTypeConfiguration(name.Name())
+	grp, err := omc.findGroup(ref)
+	if err != nil && !IsNotConfiguredError(err) {
+		return errors.Wrapf(err, "configuring groupName %s", groupName)
+	}
 
-	versionConfig := NewVersionConfiguration(version)
-	versionConfig.add(typeConfig)
+	if grp == nil {
+		grp = NewGroupConfiguration(groupName)
+		omc.addGroup(groupName, grp)
+	}
 
-	groupConfig := NewGroupConfiguration(group)
-	groupConfig.add(versionConfig)
-
-	objectModelConfig := NewObjectModelConfiguration()
-	objectModelConfig.add(groupConfig)
-
-	return objectModelConfig, typeConfig
+	return action(grp)
 }
 
-// CreateTestObjectModelConfigurationForRename builds up a new configuring for testing rename of a particular type.
-// While intended only for test use, this isn't in a _test.go file as we want to use it from tests in multiple packages.
-func CreateTestObjectModelConfigurationForRename(name astmodel.TypeName, newName string) *ObjectModelConfiguration {
-	omc, tc := CreateTestObjectModelConfiguration(name)
-	tc.nameInNextVersion.write(newName)
-	return omc
+// ModifyVersion allows the configuration of a specific version to be modified.
+// If configuration for that version doesn't exist, it will be created.
+// While intended for test use, this isn't in a _test.go file as we want to use it from tests in multiple packages.
+func (omc *ObjectModelConfiguration) ModifyVersion(
+	ref astmodel.PackageReference,
+	action func(configuration *VersionConfiguration) error) error {
+	_, version, ok := ref.GroupVersion()
+	if !ok {
+		return errors.Errorf(
+			"external package reference %s not supported",
+			ref)
+	}
+
+	return omc.ModifyGroup(
+		ref,
+		func(configuration *GroupConfiguration) error {
+			ver, err := configuration.findVersion(ref)
+			if err != nil && !IsNotConfiguredError(err) {
+				return errors.Wrapf(err, "configuring version %s", version)
+			}
+
+			if ver == nil {
+				ver = NewVersionConfiguration(version)
+				configuration.addVersion(version, ver)
+			}
+
+			return action(ver)
+		})
+}
+
+// ModifyType allows the configuration of a specific type to be modified.
+// If configuration for that type doesn't exist, it will be created.
+// While intended for test use, this isn't in a _test.go file as we want to use it from tests in multiple packages.
+func (omc *ObjectModelConfiguration) ModifyType(
+	name astmodel.TypeName,
+	action func(typeConfiguration *TypeConfiguration) error) error {
+	return omc.ModifyVersion(
+		name.PackageReference,
+		func(versionConfiguration *VersionConfiguration) error {
+			typeName := name.Name()
+			typ, err := versionConfiguration.findType(typeName)
+			if err != nil && !IsNotConfiguredError(err) {
+				return errors.Wrapf(err, "configuring type %s", typeName)
+			}
+
+			if typ == nil {
+				typ = NewTypeConfiguration(typeName)
+				versionConfiguration.addType(typeName, typ)
+			}
+
+			return action(typ)
+		})
+}
+
+// ModifyProperty allows the configuration of a specific property to be modified.
+// If configuration for that property doesn't exist, it will be created.
+// While intended for test use, this isn't in a _test.go file as we want to use it from tests in multiple packages.
+func (omc *ObjectModelConfiguration) ModifyProperty(
+	typeName astmodel.TypeName,
+	property astmodel.PropertyName,
+	action func(propertyConfiguration *PropertyConfiguration) error) error {
+	return omc.ModifyType(
+		typeName,
+		func(typeConfiguration *TypeConfiguration) error {
+			prop, err := typeConfiguration.findProperty(property)
+			if err != nil && !IsNotConfiguredError(err) {
+				return errors.Wrapf(err, "configuring property %s", property)
+			}
+
+			if prop == nil {
+				name := property.String()
+				prop = NewPropertyConfiguration(name)
+				typeConfiguration.addProperty(name, prop)
+			}
+
+			return action(prop)
+		})
 }
