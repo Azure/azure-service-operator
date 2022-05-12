@@ -131,7 +131,9 @@ func loadJSON(testOutputFile string) map[string][]TestRun {
 				Package: d.Package,
 				Test:    d.Test,
 				Output:  outputs[key(d)],
-				RunTime: runTimes[key(d)],
+
+				// round all runtimes to ms to avoid excessive decimal places
+				RunTime: runTimes[key(d)].Round(time.Millisecond),
 			})
 		}
 	}
