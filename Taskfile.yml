@@ -11,6 +11,8 @@ vars:
 
   CONTROLLER_APP: aso-controller
   CONTROLLER_ROOT: v2/
+  CONTROLLER_OUTPUT:
+    sh: 'realpath v2/config'
 
   TEST_RESOURCE_PREFIX: asotest
   TEST_LIVE_RESOURCE_PREFIX: asolivetest
@@ -36,6 +38,8 @@ vars:
 
   CROSSPLANE_APP: crossplane-gen
   CROSSPLANE_ROOT: ./hack/crossplane/
+  CROSSPLANE_OUTPUT:
+    sh: 'realpath hack/crossplane/config'
 
   KUBE_RBAC_PROXY: gcr.io/kubebuilder/kube-rbac-proxy
 
@@ -402,19 +406,16 @@ tasks:
     cmds:
     - mkdir -p v2/api
     - find v2/api -type f -name "zz_generated.*" -delete
-    - if [ -d "{{.OUTPUT}}/crd/bases" ]; then find "{{.OUTPUT}}/crd/bases" -type f -delete; fi
-    - if [ -d "{{.OUTPUT}}/crd/patches" ]; then find "{{.OUTPUT}}/crd/patches" -type f -delete; fi
+    - if [ -d "{{.CONTROLLER_OUTPUT}}/crd/bases" ]; then find "{{.CONTROLLER_OUTPUT}}/crd/bases" -type f -delete; fi
+    - if [ -d "{{.CONTROLLER_OUTPUT}}/crd/patches" ]; then find "{{.CONTROLLER_OUTPUT}}/crd/patches" -type f -delete; fi
     - cd v2/api && controller-gen {{.OBJECT_OPTIONS}} paths=./... 
     - cd v2/api && controller-gen {{.CRD_OPTIONS}} {{.WEBHOOK_OPTIONS}} {{.RBAC_OPTIONS}} paths=./...
     - cd v2/api && gofmt -l -s -w . # format all generated code
     vars:
       OBJECT_OPTIONS: object:headerFile={{.HEADER_FILE}} 
-
-      OUTPUT:
-        sh: 'realpath v2/config #controller:generate-crds'
-      CRD_OPTIONS: crd:crdVersions=v1,allowDangerousTypes=true output:crd:artifacts:config={{.OUTPUT}}/crd/bases 
-      WEBHOOK_OPTIONS: webhook output:webhook:artifacts:config={{.OUTPUT}}/webhook 
-      RBAC_OPTIONS: rbac:roleName=manager-role output:rbac:artifacts:config={{.OUTPUT}}/rbac
+      CRD_OPTIONS: crd:crdVersions=v1,allowDangerousTypes=true output:crd:artifacts:config={{.CONTROLLER_OUTPUT}}/crd/bases 
+      WEBHOOK_OPTIONS: webhook output:webhook:artifacts:config={{.CONTROLLER_OUTPUT}}/webhook 
+      RBAC_OPTIONS: rbac:roleName=manager-role output:rbac:artifacts:config={{.CONTROLLER_OUTPUT}}/rbac
 
   controller:generate-genruntime-deepcopy:
     desc: Run controller-gen to generate {{.CONTROLLER_APP}} CRD files.
@@ -659,19 +660,16 @@ tasks:
     cmds:
       - mkdir -p ./apis
       - find ./apis -type f -name "zz_generated.*" -delete
-      - if [ -d "{{.OUTPUT}}/crd/bases" ]; then find "{{.OUTPUT}}/crd/bases" -type f -delete; fi
-      - if [ -d "{{.OUTPUT}}/crd/patches" ]; then find "{{.OUTPUT}}/crd/patches" -type f -delete; fi
+      - if [ -d "{{.CROSSPLANE_OUTPUT}}/crd/bases" ]; then find "{{.CROSSPLANE_OUTPUT}}/crd/bases" -type f -delete; fi
+      - if [ -d "{{.CROSSPLANE_OUTPUT}}/crd/patches" ]; then find "{{.CROSSPLANE_OUTPUT}}/crd/patches" -type f -delete; fi
       - cd apis && controller-gen {{.OBJECT_OPTIONS}} paths=./...
       - cd apis && controller-gen {{.CRD_OPTIONS}} {{.WEBHOOK_OPTIONS}} {{.RBAC_OPTIONS}} paths=./...
       - cd apis && gofmt -l -s -w . # format all generated code
     vars:
       OBJECT_OPTIONS: object:headerFile={{.HEADER_FILE}}
-
-      OUTPUT:
-        sh: 'realpath config #crossplane:generate-crds'
-      CRD_OPTIONS: crd:crdVersions=v1,allowDangerousTypes=true output:crd:artifacts:config={{.OUTPUT}}/crd/bases
-      WEBHOOK_OPTIONS: webhook output:webhook:artifacts:config={{.OUTPUT}}/webhook
-      RBAC_OPTIONS: rbac:roleName=manager-role # output:rbac:artifacts:config={{.OUTPUT}}/rbac # not output currently?
+      CRD_OPTIONS: crd:crdVersions=v1,allowDangerousTypes=true output:crd:artifacts:config={{.CROSSPLANE_OUTPUT}}/crd/bases
+      WEBHOOK_OPTIONS: webhook output:webhook:artifacts:config={{.CROSSPLANE_OUTPUT}}/webhook
+      RBAC_OPTIONS: rbac:roleName=manager-role # output:rbac:artifacts:config={{.CROSSPLANE_OUTPUT}}/rbac # not output currently?
 
   crossplane:generate-types:
     desc: Run {{.GENERATOR_APP}} to generate input files for controller-gen for {{.CROSSPLANE_APP}}.
