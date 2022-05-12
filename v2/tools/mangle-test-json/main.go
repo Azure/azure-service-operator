@@ -174,7 +174,11 @@ func printDetails(packages []string, byPackage map[string][]TestRun) {
 		fmt.Println("| Outcome | Name | Time | Output |")
 		fmt.Println("|---------|------|-----:|--------|")
 		for _, test := range tests[1:] {
-			output := `<details><pre>` + escapeOutput(test.Output) + `</pre></details>`
+			output := ""
+			if test.Action == "fail" {
+				output = `<details><pre>` + escapeOutput(test.Output) + `</pre></details>`
+			}
+
 			fmt.Printf("| %s | `%s` | %s | %s |\n", actionSymbol(test), test.Test, test.RunTime, output)
 		}
 
