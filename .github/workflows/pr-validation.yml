@@ -94,7 +94,11 @@ jobs:
       - name: Run CI tasks
         run: |
           container_id=${{steps.devcontainer.outputs.id}}
-          docker exec "$container_id" task ci
+          docker exec -e GOMAXPROCS "$container_id" task ci
+        env:
+          # override maximum number of concurrent tasks,
+          # as tests are not (yet) CPU bound
+          GOMAXPROCS: 32
 
       - name: Build docker image & build configuration YAML
         run: |
