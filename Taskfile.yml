@@ -1,7 +1,11 @@
-version: '3.7'
+version: '3.8'
 
 run: when_changed
-output: prefixed
+
+output:
+  group:
+    begin: '::begin::{{.TASK}}'
+    end: '::endgroup::'
 
 vars:
   PACKAGE: github.com/Azure/azure-service-operator/v2
