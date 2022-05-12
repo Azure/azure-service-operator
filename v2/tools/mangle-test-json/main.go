@@ -165,7 +165,13 @@ func printSummary(packages []string, byPackage map[string][]TestRun) {
 var maxOutputLines = 300
 
 func printDetails(packages []string, byPackage map[string][]TestRun) {
-	fmt.Printf("## Failed Test Details\n\n")
+	anyFailed := false
+	testFailed := func() {
+		if !anyFailed {
+			anyFailed = true
+			fmt.Printf("## Failed Test Details\n\n")
+		}
+	}
 
 	for _, pkg := range packages {
 		tests := byPackage[pkg]
@@ -183,6 +189,8 @@ func printDetails(packages []string, byPackage map[string][]TestRun) {
 		for _, test := range tests[1:] {
 			// only printing failed tests
 			if test.Action == "fail" {
+				testFailed()
+
 				fmt.Printf("#### `%s`\n", test.Test)
 				fmt.Printf("Failed in %s\n:", test.RunTime)
 
@@ -206,6 +214,10 @@ func printDetails(packages []string, byPackage map[string][]TestRun) {
 		}
 
 		fmt.Println()
+	}
+
+	if !anyFailed {
+		fmt.Println("**🎉 All tests passed. 🎉**")
 	}
 }
 
