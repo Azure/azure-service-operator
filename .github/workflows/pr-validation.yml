@@ -44,6 +44,11 @@ jobs:
     permissions:
       packages: read
 
+    env:
+      # use a folder for GOMODCACHE
+      # this is the path for inside the devcontainer
+      GOMODCACHE: /workspace/.cache/gomod
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -57,6 +62,12 @@ jobs:
           registry: docker.pkg.github.com # ghcr.io not yet enabled for Azure org
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Cache GOMODCACHE
+        uses: actions/cache@v3
+        with:
+          path: .cache/gomod
+          key: gomodcache-${{hashFiles('**/go.sum')}}
 
       # Note: Changes to this step must also be mirrored into pr-validation-with-secrets.yaml
       - name: Build devcontainer image
@@ -89,18 +100,18 @@ jobs:
       - name: Build & validate docs site
         run: | 
           container_id=${{steps.devcontainer.outputs.id}}
-          docker exec "$container_id" task build-docs-site
+          docker exec -e GOMODCACHE "$container_id" task build-docs-site
         
       - name: Run CI tasks
         run: |
           container_id=${{steps.devcontainer.outputs.id}}
-          docker exec "$container_id" task ci
+          docker exec -e GOMODCACHE "$container_id" task ci
 
       - name: Build docker image & build configuration YAML
         run: |
           container_id=${{steps.devcontainer.outputs.id}}
-          docker exec "$container_id" task controller:docker-build-and-save
-          docker exec "$container_id" task controller:run-kustomize-for-envtest
+          docker exec -e GOMODCACHE "$container_id" task controller:docker-build-and-save
+          docker exec -e GOMODCACHE "$container_id" task controller:run-kustomize-for-envtest
 
       - name: Archive outputs
         uses: actions/upload-artifact@v2

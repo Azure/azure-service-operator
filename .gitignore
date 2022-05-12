@@ -59,6 +59,7 @@ bundle/
 
 # go-task file hashes
 .task/
+.cache/
 
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
