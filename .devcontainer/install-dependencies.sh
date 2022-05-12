@@ -168,7 +168,7 @@ fi
 write-verbose "Checking for $TOOL_DEST/go-task"
 if should-install "$TOOL_DEST/task"; then 
     write-info "Installing go-task"
-    curl -sL "https://github.com/go-task/task/releases/download/v3.7.0/task_linux_amd64.tar.gz" | tar xz -C "$TOOL_DEST" task
+    curl -sL "https://github.com/go-task/task/releases/download/v3.12.1/task_linux_amd64.tar.gz" | tar xz -C "$TOOL_DEST" task
 fi
 
 # Install binaries for envtest

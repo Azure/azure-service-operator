@@ -96,6 +96,9 @@ jobs:
           container_id=${{steps.devcontainer.outputs.id}}
           docker exec "$container_id" task ci
 
+          # generate summary file for display in Actions
+          cat reports/*.md > $GITHUB_STEP_SUMMARY
+        
       - name: Build docker image & build configuration YAML
         run: |
           container_id=${{steps.devcontainer.outputs.id}}

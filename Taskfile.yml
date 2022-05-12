@@ -11,10 +11,18 @@ vars:
 
   CONTROLLER_APP: aso-controller
   CONTROLLER_ROOT: v2/
+  CONTROLLER_OUTPUT:
+    sh: 'realpath v2/config'
 
   TEST_RESOURCE_PREFIX: asotest
   TEST_LIVE_RESOURCE_PREFIX: asolivetest
   SCRIPTS_ROOT: ./scripts
+
+  HEADER_FILE: 
+    sh: 'realpath v2/boilerplate.go.txt'
+
+  TEST_OUT:
+    sh: 'realpath reports'
 
   VERSION: 
     # Version tags for the v2 controller must start with "v2", e.g. "v2.0.0-alpha.0".
@@ -30,6 +38,8 @@ vars:
 
   CROSSPLANE_APP: crossplane-gen
   CROSSPLANE_ROOT: ./hack/crossplane/
+  CROSSPLANE_OUTPUT:
+    sh: 'realpath hack/crossplane/config'
 
   KUBE_RBAC_PROXY: gcr.io/kubebuilder/kube-rbac-proxy
 
@@ -106,7 +116,12 @@ tasks:
     desc: Run {{.GENERATOR_APP}} unit tests and output coverage.
     dir: '{{.GENERATOR_ROOT}}'
     cmds:
-    - go test ./... -tags=noexit -race -covermode atomic -coverprofile=generator-coverage.out -coverpkg=./... -run '{{default ".*" .TEST_FILTER}}'
+    - defer: # want to run even on failure
+        task: produce-markdown-summary
+        vars:
+          INPUT_FILE: '{{.TEST_OUT}}/generator-unit-tests.json'
+          OUTPUT_FILE: '{{.TEST_OUT}}/generator-unit-tests.md'
+    - go test ./... -tags=noexit -race -covermode atomic -coverprofile=generator-coverage.out -json -coverpkg=./... -run '{{default ".*" .TEST_FILTER}}' > '{{.TEST_OUT}}/generator-unit-tests.json'
 
   generator:update-golden-tests:
     desc: Update {{.GENERATOR_APP}} golden test outputs.
@@ -206,8 +221,13 @@ tasks:
     dir: "{{.CONTROLLER_ROOT}}"
     deps: [controller:generate-crds]
     cmds:
+    - defer: # want to run even on failure
+        task: produce-markdown-summary
+        vars:
+          INPUT_FILE: '{{.TEST_OUT}}/controller-unit-tests.json'
+          OUTPUT_FILE: '{{.TEST_OUT}}/controller-unit-tests.md'
     # -race fails at the moment in gopter - possibly due to our shared generator variable?
-    - go test -short -tags=noexit -timeout 10m -covermode atomic -coverprofile=controller-coverage.out -coverpkg="./..." -run '{{default ".*" .TEST_FILTER}}' ./...
+    - go test -short -tags=noexit -timeout 10m -covermode atomic -coverprofile=controller-coverage.out -json -coverpkg="./..." -run '{{default ".*" .TEST_FILTER}}' ./... > '{{.TEST_OUT}}/controller-unit-tests.json'
 
   controller:build:
     desc: Generate the {{.CONTROLLER_APP}} binary.
@@ -279,8 +299,13 @@ tasks:
     dir: "{{.CONTROLLER_ROOT}}"
     deps: [controller:run-kustomize-for-envtest]
     cmds:
+    - defer: # want to run even on failure
+        task: produce-markdown-summary
+        vars:
+          INPUT_FILE: '{{.TEST_OUT}}/controller-integration-tests.json'
+          OUTPUT_FILE: '{{.TEST_OUT}}/controller-integration-tests.md'
     # -race fails at the moment in controller-runtime
-    - go test -covermode atomic -coverprofile=coverage-integration-envtest.out -coverpkg="./..." -timeout 15m -run '{{default ".*" .TEST_FILTER}}' ./internal/controllers
+    - go test -covermode atomic -coverprofile=coverage-integration-envtest.out -coverpkg="./..." -json -timeout 15m -run '{{default ".*" .TEST_FILTER}}' ./internal/controllers > '{{.TEST_OUT}}/controller-integration-tests.json'
 
   controller:test-integration-envtest-live:
     desc: Run integration tests with envtest against live data and output coverage.
@@ -381,21 +406,16 @@ tasks:
     cmds:
     - mkdir -p v2/api
     - find v2/api -type f -name "zz_generated.*" -delete
-    - if [ -d "{{.OUTPUT}}/crd/bases" ]; then find "{{.OUTPUT}}/crd/bases" -type f -delete; fi
-    - if [ -d "{{.OUTPUT}}/crd/patches" ]; then find "{{.OUTPUT}}/crd/patches" -type f -delete; fi
+    - if [ -d "{{.CONTROLLER_OUTPUT}}/crd/bases" ]; then find "{{.CONTROLLER_OUTPUT}}/crd/bases" -type f -delete; fi
+    - if [ -d "{{.CONTROLLER_OUTPUT}}/crd/patches" ]; then find "{{.CONTROLLER_OUTPUT}}/crd/patches" -type f -delete; fi
     - cd v2/api && controller-gen {{.OBJECT_OPTIONS}} paths=./... 
     - cd v2/api && controller-gen {{.CRD_OPTIONS}} {{.WEBHOOK_OPTIONS}} {{.RBAC_OPTIONS}} paths=./...
     - cd v2/api && gofmt -l -s -w . # format all generated code
     vars:
-      HEADER_FILE:
-        sh: 'realpath v2/boilerplate.go.txt #controller:generate-crds'
       OBJECT_OPTIONS: object:headerFile={{.HEADER_FILE}} 
-
-      OUTPUT:
-        sh: 'realpath v2/config #controller:generate-crds'
-      CRD_OPTIONS: crd:crdVersions=v1,allowDangerousTypes=true output:crd:artifacts:config={{.OUTPUT}}/crd/bases 
-      WEBHOOK_OPTIONS: webhook output:webhook:artifacts:config={{.OUTPUT}}/webhook 
-      RBAC_OPTIONS: rbac:roleName=manager-role output:rbac:artifacts:config={{.OUTPUT}}/rbac
+      CRD_OPTIONS: crd:crdVersions=v1,allowDangerousTypes=true output:crd:artifacts:config={{.CONTROLLER_OUTPUT}}/crd/bases 
+      WEBHOOK_OPTIONS: webhook output:webhook:artifacts:config={{.CONTROLLER_OUTPUT}}/webhook 
+      RBAC_OPTIONS: rbac:roleName=manager-role output:rbac:artifacts:config={{.CONTROLLER_OUTPUT}}/rbac
 
   controller:generate-genruntime-deepcopy:
     desc: Run controller-gen to generate {{.CONTROLLER_APP}} CRD files.
@@ -407,8 +427,6 @@ tasks:
       - cd pkg/genruntime && controller-gen {{.OBJECT_OPTIONS}} paths=./...
       - cd pkg/genruntime && gofmt -l -s -w .  # We do this because controller-gen can generate these files in a way that isn't gofmt'ed which can break things down the line
     vars:
-      HEADER_FILE:
-        sh: 'realpath boilerplate.go.txt #controller:generate-genruntime-deepcopy'
       OBJECT_OPTIONS: object:headerFile={{.HEADER_FILE}}
 
   controller:generate-kustomize:
@@ -642,21 +660,16 @@ tasks:
     cmds:
       - mkdir -p ./apis
       - find ./apis -type f -name "zz_generated.*" -delete
-      - if [ -d "{{.OUTPUT}}/crd/bases" ]; then find "{{.OUTPUT}}/crd/bases" -type f -delete; fi
-      - if [ -d "{{.OUTPUT}}/crd/patches" ]; then find "{{.OUTPUT}}/crd/patches" -type f -delete; fi
+      - if [ -d "{{.CROSSPLANE_OUTPUT}}/crd/bases" ]; then find "{{.CROSSPLANE_OUTPUT}}/crd/bases" -type f -delete; fi
+      - if [ -d "{{.CROSSPLANE_OUTPUT}}/crd/patches" ]; then find "{{.CROSSPLANE_OUTPUT}}/crd/patches" -type f -delete; fi
       - cd apis && controller-gen {{.OBJECT_OPTIONS}} paths=./...
       - cd apis && controller-gen {{.CRD_OPTIONS}} {{.WEBHOOK_OPTIONS}} {{.RBAC_OPTIONS}} paths=./...
       - cd apis && gofmt -l -s -w . # format all generated code
     vars:
-      HEADER_FILE: 
-        sh: 'realpath ../../v2/boilerplate.go.txt #crossplane:generate-crds'
       OBJECT_OPTIONS: object:headerFile={{.HEADER_FILE}}
-
-      OUTPUT:
-        sh: 'realpath config #crossplane:generate-crds'
-      CRD_OPTIONS: crd:crdVersions=v1,allowDangerousTypes=true output:crd:artifacts:config={{.OUTPUT}}/crd/bases
-      WEBHOOK_OPTIONS: webhook output:webhook:artifacts:config={{.OUTPUT}}/webhook
-      RBAC_OPTIONS: rbac:roleName=manager-role # output:rbac:artifacts:config={{.OUTPUT}}/rbac # not output currently?
+      CRD_OPTIONS: crd:crdVersions=v1,allowDangerousTypes=true output:crd:artifacts:config={{.CROSSPLANE_OUTPUT}}/crd/bases
+      WEBHOOK_OPTIONS: webhook output:webhook:artifacts:config={{.CROSSPLANE_OUTPUT}}/webhook
+      RBAC_OPTIONS: rbac:roleName=manager-role # output:rbac:artifacts:config={{.CROSSPLANE_OUTPUT}}/rbac # not output currently?
 
   crossplane:generate-types:
     desc: Run {{.GENERATOR_APP}} to generate input files for controller-gen for {{.CROSSPLANE_APP}}.
@@ -723,3 +736,8 @@ tasks:
     vars:
       CHANGED:
         sh: git status --porcelain
+
+  produce-markdown-summary:
+    desc: Builds a test output summary for Github
+    cmds:
+    - cmd: go run v2/tools/mangle-test-json/main.go "{{.INPUT_FILE}}" > "{{.OUTPUT_FILE}}"
