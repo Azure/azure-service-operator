@@ -133,12 +133,20 @@ func loadJSON(testOutputFile string) map[string][]TestRun {
 				Output:  outputs[key(d)],
 
 				// round all runtimes to ms to avoid excessive decimal places
-				RunTime: runTimes[key(d)].Round(time.Millisecond),
+				RunTime: sensitiveRound(runTimes[key(d)]),
 			})
 		}
 	}
 
 	return byPackage
+}
+
+func sensitiveRound(d time.Duration) time.Duration {
+	if d > time.Minute {
+		return d.Round(time.Second)
+	}
+
+	return d.Round(time.Millisecond)
 }
 
 func printSummary(packages []string, byPackage map[string][]TestRun) {
