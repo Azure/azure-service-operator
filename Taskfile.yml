@@ -19,6 +19,9 @@ vars:
   HEADER_FILE: 
     sh: 'realpath v2/boilerplate.go.txt'
 
+  TEST_OUT:
+    sh: 'realpath reports'
+
   VERSION: 
     # Version tags for the v2 controller must start with "v2", e.g. "v2.0.0-alpha.0".
     sh: "{{.SCRIPTS_ROOT}}/build-version.py v2"
@@ -112,9 +115,9 @@ tasks:
     - defer: # want to run even on failure
         task: produce-markdown-summary
         vars:
-          INPUT_FILE: '{{.GENERATOR_ROOT}}/generator-unit-tests.json'
-          OUTPUT_FILE: '{{.GENERATOR_ROOT}}/generator-unit-tests.md'
-    - go test ./... -tags=noexit -race -covermode atomic -coverprofile=generator-coverage.out -json -coverpkg=./... -run '{{default ".*" .TEST_FILTER}}' > generator-unit-tests.json
+          INPUT_FILE: '{{.TEST_OUT}}/generator-unit-tests.json'
+          OUTPUT_FILE: '{{.TEST_OUT}}/generator-unit-tests.md'
+    - go test ./... -tags=noexit -race -covermode atomic -coverprofile=generator-coverage.out -json -coverpkg=./... -run '{{default ".*" .TEST_FILTER}}' > '{{.TEST_OUT}}/generator-unit-tests.json'
 
   generator:update-golden-tests:
     desc: Update {{.GENERATOR_APP}} golden test outputs.
@@ -217,10 +220,10 @@ tasks:
     - defer: # want to run even on failure
         task: produce-markdown-summary
         vars:
-          INPUT_FILE: '{{.CONTROLLER_ROOT}}/controller-unit-tests.json'
-          OUTPUT_FILE: '{{.CONTROLLER_ROOT}}/controller-unit-tests.md'
+          INPUT_FILE: '{{.TEST_OUT}}/controller-unit-tests.json'
+          OUTPUT_FILE: '{{.TEST_OUT}}/controller-unit-tests.md'
     # -race fails at the moment in gopter - possibly due to our shared generator variable?
-    - go test -short -tags=noexit -timeout 10m -covermode atomic -coverprofile=controller-coverage.out -json -coverpkg="./..." -run '{{default ".*" .TEST_FILTER}}' ./... > controller-unit-tests.json
+    - go test -short -tags=noexit -timeout 10m -covermode atomic -coverprofile=controller-coverage.out -json -coverpkg="./..." -run '{{default ".*" .TEST_FILTER}}' ./... > '{{.TEST_OUT}}/controller-unit-tests.json'
 
   controller:build:
     desc: Generate the {{.CONTROLLER_APP}} binary.
@@ -295,10 +298,10 @@ tasks:
     - defer: # want to run even on failure
         task: produce-markdown-summary
         vars:
-          INPUT_FILE: '{{.CONTROLLER_ROOT}}/controller-integration-tests.json'
-          OUTPUT_FILE: '{{.CONTROLLER_ROOT}}/controller-integration-tests.md'
+          INPUT_FILE: '{{.TEST_OUT}}/controller-integration-tests.json'
+          OUTPUT_FILE: '{{.TEST_OUT}}/controller-integration-tests.md'
     # -race fails at the moment in controller-runtime
-    - go test -covermode atomic -coverprofile=coverage-integration-envtest.out -coverpkg="./..." -json -timeout 15m -run '{{default ".*" .TEST_FILTER}}' ./internal/controllers > controller-integration-tests.json
+    - go test -covermode atomic -coverprofile=coverage-integration-envtest.out -coverpkg="./..." -json -timeout 15m -run '{{default ".*" .TEST_FILTER}}' ./internal/controllers > '{{.TEST_OUT}}/controller-integration-tests.json'
 
   controller:test-integration-envtest-live:
     desc: Run integration tests with envtest against live data and output coverage.
