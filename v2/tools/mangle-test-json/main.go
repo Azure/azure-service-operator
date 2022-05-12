@@ -150,8 +150,13 @@ func printSummary(packages []string, byPackage map[string][]TestRun) {
 			continue
 		}
 
+		totalRuntime := time.Duration(0)
+		for _, t := range tests[1:] {
+			totalRuntime += t.RunTime
+		}
+
 		overallOutcome := actionSymbol(tests[0])
-		fmt.Printf("* %s `%s`\n", overallOutcome, pkg)
+		fmt.Printf("* %s `%s` (runtime %s)\n", overallOutcome, pkg, totalRuntime)
 	}
 
 	fmt.Println()
