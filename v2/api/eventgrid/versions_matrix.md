@@ -44,9 +44,9 @@
 | DomainTopicProperties_Status                                | v1alpha1api20200601 | v1beta20200601 |
 | DomainTopic_Status                                          | v1alpha1api20200601 | v1beta20200601 |
 | Domain_Status                                               | v1alpha1api20200601 | v1beta20200601 |
-| DomainsSpecAPIVersion                                       | v1alpha1api20200601 | v1beta20200601 |
+| DomainsSpecAPIVersion                                       |                     | v1beta20200601 |
 | DomainsTopic                                                | v1alpha1api20200601 | v1beta20200601 |
-| DomainsTopicsSpecAPIVersion                                 | v1alpha1api20200601 | v1beta20200601 |
+| DomainsTopicsSpecAPIVersion                                 |                     | v1beta20200601 |
 | DomainsTopics_Spec                                          | v1alpha1api20200601 | v1beta20200601 |
 | Domains_Spec                                                | v1alpha1api20200601 | v1beta20200601 |
 | EventHubEventSubscriptionDestination                        | v1alpha1api20200601 | v1beta20200601 |
@@ -64,7 +64,7 @@
 | EventSubscriptionPropertiesStatusProvisioningState          | v1alpha1api20200601 | v1beta20200601 |
 | EventSubscriptionProperties_Status                          | v1alpha1api20200601 | v1beta20200601 |
 | EventSubscription_Status                                    | v1alpha1api20200601 | v1beta20200601 |
-| EventSubscriptionsSpecAPIVersion                            | v1alpha1api20200601 | v1beta20200601 |
+| EventSubscriptionsSpecAPIVersion                            |                     | v1beta20200601 |
 | EventSubscriptions_Spec                                     | v1alpha1api20200601 | v1beta20200601 |
 | HybridConnectionEventSubscriptionDestination                | v1alpha1api20200601 | v1beta20200601 |
 | HybridConnectionEventSubscriptionDestinationEndpointType    | v1alpha1api20200601 | v1beta20200601 |
@@ -105,7 +105,7 @@
 | TopicPropertiesStatusPublicNetworkAccess                    | v1alpha1api20200601 | v1beta20200601 |
 | TopicProperties_Status                                      | v1alpha1api20200601 | v1beta20200601 |
 | Topic_Status                                                | v1alpha1api20200601 | v1beta20200601 |
-| TopicsSpecAPIVersion                                        | v1alpha1api20200601 | v1beta20200601 |
+| TopicsSpecAPIVersion                                        |                     | v1beta20200601 |
 | Topics_Spec                                                 | v1alpha1api20200601 | v1beta20200601 |
 | WebHookEventSubscriptionDestination                         | v1alpha1api20200601 | v1beta20200601 |
 | WebHookEventSubscriptionDestinationEndpointType             | v1alpha1api20200601 | v1beta20200601 |

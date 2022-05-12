@@ -33,10 +33,10 @@
 | CorsRules_Status                                                   | v1alpha1api20210401 | v1beta20210401 |
 | CustomDomain                                                       | v1alpha1api20210401 | v1beta20210401 |
 | CustomDomain_Status                                                | v1alpha1api20210401 | v1beta20210401 |
-| DateAfterCreation                                                  | v1alpha1api20210401 | v1beta20210401 |
-| DateAfterCreation_Status                                           | v1alpha1api20210401 | v1beta20210401 |
-| DateAfterModification                                              | v1alpha1api20210401 | v1beta20210401 |
-| DateAfterModification_Status                                       | v1alpha1api20210401 | v1beta20210401 |
+| DateAfterCreation                                                  |                     | v1beta20210401 |
+| DateAfterCreation_Status                                           |                     | v1beta20210401 |
+| DateAfterModification                                              |                     | v1beta20210401 |
+| DateAfterModification_Status                                       |                     | v1beta20210401 |
 | DeleteRetentionPolicy                                              | v1alpha1api20210401 | v1beta20210401 |
 | DeleteRetentionPolicy_Status                                       | v1alpha1api20210401 | v1beta20210401 |
 | Encryption                                                         | v1alpha1api20210401 | v1beta20210401 |
@@ -82,27 +82,27 @@
 | LastAccessTimeTrackingPolicyStatusName                             | v1alpha1api20210401 | v1beta20210401 |
 | LastAccessTimeTrackingPolicy_Status                                | v1alpha1api20210401 | v1beta20210401 |
 | LegalHoldProperties_Status                                         | v1alpha1api20210401 | v1beta20210401 |
-| ManagementPolicyAction                                             | v1alpha1api20210401 | v1beta20210401 |
-| ManagementPolicyAction_Status                                      | v1alpha1api20210401 | v1beta20210401 |
-| ManagementPolicyBaseBlob                                           | v1alpha1api20210401 | v1beta20210401 |
-| ManagementPolicyBaseBlob_Status                                    | v1alpha1api20210401 | v1beta20210401 |
-| ManagementPolicyDefinition                                         | v1alpha1api20210401 | v1beta20210401 |
-| ManagementPolicyDefinition_Status                                  | v1alpha1api20210401 | v1beta20210401 |
-| ManagementPolicyFilter                                             | v1alpha1api20210401 | v1beta20210401 |
-| ManagementPolicyFilter_Status                                      | v1alpha1api20210401 | v1beta20210401 |
-| ManagementPolicyProperties                                         | v1alpha1api20210401 | v1beta20210401 |
-| ManagementPolicyProperties_Status                                  | v1alpha1api20210401 | v1beta20210401 |
-| ManagementPolicyRule                                               | v1alpha1api20210401 | v1beta20210401 |
-| ManagementPolicyRuleStatusType                                     | v1alpha1api20210401 | v1beta20210401 |
-| ManagementPolicyRuleType                                           | v1alpha1api20210401 | v1beta20210401 |
-| ManagementPolicyRule_Status                                        | v1alpha1api20210401 | v1beta20210401 |
-| ManagementPolicySchema                                             | v1alpha1api20210401 | v1beta20210401 |
-| ManagementPolicySchema_Status                                      | v1alpha1api20210401 | v1beta20210401 |
-| ManagementPolicySnapShot                                           | v1alpha1api20210401 | v1beta20210401 |
-| ManagementPolicySnapShot_Status                                    | v1alpha1api20210401 | v1beta20210401 |
-| ManagementPolicyVersion                                            | v1alpha1api20210401 | v1beta20210401 |
-| ManagementPolicyVersion_Status                                     | v1alpha1api20210401 | v1beta20210401 |
-| ManagementPolicy_Status                                            | v1alpha1api20210401 | v1beta20210401 |
+| ManagementPolicyAction                                             |                     | v1beta20210401 |
+| ManagementPolicyAction_Status                                      |                     | v1beta20210401 |
+| ManagementPolicyBaseBlob                                           |                     | v1beta20210401 |
+| ManagementPolicyBaseBlob_Status                                    |                     | v1beta20210401 |
+| ManagementPolicyDefinition                                         |                     | v1beta20210401 |
+| ManagementPolicyDefinition_Status                                  |                     | v1beta20210401 |
+| ManagementPolicyFilter                                             |                     | v1beta20210401 |
+| ManagementPolicyFilter_Status                                      |                     | v1beta20210401 |
+| ManagementPolicyProperties                                         |                     | v1beta20210401 |
+| ManagementPolicyProperties_Status                                  |                     | v1beta20210401 |
+| ManagementPolicyRule                                               |                     | v1beta20210401 |
+| ManagementPolicyRuleStatusType                                     |                     | v1beta20210401 |
+| ManagementPolicyRuleType                                           |                     | v1beta20210401 |
+| ManagementPolicyRule_Status                                        |                     | v1beta20210401 |
+| ManagementPolicySchema                                             |                     | v1beta20210401 |
+| ManagementPolicySchema_Status                                      |                     | v1beta20210401 |
+| ManagementPolicySnapShot                                           |                     | v1beta20210401 |
+| ManagementPolicySnapShot_Status                                    |                     | v1beta20210401 |
+| ManagementPolicyVersion                                            |                     | v1beta20210401 |
+| ManagementPolicyVersion_Status                                     |                     | v1beta20210401 |
+| ManagementPolicy_Status                                            |                     | v1beta20210401 |
 | NetworkRuleSet                                                     | v1alpha1api20210401 | v1beta20210401 |
 | NetworkRuleSetBypass                                               | v1alpha1api20210401 | v1beta20210401 |
 | NetworkRuleSetDefaultAction                                        | v1alpha1api20210401 | v1beta20210401 |
@@ -150,25 +150,25 @@
 | StorageAccount_Status                                              | v1alpha1api20210401 | v1beta20210401 |
 | StorageAccountsBlobService                                         | v1alpha1api20210401 | v1beta20210401 |
 | StorageAccountsBlobServicesContainer                               | v1alpha1api20210401 | v1beta20210401 |
-| StorageAccountsBlobServicesContainersSpecAPIVersion                | v1alpha1api20210401 | v1beta20210401 |
+| StorageAccountsBlobServicesContainersSpecAPIVersion                |                     | v1beta20210401 |
 | StorageAccountsBlobServicesContainers_Spec                         | v1alpha1api20210401 | v1beta20210401 |
-| StorageAccountsBlobServicesSpecAPIVersion                          | v1alpha1api20210401 | v1beta20210401 |
+| StorageAccountsBlobServicesSpecAPIVersion                          |                     | v1beta20210401 |
 | StorageAccountsBlobServices_Spec                                   | v1alpha1api20210401 | v1beta20210401 |
-| StorageAccountsManagementPoliciesSpecAPIVersion                    | v1alpha1api20210401 | v1beta20210401 |
-| StorageAccountsManagementPolicies_Spec                             | v1alpha1api20210401 | v1beta20210401 |
-| StorageAccountsManagementPolicy                                    | v1alpha1api20210401 | v1beta20210401 |
+| StorageAccountsManagementPoliciesSpecAPIVersion                    |                     | v1beta20210401 |
+| StorageAccountsManagementPolicies_Spec                             |                     | v1beta20210401 |
+| StorageAccountsManagementPolicy                                    |                     | v1beta20210401 |
 | StorageAccountsQueueService                                        | v1alpha1api20210401 | v1beta20210401 |
 | StorageAccountsQueueServicesQueue                                  | v1alpha1api20210401 | v1beta20210401 |
-| StorageAccountsQueueServicesQueuesSpecAPIVersion                   | v1alpha1api20210401 | v1beta20210401 |
+| StorageAccountsQueueServicesQueuesSpecAPIVersion                   |                     | v1beta20210401 |
 | StorageAccountsQueueServicesQueues_Spec                            | v1alpha1api20210401 | v1beta20210401 |
-| StorageAccountsQueueServicesSpecAPIVersion                         | v1alpha1api20210401 | v1beta20210401 |
+| StorageAccountsQueueServicesSpecAPIVersion                         |                     | v1beta20210401 |
 | StorageAccountsQueueServices_Spec                                  | v1alpha1api20210401 | v1beta20210401 |
-| StorageAccountsSpecAPIVersion                                      | v1alpha1api20210401 | v1beta20210401 |
+| StorageAccountsSpecAPIVersion                                      |                     | v1beta20210401 |
 | StorageAccountsSpecKind                                            | v1alpha1api20210401 | v1beta20210401 |
 | StorageAccounts_Spec                                               | v1alpha1api20210401 | v1beta20210401 |
 | StorageQueue_Status                                                | v1alpha1api20210401 | v1beta20210401 |
-| TagFilter                                                          | v1alpha1api20210401 | v1beta20210401 |
-| TagFilter_Status                                                   | v1alpha1api20210401 | v1beta20210401 |
+| TagFilter                                                          |                     | v1beta20210401 |
+| TagFilter_Status                                                   |                     | v1beta20210401 |
 | TagProperty_Status                                                 | v1alpha1api20210401 | v1beta20210401 |
 | Tier_Status                                                        | v1alpha1api20210401 | v1beta20210401 |
 | UpdateHistoryPropertyStatusUpdate                                  | v1alpha1api20210401 | v1beta20210401 |

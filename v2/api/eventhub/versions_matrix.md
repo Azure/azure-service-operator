@@ -30,22 +30,22 @@
 | KeyVaultProperties_Status                                          | v1alpha1api20211101 | v1beta20211101 |
 | Namespace                                                          | v1alpha1api20211101 | v1beta20211101 |
 | NamespacesAuthorizationRule                                        | v1alpha1api20211101 | v1beta20211101 |
-| NamespacesAuthorizationRulesSpecAPIVersion                         | v1alpha1api20211101 | v1beta20211101 |
+| NamespacesAuthorizationRulesSpecAPIVersion                         |                     | v1beta20211101 |
 | NamespacesAuthorizationRules_Spec                                  | v1alpha1api20211101 | v1beta20211101 |
 | NamespacesEventhub                                                 | v1alpha1api20211101 | v1beta20211101 |
 | NamespacesEventhubsAuthorizationRule                               | v1alpha1api20211101 | v1beta20211101 |
-| NamespacesEventhubsAuthorizationRulesSpecAPIVersion                | v1alpha1api20211101 | v1beta20211101 |
+| NamespacesEventhubsAuthorizationRulesSpecAPIVersion                |                     | v1beta20211101 |
 | NamespacesEventhubsAuthorizationRules_Spec                         | v1alpha1api20211101 | v1beta20211101 |
 | NamespacesEventhubsConsumerGroup                                   | v1alpha1api20211101 | v1beta20211101 |
-| NamespacesEventhubsConsumergroupsSpecAPIVersion                    | v1alpha1api20211101 | v1beta20211101 |
+| NamespacesEventhubsConsumergroupsSpecAPIVersion                    |                     | v1beta20211101 |
 | NamespacesEventhubsConsumergroups_Spec                             | v1alpha1api20211101 | v1beta20211101 |
-| NamespacesEventhubsSpecAPIVersion                                  | v1alpha1api20211101 | v1beta20211101 |
+| NamespacesEventhubsSpecAPIVersion                                  |                     | v1beta20211101 |
 | NamespacesEventhubsSpecPropertiesCaptureDescriptionEncoding        | v1alpha1api20211101 | v1beta20211101 |
 | NamespacesEventhubs_Spec                                           | v1alpha1api20211101 | v1beta20211101 |
 | NamespacesEventhubs_Spec_Properties                                | v1alpha1api20211101 | v1beta20211101 |
 | NamespacesEventhubs_Spec_Properties_CaptureDescription             | v1alpha1api20211101 | v1beta20211101 |
 | NamespacesEventhubs_Spec_Properties_CaptureDescription_Destination | v1alpha1api20211101 | v1beta20211101 |
-| NamespacesSpecAPIVersion                                           | v1alpha1api20211101 | v1beta20211101 |
+| NamespacesSpecAPIVersion                                           |                     | v1beta20211101 |
 | Namespaces_Spec                                                    | v1alpha1api20211101 | v1beta20211101 |
 | Namespaces_Spec_Properties                                         | v1alpha1api20211101 | v1beta20211101 |
 | Namespaces_Spec_Properties_PrivateEndpointConnections              | v1alpha1api20211101 | v1beta20211101 |
