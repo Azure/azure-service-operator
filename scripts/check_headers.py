@@ -50,13 +50,11 @@ if __name__ == '__main__':
 
     print_colorful('==> Checking copyright headers <==')
 
-    for root, subdirs, files in os.walk('.'):
+    for root, subdirs, files in os.walk('.', topdown=True):
+        files = [f for f in files if not f[0] == '.'] # exclude hidden files
+        subdirs[:] = [d for d in subdirs if not d[0] == '.'] # exclude hidden dirs, e.g. .cache
 
         for filename in files:
-            if filename[0] == '.':
-                # skip hidden files, e.g. those under .cache
-                continue
-
             path = os.path.join(root, filename)
             if not is_file_compliant(regex, path):
                 failed_files.append(path)
