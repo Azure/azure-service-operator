@@ -157,36 +157,60 @@ func printSummary(packages []string, byPackage map[string][]TestRun) {
 	fmt.Println()
 }
 
+var maxOutputLines = 300
+
 func printDetails(packages []string, byPackage map[string][]TestRun) {
-	fmt.Printf("## Details\n\n")
+	fmt.Printf("## Failed Test Details\n\n")
 
 	for _, pkg := range packages {
 		tests := byPackage[pkg]
-		if len(tests) == 1 {
-			// skip package-only output
-			continue
+		// check package-level indicator, which will be first ("" test name):
+		if tests[0].Action != "fail" {
+			continue // no failed tests, skip
 		}
 
-		// first test is the "" test for overall package outcome
-		overallOutcome := actionSymbol(tests[0])
-		fmt.Printf("### %s `%s`\n\n", overallOutcome, pkg)
+		// package name as header
+		fmt.Printf("### `%s`\n\n", pkg)
 
-		fmt.Println("| Outcome | Name | Time | Output |")
-		fmt.Println("|---------|------|-----:|--------|")
+		// Output info on stderr
+		fmt.Fprintf(os.Stderr, "Package failed: %s\n", pkg)
+
 		for _, test := range tests[1:] {
-			output := ""
+			// only printing failed tests
 			if test.Action == "fail" {
-				output = `<details><pre>` + escapeOutput(test.Output) + `</pre></details>`
-			}
+				fmt.Printf("#### `%s`\n", test.Test)
+				fmt.Printf("Failed in %s\n:", test.RunTime)
 
-			fmt.Printf("| %s | `%s` | %s | %s |\n", actionSymbol(test), test.Test, test.RunTime, output)
+				trimmedOutput, output := escapeOutput(test.Output)
+				summary := "Test output"
+				if trimmedOutput {
+					summary += fmt.Sprintf(" (trimmed to last %d lines) — full details available in log", maxOutputLines)
+				}
+
+				fmt.Printf("<details><summary>%s</summary><pre>%s</pre></details>\n\n", summary, output)
+
+				// Output info on stderr, so that test failure isn’t silent on console
+				// when running `task ci`, and that full logs are available if they get trimmed
+				fmt.Fprintf(os.Stderr, "- Test failed: %s\n", test.Test)
+				fmt.Fprintln(os.Stderr, "=== TEST OUTPUT ===")
+				for _, outputLine := range test.Output {
+					fmt.Fprint(os.Stderr, outputLine) // note that line already has newline attached
+				}
+				fmt.Fprintln(os.Stderr, "=== END TEST OUTPUT ===")
+			}
 		}
 
 		fmt.Println()
 	}
 }
 
-func escapeOutput(outputs []string) string {
+func escapeOutput(outputs []string) (bool, string) {
+	trimmed := false
+	if len(outputs) > maxOutputLines {
+		outputs = outputs[len(outputs)-maxOutputLines:]
+		trimmed = true
+	}
+
 	result := strings.Builder{}
 	for _, output := range outputs {
 		s := output
@@ -196,7 +220,7 @@ func escapeOutput(outputs []string) string {
 		result.WriteString(s)
 	}
 
-	return result.String()
+	return trimmed, result.String()
 }
 
 func printSlowTests(byPackage map[string][]TestRun) {
