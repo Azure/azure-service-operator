@@ -4,7 +4,7 @@ run: when_changed
 
 output:
   group:
-    begin: '::begin::{{.TASK}}'
+    begin: '::group::{{.TASK}}'
     end: '::endgroup::'
 
 vars:
