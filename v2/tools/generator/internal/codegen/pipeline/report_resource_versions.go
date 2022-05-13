@@ -169,24 +169,8 @@ func (report *ResourceVersionsReport) createTable(
 			armVersion = crdVersion
 		}
 
-		var sample string
-		if samplesURL != "" {
-			// Note: These links are guaranteed to work because of the Taskfile 'controller:verify-samples' target
-			samplePath := fmt.Sprintf("%s/%s/%s_%s.yaml", samplesURL, group, crdVersion, strings.ToLower(rsrc.Name().Name()))
-			sample = fmt.Sprintf("[View](%s)", samplePath)
-		} else {
-			sample = "-"
-		}
-
-		supportedFrom, err := report.objectModelConfiguration.LookupSupportedFrom(rsrc.Name())
-		if err != nil {
-			if config.IsNotConfiguredError(err) {
-				supportedFrom = "-"
-				klog.Warning(err.Error())
-			} else {
-				supportedFrom = err.Error()
-			}
-		}
+		sample := report.generateSampleLink(samplesURL, group, rsrc)
+		supportedFrom := report.generateSupportedFrom(rsrc.Name())
 
 		result.AddRow(
 			rsrc.Name().Name(),
@@ -197,4 +181,41 @@ func (report *ResourceVersionsReport) createTable(
 	}
 
 	return result
+}
+
+func (report *ResourceVersionsReport) generateSampleLink(samplesURL string, group string, rsrc astmodel.TypeDefinition) string {
+	crdVersion := rsrc.Name().PackageReference.PackageName()
+	if samplesURL != "" {
+		// Note: These links are guaranteed to work because of the Taskfile 'controller:verify-samples' target
+		samplePath := fmt.Sprintf("%s/%s/%s_%s.yaml", samplesURL, group, crdVersion, strings.ToLower(rsrc.Name().Name()))
+		return fmt.Sprintf("[View](%s)", samplePath)
+	}
+
+	return "-"
+}
+
+func (report *ResourceVersionsReport) generateSupportedFrom(typeName astmodel.TypeName) string {
+	supportedFrom, err := report.objectModelConfiguration.LookupSupportedFrom(typeName)
+	if err != nil {
+		if config.IsNotConfiguredError(err) {
+			klog.Warning(err.Error())
+			return "-"
+		}
+
+		return err.Error()
+	}
+
+	_, ver, ok := typeName.PackageReference.GroupVersion()
+	if !ok {
+		msg := fmt.Sprintf("unexpected external package reference", typeName.PackageReference)
+		panic(msg)
+	}
+
+	// Special case for resources that existed prior to beta.0
+	// the `v1beta` versions of those resources are only available from "beta.0"
+	if !strings.Contains(ver, "alpha") && strings.HasPrefix(supportedFrom, "v2.0.0-alpha") {
+		return "v2.0.0-beta.0"
+	}
+
+	return supportedFrom
 }
