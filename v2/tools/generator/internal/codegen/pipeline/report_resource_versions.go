@@ -207,7 +207,7 @@ func (report *ResourceVersionsReport) generateSupportedFrom(typeName astmodel.Ty
 
 	_, ver, ok := typeName.PackageReference.GroupVersion()
 	if !ok {
-		msg := fmt.Sprintf("unexpected external package reference", typeName.PackageReference)
+		msg := fmt.Sprintf("unexpected external package reference %s", typeName.PackageReference)
 		panic(msg)
 	}
 
