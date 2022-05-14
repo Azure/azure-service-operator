@@ -7,6 +7,7 @@ package main
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -292,21 +293,23 @@ func printSlowTests(byPackage map[string][]TestRun) {
 }
 
 func logError(err error, row int, line string) {
-	if jsonError, ok := err.(*json.SyntaxError); ok {
+	var syntaxError *json.SyntaxError
+	if errors.As(err, &syntaxError) {
 		log.Printf(
 			"Syntax error parsing JSON on line %d at column %d: %s (line: %q)",
 			row,
-			jsonError.Offset,
-			jsonError.Error(),
+			syntaxError.Offset,
+			syntaxError.Error(),
 			line)
 	}
 
-	if jsonError, ok := err.(*json.UnmarshalTypeError); ok {
+	var unmarshalError *json.UnmarshalTypeError
+	if errors.As(err, &unmarshalError) {
 		log.Printf(
 			"Unmarshal type error parsing JSON on line %d at column %d: %s (near: %q)",
 			row,
-			jsonError.Offset,
-			jsonError.Error(),
+			unmarshalError.Offset,
+			unmarshalError.Error(),
 			line)
 	}
 
