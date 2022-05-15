@@ -90,17 +90,18 @@ func loadJSON(testOutputFile string) map[string][]TestRun {
 	var data []JSONFormat
 	errCount := 0
 	for row, line := range lines {
-		// Skip empty lines and lines starting with "FAIL"
-		if line == "" ||
-			strings.HasPrefix(line, "FAIL") {
-			continue
-		}
-
 		var d JSONFormat
 		err := json.Unmarshal([]byte(line), &d)
 		if err != nil {
-			logError(err, row, line)
-			errCount++
+			// Write the line to the log so we don't lose the content
+			log.Println(line)
+			if line != "" && !strings.HasPrefix(line, "FAIL") {
+				// It's a parse failure we care about, write details
+				logError(err, row, line)
+				errCount++
+			}
+
+			continue
 		}
 
 		data = append(data, d)
