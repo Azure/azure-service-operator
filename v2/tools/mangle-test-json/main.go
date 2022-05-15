@@ -7,6 +7,7 @@ package main
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -34,6 +35,7 @@ type TestRun struct {
 
 func main() {
 	for _, testOutputFile := range os.Args[1:] {
+		log.Printf("Parsing  %s\n\n", testOutputFile)
 		fmt.Printf("# `%s`\n\n", testOutputFile)
 
 		byPackage := loadJSON(testOutputFile)
@@ -52,6 +54,7 @@ func main() {
 		printDetails(packages, byPackage)
 		printSlowTests(byPackage)
 	}
+	log.Println("Complete.")
 }
 
 func min(i, j int) int {
@@ -78,16 +81,34 @@ func actionSymbol(d TestRun) string {
 func loadJSON(testOutputFile string) map[string][]TestRun {
 	content, err := ioutil.ReadFile(testOutputFile)
 	if err != nil {
-		log.Fatalf("%e", err)
+		log.Fatalf("Unable to read file: %e", err)
 	}
 
-	// make test output into valid JSON
-	jsonData := "[" + strings.Join(strings.Split(strings.Trim(string(content), " \n\r"), "\n"), ",") + "]"
+	// Break into individual lines to make error reporting easier
+	lines := strings.Split(string(content), "\n")
 
-	data := []JSONFormat{}
-	err = json.Unmarshal([]byte(jsonData), &data)
-	if err != nil {
-		log.Fatalf("%e", err)
+	var data []JSONFormat
+	errCount := 0
+	for row, line := range lines {
+		var d JSONFormat
+		err := json.Unmarshal([]byte(line), &d)
+		if err != nil {
+			// Write the line to the log so we don't lose the content
+			log.Println(line)
+			if line != "" && !strings.HasPrefix(line, "FAIL") {
+				// It's a parse failure we care about, write details
+				logError(err, row, line)
+				errCount++
+			}
+
+			continue
+		}
+
+		data = append(data, d)
+	}
+
+	if errCount > 0 {
+		log.Fatalf("%d fatal error(s) parsing JSON", errCount)
 	}
 
 	// track when each test started running
@@ -270,4 +291,28 @@ func printSlowTests(byPackage map[string][]TestRun) {
 		test := allTests[i]
 		fmt.Printf("| `%s` | `%s` | %s |\n", test.Package, test.Test, test.RunTime)
 	}
+}
+
+func logError(err error, row int, line string) {
+	var syntaxError *json.SyntaxError
+	if errors.As(err, &syntaxError) {
+		log.Printf(
+			"Syntax error parsing JSON on line %d at column %d: %s (line: %q)",
+			row,
+			syntaxError.Offset,
+			syntaxError.Error(),
+			line)
+	}
+
+	var unmarshalError *json.UnmarshalTypeError
+	if errors.As(err, &unmarshalError) {
+		log.Printf(
+			"Unmarshal type error parsing JSON on line %d at column %d: %s (near: %q)",
+			row,
+			unmarshalError.Offset,
+			unmarshalError.Error(),
+			line)
+	}
+
+	log.Printf("Unexpected error parsing JSON: %s", err)
 }
