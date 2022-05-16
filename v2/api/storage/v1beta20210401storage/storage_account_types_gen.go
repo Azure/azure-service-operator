@@ -129,6 +129,11 @@ type StorageAccountList struct {
 	Items           []StorageAccount `json:"items"`
 }
 
+// +kubebuilder:validation:Enum={"2021-04-01"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2021-04-01")
+
 // Storage version of v1beta20210401.StorageAccount_Status
 type StorageAccount_Status struct {
 	AccessTier                            *string                                                `json:"accessTier,omitempty"`

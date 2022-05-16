@@ -129,6 +129,11 @@ type ImageList struct {
 	Items           []Image `json:"items"`
 }
 
+// +kubebuilder:validation:Enum={"2021-07-01"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2021-07-01")
+
 // Storage version of v1beta20210701.Image_Status
 type Image_Status struct {
 	Conditions           []conditions.Condition      `json:"conditions,omitempty"`

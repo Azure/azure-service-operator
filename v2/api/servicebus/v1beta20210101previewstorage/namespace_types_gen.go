@@ -129,6 +129,11 @@ type NamespaceList struct {
 	Items           []Namespace `json:"items"`
 }
 
+// +kubebuilder:validation:Enum={"2021-01-01-preview"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2021-01-01-preview")
+
 // Storage version of v1beta20210101preview.Namespaces_Spec
 type Namespaces_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it

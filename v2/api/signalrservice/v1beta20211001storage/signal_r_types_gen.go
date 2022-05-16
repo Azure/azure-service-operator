@@ -130,6 +130,11 @@ type SignalRList struct {
 	Items           []SignalR `json:"items"`
 }
 
+// +kubebuilder:validation:Enum={"2021-10-01"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2021-10-01")
+
 // Storage version of v1beta20211001.SignalRResource_Status
 type SignalRResource_Status struct {
 	Conditions                 []conditions.Condition                                         `json:"conditions,omitempty"`

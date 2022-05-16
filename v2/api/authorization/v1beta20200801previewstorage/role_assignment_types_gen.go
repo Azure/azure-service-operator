@@ -128,6 +128,11 @@ type RoleAssignmentList struct {
 	Items           []RoleAssignment `json:"items"`
 }
 
+// +kubebuilder:validation:Enum={"2020-08-01-preview"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2020-08-01-preview")
+
 // Storage version of v1beta20200801preview.RoleAssignment_Status
 type RoleAssignment_Status struct {
 	Condition                          *string                `json:"condition,omitempty"`

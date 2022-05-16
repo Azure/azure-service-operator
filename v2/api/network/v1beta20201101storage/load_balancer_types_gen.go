@@ -129,6 +129,11 @@ type LoadBalancerList struct {
 	Items           []LoadBalancer `json:"items"`
 }
 
+// +kubebuilder:validation:Enum={"2020-11-01"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2020-11-01")
+
 // Storage version of v1beta20201101.LoadBalancer_Status
 type LoadBalancer_Status struct {
 	BackendAddressPools      []BackendAddressPool_Status_LoadBalancer_SubResourceEmbedded      `json:"backendAddressPools,omitempty"`

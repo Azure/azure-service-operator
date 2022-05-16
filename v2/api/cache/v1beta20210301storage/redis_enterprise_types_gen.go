@@ -129,6 +129,11 @@ type RedisEnterpriseList struct {
 	Items           []RedisEnterprise `json:"items"`
 }
 
+// +kubebuilder:validation:Enum={"2021-03-01"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2021-03-01")
+
 // Storage version of v1beta20210301.Cluster_Status
 type Cluster_Status struct {
 	Conditions                 []conditions.Condition                                 `json:"conditions,omitempty"`
