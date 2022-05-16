@@ -258,7 +258,7 @@ jobs:
       displayName: Test - Cleanup Azure Resources
       condition: always()
       inputs:
-        azureSubscription: 'ASO Subscription'
+        azureSubscription: 'ASO Subscription 2'
         scriptType: 'bash'
         scriptLocation: 'inlineScript'
         inlineScript: 'make test-cleanup-azure-resources'
@@ -288,7 +288,7 @@ jobs:
     
     - task: AzureCLI@2
       inputs:
-        azureSubscription: 'ASO Subscription'
+        azureSubscription: 'ASO Subscription 2'
         scriptType: 'bash'
         scriptLocation: 'inlineScript'
         inlineScript: |
@@ -365,7 +365,7 @@ jobs:
       displayName: Deploy to AKS - Clean up deployment and release cluster back to free pool
       condition: or(eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true'), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
       inputs:
-        azureSubscription: 'ASO Subscription'
+        azureSubscription: 'ASO Subscription 2'
         scriptType: 'bash'
         scriptLocation: 'inlineScript'
         inlineScript: |
