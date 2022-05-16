@@ -98,7 +98,7 @@ func (group *NamespacesEventhubsConsumerGroup) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-11-01"
 func (group NamespacesEventhubsConsumerGroup) GetAPIVersion() string {
-	return "2021-11-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -575,11 +575,6 @@ func (group *ConsumerGroup_Status) AssignPropertiesToConsumerGroupStatus(destina
 	// No error
 	return nil
 }
-
-// +kubebuilder:validation:Enum={"2021-11-01"}
-type NamespacesEventhubsConsumergroupsSpecAPIVersion string
-
-const NamespacesEventhubsConsumergroupsSpecAPIVersion20211101 = NamespacesEventhubsConsumergroupsSpecAPIVersion("2021-11-01")
 
 type NamespacesEventhubsConsumergroups_Spec struct {
 	// +kubebuilder:validation:MaxLength=50

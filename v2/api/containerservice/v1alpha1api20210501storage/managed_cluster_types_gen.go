@@ -73,7 +73,7 @@ func (cluster *ManagedCluster) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-01"
 func (cluster ManagedCluster) GetAPIVersion() string {
-	return "2021-05-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource

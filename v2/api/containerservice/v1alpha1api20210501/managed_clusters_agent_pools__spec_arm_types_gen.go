@@ -16,7 +16,7 @@ var _ genruntime.ARMResourceSpec = &ManagedClustersAgentPools_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-01"
 func (pools ManagedClustersAgentPools_SpecARM) GetAPIVersion() string {
-	return "2021-05-01"
+	return string(APIVersionValue)
 }
 
 // GetName returns the Name of the resource

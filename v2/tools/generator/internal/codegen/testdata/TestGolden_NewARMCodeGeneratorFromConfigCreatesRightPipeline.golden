@@ -42,6 +42,7 @@ addOperatorSpec                                   azure      Adds the property '
 applyDefaulterAndValidatorInterfaces              azure      Add the admission.Defaulter and admission.Validator interfaces to each resource that requires them
 injectOriginalVersionFunction                     azure      Inject the function OriginalVersion() into each Spec type
 createStorageTypes                                azure      Create storage versions of CRD types
+add-api-version-enums                                        Add enums for API Versions in each package
 createConversionGraph                             azure      Create the graph of conversions between versions of each resource group
 injectOriginalVersionProperty                     azure      Inject the property OriginalVersion into each Storage Spec type
 injectPropertyAssignmentFunctions                 azure      Inject property assignment functions AssignFrom() and AssignTo() into resources and objects

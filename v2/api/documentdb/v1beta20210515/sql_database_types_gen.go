@@ -98,7 +98,7 @@ func (database *SqlDatabase) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
 func (database SqlDatabase) GetAPIVersion() string {
-	return "2021-05-15"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -316,11 +316,6 @@ type SqlDatabaseList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []SqlDatabase `json:"items"`
 }
-
-// +kubebuilder:validation:Enum={"2021-05-15"}
-type DatabaseAccountsSqlDatabasesSpecAPIVersion string
-
-const DatabaseAccountsSqlDatabasesSpecAPIVersion20210515 = DatabaseAccountsSqlDatabasesSpecAPIVersion("2021-05-15")
 
 type DatabaseAccountsSqlDatabases_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it

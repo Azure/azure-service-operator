@@ -98,7 +98,7 @@ func (queue *NamespacesQueue) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-01-01-preview"
 func (queue NamespacesQueue) GetAPIVersion() string {
-	return "2021-01-01-preview"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -316,11 +316,6 @@ type NamespacesQueueList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []NamespacesQueue `json:"items"`
 }
-
-// +kubebuilder:validation:Enum={"2021-01-01-preview"}
-type NamespacesQueuesSpecAPIVersion string
-
-const NamespacesQueuesSpecAPIVersion20210101Preview = NamespacesQueuesSpecAPIVersion("2021-01-01-preview")
 
 type NamespacesQueues_Spec struct {
 	// AutoDeleteOnIdle: ISO 8061 timeSpan idle interval after which the queue is automatically deleted. The minimum duration

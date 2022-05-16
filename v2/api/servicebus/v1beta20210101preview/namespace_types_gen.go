@@ -98,7 +98,7 @@ func (namespace *Namespace) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-01-01-preview"
 func (namespace Namespace) GetAPIVersion() string {
-	return "2021-01-01-preview"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -318,9 +318,9 @@ type NamespaceList struct {
 }
 
 // +kubebuilder:validation:Enum={"2021-01-01-preview"}
-type NamespacesSpecAPIVersion string
+type APIVersion string
 
-const NamespacesSpecAPIVersion20210101Preview = NamespacesSpecAPIVersion("2021-01-01-preview")
+const APIVersionValue = APIVersion("2021-01-01-preview")
 
 type Namespaces_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it

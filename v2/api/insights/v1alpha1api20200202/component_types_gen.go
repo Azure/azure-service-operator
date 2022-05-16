@@ -113,7 +113,7 @@ func (component *Component) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-02-02"
 func (component Component) GetAPIVersion() string {
-	return "2020-02-02"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource

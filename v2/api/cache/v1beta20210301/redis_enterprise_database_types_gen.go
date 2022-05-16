@@ -98,7 +98,7 @@ func (database *RedisEnterpriseDatabase) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-03-01"
 func (database RedisEnterpriseDatabase) GetAPIVersion() string {
-	return "2021-03-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -718,11 +718,6 @@ func (database *Database_Status) AssignPropertiesToDatabaseStatus(destination *v
 	// No error
 	return nil
 }
-
-// +kubebuilder:validation:Enum={"2021-03-01"}
-type RedisEnterpriseDatabasesSpecAPIVersion string
-
-const RedisEnterpriseDatabasesSpecAPIVersion20210301 = RedisEnterpriseDatabasesSpecAPIVersion("2021-03-01")
 
 type RedisEnterpriseDatabases_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it

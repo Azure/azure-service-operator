@@ -98,7 +98,7 @@ func (gateway *VirtualNetworkGateway) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
 func (gateway VirtualNetworkGateway) GetAPIVersion() string {
-	return "2020-11-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -1090,11 +1090,6 @@ func (gateway *VirtualNetworkGateway_Status) AssignPropertiesToVirtualNetworkGat
 	// No error
 	return nil
 }
-
-// +kubebuilder:validation:Enum={"2020-11-01"}
-type VirtualNetworkGatewaysSpecAPIVersion string
-
-const VirtualNetworkGatewaysSpecAPIVersion20201101 = VirtualNetworkGatewaysSpecAPIVersion("2020-11-01")
 
 type VirtualNetworkGateways_Spec struct {
 	// ActiveActive: ActiveActive flag.

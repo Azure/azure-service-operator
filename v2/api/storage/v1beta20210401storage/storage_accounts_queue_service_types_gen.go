@@ -51,7 +51,7 @@ func (service *StorageAccountsQueueService) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-04-01"
 func (service StorageAccountsQueueService) GetAPIVersion() string {
-	return "2021-04-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource

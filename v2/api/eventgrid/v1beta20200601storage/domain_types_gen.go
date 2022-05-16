@@ -51,7 +51,7 @@ func (domain *Domain) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
 func (domain Domain) GetAPIVersion() string {
-	return "2020-06-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource

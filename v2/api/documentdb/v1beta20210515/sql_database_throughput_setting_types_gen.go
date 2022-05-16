@@ -91,7 +91,7 @@ func (setting *SqlDatabaseThroughputSetting) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
 func (setting SqlDatabaseThroughputSetting) GetAPIVersion() string {
-	return "2021-05-15"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -309,11 +309,6 @@ type SqlDatabaseThroughputSettingList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []SqlDatabaseThroughputSetting `json:"items"`
 }
-
-// +kubebuilder:validation:Enum={"2021-05-15"}
-type DatabaseAccountsSqlDatabasesThroughputSettingsSpecAPIVersion string
-
-const DatabaseAccountsSqlDatabasesThroughputSettingsSpecAPIVersion20210515 = DatabaseAccountsSqlDatabasesThroughputSettingsSpecAPIVersion("2021-05-15")
 
 type DatabaseAccountsSqlDatabasesThroughputSettings_Spec struct {
 	// Location: The location of the resource group to which the resource belongs.

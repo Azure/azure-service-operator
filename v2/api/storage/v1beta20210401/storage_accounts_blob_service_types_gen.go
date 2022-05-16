@@ -91,7 +91,7 @@ func (service *StorageAccountsBlobService) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-04-01"
 func (service StorageAccountsBlobService) GetAPIVersion() string {
-	return "2021-04-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -820,11 +820,6 @@ func (properties *BlobServiceProperties_Status) AssignPropertiesToBlobServicePro
 	// No error
 	return nil
 }
-
-// +kubebuilder:validation:Enum={"2021-04-01"}
-type StorageAccountsBlobServicesSpecAPIVersion string
-
-const StorageAccountsBlobServicesSpecAPIVersion20210401 = StorageAccountsBlobServicesSpecAPIVersion("2021-04-01")
 
 type StorageAccountsBlobServices_Spec struct {
 	// AutomaticSnapshotPolicyEnabled: Deprecated in favor of isVersioningEnabled property.

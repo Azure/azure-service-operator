@@ -20,5 +20,4 @@
 | WorkspaceSkuStatusName                             | v1alpha1api20210601 | v1beta20210601 |
 | WorkspaceSku_Status                                | v1alpha1api20210601 | v1beta20210601 |
 | Workspace_Status                                   | v1alpha1api20210601 | v1beta20210601 |
-| WorkspacesSpecAPIVersion                           | v1alpha1api20210601 | v1beta20210601 |
 | Workspaces_Spec                                    | v1alpha1api20210601 | v1beta20210601 |

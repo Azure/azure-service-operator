@@ -98,7 +98,7 @@ func (server *FlexibleServer) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-01"
 func (server FlexibleServer) GetAPIVersion() string {
-	return "2021-05-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -318,9 +318,9 @@ type FlexibleServerList struct {
 }
 
 // +kubebuilder:validation:Enum={"2021-05-01"}
-type FlexibleServersSpecAPIVersion string
+type APIVersion string
 
-const FlexibleServersSpecAPIVersion20210501 = FlexibleServersSpecAPIVersion("2021-05-01")
+const APIVersionValue = APIVersion("2021-05-01")
 
 type FlexibleServers_Spec struct {
 	// AdministratorLogin: The administrator's login name of a server. Can only be specified when the server is being created

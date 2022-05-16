@@ -8,6 +8,7 @@ package codegen
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	"github.com/pkg/errors"
 	"k8s.io/klog/v2"
@@ -45,8 +46,8 @@ func NewCodeGeneratorFromConfigFile(configurationFile string) (*CodeGenerator, e
 func NewTargetedCodeGeneratorFromConfig(
 	configuration *config.Configuration,
 	idFactory astmodel.IdentifierFactory,
-	target pipeline.Target) (*CodeGenerator, error) {
-
+	target pipeline.Target,
+) (*CodeGenerator, error) {
 	result, err := NewCodeGeneratorFromConfig(configuration, idFactory)
 	if err != nil {
 		return nil, errors.Wrapf(err, "creating pipeline targeting %s", target)
@@ -68,7 +69,8 @@ func NewTargetedCodeGeneratorFromConfig(
 // NewCodeGeneratorFromConfig produces a new code generator with the given configuration all available stages
 func NewCodeGeneratorFromConfig(
 	configuration *config.Configuration,
-	idFactory astmodel.IdentifierFactory) (*CodeGenerator, error) {
+	idFactory astmodel.IdentifierFactory,
+) (*CodeGenerator, error) {
 	result := &CodeGenerator{
 		configuration: configuration,
 		pipeline:      createAllPipelineStages(idFactory, configuration),
@@ -79,7 +81,6 @@ func NewCodeGeneratorFromConfig(
 
 func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration *config.Configuration) []*pipeline.Stage {
 	return []*pipeline.Stage{
-
 		pipeline.LoadSchemaIntoTypes(idFactory, configuration, pipeline.DefaultSchemaLoader),
 
 		// Import status info from Swagger:
@@ -181,6 +182,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		// TODO: For now only used for ARM
 		pipeline.InjectOriginalVersionFunction(idFactory).UsedFor(pipeline.ARMTarget),
 		pipeline.CreateStorageTypes().UsedFor(pipeline.ARMTarget),
+		pipeline.AddAPIVersionEnums(), // after CreateStorageTypes so that we get API Versions for them too
 		pipeline.CreateConversionGraph(configuration, astmodel.GeneratorVersion).UsedFor(pipeline.ARMTarget),
 		pipeline.InjectOriginalVersionProperty().UsedFor(pipeline.ARMTarget),
 		pipeline.InjectPropertyAssignmentFunctions(configuration, idFactory).UsedFor(pipeline.ARMTarget),
@@ -245,6 +247,22 @@ func (generator *CodeGenerator) Generate(ctx context.Context) error {
 			klog.V(1).Infof("Added %d type definitions", len(defsAdded))
 		} else if len(defsRemoved) > 0 {
 			klog.V(1).Infof("Removed %d type definitions", len(defsRemoved))
+		}
+
+		found := false
+		for _, def := range stateOut.Definitions() {
+			if _, ok := astmodel.AsEnumType(def.Type()); ok {
+				if strings.Index(def.Name().Name(), "APIVersion") == 0 {
+					found = true
+					break
+				}
+			}
+		}
+
+		if found {
+			klog.Infof("FOUND APIVERSION ENUM")
+		} else {
+			klog.Info("DID NOT FIND APIVERSION ENUM")
 		}
 
 		state = stateOut

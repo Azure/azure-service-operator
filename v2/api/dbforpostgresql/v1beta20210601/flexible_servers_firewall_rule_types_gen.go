@@ -98,7 +98,7 @@ func (rule *FlexibleServersFirewallRule) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-06-01"
 func (rule FlexibleServersFirewallRule) GetAPIVersion() string {
-	return "2021-06-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -540,11 +540,6 @@ func (rule *FirewallRule_Status) AssignPropertiesToFirewallRuleStatus(destinatio
 	// No error
 	return nil
 }
-
-// +kubebuilder:validation:Enum={"2021-06-01"}
-type FlexibleServersFirewallRulesSpecAPIVersion string
-
-const FlexibleServersFirewallRulesSpecAPIVersion20210601 = FlexibleServersFirewallRulesSpecAPIVersion("2021-06-01")
 
 type FlexibleServersFirewallRules_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it

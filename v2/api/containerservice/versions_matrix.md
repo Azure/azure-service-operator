@@ -112,9 +112,7 @@
 | ManagedClusterWindowsProfile_Status                                                          | v1alpha1api20210501 | v1beta20210501 |
 | ManagedCluster_Status                                                                        | v1alpha1api20210501 | v1beta20210501 |
 | ManagedClustersAgentPool                                                                     | v1alpha1api20210501 | v1beta20210501 |
-| ManagedClustersAgentPoolsSpecAPIVersion                                                      | v1alpha1api20210501 | v1beta20210501 |
 | ManagedClustersAgentPools_Spec                                                               | v1alpha1api20210501 | v1beta20210501 |
-| ManagedClustersSpecAPIVersion                                                                | v1alpha1api20210501 | v1beta20210501 |
 | ManagedClusters_Spec                                                                         | v1alpha1api20210501 | v1beta20210501 |
 | OSDiskType_Status                                                                            | v1alpha1api20210501 | v1beta20210501 |
 | OSSKU_Status                                                                                 | v1alpha1api20210501 | v1beta20210501 |

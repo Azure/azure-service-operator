@@ -98,7 +98,7 @@ func (subscription *EventSubscription) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
 func (subscription EventSubscription) GetAPIVersion() string {
-	return "2020-06-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -776,11 +776,6 @@ func (subscription *EventSubscription_Status) AssignPropertiesToEventSubscriptio
 	// No error
 	return nil
 }
-
-// +kubebuilder:validation:Enum={"2020-06-01"}
-type EventSubscriptionsSpecAPIVersion string
-
-const EventSubscriptionsSpecAPIVersion20200601 = EventSubscriptionsSpecAPIVersion("2020-06-01")
 
 type EventSubscriptions_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it

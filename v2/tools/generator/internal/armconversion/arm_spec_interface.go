@@ -30,8 +30,8 @@ func checkPropertyPresence(o *astmodel.ObjectType, name astmodel.PropertyName) e
 func NewARMSpecInterfaceImpl(
 	idFactory astmodel.IdentifierFactory,
 	resource *astmodel.ResourceType,
-	spec *astmodel.ObjectType) (*astmodel.InterfaceImplementation, error) {
-
+	spec *astmodel.ObjectType,
+) (*astmodel.InterfaceImplementation, error) {
 	nameProperty := idFactory.CreatePropertyName(astmodel.NameProperty, astmodel.Exported)
 	err := checkPropertyPresence(spec, nameProperty)
 	if err != nil {
@@ -43,7 +43,10 @@ func NewARMSpecInterfaceImpl(
 
 	getTypeFunc := functions.NewGetTypeFunction(resource.ARMType(), idFactory, functions.ReceiverTypeStruct)
 
-	getAPIVersionFunc := functions.NewGetAPIVersionFunction(resource.APIVersionTypeName(), resource.APIVersionEnumValue(), idFactory)
+	getAPIVersionFunc := functions.NewGetAPIVersionFunction(
+		resource.APIVersionTypeName(),
+		resource.APIVersionEnumValue(),
+		idFactory)
 
 	result := astmodel.NewInterfaceImplementation(
 		astmodel.ARMResourceSpecType,
@@ -58,7 +61,8 @@ func getNameFunction(
 	fn *functions.ObjectFunction,
 	genContext *astmodel.CodeGenerationContext,
 	receiver astmodel.TypeName,
-	methodName string) *dst.FuncDecl {
+	methodName string,
+) *dst.FuncDecl {
 	return armSpecInterfaceSimpleGetFunction(
 		fn,
 		genContext,
@@ -74,8 +78,8 @@ func armSpecInterfaceSimpleGetFunction(
 	receiver astmodel.TypeName,
 	methodName string,
 	propertyName string,
-	castToString bool) *dst.FuncDecl {
-
+	castToString bool,
+) *dst.FuncDecl {
 	receiverIdent := fn.IdFactory().CreateReceiver(receiver.Name())
 	receiverType := receiver.AsType(codeGenerationContext)
 

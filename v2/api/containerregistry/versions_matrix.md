@@ -29,7 +29,6 @@
 | QuarantinePolicyStatus                               | v1alpha1api20210901 | v1beta20210901 |
 | QuarantinePolicyStatusStatus                         | v1alpha1api20210901 | v1beta20210901 |
 | QuarantinePolicy_Status                              | v1alpha1api20210901 | v1beta20210901 |
-| RegistriesSpecAPIVersion                             | v1alpha1api20210901 | v1beta20210901 |
 | Registries_Spec                                      | v1alpha1api20210901 | v1beta20210901 |
 | Registry                                             | v1alpha1api20210901 | v1beta20210901 |
 | RegistryProperties                                   | v1alpha1api20210901 | v1beta20210901 |

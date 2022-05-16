@@ -113,7 +113,7 @@ func (webtest *Webtest) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2018-05-01-preview"
 func (webtest Webtest) GetAPIVersion() string {
-	return "2018-05-01-preview"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource

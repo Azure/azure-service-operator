@@ -112,7 +112,7 @@ func (database *RedisEnterpriseDatabase) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-03-01"
 func (database RedisEnterpriseDatabase) GetAPIVersion() string {
-	return "2021-03-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource

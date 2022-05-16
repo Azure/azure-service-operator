@@ -32,6 +32,7 @@ addCrossplaneForProviderProperty        crossplane Add a 'ForProvider' property 
 addCrossplaneAtProviderProperty         crossplane Add an 'AtProvider' property on every status
 addCrossplaneEmbeddedResourceSpec       crossplane Add an embedded runtimev1alpha1.ResourceSpec to every spec type
 addCrossplaneEmbeddedResourceStatus     crossplane Add an embedded runtimev1alpha1.ResourceStatus to every status type
+add-api-version-enums                              Add enums for API Versions in each package
 markStorageVersion                      crossplane Mark the latest API version of each resource as the storage version
 simplifyDefinitions                                Flatten definitions by removing wrapper types
 rogueCheck                                         Check for rogue definitions using AnyTypes

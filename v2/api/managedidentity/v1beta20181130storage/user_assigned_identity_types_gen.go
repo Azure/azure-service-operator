@@ -51,7 +51,7 @@ func (identity *UserAssignedIdentity) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2018-11-30"
 func (identity UserAssignedIdentity) GetAPIVersion() string {
-	return "2018-11-30"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource

@@ -98,7 +98,7 @@ func (domain *Domain) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
 func (domain Domain) GetAPIVersion() string {
-	return "2020-06-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -316,6 +316,11 @@ type DomainList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Domain `json:"items"`
 }
+
+// +kubebuilder:validation:Enum={"2020-06-01"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2020-06-01")
 
 type Domain_Status struct {
 	// Conditions: The observed state of the resource
@@ -803,11 +808,6 @@ func (domain *Domain_Status) AssignPropertiesToDomainStatus(destination *v202006
 	// No error
 	return nil
 }
-
-// +kubebuilder:validation:Enum={"2020-06-01"}
-type DomainsSpecAPIVersion string
-
-const DomainsSpecAPIVersion20200601 = DomainsSpecAPIVersion("2020-06-01")
 
 type Domains_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
