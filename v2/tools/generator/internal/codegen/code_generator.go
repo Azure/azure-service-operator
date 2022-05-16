@@ -45,8 +45,8 @@ func NewCodeGeneratorFromConfigFile(configurationFile string) (*CodeGenerator, e
 func NewTargetedCodeGeneratorFromConfig(
 	configuration *config.Configuration,
 	idFactory astmodel.IdentifierFactory,
-	target pipeline.Target) (*CodeGenerator, error) {
-
+	target pipeline.Target,
+) (*CodeGenerator, error) {
 	result, err := NewCodeGeneratorFromConfig(configuration, idFactory)
 	if err != nil {
 		return nil, errors.Wrapf(err, "creating pipeline targeting %s", target)
@@ -68,7 +68,8 @@ func NewTargetedCodeGeneratorFromConfig(
 // NewCodeGeneratorFromConfig produces a new code generator with the given configuration all available stages
 func NewCodeGeneratorFromConfig(
 	configuration *config.Configuration,
-	idFactory astmodel.IdentifierFactory) (*CodeGenerator, error) {
+	idFactory astmodel.IdentifierFactory,
+) (*CodeGenerator, error) {
 	result := &CodeGenerator{
 		configuration: configuration,
 		pipeline:      createAllPipelineStages(idFactory, configuration),
@@ -79,7 +80,6 @@ func NewCodeGeneratorFromConfig(
 
 func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration *config.Configuration) []*pipeline.Stage {
 	return []*pipeline.Stage{
-
 		pipeline.LoadSchemaIntoTypes(idFactory, configuration, pipeline.DefaultSchemaLoader),
 
 		// Import status info from Swagger:
@@ -137,6 +137,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		// TODO: These should be removed if/when we move to Swagger as the single source of truth
 		pipeline.RemoveTypeProperty(),
 		pipeline.RemoveAPIVersionProperty(),
+		pipeline.AddAPIVersionEnums(),
 
 		pipeline.VerifyNoErroredTypes(),
 

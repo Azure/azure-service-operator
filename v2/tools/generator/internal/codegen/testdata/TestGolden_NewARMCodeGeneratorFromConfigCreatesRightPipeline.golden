@@ -23,6 +23,7 @@ removeEmbeddedResources                           azure      Remove properties t
 filterTypes                                                  Apply export filters to reduce the number of generated types
 removeTypeProperty                                           Remove the ARM type property and instead augment the ResourceType with it
 removeAPIVersionProperty                                     Remove the ARM API version property and instead augment the ResourceType with it
+add-api-version-enums                                        Add enums for API Versions in each package
 verifyNoErroredTypes                                         Verify there are no ErroredType's containing errors
 stripUnreferenced                                            Strip unreferenced types
 replaceAnyTypeWithJSON                                       Replace properties using interface{} with arbitrary JSON

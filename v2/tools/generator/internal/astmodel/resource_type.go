@@ -225,6 +225,15 @@ func (resource *ResourceType) WithFunction(function Function) *ResourceType {
 	return result
 }
 
+// WithFunction returns a new Resource without the specific function
+func (resource *ResourceType) WithoutFunction(name string) *ResourceType {
+	// Create a copy to preserve immutability
+	result := resource.copy()
+	delete(result.functions, name)
+
+	return result
+}
+
 // WithoutFunctions creates a new Resource with no functions (useful for testing)
 func (resource *ResourceType) WithoutFunctions() *ResourceType {
 	// Create a copy to preserve immutability
@@ -411,9 +420,16 @@ func (resource *ResourceType) ARMType() string {
 	return resource.armType
 }
 
-// TODO: It's possible we could do this at the package level?
+func (resource *ResourceType) HasAPIVersion() bool {
+	return !resource.apiVersionTypeName.IsEmpty()
+}
+
 // APIVersionTypeName returns the type name of the API version
 func (resource *ResourceType) APIVersionTypeName() TypeName {
+	if !resource.HasAPIVersion() {
+		panic("resource has no APIVersion TypeName to return")
+	}
+
 	return resource.apiVersionTypeName
 }
 
@@ -453,9 +469,10 @@ func (resource *ResourceType) References() TypeNameSet {
 	}
 
 	result := SetUnion(spec, status)
+
 	// It's a bit awkward to have to do this, but it doesn't exist as a reference
 	// anywhere else
-	if !resource.APIVersionTypeName().Equals(TypeName{}, EqualityOverrides{}) {
+	if resource.HasAPIVersion() {
 		result.Add(resource.APIVersionTypeName())
 	}
 
@@ -503,6 +520,11 @@ func (resource *ResourceType) RequiredPackageReferences() *PackageReferenceSet {
 
 	// Interface imports
 	references.Merge(resource.InterfaceImplementer.RequiredPackageReferences())
+
+	if resource.HasAPIVersion() {
+		// API Version can live in a different package, for 'storage' types
+		references.AddReference(resource.APIVersionTypeName().PackageReference)
+	}
 
 	return references
 }
@@ -621,8 +643,8 @@ func (resource *ResourceType) makeResourceListTypeName(name TypeName) TypeName {
 func (resource *ResourceType) resourceListTypeDecls(
 	codeGenerationContext *CodeGenerationContext,
 	resourceTypeName TypeName,
-	description []string) []dst.Decl {
-
+	description []string,
+) []dst.Decl {
 	typeName := resource.makeResourceListTypeName(resourceTypeName)
 
 	packageName := codeGenerationContext.MustGetImportedPackageName(MetaV1Reference)
@@ -732,8 +754,8 @@ func (resource *ResourceType) WriteDebugDescription(builder *strings.Builder, de
 func generateMethodDeclForFunction(
 	typeName TypeName,
 	f Function,
-	codeGenerationContext *CodeGenerationContext) *dst.FuncDecl {
-
+	codeGenerationContext *CodeGenerationContext,
+) *dst.FuncDecl {
 	defer func() {
 		if err := recover(); err != nil {
 			panic(fmt.Sprintf(

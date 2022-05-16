@@ -51,7 +51,7 @@ func (snapshot *Snapshot) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-09-30"
 func (snapshot Snapshot) GetAPIVersion() string {
-	return "2020-09-30"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource

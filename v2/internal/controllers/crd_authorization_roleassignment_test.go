@@ -69,7 +69,7 @@ func Test_Authorization_RoleAssignment_OnResourceGroup_CRUD(t *testing.T) {
 	exists, _, err := tc.AzureClient.HeadByID(
 		tc.Ctx,
 		armId,
-		string(authorization.RoleAssignmentsSpecAPIVersion20200801Preview))
+		string(authorization.APIVersionValue))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
 }
@@ -143,7 +143,7 @@ func Test_Authorization_RoleAssignment_OnStorageAccount_CRUD(t *testing.T) {
 	exists, _, err := tc.AzureClient.HeadByID(
 		tc.Ctx,
 		armId,
-		string(authorization.RoleAssignmentsSpecAPIVersion20200801Preview))
+		string(authorization.APIVersionValue))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
 }

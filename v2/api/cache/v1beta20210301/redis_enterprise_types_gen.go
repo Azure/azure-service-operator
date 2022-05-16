@@ -98,7 +98,7 @@ func (enterprise *RedisEnterprise) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-03-01"
 func (enterprise RedisEnterprise) GetAPIVersion() string {
-	return "2021-03-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -316,6 +316,11 @@ type RedisEnterpriseList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []RedisEnterprise `json:"items"`
 }
+
+// +kubebuilder:validation:Enum={"2021-03-01"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2021-03-01")
 
 type Cluster_Status struct {
 	// Conditions: The observed state of the resource
@@ -722,11 +727,6 @@ func (cluster *Cluster_Status) AssignPropertiesToClusterStatus(destination *v202
 	// No error
 	return nil
 }
-
-// +kubebuilder:validation:Enum={"2021-03-01"}
-type RedisEnterpriseSpecAPIVersion string
-
-const RedisEnterpriseSpecAPIVersion20210301 = RedisEnterpriseSpecAPIVersion("2021-03-01")
 
 type RedisEnterprise_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it

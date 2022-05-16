@@ -98,7 +98,7 @@ func (trigger *SqlDatabaseContainerTrigger) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
 func (trigger SqlDatabaseContainerTrigger) GetAPIVersion() string {
-	return "2021-05-15"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -316,11 +316,6 @@ type SqlDatabaseContainerTriggerList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []SqlDatabaseContainerTrigger `json:"items"`
 }
-
-// +kubebuilder:validation:Enum={"2021-05-15"}
-type DatabaseAccountsSqlDatabasesContainersTriggersSpecAPIVersion string
-
-const DatabaseAccountsSqlDatabasesContainersTriggersSpecAPIVersion20210515 = DatabaseAccountsSqlDatabasesContainersTriggersSpecAPIVersion("2021-05-15")
 
 type DatabaseAccountsSqlDatabasesContainersTriggers_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it

@@ -53,7 +53,7 @@ func Test_OperationalInsights_Workspace_CRUD(t *testing.T) {
 	exists, _, err := tc.AzureClient.HeadByID(
 		tc.Ctx,
 		armId,
-		string(operationalinsights.WorkspacesSpecAPIVersion20210601))
+		string(operationalinsights.APIVersionValue))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
 }

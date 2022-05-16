@@ -98,7 +98,7 @@ func (rule *NamespacesAuthorizationRule) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-11-01"
 func (rule NamespacesAuthorizationRule) GetAPIVersion() string {
-	return "2021-11-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -556,11 +556,6 @@ func (rule *AuthorizationRule_Status) AssignPropertiesToAuthorizationRuleStatus(
 	// No error
 	return nil
 }
-
-// +kubebuilder:validation:Enum={"2021-11-01"}
-type NamespacesAuthorizationRulesSpecAPIVersion string
-
-const NamespacesAuthorizationRulesSpecAPIVersion20211101 = NamespacesAuthorizationRulesSpecAPIVersion("2021-11-01")
 
 type NamespacesAuthorizationRules_Spec struct {
 	// +kubebuilder:validation:MinLength=1

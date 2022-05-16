@@ -30,15 +30,15 @@ type RedisList struct {
 	Items           []Redis `json:"items"`
 }
 
+// +kubebuilder:validation:Enum={"2020-06-01"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2020-06-01")
+
 type RedisResource_Status struct {
 	v1alpha1.ResourceStatus `json:",inline,omitempty"`
 	AtProvider              RedisResourceObservation `json:"atProvider,omitempty"`
 }
-
-// +kubebuilder:validation:Enum={"2020-06-01"}
-type RedisSpecAPIVersion string
-
-const RedisSpecAPIVersion20200601 = RedisSpecAPIVersion("2020-06-01")
 
 type Redis_Spec struct {
 	v1alpha1.ResourceSpec `json:",inline,omitempty"`

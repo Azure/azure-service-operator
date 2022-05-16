@@ -98,7 +98,7 @@ func (subnet *VirtualNetworksSubnet) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
 func (subnet VirtualNetworksSubnet) GetAPIVersion() string {
-	return "2020-11-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -1261,11 +1261,6 @@ func (embedded *Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignP
 	// No error
 	return nil
 }
-
-// +kubebuilder:validation:Enum={"2020-11-01"}
-type VirtualNetworksSubnetsSpecAPIVersion string
-
-const VirtualNetworksSubnetsSpecAPIVersion20201101 = VirtualNetworksSubnetsSpecAPIVersion("2020-11-01")
 
 type VirtualNetworksSubnets_Spec struct {
 	// +kubebuilder:validation:Required

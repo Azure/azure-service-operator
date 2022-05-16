@@ -142,7 +142,7 @@ func Test_EventGrid_Domain(t *testing.T) {
 	exists, _, err := tc.AzureClient.HeadByID(
 		tc.Ctx,
 		armId,
-		string(eventgrid.TopicsSpecAPIVersion20200601))
+		string(eventgrid.APIVersionValue))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
 }

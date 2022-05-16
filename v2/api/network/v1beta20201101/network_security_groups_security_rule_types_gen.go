@@ -98,7 +98,7 @@ func (rule *NetworkSecurityGroupsSecurityRule) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
 func (rule NetworkSecurityGroupsSecurityRule) GetAPIVersion() string {
-	return "2020-11-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -316,11 +316,6 @@ type NetworkSecurityGroupsSecurityRuleList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []NetworkSecurityGroupsSecurityRule `json:"items"`
 }
-
-// +kubebuilder:validation:Enum={"2020-11-01"}
-type NetworkSecurityGroupsSecurityRulesSpecAPIVersion string
-
-const NetworkSecurityGroupsSecurityRulesSpecAPIVersion20201101 = NetworkSecurityGroupsSecurityRulesSpecAPIVersion("2020-11-01")
 
 type NetworkSecurityGroupsSecurityRules_Spec struct {
 	// +kubebuilder:validation:Required

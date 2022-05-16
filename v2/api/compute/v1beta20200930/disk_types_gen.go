@@ -98,7 +98,7 @@ func (disk *Disk) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-09-30"
 func (disk Disk) GetAPIVersion() string {
-	return "2020-09-30"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -316,6 +316,11 @@ type DiskList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Disk `json:"items"`
 }
+
+// +kubebuilder:validation:Enum={"2020-09-30"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2020-09-30")
 
 type Disk_Status struct {
 	// BurstingEnabled: Set to true to enable bursting beyond the provisioned performance target of the disk. Bursting is
@@ -1197,11 +1202,6 @@ func (disk *Disk_Status) AssignPropertiesToDiskStatus(destination *v20200930s.Di
 	// No error
 	return nil
 }
-
-// +kubebuilder:validation:Enum={"2020-09-30"}
-type DisksSpecAPIVersion string
-
-const DisksSpecAPIVersion20200930 = DisksSpecAPIVersion("2020-09-30")
 
 type Disks_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it

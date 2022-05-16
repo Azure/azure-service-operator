@@ -98,7 +98,7 @@ func (account *BatchAccount) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-01-01"
 func (account BatchAccount) GetAPIVersion() string {
-	return "2021-01-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -316,6 +316,11 @@ type BatchAccountList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []BatchAccount `json:"items"`
 }
+
+// +kubebuilder:validation:Enum={"2021-01-01"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2021-01-01")
 
 type BatchAccount_Status struct {
 	// AccountEndpoint: The account endpoint used to interact with the Batch service.
@@ -963,11 +968,6 @@ func (account *BatchAccount_Status) AssignPropertiesToBatchAccountStatus(destina
 	// No error
 	return nil
 }
-
-// +kubebuilder:validation:Enum={"2021-01-01"}
-type BatchAccountsSpecAPIVersion string
-
-const BatchAccountsSpecAPIVersion20210101 = BatchAccountsSpecAPIVersion("2021-01-01")
 
 type BatchAccounts_Spec struct {
 	// AutoStorage: The properties related to the auto-storage account.

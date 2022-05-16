@@ -91,7 +91,7 @@ func (setting *MongodbDatabaseThroughputSetting) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
 func (setting MongodbDatabaseThroughputSetting) GetAPIVersion() string {
-	return "2021-05-15"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -309,11 +309,6 @@ type MongodbDatabaseThroughputSettingList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []MongodbDatabaseThroughputSetting `json:"items"`
 }
-
-// +kubebuilder:validation:Enum={"2021-05-15"}
-type DatabaseAccountsMongodbDatabasesThroughputSettingsSpecAPIVersion string
-
-const DatabaseAccountsMongodbDatabasesThroughputSettingsSpecAPIVersion20210515 = DatabaseAccountsMongodbDatabasesThroughputSettingsSpecAPIVersion("2021-05-15")
 
 type DatabaseAccountsMongodbDatabasesThroughputSettings_Spec struct {
 	// Location: The location of the resource group to which the resource belongs.

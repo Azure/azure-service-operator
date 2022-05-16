@@ -98,7 +98,7 @@ func (registry *Registry) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-09-01"
 func (registry Registry) GetAPIVersion() string {
-	return "2021-09-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -318,9 +318,9 @@ type RegistryList struct {
 }
 
 // +kubebuilder:validation:Enum={"2021-09-01"}
-type RegistriesSpecAPIVersion string
+type APIVersion string
 
-const RegistriesSpecAPIVersion20210901 = RegistriesSpecAPIVersion("2021-09-01")
+const APIVersionValue = APIVersion("2021-09-01")
 
 type Registries_Spec struct {
 	// AdminUserEnabled: The value that indicates whether the admin user is enabled.

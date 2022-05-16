@@ -98,7 +98,7 @@ func (queue *StorageAccountsQueueServicesQueue) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-04-01"
 func (queue StorageAccountsQueueServicesQueue) GetAPIVersion() string {
-	return "2021-04-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -316,11 +316,6 @@ type StorageAccountsQueueServicesQueueList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []StorageAccountsQueueServicesQueue `json:"items"`
 }
-
-// +kubebuilder:validation:Enum={"2021-04-01"}
-type StorageAccountsQueueServicesQueuesSpecAPIVersion string
-
-const StorageAccountsQueueServicesQueuesSpecAPIVersion20210401 = StorageAccountsQueueServicesQueuesSpecAPIVersion("2021-04-01")
 
 type StorageAccountsQueueServicesQueues_Spec struct {
 	// +kubebuilder:validation:MaxLength=63

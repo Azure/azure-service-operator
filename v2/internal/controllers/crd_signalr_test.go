@@ -100,7 +100,7 @@ func Test_SignalRService_SignalR_CRUD(t *testing.T) {
 	tc.DeleteResourcesAndWait(&signalR, rg)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(signalrservice.SignalRSpecAPIVersion20211001))
+	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(signalrservice.APIVersionValue))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())
