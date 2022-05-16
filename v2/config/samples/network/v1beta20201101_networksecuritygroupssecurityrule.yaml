@@ -10,8 +10,8 @@ spec:
   protocol: Tcp
   sourcePortRange: 23-45
   destinationPortRange: 46-56
-  sourceAddressPrefix: *
-  destinationAddressPrefix: *
+  sourceAddressPrefix: "*"
+  destinationAddressPrefix: "*"
   access: Allow
   priority: 123
   direction: Inbound

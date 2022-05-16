@@ -6,6 +6,8 @@ metadata:
 spec:
   owner:
     name: sample-domain-topic
+    group: microsoft.resources
+    kind: ResourceGroup
   destination:
     storageQueue:
       endpointType: StorageQueue

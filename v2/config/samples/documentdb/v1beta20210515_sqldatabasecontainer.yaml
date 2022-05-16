@@ -17,11 +17,12 @@ spec:
       mode: LastWriterWins
     defaultTtl: 200
     indexingPolicy:
-      indexingMode: Consistent
+      indexingMode: consistent
       includedPaths:
         - path: "/*"
       excludedPaths:
         - path: "/myPathToNotIndex/*"
     partitionKey:
       kind: Hash
-      paths: "/myPartitionKey"
+      paths:
+      - "/myPartitionKey"
