@@ -17,7 +17,7 @@ type GroupVersionKindAware interface {
 }
 
 // GetOriginalGVK gets the GVK the original GVK the object was created with.
-func GetOriginalGVK(obj MetaObject) schema.GroupVersionKind {
+func GetOriginalGVK(obj ARMMetaObject) schema.GroupVersionKind {
 	// If our current resource is aware of its original GVK, use that for our result
 	aware, ok := obj.(GroupVersionKindAware)
 	if ok {

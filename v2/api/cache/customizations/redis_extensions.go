@@ -28,7 +28,7 @@ var _ extensions.SecretsRetriever = &RedisExtension{}
 
 func (ext *RedisExtension) RetrieveSecrets(
 	ctx context.Context,
-	obj genruntime.MetaObject,
+	obj genruntime.ARMMetaObject,
 	armClient *genericarmclient.GenericClient,
 	log logr.Logger) ([]*v1.Secret, error) {
 

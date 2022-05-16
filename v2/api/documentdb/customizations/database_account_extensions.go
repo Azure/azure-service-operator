@@ -27,7 +27,7 @@ var _ extensions.SecretsRetriever = &DatabaseAccountExtension{}
 
 func (ext *DatabaseAccountExtension) RetrieveSecrets(
 	ctx context.Context,
-	obj genruntime.MetaObject,
+	obj genruntime.ARMMetaObject,
 	armClient *genericarmclient.GenericClient,
 	log logr.Logger) ([]*v1.Secret, error) {
 

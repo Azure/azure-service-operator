@@ -36,25 +36,23 @@ const (
 type MetaObject interface {
 	runtime.Object
 	metav1.Object
+	conditions.Conditioner
+}
+
+// ARMMetaObject represents an arbitrary ASO resource that is
+type ARMMetaObject interface {
+	runtime.Object
+	metav1.Object
+	conditions.Conditioner
 	KubernetesResource
 }
 
 type Reconciler interface {
 	Reconcile(ctx context.Context, log logr.Logger, obj MetaObject) (ctrl.Result, error)
-}
-
-// TODO: We really want these methods to be on MetaObject itself -- should update code generator to make them at some point
-func GetResourceID(obj MetaObject) (string, bool) {
-	result, ok := obj.GetAnnotations()[ResourceIDAnnotation]
-	return result, ok
-}
-
-func GetResourceIDOrDefault(obj MetaObject) string {
-	return obj.GetAnnotations()[ResourceIDAnnotation]
-}
-
-func SetResourceID(obj MetaObject, id string) {
-	AddAnnotation(obj, ResourceIDAnnotation, id)
+	// TODO: Right above this interface we can handle condition impacting errors, as an official first-party thing
+	// TODO: maybe can write a helper to reduce boilerplace for delete checking
+	// TODO: Move makeSuccessResult up above this interface too
+	// TODO: and also logObj should get pulled up probably
 }
 
 // AddAnnotation adds the specified annotation to the object.
@@ -132,7 +130,7 @@ func (resource *armResourceImpl) GetID() string {
 }
 
 // GetReadyCondition gets the ready condition from the object
-func GetReadyCondition(obj MetaObject) *conditions.Condition {
+func GetReadyCondition(obj conditions.Conditioner) *conditions.Condition {
 	for _, c := range obj.GetConditions() {
 		if c.Type == conditions.ConditionTypeReady {
 			return &c
