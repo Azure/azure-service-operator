@@ -13,7 +13,6 @@ import (
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	ctrl "sigs.k8s.io/controller-runtime"
-	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
@@ -111,7 +110,7 @@ func (r *ARMOwnedResourceReconcilerCommon) ApplyOwnership(ctx context.Context, l
 }
 
 // ClaimResource adds a finalizer and ensures that the owner reference is set
-func (r *ARMOwnedResourceReconcilerCommon) ClaimResource(ctx context.Context, log logr.Logger, obj genruntime.ARMMetaObject) (ctrl.Result, error) {
+func (r *ARMOwnedResourceReconcilerCommon) ClaimResource(ctx context.Context, log logr.Logger, obj genruntime.ARMOwnedMetaObject) (ctrl.Result, error) {
 	log.V(Info).Info("applying ownership")
 	isOwnerReady, err := r.IsOwnerReady(ctx, log, obj)
 	if err != nil {
@@ -133,7 +132,6 @@ func (r *ARMOwnedResourceReconcilerCommon) ClaimResource(ctx context.Context, lo
 	// Short circuit here if there's no owner management to do
 	if obj.Owner() == nil {
 		err = r.CommitUpdate(ctx, log, obj)
-		err = client.IgnoreNotFound(err)
 		if err != nil {
 			return ctrl.Result{}, errors.Wrap(err, "updating resource error")
 		}
@@ -170,25 +168,4 @@ func (r *ReconcilerCommon) CommitUpdate(ctx context.Context, log logr.Logger, ob
 	}
 	LogObj(log, "updated resource in etcd", obj)
 	return nil
-}
-
-func (r *ReconcilerCommon) WriteReadyConditionError(ctx context.Context, obj genruntime.MetaObject, err *conditions.ReadyConditionImpactingError) error {
-	conditions.SetCondition(obj, r.PositiveConditions.Ready.ReadyCondition(
-		err.Severity,
-		obj.GetGeneration(),
-		err.Reason,
-		err.Error()))
-	commitErr := client.IgnoreNotFound(r.KubeClient.CommitObject(ctx, obj))
-	if commitErr != nil {
-		return errors.Wrap(commitErr, "updating resource error")
-	}
-
-	if err.Severity == conditions.ConditionSeverityError {
-		// This is a bit weird, but fatal errors shouldn't trigger a fresh reconcile, so
-		// returning nil results in reconcile "succeeding" meaning an event won't be
-		// queued to reconcile again.
-		return nil
-	}
-
-	return err
 }

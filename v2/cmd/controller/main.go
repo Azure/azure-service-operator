@@ -121,6 +121,7 @@ func main() {
 			mgr,
 			mgr.GetFieldIndexer(),
 			kubeClient,
+			positiveConditions,
 			objs,
 			options)
 		if err != nil {

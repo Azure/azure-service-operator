@@ -169,6 +169,7 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 			mgr,
 			indexer,
 			kubeClient,
+			positiveConditions,
 			objs,
 			options)
 		if err != nil {

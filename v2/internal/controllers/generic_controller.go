@@ -36,6 +36,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/util/lockedrand"
 	"github.com/Azure/azure-service-operator/v2/internal/util/randextensions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/registration"
 )
 
@@ -52,6 +53,7 @@ type GenericReconciler struct {
 	Config               config.Values
 	Rand                 *rand.Rand
 	GVK                  schema.GroupVersionKind
+	PositiveConditions   *conditions.PositiveConditionBuilder
 	RequeueDelayOverride time.Duration
 }
 
@@ -91,6 +93,7 @@ func RegisterAll(
 	mgr ctrl.Manager,
 	fieldIndexer client.FieldIndexer,
 	kubeClient kubeclient.Client,
+	positiveConditions *conditions.PositiveConditionBuilder,
 	objs []*registration.StorageType,
 	options Options) error {
 
@@ -109,7 +112,7 @@ func RegisterAll(
 	for _, obj := range objs {
 		// TODO: Consider pulling some of the construction of things out of register (gvk, etc), so that we can pass in just
 		// TODO: the applicable extensions rather than a map of all of them
-		if err := register(mgr, kubeClient, obj, options); err != nil {
+		if err := register(mgr, kubeClient, positiveConditions, obj, options); err != nil {
 			errs = append(errs, err)
 		}
 	}
@@ -120,6 +123,7 @@ func RegisterAll(
 func register(
 	mgr ctrl.Manager,
 	kubeClient kubeclient.Client,
+	positiveConditions *conditions.PositiveConditionBuilder,
 	info *registration.StorageType,
 	options Options) error {
 
@@ -144,12 +148,13 @@ func register(
 	options.Log.V(Status).Info("Registering", "GVK", gvk)
 
 	reconciler := &GenericReconciler{
-		Reconciler:    info.Reconciler,
-		KubeClient:    kubeClient,
-		Config:        options.Config,
-		LoggerFactory: loggerFactory,
-		Recorder:      eventRecorder,
-		GVK:           gvk,
+		Reconciler:         info.Reconciler,
+		KubeClient:         kubeClient,
+		Config:             options.Config,
+		LoggerFactory:      loggerFactory,
+		Recorder:           eventRecorder,
+		GVK:                gvk,
+		PositiveConditions: positiveConditions,
 		//nolint:gosec // do not want cryptographic randomness here
 		Rand:                 rand.New(lockedrand.NewSource(time.Now().UnixNano())),
 		RequeueDelayOverride: options.RequeueDelay,
@@ -214,6 +219,7 @@ func (gr *GenericReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 		"kind", fmt.Sprintf("%T", obj),
 		"resourceVersion", obj.GetResourceVersion(),
 		"generation", obj.GetGeneration())
+	reconcilers.LogObj(log, "reconciling resource", metaObj)
 
 	// Ensure the resource is tagged with the operator's namespace.
 	annotations := metaObj.GetAnnotations()
@@ -236,8 +242,20 @@ func (gr *GenericReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 	}
 
 	result, err := gr.Reconciler.Reconcile(ctx, log, gr.Recorder, metaObj)
+	if readyErr, ok := conditions.AsReadyConditionImpactingError(err); ok {
+		err = gr.WriteReadyConditionError(ctx, metaObj, readyErr)
+	}
+
 	if err != nil {
-		return ctrl.Result{}, err
+		log.Error(err, "error during reconcile")
+		// NotFound is a superfluous error as per https://github.com/kubernetes-sigs/controller-runtime/issues/377
+		// The correct handling is just to ignore it and we will get an event shortly with the updated version to patch
+		// We must also ignore conflict here because updating a resource that
+		// doesn't exist returns conflict unfortunately: https://github.com/kubernetes/kubernetes/issues/89985. This is OK
+		// to ignore because a conflict means either the resource has been deleted (in which case there's nothing to do) or
+		// it has been updated, in which case there's going to be a new event triggered for it and we can count this
+		// round of reconciliation as a success andait for the next event.
+		return ctrl.Result{}, reconcilers.IgnoreNotFoundAndConflict(err)
 	}
 
 	if (result == ctrl.Result{}) {
@@ -278,4 +296,25 @@ func (gr *GenericReconciler) makeSuccessResult() ctrl.Result {
 		result.RequeueAfter = randextensions.Jitter(gr.Rand, *gr.Config.SyncPeriod, 0.1)
 	}
 	return result
+}
+
+func (gr *GenericReconciler) WriteReadyConditionError(ctx context.Context, obj genruntime.MetaObject, err *conditions.ReadyConditionImpactingError) error {
+	conditions.SetCondition(obj, gr.PositiveConditions.Ready.ReadyCondition(
+		err.Severity,
+		obj.GetGeneration(),
+		err.Reason,
+		err.Error()))
+	commitErr := gr.KubeClient.CommitObject(ctx, obj)
+	if commitErr != nil {
+		return errors.Wrap(commitErr, "updating resource error")
+	}
+
+	if err.Severity == conditions.ConditionSeverityError {
+		// This is a bit weird, but fatal errors shouldn't trigger a fresh reconcile, so
+		// returning nil results in reconcile "succeeding" meaning an event won't be
+		// queued to reconcile again.
+		return nil
+	}
+
+	return err
 }

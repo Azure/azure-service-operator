@@ -16,7 +16,6 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
-	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
@@ -63,8 +62,6 @@ func newAzureDeploymentReconcilerInstance(
 }
 
 func (r *azureDeploymentReconcilerInstance) CreateOrUpdate(ctx context.Context) (ctrl.Result, error) {
-	reconcilers.LogObj(r.Log, "reconciling resource", r.Obj)
-
 	action, actionFunc, err := r.DetermineCreateOrUpdateAction()
 	if err != nil {
 		r.Log.Error(err, "error determining create or update action")
@@ -87,8 +84,6 @@ func (r *azureDeploymentReconcilerInstance) CreateOrUpdate(ctx context.Context) 
 }
 
 func (r *azureDeploymentReconcilerInstance) Delete(ctx context.Context) (ctrl.Result, error) {
-	reconcilers.LogObj(r.Log, "reconciling resource", r.Obj)
-
 	action, actionFunc, err := r.DetermineDeleteAction()
 	if err != nil {
 		r.Log.Error(err, "error determining delete action")
@@ -187,12 +182,6 @@ func (r *azureDeploymentReconcilerInstance) DetermineCreateOrUpdateAction() (Cre
 		return CreateOrUpdateActionMonitorCreation, r.MonitorResourceCreation, nil
 	}
 
-	// TODO: What do we do if somebody tries to change the owner of a resource?
-	// TODO: That's not allowed in Azure so we can't actually make the change, but
-	// TODO: we could interpret it as a commend to create a duplicate resource under the
-	// TODO: new owner (and orphan the old Azure resource?). Alternatively we could just put the
-	// TODO: Kubernetes resource into an error state
-	// TODO: See: https://github.com/Azure/k8s-infra/issues/274
 	if r.NeedToClaimResource(r.Obj) {
 		return CreateOrUpdateActionClaimResource, r.ClaimResource, nil
 	}
@@ -246,8 +235,6 @@ func (r *azureDeploymentReconcilerInstance) StartDeleteOfResource(ctx context.Co
 
 	conditions.SetCondition(r.Obj, r.PositiveConditions.Ready.Deleting(r.Obj.GetGeneration()))
 	err = r.CommitUpdate(ctx, r.Log, r.Obj)
-
-	err = client.IgnoreNotFound(err)
 	if err != nil {
 		return ctrl.Result{}, err
 	}
@@ -340,9 +327,7 @@ func (r *azureDeploymentReconcilerInstance) BeginCreateOrUpdateResource(ctx cont
 
 	err = r.CommitUpdate(ctx, r.Log, r.Obj)
 	if err != nil {
-		// NotFound is a superfluous error as per https://github.com/kubernetes-sigs/controller-runtime/issues/377
-		// The correct handling is just to ignore it and we will get an event shortly with the updated version to patch
-		return ctrl.Result{}, client.IgnoreNotFound(err)
+		return ctrl.Result{}, err
 	}
 
 	return ctrl.Result{Requeue: true}, nil
@@ -379,9 +364,7 @@ func (r *azureDeploymentReconcilerInstance) handleSkipReconcile(ctx context.Cont
 	ClearPollerResumeToken(r.Obj)
 	conditions.SetCondition(r.Obj, r.PositiveConditions.Ready.Succeeded(r.Obj.GetGeneration()))
 	if err = r.CommitUpdate(ctx, r.Log, r.Obj); err != nil {
-		// NotFound is a superfluous error as per https://github.com/kubernetes-sigs/controller-runtime/issues/377
-		// The correct handling is just to ignore it and we will get an event shortly with the updated version to patch
-		return ctrl.Result{}, client.IgnoreNotFound(err)
+		return ctrl.Result{}, err
 	}
 
 	return ctrl.Result{}, nil
@@ -410,9 +393,7 @@ func (r *azureDeploymentReconcilerInstance) handlePollerSuccess(ctx context.Cont
 	conditions.SetCondition(r.Obj, r.PositiveConditions.Ready.Succeeded(r.Obj.GetGeneration()))
 	err = r.CommitUpdate(ctx, r.Log, r.Obj)
 	if err != nil {
-		// NotFound is a superfluous error as per https://github.com/kubernetes-sigs/controller-runtime/issues/377
-		// The correct handling is just to ignore it and we will get an event shortly with the updated version to patch
-		return ctrl.Result{}, client.IgnoreNotFound(err)
+		return ctrl.Result{}, err
 	}
 
 	return ctrl.Result{}, nil
@@ -540,7 +521,7 @@ func (r *azureDeploymentReconcilerInstance) deleteResourceSucceeded(ctx context.
 
 	// We must also ignore conflict here because updating a resource that
 	// doesn't exist returns conflict unfortunately: https://github.com/kubernetes/kubernetes/issues/89985
-	err = IgnoreNotFoundAndConflict(err)
+	err = reconcilers.IgnoreNotFoundAndConflict(err)
 	if err != nil {
 		return err
 	}

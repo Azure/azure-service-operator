@@ -225,8 +225,8 @@ func (r *Resolver) ResolveSecretReferences(
 	return r.kubeSecretResolver.ResolveSecretReferences(ctx, refs)
 }
 
-// ResolveResourceSecretReferences resolves all of the specified genruntime.ARMMetaObject's secret references.
-func (r *Resolver) ResolveResourceSecretReferences(ctx context.Context, metaObject genruntime.ARMMetaObject) (genruntime.ResolvedSecrets, error) {
+// ResolveResourceSecretReferences resolves all of the specified genruntime.MetaObject's secret references.
+func (r *Resolver) ResolveResourceSecretReferences(ctx context.Context, metaObject genruntime.MetaObject) (genruntime.ResolvedSecrets, error) {
 	refs, err := reflecthelpers.FindSecretReferences(metaObject)
 	if err != nil {
 		return genruntime.ResolvedSecrets{}, errors.Wrapf(err, "finding secrets on %q", metaObject.GetName())

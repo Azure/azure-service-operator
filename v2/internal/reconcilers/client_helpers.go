@@ -3,7 +3,7 @@
  *Licensed under the MIT license.
  */
 
-package arm
+package reconcilers
 
 import (
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
