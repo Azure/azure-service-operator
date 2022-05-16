@@ -92,7 +92,7 @@ func main() {
 
 	armClient := genericarmclient.NewGenericClient(arm.AzurePublicCloud, creds, cfg.SubscriptionID, armMetrics)
 
-	var clientFactory armreconciler.ARMClientFactory = func(_ genruntime.MetaObject) *genericarmclient.GenericClient {
+	var clientFactory armreconciler.ARMClientFactory = func(_ genruntime.ARMMetaObject) *genericarmclient.GenericClient {
 		// always use the configured ARM client
 		return armClient
 	}

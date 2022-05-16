@@ -8,7 +8,6 @@ package arm
 import (
 	"context"
 	"fmt"
-	"math/rand"
 	"strings"
 
 	"github.com/go-logr/logr"
@@ -21,7 +20,6 @@ import (
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
-	"github.com/Azure/azure-service-operator/v2/internal/util/randextensions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
@@ -62,7 +60,6 @@ type AzureDeploymentReconciler struct {
 	ResourceResolver   *resolver.Resolver
 	PositiveConditions *conditions.PositiveConditionBuilder
 	Config             config.Values
-	Rand               *rand.Rand
 	Extension          genruntime.ResourceExtension
 }
 
@@ -73,7 +70,6 @@ func NewAzureDeploymentReconciler(
 	resourceResolver *resolver.Resolver,
 	positiveConditions *conditions.PositiveConditionBuilder,
 	cfg config.Values,
-	rand *rand.Rand,
 	extension genruntime.ResourceExtension) *AzureDeploymentReconciler {
 
 	return &AzureDeploymentReconciler{
@@ -83,14 +79,21 @@ func NewAzureDeploymentReconciler(
 		ResourceResolver:   resourceResolver,
 		PositiveConditions: positiveConditions,
 		Config:             cfg,
-		Rand:               rand,
 		Extension:          extension,
 	}
 }
 
 func (r *AzureDeploymentReconciler) Reconcile(ctx context.Context, log logr.Logger, obj genruntime.MetaObject) (ctrl.Result, error) {
+	typedObj, ok := obj.(genruntime.ARMMetaObject)
+	if !ok {
+		return ctrl.Result{}, errors.Errorf("cannot modify resource that is not of type ARMMetaObject. Type is %T", obj)
+	}
+
+	// Augment Log with ARM specific stuff
+	log = log.WithValues("azureName", typedObj.AzureName())
+
 	// TODO: The line between AzureDeploymentReconciler and azureDeploymentReconcilerInstance is still pretty blurry
-	instance := newAzureDeploymentReconcilerInstance(obj, log, r.ARMClientFactory(obj), *r)
+	instance := newAzureDeploymentReconcilerInstance(typedObj, log, r.ARMClientFactory(typedObj), *r)
 
 	var result ctrl.Result
 	var err error
@@ -106,10 +109,6 @@ func (r *AzureDeploymentReconciler) Reconcile(ctx context.Context, log logr.Logg
 	if err != nil {
 		return ctrl.Result{}, err
 	}
-	if (result == ctrl.Result{}) {
-		// If result is a success, ensure that we requeue for monitoring state in Azure
-		return r.makeSuccessResult(), nil
-	}
 
 	return result, err
 }
@@ -120,7 +119,7 @@ func (r *AzureDeploymentReconciler) writeReadyConditionError(ctx context.Context
 		obj.GetGeneration(),
 		err.Reason,
 		err.Error()))
-	commitErr := client.IgnoreNotFound(CommitObject(ctx, r.KubeClient, obj))
+	commitErr := client.IgnoreNotFound(r.KubeClient.CommitObject(ctx, obj))
 	if commitErr != nil {
 		return errors.Wrap(commitErr, "updating resource error")
 	}
@@ -135,19 +134,8 @@ func (r *AzureDeploymentReconciler) writeReadyConditionError(ctx context.Context
 	return err
 }
 
-func (r *AzureDeploymentReconciler) makeSuccessResult() ctrl.Result {
-	result := ctrl.Result{}
-	// This has a RequeueAfter because we want to force a re-sync at some point in the future in order to catch
-	// potential drift from the state in Azure. Note that we cannot use mgr.Options.SyncPeriod for this because we filter
-	// our events by predicate.GenerationChangedPredicate and the generation will not have changed.
-	if r.Config.SyncPeriod != nil {
-		result.RequeueAfter = randextensions.Jitter(r.Rand, *r.Config.SyncPeriod, 0.1)
-	}
-	return result
-}
-
 // logObj logs the obj JSON payload
-func logObj(log logr.Logger, note string, obj genruntime.MetaObject) {
+func logObj(log logr.Logger, note string, obj genruntime.ARMMetaObject) {
 	if log.V(Debug).Enabled() {
 		// This could technically select annotations from other Azure operators, but for now that's ok.
 		// In the future when we no longer use annotations as heavily as we do now we can remove this or
