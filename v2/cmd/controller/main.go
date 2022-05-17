@@ -22,12 +22,11 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/controller"
 	"sigs.k8s.io/controller-runtime/pkg/healthz"
 
-	asometrics "github.com/Azure/azure-service-operator/v2/internal/metrics"
-
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/controllers"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
+	asometrics "github.com/Azure/azure-service-operator/v2/internal/metrics"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/internal/version"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -79,7 +78,6 @@ func main() {
 		Port:                   9443,
 		HealthProbeBindAddress: healthAddr,
 	})
-
 	if err != nil {
 		setupLog.Error(err, "unable to start manager")
 		os.Exit(1)
