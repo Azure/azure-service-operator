@@ -144,7 +144,7 @@ func WorkspaceStatusGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForWorkspaceStatus(gens map[string]gopter.Gen) {
 	gens["CreatedDate"] = gen.PtrOf(gen.AlphaString())
 	gens["CustomerId"] = gen.PtrOf(gen.AlphaString())
-	gens["ETag"] = gen.PtrOf(gen.AlphaString())
+	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["ForceCmkForQuery"] = gen.PtrOf(gen.Bool())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())

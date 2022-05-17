@@ -35,6 +35,15 @@ These are the resources with Azure Service Operator support committed to our **m
 | RedisPatchSchedule      | 2020-12-01  | v1beta20201201      | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/cache/v1beta20201201_redispatchschedule.yaml)           |
 | RedisPatchSchedule      | 2020-12-01  | v1alpha1api20201201 | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/cache/v1alpha1api20201201_redispatchschedule.yaml)      |
 
+## Cdn
+
+| Resource         | ARM Version | CRD Version         | Sample                                                                                                                            |
+|------------------|-------------|---------------------|-----------------------------------------------------------------------------------------------------------------------------------|
+| Profile          | 2021-06-01  | v1beta20210601      | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/cdn/v1beta20210601_profile.yaml)               |
+| Profile          | 2021-06-01  | v1alpha1api20210601 | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/cdn/v1alpha1api20210601_profile.yaml)          |
+| ProfilesEndpoint | 2021-06-01  | v1beta20210601      | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/cdn/v1beta20210601_profilesendpoint.yaml)      |
+| ProfilesEndpoint | 2021-06-01  | v1alpha1api20210601 | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/cdn/v1alpha1api20210601_profilesendpoint.yaml) |
+
 ## Compute
 
 | Resource               | ARM Version | CRD Version         | Sample                                                                                                                                      |

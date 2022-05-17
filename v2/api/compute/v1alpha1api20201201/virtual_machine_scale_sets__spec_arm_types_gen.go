@@ -134,7 +134,7 @@ type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfileARM struct {
 	ExtensionProfile       *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfileARM `json:"extensionProfile,omitempty"`
 	LicenseType            *string                                                                            `json:"licenseType,omitempty"`
 	NetworkProfile         *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfileARM   `json:"networkProfile,omitempty"`
-	OsProfile              *VirtualMachineScaleSetOSProfileARM                                                `json:"osProfile,omitempty"`
+	OsProfile              *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfileARM        `json:"osProfile,omitempty"`
 	Priority               *VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfilePriority                `json:"priority,omitempty"`
 	ScheduledEventsProfile *ScheduledEventsProfileARM                                                         `json:"scheduledEventsProfile,omitempty"`
 	SecurityProfile        *SecurityProfileARM                                                                `json:"securityProfile,omitempty"`
@@ -162,17 +162,6 @@ type ScheduledEventsProfileARM struct {
 	TerminateNotificationProfile *TerminateNotificationProfileARM `json:"terminateNotificationProfile,omitempty"`
 }
 
-// Deprecated version of VirtualMachineScaleSetOSProfile. Use v1beta20201201.VirtualMachineScaleSetOSProfile instead
-type VirtualMachineScaleSetOSProfileARM struct {
-	AdminPassword        *string                  `json:"adminPassword,omitempty"`
-	AdminUsername        *string                  `json:"adminUsername,omitempty"`
-	ComputerNamePrefix   *string                  `json:"computerNamePrefix,omitempty"`
-	CustomData           *string                  `json:"customData,omitempty"`
-	LinuxConfiguration   *LinuxConfigurationARM   `json:"linuxConfiguration,omitempty"`
-	Secrets              []VaultSecretGroupARM    `json:"secrets,omitempty"`
-	WindowsConfiguration *WindowsConfigurationARM `json:"windowsConfiguration,omitempty"`
-}
-
 // Deprecated version of VirtualMachineScaleSetStorageProfile. Use v1beta20201201.VirtualMachineScaleSetStorageProfile instead
 type VirtualMachineScaleSetStorageProfileARM struct {
 	DataDisks      []VirtualMachineScaleSetDataDiskARM `json:"dataDisks,omitempty"`
@@ -190,6 +179,17 @@ type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProf
 type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfileARM struct {
 	HealthProbe                    *ApiEntityReferenceARM                                                                                           `json:"healthProbe,omitempty"`
 	NetworkInterfaceConfigurations []VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurationsARM `json:"networkInterfaceConfigurations,omitempty"`
+}
+
+// Deprecated version of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfile. Use v1beta20201201.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfile instead
+type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfileARM struct {
+	AdminPassword        *string                  `json:"adminPassword,omitempty"`
+	AdminUsername        *string                  `json:"adminUsername,omitempty"`
+	ComputerNamePrefix   *string                  `json:"computerNamePrefix,omitempty"`
+	CustomData           *string                  `json:"customData,omitempty"`
+	LinuxConfiguration   *LinuxConfigurationARM   `json:"linuxConfiguration,omitempty"`
+	Secrets              []VaultSecretGroupARM    `json:"secrets,omitempty"`
+	WindowsConfiguration *WindowsConfigurationARM `json:"windowsConfiguration,omitempty"`
 }
 
 // Deprecated version of ApiEntityReference. Use v1beta20201201.ApiEntityReference instead

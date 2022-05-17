@@ -206,7 +206,7 @@ type Workspace_Status struct {
 	Conditions                      []conditions.Condition             `json:"conditions,omitempty"`
 	CreatedDate                     *string                            `json:"createdDate,omitempty"`
 	CustomerId                      *string                            `json:"customerId,omitempty"`
-	ETag                            *string                            `json:"eTag,omitempty"`
+	Etag                            *string                            `json:"etag,omitempty"`
 	Features                        *WorkspaceFeatures_Status          `json:"features,omitempty"`
 	ForceCmkForQuery                *bool                              `json:"forceCmkForQuery,omitempty"`
 	Id                              *string                            `json:"id,omitempty"`
@@ -289,8 +289,8 @@ func (workspace *Workspace_Status) AssignPropertiesFromWorkspaceStatus(source *v
 	// CustomerId
 	workspace.CustomerId = genruntime.ClonePointerToString(source.CustomerId)
 
-	// ETag
-	workspace.ETag = genruntime.ClonePointerToString(source.ETag)
+	// Etag
+	workspace.Etag = genruntime.ClonePointerToString(source.Etag)
 
 	// Features
 	if source.Features != nil {
@@ -409,8 +409,8 @@ func (workspace *Workspace_Status) AssignPropertiesToWorkspaceStatus(destination
 	// CustomerId
 	destination.CustomerId = genruntime.ClonePointerToString(workspace.CustomerId)
 
-	// ETag
-	destination.ETag = genruntime.ClonePointerToString(workspace.ETag)
+	// Etag
+	destination.Etag = genruntime.ClonePointerToString(workspace.Etag)
 
 	// Features
 	if workspace.Features != nil {

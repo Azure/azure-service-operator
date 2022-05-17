@@ -135,7 +135,7 @@ type Workspace_Status struct {
 	Conditions                      []conditions.Condition             `json:"conditions,omitempty"`
 	CreatedDate                     *string                            `json:"createdDate,omitempty"`
 	CustomerId                      *string                            `json:"customerId,omitempty"`
-	ETag                            *string                            `json:"eTag,omitempty"`
+	Etag                            *string                            `json:"etag,omitempty"`
 	Features                        *WorkspaceFeatures_Status          `json:"features,omitempty"`
 	ForceCmkForQuery                *bool                              `json:"forceCmkForQuery,omitempty"`
 	Id                              *string                            `json:"id,omitempty"`

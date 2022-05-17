@@ -601,11 +601,28 @@ objectModelConfiguration:
           $armReference: true
       RedisPatchSchedule: 
         $export: true
-    2021-0301:
+    2021-03-01:
       RedisEnterprise:
         $export: true
       RedisEnterpriseDatabase:
         $export: true
+  cdn:
+    2021-06-01:
+      DeepCreatedOriginProperties:
+        PrivateLinkLocation:
+          $armReference: true
+        PrivateLinkResourceId:
+          $armReference: true
+      EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink:
+        Id:
+          $armReference: true
+      Profile:
+        $export: true
+      ProfilesEndpoint:
+        $export: true
+      ResourceReference:
+        Id:
+          $armReference: true
   compute:
     2020-09-30:
       CreationData:

@@ -56,7 +56,7 @@ func newVM(
 			HardwareProfile: &compute.HardwareProfile{
 				VmSize: &size,
 			},
-			OsProfile: &compute.OSProfile{
+			OsProfile: &compute.VirtualMachines_Spec_Properties_OsProfile{
 				AdminUsername: &adminUsername,
 				// Specifying AdminPassword here rather than SSH Key to ensure that handling and injection
 				// of secrets works.

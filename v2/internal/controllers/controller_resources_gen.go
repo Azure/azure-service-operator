@@ -23,6 +23,11 @@ import (
 	cache_v20201201s "github.com/Azure/azure-service-operator/v2/api/cache/v1beta20201201storage"
 	cache_v20210301 "github.com/Azure/azure-service-operator/v2/api/cache/v1beta20210301"
 	cache_v20210301s "github.com/Azure/azure-service-operator/v2/api/cache/v1beta20210301storage"
+	cdn_customizations "github.com/Azure/azure-service-operator/v2/api/cdn/customizations"
+	cdn_alpha20210601 "github.com/Azure/azure-service-operator/v2/api/cdn/v1alpha1api20210601"
+	cdn_alpha20210601s "github.com/Azure/azure-service-operator/v2/api/cdn/v1alpha1api20210601storage"
+	cdn_v20210601 "github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601"
+	cdn_v20210601s "github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601storage"
 	compute_customizations "github.com/Azure/azure-service-operator/v2/api/compute/customizations"
 	compute_alpha20200930 "github.com/Azure/azure-service-operator/v2/api/compute/v1alpha1api20200930"
 	compute_alpha20200930s "github.com/Azure/azure-service-operator/v2/api/compute/v1alpha1api20200930storage"
@@ -159,6 +164,16 @@ func getKnownStorageTypes() []*registration.StorageType {
 	})
 	result = append(result, &registration.StorageType{
 		Obj:     new(cache_v20210301s.RedisEnterpriseDatabase),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{},
+	})
+	result = append(result, &registration.StorageType{
+		Obj:     new(cdn_v20210601s.Profile),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{},
+	})
+	result = append(result, &registration.StorageType{
+		Obj:     new(cdn_v20210601s.ProfilesEndpoint),
 		Indexes: []registration.Index{},
 		Watches: []registration.Watch{},
 	})
@@ -535,6 +550,14 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(cache_v20210301.RedisEnterpriseDatabase))
 	result = append(result, new(cache_v20210301s.RedisEnterprise))
 	result = append(result, new(cache_v20210301s.RedisEnterpriseDatabase))
+	result = append(result, new(cdn_alpha20210601.Profile))
+	result = append(result, new(cdn_alpha20210601.ProfilesEndpoint))
+	result = append(result, new(cdn_alpha20210601s.Profile))
+	result = append(result, new(cdn_alpha20210601s.ProfilesEndpoint))
+	result = append(result, new(cdn_v20210601.Profile))
+	result = append(result, new(cdn_v20210601.ProfilesEndpoint))
+	result = append(result, new(cdn_v20210601s.Profile))
+	result = append(result, new(cdn_v20210601s.ProfilesEndpoint))
 	result = append(result, new(compute_alpha20200930.Disk))
 	result = append(result, new(compute_alpha20200930.Snapshot))
 	result = append(result, new(compute_alpha20200930s.Disk))
@@ -794,6 +817,10 @@ func createScheme() *runtime.Scheme {
 	_ = cache_v20201201s.AddToScheme(scheme)
 	_ = cache_v20210301.AddToScheme(scheme)
 	_ = cache_v20210301s.AddToScheme(scheme)
+	_ = cdn_alpha20210601.AddToScheme(scheme)
+	_ = cdn_alpha20210601s.AddToScheme(scheme)
+	_ = cdn_v20210601.AddToScheme(scheme)
+	_ = cdn_v20210601s.AddToScheme(scheme)
 	_ = compute_alpha20200930.AddToScheme(scheme)
 	_ = compute_alpha20200930s.AddToScheme(scheme)
 	_ = compute_alpha20201201.AddToScheme(scheme)
@@ -880,6 +907,8 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &cache_customizations.RedisFirewallRuleExtension{})
 	result = append(result, &cache_customizations.RedisLinkedServerExtension{})
 	result = append(result, &cache_customizations.RedisPatchScheduleExtension{})
+	result = append(result, &cdn_customizations.ProfileExtension{})
+	result = append(result, &cdn_customizations.ProfilesEndpointExtension{})
 	result = append(result, &compute_customizations.DiskExtension{})
 	result = append(result, &compute_customizations.ImageExtension{})
 	result = append(result, &compute_customizations.SnapshotExtension{})

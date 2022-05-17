@@ -3,10 +3,15 @@
 // Licensed under the MIT license.
 package v1beta20210501
 
+import "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
+
 type Server_StatusARM struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
+
+	// Identity: The cmk identity for the server.
+	Identity *Identity_StatusARM `json:"identity,omitempty"`
 
 	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
@@ -30,6 +35,20 @@ type Server_StatusARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
+type Identity_StatusARM struct {
+	// PrincipalId: ObjectId from the KeyVault
+	PrincipalId *string `json:"principalId,omitempty"`
+
+	// TenantId: TenantId from the KeyVault
+	TenantId *string `json:"tenantId,omitempty"`
+
+	// Type: Type of managed service identity.
+	Type *IdentityStatusType `json:"type,omitempty"`
+
+	// UserAssignedIdentities: Metadata of user assigned identity.
+	UserAssignedIdentities map[string]v1.JSON `json:"userAssignedIdentities,omitempty"`
+}
+
 type ServerProperties_StatusARM struct {
 	// AdministratorLogin: The administrator's login name of a server. Can only be specified when the server is being created
 	// (and is required for creation).
@@ -43,6 +62,9 @@ type ServerProperties_StatusARM struct {
 
 	// CreateMode: The mode to create a new MySQL server.
 	CreateMode *ServerPropertiesStatusCreateMode `json:"createMode,omitempty"`
+
+	// DataEncryption: The Data Encryption for CMK.
+	DataEncryption *DataEncryption_StatusARM `json:"dataEncryption,omitempty"`
 
 	// FullyQualifiedDomainName: The fully qualified domain name of a server.
 	FullyQualifiedDomainName *string `json:"fullyQualifiedDomainName,omitempty"`
@@ -97,6 +119,24 @@ type Backup_StatusARM struct {
 	GeoRedundantBackup *EnableStatusEnum_Status `json:"geoRedundantBackup,omitempty"`
 }
 
+type DataEncryption_StatusARM struct {
+	// GeoBackupKeyUri: Geo backup key uri as key vault can't cross region, need cmk in same region as geo backup
+	GeoBackupKeyUri *string `json:"geoBackupKeyUri,omitempty"`
+
+	// GeoBackupUserAssignedIdentityId: Geo backup user identity resource id as identity can't cross region, need identity in
+	// same region as geo backup
+	GeoBackupUserAssignedIdentityId *string `json:"geoBackupUserAssignedIdentityId,omitempty"`
+
+	// PrimaryKeyUri: Primary key uri
+	PrimaryKeyUri *string `json:"primaryKeyUri,omitempty"`
+
+	// PrimaryUserAssignedIdentityId: Primary user identity resource id
+	PrimaryUserAssignedIdentityId *string `json:"primaryUserAssignedIdentityId,omitempty"`
+
+	// Type: The key type, AzureKeyVault for enable cmk, SystemManaged for disable cmk.
+	Type *DataEncryptionStatusType `json:"type,omitempty"`
+}
+
 type HighAvailability_StatusARM struct {
 	// Mode: High availability mode for a server.
 	Mode *HighAvailabilityStatusMode `json:"mode,omitempty"`
@@ -107,6 +147,10 @@ type HighAvailability_StatusARM struct {
 	// State: The state of server high availability.
 	State *HighAvailabilityStatusState `json:"state,omitempty"`
 }
+
+type IdentityStatusType string
+
+const IdentityStatusTypeUserAssigned = IdentityStatusType("UserAssigned")
 
 type MaintenanceWindow_StatusARM struct {
 	// CustomWindow: indicates whether custom window is enabled or disabled

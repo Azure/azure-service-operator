@@ -1298,7 +1298,6 @@ func VirtualMachineScaleSetOSProfileStatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForVirtualMachineScaleSetOSProfileStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetOSProfileStatusARM(gens map[string]gopter.Gen) {
-	gens["AdminPassword"] = gen.PtrOf(gen.AlphaString())
 	gens["AdminUsername"] = gen.PtrOf(gen.AlphaString())
 	gens["ComputerNamePrefix"] = gen.PtrOf(gen.AlphaString())
 	gens["CustomData"] = gen.PtrOf(gen.AlphaString())

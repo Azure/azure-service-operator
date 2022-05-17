@@ -133,6 +133,7 @@ type RedisPatchScheduleList struct {
 type RedisPatchSchedule_Status struct {
 	Conditions      []conditions.Condition `json:"conditions,omitempty"`
 	Id              *string                `json:"id,omitempty"`
+	Location        *string                `json:"location,omitempty"`
 	Name            *string                `json:"name,omitempty"`
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	ScheduleEntries []ScheduleEntry_Status `json:"scheduleEntries,omitempty"`

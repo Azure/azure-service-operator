@@ -3,9 +3,12 @@
 // Licensed under the MIT license.
 package v1alpha1api20210501
 
+import "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
+
 // Deprecated version of Server_Status. Use v1beta20210501.Server_Status instead
 type Server_StatusARM struct {
 	Id         *string                     `json:"id,omitempty"`
+	Identity   *Identity_StatusARM         `json:"identity,omitempty"`
 	Location   *string                     `json:"location,omitempty"`
 	Name       *string                     `json:"name,omitempty"`
 	Properties *ServerProperties_StatusARM `json:"properties,omitempty"`
@@ -15,12 +18,21 @@ type Server_StatusARM struct {
 	Type       *string                     `json:"type,omitempty"`
 }
 
+// Deprecated version of Identity_Status. Use v1beta20210501.Identity_Status instead
+type Identity_StatusARM struct {
+	PrincipalId            *string             `json:"principalId,omitempty"`
+	TenantId               *string             `json:"tenantId,omitempty"`
+	Type                   *IdentityStatusType `json:"type,omitempty"`
+	UserAssignedIdentities map[string]v1.JSON  `json:"userAssignedIdentities,omitempty"`
+}
+
 // Deprecated version of ServerProperties_Status. Use v1beta20210501.ServerProperties_Status instead
 type ServerProperties_StatusARM struct {
 	AdministratorLogin       *string                           `json:"administratorLogin,omitempty"`
 	AvailabilityZone         *string                           `json:"availabilityZone,omitempty"`
 	Backup                   *Backup_StatusARM                 `json:"backup,omitempty"`
 	CreateMode               *ServerPropertiesStatusCreateMode `json:"createMode,omitempty"`
+	DataEncryption           *DataEncryption_StatusARM         `json:"dataEncryption,omitempty"`
 	FullyQualifiedDomainName *string                           `json:"fullyQualifiedDomainName,omitempty"`
 	HighAvailability         *HighAvailability_StatusARM       `json:"highAvailability,omitempty"`
 	MaintenanceWindow        *MaintenanceWindow_StatusARM      `json:"maintenanceWindow,omitempty"`
@@ -47,12 +59,26 @@ type Backup_StatusARM struct {
 	GeoRedundantBackup  *EnableStatusEnum_Status `json:"geoRedundantBackup,omitempty"`
 }
 
+// Deprecated version of DataEncryption_Status. Use v1beta20210501.DataEncryption_Status instead
+type DataEncryption_StatusARM struct {
+	GeoBackupKeyUri                 *string                   `json:"geoBackupKeyUri,omitempty"`
+	GeoBackupUserAssignedIdentityId *string                   `json:"geoBackupUserAssignedIdentityId,omitempty"`
+	PrimaryKeyUri                   *string                   `json:"primaryKeyUri,omitempty"`
+	PrimaryUserAssignedIdentityId   *string                   `json:"primaryUserAssignedIdentityId,omitempty"`
+	Type                            *DataEncryptionStatusType `json:"type,omitempty"`
+}
+
 // Deprecated version of HighAvailability_Status. Use v1beta20210501.HighAvailability_Status instead
 type HighAvailability_StatusARM struct {
 	Mode                    *HighAvailabilityStatusMode  `json:"mode,omitempty"`
 	StandbyAvailabilityZone *string                      `json:"standbyAvailabilityZone,omitempty"`
 	State                   *HighAvailabilityStatusState `json:"state,omitempty"`
 }
+
+// Deprecated version of IdentityStatusType. Use v1beta20210501.IdentityStatusType instead
+type IdentityStatusType string
+
+const IdentityStatusTypeUserAssigned = IdentityStatusType("UserAssigned")
 
 // Deprecated version of MaintenanceWindow_Status. Use v1beta20210501.MaintenanceWindow_Status instead
 type MaintenanceWindow_StatusARM struct {

@@ -153,7 +153,7 @@ func newVMSS(
 						Version:   to.StringPtr("latest"),
 					},
 				},
-				OsProfile: &compute.VirtualMachineScaleSetOSProfile{
+				OsProfile: &compute.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfile{
 					ComputerNamePrefix: to.StringPtr("computer"),
 					AdminUsername:      &adminUsername,
 					LinuxConfiguration: &compute.LinuxConfiguration{
