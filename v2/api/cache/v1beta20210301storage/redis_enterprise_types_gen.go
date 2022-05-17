@@ -129,6 +129,7 @@ type RedisEnterpriseList struct {
 	Items           []RedisEnterprise `json:"items"`
 }
 
+// Storage version of v1beta20210301.APIVersion
 // +kubebuilder:validation:Enum={"2021-03-01"}
 type APIVersion string
 

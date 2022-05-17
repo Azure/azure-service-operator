@@ -1,5 +1,6 @@
 | Type Definitions in package "eventgrid"                     | v1alpha1api20200601 | v1beta20200601 |
 |-------------------------------------------------------------|---------------------|----------------|
+| APIVersion                                                  | v1alpha1api20200601 | v1beta20200601 |
 | AdvancedFilter                                              | v1alpha1api20200601 | v1beta20200601 |
 | AdvancedFilterBoolEqualsOperatorType                        | v1alpha1api20200601 | v1beta20200601 |
 | AdvancedFilterNumberGreaterThanOperatorType                 | v1alpha1api20200601 | v1beta20200601 |

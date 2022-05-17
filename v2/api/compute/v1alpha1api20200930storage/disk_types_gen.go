@@ -201,6 +201,13 @@ type DiskList struct {
 	Items           []Disk `json:"items"`
 }
 
+// Storage version of v1alpha1api20200930.APIVersion
+// Deprecated version of APIVersion. Use v1beta20200930.APIVersion instead
+// +kubebuilder:validation:Enum={"2020-09-30"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2020-09-30")
+
 // Storage version of v1alpha1api20200930.Disk_Status
 // Deprecated version of Disk_Status. Use v1beta20200930.Disk_Status instead
 type Disk_Status struct {

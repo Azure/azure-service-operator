@@ -129,6 +129,7 @@ type BatchAccountList struct {
 	Items           []BatchAccount `json:"items"`
 }
 
+// Storage version of v1beta20210101.APIVersion
 // +kubebuilder:validation:Enum={"2021-01-01"}
 type APIVersion string
 

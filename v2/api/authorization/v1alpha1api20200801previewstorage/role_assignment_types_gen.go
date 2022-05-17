@@ -198,6 +198,13 @@ type RoleAssignmentList struct {
 	Items           []RoleAssignment `json:"items"`
 }
 
+// Storage version of v1alpha1api20200801preview.APIVersion
+// Deprecated version of APIVersion. Use v1beta20200801preview.APIVersion instead
+// +kubebuilder:validation:Enum={"2020-08-01-preview"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2020-08-01-preview")
+
 // Storage version of v1alpha1api20200801preview.RoleAssignment_Status
 // Deprecated version of RoleAssignment_Status. Use v1beta20200801preview.RoleAssignment_Status instead
 type RoleAssignment_Status struct {

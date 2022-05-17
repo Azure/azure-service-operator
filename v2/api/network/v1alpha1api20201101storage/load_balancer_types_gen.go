@@ -199,6 +199,13 @@ type LoadBalancerList struct {
 	Items           []LoadBalancer `json:"items"`
 }
 
+// Storage version of v1alpha1api20201101.APIVersion
+// Deprecated version of APIVersion. Use v1beta20201101.APIVersion instead
+// +kubebuilder:validation:Enum={"2020-11-01"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2020-11-01")
+
 // Storage version of v1alpha1api20201101.LoadBalancer_Status
 // Deprecated version of LoadBalancer_Status. Use v1beta20201101.LoadBalancer_Status instead
 type LoadBalancer_Status struct {

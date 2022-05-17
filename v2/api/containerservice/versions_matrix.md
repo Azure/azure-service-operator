@@ -1,5 +1,6 @@
 | Type Definitions in package "containerservice"                                               | v1alpha1api20210501 | v1beta20210501 |
 |----------------------------------------------------------------------------------------------|---------------------|----------------|
+| APIVersion                                                                                   | v1alpha1api20210501 | v1beta20210501 |
 | AgentPoolMode_Status                                                                         | v1alpha1api20210501 | v1beta20210501 |
 | AgentPoolType_Status                                                                         | v1alpha1api20210501 | v1beta20210501 |
 | AgentPoolUpgradeSettings                                                                     | v1alpha1api20210501 | v1beta20210501 |

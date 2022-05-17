@@ -129,6 +129,7 @@ type RegistryList struct {
 	Items           []Registry `json:"items"`
 }
 
+// Storage version of v1beta20210901.APIVersion
 // +kubebuilder:validation:Enum={"2021-09-01"}
 type APIVersion string
 

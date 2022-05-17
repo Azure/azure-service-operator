@@ -129,6 +129,7 @@ type UserAssignedIdentityList struct {
 	Items           []UserAssignedIdentity `json:"items"`
 }
 
+// Storage version of v1beta20181130.APIVersion
 // +kubebuilder:validation:Enum={"2018-11-30"}
 type APIVersion string
 

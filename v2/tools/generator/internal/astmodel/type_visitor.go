@@ -236,7 +236,26 @@ func IdentityVisitOfResourceType(this *TypeVisitor, it *ResourceType, ctx interf
 		return nil, errors.Wrapf(err, "failed to visit resource status type %q", it.status)
 	}
 
-	if visitedSpec == it.spec && visitedStatus == it.status {
+	changedAPIVersionName := false
+	if it.HasAPIVersion() {
+		originalAPIVersionTypeName := it.APIVersionTypeName()
+		newAPIVersion, err := this.visitTypeName(this, originalAPIVersionTypeName, ctx)
+		if err != nil {
+			return nil, errors.Wrapf(err, "failed to visit resource API version name %q", originalAPIVersionTypeName)
+		}
+
+		if !TypeEquals(originalAPIVersionTypeName, newAPIVersion) {
+			newAPIVersionName, ok := newAPIVersion.(TypeName)
+			if !ok {
+				return nil, errors.Wrapf(err, "attempted to change API Version type name into non-type name %q", newAPIVersion)
+			}
+
+			changedAPIVersionName = true
+			it = it.WithAPIVersion(newAPIVersionName, it.APIVersionEnumValue())
+		}
+	}
+
+	if visitedSpec == it.spec && visitedStatus == it.status && !changedAPIVersionName {
 		return it, nil // short-circuit
 	}
 

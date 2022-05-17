@@ -1,5 +1,6 @@
 | Type Definitions in package "storage"                              | v1alpha1api20210401 | v1beta20210401 |
 |--------------------------------------------------------------------|---------------------|----------------|
+| APIVersion                                                         | v1alpha1api20210401 | v1beta20210401 |
 | ActiveDirectoryProperties                                          | v1alpha1api20210401 | v1beta20210401 |
 | ActiveDirectoryProperties_Status                                   | v1alpha1api20210401 | v1beta20210401 |
 | AzureFilesIdentityBasedAuthentication                              | v1alpha1api20210401 | v1beta20210401 |

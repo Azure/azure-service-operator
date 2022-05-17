@@ -138,6 +138,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		// TODO: These should be removed if/when we move to Swagger as the single source of truth
 		pipeline.RemoveTypeProperty(),
 		pipeline.RemoveAPIVersionProperty(),
+		pipeline.AddAPIVersionEnums(),
 
 		pipeline.VerifyNoErroredTypes(),
 
@@ -182,7 +183,6 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		// TODO: For now only used for ARM
 		pipeline.InjectOriginalVersionFunction(idFactory).UsedFor(pipeline.ARMTarget),
 		pipeline.CreateStorageTypes().UsedFor(pipeline.ARMTarget),
-		pipeline.AddAPIVersionEnums(), // after CreateStorageTypes so that we get API Versions for them too
 		pipeline.CreateConversionGraph(configuration, astmodel.GeneratorVersion).UsedFor(pipeline.ARMTarget),
 		pipeline.InjectOriginalVersionProperty().UsedFor(pipeline.ARMTarget),
 		pipeline.InjectPropertyAssignmentFunctions(configuration, idFactory).UsedFor(pipeline.ARMTarget),

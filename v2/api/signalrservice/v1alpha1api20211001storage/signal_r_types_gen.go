@@ -200,6 +200,13 @@ type SignalRList struct {
 	Items           []SignalR `json:"items"`
 }
 
+// Storage version of v1alpha1api20211001.APIVersion
+// Deprecated version of APIVersion. Use v1beta20211001.APIVersion instead
+// +kubebuilder:validation:Enum={"2021-10-01"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2021-10-01")
+
 // Storage version of v1alpha1api20211001.SignalRResource_Status
 // Deprecated version of SignalRResource_Status. Use v1beta20211001.SignalRResource_Status instead
 type SignalRResource_Status struct {

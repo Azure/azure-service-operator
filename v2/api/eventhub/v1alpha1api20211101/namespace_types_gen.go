@@ -331,6 +331,12 @@ type NamespaceList struct {
 	Items           []Namespace `json:"items"`
 }
 
+// Deprecated version of APIVersion. Use v1beta20211101.APIVersion instead
+// +kubebuilder:validation:Enum={"2021-11-01"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2021-11-01")
+
 // Deprecated version of EHNamespace_Status. Use v1beta20211101.EHNamespace_Status instead
 type EHNamespace_Status struct {
 	AlternateName *string `json:"alternateName,omitempty"`

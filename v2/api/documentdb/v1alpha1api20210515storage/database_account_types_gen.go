@@ -199,6 +199,13 @@ type DatabaseAccountList struct {
 	Items           []DatabaseAccount `json:"items"`
 }
 
+// Storage version of v1alpha1api20210515.APIVersion
+// Deprecated version of APIVersion. Use v1beta20210515.APIVersion instead
+// +kubebuilder:validation:Enum={"2021-05-15"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2021-05-15")
+
 // Storage version of v1alpha1api20210515.DatabaseAccountGetResults_Status
 // Deprecated version of DatabaseAccountGetResults_Status. Use v1beta20210515.DatabaseAccountGetResults_Status instead
 type DatabaseAccountGetResults_Status struct {

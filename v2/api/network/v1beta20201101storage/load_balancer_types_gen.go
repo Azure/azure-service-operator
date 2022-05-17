@@ -129,6 +129,7 @@ type LoadBalancerList struct {
 	Items           []LoadBalancer `json:"items"`
 }
 
+// Storage version of v1beta20201101.APIVersion
 // +kubebuilder:validation:Enum={"2020-11-01"}
 type APIVersion string
 

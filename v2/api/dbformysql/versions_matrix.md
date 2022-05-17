@@ -1,5 +1,6 @@
 | Type Definitions in package "dbformysql" | v1alpha1api20210501 | v1beta20210501 |
 |------------------------------------------|---------------------|----------------|
+| APIVersion                               | v1alpha1api20210501 | v1beta20210501 |
 | Backup                                   | v1alpha1api20210501 | v1beta20210501 |
 | BackupGeoRedundantBackup                 | v1alpha1api20210501 | v1beta20210501 |
 | Backup_Status                            | v1alpha1api20210501 | v1beta20210501 |

@@ -201,6 +201,13 @@ type ImageList struct {
 	Items           []Image `json:"items"`
 }
 
+// Storage version of v1alpha1api20210701.APIVersion
+// Deprecated version of APIVersion. Use v1beta20210701.APIVersion instead
+// +kubebuilder:validation:Enum={"2021-07-01"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2021-07-01")
+
 // Storage version of v1alpha1api20210701.Image_Status
 // Deprecated version of Image_Status. Use v1beta20210701.Image_Status instead
 type Image_Status struct {

@@ -14,6 +14,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
+var GetAPIVersionFunctionName = "Get" + astmodel.APIVersionProperty
+
 // NewGetAPIVersionFunction returns a function that returns a static API Version enum value ('APIVersionValue')
 func NewGetAPIVersionFunction(
 	apiVersionTypeName astmodel.TypeName,
@@ -23,7 +25,7 @@ func NewGetAPIVersionFunction(
 	comment := fmt.Sprintf("returns the ARM API version of the resource. This is always %s", apiVersionEnumValue.Value)
 	value := dst.NewIdent(apiVersionTypeName.Name() + apiVersionEnumValue.Identifier)
 
-	result := NewObjectFunction("Get"+astmodel.APIVersionProperty, idFactory,
+	result := NewObjectFunction(GetAPIVersionFunctionName, idFactory,
 		createBodyReturningValue(
 			astbuilder.CallFunc("string", value),
 			astmodel.StringType,

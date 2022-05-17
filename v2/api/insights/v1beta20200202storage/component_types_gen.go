@@ -130,6 +130,7 @@ type ComponentList struct {
 	Items           []Component `json:"items"`
 }
 
+// Storage version of v1beta20200202.APIVersion
 // +kubebuilder:validation:Enum={"2020-02-02"}
 type APIVersion string
 

@@ -202,6 +202,13 @@ type VirtualMachineList struct {
 	Items           []VirtualMachine `json:"items"`
 }
 
+// Storage version of v1alpha1api20201201.APIVersion
+// Deprecated version of APIVersion. Use v1beta20201201.APIVersion instead
+// +kubebuilder:validation:Enum={"2020-12-01"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2020-12-01")
+
 // Storage version of v1alpha1api20201201.VirtualMachine_Status
 // Deprecated version of VirtualMachine_Status. Use v1beta20201201.VirtualMachine_Status instead
 type VirtualMachine_Status struct {

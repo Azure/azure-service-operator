@@ -332,6 +332,12 @@ type ComponentList struct {
 	Items           []Component `json:"items"`
 }
 
+// Deprecated version of APIVersion. Use v1beta20200202.APIVersion instead
+// +kubebuilder:validation:Enum={"2020-02-02"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2020-02-02")
+
 // Deprecated version of ApplicationInsightsComponent_Status. Use v1beta20200202.ApplicationInsightsComponent_Status instead
 type ApplicationInsightsComponent_Status struct {
 	AppId           *string                                                      `json:"AppId,omitempty"`

@@ -20,6 +20,7 @@ stripUnused                                          Strip unused types for test
 assertTypesStructureValid                            Verify that all local TypeNames refer to a type
 removeTypeProperty                                   Remove the ARM type property and instead augment the ResourceType with it
 removeAPIVersionProperty                             Remove the ARM API version property and instead augment the ResourceType with it
+add-api-version-enums                                Add enums for API Versions in each package
 verifyNoErroredTypes                                 Verify there are no ErroredType's containing errors
 stripUnused                                          Strip unused types for test
 replaceAnyTypeWithJSON                               Replace properties using interface{} with arbitrary JSON
@@ -33,7 +34,6 @@ addOperatorSpec                           azure      Adds the property 'Operator
 applyDefaulterAndValidatorInterfaces      azure      Add the admission.Defaulter and admission.Validator interfaces to each resource that requires them
 injectOriginalVersionFunction             azure      Inject the function OriginalVersion() into each Spec type
 createStorageTypes                        azure      Create storage versions of CRD types
-add-api-version-enums                                Add enums for API Versions in each package
 createConversionGraph                     azure      Create the graph of conversions between versions of each resource group
 injectOriginalVersionProperty             azure      Inject the property OriginalVersion into each Storage Spec type
 injectPropertyAssignmentFunctions         azure      Inject property assignment functions AssignFrom() and AssignTo() into resources and objects

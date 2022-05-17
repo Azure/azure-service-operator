@@ -129,6 +129,7 @@ type NamespaceList struct {
 	Items           []Namespace `json:"items"`
 }
 
+// Storage version of v1beta20210101preview.APIVersion
 // +kubebuilder:validation:Enum={"2021-01-01-preview"}
 type APIVersion string
 

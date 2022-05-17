@@ -130,6 +130,7 @@ type ManagedClusterList struct {
 	Items           []ManagedCluster `json:"items"`
 }
 
+// Storage version of v1beta20210501.APIVersion
 // +kubebuilder:validation:Enum={"2021-05-01"}
 type APIVersion string
 

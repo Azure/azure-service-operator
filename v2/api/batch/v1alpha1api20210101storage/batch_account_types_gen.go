@@ -199,6 +199,13 @@ type BatchAccountList struct {
 	Items           []BatchAccount `json:"items"`
 }
 
+// Storage version of v1alpha1api20210101.APIVersion
+// Deprecated version of APIVersion. Use v1beta20210101.APIVersion instead
+// +kubebuilder:validation:Enum={"2021-01-01"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2021-01-01")
+
 // Storage version of v1alpha1api20210101.BatchAccount_Status
 // Deprecated version of BatchAccount_Status. Use v1beta20210101.BatchAccount_Status instead
 type BatchAccount_Status struct {

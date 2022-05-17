@@ -1,5 +1,6 @@
 | Type Definitions in package "servicebus"             | v1alpha1api20210101preview | v1beta20210101preview |
 |------------------------------------------------------|----------------------------|-----------------------|
+| APIVersion                                           | v1alpha1api20210101preview | v1beta20210101preview |
 | DictionaryValue_Status                               | v1alpha1api20210101preview | v1beta20210101preview |
 | Encryption                                           | v1alpha1api20210101preview | v1beta20210101preview |
 | EncryptionKeySource                                  | v1alpha1api20210101preview | v1beta20210101preview |

@@ -199,6 +199,13 @@ type FlexibleServerList struct {
 	Items           []FlexibleServer `json:"items"`
 }
 
+// Storage version of v1alpha1api20210601.APIVersion
+// Deprecated version of APIVersion. Use v1beta20210601.APIVersion instead
+// +kubebuilder:validation:Enum={"2021-06-01"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2021-06-01")
+
 // Storage version of v1alpha1api20210601.FlexibleServers_Spec
 type FlexibleServers_Spec struct {
 	AdministratorLogin         *string                     `json:"administratorLogin,omitempty"`

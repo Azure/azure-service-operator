@@ -1,5 +1,6 @@
 | Type Definitions in package "network"                                                            | v1alpha1api20201101 | v1beta20201101 |
 |--------------------------------------------------------------------------------------------------|---------------------|----------------|
+| APIVersion                                                                                       | v1alpha1api20201101 | v1beta20201101 |
 | AddressSpace                                                                                     | v1alpha1api20201101 | v1beta20201101 |
 | AddressSpace_Status                                                                              | v1alpha1api20201101 | v1beta20201101 |
 | ApplicationGatewayBackendAddressPoolPropertiesFormat_Status_NetworkInterface_SubResourceEmbedded | v1alpha1api20201101 | v1beta20201101 |

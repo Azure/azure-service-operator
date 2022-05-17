@@ -331,6 +331,12 @@ type FlexibleServerList struct {
 	Items           []FlexibleServer `json:"items"`
 }
 
+// Deprecated version of APIVersion. Use v1beta20210601.APIVersion instead
+// +kubebuilder:validation:Enum={"2021-06-01"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2021-06-01")
+
 type FlexibleServers_Spec struct {
 	AdministratorLogin         *string                     `json:"administratorLogin,omitempty"`
 	AdministratorLoginPassword *genruntime.SecretReference `json:"administratorLoginPassword,omitempty"`

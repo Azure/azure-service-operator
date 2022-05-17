@@ -199,6 +199,13 @@ type UserAssignedIdentityList struct {
 	Items           []UserAssignedIdentity `json:"items"`
 }
 
+// Storage version of v1alpha1api20181130.APIVersion
+// Deprecated version of APIVersion. Use v1beta20181130.APIVersion instead
+// +kubebuilder:validation:Enum={"2018-11-30"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2018-11-30")
+
 // Storage version of v1alpha1api20181130.Identity_Status
 // Deprecated version of Identity_Status. Use v1beta20181130.Identity_Status instead
 type Identity_Status struct {

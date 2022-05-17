@@ -331,6 +331,12 @@ type DomainList struct {
 	Items           []Domain `json:"items"`
 }
 
+// Deprecated version of APIVersion. Use v1beta20200601.APIVersion instead
+// +kubebuilder:validation:Enum={"2020-06-01"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2020-06-01")
+
 // Deprecated version of Domain_Status. Use v1beta20200601.Domain_Status instead
 type Domain_Status struct {
 	// Conditions: The observed state of the resource

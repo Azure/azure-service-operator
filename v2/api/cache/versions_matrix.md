@@ -1,5 +1,6 @@
 | Type Definitions in package "cache"                  | v1alpha1api20201201 | v1alpha1api20210301 | v1beta20201201 | v1beta20210301 |
 |------------------------------------------------------|---------------------|---------------------|----------------|----------------|
+| APIVersion                                           | v1alpha1api20201201 | v1alpha1api20210301 | v1beta20201201 | v1beta20210301 |
 | ClusterProperties                                    |                     | v1alpha1api20210301 |                | v1beta20210301 |
 | ClusterPropertiesMinimumTlsVersion                   |                     | v1alpha1api20210301 |                | v1beta20210301 |
 | ClusterPropertiesStatusMinimumTlsVersion             |                     | v1alpha1api20210301 |                | v1beta20210301 |

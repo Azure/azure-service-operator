@@ -131,6 +131,7 @@ type VirtualMachineList struct {
 	Items           []VirtualMachine `json:"items"`
 }
 
+// Storage version of v1beta20201201.APIVersion
 // +kubebuilder:validation:Enum={"2020-12-01"}
 type APIVersion string
 

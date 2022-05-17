@@ -130,6 +130,7 @@ type WebtestList struct {
 	Items           []Webtest `json:"items"`
 }
 
+// Storage version of v1beta20180501preview.APIVersion
 // +kubebuilder:validation:Enum={"2018-05-01-preview"}
 type APIVersion string
 

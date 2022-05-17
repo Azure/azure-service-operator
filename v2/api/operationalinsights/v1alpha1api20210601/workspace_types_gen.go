@@ -332,6 +332,12 @@ type WorkspaceList struct {
 	Items           []Workspace `json:"items"`
 }
 
+// Deprecated version of APIVersion. Use v1beta20210601.APIVersion instead
+// +kubebuilder:validation:Enum={"2021-06-01"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2021-06-01")
+
 // Deprecated version of Workspace_Status. Use v1beta20210601.Workspace_Status instead
 type Workspace_Status struct {
 	// Conditions: The observed state of the resource

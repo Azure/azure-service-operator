@@ -1,5 +1,6 @@
 | Type Definitions in package "dbforpostgresql" | v1alpha1api20210601 | v1beta20210601 |
 |-----------------------------------------------|---------------------|----------------|
+| APIVersion                                    | v1alpha1api20210601 | v1beta20210601 |
 | Backup                                        | v1alpha1api20210601 | v1beta20210601 |
 | BackupGeoRedundantBackup                      | v1alpha1api20210601 | v1beta20210601 |
 | BackupStatusGeoRedundantBackup                | v1alpha1api20210601 | v1beta20210601 |

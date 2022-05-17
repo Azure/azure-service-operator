@@ -129,6 +129,7 @@ type DatabaseAccountList struct {
 	Items           []DatabaseAccount `json:"items"`
 }
 
+// Storage version of v1beta20210515.APIVersion
 // +kubebuilder:validation:Enum={"2021-05-15"}
 type APIVersion string
 

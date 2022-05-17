@@ -331,6 +331,12 @@ type DiskList struct {
 	Items           []Disk `json:"items"`
 }
 
+// Deprecated version of APIVersion. Use v1beta20200930.APIVersion instead
+// +kubebuilder:validation:Enum={"2020-09-30"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2020-09-30")
+
 // Deprecated version of Disk_Status. Use v1beta20200930.Disk_Status instead
 type Disk_Status struct {
 	BurstingEnabled *bool `json:"burstingEnabled,omitempty"`

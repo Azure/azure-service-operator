@@ -70,16 +70,6 @@ func (t *TypeConverter) convertResourceType(
 	result := resource.WithoutInterface(astmodel.DefaulterInterfaceName).
 		WithoutInterface(astmodel.ValidatorInterfaceName)
 
-	if result.HasAPIVersion() {
-		apiVersionTypeName, ok := t.tryConvertToStoragePackage(resource.APIVersionTypeName())
-		if ok {
-			// move API Version into the same package
-			result = result.WithAPIVersion(
-				apiVersionTypeName,
-				result.APIVersionEnumValue())
-		}
-	}
-
 	return astmodel.IdentityVisitOfResourceType(tv, result, ctx)
 }
 

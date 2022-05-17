@@ -331,6 +331,12 @@ type RedisEnterpriseList struct {
 	Items           []RedisEnterprise `json:"items"`
 }
 
+// Deprecated version of APIVersion. Use v1beta20210301.APIVersion instead
+// +kubebuilder:validation:Enum={"2021-03-01"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2021-03-01")
+
 // Deprecated version of Cluster_Status. Use v1beta20210301.Cluster_Status instead
 type Cluster_Status struct {
 	// Conditions: The observed state of the resource

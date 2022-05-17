@@ -331,6 +331,12 @@ type RegistryList struct {
 	Items           []Registry `json:"items"`
 }
 
+// Deprecated version of APIVersion. Use v1beta20210901.APIVersion instead
+// +kubebuilder:validation:Enum={"2021-09-01"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2021-09-01")
+
 type Registries_Spec struct {
 	AdminUserEnabled *bool `json:"adminUserEnabled,omitempty"`
 

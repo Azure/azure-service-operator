@@ -129,6 +129,7 @@ type DomainList struct {
 	Items           []Domain `json:"items"`
 }
 
+// Storage version of v1beta20200601.APIVersion
 // +kubebuilder:validation:Enum={"2020-06-01"}
 type APIVersion string
 

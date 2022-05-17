@@ -130,6 +130,7 @@ type DiskList struct {
 	Items           []Disk `json:"items"`
 }
 
+// Storage version of v1beta20200930.APIVersion
 // +kubebuilder:validation:Enum={"2020-09-30"}
 type APIVersion string
 

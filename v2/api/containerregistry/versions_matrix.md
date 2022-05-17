@@ -1,5 +1,6 @@
 | Type Definitions in package "containerregistry"      | v1alpha1api20210901 | v1beta20210901 |
 |------------------------------------------------------|---------------------|----------------|
+| APIVersion                                           | v1alpha1api20210901 | v1beta20210901 |
 | EncryptionProperty                                   | v1alpha1api20210901 | v1beta20210901 |
 | EncryptionPropertyStatus                             | v1alpha1api20210901 | v1beta20210901 |
 | EncryptionPropertyStatusStatus                       | v1alpha1api20210901 | v1beta20210901 |

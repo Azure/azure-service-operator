@@ -332,6 +332,12 @@ type WebtestList struct {
 	Items           []Webtest `json:"items"`
 }
 
+// Deprecated version of APIVersion. Use v1beta20180501preview.APIVersion instead
+// +kubebuilder:validation:Enum={"2018-05-01-preview"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2018-05-01-preview")
+
 // Deprecated version of WebTest_Status. Use v1beta20180501preview.WebTest_Status instead
 type WebTest_Status struct {
 	// Conditions: The observed state of the resource
