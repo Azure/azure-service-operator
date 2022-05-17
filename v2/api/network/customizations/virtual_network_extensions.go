@@ -27,7 +27,7 @@ var _ extensions.ARMResourceModifier = &VirtualNetworkExtension{}
 func (extension *VirtualNetworkExtension) ModifyARMResource(
 	ctx context.Context,
 	armObj genruntime.ARMResource,
-	obj genruntime.MetaObject,
+	obj genruntime.ARMMetaObject,
 	kubeClient kubeclient.Client,
 	resolver *resolver.Resolver,
 	log logr.Logger) (genruntime.ARMResource, error) {
@@ -81,7 +81,7 @@ func getSubnetNames(subnets []genruntime.ARMResourceSpec) []string {
 	return result
 }
 
-func getSubnetGVK(vnet genruntime.MetaObject) schema.GroupVersionKind {
+func getSubnetGVK(vnet genruntime.ARMMetaObject) schema.GroupVersionKind {
 	gvk := genruntime.GetOriginalGVK(vnet)
 	gvk.Kind = reflect.TypeOf(network.VirtualNetworksSubnet{}).Name() // "VirtualNetworksSubnet"
 
@@ -90,7 +90,7 @@ func getSubnetGVK(vnet genruntime.MetaObject) schema.GroupVersionKind {
 
 func transformToARM(
 	ctx context.Context,
-	obj genruntime.MetaObject,
+	obj genruntime.ARMMetaObject,
 	gvk schema.GroupVersionKind,
 	kubeClient kubeclient.Client,
 	resolver *resolver.Resolver) (genruntime.ARMResourceSpec, error) {

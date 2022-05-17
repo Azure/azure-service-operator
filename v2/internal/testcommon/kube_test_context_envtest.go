@@ -100,7 +100,7 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 		return nil, errors.Wrapf(err, "creating controller-runtime manager")
 	}
 
-	var clientFactory arm.ARMClientFactory = func(mo genruntime.MetaObject) *genericarmclient.GenericClient {
+	var clientFactory arm.ARMClientFactory = func(mo genruntime.ARMMetaObject) *genericarmclient.GenericClient {
 		result := namespaceResources.Lookup(mo.GetNamespace())
 		if result == nil {
 			panic(fmt.Sprintf("unable to locate ARM client for namespace %s; tests should only create resources in the namespace they are assigned or have declared via TargetNamespaces",

@@ -109,7 +109,7 @@ func createResourceGroup(name string) *resources.ResourceGroup {
 	}
 }
 
-func createResourceGroupRootedResource(rgName string, name string) (genruntime.MetaObject, genruntime.MetaObject) {
+func createResourceGroupRootedResource(rgName string, name string) (genruntime.ARMMetaObject, genruntime.ARMMetaObject) {
 	a := createResourceGroup(rgName)
 
 	b := &batch.BatchAccount{
@@ -171,7 +171,7 @@ func createDeeplyNestedResource(rgName string, parentName string, name string) r
 	return resolver.ResourceHierarchy{a, b, c}
 }
 
-func createSimpleExtensionResource(name string, ownerName string, ownerGVK schema.GroupVersionKind) genruntime.MetaObject {
+func createSimpleExtensionResource(name string, ownerName string, ownerGVK schema.GroupVersionKind) genruntime.ARMMetaObject {
 	return &testcommon.SimpleExtensionResource{
 		TypeMeta: metav1.TypeMeta{
 			Kind:       "SimpleExtensionResource",
@@ -192,7 +192,7 @@ func createSimpleExtensionResource(name string, ownerName string, ownerGVK schem
 	}
 }
 
-func createExtensionResourceOnResourceGroup(rgName string, name string) (genruntime.MetaObject, genruntime.MetaObject) {
+func createExtensionResourceOnResourceGroup(rgName string, name string) (genruntime.ARMMetaObject, genruntime.ARMMetaObject) {
 	a := createResourceGroup(rgName)
 	gvk := a.GetObjectKind().GroupVersionKind()
 	b := createSimpleExtensionResource(name, a.GetName(), gvk)

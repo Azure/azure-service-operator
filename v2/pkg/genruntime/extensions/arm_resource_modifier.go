@@ -24,13 +24,13 @@ type ARMResourceModifier interface {
 	ModifyARMResource(
 		ctx context.Context,
 		armObj genruntime.ARMResource,
-		obj genruntime.MetaObject,
+		obj genruntime.ARMMetaObject,
 		kubeClient kubeclient.Client,
 		resolver *resolver.Resolver,
 		log logr.Logger) (genruntime.ARMResource, error)
 }
 
-type ARMResourceModifierFunc = func(ctx context.Context, obj genruntime.MetaObject, armObj genruntime.ARMResource) (genruntime.ARMResource, error)
+type ARMResourceModifierFunc = func(ctx context.Context, obj genruntime.ARMMetaObject, armObj genruntime.ARMResource) (genruntime.ARMResource, error)
 
 // CreateARMResourceModifier returns a function that performs per-resource modifications. If the ARMResourceModifier extension has
 // not been implemented for the resource in question, the default behavior is to return the provided genruntime.ARMResource unmodified.
@@ -42,12 +42,12 @@ func CreateARMResourceModifier(
 
 	impl, ok := host.(ARMResourceModifier)
 	if !ok {
-		return func(ctx context.Context, obj genruntime.MetaObject, armObj genruntime.ARMResource) (genruntime.ARMResource, error) {
+		return func(ctx context.Context, obj genruntime.ARMMetaObject, armObj genruntime.ARMResource) (genruntime.ARMResource, error) {
 			return armObj, nil
 		}
 	}
 
-	return func(ctx context.Context, obj genruntime.MetaObject, armObj genruntime.ARMResource) (genruntime.ARMResource, error) {
+	return func(ctx context.Context, obj genruntime.ARMMetaObject, armObj genruntime.ARMResource) (genruntime.ARMResource, error) {
 		log.V(Info).Info("Modifying ARM payload")
 
 		armResource, err := impl.ModifyARMResource(ctx, armObj, obj, kubeClient, resolver, log)

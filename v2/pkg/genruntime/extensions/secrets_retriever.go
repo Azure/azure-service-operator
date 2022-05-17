@@ -24,12 +24,12 @@ type SecretsRetriever interface {
 	// will write the secrets to their destination.
 	RetrieveSecrets(
 		ctx context.Context,
-		obj genruntime.MetaObject,
+		obj genruntime.ARMMetaObject,
 		armClient *genericarmclient.GenericClient,
 		log logr.Logger) ([]*corev1.Secret, error)
 }
 
-type SecretRetrievalFunc = func(obj genruntime.MetaObject) ([]*corev1.Secret, error)
+type SecretRetrievalFunc = func(obj genruntime.ARMMetaObject) ([]*corev1.Secret, error)
 
 // CreateSecretRetriever creates a function to retrieve secrets from Azure. If the resource
 // in question has not been configured with the SecretsRetriever extension, the returned function
@@ -42,12 +42,12 @@ func CreateSecretRetriever(
 
 	impl, ok := host.(SecretsRetriever)
 	if !ok {
-		return func(obj genruntime.MetaObject) ([]*corev1.Secret, error) {
+		return func(obj genruntime.ARMMetaObject) ([]*corev1.Secret, error) {
 			return nil, nil
 		}
 	}
 
-	return func(obj genruntime.MetaObject) ([]*corev1.Secret, error) {
+	return func(obj genruntime.ARMMetaObject) ([]*corev1.Secret, error) {
 		log.V(Info).Info("Retrieving secrets from Azure")
 		secrets, err := impl.RetrieveSecrets(ctx, obj, armClient, log)
 		if err != nil {

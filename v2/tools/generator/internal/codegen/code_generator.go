@@ -8,6 +8,7 @@ package codegen
 import (
 	"context"
 	"fmt"
+	"time"
 
 	"github.com/pkg/errors"
 	"k8s.io/klog/v2"
@@ -224,30 +225,35 @@ func (generator *CodeGenerator) Generate(ctx context.Context) error {
 
 	state := pipeline.NewState()
 	for i, stage := range generator.pipeline {
-		klog.V(0).Infof("%d/%d: %s", i+1, len(generator.pipeline), stage.Description())
-		// Defensive copy (in case the pipeline modifies its inputs) so that we can compare types in vs out
-		stateOut, err := stage.Run(ctx, state)
+		klog.V(0).Infof(
+			"%d/%d: %s",
+			i+1, // Computers count from 0, people from 1
+			len(generator.pipeline),
+			stage.Description())
+
+		start := time.Now()
+
+		newState, err := stage.Run(ctx, state)
 		if err != nil {
 			return errors.Wrapf(err, "failed during pipeline stage %d/%d: %s", i+1, len(generator.pipeline), stage.Description())
 		}
 
 		// Fail fast if something goes awry
-		if len(stateOut.Definitions()) == 0 {
+		if len(newState.Definitions()) == 0 {
 			return errors.Errorf("all type definitions removed by stage %s", stage.Id())
 		}
 
-		defsAdded := stateOut.Definitions().Except(state.Definitions())
-		defsRemoved := state.Definitions().Except(stateOut.Definitions())
+		generator.logStateChange(state, newState)
 
-		if len(defsAdded) > 0 && len(defsRemoved) > 0 {
-			klog.V(1).Infof("Added %d, removed %d type definitions", len(defsAdded), len(defsRemoved))
-		} else if len(defsAdded) > 0 {
-			klog.V(1).Infof("Added %d type definitions", len(defsAdded))
-		} else if len(defsRemoved) > 0 {
-			klog.V(1).Infof("Removed %d type definitions", len(defsRemoved))
-		}
+		duration := time.Since(start).Round(time.Millisecond)
+		klog.V(0).Infof(
+			"%d/%d: %s, completed in %s",
+			i+1, // Computers count from 0, people from 1
+			len(generator.pipeline),
+			stage.Description(),
+			duration)
 
-		state = stateOut
+		state = newState
 	}
 
 	if err := state.CheckFinalState(); err != nil {
@@ -258,6 +264,19 @@ func (generator *CodeGenerator) Generate(ctx context.Context) error {
 	klog.Info("Finished")
 
 	return nil
+}
+
+func (generator *CodeGenerator) logStateChange(former *pipeline.State, later *pipeline.State) {
+	defsAdded := later.Definitions().Except(former.Definitions())
+	defsRemoved := former.Definitions().Except(later.Definitions())
+
+	if len(defsAdded) > 0 && len(defsRemoved) > 0 {
+		klog.V(1).Infof("Added %d, removed %d type definitions", len(defsAdded), len(defsRemoved))
+	} else if len(defsAdded) > 0 {
+		klog.V(1).Infof("Added %d type definitions", len(defsAdded))
+	} else if len(defsRemoved) > 0 {
+		klog.V(1).Infof("Removed %d type definitions", len(defsRemoved))
+	}
 }
 
 // RemoveStages will remove all stages from the pipeline with the given ids.

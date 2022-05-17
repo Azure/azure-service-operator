@@ -24,6 +24,7 @@ type Client interface {
 
 	GetObject(ctx context.Context, namespacedName types.NamespacedName, gvk schema.GroupVersionKind) (client.Object, error)
 	GetObjectOrDefault(ctx context.Context, namespacedName types.NamespacedName, gvk schema.GroupVersionKind) (client.Object, error)
+	CommitObject(ctx context.Context, obj client.Object) error
 }
 
 type clientHelper struct {
@@ -106,4 +107,38 @@ func (c *clientHelper) GetObjectOrDefault(ctx context.Context, namespacedName ty
 	}
 
 	return result, err
+}
+
+// CommitObject persists the contents of obj to etcd by using the Kubernetes client.
+// Note that after this method has been called, obj contains the result of the update
+// from APIServer (including an updated resourceVersion). Both Spec and Status are written
+func (c *clientHelper) CommitObject(ctx context.Context, obj client.Object) error {
+	// Order of updates (spec first or status first) matters here.
+	// If the status is updated first: clients that are waiting on status
+	// Condition Ready == true might see that quickly enough, and make a spec
+	// update fast enough, to conflict with the second write (that of the spec).
+	// This will trigger extra requests to Azure and fail our recording tests but is
+	// otherwise harmless in an actual deployment.
+	// We update the spec first to avoid the above problem.
+
+	// We must clone here because the result of this update could contain
+	// fields such as status.location that may not be set but are not omitempty.
+	// This will cause the contents we have in Status.Location to be overwritten.
+	clone := obj.DeepCopyObject().(client.Object)
+
+	err := c.Update(ctx, clone)
+	if err != nil {
+		return errors.Wrapf(err, "updating %s/%s resource", obj.GetNamespace(), obj.GetName())
+	}
+
+	obj.SetResourceVersion(clone.GetResourceVersion())
+
+	// Note that subsequent calls to GET can (if using a cached client) can miss the updates we've just done.
+	// See: https://github.com/kubernetes-sigs/controller-runtime/issues/1464.
+	err = c.Status().Update(ctx, obj)
+	if err != nil {
+		return errors.Wrapf(err, "updating %s/%s resource status", obj.GetNamespace(), obj.GetName())
+	}
+
+	return nil
 }
