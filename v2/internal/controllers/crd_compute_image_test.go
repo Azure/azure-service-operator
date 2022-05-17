@@ -82,7 +82,7 @@ func Test_Compute_Image_CRUD(t *testing.T) {
 	tc.DeleteResourcesAndWait(image, rg)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, imageARMId, string(compute2021.ImagesSpecAPIVersion20210701))
+	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, imageARMId, string(compute2021.APIVersionValue))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())
