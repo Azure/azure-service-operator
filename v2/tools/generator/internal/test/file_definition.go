@@ -6,8 +6,6 @@
 package test
 
 import (
-	"github.com/pkg/errors"
-
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
@@ -15,11 +13,7 @@ func CreateFileDefinition(definitions ...astmodel.TypeDefinition) *astmodel.File
 	packages := make(map[astmodel.PackageReference]*astmodel.PackageDefinition)
 
 	ref := definitions[0].Name().PackageReference
-	group, version, ok := ref.GroupVersion()
-	if !ok {
-		panic(errors.Errorf("Expected first definition not to have external package reference %s - fix your test!", ref))
-	}
-
+	group, version := ref.GroupVersion()
 	pkgDefinition := astmodel.NewPackageDefinition(group, version)
 	for _, def := range definitions {
 		pkgDefinition.AddDefinition(def)
@@ -39,11 +33,7 @@ func CreateTestFileDefinition(definitions ...astmodel.TypeDefinition) *astmodel.
 	// Use the package reference of the first definition for the whole file
 	ref := definitions[0].Name().PackageReference
 
-	group, version, ok := ref.GroupVersion()
-	if !ok {
-		panic(errors.Errorf("Expected first definition not to have external package reference %s - fix your test!", ref))
-	}
-
+	group, version := ref.GroupVersion()
 	pkgDefinition := astmodel.NewPackageDefinition(group, version)
 	for _, def := range definitions {
 		pkgDefinition.AddDefinition(def)

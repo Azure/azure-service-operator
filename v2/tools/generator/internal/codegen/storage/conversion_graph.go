@@ -6,8 +6,6 @@
 package storage
 
 import (
-	"fmt"
-
 	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -25,11 +23,7 @@ type ConversionGraph struct {
 // Returns the end and true if it's found, or nil and false if not.
 func (graph *ConversionGraph) LookupTransition(ref astmodel.PackageReference) (astmodel.PackageReference, bool) {
 	// Expect to get either a local or a storage reference, not an external one
-	group, _, ok := ref.GroupVersion()
-	if !ok {
-		panic(fmt.Sprintf("cannot use external package reference %s with a conversion graph", ref))
-	}
-
+	group, _ := ref.GroupVersion()
 	subgraph, ok := graph.subGraphs[group]
 	if !ok {
 		return nil, false
@@ -178,11 +172,7 @@ func (graph *ConversionGraph) searchForRenamedType(
 	// Validity check on the type-rename to verify that it specifies a type that exists.
 	// If we didn't find the type, the configured rename is invalid
 	if result.IsEmpty() {
-		group, version, ok := name.PackageReference.GroupVersion()
-		if !ok {
-			panic(fmt.Sprintf("never expected external reference %s", name.PackageReference))
-		}
-
+		group, version := name.PackageReference.GroupVersion()
 		return astmodel.EmptyTypeName, -1, errors.Errorf(
 			"rename of %s/%s/%s invalid because no type with name %s was found in any later version",
 			group,
