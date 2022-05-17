@@ -225,7 +225,11 @@ func (generator *CodeGenerator) Generate(ctx context.Context) error {
 
 	state := pipeline.NewState()
 	for i, stage := range generator.pipeline {
-		klog.V(0).Infof("%d/%d: %s", i+1, len(generator.pipeline), stage.Description())
+		klog.V(0).Infof(
+			"%d/%d: %s",
+			i+1, // Computers count from 0, people from 1
+			len(generator.pipeline),
+			stage.Description())
 
 		start := time.Now()
 
@@ -242,7 +246,12 @@ func (generator *CodeGenerator) Generate(ctx context.Context) error {
 		generator.logStateChange(state, newState)
 
 		duration := time.Since(start).Round(time.Millisecond)
-		klog.V(0).Infof("%d/%d: completed in %s", i+1, len(generator.pipeline), duration)
+		klog.V(0).Infof(
+			"%d/%d: %s, completed in %s",
+			i+1, // Computers count from 0, people from 1
+			len(generator.pipeline),
+			stage.Description(),
+			duration)
 
 		state = newState
 	}
