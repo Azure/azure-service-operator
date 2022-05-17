@@ -8,7 +8,6 @@ package codegen
 import (
 	"context"
 	"fmt"
-	"strings"
 
 	"github.com/pkg/errors"
 	"k8s.io/klog/v2"
@@ -247,22 +246,6 @@ func (generator *CodeGenerator) Generate(ctx context.Context) error {
 			klog.V(1).Infof("Added %d type definitions", len(defsAdded))
 		} else if len(defsRemoved) > 0 {
 			klog.V(1).Infof("Removed %d type definitions", len(defsRemoved))
-		}
-
-		found := false
-		for _, def := range stateOut.Definitions() {
-			if _, ok := astmodel.AsEnumType(def.Type()); ok {
-				if strings.Index(def.Name().Name(), "APIVersion") == 0 {
-					found = true
-					break
-				}
-			}
-		}
-
-		if found {
-			klog.Infof("FOUND APIVERSION ENUM")
-		} else {
-			klog.Info("DID NOT FIND APIVERSION ENUM")
 		}
 
 		state = stateOut

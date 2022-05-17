@@ -8,8 +8,6 @@ package pipeline
 import (
 	"context"
 
-	"k8s.io/klog/v2"
-
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
@@ -25,7 +23,6 @@ func AddAPIVersionEnums() *Stage {
 				if rt, ok := astmodel.AsResourceType(def.Type()); ok && rt.HasAPIVersion() {
 					apiVersionName := rt.APIVersionTypeName()
 					if !newDefs.Contains(apiVersionName) {
-						klog.Infof("GENERATED ENUM: %s", rt.APIVersionTypeName())
 						apiVersionValue := rt.APIVersionEnumValue()
 						enumType := astmodel.NewEnumType(astmodel.StringType, apiVersionValue)
 						newDefs.Add(astmodel.MakeTypeDefinition(apiVersionName, enumType))
