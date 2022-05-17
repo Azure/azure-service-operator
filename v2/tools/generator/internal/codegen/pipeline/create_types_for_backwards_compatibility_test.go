@@ -9,6 +9,7 @@ import (
 	"testing"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
 
 	. "github.com/onsi/gomega"
@@ -23,6 +24,8 @@ func TestGolden_CreateBackwardCompatibilityTypes(t *testing.T) {
 	person2021 := test.CreateSpec(test.Pkg2021, "Person", test.FullNameProperty, test.KnownAsProperty, test.FamilyNameProperty)
 	person2022 := test.CreateSpec(test.Pkg2022, "Person", test.FullNameProperty, test.KnownAsProperty, test.FamilyNameProperty)
 
+	cfg := config.NewObjectModelConfiguration()
+
 	defs := make(astmodel.TypeDefinitionSet)
 	defs.AddAll(person2020, person2021, person2022)
 
@@ -32,7 +35,7 @@ func TestGolden_CreateBackwardCompatibilityTypes(t *testing.T) {
 
 	finalState, err := RunTestPipeline(
 		initialState,
-		CreateTypesForBackwardCompatibility("vPrefix"))
+		CreateTypesForBackwardCompatibility("vPrefix", cfg))
 	g.Expect(err).To(Succeed())
 
 	test.AssertPackagesGenerateExpectedCode(t, finalState.Definitions())

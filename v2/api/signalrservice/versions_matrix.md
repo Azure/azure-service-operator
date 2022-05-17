@@ -43,7 +43,7 @@
 | SignalRRequestType_Status                                    | v1alpha1api20211001 | v1beta20211001 |
 | SignalRResource_Status                                       | v1alpha1api20211001 | v1beta20211001 |
 | SignalRSkuTier_Status                                        | v1alpha1api20211001 | v1beta20211001 |
-| SignalRSpecAPIVersion                                        | v1alpha1api20211001 | v1beta20211001 |
+| SignalRSpecAPIVersion                                        |                     | v1beta20211001 |
 | SignalRSpecKind                                              | v1alpha1api20211001 | v1beta20211001 |
 | SignalRTlsSettings                                           | v1alpha1api20211001 | v1beta20211001 |
 | SignalRTlsSettings_Status                                    | v1alpha1api20211001 | v1beta20211001 |
