@@ -16,6 +16,7 @@ import (
 
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/pkg/errors"
+	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
@@ -197,11 +198,7 @@ func (report *ResourceVersionsReport) generateSupportedFrom(typeName astmodel.Ty
 		return err.Error()
 	}
 
-	_, ver, ok := typeName.PackageReference.GroupVersion()
-	if !ok {
-		msg := fmt.Sprintf("unexpected external package reference %s", typeName.PackageReference)
-		panic(msg)
-	}
+	_, ver := typeName.PackageReference.GroupVersion()
 
 	// Special case for resources that existed prior to beta.0
 	// the `v1beta` versions of those resources are only available from "beta.0"
