@@ -11,7 +11,7 @@ import (
 	"github.com/Azure/go-autorest/autorest/to"
 	"github.com/kr/pretty"
 	. "github.com/onsi/gomega"
-	v1 "k8s.io/api/core/v1"
+	core "k8s.io/api/core/v1"
 
 	mysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1beta20210501"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
@@ -25,7 +25,7 @@ func Test_DBForMySQL_FlexibleServer_CRUD(t *testing.T) {
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	adminPasswordKey := "adminPassword"
-	secret := &v1.Secret{
+	secret := &core.Secret{
 		ObjectMeta: tc.MakeObjectMeta("mysqlsecret"),
 		StringData: map[string]string{
 			adminPasswordKey: tc.Namer.GeneratePassword(),
