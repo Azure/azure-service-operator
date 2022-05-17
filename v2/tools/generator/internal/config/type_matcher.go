@@ -81,6 +81,7 @@ func (t *TypeMatcher) AppliesToType(typeName astmodel.TypeName) bool {
 	group, version, ok := typeName.PackageReference.TryGroupVersion()
 	if !ok {
 		// Never match external references
+		return false
 	}
 
 	result := t.groupMatches(group) &&
