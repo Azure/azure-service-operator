@@ -521,11 +521,6 @@ func (resource *ResourceType) RequiredPackageReferences() *PackageReferenceSet {
 	// Interface imports
 	references.Merge(resource.InterfaceImplementer.RequiredPackageReferences())
 
-	if resource.HasAPIVersion() {
-		// API Version can live in a different package, for 'storage' types
-		references.AddReference(resource.APIVersionTypeName().PackageReference)
-	}
-
 	return references
 }
 

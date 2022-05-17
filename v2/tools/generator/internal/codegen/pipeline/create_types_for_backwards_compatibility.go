@@ -127,21 +127,6 @@ func createBackwardCompatibilityRenameMap(
 			newName := createBackwardCompatibilityRename(name, versionPrefix)
 			result[name] = newName
 		}
-
-		// API Versions don’t yet appear in the TypeDefinitionSet as they are
-		// generated later
-		/*
-			if rt, ok := astmodel.AsResourceType(value.Type()); ok {
-				if rt.HasAPIVersion() {
-					oldName := rt.APIVersionTypeName()
-					// generate a rename if it doesn’t exist already
-					if _, ok := result[oldName]; !ok {
-						newName := createBackwardCompatibilityRename(oldName, versionPrefix)
-						result[oldName] = newName
-					}
-				}
-			}
-		*/
 	}
 
 	return result

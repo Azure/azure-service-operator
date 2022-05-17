@@ -127,14 +127,6 @@ func (e EmbeddedResourceRemover) RemoveEmbeddedResources() (astmodel.TypeDefinit
 		}
 
 		for _, newDef := range updatedTypes {
-			// HACK: we must ensure the resource API Version type is included …
-			if rt, ok := astmodel.AsResourceType(newDef.Type()); ok && rt.HasAPIVersion() {
-				err := result.AddAllowDuplicates(e.definitions[rt.APIVersionTypeName()])
-				if err != nil {
-					panic(err)
-				}
-			}
-
 			err := result.AddAllowDuplicates(newDef)
 			if err != nil {
 				return nil, err
