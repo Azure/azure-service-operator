@@ -55,6 +55,6 @@ func (pr ExternalPackageReference) String() string {
 }
 
 // GroupVersion returns the group and version of this local reference.
-func (pr ExternalPackageReference) GroupVersion() (string, string, bool) {
+func (pr ExternalPackageReference) TryGroupVersion() (string, string, bool) {
 	return "", "", false
 }

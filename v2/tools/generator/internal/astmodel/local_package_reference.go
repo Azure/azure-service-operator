@@ -116,7 +116,7 @@ func IsLocalPackageReference(ref PackageReference) bool {
 }
 
 // GroupVersion returns the group and version of this local reference.
-func (pr LocalPackageReference) GroupVersion() (string, string, bool) {
+func (pr LocalPackageReference) TryGroupVersion() (string, string, bool) {
 	return pr.group, pr.Version(), true
 }
 

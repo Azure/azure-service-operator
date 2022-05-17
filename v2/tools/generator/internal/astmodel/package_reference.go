@@ -30,7 +30,7 @@ type PackageReference interface {
 	IsPreview() bool
 	// GroupVersion returns the group and version of this reference.
 	// Returns true if the reference has a group and version, false otherwise.
-	GroupVersion() (string, string, bool)
+	TryGroupVersion() (string, string, bool)
 }
 
 // IsExternalPackageReference returns true if the provided reference is external
