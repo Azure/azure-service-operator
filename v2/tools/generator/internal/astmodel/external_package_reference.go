@@ -54,12 +54,12 @@ func (pr ExternalPackageReference) String() string {
 	return pr.packagePath
 }
 
-// GroupVersion returns the group and version of this local reference.
+// TryGroupVersion returns the group and version of this external reference.
 func (pr ExternalPackageReference) TryGroupVersion() (string, string, bool) {
 	return "", "", false
 }
 
-// MustGroupVersion triggers a panic because external references don't have a group or version
+// GroupVersion triggers a panic because external references don't have a group or version
 func (pr ExternalPackageReference) GroupVersion() (string, string) {
 	panic(fmt.Sprintf("external package reference %s doesn't have a group or version", pr))
 }
