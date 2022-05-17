@@ -120,6 +120,11 @@ func (pr LocalPackageReference) TryGroupVersion() (string, string, bool) {
 	return pr.group, pr.Version(), true
 }
 
+// MustGroupVersion returns the group and version of this local reference.
+func (pr LocalPackageReference) GroupVersion() (string, string) {
+	return pr.group, pr.Version()
+}
+
 // sanitizePackageName removes all non-alphanumeric characters and converts to lower case
 func sanitizePackageName(input string) string {
 	var builder = make([]rune, 0, len(input))

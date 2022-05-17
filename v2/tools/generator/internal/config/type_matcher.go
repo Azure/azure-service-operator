@@ -78,26 +78,25 @@ func (t *TypeMatcher) matches(glob string, regex **regexp.Regexp, name string) b
 
 // AppliesToType indicates whether this filter should be applied to the supplied type definition
 func (t *TypeMatcher) AppliesToType(typeName astmodel.TypeName) bool {
-	if group, version, ok := typeName.PackageReference.GroupVersion(); ok {
-
-		result := t.groupMatches(group) &&
-			t.versionMatches(version) &&
-			t.nameMatches(typeName.Name())
-
-		// Track this match, so we can later report if we didn't match anything
-		if result {
-			if t.matchedTypes == nil {
-				t.matchedTypes = astmodel.NewTypeNameSet(typeName)
-			} else {
-				t.matchedTypes.Add(typeName)
-			}
-		}
-
-		return result
+	group, version, ok := typeName.PackageReference.TryGroupVersion()
+	if !ok {
+		// Never match external references
 	}
 
-	// Never match external references
-	return false
+	result := t.groupMatches(group) &&
+		t.versionMatches(version) &&
+		t.nameMatches(typeName.Name())
+
+	// Track this match, so we can later report if we didn't match anything
+	if result {
+		if t.matchedTypes == nil {
+			t.matchedTypes = astmodel.NewTypeNameSet(typeName)
+		} else {
+			t.matchedTypes.Add(typeName)
+		}
+	}
+
+	return result
 }
 
 func (t *TypeMatcher) MatchedRequiredTypes() bool {

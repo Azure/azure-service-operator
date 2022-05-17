@@ -31,6 +31,8 @@ type PackageReference interface {
 	// GroupVersion returns the group and version of this reference.
 	// Returns true if the reference has a group and version, false otherwise.
 	TryGroupVersion() (string, string, bool)
+	// MustGroupVersion returns the group and version of this reference, triggering a panic if they aren't available
+	GroupVersion() (string, string)
 }
 
 // IsExternalPackageReference returns true if the provided reference is external

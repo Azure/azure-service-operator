@@ -105,11 +105,7 @@ func groupResourcesByVersion(definitions astmodel.TypeDefinitionSet) (map[unvers
 
 func getUnversionedName(name astmodel.TypeName) (unversionedName, error) {
 	ref := name.PackageReference
-	group, _, ok := ref.GroupVersion()
-	if !ok {
-		return unversionedName{}, errors.Errorf("cannot get unversioned name for external reference %s", ref)
-	}
-
+	group, _ := ref.GroupVersion()
 	return unversionedName{group, name.Name()}, nil
 }
 

@@ -58,3 +58,8 @@ func (pr ExternalPackageReference) String() string {
 func (pr ExternalPackageReference) TryGroupVersion() (string, string, bool) {
 	return "", "", false
 }
+
+// MustGroupVersion triggers a panic because external references don't have a group or version
+func (pr ExternalPackageReference) GroupVersion() (string, string) {
+	panic(fmt.Sprintf("external package reference %s doesn't have a group or version", pr))
+}
