@@ -71,7 +71,7 @@
 | LoadBalancerSkuTier                                                                              | v1alpha1api20201101 | v1beta20201101 |
 | LoadBalancerSku_Status                                                                           | v1alpha1api20201101 | v1beta20201101 |
 | LoadBalancer_Status                                                                              | v1alpha1api20201101 | v1beta20201101 |
-| LoadBalancersSpecAPIVersion                                                                      | v1alpha1api20201101 | v1beta20201101 |
+| LoadBalancersSpecAPIVersion                                                                      |                     | v1beta20201101 |
 | LoadBalancers_Spec                                                                               | v1alpha1api20201101 | v1beta20201101 |
 | LoadBalancers_Spec_Properties                                                                    | v1alpha1api20201101 | v1beta20201101 |
 | LoadBalancers_Spec_Properties_BackendAddressPools                                                | v1alpha1api20201101 | v1beta20201101 |
@@ -106,7 +106,7 @@
 | NetworkInterfaceTapConfiguration_Status_NetworkInterface_SubResourceEmbedded                     | v1alpha1api20201101 | v1beta20201101 |
 | NetworkInterface_Status_NetworkInterface_SubResourceEmbedded                                     | v1alpha1api20201101 | v1beta20201101 |
 | NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded                                 | v1alpha1api20201101 | v1beta20201101 |
-| NetworkInterfacesSpecAPIVersion                                                                  | v1alpha1api20201101 | v1beta20201101 |
+| NetworkInterfacesSpecAPIVersion                                                                  |                     | v1beta20201101 |
 | NetworkInterfaces_Spec                                                                           | v1alpha1api20201101 | v1beta20201101 |
 | NetworkInterfaces_Spec_Properties                                                                | v1alpha1api20201101 | v1beta20201101 |
 | NetworkInterfaces_Spec_Properties_IpConfigurations                                               | v1alpha1api20201101 | v1beta20201101 |
@@ -116,9 +116,9 @@
 | NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded                             | v1alpha1api20201101 | v1beta20201101 |
 | NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded                            | v1alpha1api20201101 | v1beta20201101 |
 | NetworkSecurityGroupsSecurityRule                                                                | v1alpha1api20201101 | v1beta20201101 |
-| NetworkSecurityGroupsSecurityRulesSpecAPIVersion                                                 | v1alpha1api20201101 | v1beta20201101 |
+| NetworkSecurityGroupsSecurityRulesSpecAPIVersion                                                 |                     | v1beta20201101 |
 | NetworkSecurityGroupsSecurityRules_Spec                                                          | v1alpha1api20201101 | v1beta20201101 |
-| NetworkSecurityGroupsSpecAPIVersion                                                              | v1alpha1api20201101 | v1beta20201101 |
+| NetworkSecurityGroupsSpecAPIVersion                                                              |                     | v1beta20201101 |
 | NetworkSecurityGroups_Spec                                                                       | v1alpha1api20201101 | v1beta20201101 |
 | OutboundRulePropertiesFormat                                                                     | v1alpha1api20201101 | v1beta20201101 |
 | OutboundRulePropertiesFormatProtocol                                                             | v1alpha1api20201101 | v1beta20201101 |
@@ -153,7 +153,7 @@
 | PublicIPAddress_Status_NetworkInterface_SubResourceEmbedded                                      | v1alpha1api20201101 | v1beta20201101 |
 | PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded                                       | v1alpha1api20201101 | v1beta20201101 |
 | PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded                                 | v1alpha1api20201101 | v1beta20201101 |
-| PublicIPAddressesSpecAPIVersion                                                                  | v1alpha1api20201101 | v1beta20201101 |
+| PublicIPAddressesSpecAPIVersion                                                                  |                     | v1beta20201101 |
 | PublicIPAddresses_Spec                                                                           | v1alpha1api20201101 | v1beta20201101 |
 | RadiusServer                                                                                     | v1alpha1api20201101 | v1beta20201101 |
 | RadiusServer_Status                                                                              | v1alpha1api20201101 | v1beta20201101 |
@@ -207,7 +207,7 @@
 | VirtualNetworkGatewaySkuTier                                                                     | v1alpha1api20201101 | v1beta20201101 |
 | VirtualNetworkGatewaySku_Status                                                                  | v1alpha1api20201101 | v1beta20201101 |
 | VirtualNetworkGateway_Status                                                                     | v1alpha1api20201101 | v1beta20201101 |
-| VirtualNetworkGatewaysSpecAPIVersion                                                             | v1alpha1api20201101 | v1beta20201101 |
+| VirtualNetworkGatewaysSpecAPIVersion                                                             |                     | v1beta20201101 |
 | VirtualNetworkGatewaysSpecPropertiesGatewayType                                                  | v1alpha1api20201101 | v1beta20201101 |
 | VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnAuthenticationTypes                 | v1alpha1api20201101 | v1beta20201101 |
 | VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientProtocols                     | v1alpha1api20201101 | v1beta20201101 |
@@ -227,14 +227,14 @@
 | VirtualNetworkPropertiesFormat_Status                                                            | v1alpha1api20201101 | v1beta20201101 |
 | VirtualNetworkTap_Status_NetworkInterface_SubResourceEmbedded                                    | v1alpha1api20201101 | v1beta20201101 |
 | VirtualNetwork_Status                                                                            | v1alpha1api20201101 | v1beta20201101 |
-| VirtualNetworksSpecAPIVersion                                                                    | v1alpha1api20201101 | v1beta20201101 |
+| VirtualNetworksSpecAPIVersion                                                                    |                     | v1beta20201101 |
 | VirtualNetworksSubnet                                                                            | v1alpha1api20201101 | v1beta20201101 |
-| VirtualNetworksSubnetsSpecAPIVersion                                                             | v1alpha1api20201101 | v1beta20201101 |
+| VirtualNetworksSubnetsSpecAPIVersion                                                             |                     | v1beta20201101 |
 | VirtualNetworksSubnets_Spec                                                                      | v1alpha1api20201101 | v1beta20201101 |
 | VirtualNetworksSubnets_Spec_Properties                                                           | v1alpha1api20201101 | v1beta20201101 |
 | VirtualNetworksSubnets_Spec_Properties_Delegations                                               | v1alpha1api20201101 | v1beta20201101 |
 | VirtualNetworksVirtualNetworkPeering                                                             | v1alpha1api20201101 | v1beta20201101 |
-| VirtualNetworksVirtualNetworkPeeringsSpecAPIVersion                                              | v1alpha1api20201101 | v1beta20201101 |
+| VirtualNetworksVirtualNetworkPeeringsSpecAPIVersion                                              |                     | v1beta20201101 |
 | VirtualNetworksVirtualNetworkPeerings_Spec                                                       | v1alpha1api20201101 | v1beta20201101 |
 | VirtualNetworks_Spec                                                                             | v1alpha1api20201101 | v1beta20201101 |
 | VirtualNetworks_Spec_Properties                                                                  | v1alpha1api20201101 | v1beta20201101 |

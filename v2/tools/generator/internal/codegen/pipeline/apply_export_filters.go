@@ -9,6 +9,7 @@ import (
 	"context"
 
 	"github.com/pkg/errors"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -37,12 +38,14 @@ func filterTypes(
 
 	renames := make(map[astmodel.TypeName]astmodel.TypeName)
 	resourcesToExport := make(astmodel.TypeDefinitionSet)
+	var errs []error
 	for _, def := range astmodel.FindResourceDefinitions(state.Definitions()) {
 		defName := def.Name()
 
 		export, err := shouldExport(defName, configuration)
 		if err != nil {
-			return nil, err
+			errs = append(errs, err)
+			continue
 		}
 
 		if !export {
@@ -52,6 +55,10 @@ func filterTypes(
 
 		klog.V(3).Infof("Exporting resource %s and related types", defName)
 		resourcesToExport.Add(def)
+	}
+
+	if err := kerrors.NewAggregate(errs); err != nil {
+		return nil, err
 	}
 
 	typesToExport, err := astmodel.FindConnectedDefinitions(state.Definitions(), resourcesToExport)

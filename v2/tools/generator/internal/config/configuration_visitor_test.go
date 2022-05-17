@@ -22,7 +22,7 @@ func TestConfigurationVisitor_WhenVisitingASpecificVersion_VisitsExpectedVersion
 
 	omc := createTestObjectModelConfigurationForVisitor()
 	seen := set.Make[string]()
-	visitor := NewSingleVersionConfigurationVisitor(
+	visitor := newSingleVersionConfigurationVisitor(
 		test.Pkg2022,
 		func(configuration *VersionConfiguration) error {
 			seen.Add(configuration.name)
@@ -40,7 +40,7 @@ func TestConfigurationVisitor_WhenVisitingEveryType_VisitsExpectedTypes(t *testi
 
 	omc := createTestObjectModelConfigurationForVisitor()
 	seen := set.Make[string]()
-	visitor := NewEveryTypeConfigurationVisitor(
+	visitor := newEveryTypeConfigurationVisitor(
 		func(configuration *TypeConfiguration) error {
 			seen.Add(configuration.name)
 			return nil
@@ -59,7 +59,7 @@ func TestConfigurationVisitor_WhenVisitingASpecificType_VisitsExpectedType(t *te
 	omc := createTestObjectModelConfigurationForVisitor()
 	seen := set.Make[string]()
 	name := astmodel.MakeTypeName(test.Pkg2022, "Person")
-	visitor := NewSingleTypeConfigurationVisitor(
+	visitor := newSingleTypeConfigurationVisitor(
 		name,
 		func(configuration *TypeConfiguration) error {
 			seen.Add(configuration.name)
@@ -77,7 +77,7 @@ func TestConfigurationVisitor_WhenVisitingEveryProperty_VisitsExpectedProperties
 
 	omc := createTestObjectModelConfigurationForVisitor()
 	seen := set.Make[string]()
-	visitor := NewEveryPropertyConfigurationVisitor(
+	visitor := newEveryPropertyConfigurationVisitor(
 		func(configuration *PropertyConfiguration) error {
 			seen.Add(configuration.name)
 			return nil
@@ -99,7 +99,7 @@ func TestConfigurationVisitor_WhenVisitingASpecificProperty_VisitsExpectedProper
 	omc := createTestObjectModelConfigurationForVisitor()
 	seen := set.Make[string]()
 	name := astmodel.MakeTypeName(test.Pkg2022, "Person")
-	visitor := NewSinglePropertyConfigurationVisitor(
+	visitor := newSinglePropertyConfigurationVisitor(
 		name,
 		"KnownAs",
 		func(configuration *PropertyConfiguration) error {

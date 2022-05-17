@@ -5,6 +5,7 @@ $exportAs: Demo
 $azureGeneratedSecrets:
   - PrimaryKey
   - SecondaryKey
+$supportedFrom: beta.3
 Name:
   $nameInNextVersion: FullName
 LastName:

@@ -470,3 +470,87 @@ func TestObjectModelConfiguration_ModifyProperty_WhenPropertyExists_CallsActionW
 
 	g.Expect(first).To(Equal(second))
 }
+
+/*
+ * SupportedFrom Tests
+ */
+
+func TestObjectModelConfiguration_LookupSupportedFrom_WhenConfigured_ReturnsExpectedResult(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	name := astmodel.MakeTypeName(test.Pkg2020, "Person")
+	omc := NewObjectModelConfiguration()
+	g.Expect(
+		omc.ModifyType(
+			name,
+			func(tc *TypeConfiguration) error {
+				tc.supportedFrom.write("beta.5")
+				return nil
+			})).
+		To(Succeed())
+
+	supportedFrom, err := omc.LookupSupportedFrom(name)
+	g.Expect(err).To(Succeed())
+	g.Expect(supportedFrom).To(Equal("beta.5"))
+}
+
+func TestObjectModelConfiguration_LookupSupportedFrom_WhenUnconfigured_ReturnsExpectedResult(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	name := astmodel.MakeTypeName(test.Pkg2020, "Person")
+	omc := NewObjectModelConfiguration()
+	g.Expect(
+		omc.ModifyType(
+			name,
+			func(tc *TypeConfiguration) error {
+				// No change, just provoking creation
+				return nil
+			})).
+		To(Succeed())
+
+	_, err := omc.LookupSupportedFrom(name)
+	g.Expect(err).NotTo(Succeed())
+}
+
+func TestObjectModelConfiguration_LookupSupportedFrom_WhenConsumed_ReturnsNoError(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	name := astmodel.MakeTypeName(test.Pkg2020, "Person")
+	omc := NewObjectModelConfiguration()
+	g.Expect(
+		omc.ModifyType(
+			name,
+			func(tc *TypeConfiguration) error {
+				tc.supportedFrom.write("beta.5")
+				return nil
+			})).
+		To(Succeed())
+
+	_, err := omc.LookupSupportedFrom(name)
+	g.Expect(err).To(Succeed())
+
+	err = omc.VerifySupportedFromConsumed()
+	g.Expect(err).To(Succeed())
+}
+
+func TestObjectModelConfiguration_LookupSupportedFrom_WhenUnconsumed_ReturnsError(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	name := astmodel.MakeTypeName(test.Pkg2020, "Person")
+	omc := NewObjectModelConfiguration()
+	g.Expect(
+		omc.ModifyType(
+			name,
+			func(tc *TypeConfiguration) error {
+				tc.supportedFrom.write("beta.5")
+				return nil
+			})).
+		To(Succeed())
+
+	err := omc.VerifySupportedFromConsumed()
+	g.Expect(err).NotTo(Succeed())
+}

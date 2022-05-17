@@ -51,28 +51,28 @@
 | DatabaseAccountGetResultsStatusKind                                         | v1alpha1api20210515 | v1beta20210515 |
 | DatabaseAccountGetResults_Status                                            | v1alpha1api20210515 | v1beta20210515 |
 | DatabaseAccountOfferType_Status                                             | v1alpha1api20210515 | v1beta20210515 |
-| DatabaseAccountsMongodbDatabasesCollectionsSpecAPIVersion                   | v1alpha1api20210515 | v1beta20210515 |
-| DatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpecAPIVersion | v1alpha1api20210515 | v1beta20210515 |
+| DatabaseAccountsMongodbDatabasesCollectionsSpecAPIVersion                   |                     | v1beta20210515 |
+| DatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpecAPIVersion |                     | v1beta20210515 |
 | DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec          | v1alpha1api20210515 | v1beta20210515 |
 | DatabaseAccountsMongodbDatabasesCollections_Spec                            | v1alpha1api20210515 | v1beta20210515 |
-| DatabaseAccountsMongodbDatabasesSpecAPIVersion                              | v1alpha1api20210515 | v1beta20210515 |
-| DatabaseAccountsMongodbDatabasesThroughputSettingsSpecAPIVersion            | v1alpha1api20210515 | v1beta20210515 |
+| DatabaseAccountsMongodbDatabasesSpecAPIVersion                              |                     | v1beta20210515 |
+| DatabaseAccountsMongodbDatabasesThroughputSettingsSpecAPIVersion            |                     | v1beta20210515 |
 | DatabaseAccountsMongodbDatabasesThroughputSettings_Spec                     | v1alpha1api20210515 | v1beta20210515 |
 | DatabaseAccountsMongodbDatabases_Spec                                       | v1alpha1api20210515 | v1beta20210515 |
-| DatabaseAccountsSpecAPIVersion                                              | v1alpha1api20210515 | v1beta20210515 |
+| DatabaseAccountsSpecAPIVersion                                              |                     | v1beta20210515 |
 | DatabaseAccountsSpecKind                                                    | v1alpha1api20210515 | v1beta20210515 |
-| DatabaseAccountsSqlDatabasesContainersSpecAPIVersion                        | v1alpha1api20210515 | v1beta20210515 |
-| DatabaseAccountsSqlDatabasesContainersStoredProceduresSpecAPIVersion        | v1alpha1api20210515 | v1beta20210515 |
+| DatabaseAccountsSqlDatabasesContainersSpecAPIVersion                        |                     | v1beta20210515 |
+| DatabaseAccountsSqlDatabasesContainersStoredProceduresSpecAPIVersion        |                     | v1beta20210515 |
 | DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec                 | v1alpha1api20210515 | v1beta20210515 |
-| DatabaseAccountsSqlDatabasesContainersThroughputSettingsSpecAPIVersion      | v1alpha1api20210515 | v1beta20210515 |
+| DatabaseAccountsSqlDatabasesContainersThroughputSettingsSpecAPIVersion      |                     | v1beta20210515 |
 | DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec               | v1alpha1api20210515 | v1beta20210515 |
-| DatabaseAccountsSqlDatabasesContainersTriggersSpecAPIVersion                | v1alpha1api20210515 | v1beta20210515 |
+| DatabaseAccountsSqlDatabasesContainersTriggersSpecAPIVersion                |                     | v1beta20210515 |
 | DatabaseAccountsSqlDatabasesContainersTriggers_Spec                         | v1alpha1api20210515 | v1beta20210515 |
-| DatabaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpecAPIVersion    | v1alpha1api20210515 | v1beta20210515 |
+| DatabaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpecAPIVersion    |                     | v1beta20210515 |
 | DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec             | v1alpha1api20210515 | v1beta20210515 |
 | DatabaseAccountsSqlDatabasesContainers_Spec                                 | v1alpha1api20210515 | v1beta20210515 |
-| DatabaseAccountsSqlDatabasesSpecAPIVersion                                  | v1alpha1api20210515 | v1beta20210515 |
-| DatabaseAccountsSqlDatabasesThroughputSettingsSpecAPIVersion                | v1alpha1api20210515 | v1beta20210515 |
+| DatabaseAccountsSqlDatabasesSpecAPIVersion                                  |                     | v1beta20210515 |
+| DatabaseAccountsSqlDatabasesThroughputSettingsSpecAPIVersion                |                     | v1beta20210515 |
 | DatabaseAccountsSqlDatabasesThroughputSettings_Spec                         | v1alpha1api20210515 | v1beta20210515 |
 | DatabaseAccountsSqlDatabases_Spec                                           | v1alpha1api20210515 | v1beta20210515 |
 | DatabaseAccounts_Spec                                                       | v1alpha1api20210515 | v1beta20210515 |

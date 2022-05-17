@@ -55,7 +55,13 @@ func (vc *VersionConfiguration) visitType(
 		return err
 	}
 
-	return visitor.visitType(tc)
+	err = visitor.visitType(tc)
+	if err != nil {
+		return errors.Wrapf(err, "configuration of version %s", vc.name)
+	}
+
+	return nil
+
 }
 
 // visitTypes invokes the provided visitor on all nested types.
