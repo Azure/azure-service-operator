@@ -225,7 +225,7 @@ func (resource *ResourceType) WithFunction(function Function) *ResourceType {
 	return result
 }
 
-// WithFunction returns a new Resource without the specific function
+// WithoutFunction returns a new Resource without the specific function
 func (resource *ResourceType) WithoutFunction(name string) *ResourceType {
 	// Create a copy to preserve immutability
 	result := resource.copy()
