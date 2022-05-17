@@ -174,7 +174,7 @@ func (ft *FlaggedType) WriteDebugDescription(builder *strings.Builder, definitio
 
 	ft.element.WriteDebugDescription(builder, definitions)
 	for f := range ft.flags {
-		builder.WriteString("[#")
+		builder.WriteString("[Flag:")
 		builder.WriteString(f.String())
 		builder.WriteString("]")
 	}
