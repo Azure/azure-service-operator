@@ -31,10 +31,9 @@ func (r ResolvedSecrets) LookupSecret(ref SecretReference) (string, error) {
 	return result, nil
 }
 
-// MustLookupSecret looks up the secret value for the given reference. If the reference is nil, an error is returned.
+// LookupSecretFromPtr looks up the secret value for the given reference. If the reference is nil, an error is returned.
 // If the secret cannot be found, an error is returned
-// TODO: Wondering if there's a better name for this than what I've got?
-func (r ResolvedSecrets) MustLookupSecret(ref *SecretReference) (string, error) {
+func (r ResolvedSecrets) LookupSecretFromPtr(ref *SecretReference) (string, error) {
 	if ref == nil {
 		return "", errors.Errorf("cannot look up secret from nil SecretReference")
 	}

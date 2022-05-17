@@ -39,7 +39,6 @@ const (
 	DeleteActionMonitorDelete = DeleteAction("MonitorDelete")
 )
 
-// TODO: Stopped here... noodling about if this should be a generic interface?
 type (
 	CreateOrUpdateActionFunc = func(ctx context.Context) (ctrl.Result, error)
 	DeleteActionFunc         = func(ctx context.Context) (ctrl.Result, error)

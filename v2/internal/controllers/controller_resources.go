@@ -46,6 +46,7 @@ func GetKnownStorageTypes(
 	positiveConditions *conditions.PositiveConditionBuilder,
 	options Options) ([]*registration.StorageType, error) {
 
+	resourceResolver := resolver.NewResolver(kubeClient)
 	knownStorageTypes := getKnownStorageTypes()
 
 	knownStorageTypes = append(
@@ -95,6 +96,13 @@ func GetKnownStorageTypes(
 			t)
 		if err != nil {
 			return nil, errors.Wrap(err, "couldn't create reconciler")
+		}
+	}
+
+	for _, t := range knownStorageTypes {
+		err = augmentWithControllerName(t)
+		if err != nil {
+			return nil, err
 		}
 	}
 

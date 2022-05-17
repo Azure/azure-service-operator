@@ -67,20 +67,20 @@ type ARMOwnedResourceReconcilerCommon struct {
 	ResourceResolver *resolver.Resolver
 }
 
-// IsOwnerReady returns true if the owner is ready or if there is no owner required
-func (r *ARMOwnedResourceReconcilerCommon) IsOwnerReady(ctx context.Context, log logr.Logger, obj genruntime.ARMOwnedMetaObject) (bool, error) {
+// NeedsToWaitForOwner returns false if the owner doesn't need to be waited for, and true if it does.
+func (r *ARMOwnedResourceReconcilerCommon) NeedsToWaitForOwner(ctx context.Context, log logr.Logger, obj genruntime.ARMOwnedMetaObject) (bool, error) {
 	_, err := r.ResourceResolver.ResolveOwner(ctx, obj)
 	if err != nil {
 		var typedErr *resolver.ReferenceNotFound
 		if errors.As(err, &typedErr) {
 			log.V(Info).Info("Owner does not yet exist", "NamespacedName", typedErr.NamespacedName)
-			return false, nil
+			return true, nil
 		}
 
-		return false, errors.Wrap(err, "failed to get owner")
+		return true, errors.Wrap(err, "failed to get owner")
 	}
 
-	return true, nil
+	return false, nil
 }
 
 func (r *ARMOwnedResourceReconcilerCommon) ApplyOwnership(ctx context.Context, log logr.Logger, obj genruntime.ARMOwnedMetaObject) error {
@@ -112,12 +112,12 @@ func (r *ARMOwnedResourceReconcilerCommon) ApplyOwnership(ctx context.Context, l
 // ClaimResource adds a finalizer and ensures that the owner reference is set
 func (r *ARMOwnedResourceReconcilerCommon) ClaimResource(ctx context.Context, log logr.Logger, obj genruntime.ARMOwnedMetaObject) (ctrl.Result, error) {
 	log.V(Info).Info("applying ownership")
-	isOwnerReady, err := r.IsOwnerReady(ctx, log, obj)
+	waitForOwner, err := r.NeedsToWaitForOwner(ctx, log, obj)
 	if err != nil {
 		return ctrl.Result{}, err
 	}
 
-	if !isOwnerReady {
+	if waitForOwner {
 		err = errors.Errorf("Owner %q cannot be found. Progress is blocked until the owner is created.", obj.Owner().String())
 		err = conditions.NewReadyConditionImpactingError(err, conditions.ConditionSeverityWarning, conditions.ReasonWaitingForOwner)
 		return ctrl.Result{}, err

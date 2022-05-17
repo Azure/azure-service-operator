@@ -51,6 +51,7 @@ func newAzureDeploymentReconcilerInstance(
 		Log:       log,
 		Recorder:  recorder,
 		ARMClient: armClient,
+		Extension: reconciler.Extension,
 		ARMOwnedResourceReconcilerCommon: reconcilers.ARMOwnedResourceReconcilerCommon{
 			ResourceResolver: reconciler.ResourceResolver,
 			ReconcilerCommon: reconcilers.ReconcilerCommon{
@@ -106,6 +107,14 @@ func (r *azureDeploymentReconcilerInstance) Delete(ctx context.Context) (ctrl.Re
 }
 
 func (r *azureDeploymentReconcilerInstance) MakeReadyConditionImpactingErrorFromError(azureErr error) error {
+	var readyConditionError *conditions.ReadyConditionImpactingError
+	isReadyConditionImpactingError := errors.As(azureErr, &readyConditionError)
+	if isReadyConditionImpactingError {
+		// The error has already been classified. This currently only happens in test with the go-vcr injected
+		// http client
+		return azureErr
+	}
+
 	var cloudError *genericarmclient.CloudError
 	isCloudErr := errors.As(azureErr, &cloudError)
 	if !isCloudErr {
