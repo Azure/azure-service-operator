@@ -74,7 +74,7 @@ func groupResourcesByVersion(definitions astmodel.TypeDefinitionSet) (map[unvers
 
 	for _, def := range definitions {
 
-		// We want to explicitly avoid storage definitions, as as this approach for flagging the hub version is
+		// We want to explicitly avoid storage definitions, as this approach for flagging the hub version is
 		// used when we aren't leveraging the conversions between storage versions.
 		if astmodel.IsStoragePackageReference(def.Name().PackageReference) {
 			continue

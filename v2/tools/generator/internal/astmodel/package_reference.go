@@ -246,7 +246,7 @@ func (v *versionComparer) IsZero(r rune) bool {
 
 // previewVersionLabels is a sequence of specially treated identifiers
 // These come before all others and are compared in the order listed here
-var previewVersionLabels []string = []string{
+var previewVersionLabels = []string{
 	"alpha",
 	"beta",
 	"preview",
