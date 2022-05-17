@@ -28,10 +28,10 @@ type PackageReference interface {
 	// IsPreview returns true if this package reference has a suffix indicating it's a preview
 	// release, false otherwise
 	IsPreview() bool
-	// GroupVersion returns the group and version of this reference.
+	// TryGroupVersion returns the group and version of this reference.
 	// Returns true if the reference has a group and version, false otherwise.
 	TryGroupVersion() (string, string, bool)
-	// MustGroupVersion returns the group and version of this reference, triggering a panic if they aren't available
+	// GroupVersion returns the group and version of this reference, triggering a panic if they aren't available
 	GroupVersion() (string, string)
 }
 
