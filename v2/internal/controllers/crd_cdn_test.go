@@ -16,6 +16,9 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 )
 
+// Note: if re-recording, CRD resources require registration.
+// See: https://docs.microsoft.com/en-us/azure/azure-resource-manager/troubleshooting/error-register-resource-provider
+
 func Test_CDN_Profile_CRUD(t *testing.T) {
 	t.Parallel()
 
@@ -26,14 +29,14 @@ func Test_CDN_Profile_CRUD(t *testing.T) {
 	profile := &cdn.Profile{
 		ObjectMeta: tc.MakeObjectMeta("cdnprofile"),
 		Spec: cdn.Profiles_Spec{
-			Location: to.StringPtr("global"),
+			Location: to.StringPtr("Global"),
 			Owner:    testcommon.AsOwner(rg),
 			Sku:      &cdn.Sku{Name: &sku},
 		},
 	}
 
 	tc.CreateResourceAndWait(profile)
-	tc.Expect(*profile.Status.Location).To(Equal("global"))
+	tc.Expect(*profile.Status.Location).To(Equal("Global"))
 	tc.Expect(*profile.Status.Sku.Name).To(Equal("Standard_AzureFrontDoor"))
 	armId := *profile.Status.Id
 	tc.DeleteResourceAndWait(profile)
