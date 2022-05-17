@@ -14,10 +14,9 @@ import (
 	"sort"
 	"strings"
 
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/pkg/errors"
 	"k8s.io/klog/v2"
-
-	"github.com/Azure/azure-service-operator/v2/internal/set"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
@@ -33,24 +32,28 @@ func ReportResourceVersions(configuration *config.Configuration) *Stage {
 		ReportResourceVersionsStageID,
 		"Generate a report listing all the resources generated",
 		func(ctx context.Context, state *State) (*State, error) {
-			report := NewResourceVersionsReport(state.Definitions())
+			report := NewResourceVersionsReport(state.Definitions(), configuration.ObjectModelConfiguration)
 			err := report.WriteTo(configuration.FullTypesOutputPath(), configuration.SamplesURL)
 			return state, err
 		})
 }
 
 type ResourceVersionsReport struct {
-	groups set.Set[string]                       // A set of all our groups
-	kinds  map[string]astmodel.TypeDefinitionSet // For each group, the set of all available resources
+	objectModelConfiguration *config.ObjectModelConfiguration
+	groups                   set.Set[string]                       // A set of all our groups
+	kinds                    map[string]astmodel.TypeDefinitionSet // For each group, the set of all available resources
 	// A separate list of resources for each package
 	lists map[astmodel.PackageReference][]astmodel.TypeDefinition
 }
 
-func NewResourceVersionsReport(definitions astmodel.TypeDefinitionSet) *ResourceVersionsReport {
+func NewResourceVersionsReport(
+	definitions astmodel.TypeDefinitionSet,
+	cfg *config.ObjectModelConfiguration) *ResourceVersionsReport {
 	result := &ResourceVersionsReport{
-		groups: set.Make[string](),
-		kinds:  make(map[string]astmodel.TypeDefinitionSet),
-		lists:  make(map[astmodel.PackageReference][]astmodel.TypeDefinition),
+		objectModelConfiguration: cfg,
+		groups:                   set.Make[string](),
+		kinds:                    make(map[string]astmodel.TypeDefinitionSet),
+		lists:                    make(map[astmodel.PackageReference][]astmodel.TypeDefinition),
 	}
 
 	result.summarize(definitions)
@@ -68,23 +71,17 @@ func (report *ResourceVersionsReport) summarize(definitions astmodel.TypeDefinit
 			continue
 		}
 
-		grp, _, ok := pkg.GroupVersion()
-		if !ok {
-			// Any external packages we encounter here  are odd, but not worth aborting our run over
-			klog.V(3).Infof("Skipping external package %s while generating resource version report", pkg.String())
-			continue
-		}
-
+		grp, _ := pkg.GroupVersion()
 		report.groups.Add(grp)
 		report.lists[pkg] = append(report.lists[pkg], rsrc)
 
-		set, ok := report.kinds[grp]
+		defs, ok := report.kinds[grp]
 		if !ok {
-			set = make(astmodel.TypeDefinitionSet)
-			report.kinds[grp] = set
+			defs = make(astmodel.TypeDefinitionSet)
+			report.kinds[grp] = defs
 		}
 
-		set.Add(rsrc)
+		defs.Add(rsrc)
 	}
 }
 
@@ -130,16 +127,18 @@ func (report *ResourceVersionsReport) createTable(
 	samplesURL string,
 ) *reporting.MarkdownTable {
 	const (
-		name       = "Resource"
-		armVersion = "ARM Version"
-		crdVersion = "CRD Version"
-		sample     = "Sample"
+		name          = "Resource"
+		armVersion    = "ARM Version"
+		crdVersion    = "CRD Version"
+		sample        = "Sample"
+		supportedFrom = "Supported From"
 	)
 
 	result := reporting.NewMarkdownTable(
 		name,
 		armVersion,
 		crdVersion,
+		supportedFrom,
 		sample)
 
 	toIterate := resources.AsSlice()
@@ -163,21 +162,49 @@ func (report *ResourceVersionsReport) createTable(
 			armVersion = crdVersion
 		}
 
-		var sample string
-		if samplesURL != "" {
-			// Note: These links are guaranteed to work because of the Taskfile 'controller:verify-samples' target
-			samplePath := fmt.Sprintf("%s/%s/%s_%s.yaml", samplesURL, group, crdVersion, strings.ToLower(rsrc.Name().Name()))
-			sample = fmt.Sprintf("[View](%s)", samplePath)
-		} else {
-			sample = "-"
-		}
+		sample := report.generateSampleLink(samplesURL, group, rsrc)
+		supportedFrom := report.generateSupportedFrom(rsrc.Name())
 
 		result.AddRow(
 			rsrc.Name().Name(),
 			armVersion,
 			crdVersion,
+			supportedFrom,
 			sample)
 	}
 
 	return result
+}
+
+func (report *ResourceVersionsReport) generateSampleLink(samplesURL string, group string, rsrc astmodel.TypeDefinition) string {
+	crdVersion := rsrc.Name().PackageReference.PackageName()
+	if samplesURL != "" {
+		// Note: These links are guaranteed to work because of the Taskfile 'controller:verify-samples' target
+		samplePath := fmt.Sprintf("%s/%s/%s_%s.yaml", samplesURL, group, crdVersion, strings.ToLower(rsrc.Name().Name()))
+		return fmt.Sprintf("[View](%s)", samplePath)
+	}
+
+	return "-"
+}
+
+func (report *ResourceVersionsReport) generateSupportedFrom(typeName astmodel.TypeName) string {
+	supportedFrom, err := report.objectModelConfiguration.LookupSupportedFrom(typeName)
+	if err != nil {
+		if config.IsNotConfiguredError(err) {
+			klog.Warning(err.Error())
+			return "-"
+		}
+
+		return err.Error()
+	}
+
+	_, ver := typeName.PackageReference.GroupVersion()
+
+	// Special case for resources that existed prior to beta.0
+	// the `v1beta` versions of those resources are only available from "beta.0"
+	if !strings.Contains(ver, "alpha") && strings.HasPrefix(supportedFrom, "v2.0.0-alpha") {
+		return "v2.0.0-beta.0"
+	}
+
+	return supportedFrom
 }

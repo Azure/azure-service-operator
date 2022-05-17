@@ -9,15 +9,18 @@ import (
 	"strings"
 	"testing"
 
+	. "github.com/onsi/gomega"
 	"github.com/sebdah/goldie/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
 )
 
 func TestGolden_ReportResourceVersions(t *testing.T) {
 	t.Parallel()
-	g := goldie.New(t)
+	g := NewGomegaWithT(t)
+	gold := goldie.New(t)
 
 	person2020desc := []string{
 		"This is an older version",
@@ -56,10 +59,44 @@ func TestGolden_ReportResourceVersions(t *testing.T) {
 	defs := make(astmodel.TypeDefinitionSet)
 	defs.AddAll(person2020, address2020, person2021, address2021)
 
-	report := NewResourceVersionsReport(defs)
+	cfg := config.NewObjectModelConfiguration()
+	g.Expect(
+		cfg.ModifyType(
+			person2020.Name(),
+			func(tc *config.TypeConfiguration) error {
+				tc.SetSupportedFrom("beta.0")
+				return nil
+			})).
+		To(Succeed())
+	g.Expect(
+		cfg.ModifyType(
+			address2020.Name(),
+			func(tc *config.TypeConfiguration) error {
+				tc.SetSupportedFrom("beta.0")
+				return nil
+			})).
+		To(Succeed())
+	g.Expect(
+		cfg.ModifyType(
+			person2021.Name(),
+			func(tc *config.TypeConfiguration) error {
+				tc.SetSupportedFrom("beta.2")
+				return nil
+			})).
+		To(Succeed())
+	g.Expect(
+		cfg.ModifyType(
+			address2021.Name(),
+			func(tc *config.TypeConfiguration) error {
+				tc.SetSupportedFrom("beta.2")
+				return nil
+			})).
+		To(Succeed())
+
+	report := NewResourceVersionsReport(defs, cfg)
 
 	var buffer strings.Builder
 	report.WriteToBuffer(&buffer, "https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples")
 
-	g.Assert(t, t.Name(), []byte(buffer.String()))
+	gold.Assert(t, t.Name(), []byte(buffer.String()))
 }

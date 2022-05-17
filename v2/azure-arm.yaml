@@ -537,6 +537,13 @@ status:
 #     Establishes a connection between the two types allowing for proper
 #     forward and backward conversion.
 #
+# $supportedFrom: <version>
+#     Gives the version number of the first release of ASO that provides 
+#     support for this resource.
+#     Note: If the resource is renamed via $exportAs, $supportedFrom won't 
+#     work if you put it in the same section as $exportAs; you instead need 
+#     to place $supportedFrom in a section using the name specified by $exportAs
+#
 # Available 'property' modifiers:
 #
 # $armReference: <bool>
@@ -555,7 +562,7 @@ status:
 #     Establishes a connection between the two properties allowing for proper
 #     forward and backward conversion.
 #
-# isResourceLifecycleOwnedByParent: <bool>
+# $isResourceLifecycleOwnedByParent: <bool>
 #     Specifies that the property references a misbehaving embedded resource, one whose parent
 #     resource owns the lifecycle of the child resource.
 #     These resources are embedded resources which are overwritten when their parent resource
@@ -566,6 +573,7 @@ objectModelConfiguration:
     2020-08-01-preview:
       RoleAssignment:
         $export: true
+        $supportedFrom: v2.0.0-alpha.2
       RoleAssignmentProperties:
         RoleDefinitionId:
           $armReference: true
@@ -576,6 +584,7 @@ objectModelConfiguration:
           $armReference: true
       BatchAccount:
         $export: true
+        $supportedFrom: v2.0.0-alpha.1
       KeyVaultReference:
         Id:
           $armReference: true
@@ -583,6 +592,7 @@ objectModelConfiguration:
     2020-12-01:
       Redis:
         $export: true
+        $supportedFrom: v2.0.0-alpha.4
         $azureGeneratedSecrets:
           - PrimaryKey
           - SecondaryKey
@@ -594,18 +604,23 @@ objectModelConfiguration:
           $armReference: true
       RedisFirewallRule:
         $export: true
+        $supportedFrom: v2.0.0-alpha.4
       RedisLinkedServer:
         $export: true
+        $supportedFrom: v2.0.0-alpha.4
       RedisLinkedServerCreateProperties:
         LinkedRedisCacheId:
           $armReference: true
       RedisPatchSchedule: 
         $export: true
+        $supportedFrom: v2.0.0-alpha.4
     2021-03-01:
       RedisEnterprise:
         $export: true
+        $supportedFrom: v2.0.0-alpha.4
       RedisEnterpriseDatabase:
         $export: true
+        $supportedFrom: v2.0.0-alpha.4
   cdn:
     2021-06-01:
       DeepCreatedOriginProperties:
@@ -618,8 +633,10 @@ objectModelConfiguration:
           $armReference: true
       Profile:
         $export: true
+        $supportedFrom: v2.0.0-beta.1
       ProfilesEndpoint:
         $export: true
+        $supportedFrom: v2.0.0-beta.1
       ResourceReference:
         Id:
           $armReference: true
@@ -630,6 +647,7 @@ objectModelConfiguration:
           $armReference: true
       Disk:
         $export: true
+        $supportedFrom: v2.0.0-alpha.1
       DiskProperties:
         DiskAccessId:
           $armReference: true
@@ -641,6 +659,7 @@ objectModelConfiguration:
           $armReference: true
       Snapshot:
         $export: true
+        $supportedFrom: v2.0.0-alpha.4
       SnapshotProperties:
         DiskAccessId: 
           $armReference: true
@@ -659,8 +678,10 @@ objectModelConfiguration:
           $armReference: true
       VirtualMachine:
         $export: true
+        $supportedFrom: v2.0.0-alpha.1
       VirtualMachineScaleSet:
         $export: true
+        $supportedFrom: v2.0.0-alpha.1
       VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations:
         # This is an Id that I believe refers to itself.
         # It's never supplied in a PUT I don't think, and is only returned in a GET because the
@@ -695,6 +716,7 @@ objectModelConfiguration:
           $armReference: true
       Image:
         $export: true
+        $supportedFrom: v2.0.0-alpha.6
       SubResource:
         Id:
           $armReference: true
@@ -702,6 +724,7 @@ objectModelConfiguration:
     2021-09-01:
       Registry:
         $export: true
+        $supportedFrom: v2.0.0-alpha.6
       IdentityProperties:
         PrincipalId:
           $armReference: false
@@ -712,6 +735,7 @@ objectModelConfiguration:
           $armReference: true
       ManagedCluster:
         $export: true
+        $supportedFrom: v2.0.0-alpha.1
       ManagedClusterAgentPoolProfile:
         VnetSubnetID:
           $armReference: true
@@ -721,6 +745,7 @@ objectModelConfiguration:
           $armReference: true
       ManagedClustersAgentPool:
         $export: true
+        $supportedFrom: v2.0.0-alpha.1
       ManagedClusterAgentPoolProfileProperties:
         NodePublicIPPrefixID:
           $armReference: true
@@ -744,10 +769,13 @@ objectModelConfiguration:
     2021-05-01:
       FlexibleServer: 
         $export: true
+        $supportedFrom: v2.0.0-alpha.2
       FlexibleServersDatabase:
         $export: true
+        $supportedFrom: v2.0.0-alpha.2
       FlexibleServersFirewallRule:
         $export: true
+        $supportedFrom: v2.0.0-alpha.2
       Network:
         PrivateDnsZoneResourceId:
           $armReference: true
@@ -757,12 +785,16 @@ objectModelConfiguration:
     2021-06-01:
       FlexibleServer:
         $export: true
+        $supportedFrom: v2.0.0-alpha.2
       FlexibleServersConfiguration:
         $export: true
+        $supportedFrom: v2.0.0-alpha.4
       FlexibleServersDatabase:
         $export: true
+        $supportedFrom: v2.0.0-alpha.2
       FlexibleServersFirewallRule:
         $export: true
+        $supportedFrom: v2.0.0-alpha.2
       Network:
         PrivateDnsZoneArmResourceId:
           $armReference: true
@@ -775,6 +807,7 @@ objectModelConfiguration:
     2021-05-15:
       DatabaseAccount:
         $export: true
+        $supportedFrom: v2.0.0-alpha.1
         $azureGeneratedSecrets:
           - PrimaryMasterKey
           - SecondaryMasterKey
@@ -783,26 +816,37 @@ objectModelConfiguration:
           - DocumentEndpoint
       DatabaseAccountsMongodbDatabase:
         $exportAs: MongodbDatabase
+        $supportedFrom: v2.0.0-alpha.2
       DatabaseAccountsMongodbDatabasesCollection:
         $exportAs: MongodbDatabaseCollection
+        $supportedFrom: v2.0.0-alpha.2
       DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting:
         $exportAs: MongodbDatabaseCollectionThroughputSetting
+        $supportedFrom: v2.0.0-alpha.2
       DatabaseAccountsMongodbDatabasesThroughputSetting:
         $exportAs: MongodbDatabaseThroughputSetting
+        $supportedFrom: v2.0.0-alpha.2
       DatabaseAccountsSqlDatabase:
         $exportAs: SqlDatabase
+        $supportedFrom: v2.0.0-alpha.2
       DatabaseAccountsSqlDatabasesContainer:
         $exportAs: SqlDatabaseContainer
+        $supportedFrom: v2.0.0-alpha.2
       DatabaseAccountsSqlDatabasesContainersStoredProcedure:
         $exportAs: SqlDatabaseContainerStoredProcedure
+        $supportedFrom: v2.0.0-alpha.2
       DatabaseAccountsSqlDatabasesContainersThroughputSetting:
         $exportAs: SqlDatabaseContainerThroughputSetting
+        $supportedFrom: v2.0.0-alpha.2
       DatabaseAccountsSqlDatabasesContainersTrigger:
         $exportAs: SqlDatabaseContainerTrigger
+        $supportedFrom: v2.0.0-alpha.2
       DatabaseAccountsSqlDatabasesContainersUserDefinedFunction:
         $exportAs: SqlDatabaseContainerUserDefinedFunction
+        $supportedFrom: v2.0.0-alpha.2
       DatabaseAccountsSqlDatabasesThroughputSetting:
         $exportAs: SqlDatabaseThroughputSetting
+        $supportedFrom: v2.0.0-alpha.2
       MongoDBCollectionResource:
         Id:
           $armReference: false
@@ -831,12 +875,16 @@ objectModelConfiguration:
     2020-06-01:
       Domain:
         $export: true
+        $supportedFrom: v2.0.0-alpha.5
       DomainsTopic:
         $export: true
+        $supportedFrom: v2.0.0-alpha.5
       EventSubscription:
         $export: true
+        $supportedFrom: v2.0.0-alpha.5
       Topic:
         $export: true
+        $supportedFrom: v2.0.0-alpha.3
       AzureFunctionEventSubscriptionDestinationProperties:
         ResourceId:
           $armReference: true
@@ -865,14 +913,19 @@ objectModelConfiguration:
           $armReference: true
       Namespace:
         $export: true
+        $supportedFrom: v2.0.0-alpha.1
       NamespacesAuthorizationRule:
         $export: true
+        $supportedFrom: v2.0.0-alpha.2
       NamespacesEventhub:
         $export: true
+        $supportedFrom: v2.0.0-alpha.3
       NamespacesEventhubsAuthorizationRule:
         $export: true
+        $supportedFrom: v2.0.0-alpha.3
       NamespacesEventhubsConsumergroup:
         $exportAs: NamespacesEventhubsConsumerGroup
+        $supportedFrom: v2.0.0-alpha.1
       Namespaces_Spec_Properties:
         ClusterArmId:
           $armReference: true
@@ -886,6 +939,7 @@ objectModelConfiguration:
     2018-05-01-preview:
       Webtest:
         $export: true
+        $supportedFrom: v2.0.0-alpha.4
       WebTestGeolocation:
         Id:
           $armReference: false
@@ -895,29 +949,38 @@ objectModelConfiguration:
           $armReference: true
       Component:
         $export: true
+        $supportedFrom: v2.0.0-alpha.2
   managedidentity:
     2018-11-30:
       UserAssignedIdentity:
         $export: true
+        $supportedFrom: v2.0.0-alpha.1
   network:
     2020-11-01:
       LoadBalancer:
         $export: true
+        $supportedFrom: v2.0.0-alpha.1
       NetworkInterface:
         $export: true
+        $supportedFrom: v2.0.0-alpha.3
       NetworkSecurityGroup:
         $export: true
+        $supportedFrom: v2.0.0-alpha.1
       NetworkSecurityGroupsSecurityRule:
         $export: true
+        $supportedFrom: v2.0.0-alpha.1
       PublicIPAddress:
         $export: true
+        $supportedFrom: v2.0.0-alpha.1
       SubResource:
         Id:
           $armReference: true
       VirtualNetwork:
         $export: true
+        $supportedFrom: v2.0.0-alpha.1
       VirtualNetworkGateway:
         $export: true
+        $supportedFrom: v2.0.0-alpha.1
       VirtualNetworks_Spec_Properties:
         Subnets:
           $isResourceLifecycleOwnedByParent: true
@@ -927,8 +990,10 @@ objectModelConfiguration:
           $isResourceLifecycleOwnedByParent: true
       VirtualNetworksSubnet:
         $export: true
+        $supportedFrom: v2.0.0-alpha.1
       VirtualNetworksVirtualNetworkPeering:
         $export: true
+        $supportedFrom: v2.0.0-alpha.1
       VirtualNetworkGateways_Spec_Properties:
         VNetExtendedLocationResourceId:
           $armReference: true
@@ -936,6 +1001,7 @@ objectModelConfiguration:
     2021-06-01:
       Workspace:
         $export: true
+        $supportedFrom: v2.0.0-alpha.4
       WorkspaceFeatures:
         ClusterResourceId:
           $armReference: true
@@ -943,10 +1009,13 @@ objectModelConfiguration:
     2021-01-01-preview:
       Namespace:
         $export: true
+        $supportedFrom: v2.0.0-alpha.1
       NamespacesQueue:
         $export: true
+        $supportedFrom: v2.0.0-alpha.1
       NamespacesTopic:
         $export: true
+        $supportedFrom: v2.0.0-alpha.1
       UserAssignedIdentityProperties:
         UserAssignedIdentity:
           $armReference: true
@@ -954,6 +1023,7 @@ objectModelConfiguration:
     2021-10-01:
       SignalR:
         $export: true
+        $supportedFrom: v2.0.0-alpha.4
   storage:
     2021-04-01:
       EncryptionIdentity:
@@ -964,6 +1034,7 @@ objectModelConfiguration:
           $armReference: true
       StorageAccount:
         $export: true
+        $supportedFrom: v2.0.0-alpha.1
         $azureGeneratedSecrets:
           - Key1
           - Key2
@@ -975,14 +1046,19 @@ objectModelConfiguration:
           - DfsEndpoint
       StorageAccountsBlobService:
         $export: true
+        $supportedFrom: v2.0.0-alpha.1
       StorageAccountsBlobServicesContainer:
         $export: true
+        $supportedFrom: v2.0.0-alpha.1
       StorageAccountsQueueService:
         $export: true
+        $supportedFrom: v2.0.0-alpha.5
       StorageAccountsQueueServicesQueue:
         $export: true
+        $supportedFrom: v2.0.0-alpha.5
       StorageAccountsManagementPolicy:
         $export: true
+        $supportedFrom: v2.0.0-beta.0
       VirtualNetworkRule:
         Id:
           $armReference: true

@@ -150,7 +150,7 @@ func Test_ConversionGraph_WhenRenameConfigured_FindsRenamedType(t *testing.T) {
 		omc.ModifyType(
 			person2020.Name(),
 			func(tc *config.TypeConfiguration) error {
-				tc.WriteNameInNextVersion(party2021.Name().Name())
+				tc.SetNameInNextVersion(party2021.Name().Name())
 				return nil
 			})).
 		To(Succeed())
@@ -191,7 +191,7 @@ func Test_ConversionGraph_WhenRenameSpecifiesMissingType_ReturnsError(t *testing
 		omc.ModifyType(
 			person2020.Name(),
 			func(tc *config.TypeConfiguration) error {
-				tc.WriteNameInNextVersion("Phantom")
+				tc.SetNameInNextVersion("Phantom")
 				return nil
 			})).
 		To(Succeed())
@@ -235,7 +235,7 @@ func Test_ConversionGraph_WhenRenameSpecifiesConflictingType_ReturnsError(t *tes
 		omc.ModifyType(
 			person2020.Name(),
 			func(tc *config.TypeConfiguration) error {
-				tc.WriteNameInNextVersion(party2021.Name().Name())
+				tc.SetNameInNextVersion(party2021.Name().Name())
 				return nil
 			})).
 		To(Succeed())

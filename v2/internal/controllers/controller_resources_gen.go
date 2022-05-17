@@ -24,8 +24,6 @@ import (
 	cache_v20210301 "github.com/Azure/azure-service-operator/v2/api/cache/v1beta20210301"
 	cache_v20210301s "github.com/Azure/azure-service-operator/v2/api/cache/v1beta20210301storage"
 	cdn_customizations "github.com/Azure/azure-service-operator/v2/api/cdn/customizations"
-	cdn_alpha20210601 "github.com/Azure/azure-service-operator/v2/api/cdn/v1alpha1api20210601"
-	cdn_alpha20210601s "github.com/Azure/azure-service-operator/v2/api/cdn/v1alpha1api20210601storage"
 	cdn_v20210601 "github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601"
 	cdn_v20210601s "github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601storage"
 	compute_customizations "github.com/Azure/azure-service-operator/v2/api/compute/customizations"
@@ -550,10 +548,6 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(cache_v20210301.RedisEnterpriseDatabase))
 	result = append(result, new(cache_v20210301s.RedisEnterprise))
 	result = append(result, new(cache_v20210301s.RedisEnterpriseDatabase))
-	result = append(result, new(cdn_alpha20210601.Profile))
-	result = append(result, new(cdn_alpha20210601.ProfilesEndpoint))
-	result = append(result, new(cdn_alpha20210601s.Profile))
-	result = append(result, new(cdn_alpha20210601s.ProfilesEndpoint))
 	result = append(result, new(cdn_v20210601.Profile))
 	result = append(result, new(cdn_v20210601.ProfilesEndpoint))
 	result = append(result, new(cdn_v20210601s.Profile))
@@ -773,13 +767,11 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(storage_alpha20210401.StorageAccount))
 	result = append(result, new(storage_alpha20210401.StorageAccountsBlobService))
 	result = append(result, new(storage_alpha20210401.StorageAccountsBlobServicesContainer))
-	result = append(result, new(storage_alpha20210401.StorageAccountsManagementPolicy))
 	result = append(result, new(storage_alpha20210401.StorageAccountsQueueService))
 	result = append(result, new(storage_alpha20210401.StorageAccountsQueueServicesQueue))
 	result = append(result, new(storage_alpha20210401s.StorageAccount))
 	result = append(result, new(storage_alpha20210401s.StorageAccountsBlobService))
 	result = append(result, new(storage_alpha20210401s.StorageAccountsBlobServicesContainer))
-	result = append(result, new(storage_alpha20210401s.StorageAccountsManagementPolicy))
 	result = append(result, new(storage_alpha20210401s.StorageAccountsQueueService))
 	result = append(result, new(storage_alpha20210401s.StorageAccountsQueueServicesQueue))
 	result = append(result, new(storage_v20210401.StorageAccount))
@@ -817,8 +809,6 @@ func createScheme() *runtime.Scheme {
 	_ = cache_v20201201s.AddToScheme(scheme)
 	_ = cache_v20210301.AddToScheme(scheme)
 	_ = cache_v20210301s.AddToScheme(scheme)
-	_ = cdn_alpha20210601.AddToScheme(scheme)
-	_ = cdn_alpha20210601s.AddToScheme(scheme)
 	_ = cdn_v20210601.AddToScheme(scheme)
 	_ = cdn_v20210601s.AddToScheme(scheme)
 	_ = compute_alpha20200930.AddToScheme(scheme)

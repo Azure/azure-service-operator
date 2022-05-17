@@ -4,8 +4,6 @@
 package customizations
 
 import (
-	alpha20210601 "github.com/Azure/azure-service-operator/v2/api/cdn/v1alpha1api20210601"
-	alpha20210601s "github.com/Azure/azure-service-operator/v2/api/cdn/v1alpha1api20210601storage"
 	v20210601 "github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601"
 	v20210601s "github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -17,8 +15,6 @@ type ProfileExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *ProfileExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&alpha20210601.Profile{},
-		&alpha20210601s.Profile{},
 		&v20210601.Profile{},
 		&v20210601s.Profile{}}
 }

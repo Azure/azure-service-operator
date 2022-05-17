@@ -359,7 +359,7 @@ func TestGolden_PropertyAssignmentFunction_WhenTypeRenamed(t *testing.T) {
 		omc.ModifyType(
 			location.Name(),
 			func(tc *config.TypeConfiguration) error {
-				tc.WriteNameInNextVersion(venue.Name().Name())
+				tc.SetNameInNextVersion(venue.Name().Name())
 				return nil
 			})).
 		To(Succeed())
