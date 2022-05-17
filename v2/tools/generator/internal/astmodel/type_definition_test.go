@@ -33,7 +33,7 @@ func Test_MakeTypeDefinition_GivenValues_InitializesProperties(t *testing.T) {
 	g.Expect(objectDefinition.Name().name).To(Equal(name))
 	g.Expect(objectDefinition.Type()).To(Equal(objectType))
 
-	actualGroup, actualVersion, ok := objectDefinition.Name().PackageReference.GroupVersion()
+	actualGroup, actualVersion, ok := objectDefinition.Name().PackageReference.TryGroupVersion()
 	g.Expect(ok).To(BeTrue())
 	g.Expect(actualGroup).To(Equal(group))
 	g.Expect(actualVersion).To(Equal(pkg))

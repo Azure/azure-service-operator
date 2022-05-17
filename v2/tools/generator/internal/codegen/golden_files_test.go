@@ -269,12 +269,7 @@ func exportPackagesTestPipelineStage(t *testing.T, testName string) *pipeline.St
 				ref := def.Name().PackageReference
 				pkg, ok := pkgs[ref]
 				if !ok {
-					// expected to always be ok because we don't use external package references for type definitions
-					g, v, ok := ref.GroupVersion()
-					if !ok {
-						t.Fatalf("didn't expect package reference %s", ref)
-					}
-
+					g, v := ref.GroupVersion()
 					pkg = astmodel.NewPackageDefinition(g, v)
 					pkgs[ref] = pkg
 

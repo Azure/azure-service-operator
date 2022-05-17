@@ -565,10 +565,7 @@ func (resource *ResourceType) AsDeclarations(codeGenerationContext *CodeGenerati
 
 	// Add required RBAC annotations, only on storage version
 	if resource.isStorageVersion {
-		group, _, ok := declContext.Name.PackageReference.GroupVersion()
-		if !ok {
-			panic(fmt.Sprintf("expected resource package reference to be local: %q", declContext.Name))
-		}
+		group, _ := declContext.Name.PackageReference.GroupVersion()
 		group = strings.ToLower(group + GroupSuffix)
 		resourceName := strings.ToLower(declContext.Name.Plural().Name())
 
