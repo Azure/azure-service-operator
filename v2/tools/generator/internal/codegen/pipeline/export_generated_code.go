@@ -55,12 +55,7 @@ func CreatePackagesForDefinitions(definitions astmodel.TypeDefinitionSet) (map[a
 	for _, def := range definitions {
 		name := def.Name()
 		ref := name.PackageReference
-		group, version, ok := ref.GroupVersion()
-		if !ok {
-			klog.Errorf("Definition %s from external package %s skipped", name.Name(), ref)
-			continue
-		}
-
+		group, version := ref.GroupVersion()
 		if pkg, ok := packages[ref]; ok {
 			pkg.AddDefinition(def)
 		} else {

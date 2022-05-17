@@ -28,9 +28,11 @@ type PackageReference interface {
 	// IsPreview returns true if this package reference has a suffix indicating it's a preview
 	// release, false otherwise
 	IsPreview() bool
-	// GroupVersion returns the group and version of this reference.
+	// TryGroupVersion returns the group and version of this reference.
 	// Returns true if the reference has a group and version, false otherwise.
-	GroupVersion() (string, string, bool)
+	TryGroupVersion() (string, string, bool)
+	// GroupVersion returns the group and version of this reference, triggering a panic if they aren't available
+	GroupVersion() (string, string)
 }
 
 // IsExternalPackageReference returns true if the provided reference is external
@@ -244,7 +246,7 @@ func (v *versionComparer) IsZero(r rune) bool {
 
 // previewVersionLabels is a sequence of specially treated identifiers
 // These come before all others and are compared in the order listed here
-var previewVersionLabels []string = []string{
+var previewVersionLabels = []string{
 	"alpha",
 	"beta",
 	"preview",

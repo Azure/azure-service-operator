@@ -330,12 +330,7 @@ func (omc *ObjectModelConfiguration) visitGroups(visitor *configurationVisitor) 
 
 // findGroup uses the provided TypeName to work out which nested GroupConfiguration should be used
 func (omc *ObjectModelConfiguration) findGroup(ref astmodel.PackageReference) (*GroupConfiguration, error) {
-	group, _, ok := ref.GroupVersion()
-	if !ok {
-		return nil, errors.Errorf(
-			"external package reference %s not supported",
-			ref)
-	}
+	group, _ := ref.GroupVersion()
 
 	if omc == nil || omc.groups == nil {
 		msg := fmt.Sprintf("no configuration for group %s", group)
@@ -404,13 +399,7 @@ func (omc *ObjectModelConfiguration) configuredGroups() []string {
 func (omc *ObjectModelConfiguration) ModifyGroup(
 	ref astmodel.PackageReference,
 	action func(configuration *GroupConfiguration) error) error {
-	groupName, _, ok := ref.GroupVersion()
-	if !ok {
-		return errors.Errorf(
-			"external package reference %s not supported",
-			ref)
-	}
-
+	groupName, _ := ref.GroupVersion()
 	grp, err := omc.findGroup(ref)
 	if err != nil && !IsNotConfiguredError(err) {
 		return errors.Wrapf(err, "configuring groupName %s", groupName)
@@ -430,13 +419,7 @@ func (omc *ObjectModelConfiguration) ModifyGroup(
 func (omc *ObjectModelConfiguration) ModifyVersion(
 	ref astmodel.PackageReference,
 	action func(configuration *VersionConfiguration) error) error {
-	_, version, ok := ref.GroupVersion()
-	if !ok {
-		return errors.Errorf(
-			"external package reference %s not supported",
-			ref)
-	}
-
+	_, version := ref.GroupVersion()
 	return omc.ModifyGroup(
 		ref,
 		func(configuration *GroupConfiguration) error {
