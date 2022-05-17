@@ -129,9 +129,10 @@ func findResourcesRequiringCompatibilityVersion(
 		}
 	}
 
-	if len(errs) > 0 {
+	err := kerrors.NewAggregate(errs)
+	if err != nil {
 		return nil, errors.Wrapf(
-			kerrors.NewAggregate(errs),
+			err,
 			"finding resources introduced in versions with prefix %q",
 			prefix)
 	}

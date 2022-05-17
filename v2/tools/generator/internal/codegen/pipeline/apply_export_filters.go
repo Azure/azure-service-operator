@@ -57,8 +57,8 @@ func filterTypes(
 		resourcesToExport.Add(def)
 	}
 
-	if len(errs) > 0 {
-		return nil, kerrors.NewAggregate(errs)
+	if err := kerrors.NewAggregate(errs); err != nil {
+		return nil, err
 	}
 
 	typesToExport, err := astmodel.FindConnectedDefinitions(state.Definitions(), resourcesToExport)
