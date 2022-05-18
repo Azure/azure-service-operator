@@ -1,8 +1,0 @@
-apiVersion: cdn.azure.com/v1alpha1api20210601
-kind: ProfilesEndpoint
-metadata:
-  name: samplecdnprofileendpoint
-  namespace: default
-spec:
-  owner:
-    name: aso-sample-rg

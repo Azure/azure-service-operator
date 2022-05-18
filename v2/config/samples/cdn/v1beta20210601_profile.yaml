@@ -6,6 +6,6 @@ metadata:
 spec:
   owner:
     name: aso-sample-rg
-  location: global
+  location: Global
   sku:
-    name: Standard_AzureFrontDoor
+    name: Standard_Microsoft

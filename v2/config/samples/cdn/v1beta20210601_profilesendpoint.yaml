@@ -5,4 +5,13 @@ metadata:
   namespace: default
 spec:
   owner:
-    name: aso-sample-rg
+    name: samplecdnprofile
+  location: Global
+  isCompressionEnabled: true
+  contentTypesToCompress:
+  - application/json
+  isHttpAllowed: false
+  isHttpsAllowed: true
+  origins:
+  - name: source
+    hostName: example.com
