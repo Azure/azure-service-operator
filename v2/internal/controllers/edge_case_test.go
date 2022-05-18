@@ -10,6 +10,7 @@ import (
 
 	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
@@ -257,7 +258,7 @@ func Test_Owner_IsMutableIfNotSuccessfullyCreated(t *testing.T) {
 	rg.Name = invalidOwnerName
 
 	acct := createStorageAccount(tc, rg)
-	tc.CreateResource(acct)
+	tc.CreateResourceAndWaitForState(acct, metav1.ConditionFalse, conditions.ConditionSeverityWarning)
 
 	// Patch the account to change Owner's name
 	old := acct.DeepCopy()
