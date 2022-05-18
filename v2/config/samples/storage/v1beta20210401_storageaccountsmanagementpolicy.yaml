@@ -22,5 +22,5 @@ spec:
           - blockBlob
           prefixMatch:
           - sample-container/blob1
-      enabled: true
+      enabled: false
       type: Lifecycle

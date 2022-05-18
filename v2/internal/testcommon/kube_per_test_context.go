@@ -408,6 +408,11 @@ func (tc *KubePerTestContext) GetResource(key types.NamespacedName, obj client.O
 	tc.G.Expect(tc.kubeClient.Get(tc.Ctx, key, obj)).To(gomega.Succeed())
 }
 
+// GetScheme returns the scheme for kubeclient
+func (tc *KubePerTestContext) GetScheme() *runtime.Scheme {
+	return tc.kubeClient.Scheme()
+}
+
 // ListResources retrieves list of objects for a given namespace and list options. On a
 // successful call, Items field in the list will be populated with the
 // result returned from the server.
