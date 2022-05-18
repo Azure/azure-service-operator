@@ -51,16 +51,14 @@ func Test_Samples_CreationAndDeletion(t *testing.T) {
 	tc.Expect(len(samples)).ToNot(gomega.BeZero())
 
 	for gv, resourceTree := range samples {
-		fmt.Sprintf("Test for '%s' samples", gv)
-		//tc.RunParallelSubtests(
-		//	testcommon.Subtest{
-		//		Name: fmt.Sprintf("Test for '%s' samples", gv),
-		//		Test: func(testContext *testcommon.KubePerTestContext) {
-		createAndDeleteResourceTree(tc, resourceTree)
-		//		},
-		//	},
-		//)
-
+		tc.RunParallelSubtests(
+			testcommon.Subtest{
+				Name: fmt.Sprintf("Test for '%s' samples", gv),
+				Test: func(testContext *testcommon.KubePerTestContext) {
+					createAndDeleteResourceTree(tc, resourceTree)
+				},
+			},
+		)
 	}
 }
 
