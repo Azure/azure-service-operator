@@ -22,7 +22,7 @@ func Test_MariaDB_Server_CRUD(t *testing.T) {
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	// Create a MariaDB Server
-	serverName := tc.NoSpaceNamer.GenerateName("mariadbsvr")
+	serverName := tc.NoSpaceNamer.GenerateName("msvr")
 	createMode := mariadb.ServerPropertiesForCreateServerPropertiesForDefaultCreateCreateModeDefault
 	networkAccess := mariadb.ServerPropertiesForCreateServerPropertiesForDefaultCreatePublicNetworkAccessEnabled
 	autogrow := mariadb.StorageProfileStorageAutogrowEnabled
@@ -34,7 +34,7 @@ func Test_MariaDB_Server_CRUD(t *testing.T) {
 	server := mariadb.Server{
 		ObjectMeta: tc.MakeObjectMetaWithName(serverName),
 		Spec: mariadb.Servers_Spec{
-			AzureName: "mariadbserver",
+			AzureName: serverName,
 			Location:  &location, // Can't do it in WestUS2
 			Owner:     testcommon.AsOwner(rg),
 			Properties: &mariadb.ServerPropertiesForCreate{
@@ -61,21 +61,34 @@ func Test_MariaDB_Server_CRUD(t *testing.T) {
 	defer tc.DeleteResourcesAndWait(&server)
 
 	// Configuration
-	configName := tc.NoSpaceNamer.GenerateName("mariadbcfg")
+	configName := tc.NoSpaceNamer.GenerateName("mcfg")
 
 	configuration := mariadb.Configuration{
 		ObjectMeta: tc.MakeObjectMetaWithName(configName),
 		Spec: mariadb.ServersConfigurations_Spec{
-			AzureName: "mariadbconfiguration",
+			AzureName: "query_cache_size",
 			Location:  &location,
-			Value:     to.StringPtr("value"),
+			Owner:     testcommon.AsOwner(&server),
+			Value:     to.StringPtr("102400"),
 		},
 	}
 
 	tc.T.Logf("Creating MariaDB Configuration %q", configName)
 	tc.CreateResourcesAndWait(&configuration)
-	defer tc.DeleteResourcesAndWait(&configuration)
+	// Can't delete, so don't even try // defer tc.DeleteResourcesAndWait(&configuration)
 
+	database := mariadb.Database{
+		ObjectMeta: tc.MakeObjectMetaWithName(configName),
+		Spec: mariadb.ServersDatabases_Spec{
+			AzureName: *to.StringPtr("adventureworks"),
+			Location:  &location,
+			Owner:     testcommon.AsOwner(&server),
+		},
+	}
+
+	tc.T.Logf("Creating MariaDB Database %q", database.Spec.AzureName)
+	tc.CreateResourcesAndWait(&database)
+	defer tc.DeleteResourcesAndWait(&database)
 }
 
 func createPasswordSecret(
