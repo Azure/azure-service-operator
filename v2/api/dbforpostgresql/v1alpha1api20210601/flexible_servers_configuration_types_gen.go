@@ -751,7 +751,7 @@ func (configurations *FlexibleServersConfigurations_Spec) ConvertToARM(resolved 
 	if configurations == nil {
 		return nil, nil
 	}
-	var result FlexibleServersConfigurations_SpecARM
+	result := &FlexibleServersConfigurations_SpecARM{}
 
 	// Set property ‘Location’:
 	if configurations.Location != nil {

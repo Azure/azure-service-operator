@@ -1400,7 +1400,7 @@ func (machines *VirtualMachines_Spec) ConvertToARM(resolved genruntime.ConvertTo
 	if machines == nil {
 		return nil, nil
 	}
-	var result VirtualMachines_SpecARM
+	result := &VirtualMachines_SpecARM{}
 
 	// Set property ‘ExtendedLocation’:
 	if machines.ExtendedLocation != nil {
@@ -1408,7 +1408,7 @@ func (machines *VirtualMachines_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		if err != nil {
 			return nil, err
 		}
-		extendedLocation := extendedLocationARM.(ExtendedLocationARM)
+		extendedLocation := *extendedLocationARM.(*ExtendedLocationARM)
 		result.ExtendedLocation = &extendedLocation
 	}
 
@@ -1418,7 +1418,7 @@ func (machines *VirtualMachines_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		if err != nil {
 			return nil, err
 		}
-		identity := identityARM.(VirtualMachineIdentityARM)
+		identity := *identityARM.(*VirtualMachineIdentityARM)
 		result.Identity = &identity
 	}
 
@@ -1437,7 +1437,7 @@ func (machines *VirtualMachines_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		if err != nil {
 			return nil, err
 		}
-		plan := planARM.(PlanARM)
+		plan := *planARM.(*PlanARM)
 		result.Plan = &plan
 	}
 
@@ -1467,7 +1467,7 @@ func (machines *VirtualMachines_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		if err != nil {
 			return nil, err
 		}
-		additionalCapabilities := additionalCapabilitiesARM.(AdditionalCapabilitiesARM)
+		additionalCapabilities := *additionalCapabilitiesARM.(*AdditionalCapabilitiesARM)
 		result.Properties.AdditionalCapabilities = &additionalCapabilities
 	}
 	if machines.AvailabilitySet != nil {
@@ -1475,7 +1475,7 @@ func (machines *VirtualMachines_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		if err != nil {
 			return nil, err
 		}
-		availabilitySet := availabilitySetARM.(SubResourceARM)
+		availabilitySet := *availabilitySetARM.(*SubResourceARM)
 		result.Properties.AvailabilitySet = &availabilitySet
 	}
 	if machines.BillingProfile != nil {
@@ -1483,7 +1483,7 @@ func (machines *VirtualMachines_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		if err != nil {
 			return nil, err
 		}
-		billingProfile := billingProfileARM.(BillingProfileARM)
+		billingProfile := *billingProfileARM.(*BillingProfileARM)
 		result.Properties.BillingProfile = &billingProfile
 	}
 	if machines.DiagnosticsProfile != nil {
@@ -1491,7 +1491,7 @@ func (machines *VirtualMachines_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		if err != nil {
 			return nil, err
 		}
-		diagnosticsProfile := diagnosticsProfileARM.(DiagnosticsProfileARM)
+		diagnosticsProfile := *diagnosticsProfileARM.(*DiagnosticsProfileARM)
 		result.Properties.DiagnosticsProfile = &diagnosticsProfile
 	}
 	if machines.EvictionPolicy != nil {
@@ -1507,7 +1507,7 @@ func (machines *VirtualMachines_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		if err != nil {
 			return nil, err
 		}
-		hardwareProfile := hardwareProfileARM.(HardwareProfileARM)
+		hardwareProfile := *hardwareProfileARM.(*HardwareProfileARM)
 		result.Properties.HardwareProfile = &hardwareProfile
 	}
 	if machines.Host != nil {
@@ -1515,7 +1515,7 @@ func (machines *VirtualMachines_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		if err != nil {
 			return nil, err
 		}
-		host := hostARM.(SubResourceARM)
+		host := *hostARM.(*SubResourceARM)
 		result.Properties.Host = &host
 	}
 	if machines.HostGroup != nil {
@@ -1523,7 +1523,7 @@ func (machines *VirtualMachines_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		if err != nil {
 			return nil, err
 		}
-		hostGroup := hostGroupARM.(SubResourceARM)
+		hostGroup := *hostGroupARM.(*SubResourceARM)
 		result.Properties.HostGroup = &hostGroup
 	}
 	if machines.LicenseType != nil {
@@ -1535,7 +1535,7 @@ func (machines *VirtualMachines_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		if err != nil {
 			return nil, err
 		}
-		networkProfile := networkProfileARM.(VirtualMachines_Spec_Properties_NetworkProfileARM)
+		networkProfile := *networkProfileARM.(*VirtualMachines_Spec_Properties_NetworkProfileARM)
 		result.Properties.NetworkProfile = &networkProfile
 	}
 	if machines.OsProfile != nil {
@@ -1543,7 +1543,7 @@ func (machines *VirtualMachines_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		if err != nil {
 			return nil, err
 		}
-		osProfile := osProfileARM.(VirtualMachines_Spec_Properties_OsProfileARM)
+		osProfile := *osProfileARM.(*VirtualMachines_Spec_Properties_OsProfileARM)
 		result.Properties.OsProfile = &osProfile
 	}
 	if machines.PlatformFaultDomain != nil {
@@ -1559,7 +1559,7 @@ func (machines *VirtualMachines_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		if err != nil {
 			return nil, err
 		}
-		proximityPlacementGroup := proximityPlacementGroupARM.(SubResourceARM)
+		proximityPlacementGroup := *proximityPlacementGroupARM.(*SubResourceARM)
 		result.Properties.ProximityPlacementGroup = &proximityPlacementGroup
 	}
 	if machines.SecurityProfile != nil {
@@ -1567,7 +1567,7 @@ func (machines *VirtualMachines_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		if err != nil {
 			return nil, err
 		}
-		securityProfile := securityProfileARM.(SecurityProfileARM)
+		securityProfile := *securityProfileARM.(*SecurityProfileARM)
 		result.Properties.SecurityProfile = &securityProfile
 	}
 	if machines.StorageProfile != nil {
@@ -1575,7 +1575,7 @@ func (machines *VirtualMachines_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		if err != nil {
 			return nil, err
 		}
-		storageProfile := storageProfileARM.(StorageProfileARM)
+		storageProfile := *storageProfileARM.(*StorageProfileARM)
 		result.Properties.StorageProfile = &storageProfile
 	}
 	if machines.VirtualMachineScaleSet != nil {
@@ -1583,7 +1583,7 @@ func (machines *VirtualMachines_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		if err != nil {
 			return nil, err
 		}
-		virtualMachineScaleSet := virtualMachineScaleSetARM.(SubResourceARM)
+		virtualMachineScaleSet := *virtualMachineScaleSetARM.(*SubResourceARM)
 		result.Properties.VirtualMachineScaleSet = &virtualMachineScaleSet
 	}
 
@@ -2475,7 +2475,7 @@ func (capabilities *AdditionalCapabilities) ConvertToARM(resolved genruntime.Con
 	if capabilities == nil {
 		return nil, nil
 	}
-	var result AdditionalCapabilitiesARM
+	result := &AdditionalCapabilitiesARM{}
 
 	// Set property ‘UltraSSDEnabled’:
 	if capabilities.UltraSSDEnabled != nil {
@@ -2626,7 +2626,7 @@ func (profile *BillingProfile) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if profile == nil {
 		return nil, nil
 	}
-	var result BillingProfileARM
+	result := &BillingProfileARM{}
 
 	// Set property ‘MaxPrice’:
 	if profile.MaxPrice != nil {
@@ -2777,7 +2777,7 @@ func (profile *DiagnosticsProfile) ConvertToARM(resolved genruntime.ConvertToARM
 	if profile == nil {
 		return nil, nil
 	}
-	var result DiagnosticsProfileARM
+	result := &DiagnosticsProfileARM{}
 
 	// Set property ‘BootDiagnostics’:
 	if profile.BootDiagnostics != nil {
@@ -2785,7 +2785,7 @@ func (profile *DiagnosticsProfile) ConvertToARM(resolved genruntime.ConvertToARM
 		if err != nil {
 			return nil, err
 		}
-		bootDiagnostics := bootDiagnosticsARM.(BootDiagnosticsARM)
+		bootDiagnostics := *bootDiagnosticsARM.(*BootDiagnosticsARM)
 		result.BootDiagnostics = &bootDiagnostics
 	}
 	return result, nil
@@ -2967,7 +2967,7 @@ func (location *ExtendedLocation) ConvertToARM(resolved genruntime.ConvertToARMR
 	if location == nil {
 		return nil, nil
 	}
-	var result ExtendedLocationARM
+	result := &ExtendedLocationARM{}
 
 	// Set property ‘Name’:
 	if location.Name != nil {
@@ -3149,7 +3149,7 @@ func (profile *HardwareProfile) ConvertToARM(resolved genruntime.ConvertToARMRes
 	if profile == nil {
 		return nil, nil
 	}
-	var result HardwareProfileARM
+	result := &HardwareProfileARM{}
 
 	// Set property ‘VmSize’:
 	if profile.VmSize != nil {
@@ -3644,7 +3644,7 @@ func (plan *Plan) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) 
 	if plan == nil {
 		return nil, nil
 	}
-	var result PlanARM
+	result := &PlanARM{}
 
 	// Set property ‘Name’:
 	if plan.Name != nil {
@@ -3879,7 +3879,7 @@ func (profile *SecurityProfile) ConvertToARM(resolved genruntime.ConvertToARMRes
 	if profile == nil {
 		return nil, nil
 	}
-	var result SecurityProfileARM
+	result := &SecurityProfileARM{}
 
 	// Set property ‘EncryptionAtHost’:
 	if profile.EncryptionAtHost != nil {
@@ -3899,7 +3899,7 @@ func (profile *SecurityProfile) ConvertToARM(resolved genruntime.ConvertToARMRes
 		if err != nil {
 			return nil, err
 		}
-		uefiSettings := uefiSettingsARM.(UefiSettingsARM)
+		uefiSettings := *uefiSettingsARM.(*UefiSettingsARM)
 		result.UefiSettings = &uefiSettings
 	}
 	return result, nil
@@ -4164,7 +4164,7 @@ func (profile *StorageProfile) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if profile == nil {
 		return nil, nil
 	}
-	var result StorageProfileARM
+	result := &StorageProfileARM{}
 
 	// Set property ‘DataDisks’:
 	for _, item := range profile.DataDisks {
@@ -4172,7 +4172,7 @@ func (profile *StorageProfile) ConvertToARM(resolved genruntime.ConvertToARMReso
 		if err != nil {
 			return nil, err
 		}
-		result.DataDisks = append(result.DataDisks, itemARM.(DataDiskARM))
+		result.DataDisks = append(result.DataDisks, *itemARM.(*DataDiskARM))
 	}
 
 	// Set property ‘ImageReference’:
@@ -4181,7 +4181,7 @@ func (profile *StorageProfile) ConvertToARM(resolved genruntime.ConvertToARMReso
 		if err != nil {
 			return nil, err
 		}
-		imageReference := imageReferenceARM.(ImageReferenceARM)
+		imageReference := *imageReferenceARM.(*ImageReferenceARM)
 		result.ImageReference = &imageReference
 	}
 
@@ -4191,7 +4191,7 @@ func (profile *StorageProfile) ConvertToARM(resolved genruntime.ConvertToARMReso
 		if err != nil {
 			return nil, err
 		}
-		osDisk := osDiskARM.(OSDiskARM)
+		osDisk := *osDiskARM.(*OSDiskARM)
 		result.OsDisk = &osDisk
 	}
 	return result, nil
@@ -4528,7 +4528,7 @@ func (resource *SubResource) ConvertToARM(resolved genruntime.ConvertToARMResolv
 	if resource == nil {
 		return nil, nil
 	}
-	var result SubResourceARM
+	result := &SubResourceARM{}
 
 	// Set property ‘Id’:
 	if resource.Reference != nil {
@@ -5029,7 +5029,7 @@ func (identity *VirtualMachineIdentity) ConvertToARM(resolved genruntime.Convert
 	if identity == nil {
 		return nil, nil
 	}
-	var result VirtualMachineIdentityARM
+	result := &VirtualMachineIdentityARM{}
 
 	// Set property ‘Type’:
 	if identity.Type != nil {
@@ -5799,7 +5799,7 @@ func (profile *VirtualMachines_Spec_Properties_NetworkProfile) ConvertToARM(reso
 	if profile == nil {
 		return nil, nil
 	}
-	var result VirtualMachines_Spec_Properties_NetworkProfileARM
+	result := &VirtualMachines_Spec_Properties_NetworkProfileARM{}
 
 	// Set property ‘NetworkInterfaces’:
 	for _, item := range profile.NetworkInterfaces {
@@ -5807,7 +5807,7 @@ func (profile *VirtualMachines_Spec_Properties_NetworkProfile) ConvertToARM(reso
 		if err != nil {
 			return nil, err
 		}
-		result.NetworkInterfaces = append(result.NetworkInterfaces, itemARM.(VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfacesARM))
+		result.NetworkInterfaces = append(result.NetworkInterfaces, *itemARM.(*VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfacesARM))
 	}
 	return result, nil
 }
@@ -5917,7 +5917,7 @@ func (profile *VirtualMachines_Spec_Properties_OsProfile) ConvertToARM(resolved 
 	if profile == nil {
 		return nil, nil
 	}
-	var result VirtualMachines_Spec_Properties_OsProfileARM
+	result := &VirtualMachines_Spec_Properties_OsProfileARM{}
 
 	// Set property ‘AdminPassword’:
 	if profile.AdminPassword != nil {
@@ -5959,7 +5959,7 @@ func (profile *VirtualMachines_Spec_Properties_OsProfile) ConvertToARM(resolved 
 		if err != nil {
 			return nil, err
 		}
-		linuxConfiguration := linuxConfigurationARM.(LinuxConfigurationARM)
+		linuxConfiguration := *linuxConfigurationARM.(*LinuxConfigurationARM)
 		result.LinuxConfiguration = &linuxConfiguration
 	}
 
@@ -5975,7 +5975,7 @@ func (profile *VirtualMachines_Spec_Properties_OsProfile) ConvertToARM(resolved 
 		if err != nil {
 			return nil, err
 		}
-		result.Secrets = append(result.Secrets, itemARM.(VaultSecretGroupARM))
+		result.Secrets = append(result.Secrets, *itemARM.(*VaultSecretGroupARM))
 	}
 
 	// Set property ‘WindowsConfiguration’:
@@ -5984,7 +5984,7 @@ func (profile *VirtualMachines_Spec_Properties_OsProfile) ConvertToARM(resolved 
 		if err != nil {
 			return nil, err
 		}
-		windowsConfiguration := windowsConfigurationARM.(WindowsConfigurationARM)
+		windowsConfiguration := *windowsConfigurationARM.(*WindowsConfigurationARM)
 		result.WindowsConfiguration = &windowsConfiguration
 	}
 	return result, nil
@@ -6256,7 +6256,7 @@ func (diagnostics *BootDiagnostics) ConvertToARM(resolved genruntime.ConvertToAR
 	if diagnostics == nil {
 		return nil, nil
 	}
-	var result BootDiagnosticsARM
+	result := &BootDiagnosticsARM{}
 
 	// Set property ‘Enabled’:
 	if diagnostics.Enabled != nil {
@@ -6559,7 +6559,7 @@ func (disk *DataDisk) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 	if disk == nil {
 		return nil, nil
 	}
-	var result DataDiskARM
+	result := &DataDiskARM{}
 
 	// Set property ‘Caching’:
 	if disk.Caching != nil {
@@ -6591,7 +6591,7 @@ func (disk *DataDisk) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 		if err != nil {
 			return nil, err
 		}
-		image := imageARM.(VirtualHardDiskARM)
+		image := *imageARM.(*VirtualHardDiskARM)
 		result.Image = &image
 	}
 
@@ -6607,7 +6607,7 @@ func (disk *DataDisk) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 		if err != nil {
 			return nil, err
 		}
-		managedDisk := managedDiskARM.(ManagedDiskParametersARM)
+		managedDisk := *managedDiskARM.(*ManagedDiskParametersARM)
 		result.ManagedDisk = &managedDisk
 	}
 
@@ -6629,7 +6629,7 @@ func (disk *DataDisk) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 		if err != nil {
 			return nil, err
 		}
-		vhd := vhdARM.(VirtualHardDiskARM)
+		vhd := *vhdARM.(*VirtualHardDiskARM)
 		result.Vhd = &vhd
 	}
 
@@ -7777,7 +7777,7 @@ func (reference *ImageReference) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if reference == nil {
 		return nil, nil
 	}
-	var result ImageReferenceARM
+	result := &ImageReferenceARM{}
 
 	// Set property ‘Id’:
 	if reference.Reference != nil {
@@ -8178,7 +8178,7 @@ func (configuration *LinuxConfiguration) ConvertToARM(resolved genruntime.Conver
 	if configuration == nil {
 		return nil, nil
 	}
-	var result LinuxConfigurationARM
+	result := &LinuxConfigurationARM{}
 
 	// Set property ‘DisablePasswordAuthentication’:
 	if configuration.DisablePasswordAuthentication != nil {
@@ -8192,7 +8192,7 @@ func (configuration *LinuxConfiguration) ConvertToARM(resolved genruntime.Conver
 		if err != nil {
 			return nil, err
 		}
-		patchSettings := patchSettingsARM.(LinuxPatchSettingsARM)
+		patchSettings := *patchSettingsARM.(*LinuxPatchSettingsARM)
 		result.PatchSettings = &patchSettings
 	}
 
@@ -8208,7 +8208,7 @@ func (configuration *LinuxConfiguration) ConvertToARM(resolved genruntime.Conver
 		if err != nil {
 			return nil, err
 		}
-		ssh := sshARM.(SshConfigurationARM)
+		ssh := *sshARM.(*SshConfigurationARM)
 		result.Ssh = &ssh
 	}
 	return result, nil
@@ -8794,7 +8794,7 @@ func (disk *OSDisk) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails
 	if disk == nil {
 		return nil, nil
 	}
-	var result OSDiskARM
+	result := &OSDiskARM{}
 
 	// Set property ‘Caching’:
 	if disk.Caching != nil {
@@ -8814,7 +8814,7 @@ func (disk *OSDisk) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails
 		if err != nil {
 			return nil, err
 		}
-		diffDiskSettings := diffDiskSettingsARM.(DiffDiskSettingsARM)
+		diffDiskSettings := *diffDiskSettingsARM.(*DiffDiskSettingsARM)
 		result.DiffDiskSettings = &diffDiskSettings
 	}
 
@@ -8830,7 +8830,7 @@ func (disk *OSDisk) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails
 		if err != nil {
 			return nil, err
 		}
-		encryptionSettings := encryptionSettingsARM.(DiskEncryptionSettingsARM)
+		encryptionSettings := *encryptionSettingsARM.(*DiskEncryptionSettingsARM)
 		result.EncryptionSettings = &encryptionSettings
 	}
 
@@ -8840,7 +8840,7 @@ func (disk *OSDisk) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails
 		if err != nil {
 			return nil, err
 		}
-		image := imageARM.(VirtualHardDiskARM)
+		image := *imageARM.(*VirtualHardDiskARM)
 		result.Image = &image
 	}
 
@@ -8850,7 +8850,7 @@ func (disk *OSDisk) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails
 		if err != nil {
 			return nil, err
 		}
-		managedDisk := managedDiskARM.(ManagedDiskParametersARM)
+		managedDisk := *managedDiskARM.(*ManagedDiskParametersARM)
 		result.ManagedDisk = &managedDisk
 	}
 
@@ -8872,7 +8872,7 @@ func (disk *OSDisk) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails
 		if err != nil {
 			return nil, err
 		}
-		vhd := vhdARM.(VirtualHardDiskARM)
+		vhd := *vhdARM.(*VirtualHardDiskARM)
 		result.Vhd = &vhd
 	}
 
@@ -9577,7 +9577,7 @@ func (settings *UefiSettings) ConvertToARM(resolved genruntime.ConvertToARMResol
 	if settings == nil {
 		return nil, nil
 	}
-	var result UefiSettingsARM
+	result := &UefiSettingsARM{}
 
 	// Set property ‘SecureBootEnabled’:
 	if settings.SecureBootEnabled != nil {
@@ -9780,7 +9780,7 @@ func (group *VaultSecretGroup) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if group == nil {
 		return nil, nil
 	}
-	var result VaultSecretGroupARM
+	result := &VaultSecretGroupARM{}
 
 	// Set property ‘SourceVault’:
 	if group.SourceVault != nil {
@@ -9788,7 +9788,7 @@ func (group *VaultSecretGroup) ConvertToARM(resolved genruntime.ConvertToARMReso
 		if err != nil {
 			return nil, err
 		}
-		sourceVault := sourceVaultARM.(SubResourceARM)
+		sourceVault := *sourceVaultARM.(*SubResourceARM)
 		result.SourceVault = &sourceVault
 	}
 
@@ -9798,7 +9798,7 @@ func (group *VaultSecretGroup) ConvertToARM(resolved genruntime.ConvertToARMReso
 		if err != nil {
 			return nil, err
 		}
-		result.VaultCertificates = append(result.VaultCertificates, itemARM.(VaultCertificateARM))
+		result.VaultCertificates = append(result.VaultCertificates, *itemARM.(*VaultCertificateARM))
 	}
 	return result, nil
 }
@@ -10719,7 +10719,7 @@ func (interfaces *VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfac
 	if interfaces == nil {
 		return nil, nil
 	}
-	var result VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfacesARM
+	result := &VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfacesARM{}
 
 	// Set property ‘Id’:
 	if interfaces.Reference != nil {
@@ -10841,7 +10841,7 @@ func (configuration *WindowsConfiguration) ConvertToARM(resolved genruntime.Conv
 	if configuration == nil {
 		return nil, nil
 	}
-	var result WindowsConfigurationARM
+	result := &WindowsConfigurationARM{}
 
 	// Set property ‘AdditionalUnattendContent’:
 	for _, item := range configuration.AdditionalUnattendContent {
@@ -10849,7 +10849,7 @@ func (configuration *WindowsConfiguration) ConvertToARM(resolved genruntime.Conv
 		if err != nil {
 			return nil, err
 		}
-		result.AdditionalUnattendContent = append(result.AdditionalUnattendContent, itemARM.(AdditionalUnattendContentARM))
+		result.AdditionalUnattendContent = append(result.AdditionalUnattendContent, *itemARM.(*AdditionalUnattendContentARM))
 	}
 
 	// Set property ‘EnableAutomaticUpdates’:
@@ -10864,7 +10864,7 @@ func (configuration *WindowsConfiguration) ConvertToARM(resolved genruntime.Conv
 		if err != nil {
 			return nil, err
 		}
-		patchSettings := patchSettingsARM.(PatchSettingsARM)
+		patchSettings := *patchSettingsARM.(*PatchSettingsARM)
 		result.PatchSettings = &patchSettings
 	}
 
@@ -10886,7 +10886,7 @@ func (configuration *WindowsConfiguration) ConvertToARM(resolved genruntime.Conv
 		if err != nil {
 			return nil, err
 		}
-		winRM := winRMARM.(WinRMConfigurationARM)
+		winRM := *winRMARM.(*WinRMConfigurationARM)
 		result.WinRM = &winRM
 	}
 	return result, nil
@@ -11341,7 +11341,7 @@ func (content *AdditionalUnattendContent) ConvertToARM(resolved genruntime.Conve
 	if content == nil {
 		return nil, nil
 	}
-	var result AdditionalUnattendContentARM
+	result := &AdditionalUnattendContentARM{}
 
 	// Set property ‘ComponentName’:
 	if content.ComponentName != nil {
@@ -11867,7 +11867,7 @@ func (settings *DiffDiskSettings) ConvertToARM(resolved genruntime.ConvertToARMR
 	if settings == nil {
 		return nil, nil
 	}
-	var result DiffDiskSettingsARM
+	result := &DiffDiskSettingsARM{}
 
 	// Set property ‘Option’:
 	if settings.Option != nil {
@@ -12071,7 +12071,7 @@ func (settings *DiskEncryptionSettings) ConvertToARM(resolved genruntime.Convert
 	if settings == nil {
 		return nil, nil
 	}
-	var result DiskEncryptionSettingsARM
+	result := &DiskEncryptionSettingsARM{}
 
 	// Set property ‘DiskEncryptionKey’:
 	if settings.DiskEncryptionKey != nil {
@@ -12079,7 +12079,7 @@ func (settings *DiskEncryptionSettings) ConvertToARM(resolved genruntime.Convert
 		if err != nil {
 			return nil, err
 		}
-		diskEncryptionKey := diskEncryptionKeyARM.(KeyVaultSecretReferenceARM)
+		diskEncryptionKey := *diskEncryptionKeyARM.(*KeyVaultSecretReferenceARM)
 		result.DiskEncryptionKey = &diskEncryptionKey
 	}
 
@@ -12095,7 +12095,7 @@ func (settings *DiskEncryptionSettings) ConvertToARM(resolved genruntime.Convert
 		if err != nil {
 			return nil, err
 		}
-		keyEncryptionKey := keyEncryptionKeyARM.(KeyVaultKeyReferenceARM)
+		keyEncryptionKey := *keyEncryptionKeyARM.(*KeyVaultKeyReferenceARM)
 		result.KeyEncryptionKey = &keyEncryptionKey
 	}
 	return result, nil
@@ -12624,7 +12624,7 @@ func (settings *LinuxPatchSettings) ConvertToARM(resolved genruntime.ConvertToAR
 	if settings == nil {
 		return nil, nil
 	}
-	var result LinuxPatchSettingsARM
+	result := &LinuxPatchSettingsARM{}
 
 	// Set property ‘PatchMode’:
 	if settings.PatchMode != nil {
@@ -12788,7 +12788,7 @@ func (parameters *ManagedDiskParameters) ConvertToARM(resolved genruntime.Conver
 	if parameters == nil {
 		return nil, nil
 	}
-	var result ManagedDiskParametersARM
+	result := &ManagedDiskParametersARM{}
 
 	// Set property ‘DiskEncryptionSet’:
 	if parameters.DiskEncryptionSet != nil {
@@ -12796,7 +12796,7 @@ func (parameters *ManagedDiskParameters) ConvertToARM(resolved genruntime.Conver
 		if err != nil {
 			return nil, err
 		}
-		diskEncryptionSet := diskEncryptionSetARM.(DiskEncryptionSetParametersARM)
+		diskEncryptionSet := *diskEncryptionSetARM.(*DiskEncryptionSetParametersARM)
 		result.DiskEncryptionSet = &diskEncryptionSet
 	}
 
@@ -13099,7 +13099,7 @@ func (settings *PatchSettings) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if settings == nil {
 		return nil, nil
 	}
-	var result PatchSettingsARM
+	result := &PatchSettingsARM{}
 
 	// Set property ‘EnableHotpatching’:
 	if settings.EnableHotpatching != nil {
@@ -13301,7 +13301,7 @@ func (configuration *SshConfiguration) ConvertToARM(resolved genruntime.ConvertT
 	if configuration == nil {
 		return nil, nil
 	}
-	var result SshConfigurationARM
+	result := &SshConfigurationARM{}
 
 	// Set property ‘PublicKeys’:
 	for _, item := range configuration.PublicKeys {
@@ -13309,7 +13309,7 @@ func (configuration *SshConfiguration) ConvertToARM(resolved genruntime.ConvertT
 		if err != nil {
 			return nil, err
 		}
-		result.PublicKeys = append(result.PublicKeys, itemARM.(SshPublicKeyARM))
+		result.PublicKeys = append(result.PublicKeys, *itemARM.(*SshPublicKeyARM))
 	}
 	return result, nil
 }
@@ -13504,7 +13504,7 @@ func (certificate *VaultCertificate) ConvertToARM(resolved genruntime.ConvertToA
 	if certificate == nil {
 		return nil, nil
 	}
-	var result VaultCertificateARM
+	result := &VaultCertificateARM{}
 
 	// Set property ‘CertificateStore’:
 	if certificate.CertificateStore != nil {
@@ -13666,7 +13666,7 @@ func (disk *VirtualHardDisk) ConvertToARM(resolved genruntime.ConvertToARMResolv
 	if disk == nil {
 		return nil, nil
 	}
-	var result VirtualHardDiskARM
+	result := &VirtualHardDiskARM{}
 
 	// Set property ‘Uri’:
 	if disk.Uri != nil {
@@ -13904,7 +13904,7 @@ func (configuration *WinRMConfiguration) ConvertToARM(resolved genruntime.Conver
 	if configuration == nil {
 		return nil, nil
 	}
-	var result WinRMConfigurationARM
+	result := &WinRMConfigurationARM{}
 
 	// Set property ‘Listeners’:
 	for _, item := range configuration.Listeners {
@@ -13912,7 +13912,7 @@ func (configuration *WinRMConfiguration) ConvertToARM(resolved genruntime.Conver
 		if err != nil {
 			return nil, err
 		}
-		result.Listeners = append(result.Listeners, itemARM.(WinRMListenerARM))
+		result.Listeners = append(result.Listeners, *itemARM.(*WinRMListenerARM))
 	}
 	return result, nil
 }
@@ -14356,7 +14356,7 @@ func (parameters *DiskEncryptionSetParameters) ConvertToARM(resolved genruntime.
 	if parameters == nil {
 		return nil, nil
 	}
-	var result DiskEncryptionSetParametersARM
+	result := &DiskEncryptionSetParametersARM{}
 
 	// Set property ‘Id’:
 	if parameters.Reference != nil {
@@ -14443,7 +14443,7 @@ func (reference *KeyVaultKeyReference) ConvertToARM(resolved genruntime.ConvertT
 	if reference == nil {
 		return nil, nil
 	}
-	var result KeyVaultKeyReferenceARM
+	result := &KeyVaultKeyReferenceARM{}
 
 	// Set property ‘KeyUrl’:
 	if reference.KeyUrl != nil {
@@ -14457,7 +14457,7 @@ func (reference *KeyVaultKeyReference) ConvertToARM(resolved genruntime.ConvertT
 		if err != nil {
 			return nil, err
 		}
-		sourceVault := sourceVaultARM.(SubResourceARM)
+		sourceVault := *sourceVaultARM.(*SubResourceARM)
 		result.SourceVault = &sourceVault
 	}
 	return result, nil
@@ -14659,7 +14659,7 @@ func (reference *KeyVaultSecretReference) ConvertToARM(resolved genruntime.Conve
 	if reference == nil {
 		return nil, nil
 	}
-	var result KeyVaultSecretReferenceARM
+	result := &KeyVaultSecretReferenceARM{}
 
 	// Set property ‘SecretUrl’:
 	if reference.SecretUrl != nil {
@@ -14673,7 +14673,7 @@ func (reference *KeyVaultSecretReference) ConvertToARM(resolved genruntime.Conve
 		if err != nil {
 			return nil, err
 		}
-		sourceVault := sourceVaultARM.(SubResourceARM)
+		sourceVault := *sourceVaultARM.(*SubResourceARM)
 		result.SourceVault = &sourceVault
 	}
 	return result, nil
@@ -14934,7 +14934,7 @@ func (publicKey *SshPublicKey) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if publicKey == nil {
 		return nil, nil
 	}
-	var result SshPublicKeyARM
+	result := &SshPublicKeyARM{}
 
 	// Set property ‘KeyData’:
 	if publicKey.KeyData != nil {
@@ -15109,7 +15109,7 @@ func (listener *WinRMListener) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if listener == nil {
 		return nil, nil
 	}
-	var result WinRMListenerARM
+	result := &WinRMListenerARM{}
 
 	// Set property ‘CertificateUrl’:
 	if listener.CertificateUrl != nil {

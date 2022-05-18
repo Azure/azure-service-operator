@@ -1068,7 +1068,7 @@ func (snapshots *Snapshots_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if snapshots == nil {
 		return nil, nil
 	}
-	var result Snapshots_SpecARM
+	result := &Snapshots_SpecARM{}
 
 	// Set property ‘ExtendedLocation’:
 	if snapshots.ExtendedLocation != nil {
@@ -1076,7 +1076,7 @@ func (snapshots *Snapshots_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		if err != nil {
 			return nil, err
 		}
-		extendedLocation := extendedLocationARM.(ExtendedLocationARM)
+		extendedLocation := *extendedLocationARM.(*ExtendedLocationARM)
 		result.ExtendedLocation = &extendedLocation
 	}
 
@@ -1108,7 +1108,7 @@ func (snapshots *Snapshots_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		if err != nil {
 			return nil, err
 		}
-		creationData := creationDataARM.(CreationDataARM)
+		creationData := *creationDataARM.(*CreationDataARM)
 		result.Properties.CreationData = &creationData
 	}
 	if snapshots.DiskAccessReference != nil {
@@ -1132,7 +1132,7 @@ func (snapshots *Snapshots_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		if err != nil {
 			return nil, err
 		}
-		encryption := encryptionARM.(EncryptionARM)
+		encryption := *encryptionARM.(*EncryptionARM)
 		result.Properties.Encryption = &encryption
 	}
 	if snapshots.EncryptionSettingsCollection != nil {
@@ -1140,7 +1140,7 @@ func (snapshots *Snapshots_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		if err != nil {
 			return nil, err
 		}
-		encryptionSettingsCollection := encryptionSettingsCollectionARM.(EncryptionSettingsCollectionARM)
+		encryptionSettingsCollection := *encryptionSettingsCollectionARM.(*EncryptionSettingsCollectionARM)
 		result.Properties.EncryptionSettingsCollection = &encryptionSettingsCollection
 	}
 	if snapshots.HyperVGeneration != nil {
@@ -1164,7 +1164,7 @@ func (snapshots *Snapshots_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		if err != nil {
 			return nil, err
 		}
-		purchasePlan := purchasePlanARM.(PurchasePlanARM)
+		purchasePlan := *purchasePlanARM.(*PurchasePlanARM)
 		result.Properties.PurchasePlan = &purchasePlan
 	}
 
@@ -1174,7 +1174,7 @@ func (snapshots *Snapshots_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		if err != nil {
 			return nil, err
 		}
-		sku := skuARM.(SnapshotSkuARM)
+		sku := *skuARM.(*SnapshotSkuARM)
 		result.Sku = &sku
 	}
 
@@ -1788,7 +1788,7 @@ func (snapshotSku *SnapshotSku) ConvertToARM(resolved genruntime.ConvertToARMRes
 	if snapshotSku == nil {
 		return nil, nil
 	}
-	var result SnapshotSkuARM
+	result := &SnapshotSkuARM{}
 
 	// Set property ‘Name’:
 	if snapshotSku.Name != nil {

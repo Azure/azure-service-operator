@@ -536,7 +536,7 @@ func (rules *RedisFirewallRules_Spec) ConvertToARM(resolved genruntime.ConvertTo
 	if rules == nil {
 		return nil, nil
 	}
-	var result RedisFirewallRules_SpecARM
+	result := &RedisFirewallRules_SpecARM{}
 
 	// Set property ‘Location’:
 	if rules.Location != nil {

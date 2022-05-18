@@ -583,7 +583,7 @@ func (identities *UserAssignedIdentities_Spec) ConvertToARM(resolved genruntime.
 	if identities == nil {
 		return nil, nil
 	}
-	var result UserAssignedIdentities_SpecARM
+	result := &UserAssignedIdentities_SpecARM{}
 
 	// Set property ‘Location’:
 	if identities.Location != nil {

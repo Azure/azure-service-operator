@@ -21,12 +21,12 @@ func (containers DatabaseAccountsSqlDatabasesContainers_SpecARM) GetAPIVersion()
 }
 
 // GetName returns the Name of the resource
-func (containers DatabaseAccountsSqlDatabasesContainers_SpecARM) GetName() string {
+func (containers *DatabaseAccountsSqlDatabasesContainers_SpecARM) GetName() string {
 	return containers.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers"
-func (containers DatabaseAccountsSqlDatabasesContainers_SpecARM) GetType() string {
+func (containers *DatabaseAccountsSqlDatabasesContainers_SpecARM) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers"
 }
 

@@ -37,12 +37,12 @@ func (disks Disks_SpecARM) GetAPIVersion() string {
 }
 
 // GetName returns the Name of the resource
-func (disks Disks_SpecARM) GetName() string {
+func (disks *Disks_SpecARM) GetName() string {
 	return disks.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Compute/disks"
-func (disks Disks_SpecARM) GetType() string {
+func (disks *Disks_SpecARM) GetType() string {
 	return "Microsoft.Compute/disks"
 }
 

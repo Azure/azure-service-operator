@@ -24,12 +24,12 @@ func (pools ManagedClustersAgentPools_SpecARM) GetAPIVersion() string {
 }
 
 // GetName returns the Name of the resource
-func (pools ManagedClustersAgentPools_SpecARM) GetName() string {
+func (pools *ManagedClustersAgentPools_SpecARM) GetName() string {
 	return pools.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.ContainerService/managedClusters/agentPools"
-func (pools ManagedClustersAgentPools_SpecARM) GetType() string {
+func (pools *ManagedClustersAgentPools_SpecARM) GetType() string {
 	return "Microsoft.ContainerService/managedClusters/agentPools"
 }
 

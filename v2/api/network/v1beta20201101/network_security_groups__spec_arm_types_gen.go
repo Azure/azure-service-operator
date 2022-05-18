@@ -24,11 +24,11 @@ func (groups NetworkSecurityGroups_SpecARM) GetAPIVersion() string {
 }
 
 // GetName returns the Name of the resource
-func (groups NetworkSecurityGroups_SpecARM) GetName() string {
+func (groups *NetworkSecurityGroups_SpecARM) GetName() string {
 	return groups.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/networkSecurityGroups"
-func (groups NetworkSecurityGroups_SpecARM) GetType() string {
+func (groups *NetworkSecurityGroups_SpecARM) GetType() string {
 	return "Microsoft.Network/networkSecurityGroups"
 }

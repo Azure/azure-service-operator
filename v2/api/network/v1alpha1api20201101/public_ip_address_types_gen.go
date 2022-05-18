@@ -1031,7 +1031,7 @@ func (addresses *PublicIPAddresses_Spec) ConvertToARM(resolved genruntime.Conver
 	if addresses == nil {
 		return nil, nil
 	}
-	var result PublicIPAddresses_SpecARM
+	result := &PublicIPAddresses_SpecARM{}
 
 	// Set property ‘ExtendedLocation’:
 	if addresses.ExtendedLocation != nil {
@@ -1039,7 +1039,7 @@ func (addresses *PublicIPAddresses_Spec) ConvertToARM(resolved genruntime.Conver
 		if err != nil {
 			return nil, err
 		}
-		extendedLocation := extendedLocationARM.(ExtendedLocationARM)
+		extendedLocation := *extendedLocationARM.(*ExtendedLocationARM)
 		result.ExtendedLocation = &extendedLocation
 	}
 
@@ -1068,7 +1068,7 @@ func (addresses *PublicIPAddresses_Spec) ConvertToARM(resolved genruntime.Conver
 		if err != nil {
 			return nil, err
 		}
-		ddosSettings := ddosSettingsARM.(DdosSettingsARM)
+		ddosSettings := *ddosSettingsARM.(*DdosSettingsARM)
 		result.Properties.DdosSettings = &ddosSettings
 	}
 	if addresses.DnsSettings != nil {
@@ -1076,7 +1076,7 @@ func (addresses *PublicIPAddresses_Spec) ConvertToARM(resolved genruntime.Conver
 		if err != nil {
 			return nil, err
 		}
-		dnsSettings := dnsSettingsARM.(PublicIPAddressDnsSettingsARM)
+		dnsSettings := *dnsSettingsARM.(*PublicIPAddressDnsSettingsARM)
 		result.Properties.DnsSettings = &dnsSettings
 	}
 	if addresses.IdleTimeoutInMinutes != nil {
@@ -1092,7 +1092,7 @@ func (addresses *PublicIPAddresses_Spec) ConvertToARM(resolved genruntime.Conver
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.IpTags = append(result.Properties.IpTags, itemARM.(IpTagARM))
+		result.Properties.IpTags = append(result.Properties.IpTags, *itemARM.(*IpTagARM))
 	}
 	if addresses.PublicIPAddressVersion != nil {
 		publicIPAddressVersion := *addresses.PublicIPAddressVersion
@@ -1107,7 +1107,7 @@ func (addresses *PublicIPAddresses_Spec) ConvertToARM(resolved genruntime.Conver
 		if err != nil {
 			return nil, err
 		}
-		publicIPPrefix := publicIPPrefixARM.(SubResourceARM)
+		publicIPPrefix := *publicIPPrefixARM.(*SubResourceARM)
 		result.Properties.PublicIPPrefix = &publicIPPrefix
 	}
 
@@ -1117,7 +1117,7 @@ func (addresses *PublicIPAddresses_Spec) ConvertToARM(resolved genruntime.Conver
 		if err != nil {
 			return nil, err
 		}
-		sku := skuARM.(PublicIPAddressSkuARM)
+		sku := *skuARM.(*PublicIPAddressSkuARM)
 		result.Sku = &sku
 	}
 
@@ -1632,7 +1632,7 @@ func (settings *DdosSettings) ConvertToARM(resolved genruntime.ConvertToARMResol
 	if settings == nil {
 		return nil, nil
 	}
-	var result DdosSettingsARM
+	result := &DdosSettingsARM{}
 
 	// Set property ‘DdosCustomPolicy’:
 	if settings.DdosCustomPolicy != nil {
@@ -1640,7 +1640,7 @@ func (settings *DdosSettings) ConvertToARM(resolved genruntime.ConvertToARMResol
 		if err != nil {
 			return nil, err
 		}
-		ddosCustomPolicy := ddosCustomPolicyARM.(SubResourceARM)
+		ddosCustomPolicy := *ddosCustomPolicyARM.(*SubResourceARM)
 		result.DdosCustomPolicy = &ddosCustomPolicy
 	}
 
@@ -2123,7 +2123,7 @@ func (ipTag *IpTag) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails
 	if ipTag == nil {
 		return nil, nil
 	}
-	var result IpTagARM
+	result := &IpTagARM{}
 
 	// Set property ‘IpTagType’:
 	if ipTag.IpTagType != nil {
@@ -2394,7 +2394,7 @@ func (settings *PublicIPAddressDnsSettings) ConvertToARM(resolved genruntime.Con
 	if settings == nil {
 		return nil, nil
 	}
-	var result PublicIPAddressDnsSettingsARM
+	result := &PublicIPAddressDnsSettingsARM{}
 
 	// Set property ‘DomainNameLabel’:
 	if settings.DomainNameLabel != nil {
@@ -2620,7 +2620,7 @@ func (addressSku *PublicIPAddressSku) ConvertToARM(resolved genruntime.ConvertTo
 	if addressSku == nil {
 		return nil, nil
 	}
-	var result PublicIPAddressSkuARM
+	result := &PublicIPAddressSkuARM{}
 
 	// Set property ‘Name’:
 	if addressSku.Name != nil {

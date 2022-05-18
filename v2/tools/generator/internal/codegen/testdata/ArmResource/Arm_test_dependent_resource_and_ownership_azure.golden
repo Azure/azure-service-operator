@@ -280,12 +280,12 @@ func (a A_SpecARM) GetAPIVersion() string {
 }
 
 // GetName returns the Name of the resource
-func (a A_SpecARM) GetName() string {
+func (a *A_SpecARM) GetName() string {
 	return a.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/A"
-func (a A_SpecARM) GetType() string {
+func (a *A_SpecARM) GetType() string {
 	return "Microsoft.Azure/A"
 }
 
@@ -551,12 +551,12 @@ func (b B_SpecARM) GetAPIVersion() string {
 }
 
 // GetName returns the Name of the resource
-func (b B_SpecARM) GetName() string {
+func (b *B_SpecARM) GetName() string {
 	return b.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/B"
-func (b B_SpecARM) GetType() string {
+func (b *B_SpecARM) GetType() string {
 	return "Microsoft.Azure/B"
 }
 
@@ -822,12 +822,12 @@ func (c C_SpecARM) GetAPIVersion() string {
 }
 
 // GetName returns the Name of the resource
-func (c C_SpecARM) GetName() string {
+func (c *C_SpecARM) GetName() string {
 	return c.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/C"
-func (c C_SpecARM) GetType() string {
+func (c *C_SpecARM) GetType() string {
 	return "Microsoft.Azure/C"
 }
 
@@ -1093,12 +1093,12 @@ func (d D_SpecARM) GetAPIVersion() string {
 }
 
 // GetName returns the Name of the resource
-func (d D_SpecARM) GetName() string {
+func (d *D_SpecARM) GetName() string {
 	return d.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/D"
-func (d D_SpecARM) GetType() string {
+func (d *D_SpecARM) GetType() string {
 	return "Microsoft.Azure/D"
 }
 
@@ -1126,7 +1126,7 @@ func (a *A_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (
 	if a == nil {
 		return nil, nil
 	}
-	var result A_SpecARM
+	result := &A_SpecARM{}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
@@ -1282,7 +1282,7 @@ func (b *B_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (
 	if b == nil {
 		return nil, nil
 	}
-	var result B_SpecARM
+	result := &B_SpecARM{}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
@@ -1438,7 +1438,7 @@ func (c *C_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (
 	if c == nil {
 		return nil, nil
 	}
-	var result C_SpecARM
+	result := &C_SpecARM{}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
@@ -1594,7 +1594,7 @@ func (d *D_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (
 	if d == nil {
 		return nil, nil
 	}
-	var result D_SpecARM
+	result := &D_SpecARM{}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name

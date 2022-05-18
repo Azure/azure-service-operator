@@ -289,12 +289,12 @@ func (resource FakeResource_SpecARM) GetAPIVersion() string {
 }
 
 // GetName returns the Name of the resource
-func (resource FakeResource_SpecARM) GetName() string {
+func (resource *FakeResource_SpecARM) GetName() string {
 	return resource.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/FakeResource"
-func (resource FakeResource_SpecARM) GetType() string {
+func (resource *FakeResource_SpecARM) GetType() string {
 	return "Microsoft.Azure/FakeResource"
 }
 
@@ -341,7 +341,7 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	if resource == nil {
 		return nil, nil
 	}
-	var result FakeResource_SpecARM
+	result := &FakeResource_SpecARM{}
 
 	// Set property ‘MapFoo’:
 	if resource.MapFoo != nil {
@@ -351,7 +351,7 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 			if err != nil {
 				return nil, err
 			}
-			result.MapFoo[key] = valueARM.(FooARM)
+			result.MapFoo[key] = *valueARM.(*FooARM)
 		}
 	}
 
@@ -365,7 +365,7 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 				if err != nil {
 					return nil, err
 				}
-				valueTemp = append(valueTemp, itemARM.(FooARM))
+				valueTemp = append(valueTemp, *itemARM.(*FooARM))
 			}
 			result.MapOfArrays[key] = valueTemp
 		}
@@ -390,7 +390,7 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 					if err != nil {
 						return nil, err
 					}
-					valueTemp[valueKey] = value1ARM.(FooARM)
+					valueTemp[valueKey] = *value1ARM.(*FooARM)
 				}
 				result.MapOfMaps[key] = valueTemp
 			}
@@ -411,7 +411,7 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 							if err != nil {
 								return nil, err
 							}
-							value1Temp[valueKey1] = value2ARM.(FooARM)
+							value1Temp[valueKey1] = *value2ARM.(*FooARM)
 						}
 						valueTemp[valueKey] = value1Temp
 					}
@@ -1013,7 +1013,7 @@ func (foo *Foo) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 	if foo == nil {
 		return nil, nil
 	}
-	var result FooARM
+	result := &FooARM{}
 
 	// Set property ‘FooName’:
 	if foo.FooName != nil {

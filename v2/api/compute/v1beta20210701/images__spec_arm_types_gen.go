@@ -30,12 +30,12 @@ func (images Images_SpecARM) GetAPIVersion() string {
 }
 
 // GetName returns the Name of the resource
-func (images Images_SpecARM) GetName() string {
+func (images *Images_SpecARM) GetName() string {
 	return images.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Compute/images"
-func (images Images_SpecARM) GetType() string {
+func (images *Images_SpecARM) GetType() string {
 	return "Microsoft.Compute/images"
 }
 

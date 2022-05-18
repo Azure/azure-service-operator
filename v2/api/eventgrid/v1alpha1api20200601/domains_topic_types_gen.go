@@ -558,7 +558,7 @@ func (topics *DomainsTopics_Spec) ConvertToARM(resolved genruntime.ConvertToARMR
 	if topics == nil {
 		return nil, nil
 	}
-	var result DomainsTopics_SpecARM
+	result := &DomainsTopics_SpecARM{}
 
 	// Set property ‘Location’:
 	if topics.Location != nil {

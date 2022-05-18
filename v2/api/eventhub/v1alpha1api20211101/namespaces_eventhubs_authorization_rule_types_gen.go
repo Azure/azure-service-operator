@@ -356,7 +356,7 @@ func (rules *NamespacesEventhubsAuthorizationRules_Spec) ConvertToARM(resolved g
 	if rules == nil {
 		return nil, nil
 	}
-	var result NamespacesEventhubsAuthorizationRules_SpecARM
+	result := &NamespacesEventhubsAuthorizationRules_SpecARM{}
 
 	// Set property ‘Location’:
 	if rules.Location != nil {
