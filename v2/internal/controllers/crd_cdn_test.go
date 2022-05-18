@@ -25,7 +25,7 @@ func Test_CDN_Profile_CRUD(t *testing.T) {
 	tc := globalTestContext.ForTest(t)
 
 	rg := tc.CreateTestResourceGroupAndWait()
-	sku := cdn.SkuNameStandardAzureFrontDoor
+	sku := cdn.SkuNameStandardMicrosoft
 	profile := &cdn.Profile{
 		ObjectMeta: tc.MakeObjectMeta("cdnprofile"),
 		Spec: cdn.Profiles_Spec{
@@ -37,7 +37,15 @@ func Test_CDN_Profile_CRUD(t *testing.T) {
 
 	tc.CreateResourceAndWait(profile)
 	tc.Expect(*profile.Status.Location).To(Equal("Global"))
-	tc.Expect(*profile.Status.Sku.Name).To(Equal("Standard_AzureFrontDoor"))
+	tc.Expect(string(*profile.Status.Sku.Name)).To(Equal("Standard_Microsoft"))
+
+	tc.RunParallelSubtests(testcommon.Subtest{
+		Name: "CDN Endpoint CRUD",
+		Test: func(testContext *testcommon.KubePerTestContext) {
+			Endpoint_CRUD(testContext, profile)
+		},
+	})
+
 	armId := *profile.Status.Id
 	tc.DeleteResourceAndWait(profile)
 
@@ -47,4 +55,29 @@ func Test_CDN_Profile_CRUD(t *testing.T) {
 		string(cdn.ProfilesSpecAPIVersion20210601))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
+}
+
+func Endpoint_CRUD(tc *testcommon.KubePerTestContext, profile *cdn.Profile) {
+	endpoint := &cdn.ProfilesEndpoint{
+		ObjectMeta: tc.MakeObjectMeta("cdn-endpoint"),
+		Spec: cdn.ProfilesEndpoints_Spec{
+			Owner:                  testcommon.AsOwner(profile),
+			Location:               to.StringPtr("Global"),
+			IsCompressionEnabled:   to.BoolPtr(true),
+			ContentTypesToCompress: []string{"application/json"},
+			IsHttpAllowed:          to.BoolPtr(false),
+			IsHttpsAllowed:         to.BoolPtr(true),
+			Origins: []cdn.ProfilesEndpoints_Spec_Properties_Origins{
+				{
+					Name:     to.StringPtr("source"),
+					HostName: to.StringPtr("example.com"),
+				},
+			},
+		},
+	}
+
+	tc.CreateResourceAndWait(endpoint)
+	defer tc.DeleteResourceAndWait(endpoint)
+
+	tc.Expect(endpoint.Status.Id).ToNot(BeNil())
 }
