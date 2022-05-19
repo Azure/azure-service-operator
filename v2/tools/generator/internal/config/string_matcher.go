@@ -19,7 +19,13 @@ type StringMatcher interface {
 }
 
 // NewStringMatcher returns a matcher for the specified string
-// Different strings may return different implementations
+// Different strings may return different implementations:
+// o If the string contains '*' or '?' a globbing wildcard matcher
+// o Otherwise a case-insensitive literal string matcher
 func NewStringMatcher(matcher string) StringMatcher {
+	if HasWildCards(matcher) {
+		return newGlobMatcher(matcher)
+	}
+
 	return newLiteralMatcher(matcher)
 }

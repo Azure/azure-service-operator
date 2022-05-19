@@ -23,6 +23,9 @@ func TestStringMatcher_GivenMatcher_ReturnsExpectedResults(t *testing.T) {
 		{"Case sensitive literal match", "Foo", "Foo", true},
 		{"Case insensitive literal match", "FOO", "foo", true},
 		{"Different strings do not match", "Foo", "Bar", false},
+		{"Simple wildcard matches", "*", "Baz", true},
+		{"Prefix with wildcard matches", "F*", "Foo", true},
+		{"Suffix with wildcard matches", "*z", "Baz", true},
 	}
 
 	for _, c := range cases {
