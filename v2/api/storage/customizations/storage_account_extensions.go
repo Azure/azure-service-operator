@@ -31,11 +31,11 @@ func (ext *StorageAccountExtension) RetrieveSecrets(
 	armClient *genericarmclient.GenericClient,
 	log logr.Logger) ([]*v1.Secret, error) {
 
-	// This has to be the current storage version. It will need to be updated
-	// if the storage version changes.
+	// This has to be the current hub storage version. It will need to be updated
+	// if the hub storage version changes.
 	typedObj, ok := obj.(*storage.StorageAccount)
 	if !ok {
-		return nil, errors.Errorf("cannot run on unknown resource type %T", obj)
+		return nil, errors.Errorf("cannot run on unknown resource type %T, expected *storage.StorageAccount", obj)
 	}
 
 	// Type assert that we are the hub type. This should fail to compile if

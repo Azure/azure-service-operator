@@ -213,7 +213,7 @@ func (server *FlexibleServer) ValidateUpdate(old runtime.Object) error {
 
 // createValidations validates the creation of the resource
 func (server *FlexibleServer) createValidations() []func() error {
-	return []func() error{server.validateResourceReferences}
+	return []func() error{server.validateResourceReferences, server.validateSecretDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -227,7 +227,11 @@ func (server *FlexibleServer) updateValidations() []func(old runtime.Object) err
 		func(old runtime.Object) error {
 			return server.validateResourceReferences()
 		},
-		server.validateWriteOnceProperties}
+		server.validateWriteOnceProperties,
+		func(old runtime.Object) error {
+			return server.validateSecretDestinations()
+		},
+	}
 }
 
 // validateResourceReferences validates all resource references
@@ -237,6 +241,20 @@ func (server *FlexibleServer) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (server *FlexibleServer) validateSecretDestinations() error {
+	if server.Spec.OperatorSpec == nil {
+		return nil
+	}
+	if server.Spec.OperatorSpec.Secrets == nil {
+		return nil
+	}
+	secrets := []*genruntime.SecretDestination{
+		server.Spec.OperatorSpec.Secrets.FullyQualifiedDomainName,
+	}
+	return genruntime.ValidateSecretDestinations(secrets)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -355,6 +373,10 @@ type FlexibleServers_Spec struct {
 
 	// Network: Network related properties of a server
 	Network *Network `json:"network,omitempty"`
+
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *FlexibleServerOperatorSpec `json:"operatorSpec,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -621,6 +643,8 @@ func (servers *FlexibleServers_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
+	// no assignment for property ‘OperatorSpec’
+
 	// Set property ‘Owner’:
 	servers.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
@@ -828,6 +852,18 @@ func (servers *FlexibleServers_Spec) AssignPropertiesFromFlexibleServersSpec(sou
 		servers.Network = nil
 	}
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec FlexibleServerOperatorSpec
+		err := operatorSpec.AssignPropertiesFromFlexibleServerOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromFlexibleServerOperatorSpec() to populate field OperatorSpec")
+		}
+		servers.OperatorSpec = &operatorSpec
+	} else {
+		servers.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -973,6 +1009,18 @@ func (servers *FlexibleServers_Spec) AssignPropertiesToFlexibleServersSpec(desti
 		destination.Network = &network
 	} else {
 		destination.Network = nil
+	}
+
+	// OperatorSpec
+	if servers.OperatorSpec != nil {
+		var operatorSpec v20210501s.FlexibleServerOperatorSpec
+		err := servers.OperatorSpec.AssignPropertiesToFlexibleServerOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToFlexibleServerOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
 	}
 
 	// OriginalVersion
@@ -2141,6 +2189,59 @@ func (encryption *DataEncryption_Status) AssignPropertiesToDataEncryptionStatus(
 		destination.Type = &typeVar
 	} else {
 		destination.Type = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type FlexibleServerOperatorSpec struct {
+	// Secrets: configures where to place Azure generated secrets.
+	Secrets *FlexibleServerOperatorSecrets `json:"secrets,omitempty"`
+}
+
+// AssignPropertiesFromFlexibleServerOperatorSpec populates our FlexibleServerOperatorSpec from the provided source FlexibleServerOperatorSpec
+func (operator *FlexibleServerOperatorSpec) AssignPropertiesFromFlexibleServerOperatorSpec(source *v20210501s.FlexibleServerOperatorSpec) error {
+
+	// Secrets
+	if source.Secrets != nil {
+		var secret FlexibleServerOperatorSecrets
+		err := secret.AssignPropertiesFromFlexibleServerOperatorSecrets(source.Secrets)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromFlexibleServerOperatorSecrets() to populate field Secrets")
+		}
+		operator.Secrets = &secret
+	} else {
+		operator.Secrets = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToFlexibleServerOperatorSpec populates the provided destination FlexibleServerOperatorSpec from our FlexibleServerOperatorSpec
+func (operator *FlexibleServerOperatorSpec) AssignPropertiesToFlexibleServerOperatorSpec(destination *v20210501s.FlexibleServerOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Secrets
+	if operator.Secrets != nil {
+		var secret v20210501s.FlexibleServerOperatorSecrets
+		err := operator.Secrets.AssignPropertiesToFlexibleServerOperatorSecrets(&secret)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToFlexibleServerOperatorSecrets() to populate field Secrets")
+		}
+		destination.Secrets = &secret
+	} else {
+		destination.Secrets = nil
 	}
 
 	// Update the property bag
@@ -3622,6 +3723,51 @@ const (
 	EnableStatusEnum_StatusDisabled = EnableStatusEnum_Status("Disabled")
 	EnableStatusEnum_StatusEnabled  = EnableStatusEnum_Status("Enabled")
 )
+
+type FlexibleServerOperatorSecrets struct {
+	// FullyQualifiedDomainName: indicates where the FullyQualifiedDomainName secret should be placed. If omitted, the secret
+	// will not be retrieved from Azure.
+	FullyQualifiedDomainName *genruntime.SecretDestination `json:"fullyQualifiedDomainName,omitempty"`
+}
+
+// AssignPropertiesFromFlexibleServerOperatorSecrets populates our FlexibleServerOperatorSecrets from the provided source FlexibleServerOperatorSecrets
+func (secrets *FlexibleServerOperatorSecrets) AssignPropertiesFromFlexibleServerOperatorSecrets(source *v20210501s.FlexibleServerOperatorSecrets) error {
+
+	// FullyQualifiedDomainName
+	if source.FullyQualifiedDomainName != nil {
+		fullyQualifiedDomainName := source.FullyQualifiedDomainName.Copy()
+		secrets.FullyQualifiedDomainName = &fullyQualifiedDomainName
+	} else {
+		secrets.FullyQualifiedDomainName = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToFlexibleServerOperatorSecrets populates the provided destination FlexibleServerOperatorSecrets from our FlexibleServerOperatorSecrets
+func (secrets *FlexibleServerOperatorSecrets) AssignPropertiesToFlexibleServerOperatorSecrets(destination *v20210501s.FlexibleServerOperatorSecrets) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// FullyQualifiedDomainName
+	if secrets.FullyQualifiedDomainName != nil {
+		fullyQualifiedDomainName := secrets.FullyQualifiedDomainName.Copy()
+		destination.FullyQualifiedDomainName = &fullyQualifiedDomainName
+	} else {
+		destination.FullyQualifiedDomainName = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
 
 // +kubebuilder:validation:Enum={"Disabled","SameZone","ZoneRedundant"}
 type HighAvailabilityMode string
