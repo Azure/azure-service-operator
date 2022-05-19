@@ -31,8 +31,8 @@ func TestGroupConfiguration_WhenYAMLWellFormed_ReturnsExpectedResult(t *testing.
 	g.Expect(group.versions).To(HaveKey("2021-01-01"))
 	g.Expect(group.versions).To(HaveKey("2021-05-15"))
 	// Check for local package name equivalents
-	g.Expect(group.versions).To(HaveKey("20210101"))
-	g.Expect(group.versions).To(HaveKey("20210515"))
+	g.Expect(group.versions).To(HaveKey("v1beta20210101"))
+	g.Expect(group.versions).To(HaveKey("v1beta20210515"))
 }
 
 func TestGroupConfiguration_WhenYAMLBadlyFormed_ReturnsError(t *testing.T) {
