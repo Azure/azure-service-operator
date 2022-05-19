@@ -99,7 +99,7 @@ func (machine *VirtualMachine) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-12-01"
 func (machine VirtualMachine) GetAPIVersion() string {
-	return "2020-12-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -317,6 +317,11 @@ type VirtualMachineList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []VirtualMachine `json:"items"`
 }
+
+// +kubebuilder:validation:Enum={"2020-12-01"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2020-12-01")
 
 type VirtualMachine_Status struct {
 	// AdditionalCapabilities: Specifies additional capabilities enabled or disabled on the virtual machine.
@@ -1445,11 +1450,6 @@ func (machine *VirtualMachine_Status) AssignPropertiesToVirtualMachineStatus(des
 	// No error
 	return nil
 }
-
-// +kubebuilder:validation:Enum={"2020-12-01"}
-type VirtualMachinesSpecAPIVersion string
-
-const VirtualMachinesSpecAPIVersion20201201 = VirtualMachinesSpecAPIVersion("2020-12-01")
 
 type VirtualMachines_Spec struct {
 	// AdditionalCapabilities: Enables or disables a capability on the virtual machine or virtual machine scale set.

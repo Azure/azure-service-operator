@@ -96,7 +96,7 @@ func (resource *FakeResource) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
 func (resource FakeResource) GetAPIVersion() string {
-	return "2020-06-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -285,7 +285,7 @@ var _ genruntime.ARMResourceSpec = &FakeResource_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
 func (resource FakeResource_SpecARM) GetAPIVersion() string {
-	return "2020-06-01"
+	return string(APIVersionValue)
 }
 
 // GetName returns the Name of the resource
@@ -298,6 +298,11 @@ func (resource FakeResource_SpecARM) GetType() string {
 	return "Microsoft.Azure/FakeResource"
 }
 
+// +kubebuilder:validation:Enum={"2020-06-01"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2020-06-01")
+
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Color
 // +kubebuilder:validation:Enum={"blue","green","red"}
 type Color string
@@ -307,11 +312,6 @@ const (
 	ColorGreen = Color("green")
 	ColorRed   = Color("red")
 )
-
-// +kubebuilder:validation:Enum={"2020-06-01"}
-type FakeResourceSpecAPIVersion string
-
-const FakeResourceSpecAPIVersion20200601 = FakeResourceSpecAPIVersion("2020-06-01")
 
 type FakeResource_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it

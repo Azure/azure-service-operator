@@ -73,7 +73,7 @@ func (server *FlexibleServer) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-01"
 func (server FlexibleServer) GetAPIVersion() string {
-	return "2021-05-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -199,6 +199,13 @@ type FlexibleServerList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []FlexibleServer `json:"items"`
 }
+
+// Storage version of v1alpha1api20210501.APIVersion
+// Deprecated version of APIVersion. Use v1beta20210501.APIVersion instead
+// +kubebuilder:validation:Enum={"2021-05-01"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2021-05-01")
 
 // Storage version of v1alpha1api20210501.FlexibleServers_Spec
 type FlexibleServers_Spec struct {

@@ -19,7 +19,7 @@ var _ genruntime.ARMResourceSpec = &Components_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-02-02"
 func (components Components_SpecARM) GetAPIVersion() string {
-	return "2020-02-02"
+	return string(APIVersionValue)
 }
 
 // GetName returns the Name of the resource

@@ -12,7 +12,6 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-	asometrics "github.com/Azure/azure-service-operator/v2/internal/metrics"
 	"github.com/go-logr/logr"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
@@ -27,6 +26,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/controllers"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
+	asometrics "github.com/Azure/azure-service-operator/v2/internal/metrics"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/internal/version"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -78,7 +78,6 @@ func main() {
 		Port:                   9443,
 		HealthProbeBindAddress: healthAddr,
 	})
-
 	if err != nil {
 		setupLog.Error(err, "unable to start manager")
 		os.Exit(1)

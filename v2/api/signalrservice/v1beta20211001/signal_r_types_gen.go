@@ -99,7 +99,7 @@ func (signalR *SignalR) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-10-01"
 func (signalR SignalR) GetAPIVersion() string {
-	return "2021-10-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -317,6 +317,11 @@ type SignalRList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []SignalR `json:"items"`
 }
+
+// +kubebuilder:validation:Enum={"2021-10-01"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2021-10-01")
 
 type SignalRResource_Status struct {
 	// Conditions: The observed state of the resource
@@ -1198,11 +1203,6 @@ func (resource *SignalRResource_Status) AssignPropertiesToSignalRResourceStatus(
 	// No error
 	return nil
 }
-
-// +kubebuilder:validation:Enum={"2021-10-01"}
-type SignalRSpecAPIVersion string
-
-const SignalRSpecAPIVersion20211001 = SignalRSpecAPIVersion("2021-10-01")
 
 type SignalR_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it

@@ -99,7 +99,7 @@ func (scaleSet *VirtualMachineScaleSet) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-12-01"
 func (scaleSet VirtualMachineScaleSet) GetAPIVersion() string {
-	return "2020-12-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -1158,11 +1158,6 @@ func (scaleSet *VirtualMachineScaleSet_Status) AssignPropertiesToVirtualMachineS
 	// No error
 	return nil
 }
-
-// +kubebuilder:validation:Enum={"2020-12-01"}
-type VirtualMachineScaleSetsSpecAPIVersion string
-
-const VirtualMachineScaleSetsSpecAPIVersion20201201 = VirtualMachineScaleSetsSpecAPIVersion("2020-12-01")
 
 type VirtualMachineScaleSets_Spec struct {
 	// AdditionalCapabilities: Enables or disables a capability on the virtual machine or virtual machine scale set.

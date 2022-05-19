@@ -98,7 +98,7 @@ func (rule *NamespacesEventhubsAuthorizationRule) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-11-01"
 func (rule NamespacesEventhubsAuthorizationRule) GetAPIVersion() string {
-	return "2021-11-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -316,11 +316,6 @@ type NamespacesEventhubsAuthorizationRuleList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []NamespacesEventhubsAuthorizationRule `json:"items"`
 }
-
-// +kubebuilder:validation:Enum={"2021-11-01"}
-type NamespacesEventhubsAuthorizationRulesSpecAPIVersion string
-
-const NamespacesEventhubsAuthorizationRulesSpecAPIVersion20211101 = NamespacesEventhubsAuthorizationRulesSpecAPIVersion("2021-11-01")
 
 type NamespacesEventhubsAuthorizationRules_Spec struct {
 	// +kubebuilder:validation:MinLength=1

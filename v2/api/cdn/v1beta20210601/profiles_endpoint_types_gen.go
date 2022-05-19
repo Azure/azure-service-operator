@@ -98,7 +98,7 @@ func (endpoint *ProfilesEndpoint) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-06-01"
 func (endpoint ProfilesEndpoint) GetAPIVersion() string {
-	return "2021-06-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -1215,11 +1215,6 @@ func (endpoint *Endpoint_Status) AssignPropertiesToEndpointStatus(destination *v
 	// No error
 	return nil
 }
-
-// +kubebuilder:validation:Enum={"2021-06-01"}
-type ProfilesEndpointsSpecAPIVersion string
-
-const ProfilesEndpointsSpecAPIVersion20210601 = ProfilesEndpointsSpecAPIVersion("2021-06-01")
 
 type ProfilesEndpoints_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it

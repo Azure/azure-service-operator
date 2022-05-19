@@ -20,7 +20,7 @@ var _ genruntime.ARMResourceSpec = &StorageAccountsManagementPolicies_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-04-01"
 func (policies StorageAccountsManagementPolicies_SpecARM) GetAPIVersion() string {
-	return "2021-04-01"
+	return string(APIVersionValue)
 }
 
 // GetName returns the Name of the resource

@@ -98,7 +98,7 @@ func (pool *ManagedClustersAgentPool) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-01"
 func (pool ManagedClustersAgentPool) GetAPIVersion() string {
-	return "2021-05-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -1366,11 +1366,6 @@ func (pool *AgentPool_Status) AssignPropertiesToAgentPoolStatus(destination *v20
 	// No error
 	return nil
 }
-
-// +kubebuilder:validation:Enum={"2021-05-01"}
-type ManagedClustersAgentPoolsSpecAPIVersion string
-
-const ManagedClustersAgentPoolsSpecAPIVersion20210501 = ManagedClustersAgentPoolsSpecAPIVersion("2021-05-01")
 
 type ManagedClustersAgentPools_Spec struct {
 	// AvailabilityZones: The list of Availability zones to use for nodes. This can only be specified if the AgentPoolType

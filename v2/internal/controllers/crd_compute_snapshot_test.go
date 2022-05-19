@@ -56,7 +56,7 @@ func Test_Compute_Snapshot_CRUD(t *testing.T) {
 	tc.DeleteResourcesAndWait(snapshot, rg)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(compute.SnapshotsSpecAPIVersion20200930))
+	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(compute.APIVersionValue))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())

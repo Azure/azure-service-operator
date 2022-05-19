@@ -98,7 +98,7 @@ func (address *PublicIPAddress) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
 func (address PublicIPAddress) GetAPIVersion() string {
-	return "2020-11-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -1025,11 +1025,6 @@ func (embedded *PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded) Assi
 	// No error
 	return nil
 }
-
-// +kubebuilder:validation:Enum={"2020-11-01"}
-type PublicIPAddressesSpecAPIVersion string
-
-const PublicIPAddressesSpecAPIVersion20201101 = PublicIPAddressesSpecAPIVersion("2020-11-01")
 
 type PublicIPAddresses_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it

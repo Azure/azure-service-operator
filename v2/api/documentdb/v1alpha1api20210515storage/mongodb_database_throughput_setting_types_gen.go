@@ -72,7 +72,7 @@ func (setting *MongodbDatabaseThroughputSetting) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
 func (setting MongodbDatabaseThroughputSetting) GetAPIVersion() string {
-	return "2021-05-15"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource

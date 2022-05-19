@@ -1,5 +1,6 @@
 | Type Definitions in package "containerregistry"      | v1alpha1api20210901 | v1beta20210901 |
 |------------------------------------------------------|---------------------|----------------|
+| APIVersion                                           | v1alpha1api20210901 | v1beta20210901 |
 | EncryptionProperty                                   | v1alpha1api20210901 | v1beta20210901 |
 | EncryptionPropertyStatus                             | v1alpha1api20210901 | v1beta20210901 |
 | EncryptionPropertyStatusStatus                       | v1alpha1api20210901 | v1beta20210901 |
@@ -29,7 +30,6 @@
 | QuarantinePolicyStatus                               | v1alpha1api20210901 | v1beta20210901 |
 | QuarantinePolicyStatusStatus                         | v1alpha1api20210901 | v1beta20210901 |
 | QuarantinePolicy_Status                              | v1alpha1api20210901 | v1beta20210901 |
-| RegistriesSpecAPIVersion                             |                     | v1beta20210901 |
 | Registries_Spec                                      | v1alpha1api20210901 | v1beta20210901 |
 | Registry                                             | v1alpha1api20210901 | v1beta20210901 |
 | RegistryProperties                                   | v1alpha1api20210901 | v1beta20210901 |

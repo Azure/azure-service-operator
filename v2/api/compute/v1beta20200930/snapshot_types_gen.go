@@ -98,7 +98,7 @@ func (snapshot *Snapshot) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-09-30"
 func (snapshot Snapshot) GetAPIVersion() string {
-	return "2020-09-30"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -1000,11 +1000,6 @@ func (snapshot *Snapshot_Status) AssignPropertiesToSnapshotStatus(destination *v
 	// No error
 	return nil
 }
-
-// +kubebuilder:validation:Enum={"2020-09-30"}
-type SnapshotsSpecAPIVersion string
-
-const SnapshotsSpecAPIVersion20200930 = SnapshotsSpecAPIVersion("2020-09-30")
 
 type Snapshots_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it

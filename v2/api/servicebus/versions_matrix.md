@@ -1,5 +1,6 @@
 | Type Definitions in package "servicebus"             | v1alpha1api20210101preview | v1beta20210101preview |
 |------------------------------------------------------|----------------------------|-----------------------|
+| APIVersion                                           | v1alpha1api20210101preview | v1beta20210101preview |
 | DictionaryValue_Status                               | v1alpha1api20210101preview | v1beta20210101preview |
 | Encryption                                           | v1alpha1api20210101preview | v1beta20210101preview |
 | EncryptionKeySource                                  | v1alpha1api20210101preview | v1beta20210101preview |
@@ -15,11 +16,8 @@
 | MessageCountDetails_Status                           | v1alpha1api20210101preview | v1beta20210101preview |
 | Namespace                                            | v1alpha1api20210101preview | v1beta20210101preview |
 | NamespacesQueue                                      | v1alpha1api20210101preview | v1beta20210101preview |
-| NamespacesQueuesSpecAPIVersion                       |                            | v1beta20210101preview |
 | NamespacesQueues_Spec                                | v1alpha1api20210101preview | v1beta20210101preview |
-| NamespacesSpecAPIVersion                             |                            | v1beta20210101preview |
 | NamespacesTopic                                      | v1alpha1api20210101preview | v1beta20210101preview |
-| NamespacesTopicsSpecAPIVersion                       |                            | v1beta20210101preview |
 | NamespacesTopics_Spec                                | v1alpha1api20210101preview | v1beta20210101preview |
 | Namespaces_Spec                                      | v1alpha1api20210101preview | v1beta20210101preview |
 | Namespaces_Spec_Properties                           | v1alpha1api20210101preview | v1beta20210101preview |

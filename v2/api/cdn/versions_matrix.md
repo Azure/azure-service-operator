@@ -1,5 +1,6 @@
 | Type Definitions in package "cdn"                                                | v1beta20210601 |
 |----------------------------------------------------------------------------------|----------------|
+| APIVersion                                                                       | v1beta20210601 |
 | CacheConfiguration                                                               | v1beta20210601 |
 | CacheConfigurationCacheBehavior                                                  | v1beta20210601 |
 | CacheConfigurationIsCompressionEnabled                                           | v1beta20210601 |
@@ -144,14 +145,12 @@
 | ProfileProperties_Status                                                         | v1beta20210601 |
 | Profile_Status                                                                   | v1beta20210601 |
 | ProfilesEndpoint                                                                 | v1beta20210601 |
-| ProfilesEndpointsSpecAPIVersion                                                  | v1beta20210601 |
 | ProfilesEndpointsSpecPropertiesOptimizationType                                  | v1beta20210601 |
 | ProfilesEndpointsSpecPropertiesQueryStringCachingBehavior                        | v1beta20210601 |
 | ProfilesEndpoints_Spec                                                           | v1beta20210601 |
 | ProfilesEndpoints_Spec_Properties                                                | v1beta20210601 |
 | ProfilesEndpoints_Spec_Properties_OriginGroups                                   | v1beta20210601 |
 | ProfilesEndpoints_Spec_Properties_Origins                                        | v1beta20210601 |
-| ProfilesSpecAPIVersion                                                           | v1beta20210601 |
 | Profiles_Spec                                                                    | v1beta20210601 |
 | QueryStringCachingBehavior_Status                                                | v1beta20210601 |
 | QueryStringMatchConditionParameters                                              | v1beta20210601 |

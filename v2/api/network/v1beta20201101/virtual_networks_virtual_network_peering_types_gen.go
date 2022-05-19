@@ -98,7 +98,7 @@ func (peering *VirtualNetworksVirtualNetworkPeering) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
 func (peering VirtualNetworksVirtualNetworkPeering) GetAPIVersion() string {
-	return "2020-11-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -824,11 +824,6 @@ func (peering *VirtualNetworkPeering_Status) AssignPropertiesToVirtualNetworkPee
 	// No error
 	return nil
 }
-
-// +kubebuilder:validation:Enum={"2020-11-01"}
-type VirtualNetworksVirtualNetworkPeeringsSpecAPIVersion string
-
-const VirtualNetworksVirtualNetworkPeeringsSpecAPIVersion20201101 = VirtualNetworksVirtualNetworkPeeringsSpecAPIVersion("2020-11-01")
 
 type VirtualNetworksVirtualNetworkPeerings_Spec struct {
 	// AllowForwardedTraffic: Whether the forwarded traffic from the VMs in the local virtual network will be

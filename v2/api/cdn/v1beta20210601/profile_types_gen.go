@@ -99,7 +99,7 @@ func (profile *Profile) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-06-01"
 func (profile Profile) GetAPIVersion() string {
-	return "2021-06-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -317,6 +317,11 @@ type ProfileList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Profile `json:"items"`
 }
+
+// +kubebuilder:validation:Enum={"2021-06-01"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2021-06-01")
 
 type Profile_Status struct {
 	// Conditions: The observed state of the resource
@@ -681,11 +686,6 @@ func (profile *Profile_Status) AssignPropertiesToProfileStatus(destination *v202
 	// No error
 	return nil
 }
-
-// +kubebuilder:validation:Enum={"2021-06-01"}
-type ProfilesSpecAPIVersion string
-
-const ProfilesSpecAPIVersion20210601 = ProfilesSpecAPIVersion("2021-06-01")
 
 type Profiles_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it

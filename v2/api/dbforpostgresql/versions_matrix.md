@@ -1,5 +1,6 @@
 | Type Definitions in package "dbforpostgresql" | v1alpha1api20210601 | v1beta20210601 |
 |-----------------------------------------------|---------------------|----------------|
+| APIVersion                                    | v1alpha1api20210601 | v1beta20210601 |
 | Backup                                        | v1alpha1api20210601 | v1beta20210601 |
 | BackupGeoRedundantBackup                      | v1alpha1api20210601 | v1beta20210601 |
 | BackupStatusGeoRedundantBackup                | v1alpha1api20210601 | v1beta20210601 |
@@ -16,15 +17,11 @@
 | FirewallRule_Status                           | v1alpha1api20210601 | v1beta20210601 |
 | FlexibleServer                                | v1alpha1api20210601 | v1beta20210601 |
 | FlexibleServersConfiguration                  | v1alpha1api20210601 | v1beta20210601 |
-| FlexibleServersConfigurationsSpecAPIVersion   |                     | v1beta20210601 |
 | FlexibleServersConfigurations_Spec            | v1alpha1api20210601 | v1beta20210601 |
 | FlexibleServersDatabase                       | v1alpha1api20210601 | v1beta20210601 |
-| FlexibleServersDatabasesSpecAPIVersion        |                     | v1beta20210601 |
 | FlexibleServersDatabases_Spec                 | v1alpha1api20210601 | v1beta20210601 |
 | FlexibleServersFirewallRule                   | v1alpha1api20210601 | v1beta20210601 |
-| FlexibleServersFirewallRulesSpecAPIVersion    |                     | v1beta20210601 |
 | FlexibleServersFirewallRules_Spec             | v1alpha1api20210601 | v1beta20210601 |
-| FlexibleServersSpecAPIVersion                 |                     | v1beta20210601 |
 | FlexibleServers_Spec                          | v1alpha1api20210601 | v1beta20210601 |
 | HighAvailability                              | v1alpha1api20210601 | v1beta20210601 |
 | HighAvailabilityMode                          | v1alpha1api20210601 | v1beta20210601 |

@@ -98,7 +98,7 @@ func (database *MongodbDatabase) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
 func (database MongodbDatabase) GetAPIVersion() string {
-	return "2021-05-15"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -316,11 +316,6 @@ type MongodbDatabaseList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []MongodbDatabase `json:"items"`
 }
-
-// +kubebuilder:validation:Enum={"2021-05-15"}
-type DatabaseAccountsMongodbDatabasesSpecAPIVersion string
-
-const DatabaseAccountsMongodbDatabasesSpecAPIVersion20210515 = DatabaseAccountsMongodbDatabasesSpecAPIVersion("2021-05-15")
 
 type DatabaseAccountsMongodbDatabases_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it

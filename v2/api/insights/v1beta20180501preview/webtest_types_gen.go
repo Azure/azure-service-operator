@@ -99,7 +99,7 @@ func (webtest *Webtest) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2018-05-01-preview"
 func (webtest Webtest) GetAPIVersion() string {
-	return "2018-05-01-preview"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -317,6 +317,11 @@ type WebtestList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Webtest `json:"items"`
 }
+
+// +kubebuilder:validation:Enum={"2018-05-01-preview"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2018-05-01-preview")
 
 type WebTest_Status struct {
 	// Conditions: The observed state of the resource
@@ -876,11 +881,6 @@ func (test *WebTest_Status) AssignPropertiesToWebTestStatus(destination *v201805
 	// No error
 	return nil
 }
-
-// +kubebuilder:validation:Enum={"2018-05-01-preview"}
-type WebtestsSpecAPIVersion string
-
-const WebtestsSpecAPIVersion20180501Preview = WebtestsSpecAPIVersion("2018-05-01-preview")
 
 type Webtests_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
