@@ -329,6 +329,7 @@ type RedisPatchSchedule_Status struct {
 	// Conditions: The observed state of the resource
 	Conditions      []conditions.Condition `json:"conditions,omitempty"`
 	Id              *string                `json:"id,omitempty"`
+	Location        *string                `json:"location,omitempty"`
 	Name            *string                `json:"name,omitempty"`
 	ScheduleEntries []ScheduleEntry_Status `json:"scheduleEntries,omitempty"`
 	Type            *string                `json:"type,omitempty"`
@@ -406,6 +407,12 @@ func (schedule *RedisPatchSchedule_Status) PopulateFromARM(owner genruntime.Arbi
 		schedule.Id = &id
 	}
 
+	// Set property ‘Location’:
+	if typedInput.Location != nil {
+		location := *typedInput.Location
+		schedule.Location = &location
+	}
+
 	// Set property ‘Name’:
 	if typedInput.Name != nil {
 		name := *typedInput.Name
@@ -443,6 +450,9 @@ func (schedule *RedisPatchSchedule_Status) AssignPropertiesFromRedisPatchSchedul
 
 	// Id
 	schedule.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Location
+	schedule.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Name
 	schedule.Name = genruntime.ClonePointerToString(source.Name)
@@ -482,6 +492,9 @@ func (schedule *RedisPatchSchedule_Status) AssignPropertiesToRedisPatchScheduleS
 
 	// Id
 	destination.Id = genruntime.ClonePointerToString(schedule.Id)
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(schedule.Location)
 
 	// Name
 	destination.Name = genruntime.ClonePointerToString(schedule.Name)

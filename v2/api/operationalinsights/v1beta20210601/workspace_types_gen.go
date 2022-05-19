@@ -333,8 +333,8 @@ type Workspace_Status struct {
 	// CustomerId: This is a read-only property. Represents the ID associated with the workspace.
 	CustomerId *string `json:"customerId,omitempty"`
 
-	// ETag: The ETag of the workspace.
-	ETag *string `json:"eTag,omitempty"`
+	// Etag: The etag of the workspace.
+	Etag *string `json:"etag,omitempty"`
 
 	// Features: Workspace features.
 	Features *WorkspaceFeatures_Status `json:"features,omitempty"`
@@ -468,10 +468,10 @@ func (workspace *Workspace_Status) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘ETag’:
-	if typedInput.ETag != nil {
-		eTag := *typedInput.ETag
-		workspace.ETag = &eTag
+	// Set property ‘Etag’:
+	if typedInput.Etag != nil {
+		etag := *typedInput.Etag
+		workspace.Etag = &etag
 	}
 
 	// Set property ‘Features’:
@@ -631,8 +631,8 @@ func (workspace *Workspace_Status) AssignPropertiesFromWorkspaceStatus(source *v
 	// CustomerId
 	workspace.CustomerId = genruntime.ClonePointerToString(source.CustomerId)
 
-	// ETag
-	workspace.ETag = genruntime.ClonePointerToString(source.ETag)
+	// Etag
+	workspace.Etag = genruntime.ClonePointerToString(source.Etag)
 
 	// Features
 	if source.Features != nil {
@@ -759,8 +759,8 @@ func (workspace *Workspace_Status) AssignPropertiesToWorkspaceStatus(destination
 	// CustomerId
 	destination.CustomerId = genruntime.ClonePointerToString(workspace.CustomerId)
 
-	// ETag
-	destination.ETag = genruntime.ClonePointerToString(workspace.ETag)
+	// Etag
+	destination.Etag = genruntime.ClonePointerToString(workspace.Etag)
 
 	// Features
 	if workspace.Features != nil {

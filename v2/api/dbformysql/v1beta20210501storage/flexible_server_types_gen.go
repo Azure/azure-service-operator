@@ -7,6 +7,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
+	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -194,9 +195,11 @@ type Server_Status struct {
 	Backup                   *Backup_Status            `json:"backup,omitempty"`
 	Conditions               []conditions.Condition    `json:"conditions,omitempty"`
 	CreateMode               *string                   `json:"createMode,omitempty"`
+	DataEncryption           *DataEncryption_Status    `json:"dataEncryption,omitempty"`
 	FullyQualifiedDomainName *string                   `json:"fullyQualifiedDomainName,omitempty"`
 	HighAvailability         *HighAvailability_Status  `json:"highAvailability,omitempty"`
 	Id                       *string                   `json:"id,omitempty"`
+	Identity                 *Identity_Status          `json:"identity,omitempty"`
 	Location                 *string                   `json:"location,omitempty"`
 	MaintenanceWindow        *MaintenanceWindow_Status `json:"maintenanceWindow,omitempty"`
 	Name                     *string                   `json:"name,omitempty"`
@@ -251,6 +254,16 @@ type Backup_Status struct {
 	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// Storage version of v1beta20210501.DataEncryption_Status
+type DataEncryption_Status struct {
+	GeoBackupKeyUri                 *string                `json:"geoBackupKeyUri,omitempty"`
+	GeoBackupUserAssignedIdentityId *string                `json:"geoBackupUserAssignedIdentityId,omitempty"`
+	PrimaryKeyUri                   *string                `json:"primaryKeyUri,omitempty"`
+	PrimaryUserAssignedIdentityId   *string                `json:"primaryUserAssignedIdentityId,omitempty"`
+	PropertyBag                     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Type                            *string                `json:"type,omitempty"`
+}
+
 // Storage version of v1beta20210501.HighAvailability
 // Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/HighAvailability
 type HighAvailability struct {
@@ -265,6 +278,15 @@ type HighAvailability_Status struct {
 	PropertyBag             genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	StandbyAvailabilityZone *string                `json:"standbyAvailabilityZone,omitempty"`
 	State                   *string                `json:"state,omitempty"`
+}
+
+// Storage version of v1beta20210501.Identity_Status
+type Identity_Status struct {
+	PrincipalId            *string                `json:"principalId,omitempty"`
+	PropertyBag            genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	TenantId               *string                `json:"tenantId,omitempty"`
+	Type                   *string                `json:"type,omitempty"`
+	UserAssignedIdentities map[string]v1.JSON     `json:"userAssignedIdentities,omitempty"`
 }
 
 // Storage version of v1beta20210501.MaintenanceWindow

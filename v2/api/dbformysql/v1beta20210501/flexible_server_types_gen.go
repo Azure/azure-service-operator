@@ -10,6 +10,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
+	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -1075,6 +1076,9 @@ type Server_Status struct {
 	// CreateMode: The mode to create a new MySQL server.
 	CreateMode *ServerPropertiesStatusCreateMode `json:"createMode,omitempty"`
 
+	// DataEncryption: The Data Encryption for CMK.
+	DataEncryption *DataEncryption_Status `json:"dataEncryption,omitempty"`
+
 	// FullyQualifiedDomainName: The fully qualified domain name of a server.
 	FullyQualifiedDomainName *string `json:"fullyQualifiedDomainName,omitempty"`
 
@@ -1084,6 +1088,9 @@ type Server_Status struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
+
+	// Identity: The cmk identity for the server.
+	Identity *Identity_Status `json:"identity,omitempty"`
 
 	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
@@ -1238,6 +1245,20 @@ func (server *Server_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
+	// Set property ‘DataEncryption’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DataEncryption != nil {
+			var dataEncryption1 DataEncryption_Status
+			err := dataEncryption1.PopulateFromARM(owner, *typedInput.Properties.DataEncryption)
+			if err != nil {
+				return err
+			}
+			dataEncryption := dataEncryption1
+			server.DataEncryption = &dataEncryption
+		}
+	}
+
 	// Set property ‘FullyQualifiedDomainName’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -1265,6 +1286,17 @@ func (server *Server_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		server.Id = &id
+	}
+
+	// Set property ‘Identity’:
+	if typedInput.Identity != nil {
+		var identity1 Identity_Status
+		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
+		if err != nil {
+			return err
+		}
+		identity := identity1
+		server.Identity = &identity
 	}
 
 	// Set property ‘Location’:
@@ -1447,6 +1479,18 @@ func (server *Server_Status) AssignPropertiesFromServerStatus(source *v20210501s
 		server.CreateMode = nil
 	}
 
+	// DataEncryption
+	if source.DataEncryption != nil {
+		var dataEncryption DataEncryption_Status
+		err := dataEncryption.AssignPropertiesFromDataEncryptionStatus(source.DataEncryption)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromDataEncryptionStatus() to populate field DataEncryption")
+		}
+		server.DataEncryption = &dataEncryption
+	} else {
+		server.DataEncryption = nil
+	}
+
 	// FullyQualifiedDomainName
 	server.FullyQualifiedDomainName = genruntime.ClonePointerToString(source.FullyQualifiedDomainName)
 
@@ -1464,6 +1508,18 @@ func (server *Server_Status) AssignPropertiesFromServerStatus(source *v20210501s
 
 	// Id
 	server.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Identity
+	if source.Identity != nil {
+		var identity Identity_Status
+		err := identity.AssignPropertiesFromIdentityStatus(source.Identity)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromIdentityStatus() to populate field Identity")
+		}
+		server.Identity = &identity
+	} else {
+		server.Identity = nil
+	}
 
 	// Location
 	server.Location = genruntime.ClonePointerToString(source.Location)
@@ -1608,6 +1664,18 @@ func (server *Server_Status) AssignPropertiesToServerStatus(destination *v202105
 		destination.CreateMode = nil
 	}
 
+	// DataEncryption
+	if server.DataEncryption != nil {
+		var dataEncryption v20210501s.DataEncryption_Status
+		err := server.DataEncryption.AssignPropertiesToDataEncryptionStatus(&dataEncryption)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToDataEncryptionStatus() to populate field DataEncryption")
+		}
+		destination.DataEncryption = &dataEncryption
+	} else {
+		destination.DataEncryption = nil
+	}
+
 	// FullyQualifiedDomainName
 	destination.FullyQualifiedDomainName = genruntime.ClonePointerToString(server.FullyQualifiedDomainName)
 
@@ -1625,6 +1693,18 @@ func (server *Server_Status) AssignPropertiesToServerStatus(destination *v202105
 
 	// Id
 	destination.Id = genruntime.ClonePointerToString(server.Id)
+
+	// Identity
+	if server.Identity != nil {
+		var identity v20210501s.Identity_Status
+		err := server.Identity.AssignPropertiesToIdentityStatus(&identity)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToIdentityStatus() to populate field Identity")
+		}
+		destination.Identity = &identity
+	} else {
+		destination.Identity = nil
+	}
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(server.Location)
@@ -1945,6 +2025,135 @@ func (backup *Backup_Status) AssignPropertiesToBackupStatus(destination *v202105
 	return nil
 }
 
+type DataEncryption_Status struct {
+	// GeoBackupKeyUri: Geo backup key uri as key vault can't cross region, need cmk in same region as geo backup
+	GeoBackupKeyUri *string `json:"geoBackupKeyUri,omitempty"`
+
+	// GeoBackupUserAssignedIdentityId: Geo backup user identity resource id as identity can't cross region, need identity in
+	// same region as geo backup
+	GeoBackupUserAssignedIdentityId *string `json:"geoBackupUserAssignedIdentityId,omitempty"`
+
+	// PrimaryKeyUri: Primary key uri
+	PrimaryKeyUri *string `json:"primaryKeyUri,omitempty"`
+
+	// PrimaryUserAssignedIdentityId: Primary user identity resource id
+	PrimaryUserAssignedIdentityId *string `json:"primaryUserAssignedIdentityId,omitempty"`
+
+	// Type: The key type, AzureKeyVault for enable cmk, SystemManaged for disable cmk.
+	Type *DataEncryptionStatusType `json:"type,omitempty"`
+}
+
+var _ genruntime.FromARMConverter = &DataEncryption_Status{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (encryption *DataEncryption_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &DataEncryption_StatusARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (encryption *DataEncryption_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(DataEncryption_StatusARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DataEncryption_StatusARM, got %T", armInput)
+	}
+
+	// Set property ‘GeoBackupKeyUri’:
+	if typedInput.GeoBackupKeyUri != nil {
+		geoBackupKeyUri := *typedInput.GeoBackupKeyUri
+		encryption.GeoBackupKeyUri = &geoBackupKeyUri
+	}
+
+	// Set property ‘GeoBackupUserAssignedIdentityId’:
+	if typedInput.GeoBackupUserAssignedIdentityId != nil {
+		geoBackupUserAssignedIdentityId := *typedInput.GeoBackupUserAssignedIdentityId
+		encryption.GeoBackupUserAssignedIdentityId = &geoBackupUserAssignedIdentityId
+	}
+
+	// Set property ‘PrimaryKeyUri’:
+	if typedInput.PrimaryKeyUri != nil {
+		primaryKeyUri := *typedInput.PrimaryKeyUri
+		encryption.PrimaryKeyUri = &primaryKeyUri
+	}
+
+	// Set property ‘PrimaryUserAssignedIdentityId’:
+	if typedInput.PrimaryUserAssignedIdentityId != nil {
+		primaryUserAssignedIdentityId := *typedInput.PrimaryUserAssignedIdentityId
+		encryption.PrimaryUserAssignedIdentityId = &primaryUserAssignedIdentityId
+	}
+
+	// Set property ‘Type’:
+	if typedInput.Type != nil {
+		typeVar := *typedInput.Type
+		encryption.Type = &typeVar
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesFromDataEncryptionStatus populates our DataEncryption_Status from the provided source DataEncryption_Status
+func (encryption *DataEncryption_Status) AssignPropertiesFromDataEncryptionStatus(source *v20210501s.DataEncryption_Status) error {
+
+	// GeoBackupKeyUri
+	encryption.GeoBackupKeyUri = genruntime.ClonePointerToString(source.GeoBackupKeyUri)
+
+	// GeoBackupUserAssignedIdentityId
+	encryption.GeoBackupUserAssignedIdentityId = genruntime.ClonePointerToString(source.GeoBackupUserAssignedIdentityId)
+
+	// PrimaryKeyUri
+	encryption.PrimaryKeyUri = genruntime.ClonePointerToString(source.PrimaryKeyUri)
+
+	// PrimaryUserAssignedIdentityId
+	encryption.PrimaryUserAssignedIdentityId = genruntime.ClonePointerToString(source.PrimaryUserAssignedIdentityId)
+
+	// Type
+	if source.Type != nil {
+		typeVar := DataEncryptionStatusType(*source.Type)
+		encryption.Type = &typeVar
+	} else {
+		encryption.Type = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToDataEncryptionStatus populates the provided destination DataEncryption_Status from our DataEncryption_Status
+func (encryption *DataEncryption_Status) AssignPropertiesToDataEncryptionStatus(destination *v20210501s.DataEncryption_Status) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// GeoBackupKeyUri
+	destination.GeoBackupKeyUri = genruntime.ClonePointerToString(encryption.GeoBackupKeyUri)
+
+	// GeoBackupUserAssignedIdentityId
+	destination.GeoBackupUserAssignedIdentityId = genruntime.ClonePointerToString(encryption.GeoBackupUserAssignedIdentityId)
+
+	// PrimaryKeyUri
+	destination.PrimaryKeyUri = genruntime.ClonePointerToString(encryption.PrimaryKeyUri)
+
+	// PrimaryUserAssignedIdentityId
+	destination.PrimaryUserAssignedIdentityId = genruntime.ClonePointerToString(encryption.PrimaryUserAssignedIdentityId)
+
+	// Type
+	if encryption.Type != nil {
+		typeVar := string(*encryption.Type)
+		destination.Type = &typeVar
+	} else {
+		destination.Type = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/HighAvailability
 type HighAvailability struct {
 	// Mode: High availability mode for a server.
@@ -2145,6 +2354,141 @@ func (availability *HighAvailability_Status) AssignPropertiesToHighAvailabilityS
 		destination.State = &state
 	} else {
 		destination.State = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+type Identity_Status struct {
+	// PrincipalId: ObjectId from the KeyVault
+	PrincipalId *string `json:"principalId,omitempty"`
+
+	// TenantId: TenantId from the KeyVault
+	TenantId *string `json:"tenantId,omitempty"`
+
+	// Type: Type of managed service identity.
+	Type *IdentityStatusType `json:"type,omitempty"`
+
+	// UserAssignedIdentities: Metadata of user assigned identity.
+	UserAssignedIdentities map[string]v1.JSON `json:"userAssignedIdentities,omitempty"`
+}
+
+var _ genruntime.FromARMConverter = &Identity_Status{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (identity *Identity_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Identity_StatusARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (identity *Identity_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Identity_StatusARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Identity_StatusARM, got %T", armInput)
+	}
+
+	// Set property ‘PrincipalId’:
+	if typedInput.PrincipalId != nil {
+		principalId := *typedInput.PrincipalId
+		identity.PrincipalId = &principalId
+	}
+
+	// Set property ‘TenantId’:
+	if typedInput.TenantId != nil {
+		tenantId := *typedInput.TenantId
+		identity.TenantId = &tenantId
+	}
+
+	// Set property ‘Type’:
+	if typedInput.Type != nil {
+		typeVar := *typedInput.Type
+		identity.Type = &typeVar
+	}
+
+	// Set property ‘UserAssignedIdentities’:
+	if typedInput.UserAssignedIdentities != nil {
+		identity.UserAssignedIdentities = make(map[string]v1.JSON)
+		for key, value := range typedInput.UserAssignedIdentities {
+			identity.UserAssignedIdentities[key] = *value.DeepCopy()
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesFromIdentityStatus populates our Identity_Status from the provided source Identity_Status
+func (identity *Identity_Status) AssignPropertiesFromIdentityStatus(source *v20210501s.Identity_Status) error {
+
+	// PrincipalId
+	identity.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
+
+	// TenantId
+	identity.TenantId = genruntime.ClonePointerToString(source.TenantId)
+
+	// Type
+	if source.Type != nil {
+		typeVar := IdentityStatusType(*source.Type)
+		identity.Type = &typeVar
+	} else {
+		identity.Type = nil
+	}
+
+	// UserAssignedIdentities
+	if source.UserAssignedIdentities != nil {
+		userAssignedIdentityMap := make(map[string]v1.JSON, len(source.UserAssignedIdentities))
+		for userAssignedIdentityKey, userAssignedIdentityValue := range source.UserAssignedIdentities {
+			// Shadow the loop variable to avoid aliasing
+			userAssignedIdentityValue := userAssignedIdentityValue
+			userAssignedIdentityMap[userAssignedIdentityKey] = *userAssignedIdentityValue.DeepCopy()
+		}
+		identity.UserAssignedIdentities = userAssignedIdentityMap
+	} else {
+		identity.UserAssignedIdentities = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToIdentityStatus populates the provided destination Identity_Status from our Identity_Status
+func (identity *Identity_Status) AssignPropertiesToIdentityStatus(destination *v20210501s.Identity_Status) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// PrincipalId
+	destination.PrincipalId = genruntime.ClonePointerToString(identity.PrincipalId)
+
+	// TenantId
+	destination.TenantId = genruntime.ClonePointerToString(identity.TenantId)
+
+	// Type
+	if identity.Type != nil {
+		typeVar := string(*identity.Type)
+		destination.Type = &typeVar
+	} else {
+		destination.Type = nil
+	}
+
+	// UserAssignedIdentities
+	if identity.UserAssignedIdentities != nil {
+		userAssignedIdentityMap := make(map[string]v1.JSON, len(identity.UserAssignedIdentities))
+		for userAssignedIdentityKey, userAssignedIdentityValue := range identity.UserAssignedIdentities {
+			// Shadow the loop variable to avoid aliasing
+			userAssignedIdentityValue := userAssignedIdentityValue
+			userAssignedIdentityMap[userAssignedIdentityKey] = *userAssignedIdentityValue.DeepCopy()
+		}
+		destination.UserAssignedIdentities = userAssignedIdentityMap
+	} else {
+		destination.UserAssignedIdentities = nil
 	}
 
 	// Update the property bag
@@ -3263,6 +3607,13 @@ type BackupGeoRedundantBackup string
 const (
 	BackupGeoRedundantBackupDisabled = BackupGeoRedundantBackup("Disabled")
 	BackupGeoRedundantBackupEnabled  = BackupGeoRedundantBackup("Enabled")
+)
+
+type DataEncryptionStatusType string
+
+const (
+	DataEncryptionStatusTypeAzureKeyVault = DataEncryptionStatusType("AzureKeyVault")
+	DataEncryptionStatusTypeSystemManaged = DataEncryptionStatusType("SystemManaged")
 )
 
 type EnableStatusEnum_Status string
