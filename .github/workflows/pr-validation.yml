@@ -103,6 +103,13 @@ jobs:
           # generate summary Markdown file for display in Actions
           cat reports/*.md > $GITHUB_STEP_SUMMARY
           exit EXIT_CODE
+
+      - name: Save JSON logs on failure
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-output
+          path: reports/*.json
         
       - name: Build docker image & build configuration YAML
         run: |
