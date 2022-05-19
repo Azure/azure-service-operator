@@ -53,7 +53,7 @@ func (gc *GroupConfiguration) addVersion(name string, version *VersionConfigurat
 	local := astmodel.MakeLocalPackageReference("prefix", "group", astmodel.GeneratorVersion, name)
 
 	gc.versions[strings.ToLower(name)] = version
-	gc.versions[strings.ToLower(local.ApiVersion())] = version
+	gc.versions[strings.ToLower(local.Version())] = version
 }
 
 // visitVersion invokes the provided visitor on the specified version if present.
