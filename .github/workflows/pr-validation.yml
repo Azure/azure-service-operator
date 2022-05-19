@@ -102,7 +102,7 @@ jobs:
 
           # generate summary Markdown file for display in Actions
           cat reports/*.md > $GITHUB_STEP_SUMMARY
-          exit EXIT_CODE
+          exit $EXIT_CODE
 
       - name: Save JSON logs on failure
         if: ${{ failure() }}
