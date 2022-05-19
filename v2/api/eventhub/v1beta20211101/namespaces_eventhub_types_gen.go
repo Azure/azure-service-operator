@@ -98,7 +98,7 @@ func (eventhub *NamespacesEventhub) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-11-01"
 func (eventhub NamespacesEventhub) GetAPIVersion() string {
-	return "2021-11-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -677,11 +677,6 @@ func (eventhub *Eventhub_Status) AssignPropertiesToEventhubStatus(destination *v
 	// No error
 	return nil
 }
-
-// +kubebuilder:validation:Enum={"2021-11-01"}
-type NamespacesEventhubsSpecAPIVersion string
-
-const NamespacesEventhubsSpecAPIVersion20211101 = NamespacesEventhubsSpecAPIVersion("2021-11-01")
 
 type NamespacesEventhubs_Spec struct {
 	// +kubebuilder:validation:MaxLength=256

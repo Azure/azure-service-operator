@@ -91,7 +91,7 @@ func (schedule *RedisPatchSchedule) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-12-01"
 func (schedule RedisPatchSchedule) GetAPIVersion() string {
-	return "2020-12-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -511,11 +511,6 @@ func (schedule *RedisPatchSchedule_Status) AssignPropertiesToRedisPatchScheduleS
 	// No error
 	return nil
 }
-
-// +kubebuilder:validation:Enum={"2020-12-01"}
-type RedisPatchSchedulesSpecAPIVersion string
-
-const RedisPatchSchedulesSpecAPIVersion20201201 = RedisPatchSchedulesSpecAPIVersion("2020-12-01")
 
 type RedisPatchSchedules_Spec struct {
 	// Location: Location to deploy resource to

@@ -23,8 +23,8 @@ import (
 func AddKubernetesResourceInterfaceImpls(
 	resourceDef astmodel.TypeDefinition,
 	idFactory astmodel.IdentifierFactory,
-	definitions astmodel.TypeDefinitionSet) (*astmodel.ResourceType, error) {
-
+	definitions astmodel.TypeDefinitionSet,
+) (*astmodel.ResourceType, error) {
 	resolved, err := definitions.ResolveResourceSpecAndStatus(resourceDef)
 	if err != nil {
 		return nil, errors.Wrapf(err, "unable to resolve resource %s", resourceDef.Name())
@@ -360,8 +360,8 @@ func newGetResourceKindFunction(r *astmodel.ResourceType) func(k *functions.Obje
 func lookupGroupAndKindStmt(
 	groupIdent string,
 	kindIdent string,
-	specSelector *dst.SelectorExpr) *dst.AssignStmt {
-
+	specSelector *dst.SelectorExpr,
+) *dst.AssignStmt {
 	return &dst.AssignStmt{
 		Lhs: []dst.Expr{
 			dst.NewIdent(groupIdent),
@@ -380,8 +380,8 @@ func lookupGroupAndKindStmt(
 func createResourceReference(
 	group dst.Expr,
 	kind dst.Expr,
-	receiverIdent string) dst.Expr {
-
+	receiverIdent string,
+) dst.Expr {
 	specSelector := astbuilder.Selector(dst.NewIdent(receiverIdent), "Spec")
 
 	compositeLitDetails := astbuilder.NewCompositeLiteralBuilder(

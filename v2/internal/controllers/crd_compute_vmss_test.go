@@ -117,8 +117,8 @@ func newVMSS(
 	tc *testcommon.KubePerTestContext,
 	rg *resources.ResourceGroup,
 	loadBalancer *network.LoadBalancer,
-	subnet *network.VirtualNetworksSubnet) *compute.VirtualMachineScaleSet {
-
+	subnet *network.VirtualNetworksSubnet,
+) *compute.VirtualMachineScaleSet {
 	sshPublicKey, err := tc.GenerateSSHKey(2048)
 	tc.Expect(err).ToNot(HaveOccurred())
 
@@ -243,7 +243,7 @@ func Test_Compute_VMSS_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(vmss)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(compute.VirtualMachineScaleSetsSpecAPIVersion20201201))
+	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(compute.APIVersionValue))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())

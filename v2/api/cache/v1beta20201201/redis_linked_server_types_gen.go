@@ -98,7 +98,7 @@ func (server *RedisLinkedServer) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-12-01"
 func (server RedisLinkedServer) GetAPIVersion() string {
-	return "2020-12-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -548,11 +548,6 @@ func (properties *RedisLinkedServerWithProperties_Status) AssignPropertiesToRedi
 	// No error
 	return nil
 }
-
-// +kubebuilder:validation:Enum={"2020-12-01"}
-type RedisLinkedServersSpecAPIVersion string
-
-const RedisLinkedServersSpecAPIVersion20201201 = RedisLinkedServersSpecAPIVersion("2020-12-01")
 
 type RedisLinkedServers_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it

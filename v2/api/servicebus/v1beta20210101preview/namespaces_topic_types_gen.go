@@ -98,7 +98,7 @@ func (topic *NamespacesTopic) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-01-01-preview"
 func (topic NamespacesTopic) GetAPIVersion() string {
-	return "2021-01-01-preview"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -316,11 +316,6 @@ type NamespacesTopicList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []NamespacesTopic `json:"items"`
 }
-
-// +kubebuilder:validation:Enum={"2021-01-01-preview"}
-type NamespacesTopicsSpecAPIVersion string
-
-const NamespacesTopicsSpecAPIVersion20210101Preview = NamespacesTopicsSpecAPIVersion("2021-01-01-preview")
 
 type NamespacesTopics_Spec struct {
 	// AutoDeleteOnIdle: ISO 8601 timespan idle interval after which the topic is automatically deleted. The minimum duration

@@ -19,7 +19,7 @@ var _ genruntime.ARMResourceSpec = &Registries_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-09-01"
 func (registries Registries_SpecARM) GetAPIVersion() string {
-	return "2021-09-01"
+	return string(APIVersionValue)
 }
 
 // GetName returns the Name of the resource

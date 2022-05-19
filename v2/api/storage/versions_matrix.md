@@ -1,5 +1,6 @@
 | Type Definitions in package "storage"                              | v1alpha1api20210401 | v1beta20210401 |
 |--------------------------------------------------------------------|---------------------|----------------|
+| APIVersion                                                         | v1alpha1api20210401 | v1beta20210401 |
 | ActiveDirectoryProperties                                          | v1alpha1api20210401 | v1beta20210401 |
 | ActiveDirectoryProperties_Status                                   | v1alpha1api20210401 | v1beta20210401 |
 | AzureFilesIdentityBasedAuthentication                              | v1alpha1api20210401 | v1beta20210401 |
@@ -150,20 +151,14 @@
 | StorageAccount_Status                                              | v1alpha1api20210401 | v1beta20210401 |
 | StorageAccountsBlobService                                         | v1alpha1api20210401 | v1beta20210401 |
 | StorageAccountsBlobServicesContainer                               | v1alpha1api20210401 | v1beta20210401 |
-| StorageAccountsBlobServicesContainersSpecAPIVersion                |                     | v1beta20210401 |
 | StorageAccountsBlobServicesContainers_Spec                         | v1alpha1api20210401 | v1beta20210401 |
-| StorageAccountsBlobServicesSpecAPIVersion                          |                     | v1beta20210401 |
 | StorageAccountsBlobServices_Spec                                   | v1alpha1api20210401 | v1beta20210401 |
-| StorageAccountsManagementPoliciesSpecAPIVersion                    |                     | v1beta20210401 |
 | StorageAccountsManagementPolicies_Spec                             |                     | v1beta20210401 |
 | StorageAccountsManagementPolicy                                    |                     | v1beta20210401 |
 | StorageAccountsQueueService                                        | v1alpha1api20210401 | v1beta20210401 |
 | StorageAccountsQueueServicesQueue                                  | v1alpha1api20210401 | v1beta20210401 |
-| StorageAccountsQueueServicesQueuesSpecAPIVersion                   |                     | v1beta20210401 |
 | StorageAccountsQueueServicesQueues_Spec                            | v1alpha1api20210401 | v1beta20210401 |
-| StorageAccountsQueueServicesSpecAPIVersion                         |                     | v1beta20210401 |
 | StorageAccountsQueueServices_Spec                                  | v1alpha1api20210401 | v1beta20210401 |
-| StorageAccountsSpecAPIVersion                                      |                     | v1beta20210401 |
 | StorageAccountsSpecKind                                            | v1alpha1api20210401 | v1beta20210401 |
 | StorageAccounts_Spec                                               | v1alpha1api20210401 | v1beta20210401 |
 | StorageQueue_Status                                                | v1alpha1api20210401 | v1beta20210401 |

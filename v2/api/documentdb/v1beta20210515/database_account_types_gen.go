@@ -98,7 +98,7 @@ func (account *DatabaseAccount) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
 func (account DatabaseAccount) GetAPIVersion() string {
-	return "2021-05-15"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -338,6 +338,11 @@ type DatabaseAccountList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []DatabaseAccount `json:"items"`
 }
+
+// +kubebuilder:validation:Enum={"2021-05-15"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2021-05-15")
 
 type DatabaseAccountGetResults_Status struct {
 	// AnalyticalStorageConfiguration: Analytical storage specific properties.
@@ -1609,11 +1614,6 @@ func (results *DatabaseAccountGetResults_Status) AssignPropertiesToDatabaseAccou
 	// No error
 	return nil
 }
-
-// +kubebuilder:validation:Enum={"2021-05-15"}
-type DatabaseAccountsSpecAPIVersion string
-
-const DatabaseAccountsSpecAPIVersion20210515 = DatabaseAccountsSpecAPIVersion("2021-05-15")
 
 type DatabaseAccounts_Spec struct {
 	// AnalyticalStorageConfiguration: Analytical storage specific properties.

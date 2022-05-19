@@ -111,7 +111,7 @@ func Test_Networking_LoadBalancer_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(loadBalancer)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadByID(ctx, armId, string(network.LoadBalancersSpecAPIVersion20201101))
+	exists, retryAfter, err := tc.AzureClient.HeadByID(ctx, armId, string(network.APIVersionValue))
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(retryAfter).To(BeZero())
 	g.Expect(exists).To(BeFalse())

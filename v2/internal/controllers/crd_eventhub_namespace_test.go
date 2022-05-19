@@ -70,7 +70,7 @@ func Test_EventHub_Namespace_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(namespace)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(eventhub.NamespacesSpecAPIVersion20211101))
+	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(eventhub.APIVersionValue))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())

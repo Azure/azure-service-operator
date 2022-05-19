@@ -1,5 +1,6 @@
 | Type Definitions in package "operationalinsights"  | v1alpha1api20210601 | v1beta20210601 |
 |----------------------------------------------------|---------------------|----------------|
+| APIVersion                                         | v1alpha1api20210601 | v1beta20210601 |
 | PrivateLinkScopedResource_Status                   | v1alpha1api20210601 | v1beta20210601 |
 | PublicNetworkAccessType_Status                     | v1alpha1api20210601 | v1beta20210601 |
 | Workspace                                          | v1alpha1api20210601 | v1beta20210601 |
@@ -20,5 +21,4 @@
 | WorkspaceSkuStatusName                             | v1alpha1api20210601 | v1beta20210601 |
 | WorkspaceSku_Status                                | v1alpha1api20210601 | v1beta20210601 |
 | Workspace_Status                                   | v1alpha1api20210601 | v1beta20210601 |
-| WorkspacesSpecAPIVersion                           |                     | v1beta20210601 |
 | Workspaces_Spec                                    | v1alpha1api20210601 | v1beta20210601 |

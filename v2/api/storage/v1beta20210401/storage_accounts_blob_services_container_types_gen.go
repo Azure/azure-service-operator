@@ -98,7 +98,7 @@ func (container *StorageAccountsBlobServicesContainer) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-04-01"
 func (container StorageAccountsBlobServicesContainer) GetAPIVersion() string {
-	return "2021-04-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -944,11 +944,6 @@ func (container *BlobContainer_Status) AssignPropertiesToBlobContainerStatus(des
 	// No error
 	return nil
 }
-
-// +kubebuilder:validation:Enum={"2021-04-01"}
-type StorageAccountsBlobServicesContainersSpecAPIVersion string
-
-const StorageAccountsBlobServicesContainersSpecAPIVersion20210401 = StorageAccountsBlobServicesContainersSpecAPIVersion("2021-04-01")
 
 type StorageAccountsBlobServicesContainers_Spec struct {
 	// +kubebuilder:validation:MaxLength=63

@@ -11,7 +11,7 @@ import (
 
 	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
-	"k8s.io/api/core/v1"
+	v1 "k8s.io/api/core/v1"
 
 	postgresql "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1beta20210601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
@@ -102,7 +102,7 @@ func Test_DBForPostgreSQL_FlexibleServer_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(flexibleServer)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadByID(ctx, armId, string(postgresql.FlexibleServersDatabasesSpecAPIVersion20210601))
+	exists, retryAfter, err := tc.AzureClient.HeadByID(ctx, armId, string(postgresql.APIVersionValue))
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(retryAfter).To(BeZero())
 	g.Expect(exists).To(BeFalse())

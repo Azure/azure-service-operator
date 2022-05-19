@@ -18,7 +18,7 @@ var _ genruntime.ARMResourceSpec = &FlexibleServers_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-06-01"
 func (servers FlexibleServers_SpecARM) GetAPIVersion() string {
-	return "2021-06-01"
+	return string(APIVersionValue)
 }
 
 // GetName returns the Name of the resource

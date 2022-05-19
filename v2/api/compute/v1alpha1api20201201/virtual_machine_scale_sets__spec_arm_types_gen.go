@@ -25,7 +25,7 @@ var _ genruntime.ARMResourceSpec = &VirtualMachineScaleSets_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-12-01"
 func (sets VirtualMachineScaleSets_SpecARM) GetAPIVersion() string {
-	return "2020-12-01"
+	return string(APIVersionValue)
 }
 
 // GetName returns the Name of the resource

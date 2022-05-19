@@ -91,7 +91,7 @@ func (service *StorageAccountsQueueService) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-04-01"
 func (service StorageAccountsQueueService) GetAPIVersion() string {
-	return "2021-04-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -502,11 +502,6 @@ func (properties *QueueServiceProperties_Status) AssignPropertiesToQueueServiceP
 	// No error
 	return nil
 }
-
-// +kubebuilder:validation:Enum={"2021-04-01"}
-type StorageAccountsQueueServicesSpecAPIVersion string
-
-const StorageAccountsQueueServicesSpecAPIVersion20210401 = StorageAccountsQueueServicesSpecAPIVersion("2021-04-01")
 
 type StorageAccountsQueueServices_Spec struct {
 	// Cors: Sets the CORS rules. You can include up to five CorsRule elements in the request.

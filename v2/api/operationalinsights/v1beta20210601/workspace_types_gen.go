@@ -99,7 +99,7 @@ func (workspace *Workspace) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-06-01"
 func (workspace Workspace) GetAPIVersion() string {
-	return "2021-06-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -317,6 +317,11 @@ type WorkspaceList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Workspace `json:"items"`
 }
+
+// +kubebuilder:validation:Enum={"2021-06-01"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2021-06-01")
 
 type Workspace_Status struct {
 	// Conditions: The observed state of the resource
@@ -874,11 +879,6 @@ func (workspace *Workspace_Status) AssignPropertiesToWorkspaceStatus(destination
 	// No error
 	return nil
 }
-
-// +kubebuilder:validation:Enum={"2021-06-01"}
-type WorkspacesSpecAPIVersion string
-
-const WorkspacesSpecAPIVersion20210601 = WorkspacesSpecAPIVersion("2021-06-01")
 
 type Workspaces_Spec struct {
 	// +kubebuilder:validation:MaxLength=63

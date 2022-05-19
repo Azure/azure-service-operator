@@ -98,7 +98,7 @@ func (account *StorageAccount) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-04-01"
 func (account StorageAccount) GetAPIVersion() string {
-	return "2021-04-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -341,6 +341,11 @@ type StorageAccountList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []StorageAccount `json:"items"`
 }
+
+// +kubebuilder:validation:Enum={"2021-04-01"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2021-04-01")
 
 type StorageAccount_Status struct {
 	// AccessTier: Required for storage accounts where kind = BlobStorage. The access tier used for billing.
@@ -1654,11 +1659,6 @@ func (account *StorageAccount_Status) AssignPropertiesToStorageAccountStatus(des
 	// No error
 	return nil
 }
-
-// +kubebuilder:validation:Enum={"2021-04-01"}
-type StorageAccountsSpecAPIVersion string
-
-const StorageAccountsSpecAPIVersion20210401 = StorageAccountsSpecAPIVersion("2021-04-01")
 
 type StorageAccounts_Spec struct {
 	// AccessTier: Required for storage accounts where kind = BlobStorage. The access tier used for billing.

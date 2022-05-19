@@ -98,7 +98,7 @@ func (image *Image) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-07-01"
 func (image Image) GetAPIVersion() string {
-	return "2021-07-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -316,6 +316,11 @@ type ImageList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Image `json:"items"`
 }
+
+// +kubebuilder:validation:Enum={"2021-07-01"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2021-07-01")
 
 type Image_Status struct {
 	// Conditions: The observed state of the resource
@@ -666,11 +671,6 @@ func (image *Image_Status) AssignPropertiesToImageStatus(destination *v20210701s
 	// No error
 	return nil
 }
-
-// +kubebuilder:validation:Enum={"2021-07-01"}
-type ImagesSpecAPIVersion string
-
-const ImagesSpecAPIVersion20210701 = ImagesSpecAPIVersion("2021-07-01")
 
 type Images_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
