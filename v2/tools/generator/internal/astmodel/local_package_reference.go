@@ -32,15 +32,12 @@ const GeneratorVersion string = "v1beta"
 
 // MakeLocalPackageReference Creates a new local package reference from a group and version
 func MakeLocalPackageReference(prefix string, group string, versionPrefix string, version string) LocalPackageReference {
-	generatorVersion := versionPrefix
-	apiVersion := sanitizePackageName(version)
-
 	return LocalPackageReference{
 		localPathPrefix:  prefix,
 		group:            group,
-		generatorVersion: generatorVersion,
-		apiVersion:       apiVersion,
-		version:          generatorVersion + apiVersion,
+		generatorVersion: versionPrefix,
+		apiVersion:       version,
+		version:          versionPrefix + sanitizePackageName(version),
 	}
 }
 
@@ -101,7 +98,7 @@ func (pr LocalPackageReference) IsPreview() bool {
 // WithVersionPrefix returns a new LocalPackageReference with a different version prefix
 func (pr LocalPackageReference) WithVersionPrefix(prefix string) LocalPackageReference {
 	pr.generatorVersion = prefix
-	pr.version = prefix + pr.apiVersion
+	pr.version = prefix + sanitizePackageName(pr.apiVersion)
 	return pr
 }
 
