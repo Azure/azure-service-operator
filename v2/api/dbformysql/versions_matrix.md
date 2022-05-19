@@ -4,6 +4,8 @@
 | Backup                                   | v1alpha1api20210501 | v1beta20210501 |
 | BackupGeoRedundantBackup                 | v1alpha1api20210501 | v1beta20210501 |
 | Backup_Status                            | v1alpha1api20210501 | v1beta20210501 |
+| DataEncryptionStatusType                 | v1alpha1api20210501 | v1beta20210501 |
+| DataEncryption_Status                    | v1alpha1api20210501 | v1beta20210501 |
 | DatabaseProperties                       | v1alpha1api20210501 | v1beta20210501 |
 | DatabaseProperties_Status                | v1alpha1api20210501 | v1beta20210501 |
 | Database_Status                          | v1alpha1api20210501 | v1beta20210501 |
@@ -22,6 +24,8 @@
 | HighAvailabilityStatusMode               | v1alpha1api20210501 | v1beta20210501 |
 | HighAvailabilityStatusState              | v1alpha1api20210501 | v1beta20210501 |
 | HighAvailability_Status                  | v1alpha1api20210501 | v1beta20210501 |
+| IdentityStatusType                       | v1alpha1api20210501 | v1beta20210501 |
+| Identity_Status                          | v1alpha1api20210501 | v1beta20210501 |
 | MaintenanceWindow                        | v1alpha1api20210501 | v1beta20210501 |
 | MaintenanceWindow_Status                 | v1alpha1api20210501 | v1beta20210501 |
 | Network                                  | v1alpha1api20210501 | v1beta20210501 |

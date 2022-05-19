@@ -1,0 +1,714 @@
+---
+version: 1
+interactions:
+- request:
+    body: '{"name":"asotest-rg-myaffa","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "93"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-myaffa?api-version=2020-06-01
+    method: PUT
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-myaffa","name":"asotest-rg-myaffa","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "276"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 201 Created
+    code: 201
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-myaffa?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-myaffa","name":"asotest-rg-myaffa","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "276"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: '{"location":"Global","name":"asotest-cdnprofile-wbuars","sku":{"name":"Standard_Microsoft"}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "92"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-myaffa/providers/Microsoft.Cdn/profiles/asotest-cdnprofile-wbuars?api-version=2021-06-01
+    method: PUT
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-myaffa/providers/Microsoft.Cdn/profiles/asotest-cdnprofile-wbuars","type":"Microsoft.Cdn/profiles","name":"asotest-cdnprofile-wbuars","location":"Global","kind":"cdn","tags":{},"sku":{"name":"Standard_Microsoft"},"properties":{"resourceState":"Creating","provisioningState":"Creating"}}'
+    headers:
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-myaffa/providers/Microsoft.Cdn/operationresults/f84dc301-3a7c-4e19-9cd7-7c307c523bf6?api-version=2021-06-01
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "371"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "10"
+      Server:
+      - Kestrel
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+      - "24"
+    status: 201 Created
+    code: 201
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-myaffa/providers/Microsoft.Cdn/operationresults/f84dc301-3a7c-4e19-9cd7-7c307c523bf6?api-version=2021-06-01
+    method: GET
+  response:
+    body: '{"status":"InProgress","error":{"code":"None","message":null}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "62"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Kestrel
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-myaffa/providers/Microsoft.Cdn/operationresults/f84dc301-3a7c-4e19-9cd7-7c307c523bf6?api-version=2021-06-01
+    method: GET
+  response:
+    body: '{"status":"Succeeded","error":{"code":"None","message":null}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "61"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Kestrel
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-myaffa/providers/Microsoft.Cdn/profiles/asotest-cdnprofile-wbuars?api-version=2021-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-myaffa/providers/Microsoft.Cdn/profiles/asotest-cdnprofile-wbuars","type":"Microsoft.Cdn/profiles","name":"asotest-cdnprofile-wbuars","location":"Global","kind":"cdn","tags":{},"sku":{"name":"Standard_Microsoft"},"properties":{"resourceState":"Active","provisioningState":"Succeeded"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "370"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Kestrel
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+      - "49"
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: '{"location":"Global","name":"asotest-cdn-endpoint-powywe","properties":{"contentTypesToCompress":["application/json"],"isCompressionEnabled":true,"isHttpAllowed":false,"isHttpsAllowed":true,"origins":[{"name":"source","properties":{"hostName":"example.com"}}]}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "261"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-myaffa/providers/Microsoft.Cdn/profiles/asotest-cdnprofile-wbuars/endpoints/asotest-cdn-endpoint-powywe?api-version=2021-06-01
+    method: PUT
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-myaffa/providers/Microsoft.Cdn/profiles/asotest-cdnprofile-wbuars/endpoints/asotest-cdn-endpoint-powywe","type":"Microsoft.Cdn/profiles/endpoints","name":"asotest-cdn-endpoint-powywe","location":"Global","tags":{},"properties":{"hostName":"asotest-cdn-endpoint-powywe.azureedge.net","originHostHeader":null,"originPath":null,"contentTypesToCompress":["application/json"],"isCompressionEnabled":true,"isHttpAllowed":false,"isHttpsAllowed":true,"queryStringCachingBehavior":"IgnoreQueryString","optimizationType":null,"probePath":null,"origins":[{"name":"source","properties":{"hostName":"example.com","httpPort":null,"httpsPort":null,"originHostHeader":null,"priority":1,"weight":1000,"enabled":true,"privateLinkAlias":null,"privateLinkResourceId":null,"privateLinkLocation":null,"privateEndpointStatus":null,"privateLinkApprovalMessage":null}}],"originGroups":[],"defaultOriginGroup":null,"customDomains":[],"geoFilters":[],"deliveryPolicy":null,"urlSigningKeys":null,"webApplicationFirewallPolicyLink":null,"resourceState":"Creating","provisioningState":"Creating"}}'
+    headers:
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-myaffa/providers/Microsoft.Cdn/operationresults/4c30f548-4b4e-42c7-adc4-56b2bb9ef1d6?api-version=2021-06-01
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "1152"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "10"
+      Server:
+      - Kestrel
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+      - "99"
+    status: 201 Created
+    code: 201
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-myaffa/providers/Microsoft.Cdn/operationresults/4c30f548-4b4e-42c7-adc4-56b2bb9ef1d6?api-version=2021-06-01
+    method: GET
+  response:
+    body: '{"status":"InProgress","error":{"code":"None","message":null}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "62"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Kestrel
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-myaffa/providers/Microsoft.Cdn/operationresults/4c30f548-4b4e-42c7-adc4-56b2bb9ef1d6?api-version=2021-06-01
+    method: GET
+  response:
+    body: '{"status":"Succeeded","error":{"code":"None","message":null}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "61"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Kestrel
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-myaffa/providers/Microsoft.Cdn/profiles/asotest-cdnprofile-wbuars/endpoints/asotest-cdn-endpoint-powywe?api-version=2021-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-myaffa/providers/Microsoft.Cdn/profiles/asotest-cdnprofile-wbuars/endpoints/asotest-cdn-endpoint-powywe","type":"Microsoft.Cdn/profiles/endpoints","name":"asotest-cdn-endpoint-powywe","location":"Global","tags":{},"properties":{"hostName":"asotest-cdn-endpoint-powywe.azureedge.net","originHostHeader":null,"originPath":null,"contentTypesToCompress":["application/json"],"isCompressionEnabled":true,"isHttpAllowed":false,"isHttpsAllowed":true,"queryStringCachingBehavior":"IgnoreQueryString","optimizationType":null,"probePath":null,"origins":[{"name":"source","properties":{"hostName":"example.com","httpPort":null,"httpsPort":null,"originHostHeader":null,"priority":1,"weight":1000,"enabled":true,"privateLinkAlias":null,"privateLinkResourceId":null,"privateLinkLocation":null,"privateEndpointStatus":null,"privateLinkApprovalMessage":null}}],"originGroups":[],"defaultOriginGroup":null,"customDomains":[],"geoFilters":[],"deliveryPolicy":null,"urlSigningKeys":null,"webApplicationFirewallPolicyLink":null,"resourceState":"Running","provisioningState":"Succeeded"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "1152"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Kestrel
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+      - "49"
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-myaffa/providers/Microsoft.Cdn/profiles/asotest-cdnprofile-wbuars/endpoints/asotest-cdn-endpoint-powywe?api-version=2021-06-01
+    method: DELETE
+  response:
+    body: ""
+    headers:
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-myaffa/providers/Microsoft.Cdn/operationresults/f1ca8f26-d45c-4081-87d4-3bc9580721f0?api-version=2021-06-01
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-myaffa/providers/Microsoft.Cdn/operationresults/f1ca8f26-d45c-4081-87d4-3bc9580721f0/profileresults/asotest-cdnprofile-wbuars/endpointresults/asotest-cdn-endpoint-powywe?api-version=2021-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "10"
+      Server:
+      - Kestrel
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-myaffa/providers/Microsoft.Cdn/profiles/asotest-cdnprofile-wbuars/endpoints/asotest-cdn-endpoint-powywe?api-version=2021-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-myaffa/providers/Microsoft.Cdn/profiles/asotest-cdnprofile-wbuars/endpoints/asotest-cdn-endpoint-powywe","type":"Microsoft.Cdn/profiles/endpoints","name":"asotest-cdn-endpoint-powywe","location":"Global","tags":{},"properties":{"hostName":"asotest-cdn-endpoint-powywe.azureedge.net","originHostHeader":null,"originPath":null,"contentTypesToCompress":["application/json"],"isCompressionEnabled":true,"isHttpAllowed":false,"isHttpsAllowed":true,"queryStringCachingBehavior":"IgnoreQueryString","optimizationType":null,"probePath":null,"origins":[{"name":"source","properties":{"hostName":"example.com","httpPort":null,"httpsPort":null,"originHostHeader":null,"priority":1,"weight":1000,"enabled":true,"privateLinkAlias":null,"privateLinkResourceId":null,"privateLinkLocation":null,"privateEndpointStatus":null,"privateLinkApprovalMessage":null}}],"originGroups":[],"defaultOriginGroup":null,"customDomains":[],"geoFilters":[],"deliveryPolicy":null,"urlSigningKeys":null,"webApplicationFirewallPolicyLink":null,"resourceState":"Deleting","provisioningState":"Succeeded"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "1153"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Kestrel
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+      - "48"
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-myaffa/providers/Microsoft.Cdn/profiles/asotest-cdnprofile-wbuars/endpoints/asotest-cdn-endpoint-powywe?api-version=2021-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-myaffa/providers/Microsoft.Cdn/profiles/asotest-cdnprofile-wbuars/endpoints/asotest-cdn-endpoint-powywe","type":"Microsoft.Cdn/profiles/endpoints","name":"asotest-cdn-endpoint-powywe","location":"Global","tags":{},"properties":{"hostName":"asotest-cdn-endpoint-powywe.azureedge.net","originHostHeader":null,"originPath":null,"contentTypesToCompress":["application/json"],"isCompressionEnabled":true,"isHttpAllowed":false,"isHttpsAllowed":true,"queryStringCachingBehavior":"IgnoreQueryString","optimizationType":null,"probePath":null,"origins":[{"name":"source","properties":{"hostName":"example.com","httpPort":null,"httpsPort":null,"originHostHeader":null,"priority":1,"weight":1000,"enabled":true,"privateLinkAlias":null,"privateLinkResourceId":null,"privateLinkLocation":null,"privateEndpointStatus":null,"privateLinkApprovalMessage":null}}],"originGroups":[],"defaultOriginGroup":null,"customDomains":[],"geoFilters":[],"deliveryPolicy":null,"urlSigningKeys":null,"webApplicationFirewallPolicyLink":null,"resourceState":"Deleting","provisioningState":"Succeeded"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "1153"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Kestrel
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+      - "47"
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "3"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-myaffa/providers/Microsoft.Cdn/profiles/asotest-cdnprofile-wbuars/endpoints/asotest-cdn-endpoint-powywe?api-version=2021-06-01
+    method: GET
+  response:
+    body: '{"error":{"code":"NotFound","message":"The requested resource was not found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "79"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Kestrel
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+      - "46"
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-myaffa/providers/Microsoft.Cdn/profiles/asotest-cdnprofile-wbuars?api-version=2021-06-01
+    method: DELETE
+  response:
+    body: ""
+    headers:
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-myaffa/providers/Microsoft.Cdn/operationresults/37a8c81f-1600-4b13-a366-d01d557e9d29?api-version=2021-06-01
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-myaffa/providers/Microsoft.Cdn/operationresults/37a8c81f-1600-4b13-a366-d01d557e9d29/profileresults/asotest-cdnprofile-wbuars?api-version=2021-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "10"
+      Server:
+      - Kestrel
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-myaffa/providers/Microsoft.Cdn/profiles/asotest-cdnprofile-wbuars?api-version=2021-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-myaffa/providers/Microsoft.Cdn/profiles/asotest-cdnprofile-wbuars","type":"Microsoft.Cdn/profiles","name":"asotest-cdnprofile-wbuars","location":"Global","kind":"cdn","tags":{},"sku":{"name":"Standard_Microsoft"},"properties":{"resourceState":"Deleting","provisioningState":"Succeeded"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "372"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Kestrel
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+      - "48"
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-myaffa/providers/Microsoft.Cdn/profiles/asotest-cdnprofile-wbuars?api-version=2021-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-myaffa/providers/Microsoft.Cdn/profiles/asotest-cdnprofile-wbuars","type":"Microsoft.Cdn/profiles","name":"asotest-cdnprofile-wbuars","location":"Global","kind":"cdn","tags":{},"sku":{"name":"Standard_Microsoft"},"properties":{"resourceState":"Deleting","provisioningState":"Succeeded"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "372"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Kestrel
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+      - "47"
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "3"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-myaffa/providers/Microsoft.Cdn/profiles/asotest-cdnprofile-wbuars?api-version=2021-06-01
+    method: GET
+  response:
+    body: '{"error":{"code":"NotFound","message":"The requested resource was not found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "79"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Kestrel
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+      - "46"
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-myaffa/providers/Microsoft.Cdn/profiles/asotest-cdnprofile-wbuars?api-version=2021-06-01
+    method: GET
+  response:
+    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.Cdn/profiles/asotest-cdnprofile-wbuars''
+      under resource group ''asotest-rg-myaffa'' was not found. For more details please
+      go to https://aka.ms/ARMResourceNotFoundFix"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "237"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-myaffa?api-version=2020-06-01
+    method: DELETE
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRNWUFGRkEtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-myaffa?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-myaffa''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""

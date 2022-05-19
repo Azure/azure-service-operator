@@ -8,6 +8,9 @@ type RedisPatchSchedule_StatusARM struct {
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
 
+	// Location: The geo-location where the resource lives
+	Location *string `json:"location,omitempty"`
+
 	// Name: The name of the resource
 	Name *string `json:"name,omitempty"`
 

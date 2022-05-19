@@ -438,7 +438,7 @@ func AddRelatedPropertyGeneratorsForVirtualMachinesSpec(gens map[string]gopter.G
 	gens["HostGroup"] = gen.PtrOf(SubResourceGenerator())
 	gens["Identity"] = gen.PtrOf(VirtualMachineIdentityGenerator())
 	gens["NetworkProfile"] = gen.PtrOf(VirtualMachinesSpecPropertiesNetworkProfileGenerator())
-	gens["OsProfile"] = gen.PtrOf(OSProfileGenerator())
+	gens["OsProfile"] = gen.PtrOf(VirtualMachinesSpecPropertiesOsProfileGenerator())
 	gens["Plan"] = gen.PtrOf(PlanGenerator())
 	gens["ProximityPlacementGroup"] = gen.PtrOf(SubResourceGenerator())
 	gens["SecurityProfile"] = gen.PtrOf(SecurityProfileGenerator())
@@ -1898,127 +1898,6 @@ func AddRelatedPropertyGeneratorsForNetworkProfileStatus(gens map[string]gopter.
 	gens["NetworkInterfaces"] = gen.SliceOf(NetworkInterfaceReferenceStatusGenerator())
 }
 
-func Test_OSProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from OSProfile to OSProfile via AssignPropertiesToOSProfile & AssignPropertiesFromOSProfile returns original",
-		prop.ForAll(RunPropertyAssignmentTestForOSProfile, OSProfileGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForOSProfile tests if a specific instance of OSProfile can be assigned to v1beta20201201storage and back losslessly
-func RunPropertyAssignmentTestForOSProfile(subject OSProfile) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20201201s.OSProfile
-	err := copied.AssignPropertiesToOSProfile(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual OSProfile
-	err = actual.AssignPropertiesFromOSProfile(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_OSProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of OSProfile via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForOSProfile, OSProfileGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForOSProfile runs a test to see if a specific instance of OSProfile round trips to JSON and back losslessly
-func RunJSONSerializationTestForOSProfile(subject OSProfile) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual OSProfile
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of OSProfile instances for property testing - lazily instantiated by OSProfileGenerator()
-var osProfileGenerator gopter.Gen
-
-// OSProfileGenerator returns a generator of OSProfile instances for property testing.
-// We first initialize osProfileGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func OSProfileGenerator() gopter.Gen {
-	if osProfileGenerator != nil {
-		return osProfileGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForOSProfile(generators)
-	osProfileGenerator = gen.Struct(reflect.TypeOf(OSProfile{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForOSProfile(generators)
-	AddRelatedPropertyGeneratorsForOSProfile(generators)
-	osProfileGenerator = gen.Struct(reflect.TypeOf(OSProfile{}), generators)
-
-	return osProfileGenerator
-}
-
-// AddIndependentPropertyGeneratorsForOSProfile is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForOSProfile(gens map[string]gopter.Gen) {
-	gens["AdminUsername"] = gen.PtrOf(gen.AlphaString())
-	gens["AllowExtensionOperations"] = gen.PtrOf(gen.Bool())
-	gens["ComputerName"] = gen.PtrOf(gen.AlphaString())
-	gens["CustomData"] = gen.PtrOf(gen.AlphaString())
-	gens["RequireGuestProvisionSignal"] = gen.PtrOf(gen.Bool())
-}
-
-// AddRelatedPropertyGeneratorsForOSProfile is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForOSProfile(gens map[string]gopter.Gen) {
-	gens["LinuxConfiguration"] = gen.PtrOf(LinuxConfigurationGenerator())
-	gens["Secrets"] = gen.SliceOf(VaultSecretGroupGenerator())
-	gens["WindowsConfiguration"] = gen.PtrOf(WindowsConfigurationGenerator())
-}
-
 func Test_OSProfile_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -2126,7 +2005,6 @@ func OSProfileStatusGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForOSProfileStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForOSProfileStatus(gens map[string]gopter.Gen) {
-	gens["AdminPassword"] = gen.PtrOf(gen.AlphaString())
 	gens["AdminUsername"] = gen.PtrOf(gen.AlphaString())
 	gens["AllowExtensionOperations"] = gen.PtrOf(gen.Bool())
 	gens["ComputerName"] = gen.PtrOf(gen.AlphaString())
@@ -3570,6 +3448,128 @@ func VirtualMachinesSpecPropertiesNetworkProfileGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForVirtualMachinesSpecPropertiesNetworkProfile is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForVirtualMachinesSpecPropertiesNetworkProfile(gens map[string]gopter.Gen) {
 	gens["NetworkInterfaces"] = gen.SliceOf(VirtualMachinesSpecPropertiesNetworkProfileNetworkInterfacesGenerator())
+}
+
+func Test_VirtualMachines_Spec_Properties_OsProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from VirtualMachines_Spec_Properties_OsProfile to VirtualMachines_Spec_Properties_OsProfile via AssignPropertiesToVirtualMachinesSpecPropertiesOsProfile & AssignPropertiesFromVirtualMachinesSpecPropertiesOsProfile returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualMachinesSpecPropertiesOsProfile, VirtualMachinesSpecPropertiesOsProfileGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForVirtualMachinesSpecPropertiesOsProfile tests if a specific instance of VirtualMachines_Spec_Properties_OsProfile can be assigned to v1beta20201201storage and back losslessly
+func RunPropertyAssignmentTestForVirtualMachinesSpecPropertiesOsProfile(subject VirtualMachines_Spec_Properties_OsProfile) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20201201s.VirtualMachines_Spec_Properties_OsProfile
+	err := copied.AssignPropertiesToVirtualMachinesSpecPropertiesOsProfile(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual VirtualMachines_Spec_Properties_OsProfile
+	err = actual.AssignPropertiesFromVirtualMachinesSpecPropertiesOsProfile(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_VirtualMachines_Spec_Properties_OsProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of VirtualMachines_Spec_Properties_OsProfile via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualMachinesSpecPropertiesOsProfile, VirtualMachinesSpecPropertiesOsProfileGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForVirtualMachinesSpecPropertiesOsProfile runs a test to see if a specific instance of VirtualMachines_Spec_Properties_OsProfile round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachinesSpecPropertiesOsProfile(subject VirtualMachines_Spec_Properties_OsProfile) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual VirtualMachines_Spec_Properties_OsProfile
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of VirtualMachines_Spec_Properties_OsProfile instances for property testing - lazily instantiated by
+// VirtualMachinesSpecPropertiesOsProfileGenerator()
+var virtualMachinesSpecPropertiesOsProfileGenerator gopter.Gen
+
+// VirtualMachinesSpecPropertiesOsProfileGenerator returns a generator of VirtualMachines_Spec_Properties_OsProfile instances for property testing.
+// We first initialize virtualMachinesSpecPropertiesOsProfileGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func VirtualMachinesSpecPropertiesOsProfileGenerator() gopter.Gen {
+	if virtualMachinesSpecPropertiesOsProfileGenerator != nil {
+		return virtualMachinesSpecPropertiesOsProfileGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForVirtualMachinesSpecPropertiesOsProfile(generators)
+	virtualMachinesSpecPropertiesOsProfileGenerator = gen.Struct(reflect.TypeOf(VirtualMachines_Spec_Properties_OsProfile{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForVirtualMachinesSpecPropertiesOsProfile(generators)
+	AddRelatedPropertyGeneratorsForVirtualMachinesSpecPropertiesOsProfile(generators)
+	virtualMachinesSpecPropertiesOsProfileGenerator = gen.Struct(reflect.TypeOf(VirtualMachines_Spec_Properties_OsProfile{}), generators)
+
+	return virtualMachinesSpecPropertiesOsProfileGenerator
+}
+
+// AddIndependentPropertyGeneratorsForVirtualMachinesSpecPropertiesOsProfile is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachinesSpecPropertiesOsProfile(gens map[string]gopter.Gen) {
+	gens["AdminUsername"] = gen.PtrOf(gen.AlphaString())
+	gens["AllowExtensionOperations"] = gen.PtrOf(gen.Bool())
+	gens["ComputerName"] = gen.PtrOf(gen.AlphaString())
+	gens["CustomData"] = gen.PtrOf(gen.AlphaString())
+	gens["RequireGuestProvisionSignal"] = gen.PtrOf(gen.Bool())
+}
+
+// AddRelatedPropertyGeneratorsForVirtualMachinesSpecPropertiesOsProfile is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualMachinesSpecPropertiesOsProfile(gens map[string]gopter.Gen) {
+	gens["LinuxConfiguration"] = gen.PtrOf(LinuxConfigurationGenerator())
+	gens["Secrets"] = gen.SliceOf(VaultSecretGroupGenerator())
+	gens["WindowsConfiguration"] = gen.PtrOf(WindowsConfigurationGenerator())
 }
 
 func Test_BootDiagnostics_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

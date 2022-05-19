@@ -5,7 +5,7 @@ package v1alpha1api20210601
 
 // Deprecated version of Workspace_Status. Use v1beta20210601.Workspace_Status instead
 type Workspace_StatusARM struct {
-	ETag       *string                        `json:"eTag,omitempty"`
+	Etag       *string                        `json:"etag,omitempty"`
 	Id         *string                        `json:"id,omitempty"`
 	Location   *string                        `json:"location,omitempty"`
 	Name       *string                        `json:"name,omitempty"`

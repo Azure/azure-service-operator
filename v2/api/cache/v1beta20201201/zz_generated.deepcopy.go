@@ -1018,6 +1018,11 @@ func (in *RedisPatchSchedule_Status) DeepCopyInto(out *RedisPatchSchedule_Status
 		*out = new(string)
 		**out = **in
 	}
+	if in.Location != nil {
+		in, out := &in.Location, &out.Location
+		*out = new(string)
+		**out = **in
+	}
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
 		*out = new(string)
@@ -1052,6 +1057,11 @@ func (in *RedisPatchSchedule_StatusARM) DeepCopyInto(out *RedisPatchSchedule_Sta
 	*out = *in
 	if in.Id != nil {
 		in, out := &in.Id, &out.Id
+		*out = new(string)
+		**out = **in
+	}
+	if in.Location != nil {
+		in, out := &in.Location, &out.Location
 		*out = new(string)
 		**out = **in
 	}

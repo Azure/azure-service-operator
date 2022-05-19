@@ -85,7 +85,6 @@ type NetworkProfile_StatusARM struct {
 
 // Deprecated version of OSProfile_Status. Use v1beta20201201.OSProfile_Status instead
 type OSProfile_StatusARM struct {
-	AdminPassword               *string                         `json:"adminPassword,omitempty"`
 	AdminUsername               *string                         `json:"adminUsername,omitempty"`
 	AllowExtensionOperations    *bool                           `json:"allowExtensionOperations,omitempty"`
 	ComputerName                *string                         `json:"computerName,omitempty"`

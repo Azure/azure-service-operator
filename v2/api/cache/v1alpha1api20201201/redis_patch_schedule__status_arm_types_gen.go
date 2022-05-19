@@ -6,6 +6,7 @@ package v1alpha1api20201201
 // Deprecated version of RedisPatchSchedule_Status. Use v1beta20201201.RedisPatchSchedule_Status instead
 type RedisPatchSchedule_StatusARM struct {
 	Id         *string                    `json:"id,omitempty"`
+	Location   *string                    `json:"location,omitempty"`
 	Name       *string                    `json:"name,omitempty"`
 	Properties *ScheduleEntries_StatusARM `json:"properties,omitempty"`
 	Type       *string                    `json:"type,omitempty"`

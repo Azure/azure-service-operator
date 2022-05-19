@@ -236,24 +236,6 @@ type NetworkProfile_StatusARM struct {
 }
 
 type OSProfile_StatusARM struct {
-	// AdminPassword: Specifies the password of the administrator account.
-	// Minimum-length (Windows): 8 characters
-	// Minimum-length (Linux): 6 characters
-	// Max-length (Windows): 123 characters
-	// Max-length (Linux): 72 characters
-	// Complexity requirements: 3 out of 4 conditions below need to be fulfilled
-	// Has lower characters
-	// Has upper characters
-	// Has a digit
-	// Has a special character (Regex match [\W_])
-	// Disallowed values: "abc@123", "P@$$w0rd", "P@ssw0rd", "P@ssword123", "Pa$$word", "pass@word1", "Password!", "Password1",
-	// "Password22", "iloveyou!"
-	// For resetting the password, see [How to reset the Remote Desktop service or its login password in a Windows
-	// VM](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-reset-rdp?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json)
-	// For resetting root password, see [Manage users, SSH, and check or repair disks on Azure Linux VMs using the VMAccess
-	// Extension](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-using-vmaccess-extension?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json#reset-root-password)
-	AdminPassword *string `json:"adminPassword,omitempty"`
-
 	// AdminUsername: Specifies the name of the administrator account.
 	// This property cannot be updated after the VM is created.
 	// Windows-only restriction: Cannot end in "."

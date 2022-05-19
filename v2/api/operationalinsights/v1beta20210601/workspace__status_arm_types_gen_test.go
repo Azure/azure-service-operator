@@ -82,7 +82,7 @@ func WorkspaceStatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForWorkspaceStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForWorkspaceStatusARM(gens map[string]gopter.Gen) {
-	gens["ETag"] = gen.PtrOf(gen.AlphaString())
+	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
