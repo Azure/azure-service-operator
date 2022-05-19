@@ -129,6 +129,7 @@ func (gc *GroupConfiguration) findVersionForLocalPackageReference(ref astmodel.L
 	pkgKey := strings.ToLower(ref.PackageName())
 	if version, ok := gc.versions[pkgKey]; ok {
 		// make sure there's an exact match on the actual version name, so we don't generate a recommendation
+		gc.advisor.AddTerm(version.name)
 		return version, nil
 	}
 
