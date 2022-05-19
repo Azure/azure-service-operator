@@ -52,7 +52,7 @@ func Test_CDN_Profile_CRUD(t *testing.T) {
 	exists, _, err := tc.AzureClient.HeadByID(
 		tc.Ctx,
 		armId,
-		string(cdn.ProfilesSpecAPIVersion20210601))
+		string(cdn.APIVersionValue))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
 }
