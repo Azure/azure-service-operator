@@ -12,11 +12,11 @@ import (
 	"sync"
 	"time"
 
+	"github.com/benbjohnson/clock"
 	"github.com/dnaeon/go-vcr/recorder"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/client-go/rest"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -31,6 +31,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/registration"
 )
 
 func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources) (*runningEnvTest, error) {
@@ -130,37 +132,46 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 			maxBackoff = 5 * time.Millisecond
 		}
 
-		var extensions map[schema.GroupVersionKind]genruntime.ResourceExtension
-		extensions, err = controllers.GetResourceExtensions(scheme)
-		if err != nil {
-			return nil, errors.Wrapf(err, "getting extensions")
-		}
-
 		// We use a custom indexer here so that we can simulate the caching client behavior for indexing even though
 		// for our tests we are not using the caching client
 		testIndexer := NewIndexer(mgr.GetScheme())
 		indexer := kubeclient.NewAndIndexer(mgr.GetFieldIndexer(), testIndexer)
 		kubeClient := kubeclient.NewClient(NewClient(mgr.GetClient(), testIndexer))
 
+		options := controllers.Options{
+			LoggerFactory: loggerFactory,
+			RequeueDelay:  requeueDelay,
+			Config:        cfg.Values,
+			Options: controller.Options{
+				// Allow concurrent reconciliation in tests
+				MaxConcurrentReconciles: 5,
+
+				// Use appropriate backoff for mode.
+				RateLimiter: controllers.NewRateLimiter(minBackoff, maxBackoff),
+
+				Log: ctrl.Log,
+			},
+		}
+		positiveConditions := conditions.NewPositiveConditionBuilder(clock.New())
+
+		var objs []*registration.StorageType
+		objs, err = controllers.GetKnownStorageTypes(
+			mgr,
+			clientFactory,
+			kubeClient,
+			positiveConditions,
+			options)
+		if err != nil {
+			return nil, err
+		}
+
 		err = controllers.RegisterAll(
 			mgr,
 			indexer,
 			kubeClient,
-			clientFactory,
-			controllers.GetKnownStorageTypes(),
-			extensions,
-			controllers.Options{
-				LoggerFactory: loggerFactory,
-				RequeueDelay:  requeueDelay,
-				Config:        cfg.Values,
-				Options: controller.Options{
-					// Allow concurrent reconciliation in tests
-					MaxConcurrentReconciles: 5,
-
-					// Use appropriate backoff for mode.
-					RateLimiter: controllers.NewRateLimiter(minBackoff, maxBackoff),
-				},
-			})
+			positiveConditions,
+			objs,
+			options)
 		if err != nil {
 			stopEnvironment()
 			return nil, errors.Wrapf(err, "registering reconcilers")

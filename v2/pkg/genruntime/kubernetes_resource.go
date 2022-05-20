@@ -11,12 +11,15 @@ import (
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 
+type ARMOwned interface {
+	// Owner returns the ResourceReference of the owner, or nil if there is no owner
+	Owner() *ResourceReference
+}
+
 // KubernetesResource is an Azure resource. This interface contains the common set of
 // methods that apply to all ASO ARM resources.
 type KubernetesResource interface {
-
-	// Owner returns the ResourceReference of the owner, or nil if there is no owner
-	Owner() *ResourceReference
+	ARMOwned
 
 	// TODO: I think we need this?
 	// KnownOwner() *KnownResourceReference
