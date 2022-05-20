@@ -41,7 +41,7 @@ func NewARMSpecInterfaceImpl(
 	getNameFunc := functions.NewObjectFunction("Get"+astmodel.NameProperty, idFactory, getNameFunction)
 	getNameFunc.AddPackageReference(astmodel.GenRuntimeReference)
 
-	getTypeFunc := functions.NewGetTypeFunction(resource.ARMType(), idFactory, functions.ReceiverTypeStruct)
+	getTypeFunc := functions.NewGetTypeFunction(resource.ARMType(), idFactory, functions.ReceiverTypePtr)
 
 	getAPIVersionFunc := functions.NewGetAPIVersionFunction(
 		resource.APIVersionTypeName(),
@@ -97,13 +97,8 @@ func armSpecInterfaceSimpleGetFunction(
 	details := &astbuilder.FuncDetails{
 		Name:          methodName,
 		ReceiverIdent: receiverIdent,
-		// TODO: We're too loosey-goosey here with ptr vs value receiver.
-		// TODO: We basically need to use a value receiver right now because
-		// TODO: ConvertToARM always returns a value, but for other interface impls
-		// TODO: for example on resource we use ptr receiver... the inconsistency is
-		// TODO: awkward...
-		ReceiverType: receiverType,
-		Body:         astbuilder.Statements(retResult),
+		ReceiverType:  astbuilder.Dereference(receiverType),
+		Body:          astbuilder.Statements(retResult),
 	}
 
 	details.AddComments(fmt.Sprintf("returns the %s of the resource", propertyName))

@@ -21,12 +21,12 @@ func (procedures DatabaseAccountsSqlDatabasesContainersStoredProcedures_SpecARM)
 }
 
 // GetName returns the Name of the resource
-func (procedures DatabaseAccountsSqlDatabasesContainersStoredProcedures_SpecARM) GetName() string {
+func (procedures *DatabaseAccountsSqlDatabasesContainersStoredProcedures_SpecARM) GetName() string {
 	return procedures.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/storedProcedures"
-func (procedures DatabaseAccountsSqlDatabasesContainersStoredProcedures_SpecARM) GetType() string {
+func (procedures *DatabaseAccountsSqlDatabasesContainersStoredProcedures_SpecARM) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/storedProcedures"
 }
 

@@ -21,12 +21,12 @@ func (schedules RedisPatchSchedules_SpecARM) GetAPIVersion() string {
 }
 
 // GetName returns the Name of the resource
-func (schedules RedisPatchSchedules_SpecARM) GetName() string {
+func (schedules *RedisPatchSchedules_SpecARM) GetName() string {
 	return schedules.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Cache/redis/patchSchedules"
-func (schedules RedisPatchSchedules_SpecARM) GetType() string {
+func (schedules *RedisPatchSchedules_SpecARM) GetType() string {
 	return "Microsoft.Cache/redis/patchSchedules"
 }
 

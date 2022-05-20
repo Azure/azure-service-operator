@@ -1189,7 +1189,7 @@ func (disks *Disks_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 	if disks == nil {
 		return nil, nil
 	}
-	var result Disks_SpecARM
+	result := &Disks_SpecARM{}
 
 	// Set property ‘ExtendedLocation’:
 	if disks.ExtendedLocation != nil {
@@ -1197,7 +1197,7 @@ func (disks *Disks_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 		if err != nil {
 			return nil, err
 		}
-		extendedLocation := extendedLocationARM.(ExtendedLocationARM)
+		extendedLocation := *extendedLocationARM.(*ExtendedLocationARM)
 		result.ExtendedLocation = &extendedLocation
 	}
 
@@ -1238,7 +1238,7 @@ func (disks *Disks_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 		if err != nil {
 			return nil, err
 		}
-		creationData := creationDataARM.(CreationDataARM)
+		creationData := *creationDataARM.(*CreationDataARM)
 		result.Properties.CreationData = &creationData
 	}
 	if disks.DiskAccessReference != nil {
@@ -1274,7 +1274,7 @@ func (disks *Disks_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 		if err != nil {
 			return nil, err
 		}
-		encryption := encryptionARM.(EncryptionARM)
+		encryption := *encryptionARM.(*EncryptionARM)
 		result.Properties.Encryption = &encryption
 	}
 	if disks.EncryptionSettingsCollection != nil {
@@ -1282,7 +1282,7 @@ func (disks *Disks_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 		if err != nil {
 			return nil, err
 		}
-		encryptionSettingsCollection := encryptionSettingsCollectionARM.(EncryptionSettingsCollectionARM)
+		encryptionSettingsCollection := *encryptionSettingsCollectionARM.(*EncryptionSettingsCollectionARM)
 		result.Properties.EncryptionSettingsCollection = &encryptionSettingsCollection
 	}
 	if disks.HyperVGeneration != nil {
@@ -1306,7 +1306,7 @@ func (disks *Disks_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 		if err != nil {
 			return nil, err
 		}
-		purchasePlan := purchasePlanARM.(PurchasePlanARM)
+		purchasePlan := *purchasePlanARM.(*PurchasePlanARM)
 		result.Properties.PurchasePlan = &purchasePlan
 	}
 	if disks.Tier != nil {
@@ -1320,7 +1320,7 @@ func (disks *Disks_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 		if err != nil {
 			return nil, err
 		}
-		sku := skuARM.(DiskSkuARM)
+		sku := *skuARM.(*DiskSkuARM)
 		result.Sku = &sku
 	}
 
@@ -1971,7 +1971,7 @@ func (data *CreationData) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 	if data == nil {
 		return nil, nil
 	}
-	var result CreationDataARM
+	result := &CreationDataARM{}
 
 	// Set property ‘CreateOption’:
 	if data.CreateOption != nil {
@@ -1985,7 +1985,7 @@ func (data *CreationData) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 		if err != nil {
 			return nil, err
 		}
-		galleryImageReference := galleryImageReferenceARM.(ImageDiskReferenceARM)
+		galleryImageReference := *galleryImageReferenceARM.(*ImageDiskReferenceARM)
 		result.GalleryImageReference = &galleryImageReference
 	}
 
@@ -1995,7 +1995,7 @@ func (data *CreationData) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 		if err != nil {
 			return nil, err
 		}
-		imageReference := imageReferenceARM.(ImageDiskReferenceARM)
+		imageReference := *imageReferenceARM.(*ImageDiskReferenceARM)
 		result.ImageReference = &imageReference
 	}
 
@@ -2507,7 +2507,7 @@ func (diskSku *DiskSku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 	if diskSku == nil {
 		return nil, nil
 	}
-	var result DiskSkuARM
+	result := &DiskSkuARM{}
 
 	// Set property ‘Name’:
 	if diskSku.Name != nil {
@@ -2684,7 +2684,7 @@ func (encryption *Encryption) ConvertToARM(resolved genruntime.ConvertToARMResol
 	if encryption == nil {
 		return nil, nil
 	}
-	var result EncryptionARM
+	result := &EncryptionARM{}
 
 	// Set property ‘DiskEncryptionSetId’:
 	if encryption.DiskEncryptionSetReference != nil {
@@ -2798,7 +2798,7 @@ func (collection *EncryptionSettingsCollection) ConvertToARM(resolved genruntime
 	if collection == nil {
 		return nil, nil
 	}
-	var result EncryptionSettingsCollectionARM
+	result := &EncryptionSettingsCollectionARM{}
 
 	// Set property ‘Enabled’:
 	if collection.Enabled != nil {
@@ -2812,7 +2812,7 @@ func (collection *EncryptionSettingsCollection) ConvertToARM(resolved genruntime
 		if err != nil {
 			return nil, err
 		}
-		result.EncryptionSettings = append(result.EncryptionSettings, itemARM.(EncryptionSettingsElementARM))
+		result.EncryptionSettings = append(result.EncryptionSettings, *itemARM.(*EncryptionSettingsElementARM))
 	}
 
 	// Set property ‘EncryptionSettingsVersion’:
@@ -3164,7 +3164,7 @@ func (location *ExtendedLocation) ConvertToARM(resolved genruntime.ConvertToARMR
 	if location == nil {
 		return nil, nil
 	}
-	var result ExtendedLocationARM
+	result := &ExtendedLocationARM{}
 
 	// Set property ‘Name’:
 	if location.Name != nil {
@@ -3363,7 +3363,7 @@ func (plan *PurchasePlan) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 	if plan == nil {
 		return nil, nil
 	}
-	var result PurchasePlanARM
+	result := &PurchasePlanARM{}
 
 	// Set property ‘Name’:
 	if plan.Name != nil {
@@ -3673,7 +3673,7 @@ func (element *EncryptionSettingsElement) ConvertToARM(resolved genruntime.Conve
 	if element == nil {
 		return nil, nil
 	}
-	var result EncryptionSettingsElementARM
+	result := &EncryptionSettingsElementARM{}
 
 	// Set property ‘DiskEncryptionKey’:
 	if element.DiskEncryptionKey != nil {
@@ -3681,7 +3681,7 @@ func (element *EncryptionSettingsElement) ConvertToARM(resolved genruntime.Conve
 		if err != nil {
 			return nil, err
 		}
-		diskEncryptionKey := diskEncryptionKeyARM.(KeyVaultAndSecretReferenceARM)
+		diskEncryptionKey := *diskEncryptionKeyARM.(*KeyVaultAndSecretReferenceARM)
 		result.DiskEncryptionKey = &diskEncryptionKey
 	}
 
@@ -3691,7 +3691,7 @@ func (element *EncryptionSettingsElement) ConvertToARM(resolved genruntime.Conve
 		if err != nil {
 			return nil, err
 		}
-		keyEncryptionKey := keyEncryptionKeyARM.(KeyVaultAndKeyReferenceARM)
+		keyEncryptionKey := *keyEncryptionKeyARM.(*KeyVaultAndKeyReferenceARM)
 		result.KeyEncryptionKey = &keyEncryptionKey
 	}
 	return result, nil
@@ -3957,7 +3957,7 @@ func (reference *ImageDiskReference) ConvertToARM(resolved genruntime.ConvertToA
 	if reference == nil {
 		return nil, nil
 	}
-	var result ImageDiskReferenceARM
+	result := &ImageDiskReferenceARM{}
 
 	// Set property ‘Id’:
 	if reference.Reference != nil {
@@ -4133,7 +4133,7 @@ func (reference *KeyVaultAndKeyReference) ConvertToARM(resolved genruntime.Conve
 	if reference == nil {
 		return nil, nil
 	}
-	var result KeyVaultAndKeyReferenceARM
+	result := &KeyVaultAndKeyReferenceARM{}
 
 	// Set property ‘KeyUrl’:
 	if reference.KeyUrl != nil {
@@ -4147,7 +4147,7 @@ func (reference *KeyVaultAndKeyReference) ConvertToARM(resolved genruntime.Conve
 		if err != nil {
 			return nil, err
 		}
-		sourceVault := sourceVaultARM.(SourceVaultARM)
+		sourceVault := *sourceVaultARM.(*SourceVaultARM)
 		result.SourceVault = &sourceVault
 	}
 	return result, nil
@@ -4349,7 +4349,7 @@ func (reference *KeyVaultAndSecretReference) ConvertToARM(resolved genruntime.Co
 	if reference == nil {
 		return nil, nil
 	}
-	var result KeyVaultAndSecretReferenceARM
+	result := &KeyVaultAndSecretReferenceARM{}
 
 	// Set property ‘SecretUrl’:
 	if reference.SecretUrl != nil {
@@ -4363,7 +4363,7 @@ func (reference *KeyVaultAndSecretReference) ConvertToARM(resolved genruntime.Co
 		if err != nil {
 			return nil, err
 		}
-		sourceVault := sourceVaultARM.(SourceVaultARM)
+		sourceVault := *sourceVaultARM.(*SourceVaultARM)
 		result.SourceVault = &sourceVault
 	}
 	return result, nil
@@ -4561,7 +4561,7 @@ func (vault *SourceVault) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 	if vault == nil {
 		return nil, nil
 	}
-	var result SourceVaultARM
+	result := &SourceVaultARM{}
 
 	// Set property ‘Id’:
 	if vault.Reference != nil {

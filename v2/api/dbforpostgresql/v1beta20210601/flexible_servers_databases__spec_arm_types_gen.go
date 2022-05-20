@@ -27,12 +27,12 @@ func (databases FlexibleServersDatabases_SpecARM) GetAPIVersion() string {
 }
 
 // GetName returns the Name of the resource
-func (databases FlexibleServersDatabases_SpecARM) GetName() string {
+func (databases *FlexibleServersDatabases_SpecARM) GetName() string {
 	return databases.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DBforPostgreSQL/flexibleServers/databases"
-func (databases FlexibleServersDatabases_SpecARM) GetType() string {
+func (databases *FlexibleServersDatabases_SpecARM) GetType() string {
 	return "Microsoft.DBforPostgreSQL/flexibleServers/databases"
 }
 

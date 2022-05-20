@@ -23,12 +23,12 @@ func (components Components_SpecARM) GetAPIVersion() string {
 }
 
 // GetName returns the Name of the resource
-func (components Components_SpecARM) GetName() string {
+func (components *Components_SpecARM) GetName() string {
 	return components.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Insights/components"
-func (components Components_SpecARM) GetType() string {
+func (components *Components_SpecARM) GetType() string {
 	return "Microsoft.Insights/components"
 }
 

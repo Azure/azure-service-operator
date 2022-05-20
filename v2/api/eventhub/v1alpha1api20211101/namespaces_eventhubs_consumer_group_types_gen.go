@@ -596,7 +596,7 @@ func (consumergroups *NamespacesEventhubsConsumergroups_Spec) ConvertToARM(resol
 	if consumergroups == nil {
 		return nil, nil
 	}
-	var result NamespacesEventhubsConsumergroups_SpecARM
+	result := &NamespacesEventhubsConsumergroups_SpecARM{}
 
 	// Set property ‘Location’:
 	if consumergroups.Location != nil {

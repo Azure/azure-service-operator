@@ -284,12 +284,12 @@ func (resource FakeResource_SpecARM) GetAPIVersion() string {
 }
 
 // GetName returns the Name of the resource
-func (resource FakeResource_SpecARM) GetName() string {
+func (resource *FakeResource_SpecARM) GetName() string {
 	return resource.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/FakeResource"
-func (resource FakeResource_SpecARM) GetType() string {
+func (resource *FakeResource_SpecARM) GetType() string {
 	return "Microsoft.Azure/FakeResource"
 }
 
@@ -318,7 +318,7 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	if resource == nil {
 		return nil, nil
 	}
-	var result FakeResource_SpecARM
+	result := &FakeResource_SpecARM{}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
@@ -329,7 +329,7 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		if err != nil {
 			return nil, err
 		}
-		properties := propertiesARM.(PropertiesARM)
+		properties := *propertiesARM.(*PropertiesARM)
 		result.Properties = &properties
 	}
 	return result, nil
@@ -588,7 +588,7 @@ func (properties *Properties) ConvertToARM(resolved genruntime.ConvertToARMResol
 	if properties == nil {
 		return nil, nil
 	}
-	var result PropertiesARM
+	result := &PropertiesARM{}
 
 	// Set property ‘Bar’:
 	if properties.Bar != nil {
@@ -596,7 +596,7 @@ func (properties *Properties) ConvertToARM(resolved genruntime.ConvertToARMResol
 		if err != nil {
 			return nil, err
 		}
-		bar := barARM.(BarARM)
+		bar := *barARM.(*BarARM)
 		result.Bar = &bar
 	}
 
@@ -606,7 +606,7 @@ func (properties *Properties) ConvertToARM(resolved genruntime.ConvertToARMResol
 		if err != nil {
 			return nil, err
 		}
-		baz := bazARM.(BazARM)
+		baz := *bazARM.(*BazARM)
 		result.Baz = &baz
 	}
 
@@ -616,7 +616,7 @@ func (properties *Properties) ConvertToARM(resolved genruntime.ConvertToARMResol
 		if err != nil {
 			return nil, err
 		}
-		foo := fooARM.(FooARM)
+		foo := *fooARM.(*FooARM)
 		result.Foo = &foo
 	}
 	return result, nil
@@ -782,7 +782,7 @@ func (bar *Bar) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 	if bar == nil {
 		return nil, nil
 	}
-	var result BarARM
+	result := &BarARM{}
 
 	// Set property ‘Discrim’:
 	if bar.Discrim != nil {
@@ -888,7 +888,7 @@ func (baz *Baz) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 	if baz == nil {
 		return nil, nil
 	}
-	var result BazARM
+	result := &BazARM{}
 
 	// Set property ‘Discrim’:
 	if baz.Discrim != nil {
@@ -1002,7 +1002,7 @@ func (foo *Foo) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 	if foo == nil {
 		return nil, nil
 	}
-	var result FooARM
+	result := &FooARM{}
 
 	// Set property ‘Discrim’:
 	if foo.Discrim != nil {

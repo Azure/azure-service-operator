@@ -376,7 +376,7 @@ func (topics *NamespacesTopics_Spec) ConvertToARM(resolved genruntime.ConvertToA
 	if topics == nil {
 		return nil, nil
 	}
-	var result NamespacesTopics_SpecARM
+	result := &NamespacesTopics_SpecARM{}
 
 	// Set property ‘Location’:
 	if topics.Location != nil {

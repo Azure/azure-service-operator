@@ -1016,7 +1016,7 @@ func (balancers *LoadBalancers_Spec) ConvertToARM(resolved genruntime.ConvertToA
 	if balancers == nil {
 		return nil, nil
 	}
-	var result LoadBalancers_SpecARM
+	result := &LoadBalancers_SpecARM{}
 
 	// Set property ‘ExtendedLocation’:
 	if balancers.ExtendedLocation != nil {
@@ -1024,7 +1024,7 @@ func (balancers *LoadBalancers_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		if err != nil {
 			return nil, err
 		}
-		extendedLocation := extendedLocationARM.(ExtendedLocationARM)
+		extendedLocation := *extendedLocationARM.(*ExtendedLocationARM)
 		result.ExtendedLocation = &extendedLocation
 	}
 
@@ -1051,42 +1051,42 @@ func (balancers *LoadBalancers_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.BackendAddressPools = append(result.Properties.BackendAddressPools, itemARM.(LoadBalancers_Spec_Properties_BackendAddressPoolsARM))
+		result.Properties.BackendAddressPools = append(result.Properties.BackendAddressPools, *itemARM.(*LoadBalancers_Spec_Properties_BackendAddressPoolsARM))
 	}
 	for _, item := range balancers.FrontendIPConfigurations {
 		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.FrontendIPConfigurations = append(result.Properties.FrontendIPConfigurations, itemARM.(LoadBalancers_Spec_Properties_FrontendIPConfigurationsARM))
+		result.Properties.FrontendIPConfigurations = append(result.Properties.FrontendIPConfigurations, *itemARM.(*LoadBalancers_Spec_Properties_FrontendIPConfigurationsARM))
 	}
 	for _, item := range balancers.InboundNatPools {
 		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.InboundNatPools = append(result.Properties.InboundNatPools, itemARM.(LoadBalancers_Spec_Properties_InboundNatPoolsARM))
+		result.Properties.InboundNatPools = append(result.Properties.InboundNatPools, *itemARM.(*LoadBalancers_Spec_Properties_InboundNatPoolsARM))
 	}
 	for _, item := range balancers.LoadBalancingRules {
 		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.LoadBalancingRules = append(result.Properties.LoadBalancingRules, itemARM.(LoadBalancers_Spec_Properties_LoadBalancingRulesARM))
+		result.Properties.LoadBalancingRules = append(result.Properties.LoadBalancingRules, *itemARM.(*LoadBalancers_Spec_Properties_LoadBalancingRulesARM))
 	}
 	for _, item := range balancers.OutboundRules {
 		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.OutboundRules = append(result.Properties.OutboundRules, itemARM.(LoadBalancers_Spec_Properties_OutboundRulesARM))
+		result.Properties.OutboundRules = append(result.Properties.OutboundRules, *itemARM.(*LoadBalancers_Spec_Properties_OutboundRulesARM))
 	}
 	for _, item := range balancers.Probes {
 		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.Probes = append(result.Properties.Probes, itemARM.(LoadBalancers_Spec_Properties_ProbesARM))
+		result.Properties.Probes = append(result.Properties.Probes, *itemARM.(*LoadBalancers_Spec_Properties_ProbesARM))
 	}
 
 	// Set property ‘Sku’:
@@ -1095,7 +1095,7 @@ func (balancers *LoadBalancers_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		if err != nil {
 			return nil, err
 		}
-		sku := skuARM.(LoadBalancerSkuARM)
+		sku := *skuARM.(*LoadBalancerSkuARM)
 		result.Sku = &sku
 	}
 
@@ -1703,7 +1703,7 @@ func (location *ExtendedLocation) ConvertToARM(resolved genruntime.ConvertToARMR
 	if location == nil {
 		return nil, nil
 	}
-	var result ExtendedLocationARM
+	result := &ExtendedLocationARM{}
 
 	// Set property ‘Name’:
 	if location.Name != nil {
@@ -2768,7 +2768,7 @@ func (balancerSku *LoadBalancerSku) ConvertToARM(resolved genruntime.ConvertToAR
 	if balancerSku == nil {
 		return nil, nil
 	}
-	var result LoadBalancerSkuARM
+	result := &LoadBalancerSkuARM{}
 
 	// Set property ‘Name’:
 	if balancerSku.Name != nil {
@@ -2974,7 +2974,7 @@ func (pools *LoadBalancers_Spec_Properties_BackendAddressPools) ConvertToARM(res
 	if pools == nil {
 		return nil, nil
 	}
-	var result LoadBalancers_Spec_Properties_BackendAddressPoolsARM
+	result := &LoadBalancers_Spec_Properties_BackendAddressPoolsARM{}
 
 	// Set property ‘Name’:
 	if pools.Name != nil {
@@ -2991,7 +2991,7 @@ func (pools *LoadBalancers_Spec_Properties_BackendAddressPools) ConvertToARM(res
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.LoadBalancerBackendAddresses = append(result.Properties.LoadBalancerBackendAddresses, itemARM.(LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddressesARM))
+		result.Properties.LoadBalancerBackendAddresses = append(result.Properties.LoadBalancerBackendAddresses, *itemARM.(*LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddressesARM))
 	}
 	if pools.Location != nil {
 		location := *pools.Location
@@ -3135,7 +3135,7 @@ func (configurations *LoadBalancers_Spec_Properties_FrontendIPConfigurations) Co
 	if configurations == nil {
 		return nil, nil
 	}
-	var result LoadBalancers_Spec_Properties_FrontendIPConfigurationsARM
+	result := &LoadBalancers_Spec_Properties_FrontendIPConfigurationsARM{}
 
 	// Set property ‘Name’:
 	if configurations.Name != nil {
@@ -3169,7 +3169,7 @@ func (configurations *LoadBalancers_Spec_Properties_FrontendIPConfigurations) Co
 		if err != nil {
 			return nil, err
 		}
-		publicIPAddress := publicIPAddressARM.(SubResourceARM)
+		publicIPAddress := *publicIPAddressARM.(*SubResourceARM)
 		result.Properties.PublicIPAddress = &publicIPAddress
 	}
 	if configurations.PublicIPPrefix != nil {
@@ -3177,7 +3177,7 @@ func (configurations *LoadBalancers_Spec_Properties_FrontendIPConfigurations) Co
 		if err != nil {
 			return nil, err
 		}
-		publicIPPrefix := publicIPPrefixARM.(SubResourceARM)
+		publicIPPrefix := *publicIPPrefixARM.(*SubResourceARM)
 		result.Properties.PublicIPPrefix = &publicIPPrefix
 	}
 	if configurations.Subnet != nil {
@@ -3185,7 +3185,7 @@ func (configurations *LoadBalancers_Spec_Properties_FrontendIPConfigurations) Co
 		if err != nil {
 			return nil, err
 		}
-		subnet := subnetARM.(SubResourceARM)
+		subnet := *subnetARM.(*SubResourceARM)
 		result.Properties.Subnet = &subnet
 	}
 
@@ -3468,7 +3468,7 @@ func (pools *LoadBalancers_Spec_Properties_InboundNatPools) ConvertToARM(resolve
 	if pools == nil {
 		return nil, nil
 	}
-	var result LoadBalancers_Spec_Properties_InboundNatPoolsARM
+	result := &LoadBalancers_Spec_Properties_InboundNatPoolsARM{}
 
 	// Set property ‘Name’:
 	if pools.Name != nil {
@@ -3504,7 +3504,7 @@ func (pools *LoadBalancers_Spec_Properties_InboundNatPools) ConvertToARM(resolve
 		if err != nil {
 			return nil, err
 		}
-		frontendIPConfiguration := frontendIPConfigurationARM.(SubResourceARM)
+		frontendIPConfiguration := *frontendIPConfigurationARM.(*SubResourceARM)
 		result.Properties.FrontendIPConfiguration = &frontendIPConfiguration
 	}
 	if pools.FrontendPortRangeEnd != nil {
@@ -3783,7 +3783,7 @@ func (rules *LoadBalancers_Spec_Properties_LoadBalancingRules) ConvertToARM(reso
 	if rules == nil {
 		return nil, nil
 	}
-	var result LoadBalancers_Spec_Properties_LoadBalancingRulesARM
+	result := &LoadBalancers_Spec_Properties_LoadBalancingRulesARM{}
 
 	// Set property ‘Name’:
 	if rules.Name != nil {
@@ -3810,7 +3810,7 @@ func (rules *LoadBalancers_Spec_Properties_LoadBalancingRules) ConvertToARM(reso
 		if err != nil {
 			return nil, err
 		}
-		backendAddressPool := backendAddressPoolARM.(SubResourceARM)
+		backendAddressPool := *backendAddressPoolARM.(*SubResourceARM)
 		result.Properties.BackendAddressPool = &backendAddressPool
 	}
 	if rules.BackendPort != nil {
@@ -3834,7 +3834,7 @@ func (rules *LoadBalancers_Spec_Properties_LoadBalancingRules) ConvertToARM(reso
 		if err != nil {
 			return nil, err
 		}
-		frontendIPConfiguration := frontendIPConfigurationARM.(SubResourceARM)
+		frontendIPConfiguration := *frontendIPConfigurationARM.(*SubResourceARM)
 		result.Properties.FrontendIPConfiguration = &frontendIPConfiguration
 	}
 	if rules.FrontendPort != nil {
@@ -3854,7 +3854,7 @@ func (rules *LoadBalancers_Spec_Properties_LoadBalancingRules) ConvertToARM(reso
 		if err != nil {
 			return nil, err
 		}
-		probe := probeARM.(SubResourceARM)
+		probe := *probeARM.(*SubResourceARM)
 		result.Properties.Probe = &probe
 	}
 	if rules.Protocol != nil {
@@ -4223,7 +4223,7 @@ func (rules *LoadBalancers_Spec_Properties_OutboundRules) ConvertToARM(resolved 
 	if rules == nil {
 		return nil, nil
 	}
-	var result LoadBalancers_Spec_Properties_OutboundRulesARM
+	result := &LoadBalancers_Spec_Properties_OutboundRulesARM{}
 
 	// Set property ‘Name’:
 	if rules.Name != nil {
@@ -4249,7 +4249,7 @@ func (rules *LoadBalancers_Spec_Properties_OutboundRules) ConvertToARM(resolved 
 		if err != nil {
 			return nil, err
 		}
-		backendAddressPool := backendAddressPoolARM.(SubResourceARM)
+		backendAddressPool := *backendAddressPoolARM.(*SubResourceARM)
 		result.Properties.BackendAddressPool = &backendAddressPool
 	}
 	if rules.EnableTcpReset != nil {
@@ -4261,7 +4261,7 @@ func (rules *LoadBalancers_Spec_Properties_OutboundRules) ConvertToARM(resolved 
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.FrontendIPConfigurations = append(result.Properties.FrontendIPConfigurations, itemARM.(SubResourceARM))
+		result.Properties.FrontendIPConfigurations = append(result.Properties.FrontendIPConfigurations, *itemARM.(*SubResourceARM))
 	}
 	if rules.IdleTimeoutInMinutes != nil {
 		idleTimeoutInMinutes := *rules.IdleTimeoutInMinutes
@@ -4517,7 +4517,7 @@ func (probes *LoadBalancers_Spec_Properties_Probes) ConvertToARM(resolved genrun
 	if probes == nil {
 		return nil, nil
 	}
-	var result LoadBalancers_Spec_Properties_ProbesARM
+	result := &LoadBalancers_Spec_Properties_ProbesARM{}
 
 	// Set property ‘Name’:
 	if probes.Name != nil {
@@ -5726,7 +5726,7 @@ func (addresses *LoadBalancers_Spec_Properties_BackendAddressPools_Properties_Lo
 	if addresses == nil {
 		return nil, nil
 	}
-	var result LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddressesARM
+	result := &LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddressesARM{}
 
 	// Set property ‘Name’:
 	if addresses.Name != nil {
@@ -5750,7 +5750,7 @@ func (addresses *LoadBalancers_Spec_Properties_BackendAddressPools_Properties_Lo
 		if err != nil {
 			return nil, err
 		}
-		loadBalancerFrontendIPConfiguration := loadBalancerFrontendIPConfigurationARM.(SubResourceARM)
+		loadBalancerFrontendIPConfiguration := *loadBalancerFrontendIPConfigurationARM.(*SubResourceARM)
 		result.Properties.LoadBalancerFrontendIPConfiguration = &loadBalancerFrontendIPConfiguration
 	}
 	if addresses.Subnet != nil {
@@ -5758,7 +5758,7 @@ func (addresses *LoadBalancers_Spec_Properties_BackendAddressPools_Properties_Lo
 		if err != nil {
 			return nil, err
 		}
-		subnet := subnetARM.(SubResourceARM)
+		subnet := *subnetARM.(*SubResourceARM)
 		result.Properties.Subnet = &subnet
 	}
 	if addresses.VirtualNetwork != nil {
@@ -5766,7 +5766,7 @@ func (addresses *LoadBalancers_Spec_Properties_BackendAddressPools_Properties_Lo
 		if err != nil {
 			return nil, err
 		}
-		virtualNetwork := virtualNetworkARM.(SubResourceARM)
+		virtualNetwork := *virtualNetworkARM.(*SubResourceARM)
 		result.Properties.VirtualNetwork = &virtualNetwork
 	}
 	return result, nil

@@ -882,7 +882,7 @@ func (peerings *VirtualNetworksVirtualNetworkPeerings_Spec) ConvertToARM(resolve
 	if peerings == nil {
 		return nil, nil
 	}
-	var result VirtualNetworksVirtualNetworkPeerings_SpecARM
+	result := &VirtualNetworksVirtualNetworkPeerings_SpecARM{}
 
 	// Set property ‘Location’:
 	if peerings.Location != nil {
@@ -925,7 +925,7 @@ func (peerings *VirtualNetworksVirtualNetworkPeerings_Spec) ConvertToARM(resolve
 		if err != nil {
 			return nil, err
 		}
-		remoteAddressSpace := remoteAddressSpaceARM.(AddressSpaceARM)
+		remoteAddressSpace := *remoteAddressSpaceARM.(*AddressSpaceARM)
 		result.Properties.RemoteAddressSpace = &remoteAddressSpace
 	}
 	if peerings.RemoteBgpCommunities != nil {
@@ -933,7 +933,7 @@ func (peerings *VirtualNetworksVirtualNetworkPeerings_Spec) ConvertToARM(resolve
 		if err != nil {
 			return nil, err
 		}
-		remoteBgpCommunities := remoteBgpCommunitiesARM.(VirtualNetworkBgpCommunitiesARM)
+		remoteBgpCommunities := *remoteBgpCommunitiesARM.(*VirtualNetworkBgpCommunitiesARM)
 		result.Properties.RemoteBgpCommunities = &remoteBgpCommunities
 	}
 	if peerings.RemoteVirtualNetwork != nil {
@@ -941,7 +941,7 @@ func (peerings *VirtualNetworksVirtualNetworkPeerings_Spec) ConvertToARM(resolve
 		if err != nil {
 			return nil, err
 		}
-		remoteVirtualNetwork := remoteVirtualNetworkARM.(SubResourceARM)
+		remoteVirtualNetwork := *remoteVirtualNetworkARM.(*SubResourceARM)
 		result.Properties.RemoteVirtualNetwork = &remoteVirtualNetwork
 	}
 	if peerings.UseRemoteGateways != nil {
