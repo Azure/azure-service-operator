@@ -94,10 +94,22 @@ jobs:
       - name: Run CI tasks
         run: |
           container_id=${{steps.devcontainer.outputs.id}}
-          docker exec "$container_id" task ci
 
-          # generate summary file for display in Actions
+          set +e # don't exit instantly on failure, we need to produce Markdown summary
+          docker exec "$container_id" task ci
+          EXIT_CODE=$?
+          set -e
+
+          # generate summary Markdown file for display in Actions
           cat reports/*.md > $GITHUB_STEP_SUMMARY
+          exit $EXIT_CODE
+
+      - name: Save JSON logs on failure
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-output
+          path: reports/*.json
         
       - name: Build docker image & build configuration YAML
         run: |
