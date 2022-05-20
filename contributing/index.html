@@ -19,16 +19,22 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
-<title>For Contributors | Azure Service Operator</title>
-<meta name="description" content="">
-<meta property="og:title" content="For Contributors" />
+<title>Contributing to Azure Service Operator v2 | Azure Service Operator</title>
+<meta name="description" content="Related pages
+
+Adding a new code-generator resource.
+Generator code overview
+
+Developer setup (with VS Code)
+This is the recommended setup, especially …">
+<meta property="og:title" content="Contributing to Azure Service Operator v2" />
 <meta property="og:description" content="The most popular HTML, CSS, and JS library in the world." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/contributing/" />
 
-<meta itemprop="name" content="For Contributors">
+<meta itemprop="name" content="Contributing to Azure Service Operator v2">
 <meta itemprop="description" content="The most popular HTML, CSS, and JS library in the world."><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="For Contributors"/>
+<meta name="twitter:title" content="Contributing to Azure Service Operator v2"/>
 <meta name="twitter:description" content="The most popular HTML, CSS, and JS library in the world."/>
 
 
@@ -266,11 +272,9 @@
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorcontributing-li">
-  <a href="/azure-service-operator/contributing/" title="For Contributors" class="align-left pl-0 active td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorcontributing"><span class="td-sidebar-nav-active-item">Contributing</span></a>
+  <a href="/azure-service-operator/contributing/" title="Contributing to Azure Service Operator v2" class="align-left pl-0 active td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorcontributing"><span class="td-sidebar-nav-active-item">Contributing</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorcontributingcontributing-li">
-  <a href="/azure-service-operator/contributing/contributing/" title="Contributing to Azure Service Operator v2" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingcontributing"><span class="">Contributing</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorcontributingadd-a-new-code-generated-resource-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorcontributingadd-a-new-code-generated-resource-li">
   <a href="/azure-service-operator/contributing/add-a-new-code-generated-resource/" title="Adding a new code generated resource to ASO v2" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingadd-a-new-code-generated-resource"><span class="">Add a resource</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorcontributinggenerator-overview-li">
   <a href="/azure-service-operator/contributing/generator-overview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributinggenerator-overview"><span class="">Code Generator</span></a>
@@ -349,6 +353,34 @@
             
 
 
+<div class="td-toc"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#related-pages">Related pages</a></li>
+    <li><a href="#developer-setup-with-vs-code">Developer setup (with VS Code)</a></li>
+    <li><a href="#without-vs-code">Without VS Code</a>
+      <ul>
+        <li><a href="#option-1-dockerfile">Option 1: Dockerfile</a></li>
+        <li><a href="#option-2-devsh">Option 2: ./dev.sh</a></li>
+      </ul>
+    </li>
+    <li><a href="#directory-structure-of-the-operator">Directory structure of the operator</a></li>
+    <li><a href="#running-integration-tests">Running integration tests</a>
+      <ul>
+        <li><a href="#recordreplay">Record/replay</a></li>
+        <li><a href="#running-live-tests">Running live tests</a></li>
+        <li><a href="#running-a-single-test">Running a single test</a></li>
+      </ul>
+    </li>
+    <li><a href="#running-the-operator-locally">Running the operator locally</a></li>
+    <li><a href="#submitting-a-pull-request">Submitting a pull request</a></li>
+    <li><a href="#common-problems-and-their-solutions">Common problems and their solutions</a>
+      <ul>
+        <li><a href="#error-loading-schema-from-root">Error loading schema from root</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+
 
 
             
@@ -385,7 +417,7 @@
 </nav>
             
 <div class="td-content">
-	<h1>For Contributors</h1>
+	<h1>Contributing to Azure Service Operator v2</h1>
   
 	<header class="article-meta">
 		
@@ -402,7 +434,107 @@
 
 		
 	</header>
-	
+	<h2 id="related-pages">Related pages</h2>
+<ul>
+<li><a href="add-a-new-code-generated-resource">Adding a new code-generator resource</a>.</li>
+<li><a href="generator-overview">Generator code overview</a></li>
+</ul>
+<h2 id="developer-setup-with-vs-code">Developer setup (with VS Code)</h2>
+<p>This is the recommended setup, especially if you are using Windows as your development platform.</p>
+<p>This repository contains a <a href="https://code.visualstudio.com/docs/remote/containers">devcontainer</a> configuration that can be used in conjunction with VS Code to set up an environment with all the required tools preinstalled.</p>
+<p>If you want to use this:</p>
+<ol start="0">
+<li>
+<p>Make sure you have installed <a href="https://code.visualstudio.com/docs/remote/containers#_system-requirements">the prerequisites to use Docker</a>, including WSL if on Windows.</p>
+</li>
+<li>
+<p>Install VS Code and the <a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack">Remote Development</a> extension (check installation instructions there).</p>
+</li>
+<li>
+<p>Run the VS Code command (with <code>Ctrl-Shift-P</code>): <code>Remote Containers: Clone Repository in Container Volume...</code></p>
+<p><strong>Note</strong>: in Windows, it is important to clone directly into a container instead of cloning first and then loading that with the <code>Remote Containers</code> extension, as the tooling performs a lot of file I/O, and if this is performed against a volume mounted in WSL then it is unusably slow.</p>
+<p>To complete the clone:</p>
+<ol>
+<li>Select &ldquo;<code>GitHub</code>&rdquo;.</li>
+<li>Search for &ldquo;<code>Azure/azure-service-operator</code>&rdquo;.</li>
+<li>Choose either of the following options about where to create the volume.</li>
+<li>The window will reload and run the <code>Dockerfile</code> setup. The first time, this will take some minutes to complete as it installs all dependencies.</li>
+<li>Run <code>git submodule init</code> and <code>git submodule update</code></li>
+</ol>
+</li>
+<li>
+<p>To validate everything is working correctly, you can open a terminal in VS Code and run <code>task -l</code>. This will show a list of all <code>task</code> commands. Running <code>task</code> by itself (or <code>task default</code>) will run quick local pre-checkin tests and validation.</p>
+</li>
+</ol>
+<h2 id="without-vs-code">Without VS Code</h2>
+<h3 id="option-1-dockerfile">Option 1: Dockerfile</h3>
+<p>The same <code>Dockerfile</code> that the VS Code <code>devcontainer</code> extension uses can also be used outside of VS Code; it is stored in the root <code>.devcontainer</code> directory and can be used to create a development container with all the tooling preinstalled:</p>
+<pre tabindex="0"><code class="language-console" data-lang="console">$ docker build $(git rev-parse --show-toplevel)/.devcontainer -t asodev:latest
+… image will be created …
+
+$ # After that you can start a terminal in the development container with:
+$ docker run --env-file ~/work/envs.env -v $(git rev-parse --show-toplevel):/go/src -w /go/src -u $(id -u ${USER}):$(id -g ${USER}) --group-add $(stat -c '%g' /var/run/docker.sock) -v /var/run/docker.sock:/var/run/docker.sock --network=host  -it asodev:latest /bin/bash
+</code></pre><p>It is not recommended to mount the source like this on Windows (WSL2) as the cross-VM file operations are very slow.</p>
+<h3 id="option-2-devsh">Option 2: ./dev.sh</h3>
+<p>If you are using Linux, instead of using VS Code you can run the <code>dev.sh</code> script in the root of the repository. This will install all required tooling into the <code>hack/tools</code> directory and then start a new shell with the <code>PATH</code> updated to use it.</p>
+<h2 id="directory-structure-of-the-operator">Directory structure of the operator</h2>
+<p>Key folders of note include:</p>
+<ul>
+<li><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/api"><code>api</code></a> contains all of our supported resources. Much (most!) of this code is generated, but handwritten code is added at various extension points for flexibility.</li>
+<li><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/pkg"><code>pkg</code></a> contains the package <code>genruntime</code> which is provides infrastructure for our generated resources.</li>
+<li><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/internal"><code>internal</code></a> contains packages used by our generic controller.</li>
+</ul>
+<p><img src="./images/aso-v2-structure.svg" alt="Overview"></p>
+<p>The size of each dot reflects the size of the file; the legend in the corner shows the meaning of colour.</p>
+<h2 id="running-integration-tests">Running integration tests</h2>
+<p>Basic use: run <code>task controller:test-integration-envtest</code>.</p>
+<h3 id="recordreplay">Record/replay</h3>
+<p>The task <code>controller:test-integration-envtest</code> runs the tests in a record/replay mode by default, so that it does not touch any live Azure resources. (This uses the <a href="https://github.com/dnaeon/go-vcr">go-vcr</a> library.) If you change the controller or other code in such a way that the required requests/responses from ARM change, you will need to update the recordings.</p>
+<p>To do this, delete the recordings for the failing tests (under <code>{test-dir}/recordings/{test-name}.yml</code>), and re-run <code>controller:test-integration-envtest</code>. If the test passes, a new recording will be saved, which you can commit to include with your change. All authentication and subscription information is removed from the recording.</p>
+<p>To run the test and produce a new recording you will also need to have set the required authentication environment variables for an Azure Service Principal: <code>AZURE_SUBSCRIPTION_ID</code>, <code>AZURE_TENANT_ID</code>, <code>AZURE_CLIENT_ID</code>, and <code>AZURE_CLIENT_SECRET</code>. This Service Principal will need access to the subscription to create and delete resources.</p>
+<p>If you need to create a new Azure Service Principal, run the following commands:</p>
+<pre tabindex="0"><code class="language-console" data-lang="console">$ az login
+… follow the instructions …
+$ az account set --subscription {the subscription ID you would like to use}
+Creating a role assignment under the scope of &quot;/subscriptions/{subscription ID you chose}&quot;
+…
+$ az ad sp create-for-rbac --role contributor --name {the name you would like to use}
+{
+  &quot;appId&quot;: &quot;…&quot;,
+  &quot;displayName&quot;: &quot;{name you chose}&quot;,
+  &quot;name&quot;: &quot;{name you chose}&quot;,
+  &quot;password&quot;: &quot;…&quot;,
+  &quot;tenant&quot;: &quot;…&quot;
+}
+</code></pre><p>The output contains <code>appId</code> (<code>AZURE_CLIENT_ID</code>), <code>password</code> (<code>AZURE_CLIENT_SECRET</code>), and <code>tenant</code> (<code>AZURE_TENANT_ID</code>). Store these somewhere safe as the password cannot be viewed again, only reset. The Service Principal will be created as a “contributor” to your subscription which means it can create and delete resources, so <strong>ensure you keep the secrets secure</strong>.</p>
+<h3 id="running-live-tests">Running live tests</h3>
+<p>If you want to skip all recordings and run all tests directly against live Azure resources, you can use the <code>controller:test-integration-envtest-live</code> task. This will also require you to set the authentication environment variables, as detailed above.</p>
+<h3 id="running-a-single-test">Running a single test</h3>
+<p>By default <code>task controller:test-integration-envtest</code> and its variants run all tests. This is often undesirable as you may just be working on a single feature or test. In order to run a subset of tests, use:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">TEST_FILTER<span style="color:#f92672">=</span>test_name_regex task controller:test-integration-envtest
+</code></pre></div><h2 id="running-the-operator-locally">Running the operator locally</h2>
+<p>If you would like to try something out but do not want to write an integration test, you can run the operation locally in a <a href="https://kind.sigs.k8s.io">kind</a> cluster.</p>
+<p>Before launching <code>kind</code>, make sure that your shell has the <code>AZURE_SUBSCRIPTION_ID</code>, <code>AZURE_TENANT_ID</code>, <code>AZURE_CLIENT_ID</code>, and <code>AZURE_CLIENT_SECRET</code> environment variables set. See <a href="#recordreplay">above</a> for more details about them.</p>
+<p>Once you&rsquo;ve set the environment variables above, run one of the following commands to create a <code>kind</code> cluster:</p>
+<ol>
+<li>Service Principal authentication cluster: <code>task controller:kind-create-with-service-principal</code>.</li>
+<li>AAD Pod Identity authentication enabled cluster (emulates Managed Identity): <code>controller:kind-create-with-podidentity</code>.</li>
+</ol>
+<p>You can use <code>kubectl</code> to interact with the local <code>kind</code> cluster.</p>
+<p>When you&rsquo;re done with the local cluster, tear it down with <code>task controller:kind-delete</code>.</p>
+<h2 id="submitting-a-pull-request">Submitting a pull request</h2>
+<p>Pull requests opened from forks of the azure-service-operator repository will initially have a <code>skipped</code> <code>Validate Pull Request / integration-tests</code> check which
+will prevent merging even if all other checks pass. Once a maintainer has looked at your PR and determined it is ready they will comment <code>/ok-to-test sha=&lt;sha&gt;</code>
+to kick off an integration test pass. If this check passes along with the other checks the PR can be merged.</p>
+<h2 id="common-problems-and-their-solutions">Common problems and their solutions</h2>
+<h3 id="error-loading-schema-from-root">Error loading schema from root</h3>
+<p>Full error:</p>
+<blockquote>
+<p>error loading schema from root &hellip; open /azure-service-operator/v2/specs/azure-resource-manager-schemas/schemas/2019-04-01/deploymentTemplate.json no such file or directory</p>
+</blockquote>
+<p>This git repo contains submodules. This error occurs when the submodules are missing, possibly because the repo was not cloned with <code>--recurse-submodules</code>.</p>
+<p>To resolve this problem, run <code>git submodule init</code> and <code>git submodule update</code> and then try building again.</p>
+
         <div class="section-index">
     
     
@@ -413,14 +545,6 @@
     
     
     <hr class="panel-line">
-        
-            
-            <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/contributing/contributing/">Contributing to Azure Service Operator v2</a>
-                </h5>
-                <p></p>
-            </div>
         
             
             <div class="entry">

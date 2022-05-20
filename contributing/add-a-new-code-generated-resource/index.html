@@ -276,11 +276,9 @@ What resources can be code generated? Any ARM resource can be generated. There a
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorcontributing-li">
-  <a href="/azure-service-operator/contributing/" title="For Contributors" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorcontributing"><span class="">Contributing</span></a>
+  <a href="/azure-service-operator/contributing/" title="Contributing to Azure Service Operator v2" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorcontributing"><span class="">Contributing</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorcontributingcontributing-li">
-  <a href="/azure-service-operator/contributing/contributing/" title="Contributing to Azure Service Operator v2" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingcontributing"><span class="">Contributing</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorcontributingadd-a-new-code-generated-resource-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorcontributingadd-a-new-code-generated-resource-li">
   <a href="/azure-service-operator/contributing/add-a-new-code-generated-resource/" title="Adding a new code generated resource to ASO v2" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingadd-a-new-code-generated-resource"><span class="td-sidebar-nav-active-item">Add a resource</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorcontributinggenerator-overview-li">
   <a href="/azure-service-operator/contributing/generator-overview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributinggenerator-overview"><span class="">Code Generator</span></a>
@@ -481,7 +479,7 @@ What resources can be code generated? Any ARM resource can be generated. There a
       <span style="color:#f92672">$export</span>: <span style="color:#66d9ef">true</span>
 </code></pre></div><p>If ASO was already configured to generate resources from this group (or version), you will need to add your new configuration around the existing values.</p>
 <h2 id="run-the-code-generator">Run the code generator</h2>
-<p>Follow the steps in the <a href="../contributing/">contributing guide</a> to set up your development environment.
+<p>Follow the steps in the <a href="../_index.md">contributing guide</a> to set up your development environment.
 Once you have a working development environment, run the <code>task</code> command to run the code generator.</p>
 <h2 id="fix-any-errors-raised-by-the-code-generator">Fix any errors raised by the code generator</h2>
 <h3 id="resource-looks-like-a-resource-reference-but-was-not-labelled-as-one">&lt;Resource&gt; looks like a resource reference but was not labelled as one</h3>
@@ -563,7 +561,7 @@ as a template for authoring an extension for your resource.</p>
 <h2 id="write-a-crud-test-for-the-resource">Write a CRUD test for the resource</h2>
 <p>The best way to do this is to start from an <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/internal/controllers/crd_cosmosdb_mongodb_test.go">existing test</a> and modify it to work for your resource. It can also be helpful to refer to examples in the <a href="https://github.com/Azure/azure-quickstart-templates">ARM templates GitHub repo</a>.</p>
 <h2 id="run-the-crud-test-for-the-resource-and-commit-the-recording">Run the CRUD test for the resource and commit the recording</h2>
-<p>See <a href="../contributing/#running-integration-tests">the code generator README</a> for how to run recording tests.</p>
+<p>See <a href="../#running-integration-tests">the code generator README</a> for how to run recording tests.</p>
 <h2 id="add-a-new-sample">Add a new sample</h2>
 <p>The samples are located in the <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/config/samples">samples directory</a>. There should be at least one sample for each kind of supported resource. These currently need to be added manually. It&rsquo;s possible in the future we will automatically generate samples similar to how we automatically generate CRDs and types, but that doesn&rsquo;t happen today.</p>
 <h2 id="send-a-pr">Send a PR</h2>
