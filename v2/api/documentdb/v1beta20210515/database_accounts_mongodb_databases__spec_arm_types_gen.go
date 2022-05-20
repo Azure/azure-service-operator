@@ -31,12 +31,12 @@ func (databases DatabaseAccountsMongodbDatabases_SpecARM) GetAPIVersion() string
 }
 
 // GetName returns the Name of the resource
-func (databases DatabaseAccountsMongodbDatabases_SpecARM) GetName() string {
+func (databases *DatabaseAccountsMongodbDatabases_SpecARM) GetName() string {
 	return databases.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases"
-func (databases DatabaseAccountsMongodbDatabases_SpecARM) GetType() string {
+func (databases *DatabaseAccountsMongodbDatabases_SpecARM) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases"
 }
 

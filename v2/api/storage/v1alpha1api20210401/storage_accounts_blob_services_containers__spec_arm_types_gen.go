@@ -21,12 +21,12 @@ func (containers StorageAccountsBlobServicesContainers_SpecARM) GetAPIVersion() 
 }
 
 // GetName returns the Name of the resource
-func (containers StorageAccountsBlobServicesContainers_SpecARM) GetName() string {
+func (containers *StorageAccountsBlobServicesContainers_SpecARM) GetName() string {
 	return containers.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Storage/storageAccounts/blobServices/containers"
-func (containers StorageAccountsBlobServicesContainers_SpecARM) GetType() string {
+func (containers *StorageAccountsBlobServicesContainers_SpecARM) GetType() string {
 	return "Microsoft.Storage/storageAccounts/blobServices/containers"
 }
 

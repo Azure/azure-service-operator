@@ -552,7 +552,7 @@ func (schedules *RedisPatchSchedules_Spec) ConvertToARM(resolved genruntime.Conv
 	if schedules == nil {
 		return nil, nil
 	}
-	var result RedisPatchSchedules_SpecARM
+	result := &RedisPatchSchedules_SpecARM{}
 
 	// Set property ‘Location’:
 	if schedules.Location != nil {
@@ -572,7 +572,7 @@ func (schedules *RedisPatchSchedules_Spec) ConvertToARM(resolved genruntime.Conv
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.ScheduleEntries = append(result.Properties.ScheduleEntries, itemARM.(ScheduleEntryARM))
+		result.Properties.ScheduleEntries = append(result.Properties.ScheduleEntries, *itemARM.(*ScheduleEntryARM))
 	}
 
 	// Set property ‘Tags’:
@@ -795,7 +795,7 @@ func (entry *ScheduleEntry) ConvertToARM(resolved genruntime.ConvertToARMResolve
 	if entry == nil {
 		return nil, nil
 	}
-	var result ScheduleEntryARM
+	result := &ScheduleEntryARM{}
 
 	// Set property ‘DayOfWeek’:
 	if entry.DayOfWeek != nil {

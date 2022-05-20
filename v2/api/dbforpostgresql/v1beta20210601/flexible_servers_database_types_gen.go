@@ -572,7 +572,7 @@ func (databases *FlexibleServersDatabases_Spec) ConvertToARM(resolved genruntime
 	if databases == nil {
 		return nil, nil
 	}
-	var result FlexibleServersDatabases_SpecARM
+	result := &FlexibleServersDatabases_SpecARM{}
 
 	// Set property ‘Location’:
 	if databases.Location != nil {

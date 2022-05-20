@@ -283,12 +283,12 @@ func (resource FakeResource_SpecARM) GetAPIVersion() string {
 }
 
 // GetName returns the Name of the resource
-func (resource FakeResource_SpecARM) GetName() string {
+func (resource *FakeResource_SpecARM) GetName() string {
 	return resource.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/FakeResource"
-func (resource FakeResource_SpecARM) GetType() string {
+func (resource *FakeResource_SpecARM) GetType() string {
 	return "Microsoft.Azure/FakeResource"
 }
 
@@ -323,7 +323,7 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	if resource == nil {
 		return nil, nil
 	}
-	var result FakeResource_SpecARM
+	result := &FakeResource_SpecARM{}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
@@ -334,7 +334,7 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		if err != nil {
 			return nil, err
 		}
-		properties := propertiesARM.(FakeResourcePropertiesARM)
+		properties := *propertiesARM.(*FakeResourcePropertiesARM)
 		result.Properties = &properties
 	}
 	return result, nil
@@ -524,7 +524,7 @@ func (properties *FakeResourceProperties) ConvertToARM(resolved genruntime.Conve
 	if properties == nil {
 		return nil, nil
 	}
-	var result FakeResourcePropertiesARM
+	result := &FakeResourcePropertiesARM{}
 
 	// Set property ‘OptionalVNet’:
 	if properties.OptionalVNetReference != nil {

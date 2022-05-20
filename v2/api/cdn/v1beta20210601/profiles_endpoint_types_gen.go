@@ -1304,7 +1304,7 @@ func (endpoints *ProfilesEndpoints_Spec) ConvertToARM(resolved genruntime.Conver
 	if endpoints == nil {
 		return nil, nil
 	}
-	var result ProfilesEndpoints_SpecARM
+	result := &ProfilesEndpoints_SpecARM{}
 
 	// Set property ‘Location’:
 	if endpoints.Location != nil {
@@ -1342,7 +1342,7 @@ func (endpoints *ProfilesEndpoints_Spec) ConvertToARM(resolved genruntime.Conver
 		if err != nil {
 			return nil, err
 		}
-		defaultOriginGroup := defaultOriginGroupARM.(ResourceReferenceARM)
+		defaultOriginGroup := *defaultOriginGroupARM.(*ResourceReferenceARM)
 		result.Properties.DefaultOriginGroup = &defaultOriginGroup
 	}
 	if endpoints.DeliveryPolicy != nil {
@@ -1350,7 +1350,7 @@ func (endpoints *ProfilesEndpoints_Spec) ConvertToARM(resolved genruntime.Conver
 		if err != nil {
 			return nil, err
 		}
-		deliveryPolicy := deliveryPolicyARM.(EndpointPropertiesUpdateParametersDeliveryPolicyARM)
+		deliveryPolicy := *deliveryPolicyARM.(*EndpointPropertiesUpdateParametersDeliveryPolicyARM)
 		result.Properties.DeliveryPolicy = &deliveryPolicy
 	}
 	for _, item := range endpoints.GeoFilters {
@@ -1358,7 +1358,7 @@ func (endpoints *ProfilesEndpoints_Spec) ConvertToARM(resolved genruntime.Conver
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.GeoFilters = append(result.Properties.GeoFilters, itemARM.(GeoFilterARM))
+		result.Properties.GeoFilters = append(result.Properties.GeoFilters, *itemARM.(*GeoFilterARM))
 	}
 	if endpoints.IsCompressionEnabled != nil {
 		isCompressionEnabled := *endpoints.IsCompressionEnabled
@@ -1381,7 +1381,7 @@ func (endpoints *ProfilesEndpoints_Spec) ConvertToARM(resolved genruntime.Conver
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.OriginGroups = append(result.Properties.OriginGroups, itemARM.(ProfilesEndpoints_Spec_Properties_OriginGroupsARM))
+		result.Properties.OriginGroups = append(result.Properties.OriginGroups, *itemARM.(*ProfilesEndpoints_Spec_Properties_OriginGroupsARM))
 	}
 	if endpoints.OriginHostHeader != nil {
 		originHostHeader := *endpoints.OriginHostHeader
@@ -1396,7 +1396,7 @@ func (endpoints *ProfilesEndpoints_Spec) ConvertToARM(resolved genruntime.Conver
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.Origins = append(result.Properties.Origins, itemARM.(ProfilesEndpoints_Spec_Properties_OriginsARM))
+		result.Properties.Origins = append(result.Properties.Origins, *itemARM.(*ProfilesEndpoints_Spec_Properties_OriginsARM))
 	}
 	if endpoints.ProbePath != nil {
 		probePath := *endpoints.ProbePath
@@ -1411,14 +1411,14 @@ func (endpoints *ProfilesEndpoints_Spec) ConvertToARM(resolved genruntime.Conver
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.UrlSigningKeys = append(result.Properties.UrlSigningKeys, itemARM.(UrlSigningKeyARM))
+		result.Properties.UrlSigningKeys = append(result.Properties.UrlSigningKeys, *itemARM.(*UrlSigningKeyARM))
 	}
 	if endpoints.WebApplicationFirewallPolicyLink != nil {
 		webApplicationFirewallPolicyLinkARM, err := (*endpoints.WebApplicationFirewallPolicyLink).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		webApplicationFirewallPolicyLink := webApplicationFirewallPolicyLinkARM.(EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLinkARM)
+		webApplicationFirewallPolicyLink := *webApplicationFirewallPolicyLinkARM.(*EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLinkARM)
 		result.Properties.WebApplicationFirewallPolicyLink = &webApplicationFirewallPolicyLink
 	}
 
@@ -2708,7 +2708,7 @@ func (policy *EndpointPropertiesUpdateParametersDeliveryPolicy) ConvertToARM(res
 	if policy == nil {
 		return nil, nil
 	}
-	var result EndpointPropertiesUpdateParametersDeliveryPolicyARM
+	result := &EndpointPropertiesUpdateParametersDeliveryPolicyARM{}
 
 	// Set property ‘Description’:
 	if policy.Description != nil {
@@ -2722,7 +2722,7 @@ func (policy *EndpointPropertiesUpdateParametersDeliveryPolicy) ConvertToARM(res
 		if err != nil {
 			return nil, err
 		}
-		result.Rules = append(result.Rules, itemARM.(DeliveryRuleARM))
+		result.Rules = append(result.Rules, *itemARM.(*DeliveryRuleARM))
 	}
 	return result, nil
 }
@@ -2837,7 +2837,7 @@ func (link *EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink) 
 	if link == nil {
 		return nil, nil
 	}
-	var result EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLinkARM
+	result := &EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLinkARM{}
 
 	// Set property ‘Id’:
 	if link.Reference != nil {
@@ -3095,7 +3095,7 @@ func (filter *GeoFilter) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 	if filter == nil {
 		return nil, nil
 	}
-	var result GeoFilterARM
+	result := &GeoFilterARM{}
 
 	// Set property ‘Action’:
 	if filter.Action != nil {
@@ -3349,7 +3349,7 @@ func (groups *ProfilesEndpoints_Spec_Properties_OriginGroups) ConvertToARM(resol
 	if groups == nil {
 		return nil, nil
 	}
-	var result ProfilesEndpoints_Spec_Properties_OriginGroupsARM
+	result := &ProfilesEndpoints_Spec_Properties_OriginGroupsARM{}
 
 	// Set property ‘Name’:
 	if groups.Name != nil {
@@ -3369,7 +3369,7 @@ func (groups *ProfilesEndpoints_Spec_Properties_OriginGroups) ConvertToARM(resol
 		if err != nil {
 			return nil, err
 		}
-		healthProbeSettings := healthProbeSettingsARM.(HealthProbeParametersARM)
+		healthProbeSettings := *healthProbeSettingsARM.(*HealthProbeParametersARM)
 		result.Properties.HealthProbeSettings = &healthProbeSettings
 	}
 	for _, item := range groups.Origins {
@@ -3377,14 +3377,14 @@ func (groups *ProfilesEndpoints_Spec_Properties_OriginGroups) ConvertToARM(resol
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.Origins = append(result.Properties.Origins, itemARM.(ResourceReferenceARM))
+		result.Properties.Origins = append(result.Properties.Origins, *itemARM.(*ResourceReferenceARM))
 	}
 	if groups.ResponseBasedOriginErrorDetectionSettings != nil {
 		responseBasedOriginErrorDetectionSettingsARM, err := (*groups.ResponseBasedOriginErrorDetectionSettings).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		responseBasedOriginErrorDetectionSettings := responseBasedOriginErrorDetectionSettingsARM.(ResponseBasedOriginErrorDetectionParametersARM)
+		responseBasedOriginErrorDetectionSettings := *responseBasedOriginErrorDetectionSettingsARM.(*ResponseBasedOriginErrorDetectionParametersARM)
 		result.Properties.ResponseBasedOriginErrorDetectionSettings = &responseBasedOriginErrorDetectionSettings
 	}
 	if groups.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes != nil {
@@ -3657,7 +3657,7 @@ func (origins *ProfilesEndpoints_Spec_Properties_Origins) ConvertToARM(resolved 
 	if origins == nil {
 		return nil, nil
 	}
-	var result ProfilesEndpoints_Spec_Properties_OriginsARM
+	result := &ProfilesEndpoints_Spec_Properties_OriginsARM{}
 
 	// Set property ‘Name’:
 	if origins.Name != nil {
@@ -4019,7 +4019,7 @@ func (reference *ResourceReference) ConvertToARM(resolved genruntime.ConvertToAR
 	if reference == nil {
 		return nil, nil
 	}
-	var result ResourceReferenceARM
+	result := &ResourceReferenceARM{}
 
 	// Set property ‘Id’:
 	if reference.Reference != nil {
@@ -4167,7 +4167,7 @@ func (signingKey *UrlSigningKey) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if signingKey == nil {
 		return nil, nil
 	}
-	var result UrlSigningKeyARM
+	result := &UrlSigningKeyARM{}
 
 	// Set property ‘KeyId’:
 	if signingKey.KeyId != nil {
@@ -4181,7 +4181,7 @@ func (signingKey *UrlSigningKey) ConvertToARM(resolved genruntime.ConvertToARMRe
 		if err != nil {
 			return nil, err
 		}
-		keySourceParameters := keySourceParametersARM.(KeyVaultSigningKeyParametersARM)
+		keySourceParameters := *keySourceParametersARM.(*KeyVaultSigningKeyParametersARM)
 		result.KeySourceParameters = &keySourceParameters
 	}
 	return result, nil
@@ -4396,7 +4396,7 @@ func (rule *DeliveryRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 	if rule == nil {
 		return nil, nil
 	}
-	var result DeliveryRuleARM
+	result := &DeliveryRuleARM{}
 
 	// Set property ‘Actions’:
 	for _, item := range rule.Actions {
@@ -4404,7 +4404,7 @@ func (rule *DeliveryRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 		if err != nil {
 			return nil, err
 		}
-		result.Actions = append(result.Actions, itemARM.(DeliveryRuleAction1ARM))
+		result.Actions = append(result.Actions, *itemARM.(*DeliveryRuleAction1ARM))
 	}
 
 	// Set property ‘Conditions’:
@@ -4413,7 +4413,7 @@ func (rule *DeliveryRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 		if err != nil {
 			return nil, err
 		}
-		result.Conditions = append(result.Conditions, itemARM.(DeliveryRuleConditionARM))
+		result.Conditions = append(result.Conditions, *itemARM.(*DeliveryRuleConditionARM))
 	}
 
 	// Set property ‘Name’:
@@ -4782,7 +4782,7 @@ func (parameters *HealthProbeParameters) ConvertToARM(resolved genruntime.Conver
 	if parameters == nil {
 		return nil, nil
 	}
-	var result HealthProbeParametersARM
+	result := &HealthProbeParametersARM{}
 
 	// Set property ‘ProbeIntervalInSeconds’:
 	if parameters.ProbeIntervalInSeconds != nil {
@@ -5083,7 +5083,7 @@ func (parameters *KeyVaultSigningKeyParameters) ConvertToARM(resolved genruntime
 	if parameters == nil {
 		return nil, nil
 	}
-	var result KeyVaultSigningKeyParametersARM
+	result := &KeyVaultSigningKeyParametersARM{}
 
 	// Set property ‘ResourceGroupName’:
 	if parameters.ResourceGroupName != nil {
@@ -5418,7 +5418,7 @@ func (parameters *ResponseBasedOriginErrorDetectionParameters) ConvertToARM(reso
 	if parameters == nil {
 		return nil, nil
 	}
-	var result ResponseBasedOriginErrorDetectionParametersARM
+	result := &ResponseBasedOriginErrorDetectionParametersARM{}
 
 	// Set property ‘HttpErrorRanges’:
 	for _, item := range parameters.HttpErrorRanges {
@@ -5426,7 +5426,7 @@ func (parameters *ResponseBasedOriginErrorDetectionParameters) ConvertToARM(reso
 		if err != nil {
 			return nil, err
 		}
-		result.HttpErrorRanges = append(result.HttpErrorRanges, itemARM.(HttpErrorRangeParametersARM))
+		result.HttpErrorRanges = append(result.HttpErrorRanges, *itemARM.(*HttpErrorRangeParametersARM))
 	}
 
 	// Set property ‘ResponseBasedDetectedErrorTypes’:
@@ -5742,7 +5742,7 @@ func (action1 *DeliveryRuleAction1) ConvertToARM(resolved genruntime.ConvertToAR
 	if action1 == nil {
 		return nil, nil
 	}
-	var result DeliveryRuleAction1ARM
+	result := &DeliveryRuleAction1ARM{}
 
 	// Set property ‘DeliveryRuleCacheExpiration’:
 	if action1.DeliveryRuleCacheExpiration != nil {
@@ -5750,7 +5750,7 @@ func (action1 *DeliveryRuleAction1) ConvertToARM(resolved genruntime.ConvertToAR
 		if err != nil {
 			return nil, err
 		}
-		deliveryRuleCacheExpiration := deliveryRuleCacheExpirationARM.(DeliveryRuleCacheExpirationActionARM)
+		deliveryRuleCacheExpiration := *deliveryRuleCacheExpirationARM.(*DeliveryRuleCacheExpirationActionARM)
 		result.DeliveryRuleCacheExpiration = &deliveryRuleCacheExpiration
 	}
 
@@ -5760,7 +5760,7 @@ func (action1 *DeliveryRuleAction1) ConvertToARM(resolved genruntime.ConvertToAR
 		if err != nil {
 			return nil, err
 		}
-		deliveryRuleCacheKeyQueryString := deliveryRuleCacheKeyQueryStringARM.(DeliveryRuleCacheKeyQueryStringActionARM)
+		deliveryRuleCacheKeyQueryString := *deliveryRuleCacheKeyQueryStringARM.(*DeliveryRuleCacheKeyQueryStringActionARM)
 		result.DeliveryRuleCacheKeyQueryString = &deliveryRuleCacheKeyQueryString
 	}
 
@@ -5770,7 +5770,7 @@ func (action1 *DeliveryRuleAction1) ConvertToARM(resolved genruntime.ConvertToAR
 		if err != nil {
 			return nil, err
 		}
-		deliveryRuleRequestHeader := deliveryRuleRequestHeaderARM.(DeliveryRuleRequestHeaderActionARM)
+		deliveryRuleRequestHeader := *deliveryRuleRequestHeaderARM.(*DeliveryRuleRequestHeaderActionARM)
 		result.DeliveryRuleRequestHeader = &deliveryRuleRequestHeader
 	}
 
@@ -5780,7 +5780,7 @@ func (action1 *DeliveryRuleAction1) ConvertToARM(resolved genruntime.ConvertToAR
 		if err != nil {
 			return nil, err
 		}
-		deliveryRuleResponseHeader := deliveryRuleResponseHeaderARM.(DeliveryRuleResponseHeaderActionARM)
+		deliveryRuleResponseHeader := *deliveryRuleResponseHeaderARM.(*DeliveryRuleResponseHeaderActionARM)
 		result.DeliveryRuleResponseHeader = &deliveryRuleResponseHeader
 	}
 
@@ -5790,7 +5790,7 @@ func (action1 *DeliveryRuleAction1) ConvertToARM(resolved genruntime.ConvertToAR
 		if err != nil {
 			return nil, err
 		}
-		deliveryRuleRouteConfigurationOverride := deliveryRuleRouteConfigurationOverrideARM.(DeliveryRuleRouteConfigurationOverrideActionARM)
+		deliveryRuleRouteConfigurationOverride := *deliveryRuleRouteConfigurationOverrideARM.(*DeliveryRuleRouteConfigurationOverrideActionARM)
 		result.DeliveryRuleRouteConfigurationOverride = &deliveryRuleRouteConfigurationOverride
 	}
 
@@ -5800,7 +5800,7 @@ func (action1 *DeliveryRuleAction1) ConvertToARM(resolved genruntime.ConvertToAR
 		if err != nil {
 			return nil, err
 		}
-		originGroupOverride := originGroupOverrideARM.(OriginGroupOverrideActionARM)
+		originGroupOverride := *originGroupOverrideARM.(*OriginGroupOverrideActionARM)
 		result.OriginGroupOverride = &originGroupOverride
 	}
 
@@ -5810,7 +5810,7 @@ func (action1 *DeliveryRuleAction1) ConvertToARM(resolved genruntime.ConvertToAR
 		if err != nil {
 			return nil, err
 		}
-		urlRedirect := urlRedirectARM.(UrlRedirectActionARM)
+		urlRedirect := *urlRedirectARM.(*UrlRedirectActionARM)
 		result.UrlRedirect = &urlRedirect
 	}
 
@@ -5820,7 +5820,7 @@ func (action1 *DeliveryRuleAction1) ConvertToARM(resolved genruntime.ConvertToAR
 		if err != nil {
 			return nil, err
 		}
-		urlRewrite := urlRewriteARM.(UrlRewriteActionARM)
+		urlRewrite := *urlRewriteARM.(*UrlRewriteActionARM)
 		result.UrlRewrite = &urlRewrite
 	}
 
@@ -5830,7 +5830,7 @@ func (action1 *DeliveryRuleAction1) ConvertToARM(resolved genruntime.ConvertToAR
 		if err != nil {
 			return nil, err
 		}
-		urlSigning := urlSigningARM.(UrlSigningActionARM)
+		urlSigning := *urlSigningARM.(*UrlSigningActionARM)
 		result.UrlSigning = &urlSigning
 	}
 	return result, nil
@@ -6325,7 +6325,7 @@ func (condition *DeliveryRuleCondition) ConvertToARM(resolved genruntime.Convert
 	if condition == nil {
 		return nil, nil
 	}
-	var result DeliveryRuleConditionARM
+	result := &DeliveryRuleConditionARM{}
 
 	// Set property ‘DeliveryRuleClientPort’:
 	if condition.DeliveryRuleClientPort != nil {
@@ -6333,7 +6333,7 @@ func (condition *DeliveryRuleCondition) ConvertToARM(resolved genruntime.Convert
 		if err != nil {
 			return nil, err
 		}
-		deliveryRuleClientPort := deliveryRuleClientPortARM.(DeliveryRuleClientPortConditionARM)
+		deliveryRuleClientPort := *deliveryRuleClientPortARM.(*DeliveryRuleClientPortConditionARM)
 		result.DeliveryRuleClientPort = &deliveryRuleClientPort
 	}
 
@@ -6343,7 +6343,7 @@ func (condition *DeliveryRuleCondition) ConvertToARM(resolved genruntime.Convert
 		if err != nil {
 			return nil, err
 		}
-		deliveryRuleCookies := deliveryRuleCookiesARM.(DeliveryRuleCookiesConditionARM)
+		deliveryRuleCookies := *deliveryRuleCookiesARM.(*DeliveryRuleCookiesConditionARM)
 		result.DeliveryRuleCookies = &deliveryRuleCookies
 	}
 
@@ -6353,7 +6353,7 @@ func (condition *DeliveryRuleCondition) ConvertToARM(resolved genruntime.Convert
 		if err != nil {
 			return nil, err
 		}
-		deliveryRuleHostName := deliveryRuleHostNameARM.(DeliveryRuleHostNameConditionARM)
+		deliveryRuleHostName := *deliveryRuleHostNameARM.(*DeliveryRuleHostNameConditionARM)
 		result.DeliveryRuleHostName = &deliveryRuleHostName
 	}
 
@@ -6363,7 +6363,7 @@ func (condition *DeliveryRuleCondition) ConvertToARM(resolved genruntime.Convert
 		if err != nil {
 			return nil, err
 		}
-		deliveryRuleHttpVersion := deliveryRuleHttpVersionARM.(DeliveryRuleHttpVersionConditionARM)
+		deliveryRuleHttpVersion := *deliveryRuleHttpVersionARM.(*DeliveryRuleHttpVersionConditionARM)
 		result.DeliveryRuleHttpVersion = &deliveryRuleHttpVersion
 	}
 
@@ -6373,7 +6373,7 @@ func (condition *DeliveryRuleCondition) ConvertToARM(resolved genruntime.Convert
 		if err != nil {
 			return nil, err
 		}
-		deliveryRuleIsDevice := deliveryRuleIsDeviceARM.(DeliveryRuleIsDeviceConditionARM)
+		deliveryRuleIsDevice := *deliveryRuleIsDeviceARM.(*DeliveryRuleIsDeviceConditionARM)
 		result.DeliveryRuleIsDevice = &deliveryRuleIsDevice
 	}
 
@@ -6383,7 +6383,7 @@ func (condition *DeliveryRuleCondition) ConvertToARM(resolved genruntime.Convert
 		if err != nil {
 			return nil, err
 		}
-		deliveryRulePostArgs := deliveryRulePostArgsARM.(DeliveryRulePostArgsConditionARM)
+		deliveryRulePostArgs := *deliveryRulePostArgsARM.(*DeliveryRulePostArgsConditionARM)
 		result.DeliveryRulePostArgs = &deliveryRulePostArgs
 	}
 
@@ -6393,7 +6393,7 @@ func (condition *DeliveryRuleCondition) ConvertToARM(resolved genruntime.Convert
 		if err != nil {
 			return nil, err
 		}
-		deliveryRuleQueryString := deliveryRuleQueryStringARM.(DeliveryRuleQueryStringConditionARM)
+		deliveryRuleQueryString := *deliveryRuleQueryStringARM.(*DeliveryRuleQueryStringConditionARM)
 		result.DeliveryRuleQueryString = &deliveryRuleQueryString
 	}
 
@@ -6403,7 +6403,7 @@ func (condition *DeliveryRuleCondition) ConvertToARM(resolved genruntime.Convert
 		if err != nil {
 			return nil, err
 		}
-		deliveryRuleRemoteAddress := deliveryRuleRemoteAddressARM.(DeliveryRuleRemoteAddressConditionARM)
+		deliveryRuleRemoteAddress := *deliveryRuleRemoteAddressARM.(*DeliveryRuleRemoteAddressConditionARM)
 		result.DeliveryRuleRemoteAddress = &deliveryRuleRemoteAddress
 	}
 
@@ -6413,7 +6413,7 @@ func (condition *DeliveryRuleCondition) ConvertToARM(resolved genruntime.Convert
 		if err != nil {
 			return nil, err
 		}
-		deliveryRuleRequestBody := deliveryRuleRequestBodyARM.(DeliveryRuleRequestBodyConditionARM)
+		deliveryRuleRequestBody := *deliveryRuleRequestBodyARM.(*DeliveryRuleRequestBodyConditionARM)
 		result.DeliveryRuleRequestBody = &deliveryRuleRequestBody
 	}
 
@@ -6423,7 +6423,7 @@ func (condition *DeliveryRuleCondition) ConvertToARM(resolved genruntime.Convert
 		if err != nil {
 			return nil, err
 		}
-		deliveryRuleRequestHeader := deliveryRuleRequestHeaderARM.(DeliveryRuleRequestHeaderConditionARM)
+		deliveryRuleRequestHeader := *deliveryRuleRequestHeaderARM.(*DeliveryRuleRequestHeaderConditionARM)
 		result.DeliveryRuleRequestHeader = &deliveryRuleRequestHeader
 	}
 
@@ -6433,7 +6433,7 @@ func (condition *DeliveryRuleCondition) ConvertToARM(resolved genruntime.Convert
 		if err != nil {
 			return nil, err
 		}
-		deliveryRuleRequestMethod := deliveryRuleRequestMethodARM.(DeliveryRuleRequestMethodConditionARM)
+		deliveryRuleRequestMethod := *deliveryRuleRequestMethodARM.(*DeliveryRuleRequestMethodConditionARM)
 		result.DeliveryRuleRequestMethod = &deliveryRuleRequestMethod
 	}
 
@@ -6443,7 +6443,7 @@ func (condition *DeliveryRuleCondition) ConvertToARM(resolved genruntime.Convert
 		if err != nil {
 			return nil, err
 		}
-		deliveryRuleRequestScheme := deliveryRuleRequestSchemeARM.(DeliveryRuleRequestSchemeConditionARM)
+		deliveryRuleRequestScheme := *deliveryRuleRequestSchemeARM.(*DeliveryRuleRequestSchemeConditionARM)
 		result.DeliveryRuleRequestScheme = &deliveryRuleRequestScheme
 	}
 
@@ -6453,7 +6453,7 @@ func (condition *DeliveryRuleCondition) ConvertToARM(resolved genruntime.Convert
 		if err != nil {
 			return nil, err
 		}
-		deliveryRuleRequestUri := deliveryRuleRequestUriARM.(DeliveryRuleRequestUriConditionARM)
+		deliveryRuleRequestUri := *deliveryRuleRequestUriARM.(*DeliveryRuleRequestUriConditionARM)
 		result.DeliveryRuleRequestUri = &deliveryRuleRequestUri
 	}
 
@@ -6463,7 +6463,7 @@ func (condition *DeliveryRuleCondition) ConvertToARM(resolved genruntime.Convert
 		if err != nil {
 			return nil, err
 		}
-		deliveryRuleServerPort := deliveryRuleServerPortARM.(DeliveryRuleServerPortConditionARM)
+		deliveryRuleServerPort := *deliveryRuleServerPortARM.(*DeliveryRuleServerPortConditionARM)
 		result.DeliveryRuleServerPort = &deliveryRuleServerPort
 	}
 
@@ -6473,7 +6473,7 @@ func (condition *DeliveryRuleCondition) ConvertToARM(resolved genruntime.Convert
 		if err != nil {
 			return nil, err
 		}
-		deliveryRuleSocketAddr := deliveryRuleSocketAddrARM.(DeliveryRuleSocketAddrConditionARM)
+		deliveryRuleSocketAddr := *deliveryRuleSocketAddrARM.(*DeliveryRuleSocketAddrConditionARM)
 		result.DeliveryRuleSocketAddr = &deliveryRuleSocketAddr
 	}
 
@@ -6483,7 +6483,7 @@ func (condition *DeliveryRuleCondition) ConvertToARM(resolved genruntime.Convert
 		if err != nil {
 			return nil, err
 		}
-		deliveryRuleSslProtocol := deliveryRuleSslProtocolARM.(DeliveryRuleSslProtocolConditionARM)
+		deliveryRuleSslProtocol := *deliveryRuleSslProtocolARM.(*DeliveryRuleSslProtocolConditionARM)
 		result.DeliveryRuleSslProtocol = &deliveryRuleSslProtocol
 	}
 
@@ -6493,7 +6493,7 @@ func (condition *DeliveryRuleCondition) ConvertToARM(resolved genruntime.Convert
 		if err != nil {
 			return nil, err
 		}
-		deliveryRuleUrlFileExtension := deliveryRuleUrlFileExtensionARM.(DeliveryRuleUrlFileExtensionConditionARM)
+		deliveryRuleUrlFileExtension := *deliveryRuleUrlFileExtensionARM.(*DeliveryRuleUrlFileExtensionConditionARM)
 		result.DeliveryRuleUrlFileExtension = &deliveryRuleUrlFileExtension
 	}
 
@@ -6503,7 +6503,7 @@ func (condition *DeliveryRuleCondition) ConvertToARM(resolved genruntime.Convert
 		if err != nil {
 			return nil, err
 		}
-		deliveryRuleUrlFileName := deliveryRuleUrlFileNameARM.(DeliveryRuleUrlFileNameConditionARM)
+		deliveryRuleUrlFileName := *deliveryRuleUrlFileNameARM.(*DeliveryRuleUrlFileNameConditionARM)
 		result.DeliveryRuleUrlFileName = &deliveryRuleUrlFileName
 	}
 
@@ -6513,7 +6513,7 @@ func (condition *DeliveryRuleCondition) ConvertToARM(resolved genruntime.Convert
 		if err != nil {
 			return nil, err
 		}
-		deliveryRuleUrlPath := deliveryRuleUrlPathARM.(DeliveryRuleUrlPathConditionARM)
+		deliveryRuleUrlPath := *deliveryRuleUrlPathARM.(*DeliveryRuleUrlPathConditionARM)
 		result.DeliveryRuleUrlPath = &deliveryRuleUrlPath
 	}
 	return result, nil
@@ -7345,7 +7345,7 @@ func (parameters *HttpErrorRangeParameters) ConvertToARM(resolved genruntime.Con
 	if parameters == nil {
 		return nil, nil
 	}
-	var result HttpErrorRangeParametersARM
+	result := &HttpErrorRangeParametersARM{}
 
 	// Set property ‘Begin’:
 	if parameters.Begin != nil {
@@ -7556,7 +7556,7 @@ func (action *DeliveryRuleCacheExpirationAction) ConvertToARM(resolved genruntim
 	if action == nil {
 		return nil, nil
 	}
-	var result DeliveryRuleCacheExpirationActionARM
+	result := &DeliveryRuleCacheExpirationActionARM{}
 
 	// Set property ‘Name’:
 	if action.Name != nil {
@@ -7569,7 +7569,7 @@ func (action *DeliveryRuleCacheExpirationAction) ConvertToARM(resolved genruntim
 		if err != nil {
 			return nil, err
 		}
-		parameters := parametersARM.(CacheExpirationActionParametersARM)
+		parameters := *parametersARM.(*CacheExpirationActionParametersARM)
 		result.Parameters = &parameters
 	}
 	return result, nil
@@ -7685,7 +7685,7 @@ func (action *DeliveryRuleCacheKeyQueryStringAction) ConvertToARM(resolved genru
 	if action == nil {
 		return nil, nil
 	}
-	var result DeliveryRuleCacheKeyQueryStringActionARM
+	result := &DeliveryRuleCacheKeyQueryStringActionARM{}
 
 	// Set property ‘Name’:
 	if action.Name != nil {
@@ -7698,7 +7698,7 @@ func (action *DeliveryRuleCacheKeyQueryStringAction) ConvertToARM(resolved genru
 		if err != nil {
 			return nil, err
 		}
-		parameters := parametersARM.(CacheKeyQueryStringActionParametersARM)
+		parameters := *parametersARM.(*CacheKeyQueryStringActionParametersARM)
 		result.Parameters = &parameters
 	}
 	return result, nil
@@ -7814,7 +7814,7 @@ func (condition *DeliveryRuleClientPortCondition) ConvertToARM(resolved genrunti
 	if condition == nil {
 		return nil, nil
 	}
-	var result DeliveryRuleClientPortConditionARM
+	result := &DeliveryRuleClientPortConditionARM{}
 
 	// Set property ‘Name’:
 	if condition.Name != nil {
@@ -7827,7 +7827,7 @@ func (condition *DeliveryRuleClientPortCondition) ConvertToARM(resolved genrunti
 		if err != nil {
 			return nil, err
 		}
-		parameters := parametersARM.(ClientPortMatchConditionParametersARM)
+		parameters := *parametersARM.(*ClientPortMatchConditionParametersARM)
 		result.Parameters = &parameters
 	}
 	return result, nil
@@ -7943,7 +7943,7 @@ func (condition *DeliveryRuleCookiesCondition) ConvertToARM(resolved genruntime.
 	if condition == nil {
 		return nil, nil
 	}
-	var result DeliveryRuleCookiesConditionARM
+	result := &DeliveryRuleCookiesConditionARM{}
 
 	// Set property ‘Name’:
 	if condition.Name != nil {
@@ -7956,7 +7956,7 @@ func (condition *DeliveryRuleCookiesCondition) ConvertToARM(resolved genruntime.
 		if err != nil {
 			return nil, err
 		}
-		parameters := parametersARM.(CookiesMatchConditionParametersARM)
+		parameters := *parametersARM.(*CookiesMatchConditionParametersARM)
 		result.Parameters = &parameters
 	}
 	return result, nil
@@ -8072,7 +8072,7 @@ func (condition *DeliveryRuleHostNameCondition) ConvertToARM(resolved genruntime
 	if condition == nil {
 		return nil, nil
 	}
-	var result DeliveryRuleHostNameConditionARM
+	result := &DeliveryRuleHostNameConditionARM{}
 
 	// Set property ‘Name’:
 	if condition.Name != nil {
@@ -8085,7 +8085,7 @@ func (condition *DeliveryRuleHostNameCondition) ConvertToARM(resolved genruntime
 		if err != nil {
 			return nil, err
 		}
-		parameters := parametersARM.(HostNameMatchConditionParametersARM)
+		parameters := *parametersARM.(*HostNameMatchConditionParametersARM)
 		result.Parameters = &parameters
 	}
 	return result, nil
@@ -8201,7 +8201,7 @@ func (condition *DeliveryRuleHttpVersionCondition) ConvertToARM(resolved genrunt
 	if condition == nil {
 		return nil, nil
 	}
-	var result DeliveryRuleHttpVersionConditionARM
+	result := &DeliveryRuleHttpVersionConditionARM{}
 
 	// Set property ‘Name’:
 	if condition.Name != nil {
@@ -8214,7 +8214,7 @@ func (condition *DeliveryRuleHttpVersionCondition) ConvertToARM(resolved genrunt
 		if err != nil {
 			return nil, err
 		}
-		parameters := parametersARM.(HttpVersionMatchConditionParametersARM)
+		parameters := *parametersARM.(*HttpVersionMatchConditionParametersARM)
 		result.Parameters = &parameters
 	}
 	return result, nil
@@ -8330,7 +8330,7 @@ func (condition *DeliveryRuleIsDeviceCondition) ConvertToARM(resolved genruntime
 	if condition == nil {
 		return nil, nil
 	}
-	var result DeliveryRuleIsDeviceConditionARM
+	result := &DeliveryRuleIsDeviceConditionARM{}
 
 	// Set property ‘Name’:
 	if condition.Name != nil {
@@ -8343,7 +8343,7 @@ func (condition *DeliveryRuleIsDeviceCondition) ConvertToARM(resolved genruntime
 		if err != nil {
 			return nil, err
 		}
-		parameters := parametersARM.(IsDeviceMatchConditionParametersARM)
+		parameters := *parametersARM.(*IsDeviceMatchConditionParametersARM)
 		result.Parameters = &parameters
 	}
 	return result, nil
@@ -8459,7 +8459,7 @@ func (condition *DeliveryRulePostArgsCondition) ConvertToARM(resolved genruntime
 	if condition == nil {
 		return nil, nil
 	}
-	var result DeliveryRulePostArgsConditionARM
+	result := &DeliveryRulePostArgsConditionARM{}
 
 	// Set property ‘Name’:
 	if condition.Name != nil {
@@ -8472,7 +8472,7 @@ func (condition *DeliveryRulePostArgsCondition) ConvertToARM(resolved genruntime
 		if err != nil {
 			return nil, err
 		}
-		parameters := parametersARM.(PostArgsMatchConditionParametersARM)
+		parameters := *parametersARM.(*PostArgsMatchConditionParametersARM)
 		result.Parameters = &parameters
 	}
 	return result, nil
@@ -8588,7 +8588,7 @@ func (condition *DeliveryRuleQueryStringCondition) ConvertToARM(resolved genrunt
 	if condition == nil {
 		return nil, nil
 	}
-	var result DeliveryRuleQueryStringConditionARM
+	result := &DeliveryRuleQueryStringConditionARM{}
 
 	// Set property ‘Name’:
 	if condition.Name != nil {
@@ -8601,7 +8601,7 @@ func (condition *DeliveryRuleQueryStringCondition) ConvertToARM(resolved genrunt
 		if err != nil {
 			return nil, err
 		}
-		parameters := parametersARM.(QueryStringMatchConditionParametersARM)
+		parameters := *parametersARM.(*QueryStringMatchConditionParametersARM)
 		result.Parameters = &parameters
 	}
 	return result, nil
@@ -8717,7 +8717,7 @@ func (condition *DeliveryRuleRemoteAddressCondition) ConvertToARM(resolved genru
 	if condition == nil {
 		return nil, nil
 	}
-	var result DeliveryRuleRemoteAddressConditionARM
+	result := &DeliveryRuleRemoteAddressConditionARM{}
 
 	// Set property ‘Name’:
 	if condition.Name != nil {
@@ -8730,7 +8730,7 @@ func (condition *DeliveryRuleRemoteAddressCondition) ConvertToARM(resolved genru
 		if err != nil {
 			return nil, err
 		}
-		parameters := parametersARM.(RemoteAddressMatchConditionParametersARM)
+		parameters := *parametersARM.(*RemoteAddressMatchConditionParametersARM)
 		result.Parameters = &parameters
 	}
 	return result, nil
@@ -8846,7 +8846,7 @@ func (condition *DeliveryRuleRequestBodyCondition) ConvertToARM(resolved genrunt
 	if condition == nil {
 		return nil, nil
 	}
-	var result DeliveryRuleRequestBodyConditionARM
+	result := &DeliveryRuleRequestBodyConditionARM{}
 
 	// Set property ‘Name’:
 	if condition.Name != nil {
@@ -8859,7 +8859,7 @@ func (condition *DeliveryRuleRequestBodyCondition) ConvertToARM(resolved genrunt
 		if err != nil {
 			return nil, err
 		}
-		parameters := parametersARM.(RequestBodyMatchConditionParametersARM)
+		parameters := *parametersARM.(*RequestBodyMatchConditionParametersARM)
 		result.Parameters = &parameters
 	}
 	return result, nil
@@ -8975,7 +8975,7 @@ func (action *DeliveryRuleRequestHeaderAction) ConvertToARM(resolved genruntime.
 	if action == nil {
 		return nil, nil
 	}
-	var result DeliveryRuleRequestHeaderActionARM
+	result := &DeliveryRuleRequestHeaderActionARM{}
 
 	// Set property ‘Name’:
 	if action.Name != nil {
@@ -8988,7 +8988,7 @@ func (action *DeliveryRuleRequestHeaderAction) ConvertToARM(resolved genruntime.
 		if err != nil {
 			return nil, err
 		}
-		parameters := parametersARM.(HeaderActionParametersARM)
+		parameters := *parametersARM.(*HeaderActionParametersARM)
 		result.Parameters = &parameters
 	}
 	return result, nil
@@ -9104,7 +9104,7 @@ func (condition *DeliveryRuleRequestHeaderCondition) ConvertToARM(resolved genru
 	if condition == nil {
 		return nil, nil
 	}
-	var result DeliveryRuleRequestHeaderConditionARM
+	result := &DeliveryRuleRequestHeaderConditionARM{}
 
 	// Set property ‘Name’:
 	if condition.Name != nil {
@@ -9117,7 +9117,7 @@ func (condition *DeliveryRuleRequestHeaderCondition) ConvertToARM(resolved genru
 		if err != nil {
 			return nil, err
 		}
-		parameters := parametersARM.(RequestHeaderMatchConditionParametersARM)
+		parameters := *parametersARM.(*RequestHeaderMatchConditionParametersARM)
 		result.Parameters = &parameters
 	}
 	return result, nil
@@ -9233,7 +9233,7 @@ func (condition *DeliveryRuleRequestMethodCondition) ConvertToARM(resolved genru
 	if condition == nil {
 		return nil, nil
 	}
-	var result DeliveryRuleRequestMethodConditionARM
+	result := &DeliveryRuleRequestMethodConditionARM{}
 
 	// Set property ‘Name’:
 	if condition.Name != nil {
@@ -9246,7 +9246,7 @@ func (condition *DeliveryRuleRequestMethodCondition) ConvertToARM(resolved genru
 		if err != nil {
 			return nil, err
 		}
-		parameters := parametersARM.(RequestMethodMatchConditionParametersARM)
+		parameters := *parametersARM.(*RequestMethodMatchConditionParametersARM)
 		result.Parameters = &parameters
 	}
 	return result, nil
@@ -9362,7 +9362,7 @@ func (condition *DeliveryRuleRequestSchemeCondition) ConvertToARM(resolved genru
 	if condition == nil {
 		return nil, nil
 	}
-	var result DeliveryRuleRequestSchemeConditionARM
+	result := &DeliveryRuleRequestSchemeConditionARM{}
 
 	// Set property ‘Name’:
 	if condition.Name != nil {
@@ -9375,7 +9375,7 @@ func (condition *DeliveryRuleRequestSchemeCondition) ConvertToARM(resolved genru
 		if err != nil {
 			return nil, err
 		}
-		parameters := parametersARM.(RequestSchemeMatchConditionParametersARM)
+		parameters := *parametersARM.(*RequestSchemeMatchConditionParametersARM)
 		result.Parameters = &parameters
 	}
 	return result, nil
@@ -9491,7 +9491,7 @@ func (condition *DeliveryRuleRequestUriCondition) ConvertToARM(resolved genrunti
 	if condition == nil {
 		return nil, nil
 	}
-	var result DeliveryRuleRequestUriConditionARM
+	result := &DeliveryRuleRequestUriConditionARM{}
 
 	// Set property ‘Name’:
 	if condition.Name != nil {
@@ -9504,7 +9504,7 @@ func (condition *DeliveryRuleRequestUriCondition) ConvertToARM(resolved genrunti
 		if err != nil {
 			return nil, err
 		}
-		parameters := parametersARM.(RequestUriMatchConditionParametersARM)
+		parameters := *parametersARM.(*RequestUriMatchConditionParametersARM)
 		result.Parameters = &parameters
 	}
 	return result, nil
@@ -9620,7 +9620,7 @@ func (action *DeliveryRuleResponseHeaderAction) ConvertToARM(resolved genruntime
 	if action == nil {
 		return nil, nil
 	}
-	var result DeliveryRuleResponseHeaderActionARM
+	result := &DeliveryRuleResponseHeaderActionARM{}
 
 	// Set property ‘Name’:
 	if action.Name != nil {
@@ -9633,7 +9633,7 @@ func (action *DeliveryRuleResponseHeaderAction) ConvertToARM(resolved genruntime
 		if err != nil {
 			return nil, err
 		}
-		parameters := parametersARM.(HeaderActionParametersARM)
+		parameters := *parametersARM.(*HeaderActionParametersARM)
 		result.Parameters = &parameters
 	}
 	return result, nil
@@ -9749,7 +9749,7 @@ func (action *DeliveryRuleRouteConfigurationOverrideAction) ConvertToARM(resolve
 	if action == nil {
 		return nil, nil
 	}
-	var result DeliveryRuleRouteConfigurationOverrideActionARM
+	result := &DeliveryRuleRouteConfigurationOverrideActionARM{}
 
 	// Set property ‘Name’:
 	if action.Name != nil {
@@ -9762,7 +9762,7 @@ func (action *DeliveryRuleRouteConfigurationOverrideAction) ConvertToARM(resolve
 		if err != nil {
 			return nil, err
 		}
-		parameters := parametersARM.(RouteConfigurationOverrideActionParametersARM)
+		parameters := *parametersARM.(*RouteConfigurationOverrideActionParametersARM)
 		result.Parameters = &parameters
 	}
 	return result, nil
@@ -9878,7 +9878,7 @@ func (condition *DeliveryRuleServerPortCondition) ConvertToARM(resolved genrunti
 	if condition == nil {
 		return nil, nil
 	}
-	var result DeliveryRuleServerPortConditionARM
+	result := &DeliveryRuleServerPortConditionARM{}
 
 	// Set property ‘Name’:
 	if condition.Name != nil {
@@ -9891,7 +9891,7 @@ func (condition *DeliveryRuleServerPortCondition) ConvertToARM(resolved genrunti
 		if err != nil {
 			return nil, err
 		}
-		parameters := parametersARM.(ServerPortMatchConditionParametersARM)
+		parameters := *parametersARM.(*ServerPortMatchConditionParametersARM)
 		result.Parameters = &parameters
 	}
 	return result, nil
@@ -10007,7 +10007,7 @@ func (condition *DeliveryRuleSocketAddrCondition) ConvertToARM(resolved genrunti
 	if condition == nil {
 		return nil, nil
 	}
-	var result DeliveryRuleSocketAddrConditionARM
+	result := &DeliveryRuleSocketAddrConditionARM{}
 
 	// Set property ‘Name’:
 	if condition.Name != nil {
@@ -10020,7 +10020,7 @@ func (condition *DeliveryRuleSocketAddrCondition) ConvertToARM(resolved genrunti
 		if err != nil {
 			return nil, err
 		}
-		parameters := parametersARM.(SocketAddrMatchConditionParametersARM)
+		parameters := *parametersARM.(*SocketAddrMatchConditionParametersARM)
 		result.Parameters = &parameters
 	}
 	return result, nil
@@ -10136,7 +10136,7 @@ func (condition *DeliveryRuleSslProtocolCondition) ConvertToARM(resolved genrunt
 	if condition == nil {
 		return nil, nil
 	}
-	var result DeliveryRuleSslProtocolConditionARM
+	result := &DeliveryRuleSslProtocolConditionARM{}
 
 	// Set property ‘Name’:
 	if condition.Name != nil {
@@ -10149,7 +10149,7 @@ func (condition *DeliveryRuleSslProtocolCondition) ConvertToARM(resolved genrunt
 		if err != nil {
 			return nil, err
 		}
-		parameters := parametersARM.(SslProtocolMatchConditionParametersARM)
+		parameters := *parametersARM.(*SslProtocolMatchConditionParametersARM)
 		result.Parameters = &parameters
 	}
 	return result, nil
@@ -10265,7 +10265,7 @@ func (condition *DeliveryRuleUrlFileExtensionCondition) ConvertToARM(resolved ge
 	if condition == nil {
 		return nil, nil
 	}
-	var result DeliveryRuleUrlFileExtensionConditionARM
+	result := &DeliveryRuleUrlFileExtensionConditionARM{}
 
 	// Set property ‘Name’:
 	if condition.Name != nil {
@@ -10278,7 +10278,7 @@ func (condition *DeliveryRuleUrlFileExtensionCondition) ConvertToARM(resolved ge
 		if err != nil {
 			return nil, err
 		}
-		parameters := parametersARM.(UrlFileExtensionMatchConditionParametersARM)
+		parameters := *parametersARM.(*UrlFileExtensionMatchConditionParametersARM)
 		result.Parameters = &parameters
 	}
 	return result, nil
@@ -10394,7 +10394,7 @@ func (condition *DeliveryRuleUrlFileNameCondition) ConvertToARM(resolved genrunt
 	if condition == nil {
 		return nil, nil
 	}
-	var result DeliveryRuleUrlFileNameConditionARM
+	result := &DeliveryRuleUrlFileNameConditionARM{}
 
 	// Set property ‘Name’:
 	if condition.Name != nil {
@@ -10407,7 +10407,7 @@ func (condition *DeliveryRuleUrlFileNameCondition) ConvertToARM(resolved genrunt
 		if err != nil {
 			return nil, err
 		}
-		parameters := parametersARM.(UrlFileNameMatchConditionParametersARM)
+		parameters := *parametersARM.(*UrlFileNameMatchConditionParametersARM)
 		result.Parameters = &parameters
 	}
 	return result, nil
@@ -10523,7 +10523,7 @@ func (condition *DeliveryRuleUrlPathCondition) ConvertToARM(resolved genruntime.
 	if condition == nil {
 		return nil, nil
 	}
-	var result DeliveryRuleUrlPathConditionARM
+	result := &DeliveryRuleUrlPathConditionARM{}
 
 	// Set property ‘Name’:
 	if condition.Name != nil {
@@ -10536,7 +10536,7 @@ func (condition *DeliveryRuleUrlPathCondition) ConvertToARM(resolved genruntime.
 		if err != nil {
 			return nil, err
 		}
-		parameters := parametersARM.(UrlPathMatchConditionParametersARM)
+		parameters := *parametersARM.(*UrlPathMatchConditionParametersARM)
 		result.Parameters = &parameters
 	}
 	return result, nil
@@ -10652,7 +10652,7 @@ func (action *OriginGroupOverrideAction) ConvertToARM(resolved genruntime.Conver
 	if action == nil {
 		return nil, nil
 	}
-	var result OriginGroupOverrideActionARM
+	result := &OriginGroupOverrideActionARM{}
 
 	// Set property ‘Name’:
 	if action.Name != nil {
@@ -10665,7 +10665,7 @@ func (action *OriginGroupOverrideAction) ConvertToARM(resolved genruntime.Conver
 		if err != nil {
 			return nil, err
 		}
-		parameters := parametersARM.(OriginGroupOverrideActionParametersARM)
+		parameters := *parametersARM.(*OriginGroupOverrideActionParametersARM)
 		result.Parameters = &parameters
 	}
 	return result, nil
@@ -10781,7 +10781,7 @@ func (action *UrlRedirectAction) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if action == nil {
 		return nil, nil
 	}
-	var result UrlRedirectActionARM
+	result := &UrlRedirectActionARM{}
 
 	// Set property ‘Name’:
 	if action.Name != nil {
@@ -10794,7 +10794,7 @@ func (action *UrlRedirectAction) ConvertToARM(resolved genruntime.ConvertToARMRe
 		if err != nil {
 			return nil, err
 		}
-		parameters := parametersARM.(UrlRedirectActionParametersARM)
+		parameters := *parametersARM.(*UrlRedirectActionParametersARM)
 		result.Parameters = &parameters
 	}
 	return result, nil
@@ -10910,7 +10910,7 @@ func (action *UrlRewriteAction) ConvertToARM(resolved genruntime.ConvertToARMRes
 	if action == nil {
 		return nil, nil
 	}
-	var result UrlRewriteActionARM
+	result := &UrlRewriteActionARM{}
 
 	// Set property ‘Name’:
 	if action.Name != nil {
@@ -10923,7 +10923,7 @@ func (action *UrlRewriteAction) ConvertToARM(resolved genruntime.ConvertToARMRes
 		if err != nil {
 			return nil, err
 		}
-		parameters := parametersARM.(UrlRewriteActionParametersARM)
+		parameters := *parametersARM.(*UrlRewriteActionParametersARM)
 		result.Parameters = &parameters
 	}
 	return result, nil
@@ -11039,7 +11039,7 @@ func (action *UrlSigningAction) ConvertToARM(resolved genruntime.ConvertToARMRes
 	if action == nil {
 		return nil, nil
 	}
-	var result UrlSigningActionARM
+	result := &UrlSigningActionARM{}
 
 	// Set property ‘Name’:
 	if action.Name != nil {
@@ -11052,7 +11052,7 @@ func (action *UrlSigningAction) ConvertToARM(resolved genruntime.ConvertToARMRes
 		if err != nil {
 			return nil, err
 		}
-		parameters := parametersARM.(UrlSigningActionParametersARM)
+		parameters := *parametersARM.(*UrlSigningActionParametersARM)
 		result.Parameters = &parameters
 	}
 	return result, nil
@@ -11175,7 +11175,7 @@ func (parameters *CacheExpirationActionParameters) ConvertToARM(resolved genrunt
 	if parameters == nil {
 		return nil, nil
 	}
-	var result CacheExpirationActionParametersARM
+	result := &CacheExpirationActionParametersARM{}
 
 	// Set property ‘CacheBehavior’:
 	if parameters.CacheBehavior != nil {
@@ -11340,7 +11340,7 @@ func (parameters *CacheKeyQueryStringActionParameters) ConvertToARM(resolved gen
 	if parameters == nil {
 		return nil, nil
 	}
-	var result CacheKeyQueryStringActionParametersARM
+	result := &CacheKeyQueryStringActionParametersARM{}
 
 	// Set property ‘QueryParameters’:
 	if parameters.QueryParameters != nil {
@@ -11483,7 +11483,7 @@ func (parameters *ClientPortMatchConditionParameters) ConvertToARM(resolved genr
 	if parameters == nil {
 		return nil, nil
 	}
-	var result ClientPortMatchConditionParametersARM
+	result := &ClientPortMatchConditionParametersARM{}
 
 	// Set property ‘MatchValues’:
 	for _, item := range parameters.MatchValues {
@@ -11691,7 +11691,7 @@ func (parameters *CookiesMatchConditionParameters) ConvertToARM(resolved genrunt
 	if parameters == nil {
 		return nil, nil
 	}
-	var result CookiesMatchConditionParametersARM
+	result := &CookiesMatchConditionParametersARM{}
 
 	// Set property ‘MatchValues’:
 	for _, item := range parameters.MatchValues {
@@ -12032,7 +12032,7 @@ func (parameters *HeaderActionParameters) ConvertToARM(resolved genruntime.Conve
 	if parameters == nil {
 		return nil, nil
 	}
-	var result HeaderActionParametersARM
+	result := &HeaderActionParametersARM{}
 
 	// Set property ‘HeaderAction’:
 	if parameters.HeaderAction != nil {
@@ -12193,7 +12193,7 @@ func (parameters *HostNameMatchConditionParameters) ConvertToARM(resolved genrun
 	if parameters == nil {
 		return nil, nil
 	}
-	var result HostNameMatchConditionParametersARM
+	result := &HostNameMatchConditionParametersARM{}
 
 	// Set property ‘MatchValues’:
 	for _, item := range parameters.MatchValues {
@@ -12398,7 +12398,7 @@ func (parameters *HttpVersionMatchConditionParameters) ConvertToARM(resolved gen
 	if parameters == nil {
 		return nil, nil
 	}
-	var result HttpVersionMatchConditionParametersARM
+	result := &HttpVersionMatchConditionParametersARM{}
 
 	// Set property ‘MatchValues’:
 	for _, item := range parameters.MatchValues {
@@ -12603,7 +12603,7 @@ func (parameters *IsDeviceMatchConditionParameters) ConvertToARM(resolved genrun
 	if parameters == nil {
 		return nil, nil
 	}
-	var result IsDeviceMatchConditionParametersARM
+	result := &IsDeviceMatchConditionParametersARM{}
 
 	// Set property ‘MatchValues’:
 	for _, item := range parameters.MatchValues {
@@ -12824,7 +12824,7 @@ func (parameters *OriginGroupOverrideActionParameters) ConvertToARM(resolved gen
 	if parameters == nil {
 		return nil, nil
 	}
-	var result OriginGroupOverrideActionParametersARM
+	result := &OriginGroupOverrideActionParametersARM{}
 
 	// Set property ‘OriginGroup’:
 	if parameters.OriginGroup != nil {
@@ -12832,7 +12832,7 @@ func (parameters *OriginGroupOverrideActionParameters) ConvertToARM(resolved gen
 		if err != nil {
 			return nil, err
 		}
-		originGroup := originGroupARM.(ResourceReferenceARM)
+		originGroup := *originGroupARM.(*ResourceReferenceARM)
 		result.OriginGroup = &originGroup
 	}
 
@@ -12969,7 +12969,7 @@ func (parameters *PostArgsMatchConditionParameters) ConvertToARM(resolved genrun
 	if parameters == nil {
 		return nil, nil
 	}
-	var result PostArgsMatchConditionParametersARM
+	result := &PostArgsMatchConditionParametersARM{}
 
 	// Set property ‘MatchValues’:
 	for _, item := range parameters.MatchValues {
@@ -13192,7 +13192,7 @@ func (parameters *QueryStringMatchConditionParameters) ConvertToARM(resolved gen
 	if parameters == nil {
 		return nil, nil
 	}
-	var result QueryStringMatchConditionParametersARM
+	result := &QueryStringMatchConditionParametersARM{}
 
 	// Set property ‘MatchValues’:
 	for _, item := range parameters.MatchValues {
@@ -13398,7 +13398,7 @@ func (parameters *RemoteAddressMatchConditionParameters) ConvertToARM(resolved g
 	if parameters == nil {
 		return nil, nil
 	}
-	var result RemoteAddressMatchConditionParametersARM
+	result := &RemoteAddressMatchConditionParametersARM{}
 
 	// Set property ‘MatchValues’:
 	for _, item := range parameters.MatchValues {
@@ -13603,7 +13603,7 @@ func (parameters *RequestBodyMatchConditionParameters) ConvertToARM(resolved gen
 	if parameters == nil {
 		return nil, nil
 	}
-	var result RequestBodyMatchConditionParametersARM
+	result := &RequestBodyMatchConditionParametersARM{}
 
 	// Set property ‘MatchValues’:
 	for _, item := range parameters.MatchValues {
@@ -13811,7 +13811,7 @@ func (parameters *RequestHeaderMatchConditionParameters) ConvertToARM(resolved g
 	if parameters == nil {
 		return nil, nil
 	}
-	var result RequestHeaderMatchConditionParametersARM
+	result := &RequestHeaderMatchConditionParametersARM{}
 
 	// Set property ‘MatchValues’:
 	for _, item := range parameters.MatchValues {
@@ -14034,7 +14034,7 @@ func (parameters *RequestMethodMatchConditionParameters) ConvertToARM(resolved g
 	if parameters == nil {
 		return nil, nil
 	}
-	var result RequestMethodMatchConditionParametersARM
+	result := &RequestMethodMatchConditionParametersARM{}
 
 	// Set property ‘MatchValues’:
 	for _, item := range parameters.MatchValues {
@@ -14259,7 +14259,7 @@ func (parameters *RequestSchemeMatchConditionParameters) ConvertToARM(resolved g
 	if parameters == nil {
 		return nil, nil
 	}
-	var result RequestSchemeMatchConditionParametersARM
+	result := &RequestSchemeMatchConditionParametersARM{}
 
 	// Set property ‘MatchValues’:
 	for _, item := range parameters.MatchValues {
@@ -14484,7 +14484,7 @@ func (parameters *RequestUriMatchConditionParameters) ConvertToARM(resolved genr
 	if parameters == nil {
 		return nil, nil
 	}
-	var result RequestUriMatchConditionParametersARM
+	result := &RequestUriMatchConditionParametersARM{}
 
 	// Set property ‘MatchValues’:
 	for _, item := range parameters.MatchValues {
@@ -14683,7 +14683,7 @@ func (parameters *RouteConfigurationOverrideActionParameters) ConvertToARM(resol
 	if parameters == nil {
 		return nil, nil
 	}
-	var result RouteConfigurationOverrideActionParametersARM
+	result := &RouteConfigurationOverrideActionParametersARM{}
 
 	// Set property ‘CacheConfiguration’:
 	if parameters.CacheConfiguration != nil {
@@ -14691,7 +14691,7 @@ func (parameters *RouteConfigurationOverrideActionParameters) ConvertToARM(resol
 		if err != nil {
 			return nil, err
 		}
-		cacheConfiguration := cacheConfigurationARM.(CacheConfigurationARM)
+		cacheConfiguration := *cacheConfigurationARM.(*CacheConfigurationARM)
 		result.CacheConfiguration = &cacheConfiguration
 	}
 
@@ -14701,7 +14701,7 @@ func (parameters *RouteConfigurationOverrideActionParameters) ConvertToARM(resol
 		if err != nil {
 			return nil, err
 		}
-		originGroupOverride := originGroupOverrideARM.(OriginGroupOverrideARM)
+		originGroupOverride := *originGroupOverrideARM.(*OriginGroupOverrideARM)
 		result.OriginGroupOverride = &originGroupOverride
 	}
 
@@ -14870,7 +14870,7 @@ func (parameters *ServerPortMatchConditionParameters) ConvertToARM(resolved genr
 	if parameters == nil {
 		return nil, nil
 	}
-	var result ServerPortMatchConditionParametersARM
+	result := &ServerPortMatchConditionParametersARM{}
 
 	// Set property ‘MatchValues’:
 	for _, item := range parameters.MatchValues {
@@ -15075,7 +15075,7 @@ func (parameters *SocketAddrMatchConditionParameters) ConvertToARM(resolved genr
 	if parameters == nil {
 		return nil, nil
 	}
-	var result SocketAddrMatchConditionParametersARM
+	result := &SocketAddrMatchConditionParametersARM{}
 
 	// Set property ‘MatchValues’:
 	for _, item := range parameters.MatchValues {
@@ -15280,7 +15280,7 @@ func (parameters *SslProtocolMatchConditionParameters) ConvertToARM(resolved gen
 	if parameters == nil {
 		return nil, nil
 	}
-	var result SslProtocolMatchConditionParametersARM
+	result := &SslProtocolMatchConditionParametersARM{}
 
 	// Set property ‘MatchValues’:
 	for _, item := range parameters.MatchValues {
@@ -15505,7 +15505,7 @@ func (parameters *UrlFileExtensionMatchConditionParameters) ConvertToARM(resolve
 	if parameters == nil {
 		return nil, nil
 	}
-	var result UrlFileExtensionMatchConditionParametersARM
+	result := &UrlFileExtensionMatchConditionParametersARM{}
 
 	// Set property ‘MatchValues’:
 	for _, item := range parameters.MatchValues {
@@ -15710,7 +15710,7 @@ func (parameters *UrlFileNameMatchConditionParameters) ConvertToARM(resolved gen
 	if parameters == nil {
 		return nil, nil
 	}
-	var result UrlFileNameMatchConditionParametersARM
+	result := &UrlFileNameMatchConditionParametersARM{}
 
 	// Set property ‘MatchValues’:
 	for _, item := range parameters.MatchValues {
@@ -15915,7 +15915,7 @@ func (parameters *UrlPathMatchConditionParameters) ConvertToARM(resolved genrunt
 	if parameters == nil {
 		return nil, nil
 	}
-	var result UrlPathMatchConditionParametersARM
+	result := &UrlPathMatchConditionParametersARM{}
 
 	// Set property ‘MatchValues’:
 	for _, item := range parameters.MatchValues {
@@ -16135,7 +16135,7 @@ func (parameters *UrlRedirectActionParameters) ConvertToARM(resolved genruntime.
 	if parameters == nil {
 		return nil, nil
 	}
-	var result UrlRedirectActionParametersARM
+	result := &UrlRedirectActionParametersARM{}
 
 	// Set property ‘CustomFragment’:
 	if parameters.CustomFragment != nil {
@@ -16364,7 +16364,7 @@ func (parameters *UrlRewriteActionParameters) ConvertToARM(resolved genruntime.C
 	if parameters == nil {
 		return nil, nil
 	}
-	var result UrlRewriteActionParametersARM
+	result := &UrlRewriteActionParametersARM{}
 
 	// Set property ‘Destination’:
 	if parameters.Destination != nil {
@@ -16523,7 +16523,7 @@ func (parameters *UrlSigningActionParameters) ConvertToARM(resolved genruntime.C
 	if parameters == nil {
 		return nil, nil
 	}
-	var result UrlSigningActionParametersARM
+	result := &UrlSigningActionParametersARM{}
 
 	// Set property ‘Algorithm’:
 	if parameters.Algorithm != nil {
@@ -16537,7 +16537,7 @@ func (parameters *UrlSigningActionParameters) ConvertToARM(resolved genruntime.C
 		if err != nil {
 			return nil, err
 		}
-		result.ParameterNameOverride = append(result.ParameterNameOverride, itemARM.(UrlSigningParamIdentifierARM))
+		result.ParameterNameOverride = append(result.ParameterNameOverride, *itemARM.(*UrlSigningParamIdentifierARM))
 	}
 
 	// Set property ‘TypeName’:
@@ -16706,7 +16706,7 @@ func (configuration *CacheConfiguration) ConvertToARM(resolved genruntime.Conver
 	if configuration == nil {
 		return nil, nil
 	}
-	var result CacheConfigurationARM
+	result := &CacheConfigurationARM{}
 
 	// Set property ‘CacheBehavior’:
 	if configuration.CacheBehavior != nil {
@@ -17084,7 +17084,7 @@ func (override *OriginGroupOverride) ConvertToARM(resolved genruntime.ConvertToA
 	if override == nil {
 		return nil, nil
 	}
-	var result OriginGroupOverrideARM
+	result := &OriginGroupOverrideARM{}
 
 	// Set property ‘ForwardingProtocol’:
 	if override.ForwardingProtocol != nil {
@@ -17098,7 +17098,7 @@ func (override *OriginGroupOverride) ConvertToARM(resolved genruntime.ConvertToA
 		if err != nil {
 			return nil, err
 		}
-		originGroup := originGroupARM.(ResourceReferenceARM)
+		originGroup := *originGroupARM.(*ResourceReferenceARM)
 		result.OriginGroup = &originGroup
 	}
 	return result, nil
@@ -17712,7 +17712,7 @@ func (identifier *UrlSigningParamIdentifier) ConvertToARM(resolved genruntime.Co
 	if identifier == nil {
 		return nil, nil
 	}
-	var result UrlSigningParamIdentifierARM
+	result := &UrlSigningParamIdentifierARM{}
 
 	// Set property ‘ParamIndicator’:
 	if identifier.ParamIndicator != nil {

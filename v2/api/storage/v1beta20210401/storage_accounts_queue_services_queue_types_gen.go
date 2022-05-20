@@ -347,7 +347,7 @@ func (queues *StorageAccountsQueueServicesQueues_Spec) ConvertToARM(resolved gen
 	if queues == nil {
 		return nil, nil
 	}
-	var result StorageAccountsQueueServicesQueues_SpecARM
+	result := &StorageAccountsQueueServicesQueues_SpecARM{}
 
 	// Set property ‘Location’:
 	if queues.Location != nil {

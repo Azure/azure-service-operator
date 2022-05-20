@@ -24,12 +24,12 @@ func (addresses PublicIPAddresses_SpecARM) GetAPIVersion() string {
 }
 
 // GetName returns the Name of the resource
-func (addresses PublicIPAddresses_SpecARM) GetName() string {
+func (addresses *PublicIPAddresses_SpecARM) GetName() string {
 	return addresses.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/publicIPAddresses"
-func (addresses PublicIPAddresses_SpecARM) GetType() string {
+func (addresses *PublicIPAddresses_SpecARM) GetType() string {
 	return "Microsoft.Network/publicIPAddresses"
 }
 

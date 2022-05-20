@@ -21,12 +21,12 @@ func (gateways VirtualNetworkGateways_SpecARM) GetAPIVersion() string {
 }
 
 // GetName returns the Name of the resource
-func (gateways VirtualNetworkGateways_SpecARM) GetName() string {
+func (gateways *VirtualNetworkGateways_SpecARM) GetName() string {
 	return gateways.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/virtualNetworkGateways"
-func (gateways VirtualNetworkGateways_SpecARM) GetType() string {
+func (gateways *VirtualNetworkGateways_SpecARM) GetType() string {
 	return "Microsoft.Network/virtualNetworkGateways"
 }
 

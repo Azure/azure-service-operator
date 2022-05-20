@@ -1730,7 +1730,7 @@ func (accounts *DatabaseAccounts_Spec) ConvertToARM(resolved genruntime.ConvertT
 	if accounts == nil {
 		return nil, nil
 	}
-	var result DatabaseAccounts_SpecARM
+	result := &DatabaseAccounts_SpecARM{}
 
 	// Set property ‘Identity’:
 	if accounts.Identity != nil {
@@ -1738,7 +1738,7 @@ func (accounts *DatabaseAccounts_Spec) ConvertToARM(resolved genruntime.ConvertT
 		if err != nil {
 			return nil, err
 		}
-		identity := identityARM.(ManagedServiceIdentityARM)
+		identity := *identityARM.(*ManagedServiceIdentityARM)
 		result.Identity = &identity
 	}
 
@@ -1788,7 +1788,7 @@ func (accounts *DatabaseAccounts_Spec) ConvertToARM(resolved genruntime.ConvertT
 		if err != nil {
 			return nil, err
 		}
-		analyticalStorageConfiguration := analyticalStorageConfigurationARM.(AnalyticalStorageConfigurationARM)
+		analyticalStorageConfiguration := *analyticalStorageConfigurationARM.(*AnalyticalStorageConfigurationARM)
 		result.Properties.AnalyticalStorageConfiguration = &analyticalStorageConfiguration
 	}
 	if accounts.ApiProperties != nil {
@@ -1796,7 +1796,7 @@ func (accounts *DatabaseAccounts_Spec) ConvertToARM(resolved genruntime.ConvertT
 		if err != nil {
 			return nil, err
 		}
-		apiProperties := apiPropertiesARM.(ApiPropertiesARM)
+		apiProperties := *apiPropertiesARM.(*ApiPropertiesARM)
 		result.Properties.ApiProperties = &apiProperties
 	}
 	if accounts.BackupPolicy != nil {
@@ -1804,7 +1804,7 @@ func (accounts *DatabaseAccounts_Spec) ConvertToARM(resolved genruntime.ConvertT
 		if err != nil {
 			return nil, err
 		}
-		backupPolicy := backupPolicyARM.(BackupPolicyARM)
+		backupPolicy := *backupPolicyARM.(*BackupPolicyARM)
 		result.Properties.BackupPolicy = &backupPolicy
 	}
 	for _, item := range accounts.Capabilities {
@@ -1812,7 +1812,7 @@ func (accounts *DatabaseAccounts_Spec) ConvertToARM(resolved genruntime.ConvertT
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.Capabilities = append(result.Properties.Capabilities, itemARM.(CapabilityARM))
+		result.Properties.Capabilities = append(result.Properties.Capabilities, *itemARM.(*CapabilityARM))
 	}
 	if accounts.ConnectorOffer != nil {
 		connectorOffer := *accounts.ConnectorOffer
@@ -1823,7 +1823,7 @@ func (accounts *DatabaseAccounts_Spec) ConvertToARM(resolved genruntime.ConvertT
 		if err != nil {
 			return nil, err
 		}
-		consistencyPolicy := consistencyPolicyARM.(ConsistencyPolicyARM)
+		consistencyPolicy := *consistencyPolicyARM.(*ConsistencyPolicyARM)
 		result.Properties.ConsistencyPolicy = &consistencyPolicy
 	}
 	for _, item := range accounts.Cors {
@@ -1831,7 +1831,7 @@ func (accounts *DatabaseAccounts_Spec) ConvertToARM(resolved genruntime.ConvertT
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.Cors = append(result.Properties.Cors, itemARM.(CorsPolicyARM))
+		result.Properties.Cors = append(result.Properties.Cors, *itemARM.(*CorsPolicyARM))
 	}
 	if accounts.DatabaseAccountOfferType != nil {
 		databaseAccountOfferType := *accounts.DatabaseAccountOfferType
@@ -1870,7 +1870,7 @@ func (accounts *DatabaseAccounts_Spec) ConvertToARM(resolved genruntime.ConvertT
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.IpRules = append(result.Properties.IpRules, itemARM.(IpAddressOrRangeARM))
+		result.Properties.IpRules = append(result.Properties.IpRules, *itemARM.(*IpAddressOrRangeARM))
 	}
 	if accounts.IsVirtualNetworkFilterEnabled != nil {
 		isVirtualNetworkFilterEnabled := *accounts.IsVirtualNetworkFilterEnabled
@@ -1885,7 +1885,7 @@ func (accounts *DatabaseAccounts_Spec) ConvertToARM(resolved genruntime.ConvertT
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.Locations = append(result.Properties.Locations, itemARM.(LocationARM))
+		result.Properties.Locations = append(result.Properties.Locations, *itemARM.(*LocationARM))
 	}
 	if accounts.NetworkAclBypass != nil {
 		networkAclBypass := *accounts.NetworkAclBypass
@@ -1903,7 +1903,7 @@ func (accounts *DatabaseAccounts_Spec) ConvertToARM(resolved genruntime.ConvertT
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.VirtualNetworkRules = append(result.Properties.VirtualNetworkRules, itemARM.(VirtualNetworkRuleARM))
+		result.Properties.VirtualNetworkRules = append(result.Properties.VirtualNetworkRules, *itemARM.(*VirtualNetworkRuleARM))
 	}
 
 	// Set property ‘Tags’:
@@ -2883,7 +2883,7 @@ func (configuration *AnalyticalStorageConfiguration) ConvertToARM(resolved genru
 	if configuration == nil {
 		return nil, nil
 	}
-	var result AnalyticalStorageConfigurationARM
+	result := &AnalyticalStorageConfigurationARM{}
 
 	// Set property ‘SchemaType’:
 	if configuration.SchemaType != nil {
@@ -3034,7 +3034,7 @@ func (properties *ApiProperties) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if properties == nil {
 		return nil, nil
 	}
-	var result ApiPropertiesARM
+	result := &ApiPropertiesARM{}
 
 	// Set property ‘ServerVersion’:
 	if properties.ServerVersion != nil {
@@ -3189,7 +3189,7 @@ func (policy *BackupPolicy) ConvertToARM(resolved genruntime.ConvertToARMResolve
 	if policy == nil {
 		return nil, nil
 	}
-	var result BackupPolicyARM
+	result := &BackupPolicyARM{}
 
 	// Set property ‘Continuous’:
 	if policy.Continuous != nil {
@@ -3197,7 +3197,7 @@ func (policy *BackupPolicy) ConvertToARM(resolved genruntime.ConvertToARMResolve
 		if err != nil {
 			return nil, err
 		}
-		continuous := continuousARM.(ContinuousModeBackupPolicyARM)
+		continuous := *continuousARM.(*ContinuousModeBackupPolicyARM)
 		result.Continuous = &continuous
 	}
 
@@ -3207,7 +3207,7 @@ func (policy *BackupPolicy) ConvertToARM(resolved genruntime.ConvertToARMResolve
 		if err != nil {
 			return nil, err
 		}
-		periodic := periodicARM.(PeriodicModeBackupPolicyARM)
+		periodic := *periodicARM.(*PeriodicModeBackupPolicyARM)
 		result.Periodic = &periodic
 	}
 	return result, nil
@@ -3403,7 +3403,7 @@ func (capability *Capability) ConvertToARM(resolved genruntime.ConvertToARMResol
 	if capability == nil {
 		return nil, nil
 	}
-	var result CapabilityARM
+	result := &CapabilityARM{}
 
 	// Set property ‘Name’:
 	if capability.Name != nil {
@@ -3555,7 +3555,7 @@ func (policy *ConsistencyPolicy) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if policy == nil {
 		return nil, nil
 	}
-	var result ConsistencyPolicyARM
+	result := &ConsistencyPolicyARM{}
 
 	// Set property ‘DefaultConsistencyLevel’:
 	if policy.DefaultConsistencyLevel != nil {
@@ -3813,7 +3813,7 @@ func (policy *CorsPolicy) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 	if policy == nil {
 		return nil, nil
 	}
-	var result CorsPolicyARM
+	result := &CorsPolicyARM{}
 
 	// Set property ‘AllowedHeaders’:
 	if policy.AllowedHeaders != nil {
@@ -4265,7 +4265,7 @@ func (orRange *IpAddressOrRange) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if orRange == nil {
 		return nil, nil
 	}
-	var result IpAddressOrRangeARM
+	result := &IpAddressOrRangeARM{}
 
 	// Set property ‘IpAddressOrRange’:
 	if orRange.IpAddressOrRange != nil {
@@ -4409,7 +4409,7 @@ func (location *Location) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 	if location == nil {
 		return nil, nil
 	}
-	var result LocationARM
+	result := &LocationARM{}
 
 	// Set property ‘FailoverPriority’:
 	if location.FailoverPriority != nil {
@@ -4684,7 +4684,7 @@ func (identity *ManagedServiceIdentity) ConvertToARM(resolved genruntime.Convert
 	if identity == nil {
 		return nil, nil
 	}
-	var result ManagedServiceIdentityARM
+	result := &ManagedServiceIdentityARM{}
 
 	// Set property ‘Type’:
 	if identity.Type != nil {
@@ -5000,7 +5000,7 @@ func (rule *VirtualNetworkRule) ConvertToARM(resolved genruntime.ConvertToARMRes
 	if rule == nil {
 		return nil, nil
 	}
-	var result VirtualNetworkRuleARM
+	result := &VirtualNetworkRuleARM{}
 
 	// Set property ‘Id’:
 	if rule.Reference != nil {
@@ -5256,7 +5256,7 @@ func (policy *ContinuousModeBackupPolicy) ConvertToARM(resolved genruntime.Conve
 	if policy == nil {
 		return nil, nil
 	}
-	var result ContinuousModeBackupPolicyARM
+	result := &ContinuousModeBackupPolicyARM{}
 
 	// Set property ‘Type’:
 	if policy.Type != nil {
@@ -5537,7 +5537,7 @@ func (policy *PeriodicModeBackupPolicy) ConvertToARM(resolved genruntime.Convert
 	if policy == nil {
 		return nil, nil
 	}
-	var result PeriodicModeBackupPolicyARM
+	result := &PeriodicModeBackupPolicyARM{}
 
 	// Set property ‘PeriodicModeProperties’:
 	if policy.PeriodicModeProperties != nil {
@@ -5545,7 +5545,7 @@ func (policy *PeriodicModeBackupPolicy) ConvertToARM(resolved genruntime.Convert
 		if err != nil {
 			return nil, err
 		}
-		periodicModeProperties := periodicModePropertiesARM.(PeriodicModePropertiesARM)
+		periodicModeProperties := *periodicModePropertiesARM.(*PeriodicModePropertiesARM)
 		result.PeriodicModeProperties = &periodicModeProperties
 	}
 
@@ -5677,7 +5677,7 @@ func (properties *PeriodicModeProperties) ConvertToARM(resolved genruntime.Conve
 	if properties == nil {
 		return nil, nil
 	}
-	var result PeriodicModePropertiesARM
+	result := &PeriodicModePropertiesARM{}
 
 	// Set property ‘BackupIntervalInMinutes’:
 	if properties.BackupIntervalInMinutes != nil {

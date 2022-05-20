@@ -19,12 +19,12 @@ func (subnets VirtualNetworksSubnets_SpecARM) GetAPIVersion() string {
 }
 
 // GetName returns the Name of the resource
-func (subnets VirtualNetworksSubnets_SpecARM) GetName() string {
+func (subnets *VirtualNetworksSubnets_SpecARM) GetName() string {
 	return subnets.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/virtualNetworks/subnets"
-func (subnets VirtualNetworksSubnets_SpecARM) GetType() string {
+func (subnets *VirtualNetworksSubnets_SpecARM) GetType() string {
 	return "Microsoft.Network/virtualNetworks/subnets"
 }
 

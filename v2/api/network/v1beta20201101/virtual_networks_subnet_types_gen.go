@@ -1315,7 +1315,7 @@ func (subnets *VirtualNetworksSubnets_Spec) ConvertToARM(resolved genruntime.Con
 	if subnets == nil {
 		return nil, nil
 	}
-	var result VirtualNetworksSubnets_SpecARM
+	result := &VirtualNetworksSubnets_SpecARM{}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
@@ -1346,21 +1346,21 @@ func (subnets *VirtualNetworksSubnets_Spec) ConvertToARM(resolved genruntime.Con
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.Delegations = append(result.Properties.Delegations, itemARM.(VirtualNetworksSubnets_Spec_Properties_DelegationsARM))
+		result.Properties.Delegations = append(result.Properties.Delegations, *itemARM.(*VirtualNetworksSubnets_Spec_Properties_DelegationsARM))
 	}
 	for _, item := range subnets.IpAllocations {
 		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.IpAllocations = append(result.Properties.IpAllocations, itemARM.(SubResourceARM))
+		result.Properties.IpAllocations = append(result.Properties.IpAllocations, *itemARM.(*SubResourceARM))
 	}
 	if subnets.NatGateway != nil {
 		natGatewayARM, err := (*subnets.NatGateway).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		natGateway := natGatewayARM.(SubResourceARM)
+		natGateway := *natGatewayARM.(*SubResourceARM)
 		result.Properties.NatGateway = &natGateway
 	}
 	if subnets.NetworkSecurityGroup != nil {
@@ -1368,7 +1368,7 @@ func (subnets *VirtualNetworksSubnets_Spec) ConvertToARM(resolved genruntime.Con
 		if err != nil {
 			return nil, err
 		}
-		networkSecurityGroup := networkSecurityGroupARM.(SubResourceARM)
+		networkSecurityGroup := *networkSecurityGroupARM.(*SubResourceARM)
 		result.Properties.NetworkSecurityGroup = &networkSecurityGroup
 	}
 	if subnets.PrivateEndpointNetworkPolicies != nil {
@@ -1384,7 +1384,7 @@ func (subnets *VirtualNetworksSubnets_Spec) ConvertToARM(resolved genruntime.Con
 		if err != nil {
 			return nil, err
 		}
-		routeTable := routeTableARM.(SubResourceARM)
+		routeTable := *routeTableARM.(*SubResourceARM)
 		result.Properties.RouteTable = &routeTable
 	}
 	for _, item := range subnets.ServiceEndpointPolicies {
@@ -1392,14 +1392,14 @@ func (subnets *VirtualNetworksSubnets_Spec) ConvertToARM(resolved genruntime.Con
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.ServiceEndpointPolicies = append(result.Properties.ServiceEndpointPolicies, itemARM.(SubResourceARM))
+		result.Properties.ServiceEndpointPolicies = append(result.Properties.ServiceEndpointPolicies, *itemARM.(*SubResourceARM))
 	}
 	for _, item := range subnets.ServiceEndpoints {
 		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.ServiceEndpoints = append(result.Properties.ServiceEndpoints, itemARM.(ServiceEndpointPropertiesFormatARM))
+		result.Properties.ServiceEndpoints = append(result.Properties.ServiceEndpoints, *itemARM.(*ServiceEndpointPropertiesFormatARM))
 	}
 	return result, nil
 }
@@ -3257,7 +3257,7 @@ func (format *ServiceEndpointPropertiesFormat) ConvertToARM(resolved genruntime.
 	if format == nil {
 		return nil, nil
 	}
-	var result ServiceEndpointPropertiesFormatARM
+	result := &ServiceEndpointPropertiesFormatARM{}
 
 	// Set property ‘Locations’:
 	for _, item := range format.Locations {
@@ -3447,7 +3447,7 @@ func (delegations *VirtualNetworksSubnets_Spec_Properties_Delegations) ConvertTo
 	if delegations == nil {
 		return nil, nil
 	}
-	var result VirtualNetworksSubnets_Spec_Properties_DelegationsARM
+	result := &VirtualNetworksSubnets_Spec_Properties_DelegationsARM{}
 
 	// Set property ‘Name’:
 	if delegations.Name != nil {

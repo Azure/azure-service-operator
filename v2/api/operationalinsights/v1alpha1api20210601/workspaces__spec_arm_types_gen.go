@@ -25,12 +25,12 @@ func (workspaces Workspaces_SpecARM) GetAPIVersion() string {
 }
 
 // GetName returns the Name of the resource
-func (workspaces Workspaces_SpecARM) GetName() string {
+func (workspaces *Workspaces_SpecARM) GetName() string {
 	return workspaces.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.OperationalInsights/workspaces"
-func (workspaces Workspaces_SpecARM) GetType() string {
+func (workspaces *Workspaces_SpecARM) GetType() string {
 	return "Microsoft.OperationalInsights/workspaces"
 }
 

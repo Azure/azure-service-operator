@@ -31,12 +31,12 @@ func (triggers DatabaseAccountsSqlDatabasesContainersTriggers_SpecARM) GetAPIVer
 }
 
 // GetName returns the Name of the resource
-func (triggers DatabaseAccountsSqlDatabasesContainersTriggers_SpecARM) GetName() string {
+func (triggers *DatabaseAccountsSqlDatabasesContainersTriggers_SpecARM) GetName() string {
 	return triggers.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/triggers"
-func (triggers DatabaseAccountsSqlDatabasesContainersTriggers_SpecARM) GetType() string {
+func (triggers *DatabaseAccountsSqlDatabasesContainersTriggers_SpecARM) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/triggers"
 }
 

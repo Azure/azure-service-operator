@@ -43,6 +43,7 @@ func Test_DBForPostgreSQL_FlexibleServer_CRUD(t *testing.T) {
 	}
 	version := postgresql.ServerPropertiesVersion13
 	tier := postgresql.SkuTierGeneralPurpose
+	fqdnSecret := "fqdnsecret"
 	flexibleServer := &postgresql.FlexibleServer{
 		ObjectMeta: tc.MakeObjectMeta("postgresql"),
 		Spec: postgresql.FlexibleServers_Spec{
@@ -58,6 +59,11 @@ func Test_DBForPostgreSQL_FlexibleServer_CRUD(t *testing.T) {
 			Storage: &postgresql.Storage{
 				StorageSizeGB: to.IntPtr(128),
 			},
+			OperatorSpec: &postgresql.FlexibleServerOperatorSpec{
+				Secrets: &postgresql.FlexibleServerOperatorSecrets{
+					FullyQualifiedDomainName: &genruntime.SecretDestination{Name: fqdnSecret, Key: "fqdn"},
+				},
+			},
 		},
 	}
 
@@ -67,6 +73,9 @@ func Test_DBForPostgreSQL_FlexibleServer_CRUD(t *testing.T) {
 	// It should be created in Kubernetes
 	g.Expect(flexibleServer.Status.Id).ToNot(BeNil())
 	armId := *flexibleServer.Status.Id
+
+	// It should have the expected secret data written
+	tc.ExpectSecretHasKeys(fqdnSecret, "fqdn")
 
 	// Perform a simple patch
 	old := flexibleServer.DeepCopy()

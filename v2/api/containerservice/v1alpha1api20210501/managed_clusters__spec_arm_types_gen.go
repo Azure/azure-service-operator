@@ -27,12 +27,12 @@ func (clusters ManagedClusters_SpecARM) GetAPIVersion() string {
 }
 
 // GetName returns the Name of the resource
-func (clusters ManagedClusters_SpecARM) GetName() string {
+func (clusters *ManagedClusters_SpecARM) GetName() string {
 	return clusters.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.ContainerService/managedClusters"
-func (clusters ManagedClusters_SpecARM) GetType() string {
+func (clusters *ManagedClusters_SpecARM) GetType() string {
 	return "Microsoft.ContainerService/managedClusters"
 }
 

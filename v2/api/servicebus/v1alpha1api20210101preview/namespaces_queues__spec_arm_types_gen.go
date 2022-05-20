@@ -21,12 +21,12 @@ func (queues NamespacesQueues_SpecARM) GetAPIVersion() string {
 }
 
 // GetName returns the Name of the resource
-func (queues NamespacesQueues_SpecARM) GetName() string {
+func (queues *NamespacesQueues_SpecARM) GetName() string {
 	return queues.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.ServiceBus/namespaces/queues"
-func (queues NamespacesQueues_SpecARM) GetType() string {
+func (queues *NamespacesQueues_SpecARM) GetType() string {
 	return "Microsoft.ServiceBus/namespaces/queues"
 }
 

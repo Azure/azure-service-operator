@@ -690,7 +690,7 @@ func (images *Images_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	if images == nil {
 		return nil, nil
 	}
-	var result Images_SpecARM
+	result := &Images_SpecARM{}
 
 	// Set property ‘ExtendedLocation’:
 	if images.ExtendedLocation != nil {
@@ -698,7 +698,7 @@ func (images *Images_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 		if err != nil {
 			return nil, err
 		}
-		extendedLocation := extendedLocationARM.(ExtendedLocationARM)
+		extendedLocation := *extendedLocationARM.(*ExtendedLocationARM)
 		result.ExtendedLocation = &extendedLocation
 	}
 
@@ -726,7 +726,7 @@ func (images *Images_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 		if err != nil {
 			return nil, err
 		}
-		sourceVirtualMachine := sourceVirtualMachineARM.(SubResourceARM)
+		sourceVirtualMachine := *sourceVirtualMachineARM.(*SubResourceARM)
 		result.Properties.SourceVirtualMachine = &sourceVirtualMachine
 	}
 	if images.StorageProfile != nil {
@@ -734,7 +734,7 @@ func (images *Images_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 		if err != nil {
 			return nil, err
 		}
-		storageProfile := storageProfileARM.(ImageStorageProfileARM)
+		storageProfile := *storageProfileARM.(*ImageStorageProfileARM)
 		result.Properties.StorageProfile = &storageProfile
 	}
 
@@ -1053,7 +1053,7 @@ func (location *ExtendedLocation) ConvertToARM(resolved genruntime.ConvertToARMR
 	if location == nil {
 		return nil, nil
 	}
-	var result ExtendedLocationARM
+	result := &ExtendedLocationARM{}
 
 	// Set property ‘Name’:
 	if location.Name != nil {
@@ -1254,7 +1254,7 @@ func (profile *ImageStorageProfile) ConvertToARM(resolved genruntime.ConvertToAR
 	if profile == nil {
 		return nil, nil
 	}
-	var result ImageStorageProfileARM
+	result := &ImageStorageProfileARM{}
 
 	// Set property ‘DataDisks’:
 	for _, item := range profile.DataDisks {
@@ -1262,7 +1262,7 @@ func (profile *ImageStorageProfile) ConvertToARM(resolved genruntime.ConvertToAR
 		if err != nil {
 			return nil, err
 		}
-		result.DataDisks = append(result.DataDisks, itemARM.(ImageDataDiskARM))
+		result.DataDisks = append(result.DataDisks, *itemARM.(*ImageDataDiskARM))
 	}
 
 	// Set property ‘OsDisk’:
@@ -1271,7 +1271,7 @@ func (profile *ImageStorageProfile) ConvertToARM(resolved genruntime.ConvertToAR
 		if err != nil {
 			return nil, err
 		}
-		osDisk := osDiskARM.(ImageOSDiskARM)
+		osDisk := *osDiskARM.(*ImageOSDiskARM)
 		result.OsDisk = &osDisk
 	}
 
@@ -1588,7 +1588,7 @@ func (resource *SubResource) ConvertToARM(resolved genruntime.ConvertToARMResolv
 	if resource == nil {
 		return nil, nil
 	}
-	var result SubResourceARM
+	result := &SubResourceARM{}
 
 	// Set property ‘Id’:
 	if resource.Reference != nil {
@@ -1738,7 +1738,7 @@ func (disk *ImageDataDisk) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	if disk == nil {
 		return nil, nil
 	}
-	var result ImageDataDiskARM
+	result := &ImageDataDiskARM{}
 
 	// Set property ‘BlobUri’:
 	if disk.BlobUri != nil {
@@ -1758,7 +1758,7 @@ func (disk *ImageDataDisk) ConvertToARM(resolved genruntime.ConvertToARMResolved
 		if err != nil {
 			return nil, err
 		}
-		diskEncryptionSet := diskEncryptionSetARM.(DiskEncryptionSetParametersARM)
+		diskEncryptionSet := *diskEncryptionSetARM.(*DiskEncryptionSetParametersARM)
 		result.DiskEncryptionSet = &diskEncryptionSet
 	}
 
@@ -1780,7 +1780,7 @@ func (disk *ImageDataDisk) ConvertToARM(resolved genruntime.ConvertToARMResolved
 		if err != nil {
 			return nil, err
 		}
-		managedDisk := managedDiskARM.(SubResourceARM)
+		managedDisk := *managedDiskARM.(*SubResourceARM)
 		result.ManagedDisk = &managedDisk
 	}
 
@@ -1790,7 +1790,7 @@ func (disk *ImageDataDisk) ConvertToARM(resolved genruntime.ConvertToARMResolved
 		if err != nil {
 			return nil, err
 		}
-		snapshot := snapshotARM.(SubResourceARM)
+		snapshot := *snapshotARM.(*SubResourceARM)
 		result.Snapshot = &snapshot
 	}
 
@@ -2288,7 +2288,7 @@ func (disk *ImageOSDisk) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 	if disk == nil {
 		return nil, nil
 	}
-	var result ImageOSDiskARM
+	result := &ImageOSDiskARM{}
 
 	// Set property ‘BlobUri’:
 	if disk.BlobUri != nil {
@@ -2308,7 +2308,7 @@ func (disk *ImageOSDisk) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 		if err != nil {
 			return nil, err
 		}
-		diskEncryptionSet := diskEncryptionSetARM.(DiskEncryptionSetParametersARM)
+		diskEncryptionSet := *diskEncryptionSetARM.(*DiskEncryptionSetParametersARM)
 		result.DiskEncryptionSet = &diskEncryptionSet
 	}
 
@@ -2324,7 +2324,7 @@ func (disk *ImageOSDisk) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 		if err != nil {
 			return nil, err
 		}
-		managedDisk := managedDiskARM.(SubResourceARM)
+		managedDisk := *managedDiskARM.(*SubResourceARM)
 		result.ManagedDisk = &managedDisk
 	}
 
@@ -2346,7 +2346,7 @@ func (disk *ImageOSDisk) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 		if err != nil {
 			return nil, err
 		}
-		snapshot := snapshotARM.(SubResourceARM)
+		snapshot := *snapshotARM.(*SubResourceARM)
 		result.Snapshot = &snapshot
 	}
 
@@ -2897,7 +2897,7 @@ func (parameters *DiskEncryptionSetParameters) ConvertToARM(resolved genruntime.
 	if parameters == nil {
 		return nil, nil
 	}
-	var result DiskEncryptionSetParametersARM
+	result := &DiskEncryptionSetParametersARM{}
 
 	// Set property ‘Id’:
 	if parameters.Reference != nil {
