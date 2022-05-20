@@ -40,6 +40,7 @@ func Test_DBForMySQL_FlexibleServer_CRUD(t *testing.T) {
 		Key:  adminPasswordKey,
 	}
 	tier := mysql.SkuTierGeneralPurpose
+	fqdnSecret := "fqdnsecret"
 	flexibleServer := &mysql.FlexibleServer{
 		ObjectMeta: tc.MakeObjectMeta("mysql"),
 		Spec: mysql.FlexibleServers_Spec{
@@ -55,6 +56,11 @@ func Test_DBForMySQL_FlexibleServer_CRUD(t *testing.T) {
 			Storage: &mysql.Storage{
 				StorageSizeGB: to.IntPtr(128),
 			},
+			OperatorSpec: &mysql.FlexibleServerOperatorSpec{
+				Secrets: &mysql.FlexibleServerOperatorSecrets{
+					FullyQualifiedDomainName: &genruntime.SecretDestination{Name: fqdnSecret, Key: "fqdn"},
+				},
+			},
 		},
 	}
 
@@ -63,6 +69,9 @@ func Test_DBForMySQL_FlexibleServer_CRUD(t *testing.T) {
 	// It should be created in Kubernetes
 	tc.Expect(flexibleServer.Status.Id).ToNot(BeNil())
 	armId := *flexibleServer.Status.Id
+
+	// It should have the expected secret data written
+	tc.ExpectSecretHasKeys(fqdnSecret, "fqdn")
 
 	// Perform a simple patch
 	old := flexibleServer.DeepCopy()

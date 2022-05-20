@@ -34,7 +34,7 @@ func (extension *VirtualNetworkExtension) ModifyARMResource(
 
 	typedObj, ok := obj.(*network.VirtualNetwork)
 	if !ok {
-		return nil, errors.Errorf("cannot run on unknown resource type %T", obj)
+		return nil, errors.Errorf("cannot run on unknown resource type %T, expected *network.VirtualNetwork", obj)
 	}
 
 	// Type assert that we are the hub type. This should fail to compile if
