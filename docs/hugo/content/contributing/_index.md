@@ -68,6 +68,8 @@ Key folders of note include:
 
 ![Overview](./images/aso-v2-structure.svg)
 
+The size of each dot reflects the size of the file; the legend in the corner shows the meaning of colour.
+
 ## Running integration tests
 
 Basic use: run `task controller:test-integration-envtest`.
