@@ -20,11 +20,11 @@ func (topics DomainsTopics_SpecARM) GetAPIVersion() string {
 }
 
 // GetName returns the Name of the resource
-func (topics DomainsTopics_SpecARM) GetName() string {
+func (topics *DomainsTopics_SpecARM) GetName() string {
 	return topics.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.EventGrid/domains/topics"
-func (topics DomainsTopics_SpecARM) GetType() string {
+func (topics *DomainsTopics_SpecARM) GetType() string {
 	return "Microsoft.EventGrid/domains/topics"
 }

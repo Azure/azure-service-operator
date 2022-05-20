@@ -144,14 +144,15 @@ type FlexibleServers_Spec struct {
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName         string             `json:"azureName,omitempty"`
-	Backup            *Backup            `json:"backup,omitempty"`
-	CreateMode        *string            `json:"createMode,omitempty"`
-	HighAvailability  *HighAvailability  `json:"highAvailability,omitempty"`
-	Location          *string            `json:"location,omitempty"`
-	MaintenanceWindow *MaintenanceWindow `json:"maintenanceWindow,omitempty"`
-	Network           *Network           `json:"network,omitempty"`
-	OriginalVersion   string             `json:"originalVersion,omitempty"`
+	AzureName         string                      `json:"azureName,omitempty"`
+	Backup            *Backup                     `json:"backup,omitempty"`
+	CreateMode        *string                     `json:"createMode,omitempty"`
+	HighAvailability  *HighAvailability           `json:"highAvailability,omitempty"`
+	Location          *string                     `json:"location,omitempty"`
+	MaintenanceWindow *MaintenanceWindow          `json:"maintenanceWindow,omitempty"`
+	Network           *Network                    `json:"network,omitempty"`
+	OperatorSpec      *FlexibleServerOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion   string                      `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -264,6 +265,13 @@ type DataEncryption_Status struct {
 	Type                            *string                `json:"type,omitempty"`
 }
 
+// Storage version of v1beta20210501.FlexibleServerOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type FlexibleServerOperatorSpec struct {
+	PropertyBag genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
+	Secrets     *FlexibleServerOperatorSecrets `json:"secrets,omitempty"`
+}
+
 // Storage version of v1beta20210501.HighAvailability
 // Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/HighAvailability
 type HighAvailability struct {
@@ -369,6 +377,12 @@ type SystemData_Status struct {
 	LastModifiedBy     *string                `json:"lastModifiedBy,omitempty"`
 	LastModifiedByType *string                `json:"lastModifiedByType,omitempty"`
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1beta20210501.FlexibleServerOperatorSecrets
+type FlexibleServerOperatorSecrets struct {
+	FullyQualifiedDomainName *genruntime.SecretDestination `json:"fullyQualifiedDomainName,omitempty"`
+	PropertyBag              genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 }
 
 func init() {

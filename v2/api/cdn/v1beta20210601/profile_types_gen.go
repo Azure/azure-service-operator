@@ -741,7 +741,7 @@ func (profiles *Profiles_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if profiles == nil {
 		return nil, nil
 	}
-	var result Profiles_SpecARM
+	result := &Profiles_SpecARM{}
 
 	// Set property ‘Location’:
 	if profiles.Location != nil {
@@ -761,7 +761,7 @@ func (profiles *Profiles_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 		if err != nil {
 			return nil, err
 		}
-		identity := identityARM.(ManagedServiceIdentityARM)
+		identity := *identityARM.(*ManagedServiceIdentityARM)
 		result.Properties.Identity = &identity
 	}
 	if profiles.OriginResponseTimeoutSeconds != nil {
@@ -775,7 +775,7 @@ func (profiles *Profiles_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 		if err != nil {
 			return nil, err
 		}
-		sku := skuARM.(SkuARM)
+		sku := *skuARM.(*SkuARM)
 		result.Sku = &sku
 	}
 
@@ -1061,7 +1061,7 @@ func (identity *ManagedServiceIdentity) ConvertToARM(resolved genruntime.Convert
 	if identity == nil {
 		return nil, nil
 	}
-	var result ManagedServiceIdentityARM
+	result := &ManagedServiceIdentityARM{}
 
 	// Set property ‘Type’:
 	if identity.Type != nil {
@@ -1206,7 +1206,7 @@ func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 	if sku == nil {
 		return nil, nil
 	}
-	var result SkuARM
+	result := &SkuARM{}
 
 	// Set property ‘Name’:
 	if sku.Name != nil {

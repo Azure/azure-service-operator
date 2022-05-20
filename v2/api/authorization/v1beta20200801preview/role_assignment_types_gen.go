@@ -748,7 +748,7 @@ func (assignments *RoleAssignments_Spec) ConvertToARM(resolved genruntime.Conver
 	if assignments == nil {
 		return nil, nil
 	}
-	var result RoleAssignments_SpecARM
+	result := &RoleAssignments_SpecARM{}
 
 	// Set property ‘Location’:
 	if assignments.Location != nil {

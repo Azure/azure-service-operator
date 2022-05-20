@@ -44,12 +44,12 @@ func (accounts StorageAccounts_SpecARM) GetAPIVersion() string {
 }
 
 // GetName returns the Name of the resource
-func (accounts StorageAccounts_SpecARM) GetName() string {
+func (accounts *StorageAccounts_SpecARM) GetName() string {
 	return accounts.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Storage/storageAccounts"
-func (accounts StorageAccounts_SpecARM) GetType() string {
+func (accounts *StorageAccounts_SpecARM) GetType() string {
 	return "Microsoft.Storage/storageAccounts"
 }
 

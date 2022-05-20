@@ -30,12 +30,12 @@ func (endpoints ProfilesEndpoints_SpecARM) GetAPIVersion() string {
 }
 
 // GetName returns the Name of the resource
-func (endpoints ProfilesEndpoints_SpecARM) GetName() string {
+func (endpoints *ProfilesEndpoints_SpecARM) GetName() string {
 	return endpoints.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Cdn/profiles/endpoints"
-func (endpoints ProfilesEndpoints_SpecARM) GetType() string {
+func (endpoints *ProfilesEndpoints_SpecARM) GetType() string {
 	return "Microsoft.Cdn/profiles/endpoints"
 }
 

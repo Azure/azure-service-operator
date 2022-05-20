@@ -21,12 +21,12 @@ func (assignments RoleAssignments_SpecARM) GetAPIVersion() string {
 }
 
 // GetName returns the Name of the resource
-func (assignments RoleAssignments_SpecARM) GetName() string {
+func (assignments *RoleAssignments_SpecARM) GetName() string {
 	return assignments.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Authorization/roleAssignments"
-func (assignments RoleAssignments_SpecARM) GetType() string {
+func (assignments *RoleAssignments_SpecARM) GetType() string {
 	return "Microsoft.Authorization/roleAssignments"
 }
 

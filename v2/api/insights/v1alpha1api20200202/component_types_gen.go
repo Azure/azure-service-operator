@@ -1130,7 +1130,7 @@ func (components *Components_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	if components == nil {
 		return nil, nil
 	}
-	var result Components_SpecARM
+	result := &Components_SpecARM{}
 
 	// Set property ‘Etag’:
 	if components.Etag != nil {

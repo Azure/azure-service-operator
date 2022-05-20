@@ -354,7 +354,7 @@ func (procedures *DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec) C
 	if procedures == nil {
 		return nil, nil
 	}
-	var result DatabaseAccountsSqlDatabasesContainersStoredProcedures_SpecARM
+	result := &DatabaseAccountsSqlDatabasesContainersStoredProcedures_SpecARM{}
 
 	// Set property ‘Location’:
 	if procedures.Location != nil {
@@ -374,7 +374,7 @@ func (procedures *DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec) C
 		if err != nil {
 			return nil, err
 		}
-		options := optionsARM.(CreateUpdateOptionsARM)
+		options := *optionsARM.(*CreateUpdateOptionsARM)
 		result.Properties.Options = &options
 	}
 	if procedures.Resource != nil {
@@ -382,7 +382,7 @@ func (procedures *DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec) C
 		if err != nil {
 			return nil, err
 		}
-		resource := resourceARM.(SqlStoredProcedureResourceARM)
+		resource := *resourceARM.(*SqlStoredProcedureResourceARM)
 		result.Properties.Resource = &resource
 	}
 
@@ -993,7 +993,7 @@ func (resource *SqlStoredProcedureResource) ConvertToARM(resolved genruntime.Con
 	if resource == nil {
 		return nil, nil
 	}
-	var result SqlStoredProcedureResourceARM
+	result := &SqlStoredProcedureResourceARM{}
 
 	// Set property ‘Body’:
 	if resource.Body != nil {

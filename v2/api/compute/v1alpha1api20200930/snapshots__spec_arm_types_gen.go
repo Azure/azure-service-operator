@@ -23,12 +23,12 @@ func (snapshots Snapshots_SpecARM) GetAPIVersion() string {
 }
 
 // GetName returns the Name of the resource
-func (snapshots Snapshots_SpecARM) GetName() string {
+func (snapshots *Snapshots_SpecARM) GetName() string {
 	return snapshots.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Compute/snapshots"
-func (snapshots Snapshots_SpecARM) GetType() string {
+func (snapshots *Snapshots_SpecARM) GetType() string {
 	return "Microsoft.Compute/snapshots"
 }
 

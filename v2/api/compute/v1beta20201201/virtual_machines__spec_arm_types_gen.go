@@ -45,12 +45,12 @@ func (machines VirtualMachines_SpecARM) GetAPIVersion() string {
 }
 
 // GetName returns the Name of the resource
-func (machines VirtualMachines_SpecARM) GetName() string {
+func (machines *VirtualMachines_SpecARM) GetName() string {
 	return machines.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Compute/virtualMachines"
-func (machines VirtualMachines_SpecARM) GetType() string {
+func (machines *VirtualMachines_SpecARM) GetType() string {
 	return "Microsoft.Compute/virtualMachines"
 }
 

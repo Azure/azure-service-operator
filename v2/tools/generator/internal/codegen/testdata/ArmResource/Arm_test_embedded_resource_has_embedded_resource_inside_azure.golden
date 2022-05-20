@@ -281,12 +281,12 @@ func (a A_SpecARM) GetAPIVersion() string {
 }
 
 // GetName returns the Name of the resource
-func (a A_SpecARM) GetName() string {
+func (a *A_SpecARM) GetName() string {
 	return a.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/A"
-func (a A_SpecARM) GetType() string {
+func (a *A_SpecARM) GetType() string {
 	return "Microsoft.Azure/A"
 }
 
@@ -553,12 +553,12 @@ func (b B_SpecARM) GetAPIVersion() string {
 }
 
 // GetName returns the Name of the resource
-func (b B_SpecARM) GetName() string {
+func (b *B_SpecARM) GetName() string {
 	return b.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/B"
-func (b B_SpecARM) GetType() string {
+func (b *B_SpecARM) GetType() string {
 	return "Microsoft.Azure/B"
 }
 
@@ -825,12 +825,12 @@ func (c C_SpecARM) GetAPIVersion() string {
 }
 
 // GetName returns the Name of the resource
-func (c C_SpecARM) GetName() string {
+func (c *C_SpecARM) GetName() string {
 	return c.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/C"
-func (c C_SpecARM) GetType() string {
+func (c *C_SpecARM) GetType() string {
 	return "Microsoft.Azure/C"
 }
 
@@ -866,7 +866,7 @@ func (a *A_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (
 	if a == nil {
 		return nil, nil
 	}
-	var result A_SpecARM
+	result := &A_SpecARM{}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
@@ -877,7 +877,7 @@ func (a *A_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (
 		if err != nil {
 			return nil, err
 		}
-		properties := propertiesARM.(APropertiesARM)
+		properties := *propertiesARM.(*APropertiesARM)
 		result.Properties = &properties
 	}
 	return result, nil
@@ -1074,7 +1074,7 @@ func (b *B_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (
 	if b == nil {
 		return nil, nil
 	}
-	var result B_SpecARM
+	result := &B_SpecARM{}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
@@ -1085,7 +1085,7 @@ func (b *B_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (
 		if err != nil {
 			return nil, err
 		}
-		properties := propertiesARM.(BPropertiesARM)
+		properties := *propertiesARM.(*BPropertiesARM)
 		result.Properties = &properties
 	}
 	return result, nil
@@ -1282,7 +1282,7 @@ func (c *C_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (
 	if c == nil {
 		return nil, nil
 	}
-	var result C_SpecARM
+	result := &C_SpecARM{}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
@@ -1293,7 +1293,7 @@ func (c *C_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (
 		if err != nil {
 			return nil, err
 		}
-		properties := propertiesARM.(CPropertiesARM)
+		properties := *propertiesARM.(*CPropertiesARM)
 		result.Properties = &properties
 	}
 	return result, nil
@@ -1478,7 +1478,7 @@ func (properties *AProperties) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if properties == nil {
 		return nil, nil
 	}
-	var result APropertiesARM
+	result := &APropertiesARM{}
 
 	// Set property ‘IntField’:
 	if properties.IntField != nil {
@@ -1492,7 +1492,7 @@ func (properties *AProperties) ConvertToARM(resolved genruntime.ConvertToARMReso
 		if err != nil {
 			return nil, err
 		}
-		refField := refFieldARM.(BResourceARM)
+		refField := *refFieldARM.(*BResourceARM)
 		result.RefField = &refField
 	}
 
@@ -1615,7 +1615,7 @@ func (properties *BProperties) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if properties == nil {
 		return nil, nil
 	}
-	var result BPropertiesARM
+	result := &BPropertiesARM{}
 
 	// Set property ‘EnumField’:
 	if properties.EnumField != nil {
@@ -1629,7 +1629,7 @@ func (properties *BProperties) ConvertToARM(resolved genruntime.ConvertToARMReso
 		if err != nil {
 			return nil, err
 		}
-		refField := refFieldARM.(CResourceARM)
+		refField := *refFieldARM.(*CResourceARM)
 		result.RefField = &refField
 	}
 	return result, nil
@@ -1754,7 +1754,7 @@ func (properties *CProperties) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if properties == nil {
 		return nil, nil
 	}
-	var result CPropertiesARM
+	result := &CPropertiesARM{}
 
 	// Set property ‘IntField’:
 	if properties.IntField != nil {
@@ -1850,7 +1850,7 @@ func (resource *BResource) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	if resource == nil {
 		return nil, nil
 	}
-	var result BResourceARM
+	result := &BResourceARM{}
 
 	// Set property ‘Id’:
 	if resource.Reference != nil {
@@ -1933,7 +1933,7 @@ func (resource *CResource) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	if resource == nil {
 		return nil, nil
 	}
-	var result CResourceARM
+	result := &CResourceARM{}
 
 	// Set property ‘Id’:
 	if resource.Reference != nil {

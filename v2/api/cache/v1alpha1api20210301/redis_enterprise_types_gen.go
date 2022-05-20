@@ -743,7 +743,7 @@ func (enterprise *RedisEnterprise_Spec) ConvertToARM(resolved genruntime.Convert
 	if enterprise == nil {
 		return nil, nil
 	}
-	var result RedisEnterprise_SpecARM
+	result := &RedisEnterprise_SpecARM{}
 
 	// Set property ‘Location’:
 	if enterprise.Location != nil {
@@ -769,7 +769,7 @@ func (enterprise *RedisEnterprise_Spec) ConvertToARM(resolved genruntime.Convert
 		if err != nil {
 			return nil, err
 		}
-		sku := skuARM.(SkuARM)
+		sku := *skuARM.(*SkuARM)
 		result.Sku = &sku
 	}
 
@@ -1100,7 +1100,7 @@ func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 	if sku == nil {
 		return nil, nil
 	}
-	var result SkuARM
+	result := &SkuARM{}
 
 	// Set property ‘Capacity’:
 	if sku.Capacity != nil {

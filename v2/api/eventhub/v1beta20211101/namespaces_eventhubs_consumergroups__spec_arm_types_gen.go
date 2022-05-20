@@ -27,12 +27,12 @@ func (consumergroups NamespacesEventhubsConsumergroups_SpecARM) GetAPIVersion() 
 }
 
 // GetName returns the Name of the resource
-func (consumergroups NamespacesEventhubsConsumergroups_SpecARM) GetName() string {
+func (consumergroups *NamespacesEventhubsConsumergroups_SpecARM) GetName() string {
 	return consumergroups.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.EventHub/namespaces/eventhubs/consumergroups"
-func (consumergroups NamespacesEventhubsConsumergroups_SpecARM) GetType() string {
+func (consumergroups *NamespacesEventhubsConsumergroups_SpecARM) GetType() string {
 	return "Microsoft.EventHub/namespaces/eventhubs/consumergroups"
 }
 

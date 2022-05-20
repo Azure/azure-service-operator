@@ -394,7 +394,7 @@ func (queues *NamespacesQueues_Spec) ConvertToARM(resolved genruntime.ConvertToA
 	if queues == nil {
 		return nil, nil
 	}
-	var result NamespacesQueues_SpecARM
+	result := &NamespacesQueues_SpecARM{}
 
 	// Set property ‘Location’:
 	if queues.Location != nil {

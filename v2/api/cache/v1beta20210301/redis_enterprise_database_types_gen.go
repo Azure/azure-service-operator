@@ -763,7 +763,7 @@ func (databases *RedisEnterpriseDatabases_Spec) ConvertToARM(resolved genruntime
 	if databases == nil {
 		return nil, nil
 	}
-	var result RedisEnterpriseDatabases_SpecARM
+	result := &RedisEnterpriseDatabases_SpecARM{}
 
 	// Set property ‘Location’:
 	if databases.Location != nil {
@@ -800,14 +800,14 @@ func (databases *RedisEnterpriseDatabases_Spec) ConvertToARM(resolved genruntime
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.Modules = append(result.Properties.Modules, itemARM.(ModuleARM))
+		result.Properties.Modules = append(result.Properties.Modules, *itemARM.(*ModuleARM))
 	}
 	if databases.Persistence != nil {
 		persistenceARM, err := (*databases.Persistence).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		persistence := persistenceARM.(PersistenceARM)
+		persistence := *persistenceARM.(*PersistenceARM)
 		result.Properties.Persistence = &persistence
 	}
 	if databases.Port != nil {
@@ -1207,7 +1207,7 @@ func (module *Module) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 	if module == nil {
 		return nil, nil
 	}
-	var result ModuleARM
+	result := &ModuleARM{}
 
 	// Set property ‘Args’:
 	if module.Args != nil {
@@ -1396,7 +1396,7 @@ func (persistence *Persistence) ConvertToARM(resolved genruntime.ConvertToARMRes
 	if persistence == nil {
 		return nil, nil
 	}
-	var result PersistenceARM
+	result := &PersistenceARM{}
 
 	// Set property ‘AofEnabled’:
 	if persistence.AofEnabled != nil {

@@ -30,12 +30,12 @@ func (interfaces NetworkInterfaces_SpecARM) GetAPIVersion() string {
 }
 
 // GetName returns the Name of the resource
-func (interfaces NetworkInterfaces_SpecARM) GetName() string {
+func (interfaces *NetworkInterfaces_SpecARM) GetName() string {
 	return interfaces.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/networkInterfaces"
-func (interfaces NetworkInterfaces_SpecARM) GetType() string {
+func (interfaces *NetworkInterfaces_SpecARM) GetType() string {
 	return "Microsoft.Network/networkInterfaces"
 }
 

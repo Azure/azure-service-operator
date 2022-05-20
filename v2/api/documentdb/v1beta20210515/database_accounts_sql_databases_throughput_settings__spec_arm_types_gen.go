@@ -31,11 +31,11 @@ func (settings DatabaseAccountsSqlDatabasesThroughputSettings_SpecARM) GetAPIVer
 }
 
 // GetName returns the Name of the resource
-func (settings DatabaseAccountsSqlDatabasesThroughputSettings_SpecARM) GetName() string {
+func (settings *DatabaseAccountsSqlDatabasesThroughputSettings_SpecARM) GetName() string {
 	return settings.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/throughputSettings"
-func (settings DatabaseAccountsSqlDatabasesThroughputSettings_SpecARM) GetType() string {
+func (settings *DatabaseAccountsSqlDatabasesThroughputSettings_SpecARM) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/throughputSettings"
 }

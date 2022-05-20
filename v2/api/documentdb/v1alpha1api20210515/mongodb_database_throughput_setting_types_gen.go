@@ -345,7 +345,7 @@ func (settings *DatabaseAccountsMongodbDatabasesThroughputSettings_Spec) Convert
 	if settings == nil {
 		return nil, nil
 	}
-	var result DatabaseAccountsMongodbDatabasesThroughputSettings_SpecARM
+	result := &DatabaseAccountsMongodbDatabasesThroughputSettings_SpecARM{}
 
 	// Set property ‘Location’:
 	if settings.Location != nil {
@@ -365,7 +365,7 @@ func (settings *DatabaseAccountsMongodbDatabasesThroughputSettings_Spec) Convert
 		if err != nil {
 			return nil, err
 		}
-		resource := resourceARM.(ThroughputSettingsResourceARM)
+		resource := *resourceARM.(*ThroughputSettingsResourceARM)
 		result.Properties.Resource = &resource
 	}
 

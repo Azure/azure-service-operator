@@ -27,12 +27,12 @@ func (rules RedisFirewallRules_SpecARM) GetAPIVersion() string {
 }
 
 // GetName returns the Name of the resource
-func (rules RedisFirewallRules_SpecARM) GetName() string {
+func (rules *RedisFirewallRules_SpecARM) GetName() string {
 	return rules.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Cache/redis/firewallRules"
-func (rules RedisFirewallRules_SpecARM) GetType() string {
+func (rules *RedisFirewallRules_SpecARM) GetType() string {
 	return "Microsoft.Cache/redis/firewallRules"
 }
 

@@ -770,6 +770,8 @@ objectModelConfiguration:
       FlexibleServer: 
         $export: true
         $supportedFrom: v2.0.0-alpha.2
+        $azureGeneratedSecrets:
+          - FullyQualifiedDomainName
       FlexibleServersDatabase:
         $export: true
         $supportedFrom: v2.0.0-alpha.2
@@ -786,6 +788,8 @@ objectModelConfiguration:
       FlexibleServer:
         $export: true
         $supportedFrom: v2.0.0-alpha.2
+        $azureGeneratedSecrets:
+          - FullyQualifiedDomainName
       FlexibleServersConfiguration:
         $export: true
         $supportedFrom: v2.0.0-alpha.4

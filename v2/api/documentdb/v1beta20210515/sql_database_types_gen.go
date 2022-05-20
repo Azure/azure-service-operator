@@ -354,7 +354,7 @@ func (databases *DatabaseAccountsSqlDatabases_Spec) ConvertToARM(resolved genrun
 	if databases == nil {
 		return nil, nil
 	}
-	var result DatabaseAccountsSqlDatabases_SpecARM
+	result := &DatabaseAccountsSqlDatabases_SpecARM{}
 
 	// Set property ‘Location’:
 	if databases.Location != nil {
@@ -374,7 +374,7 @@ func (databases *DatabaseAccountsSqlDatabases_Spec) ConvertToARM(resolved genrun
 		if err != nil {
 			return nil, err
 		}
-		options := optionsARM.(CreateUpdateOptionsARM)
+		options := *optionsARM.(*CreateUpdateOptionsARM)
 		result.Properties.Options = &options
 	}
 	if databases.Resource != nil {
@@ -382,7 +382,7 @@ func (databases *DatabaseAccountsSqlDatabases_Spec) ConvertToARM(resolved genrun
 		if err != nil {
 			return nil, err
 		}
-		resource := resourceARM.(SqlDatabaseResourceARM)
+		resource := *resourceARM.(*SqlDatabaseResourceARM)
 		result.Properties.Resource = &resource
 	}
 
@@ -1044,7 +1044,7 @@ func (resource *SqlDatabaseResource) ConvertToARM(resolved genruntime.ConvertToA
 	if resource == nil {
 		return nil, nil
 	}
-	var result SqlDatabaseResourceARM
+	result := &SqlDatabaseResourceARM{}
 
 	// Set property ‘Id’:
 	if resource.Id != nil {
