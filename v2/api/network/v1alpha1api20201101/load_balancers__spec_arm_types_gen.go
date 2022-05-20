@@ -23,12 +23,12 @@ func (balancers LoadBalancers_SpecARM) GetAPIVersion() string {
 }
 
 // GetName returns the Name of the resource
-func (balancers LoadBalancers_SpecARM) GetName() string {
+func (balancers *LoadBalancers_SpecARM) GetName() string {
 	return balancers.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/loadBalancers"
-func (balancers LoadBalancers_SpecARM) GetType() string {
+func (balancers *LoadBalancers_SpecARM) GetType() string {
 	return "Microsoft.Network/loadBalancers"
 }
 

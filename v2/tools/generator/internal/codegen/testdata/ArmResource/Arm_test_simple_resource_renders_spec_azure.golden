@@ -282,12 +282,12 @@ func (resource FakeResource_SpecARM) GetAPIVersion() string {
 }
 
 // GetName returns the Name of the resource
-func (resource FakeResource_SpecARM) GetName() string {
+func (resource *FakeResource_SpecARM) GetName() string {
 	return resource.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/FakeResource"
-func (resource FakeResource_SpecARM) GetType() string {
+func (resource *FakeResource_SpecARM) GetType() string {
 	return "Microsoft.Azure/FakeResource"
 }
 
@@ -315,7 +315,7 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	if resource == nil {
 		return nil, nil
 	}
-	var result FakeResource_SpecARM
+	result := &FakeResource_SpecARM{}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name

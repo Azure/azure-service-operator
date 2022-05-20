@@ -27,12 +27,12 @@ func (webtests Webtests_SpecARM) GetAPIVersion() string {
 }
 
 // GetName returns the Name of the resource
-func (webtests Webtests_SpecARM) GetName() string {
+func (webtests *Webtests_SpecARM) GetName() string {
 	return webtests.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Insights/webtests"
-func (webtests Webtests_SpecARM) GetType() string {
+func (webtests *Webtests_SpecARM) GetType() string {
 	return "Microsoft.Insights/webtests"
 }
 

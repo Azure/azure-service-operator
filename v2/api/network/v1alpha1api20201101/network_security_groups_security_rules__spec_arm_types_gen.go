@@ -21,12 +21,12 @@ func (rules NetworkSecurityGroupsSecurityRules_SpecARM) GetAPIVersion() string {
 }
 
 // GetName returns the Name of the resource
-func (rules NetworkSecurityGroupsSecurityRules_SpecARM) GetName() string {
+func (rules *NetworkSecurityGroupsSecurityRules_SpecARM) GetName() string {
 	return rules.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/networkSecurityGroups/securityRules"
-func (rules NetworkSecurityGroupsSecurityRules_SpecARM) GetType() string {
+func (rules *NetworkSecurityGroupsSecurityRules_SpecARM) GetType() string {
 	return "Microsoft.Network/networkSecurityGroups/securityRules"
 }
 

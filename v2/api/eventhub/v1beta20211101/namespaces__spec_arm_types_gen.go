@@ -33,12 +33,12 @@ func (namespaces Namespaces_SpecARM) GetAPIVersion() string {
 }
 
 // GetName returns the Name of the resource
-func (namespaces Namespaces_SpecARM) GetName() string {
+func (namespaces *Namespaces_SpecARM) GetName() string {
 	return namespaces.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.EventHub/namespaces"
-func (namespaces Namespaces_SpecARM) GetType() string {
+func (namespaces *Namespaces_SpecARM) GetType() string {
 	return "Microsoft.EventHub/namespaces"
 }
 

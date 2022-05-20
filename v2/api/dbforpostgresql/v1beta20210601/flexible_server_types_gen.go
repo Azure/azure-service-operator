@@ -389,7 +389,7 @@ func (servers *FlexibleServers_Spec) ConvertToARM(resolved genruntime.ConvertToA
 	if servers == nil {
 		return nil, nil
 	}
-	var result FlexibleServers_SpecARM
+	result := &FlexibleServers_SpecARM{}
 
 	// Set property ‘Location’:
 	if servers.Location != nil {
@@ -436,7 +436,7 @@ func (servers *FlexibleServers_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		if err != nil {
 			return nil, err
 		}
-		backup := backupARM.(BackupARM)
+		backup := *backupARM.(*BackupARM)
 		result.Properties.Backup = &backup
 	}
 	if servers.CreateMode != nil {
@@ -448,7 +448,7 @@ func (servers *FlexibleServers_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		if err != nil {
 			return nil, err
 		}
-		highAvailability := highAvailabilityARM.(HighAvailabilityARM)
+		highAvailability := *highAvailabilityARM.(*HighAvailabilityARM)
 		result.Properties.HighAvailability = &highAvailability
 	}
 	if servers.MaintenanceWindow != nil {
@@ -456,7 +456,7 @@ func (servers *FlexibleServers_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		if err != nil {
 			return nil, err
 		}
-		maintenanceWindow := maintenanceWindowARM.(MaintenanceWindowARM)
+		maintenanceWindow := *maintenanceWindowARM.(*MaintenanceWindowARM)
 		result.Properties.MaintenanceWindow = &maintenanceWindow
 	}
 	if servers.Network != nil {
@@ -464,7 +464,7 @@ func (servers *FlexibleServers_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		if err != nil {
 			return nil, err
 		}
-		network := networkARM.(NetworkARM)
+		network := *networkARM.(*NetworkARM)
 		result.Properties.Network = &network
 	}
 	if servers.PointInTimeUTC != nil {
@@ -484,7 +484,7 @@ func (servers *FlexibleServers_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		if err != nil {
 			return nil, err
 		}
-		storage := storageARM.(StorageARM)
+		storage := *storageARM.(*StorageARM)
 		result.Properties.Storage = &storage
 	}
 	if servers.Version != nil {
@@ -498,7 +498,7 @@ func (servers *FlexibleServers_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		if err != nil {
 			return nil, err
 		}
-		sku := skuARM.(SkuARM)
+		sku := *skuARM.(*SkuARM)
 		result.Sku = &sku
 	}
 
@@ -1708,7 +1708,7 @@ func (backup *Backup) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 	if backup == nil {
 		return nil, nil
 	}
-	var result BackupARM
+	result := &BackupARM{}
 
 	// Set property ‘BackupRetentionDays’:
 	if backup.BackupRetentionDays != nil {
@@ -1911,7 +1911,7 @@ func (availability *HighAvailability) ConvertToARM(resolved genruntime.ConvertTo
 	if availability == nil {
 		return nil, nil
 	}
-	var result HighAvailabilityARM
+	result := &HighAvailabilityARM{}
 
 	// Set property ‘Mode’:
 	if availability.Mode != nil {
@@ -2130,7 +2130,7 @@ func (window *MaintenanceWindow) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if window == nil {
 		return nil, nil
 	}
-	var result MaintenanceWindowARM
+	result := &MaintenanceWindowARM{}
 
 	// Set property ‘CustomWindow’:
 	if window.CustomWindow != nil {
@@ -2364,7 +2364,7 @@ func (network *Network) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 	if network == nil {
 		return nil, nil
 	}
-	var result NetworkARM
+	result := &NetworkARM{}
 
 	// Set property ‘DelegatedSubnetResourceId’:
 	if network.DelegatedSubnetResourceReference != nil {
@@ -2627,7 +2627,7 @@ func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 	if sku == nil {
 		return nil, nil
 	}
-	var result SkuARM
+	result := &SkuARM{}
 
 	// Set property ‘Name’:
 	if sku.Name != nil {
@@ -2812,7 +2812,7 @@ func (storage *Storage) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 	if storage == nil {
 		return nil, nil
 	}
-	var result StorageARM
+	result := &StorageARM{}
 
 	// Set property ‘StorageSizeGB’:
 	if storage.StorageSizeGB != nil {

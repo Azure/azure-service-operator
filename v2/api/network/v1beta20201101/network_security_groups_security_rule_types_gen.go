@@ -397,7 +397,7 @@ func (rules *NetworkSecurityGroupsSecurityRules_Spec) ConvertToARM(resolved genr
 	if rules == nil {
 		return nil, nil
 	}
-	var result NetworkSecurityGroupsSecurityRules_SpecARM
+	result := &NetworkSecurityGroupsSecurityRules_SpecARM{}
 
 	// Set property ‘Location’:
 	if rules.Location != nil {
@@ -446,7 +446,7 @@ func (rules *NetworkSecurityGroupsSecurityRules_Spec) ConvertToARM(resolved genr
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.DestinationApplicationSecurityGroups = append(result.Properties.DestinationApplicationSecurityGroups, itemARM.(SubResourceARM))
+		result.Properties.DestinationApplicationSecurityGroups = append(result.Properties.DestinationApplicationSecurityGroups, *itemARM.(*SubResourceARM))
 	}
 	if rules.DestinationPortRange != nil {
 		destinationPortRange := *rules.DestinationPortRange
@@ -479,7 +479,7 @@ func (rules *NetworkSecurityGroupsSecurityRules_Spec) ConvertToARM(resolved genr
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.SourceApplicationSecurityGroups = append(result.Properties.SourceApplicationSecurityGroups, itemARM.(SubResourceARM))
+		result.Properties.SourceApplicationSecurityGroups = append(result.Properties.SourceApplicationSecurityGroups, *itemARM.(*SubResourceARM))
 	}
 	if rules.SourcePortRange != nil {
 		sourcePortRange := *rules.SourcePortRange

@@ -1242,7 +1242,7 @@ func (sets *VirtualMachineScaleSets_Spec) ConvertToARM(resolved genruntime.Conve
 	if sets == nil {
 		return nil, nil
 	}
-	var result VirtualMachineScaleSets_SpecARM
+	result := &VirtualMachineScaleSets_SpecARM{}
 
 	// Set property ‘ExtendedLocation’:
 	if sets.ExtendedLocation != nil {
@@ -1250,7 +1250,7 @@ func (sets *VirtualMachineScaleSets_Spec) ConvertToARM(resolved genruntime.Conve
 		if err != nil {
 			return nil, err
 		}
-		extendedLocation := extendedLocationARM.(ExtendedLocationARM)
+		extendedLocation := *extendedLocationARM.(*ExtendedLocationARM)
 		result.ExtendedLocation = &extendedLocation
 	}
 
@@ -1260,7 +1260,7 @@ func (sets *VirtualMachineScaleSets_Spec) ConvertToARM(resolved genruntime.Conve
 		if err != nil {
 			return nil, err
 		}
-		identity := identityARM.(VirtualMachineScaleSetIdentityARM)
+		identity := *identityARM.(*VirtualMachineScaleSetIdentityARM)
 		result.Identity = &identity
 	}
 
@@ -1279,7 +1279,7 @@ func (sets *VirtualMachineScaleSets_Spec) ConvertToARM(resolved genruntime.Conve
 		if err != nil {
 			return nil, err
 		}
-		plan := planARM.(PlanARM)
+		plan := *planARM.(*PlanARM)
 		result.Plan = &plan
 	}
 
@@ -1304,7 +1304,7 @@ func (sets *VirtualMachineScaleSets_Spec) ConvertToARM(resolved genruntime.Conve
 		if err != nil {
 			return nil, err
 		}
-		additionalCapabilities := additionalCapabilitiesARM.(AdditionalCapabilitiesARM)
+		additionalCapabilities := *additionalCapabilitiesARM.(*AdditionalCapabilitiesARM)
 		result.Properties.AdditionalCapabilities = &additionalCapabilities
 	}
 	if sets.AutomaticRepairsPolicy != nil {
@@ -1312,7 +1312,7 @@ func (sets *VirtualMachineScaleSets_Spec) ConvertToARM(resolved genruntime.Conve
 		if err != nil {
 			return nil, err
 		}
-		automaticRepairsPolicy := automaticRepairsPolicyARM.(AutomaticRepairsPolicyARM)
+		automaticRepairsPolicy := *automaticRepairsPolicyARM.(*AutomaticRepairsPolicyARM)
 		result.Properties.AutomaticRepairsPolicy = &automaticRepairsPolicy
 	}
 	if sets.DoNotRunExtensionsOnOverprovisionedVMs != nil {
@@ -1324,7 +1324,7 @@ func (sets *VirtualMachineScaleSets_Spec) ConvertToARM(resolved genruntime.Conve
 		if err != nil {
 			return nil, err
 		}
-		hostGroup := hostGroupARM.(SubResourceARM)
+		hostGroup := *hostGroupARM.(*SubResourceARM)
 		result.Properties.HostGroup = &hostGroup
 	}
 	if sets.OrchestrationMode != nil {
@@ -1344,7 +1344,7 @@ func (sets *VirtualMachineScaleSets_Spec) ConvertToARM(resolved genruntime.Conve
 		if err != nil {
 			return nil, err
 		}
-		proximityPlacementGroup := proximityPlacementGroupARM.(SubResourceARM)
+		proximityPlacementGroup := *proximityPlacementGroupARM.(*SubResourceARM)
 		result.Properties.ProximityPlacementGroup = &proximityPlacementGroup
 	}
 	if sets.ScaleInPolicy != nil {
@@ -1352,7 +1352,7 @@ func (sets *VirtualMachineScaleSets_Spec) ConvertToARM(resolved genruntime.Conve
 		if err != nil {
 			return nil, err
 		}
-		scaleInPolicy := scaleInPolicyARM.(ScaleInPolicyARM)
+		scaleInPolicy := *scaleInPolicyARM.(*ScaleInPolicyARM)
 		result.Properties.ScaleInPolicy = &scaleInPolicy
 	}
 	if sets.SinglePlacementGroup != nil {
@@ -1364,7 +1364,7 @@ func (sets *VirtualMachineScaleSets_Spec) ConvertToARM(resolved genruntime.Conve
 		if err != nil {
 			return nil, err
 		}
-		upgradePolicy := upgradePolicyARM.(UpgradePolicyARM)
+		upgradePolicy := *upgradePolicyARM.(*UpgradePolicyARM)
 		result.Properties.UpgradePolicy = &upgradePolicy
 	}
 	if sets.VirtualMachineProfile != nil {
@@ -1372,7 +1372,7 @@ func (sets *VirtualMachineScaleSets_Spec) ConvertToARM(resolved genruntime.Conve
 		if err != nil {
 			return nil, err
 		}
-		virtualMachineProfile := virtualMachineProfileARM.(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfileARM)
+		virtualMachineProfile := *virtualMachineProfileARM.(*VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfileARM)
 		result.Properties.VirtualMachineProfile = &virtualMachineProfile
 	}
 	if sets.ZoneBalance != nil {
@@ -1386,7 +1386,7 @@ func (sets *VirtualMachineScaleSets_Spec) ConvertToARM(resolved genruntime.Conve
 		if err != nil {
 			return nil, err
 		}
-		sku := skuARM.(SkuARM)
+		sku := *skuARM.(*SkuARM)
 		result.Sku = &sku
 	}
 
@@ -2138,7 +2138,7 @@ func (policy *AutomaticRepairsPolicy) ConvertToARM(resolved genruntime.ConvertTo
 	if policy == nil {
 		return nil, nil
 	}
-	var result AutomaticRepairsPolicyARM
+	result := &AutomaticRepairsPolicyARM{}
 
 	// Set property ‘Enabled’:
 	if policy.Enabled != nil {
@@ -2344,7 +2344,7 @@ func (policy *ScaleInPolicy) ConvertToARM(resolved genruntime.ConvertToARMResolv
 	if policy == nil {
 		return nil, nil
 	}
-	var result ScaleInPolicyARM
+	result := &ScaleInPolicyARM{}
 
 	// Set property ‘Rules’:
 	for _, item := range policy.Rules {
@@ -2532,7 +2532,7 @@ func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 	if sku == nil {
 		return nil, nil
 	}
-	var result SkuARM
+	result := &SkuARM{}
 
 	// Set property ‘Capacity’:
 	if sku.Capacity != nil {
@@ -2743,7 +2743,7 @@ func (policy *UpgradePolicy) ConvertToARM(resolved genruntime.ConvertToARMResolv
 	if policy == nil {
 		return nil, nil
 	}
-	var result UpgradePolicyARM
+	result := &UpgradePolicyARM{}
 
 	// Set property ‘AutomaticOSUpgradePolicy’:
 	if policy.AutomaticOSUpgradePolicy != nil {
@@ -2751,7 +2751,7 @@ func (policy *UpgradePolicy) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		if err != nil {
 			return nil, err
 		}
-		automaticOSUpgradePolicy := automaticOSUpgradePolicyARM.(AutomaticOSUpgradePolicyARM)
+		automaticOSUpgradePolicy := *automaticOSUpgradePolicyARM.(*AutomaticOSUpgradePolicyARM)
 		result.AutomaticOSUpgradePolicy = &automaticOSUpgradePolicy
 	}
 
@@ -2767,7 +2767,7 @@ func (policy *UpgradePolicy) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		if err != nil {
 			return nil, err
 		}
-		rollingUpgradePolicy := rollingUpgradePolicyARM.(RollingUpgradePolicyARM)
+		rollingUpgradePolicy := *rollingUpgradePolicyARM.(*RollingUpgradePolicyARM)
 		result.RollingUpgradePolicy = &rollingUpgradePolicy
 	}
 	return result, nil
@@ -3067,7 +3067,7 @@ func (identity *VirtualMachineScaleSetIdentity) ConvertToARM(resolved genruntime
 	if identity == nil {
 		return nil, nil
 	}
-	var result VirtualMachineScaleSetIdentityARM
+	result := &VirtualMachineScaleSetIdentityARM{}
 
 	// Set property ‘Type’:
 	if identity.Type != nil {
@@ -3788,7 +3788,7 @@ func (profile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile) Co
 	if profile == nil {
 		return nil, nil
 	}
-	var result VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfileARM
+	result := &VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfileARM{}
 
 	// Set property ‘BillingProfile’:
 	if profile.BillingProfile != nil {
@@ -3796,7 +3796,7 @@ func (profile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile) Co
 		if err != nil {
 			return nil, err
 		}
-		billingProfile := billingProfileARM.(BillingProfileARM)
+		billingProfile := *billingProfileARM.(*BillingProfileARM)
 		result.BillingProfile = &billingProfile
 	}
 
@@ -3806,7 +3806,7 @@ func (profile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile) Co
 		if err != nil {
 			return nil, err
 		}
-		diagnosticsProfile := diagnosticsProfileARM.(DiagnosticsProfileARM)
+		diagnosticsProfile := *diagnosticsProfileARM.(*DiagnosticsProfileARM)
 		result.DiagnosticsProfile = &diagnosticsProfile
 	}
 
@@ -3822,7 +3822,7 @@ func (profile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile) Co
 		if err != nil {
 			return nil, err
 		}
-		extensionProfile := extensionProfileARM.(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfileARM)
+		extensionProfile := *extensionProfileARM.(*VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfileARM)
 		result.ExtensionProfile = &extensionProfile
 	}
 
@@ -3838,7 +3838,7 @@ func (profile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile) Co
 		if err != nil {
 			return nil, err
 		}
-		networkProfile := networkProfileARM.(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfileARM)
+		networkProfile := *networkProfileARM.(*VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfileARM)
 		result.NetworkProfile = &networkProfile
 	}
 
@@ -3848,7 +3848,7 @@ func (profile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile) Co
 		if err != nil {
 			return nil, err
 		}
-		osProfile := osProfileARM.(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfileARM)
+		osProfile := *osProfileARM.(*VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfileARM)
 		result.OsProfile = &osProfile
 	}
 
@@ -3864,7 +3864,7 @@ func (profile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile) Co
 		if err != nil {
 			return nil, err
 		}
-		scheduledEventsProfile := scheduledEventsProfileARM.(ScheduledEventsProfileARM)
+		scheduledEventsProfile := *scheduledEventsProfileARM.(*ScheduledEventsProfileARM)
 		result.ScheduledEventsProfile = &scheduledEventsProfile
 	}
 
@@ -3874,7 +3874,7 @@ func (profile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile) Co
 		if err != nil {
 			return nil, err
 		}
-		securityProfile := securityProfileARM.(SecurityProfileARM)
+		securityProfile := *securityProfileARM.(*SecurityProfileARM)
 		result.SecurityProfile = &securityProfile
 	}
 
@@ -3884,7 +3884,7 @@ func (profile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile) Co
 		if err != nil {
 			return nil, err
 		}
-		storageProfile := storageProfileARM.(VirtualMachineScaleSetStorageProfileARM)
+		storageProfile := *storageProfileARM.(*VirtualMachineScaleSetStorageProfileARM)
 		result.StorageProfile = &storageProfile
 	}
 	return result, nil
@@ -4285,7 +4285,7 @@ func (policy *AutomaticOSUpgradePolicy) ConvertToARM(resolved genruntime.Convert
 	if policy == nil {
 		return nil, nil
 	}
-	var result AutomaticOSUpgradePolicyARM
+	result := &AutomaticOSUpgradePolicyARM{}
 
 	// Set property ‘DisableAutomaticRollback’:
 	if policy.DisableAutomaticRollback != nil {
@@ -4524,7 +4524,7 @@ func (policy *RollingUpgradePolicy) ConvertToARM(resolved genruntime.ConvertToAR
 	if policy == nil {
 		return nil, nil
 	}
-	var result RollingUpgradePolicyARM
+	result := &RollingUpgradePolicyARM{}
 
 	// Set property ‘EnableCrossZoneUpgrade’:
 	if policy.EnableCrossZoneUpgrade != nil {
@@ -4916,7 +4916,7 @@ func (profile *ScheduledEventsProfile) ConvertToARM(resolved genruntime.ConvertT
 	if profile == nil {
 		return nil, nil
 	}
-	var result ScheduledEventsProfileARM
+	result := &ScheduledEventsProfileARM{}
 
 	// Set property ‘TerminateNotificationProfile’:
 	if profile.TerminateNotificationProfile != nil {
@@ -4924,7 +4924,7 @@ func (profile *ScheduledEventsProfile) ConvertToARM(resolved genruntime.ConvertT
 		if err != nil {
 			return nil, err
 		}
-		terminateNotificationProfile := terminateNotificationProfileARM.(TerminateNotificationProfileARM)
+		terminateNotificationProfile := *terminateNotificationProfileARM.(*TerminateNotificationProfileARM)
 		result.TerminateNotificationProfile = &terminateNotificationProfile
 	}
 	return result, nil
@@ -5674,7 +5674,7 @@ func (profile *VirtualMachineScaleSetStorageProfile) ConvertToARM(resolved genru
 	if profile == nil {
 		return nil, nil
 	}
-	var result VirtualMachineScaleSetStorageProfileARM
+	result := &VirtualMachineScaleSetStorageProfileARM{}
 
 	// Set property ‘DataDisks’:
 	for _, item := range profile.DataDisks {
@@ -5682,7 +5682,7 @@ func (profile *VirtualMachineScaleSetStorageProfile) ConvertToARM(resolved genru
 		if err != nil {
 			return nil, err
 		}
-		result.DataDisks = append(result.DataDisks, itemARM.(VirtualMachineScaleSetDataDiskARM))
+		result.DataDisks = append(result.DataDisks, *itemARM.(*VirtualMachineScaleSetDataDiskARM))
 	}
 
 	// Set property ‘ImageReference’:
@@ -5691,7 +5691,7 @@ func (profile *VirtualMachineScaleSetStorageProfile) ConvertToARM(resolved genru
 		if err != nil {
 			return nil, err
 		}
-		imageReference := imageReferenceARM.(ImageReferenceARM)
+		imageReference := *imageReferenceARM.(*ImageReferenceARM)
 		result.ImageReference = &imageReference
 	}
 
@@ -5701,7 +5701,7 @@ func (profile *VirtualMachineScaleSetStorageProfile) ConvertToARM(resolved genru
 		if err != nil {
 			return nil, err
 		}
-		osDisk := osDiskARM.(VirtualMachineScaleSetOSDiskARM)
+		osDisk := *osDiskARM.(*VirtualMachineScaleSetOSDiskARM)
 		result.OsDisk = &osDisk
 	}
 	return result, nil
@@ -6071,7 +6071,7 @@ func (profile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_Ext
 	if profile == nil {
 		return nil, nil
 	}
-	var result VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfileARM
+	result := &VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfileARM{}
 
 	// Set property ‘Extensions’:
 	for _, item := range profile.Extensions {
@@ -6079,7 +6079,7 @@ func (profile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_Ext
 		if err != nil {
 			return nil, err
 		}
-		result.Extensions = append(result.Extensions, itemARM.(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_ExtensionsARM))
+		result.Extensions = append(result.Extensions, *itemARM.(*VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_ExtensionsARM))
 	}
 
 	// Set property ‘ExtensionsTimeBudget’:
@@ -6202,7 +6202,7 @@ func (profile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_Net
 	if profile == nil {
 		return nil, nil
 	}
-	var result VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfileARM
+	result := &VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfileARM{}
 
 	// Set property ‘HealthProbe’:
 	if profile.HealthProbe != nil {
@@ -6210,7 +6210,7 @@ func (profile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_Net
 		if err != nil {
 			return nil, err
 		}
-		healthProbe := healthProbeARM.(ApiEntityReferenceARM)
+		healthProbe := *healthProbeARM.(*ApiEntityReferenceARM)
 		result.HealthProbe = &healthProbe
 	}
 
@@ -6220,7 +6220,7 @@ func (profile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_Net
 		if err != nil {
 			return nil, err
 		}
-		result.NetworkInterfaceConfigurations = append(result.NetworkInterfaceConfigurations, itemARM.(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurationsARM))
+		result.NetworkInterfaceConfigurations = append(result.NetworkInterfaceConfigurations, *itemARM.(*VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurationsARM))
 	}
 	return result, nil
 }
@@ -6410,7 +6410,7 @@ func (profile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsP
 	if profile == nil {
 		return nil, nil
 	}
-	var result VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfileARM
+	result := &VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfileARM{}
 
 	// Set property ‘AdminPassword’:
 	if profile.AdminPassword != nil {
@@ -6446,7 +6446,7 @@ func (profile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsP
 		if err != nil {
 			return nil, err
 		}
-		linuxConfiguration := linuxConfigurationARM.(LinuxConfigurationARM)
+		linuxConfiguration := *linuxConfigurationARM.(*LinuxConfigurationARM)
 		result.LinuxConfiguration = &linuxConfiguration
 	}
 
@@ -6456,7 +6456,7 @@ func (profile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsP
 		if err != nil {
 			return nil, err
 		}
-		result.Secrets = append(result.Secrets, itemARM.(VaultSecretGroupARM))
+		result.Secrets = append(result.Secrets, *itemARM.(*VaultSecretGroupARM))
 	}
 
 	// Set property ‘WindowsConfiguration’:
@@ -6465,7 +6465,7 @@ func (profile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsP
 		if err != nil {
 			return nil, err
 		}
-		windowsConfiguration := windowsConfigurationARM.(WindowsConfigurationARM)
+		windowsConfiguration := *windowsConfigurationARM.(*WindowsConfigurationARM)
 		result.WindowsConfiguration = &windowsConfiguration
 	}
 	return result, nil
@@ -6693,7 +6693,7 @@ func (reference *ApiEntityReference) ConvertToARM(resolved genruntime.ConvertToA
 	if reference == nil {
 		return nil, nil
 	}
-	var result ApiEntityReferenceARM
+	result := &ApiEntityReferenceARM{}
 
 	// Set property ‘Id’:
 	if reference.Reference != nil {
@@ -6840,7 +6840,7 @@ func (profile *TerminateNotificationProfile) ConvertToARM(resolved genruntime.Co
 	if profile == nil {
 		return nil, nil
 	}
-	var result TerminateNotificationProfileARM
+	result := &TerminateNotificationProfileARM{}
 
 	// Set property ‘Enable’:
 	if profile.Enable != nil {
@@ -7063,7 +7063,7 @@ func (disk *VirtualMachineScaleSetDataDisk) ConvertToARM(resolved genruntime.Con
 	if disk == nil {
 		return nil, nil
 	}
-	var result VirtualMachineScaleSetDataDiskARM
+	result := &VirtualMachineScaleSetDataDiskARM{}
 
 	// Set property ‘Caching’:
 	if disk.Caching != nil {
@@ -7107,7 +7107,7 @@ func (disk *VirtualMachineScaleSetDataDisk) ConvertToARM(resolved genruntime.Con
 		if err != nil {
 			return nil, err
 		}
-		managedDisk := managedDiskARM.(VirtualMachineScaleSetManagedDiskParametersARM)
+		managedDisk := *managedDiskARM.(*VirtualMachineScaleSetManagedDiskParametersARM)
 		result.ManagedDisk = &managedDisk
 	}
 
@@ -8277,7 +8277,7 @@ func (disk *VirtualMachineScaleSetOSDisk) ConvertToARM(resolved genruntime.Conve
 	if disk == nil {
 		return nil, nil
 	}
-	var result VirtualMachineScaleSetOSDiskARM
+	result := &VirtualMachineScaleSetOSDiskARM{}
 
 	// Set property ‘Caching’:
 	if disk.Caching != nil {
@@ -8297,7 +8297,7 @@ func (disk *VirtualMachineScaleSetOSDisk) ConvertToARM(resolved genruntime.Conve
 		if err != nil {
 			return nil, err
 		}
-		diffDiskSettings := diffDiskSettingsARM.(DiffDiskSettingsARM)
+		diffDiskSettings := *diffDiskSettingsARM.(*DiffDiskSettingsARM)
 		result.DiffDiskSettings = &diffDiskSettings
 	}
 
@@ -8313,7 +8313,7 @@ func (disk *VirtualMachineScaleSetOSDisk) ConvertToARM(resolved genruntime.Conve
 		if err != nil {
 			return nil, err
 		}
-		image := imageARM.(VirtualHardDiskARM)
+		image := *imageARM.(*VirtualHardDiskARM)
 		result.Image = &image
 	}
 
@@ -8323,7 +8323,7 @@ func (disk *VirtualMachineScaleSetOSDisk) ConvertToARM(resolved genruntime.Conve
 		if err != nil {
 			return nil, err
 		}
-		managedDisk := managedDiskARM.(VirtualMachineScaleSetManagedDiskParametersARM)
+		managedDisk := *managedDiskARM.(*VirtualMachineScaleSetManagedDiskParametersARM)
 		result.ManagedDisk = &managedDisk
 	}
 
@@ -8966,7 +8966,7 @@ func (extensions *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_
 	if extensions == nil {
 		return nil, nil
 	}
-	var result VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_ExtensionsARM
+	result := &VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_ExtensionsARM{}
 
 	// Set property ‘Name’:
 	if extensions.Name != nil {
@@ -9201,7 +9201,7 @@ func (configurations *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProf
 	if configurations == nil {
 		return nil, nil
 	}
-	var result VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurationsARM
+	result := &VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurationsARM{}
 
 	// Set property ‘Id’:
 	if configurations.Id != nil {
@@ -9230,7 +9230,7 @@ func (configurations *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProf
 		if err != nil {
 			return nil, err
 		}
-		dnsSettings := dnsSettingsARM.(VirtualMachineScaleSetNetworkConfigurationDnsSettingsARM)
+		dnsSettings := *dnsSettingsARM.(*VirtualMachineScaleSetNetworkConfigurationDnsSettingsARM)
 		result.Properties.DnsSettings = &dnsSettings
 	}
 	if configurations.EnableAcceleratedNetworking != nil {
@@ -9250,14 +9250,14 @@ func (configurations *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProf
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.IpConfigurations = append(result.Properties.IpConfigurations, itemARM.(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurationsARM))
+		result.Properties.IpConfigurations = append(result.Properties.IpConfigurations, *itemARM.(*VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurationsARM))
 	}
 	if configurations.NetworkSecurityGroup != nil {
 		networkSecurityGroupARM, err := (*configurations.NetworkSecurityGroup).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		networkSecurityGroup := networkSecurityGroupARM.(SubResourceARM)
+		networkSecurityGroup := *networkSecurityGroupARM.(*SubResourceARM)
 		result.Properties.NetworkSecurityGroup = &networkSecurityGroup
 	}
 	if configurations.Primary != nil {
@@ -10019,7 +10019,7 @@ func (parameters *VirtualMachineScaleSetManagedDiskParameters) ConvertToARM(reso
 	if parameters == nil {
 		return nil, nil
 	}
-	var result VirtualMachineScaleSetManagedDiskParametersARM
+	result := &VirtualMachineScaleSetManagedDiskParametersARM{}
 
 	// Set property ‘DiskEncryptionSet’:
 	if parameters.DiskEncryptionSet != nil {
@@ -10027,7 +10027,7 @@ func (parameters *VirtualMachineScaleSetManagedDiskParameters) ConvertToARM(reso
 		if err != nil {
 			return nil, err
 		}
-		diskEncryptionSet := diskEncryptionSetARM.(DiskEncryptionSetParametersARM)
+		diskEncryptionSet := *diskEncryptionSetARM.(*DiskEncryptionSetParametersARM)
 		result.DiskEncryptionSet = &diskEncryptionSet
 	}
 
@@ -10255,7 +10255,7 @@ func (settings *VirtualMachineScaleSetNetworkConfigurationDnsSettings) ConvertTo
 	if settings == nil {
 		return nil, nil
 	}
-	var result VirtualMachineScaleSetNetworkConfigurationDnsSettingsARM
+	result := &VirtualMachineScaleSetNetworkConfigurationDnsSettingsARM{}
 
 	// Set property ‘DnsServers’:
 	for _, item := range settings.DnsServers {
@@ -10451,7 +10451,7 @@ func (configurations *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProf
 	if configurations == nil {
 		return nil, nil
 	}
-	var result VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurationsARM
+	result := &VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurationsARM{}
 
 	// Set property ‘Id’:
 	if configurations.Id != nil {
@@ -10481,28 +10481,28 @@ func (configurations *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProf
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.ApplicationGatewayBackendAddressPools = append(result.Properties.ApplicationGatewayBackendAddressPools, itemARM.(SubResourceARM))
+		result.Properties.ApplicationGatewayBackendAddressPools = append(result.Properties.ApplicationGatewayBackendAddressPools, *itemARM.(*SubResourceARM))
 	}
 	for _, item := range configurations.ApplicationSecurityGroups {
 		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.ApplicationSecurityGroups = append(result.Properties.ApplicationSecurityGroups, itemARM.(SubResourceARM))
+		result.Properties.ApplicationSecurityGroups = append(result.Properties.ApplicationSecurityGroups, *itemARM.(*SubResourceARM))
 	}
 	for _, item := range configurations.LoadBalancerBackendAddressPools {
 		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.LoadBalancerBackendAddressPools = append(result.Properties.LoadBalancerBackendAddressPools, itemARM.(SubResourceARM))
+		result.Properties.LoadBalancerBackendAddressPools = append(result.Properties.LoadBalancerBackendAddressPools, *itemARM.(*SubResourceARM))
 	}
 	for _, item := range configurations.LoadBalancerInboundNatPools {
 		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.LoadBalancerInboundNatPools = append(result.Properties.LoadBalancerInboundNatPools, itemARM.(SubResourceARM))
+		result.Properties.LoadBalancerInboundNatPools = append(result.Properties.LoadBalancerInboundNatPools, *itemARM.(*SubResourceARM))
 	}
 	if configurations.Primary != nil {
 		primary := *configurations.Primary
@@ -10517,7 +10517,7 @@ func (configurations *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProf
 		if err != nil {
 			return nil, err
 		}
-		publicIPAddressConfiguration := publicIPAddressConfigurationARM.(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfigurationARM)
+		publicIPAddressConfiguration := *publicIPAddressConfigurationARM.(*VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfigurationARM)
 		result.Properties.PublicIPAddressConfiguration = &publicIPAddressConfiguration
 	}
 	if configurations.Subnet != nil {
@@ -10525,7 +10525,7 @@ func (configurations *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProf
 		if err != nil {
 			return nil, err
 		}
-		subnet := subnetARM.(ApiEntityReferenceARM)
+		subnet := *subnetARM.(*ApiEntityReferenceARM)
 		result.Properties.Subnet = &subnet
 	}
 	return result, nil
@@ -11209,7 +11209,7 @@ func (configuration *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfi
 	if configuration == nil {
 		return nil, nil
 	}
-	var result VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfigurationARM
+	result := &VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfigurationARM{}
 
 	// Set property ‘Name’:
 	if configuration.Name != nil {
@@ -11230,7 +11230,7 @@ func (configuration *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfi
 		if err != nil {
 			return nil, err
 		}
-		dnsSettings := dnsSettingsARM.(VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsARM)
+		dnsSettings := *dnsSettingsARM.(*VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsARM)
 		result.Properties.DnsSettings = &dnsSettings
 	}
 	if configuration.IdleTimeoutInMinutes != nil {
@@ -11242,7 +11242,7 @@ func (configuration *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfi
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.IpTags = append(result.Properties.IpTags, itemARM.(VirtualMachineScaleSetIpTagARM))
+		result.Properties.IpTags = append(result.Properties.IpTags, *itemARM.(*VirtualMachineScaleSetIpTagARM))
 	}
 	if configuration.PublicIPAddressVersion != nil {
 		publicIPAddressVersion := *configuration.PublicIPAddressVersion
@@ -11253,7 +11253,7 @@ func (configuration *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfi
 		if err != nil {
 			return nil, err
 		}
-		publicIPPrefix := publicIPPrefixARM.(SubResourceARM)
+		publicIPPrefix := *publicIPPrefixARM.(*SubResourceARM)
 		result.Properties.PublicIPPrefix = &publicIPPrefix
 	}
 	return result, nil
@@ -11491,7 +11491,7 @@ func (ipTag *VirtualMachineScaleSetIpTag) ConvertToARM(resolved genruntime.Conve
 	if ipTag == nil {
 		return nil, nil
 	}
-	var result VirtualMachineScaleSetIpTagARM
+	result := &VirtualMachineScaleSetIpTagARM{}
 
 	// Set property ‘IpTagType’:
 	if ipTag.IpTagType != nil {
@@ -11658,7 +11658,7 @@ func (settings *VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings) C
 	if settings == nil {
 		return nil, nil
 	}
-	var result VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsARM
+	result := &VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsARM{}
 
 	// Set property ‘DomainNameLabel’:
 	if settings.DomainNameLabel != nil {

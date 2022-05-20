@@ -51,12 +51,12 @@ func (profiles Profiles_SpecARM) GetAPIVersion() string {
 }
 
 // GetName returns the Name of the resource
-func (profiles Profiles_SpecARM) GetName() string {
+func (profiles *Profiles_SpecARM) GetName() string {
 	return profiles.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Cdn/profiles"
-func (profiles Profiles_SpecARM) GetType() string {
+func (profiles *Profiles_SpecARM) GetType() string {
 	return "Microsoft.Cdn/profiles"
 }
 

@@ -356,7 +356,7 @@ func (functions *DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec
 	if functions == nil {
 		return nil, nil
 	}
-	var result DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SpecARM
+	result := &DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SpecARM{}
 
 	// Set property ‘Location’:
 	if functions.Location != nil {
@@ -376,7 +376,7 @@ func (functions *DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec
 		if err != nil {
 			return nil, err
 		}
-		options := optionsARM.(CreateUpdateOptionsARM)
+		options := *optionsARM.(*CreateUpdateOptionsARM)
 		result.Properties.Options = &options
 	}
 	if functions.Resource != nil {
@@ -384,7 +384,7 @@ func (functions *DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec
 		if err != nil {
 			return nil, err
 		}
-		resource := resourceARM.(SqlUserDefinedFunctionResourceARM)
+		resource := *resourceARM.(*SqlUserDefinedFunctionResourceARM)
 		result.Properties.Resource = &resource
 	}
 
@@ -978,7 +978,7 @@ func (resource *SqlUserDefinedFunctionResource) ConvertToARM(resolved genruntime
 	if resource == nil {
 		return nil, nil
 	}
-	var result SqlUserDefinedFunctionResourceARM
+	result := &SqlUserDefinedFunctionResourceARM{}
 
 	// Set property ‘Body’:
 	if resource.Body != nil {

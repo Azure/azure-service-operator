@@ -829,7 +829,7 @@ func (groups *NetworkSecurityGroups_Spec) ConvertToARM(resolved genruntime.Conve
 	if groups == nil {
 		return nil, nil
 	}
-	var result NetworkSecurityGroups_SpecARM
+	result := &NetworkSecurityGroups_SpecARM{}
 
 	// Set property ‘Location’:
 	if groups.Location != nil {

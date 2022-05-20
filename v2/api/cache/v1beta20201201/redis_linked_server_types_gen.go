@@ -586,7 +586,7 @@ func (servers *RedisLinkedServers_Spec) ConvertToARM(resolved genruntime.Convert
 	if servers == nil {
 		return nil, nil
 	}
-	var result RedisLinkedServers_SpecARM
+	result := &RedisLinkedServers_SpecARM{}
 
 	// Set property ‘Location’:
 	if servers.Location != nil {

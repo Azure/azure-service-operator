@@ -572,7 +572,7 @@ func (rules *FlexibleServersFirewallRules_Spec) ConvertToARM(resolved genruntime
 	if rules == nil {
 		return nil, nil
 	}
-	var result FlexibleServersFirewallRules_SpecARM
+	result := &FlexibleServersFirewallRules_SpecARM{}
 
 	// Set property ‘Location’:
 	if rules.Location != nil {

@@ -345,7 +345,7 @@ func (settings *DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec) C
 	if settings == nil {
 		return nil, nil
 	}
-	var result DatabaseAccountsSqlDatabasesContainersThroughputSettings_SpecARM
+	result := &DatabaseAccountsSqlDatabasesContainersThroughputSettings_SpecARM{}
 
 	// Set property ‘Location’:
 	if settings.Location != nil {
@@ -365,7 +365,7 @@ func (settings *DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec) C
 		if err != nil {
 			return nil, err
 		}
-		resource := resourceARM.(ThroughputSettingsResourceARM)
+		resource := *resourceARM.(*ThroughputSettingsResourceARM)
 		result.Properties.Resource = &resource
 	}
 

@@ -354,7 +354,7 @@ func (containers *DatabaseAccountsSqlDatabasesContainers_Spec) ConvertToARM(reso
 	if containers == nil {
 		return nil, nil
 	}
-	var result DatabaseAccountsSqlDatabasesContainers_SpecARM
+	result := &DatabaseAccountsSqlDatabasesContainers_SpecARM{}
 
 	// Set property ‘Location’:
 	if containers.Location != nil {
@@ -374,7 +374,7 @@ func (containers *DatabaseAccountsSqlDatabasesContainers_Spec) ConvertToARM(reso
 		if err != nil {
 			return nil, err
 		}
-		options := optionsARM.(CreateUpdateOptionsARM)
+		options := *optionsARM.(*CreateUpdateOptionsARM)
 		result.Properties.Options = &options
 	}
 	if containers.Resource != nil {
@@ -382,7 +382,7 @@ func (containers *DatabaseAccountsSqlDatabasesContainers_Spec) ConvertToARM(reso
 		if err != nil {
 			return nil, err
 		}
-		resource := resourceARM.(SqlContainerResourceARM)
+		resource := *resourceARM.(*SqlContainerResourceARM)
 		result.Properties.Resource = &resource
 	}
 
@@ -1217,7 +1217,7 @@ func (resource *SqlContainerResource) ConvertToARM(resolved genruntime.ConvertTo
 	if resource == nil {
 		return nil, nil
 	}
-	var result SqlContainerResourceARM
+	result := &SqlContainerResourceARM{}
 
 	// Set property ‘AnalyticalStorageTtl’:
 	if resource.AnalyticalStorageTtl != nil {
@@ -1231,7 +1231,7 @@ func (resource *SqlContainerResource) ConvertToARM(resolved genruntime.ConvertTo
 		if err != nil {
 			return nil, err
 		}
-		conflictResolutionPolicy := conflictResolutionPolicyARM.(ConflictResolutionPolicyARM)
+		conflictResolutionPolicy := *conflictResolutionPolicyARM.(*ConflictResolutionPolicyARM)
 		result.ConflictResolutionPolicy = &conflictResolutionPolicy
 	}
 
@@ -1253,7 +1253,7 @@ func (resource *SqlContainerResource) ConvertToARM(resolved genruntime.ConvertTo
 		if err != nil {
 			return nil, err
 		}
-		indexingPolicy := indexingPolicyARM.(IndexingPolicyARM)
+		indexingPolicy := *indexingPolicyARM.(*IndexingPolicyARM)
 		result.IndexingPolicy = &indexingPolicy
 	}
 
@@ -1263,7 +1263,7 @@ func (resource *SqlContainerResource) ConvertToARM(resolved genruntime.ConvertTo
 		if err != nil {
 			return nil, err
 		}
-		partitionKey := partitionKeyARM.(ContainerPartitionKeyARM)
+		partitionKey := *partitionKeyARM.(*ContainerPartitionKeyARM)
 		result.PartitionKey = &partitionKey
 	}
 
@@ -1273,7 +1273,7 @@ func (resource *SqlContainerResource) ConvertToARM(resolved genruntime.ConvertTo
 		if err != nil {
 			return nil, err
 		}
-		uniqueKeyPolicy := uniqueKeyPolicyARM.(UniqueKeyPolicyARM)
+		uniqueKeyPolicy := *uniqueKeyPolicyARM.(*UniqueKeyPolicyARM)
 		result.UniqueKeyPolicy = &uniqueKeyPolicy
 	}
 	return result, nil
@@ -1513,7 +1513,7 @@ func (policy *ConflictResolutionPolicy) ConvertToARM(resolved genruntime.Convert
 	if policy == nil {
 		return nil, nil
 	}
-	var result ConflictResolutionPolicyARM
+	result := &ConflictResolutionPolicyARM{}
 
 	// Set property ‘ConflictResolutionPath’:
 	if policy.ConflictResolutionPath != nil {
@@ -1740,7 +1740,7 @@ func (partitionKey *ContainerPartitionKey) ConvertToARM(resolved genruntime.Conv
 	if partitionKey == nil {
 		return nil, nil
 	}
-	var result ContainerPartitionKeyARM
+	result := &ContainerPartitionKeyARM{}
 
 	// Set property ‘Kind’:
 	if partitionKey.Kind != nil {
@@ -2006,7 +2006,7 @@ func (policy *IndexingPolicy) ConvertToARM(resolved genruntime.ConvertToARMResol
 	if policy == nil {
 		return nil, nil
 	}
-	var result IndexingPolicyARM
+	result := &IndexingPolicyARM{}
 
 	// Set property ‘Automatic’:
 	if policy.Automatic != nil {
@@ -2022,7 +2022,7 @@ func (policy *IndexingPolicy) ConvertToARM(resolved genruntime.ConvertToARMResol
 			if err != nil {
 				return nil, err
 			}
-			itemTemp = append(itemTemp, item1ARM.(CompositePathARM))
+			itemTemp = append(itemTemp, *item1ARM.(*CompositePathARM))
 		}
 		result.CompositeIndexes = append(result.CompositeIndexes, itemTemp)
 	}
@@ -2033,7 +2033,7 @@ func (policy *IndexingPolicy) ConvertToARM(resolved genruntime.ConvertToARMResol
 		if err != nil {
 			return nil, err
 		}
-		result.ExcludedPaths = append(result.ExcludedPaths, itemARM.(ExcludedPathARM))
+		result.ExcludedPaths = append(result.ExcludedPaths, *itemARM.(*ExcludedPathARM))
 	}
 
 	// Set property ‘IncludedPaths’:
@@ -2042,7 +2042,7 @@ func (policy *IndexingPolicy) ConvertToARM(resolved genruntime.ConvertToARMResol
 		if err != nil {
 			return nil, err
 		}
-		result.IncludedPaths = append(result.IncludedPaths, itemARM.(IncludedPathARM))
+		result.IncludedPaths = append(result.IncludedPaths, *itemARM.(*IncludedPathARM))
 	}
 
 	// Set property ‘IndexingMode’:
@@ -2057,7 +2057,7 @@ func (policy *IndexingPolicy) ConvertToARM(resolved genruntime.ConvertToARMResol
 		if err != nil {
 			return nil, err
 		}
-		result.SpatialIndexes = append(result.SpatialIndexes, itemARM.(SpatialSpecARM))
+		result.SpatialIndexes = append(result.SpatialIndexes, *itemARM.(*SpatialSpecARM))
 	}
 	return result, nil
 }
@@ -2680,7 +2680,7 @@ func (policy *UniqueKeyPolicy) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if policy == nil {
 		return nil, nil
 	}
-	var result UniqueKeyPolicyARM
+	result := &UniqueKeyPolicyARM{}
 
 	// Set property ‘UniqueKeys’:
 	for _, item := range policy.UniqueKeys {
@@ -2688,7 +2688,7 @@ func (policy *UniqueKeyPolicy) ConvertToARM(resolved genruntime.ConvertToARMReso
 		if err != nil {
 			return nil, err
 		}
-		result.UniqueKeys = append(result.UniqueKeys, itemARM.(UniqueKeyARM))
+		result.UniqueKeys = append(result.UniqueKeys, *itemARM.(*UniqueKeyARM))
 	}
 	return result, nil
 }
@@ -2888,7 +2888,7 @@ func (path *CompositePath) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	if path == nil {
 		return nil, nil
 	}
-	var result CompositePathARM
+	result := &CompositePathARM{}
 
 	// Set property ‘Order’:
 	if path.Order != nil {
@@ -3075,7 +3075,7 @@ func (path *ExcludedPath) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 	if path == nil {
 		return nil, nil
 	}
-	var result ExcludedPathARM
+	result := &ExcludedPathARM{}
 
 	// Set property ‘Path’:
 	if path.Path != nil {
@@ -3212,7 +3212,7 @@ func (path *IncludedPath) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 	if path == nil {
 		return nil, nil
 	}
-	var result IncludedPathARM
+	result := &IncludedPathARM{}
 
 	// Set property ‘Indexes’:
 	for _, item := range path.Indexes {
@@ -3220,7 +3220,7 @@ func (path *IncludedPath) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 		if err != nil {
 			return nil, err
 		}
-		result.Indexes = append(result.Indexes, itemARM.(IndexesARM))
+		result.Indexes = append(result.Indexes, *itemARM.(*IndexesARM))
 	}
 
 	// Set property ‘Path’:
@@ -3453,7 +3453,7 @@ func (spatial *SpatialSpec) ConvertToARM(resolved genruntime.ConvertToARMResolve
 	if spatial == nil {
 		return nil, nil
 	}
-	var result SpatialSpecARM
+	result := &SpatialSpecARM{}
 
 	// Set property ‘Path’:
 	if spatial.Path != nil {
@@ -3656,7 +3656,7 @@ func (uniqueKey *UniqueKey) ConvertToARM(resolved genruntime.ConvertToARMResolve
 	if uniqueKey == nil {
 		return nil, nil
 	}
-	var result UniqueKeyARM
+	result := &UniqueKeyARM{}
 
 	// Set property ‘Paths’:
 	for _, item := range uniqueKey.Paths {
@@ -3791,7 +3791,7 @@ func (indexes *Indexes) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 	if indexes == nil {
 		return nil, nil
 	}
-	var result IndexesARM
+	result := &IndexesARM{}
 
 	// Set property ‘DataType’:
 	if indexes.DataType != nil {

@@ -584,7 +584,7 @@ func (rules *NamespacesAuthorizationRules_Spec) ConvertToARM(resolved genruntime
 	if rules == nil {
 		return nil, nil
 	}
-	var result NamespacesAuthorizationRules_SpecARM
+	result := &NamespacesAuthorizationRules_SpecARM{}
 
 	// Set property ‘Location’:
 	if rules.Location != nil {

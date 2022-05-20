@@ -37,12 +37,12 @@ func (signalR SignalR_SpecARM) GetAPIVersion() string {
 }
 
 // GetName returns the Name of the resource
-func (signalR SignalR_SpecARM) GetName() string {
+func (signalR *SignalR_SpecARM) GetName() string {
 	return signalR.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.SignalRService/signalR"
-func (signalR SignalR_SpecARM) GetType() string {
+func (signalR *SignalR_SpecARM) GetType() string {
 	return "Microsoft.SignalRService/signalR"
 }
 

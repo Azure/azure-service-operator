@@ -31,12 +31,12 @@ func (settings DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spe
 }
 
 // GetName returns the Name of the resource
-func (settings DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SpecARM) GetName() string {
+func (settings *DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SpecARM) GetName() string {
 	return settings.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections/throughputSettings"
-func (settings DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SpecARM) GetType() string {
+func (settings *DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SpecARM) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections/throughputSettings"
 }
 

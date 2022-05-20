@@ -22,12 +22,12 @@ func (redis Redis_SpecARM) GetAPIVersion() string {
 }
 
 // GetName returns the Name of the resource
-func (redis Redis_SpecARM) GetName() string {
+func (redis *Redis_SpecARM) GetName() string {
 	return redis.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Cache/redis"
-func (redis Redis_SpecARM) GetType() string {
+func (redis *Redis_SpecARM) GetType() string {
 	return "Microsoft.Cache/redis"
 }
 

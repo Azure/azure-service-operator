@@ -27,12 +27,12 @@ func (rules FlexibleServersFirewallRules_SpecARM) GetAPIVersion() string {
 }
 
 // GetName returns the Name of the resource
-func (rules FlexibleServersFirewallRules_SpecARM) GetName() string {
+func (rules *FlexibleServersFirewallRules_SpecARM) GetName() string {
 	return rules.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DBforPostgreSQL/flexibleServers/firewallRules"
-func (rules FlexibleServersFirewallRules_SpecARM) GetType() string {
+func (rules *FlexibleServersFirewallRules_SpecARM) GetType() string {
 	return "Microsoft.DBforPostgreSQL/flexibleServers/firewallRules"
 }
 

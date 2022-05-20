@@ -21,12 +21,12 @@ func (collections DatabaseAccountsMongodbDatabasesCollections_SpecARM) GetAPIVer
 }
 
 // GetName returns the Name of the resource
-func (collections DatabaseAccountsMongodbDatabasesCollections_SpecARM) GetName() string {
+func (collections *DatabaseAccountsMongodbDatabasesCollections_SpecARM) GetName() string {
 	return collections.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections"
-func (collections DatabaseAccountsMongodbDatabasesCollections_SpecARM) GetType() string {
+func (collections *DatabaseAccountsMongodbDatabasesCollections_SpecARM) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections"
 }
 

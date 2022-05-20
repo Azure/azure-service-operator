@@ -987,7 +987,7 @@ func (containers *StorageAccountsBlobServicesContainers_Spec) ConvertToARM(resol
 	if containers == nil {
 		return nil, nil
 	}
-	var result StorageAccountsBlobServicesContainers_SpecARM
+	result := &StorageAccountsBlobServicesContainers_SpecARM{}
 
 	// Set property ‘Location’:
 	if containers.Location != nil {
@@ -1019,7 +1019,7 @@ func (containers *StorageAccountsBlobServicesContainers_Spec) ConvertToARM(resol
 		if err != nil {
 			return nil, err
 		}
-		immutableStorageWithVersioning := immutableStorageWithVersioningARM.(ImmutableStorageWithVersioningARM)
+		immutableStorageWithVersioning := *immutableStorageWithVersioningARM.(*ImmutableStorageWithVersioningARM)
 		result.Properties.ImmutableStorageWithVersioning = &immutableStorageWithVersioning
 	}
 	if containers.Metadata != nil {
@@ -1528,7 +1528,7 @@ func (versioning *ImmutableStorageWithVersioning) ConvertToARM(resolved genrunti
 	if versioning == nil {
 		return nil, nil
 	}
-	var result ImmutableStorageWithVersioningARM
+	result := &ImmutableStorageWithVersioningARM{}
 
 	// Set property ‘Enabled’:
 	if versioning.Enabled != nil {

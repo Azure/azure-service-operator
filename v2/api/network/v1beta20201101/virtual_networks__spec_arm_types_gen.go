@@ -30,12 +30,12 @@ func (networks VirtualNetworks_SpecARM) GetAPIVersion() string {
 }
 
 // GetName returns the Name of the resource
-func (networks VirtualNetworks_SpecARM) GetName() string {
+func (networks *VirtualNetworks_SpecARM) GetName() string {
 	return networks.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/virtualNetworks"
-func (networks VirtualNetworks_SpecARM) GetType() string {
+func (networks *VirtualNetworks_SpecARM) GetType() string {
 	return "Microsoft.Network/virtualNetworks"
 }
 

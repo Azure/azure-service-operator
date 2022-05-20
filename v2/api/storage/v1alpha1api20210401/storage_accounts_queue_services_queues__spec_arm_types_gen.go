@@ -21,12 +21,12 @@ func (queues StorageAccountsQueueServicesQueues_SpecARM) GetAPIVersion() string 
 }
 
 // GetName returns the Name of the resource
-func (queues StorageAccountsQueueServicesQueues_SpecARM) GetName() string {
+func (queues *StorageAccountsQueueServicesQueues_SpecARM) GetName() string {
 	return queues.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Storage/storageAccounts/queueServices/queues"
-func (queues StorageAccountsQueueServicesQueues_SpecARM) GetType() string {
+func (queues *StorageAccountsQueueServicesQueues_SpecARM) GetType() string {
 	return "Microsoft.Storage/storageAccounts/queueServices/queues"
 }
 
