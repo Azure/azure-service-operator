@@ -217,6 +217,26 @@ func printDetails(packages []string, byPackage map[string][]TestRun) {
 		// Output info on stderr
 		fmt.Fprintf(os.Stderr, "Package failed: %s\n", pkg)
 
+		{ // print package-level logs, if any
+			packageLevel := tests[0]
+			if len(packageLevel.Output) > 0 {
+				trimmedOutput, output := escapeOutput(packageLevel.Output)
+				summary := "Package-level output"
+				if trimmedOutput {
+					summary += fmt.Sprintf(" (trimmed to last %d lines) — full details available in log", maxOutputLines)
+				}
+				fmt.Printf("<details><summary>%s</summary><pre>%s</pre></details>\n\n", summary, output)
+
+				// Output info on stderr, so that package failure isn’t silent on console
+				// when running `task ci`, and that full logs are available if they get trimmed
+				fmt.Fprintln(os.Stderr, "=== PACKAGE OUTPUT ===")
+				for _, line := range packageLevel.Output {
+					fmt.Fprint(os.Stderr, line)
+				}
+				fmt.Fprintln(os.Stderr, "=== END PACKAGE OUTPUT ===")
+			}
+		}
+
 		for _, test := range tests[1:] {
 			// only printing failed tests
 			if test.Action == "fail" {
