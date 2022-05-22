@@ -296,8 +296,17 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 		if strings.EqualFold(lastId, azureGeneratedSecretsTag) && c.Kind == yaml.SequenceNode {
 			var azureGeneratedSecrets []string
 			for _, content := range c.Content {
-				azureGeneratedSecrets = append(azureGeneratedSecrets, content.Value)
+				if content.Kind == yaml.ScalarNode {
+					azureGeneratedSecrets = append(azureGeneratedSecrets, content.Value)
+				} else {
+					return errors.Errorf(
+						"unexpected yam value for %s (line %d col %d)",
+						azureGeneratedSecretsTag,
+						content.Line,
+						content.Column)
+				}
 			}
+
 			tc.SetAzureGeneratedSecrets(azureGeneratedSecrets)
 			continue
 		}
