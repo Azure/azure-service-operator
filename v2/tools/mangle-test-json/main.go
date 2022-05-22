@@ -208,7 +208,7 @@ func printDetails(packages []string, byPackage map[string][]TestRun) {
 		}
 
 		// package name as header
-		fmt.Printf("### `%s`\n\n", pkg)
+		fmt.Printf("### Package `%s` failed tests\n\n", pkg)
 
 		// Output info on stderr
 		fmt.Fprintf(os.Stderr, "Package failed: %s\n", pkg)
@@ -236,10 +236,9 @@ func printDetails(packages []string, byPackage map[string][]TestRun) {
 		for _, test := range tests[1:] {
 			// only printing failed tests
 			if test.Action == "fail" {
-				fmt.Printf("## Failed Test Details\n\n")
 
-				fmt.Printf("#### `%s`\n", test.Test)
-				fmt.Printf("Failed in %s\n:", test.RunTime)
+				fmt.Printf("#### Test `%s`\n", test.Test)
+				fmt.Printf("Failed in %s:\n", test.RunTime)
 
 				trimmedOutput, output := escapeOutput(test.Output)
 				summary := "Test output"
