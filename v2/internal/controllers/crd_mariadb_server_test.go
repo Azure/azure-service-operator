@@ -30,6 +30,7 @@ func Test_MariaDB_Server_CRUD(t *testing.T) {
 	location := "eastus" // Can't create MariaDB servers in WestUS2
 	adminUser := "testadmin"
 	adminPasswordRef := createPasswordSecret("admin", "password", tc)
+	fqdnSecret := "fqdnsecret"
 
 	server := mariadb.Server{
 		ObjectMeta: tc.MakeObjectMetaWithName(serverName),
@@ -53,12 +54,22 @@ func Test_MariaDB_Server_CRUD(t *testing.T) {
 				Name: to.StringPtr("GP_Gen5_2"),
 				Tier: &tier,
 			},
+			OperatorSpec: &mariadb.ServerOperatorSpec{
+				Secrets: &mariadb.ServerOperatorSecrets{
+					FullyQualifiedDomainName: &genruntime.SecretDestination{
+						Name: fqdnSecret,
+						Key:  "fqdn",
+					},
+				},
+			},
 		},
 	}
 
 	tc.T.Logf("Creating MariaDB Server %q", serverName)
 	tc.CreateResourcesAndWait(&server)
 	defer tc.DeleteResourcesAndWait(&server)
+
+	tc.ExpectSecretHasKeys(fqdnSecret, "fqdn")
 
 	// Configuration
 	configName := tc.NoSpaceNamer.GenerateName("mcfg")
