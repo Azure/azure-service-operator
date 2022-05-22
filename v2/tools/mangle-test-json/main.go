@@ -197,18 +197,14 @@ var maxOutputLines = 300
 
 func printDetails(packages []string, byPackage map[string][]TestRun) {
 	anyFailed := false
-	testFailed := func() {
-		if !anyFailed {
-			anyFailed = true
-			fmt.Printf("## Failed Test Details\n\n")
-		}
-	}
 
 	for _, pkg := range packages {
 		tests := byPackage[pkg]
 		// check package-level indicator, which will be first ("" test name):
 		if tests[0].Action != "fail" {
 			continue // no failed tests, skip
+		} else {
+			anyFailed = true
 		}
 
 		// package name as header
@@ -240,7 +236,7 @@ func printDetails(packages []string, byPackage map[string][]TestRun) {
 		for _, test := range tests[1:] {
 			// only printing failed tests
 			if test.Action == "fail" {
-				testFailed()
+				fmt.Printf("## Failed Test Details\n\n")
 
 				fmt.Printf("#### `%s`\n", test.Test)
 				fmt.Printf("Failed in %s\n:", test.RunTime)
