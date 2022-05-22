@@ -17,3 +17,9 @@ type StringMatcher interface {
 	// WasMatched returns nil if the matcher had a match, otherwise returning a diagnostic error
 	WasMatched() error
 }
+
+// NewStringMatcher returns a matcher for the specified string
+// Different strings may return different implementations
+func NewStringMatcher(matcher string) StringMatcher {
+	return newLiteralMatcher(matcher)
+}
