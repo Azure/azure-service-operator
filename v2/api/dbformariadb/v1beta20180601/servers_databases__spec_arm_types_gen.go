@@ -27,12 +27,12 @@ func (databases ServersDatabases_SpecARM) GetAPIVersion() string {
 }
 
 // GetName returns the Name of the resource
-func (databases ServersDatabases_SpecARM) GetName() string {
+func (databases *ServersDatabases_SpecARM) GetName() string {
 	return databases.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DBforMariaDB/servers/databases"
-func (databases ServersDatabases_SpecARM) GetType() string {
+func (databases *ServersDatabases_SpecARM) GetType() string {
 	return "Microsoft.DBforMariaDB/servers/databases"
 }
 

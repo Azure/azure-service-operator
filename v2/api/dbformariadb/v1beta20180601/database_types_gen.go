@@ -534,7 +534,7 @@ func (databases *ServersDatabases_Spec) ConvertToARM(resolved genruntime.Convert
 	if databases == nil {
 		return nil, nil
 	}
-	var result ServersDatabases_SpecARM
+	result := &ServersDatabases_SpecARM{}
 
 	// Set property ‘Location’:
 	if databases.Location != nil {

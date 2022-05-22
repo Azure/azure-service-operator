@@ -611,7 +611,7 @@ func (configurations *ServersConfigurations_Spec) ConvertToARM(resolved genrunti
 	if configurations == nil {
 		return nil, nil
 	}
-	var result ServersConfigurations_SpecARM
+	result := &ServersConfigurations_SpecARM{}
 
 	// Set property ‘Location’:
 	if configurations.Location != nil {
