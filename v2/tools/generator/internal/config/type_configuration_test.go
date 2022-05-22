@@ -55,6 +55,18 @@ func TestTypeConfiguration_WhenYAMLBadlyFormed_ReturnsError(t *testing.T) {
 	g.Expect(err).NotTo(Succeed())
 }
 
+func TestTypeConfiguration_WhenAzureSecretsBadlyFormed_ReturnsError(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	yamlBytes := loadTestData(t)
+
+	var typeConfig TypeConfiguration
+	err := yaml.Unmarshal(yamlBytes, &typeConfig)
+	g.Expect(err).NotTo(Succeed())
+	g.Expect(err.Error()).To((ContainSubstring(azureGeneratedSecretsTag)))
+}
+
 /*
  * Type Rename tests
  */
