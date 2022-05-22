@@ -197,33 +197,48 @@ var maxOutputLines = 300
 
 func printDetails(packages []string, byPackage map[string][]TestRun) {
 	anyFailed := false
-	testFailed := func() {
-		if !anyFailed {
-			anyFailed = true
-			fmt.Printf("## Failed Test Details\n\n")
-		}
-	}
 
 	for _, pkg := range packages {
 		tests := byPackage[pkg]
 		// check package-level indicator, which will be first ("" test name):
 		if tests[0].Action != "fail" {
 			continue // no failed tests, skip
+		} else {
+			anyFailed = true
 		}
 
 		// package name as header
-		fmt.Printf("### `%s`\n\n", pkg)
+		fmt.Printf("### Package `%s` failed tests\n\n", pkg)
 
 		// Output info on stderr
 		fmt.Fprintf(os.Stderr, "Package failed: %s\n", pkg)
 
+		{ // print package-level logs, if any
+			packageLevel := tests[0]
+			if len(packageLevel.Output) > 0 {
+				trimmedOutput, output := escapeOutput(packageLevel.Output)
+				summary := "Package-level output"
+				if trimmedOutput {
+					summary += fmt.Sprintf(" (trimmed to last %d lines) — full details available in log", maxOutputLines)
+				}
+				fmt.Printf("<details><summary>%s</summary><pre>%s</pre></details>\n\n", summary, output)
+
+				// Output info on stderr, so that package failure isn’t silent on console
+				// when running `task ci`, and that full logs are available if they get trimmed
+				fmt.Fprintln(os.Stderr, "=== PACKAGE OUTPUT ===")
+				for _, line := range packageLevel.Output {
+					fmt.Fprint(os.Stderr, line)
+				}
+				fmt.Fprintln(os.Stderr, "=== END PACKAGE OUTPUT ===")
+			}
+		}
+
 		for _, test := range tests[1:] {
 			// only printing failed tests
 			if test.Action == "fail" {
-				testFailed()
 
-				fmt.Printf("#### `%s`\n", test.Test)
-				fmt.Printf("Failed in %s\n:", test.RunTime)
+				fmt.Printf("#### Test `%s`\n", test.Test)
+				fmt.Printf("Failed in %s:\n", test.RunTime)
 
 				trimmedOutput, output := escapeOutput(test.Output)
 				summary := "Test output"
