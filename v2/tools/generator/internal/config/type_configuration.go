@@ -295,22 +295,16 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 		// - secret2
 		if strings.EqualFold(lastId, azureGeneratedSecretsTag) && c.Kind == yaml.SequenceNode {
 			var azureGeneratedSecrets []string
-			var errs []error
 			for _, content := range c.Content {
 				if content.Kind == yaml.ScalarNode {
 					azureGeneratedSecrets = append(azureGeneratedSecrets, content.Value)
 				} else {
-					errs = append(errs, errors.Errorf(
-						"unexpected yaml (line %d col %d)",
+					return errors.Errorf(
+						"unexpected yam value for %s (line %d col %d)",
+						azureGeneratedSecretsTag,
 						content.Line,
-						content.Column))
+						content.Column)
 				}
-			}
-
-			err := kerrors.NewAggregate(errs)
-			if err != nil {
-				return errors.Wrapf(
-					err, "type configuration, unexpected configuration for %s", azureGeneratedSecretsTag)
 			}
 
 			tc.SetAzureGeneratedSecrets(azureGeneratedSecrets)
