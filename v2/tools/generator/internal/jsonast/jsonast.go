@@ -480,7 +480,7 @@ func objectHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (
 	// if we _only_ have an 'additionalProperties' property, then we are making
 	// a dictionary-like type, and we won't generate an object type; instead, we
 	// will just use the 'additionalProperties' type directly
-	if len(properties) == 1 && properties[0].PropertyName() == "additionalProperties" {
+	if len(properties) == 1 && properties[0].PropertyName() == astmodel.AdditionalPropertiesPropertyName {
 		return properties[0].PropertyType(), nil
 	}
 
@@ -527,8 +527,8 @@ func generatePropertyDefinition(ctx context.Context, scanner *SchemaScanner, raw
 func getProperties(
 	ctx context.Context,
 	scanner *SchemaScanner,
-	schema Schema) ([]*astmodel.PropertyDefinition, error) {
-
+	schema Schema,
+) ([]*astmodel.PropertyDefinition, error) {
 	ctx, span := tab.StartSpan(ctx, "getProperties")
 
 	defer span.End()
@@ -604,8 +604,8 @@ func getProperties(
 			if len(properties) == 0 {
 				// TODO: for JSON serialization this needs to be unpacked into "parent"
 				additionalProperties := astmodel.NewPropertyDefinition(
-					"additionalProperties",
-					"additionalProperties",
+					astmodel.AdditionalPropertiesPropertyName,
+					astmodel.AdditionalPropertiesJsonName,
 					astmodel.NewStringMapType(astmodel.AnyType))
 
 				properties = append(properties, additionalProperties)
@@ -628,8 +628,8 @@ func getProperties(
 			}
 
 			additionalProperties := astmodel.NewPropertyDefinition(
-				astmodel.PropertyName("additionalProperties"),
-				"additionalProperties",
+				astmodel.AdditionalPropertiesPropertyName,
+				astmodel.AdditionalPropertiesJsonName,
 				astmodel.NewStringMapType(additionalPropsType))
 
 			properties = append(properties, additionalProperties)
@@ -677,8 +677,8 @@ func generateDefinitionsFor(
 	ctx context.Context,
 	scanner *SchemaScanner,
 	typeName astmodel.TypeName,
-	schema Schema) (astmodel.Type, error) {
-
+	schema Schema,
+) (astmodel.Type, error) {
 	schemaType, err := getSubSchemaType(schema)
 	if err != nil {
 		return nil, err
