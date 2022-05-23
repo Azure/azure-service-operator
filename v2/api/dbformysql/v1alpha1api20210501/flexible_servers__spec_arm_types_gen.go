@@ -18,16 +18,16 @@ var _ genruntime.ARMResourceSpec = &FlexibleServers_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-01"
 func (servers FlexibleServers_SpecARM) GetAPIVersion() string {
-	return "2021-05-01"
+	return string(APIVersionValue)
 }
 
 // GetName returns the Name of the resource
-func (servers FlexibleServers_SpecARM) GetName() string {
+func (servers *FlexibleServers_SpecARM) GetName() string {
 	return servers.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DBforMySQL/flexibleServers"
-func (servers FlexibleServers_SpecARM) GetType() string {
+func (servers *FlexibleServers_SpecARM) GetType() string {
 	return "Microsoft.DBforMySQL/flexibleServers"
 }
 

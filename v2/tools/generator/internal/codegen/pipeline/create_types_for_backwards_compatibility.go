@@ -8,11 +8,13 @@ package pipeline
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	"github.com/pkg/errors"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 )
 
 const CreateTypesForBackwardCompatibilityID = "createTypesForBackwardCompatibility"
@@ -21,33 +23,34 @@ const CreateTypesForBackwardCompatibilityID = "createTypesForBackwardCompatibili
 // provide backward compatibility with previous releases of Azure Service Operator.
 // Backward compatibility versions are created for all versions to allow users of older versions of the operator to
 // easily upgrade.
-func CreateTypesForBackwardCompatibility(prefix string) *Stage {
+func CreateTypesForBackwardCompatibility(
+	prefix string,
+	configuration *config.ObjectModelConfiguration) *Stage {
 	stage := NewStage(
 		CreateTypesForBackwardCompatibilityID,
 		"Create clones of types for backward compatibility with prior ASO versions",
 		func(ctx context.Context, state *State) (*State, error) {
-			// Update the description of each to reflect purpose
-			withDescriptions, err := addCompatibilityComments(state.Definitions())
+
+			resources, err := findResourcesRequiringCompatibilityVersion(prefix, state.Definitions(), configuration)
 			if err != nil {
-				return nil, errors.Wrap(err, "changing comments of types created for backward compatibility")
+				return nil, err
 			}
 
-			// Work out the new names for all our new types
-			renames := createBackwardCompatibilityRenameMap(state.Definitions(), prefix)
-
-			// Rename all the types
-			visitor := astmodel.NewRenamingVisitor(renames)
-
-			renamed, err := visitor.RenameAll(withDescriptions)
+			err = configuration.VerifySupportedFromConsumed()
 			if err != nil {
-				return nil, errors.Wrap(err, "creating types for backward compatibility")
+				return nil, err
+			}
+
+			compatibilityDefs, err := createBackwardCompatibleDefinitions(resources, state.Definitions())
+			if err != nil {
+				return nil, err
 			}
 
 			// Add the new types into our state
-			defs := state.Definitions()
-			defs.AddTypes(renamed)
+			finalDefs := state.Definitions()
+			finalDefs.AddTypes(compatibilityDefs)
 
-			return state.WithDefinitions(defs), nil
+			return state.WithDefinitions(finalDefs), nil
 		})
 
 	//
@@ -71,6 +74,70 @@ func CreateTypesForBackwardCompatibility(prefix string) *Stage {
 	)
 
 	return stage
+}
+
+func createBackwardCompatibleDefinitions(
+	resources astmodel.TypeDefinitionSet,
+	definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
+
+	// Find all type definitions needed for the resources specified
+	defs, err := astmodel.FindConnectedDefinitions(definitions, resources)
+	if err != nil {
+		return nil, errors.Wrap(err, "finding types connected to resources requiring backward compatibility")
+	}
+
+	// Update the description of each to reflect purpose
+	withDescriptions, err := addCompatibilityComments(defs)
+	if err != nil {
+		return nil, errors.Wrap(err, "changing comments of types created for backward compatibility")
+	}
+
+	// Rename all the types into our compatibility namespace
+	renames := createBackwardCompatibilityRenameMap(defs, "v1alpha1api")
+	visitor := astmodel.NewRenamingVisitor(renames)
+	renamed, err := visitor.RenameAll(withDescriptions)
+	if err != nil {
+		return nil, errors.Wrap(err, "creating types for backward compatibility")
+	}
+
+	return renamed, nil
+}
+
+func findResourcesRequiringCompatibilityVersion(
+	prefix string,
+	definitions astmodel.TypeDefinitionSet,
+	configuration *config.ObjectModelConfiguration) (astmodel.TypeDefinitionSet, error) {
+	compat := make(astmodel.TypeDefinitionSet)
+	var errs []error
+	resources := astmodel.FindResourceDefinitions(definitions)
+	for name, def := range resources {
+
+		// Find out when we started supporting this resource
+		from, err := configuration.LookupSupportedFrom(name)
+		if err != nil {
+			if config.IsNotConfiguredError(err) {
+				// $supportedFrom is not configured, skip this resource
+				continue
+			}
+
+			// If something else went wrong, keep details
+			errs = append(errs, err)
+		}
+
+		if strings.HasPrefix(from, prefix) {
+			compat.Add(def)
+		}
+	}
+
+	err := kerrors.NewAggregate(errs)
+	if err != nil {
+		return nil, errors.Wrapf(
+			err,
+			"finding resources introduced in versions with prefix %q",
+			prefix)
+	}
+
+	return compat, nil
 }
 
 func addCompatibilityComments(defs astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
@@ -118,7 +185,8 @@ func removePropertyDescriptions(ot *astmodel.ObjectType) astmodel.Type {
 
 func createBackwardCompatibilityRenameMap(
 	set astmodel.TypeDefinitionSet,
-	versionPrefix string) map[astmodel.TypeName]astmodel.TypeName {
+	versionPrefix string,
+) map[astmodel.TypeName]astmodel.TypeName {
 	result := make(map[astmodel.TypeName]astmodel.TypeName)
 
 	for name := range set {

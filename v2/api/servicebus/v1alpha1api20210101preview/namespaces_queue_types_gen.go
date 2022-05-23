@@ -112,7 +112,7 @@ func (queue *NamespacesQueue) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-01-01-preview"
 func (queue NamespacesQueue) GetAPIVersion() string {
-	return "2021-01-01-preview"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -368,7 +368,7 @@ func (queues *NamespacesQueues_Spec) ConvertToARM(resolved genruntime.ConvertToA
 	if queues == nil {
 		return nil, nil
 	}
-	var result NamespacesQueues_SpecARM
+	result := &NamespacesQueues_SpecARM{}
 
 	// Set property ‘Location’:
 	if queues.Location != nil {

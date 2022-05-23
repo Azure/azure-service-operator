@@ -20,16 +20,16 @@ var _ genruntime.ARMResourceSpec = &EventSubscriptions_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
 func (subscriptions EventSubscriptions_SpecARM) GetAPIVersion() string {
-	return "2020-06-01"
+	return string(APIVersionValue)
 }
 
 // GetName returns the Name of the resource
-func (subscriptions EventSubscriptions_SpecARM) GetName() string {
+func (subscriptions *EventSubscriptions_SpecARM) GetName() string {
 	return subscriptions.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.EventGrid/eventSubscriptions"
-func (subscriptions EventSubscriptions_SpecARM) GetType() string {
+func (subscriptions *EventSubscriptions_SpecARM) GetType() string {
 	return "Microsoft.EventGrid/eventSubscriptions"
 }
 

@@ -98,7 +98,7 @@ func (network *VirtualNetwork) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
 func (network VirtualNetwork) GetAPIVersion() string {
-	return "2020-11-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -870,11 +870,6 @@ func (network *VirtualNetwork_Status) AssignPropertiesToVirtualNetworkStatus(des
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"2020-11-01"}
-type VirtualNetworksSpecAPIVersion string
-
-const VirtualNetworksSpecAPIVersion20201101 = VirtualNetworksSpecAPIVersion("2020-11-01")
-
 type VirtualNetworks_Spec struct {
 	// +kubebuilder:validation:Required
 	// AddressSpace: The AddressSpace that contains an array of IP address ranges that can be used by subnets.
@@ -926,7 +921,7 @@ func (networks *VirtualNetworks_Spec) ConvertToARM(resolved genruntime.ConvertTo
 	if networks == nil {
 		return nil, nil
 	}
-	var result VirtualNetworks_SpecARM
+	result := &VirtualNetworks_SpecARM{}
 
 	// Set property ‘ExtendedLocation’:
 	if networks.ExtendedLocation != nil {
@@ -934,7 +929,7 @@ func (networks *VirtualNetworks_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		if err != nil {
 			return nil, err
 		}
-		extendedLocation := extendedLocationARM.(ExtendedLocationARM)
+		extendedLocation := *extendedLocationARM.(*ExtendedLocationARM)
 		result.ExtendedLocation = &extendedLocation
 	}
 
@@ -962,7 +957,7 @@ func (networks *VirtualNetworks_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		if err != nil {
 			return nil, err
 		}
-		addressSpace := addressSpaceARM.(AddressSpaceARM)
+		addressSpace := *addressSpaceARM.(*AddressSpaceARM)
 		result.Properties.AddressSpace = &addressSpace
 	}
 	if networks.BgpCommunities != nil {
@@ -970,7 +965,7 @@ func (networks *VirtualNetworks_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		if err != nil {
 			return nil, err
 		}
-		bgpCommunities := bgpCommunitiesARM.(VirtualNetworkBgpCommunitiesARM)
+		bgpCommunities := *bgpCommunitiesARM.(*VirtualNetworkBgpCommunitiesARM)
 		result.Properties.BgpCommunities = &bgpCommunities
 	}
 	if networks.DdosProtectionPlan != nil {
@@ -978,7 +973,7 @@ func (networks *VirtualNetworks_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		if err != nil {
 			return nil, err
 		}
-		ddosProtectionPlan := ddosProtectionPlanARM.(SubResourceARM)
+		ddosProtectionPlan := *ddosProtectionPlanARM.(*SubResourceARM)
 		result.Properties.DdosProtectionPlan = &ddosProtectionPlan
 	}
 	if networks.DhcpOptions != nil {
@@ -986,7 +981,7 @@ func (networks *VirtualNetworks_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		if err != nil {
 			return nil, err
 		}
-		dhcpOptions := dhcpOptionsARM.(DhcpOptionsARM)
+		dhcpOptions := *dhcpOptionsARM.(*DhcpOptionsARM)
 		result.Properties.DhcpOptions = &dhcpOptions
 	}
 	if networks.EnableDdosProtection != nil {
@@ -1002,7 +997,7 @@ func (networks *VirtualNetworks_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.IpAllocations = append(result.Properties.IpAllocations, itemARM.(SubResourceARM))
+		result.Properties.IpAllocations = append(result.Properties.IpAllocations, *itemARM.(*SubResourceARM))
 	}
 
 	// Set property ‘Tags’:
@@ -1471,7 +1466,7 @@ func (space *AddressSpace) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	if space == nil {
 		return nil, nil
 	}
-	var result AddressSpaceARM
+	result := &AddressSpaceARM{}
 
 	// Set property ‘AddressPrefixes’:
 	for _, item := range space.AddressPrefixes {
@@ -1601,7 +1596,7 @@ func (options *DhcpOptions) ConvertToARM(resolved genruntime.ConvertToARMResolve
 	if options == nil {
 		return nil, nil
 	}
-	var result DhcpOptionsARM
+	result := &DhcpOptionsARM{}
 
 	// Set property ‘DnsServers’:
 	for _, item := range options.DnsServers {
@@ -1731,7 +1726,7 @@ func (communities *VirtualNetworkBgpCommunities) ConvertToARM(resolved genruntim
 	if communities == nil {
 		return nil, nil
 	}
-	var result VirtualNetworkBgpCommunitiesARM
+	result := &VirtualNetworkBgpCommunitiesARM{}
 
 	// Set property ‘VirtualNetworkCommunity’:
 	if communities.VirtualNetworkCommunity != nil {

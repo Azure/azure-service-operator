@@ -112,7 +112,7 @@ func (subnet *VirtualNetworksSubnet) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
 func (subnet VirtualNetworksSubnet) GetAPIVersion() string {
-	return "2020-11-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -354,7 +354,7 @@ type Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded struct {
 	ProvisioningState                 *ProvisioningState_Status                                                 `json:"provisioningState,omitempty"`
 	Purpose                           *string                                                                   `json:"purpose,omitempty"`
 	ResourceNavigationLinks           []ResourceNavigationLink_Status                                           `json:"resourceNavigationLinks,omitempty"`
-	RouteTable                        *RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded              `json:"routeTable,omitempty"`
+	RouteTable                        *RouteTable_Status_SubResourceEmbedded                                    `json:"routeTable,omitempty"`
 	ServiceAssociationLinks           []ServiceAssociationLink_Status                                           `json:"serviceAssociationLinks,omitempty"`
 	ServiceEndpointPolicies           []ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded  `json:"serviceEndpointPolicies,omitempty"`
 	ServiceEndpoints                  []ServiceEndpointPropertiesFormat_Status                                  `json:"serviceEndpoints,omitempty"`
@@ -621,7 +621,7 @@ func (embedded *Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) Populat
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RouteTable != nil {
-			var routeTable1 RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded
+			var routeTable1 RouteTable_Status_SubResourceEmbedded
 			err := routeTable1.PopulateFromARM(owner, *typedInput.Properties.RouteTable)
 			if err != nil {
 				return err
@@ -880,10 +880,10 @@ func (embedded *Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignP
 
 	// RouteTable
 	if source.RouteTable != nil {
-		var routeTable RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded
-		err := routeTable.AssignPropertiesFromRouteTableStatusVirtualNetworksSubnetSubResourceEmbedded(source.RouteTable)
+		var routeTable RouteTable_Status_SubResourceEmbedded
+		err := routeTable.AssignPropertiesFromRouteTableStatusSubResourceEmbedded(source.RouteTable)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromRouteTableStatusVirtualNetworksSubnetSubResourceEmbedded() to populate field RouteTable")
+			return errors.Wrap(err, "calling AssignPropertiesFromRouteTableStatusSubResourceEmbedded() to populate field RouteTable")
 		}
 		embedded.RouteTable = &routeTable
 	} else {
@@ -1153,10 +1153,10 @@ func (embedded *Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignP
 
 	// RouteTable
 	if embedded.RouteTable != nil {
-		var routeTable alpha20201101s.RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded
-		err := embedded.RouteTable.AssignPropertiesToRouteTableStatusVirtualNetworksSubnetSubResourceEmbedded(&routeTable)
+		var routeTable alpha20201101s.RouteTable_Status_SubResourceEmbedded
+		err := embedded.RouteTable.AssignPropertiesToRouteTableStatusSubResourceEmbedded(&routeTable)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToRouteTableStatusVirtualNetworksSubnetSubResourceEmbedded() to populate field RouteTable")
+			return errors.Wrap(err, "calling AssignPropertiesToRouteTableStatusSubResourceEmbedded() to populate field RouteTable")
 		}
 		destination.RouteTable = &routeTable
 	} else {
@@ -1263,7 +1263,7 @@ func (subnets *VirtualNetworksSubnets_Spec) ConvertToARM(resolved genruntime.Con
 	if subnets == nil {
 		return nil, nil
 	}
-	var result VirtualNetworksSubnets_SpecARM
+	result := &VirtualNetworksSubnets_SpecARM{}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
@@ -1294,21 +1294,21 @@ func (subnets *VirtualNetworksSubnets_Spec) ConvertToARM(resolved genruntime.Con
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.Delegations = append(result.Properties.Delegations, itemARM.(VirtualNetworksSubnets_Spec_Properties_DelegationsARM))
+		result.Properties.Delegations = append(result.Properties.Delegations, *itemARM.(*VirtualNetworksSubnets_Spec_Properties_DelegationsARM))
 	}
 	for _, item := range subnets.IpAllocations {
 		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.IpAllocations = append(result.Properties.IpAllocations, itemARM.(SubResourceARM))
+		result.Properties.IpAllocations = append(result.Properties.IpAllocations, *itemARM.(*SubResourceARM))
 	}
 	if subnets.NatGateway != nil {
 		natGatewayARM, err := (*subnets.NatGateway).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		natGateway := natGatewayARM.(SubResourceARM)
+		natGateway := *natGatewayARM.(*SubResourceARM)
 		result.Properties.NatGateway = &natGateway
 	}
 	if subnets.NetworkSecurityGroup != nil {
@@ -1316,7 +1316,7 @@ func (subnets *VirtualNetworksSubnets_Spec) ConvertToARM(resolved genruntime.Con
 		if err != nil {
 			return nil, err
 		}
-		networkSecurityGroup := networkSecurityGroupARM.(SubResourceARM)
+		networkSecurityGroup := *networkSecurityGroupARM.(*SubResourceARM)
 		result.Properties.NetworkSecurityGroup = &networkSecurityGroup
 	}
 	if subnets.PrivateEndpointNetworkPolicies != nil {
@@ -1332,7 +1332,7 @@ func (subnets *VirtualNetworksSubnets_Spec) ConvertToARM(resolved genruntime.Con
 		if err != nil {
 			return nil, err
 		}
-		routeTable := routeTableARM.(SubResourceARM)
+		routeTable := *routeTableARM.(*SubResourceARM)
 		result.Properties.RouteTable = &routeTable
 	}
 	for _, item := range subnets.ServiceEndpointPolicies {
@@ -1340,14 +1340,14 @@ func (subnets *VirtualNetworksSubnets_Spec) ConvertToARM(resolved genruntime.Con
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.ServiceEndpointPolicies = append(result.Properties.ServiceEndpointPolicies, itemARM.(SubResourceARM))
+		result.Properties.ServiceEndpointPolicies = append(result.Properties.ServiceEndpointPolicies, *itemARM.(*SubResourceARM))
 	}
 	for _, item := range subnets.ServiceEndpoints {
 		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.ServiceEndpoints = append(result.Properties.ServiceEndpoints, itemARM.(ServiceEndpointPropertiesFormatARM))
+		result.Properties.ServiceEndpoints = append(result.Properties.ServiceEndpoints, *itemARM.(*ServiceEndpointPropertiesFormatARM))
 	}
 	return result, nil
 }
@@ -2790,23 +2790,23 @@ func (link *ResourceNavigationLink_Status) AssignPropertiesToResourceNavigationL
 	return nil
 }
 
-// Deprecated version of RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded. Use v1beta20201101.RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded instead
-type RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded struct {
+// Deprecated version of RouteTable_Status_SubResourceEmbedded. Use v1beta20201101.RouteTable_Status_SubResourceEmbedded instead
+type RouteTable_Status_SubResourceEmbedded struct {
 	Id *string `json:"id,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded{}
+var _ genruntime.FromARMConverter = &RouteTable_Status_SubResourceEmbedded{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (embedded *RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM{}
+func (embedded *RouteTable_Status_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &RouteTable_Status_SubResourceEmbeddedARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (embedded *RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM)
+func (embedded *RouteTable_Status_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(RouteTable_Status_SubResourceEmbeddedARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RouteTable_Status_SubResourceEmbeddedARM, got %T", armInput)
 	}
 
 	// Set property ‘Id’:
@@ -2819,8 +2819,8 @@ func (embedded *RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded) Pop
 	return nil
 }
 
-// AssignPropertiesFromRouteTableStatusVirtualNetworksSubnetSubResourceEmbedded populates our RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded from the provided source RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded
-func (embedded *RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignPropertiesFromRouteTableStatusVirtualNetworksSubnetSubResourceEmbedded(source *alpha20201101s.RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded) error {
+// AssignPropertiesFromRouteTableStatusSubResourceEmbedded populates our RouteTable_Status_SubResourceEmbedded from the provided source RouteTable_Status_SubResourceEmbedded
+func (embedded *RouteTable_Status_SubResourceEmbedded) AssignPropertiesFromRouteTableStatusSubResourceEmbedded(source *alpha20201101s.RouteTable_Status_SubResourceEmbedded) error {
 
 	// Id
 	embedded.Id = genruntime.ClonePointerToString(source.Id)
@@ -2829,8 +2829,8 @@ func (embedded *RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded) Ass
 	return nil
 }
 
-// AssignPropertiesToRouteTableStatusVirtualNetworksSubnetSubResourceEmbedded populates the provided destination RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded from our RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded
-func (embedded *RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignPropertiesToRouteTableStatusVirtualNetworksSubnetSubResourceEmbedded(destination *alpha20201101s.RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded) error {
+// AssignPropertiesToRouteTableStatusSubResourceEmbedded populates the provided destination RouteTable_Status_SubResourceEmbedded from our RouteTable_Status_SubResourceEmbedded
+func (embedded *RouteTable_Status_SubResourceEmbedded) AssignPropertiesToRouteTableStatusSubResourceEmbedded(destination *alpha20201101s.RouteTable_Status_SubResourceEmbedded) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3128,7 +3128,7 @@ func (format *ServiceEndpointPropertiesFormat) ConvertToARM(resolved genruntime.
 	if format == nil {
 		return nil, nil
 	}
-	var result ServiceEndpointPropertiesFormatARM
+	result := &ServiceEndpointPropertiesFormatARM{}
 
 	// Set property ‘Locations’:
 	for _, item := range format.Locations {
@@ -3312,7 +3312,7 @@ func (delegations *VirtualNetworksSubnets_Spec_Properties_Delegations) ConvertTo
 	if delegations == nil {
 		return nil, nil
 	}
-	var result VirtualNetworksSubnets_Spec_Properties_DelegationsARM
+	result := &VirtualNetworksSubnets_Spec_Properties_DelegationsARM{}
 
 	// Set property ‘Name’:
 	if delegations.Name != nil {

@@ -98,7 +98,7 @@ func (redis *Redis) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-12-01"
 func (redis Redis) GetAPIVersion() string {
-	return "2020-12-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -338,6 +338,11 @@ type RedisList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Redis `json:"items"`
 }
+
+// +kubebuilder:validation:Enum={"2020-12-01"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2020-12-01")
 
 type RedisResource_Status struct {
 	// Conditions: The observed state of the resource
@@ -1053,11 +1058,6 @@ func (resource *RedisResource_Status) AssignPropertiesToRedisResourceStatus(dest
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"2020-12-01"}
-type RedisSpecAPIVersion string
-
-const RedisSpecAPIVersion20201201 = RedisSpecAPIVersion("2020-12-01")
-
 type Redis_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
@@ -1135,7 +1135,7 @@ func (redis *Redis_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 	if redis == nil {
 		return nil, nil
 	}
-	var result Redis_SpecARM
+	result := &Redis_SpecARM{}
 
 	// Set property ‘Location’:
 	if redis.Location != nil {
@@ -1200,7 +1200,7 @@ func (redis *Redis_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 		if err != nil {
 			return nil, err
 		}
-		sku := skuARM.(SkuARM)
+		sku := *skuARM.(*SkuARM)
 		result.Properties.Sku = &sku
 	}
 	if redis.StaticIP != nil {
@@ -2075,7 +2075,7 @@ func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 	if sku == nil {
 		return nil, nil
 	}
-	var result SkuARM
+	result := &SkuARM{}
 
 	// Set property ‘Capacity’:
 	if sku.Capacity != nil {

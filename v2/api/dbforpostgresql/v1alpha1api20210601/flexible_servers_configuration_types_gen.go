@@ -112,7 +112,7 @@ func (configuration *FlexibleServersConfiguration) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-06-01"
 func (configuration FlexibleServersConfiguration) GetAPIVersion() string {
-	return "2021-06-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -751,7 +751,7 @@ func (configurations *FlexibleServersConfigurations_Spec) ConvertToARM(resolved 
 	if configurations == nil {
 		return nil, nil
 	}
-	var result FlexibleServersConfigurations_SpecARM
+	result := &FlexibleServersConfigurations_SpecARM{}
 
 	// Set property ‘Location’:
 	if configurations.Location != nil {

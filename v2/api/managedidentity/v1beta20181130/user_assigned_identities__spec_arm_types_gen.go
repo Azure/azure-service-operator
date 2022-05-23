@@ -20,15 +20,15 @@ var _ genruntime.ARMResourceSpec = &UserAssignedIdentities_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2018-11-30"
 func (identities UserAssignedIdentities_SpecARM) GetAPIVersion() string {
-	return "2018-11-30"
+	return string(APIVersionValue)
 }
 
 // GetName returns the Name of the resource
-func (identities UserAssignedIdentities_SpecARM) GetName() string {
+func (identities *UserAssignedIdentities_SpecARM) GetName() string {
 	return identities.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.ManagedIdentity/userAssignedIdentities"
-func (identities UserAssignedIdentities_SpecARM) GetType() string {
+func (identities *UserAssignedIdentities_SpecARM) GetType() string {
 	return "Microsoft.ManagedIdentity/userAssignedIdentities"
 }

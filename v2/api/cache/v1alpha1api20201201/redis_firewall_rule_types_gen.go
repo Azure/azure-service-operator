@@ -112,7 +112,7 @@ func (rule *RedisFirewallRule) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-12-01"
 func (rule RedisFirewallRule) GetAPIVersion() string {
-	return "2020-12-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -534,7 +534,7 @@ func (rules *RedisFirewallRules_Spec) ConvertToARM(resolved genruntime.ConvertTo
 	if rules == nil {
 		return nil, nil
 	}
-	var result RedisFirewallRules_SpecARM
+	result := &RedisFirewallRules_SpecARM{}
 
 	// Set property ‘Location’:
 	if rules.Location != nil {

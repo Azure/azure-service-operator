@@ -30,7 +30,7 @@ type Defaulter interface {
 }
 
 // ValidateWriteOnceProperties function validates the update on WriteOnce properties.
-func ValidateWriteOnceProperties(oldObj MetaObject, newObj MetaObject) error {
+func ValidateWriteOnceProperties(oldObj ARMMetaObject, newObj ARMMetaObject) error {
 	var errs []error
 
 	if !IsResourceCreatedSuccessfully(newObj) {
@@ -49,6 +49,6 @@ func ValidateWriteOnceProperties(oldObj MetaObject, newObj MetaObject) error {
 	return kerrors.NewAggregate(errs)
 }
 
-func IsResourceCreatedSuccessfully(obj MetaObject) bool {
+func IsResourceCreatedSuccessfully(obj ARMMetaObject) bool {
 	return GetResourceIDOrDefault(obj) != ""
 }

@@ -112,7 +112,7 @@ func (database *FlexibleServersDatabase) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-06-01"
 func (database FlexibleServersDatabase) GetAPIVersion() string {
-	return "2021-06-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -567,7 +567,7 @@ func (databases *FlexibleServersDatabases_Spec) ConvertToARM(resolved genruntime
 	if databases == nil {
 		return nil, nil
 	}
-	var result FlexibleServersDatabases_SpecARM
+	result := &FlexibleServersDatabases_SpecARM{}
 
 	// Set property ‘Location’:
 	if databases.Location != nil {

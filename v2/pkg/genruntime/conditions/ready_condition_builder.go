@@ -14,6 +14,9 @@ const (
 	ReasonSecretNotFound                  = "SecretNotFound"
 	ReasonReferenceNotFound               = "ReferenceNotFound"
 	ReasonSecretWriteFailure              = "FailedWritingSecret"
+
+	// ReasonFailed is a catch-all error code for when we don't have a more specific error classification
+	ReasonFailed = "Failed"
 )
 
 func NewReadyConditionBuilder(builder PositiveConditionBuilderInterface) *ReadyConditionBuilder {

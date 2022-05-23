@@ -91,7 +91,7 @@ func (service *StorageAccountsBlobService) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-04-01"
 func (service StorageAccountsBlobService) GetAPIVersion() string {
-	return "2021-04-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -821,11 +821,6 @@ func (properties *BlobServiceProperties_Status) AssignPropertiesToBlobServicePro
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"2021-04-01"}
-type StorageAccountsBlobServicesSpecAPIVersion string
-
-const StorageAccountsBlobServicesSpecAPIVersion20210401 = StorageAccountsBlobServicesSpecAPIVersion("2021-04-01")
-
 type StorageAccountsBlobServices_Spec struct {
 	// AutomaticSnapshotPolicyEnabled: Deprecated in favor of isVersioningEnabled property.
 	AutomaticSnapshotPolicyEnabled *bool `json:"automaticSnapshotPolicyEnabled,omitempty"`
@@ -875,7 +870,7 @@ func (services *StorageAccountsBlobServices_Spec) ConvertToARM(resolved genrunti
 	if services == nil {
 		return nil, nil
 	}
-	var result StorageAccountsBlobServices_SpecARM
+	result := &StorageAccountsBlobServices_SpecARM{}
 
 	// Set property ‘Location’:
 	if services.Location != nil {
@@ -907,7 +902,7 @@ func (services *StorageAccountsBlobServices_Spec) ConvertToARM(resolved genrunti
 		if err != nil {
 			return nil, err
 		}
-		changeFeed := changeFeedARM.(ChangeFeedARM)
+		changeFeed := *changeFeedARM.(*ChangeFeedARM)
 		result.Properties.ChangeFeed = &changeFeed
 	}
 	if services.ContainerDeleteRetentionPolicy != nil {
@@ -915,7 +910,7 @@ func (services *StorageAccountsBlobServices_Spec) ConvertToARM(resolved genrunti
 		if err != nil {
 			return nil, err
 		}
-		containerDeleteRetentionPolicy := containerDeleteRetentionPolicyARM.(DeleteRetentionPolicyARM)
+		containerDeleteRetentionPolicy := *containerDeleteRetentionPolicyARM.(*DeleteRetentionPolicyARM)
 		result.Properties.ContainerDeleteRetentionPolicy = &containerDeleteRetentionPolicy
 	}
 	if services.Cors != nil {
@@ -923,7 +918,7 @@ func (services *StorageAccountsBlobServices_Spec) ConvertToARM(resolved genrunti
 		if err != nil {
 			return nil, err
 		}
-		cors := corsARM.(CorsRulesARM)
+		cors := *corsARM.(*CorsRulesARM)
 		result.Properties.Cors = &cors
 	}
 	if services.DefaultServiceVersion != nil {
@@ -935,7 +930,7 @@ func (services *StorageAccountsBlobServices_Spec) ConvertToARM(resolved genrunti
 		if err != nil {
 			return nil, err
 		}
-		deleteRetentionPolicy := deleteRetentionPolicyARM.(DeleteRetentionPolicyARM)
+		deleteRetentionPolicy := *deleteRetentionPolicyARM.(*DeleteRetentionPolicyARM)
 		result.Properties.DeleteRetentionPolicy = &deleteRetentionPolicy
 	}
 	if services.IsVersioningEnabled != nil {
@@ -947,7 +942,7 @@ func (services *StorageAccountsBlobServices_Spec) ConvertToARM(resolved genrunti
 		if err != nil {
 			return nil, err
 		}
-		lastAccessTimeTrackingPolicy := lastAccessTimeTrackingPolicyARM.(LastAccessTimeTrackingPolicyARM)
+		lastAccessTimeTrackingPolicy := *lastAccessTimeTrackingPolicyARM.(*LastAccessTimeTrackingPolicyARM)
 		result.Properties.LastAccessTimeTrackingPolicy = &lastAccessTimeTrackingPolicy
 	}
 	if services.RestorePolicy != nil {
@@ -955,7 +950,7 @@ func (services *StorageAccountsBlobServices_Spec) ConvertToARM(resolved genrunti
 		if err != nil {
 			return nil, err
 		}
-		restorePolicy := restorePolicyARM.(RestorePolicyPropertiesARM)
+		restorePolicy := *restorePolicyARM.(*RestorePolicyPropertiesARM)
 		result.Properties.RestorePolicy = &restorePolicy
 	}
 
@@ -1425,7 +1420,7 @@ func (feed *ChangeFeed) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 	if feed == nil {
 		return nil, nil
 	}
-	var result ChangeFeedARM
+	result := &ChangeFeedARM{}
 
 	// Set property ‘Enabled’:
 	if feed.Enabled != nil {
@@ -1621,7 +1616,7 @@ func (rules *CorsRules) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 	if rules == nil {
 		return nil, nil
 	}
-	var result CorsRulesARM
+	result := &CorsRulesARM{}
 
 	// Set property ‘CorsRules’:
 	for _, item := range rules.CorsRules {
@@ -1629,7 +1624,7 @@ func (rules *CorsRules) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 		if err != nil {
 			return nil, err
 		}
-		result.CorsRules = append(result.CorsRules, itemARM.(CorsRuleARM))
+		result.CorsRules = append(result.CorsRules, *itemARM.(*CorsRuleARM))
 	}
 	return result, nil
 }
@@ -1830,7 +1825,7 @@ func (policy *DeleteRetentionPolicy) ConvertToARM(resolved genruntime.ConvertToA
 	if policy == nil {
 		return nil, nil
 	}
-	var result DeleteRetentionPolicyARM
+	result := &DeleteRetentionPolicyARM{}
 
 	// Set property ‘Days’:
 	if policy.Days != nil {
@@ -2038,7 +2033,7 @@ func (policy *LastAccessTimeTrackingPolicy) ConvertToARM(resolved genruntime.Con
 	if policy == nil {
 		return nil, nil
 	}
-	var result LastAccessTimeTrackingPolicyARM
+	result := &LastAccessTimeTrackingPolicyARM{}
 
 	// Set property ‘BlobType’:
 	for _, item := range policy.BlobType {
@@ -2314,7 +2309,7 @@ func (properties *RestorePolicyProperties) ConvertToARM(resolved genruntime.Conv
 	if properties == nil {
 		return nil, nil
 	}
-	var result RestorePolicyPropertiesARM
+	result := &RestorePolicyPropertiesARM{}
 
 	// Set property ‘Days’:
 	if properties.Days != nil {
@@ -2560,7 +2555,7 @@ func (rule *CorsRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 	if rule == nil {
 		return nil, nil
 	}
-	var result CorsRuleARM
+	result := &CorsRuleARM{}
 
 	// Set property ‘AllowedHeaders’:
 	for _, item := range rule.AllowedHeaders {

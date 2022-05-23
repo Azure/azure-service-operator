@@ -112,7 +112,7 @@ func (account *BatchAccount) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-01-01"
 func (account BatchAccount) GetAPIVersion() string {
-	return "2021-01-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -330,6 +330,12 @@ type BatchAccountList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []BatchAccount `json:"items"`
 }
+
+// Deprecated version of APIVersion. Use v1beta20210101.APIVersion instead
+// +kubebuilder:validation:Enum={"2021-01-01"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2021-01-01")
 
 // Deprecated version of BatchAccount_Status. Use v1beta20210101.BatchAccount_Status instead
 type BatchAccount_Status struct {
@@ -972,7 +978,7 @@ func (accounts *BatchAccounts_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 	if accounts == nil {
 		return nil, nil
 	}
-	var result BatchAccounts_SpecARM
+	result := &BatchAccounts_SpecARM{}
 
 	// Set property ‘Identity’:
 	if accounts.Identity != nil {
@@ -980,7 +986,7 @@ func (accounts *BatchAccounts_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		if err != nil {
 			return nil, err
 		}
-		identity := identityARM.(BatchAccountIdentityARM)
+		identity := *identityARM.(*BatchAccountIdentityARM)
 		result.Identity = &identity
 	}
 
@@ -1006,7 +1012,7 @@ func (accounts *BatchAccounts_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		if err != nil {
 			return nil, err
 		}
-		autoStorage := autoStorageARM.(AutoStorageBasePropertiesARM)
+		autoStorage := *autoStorageARM.(*AutoStorageBasePropertiesARM)
 		result.Properties.AutoStorage = &autoStorage
 	}
 	if accounts.Encryption != nil {
@@ -1014,7 +1020,7 @@ func (accounts *BatchAccounts_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		if err != nil {
 			return nil, err
 		}
-		encryption := encryptionARM.(EncryptionPropertiesARM)
+		encryption := *encryptionARM.(*EncryptionPropertiesARM)
 		result.Properties.Encryption = &encryption
 	}
 	if accounts.KeyVaultReference != nil {
@@ -1022,7 +1028,7 @@ func (accounts *BatchAccounts_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		if err != nil {
 			return nil, err
 		}
-		keyVaultReference := keyVaultReferenceARM.(KeyVaultReferenceARM)
+		keyVaultReference := *keyVaultReferenceARM.(*KeyVaultReferenceARM)
 		result.Properties.KeyVaultReference = &keyVaultReference
 	}
 	if accounts.PoolAllocationMode != nil {
@@ -1412,7 +1418,7 @@ func (properties *AutoStorageBaseProperties) ConvertToARM(resolved genruntime.Co
 	if properties == nil {
 		return nil, nil
 	}
-	var result AutoStorageBasePropertiesARM
+	result := &AutoStorageBasePropertiesARM{}
 
 	// Set property ‘StorageAccountId’:
 	if properties.StorageAccountReference != nil {
@@ -1587,7 +1593,7 @@ func (identity *BatchAccountIdentity) ConvertToARM(resolved genruntime.ConvertTo
 	if identity == nil {
 		return nil, nil
 	}
-	var result BatchAccountIdentityARM
+	result := &BatchAccountIdentityARM{}
 
 	// Set property ‘Type’:
 	if identity.Type != nil {
@@ -1828,7 +1834,7 @@ func (properties *EncryptionProperties) ConvertToARM(resolved genruntime.Convert
 	if properties == nil {
 		return nil, nil
 	}
-	var result EncryptionPropertiesARM
+	result := &EncryptionPropertiesARM{}
 
 	// Set property ‘KeySource’:
 	if properties.KeySource != nil {
@@ -1842,7 +1848,7 @@ func (properties *EncryptionProperties) ConvertToARM(resolved genruntime.Convert
 		if err != nil {
 			return nil, err
 		}
-		keyVaultProperties := keyVaultPropertiesARM.(KeyVaultPropertiesARM)
+		keyVaultProperties := *keyVaultPropertiesARM.(*KeyVaultPropertiesARM)
 		result.KeyVaultProperties = &keyVaultProperties
 	}
 	return result, nil
@@ -2064,7 +2070,7 @@ func (reference *KeyVaultReference) ConvertToARM(resolved genruntime.ConvertToAR
 	if reference == nil {
 		return nil, nil
 	}
-	var result KeyVaultReferenceARM
+	result := &KeyVaultReferenceARM{}
 
 	// Set property ‘Id’:
 	if reference.Reference != nil {
@@ -2612,7 +2618,7 @@ func (properties *KeyVaultProperties) ConvertToARM(resolved genruntime.ConvertTo
 	if properties == nil {
 		return nil, nil
 	}
-	var result KeyVaultPropertiesARM
+	result := &KeyVaultPropertiesARM{}
 
 	// Set property ‘KeyIdentifier’:
 	if properties.KeyIdentifier != nil {

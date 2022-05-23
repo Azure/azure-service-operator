@@ -98,7 +98,7 @@ func (namespace *Namespace) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-11-01"
 func (namespace Namespace) GetAPIVersion() string {
-	return "2021-11-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -316,6 +316,11 @@ type NamespaceList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Namespace `json:"items"`
 }
+
+// +kubebuilder:validation:Enum={"2021-11-01"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2021-11-01")
 
 type EHNamespace_Status struct {
 	// AlternateName: Alternate name specified when alias and namespace names are same.
@@ -981,11 +986,6 @@ func (namespace *EHNamespace_Status) AssignPropertiesToEHNamespaceStatus(destina
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"2021-11-01"}
-type NamespacesSpecAPIVersion string
-
-const NamespacesSpecAPIVersion20211101 = NamespacesSpecAPIVersion("2021-11-01")
-
 type Namespaces_Spec struct {
 	// AlternateName: Alternate name specified when alias and namespace names are same.
 	AlternateName *string `json:"alternateName,omitempty"`
@@ -1047,7 +1047,7 @@ func (namespaces *Namespaces_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	if namespaces == nil {
 		return nil, nil
 	}
-	var result Namespaces_SpecARM
+	result := &Namespaces_SpecARM{}
 
 	// Set property ‘Identity’:
 	if namespaces.Identity != nil {
@@ -1055,7 +1055,7 @@ func (namespaces *Namespaces_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		if err != nil {
 			return nil, err
 		}
-		identity := identityARM.(IdentityARM)
+		identity := *identityARM.(*IdentityARM)
 		result.Identity = &identity
 	}
 
@@ -1101,7 +1101,7 @@ func (namespaces *Namespaces_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		if err != nil {
 			return nil, err
 		}
-		encryption := encryptionARM.(EncryptionARM)
+		encryption := *encryptionARM.(*EncryptionARM)
 		result.Properties.Encryption = &encryption
 	}
 	if namespaces.IsAutoInflateEnabled != nil {
@@ -1121,7 +1121,7 @@ func (namespaces *Namespaces_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.PrivateEndpointConnections = append(result.Properties.PrivateEndpointConnections, itemARM.(Namespaces_Spec_Properties_PrivateEndpointConnectionsARM))
+		result.Properties.PrivateEndpointConnections = append(result.Properties.PrivateEndpointConnections, *itemARM.(*Namespaces_Spec_Properties_PrivateEndpointConnectionsARM))
 	}
 	if namespaces.ZoneRedundant != nil {
 		zoneRedundant := *namespaces.ZoneRedundant
@@ -1134,7 +1134,7 @@ func (namespaces *Namespaces_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		if err != nil {
 			return nil, err
 		}
-		sku := skuARM.(SkuARM)
+		sku := *skuARM.(*SkuARM)
 		result.Sku = &sku
 	}
 
@@ -1628,7 +1628,7 @@ func (encryption *Encryption) ConvertToARM(resolved genruntime.ConvertToARMResol
 	if encryption == nil {
 		return nil, nil
 	}
-	var result EncryptionARM
+	result := &EncryptionARM{}
 
 	// Set property ‘KeySource’:
 	if encryption.KeySource != nil {
@@ -1642,7 +1642,7 @@ func (encryption *Encryption) ConvertToARM(resolved genruntime.ConvertToARMResol
 		if err != nil {
 			return nil, err
 		}
-		result.KeyVaultProperties = append(result.KeyVaultProperties, itemARM.(KeyVaultPropertiesARM))
+		result.KeyVaultProperties = append(result.KeyVaultProperties, *itemARM.(*KeyVaultPropertiesARM))
 	}
 
 	// Set property ‘RequireInfrastructureEncryption’:
@@ -1937,7 +1937,7 @@ func (identity *Identity) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 	if identity == nil {
 		return nil, nil
 	}
-	var result IdentityARM
+	result := &IdentityARM{}
 
 	// Set property ‘Type’:
 	if identity.Type != nil {
@@ -2170,7 +2170,7 @@ func (connections *Namespaces_Spec_Properties_PrivateEndpointConnections) Conver
 	if connections == nil {
 		return nil, nil
 	}
-	var result Namespaces_Spec_Properties_PrivateEndpointConnectionsARM
+	result := &Namespaces_Spec_Properties_PrivateEndpointConnectionsARM{}
 
 	// Set property ‘Properties’:
 	if connections.PrivateEndpoint != nil {
@@ -2181,7 +2181,7 @@ func (connections *Namespaces_Spec_Properties_PrivateEndpointConnections) Conver
 		if err != nil {
 			return nil, err
 		}
-		privateEndpoint := privateEndpointARM.(PrivateEndpointARM)
+		privateEndpoint := *privateEndpointARM.(*PrivateEndpointARM)
 		result.Properties.PrivateEndpoint = &privateEndpoint
 	}
 	return result, nil
@@ -2383,7 +2383,7 @@ func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 	if sku == nil {
 		return nil, nil
 	}
-	var result SkuARM
+	result := &SkuARM{}
 
 	// Set property ‘Capacity’:
 	if sku.Capacity != nil {
@@ -2798,7 +2798,7 @@ func (properties *KeyVaultProperties) ConvertToARM(resolved genruntime.ConvertTo
 	if properties == nil {
 		return nil, nil
 	}
-	var result KeyVaultPropertiesARM
+	result := &KeyVaultPropertiesARM{}
 
 	// Set property ‘Identity’:
 	if properties.Identity != nil {
@@ -2806,7 +2806,7 @@ func (properties *KeyVaultProperties) ConvertToARM(resolved genruntime.ConvertTo
 		if err != nil {
 			return nil, err
 		}
-		identity := identityARM.(UserAssignedIdentityPropertiesARM)
+		identity := *identityARM.(*UserAssignedIdentityPropertiesARM)
 		result.Identity = &identity
 	}
 
@@ -3078,7 +3078,7 @@ func (endpoint *PrivateEndpoint) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if endpoint == nil {
 		return nil, nil
 	}
-	var result PrivateEndpointARM
+	result := &PrivateEndpointARM{}
 
 	// Set property ‘Id’:
 	if endpoint.Reference != nil {
@@ -3235,7 +3235,7 @@ func (properties *UserAssignedIdentityProperties) ConvertToARM(resolved genrunti
 	if properties == nil {
 		return nil, nil
 	}
-	var result UserAssignedIdentityPropertiesARM
+	result := &UserAssignedIdentityPropertiesARM{}
 
 	// Set property ‘UserAssignedIdentity’:
 	if properties.UserAssignedIdentityReference != nil {

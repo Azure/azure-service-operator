@@ -98,7 +98,7 @@ func (snapshot *Snapshot) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-09-30"
 func (snapshot Snapshot) GetAPIVersion() string {
-	return "2020-09-30"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -1001,11 +1001,6 @@ func (snapshot *Snapshot_Status) AssignPropertiesToSnapshotStatus(destination *v
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"2020-09-30"}
-type SnapshotsSpecAPIVersion string
-
-const SnapshotsSpecAPIVersion20200930 = SnapshotsSpecAPIVersion("2020-09-30")
-
 type Snapshots_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
@@ -1073,7 +1068,7 @@ func (snapshots *Snapshots_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if snapshots == nil {
 		return nil, nil
 	}
-	var result Snapshots_SpecARM
+	result := &Snapshots_SpecARM{}
 
 	// Set property ‘ExtendedLocation’:
 	if snapshots.ExtendedLocation != nil {
@@ -1081,7 +1076,7 @@ func (snapshots *Snapshots_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		if err != nil {
 			return nil, err
 		}
-		extendedLocation := extendedLocationARM.(ExtendedLocationARM)
+		extendedLocation := *extendedLocationARM.(*ExtendedLocationARM)
 		result.ExtendedLocation = &extendedLocation
 	}
 
@@ -1113,7 +1108,7 @@ func (snapshots *Snapshots_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		if err != nil {
 			return nil, err
 		}
-		creationData := creationDataARM.(CreationDataARM)
+		creationData := *creationDataARM.(*CreationDataARM)
 		result.Properties.CreationData = &creationData
 	}
 	if snapshots.DiskAccessReference != nil {
@@ -1137,7 +1132,7 @@ func (snapshots *Snapshots_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		if err != nil {
 			return nil, err
 		}
-		encryption := encryptionARM.(EncryptionARM)
+		encryption := *encryptionARM.(*EncryptionARM)
 		result.Properties.Encryption = &encryption
 	}
 	if snapshots.EncryptionSettingsCollection != nil {
@@ -1145,7 +1140,7 @@ func (snapshots *Snapshots_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		if err != nil {
 			return nil, err
 		}
-		encryptionSettingsCollection := encryptionSettingsCollectionARM.(EncryptionSettingsCollectionARM)
+		encryptionSettingsCollection := *encryptionSettingsCollectionARM.(*EncryptionSettingsCollectionARM)
 		result.Properties.EncryptionSettingsCollection = &encryptionSettingsCollection
 	}
 	if snapshots.HyperVGeneration != nil {
@@ -1169,7 +1164,7 @@ func (snapshots *Snapshots_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		if err != nil {
 			return nil, err
 		}
-		purchasePlan := purchasePlanARM.(PurchasePlanARM)
+		purchasePlan := *purchasePlanARM.(*PurchasePlanARM)
 		result.Properties.PurchasePlan = &purchasePlan
 	}
 
@@ -1179,7 +1174,7 @@ func (snapshots *Snapshots_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		if err != nil {
 			return nil, err
 		}
-		sku := skuARM.(SnapshotSkuARM)
+		sku := *skuARM.(*SnapshotSkuARM)
 		result.Sku = &sku
 	}
 
@@ -1793,7 +1788,7 @@ func (snapshotSku *SnapshotSku) ConvertToARM(resolved genruntime.ConvertToARMRes
 	if snapshotSku == nil {
 		return nil, nil
 	}
-	var result SnapshotSkuARM
+	result := &SnapshotSkuARM{}
 
 	// Set property ‘Name’:
 	if snapshotSku.Name != nil {

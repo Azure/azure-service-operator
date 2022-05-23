@@ -60,7 +60,7 @@ func Test_Compute_Disk_CRUD(t *testing.T) {
 	exists, _, err := tc.AzureClient.HeadByID(
 		tc.Ctx,
 		armId,
-		string(compute.DisksSpecAPIVersion20200930))
+		string(compute.APIVersionValue))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
 }

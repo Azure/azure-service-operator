@@ -244,7 +244,7 @@ func AddRelatedPropertyGeneratorsForVirtualMachinesSpecPropertiesARM(gens map[st
 	gens["Host"] = gen.PtrOf(SubResourceARMGenerator())
 	gens["HostGroup"] = gen.PtrOf(SubResourceARMGenerator())
 	gens["NetworkProfile"] = gen.PtrOf(VirtualMachinesSpecPropertiesNetworkProfileARMGenerator())
-	gens["OsProfile"] = gen.PtrOf(OSProfileARMGenerator())
+	gens["OsProfile"] = gen.PtrOf(VirtualMachinesSpecPropertiesOsProfileARMGenerator())
 	gens["ProximityPlacementGroup"] = gen.PtrOf(SubResourceARMGenerator())
 	gens["SecurityProfile"] = gen.PtrOf(SecurityProfileARMGenerator())
 	gens["StorageProfile"] = gen.PtrOf(StorageProfileARMGenerator())
@@ -595,86 +595,6 @@ func AddIndependentPropertyGeneratorsForHardwareProfileARM(gens map[string]gopte
 		HardwareProfileVmSizeStandardNV6))
 }
 
-func Test_OSProfileARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of OSProfileARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForOSProfileARM, OSProfileARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForOSProfileARM runs a test to see if a specific instance of OSProfileARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForOSProfileARM(subject OSProfileARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual OSProfileARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of OSProfileARM instances for property testing - lazily instantiated by OSProfileARMGenerator()
-var osProfileARMGenerator gopter.Gen
-
-// OSProfileARMGenerator returns a generator of OSProfileARM instances for property testing.
-// We first initialize osProfileARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func OSProfileARMGenerator() gopter.Gen {
-	if osProfileARMGenerator != nil {
-		return osProfileARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForOSProfileARM(generators)
-	osProfileARMGenerator = gen.Struct(reflect.TypeOf(OSProfileARM{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForOSProfileARM(generators)
-	AddRelatedPropertyGeneratorsForOSProfileARM(generators)
-	osProfileARMGenerator = gen.Struct(reflect.TypeOf(OSProfileARM{}), generators)
-
-	return osProfileARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForOSProfileARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForOSProfileARM(gens map[string]gopter.Gen) {
-	gens["AdminPassword"] = gen.PtrOf(gen.AlphaString())
-	gens["AdminUsername"] = gen.PtrOf(gen.AlphaString())
-	gens["AllowExtensionOperations"] = gen.PtrOf(gen.Bool())
-	gens["ComputerName"] = gen.PtrOf(gen.AlphaString())
-	gens["CustomData"] = gen.PtrOf(gen.AlphaString())
-	gens["RequireGuestProvisionSignal"] = gen.PtrOf(gen.Bool())
-}
-
-// AddRelatedPropertyGeneratorsForOSProfileARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForOSProfileARM(gens map[string]gopter.Gen) {
-	gens["LinuxConfiguration"] = gen.PtrOf(LinuxConfigurationARMGenerator())
-	gens["Secrets"] = gen.SliceOf(VaultSecretGroupARMGenerator())
-	gens["WindowsConfiguration"] = gen.PtrOf(WindowsConfigurationARMGenerator())
-}
-
 func Test_SecurityProfileARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -868,6 +788,87 @@ func VirtualMachinesSpecPropertiesNetworkProfileARMGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForVirtualMachinesSpecPropertiesNetworkProfileARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForVirtualMachinesSpecPropertiesNetworkProfileARM(gens map[string]gopter.Gen) {
 	gens["NetworkInterfaces"] = gen.SliceOf(VirtualMachinesSpecPropertiesNetworkProfileNetworkInterfacesARMGenerator())
+}
+
+func Test_VirtualMachines_Spec_Properties_OsProfileARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of VirtualMachines_Spec_Properties_OsProfileARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualMachinesSpecPropertiesOsProfileARM, VirtualMachinesSpecPropertiesOsProfileARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForVirtualMachinesSpecPropertiesOsProfileARM runs a test to see if a specific instance of VirtualMachines_Spec_Properties_OsProfileARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachinesSpecPropertiesOsProfileARM(subject VirtualMachines_Spec_Properties_OsProfileARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual VirtualMachines_Spec_Properties_OsProfileARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of VirtualMachines_Spec_Properties_OsProfileARM instances for property testing - lazily instantiated by
+// VirtualMachinesSpecPropertiesOsProfileARMGenerator()
+var virtualMachinesSpecPropertiesOsProfileARMGenerator gopter.Gen
+
+// VirtualMachinesSpecPropertiesOsProfileARMGenerator returns a generator of VirtualMachines_Spec_Properties_OsProfileARM instances for property testing.
+// We first initialize virtualMachinesSpecPropertiesOsProfileARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func VirtualMachinesSpecPropertiesOsProfileARMGenerator() gopter.Gen {
+	if virtualMachinesSpecPropertiesOsProfileARMGenerator != nil {
+		return virtualMachinesSpecPropertiesOsProfileARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForVirtualMachinesSpecPropertiesOsProfileARM(generators)
+	virtualMachinesSpecPropertiesOsProfileARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachines_Spec_Properties_OsProfileARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForVirtualMachinesSpecPropertiesOsProfileARM(generators)
+	AddRelatedPropertyGeneratorsForVirtualMachinesSpecPropertiesOsProfileARM(generators)
+	virtualMachinesSpecPropertiesOsProfileARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachines_Spec_Properties_OsProfileARM{}), generators)
+
+	return virtualMachinesSpecPropertiesOsProfileARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForVirtualMachinesSpecPropertiesOsProfileARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachinesSpecPropertiesOsProfileARM(gens map[string]gopter.Gen) {
+	gens["AdminPassword"] = gen.PtrOf(gen.AlphaString())
+	gens["AdminUsername"] = gen.PtrOf(gen.AlphaString())
+	gens["AllowExtensionOperations"] = gen.PtrOf(gen.Bool())
+	gens["ComputerName"] = gen.PtrOf(gen.AlphaString())
+	gens["CustomData"] = gen.PtrOf(gen.AlphaString())
+	gens["RequireGuestProvisionSignal"] = gen.PtrOf(gen.Bool())
+}
+
+// AddRelatedPropertyGeneratorsForVirtualMachinesSpecPropertiesOsProfileARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualMachinesSpecPropertiesOsProfileARM(gens map[string]gopter.Gen) {
+	gens["LinuxConfiguration"] = gen.PtrOf(LinuxConfigurationARMGenerator())
+	gens["Secrets"] = gen.SliceOf(VaultSecretGroupARMGenerator())
+	gens["WindowsConfiguration"] = gen.PtrOf(WindowsConfigurationARMGenerator())
 }
 
 func Test_BootDiagnosticsARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

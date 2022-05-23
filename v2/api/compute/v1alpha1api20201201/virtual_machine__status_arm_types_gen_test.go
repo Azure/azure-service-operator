@@ -822,7 +822,6 @@ func OSProfileStatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForOSProfileStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForOSProfileStatusARM(gens map[string]gopter.Gen) {
-	gens["AdminPassword"] = gen.PtrOf(gen.AlphaString())
 	gens["AdminUsername"] = gen.PtrOf(gen.AlphaString())
 	gens["AllowExtensionOperations"] = gen.PtrOf(gen.Bool())
 	gens["ComputerName"] = gen.PtrOf(gen.AlphaString())

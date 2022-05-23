@@ -9,17 +9,17 @@ import (
 	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
-
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
 
-// KubernetesResource is an Azure resource. This interface contains the common set of
-// methods that apply to all ASO resources.
-type KubernetesResource interface {
-	conditions.Conditioner
-
+type ARMOwned interface {
 	// Owner returns the ResourceReference of the owner, or nil if there is no owner
 	Owner() *ResourceReference
+}
+
+// KubernetesResource is an Azure resource. This interface contains the common set of
+// methods that apply to all ASO ARM resources.
+type KubernetesResource interface {
+	ARMOwned
 
 	// TODO: I think we need this?
 	// KnownOwner() *KnownResourceReference
@@ -57,12 +57,12 @@ type KubernetesResource interface {
 // NewEmptyVersionedResource returns a new blank resource based on the passed metaObject; the original API version used
 // (if available) from when the resource was first created is used to identify the version to return.
 // Returns an empty resource.
-func NewEmptyVersionedResource(metaObject MetaObject, scheme *runtime.Scheme) (MetaObject, error) {
+func NewEmptyVersionedResource(metaObject ARMMetaObject, scheme *runtime.Scheme) (ARMMetaObject, error) {
 	return NewEmptyVersionedResourceFromGVK(scheme, GetOriginalGVK(metaObject))
 }
 
 // NewEmptyVersionedResourceFromGVK creates a new empty versioned resource from the specified GVK
-func NewEmptyVersionedResourceFromGVK(scheme *runtime.Scheme, gvk schema.GroupVersionKind) (MetaObject, error) {
+func NewEmptyVersionedResourceFromGVK(scheme *runtime.Scheme, gvk schema.GroupVersionKind) (ARMMetaObject, error) {
 	// Create an empty resource at the desired version
 	rsrc, err := scheme.New(gvk)
 	if err != nil {
@@ -70,9 +70,9 @@ func NewEmptyVersionedResourceFromGVK(scheme *runtime.Scheme, gvk schema.GroupVe
 	}
 
 	// Convert it to our interface
-	mo, ok := rsrc.(MetaObject)
+	mo, ok := rsrc.(ARMMetaObject)
 	if !ok {
-		return nil, errors.Errorf("expected resource %s to implement genruntime.MetaObject", gvk)
+		return nil, errors.Errorf("expected resource %s to implement genruntime.ARMMetaObject", gvk)
 	}
 
 	// Ensure GVK is populated

@@ -21,7 +21,6 @@ func RemoveAPIVersionProperty() *Stage {
 		RemoveAPIVersionPropertyStageID,
 		"Remove the ARM API version property and instead augment the ResourceType with it",
 		func(ctx context.Context, state *State) (*State, error) {
-
 			newDefs := make(astmodel.TypeDefinitionSet)
 
 			defs := state.Definitions()
@@ -38,17 +37,15 @@ func RemoveAPIVersionProperty() *Stage {
 					return nil, errors.Errorf("resource %s is missing type property", resolved.ResourceDef.Name())
 				}
 
-				apiVersionEnumTypeName, ok := astmodel.AsTypeName(apiVersionProp.PropertyType())
-				if !ok {
-					return nil, errors.Errorf("resource %s APIVersion property is not of type TypeName", resolved.ResourceDef.Name())
-				}
-
 				apiVersion, err := extractPropertySingleEnumValue(defs, apiVersionProp)
 				if err != nil {
 					return nil, errors.Wrapf(err, "error extracting %s type property", resolved.SpecDef.Name())
 				}
 
-				resourceType := resolved.ResourceType.WithAPIVersion(apiVersionEnumTypeName, apiVersion)
+				apiVersionEnumTypeName := astmodel.MakeTypeName(resource.Name().PackageReference, "APIVersion")
+				apiVersionEnumValue := astmodel.EnumValue{Identifier: "Value", Value: apiVersion.Value}
+
+				resourceType := resolved.ResourceType.WithAPIVersion(apiVersionEnumTypeName, apiVersionEnumValue)
 				specType := resolved.SpecType.WithoutProperty(astmodel.APIVersionProperty)
 
 				newDefs.Add(resolved.ResourceDef.WithType(resourceType))

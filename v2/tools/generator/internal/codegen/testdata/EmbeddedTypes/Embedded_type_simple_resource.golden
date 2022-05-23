@@ -96,7 +96,7 @@ func (resource *FakeResource) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
 func (resource FakeResource) GetAPIVersion() string {
-	return "2020-06-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -282,27 +282,27 @@ var _ genruntime.ARMResourceSpec = &FakeResource_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
 func (resource FakeResource_SpecARM) GetAPIVersion() string {
-	return "2020-06-01"
+	return string(APIVersionValue)
 }
 
 // GetName returns the Name of the resource
-func (resource FakeResource_SpecARM) GetName() string {
+func (resource *FakeResource_SpecARM) GetName() string {
 	return resource.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/FakeResource"
-func (resource FakeResource_SpecARM) GetType() string {
+func (resource *FakeResource_SpecARM) GetType() string {
 	return "Microsoft.Azure/FakeResource"
 }
+
+// +kubebuilder:validation:Enum={"2020-06-01"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2020-06-01")
 
 type EmbeddedTestTypeARM struct {
 	FancyProp int `json:"fancyProp,omitempty"`
 }
-
-// +kubebuilder:validation:Enum={"2020-06-01"}
-type FakeResourceSpecAPIVersion string
-
-const FakeResourceSpecAPIVersion20200601 = FakeResourceSpecAPIVersion("2020-06-01")
 
 // +kubebuilder:validation:Enum={"blue","green","red"}
 type FakeResourceSpecColor string
@@ -339,7 +339,7 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	if resource == nil {
 		return nil, nil
 	}
-	var result FakeResource_SpecARM
+	result := &FakeResource_SpecARM{}
 
 	// Set property ‘Color’:
 	if resource.Color != nil {
@@ -353,7 +353,7 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		if err != nil {
 			return nil, err
 		}
-		foo := fooARM.(FooARM)
+		foo := *fooARM.(*FooARM)
 		result.Foo = &foo
 	}
 
@@ -366,7 +366,7 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		if err != nil {
 			return nil, err
 		}
-		optionalFoo := optionalFooARM.(FooARM)
+		optionalFoo := *optionalFooARM.(*FooARM)
 		result.OptionalFoo = &optionalFoo
 	}
 	return result, nil
@@ -611,7 +611,7 @@ func (testType *EmbeddedTestType) ConvertToARM(resolved genruntime.ConvertToARMR
 	if testType == nil {
 		return nil, nil
 	}
-	var result EmbeddedTestTypeARM
+	result := &EmbeddedTestTypeARM{}
 
 	// Set property ‘FancyProp’:
 	result.FancyProp = testType.FancyProp
@@ -680,7 +680,7 @@ func (foo *Foo) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 	if foo == nil {
 		return nil, nil
 	}
-	var result FooARM
+	result := &FooARM{}
 
 	// Set property ‘Name’:
 	if foo.Name != nil {

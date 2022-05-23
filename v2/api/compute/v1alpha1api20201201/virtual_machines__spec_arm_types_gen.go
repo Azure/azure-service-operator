@@ -24,16 +24,16 @@ var _ genruntime.ARMResourceSpec = &VirtualMachines_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-12-01"
 func (machines VirtualMachines_SpecARM) GetAPIVersion() string {
-	return "2020-12-01"
+	return string(APIVersionValue)
 }
 
 // GetName returns the Name of the resource
-func (machines VirtualMachines_SpecARM) GetName() string {
+func (machines *VirtualMachines_SpecARM) GetName() string {
 	return machines.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Compute/virtualMachines"
-func (machines VirtualMachines_SpecARM) GetType() string {
+func (machines *VirtualMachines_SpecARM) GetType() string {
 	return "Microsoft.Compute/virtualMachines"
 }
 
@@ -56,7 +56,7 @@ type VirtualMachines_Spec_PropertiesARM struct {
 	HostGroup               *SubResourceARM                                    `json:"hostGroup,omitempty"`
 	LicenseType             *string                                            `json:"licenseType,omitempty"`
 	NetworkProfile          *VirtualMachines_Spec_Properties_NetworkProfileARM `json:"networkProfile,omitempty"`
-	OsProfile               *OSProfileARM                                      `json:"osProfile,omitempty"`
+	OsProfile               *VirtualMachines_Spec_Properties_OsProfileARM      `json:"osProfile,omitempty"`
 	PlatformFaultDomain     *int                                               `json:"platformFaultDomain,omitempty"`
 	Priority                *VirtualMachinesSpecPropertiesPriority             `json:"priority,omitempty"`
 	ProximityPlacementGroup *SubResourceARM                                    `json:"proximityPlacementGroup,omitempty"`
@@ -78,19 +78,6 @@ type DiagnosticsProfileARM struct {
 // Deprecated version of HardwareProfile. Use v1beta20201201.HardwareProfile instead
 type HardwareProfileARM struct {
 	VmSize *HardwareProfileVmSize `json:"vmSize,omitempty"`
-}
-
-// Deprecated version of OSProfile. Use v1beta20201201.OSProfile instead
-type OSProfileARM struct {
-	AdminPassword               *string                  `json:"adminPassword,omitempty"`
-	AdminUsername               *string                  `json:"adminUsername,omitempty"`
-	AllowExtensionOperations    *bool                    `json:"allowExtensionOperations,omitempty"`
-	ComputerName                *string                  `json:"computerName,omitempty"`
-	CustomData                  *string                  `json:"customData,omitempty"`
-	LinuxConfiguration          *LinuxConfigurationARM   `json:"linuxConfiguration,omitempty"`
-	RequireGuestProvisionSignal *bool                    `json:"requireGuestProvisionSignal,omitempty"`
-	Secrets                     []VaultSecretGroupARM    `json:"secrets,omitempty"`
-	WindowsConfiguration        *WindowsConfigurationARM `json:"windowsConfiguration,omitempty"`
 }
 
 // Deprecated version of SecurityProfile. Use v1beta20201201.SecurityProfile instead
@@ -121,6 +108,19 @@ const (
 // Deprecated version of VirtualMachines_Spec_Properties_NetworkProfile. Use v1beta20201201.VirtualMachines_Spec_Properties_NetworkProfile instead
 type VirtualMachines_Spec_Properties_NetworkProfileARM struct {
 	NetworkInterfaces []VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfacesARM `json:"networkInterfaces,omitempty"`
+}
+
+// Deprecated version of VirtualMachines_Spec_Properties_OsProfile. Use v1beta20201201.VirtualMachines_Spec_Properties_OsProfile instead
+type VirtualMachines_Spec_Properties_OsProfileARM struct {
+	AdminPassword               *string                  `json:"adminPassword,omitempty"`
+	AdminUsername               *string                  `json:"adminUsername,omitempty"`
+	AllowExtensionOperations    *bool                    `json:"allowExtensionOperations,omitempty"`
+	ComputerName                *string                  `json:"computerName,omitempty"`
+	CustomData                  *string                  `json:"customData,omitempty"`
+	LinuxConfiguration          *LinuxConfigurationARM   `json:"linuxConfiguration,omitempty"`
+	RequireGuestProvisionSignal *bool                    `json:"requireGuestProvisionSignal,omitempty"`
+	Secrets                     []VaultSecretGroupARM    `json:"secrets,omitempty"`
+	WindowsConfiguration        *WindowsConfigurationARM `json:"windowsConfiguration,omitempty"`
 }
 
 // Deprecated version of BootDiagnostics. Use v1beta20201201.BootDiagnostics instead

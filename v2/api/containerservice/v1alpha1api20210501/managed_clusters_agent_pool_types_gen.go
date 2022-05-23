@@ -112,7 +112,7 @@ func (pool *ManagedClustersAgentPool) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-01"
 func (pool ManagedClustersAgentPool) GetAPIVersion() string {
-	return "2021-05-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -1353,7 +1353,7 @@ func (pools *ManagedClustersAgentPools_Spec) ConvertToARM(resolved genruntime.Co
 	if pools == nil {
 		return nil, nil
 	}
-	var result ManagedClustersAgentPools_SpecARM
+	result := &ManagedClustersAgentPools_SpecARM{}
 
 	// Set property ‘Location’:
 	if pools.Location != nil {
@@ -1436,7 +1436,7 @@ func (pools *ManagedClustersAgentPools_Spec) ConvertToARM(resolved genruntime.Co
 		if err != nil {
 			return nil, err
 		}
-		kubeletConfig := kubeletConfigARM.(KubeletConfigARM)
+		kubeletConfig := *kubeletConfigARM.(*KubeletConfigARM)
 		result.Properties.KubeletConfig = &kubeletConfig
 	}
 	if pools.KubeletDiskType != nil {
@@ -1448,7 +1448,7 @@ func (pools *ManagedClustersAgentPools_Spec) ConvertToARM(resolved genruntime.Co
 		if err != nil {
 			return nil, err
 		}
-		linuxOSConfig := linuxOSConfigARM.(LinuxOSConfigARM)
+		linuxOSConfig := *linuxOSConfigARM.(*LinuxOSConfigARM)
 		result.Properties.LinuxOSConfig = &linuxOSConfig
 	}
 	if pools.MaxCount != nil {
@@ -1543,7 +1543,7 @@ func (pools *ManagedClustersAgentPools_Spec) ConvertToARM(resolved genruntime.Co
 		if err != nil {
 			return nil, err
 		}
-		upgradeSettings := upgradeSettingsARM.(AgentPoolUpgradeSettingsARM)
+		upgradeSettings := *upgradeSettingsARM.(*AgentPoolUpgradeSettingsARM)
 		result.Properties.UpgradeSettings = &upgradeSettings
 	}
 	if pools.VmSize != nil {
@@ -2452,7 +2452,7 @@ func (settings *AgentPoolUpgradeSettings) ConvertToARM(resolved genruntime.Conve
 	if settings == nil {
 		return nil, nil
 	}
-	var result AgentPoolUpgradeSettingsARM
+	result := &AgentPoolUpgradeSettingsARM{}
 
 	// Set property ‘MaxSurge’:
 	if settings.MaxSurge != nil {
@@ -2595,7 +2595,7 @@ func (config *KubeletConfig) ConvertToARM(resolved genruntime.ConvertToARMResolv
 	if config == nil {
 		return nil, nil
 	}
-	var result KubeletConfigARM
+	result := &KubeletConfigARM{}
 
 	// Set property ‘AllowedUnsafeSysctls’:
 	for _, item := range config.AllowedUnsafeSysctls {
@@ -3086,7 +3086,7 @@ func (config *LinuxOSConfig) ConvertToARM(resolved genruntime.ConvertToARMResolv
 	if config == nil {
 		return nil, nil
 	}
-	var result LinuxOSConfigARM
+	result := &LinuxOSConfigARM{}
 
 	// Set property ‘SwapFileSizeMB’:
 	if config.SwapFileSizeMB != nil {
@@ -3100,7 +3100,7 @@ func (config *LinuxOSConfig) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		if err != nil {
 			return nil, err
 		}
-		sysctls := sysctlsARM.(SysctlConfigARM)
+		sysctls := *sysctlsARM.(*SysctlConfigARM)
 		result.Sysctls = &sysctls
 	}
 
@@ -3480,7 +3480,7 @@ func (config *SysctlConfig) ConvertToARM(resolved genruntime.ConvertToARMResolve
 	if config == nil {
 		return nil, nil
 	}
-	var result SysctlConfigARM
+	result := &SysctlConfigARM{}
 
 	// Set property ‘FsAioMaxNr’:
 	if config.FsAioMaxNr != nil {

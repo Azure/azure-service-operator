@@ -112,7 +112,7 @@ func (database *MongodbDatabase) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
 func (database MongodbDatabase) GetAPIVersion() string {
-	return "2021-05-15"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -356,7 +356,7 @@ func (databases *DatabaseAccountsMongodbDatabases_Spec) ConvertToARM(resolved ge
 	if databases == nil {
 		return nil, nil
 	}
-	var result DatabaseAccountsMongodbDatabases_SpecARM
+	result := &DatabaseAccountsMongodbDatabases_SpecARM{}
 
 	// Set property ‘Location’:
 	if databases.Location != nil {
@@ -376,7 +376,7 @@ func (databases *DatabaseAccountsMongodbDatabases_Spec) ConvertToARM(resolved ge
 		if err != nil {
 			return nil, err
 		}
-		options := optionsARM.(CreateUpdateOptionsARM)
+		options := *optionsARM.(*CreateUpdateOptionsARM)
 		result.Properties.Options = &options
 	}
 	if databases.Resource != nil {
@@ -384,7 +384,7 @@ func (databases *DatabaseAccountsMongodbDatabases_Spec) ConvertToARM(resolved ge
 		if err != nil {
 			return nil, err
 		}
-		resource := resourceARM.(MongoDBDatabaseResourceARM)
+		resource := *resourceARM.(*MongoDBDatabaseResourceARM)
 		result.Properties.Resource = &resource
 	}
 
@@ -895,7 +895,7 @@ func (options *CreateUpdateOptions) ConvertToARM(resolved genruntime.ConvertToAR
 	if options == nil {
 		return nil, nil
 	}
-	var result CreateUpdateOptionsARM
+	result := &CreateUpdateOptionsARM{}
 
 	// Set property ‘AutoscaleSettings’:
 	if options.AutoscaleSettings != nil {
@@ -903,7 +903,7 @@ func (options *CreateUpdateOptions) ConvertToARM(resolved genruntime.ConvertToAR
 		if err != nil {
 			return nil, err
 		}
-		autoscaleSettings := autoscaleSettingsARM.(AutoscaleSettingsARM)
+		autoscaleSettings := *autoscaleSettingsARM.(*AutoscaleSettingsARM)
 		result.AutoscaleSettings = &autoscaleSettings
 	}
 
@@ -1121,7 +1121,7 @@ func (resource *MongoDBDatabaseResource) ConvertToARM(resolved genruntime.Conver
 	if resource == nil {
 		return nil, nil
 	}
-	var result MongoDBDatabaseResourceARM
+	result := &MongoDBDatabaseResourceARM{}
 
 	// Set property ‘Id’:
 	if resource.Id != nil {
@@ -1288,7 +1288,7 @@ func (settings *AutoscaleSettings) ConvertToARM(resolved genruntime.ConvertToARM
 	if settings == nil {
 		return nil, nil
 	}
-	var result AutoscaleSettingsARM
+	result := &AutoscaleSettingsARM{}
 
 	// Set property ‘MaxThroughput’:
 	if settings.MaxThroughput != nil {

@@ -112,7 +112,7 @@ func (group *NetworkSecurityGroup) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
 func (group NetworkSecurityGroup) GetAPIVersion() string {
-	return "2020-11-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -829,7 +829,7 @@ func (groups *NetworkSecurityGroups_Spec) ConvertToARM(resolved genruntime.Conve
 	if groups == nil {
 		return nil, nil
 	}
-	var result NetworkSecurityGroups_SpecARM
+	result := &NetworkSecurityGroups_SpecARM{}
 
 	// Set property ‘Location’:
 	if groups.Location != nil {

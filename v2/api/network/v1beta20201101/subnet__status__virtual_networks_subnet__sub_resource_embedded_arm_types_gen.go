@@ -68,7 +68,7 @@ type SubnetPropertiesFormat_StatusARM struct {
 	ResourceNavigationLinks []ResourceNavigationLink_StatusARM `json:"resourceNavigationLinks,omitempty"`
 
 	// RouteTable: The reference to the RouteTable resource.
-	RouteTable *RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM `json:"routeTable,omitempty"`
+	RouteTable *RouteTable_Status_SubResourceEmbeddedARM `json:"routeTable,omitempty"`
 
 	// ServiceAssociationLinks: An array of references to services injecting into this subnet.
 	ServiceAssociationLinks []ServiceAssociationLink_StatusARM `json:"serviceAssociationLinks,omitempty"`
@@ -175,7 +175,7 @@ type ResourceNavigationLink_StatusARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-type RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM struct {
+type RouteTable_Status_SubResourceEmbeddedARM struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }

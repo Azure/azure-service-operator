@@ -67,7 +67,12 @@ func (gc *GroupConfiguration) visitVersion(
 		return err
 	}
 
-	return visitor.visitVersion(vc)
+	err = visitor.visitVersion(vc)
+	if err != nil {
+		return errors.Wrapf(err, "configuration of group %s", gc.name)
+	}
+
+	return nil
 }
 
 // visitVersions invokes the provided visitor on all versions.

@@ -112,7 +112,7 @@ func (registry *Registry) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-09-01"
 func (registry Registry) GetAPIVersion() string {
-	return "2021-09-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -331,6 +331,12 @@ type RegistryList struct {
 	Items           []Registry `json:"items"`
 }
 
+// Deprecated version of APIVersion. Use v1beta20210901.APIVersion instead
+// +kubebuilder:validation:Enum={"2021-09-01"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2021-09-01")
+
 type Registries_Spec struct {
 	AdminUserEnabled *bool `json:"adminUserEnabled,omitempty"`
 
@@ -368,7 +374,7 @@ func (registries *Registries_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	if registries == nil {
 		return nil, nil
 	}
-	var result Registries_SpecARM
+	result := &Registries_SpecARM{}
 
 	// Set property ‘Identity’:
 	if registries.Identity != nil {
@@ -376,7 +382,7 @@ func (registries *Registries_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		if err != nil {
 			return nil, err
 		}
-		identity := identityARM.(IdentityPropertiesARM)
+		identity := *identityARM.(*IdentityPropertiesARM)
 		result.Identity = &identity
 	}
 
@@ -413,7 +419,7 @@ func (registries *Registries_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		if err != nil {
 			return nil, err
 		}
-		encryption := encryptionARM.(EncryptionPropertyARM)
+		encryption := *encryptionARM.(*EncryptionPropertyARM)
 		result.Properties.Encryption = &encryption
 	}
 	if registries.NetworkRuleBypassOptions != nil {
@@ -425,7 +431,7 @@ func (registries *Registries_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		if err != nil {
 			return nil, err
 		}
-		networkRuleSet := networkRuleSetARM.(NetworkRuleSetARM)
+		networkRuleSet := *networkRuleSetARM.(*NetworkRuleSetARM)
 		result.Properties.NetworkRuleSet = &networkRuleSet
 	}
 	if registries.Policies != nil {
@@ -433,7 +439,7 @@ func (registries *Registries_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		if err != nil {
 			return nil, err
 		}
-		policies := policiesARM.(PoliciesARM)
+		policies := *policiesARM.(*PoliciesARM)
 		result.Properties.Policies = &policies
 	}
 	if registries.PublicNetworkAccess != nil {
@@ -451,7 +457,7 @@ func (registries *Registries_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		if err != nil {
 			return nil, err
 		}
-		sku := skuARM.(SkuARM)
+		sku := *skuARM.(*SkuARM)
 		result.Sku = &sku
 	}
 
@@ -1633,7 +1639,7 @@ func (property *EncryptionProperty) ConvertToARM(resolved genruntime.ConvertToAR
 	if property == nil {
 		return nil, nil
 	}
-	var result EncryptionPropertyARM
+	result := &EncryptionPropertyARM{}
 
 	// Set property ‘KeyVaultProperties’:
 	if property.KeyVaultProperties != nil {
@@ -1641,7 +1647,7 @@ func (property *EncryptionProperty) ConvertToARM(resolved genruntime.ConvertToAR
 		if err != nil {
 			return nil, err
 		}
-		keyVaultProperties := keyVaultPropertiesARM.(KeyVaultPropertiesARM)
+		keyVaultProperties := *keyVaultPropertiesARM.(*KeyVaultPropertiesARM)
 		result.KeyVaultProperties = &keyVaultProperties
 	}
 
@@ -1868,7 +1874,7 @@ func (properties *IdentityProperties) ConvertToARM(resolved genruntime.ConvertTo
 	if properties == nil {
 		return nil, nil
 	}
-	var result IdentityPropertiesARM
+	result := &IdentityPropertiesARM{}
 
 	// Set property ‘PrincipalId’:
 	if properties.PrincipalId != nil {
@@ -1896,7 +1902,7 @@ func (properties *IdentityProperties) ConvertToARM(resolved genruntime.ConvertTo
 			if err != nil {
 				return nil, err
 			}
-			result.UserAssignedIdentities[key] = valueARM.(UserIdentityPropertiesARM)
+			result.UserAssignedIdentities[key] = *valueARM.(*UserIdentityPropertiesARM)
 		}
 	}
 	return result, nil
@@ -2194,7 +2200,7 @@ func (ruleSet *NetworkRuleSet) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if ruleSet == nil {
 		return nil, nil
 	}
-	var result NetworkRuleSetARM
+	result := &NetworkRuleSetARM{}
 
 	// Set property ‘DefaultAction’:
 	if ruleSet.DefaultAction != nil {
@@ -2208,7 +2214,7 @@ func (ruleSet *NetworkRuleSet) ConvertToARM(resolved genruntime.ConvertToARMReso
 		if err != nil {
 			return nil, err
 		}
-		result.IpRules = append(result.IpRules, itemARM.(IPRuleARM))
+		result.IpRules = append(result.IpRules, *itemARM.(*IPRuleARM))
 	}
 	return result, nil
 }
@@ -2450,7 +2456,7 @@ func (policies *Policies) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 	if policies == nil {
 		return nil, nil
 	}
-	var result PoliciesARM
+	result := &PoliciesARM{}
 
 	// Set property ‘ExportPolicy’:
 	if policies.ExportPolicy != nil {
@@ -2458,7 +2464,7 @@ func (policies *Policies) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 		if err != nil {
 			return nil, err
 		}
-		exportPolicy := exportPolicyARM.(ExportPolicyARM)
+		exportPolicy := *exportPolicyARM.(*ExportPolicyARM)
 		result.ExportPolicy = &exportPolicy
 	}
 
@@ -2468,7 +2474,7 @@ func (policies *Policies) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 		if err != nil {
 			return nil, err
 		}
-		quarantinePolicy := quarantinePolicyARM.(QuarantinePolicyARM)
+		quarantinePolicy := *quarantinePolicyARM.(*QuarantinePolicyARM)
 		result.QuarantinePolicy = &quarantinePolicy
 	}
 
@@ -2478,7 +2484,7 @@ func (policies *Policies) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 		if err != nil {
 			return nil, err
 		}
-		retentionPolicy := retentionPolicyARM.(RetentionPolicyARM)
+		retentionPolicy := *retentionPolicyARM.(*RetentionPolicyARM)
 		result.RetentionPolicy = &retentionPolicy
 	}
 
@@ -2488,7 +2494,7 @@ func (policies *Policies) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 		if err != nil {
 			return nil, err
 		}
-		trustPolicy := trustPolicyARM.(TrustPolicyARM)
+		trustPolicy := *trustPolicyARM.(*TrustPolicyARM)
 		result.TrustPolicy = &trustPolicy
 	}
 	return result, nil
@@ -3009,7 +3015,7 @@ func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 	if sku == nil {
 		return nil, nil
 	}
-	var result SkuARM
+	result := &SkuARM{}
 
 	// Set property ‘Name’:
 	if sku.Name != nil {
@@ -3418,7 +3424,7 @@ func (policy *ExportPolicy) ConvertToARM(resolved genruntime.ConvertToARMResolve
 	if policy == nil {
 		return nil, nil
 	}
-	var result ExportPolicyARM
+	result := &ExportPolicyARM{}
 
 	// Set property ‘Status’:
 	if policy.Status != nil {
@@ -3572,7 +3578,7 @@ func (rule *IPRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails
 	if rule == nil {
 		return nil, nil
 	}
-	var result IPRuleARM
+	result := &IPRuleARM{}
 
 	// Set property ‘Action’:
 	if rule.Action != nil {
@@ -3755,7 +3761,7 @@ func (properties *KeyVaultProperties) ConvertToARM(resolved genruntime.ConvertTo
 	if properties == nil {
 		return nil, nil
 	}
-	var result KeyVaultPropertiesARM
+	result := &KeyVaultPropertiesARM{}
 
 	// Set property ‘Identity’:
 	if properties.Identity != nil {
@@ -3974,7 +3980,7 @@ func (policy *QuarantinePolicy) ConvertToARM(resolved genruntime.ConvertToARMRes
 	if policy == nil {
 		return nil, nil
 	}
-	var result QuarantinePolicyARM
+	result := &QuarantinePolicyARM{}
 
 	// Set property ‘Status’:
 	if policy.Status != nil {
@@ -4126,7 +4132,7 @@ func (policy *RetentionPolicy) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if policy == nil {
 		return nil, nil
 	}
-	var result RetentionPolicyARM
+	result := &RetentionPolicyARM{}
 
 	// Set property ‘Days’:
 	if policy.Days != nil {
@@ -4322,7 +4328,7 @@ func (policy *TrustPolicy) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	if policy == nil {
 		return nil, nil
 	}
-	var result TrustPolicyARM
+	result := &TrustPolicyARM{}
 
 	// Set property ‘Status’:
 	if policy.Status != nil {
@@ -4525,7 +4531,7 @@ func (properties *UserIdentityProperties) ConvertToARM(resolved genruntime.Conve
 	if properties == nil {
 		return nil, nil
 	}
-	var result UserIdentityPropertiesARM
+	result := &UserIdentityPropertiesARM{}
 
 	// Set property ‘ClientId’:
 	if properties.ClientId != nil {

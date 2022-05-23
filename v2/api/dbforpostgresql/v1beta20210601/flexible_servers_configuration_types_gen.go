@@ -98,7 +98,7 @@ func (configuration *FlexibleServersConfiguration) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-06-01"
 func (configuration FlexibleServersConfiguration) GetAPIVersion() string {
-	return "2021-06-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -743,11 +743,6 @@ func (configuration *Configuration_Status) AssignPropertiesToConfigurationStatus
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"2021-06-01"}
-type FlexibleServersConfigurationsSpecAPIVersion string
-
-const FlexibleServersConfigurationsSpecAPIVersion20210601 = FlexibleServersConfigurationsSpecAPIVersion("2021-06-01")
-
 type FlexibleServersConfigurations_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
@@ -779,7 +774,7 @@ func (configurations *FlexibleServersConfigurations_Spec) ConvertToARM(resolved 
 	if configurations == nil {
 		return nil, nil
 	}
-	var result FlexibleServersConfigurations_SpecARM
+	result := &FlexibleServersConfigurations_SpecARM{}
 
 	// Set property ‘Location’:
 	if configurations.Location != nil {

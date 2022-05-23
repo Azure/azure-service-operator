@@ -98,7 +98,7 @@ func (trigger *SqlDatabaseContainerTrigger) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
 func (trigger SqlDatabaseContainerTrigger) GetAPIVersion() string {
-	return "2021-05-15"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -317,11 +317,6 @@ type SqlDatabaseContainerTriggerList struct {
 	Items           []SqlDatabaseContainerTrigger `json:"items"`
 }
 
-// +kubebuilder:validation:Enum={"2021-05-15"}
-type DatabaseAccountsSqlDatabasesContainersTriggersSpecAPIVersion string
-
-const DatabaseAccountsSqlDatabasesContainersTriggersSpecAPIVersion20210515 = DatabaseAccountsSqlDatabasesContainersTriggersSpecAPIVersion("2021-05-15")
-
 type DatabaseAccountsSqlDatabasesContainersTriggers_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
@@ -359,7 +354,7 @@ func (triggers *DatabaseAccountsSqlDatabasesContainersTriggers_Spec) ConvertToAR
 	if triggers == nil {
 		return nil, nil
 	}
-	var result DatabaseAccountsSqlDatabasesContainersTriggers_SpecARM
+	result := &DatabaseAccountsSqlDatabasesContainersTriggers_SpecARM{}
 
 	// Set property ‘Location’:
 	if triggers.Location != nil {
@@ -379,7 +374,7 @@ func (triggers *DatabaseAccountsSqlDatabasesContainersTriggers_Spec) ConvertToAR
 		if err != nil {
 			return nil, err
 		}
-		options := optionsARM.(CreateUpdateOptionsARM)
+		options := *optionsARM.(*CreateUpdateOptionsARM)
 		result.Properties.Options = &options
 	}
 	if triggers.Resource != nil {
@@ -387,7 +382,7 @@ func (triggers *DatabaseAccountsSqlDatabasesContainersTriggers_Spec) ConvertToAR
 		if err != nil {
 			return nil, err
 		}
-		resource := resourceARM.(SqlTriggerResourceARM)
+		resource := *resourceARM.(*SqlTriggerResourceARM)
 		result.Properties.Resource = &resource
 	}
 
@@ -1054,7 +1049,7 @@ func (resource *SqlTriggerResource) ConvertToARM(resolved genruntime.ConvertToAR
 	if resource == nil {
 		return nil, nil
 	}
-	var result SqlTriggerResourceARM
+	result := &SqlTriggerResourceARM{}
 
 	// Set property ‘Body’:
 	if resource.Body != nil {

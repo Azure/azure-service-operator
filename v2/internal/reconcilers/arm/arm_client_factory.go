@@ -10,4 +10,4 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-type ARMClientFactory func(genruntime.MetaObject) *genericarmclient.GenericClient
+type ARMClientFactory func(genruntime.ARMMetaObject) *genericarmclient.GenericClient

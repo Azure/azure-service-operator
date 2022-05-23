@@ -112,7 +112,7 @@ func (eventhub *NamespacesEventhub) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-11-01"
 func (eventhub NamespacesEventhub) GetAPIVersion() string {
-	return "2021-11-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -699,7 +699,7 @@ func (eventhubs *NamespacesEventhubs_Spec) ConvertToARM(resolved genruntime.Conv
 	if eventhubs == nil {
 		return nil, nil
 	}
-	var result NamespacesEventhubs_SpecARM
+	result := &NamespacesEventhubs_SpecARM{}
 
 	// Set property ‘Location’:
 	if eventhubs.Location != nil {
@@ -721,7 +721,7 @@ func (eventhubs *NamespacesEventhubs_Spec) ConvertToARM(resolved genruntime.Conv
 		if err != nil {
 			return nil, err
 		}
-		captureDescription := captureDescriptionARM.(NamespacesEventhubs_Spec_Properties_CaptureDescriptionARM)
+		captureDescription := *captureDescriptionARM.(*NamespacesEventhubs_Spec_Properties_CaptureDescriptionARM)
 		result.Properties.CaptureDescription = &captureDescription
 	}
 	if eventhubs.MessageRetentionInDays != nil {
@@ -1182,7 +1182,7 @@ func (description *NamespacesEventhubs_Spec_Properties_CaptureDescription) Conve
 	if description == nil {
 		return nil, nil
 	}
-	var result NamespacesEventhubs_Spec_Properties_CaptureDescriptionARM
+	result := &NamespacesEventhubs_Spec_Properties_CaptureDescriptionARM{}
 
 	// Set property ‘Destination’:
 	if description.Destination != nil {
@@ -1190,7 +1190,7 @@ func (description *NamespacesEventhubs_Spec_Properties_CaptureDescription) Conve
 		if err != nil {
 			return nil, err
 		}
-		destination := destinationARM.(NamespacesEventhubs_Spec_Properties_CaptureDescription_DestinationARM)
+		destination := *destinationARM.(*NamespacesEventhubs_Spec_Properties_CaptureDescription_DestinationARM)
 		result.Destination = &destination
 	}
 
@@ -1574,7 +1574,7 @@ func (destination *NamespacesEventhubs_Spec_Properties_CaptureDescription_Destin
 	if destination == nil {
 		return nil, nil
 	}
-	var result NamespacesEventhubs_Spec_Properties_CaptureDescription_DestinationARM
+	result := &NamespacesEventhubs_Spec_Properties_CaptureDescription_DestinationARM{}
 
 	// Set property ‘Name’:
 	if destination.Name != nil {

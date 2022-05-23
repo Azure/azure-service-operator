@@ -113,7 +113,7 @@ func (workspace *Workspace) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-06-01"
 func (workspace Workspace) GetAPIVersion() string {
-	return "2021-06-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -332,13 +332,19 @@ type WorkspaceList struct {
 	Items           []Workspace `json:"items"`
 }
 
+// Deprecated version of APIVersion. Use v1beta20210601.APIVersion instead
+// +kubebuilder:validation:Enum={"2021-06-01"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2021-06-01")
+
 // Deprecated version of Workspace_Status. Use v1beta20210601.Workspace_Status instead
 type Workspace_Status struct {
 	// Conditions: The observed state of the resource
 	Conditions                      []conditions.Condition                      `json:"conditions,omitempty"`
 	CreatedDate                     *string                                     `json:"createdDate,omitempty"`
 	CustomerId                      *string                                     `json:"customerId,omitempty"`
-	ETag                            *string                                     `json:"eTag,omitempty"`
+	Etag                            *string                                     `json:"etag,omitempty"`
 	Features                        *WorkspaceFeatures_Status                   `json:"features,omitempty"`
 	ForceCmkForQuery                *bool                                       `json:"forceCmkForQuery,omitempty"`
 	Id                              *string                                     `json:"id,omitempty"`
@@ -440,10 +446,10 @@ func (workspace *Workspace_Status) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘ETag’:
-	if typedInput.ETag != nil {
-		eTag := *typedInput.ETag
-		workspace.ETag = &eTag
+	// Set property ‘Etag’:
+	if typedInput.Etag != nil {
+		etag := *typedInput.Etag
+		workspace.Etag = &etag
 	}
 
 	// Set property ‘Features’:
@@ -603,8 +609,8 @@ func (workspace *Workspace_Status) AssignPropertiesFromWorkspaceStatus(source *a
 	// CustomerId
 	workspace.CustomerId = genruntime.ClonePointerToString(source.CustomerId)
 
-	// ETag
-	workspace.ETag = genruntime.ClonePointerToString(source.ETag)
+	// Etag
+	workspace.Etag = genruntime.ClonePointerToString(source.Etag)
 
 	// Features
 	if source.Features != nil {
@@ -731,8 +737,8 @@ func (workspace *Workspace_Status) AssignPropertiesToWorkspaceStatus(destination
 	// CustomerId
 	destination.CustomerId = genruntime.ClonePointerToString(workspace.CustomerId)
 
-	// ETag
-	destination.ETag = genruntime.ClonePointerToString(workspace.ETag)
+	// Etag
+	destination.Etag = genruntime.ClonePointerToString(workspace.Etag)
 
 	// Features
 	if workspace.Features != nil {
@@ -885,7 +891,7 @@ func (workspaces *Workspaces_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	if workspaces == nil {
 		return nil, nil
 	}
-	var result Workspaces_SpecARM
+	result := &Workspaces_SpecARM{}
 
 	// Set property ‘ETag’:
 	if workspaces.ETag != nil {
@@ -918,7 +924,7 @@ func (workspaces *Workspaces_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		if err != nil {
 			return nil, err
 		}
-		features := featuresARM.(WorkspaceFeaturesARM)
+		features := *featuresARM.(*WorkspaceFeaturesARM)
 		result.Properties.Features = &features
 	}
 	if workspaces.ForceCmkForQuery != nil {
@@ -946,7 +952,7 @@ func (workspaces *Workspaces_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		if err != nil {
 			return nil, err
 		}
-		sku := skuARM.(WorkspaceSkuARM)
+		sku := *skuARM.(*WorkspaceSkuARM)
 		result.Properties.Sku = &sku
 	}
 	if workspaces.WorkspaceCapping != nil {
@@ -954,7 +960,7 @@ func (workspaces *Workspaces_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		if err != nil {
 			return nil, err
 		}
-		workspaceCapping := workspaceCappingARM.(WorkspaceCappingARM)
+		workspaceCapping := *workspaceCappingARM.(*WorkspaceCappingARM)
 		result.Properties.WorkspaceCapping = &workspaceCapping
 	}
 
@@ -1456,7 +1462,7 @@ func (capping *WorkspaceCapping) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if capping == nil {
 		return nil, nil
 	}
-	var result WorkspaceCappingARM
+	result := &WorkspaceCappingARM{}
 
 	// Set property ‘DailyQuotaGb’:
 	if capping.DailyQuotaGb != nil {
@@ -1648,7 +1654,7 @@ func (features *WorkspaceFeatures) ConvertToARM(resolved genruntime.ConvertToARM
 	if features == nil {
 		return nil, nil
 	}
-	var result WorkspaceFeaturesARM
+	result := &WorkspaceFeaturesARM{}
 
 	// Set property ‘AdditionalProperties’:
 	if features.AdditionalProperties != nil {
@@ -2087,7 +2093,7 @@ func (workspaceSku *WorkspaceSku) ConvertToARM(resolved genruntime.ConvertToARMR
 	if workspaceSku == nil {
 		return nil, nil
 	}
-	var result WorkspaceSkuARM
+	result := &WorkspaceSkuARM{}
 
 	// Set property ‘CapacityReservationLevel’:
 	if workspaceSku.CapacityReservationLevel != nil {

@@ -98,7 +98,7 @@ func (rule *NamespacesEventhubsAuthorizationRule) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-11-01"
 func (rule NamespacesEventhubsAuthorizationRule) GetAPIVersion() string {
-	return "2021-11-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -317,11 +317,6 @@ type NamespacesEventhubsAuthorizationRuleList struct {
 	Items           []NamespacesEventhubsAuthorizationRule `json:"items"`
 }
 
-// +kubebuilder:validation:Enum={"2021-11-01"}
-type NamespacesEventhubsAuthorizationRulesSpecAPIVersion string
-
-const NamespacesEventhubsAuthorizationRulesSpecAPIVersion20211101 = NamespacesEventhubsAuthorizationRulesSpecAPIVersion("2021-11-01")
-
 type NamespacesEventhubsAuthorizationRules_Spec struct {
 	// +kubebuilder:validation:MinLength=1
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
@@ -352,7 +347,7 @@ func (rules *NamespacesEventhubsAuthorizationRules_Spec) ConvertToARM(resolved g
 	if rules == nil {
 		return nil, nil
 	}
-	var result NamespacesEventhubsAuthorizationRules_SpecARM
+	result := &NamespacesEventhubsAuthorizationRules_SpecARM{}
 
 	// Set property ‘Location’:
 	if rules.Location != nil {

@@ -112,7 +112,7 @@ func (server *FlexibleServer) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-06-01"
 func (server FlexibleServer) GetAPIVersion() string {
-	return "2021-06-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -226,7 +226,7 @@ func (server *FlexibleServer) ValidateUpdate(old runtime.Object) error {
 
 // createValidations validates the creation of the resource
 func (server *FlexibleServer) createValidations() []func() error {
-	return []func() error{server.validateResourceReferences}
+	return []func() error{server.validateResourceReferences, server.validateSecretDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -240,7 +240,11 @@ func (server *FlexibleServer) updateValidations() []func(old runtime.Object) err
 		func(old runtime.Object) error {
 			return server.validateResourceReferences()
 		},
-		server.validateWriteOnceProperties}
+		server.validateWriteOnceProperties,
+		func(old runtime.Object) error {
+			return server.validateSecretDestinations()
+		},
+	}
 }
 
 // validateResourceReferences validates all resource references
@@ -250,6 +254,20 @@ func (server *FlexibleServer) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (server *FlexibleServer) validateSecretDestinations() error {
+	if server.Spec.OperatorSpec == nil {
+		return nil
+	}
+	if server.Spec.OperatorSpec.Secrets == nil {
+		return nil
+	}
+	secrets := []*genruntime.SecretDestination{
+		server.Spec.OperatorSpec.Secrets.FullyQualifiedDomainName,
+	}
+	return genruntime.ValidateSecretDestinations(secrets)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -331,6 +349,12 @@ type FlexibleServerList struct {
 	Items           []FlexibleServer `json:"items"`
 }
 
+// Deprecated version of APIVersion. Use v1beta20210601.APIVersion instead
+// +kubebuilder:validation:Enum={"2021-06-01"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2021-06-01")
+
 type FlexibleServers_Spec struct {
 	AdministratorLogin         *string                     `json:"administratorLogin,omitempty"`
 	AdministratorLoginPassword *genruntime.SecretReference `json:"administratorLoginPassword,omitempty"`
@@ -345,6 +369,10 @@ type FlexibleServers_Spec struct {
 	Location          *string                     `json:"location,omitempty"`
 	MaintenanceWindow *MaintenanceWindow          `json:"maintenanceWindow,omitempty"`
 	Network           *Network                    `json:"network,omitempty"`
+
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *FlexibleServerOperatorSpec `json:"operatorSpec,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -366,7 +394,7 @@ func (servers *FlexibleServers_Spec) ConvertToARM(resolved genruntime.ConvertToA
 	if servers == nil {
 		return nil, nil
 	}
-	var result FlexibleServers_SpecARM
+	result := &FlexibleServers_SpecARM{}
 
 	// Set property ‘Location’:
 	if servers.Location != nil {
@@ -413,7 +441,7 @@ func (servers *FlexibleServers_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		if err != nil {
 			return nil, err
 		}
-		backup := backupARM.(BackupARM)
+		backup := *backupARM.(*BackupARM)
 		result.Properties.Backup = &backup
 	}
 	if servers.CreateMode != nil {
@@ -425,7 +453,7 @@ func (servers *FlexibleServers_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		if err != nil {
 			return nil, err
 		}
-		highAvailability := highAvailabilityARM.(HighAvailabilityARM)
+		highAvailability := *highAvailabilityARM.(*HighAvailabilityARM)
 		result.Properties.HighAvailability = &highAvailability
 	}
 	if servers.MaintenanceWindow != nil {
@@ -433,7 +461,7 @@ func (servers *FlexibleServers_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		if err != nil {
 			return nil, err
 		}
-		maintenanceWindow := maintenanceWindowARM.(MaintenanceWindowARM)
+		maintenanceWindow := *maintenanceWindowARM.(*MaintenanceWindowARM)
 		result.Properties.MaintenanceWindow = &maintenanceWindow
 	}
 	if servers.Network != nil {
@@ -441,7 +469,7 @@ func (servers *FlexibleServers_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		if err != nil {
 			return nil, err
 		}
-		network := networkARM.(NetworkARM)
+		network := *networkARM.(*NetworkARM)
 		result.Properties.Network = &network
 	}
 	if servers.PointInTimeUTC != nil {
@@ -461,7 +489,7 @@ func (servers *FlexibleServers_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		if err != nil {
 			return nil, err
 		}
-		storage := storageARM.(StorageARM)
+		storage := *storageARM.(*StorageARM)
 		result.Properties.Storage = &storage
 	}
 	if servers.Version != nil {
@@ -475,7 +503,7 @@ func (servers *FlexibleServers_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		if err != nil {
 			return nil, err
 		}
-		sku := skuARM.(SkuARM)
+		sku := *skuARM.(*SkuARM)
 		result.Sku = &sku
 	}
 
@@ -594,6 +622,8 @@ func (servers *FlexibleServers_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 			servers.Network = &network
 		}
 	}
+
+	// no assignment for property ‘OperatorSpec’
 
 	// Set property ‘Owner’:
 	servers.Owner = &genruntime.KnownResourceReference{
@@ -786,6 +816,18 @@ func (servers *FlexibleServers_Spec) AssignPropertiesFromFlexibleServersSpec(sou
 		servers.Network = nil
 	}
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec FlexibleServerOperatorSpec
+		err := operatorSpec.AssignPropertiesFromFlexibleServerOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromFlexibleServerOperatorSpec() to populate field OperatorSpec")
+		}
+		servers.OperatorSpec = &operatorSpec
+	} else {
+		servers.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -928,6 +970,18 @@ func (servers *FlexibleServers_Spec) AssignPropertiesToFlexibleServersSpec(desti
 		destination.Network = &network
 	} else {
 		destination.Network = nil
+	}
+
+	// OperatorSpec
+	if servers.OperatorSpec != nil {
+		var operatorSpec alpha20210601s.FlexibleServerOperatorSpec
+		err := servers.OperatorSpec.AssignPropertiesToFlexibleServerOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToFlexibleServerOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
 	}
 
 	// OriginalVersion
@@ -1638,7 +1692,7 @@ func (backup *Backup) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 	if backup == nil {
 		return nil, nil
 	}
-	var result BackupARM
+	result := &BackupARM{}
 
 	// Set property ‘BackupRetentionDays’:
 	if backup.BackupRetentionDays != nil {
@@ -1821,6 +1875,59 @@ func (backup *Backup_Status) AssignPropertiesToBackupStatus(destination *alpha20
 	return nil
 }
 
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type FlexibleServerOperatorSpec struct {
+	// Secrets: configures where to place Azure generated secrets.
+	Secrets *FlexibleServerOperatorSecrets `json:"secrets,omitempty"`
+}
+
+// AssignPropertiesFromFlexibleServerOperatorSpec populates our FlexibleServerOperatorSpec from the provided source FlexibleServerOperatorSpec
+func (operator *FlexibleServerOperatorSpec) AssignPropertiesFromFlexibleServerOperatorSpec(source *alpha20210601s.FlexibleServerOperatorSpec) error {
+
+	// Secrets
+	if source.Secrets != nil {
+		var secret FlexibleServerOperatorSecrets
+		err := secret.AssignPropertiesFromFlexibleServerOperatorSecrets(source.Secrets)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromFlexibleServerOperatorSecrets() to populate field Secrets")
+		}
+		operator.Secrets = &secret
+	} else {
+		operator.Secrets = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToFlexibleServerOperatorSpec populates the provided destination FlexibleServerOperatorSpec from our FlexibleServerOperatorSpec
+func (operator *FlexibleServerOperatorSpec) AssignPropertiesToFlexibleServerOperatorSpec(destination *alpha20210601s.FlexibleServerOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Secrets
+	if operator.Secrets != nil {
+		var secret alpha20210601s.FlexibleServerOperatorSecrets
+		err := operator.Secrets.AssignPropertiesToFlexibleServerOperatorSecrets(&secret)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToFlexibleServerOperatorSecrets() to populate field Secrets")
+		}
+		destination.Secrets = &secret
+	} else {
+		destination.Secrets = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Deprecated version of HighAvailability. Use v1beta20210601.HighAvailability instead
 type HighAvailability struct {
 	Mode                    *HighAvailabilityMode `json:"mode,omitempty"`
@@ -1834,7 +1941,7 @@ func (availability *HighAvailability) ConvertToARM(resolved genruntime.ConvertTo
 	if availability == nil {
 		return nil, nil
 	}
-	var result HighAvailabilityARM
+	result := &HighAvailabilityARM{}
 
 	// Set property ‘Mode’:
 	if availability.Mode != nil {
@@ -2042,7 +2149,7 @@ func (window *MaintenanceWindow) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if window == nil {
 		return nil, nil
 	}
-	var result MaintenanceWindowARM
+	result := &MaintenanceWindowARM{}
 
 	// Set property ‘CustomWindow’:
 	if window.CustomWindow != nil {
@@ -2267,7 +2374,7 @@ func (network *Network) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 	if network == nil {
 		return nil, nil
 	}
-	var result NetworkARM
+	result := &NetworkARM{}
 
 	// Set property ‘DelegatedSubnetResourceId’:
 	if network.DelegatedSubnetResourceReference != nil {
@@ -2529,7 +2636,7 @@ func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 	if sku == nil {
 		return nil, nil
 	}
-	var result SkuARM
+	result := &SkuARM{}
 
 	// Set property ‘Name’:
 	if sku.Name != nil {
@@ -2711,7 +2818,7 @@ func (storage *Storage) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 	if storage == nil {
 		return nil, nil
 	}
-	var result StorageARM
+	result := &StorageARM{}
 
 	// Set property ‘StorageSizeGB’:
 	if storage.StorageSizeGB != nil {
@@ -2989,6 +3096,51 @@ const (
 	BackupStatusGeoRedundantBackupDisabled = BackupStatusGeoRedundantBackup("Disabled")
 	BackupStatusGeoRedundantBackupEnabled  = BackupStatusGeoRedundantBackup("Enabled")
 )
+
+type FlexibleServerOperatorSecrets struct {
+	// FullyQualifiedDomainName: indicates where the FullyQualifiedDomainName secret should be placed. If omitted, the secret
+	// will not be retrieved from Azure.
+	FullyQualifiedDomainName *genruntime.SecretDestination `json:"fullyQualifiedDomainName,omitempty"`
+}
+
+// AssignPropertiesFromFlexibleServerOperatorSecrets populates our FlexibleServerOperatorSecrets from the provided source FlexibleServerOperatorSecrets
+func (secrets *FlexibleServerOperatorSecrets) AssignPropertiesFromFlexibleServerOperatorSecrets(source *alpha20210601s.FlexibleServerOperatorSecrets) error {
+
+	// FullyQualifiedDomainName
+	if source.FullyQualifiedDomainName != nil {
+		fullyQualifiedDomainName := source.FullyQualifiedDomainName.Copy()
+		secrets.FullyQualifiedDomainName = &fullyQualifiedDomainName
+	} else {
+		secrets.FullyQualifiedDomainName = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToFlexibleServerOperatorSecrets populates the provided destination FlexibleServerOperatorSecrets from our FlexibleServerOperatorSecrets
+func (secrets *FlexibleServerOperatorSecrets) AssignPropertiesToFlexibleServerOperatorSecrets(destination *alpha20210601s.FlexibleServerOperatorSecrets) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// FullyQualifiedDomainName
+	if secrets.FullyQualifiedDomainName != nil {
+		fullyQualifiedDomainName := secrets.FullyQualifiedDomainName.Copy()
+		destination.FullyQualifiedDomainName = &fullyQualifiedDomainName
+	} else {
+		destination.FullyQualifiedDomainName = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
 
 // Deprecated version of HighAvailabilityMode. Use v1beta20210601.HighAvailabilityMode instead
 // +kubebuilder:validation:Enum={"Disabled","ZoneRedundant"}

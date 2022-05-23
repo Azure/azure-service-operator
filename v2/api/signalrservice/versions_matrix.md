@@ -1,6 +1,7 @@
 | Type Definitions in package "signalrservice"                 | v1alpha1api20211001 | v1beta20211001 |
 |--------------------------------------------------------------|---------------------|----------------|
 | ACLAction_Status                                             | v1alpha1api20211001 | v1beta20211001 |
+| APIVersion                                                   | v1alpha1api20211001 | v1beta20211001 |
 | FeatureFlags_Status                                          | v1alpha1api20211001 | v1beta20211001 |
 | ManagedIdentity                                              | v1alpha1api20211001 | v1beta20211001 |
 | ManagedIdentitySettings                                      | v1alpha1api20211001 | v1beta20211001 |
@@ -43,7 +44,6 @@
 | SignalRRequestType_Status                                    | v1alpha1api20211001 | v1beta20211001 |
 | SignalRResource_Status                                       | v1alpha1api20211001 | v1beta20211001 |
 | SignalRSkuTier_Status                                        | v1alpha1api20211001 | v1beta20211001 |
-| SignalRSpecAPIVersion                                        | v1alpha1api20211001 | v1beta20211001 |
 | SignalRSpecKind                                              | v1alpha1api20211001 | v1beta20211001 |
 | SignalRTlsSettings                                           | v1alpha1api20211001 | v1beta20211001 |
 | SignalRTlsSettings_Status                                    | v1alpha1api20211001 | v1beta20211001 |

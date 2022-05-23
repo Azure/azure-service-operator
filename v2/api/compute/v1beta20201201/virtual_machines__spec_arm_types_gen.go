@@ -41,16 +41,16 @@ var _ genruntime.ARMResourceSpec = &VirtualMachines_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-12-01"
 func (machines VirtualMachines_SpecARM) GetAPIVersion() string {
-	return "2020-12-01"
+	return string(APIVersionValue)
 }
 
 // GetName returns the Name of the resource
-func (machines VirtualMachines_SpecARM) GetName() string {
+func (machines *VirtualMachines_SpecARM) GetName() string {
 	return machines.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Compute/virtualMachines"
-func (machines VirtualMachines_SpecARM) GetType() string {
+func (machines *VirtualMachines_SpecARM) GetType() string {
 	return "Microsoft.Compute/virtualMachines"
 }
 
@@ -116,7 +116,7 @@ type VirtualMachines_Spec_PropertiesARM struct {
 
 	// OsProfile: Specifies the operating system settings for the virtual machine. Some of the settings cannot be changed once
 	// VM is provisioned.
-	OsProfile *OSProfileARM `json:"osProfile,omitempty"`
+	OsProfile *VirtualMachines_Spec_Properties_OsProfileARM `json:"osProfile,omitempty"`
 
 	// PlatformFaultDomain: Specifies the scale set logical fault domain into which the Virtual Machine will be created. By
 	// default, the Virtual Machine will by automatically assigned to a fault domain that best maintains balance across
@@ -182,8 +182,58 @@ type HardwareProfileARM struct {
 	VmSize *HardwareProfileVmSize `json:"vmSize,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/OSProfile
-type OSProfileARM struct {
+// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/SecurityProfile
+type SecurityProfileARM struct {
+	// EncryptionAtHost: This property can be used by user in the request to enable or disable the Host Encryption for the
+	// virtual machine or virtual machine scale set. This will enable the encryption for all the disks including Resource/Temp
+	// disk at host itself.
+	// Default: The Encryption at host will be disabled unless this property is set to true for the resource.
+	EncryptionAtHost *bool `json:"encryptionAtHost,omitempty"`
+
+	// SecurityType: Specifies the SecurityType of the virtual machine. It is set as TrustedLaunch to enable UefiSettings.
+	// Default: UefiSettings will not be enabled unless this property is set as TrustedLaunch.
+	SecurityType *SecurityProfileSecurityType `json:"securityType,omitempty"`
+
+	// UefiSettings: Specifies the security settings like secure boot and vTPM used while creating the virtual machine.
+	// Minimum api-version: 2020-12-01
+	UefiSettings *UefiSettingsARM `json:"uefiSettings,omitempty"`
+}
+
+// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/StorageProfile
+type StorageProfileARM struct {
+	// DataDisks: Specifies the parameters that are used to add a data disk to a virtual machine.
+	// For more information about disks, see [About disks and VHDs for Azure virtual
+	// machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
+	DataDisks []DataDiskARM `json:"dataDisks,omitempty"`
+
+	// ImageReference: Specifies information about the image to use. You can specify information about platform images,
+	// marketplace images, or virtual machine images. This element is required when you want to use a platform image,
+	// marketplace image, or virtual machine image, but is not used in other creation operations. NOTE: Image reference
+	// publisher and offer can only be set when you create the scale set.
+	ImageReference *ImageReferenceARM `json:"imageReference,omitempty"`
+
+	// OsDisk: Specifies information about the operating system disk used by the virtual machine.
+	// For more information about disks, see [About disks and VHDs for Azure virtual
+	// machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
+	OsDisk *OSDiskARM `json:"osDisk,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned, UserAssigned","UserAssigned"}
+type VirtualMachineIdentityType string
+
+const (
+	VirtualMachineIdentityTypeNone                       = VirtualMachineIdentityType("None")
+	VirtualMachineIdentityTypeSystemAssigned             = VirtualMachineIdentityType("SystemAssigned")
+	VirtualMachineIdentityTypeSystemAssignedUserAssigned = VirtualMachineIdentityType("SystemAssigned, UserAssigned")
+	VirtualMachineIdentityTypeUserAssigned               = VirtualMachineIdentityType("UserAssigned")
+)
+
+type VirtualMachines_Spec_Properties_NetworkProfileARM struct {
+	// NetworkInterfaces: Specifies the list of resource Ids for the network interfaces associated with the virtual machine.
+	NetworkInterfaces []VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfacesARM `json:"networkInterfaces,omitempty"`
+}
+
+type VirtualMachines_Spec_Properties_OsProfileARM struct {
 	// AdminPassword: Specifies the password of the administrator account.
 	// Minimum-length (Windows): 8 characters
 	// Minimum-length (Linux): 6 characters
@@ -256,57 +306,6 @@ type OSProfileARM struct {
 
 	// WindowsConfiguration: Specifies Windows operating system settings on the virtual machine.
 	WindowsConfiguration *WindowsConfigurationARM `json:"windowsConfiguration,omitempty"`
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/SecurityProfile
-type SecurityProfileARM struct {
-	// EncryptionAtHost: This property can be used by user in the request to enable or disable the Host Encryption for the
-	// virtual machine or virtual machine scale set. This will enable the encryption for all the disks including Resource/Temp
-	// disk at host itself.
-	// Default: The Encryption at host will be disabled unless this property is set to true for the resource.
-	EncryptionAtHost *bool `json:"encryptionAtHost,omitempty"`
-
-	// SecurityType: Specifies the SecurityType of the virtual machine. It is set as TrustedLaunch to enable UefiSettings.
-	// Default: UefiSettings will not be enabled unless this property is set as TrustedLaunch.
-	SecurityType *SecurityProfileSecurityType `json:"securityType,omitempty"`
-
-	// UefiSettings: Specifies the security settings like secure boot and vTPM used while creating the virtual machine.
-	// Minimum api-version: 2020-12-01
-	UefiSettings *UefiSettingsARM `json:"uefiSettings,omitempty"`
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/StorageProfile
-type StorageProfileARM struct {
-	// DataDisks: Specifies the parameters that are used to add a data disk to a virtual machine.
-	// For more information about disks, see [About disks and VHDs for Azure virtual
-	// machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
-	DataDisks []DataDiskARM `json:"dataDisks,omitempty"`
-
-	// ImageReference: Specifies information about the image to use. You can specify information about platform images,
-	// marketplace images, or virtual machine images. This element is required when you want to use a platform image,
-	// marketplace image, or virtual machine image, but is not used in other creation operations. NOTE: Image reference
-	// publisher and offer can only be set when you create the scale set.
-	ImageReference *ImageReferenceARM `json:"imageReference,omitempty"`
-
-	// OsDisk: Specifies information about the operating system disk used by the virtual machine.
-	// For more information about disks, see [About disks and VHDs for Azure virtual
-	// machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
-	OsDisk *OSDiskARM `json:"osDisk,omitempty"`
-}
-
-// +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned, UserAssigned","UserAssigned"}
-type VirtualMachineIdentityType string
-
-const (
-	VirtualMachineIdentityTypeNone                       = VirtualMachineIdentityType("None")
-	VirtualMachineIdentityTypeSystemAssigned             = VirtualMachineIdentityType("SystemAssigned")
-	VirtualMachineIdentityTypeSystemAssignedUserAssigned = VirtualMachineIdentityType("SystemAssigned, UserAssigned")
-	VirtualMachineIdentityTypeUserAssigned               = VirtualMachineIdentityType("UserAssigned")
-)
-
-type VirtualMachines_Spec_Properties_NetworkProfileARM struct {
-	// NetworkInterfaces: Specifies the list of resource Ids for the network interfaces associated with the virtual machine.
-	NetworkInterfaces []VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfacesARM `json:"networkInterfaces,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/BootDiagnostics

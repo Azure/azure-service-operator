@@ -164,10 +164,7 @@ func makeUniqueIndexMethodName(
 
 	lastProp := propertyChain[len(propertyChain)-1]
 
-	group, _, ok := resourceTypeName.PackageReference.GroupVersion()
-	if !ok {
-		panic(fmt.Sprintf("cannot generate index method for type %s", resourceTypeName.String()))
-	}
+	group, _ := resourceTypeName.PackageReference.GroupVersion()
 	return fmt.Sprintf("index%s%s%s",
 		idFactory.CreateIdentifier(group, astmodel.Exported),
 		resourceTypeName.Name(),

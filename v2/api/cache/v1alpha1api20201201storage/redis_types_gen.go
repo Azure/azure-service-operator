@@ -73,7 +73,7 @@ func (redis *Redis) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-12-01"
 func (redis Redis) GetAPIVersion() string {
-	return "2020-12-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -199,6 +199,13 @@ type RedisList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Redis `json:"items"`
 }
+
+// Storage version of v1alpha1api20201201.APIVersion
+// Deprecated version of APIVersion. Use v1beta20201201.APIVersion instead
+// +kubebuilder:validation:Enum={"2020-12-01"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2020-12-01")
 
 // Storage version of v1alpha1api20201201.RedisResource_Status
 // Deprecated version of RedisResource_Status. Use v1beta20201201.RedisResource_Status instead

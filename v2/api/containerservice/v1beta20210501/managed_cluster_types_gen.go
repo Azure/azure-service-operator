@@ -99,7 +99,7 @@ func (cluster *ManagedCluster) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-01"
 func (cluster ManagedCluster) GetAPIVersion() string {
-	return "2021-05-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -317,6 +317,11 @@ type ManagedClusterList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []ManagedCluster `json:"items"`
 }
+
+// +kubebuilder:validation:Enum={"2021-05-01"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2021-05-01")
 
 type ManagedCluster_Status struct {
 	// AadProfile: The Azure Active Directory configuration.
@@ -1499,11 +1504,6 @@ func (cluster *ManagedCluster_Status) AssignPropertiesToManagedClusterStatus(des
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"2021-05-01"}
-type ManagedClustersSpecAPIVersion string
-
-const ManagedClustersSpecAPIVersion20210501 = ManagedClustersSpecAPIVersion("2021-05-01")
-
 type ManagedClusters_Spec struct {
 	// AadProfile: For more details see [managed AAD on AKS](https://docs.microsoft.com/azure/aks/managed-aad).
 	AadProfile *ManagedClusterAADProfile `json:"aadProfile,omitempty"`
@@ -1616,7 +1616,7 @@ func (clusters *ManagedClusters_Spec) ConvertToARM(resolved genruntime.ConvertTo
 	if clusters == nil {
 		return nil, nil
 	}
-	var result ManagedClusters_SpecARM
+	result := &ManagedClusters_SpecARM{}
 
 	// Set property ‘ExtendedLocation’:
 	if clusters.ExtendedLocation != nil {
@@ -1624,7 +1624,7 @@ func (clusters *ManagedClusters_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		if err != nil {
 			return nil, err
 		}
-		extendedLocation := extendedLocationARM.(ExtendedLocationARM)
+		extendedLocation := *extendedLocationARM.(*ExtendedLocationARM)
 		result.ExtendedLocation = &extendedLocation
 	}
 
@@ -1634,7 +1634,7 @@ func (clusters *ManagedClusters_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		if err != nil {
 			return nil, err
 		}
-		identity := identityARM.(ManagedClusterIdentityARM)
+		identity := *identityARM.(*ManagedClusterIdentityARM)
 		result.Identity = &identity
 	}
 
@@ -1677,7 +1677,7 @@ func (clusters *ManagedClusters_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		if err != nil {
 			return nil, err
 		}
-		aadProfile := aadProfileARM.(ManagedClusterAADProfileARM)
+		aadProfile := *aadProfileARM.(*ManagedClusterAADProfileARM)
 		result.Properties.AadProfile = &aadProfile
 	}
 	if clusters.AddonProfiles != nil {
@@ -1687,7 +1687,7 @@ func (clusters *ManagedClusters_Spec) ConvertToARM(resolved genruntime.ConvertTo
 			if err != nil {
 				return nil, err
 			}
-			result.Properties.AddonProfiles[key] = valueARM.(ManagedClusterAddonProfileARM)
+			result.Properties.AddonProfiles[key] = *valueARM.(*ManagedClusterAddonProfileARM)
 		}
 	}
 	for _, item := range clusters.AgentPoolProfiles {
@@ -1695,14 +1695,14 @@ func (clusters *ManagedClusters_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.AgentPoolProfiles = append(result.Properties.AgentPoolProfiles, itemARM.(ManagedClusterAgentPoolProfileARM))
+		result.Properties.AgentPoolProfiles = append(result.Properties.AgentPoolProfiles, *itemARM.(*ManagedClusterAgentPoolProfileARM))
 	}
 	if clusters.ApiServerAccessProfile != nil {
 		apiServerAccessProfileARM, err := (*clusters.ApiServerAccessProfile).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		apiServerAccessProfile := apiServerAccessProfileARM.(ManagedClusterAPIServerAccessProfileARM)
+		apiServerAccessProfile := *apiServerAccessProfileARM.(*ManagedClusterAPIServerAccessProfileARM)
 		result.Properties.ApiServerAccessProfile = &apiServerAccessProfile
 	}
 	if clusters.AutoScalerProfile != nil {
@@ -1710,7 +1710,7 @@ func (clusters *ManagedClusters_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		if err != nil {
 			return nil, err
 		}
-		autoScalerProfile := autoScalerProfileARM.(ManagedClusterPropertiesAutoScalerProfileARM)
+		autoScalerProfile := *autoScalerProfileARM.(*ManagedClusterPropertiesAutoScalerProfileARM)
 		result.Properties.AutoScalerProfile = &autoScalerProfile
 	}
 	if clusters.AutoUpgradeProfile != nil {
@@ -1718,7 +1718,7 @@ func (clusters *ManagedClusters_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		if err != nil {
 			return nil, err
 		}
-		autoUpgradeProfile := autoUpgradeProfileARM.(ManagedClusterAutoUpgradeProfileARM)
+		autoUpgradeProfile := *autoUpgradeProfileARM.(*ManagedClusterAutoUpgradeProfileARM)
 		result.Properties.AutoUpgradeProfile = &autoUpgradeProfile
 	}
 	if clusters.DisableLocalAccounts != nil {
@@ -1754,7 +1754,7 @@ func (clusters *ManagedClusters_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		if err != nil {
 			return nil, err
 		}
-		httpProxyConfig := httpProxyConfigARM.(ManagedClusterHTTPProxyConfigARM)
+		httpProxyConfig := *httpProxyConfigARM.(*ManagedClusterHTTPProxyConfigARM)
 		result.Properties.HttpProxyConfig = &httpProxyConfig
 	}
 	if clusters.IdentityProfile != nil {
@@ -1764,7 +1764,7 @@ func (clusters *ManagedClusters_Spec) ConvertToARM(resolved genruntime.ConvertTo
 			if err != nil {
 				return nil, err
 			}
-			result.Properties.IdentityProfile[key] = valueARM.(Componentsqit0EtschemasmanagedclusterpropertiespropertiesidentityprofileadditionalpropertiesARM)
+			result.Properties.IdentityProfile[key] = *valueARM.(*Componentsqit0EtschemasmanagedclusterpropertiespropertiesidentityprofileadditionalpropertiesARM)
 		}
 	}
 	if clusters.KubernetesVersion != nil {
@@ -1776,7 +1776,7 @@ func (clusters *ManagedClusters_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		if err != nil {
 			return nil, err
 		}
-		linuxProfile := linuxProfileARM.(ContainerServiceLinuxProfileARM)
+		linuxProfile := *linuxProfileARM.(*ContainerServiceLinuxProfileARM)
 		result.Properties.LinuxProfile = &linuxProfile
 	}
 	if clusters.NetworkProfile != nil {
@@ -1784,7 +1784,7 @@ func (clusters *ManagedClusters_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		if err != nil {
 			return nil, err
 		}
-		networkProfile := networkProfileARM.(ContainerServiceNetworkProfileARM)
+		networkProfile := *networkProfileARM.(*ContainerServiceNetworkProfileARM)
 		result.Properties.NetworkProfile = &networkProfile
 	}
 	if clusters.NodeResourceGroup != nil {
@@ -1796,7 +1796,7 @@ func (clusters *ManagedClusters_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		if err != nil {
 			return nil, err
 		}
-		podIdentityProfile := podIdentityProfileARM.(ManagedClusterPodIdentityProfileARM)
+		podIdentityProfile := *podIdentityProfileARM.(*ManagedClusterPodIdentityProfileARM)
 		result.Properties.PodIdentityProfile = &podIdentityProfile
 	}
 	for _, item := range clusters.PrivateLinkResources {
@@ -1804,14 +1804,14 @@ func (clusters *ManagedClusters_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.PrivateLinkResources = append(result.Properties.PrivateLinkResources, itemARM.(PrivateLinkResourceARM))
+		result.Properties.PrivateLinkResources = append(result.Properties.PrivateLinkResources, *itemARM.(*PrivateLinkResourceARM))
 	}
 	if clusters.ServicePrincipalProfile != nil {
 		servicePrincipalProfileARM, err := (*clusters.ServicePrincipalProfile).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		servicePrincipalProfile := servicePrincipalProfileARM.(ManagedClusterServicePrincipalProfileARM)
+		servicePrincipalProfile := *servicePrincipalProfileARM.(*ManagedClusterServicePrincipalProfileARM)
 		result.Properties.ServicePrincipalProfile = &servicePrincipalProfile
 	}
 	if clusters.WindowsProfile != nil {
@@ -1819,7 +1819,7 @@ func (clusters *ManagedClusters_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		if err != nil {
 			return nil, err
 		}
-		windowsProfile := windowsProfileARM.(ManagedClusterWindowsProfileARM)
+		windowsProfile := *windowsProfileARM.(*ManagedClusterWindowsProfileARM)
 		result.Properties.WindowsProfile = &windowsProfile
 	}
 
@@ -1829,7 +1829,7 @@ func (clusters *ManagedClusters_Spec) ConvertToARM(resolved genruntime.ConvertTo
 		if err != nil {
 			return nil, err
 		}
-		sku := skuARM.(ManagedClusterSKUARM)
+		sku := *skuARM.(*ManagedClusterSKUARM)
 		result.Sku = &sku
 	}
 
@@ -2858,7 +2858,7 @@ func (etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproper
 	if etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties == nil {
 		return nil, nil
 	}
-	var result Componentsqit0EtschemasmanagedclusterpropertiespropertiesidentityprofileadditionalpropertiesARM
+	result := &Componentsqit0EtschemasmanagedclusterpropertiespropertiesidentityprofileadditionalpropertiesARM{}
 
 	// Set property ‘ClientId’:
 	if etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties.ClientId != nil {
@@ -2984,7 +2984,7 @@ func (profile *ContainerServiceLinuxProfile) ConvertToARM(resolved genruntime.Co
 	if profile == nil {
 		return nil, nil
 	}
-	var result ContainerServiceLinuxProfileARM
+	result := &ContainerServiceLinuxProfileARM{}
 
 	// Set property ‘AdminUsername’:
 	if profile.AdminUsername != nil {
@@ -2998,7 +2998,7 @@ func (profile *ContainerServiceLinuxProfile) ConvertToARM(resolved genruntime.Co
 		if err != nil {
 			return nil, err
 		}
-		ssh := sshARM.(ContainerServiceSshConfigurationARM)
+		ssh := *sshARM.(*ContainerServiceSshConfigurationARM)
 		result.Ssh = &ssh
 	}
 	return result, nil
@@ -3246,7 +3246,7 @@ func (profile *ContainerServiceNetworkProfile) ConvertToARM(resolved genruntime.
 	if profile == nil {
 		return nil, nil
 	}
-	var result ContainerServiceNetworkProfileARM
+	result := &ContainerServiceNetworkProfileARM{}
 
 	// Set property ‘DnsServiceIP’:
 	if profile.DnsServiceIP != nil {
@@ -3266,7 +3266,7 @@ func (profile *ContainerServiceNetworkProfile) ConvertToARM(resolved genruntime.
 		if err != nil {
 			return nil, err
 		}
-		loadBalancerProfile := loadBalancerProfileARM.(ManagedClusterLoadBalancerProfileARM)
+		loadBalancerProfile := *loadBalancerProfileARM.(*ManagedClusterLoadBalancerProfileARM)
 		result.LoadBalancerProfile = &loadBalancerProfile
 	}
 
@@ -3874,7 +3874,7 @@ func (location *ExtendedLocation) ConvertToARM(resolved genruntime.ConvertToARMR
 	if location == nil {
 		return nil, nil
 	}
-	var result ExtendedLocationARM
+	result := &ExtendedLocationARM{}
 
 	// Set property ‘Name’:
 	if location.Name != nil {
@@ -4078,7 +4078,7 @@ func (profile *ManagedClusterAADProfile) ConvertToARM(resolved genruntime.Conver
 	if profile == nil {
 		return nil, nil
 	}
-	var result ManagedClusterAADProfileARM
+	result := &ManagedClusterAADProfileARM{}
 
 	// Set property ‘AdminGroupObjectIDs’:
 	for _, item := range profile.AdminGroupObjectIDs {
@@ -4460,7 +4460,7 @@ func (profile *ManagedClusterAPIServerAccessProfile) ConvertToARM(resolved genru
 	if profile == nil {
 		return nil, nil
 	}
-	var result ManagedClusterAPIServerAccessProfileARM
+	result := &ManagedClusterAPIServerAccessProfileARM{}
 
 	// Set property ‘AuthorizedIPRanges’:
 	for _, item := range profile.AuthorizedIPRanges {
@@ -4737,7 +4737,7 @@ func (profile *ManagedClusterAddonProfile) ConvertToARM(resolved genruntime.Conv
 	if profile == nil {
 		return nil, nil
 	}
-	var result ManagedClusterAddonProfileARM
+	result := &ManagedClusterAddonProfileARM{}
 
 	// Set property ‘Config’:
 	if profile.Config != nil {
@@ -4960,7 +4960,7 @@ func (profile *ManagedClusterAgentPoolProfile) ConvertToARM(resolved genruntime.
 	if profile == nil {
 		return nil, nil
 	}
-	var result ManagedClusterAgentPoolProfileARM
+	result := &ManagedClusterAgentPoolProfileARM{}
 
 	// Set property ‘AvailabilityZones’:
 	for _, item := range profile.AvailabilityZones {
@@ -5015,7 +5015,7 @@ func (profile *ManagedClusterAgentPoolProfile) ConvertToARM(resolved genruntime.
 		if err != nil {
 			return nil, err
 		}
-		kubeletConfig := kubeletConfigARM.(KubeletConfigARM)
+		kubeletConfig := *kubeletConfigARM.(*KubeletConfigARM)
 		result.KubeletConfig = &kubeletConfig
 	}
 
@@ -5031,7 +5031,7 @@ func (profile *ManagedClusterAgentPoolProfile) ConvertToARM(resolved genruntime.
 		if err != nil {
 			return nil, err
 		}
-		linuxOSConfig := linuxOSConfigARM.(LinuxOSConfigARM)
+		linuxOSConfig := *linuxOSConfigARM.(*LinuxOSConfigARM)
 		result.LinuxOSConfig = &linuxOSConfig
 	}
 
@@ -5172,7 +5172,7 @@ func (profile *ManagedClusterAgentPoolProfile) ConvertToARM(resolved genruntime.
 		if err != nil {
 			return nil, err
 		}
-		upgradeSettings := upgradeSettingsARM.(AgentPoolUpgradeSettingsARM)
+		upgradeSettings := *upgradeSettingsARM.(*AgentPoolUpgradeSettingsARM)
 		result.UpgradeSettings = &upgradeSettings
 	}
 
@@ -6765,7 +6765,7 @@ func (profile *ManagedClusterAutoUpgradeProfile) ConvertToARM(resolved genruntim
 	if profile == nil {
 		return nil, nil
 	}
-	var result ManagedClusterAutoUpgradeProfileARM
+	result := &ManagedClusterAutoUpgradeProfileARM{}
 
 	// Set property ‘UpgradeChannel’:
 	if profile.UpgradeChannel != nil {
@@ -6927,7 +6927,7 @@ func (config *ManagedClusterHTTPProxyConfig) ConvertToARM(resolved genruntime.Co
 	if config == nil {
 		return nil, nil
 	}
-	var result ManagedClusterHTTPProxyConfigARM
+	result := &ManagedClusterHTTPProxyConfigARM{}
 
 	// Set property ‘HttpProxy’:
 	if config.HttpProxy != nil {
@@ -7160,7 +7160,7 @@ func (identity *ManagedClusterIdentity) ConvertToARM(resolved genruntime.Convert
 	if identity == nil {
 		return nil, nil
 	}
-	var result ManagedClusterIdentityARM
+	result := &ManagedClusterIdentityARM{}
 
 	// Set property ‘Type’:
 	if identity.Type != nil {
@@ -7450,7 +7450,7 @@ func (profile *ManagedClusterPodIdentityProfile) ConvertToARM(resolved genruntim
 	if profile == nil {
 		return nil, nil
 	}
-	var result ManagedClusterPodIdentityProfileARM
+	result := &ManagedClusterPodIdentityProfileARM{}
 
 	// Set property ‘AllowNetworkPluginKubenet’:
 	if profile.AllowNetworkPluginKubenet != nil {
@@ -7470,7 +7470,7 @@ func (profile *ManagedClusterPodIdentityProfile) ConvertToARM(resolved genruntim
 		if err != nil {
 			return nil, err
 		}
-		result.UserAssignedIdentities = append(result.UserAssignedIdentities, itemARM.(ManagedClusterPodIdentityARM))
+		result.UserAssignedIdentities = append(result.UserAssignedIdentities, *itemARM.(*ManagedClusterPodIdentityARM))
 	}
 
 	// Set property ‘UserAssignedIdentityExceptions’:
@@ -7479,7 +7479,7 @@ func (profile *ManagedClusterPodIdentityProfile) ConvertToARM(resolved genruntim
 		if err != nil {
 			return nil, err
 		}
-		result.UserAssignedIdentityExceptions = append(result.UserAssignedIdentityExceptions, itemARM.(ManagedClusterPodIdentityExceptionARM))
+		result.UserAssignedIdentityExceptions = append(result.UserAssignedIdentityExceptions, *itemARM.(*ManagedClusterPodIdentityExceptionARM))
 	}
 	return result, nil
 }
@@ -7924,7 +7924,7 @@ func (profile *ManagedClusterPropertiesAutoScalerProfile) ConvertToARM(resolved 
 	if profile == nil {
 		return nil, nil
 	}
-	var result ManagedClusterPropertiesAutoScalerProfileARM
+	result := &ManagedClusterPropertiesAutoScalerProfileARM{}
 
 	// Set property ‘BalanceSimilarNodeGroups’:
 	if profile.BalanceSimilarNodeGroups != nil {
@@ -8618,7 +8618,7 @@ func (clusterSKU *ManagedClusterSKU) ConvertToARM(resolved genruntime.ConvertToA
 	if clusterSKU == nil {
 		return nil, nil
 	}
-	var result ManagedClusterSKUARM
+	result := &ManagedClusterSKUARM{}
 
 	// Set property ‘Name’:
 	if clusterSKU.Name != nil {
@@ -8828,7 +8828,7 @@ func (profile *ManagedClusterServicePrincipalProfile) ConvertToARM(resolved genr
 	if profile == nil {
 		return nil, nil
 	}
-	var result ManagedClusterServicePrincipalProfileARM
+	result := &ManagedClusterServicePrincipalProfileARM{}
 
 	// Set property ‘ClientId’:
 	if profile.ClientId != nil {
@@ -9020,7 +9020,7 @@ func (profile *ManagedClusterWindowsProfile) ConvertToARM(resolved genruntime.Co
 	if profile == nil {
 		return nil, nil
 	}
-	var result ManagedClusterWindowsProfileARM
+	result := &ManagedClusterWindowsProfileARM{}
 
 	// Set property ‘AdminPassword’:
 	if profile.AdminPassword != nil {
@@ -9388,7 +9388,7 @@ func (resource *PrivateLinkResource) ConvertToARM(resolved genruntime.ConvertToA
 	if resource == nil {
 		return nil, nil
 	}
-	var result PrivateLinkResourceARM
+	result := &PrivateLinkResourceARM{}
 
 	// Set property ‘GroupId’:
 	if resource.GroupId != nil {
@@ -9750,7 +9750,7 @@ func (configuration *ContainerServiceSshConfiguration) ConvertToARM(resolved gen
 	if configuration == nil {
 		return nil, nil
 	}
-	var result ContainerServiceSshConfigurationARM
+	result := &ContainerServiceSshConfigurationARM{}
 
 	// Set property ‘PublicKeys’:
 	for _, item := range configuration.PublicKeys {
@@ -9758,7 +9758,7 @@ func (configuration *ContainerServiceSshConfiguration) ConvertToARM(resolved gen
 		if err != nil {
 			return nil, err
 		}
-		result.PublicKeys = append(result.PublicKeys, itemARM.(ContainerServiceSshPublicKeyARM))
+		result.PublicKeys = append(result.PublicKeys, *itemARM.(*ContainerServiceSshPublicKeyARM))
 	}
 	return result, nil
 }
@@ -10143,7 +10143,7 @@ func (profile *ManagedClusterLoadBalancerProfile) ConvertToARM(resolved genrunti
 	if profile == nil {
 		return nil, nil
 	}
-	var result ManagedClusterLoadBalancerProfileARM
+	result := &ManagedClusterLoadBalancerProfileARM{}
 
 	// Set property ‘AllocatedOutboundPorts’:
 	if profile.AllocatedOutboundPorts != nil {
@@ -10157,7 +10157,7 @@ func (profile *ManagedClusterLoadBalancerProfile) ConvertToARM(resolved genrunti
 		if err != nil {
 			return nil, err
 		}
-		result.EffectiveOutboundIPs = append(result.EffectiveOutboundIPs, itemARM.(ResourceReferenceARM))
+		result.EffectiveOutboundIPs = append(result.EffectiveOutboundIPs, *itemARM.(*ResourceReferenceARM))
 	}
 
 	// Set property ‘IdleTimeoutInMinutes’:
@@ -10172,7 +10172,7 @@ func (profile *ManagedClusterLoadBalancerProfile) ConvertToARM(resolved genrunti
 		if err != nil {
 			return nil, err
 		}
-		managedOutboundIPs := managedOutboundIPsARM.(ManagedClusterLoadBalancerProfileManagedOutboundIPsARM)
+		managedOutboundIPs := *managedOutboundIPsARM.(*ManagedClusterLoadBalancerProfileManagedOutboundIPsARM)
 		result.ManagedOutboundIPs = &managedOutboundIPs
 	}
 
@@ -10182,7 +10182,7 @@ func (profile *ManagedClusterLoadBalancerProfile) ConvertToARM(resolved genrunti
 		if err != nil {
 			return nil, err
 		}
-		outboundIPPrefixes := outboundIPPrefixesARM.(ManagedClusterLoadBalancerProfileOutboundIPPrefixesARM)
+		outboundIPPrefixes := *outboundIPPrefixesARM.(*ManagedClusterLoadBalancerProfileOutboundIPPrefixesARM)
 		result.OutboundIPPrefixes = &outboundIPPrefixes
 	}
 
@@ -10192,7 +10192,7 @@ func (profile *ManagedClusterLoadBalancerProfile) ConvertToARM(resolved genrunti
 		if err != nil {
 			return nil, err
 		}
-		outboundIPs := outboundIPsARM.(ManagedClusterLoadBalancerProfileOutboundIPsARM)
+		outboundIPs := *outboundIPsARM.(*ManagedClusterLoadBalancerProfileOutboundIPsARM)
 		result.OutboundIPs = &outboundIPs
 	}
 	return result, nil
@@ -10695,7 +10695,7 @@ func (identity *ManagedClusterPodIdentity) ConvertToARM(resolved genruntime.Conv
 	if identity == nil {
 		return nil, nil
 	}
-	var result ManagedClusterPodIdentityARM
+	result := &ManagedClusterPodIdentityARM{}
 
 	// Set property ‘BindingSelector’:
 	if identity.BindingSelector != nil {
@@ -10709,7 +10709,7 @@ func (identity *ManagedClusterPodIdentity) ConvertToARM(resolved genruntime.Conv
 		if err != nil {
 			return nil, err
 		}
-		identity1 := identityARM.(UserAssignedIdentityARM)
+		identity1 := *identityARM.(*UserAssignedIdentityARM)
 		result.Identity = &identity1
 	}
 
@@ -10859,7 +10859,7 @@ func (exception *ManagedClusterPodIdentityException) ConvertToARM(resolved genru
 	if exception == nil {
 		return nil, nil
 	}
-	var result ManagedClusterPodIdentityExceptionARM
+	result := &ManagedClusterPodIdentityExceptionARM{}
 
 	// Set property ‘Name’:
 	if exception.Name != nil {
@@ -11286,7 +11286,7 @@ func (publicKey *ContainerServiceSshPublicKey) ConvertToARM(resolved genruntime.
 	if publicKey == nil {
 		return nil, nil
 	}
-	var result ContainerServiceSshPublicKeyARM
+	result := &ContainerServiceSshPublicKeyARM{}
 
 	// Set property ‘KeyData’:
 	if publicKey.KeyData != nil {
@@ -11422,7 +11422,7 @@ func (iPs *ManagedClusterLoadBalancerProfileManagedOutboundIPs) ConvertToARM(res
 	if iPs == nil {
 		return nil, nil
 	}
-	var result ManagedClusterLoadBalancerProfileManagedOutboundIPsARM
+	result := &ManagedClusterLoadBalancerProfileManagedOutboundIPsARM{}
 
 	// Set property ‘Count’:
 	if iPs.Count != nil {
@@ -11506,7 +11506,7 @@ func (prefixes *ManagedClusterLoadBalancerProfileOutboundIPPrefixes) ConvertToAR
 	if prefixes == nil {
 		return nil, nil
 	}
-	var result ManagedClusterLoadBalancerProfileOutboundIPPrefixesARM
+	result := &ManagedClusterLoadBalancerProfileOutboundIPPrefixesARM{}
 
 	// Set property ‘PublicIPPrefixes’:
 	for _, item := range prefixes.PublicIPPrefixes {
@@ -11514,7 +11514,7 @@ func (prefixes *ManagedClusterLoadBalancerProfileOutboundIPPrefixes) ConvertToAR
 		if err != nil {
 			return nil, err
 		}
-		result.PublicIPPrefixes = append(result.PublicIPPrefixes, itemARM.(ResourceReferenceARM))
+		result.PublicIPPrefixes = append(result.PublicIPPrefixes, *itemARM.(*ResourceReferenceARM))
 	}
 	return result, nil
 }
@@ -11617,7 +11617,7 @@ func (iPs *ManagedClusterLoadBalancerProfileOutboundIPs) ConvertToARM(resolved g
 	if iPs == nil {
 		return nil, nil
 	}
-	var result ManagedClusterLoadBalancerProfileOutboundIPsARM
+	result := &ManagedClusterLoadBalancerProfileOutboundIPsARM{}
 
 	// Set property ‘PublicIPs’:
 	for _, item := range iPs.PublicIPs {
@@ -11625,7 +11625,7 @@ func (iPs *ManagedClusterLoadBalancerProfileOutboundIPs) ConvertToARM(resolved g
 		if err != nil {
 			return nil, err
 		}
-		result.PublicIPs = append(result.PublicIPs, itemARM.(ResourceReferenceARM))
+		result.PublicIPs = append(result.PublicIPs, *itemARM.(*ResourceReferenceARM))
 	}
 	return result, nil
 }
@@ -12061,7 +12061,7 @@ func (reference *ResourceReference) ConvertToARM(resolved genruntime.ConvertToAR
 	if reference == nil {
 		return nil, nil
 	}
-	var result ResourceReferenceARM
+	result := &ResourceReferenceARM{}
 
 	// Set property ‘Id’:
 	if reference.Reference != nil {
@@ -12209,7 +12209,7 @@ func (identity *UserAssignedIdentity) ConvertToARM(resolved genruntime.ConvertTo
 	if identity == nil {
 		return nil, nil
 	}
-	var result UserAssignedIdentityARM
+	result := &UserAssignedIdentityARM{}
 
 	// Set property ‘ClientId’:
 	if identity.ClientId != nil {

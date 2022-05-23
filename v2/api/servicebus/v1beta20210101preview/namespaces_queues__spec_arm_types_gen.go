@@ -23,16 +23,16 @@ var _ genruntime.ARMResourceSpec = &NamespacesQueues_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-01-01-preview"
 func (queues NamespacesQueues_SpecARM) GetAPIVersion() string {
-	return "2021-01-01-preview"
+	return string(APIVersionValue)
 }
 
 // GetName returns the Name of the resource
-func (queues NamespacesQueues_SpecARM) GetName() string {
+func (queues *NamespacesQueues_SpecARM) GetName() string {
 	return queues.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.ServiceBus/namespaces/queues"
-func (queues NamespacesQueues_SpecARM) GetType() string {
+func (queues *NamespacesQueues_SpecARM) GetType() string {
 	return "Microsoft.ServiceBus/namespaces/queues"
 }
 

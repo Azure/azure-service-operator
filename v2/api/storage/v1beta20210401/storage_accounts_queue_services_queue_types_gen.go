@@ -98,7 +98,7 @@ func (queue *StorageAccountsQueueServicesQueue) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-04-01"
 func (queue StorageAccountsQueueServicesQueue) GetAPIVersion() string {
-	return "2021-04-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -317,11 +317,6 @@ type StorageAccountsQueueServicesQueueList struct {
 	Items           []StorageAccountsQueueServicesQueue `json:"items"`
 }
 
-// +kubebuilder:validation:Enum={"2021-04-01"}
-type StorageAccountsQueueServicesQueuesSpecAPIVersion string
-
-const StorageAccountsQueueServicesQueuesSpecAPIVersion20210401 = StorageAccountsQueueServicesQueuesSpecAPIVersion("2021-04-01")
-
 type StorageAccountsQueueServicesQueues_Spec struct {
 	// +kubebuilder:validation:MaxLength=63
 	// +kubebuilder:validation:MinLength=3
@@ -352,7 +347,7 @@ func (queues *StorageAccountsQueueServicesQueues_Spec) ConvertToARM(resolved gen
 	if queues == nil {
 		return nil, nil
 	}
-	var result StorageAccountsQueueServicesQueues_SpecARM
+	result := &StorageAccountsQueueServicesQueues_SpecARM{}
 
 	// Set property ‘Location’:
 	if queues.Location != nil {

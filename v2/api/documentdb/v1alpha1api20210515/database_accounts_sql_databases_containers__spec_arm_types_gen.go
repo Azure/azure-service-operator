@@ -17,16 +17,16 @@ var _ genruntime.ARMResourceSpec = &DatabaseAccountsSqlDatabasesContainers_SpecA
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
 func (containers DatabaseAccountsSqlDatabasesContainers_SpecARM) GetAPIVersion() string {
-	return "2021-05-15"
+	return string(APIVersionValue)
 }
 
 // GetName returns the Name of the resource
-func (containers DatabaseAccountsSqlDatabasesContainers_SpecARM) GetName() string {
+func (containers *DatabaseAccountsSqlDatabasesContainers_SpecARM) GetName() string {
 	return containers.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers"
-func (containers DatabaseAccountsSqlDatabasesContainers_SpecARM) GetType() string {
+func (containers *DatabaseAccountsSqlDatabasesContainers_SpecARM) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers"
 }
 

@@ -91,7 +91,7 @@ func (setting *MongodbDatabaseCollectionThroughputSetting) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
 func (setting MongodbDatabaseCollectionThroughputSetting) GetAPIVersion() string {
-	return "2021-05-15"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -310,11 +310,6 @@ type MongodbDatabaseCollectionThroughputSettingList struct {
 	Items           []MongodbDatabaseCollectionThroughputSetting `json:"items"`
 }
 
-// +kubebuilder:validation:Enum={"2021-05-15"}
-type DatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpecAPIVersion string
-
-const DatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpecAPIVersion20210515 = DatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpecAPIVersion("2021-05-15")
-
 type DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec struct {
 	// Location: The location of the resource group to which the resource belongs.
 	Location *string `json:"location,omitempty"`
@@ -345,7 +340,7 @@ func (settings *DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Sp
 	if settings == nil {
 		return nil, nil
 	}
-	var result DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SpecARM
+	result := &DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SpecARM{}
 
 	// Set property ‘Location’:
 	if settings.Location != nil {
@@ -365,7 +360,7 @@ func (settings *DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Sp
 		if err != nil {
 			return nil, err
 		}
-		resource := resourceARM.(ThroughputSettingsResourceARM)
+		resource := *resourceARM.(*ThroughputSettingsResourceARM)
 		result.Properties.Resource = &resource
 	}
 
@@ -979,7 +974,7 @@ func (resource *ThroughputSettingsResource) ConvertToARM(resolved genruntime.Con
 	if resource == nil {
 		return nil, nil
 	}
-	var result ThroughputSettingsResourceARM
+	result := &ThroughputSettingsResourceARM{}
 
 	// Set property ‘AutoscaleSettings’:
 	if resource.AutoscaleSettings != nil {
@@ -987,7 +982,7 @@ func (resource *ThroughputSettingsResource) ConvertToARM(resolved genruntime.Con
 		if err != nil {
 			return nil, err
 		}
-		autoscaleSettings := autoscaleSettingsARM.(AutoscaleSettingsResourceARM)
+		autoscaleSettings := *autoscaleSettingsARM.(*AutoscaleSettingsResourceARM)
 		result.AutoscaleSettings = &autoscaleSettings
 	}
 
@@ -1102,7 +1097,7 @@ func (resource *AutoscaleSettingsResource) ConvertToARM(resolved genruntime.Conv
 	if resource == nil {
 		return nil, nil
 	}
-	var result AutoscaleSettingsResourceARM
+	result := &AutoscaleSettingsResourceARM{}
 
 	// Set property ‘AutoUpgradePolicy’:
 	if resource.AutoUpgradePolicy != nil {
@@ -1110,7 +1105,7 @@ func (resource *AutoscaleSettingsResource) ConvertToARM(resolved genruntime.Conv
 		if err != nil {
 			return nil, err
 		}
-		autoUpgradePolicy := autoUpgradePolicyARM.(AutoUpgradePolicyResourceARM)
+		autoUpgradePolicy := *autoUpgradePolicyARM.(*AutoUpgradePolicyResourceARM)
 		result.AutoUpgradePolicy = &autoUpgradePolicy
 	}
 
@@ -1333,7 +1328,7 @@ func (resource *AutoUpgradePolicyResource) ConvertToARM(resolved genruntime.Conv
 	if resource == nil {
 		return nil, nil
 	}
-	var result AutoUpgradePolicyResourceARM
+	result := &AutoUpgradePolicyResourceARM{}
 
 	// Set property ‘ThroughputPolicy’:
 	if resource.ThroughputPolicy != nil {
@@ -1341,7 +1336,7 @@ func (resource *AutoUpgradePolicyResource) ConvertToARM(resolved genruntime.Conv
 		if err != nil {
 			return nil, err
 		}
-		throughputPolicy := throughputPolicyARM.(ThroughputPolicyResourceARM)
+		throughputPolicy := *throughputPolicyARM.(*ThroughputPolicyResourceARM)
 		result.ThroughputPolicy = &throughputPolicy
 	}
 	return result, nil
@@ -1518,7 +1513,7 @@ func (resource *ThroughputPolicyResource) ConvertToARM(resolved genruntime.Conve
 	if resource == nil {
 		return nil, nil
 	}
-	var result ThroughputPolicyResourceARM
+	result := &ThroughputPolicyResourceARM{}
 
 	// Set property ‘IncrementPercent’:
 	if resource.IncrementPercent != nil {

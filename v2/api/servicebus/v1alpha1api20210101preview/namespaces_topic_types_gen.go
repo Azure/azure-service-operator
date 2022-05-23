@@ -112,7 +112,7 @@ func (topic *NamespacesTopic) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-01-01-preview"
 func (topic NamespacesTopic) GetAPIVersion() string {
-	return "2021-01-01-preview"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -363,7 +363,7 @@ func (topics *NamespacesTopics_Spec) ConvertToARM(resolved genruntime.ConvertToA
 	if topics == nil {
 		return nil, nil
 	}
-	var result NamespacesTopics_SpecARM
+	result := &NamespacesTopics_SpecARM{}
 
 	// Set property ‘Location’:
 	if topics.Location != nil {

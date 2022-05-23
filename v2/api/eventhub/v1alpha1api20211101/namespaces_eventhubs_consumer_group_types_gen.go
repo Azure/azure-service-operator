@@ -112,7 +112,7 @@ func (group *NamespacesEventhubsConsumerGroup) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-11-01"
 func (group NamespacesEventhubsConsumerGroup) GetAPIVersion() string {
-	return "2021-11-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -596,7 +596,7 @@ func (consumergroups *NamespacesEventhubsConsumergroups_Spec) ConvertToARM(resol
 	if consumergroups == nil {
 		return nil, nil
 	}
-	var result NamespacesEventhubsConsumergroups_SpecARM
+	result := &NamespacesEventhubsConsumergroups_SpecARM{}
 
 	// Set property ‘Location’:
 	if consumergroups.Location != nil {

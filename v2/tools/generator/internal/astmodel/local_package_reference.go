@@ -115,9 +115,14 @@ func IsLocalPackageReference(ref PackageReference) bool {
 	return ok
 }
 
-// GroupVersion returns the group and version of this local reference.
-func (pr LocalPackageReference) GroupVersion() (string, string, bool) {
+// TryGroupVersion returns the group and version of this local reference.
+func (pr LocalPackageReference) TryGroupVersion() (string, string, bool) {
 	return pr.group, pr.Version(), true
+}
+
+// GroupVersion returns the group and version of this local reference.
+func (pr LocalPackageReference) GroupVersion() (string, string) {
+	return pr.group, pr.Version()
 }
 
 // sanitizePackageName removes all non-alphanumeric characters and converts to lower case

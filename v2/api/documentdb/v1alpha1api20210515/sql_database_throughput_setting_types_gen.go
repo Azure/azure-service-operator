@@ -105,7 +105,7 @@ func (setting *SqlDatabaseThroughputSetting) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
 func (setting SqlDatabaseThroughputSetting) GetAPIVersion() string {
-	return "2021-05-15"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -345,7 +345,7 @@ func (settings *DatabaseAccountsSqlDatabasesThroughputSettings_Spec) ConvertToAR
 	if settings == nil {
 		return nil, nil
 	}
-	var result DatabaseAccountsSqlDatabasesThroughputSettings_SpecARM
+	result := &DatabaseAccountsSqlDatabasesThroughputSettings_SpecARM{}
 
 	// Set property ‘Location’:
 	if settings.Location != nil {
@@ -365,7 +365,7 @@ func (settings *DatabaseAccountsSqlDatabasesThroughputSettings_Spec) ConvertToAR
 		if err != nil {
 			return nil, err
 		}
-		resource := resourceARM.(ThroughputSettingsResourceARM)
+		resource := *resourceARM.(*ThroughputSettingsResourceARM)
 		result.Properties.Resource = &resource
 	}
 

@@ -98,7 +98,7 @@ func (assignment *RoleAssignment) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-08-01-preview"
 func (assignment RoleAssignment) GetAPIVersion() string {
-	return "2020-08-01-preview"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -315,6 +315,11 @@ type RoleAssignmentList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []RoleAssignment `json:"items"`
 }
+
+// +kubebuilder:validation:Enum={"2020-08-01-preview"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2020-08-01-preview")
 
 type RoleAssignment_Status struct {
 	// Condition: The conditions on the role assignment. This limits the resources it can be assigned to. e.g.:
@@ -693,11 +698,6 @@ func (assignment *RoleAssignment_Status) AssignPropertiesToRoleAssignmentStatus(
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"2020-08-01-preview"}
-type RoleAssignmentsSpecAPIVersion string
-
-const RoleAssignmentsSpecAPIVersion20200801Preview = RoleAssignmentsSpecAPIVersion("2020-08-01-preview")
-
 type RoleAssignments_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
@@ -748,7 +748,7 @@ func (assignments *RoleAssignments_Spec) ConvertToARM(resolved genruntime.Conver
 	if assignments == nil {
 		return nil, nil
 	}
-	var result RoleAssignments_SpecARM
+	result := &RoleAssignments_SpecARM{}
 
 	// Set property ‘Location’:
 	if assignments.Location != nil {

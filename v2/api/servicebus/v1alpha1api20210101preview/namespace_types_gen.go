@@ -112,7 +112,7 @@ func (namespace *Namespace) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-01-01-preview"
 func (namespace Namespace) GetAPIVersion() string {
-	return "2021-01-01-preview"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -331,6 +331,12 @@ type NamespaceList struct {
 	Items           []Namespace `json:"items"`
 }
 
+// Deprecated version of APIVersion. Use v1beta20210101preview.APIVersion instead
+// +kubebuilder:validation:Enum={"2021-01-01-preview"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2021-01-01-preview")
+
 type Namespaces_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
@@ -356,7 +362,7 @@ func (namespaces *Namespaces_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	if namespaces == nil {
 		return nil, nil
 	}
-	var result Namespaces_SpecARM
+	result := &Namespaces_SpecARM{}
 
 	// Set property ‘Identity’:
 	if namespaces.Identity != nil {
@@ -364,7 +370,7 @@ func (namespaces *Namespaces_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		if err != nil {
 			return nil, err
 		}
-		identity := identityARM.(IdentityARM)
+		identity := *identityARM.(*IdentityARM)
 		result.Identity = &identity
 	}
 
@@ -386,7 +392,7 @@ func (namespaces *Namespaces_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		if err != nil {
 			return nil, err
 		}
-		encryption := encryptionARM.(EncryptionARM)
+		encryption := *encryptionARM.(*EncryptionARM)
 		result.Properties.Encryption = &encryption
 	}
 	if namespaces.ZoneRedundant != nil {
@@ -400,7 +406,7 @@ func (namespaces *Namespaces_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		if err != nil {
 			return nil, err
 		}
-		sku := skuARM.(SBSkuARM)
+		sku := *skuARM.(*SBSkuARM)
 		result.Sku = &sku
 	}
 
@@ -1208,7 +1214,7 @@ func (encryption *Encryption) ConvertToARM(resolved genruntime.ConvertToARMResol
 	if encryption == nil {
 		return nil, nil
 	}
-	var result EncryptionARM
+	result := &EncryptionARM{}
 
 	// Set property ‘KeySource’:
 	if encryption.KeySource != nil {
@@ -1222,7 +1228,7 @@ func (encryption *Encryption) ConvertToARM(resolved genruntime.ConvertToARMResol
 		if err != nil {
 			return nil, err
 		}
-		result.KeyVaultProperties = append(result.KeyVaultProperties, itemARM.(KeyVaultPropertiesARM))
+		result.KeyVaultProperties = append(result.KeyVaultProperties, *itemARM.(*KeyVaultPropertiesARM))
 	}
 
 	// Set property ‘RequireInfrastructureEncryption’:
@@ -1512,7 +1518,7 @@ func (identity *Identity) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 	if identity == nil {
 		return nil, nil
 	}
-	var result IdentityARM
+	result := &IdentityARM{}
 
 	// Set property ‘Type’:
 	if identity.Type != nil {
@@ -1837,7 +1843,7 @@ func (sbSku *SBSku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails
 	if sbSku == nil {
 		return nil, nil
 	}
-	var result SBSkuARM
+	result := &SBSkuARM{}
 
 	// Set property ‘Capacity’:
 	if sbSku.Capacity != nil {
@@ -2298,7 +2304,7 @@ func (properties *KeyVaultProperties) ConvertToARM(resolved genruntime.ConvertTo
 	if properties == nil {
 		return nil, nil
 	}
-	var result KeyVaultPropertiesARM
+	result := &KeyVaultPropertiesARM{}
 
 	// Set property ‘Identity’:
 	if properties.Identity != nil {
@@ -2306,7 +2312,7 @@ func (properties *KeyVaultProperties) ConvertToARM(resolved genruntime.ConvertTo
 		if err != nil {
 			return nil, err
 		}
-		identity := identityARM.(UserAssignedIdentityPropertiesARM)
+		identity := *identityARM.(*UserAssignedIdentityPropertiesARM)
 		result.Identity = &identity
 	}
 
@@ -2572,7 +2578,7 @@ func (properties *UserAssignedIdentityProperties) ConvertToARM(resolved genrunti
 	if properties == nil {
 		return nil, nil
 	}
-	var result UserAssignedIdentityPropertiesARM
+	result := &UserAssignedIdentityPropertiesARM{}
 
 	// Set property ‘UserAssignedIdentity’:
 	if properties.UserAssignedIdentityReference != nil {

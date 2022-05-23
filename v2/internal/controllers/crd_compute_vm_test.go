@@ -43,8 +43,8 @@ func newVM(
 	tc *testcommon.KubePerTestContext,
 	rg *resources.ResourceGroup,
 	networkInterface *network.NetworkInterface,
-	secretRef genruntime.SecretReference) *compute.VirtualMachine {
-
+	secretRef genruntime.SecretReference,
+) *compute.VirtualMachine {
 	adminUsername := "bloom"
 	size := compute.HardwareProfileVmSizeStandardA1V2
 
@@ -56,7 +56,7 @@ func newVM(
 			HardwareProfile: &compute.HardwareProfile{
 				VmSize: &size,
 			},
-			OsProfile: &compute.OSProfile{
+			OsProfile: &compute.VirtualMachines_Spec_Properties_OsProfile{
 				AdminUsername: &adminUsername,
 				// Specifying AdminPassword here rather than SSH Key to ensure that handling and injection
 				// of secrets works.
@@ -136,7 +136,7 @@ func Test_Compute_VM_CRUD(t *testing.T) {
 	tc.DeleteResourcesAndWait(vm, networkInterface, subnet, vnet, rg)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(compute.VirtualMachinesSpecAPIVersion20201201))
+	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(compute.APIVersionValue))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())

@@ -98,7 +98,7 @@ func (topic *DomainsTopic) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
 func (topic DomainsTopic) GetAPIVersion() string {
-	return "2020-06-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -532,11 +532,6 @@ func (topic *DomainTopic_Status) AssignPropertiesToDomainTopicStatus(destination
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"2020-06-01"}
-type DomainsTopicsSpecAPIVersion string
-
-const DomainsTopicsSpecAPIVersion20200601 = DomainsTopicsSpecAPIVersion("2020-06-01")
-
 type DomainsTopics_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
@@ -562,7 +557,7 @@ func (topics *DomainsTopics_Spec) ConvertToARM(resolved genruntime.ConvertToARMR
 	if topics == nil {
 		return nil, nil
 	}
-	var result DomainsTopics_SpecARM
+	result := &DomainsTopics_SpecARM{}
 
 	// Set property ‘Location’:
 	if topics.Location != nil {

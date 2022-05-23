@@ -45,16 +45,16 @@ var _ genruntime.ARMResourceSpec = &VirtualMachineScaleSets_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-12-01"
 func (sets VirtualMachineScaleSets_SpecARM) GetAPIVersion() string {
-	return "2020-12-01"
+	return string(APIVersionValue)
 }
 
 // GetName returns the Name of the resource
-func (sets VirtualMachineScaleSets_SpecARM) GetName() string {
+func (sets *VirtualMachineScaleSets_SpecARM) GetName() string {
 	return sets.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Compute/virtualMachineScaleSets"
-func (sets VirtualMachineScaleSets_SpecARM) GetType() string {
+func (sets *VirtualMachineScaleSets_SpecARM) GetType() string {
 	return "Microsoft.Compute/virtualMachineScaleSets"
 }
 
@@ -256,7 +256,7 @@ type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfileARM struct {
 	NetworkProfile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfileARM `json:"networkProfile,omitempty"`
 
 	// OsProfile: Describes a virtual machine scale set OS profile.
-	OsProfile *VirtualMachineScaleSetOSProfileARM `json:"osProfile,omitempty"`
+	OsProfile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfileARM `json:"osProfile,omitempty"`
 
 	// Priority: Specifies the priority for the virtual machines in the scale set.
 	// Minimum api-version: 2017-10-30-preview.
@@ -318,8 +318,43 @@ type ScheduledEventsProfileARM struct {
 	TerminateNotificationProfile *TerminateNotificationProfileARM `json:"terminateNotificationProfile,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/VirtualMachineScaleSetOSProfile
-type VirtualMachineScaleSetOSProfileARM struct {
+// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/VirtualMachineScaleSetStorageProfile
+type VirtualMachineScaleSetStorageProfileARM struct {
+	// DataDisks: Specifies the parameters that are used to add data disks to the virtual machines in the scale set.
+	// For more information about disks, see [About disks and VHDs for Azure virtual
+	// machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
+	DataDisks []VirtualMachineScaleSetDataDiskARM `json:"dataDisks,omitempty"`
+
+	// ImageReference: Specifies information about the image to use. You can specify information about platform images,
+	// marketplace images, or virtual machine images. This element is required when you want to use a platform image,
+	// marketplace image, or virtual machine image, but is not used in other creation operations. NOTE: Image reference
+	// publisher and offer can only be set when you create the scale set.
+	ImageReference *ImageReferenceARM `json:"imageReference,omitempty"`
+
+	// OsDisk: Describes a virtual machine scale set operating system disk.
+	OsDisk *VirtualMachineScaleSetOSDiskARM `json:"osDisk,omitempty"`
+}
+
+type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfileARM struct {
+	// Extensions: The virtual machine scale set child extension resources.
+	Extensions []VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_ExtensionsARM `json:"extensions,omitempty"`
+
+	// ExtensionsTimeBudget: Specifies the time alloted for all extensions to start. The time duration should be between 15
+	// minutes and 120 minutes (inclusive) and should be specified in ISO 8601 format. The default value is 90 minutes
+	// (PT1H30M).
+	// Minimum api-version: 2020-06-01
+	ExtensionsTimeBudget *string `json:"extensionsTimeBudget,omitempty"`
+}
+
+type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfileARM struct {
+	// HealthProbe: The API entity reference.
+	HealthProbe *ApiEntityReferenceARM `json:"healthProbe,omitempty"`
+
+	// NetworkInterfaceConfigurations: The list of network configurations.
+	NetworkInterfaceConfigurations []VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurationsARM `json:"networkInterfaceConfigurations,omitempty"`
+}
+
+type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfileARM struct {
 	// AdminPassword: Specifies the password of the administrator account.
 	// Minimum-length (Windows): 8 characters
 	// Minimum-length (Linux): 6 characters
@@ -375,42 +410,6 @@ type VirtualMachineScaleSetOSProfileARM struct {
 
 	// WindowsConfiguration: Specifies Windows operating system settings on the virtual machine.
 	WindowsConfiguration *WindowsConfigurationARM `json:"windowsConfiguration,omitempty"`
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/VirtualMachineScaleSetStorageProfile
-type VirtualMachineScaleSetStorageProfileARM struct {
-	// DataDisks: Specifies the parameters that are used to add data disks to the virtual machines in the scale set.
-	// For more information about disks, see [About disks and VHDs for Azure virtual
-	// machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
-	DataDisks []VirtualMachineScaleSetDataDiskARM `json:"dataDisks,omitempty"`
-
-	// ImageReference: Specifies information about the image to use. You can specify information about platform images,
-	// marketplace images, or virtual machine images. This element is required when you want to use a platform image,
-	// marketplace image, or virtual machine image, but is not used in other creation operations. NOTE: Image reference
-	// publisher and offer can only be set when you create the scale set.
-	ImageReference *ImageReferenceARM `json:"imageReference,omitempty"`
-
-	// OsDisk: Describes a virtual machine scale set operating system disk.
-	OsDisk *VirtualMachineScaleSetOSDiskARM `json:"osDisk,omitempty"`
-}
-
-type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfileARM struct {
-	// Extensions: The virtual machine scale set child extension resources.
-	Extensions []VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_ExtensionsARM `json:"extensions,omitempty"`
-
-	// ExtensionsTimeBudget: Specifies the time alloted for all extensions to start. The time duration should be between 15
-	// minutes and 120 minutes (inclusive) and should be specified in ISO 8601 format. The default value is 90 minutes
-	// (PT1H30M).
-	// Minimum api-version: 2020-06-01
-	ExtensionsTimeBudget *string `json:"extensionsTimeBudget,omitempty"`
-}
-
-type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfileARM struct {
-	// HealthProbe: The API entity reference.
-	HealthProbe *ApiEntityReferenceARM `json:"healthProbe,omitempty"`
-
-	// NetworkInterfaceConfigurations: The list of network configurations.
-	NetworkInterfaceConfigurations []VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurationsARM `json:"networkInterfaceConfigurations,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/ApiEntityReference

@@ -12,9 +12,8 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-	asometrics "github.com/Azure/azure-service-operator/v2/internal/metrics"
+	"github.com/benbjohnson/clock"
 	"github.com/go-logr/logr"
-	"k8s.io/apimachinery/pkg/runtime/schema"
 	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
 	"k8s.io/klog/v2"
 	"k8s.io/klog/v2/klogr"
@@ -27,11 +26,13 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/controllers"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
+	asometrics "github.com/Azure/azure-service-operator/v2/internal/metrics"
+	armreconciler "github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/internal/version"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-
-	armreconciler "github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/registration"
 )
 
 func main() {
@@ -78,7 +79,6 @@ func main() {
 		Port:                   9443,
 		HealthProbeBindAddress: healthAddr,
 	})
-
 	if err != nil {
 		setupLog.Error(err, "unable to start manager")
 		os.Exit(1)
@@ -92,7 +92,7 @@ func main() {
 
 	armClient := genericarmclient.NewGenericClient(arm.AzurePublicCloud, creds, cfg.SubscriptionID, armMetrics)
 
-	var clientFactory armreconciler.ARMClientFactory = func(_ genruntime.MetaObject) *genericarmclient.GenericClient {
+	var clientFactory armreconciler.ARMClientFactory = func(_ genruntime.ARMMetaObject) *genericarmclient.GenericClient {
 		// always use the configured ARM client
 		return armClient
 	}
@@ -101,23 +101,29 @@ func main() {
 	log.V(Status).Info("Configuration details", "config", cfg.String())
 
 	if cfg.OperatorMode.IncludesWatchers() {
-		var extensions map[schema.GroupVersionKind]genruntime.ResourceExtension
-		extensions, err = controllers.GetResourceExtensions(scheme)
+		kubeClient := kubeclient.NewClient(mgr.GetClient())
+		positiveConditions := conditions.NewPositiveConditionBuilder(clock.New())
+
+		options := makeControllerOptions(log, cfg)
+		var objs []*registration.StorageType
+		objs, err = controllers.GetKnownStorageTypes(
+			mgr,
+			clientFactory,
+			kubeClient,
+			positiveConditions,
+			options)
 		if err != nil {
-			setupLog.Error(err, "getting extensions")
+			setupLog.Error(err, "failed getting storage types and reconcilers")
 			os.Exit(1)
 		}
-
-		kubeClient := kubeclient.NewClient(mgr.GetClient())
 
 		err = controllers.RegisterAll(
 			mgr,
 			mgr.GetFieldIndexer(),
 			kubeClient,
-			clientFactory,
-			controllers.GetKnownStorageTypes(),
-			extensions,
-			makeControllerOptions(log, cfg))
+			positiveConditions,
+			objs,
+			options)
 		if err != nil {
 			setupLog.Error(err, "failed to register gvks")
 			os.Exit(1)

@@ -16,15 +16,15 @@ var _ genruntime.ARMResourceSpec = &NetworkSecurityGroups_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
 func (groups NetworkSecurityGroups_SpecARM) GetAPIVersion() string {
-	return "2020-11-01"
+	return string(APIVersionValue)
 }
 
 // GetName returns the Name of the resource
-func (groups NetworkSecurityGroups_SpecARM) GetName() string {
+func (groups *NetworkSecurityGroups_SpecARM) GetName() string {
 	return groups.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/networkSecurityGroups"
-func (groups NetworkSecurityGroups_SpecARM) GetType() string {
+func (groups *NetworkSecurityGroups_SpecARM) GetType() string {
 	return "Microsoft.Network/networkSecurityGroups"
 }

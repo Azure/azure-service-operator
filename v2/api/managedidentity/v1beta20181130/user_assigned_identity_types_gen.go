@@ -98,7 +98,7 @@ func (identity *UserAssignedIdentity) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2018-11-30"
 func (identity UserAssignedIdentity) GetAPIVersion() string {
-	return "2018-11-30"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -316,6 +316,11 @@ type UserAssignedIdentityList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []UserAssignedIdentity `json:"items"`
 }
+
+// +kubebuilder:validation:Enum={"2018-11-30"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2018-11-30")
 
 type Identity_Status struct {
 	// ClientId: The id of the app associated with the identity. This is a random generated UUID by MSI.
@@ -553,11 +558,6 @@ func (identity *Identity_Status) AssignPropertiesToIdentityStatus(destination *v
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"2018-11-30"}
-type UserAssignedIdentitiesSpecAPIVersion string
-
-const UserAssignedIdentitiesSpecAPIVersion20181130 = UserAssignedIdentitiesSpecAPIVersion("2018-11-30")
-
 type UserAssignedIdentities_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
@@ -583,7 +583,7 @@ func (identities *UserAssignedIdentities_Spec) ConvertToARM(resolved genruntime.
 	if identities == nil {
 		return nil, nil
 	}
-	var result UserAssignedIdentities_SpecARM
+	result := &UserAssignedIdentities_SpecARM{}
 
 	// Set property ‘Location’:
 	if identities.Location != nil {

@@ -98,7 +98,7 @@ func (networkInterface *NetworkInterface) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
 func (networkInterface NetworkInterface) GetAPIVersion() string {
-	return "2020-11-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -1122,11 +1122,6 @@ func (embedded *NetworkInterface_Status_NetworkInterface_SubResourceEmbedded) As
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"2020-11-01"}
-type NetworkInterfacesSpecAPIVersion string
-
-const NetworkInterfacesSpecAPIVersion20201101 = NetworkInterfacesSpecAPIVersion("2020-11-01")
-
 type NetworkInterfaces_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
@@ -1171,7 +1166,7 @@ func (interfaces *NetworkInterfaces_Spec) ConvertToARM(resolved genruntime.Conve
 	if interfaces == nil {
 		return nil, nil
 	}
-	var result NetworkInterfaces_SpecARM
+	result := &NetworkInterfaces_SpecARM{}
 
 	// Set property ‘ExtendedLocation’:
 	if interfaces.ExtendedLocation != nil {
@@ -1179,7 +1174,7 @@ func (interfaces *NetworkInterfaces_Spec) ConvertToARM(resolved genruntime.Conve
 		if err != nil {
 			return nil, err
 		}
-		extendedLocation := extendedLocationARM.(ExtendedLocationARM)
+		extendedLocation := *extendedLocationARM.(*ExtendedLocationARM)
 		result.ExtendedLocation = &extendedLocation
 	}
 
@@ -1205,7 +1200,7 @@ func (interfaces *NetworkInterfaces_Spec) ConvertToARM(resolved genruntime.Conve
 		if err != nil {
 			return nil, err
 		}
-		dnsSettings := dnsSettingsARM.(NetworkInterfaceDnsSettingsARM)
+		dnsSettings := *dnsSettingsARM.(*NetworkInterfaceDnsSettingsARM)
 		result.Properties.DnsSettings = &dnsSettings
 	}
 	if interfaces.EnableAcceleratedNetworking != nil {
@@ -1221,14 +1216,14 @@ func (interfaces *NetworkInterfaces_Spec) ConvertToARM(resolved genruntime.Conve
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.IpConfigurations = append(result.Properties.IpConfigurations, itemARM.(NetworkInterfaces_Spec_Properties_IpConfigurationsARM))
+		result.Properties.IpConfigurations = append(result.Properties.IpConfigurations, *itemARM.(*NetworkInterfaces_Spec_Properties_IpConfigurationsARM))
 	}
 	if interfaces.NetworkSecurityGroup != nil {
 		networkSecurityGroupARM, err := (*interfaces.NetworkSecurityGroup).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		networkSecurityGroup := networkSecurityGroupARM.(SubResourceARM)
+		networkSecurityGroup := *networkSecurityGroupARM.(*SubResourceARM)
 		result.Properties.NetworkSecurityGroup = &networkSecurityGroup
 	}
 
@@ -1628,7 +1623,7 @@ func (settings *NetworkInterfaceDnsSettings) ConvertToARM(resolved genruntime.Co
 	if settings == nil {
 		return nil, nil
 	}
-	var result NetworkInterfaceDnsSettingsARM
+	result := &NetworkInterfaceDnsSettingsARM{}
 
 	// Set property ‘DnsServers’:
 	for _, item := range settings.DnsServers {
@@ -2563,7 +2558,7 @@ func (configurations *NetworkInterfaces_Spec_Properties_IpConfigurations) Conver
 	if configurations == nil {
 		return nil, nil
 	}
-	var result NetworkInterfaces_Spec_Properties_IpConfigurationsARM
+	result := &NetworkInterfaces_Spec_Properties_IpConfigurationsARM{}
 
 	// Set property ‘Name’:
 	if configurations.Name != nil {
@@ -2590,28 +2585,28 @@ func (configurations *NetworkInterfaces_Spec_Properties_IpConfigurations) Conver
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.ApplicationGatewayBackendAddressPools = append(result.Properties.ApplicationGatewayBackendAddressPools, itemARM.(SubResourceARM))
+		result.Properties.ApplicationGatewayBackendAddressPools = append(result.Properties.ApplicationGatewayBackendAddressPools, *itemARM.(*SubResourceARM))
 	}
 	for _, item := range configurations.ApplicationSecurityGroups {
 		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.ApplicationSecurityGroups = append(result.Properties.ApplicationSecurityGroups, itemARM.(SubResourceARM))
+		result.Properties.ApplicationSecurityGroups = append(result.Properties.ApplicationSecurityGroups, *itemARM.(*SubResourceARM))
 	}
 	for _, item := range configurations.LoadBalancerBackendAddressPools {
 		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.LoadBalancerBackendAddressPools = append(result.Properties.LoadBalancerBackendAddressPools, itemARM.(SubResourceARM))
+		result.Properties.LoadBalancerBackendAddressPools = append(result.Properties.LoadBalancerBackendAddressPools, *itemARM.(*SubResourceARM))
 	}
 	for _, item := range configurations.LoadBalancerInboundNatRules {
 		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.LoadBalancerInboundNatRules = append(result.Properties.LoadBalancerInboundNatRules, itemARM.(SubResourceARM))
+		result.Properties.LoadBalancerInboundNatRules = append(result.Properties.LoadBalancerInboundNatRules, *itemARM.(*SubResourceARM))
 	}
 	if configurations.Primary != nil {
 		primary := *configurations.Primary
@@ -2634,7 +2629,7 @@ func (configurations *NetworkInterfaces_Spec_Properties_IpConfigurations) Conver
 		if err != nil {
 			return nil, err
 		}
-		publicIPAddress := publicIPAddressARM.(SubResourceARM)
+		publicIPAddress := *publicIPAddressARM.(*SubResourceARM)
 		result.Properties.PublicIPAddress = &publicIPAddress
 	}
 	if configurations.Subnet != nil {
@@ -2642,7 +2637,7 @@ func (configurations *NetworkInterfaces_Spec_Properties_IpConfigurations) Conver
 		if err != nil {
 			return nil, err
 		}
-		subnet := subnetARM.(SubResourceARM)
+		subnet := *subnetARM.(*SubResourceARM)
 		result.Properties.Subnet = &subnet
 	}
 	for _, item := range configurations.VirtualNetworkTaps {
@@ -2650,7 +2645,7 @@ func (configurations *NetworkInterfaces_Spec_Properties_IpConfigurations) Conver
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.VirtualNetworkTaps = append(result.Properties.VirtualNetworkTaps, itemARM.(SubResourceARM))
+		result.Properties.VirtualNetworkTaps = append(result.Properties.VirtualNetworkTaps, *itemARM.(*SubResourceARM))
 	}
 	return result, nil
 }
@@ -3381,7 +3376,7 @@ func (resource *SubResource) ConvertToARM(resolved genruntime.ConvertToARMResolv
 	if resource == nil {
 		return nil, nil
 	}
-	var result SubResourceARM
+	result := &SubResourceARM{}
 
 	// Set property ‘Id’:
 	if resource.Reference != nil {

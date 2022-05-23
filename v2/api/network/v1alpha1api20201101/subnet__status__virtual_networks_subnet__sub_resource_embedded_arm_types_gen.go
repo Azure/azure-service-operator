@@ -29,7 +29,7 @@ type SubnetPropertiesFormat_StatusARM struct {
 	ProvisioningState                  *ProvisioningState_Status                                                    `json:"provisioningState,omitempty"`
 	Purpose                            *string                                                                      `json:"purpose,omitempty"`
 	ResourceNavigationLinks            []ResourceNavigationLink_StatusARM                                           `json:"resourceNavigationLinks,omitempty"`
-	RouteTable                         *RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM              `json:"routeTable,omitempty"`
+	RouteTable                         *RouteTable_Status_SubResourceEmbeddedARM                                    `json:"routeTable,omitempty"`
 	ServiceAssociationLinks            []ServiceAssociationLink_StatusARM                                           `json:"serviceAssociationLinks,omitempty"`
 	ServiceEndpointPolicies            []ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM  `json:"serviceEndpointPolicies,omitempty"`
 	ServiceEndpoints                   []ServiceEndpointPropertiesFormat_StatusARM                                  `json:"serviceEndpoints,omitempty"`
@@ -90,8 +90,8 @@ type ResourceNavigationLink_StatusARM struct {
 	Type       *string                                 `json:"type,omitempty"`
 }
 
-// Deprecated version of RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded. Use v1beta20201101.RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded instead
-type RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM struct {
+// Deprecated version of RouteTable_Status_SubResourceEmbedded. Use v1beta20201101.RouteTable_Status_SubResourceEmbedded instead
+type RouteTable_Status_SubResourceEmbeddedARM struct {
 	Id *string `json:"id,omitempty"`
 }
 

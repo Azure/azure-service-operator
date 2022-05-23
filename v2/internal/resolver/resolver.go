@@ -13,11 +13,13 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/apimachinery/pkg/types"
+	"sigs.k8s.io/controller-runtime/pkg/client/apiutil"
 
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/registration"
 )
 
 type Resolver struct {
@@ -26,12 +28,37 @@ type Resolver struct {
 	reconciledResourceLookup map[schema.GroupKind]schema.GroupVersionKind
 }
 
-func NewResolver(client kubeclient.Client, reconciledResourceLookup map[schema.GroupKind]schema.GroupVersionKind) *Resolver {
+func NewResolver(client kubeclient.Client) *Resolver {
 	return &Resolver{
 		client:                   client,
 		kubeSecretResolver:       NewKubeSecretResolver(client),
-		reconciledResourceLookup: reconciledResourceLookup,
+		reconciledResourceLookup: make(map[schema.GroupKind]schema.GroupVersionKind),
 	}
+}
+
+func (r *Resolver) IndexStorageTypes(scheme *runtime.Scheme, objs []*registration.StorageType) error {
+	for _, obj := range objs {
+		gvk, err := apiutil.GVKForObject(obj.Obj, scheme)
+		if err != nil {
+			return errors.Wrapf(err, "creating GVK for obj %T", obj)
+		}
+		groupKind := schema.GroupKind{Group: gvk.Group, Kind: gvk.Kind}
+		if existing, ok := r.reconciledResourceLookup[groupKind]; ok {
+			if existing == gvk {
+				continue
+			}
+
+			return errors.Errorf(
+				"group: %q, kind: %q already has registered storage version %q, but found %q as well",
+				gvk.Group,
+				gvk.Kind,
+				existing.Version,
+				gvk.Version)
+		}
+		r.reconciledResourceLookup[groupKind] = gvk
+	}
+
+	return nil
 }
 
 // ResolveReferenceToARMID gets a references ARM ID. If the reference is just pointing to an ARM resource then the ARMID is returned.
@@ -74,8 +101,8 @@ func (r *Resolver) ResolveReferencesToARMIDs(ctx context.Context, refs map[genru
 	return genruntime.MakeResolvedReferences(result), nil
 }
 
-// ResolveResourceReferences resolves every reference found on the specified genruntime.MetaObject to its corresponding ARM ID.
-func (r *Resolver) ResolveResourceReferences(ctx context.Context, metaObject genruntime.MetaObject) (genruntime.ResolvedReferences, error) {
+// ResolveResourceReferences resolves every reference found on the specified genruntime.ARMMetaObject to its corresponding ARM ID.
+func (r *Resolver) ResolveResourceReferences(ctx context.Context, metaObject genruntime.ARMMetaObject) (genruntime.ResolvedReferences, error) {
 	refs, err := reflecthelpers.FindResourceReferences(metaObject)
 	if err != nil {
 		return genruntime.ResolvedReferences{}, errors.Wrapf(err, "finding references on %q", metaObject.GetName())
@@ -98,7 +125,7 @@ func (r *Resolver) ResolveResourceReferences(ctx context.Context, metaObject gen
 
 // ResolveResourceHierarchy gets the resource hierarchy for a given resource. The result is a slice of
 // resources, with the uppermost parent at position 0 and the resource itself at position len(slice)-1
-func (r *Resolver) ResolveResourceHierarchy(ctx context.Context, obj genruntime.MetaObject) (ResourceHierarchy, error) {
+func (r *Resolver) ResolveResourceHierarchy(ctx context.Context, obj genruntime.ARMMetaObject) (ResourceHierarchy, error) {
 	owner := obj.Owner()
 	if owner == nil {
 		return ResourceHierarchy{obj}, nil
@@ -118,7 +145,7 @@ func (r *Resolver) ResolveResourceHierarchy(ctx context.Context, obj genruntime.
 }
 
 // ResolveReference resolves a reference, or returns an error if the reference is not pointing to a KubernetesResource
-func (r *Resolver) ResolveReference(ctx context.Context, ref genruntime.NamespacedResourceReference) (genruntime.MetaObject, error) {
+func (r *Resolver) ResolveReference(ctx context.Context, ref genruntime.NamespacedResourceReference) (genruntime.ARMMetaObject, error) {
 	refGVK, err := r.findGVK(ref)
 	if err != nil {
 		return nil, err
@@ -139,18 +166,18 @@ func (r *Resolver) ResolveReference(ctx context.Context, ref genruntime.Namespac
 		return nil, errors.Wrapf(err, "couldn't resolve reference %s", ref.String())
 	}
 
-	metaObj, ok := refObj.(genruntime.MetaObject)
+	metaObj, ok := refObj.(genruntime.ARMMetaObject)
 	if !ok {
-		return nil, errors.Errorf("reference %s (%s) was not of type genruntime.MetaObject", refNamespacedName, refGVK)
+		return nil, errors.Errorf("reference %s (%s) was not of type genruntime.ARMMetaObject", refNamespacedName, refGVK)
 	}
 
 	return metaObj, nil
 }
 
-// ResolveOwner returns the MetaObject for the given resources owner. If the resource is supposed to have
+// ResolveOwner returns the MetaObject for the given resource's owner. If the resource is supposed to have
 // an owner but doesn't, this returns an ReferenceNotFound error. If the resource is not supposed
 // to have an owner (for example, ResourceGroup), returns nil.
-func (r *Resolver) ResolveOwner(ctx context.Context, obj genruntime.MetaObject) (genruntime.MetaObject, error) {
+func (r *Resolver) ResolveOwner(ctx context.Context, obj genruntime.ARMOwnedMetaObject) (genruntime.ARMMetaObject, error) {
 	owner := obj.Owner()
 
 	if owner == nil {
@@ -220,9 +247,9 @@ func (r *Resolver) ResolveResourceSecretReferences(ctx context.Context, metaObje
 	return resolvedSecrets, nil
 }
 
-// ResolveAll resolves every reference on the provided genruntime.MetaObject.
+// ResolveAll resolves every reference on the provided genruntime.ARMMetaObject.
 // This includes: owner, all resource references, and all secrets.
-func (r *Resolver) ResolveAll(ctx context.Context, metaObject genruntime.MetaObject) (ResourceHierarchy, genruntime.ConvertToARMResolvedDetails, error) {
+func (r *Resolver) ResolveAll(ctx context.Context, metaObject genruntime.ARMMetaObject) (ResourceHierarchy, genruntime.ConvertToARMResolvedDetails, error) {
 	// Resolve the resource hierarchy (owner)
 	resourceHierarchy, err := r.ResolveResourceHierarchy(ctx, metaObject)
 	if err != nil {

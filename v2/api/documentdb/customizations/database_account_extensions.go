@@ -27,16 +27,18 @@ var _ extensions.SecretsRetriever = &DatabaseAccountExtension{}
 
 func (ext *DatabaseAccountExtension) RetrieveSecrets(
 	ctx context.Context,
-	obj genruntime.MetaObject,
+	obj genruntime.ARMMetaObject,
 	armClient *genericarmclient.GenericClient,
 	log logr.Logger) ([]*v1.Secret, error) {
 
+	// This has to be the current hub storage version. It will need to be updated
+	// if the hub storage version changes.
 	typedObj, ok := obj.(*documentdb.DatabaseAccount)
 	if !ok {
-		return nil, errors.Errorf("cannot run on unknown resource type %T", obj)
+		return nil, errors.Errorf("cannot run on unknown resource type %T, expected *documentdb.DatabaseAccount", obj)
 	}
 
-	// Type assert that we are the hub type. This should fail to compile if
+	// Type assert that we are the hub type. This will fail to compile if
 	// the hub type has been changed but this extension has not
 	var _ conversion.Hub = typedObj
 

@@ -17,16 +17,16 @@ var _ genruntime.ARMResourceSpec = &DatabaseAccountsSqlDatabasesContainersTrigge
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
 func (triggers DatabaseAccountsSqlDatabasesContainersTriggers_SpecARM) GetAPIVersion() string {
-	return "2021-05-15"
+	return string(APIVersionValue)
 }
 
 // GetName returns the Name of the resource
-func (triggers DatabaseAccountsSqlDatabasesContainersTriggers_SpecARM) GetName() string {
+func (triggers *DatabaseAccountsSqlDatabasesContainersTriggers_SpecARM) GetName() string {
 	return triggers.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/triggers"
-func (triggers DatabaseAccountsSqlDatabasesContainersTriggers_SpecARM) GetType() string {
+func (triggers *DatabaseAccountsSqlDatabasesContainersTriggers_SpecARM) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/triggers"
 }
 

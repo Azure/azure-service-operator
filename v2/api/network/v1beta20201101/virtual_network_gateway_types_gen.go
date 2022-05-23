@@ -98,7 +98,7 @@ func (gateway *VirtualNetworkGateway) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
 func (gateway VirtualNetworkGateway) GetAPIVersion() string {
-	return "2020-11-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -1091,11 +1091,6 @@ func (gateway *VirtualNetworkGateway_Status) AssignPropertiesToVirtualNetworkGat
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"2020-11-01"}
-type VirtualNetworkGatewaysSpecAPIVersion string
-
-const VirtualNetworkGatewaysSpecAPIVersion20201101 = VirtualNetworkGatewaysSpecAPIVersion("2020-11-01")
-
 type VirtualNetworkGateways_Spec struct {
 	// ActiveActive: ActiveActive flag.
 	ActiveActive *bool `json:"activeActive,omitempty"`
@@ -1171,7 +1166,7 @@ func (gateways *VirtualNetworkGateways_Spec) ConvertToARM(resolved genruntime.Co
 	if gateways == nil {
 		return nil, nil
 	}
-	var result VirtualNetworkGateways_SpecARM
+	result := &VirtualNetworkGateways_SpecARM{}
 
 	// Set property ‘Location’:
 	if gateways.Location != nil {
@@ -1209,7 +1204,7 @@ func (gateways *VirtualNetworkGateways_Spec) ConvertToARM(resolved genruntime.Co
 		if err != nil {
 			return nil, err
 		}
-		bgpSettings := bgpSettingsARM.(BgpSettingsARM)
+		bgpSettings := *bgpSettingsARM.(*BgpSettingsARM)
 		result.Properties.BgpSettings = &bgpSettings
 	}
 	if gateways.CustomRoutes != nil {
@@ -1217,7 +1212,7 @@ func (gateways *VirtualNetworkGateways_Spec) ConvertToARM(resolved genruntime.Co
 		if err != nil {
 			return nil, err
 		}
-		customRoutes := customRoutesARM.(AddressSpaceARM)
+		customRoutes := *customRoutesARM.(*AddressSpaceARM)
 		result.Properties.CustomRoutes = &customRoutes
 	}
 	if gateways.EnableBgp != nil {
@@ -1237,7 +1232,7 @@ func (gateways *VirtualNetworkGateways_Spec) ConvertToARM(resolved genruntime.Co
 		if err != nil {
 			return nil, err
 		}
-		gatewayDefaultSite := gatewayDefaultSiteARM.(SubResourceARM)
+		gatewayDefaultSite := *gatewayDefaultSiteARM.(*SubResourceARM)
 		result.Properties.GatewayDefaultSite = &gatewayDefaultSite
 	}
 	if gateways.GatewayType != nil {
@@ -1249,14 +1244,14 @@ func (gateways *VirtualNetworkGateways_Spec) ConvertToARM(resolved genruntime.Co
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.IpConfigurations = append(result.Properties.IpConfigurations, itemARM.(VirtualNetworkGateways_Spec_Properties_IpConfigurationsARM))
+		result.Properties.IpConfigurations = append(result.Properties.IpConfigurations, *itemARM.(*VirtualNetworkGateways_Spec_Properties_IpConfigurationsARM))
 	}
 	if gateways.Sku != nil {
 		skuARM, err := (*gateways.Sku).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		sku := skuARM.(VirtualNetworkGatewaySkuARM)
+		sku := *skuARM.(*VirtualNetworkGatewaySkuARM)
 		result.Properties.Sku = &sku
 	}
 	if gateways.VNetExtendedLocationResourceReference != nil {
@@ -1272,7 +1267,7 @@ func (gateways *VirtualNetworkGateways_Spec) ConvertToARM(resolved genruntime.Co
 		if err != nil {
 			return nil, err
 		}
-		virtualNetworkExtendedLocation := virtualNetworkExtendedLocationARM.(ExtendedLocationARM)
+		virtualNetworkExtendedLocation := *virtualNetworkExtendedLocationARM.(*ExtendedLocationARM)
 		result.Properties.VirtualNetworkExtendedLocation = &virtualNetworkExtendedLocation
 	}
 	if gateways.VpnClientConfiguration != nil {
@@ -1280,7 +1275,7 @@ func (gateways *VirtualNetworkGateways_Spec) ConvertToARM(resolved genruntime.Co
 		if err != nil {
 			return nil, err
 		}
-		vpnClientConfiguration := vpnClientConfigurationARM.(VirtualNetworkGateways_Spec_Properties_VpnClientConfigurationARM)
+		vpnClientConfiguration := *vpnClientConfigurationARM.(*VirtualNetworkGateways_Spec_Properties_VpnClientConfigurationARM)
 		result.Properties.VpnClientConfiguration = &vpnClientConfiguration
 	}
 	if gateways.VpnGatewayGeneration != nil {
@@ -1952,7 +1947,7 @@ func (settings *BgpSettings) ConvertToARM(resolved genruntime.ConvertToARMResolv
 	if settings == nil {
 		return nil, nil
 	}
-	var result BgpSettingsARM
+	result := &BgpSettingsARM{}
 
 	// Set property ‘Asn’:
 	if settings.Asn != nil {
@@ -1972,7 +1967,7 @@ func (settings *BgpSettings) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		if err != nil {
 			return nil, err
 		}
-		result.BgpPeeringAddresses = append(result.BgpPeeringAddresses, itemARM.(IPConfigurationBgpPeeringAddressARM))
+		result.BgpPeeringAddresses = append(result.BgpPeeringAddresses, *itemARM.(*IPConfigurationBgpPeeringAddressARM))
 	}
 
 	// Set property ‘PeerWeight’:
@@ -2544,7 +2539,7 @@ func (gatewaySku *VirtualNetworkGatewaySku) ConvertToARM(resolved genruntime.Con
 	if gatewaySku == nil {
 		return nil, nil
 	}
-	var result VirtualNetworkGatewaySkuARM
+	result := &VirtualNetworkGatewaySkuARM{}
 
 	// Set property ‘Name’:
 	if gatewaySku.Name != nil {
@@ -2799,7 +2794,7 @@ func (configurations *VirtualNetworkGateways_Spec_Properties_IpConfigurations) C
 	if configurations == nil {
 		return nil, nil
 	}
-	var result VirtualNetworkGateways_Spec_Properties_IpConfigurationsARM
+	result := &VirtualNetworkGateways_Spec_Properties_IpConfigurationsARM{}
 
 	// Set property ‘Name’:
 	if configurations.Name != nil {
@@ -2822,7 +2817,7 @@ func (configurations *VirtualNetworkGateways_Spec_Properties_IpConfigurations) C
 		if err != nil {
 			return nil, err
 		}
-		publicIPAddress := publicIPAddressARM.(SubResourceARM)
+		publicIPAddress := *publicIPAddressARM.(*SubResourceARM)
 		result.Properties.PublicIPAddress = &publicIPAddress
 	}
 	if configurations.Subnet != nil {
@@ -2830,7 +2825,7 @@ func (configurations *VirtualNetworkGateways_Spec_Properties_IpConfigurations) C
 		if err != nil {
 			return nil, err
 		}
-		subnet := subnetARM.(SubResourceARM)
+		subnet := *subnetARM.(*SubResourceARM)
 		result.Properties.Subnet = &subnet
 	}
 	return result, nil
@@ -3036,7 +3031,7 @@ func (configuration *VirtualNetworkGateways_Spec_Properties_VpnClientConfigurati
 	if configuration == nil {
 		return nil, nil
 	}
-	var result VirtualNetworkGateways_Spec_Properties_VpnClientConfigurationARM
+	result := &VirtualNetworkGateways_Spec_Properties_VpnClientConfigurationARM{}
 
 	// Set property ‘AadAudience’:
 	if configuration.AadAudience != nil {
@@ -3074,7 +3069,7 @@ func (configuration *VirtualNetworkGateways_Spec_Properties_VpnClientConfigurati
 		if err != nil {
 			return nil, err
 		}
-		result.RadiusServers = append(result.RadiusServers, itemARM.(RadiusServerARM))
+		result.RadiusServers = append(result.RadiusServers, *itemARM.(*RadiusServerARM))
 	}
 
 	// Set property ‘VpnAuthenticationTypes’:
@@ -3088,7 +3083,7 @@ func (configuration *VirtualNetworkGateways_Spec_Properties_VpnClientConfigurati
 		if err != nil {
 			return nil, err
 		}
-		vpnClientAddressPool := vpnClientAddressPoolARM.(AddressSpaceARM)
+		vpnClientAddressPool := *vpnClientAddressPoolARM.(*AddressSpaceARM)
 		result.VpnClientAddressPool = &vpnClientAddressPool
 	}
 
@@ -3098,7 +3093,7 @@ func (configuration *VirtualNetworkGateways_Spec_Properties_VpnClientConfigurati
 		if err != nil {
 			return nil, err
 		}
-		result.VpnClientIpsecPolicies = append(result.VpnClientIpsecPolicies, itemARM.(IpsecPolicyARM))
+		result.VpnClientIpsecPolicies = append(result.VpnClientIpsecPolicies, *itemARM.(*IpsecPolicyARM))
 	}
 
 	// Set property ‘VpnClientProtocols’:
@@ -3112,7 +3107,7 @@ func (configuration *VirtualNetworkGateways_Spec_Properties_VpnClientConfigurati
 		if err != nil {
 			return nil, err
 		}
-		result.VpnClientRevokedCertificates = append(result.VpnClientRevokedCertificates, itemARM.(VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificatesARM))
+		result.VpnClientRevokedCertificates = append(result.VpnClientRevokedCertificates, *itemARM.(*VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificatesARM))
 	}
 
 	// Set property ‘VpnClientRootCertificates’:
@@ -3121,7 +3116,7 @@ func (configuration *VirtualNetworkGateways_Spec_Properties_VpnClientConfigurati
 		if err != nil {
 			return nil, err
 		}
-		result.VpnClientRootCertificates = append(result.VpnClientRootCertificates, itemARM.(VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificatesARM))
+		result.VpnClientRootCertificates = append(result.VpnClientRootCertificates, *itemARM.(*VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificatesARM))
 	}
 	return result, nil
 }
@@ -3945,7 +3940,7 @@ func (address *IPConfigurationBgpPeeringAddress) ConvertToARM(resolved genruntim
 	if address == nil {
 		return nil, nil
 	}
-	var result IPConfigurationBgpPeeringAddressARM
+	result := &IPConfigurationBgpPeeringAddressARM{}
 
 	// Set property ‘CustomBgpIpAddresses’:
 	for _, item := range address.CustomBgpIpAddresses {
@@ -4166,7 +4161,7 @@ func (policy *IpsecPolicy) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	if policy == nil {
 		return nil, nil
 	}
-	var result IpsecPolicyARM
+	result := &IpsecPolicyARM{}
 
 	// Set property ‘DhGroup’:
 	if policy.DhGroup != nil {
@@ -4658,7 +4653,7 @@ func (server *RadiusServer) ConvertToARM(resolved genruntime.ConvertToARMResolve
 	if server == nil {
 		return nil, nil
 	}
-	var result RadiusServerARM
+	result := &RadiusServerARM{}
 
 	// Set property ‘RadiusServerAddress’:
 	if server.RadiusServerAddress != nil {
@@ -4974,7 +4969,7 @@ func (certificates *VirtualNetworkGateways_Spec_Properties_VpnClientConfiguratio
 	if certificates == nil {
 		return nil, nil
 	}
-	var result VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificatesARM
+	result := &VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificatesARM{}
 
 	// Set property ‘Name’:
 	if certificates.Name != nil {
@@ -5075,7 +5070,7 @@ func (certificates *VirtualNetworkGateways_Spec_Properties_VpnClientConfiguratio
 	if certificates == nil {
 		return nil, nil
 	}
-	var result VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificatesARM
+	result := &VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificatesARM{}
 
 	// Set property ‘Name’:
 	if certificates.Name != nil {

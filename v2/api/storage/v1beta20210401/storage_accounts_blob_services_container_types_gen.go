@@ -98,7 +98,7 @@ func (container *StorageAccountsBlobServicesContainer) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-04-01"
 func (container StorageAccountsBlobServicesContainer) GetAPIVersion() string {
-	return "2021-04-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -945,11 +945,6 @@ func (container *BlobContainer_Status) AssignPropertiesToBlobContainerStatus(des
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"2021-04-01"}
-type StorageAccountsBlobServicesContainersSpecAPIVersion string
-
-const StorageAccountsBlobServicesContainersSpecAPIVersion20210401 = StorageAccountsBlobServicesContainersSpecAPIVersion("2021-04-01")
-
 type StorageAccountsBlobServicesContainers_Spec struct {
 	// +kubebuilder:validation:MaxLength=63
 	// +kubebuilder:validation:MinLength=3
@@ -992,7 +987,7 @@ func (containers *StorageAccountsBlobServicesContainers_Spec) ConvertToARM(resol
 	if containers == nil {
 		return nil, nil
 	}
-	var result StorageAccountsBlobServicesContainers_SpecARM
+	result := &StorageAccountsBlobServicesContainers_SpecARM{}
 
 	// Set property ‘Location’:
 	if containers.Location != nil {
@@ -1024,7 +1019,7 @@ func (containers *StorageAccountsBlobServicesContainers_Spec) ConvertToARM(resol
 		if err != nil {
 			return nil, err
 		}
-		immutableStorageWithVersioning := immutableStorageWithVersioningARM.(ImmutableStorageWithVersioningARM)
+		immutableStorageWithVersioning := *immutableStorageWithVersioningARM.(*ImmutableStorageWithVersioningARM)
 		result.Properties.ImmutableStorageWithVersioning = &immutableStorageWithVersioning
 	}
 	if containers.Metadata != nil {
@@ -1533,7 +1528,7 @@ func (versioning *ImmutableStorageWithVersioning) ConvertToARM(resolved genrunti
 	if versioning == nil {
 		return nil, nil
 	}
-	var result ImmutableStorageWithVersioningARM
+	result := &ImmutableStorageWithVersioningARM{}
 
 	// Set property ‘Enabled’:
 	if versioning.Enabled != nil {

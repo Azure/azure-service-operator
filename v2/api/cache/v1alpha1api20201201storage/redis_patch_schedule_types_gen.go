@@ -72,7 +72,7 @@ func (schedule *RedisPatchSchedule) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-12-01"
 func (schedule RedisPatchSchedule) GetAPIVersion() string {
-	return "2020-12-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -204,6 +204,7 @@ type RedisPatchScheduleList struct {
 type RedisPatchSchedule_Status struct {
 	Conditions      []conditions.Condition `json:"conditions,omitempty"`
 	Id              *string                `json:"id,omitempty"`
+	Location        *string                `json:"location,omitempty"`
 	Name            *string                `json:"name,omitempty"`
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	ScheduleEntries []ScheduleEntry_Status `json:"scheduleEntries,omitempty"`
@@ -271,6 +272,9 @@ func (schedule *RedisPatchSchedule_Status) AssignPropertiesFromRedisPatchSchedul
 	// Id
 	schedule.Id = genruntime.ClonePointerToString(source.Id)
 
+	// Location
+	schedule.Location = genruntime.ClonePointerToString(source.Location)
+
 	// Name
 	schedule.Name = genruntime.ClonePointerToString(source.Name)
 
@@ -316,6 +320,9 @@ func (schedule *RedisPatchSchedule_Status) AssignPropertiesToRedisPatchScheduleS
 
 	// Id
 	destination.Id = genruntime.ClonePointerToString(schedule.Id)
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(schedule.Location)
 
 	// Name
 	destination.Name = genruntime.ClonePointerToString(schedule.Name)

@@ -98,7 +98,7 @@ func (function *SqlDatabaseContainerUserDefinedFunction) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
 func (function SqlDatabaseContainerUserDefinedFunction) GetAPIVersion() string {
-	return "2021-05-15"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -317,11 +317,6 @@ type SqlDatabaseContainerUserDefinedFunctionList struct {
 	Items           []SqlDatabaseContainerUserDefinedFunction `json:"items"`
 }
 
-// +kubebuilder:validation:Enum={"2021-05-15"}
-type DatabaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpecAPIVersion string
-
-const DatabaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpecAPIVersion20210515 = DatabaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpecAPIVersion("2021-05-15")
-
 type DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
@@ -359,7 +354,7 @@ func (functions *DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec
 	if functions == nil {
 		return nil, nil
 	}
-	var result DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SpecARM
+	result := &DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SpecARM{}
 
 	// Set property ‘Location’:
 	if functions.Location != nil {
@@ -379,7 +374,7 @@ func (functions *DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec
 		if err != nil {
 			return nil, err
 		}
-		options := optionsARM.(CreateUpdateOptionsARM)
+		options := *optionsARM.(*CreateUpdateOptionsARM)
 		result.Properties.Options = &options
 	}
 	if functions.Resource != nil {
@@ -387,7 +382,7 @@ func (functions *DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec
 		if err != nil {
 			return nil, err
 		}
-		resource := resourceARM.(SqlUserDefinedFunctionResourceARM)
+		resource := *resourceARM.(*SqlUserDefinedFunctionResourceARM)
 		result.Properties.Resource = &resource
 	}
 
@@ -998,7 +993,7 @@ func (resource *SqlUserDefinedFunctionResource) ConvertToARM(resolved genruntime
 	if resource == nil {
 		return nil, nil
 	}
-	var result SqlUserDefinedFunctionResourceARM
+	result := &SqlUserDefinedFunctionResourceARM{}
 
 	// Set property ‘Body’:
 	if resource.Body != nil {

@@ -26,16 +26,16 @@ var _ genruntime.ARMResourceSpec = &Redis_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-12-01"
 func (redis Redis_SpecARM) GetAPIVersion() string {
-	return "2020-12-01"
+	return string(APIVersionValue)
 }
 
 // GetName returns the Name of the resource
-func (redis Redis_SpecARM) GetName() string {
+func (redis *Redis_SpecARM) GetName() string {
 	return redis.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Cache/redis"
-func (redis Redis_SpecARM) GetType() string {
+func (redis *Redis_SpecARM) GetType() string {
 	return "Microsoft.Cache/redis"
 }
 

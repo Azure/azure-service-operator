@@ -112,7 +112,7 @@ func (topic *Topic) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
 func (topic Topic) GetAPIVersion() string {
-	return "2020-06-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -809,7 +809,7 @@ func (topics *Topics_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	if topics == nil {
 		return nil, nil
 	}
-	var result Topics_SpecARM
+	result := &Topics_SpecARM{}
 
 	// Set property ‘Location’:
 	if topics.Location != nil {
