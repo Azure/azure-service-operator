@@ -765,6 +765,25 @@ objectModelConfiguration:
       UserAssignedIdentity:
         ResourceId:
           $armReference: true
+  dbformariadb:
+    2018-06-01:
+      Server:
+        $export: true
+        $supportedFrom: v2.0.0-beta.1
+        $azureGeneratedSecrets:
+          - FullyQualifiedDomainName
+      ServersConfiguration:
+        $exportAs: Configuration
+      ServersDatabase:
+        $exportAs: Database
+      ServerPropertiesForCreate_ServerPropertiesForDefaultCreate:
+        $exportAs: ServerPropertiesForDefaultCreate
+      ServerPropertiesForCreate_ServerPropertiesForGeoRestore:
+        $exportAs: ServerPropertiesForGeoRestore
+      ServerPropertiesForCreate_ServerPropertiesForReplica:
+        $exportAs: ServerPropertiesForReplica
+      ServerPropertiesForCreate_ServerPropertiesForRestore:
+        $exportAs: ServerPropertiesForRestore
   dbformysql:
     2021-05-01:
       FlexibleServer: 

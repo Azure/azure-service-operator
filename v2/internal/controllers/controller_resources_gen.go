@@ -49,6 +49,9 @@ import (
 	containerservice_alpha20210501s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1alpha1api20210501storage"
 	containerservice_v20210501 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501"
 	containerservice_v20210501s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501storage"
+	dbformariadb_customizations "github.com/Azure/azure-service-operator/v2/api/dbformariadb/customizations"
+	dbformariadb_v20180601 "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601"
+	dbformariadb_v20180601s "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601storage"
 	dbformysql_customizations "github.com/Azure/azure-service-operator/v2/api/dbformysql/customizations"
 	dbformysql_alpha20210501 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1alpha1api20210501"
 	dbformysql_alpha20210501s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1alpha1api20210501storage"
@@ -234,6 +237,31 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Obj:     new(containerservice_v20210501s.ManagedClustersAgentPool),
 		Indexes: []registration.Index{},
 		Watches: []registration.Watch{},
+	})
+	result = append(result, &registration.StorageType{
+		Obj:     new(dbformariadb_v20180601s.Configuration),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{},
+	})
+	result = append(result, &registration.StorageType{
+		Obj:     new(dbformariadb_v20180601s.Database),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{},
+	})
+	result = append(result, &registration.StorageType{
+		Obj: new(dbformariadb_v20180601s.Server),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.properties.serverPropertiesForDefaultCreate.administratorLoginPassword",
+				Func: indexDbformariadbServerAdministratorLoginPassword,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{".spec.properties.serverPropertiesForDefaultCreate.administratorLoginPassword"}, &dbformariadb_v20180601s.ServerList{}),
+			},
+		},
 	})
 	result = append(result, &registration.StorageType{
 		Obj: new(dbformysql_v20210501s.FlexibleServer),
@@ -584,6 +612,12 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(containerservice_v20210501.ManagedClustersAgentPool))
 	result = append(result, new(containerservice_v20210501s.ManagedCluster))
 	result = append(result, new(containerservice_v20210501s.ManagedClustersAgentPool))
+	result = append(result, new(dbformariadb_v20180601.Configuration))
+	result = append(result, new(dbformariadb_v20180601.Database))
+	result = append(result, new(dbformariadb_v20180601.Server))
+	result = append(result, new(dbformariadb_v20180601s.Configuration))
+	result = append(result, new(dbformariadb_v20180601s.Database))
+	result = append(result, new(dbformariadb_v20180601s.Server))
 	result = append(result, new(dbformysql_alpha20210501.FlexibleServer))
 	result = append(result, new(dbformysql_alpha20210501.FlexibleServersDatabase))
 	result = append(result, new(dbformysql_alpha20210501.FlexibleServersFirewallRule))
@@ -831,6 +865,8 @@ func createScheme() *runtime.Scheme {
 	_ = containerservice_alpha20210501s.AddToScheme(scheme)
 	_ = containerservice_v20210501.AddToScheme(scheme)
 	_ = containerservice_v20210501s.AddToScheme(scheme)
+	_ = dbformariadb_v20180601.AddToScheme(scheme)
+	_ = dbformariadb_v20180601s.AddToScheme(scheme)
 	_ = dbformysql_alpha20210501.AddToScheme(scheme)
 	_ = dbformysql_alpha20210501s.AddToScheme(scheme)
 	_ = dbformysql_v20210501.AddToScheme(scheme)
@@ -907,6 +943,9 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &containerregistry_customizations.RegistryExtension{})
 	result = append(result, &containerservice_customizations.ManagedClusterExtension{})
 	result = append(result, &containerservice_customizations.ManagedClustersAgentPoolExtension{})
+	result = append(result, &dbformariadb_customizations.ConfigurationExtension{})
+	result = append(result, &dbformariadb_customizations.DatabaseExtension{})
+	result = append(result, &dbformariadb_customizations.ServerExtension{})
 	result = append(result, &dbformysql_customizations.FlexibleServerExtension{})
 	result = append(result, &dbformysql_customizations.FlexibleServersDatabaseExtension{})
 	result = append(result, &dbformysql_customizations.FlexibleServersFirewallRuleExtension{})
@@ -992,6 +1031,24 @@ func indexComputeVirtualMachineScaleSetAdminPassword(rawObj client.Object) []str
 		return nil
 	}
 	return []string{obj.Spec.VirtualMachineProfile.OsProfile.AdminPassword.Name}
+}
+
+// indexDbformariadbServerAdministratorLoginPassword an index function for dbformariadb_v20180601s.Server .spec.properties.serverPropertiesForDefaultCreate.administratorLoginPassword
+func indexDbformariadbServerAdministratorLoginPassword(rawObj client.Object) []string {
+	obj, ok := rawObj.(*dbformariadb_v20180601s.Server)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ServerPropertiesForDefaultCreate == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ServerPropertiesForDefaultCreate.AdministratorLoginPassword == nil {
+		return nil
+	}
+	return []string{obj.Spec.Properties.ServerPropertiesForDefaultCreate.AdministratorLoginPassword.Name}
 }
 
 // indexDbformysqlFlexibleServerAdministratorLoginPassword an index function for dbformysql_v20210501s.FlexibleServer .spec.administratorLoginPassword
