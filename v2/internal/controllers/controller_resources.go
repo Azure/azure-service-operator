@@ -64,6 +64,12 @@ func GetKnownStorageTypes(
 				Func: indexOwner,
 			})
 		}
+		if _, ok := t.Obj.(*networkstorage.RouteTablesRoute); ok {
+			t.Indexes = append(t.Indexes, registration.Index{
+				Key:  ".metadata.ownerReferences[0]",
+				Func: indexOwner,
+			})
+		}
 	}
 
 	err := resourceResolver.IndexStorageTypes(mgr.GetScheme(), knownStorageTypes)
