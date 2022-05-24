@@ -26,6 +26,8 @@ func TestStringMatcher_GivenMatcher_ReturnsExpectedResults(t *testing.T) {
 		{"Simple wildcard matches", "*", "Baz", true},
 		{"Prefix with wildcard matches", "F*", "Foo", true},
 		{"Suffix with wildcard matches", "*z", "Baz", true},
+		{"Multiple wildcards", "F*;BA*", "Foo", true},
+		{"Multiple wildcards, no match", "F*;BA*", "Zoo", false},
 	}
 
 	for _, c := range cases {
