@@ -225,24 +225,25 @@ func Test_Owner_IsImmutableOnceSuccessfullyCreated(t *testing.T) {
 	tc.DeleteResourceAndWait(acct)
 }
 
-func Test_AzureName_IsMutableIfNotSuccessfullyCreated(t *testing.T) {
+func Test_AzureName_IsImmutable_IfAzureHasBeenCommunicatedWith(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	invalidAzureName := "==--039+/"
+	invalidAzureName := "==--039+"
 
 	acct := createStorageAccount(tc, rg)
 	acct.Spec.AzureName = invalidAzureName
-	tc.CreateResource(acct)
+	tc.CreateResourceAndWaitForFailure(acct)
 
 	// Patch the account to change AzureName
 	old := acct.DeepCopy()
 	acct.Spec.AzureName = tc.NoSpaceNamer.GenerateName("stor")
-	tc.PatchResourceAndWait(old, acct)
+	err := tc.PatchAndExpectError(old, acct)
+	tc.Expect(err).To(HaveOccurred())
+	tc.Expect(err.Error()).To(ContainSubstring("updating 'AzureName' is not allowed"))
 
-	tc.Expect(acct.Owner().Name).ToNot(BeIdenticalTo(invalidAzureName))
 	// Delete the account
 	tc.DeleteResourceAndWait(acct)
 }
