@@ -184,11 +184,11 @@ func (client *GenericClient) createOrUpdateByIDCreateRequest(
 // createOrUpdateByIDHandleError handles the CreateOrUpdateByID error response.
 func (client *GenericClient) createOrUpdateByIDHandleError(resp *http.Response) error {
 	errType := NewCloudError(runtime.NewResponseError(resp))
-	if err := runtime.UnmarshalAsJSON(resp, &errType); err != nil {
+	if err := runtime.UnmarshalAsJSON(resp, errType); err != nil {
 		return runtime.NewResponseError(resp)
 	}
 
-	return &errType
+	return errType
 }
 
 // GetByID - Gets a resource by ID.

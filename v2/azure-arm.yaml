@@ -794,8 +794,10 @@ objectModelConfiguration:
           - FullyQualifiedDomainName
       ServersConfiguration:
         $exportAs: Configuration
+        $supportedFrom: v2.0.0-beta.1
       ServersDatabase:
         $exportAs: Database
+        $supportedFrom: v2.0.0-beta.1
       ServerPropertiesForCreate_ServerPropertiesForDefaultCreate:
         $exportAs: ServerPropertiesForDefaultCreate
       ServerPropertiesForCreate_ServerPropertiesForGeoRestore:

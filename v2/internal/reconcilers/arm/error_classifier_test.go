@@ -8,6 +8,7 @@ package arm_test
 import (
 	"testing"
 
+	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	. "github.com/onsi/gomega"
 
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
@@ -20,6 +21,8 @@ var badRequestError = genericarmclient.NewTestCloudError("BadRequest", "That was
 var conflictError = genericarmclient.NewTestCloudError("Conflict", "That doesn't match what I have")
 
 var resourceGroupNotFoundError = genericarmclient.NewTestCloudError("ResourceGroupNotFound", "The resource group was not found")
+
+var http400Error = genericarmclient.NewCloudError(&azcore.ResponseError{StatusCode: 400})
 
 var unknownError = genericarmclient.NewTestCloudError("ThisCodeIsNotACodeUnderstoodByTheClassifier", "No idea what went wrong")
 
@@ -81,4 +84,16 @@ func Test_UnknownError_IsRetryable(t *testing.T) {
 		Message:        unknownError.Message(),
 	}
 	g.Expect(arm.ClassifyCloudError(unknownError)).To(Equal(expected))
+}
+
+func Test_HTTP400_IsFatal(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+	expected := core.CloudErrorDetails{
+		Classification: core.ErrorFatal,
+		Code:           core.UnknownErrorCode,
+		Message:        core.UnknownErrorMessage,
+	}
+
+	g.Expect(arm.ClassifyCloudError(http400Error)).To(Equal(expected))
 }

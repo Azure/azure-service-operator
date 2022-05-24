@@ -6,6 +6,9 @@
 package arm
 
 import (
+	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
+	"github.com/pkg/errors"
+
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 )
@@ -21,7 +24,8 @@ func ClassifyCloudError(err *genericarmclient.CloudError) (core.CloudErrorDetail
 		return result, nil
 	}
 
-	classification := classifyCloudErrorCode(err.Code())
+	classification := classifyCloudError(err)
+
 	result := core.CloudErrorDetails{
 		Classification: classification,
 		Code:           err.Code(),
@@ -30,11 +34,12 @@ func ClassifyCloudError(err *genericarmclient.CloudError) (core.CloudErrorDetail
 	return result, nil
 }
 
-func classifyCloudErrorCode(code string) core.ErrorClassification {
+func classifyCloudError(err *genericarmclient.CloudError) core.ErrorClassification {
 	// See https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/common-deployment-errors
 	// for a breakdown of common deployment error codes. Note that the error codes documented there are
 	// the inner error codes we're parsing here.
 
+	code := err.Code()
 	if code == "" {
 		// If there's no code, assume we can retry on it
 		return core.ErrorRetryable
@@ -55,6 +60,7 @@ func classifyCloudErrorCode(code string) core.ErrorClassification {
 		// it's a quota issue, so we can in theory retry through it
 		"OperationNotAllowed",
 		"ParentResourceNotFound",
+		"PrincipalNotFound",
 		"ResourceGroupNotFound",
 		"ResourceNotFound",
 		"ResourceQuotaExceeded",
@@ -85,8 +91,18 @@ func classifyCloudErrorCode(code string) core.ErrorClassification {
 		"SubscriptionNotFound":
 		return core.ErrorFatal
 	default:
-		// TODO: We could technically avoid listing the above Retryable errors since that's the default anyway
-		// If we don't know what the error is, default to retrying on it
+		// If we don't know what the error is use the HTTP status code to determine if we can retry
+		return classifyHTTPError(err)
+	}
+}
+
+func classifyHTTPError(err *genericarmclient.CloudError) core.ErrorClassification {
+	var httpError *azcore.ResponseError
+	if !errors.As(err.Unwrap(), &httpError) {
 		return core.ErrorRetryable
 	}
+	if httpError.StatusCode == 400 {
+		return core.ErrorFatal
+	}
+	return core.ErrorRetryable
 }
