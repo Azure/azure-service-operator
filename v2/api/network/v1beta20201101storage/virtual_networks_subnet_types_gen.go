@@ -151,7 +151,7 @@ type Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded struct {
 	ProvisioningState                  *string                                                                   `json:"provisioningState,omitempty"`
 	Purpose                            *string                                                                   `json:"purpose,omitempty"`
 	ResourceNavigationLinks            []ResourceNavigationLink_Status                                           `json:"resourceNavigationLinks,omitempty"`
-	RouteTable                         *RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded              `json:"routeTable,omitempty"`
+	RouteTable                         *RouteTable_Status_SubResourceEmbedded                                    `json:"routeTable,omitempty"`
 	ServiceAssociationLinks            []ServiceAssociationLink_Status                                           `json:"serviceAssociationLinks,omitempty"`
 	ServiceEndpointPolicies            []ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded  `json:"serviceEndpointPolicies,omitempty"`
 	ServiceEndpoints                   []ServiceEndpointPropertiesFormat_Status                                  `json:"serviceEndpoints,omitempty"`
@@ -295,8 +295,8 @@ type ResourceNavigationLink_Status struct {
 	Type               *string                `json:"type,omitempty"`
 }
 
-// Storage version of v1beta20201101.RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded
-type RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded struct {
+// Storage version of v1beta20201101.RouteTable_Status_SubResourceEmbedded
+type RouteTable_Status_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }

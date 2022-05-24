@@ -155,7 +155,20 @@
 | RadiusServer_Status                                                                              | v1alpha1api20201101 | v1beta20201101 |
 | ResourceNavigationLinkFormat_Status                                                              | v1alpha1api20201101 | v1beta20201101 |
 | ResourceNavigationLink_Status                                                                    | v1alpha1api20201101 | v1beta20201101 |
-| RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded                                      | v1alpha1api20201101 | v1beta20201101 |
+| RouteNextHopType_Status                                                                          |                     | v1beta20201101 |
+| RoutePropertiesFormat                                                                            |                     | v1beta20201101 |
+| RoutePropertiesFormatNextHopType                                                                 |                     | v1beta20201101 |
+| RoutePropertiesFormat_Status                                                                     |                     | v1beta20201101 |
+| RouteTable                                                                                       |                     | v1beta20201101 |
+| RouteTablePropertiesFormat_Status                                                                |                     | v1beta20201101 |
+| RouteTable_Status                                                                                |                     | v1beta20201101 |
+| RouteTable_Status_SubResourceEmbedded                                                            | v1alpha1api20201101 | v1beta20201101 |
+| RouteTablesRoute                                                                                 |                     | v1beta20201101 |
+| RouteTablesRoutes_Spec                                                                           |                     | v1beta20201101 |
+| RouteTables_Spec                                                                                 |                     | v1beta20201101 |
+| RouteTables_Spec_Properties                                                                      |                     | v1beta20201101 |
+| RouteTables_Spec_Properties_Routes                                                               |                     | v1beta20201101 |
+| Route_Status                                                                                     |                     | v1beta20201101 |
 | SecurityRuleAccess_Status                                                                        | v1alpha1api20201101 | v1beta20201101 |
 | SecurityRuleDirection_Status                                                                     | v1alpha1api20201101 | v1beta20201101 |
 | SecurityRulePropertiesFormat                                                                     | v1alpha1api20201101 | v1beta20201101 |

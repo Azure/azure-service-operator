@@ -37,7 +37,7 @@ func (ext *FlexibleServerExtension) RetrieveSecrets(
 		return nil, errors.Errorf("cannot run on unknown resource type %T, expected *postgresql.FlexibleServer", obj)
 	}
 
-	// Type assert that we are the hub type. This should fail to compile if
+	// Type assert that we are the hub type. This will fail to compile if
 	// the hub type has been changed but this extension has not
 	var _ conversion.Hub = typedObj
 

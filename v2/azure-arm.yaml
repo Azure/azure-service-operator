@@ -313,6 +313,16 @@ typeTransformers:
     property: VirtualNetworkPeerings
     remove: true
     because: This is an embedded resource
+  - group: network
+    name: RouteTablePropertiesFormat_Status  # This type is subsequently flattened into RouteTable_Status
+    property: Routes
+    remove: true
+    because: This is an embedded resource
+  - group: network
+    name: RouteTablePropertiesFormat_Status  # This type is subsequently flattened into RouteTable_Status
+    property: Subnets
+    remove: true
+    because: This is an embedded resource
 
   # Deal with resources that have tags or location included but shouldn't have (proxy resources, etc).
   # See https://github.com/Azure/azure-resource-manager-schemas/issues/1850
@@ -328,6 +338,16 @@ typeTransformers:
     because: Child resource cannot choose location
   - group: network
     name: VirtualNetworksSubnets_Spec
+    property: Tags
+    remove: true
+    because: Child resource cannot set tags
+  - group: network
+    name: RouteTablesRoutes_Spec
+    property: Location
+    remove: true
+    because: Child resource cannot choose location
+  - group: network
+    name: RouteTablesRoutes_Spec
     property: Tags
     remove: true
     because: Child resource cannot set tags
@@ -1007,6 +1027,15 @@ objectModelConfiguration:
       PublicIPAddress:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
+      RouteTable:
+        $export: true
+        $supportedFrom: v2.0.0-beta.1
+      RouteTables_Spec_Properties:
+        Routes:
+          $isResourceLifecycleOwnedByParent: true
+      RouteTablesRoute:
+        $export: true
+        $supportedFrom: v2.0.0-beta.1
       SubResource:
         Id:
           $armReference: true

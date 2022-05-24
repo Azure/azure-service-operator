@@ -472,6 +472,16 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Watches: []registration.Watch{},
 	})
 	result = append(result, &registration.StorageType{
+		Obj:     new(network_v20201101s.RouteTable),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{},
+	})
+	result = append(result, &registration.StorageType{
+		Obj:     new(network_v20201101s.RouteTablesRoute),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{},
+	})
+	result = append(result, &registration.StorageType{
 		Obj:     new(network_v20201101s.VirtualNetwork),
 		Indexes: []registration.Index{},
 		Watches: []registration.Watch{},
@@ -775,6 +785,8 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(network_v20201101.NetworkSecurityGroup))
 	result = append(result, new(network_v20201101.NetworkSecurityGroupsSecurityRule))
 	result = append(result, new(network_v20201101.PublicIPAddress))
+	result = append(result, new(network_v20201101.RouteTable))
+	result = append(result, new(network_v20201101.RouteTablesRoute))
 	result = append(result, new(network_v20201101.VirtualNetwork))
 	result = append(result, new(network_v20201101.VirtualNetworkGateway))
 	result = append(result, new(network_v20201101.VirtualNetworksSubnet))
@@ -784,6 +796,8 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(network_v20201101s.NetworkSecurityGroup))
 	result = append(result, new(network_v20201101s.NetworkSecurityGroupsSecurityRule))
 	result = append(result, new(network_v20201101s.PublicIPAddress))
+	result = append(result, new(network_v20201101s.RouteTable))
+	result = append(result, new(network_v20201101s.RouteTablesRoute))
 	result = append(result, new(network_v20201101s.VirtualNetwork))
 	result = append(result, new(network_v20201101s.VirtualNetworkGateway))
 	result = append(result, new(network_v20201101s.VirtualNetworksSubnet))
@@ -995,6 +1009,8 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &network_customizations.NetworkSecurityGroupExtension{})
 	result = append(result, &network_customizations.NetworkSecurityGroupsSecurityRuleExtension{})
 	result = append(result, &network_customizations.PublicIPAddressExtension{})
+	result = append(result, &network_customizations.RouteTableExtension{})
+	result = append(result, &network_customizations.RouteTablesRouteExtension{})
 	result = append(result, &network_customizations.VirtualNetworkExtension{})
 	result = append(result, &network_customizations.VirtualNetworkGatewayExtension{})
 	result = append(result, &network_customizations.VirtualNetworksSubnetExtension{})
