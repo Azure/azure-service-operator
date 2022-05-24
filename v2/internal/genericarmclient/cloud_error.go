@@ -33,8 +33,8 @@ type CloudError struct {
 }
 
 // NewCloudError returns a new CloudError
-func NewCloudError(err error) CloudError {
-	return CloudError{
+func NewCloudError(err error) *CloudError {
+	return &CloudError{
 		error: err,
 	}
 }

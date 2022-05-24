@@ -10,29 +10,30 @@ import (
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json
 type Test struct {
+	AdditionalProperties map[string]bool `json:"additionalProperties,omitempty"`
+
 	// +kubebuilder:validation:Required
-	Size                 *int            `json:"size,omitempty"`
-	additionalProperties map[string]bool `json:"additionalProperties,omitempty"`
+	Size *int `json:"size,omitempty"`
 }
 
 // AssignPropertiesFromTest populates our Test from the provided source Test
 func (test *Test) AssignPropertiesFromTest(source *v20200101s.Test) error {
 
-	// Size
-	test.Size = genruntime.ClonePointerToInt(source.Size)
-
-	// additionalProperties
-	if source.additionalProperties != nil {
-		additionalPropertyMap := make(map[string]bool, len(source.additionalProperties))
-		for additionalPropertyKey, additionalPropertyValue := range source.additionalProperties {
+	// AdditionalProperties
+	if source.AdditionalProperties != nil {
+		additionalPropertyMap := make(map[string]bool, len(source.AdditionalProperties))
+		for additionalPropertyKey, additionalPropertyValue := range source.AdditionalProperties {
 			// Shadow the loop variable to avoid aliasing
 			additionalPropertyValue := additionalPropertyValue
 			additionalPropertyMap[additionalPropertyKey] = additionalPropertyValue
 		}
-		test.additionalProperties = additionalPropertyMap
+		test.AdditionalProperties = additionalPropertyMap
 	} else {
-		test.additionalProperties = nil
+		test.AdditionalProperties = nil
 	}
+
+	// Size
+	test.Size = genruntime.ClonePointerToInt(source.Size)
 
 	// No error
 	return nil
@@ -43,21 +44,21 @@ func (test *Test) AssignPropertiesToTest(destination *v20200101s.Test) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// Size
-	destination.Size = genruntime.ClonePointerToInt(test.Size)
-
-	// additionalProperties
-	if test.additionalProperties != nil {
-		additionalPropertyMap := make(map[string]bool, len(test.additionalProperties))
-		for additionalPropertyKey, additionalPropertyValue := range test.additionalProperties {
+	// AdditionalProperties
+	if test.AdditionalProperties != nil {
+		additionalPropertyMap := make(map[string]bool, len(test.AdditionalProperties))
+		for additionalPropertyKey, additionalPropertyValue := range test.AdditionalProperties {
 			// Shadow the loop variable to avoid aliasing
 			additionalPropertyValue := additionalPropertyValue
 			additionalPropertyMap[additionalPropertyKey] = additionalPropertyValue
 		}
-		destination.additionalProperties = additionalPropertyMap
+		destination.AdditionalProperties = additionalPropertyMap
 	} else {
-		destination.additionalProperties = nil
+		destination.AdditionalProperties = nil
 	}
+
+	// Size
+	destination.Size = genruntime.ClonePointerToInt(test.Size)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
