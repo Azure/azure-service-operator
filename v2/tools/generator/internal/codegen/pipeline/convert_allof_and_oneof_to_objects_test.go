@@ -74,7 +74,7 @@ func TestMergeMapEmptyObject(t *testing.T) {
 	g.Expect(synth.intersectTypes(emptyObject, mapStringString)).To(Equal(mapStringString))
 }
 
-// merging a map with an object puts the map into 'additionalProperties'
+// merging a map with an object puts the map into 'AdditionalProperties'
 func TestMergeMapObject(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
@@ -85,7 +85,10 @@ func TestMergeMapObject(t *testing.T) {
 	)
 
 	expected := oneProp.WithProperties(
-		astmodel.NewPropertyDefinition("additionalProperties", "additionalProperties", newMap),
+		astmodel.NewPropertyDefinition(
+			astmodel.AdditionalPropertiesPropertyName,
+			astmodel.AdditionalPropertiesJsonName,
+			newMap),
 	)
 
 	synth := makeSynth()
