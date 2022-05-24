@@ -377,16 +377,7 @@ func AddIndependentPropertyGeneratorsForRouteStatus(gens map[string]gopter.Gen) 
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["NextHopIpAddress"] = gen.PtrOf(gen.AlphaString())
-	gens["NextHopType"] = gen.PtrOf(gen.OneConstOf(
-		RouteNextHopType_StatusInternet,
-		RouteNextHopType_StatusNone,
-		RouteNextHopType_StatusVirtualAppliance,
-		RouteNextHopType_StatusVirtualNetworkGateway,
-		RouteNextHopType_StatusVnetLocal))
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_StatusDeleting,
-		ProvisioningState_StatusFailed,
-		ProvisioningState_StatusSucceeded,
-		ProvisioningState_StatusUpdating))
+	gens["NextHopType"] = gen.PtrOf(gen.AlphaString())
+	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }

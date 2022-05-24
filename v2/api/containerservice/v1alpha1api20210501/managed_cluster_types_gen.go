@@ -3429,16 +3429,16 @@ func (profile *ContainerServiceNetworkProfile) AssignPropertiesToContainerServic
 
 // Deprecated version of ContainerServiceNetworkProfile_Status. Use v1beta20210501.ContainerServiceNetworkProfile_Status instead
 type ContainerServiceNetworkProfile_Status struct {
-	DnsServiceIP        *string                                              `json:"dnsServiceIP,omitempty"`
-	DockerBridgeCidr    *string                                              `json:"dockerBridgeCidr,omitempty"`
-	LoadBalancerProfile *ManagedClusterLoadBalancerProfile_Status            `json:"loadBalancerProfile,omitempty"`
-	LoadBalancerSku     *ContainerServiceNetworkProfileStatusLoadBalancerSku `json:"loadBalancerSku,omitempty"`
-	NetworkMode         *ContainerServiceNetworkProfileStatusNetworkMode     `json:"networkMode,omitempty"`
-	NetworkPlugin       *ContainerServiceNetworkProfileStatusNetworkPlugin   `json:"networkPlugin,omitempty"`
-	NetworkPolicy       *ContainerServiceNetworkProfileStatusNetworkPolicy   `json:"networkPolicy,omitempty"`
-	OutboundType        *ContainerServiceNetworkProfileStatusOutboundType    `json:"outboundType,omitempty"`
-	PodCidr             *string                                              `json:"podCidr,omitempty"`
-	ServiceCidr         *string                                              `json:"serviceCidr,omitempty"`
+	DnsServiceIP        *string                                   `json:"dnsServiceIP,omitempty"`
+	DockerBridgeCidr    *string                                   `json:"dockerBridgeCidr,omitempty"`
+	LoadBalancerProfile *ManagedClusterLoadBalancerProfile_Status `json:"loadBalancerProfile,omitempty"`
+	LoadBalancerSku     *string                                   `json:"loadBalancerSku,omitempty"`
+	NetworkMode         *string                                   `json:"networkMode,omitempty"`
+	NetworkPlugin       *string                                   `json:"networkPlugin,omitempty"`
+	NetworkPolicy       *string                                   `json:"networkPolicy,omitempty"`
+	OutboundType        *string                                   `json:"outboundType,omitempty"`
+	PodCidr             *string                                   `json:"podCidr,omitempty"`
+	ServiceCidr         *string                                   `json:"serviceCidr,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ContainerServiceNetworkProfile_Status{}
@@ -3546,44 +3546,19 @@ func (profile *ContainerServiceNetworkProfile_Status) AssignPropertiesFromContai
 	}
 
 	// LoadBalancerSku
-	if source.LoadBalancerSku != nil {
-		loadBalancerSku := ContainerServiceNetworkProfileStatusLoadBalancerSku(*source.LoadBalancerSku)
-		profile.LoadBalancerSku = &loadBalancerSku
-	} else {
-		profile.LoadBalancerSku = nil
-	}
+	profile.LoadBalancerSku = genruntime.ClonePointerToString(source.LoadBalancerSku)
 
 	// NetworkMode
-	if source.NetworkMode != nil {
-		networkMode := ContainerServiceNetworkProfileStatusNetworkMode(*source.NetworkMode)
-		profile.NetworkMode = &networkMode
-	} else {
-		profile.NetworkMode = nil
-	}
+	profile.NetworkMode = genruntime.ClonePointerToString(source.NetworkMode)
 
 	// NetworkPlugin
-	if source.NetworkPlugin != nil {
-		networkPlugin := ContainerServiceNetworkProfileStatusNetworkPlugin(*source.NetworkPlugin)
-		profile.NetworkPlugin = &networkPlugin
-	} else {
-		profile.NetworkPlugin = nil
-	}
+	profile.NetworkPlugin = genruntime.ClonePointerToString(source.NetworkPlugin)
 
 	// NetworkPolicy
-	if source.NetworkPolicy != nil {
-		networkPolicy := ContainerServiceNetworkProfileStatusNetworkPolicy(*source.NetworkPolicy)
-		profile.NetworkPolicy = &networkPolicy
-	} else {
-		profile.NetworkPolicy = nil
-	}
+	profile.NetworkPolicy = genruntime.ClonePointerToString(source.NetworkPolicy)
 
 	// OutboundType
-	if source.OutboundType != nil {
-		outboundType := ContainerServiceNetworkProfileStatusOutboundType(*source.OutboundType)
-		profile.OutboundType = &outboundType
-	} else {
-		profile.OutboundType = nil
-	}
+	profile.OutboundType = genruntime.ClonePointerToString(source.OutboundType)
 
 	// PodCidr
 	profile.PodCidr = genruntime.ClonePointerToString(source.PodCidr)
@@ -3619,44 +3594,19 @@ func (profile *ContainerServiceNetworkProfile_Status) AssignPropertiesToContaine
 	}
 
 	// LoadBalancerSku
-	if profile.LoadBalancerSku != nil {
-		loadBalancerSku := string(*profile.LoadBalancerSku)
-		destination.LoadBalancerSku = &loadBalancerSku
-	} else {
-		destination.LoadBalancerSku = nil
-	}
+	destination.LoadBalancerSku = genruntime.ClonePointerToString(profile.LoadBalancerSku)
 
 	// NetworkMode
-	if profile.NetworkMode != nil {
-		networkMode := string(*profile.NetworkMode)
-		destination.NetworkMode = &networkMode
-	} else {
-		destination.NetworkMode = nil
-	}
+	destination.NetworkMode = genruntime.ClonePointerToString(profile.NetworkMode)
 
 	// NetworkPlugin
-	if profile.NetworkPlugin != nil {
-		networkPlugin := string(*profile.NetworkPlugin)
-		destination.NetworkPlugin = &networkPlugin
-	} else {
-		destination.NetworkPlugin = nil
-	}
+	destination.NetworkPlugin = genruntime.ClonePointerToString(profile.NetworkPlugin)
 
 	// NetworkPolicy
-	if profile.NetworkPolicy != nil {
-		networkPolicy := string(*profile.NetworkPolicy)
-		destination.NetworkPolicy = &networkPolicy
-	} else {
-		destination.NetworkPolicy = nil
-	}
+	destination.NetworkPolicy = genruntime.ClonePointerToString(profile.NetworkPolicy)
 
 	// OutboundType
-	if profile.OutboundType != nil {
-		outboundType := string(*profile.OutboundType)
-		destination.OutboundType = &outboundType
-	} else {
-		destination.OutboundType = nil
-	}
+	destination.OutboundType = genruntime.ClonePointerToString(profile.OutboundType)
 
 	// PodCidr
 	destination.PodCidr = genruntime.ClonePointerToString(profile.PodCidr)
@@ -3779,8 +3729,8 @@ func (location *ExtendedLocation) AssignPropertiesToExtendedLocation(destination
 
 // Deprecated version of ExtendedLocation_Status. Use v1beta20210501.ExtendedLocation_Status instead
 type ExtendedLocation_Status struct {
-	Name *string                      `json:"name,omitempty"`
-	Type *ExtendedLocationType_Status `json:"type,omitempty"`
+	Name *string `json:"name,omitempty"`
+	Type *string `json:"type,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ExtendedLocation_Status{}
@@ -3820,12 +3770,7 @@ func (location *ExtendedLocation_Status) AssignPropertiesFromExtendedLocationSta
 	location.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Type
-	if source.Type != nil {
-		typeVar := ExtendedLocationType_Status(*source.Type)
-		location.Type = &typeVar
-	} else {
-		location.Type = nil
-	}
+	location.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
@@ -3840,12 +3785,7 @@ func (location *ExtendedLocation_Status) AssignPropertiesToExtendedLocationStatu
 	destination.Name = genruntime.ClonePointerToString(location.Name)
 
 	// Type
-	if location.Type != nil {
-		typeVar := string(*location.Type)
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
+	destination.Type = genruntime.ClonePointerToString(location.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -5590,14 +5530,14 @@ type ManagedClusterAgentPoolProfile_Status struct {
 	EnableFIPS                *bool                            `json:"enableFIPS,omitempty"`
 	EnableNodePublicIP        *bool                            `json:"enableNodePublicIP,omitempty"`
 	EnableUltraSSD            *bool                            `json:"enableUltraSSD,omitempty"`
-	GpuInstanceProfile        *GPUInstanceProfile_Status       `json:"gpuInstanceProfile,omitempty"`
+	GpuInstanceProfile        *string                          `json:"gpuInstanceProfile,omitempty"`
 	KubeletConfig             *KubeletConfig_Status            `json:"kubeletConfig,omitempty"`
-	KubeletDiskType           *KubeletDiskType_Status          `json:"kubeletDiskType,omitempty"`
+	KubeletDiskType           *string                          `json:"kubeletDiskType,omitempty"`
 	LinuxOSConfig             *LinuxOSConfig_Status            `json:"linuxOSConfig,omitempty"`
 	MaxCount                  *int                             `json:"maxCount,omitempty"`
 	MaxPods                   *int                             `json:"maxPods,omitempty"`
 	MinCount                  *int                             `json:"minCount,omitempty"`
-	Mode                      *AgentPoolMode_Status            `json:"mode,omitempty"`
+	Mode                      *string                          `json:"mode,omitempty"`
 	Name                      *string                          `json:"name,omitempty"`
 	NodeImageVersion          *string                          `json:"nodeImageVersion,omitempty"`
 	NodeLabels                map[string]string                `json:"nodeLabels,omitempty"`
@@ -5605,18 +5545,18 @@ type ManagedClusterAgentPoolProfile_Status struct {
 	NodeTaints                []string                         `json:"nodeTaints,omitempty"`
 	OrchestratorVersion       *string                          `json:"orchestratorVersion,omitempty"`
 	OsDiskSizeGB              *int                             `json:"osDiskSizeGB,omitempty"`
-	OsDiskType                *OSDiskType_Status               `json:"osDiskType,omitempty"`
-	OsSKU                     *OSSKU_Status                    `json:"osSKU,omitempty"`
-	OsType                    *OSType_Status                   `json:"osType,omitempty"`
+	OsDiskType                *string                          `json:"osDiskType,omitempty"`
+	OsSKU                     *string                          `json:"osSKU,omitempty"`
+	OsType                    *string                          `json:"osType,omitempty"`
 	PodSubnetID               *string                          `json:"podSubnetID,omitempty"`
 	PowerState                *PowerState_Status               `json:"powerState,omitempty"`
 	ProvisioningState         *string                          `json:"provisioningState,omitempty"`
 	ProximityPlacementGroupID *string                          `json:"proximityPlacementGroupID,omitempty"`
-	ScaleSetEvictionPolicy    *ScaleSetEvictionPolicy_Status   `json:"scaleSetEvictionPolicy,omitempty"`
-	ScaleSetPriority          *ScaleSetPriority_Status         `json:"scaleSetPriority,omitempty"`
+	ScaleSetEvictionPolicy    *string                          `json:"scaleSetEvictionPolicy,omitempty"`
+	ScaleSetPriority          *string                          `json:"scaleSetPriority,omitempty"`
 	SpotMaxPrice              *float64                         `json:"spotMaxPrice,omitempty"`
 	Tags                      map[string]string                `json:"tags,omitempty"`
-	Type                      *AgentPoolType_Status            `json:"type,omitempty"`
+	Type                      *string                          `json:"type,omitempty"`
 	UpgradeSettings           *AgentPoolUpgradeSettings_Status `json:"upgradeSettings,omitempty"`
 	VmSize                    *string                          `json:"vmSize,omitempty"`
 	VnetSubnetID              *string                          `json:"vnetSubnetID,omitempty"`
@@ -5934,12 +5874,7 @@ func (profile *ManagedClusterAgentPoolProfile_Status) AssignPropertiesFromManage
 	}
 
 	// GpuInstanceProfile
-	if source.GpuInstanceProfile != nil {
-		gpuInstanceProfile := GPUInstanceProfile_Status(*source.GpuInstanceProfile)
-		profile.GpuInstanceProfile = &gpuInstanceProfile
-	} else {
-		profile.GpuInstanceProfile = nil
-	}
+	profile.GpuInstanceProfile = genruntime.ClonePointerToString(source.GpuInstanceProfile)
 
 	// KubeletConfig
 	if source.KubeletConfig != nil {
@@ -5954,12 +5889,7 @@ func (profile *ManagedClusterAgentPoolProfile_Status) AssignPropertiesFromManage
 	}
 
 	// KubeletDiskType
-	if source.KubeletDiskType != nil {
-		kubeletDiskType := KubeletDiskType_Status(*source.KubeletDiskType)
-		profile.KubeletDiskType = &kubeletDiskType
-	} else {
-		profile.KubeletDiskType = nil
-	}
+	profile.KubeletDiskType = genruntime.ClonePointerToString(source.KubeletDiskType)
 
 	// LinuxOSConfig
 	if source.LinuxOSConfig != nil {
@@ -5983,12 +5913,7 @@ func (profile *ManagedClusterAgentPoolProfile_Status) AssignPropertiesFromManage
 	profile.MinCount = genruntime.ClonePointerToInt(source.MinCount)
 
 	// Mode
-	if source.Mode != nil {
-		mode := AgentPoolMode_Status(*source.Mode)
-		profile.Mode = &mode
-	} else {
-		profile.Mode = nil
-	}
+	profile.Mode = genruntime.ClonePointerToString(source.Mode)
 
 	// Name
 	profile.Name = genruntime.ClonePointerToString(source.Name)
@@ -6012,28 +5937,13 @@ func (profile *ManagedClusterAgentPoolProfile_Status) AssignPropertiesFromManage
 	profile.OsDiskSizeGB = genruntime.ClonePointerToInt(source.OsDiskSizeGB)
 
 	// OsDiskType
-	if source.OsDiskType != nil {
-		osDiskType := OSDiskType_Status(*source.OsDiskType)
-		profile.OsDiskType = &osDiskType
-	} else {
-		profile.OsDiskType = nil
-	}
+	profile.OsDiskType = genruntime.ClonePointerToString(source.OsDiskType)
 
 	// OsSKU
-	if source.OsSKU != nil {
-		osSKU := OSSKU_Status(*source.OsSKU)
-		profile.OsSKU = &osSKU
-	} else {
-		profile.OsSKU = nil
-	}
+	profile.OsSKU = genruntime.ClonePointerToString(source.OsSKU)
 
 	// OsType
-	if source.OsType != nil {
-		osType := OSType_Status(*source.OsType)
-		profile.OsType = &osType
-	} else {
-		profile.OsType = nil
-	}
+	profile.OsType = genruntime.ClonePointerToString(source.OsType)
 
 	// PodSubnetID
 	profile.PodSubnetID = genruntime.ClonePointerToString(source.PodSubnetID)
@@ -6057,20 +5967,10 @@ func (profile *ManagedClusterAgentPoolProfile_Status) AssignPropertiesFromManage
 	profile.ProximityPlacementGroupID = genruntime.ClonePointerToString(source.ProximityPlacementGroupID)
 
 	// ScaleSetEvictionPolicy
-	if source.ScaleSetEvictionPolicy != nil {
-		scaleSetEvictionPolicy := ScaleSetEvictionPolicy_Status(*source.ScaleSetEvictionPolicy)
-		profile.ScaleSetEvictionPolicy = &scaleSetEvictionPolicy
-	} else {
-		profile.ScaleSetEvictionPolicy = nil
-	}
+	profile.ScaleSetEvictionPolicy = genruntime.ClonePointerToString(source.ScaleSetEvictionPolicy)
 
 	// ScaleSetPriority
-	if source.ScaleSetPriority != nil {
-		scaleSetPriority := ScaleSetPriority_Status(*source.ScaleSetPriority)
-		profile.ScaleSetPriority = &scaleSetPriority
-	} else {
-		profile.ScaleSetPriority = nil
-	}
+	profile.ScaleSetPriority = genruntime.ClonePointerToString(source.ScaleSetPriority)
 
 	// SpotMaxPrice
 	if source.SpotMaxPrice != nil {
@@ -6084,12 +5984,7 @@ func (profile *ManagedClusterAgentPoolProfile_Status) AssignPropertiesFromManage
 	profile.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
-	if source.Type != nil {
-		typeVar := AgentPoolType_Status(*source.Type)
-		profile.Type = &typeVar
-	} else {
-		profile.Type = nil
-	}
+	profile.Type = genruntime.ClonePointerToString(source.Type)
 
 	// UpgradeSettings
 	if source.UpgradeSettings != nil {
@@ -6165,12 +6060,7 @@ func (profile *ManagedClusterAgentPoolProfile_Status) AssignPropertiesToManagedC
 	}
 
 	// GpuInstanceProfile
-	if profile.GpuInstanceProfile != nil {
-		gpuInstanceProfile := string(*profile.GpuInstanceProfile)
-		destination.GpuInstanceProfile = &gpuInstanceProfile
-	} else {
-		destination.GpuInstanceProfile = nil
-	}
+	destination.GpuInstanceProfile = genruntime.ClonePointerToString(profile.GpuInstanceProfile)
 
 	// KubeletConfig
 	if profile.KubeletConfig != nil {
@@ -6185,12 +6075,7 @@ func (profile *ManagedClusterAgentPoolProfile_Status) AssignPropertiesToManagedC
 	}
 
 	// KubeletDiskType
-	if profile.KubeletDiskType != nil {
-		kubeletDiskType := string(*profile.KubeletDiskType)
-		destination.KubeletDiskType = &kubeletDiskType
-	} else {
-		destination.KubeletDiskType = nil
-	}
+	destination.KubeletDiskType = genruntime.ClonePointerToString(profile.KubeletDiskType)
 
 	// LinuxOSConfig
 	if profile.LinuxOSConfig != nil {
@@ -6214,12 +6099,7 @@ func (profile *ManagedClusterAgentPoolProfile_Status) AssignPropertiesToManagedC
 	destination.MinCount = genruntime.ClonePointerToInt(profile.MinCount)
 
 	// Mode
-	if profile.Mode != nil {
-		mode := string(*profile.Mode)
-		destination.Mode = &mode
-	} else {
-		destination.Mode = nil
-	}
+	destination.Mode = genruntime.ClonePointerToString(profile.Mode)
 
 	// Name
 	destination.Name = genruntime.ClonePointerToString(profile.Name)
@@ -6243,28 +6123,13 @@ func (profile *ManagedClusterAgentPoolProfile_Status) AssignPropertiesToManagedC
 	destination.OsDiskSizeGB = genruntime.ClonePointerToInt(profile.OsDiskSizeGB)
 
 	// OsDiskType
-	if profile.OsDiskType != nil {
-		osDiskType := string(*profile.OsDiskType)
-		destination.OsDiskType = &osDiskType
-	} else {
-		destination.OsDiskType = nil
-	}
+	destination.OsDiskType = genruntime.ClonePointerToString(profile.OsDiskType)
 
 	// OsSKU
-	if profile.OsSKU != nil {
-		osSKU := string(*profile.OsSKU)
-		destination.OsSKU = &osSKU
-	} else {
-		destination.OsSKU = nil
-	}
+	destination.OsSKU = genruntime.ClonePointerToString(profile.OsSKU)
 
 	// OsType
-	if profile.OsType != nil {
-		osType := string(*profile.OsType)
-		destination.OsType = &osType
-	} else {
-		destination.OsType = nil
-	}
+	destination.OsType = genruntime.ClonePointerToString(profile.OsType)
 
 	// PodSubnetID
 	destination.PodSubnetID = genruntime.ClonePointerToString(profile.PodSubnetID)
@@ -6288,20 +6153,10 @@ func (profile *ManagedClusterAgentPoolProfile_Status) AssignPropertiesToManagedC
 	destination.ProximityPlacementGroupID = genruntime.ClonePointerToString(profile.ProximityPlacementGroupID)
 
 	// ScaleSetEvictionPolicy
-	if profile.ScaleSetEvictionPolicy != nil {
-		scaleSetEvictionPolicy := string(*profile.ScaleSetEvictionPolicy)
-		destination.ScaleSetEvictionPolicy = &scaleSetEvictionPolicy
-	} else {
-		destination.ScaleSetEvictionPolicy = nil
-	}
+	destination.ScaleSetEvictionPolicy = genruntime.ClonePointerToString(profile.ScaleSetEvictionPolicy)
 
 	// ScaleSetPriority
-	if profile.ScaleSetPriority != nil {
-		scaleSetPriority := string(*profile.ScaleSetPriority)
-		destination.ScaleSetPriority = &scaleSetPriority
-	} else {
-		destination.ScaleSetPriority = nil
-	}
+	destination.ScaleSetPriority = genruntime.ClonePointerToString(profile.ScaleSetPriority)
 
 	// SpotMaxPrice
 	if profile.SpotMaxPrice != nil {
@@ -6315,12 +6170,7 @@ func (profile *ManagedClusterAgentPoolProfile_Status) AssignPropertiesToManagedC
 	destination.Tags = genruntime.CloneMapOfStringToString(profile.Tags)
 
 	// Type
-	if profile.Type != nil {
-		typeVar := string(*profile.Type)
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
+	destination.Type = genruntime.ClonePointerToString(profile.Type)
 
 	// UpgradeSettings
 	if profile.UpgradeSettings != nil {
@@ -6436,7 +6286,7 @@ func (profile *ManagedClusterAutoUpgradeProfile) AssignPropertiesToManagedCluste
 
 // Deprecated version of ManagedClusterAutoUpgradeProfile_Status. Use v1beta20210501.ManagedClusterAutoUpgradeProfile_Status instead
 type ManagedClusterAutoUpgradeProfile_Status struct {
-	UpgradeChannel *ManagedClusterAutoUpgradeProfileStatusUpgradeChannel `json:"upgradeChannel,omitempty"`
+	UpgradeChannel *string `json:"upgradeChannel,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ManagedClusterAutoUpgradeProfile_Status{}
@@ -6467,12 +6317,7 @@ func (profile *ManagedClusterAutoUpgradeProfile_Status) PopulateFromARM(owner ge
 func (profile *ManagedClusterAutoUpgradeProfile_Status) AssignPropertiesFromManagedClusterAutoUpgradeProfileStatus(source *alpha20210501s.ManagedClusterAutoUpgradeProfile_Status) error {
 
 	// UpgradeChannel
-	if source.UpgradeChannel != nil {
-		upgradeChannel := ManagedClusterAutoUpgradeProfileStatusUpgradeChannel(*source.UpgradeChannel)
-		profile.UpgradeChannel = &upgradeChannel
-	} else {
-		profile.UpgradeChannel = nil
-	}
+	profile.UpgradeChannel = genruntime.ClonePointerToString(source.UpgradeChannel)
 
 	// No error
 	return nil
@@ -6484,12 +6329,7 @@ func (profile *ManagedClusterAutoUpgradeProfile_Status) AssignPropertiesToManage
 	propertyBag := genruntime.NewPropertyBag()
 
 	// UpgradeChannel
-	if profile.UpgradeChannel != nil {
-		upgradeChannel := string(*profile.UpgradeChannel)
-		destination.UpgradeChannel = &upgradeChannel
-	} else {
-		destination.UpgradeChannel = nil
-	}
+	destination.UpgradeChannel = genruntime.ClonePointerToString(profile.UpgradeChannel)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -6856,7 +6696,7 @@ func (identity *ManagedClusterIdentity) AssignPropertiesToManagedClusterIdentity
 type ManagedClusterIdentity_Status struct {
 	PrincipalId            *string                                                         `json:"principalId,omitempty"`
 	TenantId               *string                                                         `json:"tenantId,omitempty"`
-	Type                   *ManagedClusterIdentityStatusType                               `json:"type,omitempty"`
+	Type                   *string                                                         `json:"type,omitempty"`
 	UserAssignedIdentities map[string]ManagedClusterIdentity_Status_UserAssignedIdentities `json:"userAssignedIdentities,omitempty"`
 }
 
@@ -6919,12 +6759,7 @@ func (identity *ManagedClusterIdentity_Status) AssignPropertiesFromManagedCluste
 	identity.TenantId = genruntime.ClonePointerToString(source.TenantId)
 
 	// Type
-	if source.Type != nil {
-		typeVar := ManagedClusterIdentityStatusType(*source.Type)
-		identity.Type = &typeVar
-	} else {
-		identity.Type = nil
-	}
+	identity.Type = genruntime.ClonePointerToString(source.Type)
 
 	// UserAssignedIdentities
 	if source.UserAssignedIdentities != nil {
@@ -6960,12 +6795,7 @@ func (identity *ManagedClusterIdentity_Status) AssignPropertiesToManagedClusterI
 	destination.TenantId = genruntime.ClonePointerToString(identity.TenantId)
 
 	// Type
-	if identity.Type != nil {
-		typeVar := string(*identity.Type)
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
+	destination.Type = genruntime.ClonePointerToString(identity.Type)
 
 	// UserAssignedIdentities
 	if identity.UserAssignedIdentities != nil {
@@ -7794,23 +7624,23 @@ func (profile *ManagedClusterPropertiesAutoScalerProfile) AssignPropertiesToMana
 
 // Deprecated version of ManagedClusterProperties_Status_AutoScalerProfile. Use v1beta20210501.ManagedClusterProperties_Status_AutoScalerProfile instead
 type ManagedClusterProperties_Status_AutoScalerProfile struct {
-	BalanceSimilarNodeGroups      *string                                                  `json:"balance-similar-node-groups,omitempty"`
-	Expander                      *ManagedClusterPropertiesStatusAutoScalerProfileExpander `json:"expander,omitempty"`
-	MaxEmptyBulkDelete            *string                                                  `json:"max-empty-bulk-delete,omitempty"`
-	MaxGracefulTerminationSec     *string                                                  `json:"max-graceful-termination-sec,omitempty"`
-	MaxNodeProvisionTime          *string                                                  `json:"max-node-provision-time,omitempty"`
-	MaxTotalUnreadyPercentage     *string                                                  `json:"max-total-unready-percentage,omitempty"`
-	NewPodScaleUpDelay            *string                                                  `json:"new-pod-scale-up-delay,omitempty"`
-	OkTotalUnreadyCount           *string                                                  `json:"ok-total-unready-count,omitempty"`
-	ScaleDownDelayAfterAdd        *string                                                  `json:"scale-down-delay-after-add,omitempty"`
-	ScaleDownDelayAfterDelete     *string                                                  `json:"scale-down-delay-after-delete,omitempty"`
-	ScaleDownDelayAfterFailure    *string                                                  `json:"scale-down-delay-after-failure,omitempty"`
-	ScaleDownUnneededTime         *string                                                  `json:"scale-down-unneeded-time,omitempty"`
-	ScaleDownUnreadyTime          *string                                                  `json:"scale-down-unready-time,omitempty"`
-	ScaleDownUtilizationThreshold *string                                                  `json:"scale-down-utilization-threshold,omitempty"`
-	ScanInterval                  *string                                                  `json:"scan-interval,omitempty"`
-	SkipNodesWithLocalStorage     *string                                                  `json:"skip-nodes-with-local-storage,omitempty"`
-	SkipNodesWithSystemPods       *string                                                  `json:"skip-nodes-with-system-pods,omitempty"`
+	BalanceSimilarNodeGroups      *string `json:"balance-similar-node-groups,omitempty"`
+	Expander                      *string `json:"expander,omitempty"`
+	MaxEmptyBulkDelete            *string `json:"max-empty-bulk-delete,omitempty"`
+	MaxGracefulTerminationSec     *string `json:"max-graceful-termination-sec,omitempty"`
+	MaxNodeProvisionTime          *string `json:"max-node-provision-time,omitempty"`
+	MaxTotalUnreadyPercentage     *string `json:"max-total-unready-percentage,omitempty"`
+	NewPodScaleUpDelay            *string `json:"new-pod-scale-up-delay,omitempty"`
+	OkTotalUnreadyCount           *string `json:"ok-total-unready-count,omitempty"`
+	ScaleDownDelayAfterAdd        *string `json:"scale-down-delay-after-add,omitempty"`
+	ScaleDownDelayAfterDelete     *string `json:"scale-down-delay-after-delete,omitempty"`
+	ScaleDownDelayAfterFailure    *string `json:"scale-down-delay-after-failure,omitempty"`
+	ScaleDownUnneededTime         *string `json:"scale-down-unneeded-time,omitempty"`
+	ScaleDownUnreadyTime          *string `json:"scale-down-unready-time,omitempty"`
+	ScaleDownUtilizationThreshold *string `json:"scale-down-utilization-threshold,omitempty"`
+	ScanInterval                  *string `json:"scan-interval,omitempty"`
+	SkipNodesWithLocalStorage     *string `json:"skip-nodes-with-local-storage,omitempty"`
+	SkipNodesWithSystemPods       *string `json:"skip-nodes-with-system-pods,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ManagedClusterProperties_Status_AutoScalerProfile{}
@@ -7940,12 +7770,7 @@ func (profile *ManagedClusterProperties_Status_AutoScalerProfile) AssignProperti
 	profile.BalanceSimilarNodeGroups = genruntime.ClonePointerToString(source.BalanceSimilarNodeGroups)
 
 	// Expander
-	if source.Expander != nil {
-		expander := ManagedClusterPropertiesStatusAutoScalerProfileExpander(*source.Expander)
-		profile.Expander = &expander
-	} else {
-		profile.Expander = nil
-	}
+	profile.Expander = genruntime.ClonePointerToString(source.Expander)
 
 	// MaxEmptyBulkDelete
 	profile.MaxEmptyBulkDelete = genruntime.ClonePointerToString(source.MaxEmptyBulkDelete)
@@ -8005,12 +7830,7 @@ func (profile *ManagedClusterProperties_Status_AutoScalerProfile) AssignProperti
 	destination.BalanceSimilarNodeGroups = genruntime.ClonePointerToString(profile.BalanceSimilarNodeGroups)
 
 	// Expander
-	if profile.Expander != nil {
-		expander := string(*profile.Expander)
-		destination.Expander = &expander
-	} else {
-		destination.Expander = nil
-	}
+	destination.Expander = genruntime.ClonePointerToString(profile.Expander)
 
 	// MaxEmptyBulkDelete
 	destination.MaxEmptyBulkDelete = genruntime.ClonePointerToString(profile.MaxEmptyBulkDelete)
@@ -8182,8 +8002,8 @@ func (clusterSKU *ManagedClusterSKU) AssignPropertiesToManagedClusterSKU(destina
 
 // Deprecated version of ManagedClusterSKU_Status. Use v1beta20210501.ManagedClusterSKU_Status instead
 type ManagedClusterSKU_Status struct {
-	Name *ManagedClusterSKUStatusName `json:"name,omitempty"`
-	Tier *ManagedClusterSKUStatusTier `json:"tier,omitempty"`
+	Name *string `json:"name,omitempty"`
+	Tier *string `json:"tier,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ManagedClusterSKU_Status{}
@@ -8220,20 +8040,10 @@ func (clusterSKU *ManagedClusterSKU_Status) PopulateFromARM(owner genruntime.Arb
 func (clusterSKU *ManagedClusterSKU_Status) AssignPropertiesFromManagedClusterSKUStatus(source *alpha20210501s.ManagedClusterSKU_Status) error {
 
 	// Name
-	if source.Name != nil {
-		name := ManagedClusterSKUStatusName(*source.Name)
-		clusterSKU.Name = &name
-	} else {
-		clusterSKU.Name = nil
-	}
+	clusterSKU.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Tier
-	if source.Tier != nil {
-		tier := ManagedClusterSKUStatusTier(*source.Tier)
-		clusterSKU.Tier = &tier
-	} else {
-		clusterSKU.Tier = nil
-	}
+	clusterSKU.Tier = genruntime.ClonePointerToString(source.Tier)
 
 	// No error
 	return nil
@@ -8245,20 +8055,10 @@ func (clusterSKU *ManagedClusterSKU_Status) AssignPropertiesToManagedClusterSKUS
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	if clusterSKU.Name != nil {
-		name := string(*clusterSKU.Name)
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(clusterSKU.Name)
 
 	// Tier
-	if clusterSKU.Tier != nil {
-		tier := string(*clusterSKU.Tier)
-		destination.Tier = &tier
-	} else {
-		destination.Tier = nil
-	}
+	destination.Tier = genruntime.ClonePointerToString(clusterSKU.Tier)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -8589,10 +8389,10 @@ func (profile *ManagedClusterWindowsProfile) AssignPropertiesToManagedClusterWin
 
 // Deprecated version of ManagedClusterWindowsProfile_Status. Use v1beta20210501.ManagedClusterWindowsProfile_Status instead
 type ManagedClusterWindowsProfile_Status struct {
-	AdminPassword  *string                                        `json:"adminPassword,omitempty"`
-	AdminUsername  *string                                        `json:"adminUsername,omitempty"`
-	EnableCSIProxy *bool                                          `json:"enableCSIProxy,omitempty"`
-	LicenseType    *ManagedClusterWindowsProfileStatusLicenseType `json:"licenseType,omitempty"`
+	AdminPassword  *string `json:"adminPassword,omitempty"`
+	AdminUsername  *string `json:"adminUsername,omitempty"`
+	EnableCSIProxy *bool   `json:"enableCSIProxy,omitempty"`
+	LicenseType    *string `json:"licenseType,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ManagedClusterWindowsProfile_Status{}
@@ -8655,12 +8455,7 @@ func (profile *ManagedClusterWindowsProfile_Status) AssignPropertiesFromManagedC
 	}
 
 	// LicenseType
-	if source.LicenseType != nil {
-		licenseType := ManagedClusterWindowsProfileStatusLicenseType(*source.LicenseType)
-		profile.LicenseType = &licenseType
-	} else {
-		profile.LicenseType = nil
-	}
+	profile.LicenseType = genruntime.ClonePointerToString(source.LicenseType)
 
 	// No error
 	return nil
@@ -8686,12 +8481,7 @@ func (profile *ManagedClusterWindowsProfile_Status) AssignPropertiesToManagedClu
 	}
 
 	// LicenseType
-	if profile.LicenseType != nil {
-		licenseType := string(*profile.LicenseType)
-		destination.LicenseType = &licenseType
-	} else {
-		destination.LicenseType = nil
-	}
+	destination.LicenseType = genruntime.ClonePointerToString(profile.LicenseType)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -8706,7 +8496,7 @@ func (profile *ManagedClusterWindowsProfile_Status) AssignPropertiesToManagedClu
 
 // Deprecated version of PowerState_Status. Use v1beta20210501.PowerState_Status instead
 type PowerState_Status struct {
-	Code *PowerStateStatusCode `json:"code,omitempty"`
+	Code *string `json:"code,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &PowerState_Status{}
@@ -8737,12 +8527,7 @@ func (state *PowerState_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 func (state *PowerState_Status) AssignPropertiesFromPowerStateStatus(source *alpha20210501s.PowerState_Status) error {
 
 	// Code
-	if source.Code != nil {
-		code := PowerStateStatusCode(*source.Code)
-		state.Code = &code
-	} else {
-		state.Code = nil
-	}
+	state.Code = genruntime.ClonePointerToString(source.Code)
 
 	// No error
 	return nil
@@ -8754,12 +8539,7 @@ func (state *PowerState_Status) AssignPropertiesToPowerStateStatus(destination *
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Code
-	if state.Code != nil {
-		code := string(*state.Code)
-		destination.Code = &code
-	} else {
-		destination.Code = nil
-	}
+	destination.Code = genruntime.ClonePointerToString(state.Code)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -9101,51 +8881,6 @@ const (
 	ContainerServiceNetworkProfileOutboundTypeUserDefinedRouting = ContainerServiceNetworkProfileOutboundType("userDefinedRouting")
 )
 
-// Deprecated version of ContainerServiceNetworkProfileStatusLoadBalancerSku. Use
-// v1beta20210501.ContainerServiceNetworkProfileStatusLoadBalancerSku instead
-type ContainerServiceNetworkProfileStatusLoadBalancerSku string
-
-const (
-	ContainerServiceNetworkProfileStatusLoadBalancerSkuBasic    = ContainerServiceNetworkProfileStatusLoadBalancerSku("basic")
-	ContainerServiceNetworkProfileStatusLoadBalancerSkuStandard = ContainerServiceNetworkProfileStatusLoadBalancerSku("standard")
-)
-
-// Deprecated version of ContainerServiceNetworkProfileStatusNetworkMode. Use
-// v1beta20210501.ContainerServiceNetworkProfileStatusNetworkMode instead
-type ContainerServiceNetworkProfileStatusNetworkMode string
-
-const (
-	ContainerServiceNetworkProfileStatusNetworkModeBridge      = ContainerServiceNetworkProfileStatusNetworkMode("bridge")
-	ContainerServiceNetworkProfileStatusNetworkModeTransparent = ContainerServiceNetworkProfileStatusNetworkMode("transparent")
-)
-
-// Deprecated version of ContainerServiceNetworkProfileStatusNetworkPlugin. Use
-// v1beta20210501.ContainerServiceNetworkProfileStatusNetworkPlugin instead
-type ContainerServiceNetworkProfileStatusNetworkPlugin string
-
-const (
-	ContainerServiceNetworkProfileStatusNetworkPluginAzure   = ContainerServiceNetworkProfileStatusNetworkPlugin("azure")
-	ContainerServiceNetworkProfileStatusNetworkPluginKubenet = ContainerServiceNetworkProfileStatusNetworkPlugin("kubenet")
-)
-
-// Deprecated version of ContainerServiceNetworkProfileStatusNetworkPolicy. Use
-// v1beta20210501.ContainerServiceNetworkProfileStatusNetworkPolicy instead
-type ContainerServiceNetworkProfileStatusNetworkPolicy string
-
-const (
-	ContainerServiceNetworkProfileStatusNetworkPolicyAzure  = ContainerServiceNetworkProfileStatusNetworkPolicy("azure")
-	ContainerServiceNetworkProfileStatusNetworkPolicyCalico = ContainerServiceNetworkProfileStatusNetworkPolicy("calico")
-)
-
-// Deprecated version of ContainerServiceNetworkProfileStatusOutboundType. Use
-// v1beta20210501.ContainerServiceNetworkProfileStatusOutboundType instead
-type ContainerServiceNetworkProfileStatusOutboundType string
-
-const (
-	ContainerServiceNetworkProfileStatusOutboundTypeLoadBalancer       = ContainerServiceNetworkProfileStatusOutboundType("loadBalancer")
-	ContainerServiceNetworkProfileStatusOutboundTypeUserDefinedRouting = ContainerServiceNetworkProfileStatusOutboundType("userDefinedRouting")
-)
-
 // Deprecated version of ContainerServiceSshConfiguration. Use v1beta20210501.ContainerServiceSshConfiguration instead
 type ContainerServiceSshConfiguration struct {
 	// +kubebuilder:validation:Required
@@ -9437,18 +9172,6 @@ type ManagedClusterAgentPoolProfileType string
 const (
 	ManagedClusterAgentPoolProfileTypeAvailabilitySet         = ManagedClusterAgentPoolProfileType("AvailabilitySet")
 	ManagedClusterAgentPoolProfileTypeVirtualMachineScaleSets = ManagedClusterAgentPoolProfileType("VirtualMachineScaleSets")
-)
-
-// Deprecated version of ManagedClusterAutoUpgradeProfileStatusUpgradeChannel. Use
-// v1beta20210501.ManagedClusterAutoUpgradeProfileStatusUpgradeChannel instead
-type ManagedClusterAutoUpgradeProfileStatusUpgradeChannel string
-
-const (
-	ManagedClusterAutoUpgradeProfileStatusUpgradeChannelNodeImage = ManagedClusterAutoUpgradeProfileStatusUpgradeChannel("node-image")
-	ManagedClusterAutoUpgradeProfileStatusUpgradeChannelNone      = ManagedClusterAutoUpgradeProfileStatusUpgradeChannel("none")
-	ManagedClusterAutoUpgradeProfileStatusUpgradeChannelPatch     = ManagedClusterAutoUpgradeProfileStatusUpgradeChannel("patch")
-	ManagedClusterAutoUpgradeProfileStatusUpgradeChannelRapid     = ManagedClusterAutoUpgradeProfileStatusUpgradeChannel("rapid")
-	ManagedClusterAutoUpgradeProfileStatusUpgradeChannelStable    = ManagedClusterAutoUpgradeProfileStatusUpgradeChannel("stable")
 )
 
 // Deprecated version of ManagedClusterAutoUpgradeProfileUpgradeChannel. Use
@@ -10448,7 +10171,7 @@ type ManagedClusterPodIdentity_Status struct {
 	Name              *string                                            `json:"name,omitempty"`
 	Namespace         *string                                            `json:"namespace,omitempty"`
 	ProvisioningInfo  *ManagedClusterPodIdentity_Status_ProvisioningInfo `json:"provisioningInfo,omitempty"`
-	ProvisioningState *ManagedClusterPodIdentityStatusProvisioningState  `json:"provisioningState,omitempty"`
+	ProvisioningState *string                                            `json:"provisioningState,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ManagedClusterPodIdentity_Status{}
@@ -10552,12 +10275,7 @@ func (identity *ManagedClusterPodIdentity_Status) AssignPropertiesFromManagedClu
 	}
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := ManagedClusterPodIdentityStatusProvisioningState(*source.ProvisioningState)
-		identity.ProvisioningState = &provisioningState
-	} else {
-		identity.ProvisioningState = nil
-	}
+	identity.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// No error
 	return nil
@@ -10602,12 +10320,7 @@ func (identity *ManagedClusterPodIdentity_Status) AssignPropertiesToManagedClust
 	}
 
 	// ProvisioningState
-	if identity.ProvisioningState != nil {
-		provisioningState := string(*identity.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(identity.ProvisioningState)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -10632,17 +10345,6 @@ const (
 	ManagedClusterPropertiesAutoScalerProfileExpanderRandom     = ManagedClusterPropertiesAutoScalerProfileExpander("random")
 )
 
-// Deprecated version of ManagedClusterPropertiesStatusAutoScalerProfileExpander. Use
-// v1beta20210501.ManagedClusterPropertiesStatusAutoScalerProfileExpander instead
-type ManagedClusterPropertiesStatusAutoScalerProfileExpander string
-
-const (
-	ManagedClusterPropertiesStatusAutoScalerProfileExpanderLeastWaste = ManagedClusterPropertiesStatusAutoScalerProfileExpander("least-waste")
-	ManagedClusterPropertiesStatusAutoScalerProfileExpanderMostPods   = ManagedClusterPropertiesStatusAutoScalerProfileExpander("most-pods")
-	ManagedClusterPropertiesStatusAutoScalerProfileExpanderPriority   = ManagedClusterPropertiesStatusAutoScalerProfileExpander("priority")
-	ManagedClusterPropertiesStatusAutoScalerProfileExpanderRandom     = ManagedClusterPropertiesStatusAutoScalerProfileExpander("random")
-)
-
 // Deprecated version of ManagedClusterWindowsProfileLicenseType. Use
 // v1beta20210501.ManagedClusterWindowsProfileLicenseType instead
 // +kubebuilder:validation:Enum={"None","Windows_Server"}
@@ -10651,15 +10353,6 @@ type ManagedClusterWindowsProfileLicenseType string
 const (
 	ManagedClusterWindowsProfileLicenseTypeNone          = ManagedClusterWindowsProfileLicenseType("None")
 	ManagedClusterWindowsProfileLicenseTypeWindowsServer = ManagedClusterWindowsProfileLicenseType("Windows_Server")
-)
-
-// Deprecated version of ManagedClusterWindowsProfileStatusLicenseType. Use
-// v1beta20210501.ManagedClusterWindowsProfileStatusLicenseType instead
-type ManagedClusterWindowsProfileStatusLicenseType string
-
-const (
-	ManagedClusterWindowsProfileStatusLicenseTypeNone          = ManagedClusterWindowsProfileStatusLicenseType("None")
-	ManagedClusterWindowsProfileStatusLicenseTypeWindowsServer = ManagedClusterWindowsProfileStatusLicenseType("Windows_Server")
 )
 
 // Deprecated version of ContainerServiceSshPublicKey. Use v1beta20210501.ContainerServiceSshPublicKey instead
@@ -11340,17 +11033,6 @@ func (iPs *ManagedClusterLoadBalancerProfile_Status_OutboundIPs) AssignPropertie
 	// No error
 	return nil
 }
-
-// Deprecated version of ManagedClusterPodIdentityStatusProvisioningState. Use
-// v1beta20210501.ManagedClusterPodIdentityStatusProvisioningState instead
-type ManagedClusterPodIdentityStatusProvisioningState string
-
-const (
-	ManagedClusterPodIdentityStatusProvisioningStateAssigned = ManagedClusterPodIdentityStatusProvisioningState("Assigned")
-	ManagedClusterPodIdentityStatusProvisioningStateDeleting = ManagedClusterPodIdentityStatusProvisioningState("Deleting")
-	ManagedClusterPodIdentityStatusProvisioningStateFailed   = ManagedClusterPodIdentityStatusProvisioningState("Failed")
-	ManagedClusterPodIdentityStatusProvisioningStateUpdating = ManagedClusterPodIdentityStatusProvisioningState("Updating")
-)
 
 // Deprecated version of ManagedClusterPodIdentity_Status_ProvisioningInfo. Use v1beta20210501.ManagedClusterPodIdentity_Status_ProvisioningInfo instead
 type ManagedClusterPodIdentity_Status_ProvisioningInfo struct {

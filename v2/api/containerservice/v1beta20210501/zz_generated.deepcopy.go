@@ -144,7 +144,7 @@ func (in *AgentPool_Status) DeepCopyInto(out *AgentPool_Status) {
 	}
 	if in.GpuInstanceProfile != nil {
 		in, out := &in.GpuInstanceProfile, &out.GpuInstanceProfile
-		*out = new(GPUInstanceProfile_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Id != nil {
@@ -159,7 +159,7 @@ func (in *AgentPool_Status) DeepCopyInto(out *AgentPool_Status) {
 	}
 	if in.KubeletDiskType != nil {
 		in, out := &in.KubeletDiskType, &out.KubeletDiskType
-		*out = new(KubeletDiskType_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.LinuxOSConfig != nil {
@@ -184,7 +184,7 @@ func (in *AgentPool_Status) DeepCopyInto(out *AgentPool_Status) {
 	}
 	if in.Mode != nil {
 		in, out := &in.Mode, &out.Mode
-		*out = new(AgentPoolMode_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Name != nil {
@@ -226,17 +226,17 @@ func (in *AgentPool_Status) DeepCopyInto(out *AgentPool_Status) {
 	}
 	if in.OsDiskType != nil {
 		in, out := &in.OsDiskType, &out.OsDiskType
-		*out = new(OSDiskType_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.OsSKU != nil {
 		in, out := &in.OsSKU, &out.OsSKU
-		*out = new(OSSKU_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.OsType != nil {
 		in, out := &in.OsType, &out.OsType
-		*out = new(OSType_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.PodSubnetID != nil {
@@ -251,7 +251,7 @@ func (in *AgentPool_Status) DeepCopyInto(out *AgentPool_Status) {
 	}
 	if in.PropertiesType != nil {
 		in, out := &in.PropertiesType, &out.PropertiesType
-		*out = new(AgentPoolType_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.ProvisioningState != nil {
@@ -266,12 +266,12 @@ func (in *AgentPool_Status) DeepCopyInto(out *AgentPool_Status) {
 	}
 	if in.ScaleSetEvictionPolicy != nil {
 		in, out := &in.ScaleSetEvictionPolicy, &out.ScaleSetEvictionPolicy
-		*out = new(ScaleSetEvictionPolicy_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.ScaleSetPriority != nil {
 		in, out := &in.ScaleSetPriority, &out.ScaleSetPriority
-		*out = new(ScaleSetPriority_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.SpotMaxPrice != nil {
@@ -663,27 +663,27 @@ func (in *ContainerServiceNetworkProfile_Status) DeepCopyInto(out *ContainerServ
 	}
 	if in.LoadBalancerSku != nil {
 		in, out := &in.LoadBalancerSku, &out.LoadBalancerSku
-		*out = new(ContainerServiceNetworkProfileStatusLoadBalancerSku)
+		*out = new(string)
 		**out = **in
 	}
 	if in.NetworkMode != nil {
 		in, out := &in.NetworkMode, &out.NetworkMode
-		*out = new(ContainerServiceNetworkProfileStatusNetworkMode)
+		*out = new(string)
 		**out = **in
 	}
 	if in.NetworkPlugin != nil {
 		in, out := &in.NetworkPlugin, &out.NetworkPlugin
-		*out = new(ContainerServiceNetworkProfileStatusNetworkPlugin)
+		*out = new(string)
 		**out = **in
 	}
 	if in.NetworkPolicy != nil {
 		in, out := &in.NetworkPolicy, &out.NetworkPolicy
-		*out = new(ContainerServiceNetworkProfileStatusNetworkPolicy)
+		*out = new(string)
 		**out = **in
 	}
 	if in.OutboundType != nil {
 		in, out := &in.OutboundType, &out.OutboundType
-		*out = new(ContainerServiceNetworkProfileStatusOutboundType)
+		*out = new(string)
 		**out = **in
 	}
 	if in.PodCidr != nil {
@@ -728,27 +728,27 @@ func (in *ContainerServiceNetworkProfile_StatusARM) DeepCopyInto(out *ContainerS
 	}
 	if in.LoadBalancerSku != nil {
 		in, out := &in.LoadBalancerSku, &out.LoadBalancerSku
-		*out = new(ContainerServiceNetworkProfileStatusLoadBalancerSku)
+		*out = new(string)
 		**out = **in
 	}
 	if in.NetworkMode != nil {
 		in, out := &in.NetworkMode, &out.NetworkMode
-		*out = new(ContainerServiceNetworkProfileStatusNetworkMode)
+		*out = new(string)
 		**out = **in
 	}
 	if in.NetworkPlugin != nil {
 		in, out := &in.NetworkPlugin, &out.NetworkPlugin
-		*out = new(ContainerServiceNetworkProfileStatusNetworkPlugin)
+		*out = new(string)
 		**out = **in
 	}
 	if in.NetworkPolicy != nil {
 		in, out := &in.NetworkPolicy, &out.NetworkPolicy
-		*out = new(ContainerServiceNetworkProfileStatusNetworkPolicy)
+		*out = new(string)
 		**out = **in
 	}
 	if in.OutboundType != nil {
 		in, out := &in.OutboundType, &out.OutboundType
-		*out = new(ContainerServiceNetworkProfileStatusOutboundType)
+		*out = new(string)
 		**out = **in
 	}
 	if in.PodCidr != nil {
@@ -1001,7 +1001,7 @@ func (in *ExtendedLocation_Status) DeepCopyInto(out *ExtendedLocation_Status) {
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ExtendedLocationType_Status)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -1026,7 +1026,7 @@ func (in *ExtendedLocation_StatusARM) DeepCopyInto(out *ExtendedLocation_StatusA
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ExtendedLocationType_Status)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -2484,7 +2484,7 @@ func (in *ManagedClusterAgentPoolProfileProperties_StatusARM) DeepCopyInto(out *
 	}
 	if in.GpuInstanceProfile != nil {
 		in, out := &in.GpuInstanceProfile, &out.GpuInstanceProfile
-		*out = new(GPUInstanceProfile_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.KubeletConfig != nil {
@@ -2494,7 +2494,7 @@ func (in *ManagedClusterAgentPoolProfileProperties_StatusARM) DeepCopyInto(out *
 	}
 	if in.KubeletDiskType != nil {
 		in, out := &in.KubeletDiskType, &out.KubeletDiskType
-		*out = new(KubeletDiskType_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.LinuxOSConfig != nil {
@@ -2519,7 +2519,7 @@ func (in *ManagedClusterAgentPoolProfileProperties_StatusARM) DeepCopyInto(out *
 	}
 	if in.Mode != nil {
 		in, out := &in.Mode, &out.Mode
-		*out = new(AgentPoolMode_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.NodeImageVersion != nil {
@@ -2556,17 +2556,17 @@ func (in *ManagedClusterAgentPoolProfileProperties_StatusARM) DeepCopyInto(out *
 	}
 	if in.OsDiskType != nil {
 		in, out := &in.OsDiskType, &out.OsDiskType
-		*out = new(OSDiskType_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.OsSKU != nil {
 		in, out := &in.OsSKU, &out.OsSKU
-		*out = new(OSSKU_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.OsType != nil {
 		in, out := &in.OsType, &out.OsType
-		*out = new(OSType_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.PodSubnetID != nil {
@@ -2591,12 +2591,12 @@ func (in *ManagedClusterAgentPoolProfileProperties_StatusARM) DeepCopyInto(out *
 	}
 	if in.ScaleSetEvictionPolicy != nil {
 		in, out := &in.ScaleSetEvictionPolicy, &out.ScaleSetEvictionPolicy
-		*out = new(ScaleSetEvictionPolicy_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.ScaleSetPriority != nil {
 		in, out := &in.ScaleSetPriority, &out.ScaleSetPriority
-		*out = new(ScaleSetPriority_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.SpotMaxPrice != nil {
@@ -2613,7 +2613,7 @@ func (in *ManagedClusterAgentPoolProfileProperties_StatusARM) DeepCopyInto(out *
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(AgentPoolType_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.UpgradeSettings != nil {
@@ -2683,7 +2683,7 @@ func (in *ManagedClusterAgentPoolProfile_Status) DeepCopyInto(out *ManagedCluste
 	}
 	if in.GpuInstanceProfile != nil {
 		in, out := &in.GpuInstanceProfile, &out.GpuInstanceProfile
-		*out = new(GPUInstanceProfile_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.KubeletConfig != nil {
@@ -2693,7 +2693,7 @@ func (in *ManagedClusterAgentPoolProfile_Status) DeepCopyInto(out *ManagedCluste
 	}
 	if in.KubeletDiskType != nil {
 		in, out := &in.KubeletDiskType, &out.KubeletDiskType
-		*out = new(KubeletDiskType_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.LinuxOSConfig != nil {
@@ -2718,7 +2718,7 @@ func (in *ManagedClusterAgentPoolProfile_Status) DeepCopyInto(out *ManagedCluste
 	}
 	if in.Mode != nil {
 		in, out := &in.Mode, &out.Mode
-		*out = new(AgentPoolMode_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Name != nil {
@@ -2760,17 +2760,17 @@ func (in *ManagedClusterAgentPoolProfile_Status) DeepCopyInto(out *ManagedCluste
 	}
 	if in.OsDiskType != nil {
 		in, out := &in.OsDiskType, &out.OsDiskType
-		*out = new(OSDiskType_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.OsSKU != nil {
 		in, out := &in.OsSKU, &out.OsSKU
-		*out = new(OSSKU_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.OsType != nil {
 		in, out := &in.OsType, &out.OsType
-		*out = new(OSType_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.PodSubnetID != nil {
@@ -2795,12 +2795,12 @@ func (in *ManagedClusterAgentPoolProfile_Status) DeepCopyInto(out *ManagedCluste
 	}
 	if in.ScaleSetEvictionPolicy != nil {
 		in, out := &in.ScaleSetEvictionPolicy, &out.ScaleSetEvictionPolicy
-		*out = new(ScaleSetEvictionPolicy_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.ScaleSetPriority != nil {
 		in, out := &in.ScaleSetPriority, &out.ScaleSetPriority
-		*out = new(ScaleSetPriority_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.SpotMaxPrice != nil {
@@ -2817,7 +2817,7 @@ func (in *ManagedClusterAgentPoolProfile_Status) DeepCopyInto(out *ManagedCluste
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(AgentPoolType_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.UpgradeSettings != nil {
@@ -2887,7 +2887,7 @@ func (in *ManagedClusterAgentPoolProfile_StatusARM) DeepCopyInto(out *ManagedClu
 	}
 	if in.GpuInstanceProfile != nil {
 		in, out := &in.GpuInstanceProfile, &out.GpuInstanceProfile
-		*out = new(GPUInstanceProfile_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.KubeletConfig != nil {
@@ -2897,7 +2897,7 @@ func (in *ManagedClusterAgentPoolProfile_StatusARM) DeepCopyInto(out *ManagedClu
 	}
 	if in.KubeletDiskType != nil {
 		in, out := &in.KubeletDiskType, &out.KubeletDiskType
-		*out = new(KubeletDiskType_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.LinuxOSConfig != nil {
@@ -2922,7 +2922,7 @@ func (in *ManagedClusterAgentPoolProfile_StatusARM) DeepCopyInto(out *ManagedClu
 	}
 	if in.Mode != nil {
 		in, out := &in.Mode, &out.Mode
-		*out = new(AgentPoolMode_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Name != nil {
@@ -2964,17 +2964,17 @@ func (in *ManagedClusterAgentPoolProfile_StatusARM) DeepCopyInto(out *ManagedClu
 	}
 	if in.OsDiskType != nil {
 		in, out := &in.OsDiskType, &out.OsDiskType
-		*out = new(OSDiskType_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.OsSKU != nil {
 		in, out := &in.OsSKU, &out.OsSKU
-		*out = new(OSSKU_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.OsType != nil {
 		in, out := &in.OsType, &out.OsType
-		*out = new(OSType_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.PodSubnetID != nil {
@@ -2999,12 +2999,12 @@ func (in *ManagedClusterAgentPoolProfile_StatusARM) DeepCopyInto(out *ManagedClu
 	}
 	if in.ScaleSetEvictionPolicy != nil {
 		in, out := &in.ScaleSetEvictionPolicy, &out.ScaleSetEvictionPolicy
-		*out = new(ScaleSetEvictionPolicy_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.ScaleSetPriority != nil {
 		in, out := &in.ScaleSetPriority, &out.ScaleSetPriority
-		*out = new(ScaleSetPriority_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.SpotMaxPrice != nil {
@@ -3021,7 +3021,7 @@ func (in *ManagedClusterAgentPoolProfile_StatusARM) DeepCopyInto(out *ManagedClu
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(AgentPoolType_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.UpgradeSettings != nil {
@@ -3096,7 +3096,7 @@ func (in *ManagedClusterAutoUpgradeProfile_Status) DeepCopyInto(out *ManagedClus
 	*out = *in
 	if in.UpgradeChannel != nil {
 		in, out := &in.UpgradeChannel, &out.UpgradeChannel
-		*out = new(ManagedClusterAutoUpgradeProfileStatusUpgradeChannel)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -3116,7 +3116,7 @@ func (in *ManagedClusterAutoUpgradeProfile_StatusARM) DeepCopyInto(out *ManagedC
 	*out = *in
 	if in.UpgradeChannel != nil {
 		in, out := &in.UpgradeChannel, &out.UpgradeChannel
-		*out = new(ManagedClusterAutoUpgradeProfileStatusUpgradeChannel)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -3340,7 +3340,7 @@ func (in *ManagedClusterIdentity_Status) DeepCopyInto(out *ManagedClusterIdentit
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ManagedClusterIdentityStatusType)
+		*out = new(string)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
@@ -3377,7 +3377,7 @@ func (in *ManagedClusterIdentity_StatusARM) DeepCopyInto(out *ManagedClusterIden
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ManagedClusterIdentityStatusType)
+		*out = new(string)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
@@ -4483,7 +4483,7 @@ func (in *ManagedClusterPodIdentity_Status) DeepCopyInto(out *ManagedClusterPodI
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ManagedClusterPodIdentityStatusProvisioningState)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -4528,7 +4528,7 @@ func (in *ManagedClusterPodIdentity_StatusARM) DeepCopyInto(out *ManagedClusterP
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ManagedClusterPodIdentityStatusProvisioningState)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -5085,7 +5085,7 @@ func (in *ManagedClusterProperties_Status_AutoScalerProfile) DeepCopyInto(out *M
 	}
 	if in.Expander != nil {
 		in, out := &in.Expander, &out.Expander
-		*out = new(ManagedClusterPropertiesStatusAutoScalerProfileExpander)
+		*out = new(string)
 		**out = **in
 	}
 	if in.MaxEmptyBulkDelete != nil {
@@ -5185,7 +5185,7 @@ func (in *ManagedClusterProperties_Status_AutoScalerProfileARM) DeepCopyInto(out
 	}
 	if in.Expander != nil {
 		in, out := &in.Expander, &out.Expander
-		*out = new(ManagedClusterPropertiesStatusAutoScalerProfileExpander)
+		*out = new(string)
 		**out = **in
 	}
 	if in.MaxEmptyBulkDelete != nil {
@@ -5330,12 +5330,12 @@ func (in *ManagedClusterSKU_Status) DeepCopyInto(out *ManagedClusterSKU_Status) 
 	*out = *in
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(ManagedClusterSKUStatusName)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Tier != nil {
 		in, out := &in.Tier, &out.Tier
-		*out = new(ManagedClusterSKUStatusTier)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -5355,12 +5355,12 @@ func (in *ManagedClusterSKU_StatusARM) DeepCopyInto(out *ManagedClusterSKU_Statu
 	*out = *in
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(ManagedClusterSKUStatusName)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Tier != nil {
 		in, out := &in.Tier, &out.Tier
-		*out = new(ManagedClusterSKUStatusTier)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -5565,7 +5565,7 @@ func (in *ManagedClusterWindowsProfile_Status) DeepCopyInto(out *ManagedClusterW
 	}
 	if in.LicenseType != nil {
 		in, out := &in.LicenseType, &out.LicenseType
-		*out = new(ManagedClusterWindowsProfileStatusLicenseType)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -5600,7 +5600,7 @@ func (in *ManagedClusterWindowsProfile_StatusARM) DeepCopyInto(out *ManagedClust
 	}
 	if in.LicenseType != nil {
 		in, out := &in.LicenseType, &out.LicenseType
-		*out = new(ManagedClusterWindowsProfileStatusLicenseType)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -6380,7 +6380,7 @@ func (in *PowerState_Status) DeepCopyInto(out *PowerState_Status) {
 	*out = *in
 	if in.Code != nil {
 		in, out := &in.Code, &out.Code
-		*out = new(PowerStateStatusCode)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -6400,7 +6400,7 @@ func (in *PowerState_StatusARM) DeepCopyInto(out *PowerState_StatusARM) {
 	*out = *in
 	if in.Code != nil {
 		in, out := &in.Code, &out.Code
-		*out = new(PowerStateStatusCode)
+		*out = new(string)
 		**out = **in
 	}
 }

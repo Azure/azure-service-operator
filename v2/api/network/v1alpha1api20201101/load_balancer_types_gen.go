@@ -354,7 +354,7 @@ type LoadBalancer_Status struct {
 	Name                     *string                                                           `json:"name,omitempty"`
 	OutboundRules            []OutboundRule_Status                                             `json:"outboundRules,omitempty"`
 	Probes                   []Probe_Status                                                    `json:"probes,omitempty"`
-	ProvisioningState        *ProvisioningState_Status                                         `json:"provisioningState,omitempty"`
+	ProvisioningState        *string                                                           `json:"provisioningState,omitempty"`
 	ResourceGuid             *string                                                           `json:"resourceGuid,omitempty"`
 	Sku                      *LoadBalancerSku_Status                                           `json:"sku,omitempty"`
 	Tags                     map[string]string                                                 `json:"tags,omitempty"`
@@ -757,12 +757,7 @@ func (balancer *LoadBalancer_Status) AssignPropertiesFromLoadBalancerStatus(sour
 	}
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_Status(*source.ProvisioningState)
-		balancer.ProvisioningState = &provisioningState
-	} else {
-		balancer.ProvisioningState = nil
-	}
+	balancer.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// ResourceGuid
 	balancer.ResourceGuid = genruntime.ClonePointerToString(source.ResourceGuid)
@@ -948,12 +943,7 @@ func (balancer *LoadBalancer_Status) AssignPropertiesToLoadBalancerStatus(destin
 	}
 
 	// ProvisioningState
-	if balancer.ProvisioningState != nil {
-		provisioningState := string(*balancer.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(balancer.ProvisioningState)
 
 	// ResourceGuid
 	destination.ResourceGuid = genruntime.ClonePointerToString(balancer.ResourceGuid)
@@ -1794,8 +1784,8 @@ func (location *ExtendedLocation) AssignPropertiesToExtendedLocation(destination
 
 // Deprecated version of ExtendedLocation_Status. Use v1beta20201101.ExtendedLocation_Status instead
 type ExtendedLocation_Status struct {
-	Name *string                      `json:"name,omitempty"`
-	Type *ExtendedLocationType_Status `json:"type,omitempty"`
+	Name *string `json:"name,omitempty"`
+	Type *string `json:"type,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ExtendedLocation_Status{}
@@ -1835,12 +1825,7 @@ func (location *ExtendedLocation_Status) AssignPropertiesFromExtendedLocationSta
 	location.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Type
-	if source.Type != nil {
-		typeVar := ExtendedLocationType_Status(*source.Type)
-		location.Type = &typeVar
-	} else {
-		location.Type = nil
-	}
+	location.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
@@ -1855,12 +1840,7 @@ func (location *ExtendedLocation_Status) AssignPropertiesToExtendedLocationStatu
 	destination.Name = genruntime.ClonePointerToString(location.Name)
 
 	// Type
-	if location.Type != nil {
-		typeVar := string(*location.Type)
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
+	destination.Type = genruntime.ClonePointerToString(location.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1883,9 +1863,9 @@ type FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded struct {
 	Name                      *string                                                  `json:"name,omitempty"`
 	OutboundRules             []SubResource_Status                                     `json:"outboundRules,omitempty"`
 	PrivateIPAddress          *string                                                  `json:"privateIPAddress,omitempty"`
-	PrivateIPAddressVersion   *IPVersion_Status                                        `json:"privateIPAddressVersion,omitempty"`
-	PrivateIPAllocationMethod *IPAllocationMethod_Status                               `json:"privateIPAllocationMethod,omitempty"`
-	ProvisioningState         *ProvisioningState_Status                                `json:"provisioningState,omitempty"`
+	PrivateIPAddressVersion   *string                                                  `json:"privateIPAddressVersion,omitempty"`
+	PrivateIPAllocationMethod *string                                                  `json:"privateIPAllocationMethod,omitempty"`
+	ProvisioningState         *string                                                  `json:"provisioningState,omitempty"`
 	PublicIPAddress           *PublicIPAddress_Status_LoadBalancer_SubResourceEmbedded `json:"publicIPAddress,omitempty"`
 	PublicIPPrefix            *SubResource_Status                                      `json:"publicIPPrefix,omitempty"`
 	Subnet                    *Subnet_Status_LoadBalancer_SubResourceEmbedded          `json:"subnet,omitempty"`
@@ -2158,28 +2138,13 @@ func (embedded *FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded)
 	embedded.PrivateIPAddress = genruntime.ClonePointerToString(source.PrivateIPAddress)
 
 	// PrivateIPAddressVersion
-	if source.PrivateIPAddressVersion != nil {
-		privateIPAddressVersion := IPVersion_Status(*source.PrivateIPAddressVersion)
-		embedded.PrivateIPAddressVersion = &privateIPAddressVersion
-	} else {
-		embedded.PrivateIPAddressVersion = nil
-	}
+	embedded.PrivateIPAddressVersion = genruntime.ClonePointerToString(source.PrivateIPAddressVersion)
 
 	// PrivateIPAllocationMethod
-	if source.PrivateIPAllocationMethod != nil {
-		privateIPAllocationMethod := IPAllocationMethod_Status(*source.PrivateIPAllocationMethod)
-		embedded.PrivateIPAllocationMethod = &privateIPAllocationMethod
-	} else {
-		embedded.PrivateIPAllocationMethod = nil
-	}
+	embedded.PrivateIPAllocationMethod = genruntime.ClonePointerToString(source.PrivateIPAllocationMethod)
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_Status(*source.ProvisioningState)
-		embedded.ProvisioningState = &provisioningState
-	} else {
-		embedded.ProvisioningState = nil
-	}
+	embedded.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// PublicIPAddress
 	if source.PublicIPAddress != nil {
@@ -2317,28 +2282,13 @@ func (embedded *FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded)
 	destination.PrivateIPAddress = genruntime.ClonePointerToString(embedded.PrivateIPAddress)
 
 	// PrivateIPAddressVersion
-	if embedded.PrivateIPAddressVersion != nil {
-		privateIPAddressVersion := string(*embedded.PrivateIPAddressVersion)
-		destination.PrivateIPAddressVersion = &privateIPAddressVersion
-	} else {
-		destination.PrivateIPAddressVersion = nil
-	}
+	destination.PrivateIPAddressVersion = genruntime.ClonePointerToString(embedded.PrivateIPAddressVersion)
 
 	// PrivateIPAllocationMethod
-	if embedded.PrivateIPAllocationMethod != nil {
-		privateIPAllocationMethod := string(*embedded.PrivateIPAllocationMethod)
-		destination.PrivateIPAllocationMethod = &privateIPAllocationMethod
-	} else {
-		destination.PrivateIPAllocationMethod = nil
-	}
+	destination.PrivateIPAllocationMethod = genruntime.ClonePointerToString(embedded.PrivateIPAllocationMethod)
 
 	// ProvisioningState
-	if embedded.ProvisioningState != nil {
-		provisioningState := string(*embedded.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(embedded.ProvisioningState)
 
 	// PublicIPAddress
 	if embedded.PublicIPAddress != nil {
@@ -2395,19 +2345,19 @@ func (embedded *FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded)
 
 // Deprecated version of InboundNatPool_Status. Use v1beta20201101.InboundNatPool_Status instead
 type InboundNatPool_Status struct {
-	BackendPort             *int                      `json:"backendPort,omitempty"`
-	EnableFloatingIP        *bool                     `json:"enableFloatingIP,omitempty"`
-	EnableTcpReset          *bool                     `json:"enableTcpReset,omitempty"`
-	Etag                    *string                   `json:"etag,omitempty"`
-	FrontendIPConfiguration *SubResource_Status       `json:"frontendIPConfiguration,omitempty"`
-	FrontendPortRangeEnd    *int                      `json:"frontendPortRangeEnd,omitempty"`
-	FrontendPortRangeStart  *int                      `json:"frontendPortRangeStart,omitempty"`
-	Id                      *string                   `json:"id,omitempty"`
-	IdleTimeoutInMinutes    *int                      `json:"idleTimeoutInMinutes,omitempty"`
-	Name                    *string                   `json:"name,omitempty"`
-	Protocol                *TransportProtocol_Status `json:"protocol,omitempty"`
-	ProvisioningState       *ProvisioningState_Status `json:"provisioningState,omitempty"`
-	Type                    *string                   `json:"type,omitempty"`
+	BackendPort             *int                `json:"backendPort,omitempty"`
+	EnableFloatingIP        *bool               `json:"enableFloatingIP,omitempty"`
+	EnableTcpReset          *bool               `json:"enableTcpReset,omitempty"`
+	Etag                    *string             `json:"etag,omitempty"`
+	FrontendIPConfiguration *SubResource_Status `json:"frontendIPConfiguration,omitempty"`
+	FrontendPortRangeEnd    *int                `json:"frontendPortRangeEnd,omitempty"`
+	FrontendPortRangeStart  *int                `json:"frontendPortRangeStart,omitempty"`
+	Id                      *string             `json:"id,omitempty"`
+	IdleTimeoutInMinutes    *int                `json:"idleTimeoutInMinutes,omitempty"`
+	Name                    *string             `json:"name,omitempty"`
+	Protocol                *string             `json:"protocol,omitempty"`
+	ProvisioningState       *string             `json:"provisioningState,omitempty"`
+	Type                    *string             `json:"type,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &InboundNatPool_Status{}
@@ -2591,20 +2541,10 @@ func (pool *InboundNatPool_Status) AssignPropertiesFromInboundNatPoolStatus(sour
 	pool.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Protocol
-	if source.Protocol != nil {
-		protocol := TransportProtocol_Status(*source.Protocol)
-		pool.Protocol = &protocol
-	} else {
-		pool.Protocol = nil
-	}
+	pool.Protocol = genruntime.ClonePointerToString(source.Protocol)
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_Status(*source.ProvisioningState)
-		pool.ProvisioningState = &provisioningState
-	} else {
-		pool.ProvisioningState = nil
-	}
+	pool.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// Type
 	pool.Type = genruntime.ClonePointerToString(source.Type)
@@ -2668,20 +2608,10 @@ func (pool *InboundNatPool_Status) AssignPropertiesToInboundNatPoolStatus(destin
 	destination.Name = genruntime.ClonePointerToString(pool.Name)
 
 	// Protocol
-	if pool.Protocol != nil {
-		protocol := string(*pool.Protocol)
-		destination.Protocol = &protocol
-	} else {
-		destination.Protocol = nil
-	}
+	destination.Protocol = genruntime.ClonePointerToString(pool.Protocol)
 
 	// ProvisioningState
-	if pool.ProvisioningState != nil {
-		provisioningState := string(*pool.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(pool.ProvisioningState)
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(pool.Type)
@@ -2869,8 +2799,8 @@ func (balancerSku *LoadBalancerSku) AssignPropertiesToLoadBalancerSku(destinatio
 
 // Deprecated version of LoadBalancerSku_Status. Use v1beta20201101.LoadBalancerSku_Status instead
 type LoadBalancerSku_Status struct {
-	Name *LoadBalancerSkuStatusName `json:"name,omitempty"`
-	Tier *LoadBalancerSkuStatusTier `json:"tier,omitempty"`
+	Name *string `json:"name,omitempty"`
+	Tier *string `json:"tier,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &LoadBalancerSku_Status{}
@@ -2907,20 +2837,10 @@ func (balancerSku *LoadBalancerSku_Status) PopulateFromARM(owner genruntime.Arbi
 func (balancerSku *LoadBalancerSku_Status) AssignPropertiesFromLoadBalancerSkuStatus(source *alpha20201101s.LoadBalancerSku_Status) error {
 
 	// Name
-	if source.Name != nil {
-		name := LoadBalancerSkuStatusName(*source.Name)
-		balancerSku.Name = &name
-	} else {
-		balancerSku.Name = nil
-	}
+	balancerSku.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Tier
-	if source.Tier != nil {
-		tier := LoadBalancerSkuStatusTier(*source.Tier)
-		balancerSku.Tier = &tier
-	} else {
-		balancerSku.Tier = nil
-	}
+	balancerSku.Tier = genruntime.ClonePointerToString(source.Tier)
 
 	// No error
 	return nil
@@ -2932,20 +2852,10 @@ func (balancerSku *LoadBalancerSku_Status) AssignPropertiesToLoadBalancerSkuStat
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	if balancerSku.Name != nil {
-		name := string(*balancerSku.Name)
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(balancerSku.Name)
 
 	// Tier
-	if balancerSku.Tier != nil {
-		tier := string(*balancerSku.Tier)
-		destination.Tier = &tier
-	} else {
-		destination.Tier = nil
-	}
+	destination.Tier = genruntime.ClonePointerToString(balancerSku.Tier)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -4694,22 +4604,22 @@ func (probes *LoadBalancers_Spec_Properties_Probes) AssignPropertiesToLoadBalanc
 
 // Deprecated version of LoadBalancingRule_Status. Use v1beta20201101.LoadBalancingRule_Status instead
 type LoadBalancingRule_Status struct {
-	BackendAddressPool      *SubResource_Status                                      `json:"backendAddressPool,omitempty"`
-	BackendPort             *int                                                     `json:"backendPort,omitempty"`
-	DisableOutboundSnat     *bool                                                    `json:"disableOutboundSnat,omitempty"`
-	EnableFloatingIP        *bool                                                    `json:"enableFloatingIP,omitempty"`
-	EnableTcpReset          *bool                                                    `json:"enableTcpReset,omitempty"`
-	Etag                    *string                                                  `json:"etag,omitempty"`
-	FrontendIPConfiguration *SubResource_Status                                      `json:"frontendIPConfiguration,omitempty"`
-	FrontendPort            *int                                                     `json:"frontendPort,omitempty"`
-	Id                      *string                                                  `json:"id,omitempty"`
-	IdleTimeoutInMinutes    *int                                                     `json:"idleTimeoutInMinutes,omitempty"`
-	LoadDistribution        *LoadBalancingRulePropertiesFormatStatusLoadDistribution `json:"loadDistribution,omitempty"`
-	Name                    *string                                                  `json:"name,omitempty"`
-	Probe                   *SubResource_Status                                      `json:"probe,omitempty"`
-	Protocol                *TransportProtocol_Status                                `json:"protocol,omitempty"`
-	ProvisioningState       *ProvisioningState_Status                                `json:"provisioningState,omitempty"`
-	Type                    *string                                                  `json:"type,omitempty"`
+	BackendAddressPool      *SubResource_Status `json:"backendAddressPool,omitempty"`
+	BackendPort             *int                `json:"backendPort,omitempty"`
+	DisableOutboundSnat     *bool               `json:"disableOutboundSnat,omitempty"`
+	EnableFloatingIP        *bool               `json:"enableFloatingIP,omitempty"`
+	EnableTcpReset          *bool               `json:"enableTcpReset,omitempty"`
+	Etag                    *string             `json:"etag,omitempty"`
+	FrontendIPConfiguration *SubResource_Status `json:"frontendIPConfiguration,omitempty"`
+	FrontendPort            *int                `json:"frontendPort,omitempty"`
+	Id                      *string             `json:"id,omitempty"`
+	IdleTimeoutInMinutes    *int                `json:"idleTimeoutInMinutes,omitempty"`
+	LoadDistribution        *string             `json:"loadDistribution,omitempty"`
+	Name                    *string             `json:"name,omitempty"`
+	Probe                   *SubResource_Status `json:"probe,omitempty"`
+	Protocol                *string             `json:"protocol,omitempty"`
+	ProvisioningState       *string             `json:"provisioningState,omitempty"`
+	Type                    *string             `json:"type,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &LoadBalancingRule_Status{}
@@ -4944,12 +4854,7 @@ func (rule *LoadBalancingRule_Status) AssignPropertiesFromLoadBalancingRuleStatu
 	rule.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(source.IdleTimeoutInMinutes)
 
 	// LoadDistribution
-	if source.LoadDistribution != nil {
-		loadDistribution := LoadBalancingRulePropertiesFormatStatusLoadDistribution(*source.LoadDistribution)
-		rule.LoadDistribution = &loadDistribution
-	} else {
-		rule.LoadDistribution = nil
-	}
+	rule.LoadDistribution = genruntime.ClonePointerToString(source.LoadDistribution)
 
 	// Name
 	rule.Name = genruntime.ClonePointerToString(source.Name)
@@ -4967,20 +4872,10 @@ func (rule *LoadBalancingRule_Status) AssignPropertiesFromLoadBalancingRuleStatu
 	}
 
 	// Protocol
-	if source.Protocol != nil {
-		protocol := TransportProtocol_Status(*source.Protocol)
-		rule.Protocol = &protocol
-	} else {
-		rule.Protocol = nil
-	}
+	rule.Protocol = genruntime.ClonePointerToString(source.Protocol)
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_Status(*source.ProvisioningState)
-		rule.ProvisioningState = &provisioningState
-	} else {
-		rule.ProvisioningState = nil
-	}
+	rule.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// Type
 	rule.Type = genruntime.ClonePointerToString(source.Type)
@@ -5058,12 +4953,7 @@ func (rule *LoadBalancingRule_Status) AssignPropertiesToLoadBalancingRuleStatus(
 	destination.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(rule.IdleTimeoutInMinutes)
 
 	// LoadDistribution
-	if rule.LoadDistribution != nil {
-		loadDistribution := string(*rule.LoadDistribution)
-		destination.LoadDistribution = &loadDistribution
-	} else {
-		destination.LoadDistribution = nil
-	}
+	destination.LoadDistribution = genruntime.ClonePointerToString(rule.LoadDistribution)
 
 	// Name
 	destination.Name = genruntime.ClonePointerToString(rule.Name)
@@ -5081,20 +4971,10 @@ func (rule *LoadBalancingRule_Status) AssignPropertiesToLoadBalancingRuleStatus(
 	}
 
 	// Protocol
-	if rule.Protocol != nil {
-		protocol := string(*rule.Protocol)
-		destination.Protocol = &protocol
-	} else {
-		destination.Protocol = nil
-	}
+	destination.Protocol = genruntime.ClonePointerToString(rule.Protocol)
 
 	// ProvisioningState
-	if rule.ProvisioningState != nil {
-		provisioningState := string(*rule.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(rule.ProvisioningState)
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(rule.Type)
@@ -5112,17 +4992,17 @@ func (rule *LoadBalancingRule_Status) AssignPropertiesToLoadBalancingRuleStatus(
 
 // Deprecated version of OutboundRule_Status. Use v1beta20201101.OutboundRule_Status instead
 type OutboundRule_Status struct {
-	AllocatedOutboundPorts   *int                                        `json:"allocatedOutboundPorts,omitempty"`
-	BackendAddressPool       *SubResource_Status                         `json:"backendAddressPool,omitempty"`
-	EnableTcpReset           *bool                                       `json:"enableTcpReset,omitempty"`
-	Etag                     *string                                     `json:"etag,omitempty"`
-	FrontendIPConfigurations []SubResource_Status                        `json:"frontendIPConfigurations,omitempty"`
-	Id                       *string                                     `json:"id,omitempty"`
-	IdleTimeoutInMinutes     *int                                        `json:"idleTimeoutInMinutes,omitempty"`
-	Name                     *string                                     `json:"name,omitempty"`
-	Protocol                 *OutboundRulePropertiesFormatStatusProtocol `json:"protocol,omitempty"`
-	ProvisioningState        *ProvisioningState_Status                   `json:"provisioningState,omitempty"`
-	Type                     *string                                     `json:"type,omitempty"`
+	AllocatedOutboundPorts   *int                 `json:"allocatedOutboundPorts,omitempty"`
+	BackendAddressPool       *SubResource_Status  `json:"backendAddressPool,omitempty"`
+	EnableTcpReset           *bool                `json:"enableTcpReset,omitempty"`
+	Etag                     *string              `json:"etag,omitempty"`
+	FrontendIPConfigurations []SubResource_Status `json:"frontendIPConfigurations,omitempty"`
+	Id                       *string              `json:"id,omitempty"`
+	IdleTimeoutInMinutes     *int                 `json:"idleTimeoutInMinutes,omitempty"`
+	Name                     *string              `json:"name,omitempty"`
+	Protocol                 *string              `json:"protocol,omitempty"`
+	ProvisioningState        *string              `json:"provisioningState,omitempty"`
+	Type                     *string              `json:"type,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &OutboundRule_Status{}
@@ -5296,20 +5176,10 @@ func (rule *OutboundRule_Status) AssignPropertiesFromOutboundRuleStatus(source *
 	rule.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Protocol
-	if source.Protocol != nil {
-		protocol := OutboundRulePropertiesFormatStatusProtocol(*source.Protocol)
-		rule.Protocol = &protocol
-	} else {
-		rule.Protocol = nil
-	}
+	rule.Protocol = genruntime.ClonePointerToString(source.Protocol)
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_Status(*source.ProvisioningState)
-		rule.ProvisioningState = &provisioningState
-	} else {
-		rule.ProvisioningState = nil
-	}
+	rule.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// Type
 	rule.Type = genruntime.ClonePointerToString(source.Type)
@@ -5377,20 +5247,10 @@ func (rule *OutboundRule_Status) AssignPropertiesToOutboundRuleStatus(destinatio
 	destination.Name = genruntime.ClonePointerToString(rule.Name)
 
 	// Protocol
-	if rule.Protocol != nil {
-		protocol := string(*rule.Protocol)
-		destination.Protocol = &protocol
-	} else {
-		destination.Protocol = nil
-	}
+	destination.Protocol = genruntime.ClonePointerToString(rule.Protocol)
 
 	// ProvisioningState
-	if rule.ProvisioningState != nil {
-		provisioningState := string(*rule.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(rule.ProvisioningState)
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(rule.Type)
@@ -5408,17 +5268,17 @@ func (rule *OutboundRule_Status) AssignPropertiesToOutboundRuleStatus(destinatio
 
 // Deprecated version of Probe_Status. Use v1beta20201101.Probe_Status instead
 type Probe_Status struct {
-	Etag               *string                              `json:"etag,omitempty"`
-	Id                 *string                              `json:"id,omitempty"`
-	IntervalInSeconds  *int                                 `json:"intervalInSeconds,omitempty"`
-	LoadBalancingRules []SubResource_Status                 `json:"loadBalancingRules,omitempty"`
-	Name               *string                              `json:"name,omitempty"`
-	NumberOfProbes     *int                                 `json:"numberOfProbes,omitempty"`
-	Port               *int                                 `json:"port,omitempty"`
-	Protocol           *ProbePropertiesFormatStatusProtocol `json:"protocol,omitempty"`
-	ProvisioningState  *ProvisioningState_Status            `json:"provisioningState,omitempty"`
-	RequestPath        *string                              `json:"requestPath,omitempty"`
-	Type               *string                              `json:"type,omitempty"`
+	Etag               *string              `json:"etag,omitempty"`
+	Id                 *string              `json:"id,omitempty"`
+	IntervalInSeconds  *int                 `json:"intervalInSeconds,omitempty"`
+	LoadBalancingRules []SubResource_Status `json:"loadBalancingRules,omitempty"`
+	Name               *string              `json:"name,omitempty"`
+	NumberOfProbes     *int                 `json:"numberOfProbes,omitempty"`
+	Port               *int                 `json:"port,omitempty"`
+	Protocol           *string              `json:"protocol,omitempty"`
+	ProvisioningState  *string              `json:"provisioningState,omitempty"`
+	RequestPath        *string              `json:"requestPath,omitempty"`
+	Type               *string              `json:"type,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &Probe_Status{}
@@ -5570,20 +5430,10 @@ func (probe *Probe_Status) AssignPropertiesFromProbeStatus(source *alpha20201101
 	probe.Port = genruntime.ClonePointerToInt(source.Port)
 
 	// Protocol
-	if source.Protocol != nil {
-		protocol := ProbePropertiesFormatStatusProtocol(*source.Protocol)
-		probe.Protocol = &protocol
-	} else {
-		probe.Protocol = nil
-	}
+	probe.Protocol = genruntime.ClonePointerToString(source.Protocol)
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_Status(*source.ProvisioningState)
-		probe.ProvisioningState = &provisioningState
-	} else {
-		probe.ProvisioningState = nil
-	}
+	probe.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// RequestPath
 	probe.RequestPath = genruntime.ClonePointerToString(source.RequestPath)
@@ -5637,20 +5487,10 @@ func (probe *Probe_Status) AssignPropertiesToProbeStatus(destination *alpha20201
 	destination.Port = genruntime.ClonePointerToInt(probe.Port)
 
 	// Protocol
-	if probe.Protocol != nil {
-		protocol := string(*probe.Protocol)
-		destination.Protocol = &protocol
-	} else {
-		destination.Protocol = nil
-	}
+	destination.Protocol = genruntime.ClonePointerToString(probe.Protocol)
 
 	// ProvisioningState
-	if probe.ProvisioningState != nil {
-		provisioningState := string(*probe.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(probe.ProvisioningState)
 
 	// RequestPath
 	destination.RequestPath = genruntime.ClonePointerToString(probe.RequestPath)
@@ -5668,16 +5508,6 @@ func (probe *Probe_Status) AssignPropertiesToProbeStatus(destination *alpha20201
 	// No error
 	return nil
 }
-
-// Deprecated version of ProvisioningState_Status. Use v1beta20201101.ProvisioningState_Status instead
-type ProvisioningState_Status string
-
-const (
-	ProvisioningState_StatusDeleting  = ProvisioningState_Status("Deleting")
-	ProvisioningState_StatusFailed    = ProvisioningState_Status("Failed")
-	ProvisioningState_StatusSucceeded = ProvisioningState_Status("Succeeded")
-	ProvisioningState_StatusUpdating  = ProvisioningState_Status("Updating")
-)
 
 // Deprecated version of FrontendIPConfigurationPropertiesFormatPrivateIPAddressVersion. Use
 // v1beta20201101.FrontendIPConfigurationPropertiesFormatPrivateIPAddressVersion instead
@@ -5974,16 +5804,6 @@ const (
 	LoadBalancingRulePropertiesFormatProtocolUdp = LoadBalancingRulePropertiesFormatProtocol("Udp")
 )
 
-// Deprecated version of LoadBalancingRulePropertiesFormatStatusLoadDistribution. Use
-// v1beta20201101.LoadBalancingRulePropertiesFormatStatusLoadDistribution instead
-type LoadBalancingRulePropertiesFormatStatusLoadDistribution string
-
-const (
-	LoadBalancingRulePropertiesFormatStatusLoadDistributionDefault          = LoadBalancingRulePropertiesFormatStatusLoadDistribution("Default")
-	LoadBalancingRulePropertiesFormatStatusLoadDistributionSourceIP         = LoadBalancingRulePropertiesFormatStatusLoadDistribution("SourceIP")
-	LoadBalancingRulePropertiesFormatStatusLoadDistributionSourceIPProtocol = LoadBalancingRulePropertiesFormatStatusLoadDistribution("SourceIPProtocol")
-)
-
 // Deprecated version of OutboundRulePropertiesFormatProtocol. Use v1beta20201101.OutboundRulePropertiesFormatProtocol
 // instead
 // +kubebuilder:validation:Enum={"All","Tcp","Udp"}
@@ -5995,16 +5815,6 @@ const (
 	OutboundRulePropertiesFormatProtocolUdp = OutboundRulePropertiesFormatProtocol("Udp")
 )
 
-// Deprecated version of OutboundRulePropertiesFormatStatusProtocol. Use
-// v1beta20201101.OutboundRulePropertiesFormatStatusProtocol instead
-type OutboundRulePropertiesFormatStatusProtocol string
-
-const (
-	OutboundRulePropertiesFormatStatusProtocolAll = OutboundRulePropertiesFormatStatusProtocol("All")
-	OutboundRulePropertiesFormatStatusProtocolTcp = OutboundRulePropertiesFormatStatusProtocol("Tcp")
-	OutboundRulePropertiesFormatStatusProtocolUdp = OutboundRulePropertiesFormatStatusProtocol("Udp")
-)
-
 // Deprecated version of ProbePropertiesFormatProtocol. Use v1beta20201101.ProbePropertiesFormatProtocol instead
 // +kubebuilder:validation:Enum={"Http","Https","Tcp"}
 type ProbePropertiesFormatProtocol string
@@ -6013,15 +5823,6 @@ const (
 	ProbePropertiesFormatProtocolHttp  = ProbePropertiesFormatProtocol("Http")
 	ProbePropertiesFormatProtocolHttps = ProbePropertiesFormatProtocol("Https")
 	ProbePropertiesFormatProtocolTcp   = ProbePropertiesFormatProtocol("Tcp")
-)
-
-// Deprecated version of ProbePropertiesFormatStatusProtocol. Use v1beta20201101.ProbePropertiesFormatStatusProtocol instead
-type ProbePropertiesFormatStatusProtocol string
-
-const (
-	ProbePropertiesFormatStatusProtocolHttp  = ProbePropertiesFormatStatusProtocol("Http")
-	ProbePropertiesFormatStatusProtocolHttps = ProbePropertiesFormatStatusProtocol("Https")
-	ProbePropertiesFormatStatusProtocolTcp   = ProbePropertiesFormatStatusProtocol("Tcp")
 )
 
 // Deprecated version of PublicIPAddress_Status_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.PublicIPAddress_Status_LoadBalancer_SubResourceEmbedded instead
@@ -6223,15 +6024,6 @@ func (embedded *Subnet_Status_LoadBalancer_SubResourceEmbedded) AssignProperties
 	// No error
 	return nil
 }
-
-// Deprecated version of TransportProtocol_Status. Use v1beta20201101.TransportProtocol_Status instead
-type TransportProtocol_Status string
-
-const (
-	TransportProtocol_StatusAll = TransportProtocol_Status("All")
-	TransportProtocol_StatusTcp = TransportProtocol_Status("Tcp")
-	TransportProtocol_StatusUdp = TransportProtocol_Status("Udp")
-)
 
 func init() {
 	SchemeBuilder.Register(&LoadBalancer{}, &LoadBalancerList{})

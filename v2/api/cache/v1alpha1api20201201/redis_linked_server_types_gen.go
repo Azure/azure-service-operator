@@ -334,14 +334,14 @@ type RedisLinkedServerList struct {
 // Deprecated version of RedisLinkedServerWithProperties_Status. Use v1beta20201201.RedisLinkedServerWithProperties_Status instead
 type RedisLinkedServerWithProperties_Status struct {
 	// Conditions: The observed state of the resource
-	Conditions               []conditions.Condition                       `json:"conditions,omitempty"`
-	Id                       *string                                      `json:"id,omitempty"`
-	LinkedRedisCacheId       *string                                      `json:"linkedRedisCacheId,omitempty"`
-	LinkedRedisCacheLocation *string                                      `json:"linkedRedisCacheLocation,omitempty"`
-	Name                     *string                                      `json:"name,omitempty"`
-	ProvisioningState        *string                                      `json:"provisioningState,omitempty"`
-	ServerRole               *RedisLinkedServerPropertiesStatusServerRole `json:"serverRole,omitempty"`
-	Type                     *string                                      `json:"type,omitempty"`
+	Conditions               []conditions.Condition `json:"conditions,omitempty"`
+	Id                       *string                `json:"id,omitempty"`
+	LinkedRedisCacheId       *string                `json:"linkedRedisCacheId,omitempty"`
+	LinkedRedisCacheLocation *string                `json:"linkedRedisCacheLocation,omitempty"`
+	Name                     *string                `json:"name,omitempty"`
+	ProvisioningState        *string                `json:"provisioningState,omitempty"`
+	ServerRole               *string                `json:"serverRole,omitempty"`
+	Type                     *string                `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &RedisLinkedServerWithProperties_Status{}
@@ -490,12 +490,7 @@ func (properties *RedisLinkedServerWithProperties_Status) AssignPropertiesFromRe
 	properties.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// ServerRole
-	if source.ServerRole != nil {
-		serverRole := RedisLinkedServerPropertiesStatusServerRole(*source.ServerRole)
-		properties.ServerRole = &serverRole
-	} else {
-		properties.ServerRole = nil
-	}
+	properties.ServerRole = genruntime.ClonePointerToString(source.ServerRole)
 
 	// Type
 	properties.Type = genruntime.ClonePointerToString(source.Type)
@@ -528,12 +523,7 @@ func (properties *RedisLinkedServerWithProperties_Status) AssignPropertiesToRedi
 	destination.ProvisioningState = genruntime.ClonePointerToString(properties.ProvisioningState)
 
 	// ServerRole
-	if properties.ServerRole != nil {
-		serverRole := string(*properties.ServerRole)
-		destination.ServerRole = &serverRole
-	} else {
-		destination.ServerRole = nil
-	}
+	destination.ServerRole = genruntime.ClonePointerToString(properties.ServerRole)
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(properties.Type)
@@ -845,15 +835,6 @@ type RedisLinkedServerCreatePropertiesServerRole string
 const (
 	RedisLinkedServerCreatePropertiesServerRolePrimary   = RedisLinkedServerCreatePropertiesServerRole("Primary")
 	RedisLinkedServerCreatePropertiesServerRoleSecondary = RedisLinkedServerCreatePropertiesServerRole("Secondary")
-)
-
-// Deprecated version of RedisLinkedServerPropertiesStatusServerRole. Use
-// v1beta20201201.RedisLinkedServerPropertiesStatusServerRole instead
-type RedisLinkedServerPropertiesStatusServerRole string
-
-const (
-	RedisLinkedServerPropertiesStatusServerRolePrimary   = RedisLinkedServerPropertiesStatusServerRole("Primary")
-	RedisLinkedServerPropertiesStatusServerRoleSecondary = RedisLinkedServerPropertiesStatusServerRole("Secondary")
 )
 
 func init() {

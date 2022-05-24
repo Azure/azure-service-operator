@@ -1370,7 +1370,7 @@ func (encryption *Encryption) AssignPropertiesToEncryption(destination *alpha202
 
 // Deprecated version of Encryption_Status. Use v1beta20210101preview.Encryption_Status instead
 type Encryption_Status struct {
-	KeySource                       *EncryptionStatusKeySource  `json:"keySource,omitempty"`
+	KeySource                       *string                     `json:"keySource,omitempty"`
 	KeyVaultProperties              []KeyVaultProperties_Status `json:"keyVaultProperties,omitempty"`
 	RequireInfrastructureEncryption *bool                       `json:"requireInfrastructureEncryption,omitempty"`
 }
@@ -1419,12 +1419,7 @@ func (encryption *Encryption_Status) PopulateFromARM(owner genruntime.ArbitraryO
 func (encryption *Encryption_Status) AssignPropertiesFromEncryptionStatus(source *alpha20210101ps.Encryption_Status) error {
 
 	// KeySource
-	if source.KeySource != nil {
-		keySource := EncryptionStatusKeySource(*source.KeySource)
-		encryption.KeySource = &keySource
-	} else {
-		encryption.KeySource = nil
-	}
+	encryption.KeySource = genruntime.ClonePointerToString(source.KeySource)
 
 	// KeyVaultProperties
 	if source.KeyVaultProperties != nil {
@@ -1462,12 +1457,7 @@ func (encryption *Encryption_Status) AssignPropertiesToEncryptionStatus(destinat
 	propertyBag := genruntime.NewPropertyBag()
 
 	// KeySource
-	if encryption.KeySource != nil {
-		keySource := string(*encryption.KeySource)
-		destination.KeySource = &keySource
-	} else {
-		destination.KeySource = nil
-	}
+	destination.KeySource = genruntime.ClonePointerToString(encryption.KeySource)
 
 	// KeyVaultProperties
 	if encryption.KeyVaultProperties != nil {
@@ -1593,7 +1583,7 @@ func (identity *Identity) AssignPropertiesToIdentity(destination *alpha20210101p
 type Identity_Status struct {
 	PrincipalId            *string                           `json:"principalId,omitempty"`
 	TenantId               *string                           `json:"tenantId,omitempty"`
-	Type                   *IdentityStatusType               `json:"type,omitempty"`
+	Type                   *string                           `json:"type,omitempty"`
 	UserAssignedIdentities map[string]DictionaryValue_Status `json:"userAssignedIdentities,omitempty"`
 }
 
@@ -1656,12 +1646,7 @@ func (identity *Identity_Status) AssignPropertiesFromIdentityStatus(source *alph
 	identity.TenantId = genruntime.ClonePointerToString(source.TenantId)
 
 	// Type
-	if source.Type != nil {
-		typeVar := IdentityStatusType(*source.Type)
-		identity.Type = &typeVar
-	} else {
-		identity.Type = nil
-	}
+	identity.Type = genruntime.ClonePointerToString(source.Type)
 
 	// UserAssignedIdentities
 	if source.UserAssignedIdentities != nil {
@@ -1697,12 +1682,7 @@ func (identity *Identity_Status) AssignPropertiesToIdentityStatus(destination *a
 	destination.TenantId = genruntime.ClonePointerToString(identity.TenantId)
 
 	// Type
-	if identity.Type != nil {
-		typeVar := string(*identity.Type)
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
+	destination.Type = genruntime.ClonePointerToString(identity.Type)
 
 	// UserAssignedIdentities
 	if identity.UserAssignedIdentities != nil {
@@ -1962,9 +1942,9 @@ func (sbSku *SBSku) AssignPropertiesToSBSku(destination *alpha20210101ps.SBSku) 
 
 // Deprecated version of SBSku_Status. Use v1beta20210101preview.SBSku_Status instead
 type SBSku_Status struct {
-	Capacity *int             `json:"capacity,omitempty"`
-	Name     *SBSkuStatusName `json:"name,omitempty"`
-	Tier     *SBSkuStatusTier `json:"tier,omitempty"`
+	Capacity *int    `json:"capacity,omitempty"`
+	Name     *string `json:"name,omitempty"`
+	Tier     *string `json:"tier,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &SBSku_Status{}
@@ -2010,20 +1990,10 @@ func (sbSku *SBSku_Status) AssignPropertiesFromSBSkuStatus(source *alpha20210101
 	sbSku.Capacity = genruntime.ClonePointerToInt(source.Capacity)
 
 	// Name
-	if source.Name != nil {
-		name := SBSkuStatusName(*source.Name)
-		sbSku.Name = &name
-	} else {
-		sbSku.Name = nil
-	}
+	sbSku.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Tier
-	if source.Tier != nil {
-		tier := SBSkuStatusTier(*source.Tier)
-		sbSku.Tier = &tier
-	} else {
-		sbSku.Tier = nil
-	}
+	sbSku.Tier = genruntime.ClonePointerToString(source.Tier)
 
 	// No error
 	return nil
@@ -2038,20 +2008,10 @@ func (sbSku *SBSku_Status) AssignPropertiesToSBSkuStatus(destination *alpha20210
 	destination.Capacity = genruntime.ClonePointerToInt(sbSku.Capacity)
 
 	// Name
-	if sbSku.Name != nil {
-		name := string(*sbSku.Name)
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(sbSku.Name)
 
 	// Tier
-	if sbSku.Tier != nil {
-		tier := string(*sbSku.Tier)
-		destination.Tier = &tier
-	} else {
-		destination.Tier = nil
-	}
+	destination.Tier = genruntime.ClonePointerToString(sbSku.Tier)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2066,12 +2026,12 @@ func (sbSku *SBSku_Status) AssignPropertiesToSBSkuStatus(destination *alpha20210
 
 // Deprecated version of SystemData_Status. Use v1beta20210101preview.SystemData_Status instead
 type SystemData_Status struct {
-	CreatedAt          *string                             `json:"createdAt,omitempty"`
-	CreatedBy          *string                             `json:"createdBy,omitempty"`
-	CreatedByType      *SystemDataStatusCreatedByType      `json:"createdByType,omitempty"`
-	LastModifiedAt     *string                             `json:"lastModifiedAt,omitempty"`
-	LastModifiedBy     *string                             `json:"lastModifiedBy,omitempty"`
-	LastModifiedByType *SystemDataStatusLastModifiedByType `json:"lastModifiedByType,omitempty"`
+	CreatedAt          *string `json:"createdAt,omitempty"`
+	CreatedBy          *string `json:"createdBy,omitempty"`
+	CreatedByType      *string `json:"createdByType,omitempty"`
+	LastModifiedAt     *string `json:"lastModifiedAt,omitempty"`
+	LastModifiedBy     *string `json:"lastModifiedBy,omitempty"`
+	LastModifiedByType *string `json:"lastModifiedByType,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &SystemData_Status{}
@@ -2138,12 +2098,7 @@ func (data *SystemData_Status) AssignPropertiesFromSystemDataStatus(source *alph
 	data.CreatedBy = genruntime.ClonePointerToString(source.CreatedBy)
 
 	// CreatedByType
-	if source.CreatedByType != nil {
-		createdByType := SystemDataStatusCreatedByType(*source.CreatedByType)
-		data.CreatedByType = &createdByType
-	} else {
-		data.CreatedByType = nil
-	}
+	data.CreatedByType = genruntime.ClonePointerToString(source.CreatedByType)
 
 	// LastModifiedAt
 	data.LastModifiedAt = genruntime.ClonePointerToString(source.LastModifiedAt)
@@ -2152,12 +2107,7 @@ func (data *SystemData_Status) AssignPropertiesFromSystemDataStatus(source *alph
 	data.LastModifiedBy = genruntime.ClonePointerToString(source.LastModifiedBy)
 
 	// LastModifiedByType
-	if source.LastModifiedByType != nil {
-		lastModifiedByType := SystemDataStatusLastModifiedByType(*source.LastModifiedByType)
-		data.LastModifiedByType = &lastModifiedByType
-	} else {
-		data.LastModifiedByType = nil
-	}
+	data.LastModifiedByType = genruntime.ClonePointerToString(source.LastModifiedByType)
 
 	// No error
 	return nil
@@ -2175,12 +2125,7 @@ func (data *SystemData_Status) AssignPropertiesToSystemDataStatus(destination *a
 	destination.CreatedBy = genruntime.ClonePointerToString(data.CreatedBy)
 
 	// CreatedByType
-	if data.CreatedByType != nil {
-		createdByType := string(*data.CreatedByType)
-		destination.CreatedByType = &createdByType
-	} else {
-		destination.CreatedByType = nil
-	}
+	destination.CreatedByType = genruntime.ClonePointerToString(data.CreatedByType)
 
 	// LastModifiedAt
 	destination.LastModifiedAt = genruntime.ClonePointerToString(data.LastModifiedAt)
@@ -2189,12 +2134,7 @@ func (data *SystemData_Status) AssignPropertiesToSystemDataStatus(destination *a
 	destination.LastModifiedBy = genruntime.ClonePointerToString(data.LastModifiedBy)
 
 	// LastModifiedByType
-	if data.LastModifiedByType != nil {
-		lastModifiedByType := string(*data.LastModifiedByType)
-		destination.LastModifiedByType = &lastModifiedByType
-	} else {
-		destination.LastModifiedByType = nil
-	}
+	destination.LastModifiedByType = genruntime.ClonePointerToString(data.LastModifiedByType)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2283,11 +2223,6 @@ func (value *DictionaryValue_Status) AssignPropertiesToDictionaryValueStatus(des
 type EncryptionKeySource string
 
 const EncryptionKeySourceMicrosoftKeyVault = EncryptionKeySource("Microsoft.KeyVault")
-
-// Deprecated version of EncryptionStatusKeySource. Use v1beta20210101preview.EncryptionStatusKeySource instead
-type EncryptionStatusKeySource string
-
-const EncryptionStatusKeySourceMicrosoftKeyVault = EncryptionStatusKeySource("Microsoft.KeyVault")
 
 // Deprecated version of KeyVaultProperties. Use v1beta20210101preview.KeyVaultProperties instead
 type KeyVaultProperties struct {

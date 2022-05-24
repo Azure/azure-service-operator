@@ -135,7 +135,7 @@ func (in *Encryption_Status) DeepCopyInto(out *Encryption_Status) {
 	*out = *in
 	if in.KeySource != nil {
 		in, out := &in.KeySource, &out.KeySource
-		*out = new(EncryptionStatusKeySource)
+		*out = new(string)
 		**out = **in
 	}
 	if in.KeyVaultProperties != nil {
@@ -167,7 +167,7 @@ func (in *Encryption_StatusARM) DeepCopyInto(out *Encryption_StatusARM) {
 	*out = *in
 	if in.KeySource != nil {
 		in, out := &in.KeySource, &out.KeySource
-		*out = new(EncryptionStatusKeySource)
+		*out = new(string)
 		**out = **in
 	}
 	if in.KeyVaultProperties != nil {
@@ -249,7 +249,7 @@ func (in *Identity_Status) DeepCopyInto(out *Identity_Status) {
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(IdentityStatusType)
+		*out = new(string)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
@@ -286,7 +286,7 @@ func (in *Identity_StatusARM) DeepCopyInto(out *Identity_StatusARM) {
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(IdentityStatusType)
+		*out = new(string)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
@@ -1537,7 +1537,7 @@ func (in *SBQueueProperties_StatusARM) DeepCopyInto(out *SBQueueProperties_Statu
 	}
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(EntityStatus_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.UpdatedAt != nil {
@@ -1674,7 +1674,7 @@ func (in *SBQueue_Status) DeepCopyInto(out *SBQueue_Status) {
 	}
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(EntityStatus_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.SystemData != nil {
@@ -1814,12 +1814,12 @@ func (in *SBSku_Status) DeepCopyInto(out *SBSku_Status) {
 	}
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(SBSkuStatusName)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Tier != nil {
 		in, out := &in.Tier, &out.Tier
-		*out = new(SBSkuStatusTier)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -1844,12 +1844,12 @@ func (in *SBSku_StatusARM) DeepCopyInto(out *SBSku_StatusARM) {
 	}
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(SBSkuStatusName)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Tier != nil {
 		in, out := &in.Tier, &out.Tier
-		*out = new(SBSkuStatusTier)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -1989,7 +1989,7 @@ func (in *SBTopicProperties_StatusARM) DeepCopyInto(out *SBTopicProperties_Statu
 	}
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(EntityStatus_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.SubscriptionCount != nil {
@@ -2101,7 +2101,7 @@ func (in *SBTopic_Status) DeepCopyInto(out *SBTopic_Status) {
 	}
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(EntityStatus_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.SubscriptionCount != nil {
@@ -2196,7 +2196,7 @@ func (in *SystemData_Status) DeepCopyInto(out *SystemData_Status) {
 	}
 	if in.CreatedByType != nil {
 		in, out := &in.CreatedByType, &out.CreatedByType
-		*out = new(SystemDataStatusCreatedByType)
+		*out = new(string)
 		**out = **in
 	}
 	if in.LastModifiedAt != nil {
@@ -2211,7 +2211,7 @@ func (in *SystemData_Status) DeepCopyInto(out *SystemData_Status) {
 	}
 	if in.LastModifiedByType != nil {
 		in, out := &in.LastModifiedByType, &out.LastModifiedByType
-		*out = new(SystemDataStatusLastModifiedByType)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -2241,7 +2241,7 @@ func (in *SystemData_StatusARM) DeepCopyInto(out *SystemData_StatusARM) {
 	}
 	if in.CreatedByType != nil {
 		in, out := &in.CreatedByType, &out.CreatedByType
-		*out = new(SystemDataStatusCreatedByType)
+		*out = new(string)
 		**out = **in
 	}
 	if in.LastModifiedAt != nil {
@@ -2256,7 +2256,7 @@ func (in *SystemData_StatusARM) DeepCopyInto(out *SystemData_StatusARM) {
 	}
 	if in.LastModifiedByType != nil {
 		in, out := &in.LastModifiedByType, &out.LastModifiedByType
-		*out = new(SystemDataStatusLastModifiedByType)
+		*out = new(string)
 		**out = **in
 	}
 }

@@ -341,25 +341,25 @@ const APIVersionValue = APIVersion("2021-06-01")
 // Deprecated version of Workspace_Status. Use v1beta20210601.Workspace_Status instead
 type Workspace_Status struct {
 	// Conditions: The observed state of the resource
-	Conditions                      []conditions.Condition                      `json:"conditions,omitempty"`
-	CreatedDate                     *string                                     `json:"createdDate,omitempty"`
-	CustomerId                      *string                                     `json:"customerId,omitempty"`
-	Etag                            *string                                     `json:"etag,omitempty"`
-	Features                        *WorkspaceFeatures_Status                   `json:"features,omitempty"`
-	ForceCmkForQuery                *bool                                       `json:"forceCmkForQuery,omitempty"`
-	Id                              *string                                     `json:"id,omitempty"`
-	Location                        *string                                     `json:"location,omitempty"`
-	ModifiedDate                    *string                                     `json:"modifiedDate,omitempty"`
-	Name                            *string                                     `json:"name,omitempty"`
-	PrivateLinkScopedResources      []PrivateLinkScopedResource_Status          `json:"privateLinkScopedResources,omitempty"`
-	ProvisioningState               *WorkspacePropertiesStatusProvisioningState `json:"provisioningState,omitempty"`
-	PublicNetworkAccessForIngestion *PublicNetworkAccessType_Status             `json:"publicNetworkAccessForIngestion,omitempty"`
-	PublicNetworkAccessForQuery     *PublicNetworkAccessType_Status             `json:"publicNetworkAccessForQuery,omitempty"`
-	RetentionInDays                 *int                                        `json:"retentionInDays,omitempty"`
-	Sku                             *WorkspaceSku_Status                        `json:"sku,omitempty"`
-	Tags                            map[string]string                           `json:"tags,omitempty"`
-	Type                            *string                                     `json:"type,omitempty"`
-	WorkspaceCapping                *WorkspaceCapping_Status                    `json:"workspaceCapping,omitempty"`
+	Conditions                      []conditions.Condition             `json:"conditions,omitempty"`
+	CreatedDate                     *string                            `json:"createdDate,omitempty"`
+	CustomerId                      *string                            `json:"customerId,omitempty"`
+	Etag                            *string                            `json:"etag,omitempty"`
+	Features                        *WorkspaceFeatures_Status          `json:"features,omitempty"`
+	ForceCmkForQuery                *bool                              `json:"forceCmkForQuery,omitempty"`
+	Id                              *string                            `json:"id,omitempty"`
+	Location                        *string                            `json:"location,omitempty"`
+	ModifiedDate                    *string                            `json:"modifiedDate,omitempty"`
+	Name                            *string                            `json:"name,omitempty"`
+	PrivateLinkScopedResources      []PrivateLinkScopedResource_Status `json:"privateLinkScopedResources,omitempty"`
+	ProvisioningState               *string                            `json:"provisioningState,omitempty"`
+	PublicNetworkAccessForIngestion *string                            `json:"publicNetworkAccessForIngestion,omitempty"`
+	PublicNetworkAccessForQuery     *string                            `json:"publicNetworkAccessForQuery,omitempty"`
+	RetentionInDays                 *int                               `json:"retentionInDays,omitempty"`
+	Sku                             *WorkspaceSku_Status               `json:"sku,omitempty"`
+	Tags                            map[string]string                  `json:"tags,omitempty"`
+	Type                            *string                            `json:"type,omitempty"`
+	WorkspaceCapping                *WorkspaceCapping_Status           `json:"workspaceCapping,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &Workspace_Status{}
@@ -663,28 +663,13 @@ func (workspace *Workspace_Status) AssignPropertiesFromWorkspaceStatus(source *a
 	}
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := WorkspacePropertiesStatusProvisioningState(*source.ProvisioningState)
-		workspace.ProvisioningState = &provisioningState
-	} else {
-		workspace.ProvisioningState = nil
-	}
+	workspace.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// PublicNetworkAccessForIngestion
-	if source.PublicNetworkAccessForIngestion != nil {
-		publicNetworkAccessForIngestion := PublicNetworkAccessType_Status(*source.PublicNetworkAccessForIngestion)
-		workspace.PublicNetworkAccessForIngestion = &publicNetworkAccessForIngestion
-	} else {
-		workspace.PublicNetworkAccessForIngestion = nil
-	}
+	workspace.PublicNetworkAccessForIngestion = genruntime.ClonePointerToString(source.PublicNetworkAccessForIngestion)
 
 	// PublicNetworkAccessForQuery
-	if source.PublicNetworkAccessForQuery != nil {
-		publicNetworkAccessForQuery := PublicNetworkAccessType_Status(*source.PublicNetworkAccessForQuery)
-		workspace.PublicNetworkAccessForQuery = &publicNetworkAccessForQuery
-	} else {
-		workspace.PublicNetworkAccessForQuery = nil
-	}
+	workspace.PublicNetworkAccessForQuery = genruntime.ClonePointerToString(source.PublicNetworkAccessForQuery)
 
 	// RetentionInDays
 	workspace.RetentionInDays = genruntime.ClonePointerToInt(source.RetentionInDays)
@@ -791,28 +776,13 @@ func (workspace *Workspace_Status) AssignPropertiesToWorkspaceStatus(destination
 	}
 
 	// ProvisioningState
-	if workspace.ProvisioningState != nil {
-		provisioningState := string(*workspace.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(workspace.ProvisioningState)
 
 	// PublicNetworkAccessForIngestion
-	if workspace.PublicNetworkAccessForIngestion != nil {
-		publicNetworkAccessForIngestion := string(*workspace.PublicNetworkAccessForIngestion)
-		destination.PublicNetworkAccessForIngestion = &publicNetworkAccessForIngestion
-	} else {
-		destination.PublicNetworkAccessForIngestion = nil
-	}
+	destination.PublicNetworkAccessForIngestion = genruntime.ClonePointerToString(workspace.PublicNetworkAccessForIngestion)
 
 	// PublicNetworkAccessForQuery
-	if workspace.PublicNetworkAccessForQuery != nil {
-		publicNetworkAccessForQuery := string(*workspace.PublicNetworkAccessForQuery)
-		destination.PublicNetworkAccessForQuery = &publicNetworkAccessForQuery
-	} else {
-		destination.PublicNetworkAccessForQuery = nil
-	}
+	destination.PublicNetworkAccessForQuery = genruntime.ClonePointerToString(workspace.PublicNetworkAccessForQuery)
 
 	// RetentionInDays
 	destination.RetentionInDays = genruntime.ClonePointerToInt(workspace.RetentionInDays)
@@ -1442,14 +1412,6 @@ func (resource *PrivateLinkScopedResource_Status) AssignPropertiesToPrivateLinkS
 	return nil
 }
 
-// Deprecated version of PublicNetworkAccessType_Status. Use v1beta20210601.PublicNetworkAccessType_Status instead
-type PublicNetworkAccessType_Status string
-
-const (
-	PublicNetworkAccessType_StatusDisabled = PublicNetworkAccessType_Status("Disabled")
-	PublicNetworkAccessType_StatusEnabled  = PublicNetworkAccessType_Status("Enabled")
-)
-
 // Deprecated version of WorkspaceCapping. Use v1beta20210601.WorkspaceCapping instead
 type WorkspaceCapping struct {
 	DailyQuotaGb *float64 `json:"dailyQuotaGb,omitempty"`
@@ -1535,9 +1497,9 @@ func (capping *WorkspaceCapping) AssignPropertiesToWorkspaceCapping(destination 
 
 // Deprecated version of WorkspaceCapping_Status. Use v1beta20210601.WorkspaceCapping_Status instead
 type WorkspaceCapping_Status struct {
-	DailyQuotaGb        *float64                                   `json:"dailyQuotaGb,omitempty"`
-	DataIngestionStatus *WorkspaceCappingStatusDataIngestionStatus `json:"dataIngestionStatus,omitempty"`
-	QuotaNextResetTime  *string                                    `json:"quotaNextResetTime,omitempty"`
+	DailyQuotaGb        *float64 `json:"dailyQuotaGb,omitempty"`
+	DataIngestionStatus *string  `json:"dataIngestionStatus,omitempty"`
+	QuotaNextResetTime  *string  `json:"quotaNextResetTime,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &WorkspaceCapping_Status{}
@@ -1588,12 +1550,7 @@ func (capping *WorkspaceCapping_Status) AssignPropertiesFromWorkspaceCappingStat
 	}
 
 	// DataIngestionStatus
-	if source.DataIngestionStatus != nil {
-		dataIngestionStatus := WorkspaceCappingStatusDataIngestionStatus(*source.DataIngestionStatus)
-		capping.DataIngestionStatus = &dataIngestionStatus
-	} else {
-		capping.DataIngestionStatus = nil
-	}
+	capping.DataIngestionStatus = genruntime.ClonePointerToString(source.DataIngestionStatus)
 
 	// QuotaNextResetTime
 	capping.QuotaNextResetTime = genruntime.ClonePointerToString(source.QuotaNextResetTime)
@@ -1616,12 +1573,7 @@ func (capping *WorkspaceCapping_Status) AssignPropertiesToWorkspaceCappingStatus
 	}
 
 	// DataIngestionStatus
-	if capping.DataIngestionStatus != nil {
-		dataIngestionStatus := string(*capping.DataIngestionStatus)
-		destination.DataIngestionStatus = &dataIngestionStatus
-	} else {
-		destination.DataIngestionStatus = nil
-	}
+	destination.DataIngestionStatus = genruntime.ClonePointerToString(capping.DataIngestionStatus)
 
 	// QuotaNextResetTime
 	destination.QuotaNextResetTime = genruntime.ClonePointerToString(capping.QuotaNextResetTime)
@@ -2064,20 +2016,6 @@ const (
 	WorkspacePropertiesPublicNetworkAccessForQueryEnabled  = WorkspacePropertiesPublicNetworkAccessForQuery("Enabled")
 )
 
-// Deprecated version of WorkspacePropertiesStatusProvisioningState. Use
-// v1beta20210601.WorkspacePropertiesStatusProvisioningState instead
-type WorkspacePropertiesStatusProvisioningState string
-
-const (
-	WorkspacePropertiesStatusProvisioningStateCanceled            = WorkspacePropertiesStatusProvisioningState("Canceled")
-	WorkspacePropertiesStatusProvisioningStateCreating            = WorkspacePropertiesStatusProvisioningState("Creating")
-	WorkspacePropertiesStatusProvisioningStateDeleting            = WorkspacePropertiesStatusProvisioningState("Deleting")
-	WorkspacePropertiesStatusProvisioningStateFailed              = WorkspacePropertiesStatusProvisioningState("Failed")
-	WorkspacePropertiesStatusProvisioningStateProvisioningAccount = WorkspacePropertiesStatusProvisioningState("ProvisioningAccount")
-	WorkspacePropertiesStatusProvisioningStateSucceeded           = WorkspacePropertiesStatusProvisioningState("Succeeded")
-	WorkspacePropertiesStatusProvisioningStateUpdating            = WorkspacePropertiesStatusProvisioningState("Updating")
-)
-
 // Deprecated version of WorkspaceSku. Use v1beta20210601.WorkspaceSku instead
 type WorkspaceSku struct {
 	CapacityReservationLevel *int `json:"capacityReservationLevel,omitempty"`
@@ -2184,9 +2122,9 @@ func (workspaceSku *WorkspaceSku) AssignPropertiesToWorkspaceSku(destination *al
 
 // Deprecated version of WorkspaceSku_Status. Use v1beta20210601.WorkspaceSku_Status instead
 type WorkspaceSku_Status struct {
-	CapacityReservationLevel *WorkspaceSkuStatusCapacityReservationLevel `json:"capacityReservationLevel,omitempty"`
-	LastSkuUpdate            *string                                     `json:"lastSkuUpdate,omitempty"`
-	Name                     *WorkspaceSkuStatusName                     `json:"name,omitempty"`
+	CapacityReservationLevel *int    `json:"capacityReservationLevel,omitempty"`
+	LastSkuUpdate            *string `json:"lastSkuUpdate,omitempty"`
+	Name                     *string `json:"name,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &WorkspaceSku_Status{}
@@ -2229,23 +2167,13 @@ func (workspaceSku *WorkspaceSku_Status) PopulateFromARM(owner genruntime.Arbitr
 func (workspaceSku *WorkspaceSku_Status) AssignPropertiesFromWorkspaceSkuStatus(source *alpha20210601s.WorkspaceSku_Status) error {
 
 	// CapacityReservationLevel
-	if source.CapacityReservationLevel != nil {
-		capacityReservationLevel := WorkspaceSkuStatusCapacityReservationLevel(*source.CapacityReservationLevel)
-		workspaceSku.CapacityReservationLevel = &capacityReservationLevel
-	} else {
-		workspaceSku.CapacityReservationLevel = nil
-	}
+	workspaceSku.CapacityReservationLevel = genruntime.ClonePointerToInt(source.CapacityReservationLevel)
 
 	// LastSkuUpdate
 	workspaceSku.LastSkuUpdate = genruntime.ClonePointerToString(source.LastSkuUpdate)
 
 	// Name
-	if source.Name != nil {
-		name := WorkspaceSkuStatusName(*source.Name)
-		workspaceSku.Name = &name
-	} else {
-		workspaceSku.Name = nil
-	}
+	workspaceSku.Name = genruntime.ClonePointerToString(source.Name)
 
 	// No error
 	return nil
@@ -2257,23 +2185,13 @@ func (workspaceSku *WorkspaceSku_Status) AssignPropertiesToWorkspaceSkuStatus(de
 	propertyBag := genruntime.NewPropertyBag()
 
 	// CapacityReservationLevel
-	if workspaceSku.CapacityReservationLevel != nil {
-		capacityReservationLevel := int(*workspaceSku.CapacityReservationLevel)
-		destination.CapacityReservationLevel = &capacityReservationLevel
-	} else {
-		destination.CapacityReservationLevel = nil
-	}
+	destination.CapacityReservationLevel = genruntime.ClonePointerToInt(workspaceSku.CapacityReservationLevel)
 
 	// LastSkuUpdate
 	destination.LastSkuUpdate = genruntime.ClonePointerToString(workspaceSku.LastSkuUpdate)
 
 	// Name
-	if workspaceSku.Name != nil {
-		name := string(*workspaceSku.Name)
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(workspaceSku.Name)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2285,19 +2203,6 @@ func (workspaceSku *WorkspaceSku_Status) AssignPropertiesToWorkspaceSkuStatus(de
 	// No error
 	return nil
 }
-
-// Deprecated version of WorkspaceCappingStatusDataIngestionStatus. Use
-// v1beta20210601.WorkspaceCappingStatusDataIngestionStatus instead
-type WorkspaceCappingStatusDataIngestionStatus string
-
-const (
-	WorkspaceCappingStatusDataIngestionStatusApproachingQuota      = WorkspaceCappingStatusDataIngestionStatus("ApproachingQuota")
-	WorkspaceCappingStatusDataIngestionStatusForceOff              = WorkspaceCappingStatusDataIngestionStatus("ForceOff")
-	WorkspaceCappingStatusDataIngestionStatusForceOn               = WorkspaceCappingStatusDataIngestionStatus("ForceOn")
-	WorkspaceCappingStatusDataIngestionStatusOverQuota             = WorkspaceCappingStatusDataIngestionStatus("OverQuota")
-	WorkspaceCappingStatusDataIngestionStatusRespectQuota          = WorkspaceCappingStatusDataIngestionStatus("RespectQuota")
-	WorkspaceCappingStatusDataIngestionStatusSubscriptionSuspended = WorkspaceCappingStatusDataIngestionStatus("SubscriptionSuspended")
-)
 
 // Deprecated version of WorkspaceSkuName. Use v1beta20210601.WorkspaceSkuName instead
 // +kubebuilder:validation:Enum={"CapacityReservation","Free","LACluster","PerGB2018","PerNode","Premium","Standalone","Standard"}
@@ -2312,35 +2217,6 @@ const (
 	WorkspaceSkuNamePremium             = WorkspaceSkuName("Premium")
 	WorkspaceSkuNameStandalone          = WorkspaceSkuName("Standalone")
 	WorkspaceSkuNameStandard            = WorkspaceSkuName("Standard")
-)
-
-// Deprecated version of WorkspaceSkuStatusCapacityReservationLevel. Use
-// v1beta20210601.WorkspaceSkuStatusCapacityReservationLevel instead
-type WorkspaceSkuStatusCapacityReservationLevel int
-
-const (
-	WorkspaceSkuStatusCapacityReservationLevel100  = WorkspaceSkuStatusCapacityReservationLevel(100)
-	WorkspaceSkuStatusCapacityReservationLevel1000 = WorkspaceSkuStatusCapacityReservationLevel(1000)
-	WorkspaceSkuStatusCapacityReservationLevel200  = WorkspaceSkuStatusCapacityReservationLevel(200)
-	WorkspaceSkuStatusCapacityReservationLevel2000 = WorkspaceSkuStatusCapacityReservationLevel(2000)
-	WorkspaceSkuStatusCapacityReservationLevel300  = WorkspaceSkuStatusCapacityReservationLevel(300)
-	WorkspaceSkuStatusCapacityReservationLevel400  = WorkspaceSkuStatusCapacityReservationLevel(400)
-	WorkspaceSkuStatusCapacityReservationLevel500  = WorkspaceSkuStatusCapacityReservationLevel(500)
-	WorkspaceSkuStatusCapacityReservationLevel5000 = WorkspaceSkuStatusCapacityReservationLevel(5000)
-)
-
-// Deprecated version of WorkspaceSkuStatusName. Use v1beta20210601.WorkspaceSkuStatusName instead
-type WorkspaceSkuStatusName string
-
-const (
-	WorkspaceSkuStatusNameCapacityReservation = WorkspaceSkuStatusName("CapacityReservation")
-	WorkspaceSkuStatusNameFree                = WorkspaceSkuStatusName("Free")
-	WorkspaceSkuStatusNameLACluster           = WorkspaceSkuStatusName("LACluster")
-	WorkspaceSkuStatusNamePerGB2018           = WorkspaceSkuStatusName("PerGB2018")
-	WorkspaceSkuStatusNamePerNode             = WorkspaceSkuStatusName("PerNode")
-	WorkspaceSkuStatusNamePremium             = WorkspaceSkuStatusName("Premium")
-	WorkspaceSkuStatusNameStandalone          = WorkspaceSkuStatusName("Standalone")
-	WorkspaceSkuStatusNameStandard            = WorkspaceSkuStatusName("Standard")
 )
 
 func init() {

@@ -52,13 +52,13 @@ type NetworkInterfacePropertiesFormat_StatusARM struct {
 	MacAddress *string `json:"macAddress,omitempty"`
 
 	// MigrationPhase: Migration phase of Network Interface resource.
-	MigrationPhase *NetworkInterfacePropertiesFormatStatusMigrationPhase `json:"migrationPhase,omitempty"`
+	MigrationPhase *string `json:"migrationPhase,omitempty"`
 
 	// NetworkSecurityGroup: The reference to the NetworkSecurityGroup resource.
 	NetworkSecurityGroup *NetworkSecurityGroup_Status_NetworkInterface_SubResourceEmbeddedARM `json:"networkSecurityGroup,omitempty"`
 
 	// NicType: Type of Network Interface resource.
-	NicType *NetworkInterfacePropertiesFormatStatusNicType `json:"nicType,omitempty"`
+	NicType *string `json:"nicType,omitempty"`
 
 	// Primary: Whether this is a primary network interface on a virtual machine.
 	Primary *bool `json:"primary,omitempty"`
@@ -70,7 +70,7 @@ type NetworkInterfacePropertiesFormat_StatusARM struct {
 	PrivateLinkService *PrivateLinkService_Status_NetworkInterface_SubResourceEmbeddedARM `json:"privateLinkService,omitempty"`
 
 	// ProvisioningState: The provisioning state of the network interface resource.
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	// ResourceGuid: The resource GUID property of the network interface resource.
 	ResourceGuid *string `json:"resourceGuid,omitempty"`
@@ -172,16 +172,16 @@ type NetworkInterfaceIPConfigurationPropertiesFormat_Status_NetworkInterface_Sub
 	PrivateIPAddress *string `json:"privateIPAddress,omitempty"`
 
 	// PrivateIPAddressVersion: Whether the specific IP configuration is IPv4 or IPv6. Default is IPv4.
-	PrivateIPAddressVersion *IPVersion_Status `json:"privateIPAddressVersion,omitempty"`
+	PrivateIPAddressVersion *string `json:"privateIPAddressVersion,omitempty"`
 
 	// PrivateIPAllocationMethod: The private IP address allocation method.
-	PrivateIPAllocationMethod *IPAllocationMethod_Status `json:"privateIPAllocationMethod,omitempty"`
+	PrivateIPAllocationMethod *string `json:"privateIPAllocationMethod,omitempty"`
 
 	// PrivateLinkConnectionProperties: PrivateLinkConnection properties for the network interface.
 	PrivateLinkConnectionProperties *NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_StatusARM `json:"privateLinkConnectionProperties,omitempty"`
 
 	// ProvisioningState: The provisioning state of the network interface IP configuration.
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	// PublicIPAddress: Public IP address bound to the IP configuration.
 	PublicIPAddress *PublicIPAddress_Status_NetworkInterface_SubResourceEmbeddedARM `json:"publicIPAddress,omitempty"`
@@ -265,7 +265,7 @@ type ApplicationGatewayBackendAddressPoolPropertiesFormat_Status_NetworkInterfac
 	BackendAddresses []ApplicationGatewayBackendAddress_StatusARM `json:"backendAddresses,omitempty"`
 
 	// ProvisioningState: The provisioning state of the backend address pool resource.
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 }
 
 type ApplicationGatewayBackendAddress_StatusARM struct {

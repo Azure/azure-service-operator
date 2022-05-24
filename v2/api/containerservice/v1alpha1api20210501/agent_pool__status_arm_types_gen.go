@@ -20,68 +20,41 @@ type ManagedClusterAgentPoolProfileProperties_StatusARM struct {
 	EnableFIPS                *bool                               `json:"enableFIPS,omitempty"`
 	EnableNodePublicIP        *bool                               `json:"enableNodePublicIP,omitempty"`
 	EnableUltraSSD            *bool                               `json:"enableUltraSSD,omitempty"`
-	GpuInstanceProfile        *GPUInstanceProfile_Status          `json:"gpuInstanceProfile,omitempty"`
+	GpuInstanceProfile        *string                             `json:"gpuInstanceProfile,omitempty"`
 	KubeletConfig             *KubeletConfig_StatusARM            `json:"kubeletConfig,omitempty"`
-	KubeletDiskType           *KubeletDiskType_Status             `json:"kubeletDiskType,omitempty"`
+	KubeletDiskType           *string                             `json:"kubeletDiskType,omitempty"`
 	LinuxOSConfig             *LinuxOSConfig_StatusARM            `json:"linuxOSConfig,omitempty"`
 	MaxCount                  *int                                `json:"maxCount,omitempty"`
 	MaxPods                   *int                                `json:"maxPods,omitempty"`
 	MinCount                  *int                                `json:"minCount,omitempty"`
-	Mode                      *AgentPoolMode_Status               `json:"mode,omitempty"`
+	Mode                      *string                             `json:"mode,omitempty"`
 	NodeImageVersion          *string                             `json:"nodeImageVersion,omitempty"`
 	NodeLabels                map[string]string                   `json:"nodeLabels,omitempty"`
 	NodePublicIPPrefixID      *string                             `json:"nodePublicIPPrefixID,omitempty"`
 	NodeTaints                []string                            `json:"nodeTaints,omitempty"`
 	OrchestratorVersion       *string                             `json:"orchestratorVersion,omitempty"`
 	OsDiskSizeGB              *int                                `json:"osDiskSizeGB,omitempty"`
-	OsDiskType                *OSDiskType_Status                  `json:"osDiskType,omitempty"`
-	OsSKU                     *OSSKU_Status                       `json:"osSKU,omitempty"`
-	OsType                    *OSType_Status                      `json:"osType,omitempty"`
+	OsDiskType                *string                             `json:"osDiskType,omitempty"`
+	OsSKU                     *string                             `json:"osSKU,omitempty"`
+	OsType                    *string                             `json:"osType,omitempty"`
 	PodSubnetID               *string                             `json:"podSubnetID,omitempty"`
 	PowerState                *PowerState_StatusARM               `json:"powerState,omitempty"`
 	ProvisioningState         *string                             `json:"provisioningState,omitempty"`
 	ProximityPlacementGroupID *string                             `json:"proximityPlacementGroupID,omitempty"`
-	ScaleSetEvictionPolicy    *ScaleSetEvictionPolicy_Status      `json:"scaleSetEvictionPolicy,omitempty"`
-	ScaleSetPriority          *ScaleSetPriority_Status            `json:"scaleSetPriority,omitempty"`
+	ScaleSetEvictionPolicy    *string                             `json:"scaleSetEvictionPolicy,omitempty"`
+	ScaleSetPriority          *string                             `json:"scaleSetPriority,omitempty"`
 	SpotMaxPrice              *float64                            `json:"spotMaxPrice,omitempty"`
 	Tags                      map[string]string                   `json:"tags,omitempty"`
-	Type                      *AgentPoolType_Status               `json:"type,omitempty"`
+	Type                      *string                             `json:"type,omitempty"`
 	UpgradeSettings           *AgentPoolUpgradeSettings_StatusARM `json:"upgradeSettings,omitempty"`
 	VmSize                    *string                             `json:"vmSize,omitempty"`
 	VnetSubnetID              *string                             `json:"vnetSubnetID,omitempty"`
 }
 
-// Deprecated version of AgentPoolMode_Status. Use v1beta20210501.AgentPoolMode_Status instead
-type AgentPoolMode_Status string
-
-const (
-	AgentPoolMode_StatusSystem = AgentPoolMode_Status("System")
-	AgentPoolMode_StatusUser   = AgentPoolMode_Status("User")
-)
-
-// Deprecated version of AgentPoolType_Status. Use v1beta20210501.AgentPoolType_Status instead
-type AgentPoolType_Status string
-
-const (
-	AgentPoolType_StatusAvailabilitySet         = AgentPoolType_Status("AvailabilitySet")
-	AgentPoolType_StatusVirtualMachineScaleSets = AgentPoolType_Status("VirtualMachineScaleSets")
-)
-
 // Deprecated version of AgentPoolUpgradeSettings_Status. Use v1beta20210501.AgentPoolUpgradeSettings_Status instead
 type AgentPoolUpgradeSettings_StatusARM struct {
 	MaxSurge *string `json:"maxSurge,omitempty"`
 }
-
-// Deprecated version of GPUInstanceProfile_Status. Use v1beta20210501.GPUInstanceProfile_Status instead
-type GPUInstanceProfile_Status string
-
-const (
-	GPUInstanceProfile_StatusMIG1G = GPUInstanceProfile_Status("MIG1g")
-	GPUInstanceProfile_StatusMIG2G = GPUInstanceProfile_Status("MIG2g")
-	GPUInstanceProfile_StatusMIG3G = GPUInstanceProfile_Status("MIG3g")
-	GPUInstanceProfile_StatusMIG4G = GPUInstanceProfile_Status("MIG4g")
-	GPUInstanceProfile_StatusMIG7G = GPUInstanceProfile_Status("MIG7g")
-)
 
 // Deprecated version of KubeletConfig_Status. Use v1beta20210501.KubeletConfig_Status instead
 type KubeletConfig_StatusARM struct {
@@ -98,14 +71,6 @@ type KubeletConfig_StatusARM struct {
 	TopologyManagerPolicy *string  `json:"topologyManagerPolicy,omitempty"`
 }
 
-// Deprecated version of KubeletDiskType_Status. Use v1beta20210501.KubeletDiskType_Status instead
-type KubeletDiskType_Status string
-
-const (
-	KubeletDiskType_StatusOS        = KubeletDiskType_Status("OS")
-	KubeletDiskType_StatusTemporary = KubeletDiskType_Status("Temporary")
-)
-
 // Deprecated version of LinuxOSConfig_Status. Use v1beta20210501.LinuxOSConfig_Status instead
 type LinuxOSConfig_StatusARM struct {
 	SwapFileSizeMB             *int                    `json:"swapFileSizeMB,omitempty"`
@@ -114,58 +79,10 @@ type LinuxOSConfig_StatusARM struct {
 	TransparentHugePageEnabled *string                 `json:"transparentHugePageEnabled,omitempty"`
 }
 
-// Deprecated version of OSDiskType_Status. Use v1beta20210501.OSDiskType_Status instead
-type OSDiskType_Status string
-
-const (
-	OSDiskType_StatusEphemeral = OSDiskType_Status("Ephemeral")
-	OSDiskType_StatusManaged   = OSDiskType_Status("Managed")
-)
-
-// Deprecated version of OSSKU_Status. Use v1beta20210501.OSSKU_Status instead
-type OSSKU_Status string
-
-const (
-	OSSKU_StatusCBLMariner = OSSKU_Status("CBLMariner")
-	OSSKU_StatusUbuntu     = OSSKU_Status("Ubuntu")
-)
-
-// Deprecated version of OSType_Status. Use v1beta20210501.OSType_Status instead
-type OSType_Status string
-
-const (
-	OSType_StatusLinux   = OSType_Status("Linux")
-	OSType_StatusWindows = OSType_Status("Windows")
-)
-
 // Deprecated version of PowerState_Status. Use v1beta20210501.PowerState_Status instead
 type PowerState_StatusARM struct {
-	Code *PowerStateStatusCode `json:"code,omitempty"`
+	Code *string `json:"code,omitempty"`
 }
-
-// Deprecated version of ScaleSetEvictionPolicy_Status. Use v1beta20210501.ScaleSetEvictionPolicy_Status instead
-type ScaleSetEvictionPolicy_Status string
-
-const (
-	ScaleSetEvictionPolicy_StatusDeallocate = ScaleSetEvictionPolicy_Status("Deallocate")
-	ScaleSetEvictionPolicy_StatusDelete     = ScaleSetEvictionPolicy_Status("Delete")
-)
-
-// Deprecated version of ScaleSetPriority_Status. Use v1beta20210501.ScaleSetPriority_Status instead
-type ScaleSetPriority_Status string
-
-const (
-	ScaleSetPriority_StatusRegular = ScaleSetPriority_Status("Regular")
-	ScaleSetPriority_StatusSpot    = ScaleSetPriority_Status("Spot")
-)
-
-// Deprecated version of PowerStateStatusCode. Use v1beta20210501.PowerStateStatusCode instead
-type PowerStateStatusCode string
-
-const (
-	PowerStateStatusCodeRunning = PowerStateStatusCode("Running")
-	PowerStateStatusCodeStopped = PowerStateStatusCode("Stopped")
-)
 
 // Deprecated version of SysctlConfig_Status. Use v1beta20210501.SysctlConfig_Status instead
 type SysctlConfig_StatusARM struct {

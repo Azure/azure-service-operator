@@ -334,12 +334,12 @@ type DomainsTopicList struct {
 // Deprecated version of DomainTopic_Status. Use v1beta20200601.DomainTopic_Status instead
 type DomainTopic_Status struct {
 	// Conditions: The observed state of the resource
-	Conditions        []conditions.Condition                        `json:"conditions,omitempty"`
-	Id                *string                                       `json:"id,omitempty"`
-	Name              *string                                       `json:"name,omitempty"`
-	ProvisioningState *DomainTopicPropertiesStatusProvisioningState `json:"provisioningState,omitempty"`
-	SystemData        *SystemData_Status                            `json:"systemData,omitempty"`
-	Type              *string                                       `json:"type,omitempty"`
+	Conditions        []conditions.Condition `json:"conditions,omitempty"`
+	Id                *string                `json:"id,omitempty"`
+	Name              *string                `json:"name,omitempty"`
+	ProvisioningState *string                `json:"provisioningState,omitempty"`
+	SystemData        *SystemData_Status     `json:"systemData,omitempty"`
+	Type              *string                `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &DomainTopic_Status{}
@@ -463,12 +463,7 @@ func (topic *DomainTopic_Status) AssignPropertiesFromDomainTopicStatus(source *a
 	topic.Name = genruntime.ClonePointerToString(source.Name)
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := DomainTopicPropertiesStatusProvisioningState(*source.ProvisioningState)
-		topic.ProvisioningState = &provisioningState
-	} else {
-		topic.ProvisioningState = nil
-	}
+	topic.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// SystemData
 	if source.SystemData != nil {
@@ -504,12 +499,7 @@ func (topic *DomainTopic_Status) AssignPropertiesToDomainTopicStatus(destination
 	destination.Name = genruntime.ClonePointerToString(topic.Name)
 
 	// ProvisioningState
-	if topic.ProvisioningState != nil {
-		provisioningState := string(*topic.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(topic.ProvisioningState)
 
 	// SystemData
 	if topic.SystemData != nil {

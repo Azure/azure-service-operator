@@ -57,7 +57,7 @@ type EndpointProperties_StatusARM struct {
 
 	// OptimizationType: Specifies what scenario the customer wants this CDN endpoint to optimize for, e.g. Download, Media
 	// services. With this information, CDN can apply scenario driven optimization.
-	OptimizationType *OptimizationType_Status `json:"optimizationType,omitempty"`
+	OptimizationType *string `json:"optimizationType,omitempty"`
 
 	// OriginGroups: The origin groups comprising of origins that are used for load balancing the traffic based on availability.
 	OriginGroups []DeepCreatedOriginGroup_StatusARM `json:"originGroups,omitempty"`
@@ -81,15 +81,15 @@ type EndpointProperties_StatusARM struct {
 	ProbePath *string `json:"probePath,omitempty"`
 
 	// ProvisioningState: Provisioning status of the endpoint.
-	ProvisioningState *EndpointPropertiesStatusProvisioningState `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	// QueryStringCachingBehavior: Defines how CDN caches requests that include query strings. You can ignore any query strings
 	// when caching, bypass caching to prevent requests that contain query strings from being cached, or cache every request
 	// with a unique URL.
-	QueryStringCachingBehavior *QueryStringCachingBehavior_Status `json:"queryStringCachingBehavior,omitempty"`
+	QueryStringCachingBehavior *string `json:"queryStringCachingBehavior,omitempty"`
 
 	// ResourceState: Resource status of the endpoint.
-	ResourceState *EndpointPropertiesStatusResourceState `json:"resourceState,omitempty"`
+	ResourceState *string `json:"resourceState,omitempty"`
 
 	// UrlSigningKeys: List of keys used to validate the signed URL hashes.
 	UrlSigningKeys []UrlSigningKey_StatusARM `json:"urlSigningKeys,omitempty"`
@@ -106,7 +106,7 @@ type SystemData_StatusARM struct {
 	CreatedBy *string `json:"createdBy,omitempty"`
 
 	// CreatedByType: The type of identity that created the resource
-	CreatedByType *IdentityType_Status `json:"createdByType,omitempty"`
+	CreatedByType *string `json:"createdByType,omitempty"`
 
 	// LastModifiedAt: The timestamp of resource last modification (UTC)
 	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
@@ -115,7 +115,7 @@ type SystemData_StatusARM struct {
 	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
 
 	// LastModifiedByType: The type of identity that last modified the resource
-	LastModifiedByType *IdentityType_Status `json:"lastModifiedByType,omitempty"`
+	LastModifiedByType *string `json:"lastModifiedByType,omitempty"`
 }
 
 type CustomDomain_Status_SubResourceEmbeddedARM struct {
@@ -136,27 +136,6 @@ type DeepCreatedOrigin_StatusARM struct {
 	Properties *DeepCreatedOriginProperties_StatusARM `json:"properties,omitempty"`
 }
 
-type EndpointPropertiesStatusProvisioningState string
-
-const (
-	EndpointPropertiesStatusProvisioningStateCreating  = EndpointPropertiesStatusProvisioningState("Creating")
-	EndpointPropertiesStatusProvisioningStateDeleting  = EndpointPropertiesStatusProvisioningState("Deleting")
-	EndpointPropertiesStatusProvisioningStateFailed    = EndpointPropertiesStatusProvisioningState("Failed")
-	EndpointPropertiesStatusProvisioningStateSucceeded = EndpointPropertiesStatusProvisioningState("Succeeded")
-	EndpointPropertiesStatusProvisioningStateUpdating  = EndpointPropertiesStatusProvisioningState("Updating")
-)
-
-type EndpointPropertiesStatusResourceState string
-
-const (
-	EndpointPropertiesStatusResourceStateCreating = EndpointPropertiesStatusResourceState("Creating")
-	EndpointPropertiesStatusResourceStateDeleting = EndpointPropertiesStatusResourceState("Deleting")
-	EndpointPropertiesStatusResourceStateRunning  = EndpointPropertiesStatusResourceState("Running")
-	EndpointPropertiesStatusResourceStateStarting = EndpointPropertiesStatusResourceState("Starting")
-	EndpointPropertiesStatusResourceStateStopped  = EndpointPropertiesStatusResourceState("Stopped")
-	EndpointPropertiesStatusResourceStateStopping = EndpointPropertiesStatusResourceState("Stopping")
-)
-
 type EndpointProperties_Status_DeliveryPolicyARM struct {
 	// Description: User-friendly description of the policy.
 	Description *string `json:"description,omitempty"`
@@ -172,7 +151,7 @@ type EndpointProperties_Status_WebApplicationFirewallPolicyLinkARM struct {
 
 type GeoFilter_StatusARM struct {
 	// Action: Action of the geo filter, i.e. allow or block access.
-	Action *GeoFilterStatusAction `json:"action,omitempty"`
+	Action *string `json:"action,omitempty"`
 
 	// CountryCodes: Two letter country or region codes defining user country or region access in a geo filter, e.g. AU, MX, US.
 	CountryCodes []string `json:"countryCodes,omitempty"`
@@ -180,34 +159,6 @@ type GeoFilter_StatusARM struct {
 	// RelativePath: Relative path applicable to geo filter. (e.g. '/mypictures', '/mypicture/kitty.jpg', and etc.)
 	RelativePath *string `json:"relativePath,omitempty"`
 }
-
-type IdentityType_Status string
-
-const (
-	IdentityType_StatusApplication     = IdentityType_Status("application")
-	IdentityType_StatusKey             = IdentityType_Status("key")
-	IdentityType_StatusManagedIdentity = IdentityType_Status("managedIdentity")
-	IdentityType_StatusUser            = IdentityType_Status("user")
-)
-
-type OptimizationType_Status string
-
-const (
-	OptimizationType_StatusDynamicSiteAcceleration     = OptimizationType_Status("DynamicSiteAcceleration")
-	OptimizationType_StatusGeneralMediaStreaming       = OptimizationType_Status("GeneralMediaStreaming")
-	OptimizationType_StatusGeneralWebDelivery          = OptimizationType_Status("GeneralWebDelivery")
-	OptimizationType_StatusLargeFileDownload           = OptimizationType_Status("LargeFileDownload")
-	OptimizationType_StatusVideoOnDemandMediaStreaming = OptimizationType_Status("VideoOnDemandMediaStreaming")
-)
-
-type QueryStringCachingBehavior_Status string
-
-const (
-	QueryStringCachingBehavior_StatusBypassCaching     = QueryStringCachingBehavior_Status("BypassCaching")
-	QueryStringCachingBehavior_StatusIgnoreQueryString = QueryStringCachingBehavior_Status("IgnoreQueryString")
-	QueryStringCachingBehavior_StatusNotSet            = QueryStringCachingBehavior_Status("NotSet")
-	QueryStringCachingBehavior_StatusUseQueryString    = QueryStringCachingBehavior_Status("UseQueryString")
-)
 
 type ResourceReference_StatusARM struct {
 	// Id: Resource ID.
@@ -264,7 +215,7 @@ type DeepCreatedOriginProperties_StatusARM struct {
 	Priority *int `json:"priority,omitempty"`
 
 	// PrivateEndpointStatus: The approval status for the connection to the Private Link
-	PrivateEndpointStatus *PrivateEndpointStatus_Status `json:"privateEndpointStatus,omitempty"`
+	PrivateEndpointStatus *string `json:"privateEndpointStatus,omitempty"`
 
 	// PrivateLinkAlias: The Alias of the Private Link resource. Populating this optional field indicates that this origin is
 	// 'Private'
@@ -300,13 +251,6 @@ type DeliveryRule_StatusARM struct {
 	Order *int `json:"order,omitempty"`
 }
 
-type GeoFilterStatusAction string
-
-const (
-	GeoFilterStatusActionAllow = GeoFilterStatusAction("Allow")
-	GeoFilterStatusActionBlock = GeoFilterStatusAction("Block")
-)
-
 type KeyVaultSigningKeyParameters_StatusARM struct {
 	// ResourceGroupName: Resource group of the user's Key Vault containing the secret
 	ResourceGroupName *string `json:"resourceGroupName,omitempty"`
@@ -318,8 +262,8 @@ type KeyVaultSigningKeyParameters_StatusARM struct {
 	SecretVersion *string `json:"secretVersion,omitempty"`
 
 	// SubscriptionId: Subscription Id of the user's Key Vault containing the secret
-	SubscriptionId *string                                     `json:"subscriptionId,omitempty"`
-	TypeName       *KeyVaultSigningKeyParametersStatusTypeName `json:"typeName,omitempty"`
+	SubscriptionId *string `json:"subscriptionId,omitempty"`
+	TypeName       *string `json:"typeName,omitempty"`
 
 	// VaultName: The name of the user's Key Vault containing the secret
 	VaultName *string `json:"vaultName,omitempty"`
@@ -327,12 +271,12 @@ type KeyVaultSigningKeyParameters_StatusARM struct {
 
 type DeliveryRuleAction_StatusARM struct {
 	// Name: The name of the action for the delivery rule.
-	Name *DeliveryRuleActionStatusName `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
 }
 
 type DeliveryRuleCondition_StatusARM struct {
 	// Name: The name of the condition for the delivery rule.
-	Name *DeliveryRuleConditionStatusName `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
 }
 
 type HealthProbeParameters_StatusARM struct {
@@ -343,15 +287,11 @@ type HealthProbeParameters_StatusARM struct {
 	ProbePath *string `json:"probePath,omitempty"`
 
 	// ProbeProtocol: Protocol to use for health probe.
-	ProbeProtocol *HealthProbeParametersStatusProbeProtocol `json:"probeProtocol,omitempty"`
+	ProbeProtocol *string `json:"probeProtocol,omitempty"`
 
 	// ProbeRequestType: The type of health probe request that is made.
-	ProbeRequestType *HealthProbeParametersStatusProbeRequestType `json:"probeRequestType,omitempty"`
+	ProbeRequestType *string `json:"probeRequestType,omitempty"`
 }
-
-type KeyVaultSigningKeyParametersStatusTypeName string
-
-const KeyVaultSigningKeyParametersStatusTypeNameKeyVaultSigningKeyParameters = KeyVaultSigningKeyParametersStatusTypeName("KeyVaultSigningKeyParameters")
 
 type ResponseBasedOriginErrorDetectionParameters_StatusARM struct {
 	// HttpErrorRanges: The list of Http status code ranges that are considered as server errors for origin and it is marked as
@@ -359,49 +299,11 @@ type ResponseBasedOriginErrorDetectionParameters_StatusARM struct {
 	HttpErrorRanges []HttpErrorRangeParameters_StatusARM `json:"httpErrorRanges,omitempty"`
 
 	// ResponseBasedDetectedErrorTypes: Type of response errors for real user requests for which origin will be deemed unhealthy
-	ResponseBasedDetectedErrorTypes *ResponseBasedOriginErrorDetectionParametersStatusResponseBasedDetectedErrorTypes `json:"responseBasedDetectedErrorTypes,omitempty"`
+	ResponseBasedDetectedErrorTypes *string `json:"responseBasedDetectedErrorTypes,omitempty"`
 
 	// ResponseBasedFailoverThresholdPercentage: The percentage of failed requests in the sample where failover should trigger.
 	ResponseBasedFailoverThresholdPercentage *int `json:"responseBasedFailoverThresholdPercentage,omitempty"`
 }
-
-type DeliveryRuleActionStatusName string
-
-const (
-	DeliveryRuleActionStatusNameCacheExpiration            = DeliveryRuleActionStatusName("CacheExpiration")
-	DeliveryRuleActionStatusNameCacheKeyQueryString        = DeliveryRuleActionStatusName("CacheKeyQueryString")
-	DeliveryRuleActionStatusNameModifyRequestHeader        = DeliveryRuleActionStatusName("ModifyRequestHeader")
-	DeliveryRuleActionStatusNameModifyResponseHeader       = DeliveryRuleActionStatusName("ModifyResponseHeader")
-	DeliveryRuleActionStatusNameOriginGroupOverride        = DeliveryRuleActionStatusName("OriginGroupOverride")
-	DeliveryRuleActionStatusNameRouteConfigurationOverride = DeliveryRuleActionStatusName("RouteConfigurationOverride")
-	DeliveryRuleActionStatusNameUrlRedirect                = DeliveryRuleActionStatusName("UrlRedirect")
-	DeliveryRuleActionStatusNameUrlRewrite                 = DeliveryRuleActionStatusName("UrlRewrite")
-	DeliveryRuleActionStatusNameUrlSigning                 = DeliveryRuleActionStatusName("UrlSigning")
-)
-
-type DeliveryRuleConditionStatusName string
-
-const (
-	DeliveryRuleConditionStatusNameClientPort       = DeliveryRuleConditionStatusName("ClientPort")
-	DeliveryRuleConditionStatusNameCookies          = DeliveryRuleConditionStatusName("Cookies")
-	DeliveryRuleConditionStatusNameHostName         = DeliveryRuleConditionStatusName("HostName")
-	DeliveryRuleConditionStatusNameHttpVersion      = DeliveryRuleConditionStatusName("HttpVersion")
-	DeliveryRuleConditionStatusNameIsDevice         = DeliveryRuleConditionStatusName("IsDevice")
-	DeliveryRuleConditionStatusNamePostArgs         = DeliveryRuleConditionStatusName("PostArgs")
-	DeliveryRuleConditionStatusNameQueryString      = DeliveryRuleConditionStatusName("QueryString")
-	DeliveryRuleConditionStatusNameRemoteAddress    = DeliveryRuleConditionStatusName("RemoteAddress")
-	DeliveryRuleConditionStatusNameRequestBody      = DeliveryRuleConditionStatusName("RequestBody")
-	DeliveryRuleConditionStatusNameRequestHeader    = DeliveryRuleConditionStatusName("RequestHeader")
-	DeliveryRuleConditionStatusNameRequestMethod    = DeliveryRuleConditionStatusName("RequestMethod")
-	DeliveryRuleConditionStatusNameRequestScheme    = DeliveryRuleConditionStatusName("RequestScheme")
-	DeliveryRuleConditionStatusNameRequestUri       = DeliveryRuleConditionStatusName("RequestUri")
-	DeliveryRuleConditionStatusNameServerPort       = DeliveryRuleConditionStatusName("ServerPort")
-	DeliveryRuleConditionStatusNameSocketAddr       = DeliveryRuleConditionStatusName("SocketAddr")
-	DeliveryRuleConditionStatusNameSslProtocol      = DeliveryRuleConditionStatusName("SslProtocol")
-	DeliveryRuleConditionStatusNameUrlFileExtension = DeliveryRuleConditionStatusName("UrlFileExtension")
-	DeliveryRuleConditionStatusNameUrlFileName      = DeliveryRuleConditionStatusName("UrlFileName")
-	DeliveryRuleConditionStatusNameUrlPath          = DeliveryRuleConditionStatusName("UrlPath")
-)
 
 type HttpErrorRangeParameters_StatusARM struct {
 	// Begin: The inclusive start of the http status code range.

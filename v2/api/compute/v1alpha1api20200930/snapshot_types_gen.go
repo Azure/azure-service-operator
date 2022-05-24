@@ -334,30 +334,30 @@ type SnapshotList struct {
 // Deprecated version of Snapshot_Status. Use v1beta20200930.Snapshot_Status instead
 type Snapshot_Status struct {
 	// Conditions: The observed state of the resource
-	Conditions                   []conditions.Condition                    `json:"conditions,omitempty"`
-	CreationData                 *CreationData_Status                      `json:"creationData,omitempty"`
-	DiskAccessId                 *string                                   `json:"diskAccessId,omitempty"`
-	DiskSizeBytes                *int                                      `json:"diskSizeBytes,omitempty"`
-	DiskSizeGB                   *int                                      `json:"diskSizeGB,omitempty"`
-	DiskState                    *DiskState_Status                         `json:"diskState,omitempty"`
-	Encryption                   *Encryption_Status                        `json:"encryption,omitempty"`
-	EncryptionSettingsCollection *EncryptionSettingsCollection_Status      `json:"encryptionSettingsCollection,omitempty"`
-	ExtendedLocation             *ExtendedLocation_Status                  `json:"extendedLocation,omitempty"`
-	HyperVGeneration             *SnapshotPropertiesStatusHyperVGeneration `json:"hyperVGeneration,omitempty"`
-	Id                           *string                                   `json:"id,omitempty"`
-	Incremental                  *bool                                     `json:"incremental,omitempty"`
-	Location                     *string                                   `json:"location,omitempty"`
-	ManagedBy                    *string                                   `json:"managedBy,omitempty"`
-	Name                         *string                                   `json:"name,omitempty"`
-	NetworkAccessPolicy          *NetworkAccessPolicy_Status               `json:"networkAccessPolicy,omitempty"`
-	OsType                       *SnapshotPropertiesStatusOsType           `json:"osType,omitempty"`
-	ProvisioningState            *string                                   `json:"provisioningState,omitempty"`
-	PurchasePlan                 *PurchasePlan_Status                      `json:"purchasePlan,omitempty"`
-	Sku                          *SnapshotSku_Status                       `json:"sku,omitempty"`
-	Tags                         map[string]string                         `json:"tags,omitempty"`
-	TimeCreated                  *string                                   `json:"timeCreated,omitempty"`
-	Type                         *string                                   `json:"type,omitempty"`
-	UniqueId                     *string                                   `json:"uniqueId,omitempty"`
+	Conditions                   []conditions.Condition               `json:"conditions,omitempty"`
+	CreationData                 *CreationData_Status                 `json:"creationData,omitempty"`
+	DiskAccessId                 *string                              `json:"diskAccessId,omitempty"`
+	DiskSizeBytes                *int                                 `json:"diskSizeBytes,omitempty"`
+	DiskSizeGB                   *int                                 `json:"diskSizeGB,omitempty"`
+	DiskState                    *string                              `json:"diskState,omitempty"`
+	Encryption                   *Encryption_Status                   `json:"encryption,omitempty"`
+	EncryptionSettingsCollection *EncryptionSettingsCollection_Status `json:"encryptionSettingsCollection,omitempty"`
+	ExtendedLocation             *ExtendedLocation_Status             `json:"extendedLocation,omitempty"`
+	HyperVGeneration             *string                              `json:"hyperVGeneration,omitempty"`
+	Id                           *string                              `json:"id,omitempty"`
+	Incremental                  *bool                                `json:"incremental,omitempty"`
+	Location                     *string                              `json:"location,omitempty"`
+	ManagedBy                    *string                              `json:"managedBy,omitempty"`
+	Name                         *string                              `json:"name,omitempty"`
+	NetworkAccessPolicy          *string                              `json:"networkAccessPolicy,omitempty"`
+	OsType                       *string                              `json:"osType,omitempty"`
+	ProvisioningState            *string                              `json:"provisioningState,omitempty"`
+	PurchasePlan                 *PurchasePlan_Status                 `json:"purchasePlan,omitempty"`
+	Sku                          *SnapshotSku_Status                  `json:"sku,omitempty"`
+	Tags                         map[string]string                    `json:"tags,omitempty"`
+	TimeCreated                  *string                              `json:"timeCreated,omitempty"`
+	Type                         *string                              `json:"type,omitempty"`
+	UniqueId                     *string                              `json:"uniqueId,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &Snapshot_Status{}
@@ -673,12 +673,7 @@ func (snapshot *Snapshot_Status) AssignPropertiesFromSnapshotStatus(source *alph
 	snapshot.DiskSizeGB = genruntime.ClonePointerToInt(source.DiskSizeGB)
 
 	// DiskState
-	if source.DiskState != nil {
-		diskState := DiskState_Status(*source.DiskState)
-		snapshot.DiskState = &diskState
-	} else {
-		snapshot.DiskState = nil
-	}
+	snapshot.DiskState = genruntime.ClonePointerToString(source.DiskState)
 
 	// Encryption
 	if source.Encryption != nil {
@@ -717,12 +712,7 @@ func (snapshot *Snapshot_Status) AssignPropertiesFromSnapshotStatus(source *alph
 	}
 
 	// HyperVGeneration
-	if source.HyperVGeneration != nil {
-		hyperVGeneration := SnapshotPropertiesStatusHyperVGeneration(*source.HyperVGeneration)
-		snapshot.HyperVGeneration = &hyperVGeneration
-	} else {
-		snapshot.HyperVGeneration = nil
-	}
+	snapshot.HyperVGeneration = genruntime.ClonePointerToString(source.HyperVGeneration)
 
 	// Id
 	snapshot.Id = genruntime.ClonePointerToString(source.Id)
@@ -745,20 +735,10 @@ func (snapshot *Snapshot_Status) AssignPropertiesFromSnapshotStatus(source *alph
 	snapshot.Name = genruntime.ClonePointerToString(source.Name)
 
 	// NetworkAccessPolicy
-	if source.NetworkAccessPolicy != nil {
-		networkAccessPolicy := NetworkAccessPolicy_Status(*source.NetworkAccessPolicy)
-		snapshot.NetworkAccessPolicy = &networkAccessPolicy
-	} else {
-		snapshot.NetworkAccessPolicy = nil
-	}
+	snapshot.NetworkAccessPolicy = genruntime.ClonePointerToString(source.NetworkAccessPolicy)
 
 	// OsType
-	if source.OsType != nil {
-		osType := SnapshotPropertiesStatusOsType(*source.OsType)
-		snapshot.OsType = &osType
-	} else {
-		snapshot.OsType = nil
-	}
+	snapshot.OsType = genruntime.ClonePointerToString(source.OsType)
 
 	// ProvisioningState
 	snapshot.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
@@ -833,12 +813,7 @@ func (snapshot *Snapshot_Status) AssignPropertiesToSnapshotStatus(destination *a
 	destination.DiskSizeGB = genruntime.ClonePointerToInt(snapshot.DiskSizeGB)
 
 	// DiskState
-	if snapshot.DiskState != nil {
-		diskState := string(*snapshot.DiskState)
-		destination.DiskState = &diskState
-	} else {
-		destination.DiskState = nil
-	}
+	destination.DiskState = genruntime.ClonePointerToString(snapshot.DiskState)
 
 	// Encryption
 	if snapshot.Encryption != nil {
@@ -877,12 +852,7 @@ func (snapshot *Snapshot_Status) AssignPropertiesToSnapshotStatus(destination *a
 	}
 
 	// HyperVGeneration
-	if snapshot.HyperVGeneration != nil {
-		hyperVGeneration := string(*snapshot.HyperVGeneration)
-		destination.HyperVGeneration = &hyperVGeneration
-	} else {
-		destination.HyperVGeneration = nil
-	}
+	destination.HyperVGeneration = genruntime.ClonePointerToString(snapshot.HyperVGeneration)
 
 	// Id
 	destination.Id = genruntime.ClonePointerToString(snapshot.Id)
@@ -905,20 +875,10 @@ func (snapshot *Snapshot_Status) AssignPropertiesToSnapshotStatus(destination *a
 	destination.Name = genruntime.ClonePointerToString(snapshot.Name)
 
 	// NetworkAccessPolicy
-	if snapshot.NetworkAccessPolicy != nil {
-		networkAccessPolicy := string(*snapshot.NetworkAccessPolicy)
-		destination.NetworkAccessPolicy = &networkAccessPolicy
-	} else {
-		destination.NetworkAccessPolicy = nil
-	}
+	destination.NetworkAccessPolicy = genruntime.ClonePointerToString(snapshot.NetworkAccessPolicy)
 
 	// OsType
-	if snapshot.OsType != nil {
-		osType := string(*snapshot.OsType)
-		destination.OsType = &osType
-	} else {
-		destination.OsType = nil
-	}
+	destination.OsType = genruntime.ClonePointerToString(snapshot.OsType)
 
 	// ProvisioningState
 	destination.ProvisioningState = genruntime.ClonePointerToString(snapshot.ProvisioningState)
@@ -1704,23 +1664,6 @@ const (
 	SnapshotPropertiesOsTypeWindows = SnapshotPropertiesOsType("Windows")
 )
 
-// Deprecated version of SnapshotPropertiesStatusHyperVGeneration. Use
-// v1beta20200930.SnapshotPropertiesStatusHyperVGeneration instead
-type SnapshotPropertiesStatusHyperVGeneration string
-
-const (
-	SnapshotPropertiesStatusHyperVGenerationV1 = SnapshotPropertiesStatusHyperVGeneration("V1")
-	SnapshotPropertiesStatusHyperVGenerationV2 = SnapshotPropertiesStatusHyperVGeneration("V2")
-)
-
-// Deprecated version of SnapshotPropertiesStatusOsType. Use v1beta20200930.SnapshotPropertiesStatusOsType instead
-type SnapshotPropertiesStatusOsType string
-
-const (
-	SnapshotPropertiesStatusOsTypeLinux   = SnapshotPropertiesStatusOsType("Linux")
-	SnapshotPropertiesStatusOsTypeWindows = SnapshotPropertiesStatusOsType("Windows")
-)
-
 // Deprecated version of SnapshotSku. Use v1beta20200930.SnapshotSku instead
 type SnapshotSku struct {
 	Name *SnapshotSkuName `json:"name,omitempty"`
@@ -1806,8 +1749,8 @@ func (snapshotSku *SnapshotSku) AssignPropertiesToSnapshotSku(destination *alpha
 
 // Deprecated version of SnapshotSku_Status. Use v1beta20200930.SnapshotSku_Status instead
 type SnapshotSku_Status struct {
-	Name *SnapshotSkuStatusName `json:"name,omitempty"`
-	Tier *string                `json:"tier,omitempty"`
+	Name *string `json:"name,omitempty"`
+	Tier *string `json:"tier,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &SnapshotSku_Status{}
@@ -1844,12 +1787,7 @@ func (snapshotSku *SnapshotSku_Status) PopulateFromARM(owner genruntime.Arbitrar
 func (snapshotSku *SnapshotSku_Status) AssignPropertiesFromSnapshotSkuStatus(source *alpha20200930s.SnapshotSku_Status) error {
 
 	// Name
-	if source.Name != nil {
-		name := SnapshotSkuStatusName(*source.Name)
-		snapshotSku.Name = &name
-	} else {
-		snapshotSku.Name = nil
-	}
+	snapshotSku.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Tier
 	snapshotSku.Tier = genruntime.ClonePointerToString(source.Tier)
@@ -1864,12 +1802,7 @@ func (snapshotSku *SnapshotSku_Status) AssignPropertiesToSnapshotSkuStatus(desti
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	if snapshotSku.Name != nil {
-		name := string(*snapshotSku.Name)
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(snapshotSku.Name)
 
 	// Tier
 	destination.Tier = genruntime.ClonePointerToString(snapshotSku.Tier)

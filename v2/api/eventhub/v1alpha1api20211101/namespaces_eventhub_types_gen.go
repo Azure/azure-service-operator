@@ -336,18 +336,18 @@ type Eventhub_Status struct {
 	CaptureDescription *CaptureDescription_Status `json:"captureDescription,omitempty"`
 
 	// Conditions: The observed state of the resource
-	Conditions             []conditions.Condition          `json:"conditions,omitempty"`
-	CreatedAt              *string                         `json:"createdAt,omitempty"`
-	Id                     *string                         `json:"id,omitempty"`
-	Location               *string                         `json:"location,omitempty"`
-	MessageRetentionInDays *int                            `json:"messageRetentionInDays,omitempty"`
-	Name                   *string                         `json:"name,omitempty"`
-	PartitionCount         *int                            `json:"partitionCount,omitempty"`
-	PartitionIds           []string                        `json:"partitionIds,omitempty"`
-	Status                 *EventhubStatusPropertiesStatus `json:"status,omitempty"`
-	SystemData             *SystemData_Status              `json:"systemData,omitempty"`
-	Type                   *string                         `json:"type,omitempty"`
-	UpdatedAt              *string                         `json:"updatedAt,omitempty"`
+	Conditions             []conditions.Condition `json:"conditions,omitempty"`
+	CreatedAt              *string                `json:"createdAt,omitempty"`
+	Id                     *string                `json:"id,omitempty"`
+	Location               *string                `json:"location,omitempty"`
+	MessageRetentionInDays *int                   `json:"messageRetentionInDays,omitempty"`
+	Name                   *string                `json:"name,omitempty"`
+	PartitionCount         *int                   `json:"partitionCount,omitempty"`
+	PartitionIds           []string               `json:"partitionIds,omitempty"`
+	Status                 *string                `json:"status,omitempty"`
+	SystemData             *SystemData_Status     `json:"systemData,omitempty"`
+	Type                   *string                `json:"type,omitempty"`
+	UpdatedAt              *string                `json:"updatedAt,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &Eventhub_Status{}
@@ -562,12 +562,7 @@ func (eventhub *Eventhub_Status) AssignPropertiesFromEventhubStatus(source *alph
 	eventhub.PartitionIds = genruntime.CloneSliceOfString(source.PartitionIds)
 
 	// Status
-	if source.Status != nil {
-		status := EventhubStatusPropertiesStatus(*source.Status)
-		eventhub.Status = &status
-	} else {
-		eventhub.Status = nil
-	}
+	eventhub.Status = genruntime.ClonePointerToString(source.Status)
 
 	// SystemData
 	if source.SystemData != nil {
@@ -633,12 +628,7 @@ func (eventhub *Eventhub_Status) AssignPropertiesToEventhubStatus(destination *a
 	destination.PartitionIds = genruntime.CloneSliceOfString(eventhub.PartitionIds)
 
 	// Status
-	if eventhub.Status != nil {
-		status := string(*eventhub.Status)
-		destination.Status = &status
-	} else {
-		destination.Status = nil
-	}
+	destination.Status = genruntime.ClonePointerToString(eventhub.Status)
 
 	// SystemData
 	if eventhub.SystemData != nil {
@@ -991,12 +981,12 @@ func (eventhubs *NamespacesEventhubs_Spec) SetAzureName(azureName string) {
 
 // Deprecated version of CaptureDescription_Status. Use v1beta20211101.CaptureDescription_Status instead
 type CaptureDescription_Status struct {
-	Destination       *Destination_Status               `json:"destination,omitempty"`
-	Enabled           *bool                             `json:"enabled,omitempty"`
-	Encoding          *CaptureDescriptionStatusEncoding `json:"encoding,omitempty"`
-	IntervalInSeconds *int                              `json:"intervalInSeconds,omitempty"`
-	SizeLimitInBytes  *int                              `json:"sizeLimitInBytes,omitempty"`
-	SkipEmptyArchives *bool                             `json:"skipEmptyArchives,omitempty"`
+	Destination       *Destination_Status `json:"destination,omitempty"`
+	Enabled           *bool               `json:"enabled,omitempty"`
+	Encoding          *string             `json:"encoding,omitempty"`
+	IntervalInSeconds *int                `json:"intervalInSeconds,omitempty"`
+	SizeLimitInBytes  *int                `json:"sizeLimitInBytes,omitempty"`
+	SkipEmptyArchives *bool               `json:"skipEmptyArchives,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &CaptureDescription_Status{}
@@ -1082,12 +1072,7 @@ func (description *CaptureDescription_Status) AssignPropertiesFromCaptureDescrip
 	}
 
 	// Encoding
-	if source.Encoding != nil {
-		encoding := CaptureDescriptionStatusEncoding(*source.Encoding)
-		description.Encoding = &encoding
-	} else {
-		description.Encoding = nil
-	}
+	description.Encoding = genruntime.ClonePointerToString(source.Encoding)
 
 	// IntervalInSeconds
 	description.IntervalInSeconds = genruntime.ClonePointerToInt(source.IntervalInSeconds)
@@ -1133,12 +1118,7 @@ func (description *CaptureDescription_Status) AssignPropertiesToCaptureDescripti
 	}
 
 	// Encoding
-	if description.Encoding != nil {
-		encoding := string(*description.Encoding)
-		destination.Encoding = &encoding
-	} else {
-		destination.Encoding = nil
-	}
+	destination.Encoding = genruntime.ClonePointerToString(description.Encoding)
 
 	// IntervalInSeconds
 	destination.IntervalInSeconds = genruntime.ClonePointerToInt(description.IntervalInSeconds)

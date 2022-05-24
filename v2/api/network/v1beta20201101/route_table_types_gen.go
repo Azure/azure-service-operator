@@ -337,7 +337,7 @@ type RouteTable_Status struct {
 	Name *string `json:"name,omitempty"`
 
 	// ProvisioningState: The provisioning state of the route table resource.
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	// ResourceGuid: The resource GUID property of the route table.
 	ResourceGuid *string `json:"resourceGuid,omitempty"`
@@ -511,12 +511,7 @@ func (table *RouteTable_Status) AssignPropertiesFromRouteTableStatus(source *v20
 	table.Name = genruntime.ClonePointerToString(source.Name)
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_Status(*source.ProvisioningState)
-		table.ProvisioningState = &provisioningState
-	} else {
-		table.ProvisioningState = nil
-	}
+	table.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// ResourceGuid
 	table.ResourceGuid = genruntime.ClonePointerToString(source.ResourceGuid)
@@ -560,12 +555,7 @@ func (table *RouteTable_Status) AssignPropertiesToRouteTableStatus(destination *
 	destination.Name = genruntime.ClonePointerToString(table.Name)
 
 	// ProvisioningState
-	if table.ProvisioningState != nil {
-		provisioningState := string(*table.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(table.ProvisioningState)
 
 	// ResourceGuid
 	destination.ResourceGuid = genruntime.ClonePointerToString(table.ResourceGuid)

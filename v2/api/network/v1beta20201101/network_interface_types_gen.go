@@ -355,7 +355,7 @@ type NetworkInterface_Status_NetworkInterface_SubResourceEmbedded struct {
 	MacAddress *string `json:"macAddress,omitempty"`
 
 	// MigrationPhase: Migration phase of Network Interface resource.
-	MigrationPhase *NetworkInterfacePropertiesFormatStatusMigrationPhase `json:"migrationPhase,omitempty"`
+	MigrationPhase *string `json:"migrationPhase,omitempty"`
 
 	// Name: Resource name.
 	Name *string `json:"name,omitempty"`
@@ -364,7 +364,7 @@ type NetworkInterface_Status_NetworkInterface_SubResourceEmbedded struct {
 	NetworkSecurityGroup *NetworkSecurityGroup_Status_NetworkInterface_SubResourceEmbedded `json:"networkSecurityGroup,omitempty"`
 
 	// NicType: Type of Network Interface resource.
-	NicType *NetworkInterfacePropertiesFormatStatusNicType `json:"nicType,omitempty"`
+	NicType *string `json:"nicType,omitempty"`
 
 	// Primary: Whether this is a primary network interface on a virtual machine.
 	Primary *bool `json:"primary,omitempty"`
@@ -376,7 +376,7 @@ type NetworkInterface_Status_NetworkInterface_SubResourceEmbedded struct {
 	PrivateLinkService *PrivateLinkService_Status_NetworkInterface_SubResourceEmbedded `json:"privateLinkService,omitempty"`
 
 	// ProvisioningState: The provisioning state of the network interface resource.
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	// ResourceGuid: The resource GUID property of the network interface resource.
 	ResourceGuid *string `json:"resourceGuid,omitempty"`
@@ -795,12 +795,7 @@ func (embedded *NetworkInterface_Status_NetworkInterface_SubResourceEmbedded) As
 	embedded.MacAddress = genruntime.ClonePointerToString(source.MacAddress)
 
 	// MigrationPhase
-	if source.MigrationPhase != nil {
-		migrationPhase := NetworkInterfacePropertiesFormatStatusMigrationPhase(*source.MigrationPhase)
-		embedded.MigrationPhase = &migrationPhase
-	} else {
-		embedded.MigrationPhase = nil
-	}
+	embedded.MigrationPhase = genruntime.ClonePointerToString(source.MigrationPhase)
 
 	// Name
 	embedded.Name = genruntime.ClonePointerToString(source.Name)
@@ -818,12 +813,7 @@ func (embedded *NetworkInterface_Status_NetworkInterface_SubResourceEmbedded) As
 	}
 
 	// NicType
-	if source.NicType != nil {
-		nicType := NetworkInterfacePropertiesFormatStatusNicType(*source.NicType)
-		embedded.NicType = &nicType
-	} else {
-		embedded.NicType = nil
-	}
+	embedded.NicType = genruntime.ClonePointerToString(source.NicType)
 
 	// Primary
 	if source.Primary != nil {
@@ -858,12 +848,7 @@ func (embedded *NetworkInterface_Status_NetworkInterface_SubResourceEmbedded) As
 	}
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_Status(*source.ProvisioningState)
-		embedded.ProvisioningState = &provisioningState
-	} else {
-		embedded.ProvisioningState = nil
-	}
+	embedded.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// ResourceGuid
 	embedded.ResourceGuid = genruntime.ClonePointerToString(source.ResourceGuid)
@@ -1002,12 +987,7 @@ func (embedded *NetworkInterface_Status_NetworkInterface_SubResourceEmbedded) As
 	destination.MacAddress = genruntime.ClonePointerToString(embedded.MacAddress)
 
 	// MigrationPhase
-	if embedded.MigrationPhase != nil {
-		migrationPhase := string(*embedded.MigrationPhase)
-		destination.MigrationPhase = &migrationPhase
-	} else {
-		destination.MigrationPhase = nil
-	}
+	destination.MigrationPhase = genruntime.ClonePointerToString(embedded.MigrationPhase)
 
 	// Name
 	destination.Name = genruntime.ClonePointerToString(embedded.Name)
@@ -1025,12 +1005,7 @@ func (embedded *NetworkInterface_Status_NetworkInterface_SubResourceEmbedded) As
 	}
 
 	// NicType
-	if embedded.NicType != nil {
-		nicType := string(*embedded.NicType)
-		destination.NicType = &nicType
-	} else {
-		destination.NicType = nil
-	}
+	destination.NicType = genruntime.ClonePointerToString(embedded.NicType)
 
 	// Primary
 	if embedded.Primary != nil {
@@ -1065,12 +1040,7 @@ func (embedded *NetworkInterface_Status_NetworkInterface_SubResourceEmbedded) As
 	}
 
 	// ProvisioningState
-	if embedded.ProvisioningState != nil {
-		provisioningState := string(*embedded.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(embedded.ProvisioningState)
 
 	// ResourceGuid
 	destination.ResourceGuid = genruntime.ClonePointerToString(embedded.ResourceGuid)
@@ -1850,16 +1820,16 @@ type NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResourceEmbedded
 	PrivateIPAddress *string `json:"privateIPAddress,omitempty"`
 
 	// PrivateIPAddressVersion: Whether the specific IP configuration is IPv4 or IPv6. Default is IPv4.
-	PrivateIPAddressVersion *IPVersion_Status `json:"privateIPAddressVersion,omitempty"`
+	PrivateIPAddressVersion *string `json:"privateIPAddressVersion,omitempty"`
 
 	// PrivateIPAllocationMethod: The private IP address allocation method.
-	PrivateIPAllocationMethod *IPAllocationMethod_Status `json:"privateIPAllocationMethod,omitempty"`
+	PrivateIPAllocationMethod *string `json:"privateIPAllocationMethod,omitempty"`
 
 	// PrivateLinkConnectionProperties: PrivateLinkConnection properties for the network interface.
 	PrivateLinkConnectionProperties *NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_Status `json:"privateLinkConnectionProperties,omitempty"`
 
 	// ProvisioningState: The provisioning state of the network interface IP configuration.
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	// PublicIPAddress: Public IP address bound to the IP configuration.
 	PublicIPAddress *PublicIPAddress_Status_NetworkInterface_SubResourceEmbedded `json:"publicIPAddress,omitempty"`
@@ -2164,20 +2134,10 @@ func (embedded *NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResou
 	embedded.PrivateIPAddress = genruntime.ClonePointerToString(source.PrivateIPAddress)
 
 	// PrivateIPAddressVersion
-	if source.PrivateIPAddressVersion != nil {
-		privateIPAddressVersion := IPVersion_Status(*source.PrivateIPAddressVersion)
-		embedded.PrivateIPAddressVersion = &privateIPAddressVersion
-	} else {
-		embedded.PrivateIPAddressVersion = nil
-	}
+	embedded.PrivateIPAddressVersion = genruntime.ClonePointerToString(source.PrivateIPAddressVersion)
 
 	// PrivateIPAllocationMethod
-	if source.PrivateIPAllocationMethod != nil {
-		privateIPAllocationMethod := IPAllocationMethod_Status(*source.PrivateIPAllocationMethod)
-		embedded.PrivateIPAllocationMethod = &privateIPAllocationMethod
-	} else {
-		embedded.PrivateIPAllocationMethod = nil
-	}
+	embedded.PrivateIPAllocationMethod = genruntime.ClonePointerToString(source.PrivateIPAllocationMethod)
 
 	// PrivateLinkConnectionProperties
 	if source.PrivateLinkConnectionProperties != nil {
@@ -2192,12 +2152,7 @@ func (embedded *NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResou
 	}
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_Status(*source.ProvisioningState)
-		embedded.ProvisioningState = &provisioningState
-	} else {
-		embedded.ProvisioningState = nil
-	}
+	embedded.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// PublicIPAddress
 	if source.PublicIPAddress != nil {
@@ -2346,20 +2301,10 @@ func (embedded *NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResou
 	destination.PrivateIPAddress = genruntime.ClonePointerToString(embedded.PrivateIPAddress)
 
 	// PrivateIPAddressVersion
-	if embedded.PrivateIPAddressVersion != nil {
-		privateIPAddressVersion := string(*embedded.PrivateIPAddressVersion)
-		destination.PrivateIPAddressVersion = &privateIPAddressVersion
-	} else {
-		destination.PrivateIPAddressVersion = nil
-	}
+	destination.PrivateIPAddressVersion = genruntime.ClonePointerToString(embedded.PrivateIPAddressVersion)
 
 	// PrivateIPAllocationMethod
-	if embedded.PrivateIPAllocationMethod != nil {
-		privateIPAllocationMethod := string(*embedded.PrivateIPAllocationMethod)
-		destination.PrivateIPAllocationMethod = &privateIPAllocationMethod
-	} else {
-		destination.PrivateIPAllocationMethod = nil
-	}
+	destination.PrivateIPAllocationMethod = genruntime.ClonePointerToString(embedded.PrivateIPAllocationMethod)
 
 	// PrivateLinkConnectionProperties
 	if embedded.PrivateLinkConnectionProperties != nil {
@@ -2374,12 +2319,7 @@ func (embedded *NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResou
 	}
 
 	// ProvisioningState
-	if embedded.ProvisioningState != nil {
-		provisioningState := string(*embedded.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(embedded.ProvisioningState)
 
 	// PublicIPAddress
 	if embedded.PublicIPAddress != nil {
@@ -2436,23 +2376,6 @@ func (embedded *NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResou
 	// No error
 	return nil
 }
-
-type NetworkInterfacePropertiesFormatStatusMigrationPhase string
-
-const (
-	NetworkInterfacePropertiesFormatStatusMigrationPhaseAbort     = NetworkInterfacePropertiesFormatStatusMigrationPhase("Abort")
-	NetworkInterfacePropertiesFormatStatusMigrationPhaseCommit    = NetworkInterfacePropertiesFormatStatusMigrationPhase("Commit")
-	NetworkInterfacePropertiesFormatStatusMigrationPhaseCommitted = NetworkInterfacePropertiesFormatStatusMigrationPhase("Committed")
-	NetworkInterfacePropertiesFormatStatusMigrationPhaseNone      = NetworkInterfacePropertiesFormatStatusMigrationPhase("None")
-	NetworkInterfacePropertiesFormatStatusMigrationPhasePrepare   = NetworkInterfacePropertiesFormatStatusMigrationPhase("Prepare")
-)
-
-type NetworkInterfacePropertiesFormatStatusNicType string
-
-const (
-	NetworkInterfacePropertiesFormatStatusNicTypeElastic  = NetworkInterfacePropertiesFormatStatusNicType("Elastic")
-	NetworkInterfacePropertiesFormatStatusNicTypeStandard = NetworkInterfacePropertiesFormatStatusNicType("Standard")
-)
 
 type NetworkInterfaceTapConfiguration_Status_NetworkInterface_SubResourceEmbedded struct {
 	// Id: Resource ID.
@@ -3519,7 +3442,7 @@ type ApplicationGatewayBackendAddressPool_Status_NetworkInterface_SubResourceEmb
 	Name *string `json:"name,omitempty"`
 
 	// ProvisioningState: The provisioning state of the backend address pool resource.
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	// Type: Type of the resource.
 	Type *string `json:"type,omitempty"`
@@ -3620,12 +3543,7 @@ func (embedded *ApplicationGatewayBackendAddressPool_Status_NetworkInterface_Sub
 	embedded.Name = genruntime.ClonePointerToString(source.Name)
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_Status(*source.ProvisioningState)
-		embedded.ProvisioningState = &provisioningState
-	} else {
-		embedded.ProvisioningState = nil
-	}
+	embedded.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// Type
 	embedded.Type = genruntime.ClonePointerToString(source.Type)
@@ -3667,12 +3585,7 @@ func (embedded *ApplicationGatewayBackendAddressPool_Status_NetworkInterface_Sub
 	destination.Name = genruntime.ClonePointerToString(embedded.Name)
 
 	// ProvisioningState
-	if embedded.ProvisioningState != nil {
-		provisioningState := string(*embedded.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(embedded.ProvisioningState)
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(embedded.Type)

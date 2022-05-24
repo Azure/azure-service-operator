@@ -271,13 +271,7 @@ func DomainTopicStatusGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForDomainTopicStatus(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		DomainTopicPropertiesStatusProvisioningStateCanceled,
-		DomainTopicPropertiesStatusProvisioningStateCreating,
-		DomainTopicPropertiesStatusProvisioningStateDeleting,
-		DomainTopicPropertiesStatusProvisioningStateFailed,
-		DomainTopicPropertiesStatusProvisioningStateSucceeded,
-		DomainTopicPropertiesStatusProvisioningStateUpdating))
+	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 

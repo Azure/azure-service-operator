@@ -8,10 +8,6 @@
 | ApplicationInsightsComponentPropertiesPublicNetworkAccessForIngestion |                            | v1alpha1api20200202 |                       | v1beta20200202 |
 | ApplicationInsightsComponentPropertiesPublicNetworkAccessForQuery     |                            | v1alpha1api20200202 |                       | v1beta20200202 |
 | ApplicationInsightsComponentPropertiesRequestSource                   |                            | v1alpha1api20200202 |                       | v1beta20200202 |
-| ApplicationInsightsComponentPropertiesStatusApplicationType           |                            | v1alpha1api20200202 |                       | v1beta20200202 |
-| ApplicationInsightsComponentPropertiesStatusFlowType                  |                            | v1alpha1api20200202 |                       | v1beta20200202 |
-| ApplicationInsightsComponentPropertiesStatusIngestionMode             |                            | v1alpha1api20200202 |                       | v1beta20200202 |
-| ApplicationInsightsComponentPropertiesStatusRequestSource             |                            | v1alpha1api20200202 |                       | v1beta20200202 |
 | ApplicationInsightsComponentProperties_Status                         |                            | v1alpha1api20200202 |                       | v1beta20200202 |
 | ApplicationInsightsComponent_Status                                   |                            | v1alpha1api20200202 |                       | v1beta20200202 |
 | Component                                                             |                            | v1alpha1api20200202 |                       | v1beta20200202 |
@@ -19,14 +15,12 @@
 | HeaderField                                                           | v1alpha1api20180501preview |                     | v1beta20180501preview |                |
 | HeaderField_Status                                                    | v1alpha1api20180501preview |                     | v1beta20180501preview |                |
 | PrivateLinkScopedResource_Status                                      |                            | v1alpha1api20200202 |                       | v1beta20200202 |
-| PublicNetworkAccessType_Status                                        |                            | v1alpha1api20200202 |                       | v1beta20200202 |
 | WebTestGeolocation                                                    | v1alpha1api20180501preview |                     | v1beta20180501preview |                |
 | WebTestGeolocation_Status                                             | v1alpha1api20180501preview |                     | v1beta20180501preview |                |
 | WebTestProperties                                                     | v1alpha1api20180501preview |                     | v1beta20180501preview |                |
 | WebTestPropertiesConfiguration                                        | v1alpha1api20180501preview |                     | v1beta20180501preview |                |
 | WebTestPropertiesKind                                                 | v1alpha1api20180501preview |                     | v1beta20180501preview |                |
 | WebTestPropertiesRequest                                              | v1alpha1api20180501preview |                     | v1beta20180501preview |                |
-| WebTestPropertiesStatusKind                                           | v1alpha1api20180501preview |                     | v1beta20180501preview |                |
 | WebTestPropertiesValidationRules                                      | v1alpha1api20180501preview |                     | v1beta20180501preview |                |
 | WebTestPropertiesValidationRulesContentValidation                     | v1alpha1api20180501preview |                     | v1beta20180501preview |                |
 | WebTestProperties_Status                                              | v1alpha1api20180501preview |                     | v1beta20180501preview |                |

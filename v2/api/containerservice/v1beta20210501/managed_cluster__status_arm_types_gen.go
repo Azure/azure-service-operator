@@ -39,7 +39,7 @@ type ExtendedLocation_StatusARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Type: The type of the extended location.
-	Type *ExtendedLocationType_Status `json:"type,omitempty"`
+	Type *string `json:"type,omitempty"`
 }
 
 type ManagedClusterIdentity_StatusARM struct {
@@ -51,7 +51,7 @@ type ManagedClusterIdentity_StatusARM struct {
 
 	// Type: For more information see [use managed identities in
 	// AKS](https://docs.microsoft.com/azure/aks/use-managed-identity).
-	Type *ManagedClusterIdentityStatusType `json:"type,omitempty"`
+	Type *string `json:"type,omitempty"`
 
 	// UserAssignedIdentities: The keys must be ARM resource IDs in the form:
 	// '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
@@ -157,11 +157,11 @@ type ManagedClusterProperties_StatusARM struct {
 
 type ManagedClusterSKU_StatusARM struct {
 	// Name: The name of a managed cluster SKU.
-	Name *ManagedClusterSKUStatusName `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
 
 	// Tier: If not specified, the default is 'Free'. See [uptime SLA](https://docs.microsoft.com/azure/aks/uptime-sla) for
 	// more details.
-	Tier *ManagedClusterSKUStatusTier `json:"tier,omitempty"`
+	Tier *string `json:"tier,omitempty"`
 }
 
 type ContainerServiceLinuxProfile_StatusARM struct {
@@ -187,20 +187,20 @@ type ContainerServiceNetworkProfile_StatusARM struct {
 	// LoadBalancerSku: The default is 'standard'. See [Azure Load Balancer
 	// SKUs](https://docs.microsoft.com/azure/load-balancer/skus) for more information about the differences between load
 	// balancer SKUs.
-	LoadBalancerSku *ContainerServiceNetworkProfileStatusLoadBalancerSku `json:"loadBalancerSku,omitempty"`
+	LoadBalancerSku *string `json:"loadBalancerSku,omitempty"`
 
 	// NetworkMode: This cannot be specified if networkPlugin is anything other than 'azure'.
-	NetworkMode *ContainerServiceNetworkProfileStatusNetworkMode `json:"networkMode,omitempty"`
+	NetworkMode *string `json:"networkMode,omitempty"`
 
 	// NetworkPlugin: Network plugin used for building the Kubernetes network.
-	NetworkPlugin *ContainerServiceNetworkProfileStatusNetworkPlugin `json:"networkPlugin,omitempty"`
+	NetworkPlugin *string `json:"networkPlugin,omitempty"`
 
 	// NetworkPolicy: Network policy used for building the Kubernetes network.
-	NetworkPolicy *ContainerServiceNetworkProfileStatusNetworkPolicy `json:"networkPolicy,omitempty"`
+	NetworkPolicy *string `json:"networkPolicy,omitempty"`
 
 	// OutboundType: This can only be set at cluster creation time and cannot be changed later. For more information see
 	// [egress outbound type](https://docs.microsoft.com/azure/aks/egress-outboundtype).
-	OutboundType *ContainerServiceNetworkProfileStatusOutboundType `json:"outboundType,omitempty"`
+	OutboundType *string `json:"outboundType,omitempty"`
 
 	// PodCidr: A CIDR notation IP range from which to assign pod IPs when kubenet is used.
 	PodCidr *string `json:"podCidr,omitempty"`
@@ -209,10 +209,6 @@ type ContainerServiceNetworkProfile_StatusARM struct {
 	// ranges.
 	ServiceCidr *string `json:"serviceCidr,omitempty"`
 }
-
-type ExtendedLocationType_Status string
-
-const ExtendedLocationType_StatusEdgeZone = ExtendedLocationType_Status("EdgeZone")
 
 type ManagedClusterAADProfile_StatusARM struct {
 	// AdminGroupObjectIDs: The list of AAD group object IDs that will have admin role of the cluster.
@@ -289,11 +285,11 @@ type ManagedClusterAgentPoolProfile_StatusARM struct {
 	EnableUltraSSD *bool `json:"enableUltraSSD,omitempty"`
 
 	// GpuInstanceProfile: GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU.
-	GpuInstanceProfile *GPUInstanceProfile_Status `json:"gpuInstanceProfile,omitempty"`
+	GpuInstanceProfile *string `json:"gpuInstanceProfile,omitempty"`
 
 	// KubeletConfig: The Kubelet configuration on the agent pool nodes.
 	KubeletConfig   *KubeletConfig_StatusARM `json:"kubeletConfig,omitempty"`
-	KubeletDiskType *KubeletDiskType_Status  `json:"kubeletDiskType,omitempty"`
+	KubeletDiskType *string                  `json:"kubeletDiskType,omitempty"`
 
 	// LinuxOSConfig: The OS configuration of Linux agent nodes.
 	LinuxOSConfig *LinuxOSConfig_StatusARM `json:"linuxOSConfig,omitempty"`
@@ -305,8 +301,8 @@ type ManagedClusterAgentPoolProfile_StatusARM struct {
 	MaxPods *int `json:"maxPods,omitempty"`
 
 	// MinCount: The minimum number of nodes for auto-scaling
-	MinCount *int                  `json:"minCount,omitempty"`
-	Mode     *AgentPoolMode_Status `json:"mode,omitempty"`
+	MinCount *int    `json:"minCount,omitempty"`
+	Mode     *string `json:"mode,omitempty"`
 
 	// Name: Windows agent pool names must be 6 characters or less.
 	Name *string `json:"name,omitempty"`
@@ -329,11 +325,11 @@ type ManagedClusterAgentPoolProfile_StatusARM struct {
 	// be within two minor versions of the control plane version. The node pool version cannot be greater than the control
 	// plane version. For more information see [upgrading a node
 	// pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#upgrade-a-node-pool).
-	OrchestratorVersion *string            `json:"orchestratorVersion,omitempty"`
-	OsDiskSizeGB        *int               `json:"osDiskSizeGB,omitempty"`
-	OsDiskType          *OSDiskType_Status `json:"osDiskType,omitempty"`
-	OsSKU               *OSSKU_Status      `json:"osSKU,omitempty"`
-	OsType              *OSType_Status     `json:"osType,omitempty"`
+	OrchestratorVersion *string `json:"orchestratorVersion,omitempty"`
+	OsDiskSizeGB        *int    `json:"osDiskSizeGB,omitempty"`
+	OsDiskType          *string `json:"osDiskType,omitempty"`
+	OsSKU               *string `json:"osSKU,omitempty"`
+	OsType              *string `json:"osType,omitempty"`
 
 	// PodSubnetID: If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is
 	// of the form:
@@ -351,10 +347,10 @@ type ManagedClusterAgentPoolProfile_StatusARM struct {
 
 	// ScaleSetEvictionPolicy: This cannot be specified unless the scaleSetPriority is 'Spot'. If not specified, the default is
 	// 'Delete'.
-	ScaleSetEvictionPolicy *ScaleSetEvictionPolicy_Status `json:"scaleSetEvictionPolicy,omitempty"`
+	ScaleSetEvictionPolicy *string `json:"scaleSetEvictionPolicy,omitempty"`
 
 	// ScaleSetPriority: The Virtual Machine Scale Set priority. If not specified, the default is 'Regular'.
-	ScaleSetPriority *ScaleSetPriority_Status `json:"scaleSetPriority,omitempty"`
+	ScaleSetPriority *string `json:"scaleSetPriority,omitempty"`
 
 	// SpotMaxPrice: Possible values are any decimal value greater than zero or -1 which indicates the willingness to pay any
 	// on-demand price. For more details on spot pricing, see [spot VMs
@@ -362,8 +358,8 @@ type ManagedClusterAgentPoolProfile_StatusARM struct {
 	SpotMaxPrice *float64 `json:"spotMaxPrice,omitempty"`
 
 	// Tags: The tags to be persisted on the agent pool virtual machine scale set.
-	Tags map[string]string     `json:"tags,omitempty"`
-	Type *AgentPoolType_Status `json:"type,omitempty"`
+	Tags map[string]string `json:"tags,omitempty"`
+	Type *string           `json:"type,omitempty"`
 
 	// UpgradeSettings: Settings for upgrading the agentpool
 	UpgradeSettings *AgentPoolUpgradeSettings_StatusARM `json:"upgradeSettings,omitempty"`
@@ -382,7 +378,7 @@ type ManagedClusterAgentPoolProfile_StatusARM struct {
 type ManagedClusterAutoUpgradeProfile_StatusARM struct {
 	// UpgradeChannel: For more information see [setting the AKS cluster auto-upgrade
 	// channel](https://docs.microsoft.com/azure/aks/upgrade-cluster#set-auto-upgrade-channel).
-	UpgradeChannel *ManagedClusterAutoUpgradeProfileStatusUpgradeChannel `json:"upgradeChannel,omitempty"`
+	UpgradeChannel *string `json:"upgradeChannel,omitempty"`
 }
 
 type ManagedClusterHTTPProxyConfig_StatusARM struct {
@@ -398,14 +394,6 @@ type ManagedClusterHTTPProxyConfig_StatusARM struct {
 	// TrustedCa: Alternative CA cert to use for connecting to proxy servers.
 	TrustedCa *string `json:"trustedCa,omitempty"`
 }
-
-type ManagedClusterIdentityStatusType string
-
-const (
-	ManagedClusterIdentityStatusTypeNone           = ManagedClusterIdentityStatusType("None")
-	ManagedClusterIdentityStatusTypeSystemAssigned = ManagedClusterIdentityStatusType("SystemAssigned")
-	ManagedClusterIdentityStatusTypeUserAssigned   = ManagedClusterIdentityStatusType("UserAssigned")
-)
 
 type ManagedClusterIdentity_Status_UserAssignedIdentitiesARM struct {
 	// ClientId: The client id of user assigned identity.
@@ -439,7 +427,7 @@ type ManagedClusterProperties_Status_AutoScalerProfileARM struct {
 	// Expander: If not specified, the default is 'random'. See
 	// [expanders](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-are-expanders) for more
 	// information.
-	Expander *ManagedClusterPropertiesStatusAutoScalerProfileExpander `json:"expander,omitempty"`
+	Expander *string `json:"expander,omitempty"`
 
 	// MaxEmptyBulkDelete: The default is 10.
 	MaxEmptyBulkDelete *string `json:"max-empty-bulk-delete,omitempty"`
@@ -495,17 +483,6 @@ type ManagedClusterProperties_Status_AutoScalerProfileARM struct {
 	SkipNodesWithSystemPods *string `json:"skip-nodes-with-system-pods,omitempty"`
 }
 
-type ManagedClusterSKUStatusName string
-
-const ManagedClusterSKUStatusNameBasic = ManagedClusterSKUStatusName("Basic")
-
-type ManagedClusterSKUStatusTier string
-
-const (
-	ManagedClusterSKUStatusTierFree = ManagedClusterSKUStatusTier("Free")
-	ManagedClusterSKUStatusTierPaid = ManagedClusterSKUStatusTier("Paid")
-)
-
 type ManagedClusterServicePrincipalProfile_StatusARM struct {
 	// ClientId: The ID for the service principal.
 	ClientId *string `json:"clientId,omitempty"`
@@ -542,7 +519,7 @@ type ManagedClusterWindowsProfile_StatusARM struct {
 
 	// LicenseType: The license type to use for Windows VMs. See [Azure Hybrid User
 	// Benefits](https://azure.microsoft.com/pricing/hybrid-benefit/faq/) for more details.
-	LicenseType *ManagedClusterWindowsProfileStatusLicenseType `json:"licenseType,omitempty"`
+	LicenseType *string `json:"licenseType,omitempty"`
 }
 
 type PrivateLinkResource_StatusARM struct {
@@ -618,7 +595,7 @@ type ManagedClusterPodIdentity_StatusARM struct {
 	ProvisioningInfo *ManagedClusterPodIdentity_Status_ProvisioningInfoARM `json:"provisioningInfo,omitempty"`
 
 	// ProvisioningState: The current provisioning state of the pod identity.
-	ProvisioningState *ManagedClusterPodIdentityStatusProvisioningState `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 }
 
 type ContainerServiceSshPublicKey_StatusARM struct {

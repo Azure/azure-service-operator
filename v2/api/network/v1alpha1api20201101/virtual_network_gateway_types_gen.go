@@ -337,29 +337,29 @@ type VirtualNetworkGateway_Status struct {
 	BgpSettings  *BgpSettings_Status `json:"bgpSettings,omitempty"`
 
 	// Conditions: The observed state of the resource
-	Conditions                     []conditions.Condition                                           `json:"conditions,omitempty"`
-	CustomRoutes                   *AddressSpace_Status                                             `json:"customRoutes,omitempty"`
-	EnableBgp                      *bool                                                            `json:"enableBgp,omitempty"`
-	EnableDnsForwarding            *bool                                                            `json:"enableDnsForwarding,omitempty"`
-	EnablePrivateIpAddress         *bool                                                            `json:"enablePrivateIpAddress,omitempty"`
-	Etag                           *string                                                          `json:"etag,omitempty"`
-	ExtendedLocation               *ExtendedLocation_Status                                         `json:"extendedLocation,omitempty"`
-	GatewayDefaultSite             *SubResource_Status                                              `json:"gatewayDefaultSite,omitempty"`
-	GatewayType                    *VirtualNetworkGatewayPropertiesFormatStatusGatewayType          `json:"gatewayType,omitempty"`
-	Id                             *string                                                          `json:"id,omitempty"`
-	InboundDnsForwardingEndpoint   *string                                                          `json:"inboundDnsForwardingEndpoint,omitempty"`
-	IpConfigurations               []VirtualNetworkGatewayIPConfiguration_Status                    `json:"ipConfigurations,omitempty"`
-	Location                       *string                                                          `json:"location,omitempty"`
-	Name                           *string                                                          `json:"name,omitempty"`
-	ProvisioningState              *ProvisioningState_Status                                        `json:"provisioningState,omitempty"`
-	ResourceGuid                   *string                                                          `json:"resourceGuid,omitempty"`
-	Sku                            *VirtualNetworkGatewaySku_Status                                 `json:"sku,omitempty"`
-	Tags                           map[string]string                                                `json:"tags,omitempty"`
-	Type                           *string                                                          `json:"type,omitempty"`
-	VNetExtendedLocationResourceId *string                                                          `json:"vNetExtendedLocationResourceId,omitempty"`
-	VpnClientConfiguration         *VpnClientConfiguration_Status                                   `json:"vpnClientConfiguration,omitempty"`
-	VpnGatewayGeneration           *VirtualNetworkGatewayPropertiesFormatStatusVpnGatewayGeneration `json:"vpnGatewayGeneration,omitempty"`
-	VpnType                        *VirtualNetworkGatewayPropertiesFormatStatusVpnType              `json:"vpnType,omitempty"`
+	Conditions                     []conditions.Condition                        `json:"conditions,omitempty"`
+	CustomRoutes                   *AddressSpace_Status                          `json:"customRoutes,omitempty"`
+	EnableBgp                      *bool                                         `json:"enableBgp,omitempty"`
+	EnableDnsForwarding            *bool                                         `json:"enableDnsForwarding,omitempty"`
+	EnablePrivateIpAddress         *bool                                         `json:"enablePrivateIpAddress,omitempty"`
+	Etag                           *string                                       `json:"etag,omitempty"`
+	ExtendedLocation               *ExtendedLocation_Status                      `json:"extendedLocation,omitempty"`
+	GatewayDefaultSite             *SubResource_Status                           `json:"gatewayDefaultSite,omitempty"`
+	GatewayType                    *string                                       `json:"gatewayType,omitempty"`
+	Id                             *string                                       `json:"id,omitempty"`
+	InboundDnsForwardingEndpoint   *string                                       `json:"inboundDnsForwardingEndpoint,omitempty"`
+	IpConfigurations               []VirtualNetworkGatewayIPConfiguration_Status `json:"ipConfigurations,omitempty"`
+	Location                       *string                                       `json:"location,omitempty"`
+	Name                           *string                                       `json:"name,omitempty"`
+	ProvisioningState              *string                                       `json:"provisioningState,omitempty"`
+	ResourceGuid                   *string                                       `json:"resourceGuid,omitempty"`
+	Sku                            *VirtualNetworkGatewaySku_Status              `json:"sku,omitempty"`
+	Tags                           map[string]string                             `json:"tags,omitempty"`
+	Type                           *string                                       `json:"type,omitempty"`
+	VNetExtendedLocationResourceId *string                                       `json:"vNetExtendedLocationResourceId,omitempty"`
+	VpnClientConfiguration         *VpnClientConfiguration_Status                `json:"vpnClientConfiguration,omitempty"`
+	VpnGatewayGeneration           *string                                       `json:"vpnGatewayGeneration,omitempty"`
+	VpnType                        *string                                       `json:"vpnType,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &VirtualNetworkGateway_Status{}
@@ -753,12 +753,7 @@ func (gateway *VirtualNetworkGateway_Status) AssignPropertiesFromVirtualNetworkG
 	}
 
 	// GatewayType
-	if source.GatewayType != nil {
-		gatewayType := VirtualNetworkGatewayPropertiesFormatStatusGatewayType(*source.GatewayType)
-		gateway.GatewayType = &gatewayType
-	} else {
-		gateway.GatewayType = nil
-	}
+	gateway.GatewayType = genruntime.ClonePointerToString(source.GatewayType)
 
 	// Id
 	gateway.Id = genruntime.ClonePointerToString(source.Id)
@@ -791,12 +786,7 @@ func (gateway *VirtualNetworkGateway_Status) AssignPropertiesFromVirtualNetworkG
 	gateway.Name = genruntime.ClonePointerToString(source.Name)
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_Status(*source.ProvisioningState)
-		gateway.ProvisioningState = &provisioningState
-	} else {
-		gateway.ProvisioningState = nil
-	}
+	gateway.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// ResourceGuid
 	gateway.ResourceGuid = genruntime.ClonePointerToString(source.ResourceGuid)
@@ -835,20 +825,10 @@ func (gateway *VirtualNetworkGateway_Status) AssignPropertiesFromVirtualNetworkG
 	}
 
 	// VpnGatewayGeneration
-	if source.VpnGatewayGeneration != nil {
-		vpnGatewayGeneration := VirtualNetworkGatewayPropertiesFormatStatusVpnGatewayGeneration(*source.VpnGatewayGeneration)
-		gateway.VpnGatewayGeneration = &vpnGatewayGeneration
-	} else {
-		gateway.VpnGatewayGeneration = nil
-	}
+	gateway.VpnGatewayGeneration = genruntime.ClonePointerToString(source.VpnGatewayGeneration)
 
 	// VpnType
-	if source.VpnType != nil {
-		vpnType := VirtualNetworkGatewayPropertiesFormatStatusVpnType(*source.VpnType)
-		gateway.VpnType = &vpnType
-	} else {
-		gateway.VpnType = nil
-	}
+	gateway.VpnType = genruntime.ClonePointerToString(source.VpnType)
 
 	// No error
 	return nil
@@ -946,12 +926,7 @@ func (gateway *VirtualNetworkGateway_Status) AssignPropertiesToVirtualNetworkGat
 	}
 
 	// GatewayType
-	if gateway.GatewayType != nil {
-		gatewayType := string(*gateway.GatewayType)
-		destination.GatewayType = &gatewayType
-	} else {
-		destination.GatewayType = nil
-	}
+	destination.GatewayType = genruntime.ClonePointerToString(gateway.GatewayType)
 
 	// Id
 	destination.Id = genruntime.ClonePointerToString(gateway.Id)
@@ -984,12 +959,7 @@ func (gateway *VirtualNetworkGateway_Status) AssignPropertiesToVirtualNetworkGat
 	destination.Name = genruntime.ClonePointerToString(gateway.Name)
 
 	// ProvisioningState
-	if gateway.ProvisioningState != nil {
-		provisioningState := string(*gateway.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(gateway.ProvisioningState)
 
 	// ResourceGuid
 	destination.ResourceGuid = genruntime.ClonePointerToString(gateway.ResourceGuid)
@@ -1028,20 +998,10 @@ func (gateway *VirtualNetworkGateway_Status) AssignPropertiesToVirtualNetworkGat
 	}
 
 	// VpnGatewayGeneration
-	if gateway.VpnGatewayGeneration != nil {
-		vpnGatewayGeneration := string(*gateway.VpnGatewayGeneration)
-		destination.VpnGatewayGeneration = &vpnGatewayGeneration
-	} else {
-		destination.VpnGatewayGeneration = nil
-	}
+	destination.VpnGatewayGeneration = genruntime.ClonePointerToString(gateway.VpnGatewayGeneration)
 
 	// VpnType
-	if gateway.VpnType != nil {
-		vpnType := string(*gateway.VpnType)
-		destination.VpnType = &vpnType
-	} else {
-		destination.VpnType = nil
-	}
+	destination.VpnType = genruntime.ClonePointerToString(gateway.VpnType)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2170,14 +2130,14 @@ func (settings *BgpSettings_Status) AssignPropertiesToBgpSettingsStatus(destinat
 
 // Deprecated version of VirtualNetworkGatewayIPConfiguration_Status. Use v1beta20201101.VirtualNetworkGatewayIPConfiguration_Status instead
 type VirtualNetworkGatewayIPConfiguration_Status struct {
-	Etag                      *string                    `json:"etag,omitempty"`
-	Id                        *string                    `json:"id,omitempty"`
-	Name                      *string                    `json:"name,omitempty"`
-	PrivateIPAddress          *string                    `json:"privateIPAddress,omitempty"`
-	PrivateIPAllocationMethod *IPAllocationMethod_Status `json:"privateIPAllocationMethod,omitempty"`
-	ProvisioningState         *ProvisioningState_Status  `json:"provisioningState,omitempty"`
-	PublicIPAddress           *SubResource_Status        `json:"publicIPAddress,omitempty"`
-	Subnet                    *SubResource_Status        `json:"subnet,omitempty"`
+	Etag                      *string             `json:"etag,omitempty"`
+	Id                        *string             `json:"id,omitempty"`
+	Name                      *string             `json:"name,omitempty"`
+	PrivateIPAddress          *string             `json:"privateIPAddress,omitempty"`
+	PrivateIPAllocationMethod *string             `json:"privateIPAllocationMethod,omitempty"`
+	ProvisioningState         *string             `json:"provisioningState,omitempty"`
+	PublicIPAddress           *SubResource_Status `json:"publicIPAddress,omitempty"`
+	Subnet                    *SubResource_Status `json:"subnet,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &VirtualNetworkGatewayIPConfiguration_Status{}
@@ -2287,20 +2247,10 @@ func (configuration *VirtualNetworkGatewayIPConfiguration_Status) AssignProperti
 	configuration.PrivateIPAddress = genruntime.ClonePointerToString(source.PrivateIPAddress)
 
 	// PrivateIPAllocationMethod
-	if source.PrivateIPAllocationMethod != nil {
-		privateIPAllocationMethod := IPAllocationMethod_Status(*source.PrivateIPAllocationMethod)
-		configuration.PrivateIPAllocationMethod = &privateIPAllocationMethod
-	} else {
-		configuration.PrivateIPAllocationMethod = nil
-	}
+	configuration.PrivateIPAllocationMethod = genruntime.ClonePointerToString(source.PrivateIPAllocationMethod)
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_Status(*source.ProvisioningState)
-		configuration.ProvisioningState = &provisioningState
-	} else {
-		configuration.ProvisioningState = nil
-	}
+	configuration.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// PublicIPAddress
 	if source.PublicIPAddress != nil {
@@ -2348,20 +2298,10 @@ func (configuration *VirtualNetworkGatewayIPConfiguration_Status) AssignProperti
 	destination.PrivateIPAddress = genruntime.ClonePointerToString(configuration.PrivateIPAddress)
 
 	// PrivateIPAllocationMethod
-	if configuration.PrivateIPAllocationMethod != nil {
-		privateIPAllocationMethod := string(*configuration.PrivateIPAllocationMethod)
-		destination.PrivateIPAllocationMethod = &privateIPAllocationMethod
-	} else {
-		destination.PrivateIPAllocationMethod = nil
-	}
+	destination.PrivateIPAllocationMethod = genruntime.ClonePointerToString(configuration.PrivateIPAllocationMethod)
 
 	// ProvisioningState
-	if configuration.ProvisioningState != nil {
-		provisioningState := string(*configuration.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(configuration.ProvisioningState)
 
 	// PublicIPAddress
 	if configuration.PublicIPAddress != nil {
@@ -2397,35 +2337,6 @@ func (configuration *VirtualNetworkGatewayIPConfiguration_Status) AssignProperti
 	// No error
 	return nil
 }
-
-// Deprecated version of VirtualNetworkGatewayPropertiesFormatStatusGatewayType. Use
-// v1beta20201101.VirtualNetworkGatewayPropertiesFormatStatusGatewayType instead
-type VirtualNetworkGatewayPropertiesFormatStatusGatewayType string
-
-const (
-	VirtualNetworkGatewayPropertiesFormatStatusGatewayTypeExpressRoute = VirtualNetworkGatewayPropertiesFormatStatusGatewayType("ExpressRoute")
-	VirtualNetworkGatewayPropertiesFormatStatusGatewayTypeLocalGateway = VirtualNetworkGatewayPropertiesFormatStatusGatewayType("LocalGateway")
-	VirtualNetworkGatewayPropertiesFormatStatusGatewayTypeVpn          = VirtualNetworkGatewayPropertiesFormatStatusGatewayType("Vpn")
-)
-
-// Deprecated version of VirtualNetworkGatewayPropertiesFormatStatusVpnGatewayGeneration. Use
-// v1beta20201101.VirtualNetworkGatewayPropertiesFormatStatusVpnGatewayGeneration instead
-type VirtualNetworkGatewayPropertiesFormatStatusVpnGatewayGeneration string
-
-const (
-	VirtualNetworkGatewayPropertiesFormatStatusVpnGatewayGenerationGeneration1 = VirtualNetworkGatewayPropertiesFormatStatusVpnGatewayGeneration("Generation1")
-	VirtualNetworkGatewayPropertiesFormatStatusVpnGatewayGenerationGeneration2 = VirtualNetworkGatewayPropertiesFormatStatusVpnGatewayGeneration("Generation2")
-	VirtualNetworkGatewayPropertiesFormatStatusVpnGatewayGenerationNone        = VirtualNetworkGatewayPropertiesFormatStatusVpnGatewayGeneration("None")
-)
-
-// Deprecated version of VirtualNetworkGatewayPropertiesFormatStatusVpnType. Use
-// v1beta20201101.VirtualNetworkGatewayPropertiesFormatStatusVpnType instead
-type VirtualNetworkGatewayPropertiesFormatStatusVpnType string
-
-const (
-	VirtualNetworkGatewayPropertiesFormatStatusVpnTypePolicyBased = VirtualNetworkGatewayPropertiesFormatStatusVpnType("PolicyBased")
-	VirtualNetworkGatewayPropertiesFormatStatusVpnTypeRouteBased  = VirtualNetworkGatewayPropertiesFormatStatusVpnType("RouteBased")
-)
 
 // Deprecated version of VirtualNetworkGatewaySku. Use v1beta20201101.VirtualNetworkGatewaySku instead
 type VirtualNetworkGatewaySku struct {
@@ -2541,9 +2452,9 @@ func (gatewaySku *VirtualNetworkGatewaySku) AssignPropertiesToVirtualNetworkGate
 
 // Deprecated version of VirtualNetworkGatewaySku_Status. Use v1beta20201101.VirtualNetworkGatewaySku_Status instead
 type VirtualNetworkGatewaySku_Status struct {
-	Capacity *int                                `json:"capacity,omitempty"`
-	Name     *VirtualNetworkGatewaySkuStatusName `json:"name,omitempty"`
-	Tier     *VirtualNetworkGatewaySkuStatusTier `json:"tier,omitempty"`
+	Capacity *int    `json:"capacity,omitempty"`
+	Name     *string `json:"name,omitempty"`
+	Tier     *string `json:"tier,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &VirtualNetworkGatewaySku_Status{}
@@ -2589,20 +2500,10 @@ func (gatewaySku *VirtualNetworkGatewaySku_Status) AssignPropertiesFromVirtualNe
 	gatewaySku.Capacity = genruntime.ClonePointerToInt(source.Capacity)
 
 	// Name
-	if source.Name != nil {
-		name := VirtualNetworkGatewaySkuStatusName(*source.Name)
-		gatewaySku.Name = &name
-	} else {
-		gatewaySku.Name = nil
-	}
+	gatewaySku.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Tier
-	if source.Tier != nil {
-		tier := VirtualNetworkGatewaySkuStatusTier(*source.Tier)
-		gatewaySku.Tier = &tier
-	} else {
-		gatewaySku.Tier = nil
-	}
+	gatewaySku.Tier = genruntime.ClonePointerToString(source.Tier)
 
 	// No error
 	return nil
@@ -2617,20 +2518,10 @@ func (gatewaySku *VirtualNetworkGatewaySku_Status) AssignPropertiesToVirtualNetw
 	destination.Capacity = genruntime.ClonePointerToInt(gatewaySku.Capacity)
 
 	// Name
-	if gatewaySku.Name != nil {
-		name := string(*gatewaySku.Name)
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(gatewaySku.Name)
 
 	// Tier
-	if gatewaySku.Tier != nil {
-		tier := string(*gatewaySku.Tier)
-		destination.Tier = &tier
-	} else {
-		destination.Tier = nil
-	}
+	destination.Tier = genruntime.ClonePointerToString(gatewaySku.Tier)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3375,18 +3266,18 @@ func (configuration *VirtualNetworkGateways_Spec_Properties_VpnClientConfigurati
 
 // Deprecated version of VpnClientConfiguration_Status. Use v1beta20201101.VpnClientConfiguration_Status instead
 type VpnClientConfiguration_Status struct {
-	AadAudience                  *string                                              `json:"aadAudience,omitempty"`
-	AadIssuer                    *string                                              `json:"aadIssuer,omitempty"`
-	AadTenant                    *string                                              `json:"aadTenant,omitempty"`
-	RadiusServerAddress          *string                                              `json:"radiusServerAddress,omitempty"`
-	RadiusServerSecret           *string                                              `json:"radiusServerSecret,omitempty"`
-	RadiusServers                []RadiusServer_Status                                `json:"radiusServers,omitempty"`
-	VpnAuthenticationTypes       []VpnClientConfigurationStatusVpnAuthenticationTypes `json:"vpnAuthenticationTypes,omitempty"`
-	VpnClientAddressPool         *AddressSpace_Status                                 `json:"vpnClientAddressPool,omitempty"`
-	VpnClientIpsecPolicies       []IpsecPolicy_Status                                 `json:"vpnClientIpsecPolicies,omitempty"`
-	VpnClientProtocols           []VpnClientConfigurationStatusVpnClientProtocols     `json:"vpnClientProtocols,omitempty"`
-	VpnClientRevokedCertificates []VpnClientRevokedCertificate_Status                 `json:"vpnClientRevokedCertificates,omitempty"`
-	VpnClientRootCertificates    []VpnClientRootCertificate_Status                    `json:"vpnClientRootCertificates,omitempty"`
+	AadAudience                  *string                              `json:"aadAudience,omitempty"`
+	AadIssuer                    *string                              `json:"aadIssuer,omitempty"`
+	AadTenant                    *string                              `json:"aadTenant,omitempty"`
+	RadiusServerAddress          *string                              `json:"radiusServerAddress,omitempty"`
+	RadiusServerSecret           *string                              `json:"radiusServerSecret,omitempty"`
+	RadiusServers                []RadiusServer_Status                `json:"radiusServers,omitempty"`
+	VpnAuthenticationTypes       []string                             `json:"vpnAuthenticationTypes,omitempty"`
+	VpnClientAddressPool         *AddressSpace_Status                 `json:"vpnClientAddressPool,omitempty"`
+	VpnClientIpsecPolicies       []IpsecPolicy_Status                 `json:"vpnClientIpsecPolicies,omitempty"`
+	VpnClientProtocols           []string                             `json:"vpnClientProtocols,omitempty"`
+	VpnClientRevokedCertificates []VpnClientRevokedCertificate_Status `json:"vpnClientRevokedCertificates,omitempty"`
+	VpnClientRootCertificates    []VpnClientRootCertificate_Status    `json:"vpnClientRootCertificates,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &VpnClientConfiguration_Status{}
@@ -3535,17 +3426,7 @@ func (configuration *VpnClientConfiguration_Status) AssignPropertiesFromVpnClien
 	}
 
 	// VpnAuthenticationTypes
-	if source.VpnAuthenticationTypes != nil {
-		vpnAuthenticationTypeList := make([]VpnClientConfigurationStatusVpnAuthenticationTypes, len(source.VpnAuthenticationTypes))
-		for vpnAuthenticationTypeIndex, vpnAuthenticationTypeItem := range source.VpnAuthenticationTypes {
-			// Shadow the loop variable to avoid aliasing
-			vpnAuthenticationTypeItem := vpnAuthenticationTypeItem
-			vpnAuthenticationTypeList[vpnAuthenticationTypeIndex] = VpnClientConfigurationStatusVpnAuthenticationTypes(vpnAuthenticationTypeItem)
-		}
-		configuration.VpnAuthenticationTypes = vpnAuthenticationTypeList
-	} else {
-		configuration.VpnAuthenticationTypes = nil
-	}
+	configuration.VpnAuthenticationTypes = genruntime.CloneSliceOfString(source.VpnAuthenticationTypes)
 
 	// VpnClientAddressPool
 	if source.VpnClientAddressPool != nil {
@@ -3578,17 +3459,7 @@ func (configuration *VpnClientConfiguration_Status) AssignPropertiesFromVpnClien
 	}
 
 	// VpnClientProtocols
-	if source.VpnClientProtocols != nil {
-		vpnClientProtocolList := make([]VpnClientConfigurationStatusVpnClientProtocols, len(source.VpnClientProtocols))
-		for vpnClientProtocolIndex, vpnClientProtocolItem := range source.VpnClientProtocols {
-			// Shadow the loop variable to avoid aliasing
-			vpnClientProtocolItem := vpnClientProtocolItem
-			vpnClientProtocolList[vpnClientProtocolIndex] = VpnClientConfigurationStatusVpnClientProtocols(vpnClientProtocolItem)
-		}
-		configuration.VpnClientProtocols = vpnClientProtocolList
-	} else {
-		configuration.VpnClientProtocols = nil
-	}
+	configuration.VpnClientProtocols = genruntime.CloneSliceOfString(source.VpnClientProtocols)
 
 	// VpnClientRevokedCertificates
 	if source.VpnClientRevokedCertificates != nil {
@@ -3669,17 +3540,7 @@ func (configuration *VpnClientConfiguration_Status) AssignPropertiesToVpnClientC
 	}
 
 	// VpnAuthenticationTypes
-	if configuration.VpnAuthenticationTypes != nil {
-		vpnAuthenticationTypeList := make([]string, len(configuration.VpnAuthenticationTypes))
-		for vpnAuthenticationTypeIndex, vpnAuthenticationTypeItem := range configuration.VpnAuthenticationTypes {
-			// Shadow the loop variable to avoid aliasing
-			vpnAuthenticationTypeItem := vpnAuthenticationTypeItem
-			vpnAuthenticationTypeList[vpnAuthenticationTypeIndex] = string(vpnAuthenticationTypeItem)
-		}
-		destination.VpnAuthenticationTypes = vpnAuthenticationTypeList
-	} else {
-		destination.VpnAuthenticationTypes = nil
-	}
+	destination.VpnAuthenticationTypes = genruntime.CloneSliceOfString(configuration.VpnAuthenticationTypes)
 
 	// VpnClientAddressPool
 	if configuration.VpnClientAddressPool != nil {
@@ -3712,17 +3573,7 @@ func (configuration *VpnClientConfiguration_Status) AssignPropertiesToVpnClientC
 	}
 
 	// VpnClientProtocols
-	if configuration.VpnClientProtocols != nil {
-		vpnClientProtocolList := make([]string, len(configuration.VpnClientProtocols))
-		for vpnClientProtocolIndex, vpnClientProtocolItem := range configuration.VpnClientProtocols {
-			// Shadow the loop variable to avoid aliasing
-			vpnClientProtocolItem := vpnClientProtocolItem
-			vpnClientProtocolList[vpnClientProtocolIndex] = string(vpnClientProtocolItem)
-		}
-		destination.VpnClientProtocols = vpnClientProtocolList
-	} else {
-		destination.VpnClientProtocols = nil
-	}
+	destination.VpnClientProtocols = genruntime.CloneSliceOfString(configuration.VpnClientProtocols)
 
 	// VpnClientRevokedCertificates
 	if configuration.VpnClientRevokedCertificates != nil {
@@ -4238,14 +4089,14 @@ func (policy *IpsecPolicy) AssignPropertiesToIpsecPolicy(destination *alpha20201
 
 // Deprecated version of IpsecPolicy_Status. Use v1beta20201101.IpsecPolicy_Status instead
 type IpsecPolicy_Status struct {
-	DhGroup             *DhGroup_Status         `json:"dhGroup,omitempty"`
-	IkeEncryption       *IkeEncryption_Status   `json:"ikeEncryption,omitempty"`
-	IkeIntegrity        *IkeIntegrity_Status    `json:"ikeIntegrity,omitempty"`
-	IpsecEncryption     *IpsecEncryption_Status `json:"ipsecEncryption,omitempty"`
-	IpsecIntegrity      *IpsecIntegrity_Status  `json:"ipsecIntegrity,omitempty"`
-	PfsGroup            *PfsGroup_Status        `json:"pfsGroup,omitempty"`
-	SaDataSizeKilobytes *int                    `json:"saDataSizeKilobytes,omitempty"`
-	SaLifeTimeSeconds   *int                    `json:"saLifeTimeSeconds,omitempty"`
+	DhGroup             *string `json:"dhGroup,omitempty"`
+	IkeEncryption       *string `json:"ikeEncryption,omitempty"`
+	IkeIntegrity        *string `json:"ikeIntegrity,omitempty"`
+	IpsecEncryption     *string `json:"ipsecEncryption,omitempty"`
+	IpsecIntegrity      *string `json:"ipsecIntegrity,omitempty"`
+	PfsGroup            *string `json:"pfsGroup,omitempty"`
+	SaDataSizeKilobytes *int    `json:"saDataSizeKilobytes,omitempty"`
+	SaLifeTimeSeconds   *int    `json:"saLifeTimeSeconds,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &IpsecPolicy_Status{}
@@ -4318,52 +4169,22 @@ func (policy *IpsecPolicy_Status) PopulateFromARM(owner genruntime.ArbitraryOwne
 func (policy *IpsecPolicy_Status) AssignPropertiesFromIpsecPolicyStatus(source *alpha20201101s.IpsecPolicy_Status) error {
 
 	// DhGroup
-	if source.DhGroup != nil {
-		dhGroup := DhGroup_Status(*source.DhGroup)
-		policy.DhGroup = &dhGroup
-	} else {
-		policy.DhGroup = nil
-	}
+	policy.DhGroup = genruntime.ClonePointerToString(source.DhGroup)
 
 	// IkeEncryption
-	if source.IkeEncryption != nil {
-		ikeEncryption := IkeEncryption_Status(*source.IkeEncryption)
-		policy.IkeEncryption = &ikeEncryption
-	} else {
-		policy.IkeEncryption = nil
-	}
+	policy.IkeEncryption = genruntime.ClonePointerToString(source.IkeEncryption)
 
 	// IkeIntegrity
-	if source.IkeIntegrity != nil {
-		ikeIntegrity := IkeIntegrity_Status(*source.IkeIntegrity)
-		policy.IkeIntegrity = &ikeIntegrity
-	} else {
-		policy.IkeIntegrity = nil
-	}
+	policy.IkeIntegrity = genruntime.ClonePointerToString(source.IkeIntegrity)
 
 	// IpsecEncryption
-	if source.IpsecEncryption != nil {
-		ipsecEncryption := IpsecEncryption_Status(*source.IpsecEncryption)
-		policy.IpsecEncryption = &ipsecEncryption
-	} else {
-		policy.IpsecEncryption = nil
-	}
+	policy.IpsecEncryption = genruntime.ClonePointerToString(source.IpsecEncryption)
 
 	// IpsecIntegrity
-	if source.IpsecIntegrity != nil {
-		ipsecIntegrity := IpsecIntegrity_Status(*source.IpsecIntegrity)
-		policy.IpsecIntegrity = &ipsecIntegrity
-	} else {
-		policy.IpsecIntegrity = nil
-	}
+	policy.IpsecIntegrity = genruntime.ClonePointerToString(source.IpsecIntegrity)
 
 	// PfsGroup
-	if source.PfsGroup != nil {
-		pfsGroup := PfsGroup_Status(*source.PfsGroup)
-		policy.PfsGroup = &pfsGroup
-	} else {
-		policy.PfsGroup = nil
-	}
+	policy.PfsGroup = genruntime.ClonePointerToString(source.PfsGroup)
 
 	// SaDataSizeKilobytes
 	policy.SaDataSizeKilobytes = genruntime.ClonePointerToInt(source.SaDataSizeKilobytes)
@@ -4381,52 +4202,22 @@ func (policy *IpsecPolicy_Status) AssignPropertiesToIpsecPolicyStatus(destinatio
 	propertyBag := genruntime.NewPropertyBag()
 
 	// DhGroup
-	if policy.DhGroup != nil {
-		dhGroup := string(*policy.DhGroup)
-		destination.DhGroup = &dhGroup
-	} else {
-		destination.DhGroup = nil
-	}
+	destination.DhGroup = genruntime.ClonePointerToString(policy.DhGroup)
 
 	// IkeEncryption
-	if policy.IkeEncryption != nil {
-		ikeEncryption := string(*policy.IkeEncryption)
-		destination.IkeEncryption = &ikeEncryption
-	} else {
-		destination.IkeEncryption = nil
-	}
+	destination.IkeEncryption = genruntime.ClonePointerToString(policy.IkeEncryption)
 
 	// IkeIntegrity
-	if policy.IkeIntegrity != nil {
-		ikeIntegrity := string(*policy.IkeIntegrity)
-		destination.IkeIntegrity = &ikeIntegrity
-	} else {
-		destination.IkeIntegrity = nil
-	}
+	destination.IkeIntegrity = genruntime.ClonePointerToString(policy.IkeIntegrity)
 
 	// IpsecEncryption
-	if policy.IpsecEncryption != nil {
-		ipsecEncryption := string(*policy.IpsecEncryption)
-		destination.IpsecEncryption = &ipsecEncryption
-	} else {
-		destination.IpsecEncryption = nil
-	}
+	destination.IpsecEncryption = genruntime.ClonePointerToString(policy.IpsecEncryption)
 
 	// IpsecIntegrity
-	if policy.IpsecIntegrity != nil {
-		ipsecIntegrity := string(*policy.IpsecIntegrity)
-		destination.IpsecIntegrity = &ipsecIntegrity
-	} else {
-		destination.IpsecIntegrity = nil
-	}
+	destination.IpsecIntegrity = genruntime.ClonePointerToString(policy.IpsecIntegrity)
 
 	// PfsGroup
-	if policy.PfsGroup != nil {
-		pfsGroup := string(*policy.PfsGroup)
-		destination.PfsGroup = &pfsGroup
-	} else {
-		destination.PfsGroup = nil
-	}
+	destination.PfsGroup = genruntime.ClonePointerToString(policy.PfsGroup)
 
 	// SaDataSizeKilobytes
 	destination.SaDataSizeKilobytes = genruntime.ClonePointerToInt(policy.SaDataSizeKilobytes)
@@ -4675,52 +4466,6 @@ const (
 	VirtualNetworkGatewaySkuNameVpnGw5AZ         = VirtualNetworkGatewaySkuName("VpnGw5AZ")
 )
 
-// Deprecated version of VirtualNetworkGatewaySkuStatusName. Use v1beta20201101.VirtualNetworkGatewaySkuStatusName instead
-type VirtualNetworkGatewaySkuStatusName string
-
-const (
-	VirtualNetworkGatewaySkuStatusNameBasic            = VirtualNetworkGatewaySkuStatusName("Basic")
-	VirtualNetworkGatewaySkuStatusNameErGw1AZ          = VirtualNetworkGatewaySkuStatusName("ErGw1AZ")
-	VirtualNetworkGatewaySkuStatusNameErGw2AZ          = VirtualNetworkGatewaySkuStatusName("ErGw2AZ")
-	VirtualNetworkGatewaySkuStatusNameErGw3AZ          = VirtualNetworkGatewaySkuStatusName("ErGw3AZ")
-	VirtualNetworkGatewaySkuStatusNameHighPerformance  = VirtualNetworkGatewaySkuStatusName("HighPerformance")
-	VirtualNetworkGatewaySkuStatusNameStandard         = VirtualNetworkGatewaySkuStatusName("Standard")
-	VirtualNetworkGatewaySkuStatusNameUltraPerformance = VirtualNetworkGatewaySkuStatusName("UltraPerformance")
-	VirtualNetworkGatewaySkuStatusNameVpnGw1           = VirtualNetworkGatewaySkuStatusName("VpnGw1")
-	VirtualNetworkGatewaySkuStatusNameVpnGw1AZ         = VirtualNetworkGatewaySkuStatusName("VpnGw1AZ")
-	VirtualNetworkGatewaySkuStatusNameVpnGw2           = VirtualNetworkGatewaySkuStatusName("VpnGw2")
-	VirtualNetworkGatewaySkuStatusNameVpnGw2AZ         = VirtualNetworkGatewaySkuStatusName("VpnGw2AZ")
-	VirtualNetworkGatewaySkuStatusNameVpnGw3           = VirtualNetworkGatewaySkuStatusName("VpnGw3")
-	VirtualNetworkGatewaySkuStatusNameVpnGw3AZ         = VirtualNetworkGatewaySkuStatusName("VpnGw3AZ")
-	VirtualNetworkGatewaySkuStatusNameVpnGw4           = VirtualNetworkGatewaySkuStatusName("VpnGw4")
-	VirtualNetworkGatewaySkuStatusNameVpnGw4AZ         = VirtualNetworkGatewaySkuStatusName("VpnGw4AZ")
-	VirtualNetworkGatewaySkuStatusNameVpnGw5           = VirtualNetworkGatewaySkuStatusName("VpnGw5")
-	VirtualNetworkGatewaySkuStatusNameVpnGw5AZ         = VirtualNetworkGatewaySkuStatusName("VpnGw5AZ")
-)
-
-// Deprecated version of VirtualNetworkGatewaySkuStatusTier. Use v1beta20201101.VirtualNetworkGatewaySkuStatusTier instead
-type VirtualNetworkGatewaySkuStatusTier string
-
-const (
-	VirtualNetworkGatewaySkuStatusTierBasic            = VirtualNetworkGatewaySkuStatusTier("Basic")
-	VirtualNetworkGatewaySkuStatusTierErGw1AZ          = VirtualNetworkGatewaySkuStatusTier("ErGw1AZ")
-	VirtualNetworkGatewaySkuStatusTierErGw2AZ          = VirtualNetworkGatewaySkuStatusTier("ErGw2AZ")
-	VirtualNetworkGatewaySkuStatusTierErGw3AZ          = VirtualNetworkGatewaySkuStatusTier("ErGw3AZ")
-	VirtualNetworkGatewaySkuStatusTierHighPerformance  = VirtualNetworkGatewaySkuStatusTier("HighPerformance")
-	VirtualNetworkGatewaySkuStatusTierStandard         = VirtualNetworkGatewaySkuStatusTier("Standard")
-	VirtualNetworkGatewaySkuStatusTierUltraPerformance = VirtualNetworkGatewaySkuStatusTier("UltraPerformance")
-	VirtualNetworkGatewaySkuStatusTierVpnGw1           = VirtualNetworkGatewaySkuStatusTier("VpnGw1")
-	VirtualNetworkGatewaySkuStatusTierVpnGw1AZ         = VirtualNetworkGatewaySkuStatusTier("VpnGw1AZ")
-	VirtualNetworkGatewaySkuStatusTierVpnGw2           = VirtualNetworkGatewaySkuStatusTier("VpnGw2")
-	VirtualNetworkGatewaySkuStatusTierVpnGw2AZ         = VirtualNetworkGatewaySkuStatusTier("VpnGw2AZ")
-	VirtualNetworkGatewaySkuStatusTierVpnGw3           = VirtualNetworkGatewaySkuStatusTier("VpnGw3")
-	VirtualNetworkGatewaySkuStatusTierVpnGw3AZ         = VirtualNetworkGatewaySkuStatusTier("VpnGw3AZ")
-	VirtualNetworkGatewaySkuStatusTierVpnGw4           = VirtualNetworkGatewaySkuStatusTier("VpnGw4")
-	VirtualNetworkGatewaySkuStatusTierVpnGw4AZ         = VirtualNetworkGatewaySkuStatusTier("VpnGw4AZ")
-	VirtualNetworkGatewaySkuStatusTierVpnGw5           = VirtualNetworkGatewaySkuStatusTier("VpnGw5")
-	VirtualNetworkGatewaySkuStatusTierVpnGw5AZ         = VirtualNetworkGatewaySkuStatusTier("VpnGw5AZ")
-)
-
 // Deprecated version of VirtualNetworkGatewaySkuTier. Use v1beta20201101.VirtualNetworkGatewaySkuTier instead
 // +kubebuilder:validation:Enum={"Basic","ErGw1AZ","ErGw2AZ","ErGw3AZ","HighPerformance","Standard","UltraPerformance","VpnGw1","VpnGw1AZ","VpnGw2","VpnGw2AZ","VpnGw3","VpnGw3AZ","VpnGw4","VpnGw4AZ","VpnGw5","VpnGw5AZ"}
 type VirtualNetworkGatewaySkuTier string
@@ -4965,33 +4710,13 @@ func (certificates *VirtualNetworkGateways_Spec_Properties_VpnClientConfiguratio
 	return nil
 }
 
-// Deprecated version of VpnClientConfigurationStatusVpnAuthenticationTypes. Use
-// v1beta20201101.VpnClientConfigurationStatusVpnAuthenticationTypes instead
-type VpnClientConfigurationStatusVpnAuthenticationTypes string
-
-const (
-	VpnClientConfigurationStatusVpnAuthenticationTypesAAD         = VpnClientConfigurationStatusVpnAuthenticationTypes("AAD")
-	VpnClientConfigurationStatusVpnAuthenticationTypesCertificate = VpnClientConfigurationStatusVpnAuthenticationTypes("Certificate")
-	VpnClientConfigurationStatusVpnAuthenticationTypesRadius      = VpnClientConfigurationStatusVpnAuthenticationTypes("Radius")
-)
-
-// Deprecated version of VpnClientConfigurationStatusVpnClientProtocols. Use
-// v1beta20201101.VpnClientConfigurationStatusVpnClientProtocols instead
-type VpnClientConfigurationStatusVpnClientProtocols string
-
-const (
-	VpnClientConfigurationStatusVpnClientProtocolsIkeV2   = VpnClientConfigurationStatusVpnClientProtocols("IkeV2")
-	VpnClientConfigurationStatusVpnClientProtocolsOpenVPN = VpnClientConfigurationStatusVpnClientProtocols("OpenVPN")
-	VpnClientConfigurationStatusVpnClientProtocolsSSTP    = VpnClientConfigurationStatusVpnClientProtocols("SSTP")
-)
-
 // Deprecated version of VpnClientRevokedCertificate_Status. Use v1beta20201101.VpnClientRevokedCertificate_Status instead
 type VpnClientRevokedCertificate_Status struct {
-	Etag              *string                   `json:"etag,omitempty"`
-	Id                *string                   `json:"id,omitempty"`
-	Name              *string                   `json:"name,omitempty"`
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
-	Thumbprint        *string                   `json:"thumbprint,omitempty"`
+	Etag              *string `json:"etag,omitempty"`
+	Id                *string `json:"id,omitempty"`
+	Name              *string `json:"name,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
+	Thumbprint        *string `json:"thumbprint,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &VpnClientRevokedCertificate_Status{}
@@ -5061,12 +4786,7 @@ func (certificate *VpnClientRevokedCertificate_Status) AssignPropertiesFromVpnCl
 	certificate.Name = genruntime.ClonePointerToString(source.Name)
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_Status(*source.ProvisioningState)
-		certificate.ProvisioningState = &provisioningState
-	} else {
-		certificate.ProvisioningState = nil
-	}
+	certificate.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// Thumbprint
 	certificate.Thumbprint = genruntime.ClonePointerToString(source.Thumbprint)
@@ -5090,12 +4810,7 @@ func (certificate *VpnClientRevokedCertificate_Status) AssignPropertiesToVpnClie
 	destination.Name = genruntime.ClonePointerToString(certificate.Name)
 
 	// ProvisioningState
-	if certificate.ProvisioningState != nil {
-		provisioningState := string(*certificate.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(certificate.ProvisioningState)
 
 	// Thumbprint
 	destination.Thumbprint = genruntime.ClonePointerToString(certificate.Thumbprint)
@@ -5113,11 +4828,11 @@ func (certificate *VpnClientRevokedCertificate_Status) AssignPropertiesToVpnClie
 
 // Deprecated version of VpnClientRootCertificate_Status. Use v1beta20201101.VpnClientRootCertificate_Status instead
 type VpnClientRootCertificate_Status struct {
-	Etag              *string                   `json:"etag,omitempty"`
-	Id                *string                   `json:"id,omitempty"`
-	Name              *string                   `json:"name,omitempty"`
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
-	PublicCertData    *string                   `json:"publicCertData,omitempty"`
+	Etag              *string `json:"etag,omitempty"`
+	Id                *string `json:"id,omitempty"`
+	Name              *string `json:"name,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
+	PublicCertData    *string `json:"publicCertData,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &VpnClientRootCertificate_Status{}
@@ -5187,12 +4902,7 @@ func (certificate *VpnClientRootCertificate_Status) AssignPropertiesFromVpnClien
 	certificate.Name = genruntime.ClonePointerToString(source.Name)
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_Status(*source.ProvisioningState)
-		certificate.ProvisioningState = &provisioningState
-	} else {
-		certificate.ProvisioningState = nil
-	}
+	certificate.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// PublicCertData
 	certificate.PublicCertData = genruntime.ClonePointerToString(source.PublicCertData)
@@ -5216,12 +4926,7 @@ func (certificate *VpnClientRootCertificate_Status) AssignPropertiesToVpnClientR
 	destination.Name = genruntime.ClonePointerToString(certificate.Name)
 
 	// ProvisioningState
-	if certificate.ProvisioningState != nil {
-		provisioningState := string(*certificate.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(certificate.ProvisioningState)
 
 	// PublicCertData
 	destination.PublicCertData = genruntime.ClonePointerToString(certificate.PublicCertData)
@@ -5236,72 +4941,6 @@ func (certificate *VpnClientRootCertificate_Status) AssignPropertiesToVpnClientR
 	// No error
 	return nil
 }
-
-// Deprecated version of DhGroup_Status. Use v1beta20201101.DhGroup_Status instead
-type DhGroup_Status string
-
-const (
-	DhGroup_StatusDHGroup1    = DhGroup_Status("DHGroup1")
-	DhGroup_StatusDHGroup14   = DhGroup_Status("DHGroup14")
-	DhGroup_StatusDHGroup2    = DhGroup_Status("DHGroup2")
-	DhGroup_StatusDHGroup2048 = DhGroup_Status("DHGroup2048")
-	DhGroup_StatusDHGroup24   = DhGroup_Status("DHGroup24")
-	DhGroup_StatusECP256      = DhGroup_Status("ECP256")
-	DhGroup_StatusECP384      = DhGroup_Status("ECP384")
-	DhGroup_StatusNone        = DhGroup_Status("None")
-)
-
-// Deprecated version of IkeEncryption_Status. Use v1beta20201101.IkeEncryption_Status instead
-type IkeEncryption_Status string
-
-const (
-	IkeEncryption_StatusAES128    = IkeEncryption_Status("AES128")
-	IkeEncryption_StatusAES192    = IkeEncryption_Status("AES192")
-	IkeEncryption_StatusAES256    = IkeEncryption_Status("AES256")
-	IkeEncryption_StatusDES       = IkeEncryption_Status("DES")
-	IkeEncryption_StatusDES3      = IkeEncryption_Status("DES3")
-	IkeEncryption_StatusGCMAES128 = IkeEncryption_Status("GCMAES128")
-	IkeEncryption_StatusGCMAES256 = IkeEncryption_Status("GCMAES256")
-)
-
-// Deprecated version of IkeIntegrity_Status. Use v1beta20201101.IkeIntegrity_Status instead
-type IkeIntegrity_Status string
-
-const (
-	IkeIntegrity_StatusGCMAES128 = IkeIntegrity_Status("GCMAES128")
-	IkeIntegrity_StatusGCMAES256 = IkeIntegrity_Status("GCMAES256")
-	IkeIntegrity_StatusMD5       = IkeIntegrity_Status("MD5")
-	IkeIntegrity_StatusSHA1      = IkeIntegrity_Status("SHA1")
-	IkeIntegrity_StatusSHA256    = IkeIntegrity_Status("SHA256")
-	IkeIntegrity_StatusSHA384    = IkeIntegrity_Status("SHA384")
-)
-
-// Deprecated version of IpsecEncryption_Status. Use v1beta20201101.IpsecEncryption_Status instead
-type IpsecEncryption_Status string
-
-const (
-	IpsecEncryption_StatusAES128    = IpsecEncryption_Status("AES128")
-	IpsecEncryption_StatusAES192    = IpsecEncryption_Status("AES192")
-	IpsecEncryption_StatusAES256    = IpsecEncryption_Status("AES256")
-	IpsecEncryption_StatusDES       = IpsecEncryption_Status("DES")
-	IpsecEncryption_StatusDES3      = IpsecEncryption_Status("DES3")
-	IpsecEncryption_StatusGCMAES128 = IpsecEncryption_Status("GCMAES128")
-	IpsecEncryption_StatusGCMAES192 = IpsecEncryption_Status("GCMAES192")
-	IpsecEncryption_StatusGCMAES256 = IpsecEncryption_Status("GCMAES256")
-	IpsecEncryption_StatusNone      = IpsecEncryption_Status("None")
-)
-
-// Deprecated version of IpsecIntegrity_Status. Use v1beta20201101.IpsecIntegrity_Status instead
-type IpsecIntegrity_Status string
-
-const (
-	IpsecIntegrity_StatusGCMAES128 = IpsecIntegrity_Status("GCMAES128")
-	IpsecIntegrity_StatusGCMAES192 = IpsecIntegrity_Status("GCMAES192")
-	IpsecIntegrity_StatusGCMAES256 = IpsecIntegrity_Status("GCMAES256")
-	IpsecIntegrity_StatusMD5       = IpsecIntegrity_Status("MD5")
-	IpsecIntegrity_StatusSHA1      = IpsecIntegrity_Status("SHA1")
-	IpsecIntegrity_StatusSHA256    = IpsecIntegrity_Status("SHA256")
-)
 
 // Deprecated version of IpsecPolicyDhGroup. Use v1beta20201101.IpsecPolicyDhGroup instead
 // +kubebuilder:validation:Enum={"DHGroup1","DHGroup14","DHGroup2","DHGroup2048","DHGroup24","ECP256","ECP384","None"}
@@ -5388,21 +5027,6 @@ const (
 	IpsecPolicyPfsGroupPFS2048 = IpsecPolicyPfsGroup("PFS2048")
 	IpsecPolicyPfsGroupPFS24   = IpsecPolicyPfsGroup("PFS24")
 	IpsecPolicyPfsGroupPFSMM   = IpsecPolicyPfsGroup("PFSMM")
-)
-
-// Deprecated version of PfsGroup_Status. Use v1beta20201101.PfsGroup_Status instead
-type PfsGroup_Status string
-
-const (
-	PfsGroup_StatusECP256  = PfsGroup_Status("ECP256")
-	PfsGroup_StatusECP384  = PfsGroup_Status("ECP384")
-	PfsGroup_StatusNone    = PfsGroup_Status("None")
-	PfsGroup_StatusPFS1    = PfsGroup_Status("PFS1")
-	PfsGroup_StatusPFS14   = PfsGroup_Status("PFS14")
-	PfsGroup_StatusPFS2    = PfsGroup_Status("PFS2")
-	PfsGroup_StatusPFS2048 = PfsGroup_Status("PFS2048")
-	PfsGroup_StatusPFS24   = PfsGroup_Status("PFS24")
-	PfsGroup_StatusPFSMM   = PfsGroup_Status("PFSMM")
 )
 
 func init() {

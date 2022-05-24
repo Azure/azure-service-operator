@@ -368,10 +368,10 @@ type DatabaseAccountGetResults_Status struct {
 
 	// Conditions: The observed state of the resource
 	Conditions                         []conditions.Condition                                 `json:"conditions,omitempty"`
-	ConnectorOffer                     *ConnectorOffer_Status                                 `json:"connectorOffer,omitempty"`
+	ConnectorOffer                     *string                                                `json:"connectorOffer,omitempty"`
 	ConsistencyPolicy                  *ConsistencyPolicy_Status                              `json:"consistencyPolicy,omitempty"`
 	Cors                               []CorsPolicy_Status                                    `json:"cors,omitempty"`
-	DatabaseAccountOfferType           *DatabaseAccountOfferType_Status                       `json:"databaseAccountOfferType,omitempty"`
+	DatabaseAccountOfferType           *string                                                `json:"databaseAccountOfferType,omitempty"`
 	DefaultIdentity                    *string                                                `json:"defaultIdentity,omitempty"`
 	DisableKeyBasedMetadataWriteAccess *bool                                                  `json:"disableKeyBasedMetadataWriteAccess,omitempty"`
 	DocumentEndpoint                   *string                                                `json:"documentEndpoint,omitempty"`
@@ -386,15 +386,15 @@ type DatabaseAccountGetResults_Status struct {
 	IpRules                            []IpAddressOrRange_Status                              `json:"ipRules,omitempty"`
 	IsVirtualNetworkFilterEnabled      *bool                                                  `json:"isVirtualNetworkFilterEnabled,omitempty"`
 	KeyVaultKeyUri                     *string                                                `json:"keyVaultKeyUri,omitempty"`
-	Kind                               *DatabaseAccountGetResultsStatusKind                   `json:"kind,omitempty"`
+	Kind                               *string                                                `json:"kind,omitempty"`
 	Location                           *string                                                `json:"location,omitempty"`
 	Locations                          []Location_Status                                      `json:"locations,omitempty"`
 	Name                               *string                                                `json:"name,omitempty"`
-	NetworkAclBypass                   *NetworkAclBypass_Status                               `json:"networkAclBypass,omitempty"`
+	NetworkAclBypass                   *string                                                `json:"networkAclBypass,omitempty"`
 	NetworkAclBypassResourceIds        []string                                               `json:"networkAclBypassResourceIds,omitempty"`
 	PrivateEndpointConnections         []PrivateEndpointConnection_Status_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
 	ProvisioningState                  *string                                                `json:"provisioningState,omitempty"`
-	PublicNetworkAccess                *PublicNetworkAccess_Status                            `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess                *string                                                `json:"publicNetworkAccess,omitempty"`
 	ReadLocations                      []Location_Status                                      `json:"readLocations,omitempty"`
 	Tags                               map[string]string                                      `json:"tags,omitempty"`
 	Type                               *string                                                `json:"type,omitempty"`
@@ -898,12 +898,7 @@ func (results *DatabaseAccountGetResults_Status) AssignPropertiesFromDatabaseAcc
 	results.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// ConnectorOffer
-	if source.ConnectorOffer != nil {
-		connectorOffer := ConnectorOffer_Status(*source.ConnectorOffer)
-		results.ConnectorOffer = &connectorOffer
-	} else {
-		results.ConnectorOffer = nil
-	}
+	results.ConnectorOffer = genruntime.ClonePointerToString(source.ConnectorOffer)
 
 	// ConsistencyPolicy
 	if source.ConsistencyPolicy != nil {
@@ -936,12 +931,7 @@ func (results *DatabaseAccountGetResults_Status) AssignPropertiesFromDatabaseAcc
 	}
 
 	// DatabaseAccountOfferType
-	if source.DatabaseAccountOfferType != nil {
-		databaseAccountOfferType := DatabaseAccountOfferType_Status(*source.DatabaseAccountOfferType)
-		results.DatabaseAccountOfferType = &databaseAccountOfferType
-	} else {
-		results.DatabaseAccountOfferType = nil
-	}
+	results.DatabaseAccountOfferType = genruntime.ClonePointerToString(source.DatabaseAccountOfferType)
 
 	// DefaultIdentity
 	results.DefaultIdentity = genruntime.ClonePointerToString(source.DefaultIdentity)
@@ -1060,12 +1050,7 @@ func (results *DatabaseAccountGetResults_Status) AssignPropertiesFromDatabaseAcc
 	results.KeyVaultKeyUri = genruntime.ClonePointerToString(source.KeyVaultKeyUri)
 
 	// Kind
-	if source.Kind != nil {
-		kind := DatabaseAccountGetResultsStatusKind(*source.Kind)
-		results.Kind = &kind
-	} else {
-		results.Kind = nil
-	}
+	results.Kind = genruntime.ClonePointerToString(source.Kind)
 
 	// Location
 	results.Location = genruntime.ClonePointerToString(source.Location)
@@ -1092,12 +1077,7 @@ func (results *DatabaseAccountGetResults_Status) AssignPropertiesFromDatabaseAcc
 	results.Name = genruntime.ClonePointerToString(source.Name)
 
 	// NetworkAclBypass
-	if source.NetworkAclBypass != nil {
-		networkAclBypass := NetworkAclBypass_Status(*source.NetworkAclBypass)
-		results.NetworkAclBypass = &networkAclBypass
-	} else {
-		results.NetworkAclBypass = nil
-	}
+	results.NetworkAclBypass = genruntime.ClonePointerToString(source.NetworkAclBypass)
 
 	// NetworkAclBypassResourceIds
 	results.NetworkAclBypassResourceIds = genruntime.CloneSliceOfString(source.NetworkAclBypassResourceIds)
@@ -1124,12 +1104,7 @@ func (results *DatabaseAccountGetResults_Status) AssignPropertiesFromDatabaseAcc
 	results.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// PublicNetworkAccess
-	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := PublicNetworkAccess_Status(*source.PublicNetworkAccess)
-		results.PublicNetworkAccess = &publicNetworkAccess
-	} else {
-		results.PublicNetworkAccess = nil
-	}
+	results.PublicNetworkAccess = genruntime.ClonePointerToString(source.PublicNetworkAccess)
 
 	// ReadLocations
 	if source.ReadLocations != nil {
@@ -1258,12 +1233,7 @@ func (results *DatabaseAccountGetResults_Status) AssignPropertiesToDatabaseAccou
 	destination.Conditions = genruntime.CloneSliceOfCondition(results.Conditions)
 
 	// ConnectorOffer
-	if results.ConnectorOffer != nil {
-		connectorOffer := string(*results.ConnectorOffer)
-		destination.ConnectorOffer = &connectorOffer
-	} else {
-		destination.ConnectorOffer = nil
-	}
+	destination.ConnectorOffer = genruntime.ClonePointerToString(results.ConnectorOffer)
 
 	// ConsistencyPolicy
 	if results.ConsistencyPolicy != nil {
@@ -1296,12 +1266,7 @@ func (results *DatabaseAccountGetResults_Status) AssignPropertiesToDatabaseAccou
 	}
 
 	// DatabaseAccountOfferType
-	if results.DatabaseAccountOfferType != nil {
-		databaseAccountOfferType := string(*results.DatabaseAccountOfferType)
-		destination.DatabaseAccountOfferType = &databaseAccountOfferType
-	} else {
-		destination.DatabaseAccountOfferType = nil
-	}
+	destination.DatabaseAccountOfferType = genruntime.ClonePointerToString(results.DatabaseAccountOfferType)
 
 	// DefaultIdentity
 	destination.DefaultIdentity = genruntime.ClonePointerToString(results.DefaultIdentity)
@@ -1420,12 +1385,7 @@ func (results *DatabaseAccountGetResults_Status) AssignPropertiesToDatabaseAccou
 	destination.KeyVaultKeyUri = genruntime.ClonePointerToString(results.KeyVaultKeyUri)
 
 	// Kind
-	if results.Kind != nil {
-		kind := string(*results.Kind)
-		destination.Kind = &kind
-	} else {
-		destination.Kind = nil
-	}
+	destination.Kind = genruntime.ClonePointerToString(results.Kind)
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(results.Location)
@@ -1452,12 +1412,7 @@ func (results *DatabaseAccountGetResults_Status) AssignPropertiesToDatabaseAccou
 	destination.Name = genruntime.ClonePointerToString(results.Name)
 
 	// NetworkAclBypass
-	if results.NetworkAclBypass != nil {
-		networkAclBypass := string(*results.NetworkAclBypass)
-		destination.NetworkAclBypass = &networkAclBypass
-	} else {
-		destination.NetworkAclBypass = nil
-	}
+	destination.NetworkAclBypass = genruntime.ClonePointerToString(results.NetworkAclBypass)
 
 	// NetworkAclBypassResourceIds
 	destination.NetworkAclBypassResourceIds = genruntime.CloneSliceOfString(results.NetworkAclBypassResourceIds)
@@ -1484,12 +1439,7 @@ func (results *DatabaseAccountGetResults_Status) AssignPropertiesToDatabaseAccou
 	destination.ProvisioningState = genruntime.ClonePointerToString(results.ProvisioningState)
 
 	// PublicNetworkAccess
-	if results.PublicNetworkAccess != nil {
-		publicNetworkAccess := string(*results.PublicNetworkAccess)
-		destination.PublicNetworkAccess = &publicNetworkAccess
-	} else {
-		destination.PublicNetworkAccess = nil
-	}
+	destination.PublicNetworkAccess = genruntime.ClonePointerToString(results.PublicNetworkAccess)
 
 	// ReadLocations
 	if results.ReadLocations != nil {
@@ -2846,7 +2796,7 @@ func (configuration *AnalyticalStorageConfiguration) AssignPropertiesToAnalytica
 
 // Deprecated version of AnalyticalStorageConfiguration_Status. Use v1beta20210515.AnalyticalStorageConfiguration_Status instead
 type AnalyticalStorageConfiguration_Status struct {
-	SchemaType *AnalyticalStorageSchemaType_Status `json:"schemaType,omitempty"`
+	SchemaType *string `json:"schemaType,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &AnalyticalStorageConfiguration_Status{}
@@ -2877,12 +2827,7 @@ func (configuration *AnalyticalStorageConfiguration_Status) PopulateFromARM(owne
 func (configuration *AnalyticalStorageConfiguration_Status) AssignPropertiesFromAnalyticalStorageConfigurationStatus(source *alpha20210515s.AnalyticalStorageConfiguration_Status) error {
 
 	// SchemaType
-	if source.SchemaType != nil {
-		schemaType := AnalyticalStorageSchemaType_Status(*source.SchemaType)
-		configuration.SchemaType = &schemaType
-	} else {
-		configuration.SchemaType = nil
-	}
+	configuration.SchemaType = genruntime.ClonePointerToString(source.SchemaType)
 
 	// No error
 	return nil
@@ -2894,12 +2839,7 @@ func (configuration *AnalyticalStorageConfiguration_Status) AssignPropertiesToAn
 	propertyBag := genruntime.NewPropertyBag()
 
 	// SchemaType
-	if configuration.SchemaType != nil {
-		schemaType := string(*configuration.SchemaType)
-		destination.SchemaType = &schemaType
-	} else {
-		destination.SchemaType = nil
-	}
+	destination.SchemaType = genruntime.ClonePointerToString(configuration.SchemaType)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2997,7 +2937,7 @@ func (properties *ApiProperties) AssignPropertiesToApiProperties(destination *al
 
 // Deprecated version of ApiProperties_Status. Use v1beta20210515.ApiProperties_Status instead
 type ApiProperties_Status struct {
-	ServerVersion *ApiPropertiesStatusServerVersion `json:"serverVersion,omitempty"`
+	ServerVersion *string `json:"serverVersion,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ApiProperties_Status{}
@@ -3028,12 +2968,7 @@ func (properties *ApiProperties_Status) PopulateFromARM(owner genruntime.Arbitra
 func (properties *ApiProperties_Status) AssignPropertiesFromApiPropertiesStatus(source *alpha20210515s.ApiProperties_Status) error {
 
 	// ServerVersion
-	if source.ServerVersion != nil {
-		serverVersion := ApiPropertiesStatusServerVersion(*source.ServerVersion)
-		properties.ServerVersion = &serverVersion
-	} else {
-		properties.ServerVersion = nil
-	}
+	properties.ServerVersion = genruntime.ClonePointerToString(source.ServerVersion)
 
 	// No error
 	return nil
@@ -3045,12 +2980,7 @@ func (properties *ApiProperties_Status) AssignPropertiesToApiPropertiesStatus(de
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ServerVersion
-	if properties.ServerVersion != nil {
-		serverVersion := string(*properties.ServerVersion)
-		destination.ServerVersion = &serverVersion
-	} else {
-		destination.ServerVersion = nil
-	}
+	destination.ServerVersion = genruntime.ClonePointerToString(properties.ServerVersion)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3211,7 +3141,7 @@ func (policy *BackupPolicy) AssignPropertiesToBackupPolicy(destination *alpha202
 
 // Deprecated version of BackupPolicy_Status. Use v1beta20210515.BackupPolicy_Status instead
 type BackupPolicy_Status struct {
-	Type *BackupPolicyType_Status `json:"type,omitempty"`
+	Type *string `json:"type,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &BackupPolicy_Status{}
@@ -3242,12 +3172,7 @@ func (policy *BackupPolicy_Status) PopulateFromARM(owner genruntime.ArbitraryOwn
 func (policy *BackupPolicy_Status) AssignPropertiesFromBackupPolicyStatus(source *alpha20210515s.BackupPolicy_Status) error {
 
 	// Type
-	if source.Type != nil {
-		typeVar := BackupPolicyType_Status(*source.Type)
-		policy.Type = &typeVar
-	} else {
-		policy.Type = nil
-	}
+	policy.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
@@ -3259,12 +3184,7 @@ func (policy *BackupPolicy_Status) AssignPropertiesToBackupPolicyStatus(destinat
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Type
-	if policy.Type != nil {
-		typeVar := string(*policy.Type)
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
+	destination.Type = genruntime.ClonePointerToString(policy.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3407,11 +3327,6 @@ func (capability *Capability_Status) AssignPropertiesToCapabilityStatus(destinat
 	// No error
 	return nil
 }
-
-// Deprecated version of ConnectorOffer_Status. Use v1beta20210515.ConnectorOffer_Status instead
-type ConnectorOffer_Status string
-
-const ConnectorOffer_StatusSmall = ConnectorOffer_Status("Small")
 
 // Deprecated version of ConsistencyPolicy. Use v1beta20210515.ConsistencyPolicy instead
 type ConsistencyPolicy struct {
@@ -3563,9 +3478,9 @@ func (policy *ConsistencyPolicy) AssignPropertiesToConsistencyPolicy(destination
 
 // Deprecated version of ConsistencyPolicy_Status. Use v1beta20210515.ConsistencyPolicy_Status instead
 type ConsistencyPolicy_Status struct {
-	DefaultConsistencyLevel *ConsistencyPolicyStatusDefaultConsistencyLevel `json:"defaultConsistencyLevel,omitempty"`
-	MaxIntervalInSeconds    *int                                            `json:"maxIntervalInSeconds,omitempty"`
-	MaxStalenessPrefix      *int                                            `json:"maxStalenessPrefix,omitempty"`
+	DefaultConsistencyLevel *string `json:"defaultConsistencyLevel,omitempty"`
+	MaxIntervalInSeconds    *int    `json:"maxIntervalInSeconds,omitempty"`
+	MaxStalenessPrefix      *int    `json:"maxStalenessPrefix,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ConsistencyPolicy_Status{}
@@ -3608,12 +3523,7 @@ func (policy *ConsistencyPolicy_Status) PopulateFromARM(owner genruntime.Arbitra
 func (policy *ConsistencyPolicy_Status) AssignPropertiesFromConsistencyPolicyStatus(source *alpha20210515s.ConsistencyPolicy_Status) error {
 
 	// DefaultConsistencyLevel
-	if source.DefaultConsistencyLevel != nil {
-		defaultConsistencyLevel := ConsistencyPolicyStatusDefaultConsistencyLevel(*source.DefaultConsistencyLevel)
-		policy.DefaultConsistencyLevel = &defaultConsistencyLevel
-	} else {
-		policy.DefaultConsistencyLevel = nil
-	}
+	policy.DefaultConsistencyLevel = genruntime.ClonePointerToString(source.DefaultConsistencyLevel)
 
 	// MaxIntervalInSeconds
 	policy.MaxIntervalInSeconds = genruntime.ClonePointerToInt(source.MaxIntervalInSeconds)
@@ -3631,12 +3541,7 @@ func (policy *ConsistencyPolicy_Status) AssignPropertiesToConsistencyPolicyStatu
 	propertyBag := genruntime.NewPropertyBag()
 
 	// DefaultConsistencyLevel
-	if policy.DefaultConsistencyLevel != nil {
-		defaultConsistencyLevel := string(*policy.DefaultConsistencyLevel)
-		destination.DefaultConsistencyLevel = &defaultConsistencyLevel
-	} else {
-		destination.DefaultConsistencyLevel = nil
-	}
+	destination.DefaultConsistencyLevel = genruntime.ClonePointerToString(policy.DefaultConsistencyLevel)
 
 	// MaxIntervalInSeconds
 	destination.MaxIntervalInSeconds = genruntime.ClonePointerToInt(policy.MaxIntervalInSeconds)
@@ -3962,11 +3867,6 @@ const (
 	DatabaseAccountCreateUpdatePropertiesPublicNetworkAccessDisabled = DatabaseAccountCreateUpdatePropertiesPublicNetworkAccess("Disabled")
 	DatabaseAccountCreateUpdatePropertiesPublicNetworkAccessEnabled  = DatabaseAccountCreateUpdatePropertiesPublicNetworkAccess("Enabled")
 )
-
-// Deprecated version of DatabaseAccountOfferType_Status. Use v1beta20210515.DatabaseAccountOfferType_Status instead
-type DatabaseAccountOfferType_Status string
-
-const DatabaseAccountOfferType_StatusStandard = DatabaseAccountOfferType_Status("Standard")
 
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type DatabaseAccountOperatorSpec struct {
@@ -4588,7 +4488,7 @@ func (identity *ManagedServiceIdentity) AssignPropertiesToManagedServiceIdentity
 type ManagedServiceIdentity_Status struct {
 	PrincipalId            *string                                                         `json:"principalId,omitempty"`
 	TenantId               *string                                                         `json:"tenantId,omitempty"`
-	Type                   *ManagedServiceIdentityStatusType                               `json:"type,omitempty"`
+	Type                   *string                                                         `json:"type,omitempty"`
 	UserAssignedIdentities map[string]ManagedServiceIdentity_Status_UserAssignedIdentities `json:"userAssignedIdentities,omitempty"`
 }
 
@@ -4651,12 +4551,7 @@ func (identity *ManagedServiceIdentity_Status) AssignPropertiesFromManagedServic
 	identity.TenantId = genruntime.ClonePointerToString(source.TenantId)
 
 	// Type
-	if source.Type != nil {
-		typeVar := ManagedServiceIdentityStatusType(*source.Type)
-		identity.Type = &typeVar
-	} else {
-		identity.Type = nil
-	}
+	identity.Type = genruntime.ClonePointerToString(source.Type)
 
 	// UserAssignedIdentities
 	if source.UserAssignedIdentities != nil {
@@ -4692,12 +4587,7 @@ func (identity *ManagedServiceIdentity_Status) AssignPropertiesToManagedServiceI
 	destination.TenantId = genruntime.ClonePointerToString(identity.TenantId)
 
 	// Type
-	if identity.Type != nil {
-		typeVar := string(*identity.Type)
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
+	destination.Type = genruntime.ClonePointerToString(identity.Type)
 
 	// UserAssignedIdentities
 	if identity.UserAssignedIdentities != nil {
@@ -4727,14 +4617,6 @@ func (identity *ManagedServiceIdentity_Status) AssignPropertiesToManagedServiceI
 	// No error
 	return nil
 }
-
-// Deprecated version of NetworkAclBypass_Status. Use v1beta20210515.NetworkAclBypass_Status instead
-type NetworkAclBypass_Status string
-
-const (
-	NetworkAclBypass_StatusAzureServices = NetworkAclBypass_Status("AzureServices")
-	NetworkAclBypass_StatusNone          = NetworkAclBypass_Status("None")
-)
 
 // Deprecated version of PrivateEndpointConnection_Status_SubResourceEmbedded. Use v1beta20210515.PrivateEndpointConnection_Status_SubResourceEmbedded instead
 type PrivateEndpointConnection_Status_SubResourceEmbedded struct {
@@ -4793,14 +4675,6 @@ func (embedded *PrivateEndpointConnection_Status_SubResourceEmbedded) AssignProp
 	// No error
 	return nil
 }
-
-// Deprecated version of PublicNetworkAccess_Status. Use v1beta20210515.PublicNetworkAccess_Status instead
-type PublicNetworkAccess_Status string
-
-const (
-	PublicNetworkAccess_StatusDisabled = PublicNetworkAccess_Status("Disabled")
-	PublicNetworkAccess_StatusEnabled  = PublicNetworkAccess_Status("Enabled")
-)
 
 // Deprecated version of VirtualNetworkRule. Use v1beta20210515.VirtualNetworkRule instead
 type VirtualNetworkRule struct {
@@ -5005,14 +4879,6 @@ const (
 	AnalyticalStorageConfigurationSchemaTypeWellDefined  = AnalyticalStorageConfigurationSchemaType("WellDefined")
 )
 
-// Deprecated version of AnalyticalStorageSchemaType_Status. Use v1beta20210515.AnalyticalStorageSchemaType_Status instead
-type AnalyticalStorageSchemaType_Status string
-
-const (
-	AnalyticalStorageSchemaType_StatusFullFidelity = AnalyticalStorageSchemaType_Status("FullFidelity")
-	AnalyticalStorageSchemaType_StatusWellDefined  = AnalyticalStorageSchemaType_Status("WellDefined")
-)
-
 // Deprecated version of ApiPropertiesServerVersion. Use v1beta20210515.ApiPropertiesServerVersion instead
 // +kubebuilder:validation:Enum={"3.2","3.6","4.0"}
 type ApiPropertiesServerVersion string
@@ -5021,23 +4887,6 @@ const (
 	ApiPropertiesServerVersion32 = ApiPropertiesServerVersion("3.2")
 	ApiPropertiesServerVersion36 = ApiPropertiesServerVersion("3.6")
 	ApiPropertiesServerVersion40 = ApiPropertiesServerVersion("4.0")
-)
-
-// Deprecated version of ApiPropertiesStatusServerVersion. Use v1beta20210515.ApiPropertiesStatusServerVersion instead
-type ApiPropertiesStatusServerVersion string
-
-const (
-	ApiPropertiesStatusServerVersion32 = ApiPropertiesStatusServerVersion("3.2")
-	ApiPropertiesStatusServerVersion36 = ApiPropertiesStatusServerVersion("3.6")
-	ApiPropertiesStatusServerVersion40 = ApiPropertiesStatusServerVersion("4.0")
-)
-
-// Deprecated version of BackupPolicyType_Status. Use v1beta20210515.BackupPolicyType_Status instead
-type BackupPolicyType_Status string
-
-const (
-	BackupPolicyType_StatusContinuous = BackupPolicyType_Status("Continuous")
-	BackupPolicyType_StatusPeriodic   = BackupPolicyType_Status("Periodic")
 )
 
 // Deprecated version of ConsistencyPolicyDefaultConsistencyLevel. Use
@@ -5051,18 +4900,6 @@ const (
 	ConsistencyPolicyDefaultConsistencyLevelEventual         = ConsistencyPolicyDefaultConsistencyLevel("Eventual")
 	ConsistencyPolicyDefaultConsistencyLevelSession          = ConsistencyPolicyDefaultConsistencyLevel("Session")
 	ConsistencyPolicyDefaultConsistencyLevelStrong           = ConsistencyPolicyDefaultConsistencyLevel("Strong")
-)
-
-// Deprecated version of ConsistencyPolicyStatusDefaultConsistencyLevel. Use
-// v1beta20210515.ConsistencyPolicyStatusDefaultConsistencyLevel instead
-type ConsistencyPolicyStatusDefaultConsistencyLevel string
-
-const (
-	ConsistencyPolicyStatusDefaultConsistencyLevelBoundedStaleness = ConsistencyPolicyStatusDefaultConsistencyLevel("BoundedStaleness")
-	ConsistencyPolicyStatusDefaultConsistencyLevelConsistentPrefix = ConsistencyPolicyStatusDefaultConsistencyLevel("ConsistentPrefix")
-	ConsistencyPolicyStatusDefaultConsistencyLevelEventual         = ConsistencyPolicyStatusDefaultConsistencyLevel("Eventual")
-	ConsistencyPolicyStatusDefaultConsistencyLevelSession          = ConsistencyPolicyStatusDefaultConsistencyLevel("Session")
-	ConsistencyPolicyStatusDefaultConsistencyLevelStrong           = ConsistencyPolicyStatusDefaultConsistencyLevel("Strong")
 )
 
 // Deprecated version of ContinuousModeBackupPolicy. Use v1beta20210515.ContinuousModeBackupPolicy instead

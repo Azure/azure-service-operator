@@ -355,7 +355,7 @@ type VirtualMachineScaleSet_Status struct {
 	Name *string `json:"name,omitempty"`
 
 	// OrchestrationMode: Specifies the orchestration mode for the virtual machine scale set.
-	OrchestrationMode *OrchestrationMode_Status `json:"orchestrationMode,omitempty"`
+	OrchestrationMode *string `json:"orchestrationMode,omitempty"`
 
 	// Overprovision: Specifies whether the Virtual Machine Scale Set should be overprovisioned.
 	Overprovision *bool `json:"overprovision,omitempty"`
@@ -816,12 +816,7 @@ func (scaleSet *VirtualMachineScaleSet_Status) AssignPropertiesFromVirtualMachin
 	scaleSet.Name = genruntime.ClonePointerToString(source.Name)
 
 	// OrchestrationMode
-	if source.OrchestrationMode != nil {
-		orchestrationMode := OrchestrationMode_Status(*source.OrchestrationMode)
-		scaleSet.OrchestrationMode = &orchestrationMode
-	} else {
-		scaleSet.OrchestrationMode = nil
-	}
+	scaleSet.OrchestrationMode = genruntime.ClonePointerToString(source.OrchestrationMode)
 
 	// Overprovision
 	if source.Overprovision != nil {
@@ -1027,12 +1022,7 @@ func (scaleSet *VirtualMachineScaleSet_Status) AssignPropertiesToVirtualMachineS
 	destination.Name = genruntime.ClonePointerToString(scaleSet.Name)
 
 	// OrchestrationMode
-	if scaleSet.OrchestrationMode != nil {
-		orchestrationMode := string(*scaleSet.OrchestrationMode)
-		destination.OrchestrationMode = &orchestrationMode
-	} else {
-		destination.OrchestrationMode = nil
-	}
+	destination.OrchestrationMode = genruntime.ClonePointerToString(scaleSet.OrchestrationMode)
 
 	// Overprovision
 	if scaleSet.Overprovision != nil {
@@ -2314,13 +2304,6 @@ func (policy *AutomaticRepairsPolicy_Status) AssignPropertiesToAutomaticRepairsP
 	return nil
 }
 
-type OrchestrationMode_Status string
-
-const (
-	OrchestrationMode_StatusFlexible = OrchestrationMode_Status("Flexible")
-	OrchestrationMode_StatusUniform  = OrchestrationMode_Status("Uniform")
-)
-
 // Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/ScaleInPolicy
 type ScaleInPolicy struct {
 	// Rules: The rules to be followed when scaling-in a virtual machine scale set.
@@ -2435,7 +2418,7 @@ type ScaleInPolicy_Status struct {
 	// NewestVM When a virtual machine scale set is being scaled-in, the newest virtual machines that are not protected from
 	// scale-in will be chosen for removal. For zonal virtual machine scale sets, the scale set will first be balanced across
 	// zones. Within each zone, the newest virtual machines that are not protected will be chosen for removal.
-	Rules []ScaleInPolicyStatusRules `json:"rules,omitempty"`
+	Rules []string `json:"rules,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ScaleInPolicy_Status{}
@@ -2465,17 +2448,7 @@ func (policy *ScaleInPolicy_Status) PopulateFromARM(owner genruntime.ArbitraryOw
 func (policy *ScaleInPolicy_Status) AssignPropertiesFromScaleInPolicyStatus(source *v20201201s.ScaleInPolicy_Status) error {
 
 	// Rules
-	if source.Rules != nil {
-		ruleList := make([]ScaleInPolicyStatusRules, len(source.Rules))
-		for ruleIndex, ruleItem := range source.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
-			ruleList[ruleIndex] = ScaleInPolicyStatusRules(ruleItem)
-		}
-		policy.Rules = ruleList
-	} else {
-		policy.Rules = nil
-	}
+	policy.Rules = genruntime.CloneSliceOfString(source.Rules)
 
 	// No error
 	return nil
@@ -2487,17 +2460,7 @@ func (policy *ScaleInPolicy_Status) AssignPropertiesToScaleInPolicyStatus(destin
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Rules
-	if policy.Rules != nil {
-		ruleList := make([]string, len(policy.Rules))
-		for ruleIndex, ruleItem := range policy.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
-			ruleList[ruleIndex] = string(ruleItem)
-		}
-		destination.Rules = ruleList
-	} else {
-		destination.Rules = nil
-	}
+	destination.Rules = genruntime.CloneSliceOfString(policy.Rules)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2913,7 +2876,7 @@ type UpgradePolicy_Status struct {
 	// Manual - You  control the application of updates to virtual machines in the scale set. You do this by using the
 	// manualUpgrade action.
 	// Automatic - All virtual machines in the scale set are  automatically updated at the same time.
-	Mode *UpgradePolicyStatusMode `json:"mode,omitempty"`
+	Mode *string `json:"mode,omitempty"`
 
 	// RollingUpgradePolicy: The configuration parameters used while performing a rolling upgrade.
 	RollingUpgradePolicy *RollingUpgradePolicy_Status `json:"rollingUpgradePolicy,omitempty"`
@@ -2981,12 +2944,7 @@ func (policy *UpgradePolicy_Status) AssignPropertiesFromUpgradePolicyStatus(sour
 	}
 
 	// Mode
-	if source.Mode != nil {
-		mode := UpgradePolicyStatusMode(*source.Mode)
-		policy.Mode = &mode
-	} else {
-		policy.Mode = nil
-	}
+	policy.Mode = genruntime.ClonePointerToString(source.Mode)
 
 	// RollingUpgradePolicy
 	if source.RollingUpgradePolicy != nil {
@@ -3022,12 +2980,7 @@ func (policy *UpgradePolicy_Status) AssignPropertiesToUpgradePolicyStatus(destin
 	}
 
 	// Mode
-	if policy.Mode != nil {
-		mode := string(*policy.Mode)
-		destination.Mode = &mode
-	} else {
-		destination.Mode = nil
-	}
+	destination.Mode = genruntime.ClonePointerToString(policy.Mode)
 
 	// RollingUpgradePolicy
 	if policy.RollingUpgradePolicy != nil {
@@ -3150,7 +3103,7 @@ type VirtualMachineScaleSetIdentity_Status struct {
 	// Type: The type of identity used for the virtual machine scale set. The type 'SystemAssigned, UserAssigned' includes both
 	// an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from
 	// the virtual machine scale set.
-	Type *VirtualMachineScaleSetIdentityStatusType `json:"type,omitempty"`
+	Type *string `json:"type,omitempty"`
 
 	// UserAssignedIdentities: The list of user identities associated with the virtual machine scale set. The user identity
 	// dictionary key references will be ARM resource ids in the form:
@@ -3217,12 +3170,7 @@ func (identity *VirtualMachineScaleSetIdentity_Status) AssignPropertiesFromVirtu
 	identity.TenantId = genruntime.ClonePointerToString(source.TenantId)
 
 	// Type
-	if source.Type != nil {
-		typeVar := VirtualMachineScaleSetIdentityStatusType(*source.Type)
-		identity.Type = &typeVar
-	} else {
-		identity.Type = nil
-	}
+	identity.Type = genruntime.ClonePointerToString(source.Type)
 
 	// UserAssignedIdentities
 	if source.UserAssignedIdentities != nil {
@@ -3258,12 +3206,7 @@ func (identity *VirtualMachineScaleSetIdentity_Status) AssignPropertiesToVirtual
 	destination.TenantId = genruntime.ClonePointerToString(identity.TenantId)
 
 	// Type
-	if identity.Type != nil {
-		typeVar := string(*identity.Type)
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
+	destination.Type = genruntime.ClonePointerToString(identity.Type)
 
 	// UserAssignedIdentities
 	if identity.UserAssignedIdentities != nil {
@@ -3307,7 +3250,7 @@ type VirtualMachineScaleSetVMProfile_Status struct {
 	// For Azure Spot virtual machines, both 'Deallocate' and 'Delete' are supported and the minimum api-version is 2019-03-01.
 	// For Azure Spot scale sets, both 'Deallocate' and 'Delete' are supported and the minimum api-version is
 	// 2017-10-30-preview.
-	EvictionPolicy *EvictionPolicy_Status `json:"evictionPolicy,omitempty"`
+	EvictionPolicy *string `json:"evictionPolicy,omitempty"`
 
 	// ExtensionProfile: Specifies a collection of settings for extensions installed on virtual machines in the scale set.
 	ExtensionProfile *VirtualMachineScaleSetExtensionProfile_Status `json:"extensionProfile,omitempty"`
@@ -3334,7 +3277,7 @@ type VirtualMachineScaleSetVMProfile_Status struct {
 
 	// Priority: Specifies the priority for the virtual machines in the scale set.
 	// Minimum api-version: 2017-10-30-preview
-	Priority *Priority_Status `json:"priority,omitempty"`
+	Priority *string `json:"priority,omitempty"`
 
 	// ScheduledEventsProfile: Specifies Scheduled Event related configurations.
 	ScheduledEventsProfile *ScheduledEventsProfile_Status `json:"scheduledEventsProfile,omitempty"`
@@ -3498,12 +3441,7 @@ func (profile *VirtualMachineScaleSetVMProfile_Status) AssignPropertiesFromVirtu
 	}
 
 	// EvictionPolicy
-	if source.EvictionPolicy != nil {
-		evictionPolicy := EvictionPolicy_Status(*source.EvictionPolicy)
-		profile.EvictionPolicy = &evictionPolicy
-	} else {
-		profile.EvictionPolicy = nil
-	}
+	profile.EvictionPolicy = genruntime.ClonePointerToString(source.EvictionPolicy)
 
 	// ExtensionProfile
 	if source.ExtensionProfile != nil {
@@ -3545,12 +3483,7 @@ func (profile *VirtualMachineScaleSetVMProfile_Status) AssignPropertiesFromVirtu
 	}
 
 	// Priority
-	if source.Priority != nil {
-		priority := Priority_Status(*source.Priority)
-		profile.Priority = &priority
-	} else {
-		profile.Priority = nil
-	}
+	profile.Priority = genruntime.ClonePointerToString(source.Priority)
 
 	// ScheduledEventsProfile
 	if source.ScheduledEventsProfile != nil {
@@ -3622,12 +3555,7 @@ func (profile *VirtualMachineScaleSetVMProfile_Status) AssignPropertiesToVirtual
 	}
 
 	// EvictionPolicy
-	if profile.EvictionPolicy != nil {
-		evictionPolicy := string(*profile.EvictionPolicy)
-		destination.EvictionPolicy = &evictionPolicy
-	} else {
-		destination.EvictionPolicy = nil
-	}
+	destination.EvictionPolicy = genruntime.ClonePointerToString(profile.EvictionPolicy)
 
 	// ExtensionProfile
 	if profile.ExtensionProfile != nil {
@@ -3669,12 +3597,7 @@ func (profile *VirtualMachineScaleSetVMProfile_Status) AssignPropertiesToVirtual
 	}
 
 	// Priority
-	if profile.Priority != nil {
-		priority := string(*profile.Priority)
-		destination.Priority = &priority
-	} else {
-		destination.Priority = nil
-	}
+	destination.Priority = genruntime.ClonePointerToString(profile.Priority)
 
 	// ScheduledEventsProfile
 	if profile.ScheduledEventsProfile != nil {
@@ -4896,14 +4819,6 @@ const (
 	ScaleInPolicyRulesOldestVM = ScaleInPolicyRules("OldestVM")
 )
 
-type ScaleInPolicyStatusRules string
-
-const (
-	ScaleInPolicyStatusRulesDefault  = ScaleInPolicyStatusRules("Default")
-	ScaleInPolicyStatusRulesNewestVM = ScaleInPolicyStatusRules("NewestVM")
-	ScaleInPolicyStatusRulesOldestVM = ScaleInPolicyStatusRules("OldestVM")
-)
-
 // Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/ScheduledEventsProfile
 type ScheduledEventsProfile struct {
 	TerminateNotificationProfile *TerminateNotificationProfile `json:"terminateNotificationProfile,omitempty"`
@@ -5092,14 +5007,6 @@ const (
 	UpgradePolicyModeAutomatic = UpgradePolicyMode("Automatic")
 	UpgradePolicyModeManual    = UpgradePolicyMode("Manual")
 	UpgradePolicyModeRolling   = UpgradePolicyMode("Rolling")
-)
-
-type UpgradePolicyStatusMode string
-
-const (
-	UpgradePolicyStatusModeAutomatic = UpgradePolicyStatusMode("Automatic")
-	UpgradePolicyStatusModeManual    = UpgradePolicyStatusMode("Manual")
-	UpgradePolicyStatusModeRolling   = UpgradePolicyStatusMode("Rolling")
 )
 
 type VirtualMachineScaleSetExtensionProfile_Status struct {
@@ -7332,10 +7239,10 @@ type VirtualMachineScaleSetDataDisk_Status struct {
 	// ReadOnly
 	// ReadWrite
 	// Default: None for Standard storage. ReadOnly for Premium storage
-	Caching *Caching_Status `json:"caching,omitempty"`
+	Caching *string `json:"caching,omitempty"`
 
 	// CreateOption: The create option.
-	CreateOption *CreateOption_Status `json:"createOption,omitempty"`
+	CreateOption *string `json:"createOption,omitempty"`
 
 	// DiskIOPSReadWrite: Specifies the Read-Write IOPS for the managed disk. Should be used only when StorageAccountType is
 	// UltraSSD_LRS. If not specified, a default value would be assigned based on diskSizeGB.
@@ -7445,20 +7352,10 @@ func (disk *VirtualMachineScaleSetDataDisk_Status) PopulateFromARM(owner genrunt
 func (disk *VirtualMachineScaleSetDataDisk_Status) AssignPropertiesFromVirtualMachineScaleSetDataDiskStatus(source *v20201201s.VirtualMachineScaleSetDataDisk_Status) error {
 
 	// Caching
-	if source.Caching != nil {
-		caching := Caching_Status(*source.Caching)
-		disk.Caching = &caching
-	} else {
-		disk.Caching = nil
-	}
+	disk.Caching = genruntime.ClonePointerToString(source.Caching)
 
 	// CreateOption
-	if source.CreateOption != nil {
-		createOption := CreateOption_Status(*source.CreateOption)
-		disk.CreateOption = &createOption
-	} else {
-		disk.CreateOption = nil
-	}
+	disk.CreateOption = genruntime.ClonePointerToString(source.CreateOption)
 
 	// DiskIOPSReadWrite
 	disk.DiskIOPSReadWrite = genruntime.ClonePointerToInt(source.DiskIOPSReadWrite)
@@ -7505,20 +7402,10 @@ func (disk *VirtualMachineScaleSetDataDisk_Status) AssignPropertiesToVirtualMach
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Caching
-	if disk.Caching != nil {
-		caching := string(*disk.Caching)
-		destination.Caching = &caching
-	} else {
-		destination.Caching = nil
-	}
+	destination.Caching = genruntime.ClonePointerToString(disk.Caching)
 
 	// CreateOption
-	if disk.CreateOption != nil {
-		createOption := string(*disk.CreateOption)
-		destination.CreateOption = &createOption
-	} else {
-		destination.CreateOption = nil
-	}
+	destination.CreateOption = genruntime.ClonePointerToString(disk.CreateOption)
 
 	// DiskIOPSReadWrite
 	destination.DiskIOPSReadWrite = genruntime.ClonePointerToInt(disk.DiskIOPSReadWrite)
@@ -8626,13 +8513,13 @@ type VirtualMachineScaleSetOSDisk_Status struct {
 	// ReadOnly
 	// ReadWrite
 	// Default: None for Standard storage. ReadOnly for Premium storage
-	Caching *Caching_Status `json:"caching,omitempty"`
+	Caching *string `json:"caching,omitempty"`
 
 	// CreateOption: Specifies how the virtual machines in the scale set should be created.
 	// The only allowed value is: FromImage \u2013 This value is used when you are using an image to create the virtual
 	// machine. If you are using a platform image, you also use the imageReference element described above. If you are using a
 	// marketplace image, you  also use the plan element previously described.
-	CreateOption *CreateOption_Status `json:"createOption,omitempty"`
+	CreateOption *string `json:"createOption,omitempty"`
 
 	// DiffDiskSettings: Specifies the ephemeral disk Settings for the operating system disk used by the virtual machine scale
 	// set.
@@ -8657,7 +8544,7 @@ type VirtualMachineScaleSetOSDisk_Status struct {
 	// Possible values are:
 	// Windows
 	// Linux
-	OsType *VirtualMachineScaleSetOSDiskStatusOsType `json:"osType,omitempty"`
+	OsType *string `json:"osType,omitempty"`
 
 	// VhdContainers: Specifies the container urls that are used to store operating system disks for the scale set.
 	VhdContainers []string `json:"vhdContainers,omitempty"`
@@ -8762,20 +8649,10 @@ func (disk *VirtualMachineScaleSetOSDisk_Status) PopulateFromARM(owner genruntim
 func (disk *VirtualMachineScaleSetOSDisk_Status) AssignPropertiesFromVirtualMachineScaleSetOSDiskStatus(source *v20201201s.VirtualMachineScaleSetOSDisk_Status) error {
 
 	// Caching
-	if source.Caching != nil {
-		caching := Caching_Status(*source.Caching)
-		disk.Caching = &caching
-	} else {
-		disk.Caching = nil
-	}
+	disk.Caching = genruntime.ClonePointerToString(source.Caching)
 
 	// CreateOption
-	if source.CreateOption != nil {
-		createOption := CreateOption_Status(*source.CreateOption)
-		disk.CreateOption = &createOption
-	} else {
-		disk.CreateOption = nil
-	}
+	disk.CreateOption = genruntime.ClonePointerToString(source.CreateOption)
 
 	// DiffDiskSettings
 	if source.DiffDiskSettings != nil {
@@ -8820,12 +8697,7 @@ func (disk *VirtualMachineScaleSetOSDisk_Status) AssignPropertiesFromVirtualMach
 	disk.Name = genruntime.ClonePointerToString(source.Name)
 
 	// OsType
-	if source.OsType != nil {
-		osType := VirtualMachineScaleSetOSDiskStatusOsType(*source.OsType)
-		disk.OsType = &osType
-	} else {
-		disk.OsType = nil
-	}
+	disk.OsType = genruntime.ClonePointerToString(source.OsType)
 
 	// VhdContainers
 	disk.VhdContainers = genruntime.CloneSliceOfString(source.VhdContainers)
@@ -8848,20 +8720,10 @@ func (disk *VirtualMachineScaleSetOSDisk_Status) AssignPropertiesToVirtualMachin
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Caching
-	if disk.Caching != nil {
-		caching := string(*disk.Caching)
-		destination.Caching = &caching
-	} else {
-		destination.Caching = nil
-	}
+	destination.Caching = genruntime.ClonePointerToString(disk.Caching)
 
 	// CreateOption
-	if disk.CreateOption != nil {
-		createOption := string(*disk.CreateOption)
-		destination.CreateOption = &createOption
-	} else {
-		destination.CreateOption = nil
-	}
+	destination.CreateOption = genruntime.ClonePointerToString(disk.CreateOption)
 
 	// DiffDiskSettings
 	if disk.DiffDiskSettings != nil {
@@ -8906,12 +8768,7 @@ func (disk *VirtualMachineScaleSetOSDisk_Status) AssignPropertiesToVirtualMachin
 	destination.Name = genruntime.ClonePointerToString(disk.Name)
 
 	// OsType
-	if disk.OsType != nil {
-		osType := string(*disk.OsType)
-		destination.OsType = &osType
-	} else {
-		destination.OsType = nil
-	}
+	destination.OsType = genruntime.ClonePointerToString(disk.OsType)
 
 	// VhdContainers
 	destination.VhdContainers = genruntime.CloneSliceOfString(disk.VhdContainers)
@@ -9603,7 +9460,7 @@ type VirtualMachineScaleSetIPConfiguration_Status struct {
 
 	// PrivateIPAddressVersion: Available from Api-Version 2017-03-30 onwards, it represents whether the specific
 	// ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.  Possible values are: 'IPv4' and 'IPv6'.
-	PrivateIPAddressVersion *VirtualMachineScaleSetIPConfigurationPropertiesStatusPrivateIPAddressVersion `json:"privateIPAddressVersion,omitempty"`
+	PrivateIPAddressVersion *string `json:"privateIPAddressVersion,omitempty"`
 
 	// PublicIPAddressConfiguration: The publicIPAddressConfiguration.
 	PublicIPAddressConfiguration *VirtualMachineScaleSetPublicIPAddressConfiguration_Status `json:"publicIPAddressConfiguration,omitempty"`
@@ -9830,12 +9687,7 @@ func (configuration *VirtualMachineScaleSetIPConfiguration_Status) AssignPropert
 	}
 
 	// PrivateIPAddressVersion
-	if source.PrivateIPAddressVersion != nil {
-		privateIPAddressVersion := VirtualMachineScaleSetIPConfigurationPropertiesStatusPrivateIPAddressVersion(*source.PrivateIPAddressVersion)
-		configuration.PrivateIPAddressVersion = &privateIPAddressVersion
-	} else {
-		configuration.PrivateIPAddressVersion = nil
-	}
+	configuration.PrivateIPAddressVersion = genruntime.ClonePointerToString(source.PrivateIPAddressVersion)
 
 	// PublicIPAddressConfiguration
 	if source.PublicIPAddressConfiguration != nil {
@@ -9957,12 +9809,7 @@ func (configuration *VirtualMachineScaleSetIPConfiguration_Status) AssignPropert
 	}
 
 	// PrivateIPAddressVersion
-	if configuration.PrivateIPAddressVersion != nil {
-		privateIPAddressVersion := string(*configuration.PrivateIPAddressVersion)
-		destination.PrivateIPAddressVersion = &privateIPAddressVersion
-	} else {
-		destination.PrivateIPAddressVersion = nil
-	}
+	destination.PrivateIPAddressVersion = genruntime.ClonePointerToString(configuration.PrivateIPAddressVersion)
 
 	// PublicIPAddressConfiguration
 	if configuration.PublicIPAddressConfiguration != nil {
@@ -10141,7 +9988,7 @@ type VirtualMachineScaleSetManagedDiskParameters_Status struct {
 
 	// StorageAccountType: Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used with
 	// data disks, it cannot be used with OS Disk.
-	StorageAccountType *StorageAccountType_Status `json:"storageAccountType,omitempty"`
+	StorageAccountType *string `json:"storageAccountType,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &VirtualMachineScaleSetManagedDiskParameters_Status{}
@@ -10195,12 +10042,7 @@ func (parameters *VirtualMachineScaleSetManagedDiskParameters_Status) AssignProp
 	}
 
 	// StorageAccountType
-	if source.StorageAccountType != nil {
-		storageAccountType := StorageAccountType_Status(*source.StorageAccountType)
-		parameters.StorageAccountType = &storageAccountType
-	} else {
-		parameters.StorageAccountType = nil
-	}
+	parameters.StorageAccountType = genruntime.ClonePointerToString(source.StorageAccountType)
 
 	// No error
 	return nil
@@ -10224,12 +10066,7 @@ func (parameters *VirtualMachineScaleSetManagedDiskParameters_Status) AssignProp
 	}
 
 	// StorageAccountType
-	if parameters.StorageAccountType != nil {
-		storageAccountType := string(*parameters.StorageAccountType)
-		destination.StorageAccountType = &storageAccountType
-	} else {
-		destination.StorageAccountType = nil
-	}
+	destination.StorageAccountType = genruntime.ClonePointerToString(parameters.StorageAccountType)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -10395,13 +10232,6 @@ type VirtualMachineScaleSetOSDiskOsType string
 const (
 	VirtualMachineScaleSetOSDiskOsTypeLinux   = VirtualMachineScaleSetOSDiskOsType("Linux")
 	VirtualMachineScaleSetOSDiskOsTypeWindows = VirtualMachineScaleSetOSDiskOsType("Windows")
-)
-
-type VirtualMachineScaleSetOSDiskStatusOsType string
-
-const (
-	VirtualMachineScaleSetOSDiskStatusOsTypeLinux   = VirtualMachineScaleSetOSDiskStatusOsType("Linux")
-	VirtualMachineScaleSetOSDiskStatusOsTypeWindows = VirtualMachineScaleSetOSDiskStatusOsType("Windows")
 )
 
 type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations struct {
@@ -10916,13 +10746,6 @@ func (configurations *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProf
 	return nil
 }
 
-type VirtualMachineScaleSetIPConfigurationPropertiesStatusPrivateIPAddressVersion string
-
-const (
-	VirtualMachineScaleSetIPConfigurationPropertiesStatusPrivateIPAddressVersionIPv4 = VirtualMachineScaleSetIPConfigurationPropertiesStatusPrivateIPAddressVersion("IPv4")
-	VirtualMachineScaleSetIPConfigurationPropertiesStatusPrivateIPAddressVersionIPv6 = VirtualMachineScaleSetIPConfigurationPropertiesStatusPrivateIPAddressVersion("IPv6")
-)
-
 // +kubebuilder:validation:Enum={"Premium_LRS","Premium_ZRS","Standard_LRS","StandardSSD_LRS","StandardSSD_ZRS","UltraSSD_LRS"}
 type VirtualMachineScaleSetManagedDiskParametersStorageAccountType string
 
@@ -10950,7 +10773,7 @@ type VirtualMachineScaleSetPublicIPAddressConfiguration_Status struct {
 
 	// PublicIPAddressVersion: Available from Api-Version 2019-07-01 onwards, it represents whether the specific
 	// ipconfiguration is IPv4 or IPv6. Default is taken as IPv4. Possible values are: 'IPv4' and 'IPv6'.
-	PublicIPAddressVersion *VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesStatusPublicIPAddressVersion `json:"publicIPAddressVersion,omitempty"`
+	PublicIPAddressVersion *string `json:"publicIPAddressVersion,omitempty"`
 
 	// PublicIPPrefix: The PublicIPPrefix from which to allocate publicIP addresses.
 	PublicIPPrefix *SubResource_Status `json:"publicIPPrefix,omitempty"`
@@ -11079,12 +10902,7 @@ func (configuration *VirtualMachineScaleSetPublicIPAddressConfiguration_Status) 
 	configuration.Name = genruntime.ClonePointerToString(source.Name)
 
 	// PublicIPAddressVersion
-	if source.PublicIPAddressVersion != nil {
-		publicIPAddressVersion := VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesStatusPublicIPAddressVersion(*source.PublicIPAddressVersion)
-		configuration.PublicIPAddressVersion = &publicIPAddressVersion
-	} else {
-		configuration.PublicIPAddressVersion = nil
-	}
+	configuration.PublicIPAddressVersion = genruntime.ClonePointerToString(source.PublicIPAddressVersion)
 
 	// PublicIPPrefix
 	if source.PublicIPPrefix != nil {
@@ -11144,12 +10962,7 @@ func (configuration *VirtualMachineScaleSetPublicIPAddressConfiguration_Status) 
 	destination.Name = genruntime.ClonePointerToString(configuration.Name)
 
 	// PublicIPAddressVersion
-	if configuration.PublicIPAddressVersion != nil {
-		publicIPAddressVersion := string(*configuration.PublicIPAddressVersion)
-		destination.PublicIPAddressVersion = &publicIPAddressVersion
-	} else {
-		destination.PublicIPAddressVersion = nil
-	}
+	destination.PublicIPAddressVersion = genruntime.ClonePointerToString(configuration.PublicIPAddressVersion)
 
 	// PublicIPPrefix
 	if configuration.PublicIPPrefix != nil {
@@ -11784,13 +11597,6 @@ type VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesPublicIPAddress
 const (
 	VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesPublicIPAddressVersionIPv4 = VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesPublicIPAddressVersion("IPv4")
 	VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesPublicIPAddressVersionIPv6 = VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesPublicIPAddressVersion("IPv6")
-)
-
-type VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesStatusPublicIPAddressVersion string
-
-const (
-	VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesStatusPublicIPAddressVersionIPv4 = VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesStatusPublicIPAddressVersion("IPv4")
-	VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesStatusPublicIPAddressVersionIPv6 = VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesStatusPublicIPAddressVersion("IPv6")
 )
 
 func init() {

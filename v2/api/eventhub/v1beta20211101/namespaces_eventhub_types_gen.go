@@ -347,7 +347,7 @@ type Eventhub_Status struct {
 	PartitionIds []string `json:"partitionIds,omitempty"`
 
 	// Status: Enumerates the possible values for the status of the Event Hub.
-	Status *EventhubStatusPropertiesStatus `json:"status,omitempty"`
+	Status *string `json:"status,omitempty"`
 
 	// SystemData: The system meta data relating to this resource.
 	SystemData *SystemData_Status `json:"systemData,omitempty"`
@@ -571,12 +571,7 @@ func (eventhub *Eventhub_Status) AssignPropertiesFromEventhubStatus(source *v202
 	eventhub.PartitionIds = genruntime.CloneSliceOfString(source.PartitionIds)
 
 	// Status
-	if source.Status != nil {
-		status := EventhubStatusPropertiesStatus(*source.Status)
-		eventhub.Status = &status
-	} else {
-		eventhub.Status = nil
-	}
+	eventhub.Status = genruntime.ClonePointerToString(source.Status)
 
 	// SystemData
 	if source.SystemData != nil {
@@ -642,12 +637,7 @@ func (eventhub *Eventhub_Status) AssignPropertiesToEventhubStatus(destination *v
 	destination.PartitionIds = genruntime.CloneSliceOfString(eventhub.PartitionIds)
 
 	// Status
-	if eventhub.Status != nil {
-		status := string(*eventhub.Status)
-		destination.Status = &status
-	} else {
-		destination.Status = nil
-	}
+	destination.Status = genruntime.ClonePointerToString(eventhub.Status)
 
 	// SystemData
 	if eventhub.SystemData != nil {
@@ -1015,7 +1005,7 @@ type CaptureDescription_Status struct {
 
 	// Encoding: Enumerates the possible values for the encoding format of capture description. Note: 'AvroDeflate' will be
 	// deprecated in New API Version
-	Encoding *CaptureDescriptionStatusEncoding `json:"encoding,omitempty"`
+	Encoding *string `json:"encoding,omitempty"`
 
 	// IntervalInSeconds: The time window allows you to set the frequency with which the capture to Azure Blobs will happen,
 	// value should between 60 to 900 seconds
@@ -1112,12 +1102,7 @@ func (description *CaptureDescription_Status) AssignPropertiesFromCaptureDescrip
 	}
 
 	// Encoding
-	if source.Encoding != nil {
-		encoding := CaptureDescriptionStatusEncoding(*source.Encoding)
-		description.Encoding = &encoding
-	} else {
-		description.Encoding = nil
-	}
+	description.Encoding = genruntime.ClonePointerToString(source.Encoding)
 
 	// IntervalInSeconds
 	description.IntervalInSeconds = genruntime.ClonePointerToInt(source.IntervalInSeconds)
@@ -1163,12 +1148,7 @@ func (description *CaptureDescription_Status) AssignPropertiesToCaptureDescripti
 	}
 
 	// Encoding
-	if description.Encoding != nil {
-		encoding := string(*description.Encoding)
-		destination.Encoding = &encoding
-	} else {
-		destination.Encoding = nil
-	}
+	destination.Encoding = genruntime.ClonePointerToString(description.Encoding)
 
 	// IntervalInSeconds
 	destination.IntervalInSeconds = genruntime.ClonePointerToInt(description.IntervalInSeconds)

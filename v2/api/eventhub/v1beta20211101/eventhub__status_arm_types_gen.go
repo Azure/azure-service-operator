@@ -41,7 +41,7 @@ type Eventhub_Status_PropertiesARM struct {
 	PartitionIds []string `json:"partitionIds,omitempty"`
 
 	// Status: Enumerates the possible values for the status of the Event Hub.
-	Status *EventhubStatusPropertiesStatus `json:"status,omitempty"`
+	Status *string `json:"status,omitempty"`
 
 	// UpdatedAt: The exact time the message was updated.
 	UpdatedAt *string `json:"updatedAt,omitempty"`
@@ -56,7 +56,7 @@ type CaptureDescription_StatusARM struct {
 
 	// Encoding: Enumerates the possible values for the encoding format of capture description. Note: 'AvroDeflate' will be
 	// deprecated in New API Version
-	Encoding *CaptureDescriptionStatusEncoding `json:"encoding,omitempty"`
+	Encoding *string `json:"encoding,omitempty"`
 
 	// IntervalInSeconds: The time window allows you to set the frequency with which the capture to Azure Blobs will happen,
 	// value should between 60 to 900 seconds
@@ -69,27 +69,6 @@ type CaptureDescription_StatusARM struct {
 	// SkipEmptyArchives: A value that indicates whether to Skip Empty Archives
 	SkipEmptyArchives *bool `json:"skipEmptyArchives,omitempty"`
 }
-
-type EventhubStatusPropertiesStatus string
-
-const (
-	EventhubStatusPropertiesStatusActive          = EventhubStatusPropertiesStatus("Active")
-	EventhubStatusPropertiesStatusCreating        = EventhubStatusPropertiesStatus("Creating")
-	EventhubStatusPropertiesStatusDeleting        = EventhubStatusPropertiesStatus("Deleting")
-	EventhubStatusPropertiesStatusDisabled        = EventhubStatusPropertiesStatus("Disabled")
-	EventhubStatusPropertiesStatusReceiveDisabled = EventhubStatusPropertiesStatus("ReceiveDisabled")
-	EventhubStatusPropertiesStatusRenaming        = EventhubStatusPropertiesStatus("Renaming")
-	EventhubStatusPropertiesStatusRestoring       = EventhubStatusPropertiesStatus("Restoring")
-	EventhubStatusPropertiesStatusSendDisabled    = EventhubStatusPropertiesStatus("SendDisabled")
-	EventhubStatusPropertiesStatusUnknown         = EventhubStatusPropertiesStatus("Unknown")
-)
-
-type CaptureDescriptionStatusEncoding string
-
-const (
-	CaptureDescriptionStatusEncodingAvro        = CaptureDescriptionStatusEncoding("Avro")
-	CaptureDescriptionStatusEncodingAvroDeflate = CaptureDescriptionStatusEncoding("AvroDeflate")
-)
 
 type Destination_StatusARM struct {
 	// Name: Name for capture destination

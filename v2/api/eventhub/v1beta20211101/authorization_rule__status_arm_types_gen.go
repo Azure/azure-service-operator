@@ -26,7 +26,7 @@ type AuthorizationRule_StatusARM struct {
 
 type AuthorizationRule_Status_PropertiesARM struct {
 	// Rights: The rights associated with the rule.
-	Rights []AuthorizationRuleStatusPropertiesRights `json:"rights,omitempty"`
+	Rights []string `json:"rights,omitempty"`
 }
 
 type SystemData_StatusARM struct {
@@ -37,7 +37,7 @@ type SystemData_StatusARM struct {
 	CreatedBy *string `json:"createdBy,omitempty"`
 
 	// CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemDataStatusCreatedByType `json:"createdByType,omitempty"`
+	CreatedByType *string `json:"createdByType,omitempty"`
 
 	// LastModifiedAt: The type of identity that last modified the resource.
 	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
@@ -46,31 +46,5 @@ type SystemData_StatusARM struct {
 	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
 
 	// LastModifiedByType: The type of identity that last modified the resource.
-	LastModifiedByType *SystemDataStatusLastModifiedByType `json:"lastModifiedByType,omitempty"`
+	LastModifiedByType *string `json:"lastModifiedByType,omitempty"`
 }
-
-type AuthorizationRuleStatusPropertiesRights string
-
-const (
-	AuthorizationRuleStatusPropertiesRightsListen = AuthorizationRuleStatusPropertiesRights("Listen")
-	AuthorizationRuleStatusPropertiesRightsManage = AuthorizationRuleStatusPropertiesRights("Manage")
-	AuthorizationRuleStatusPropertiesRightsSend   = AuthorizationRuleStatusPropertiesRights("Send")
-)
-
-type SystemDataStatusCreatedByType string
-
-const (
-	SystemDataStatusCreatedByTypeApplication     = SystemDataStatusCreatedByType("Application")
-	SystemDataStatusCreatedByTypeKey             = SystemDataStatusCreatedByType("Key")
-	SystemDataStatusCreatedByTypeManagedIdentity = SystemDataStatusCreatedByType("ManagedIdentity")
-	SystemDataStatusCreatedByTypeUser            = SystemDataStatusCreatedByType("User")
-)
-
-type SystemDataStatusLastModifiedByType string
-
-const (
-	SystemDataStatusLastModifiedByTypeApplication     = SystemDataStatusLastModifiedByType("Application")
-	SystemDataStatusLastModifiedByTypeKey             = SystemDataStatusLastModifiedByType("Key")
-	SystemDataStatusLastModifiedByTypeManagedIdentity = SystemDataStatusLastModifiedByType("ManagedIdentity")
-	SystemDataStatusLastModifiedByTypeUser            = SystemDataStatusLastModifiedByType("User")
-)

@@ -46,7 +46,7 @@ type DatabaseObservation struct {
 	AutoPauseDelay *int `json:"autoPauseDelay,omitempty"`
 
 	// CatalogCollation: Collation of the metadata catalog.
-	CatalogCollation *DatabasePropertiesStatusCatalogCollation `json:"catalogCollation,omitempty"`
+	CatalogCollation *string `json:"catalogCollation,omitempty"`
 
 	// Collation: The collation of the database.
 	Collation *string `json:"collation,omitempty"`
@@ -68,13 +68,13 @@ type DatabaseObservation struct {
 	// RestoreLongTermRetentionBackup: Creates a database by restoring from a long term retention vault.
 	// recoveryServicesRecoveryPointResourceId must be specified as the recovery point resource ID.
 	// Copy, Secondary, and RestoreLongTermRetentionBackup are not supported for DataWarehouse edition.
-	CreateMode *DatabasePropertiesStatusCreateMode `json:"createMode,omitempty"`
+	CreateMode *string `json:"createMode,omitempty"`
 
 	// CreationDate: The creation date of the database (ISO8601 format).
 	CreationDate *string `json:"creationDate,omitempty"`
 
 	// CurrentBackupStorageRedundancy: The storage account type used to store backups for this database.
-	CurrentBackupStorageRedundancy *DatabasePropertiesStatusCurrentBackupStorageRedundancy `json:"currentBackupStorageRedundancy,omitempty"`
+	CurrentBackupStorageRedundancy *string `json:"currentBackupStorageRedundancy,omitempty"`
 
 	// CurrentServiceObjectiveName: The current service level objective name of the database.
 	CurrentServiceObjectiveName *string `json:"currentServiceObjectiveName,omitempty"`
@@ -110,7 +110,7 @@ type DatabaseObservation struct {
 
 	// LicenseType: The license type to apply for this database. `LicenseIncluded` if you need a license, or `BasePrice` if you
 	// have a license and are eligible for the Azure Hybrid Benefit.
-	LicenseType *DatabasePropertiesStatusLicenseType `json:"licenseType,omitempty"`
+	LicenseType *string `json:"licenseType,omitempty"`
 
 	// Location: Resource location.
 	Location *string `json:"location,omitempty"`
@@ -144,7 +144,7 @@ type DatabaseObservation struct {
 
 	// ReadScale: The state of read-only routing. If enabled, connections that have application intent set to readonly in their
 	// connection string may be routed to a readonly secondary replica in the same region.
-	ReadScale *DatabasePropertiesStatusReadScale `json:"readScale,omitempty"`
+	ReadScale *string `json:"readScale,omitempty"`
 
 	// RecoverableDatabaseId: The resource identifier of the recoverable database associated with create operation of this
 	// database.
@@ -155,7 +155,7 @@ type DatabaseObservation struct {
 	RecoveryServicesRecoveryPointId *string `json:"recoveryServicesRecoveryPointId,omitempty"`
 
 	// RequestedBackupStorageRedundancy: The storage account type to be used to store backups for this database.
-	RequestedBackupStorageRedundancy *DatabasePropertiesStatusRequestedBackupStorageRedundancy `json:"requestedBackupStorageRedundancy,omitempty"`
+	RequestedBackupStorageRedundancy *string `json:"requestedBackupStorageRedundancy,omitempty"`
 
 	// RequestedServiceObjectiveName: The requested service level objective name of the database.
 	RequestedServiceObjectiveName *string `json:"requestedServiceObjectiveName,omitempty"`
@@ -173,10 +173,10 @@ type DatabaseObservation struct {
 	ResumedDate *string `json:"resumedDate,omitempty"`
 
 	// SampleName: The name of the sample schema to apply when creating this database.
-	SampleName *DatabasePropertiesStatusSampleName `json:"sampleName,omitempty"`
+	SampleName *string `json:"sampleName,omitempty"`
 
 	// SecondaryType: The secondary type of the database if it is a secondary.  Valid values are Geo and Named.
-	SecondaryType *DatabasePropertiesStatusSecondaryType `json:"secondaryType,omitempty"`
+	SecondaryType *string `json:"secondaryType,omitempty"`
 
 	// Sku: The database SKU.
 	// The list of SKUs may vary by region and support offer. To determine the SKUs (including the SKU name, tier/edition,
@@ -197,7 +197,7 @@ type DatabaseObservation struct {
 	SourceDatabaseId *string `json:"sourceDatabaseId,omitempty"`
 
 	// Status: The status of the database.
-	Status *DatabasePropertiesStatusStatus `json:"status,omitempty"`
+	Status *string `json:"status,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -388,99 +388,6 @@ type DatabasePropertiesSecondaryType string
 const (
 	DatabasePropertiesSecondaryTypeGeo   = DatabasePropertiesSecondaryType("Geo")
 	DatabasePropertiesSecondaryTypeNamed = DatabasePropertiesSecondaryType("Named")
-)
-
-type DatabasePropertiesStatusCatalogCollation string
-
-const (
-	DatabasePropertiesStatusCatalogCollationDATABASEDEFAULT         = DatabasePropertiesStatusCatalogCollation("DATABASE_DEFAULT")
-	DatabasePropertiesStatusCatalogCollationSQLLatin1GeneralCP1CIAS = DatabasePropertiesStatusCatalogCollation("SQL_Latin1_General_CP1_CI_AS")
-)
-
-type DatabasePropertiesStatusCreateMode string
-
-const (
-	DatabasePropertiesStatusCreateModeCopy                           = DatabasePropertiesStatusCreateMode("Copy")
-	DatabasePropertiesStatusCreateModeDefault                        = DatabasePropertiesStatusCreateMode("Default")
-	DatabasePropertiesStatusCreateModeOnlineSecondary                = DatabasePropertiesStatusCreateMode("OnlineSecondary")
-	DatabasePropertiesStatusCreateModePointInTimeRestore             = DatabasePropertiesStatusCreateMode("PointInTimeRestore")
-	DatabasePropertiesStatusCreateModeRecovery                       = DatabasePropertiesStatusCreateMode("Recovery")
-	DatabasePropertiesStatusCreateModeRestore                        = DatabasePropertiesStatusCreateMode("Restore")
-	DatabasePropertiesStatusCreateModeRestoreExternalBackup          = DatabasePropertiesStatusCreateMode("RestoreExternalBackup")
-	DatabasePropertiesStatusCreateModeRestoreExternalBackupSecondary = DatabasePropertiesStatusCreateMode("RestoreExternalBackupSecondary")
-	DatabasePropertiesStatusCreateModeRestoreLongTermRetentionBackup = DatabasePropertiesStatusCreateMode("RestoreLongTermRetentionBackup")
-	DatabasePropertiesStatusCreateModeSecondary                      = DatabasePropertiesStatusCreateMode("Secondary")
-)
-
-type DatabasePropertiesStatusCurrentBackupStorageRedundancy string
-
-const (
-	DatabasePropertiesStatusCurrentBackupStorageRedundancyGeo   = DatabasePropertiesStatusCurrentBackupStorageRedundancy("Geo")
-	DatabasePropertiesStatusCurrentBackupStorageRedundancyLocal = DatabasePropertiesStatusCurrentBackupStorageRedundancy("Local")
-	DatabasePropertiesStatusCurrentBackupStorageRedundancyZone  = DatabasePropertiesStatusCurrentBackupStorageRedundancy("Zone")
-)
-
-type DatabasePropertiesStatusLicenseType string
-
-const (
-	DatabasePropertiesStatusLicenseTypeBasePrice       = DatabasePropertiesStatusLicenseType("BasePrice")
-	DatabasePropertiesStatusLicenseTypeLicenseIncluded = DatabasePropertiesStatusLicenseType("LicenseIncluded")
-)
-
-type DatabasePropertiesStatusReadScale string
-
-const (
-	DatabasePropertiesStatusReadScaleDisabled = DatabasePropertiesStatusReadScale("Disabled")
-	DatabasePropertiesStatusReadScaleEnabled  = DatabasePropertiesStatusReadScale("Enabled")
-)
-
-type DatabasePropertiesStatusRequestedBackupStorageRedundancy string
-
-const (
-	DatabasePropertiesStatusRequestedBackupStorageRedundancyGeo   = DatabasePropertiesStatusRequestedBackupStorageRedundancy("Geo")
-	DatabasePropertiesStatusRequestedBackupStorageRedundancyLocal = DatabasePropertiesStatusRequestedBackupStorageRedundancy("Local")
-	DatabasePropertiesStatusRequestedBackupStorageRedundancyZone  = DatabasePropertiesStatusRequestedBackupStorageRedundancy("Zone")
-)
-
-type DatabasePropertiesStatusSampleName string
-
-const (
-	DatabasePropertiesStatusSampleNameAdventureWorksLT       = DatabasePropertiesStatusSampleName("AdventureWorksLT")
-	DatabasePropertiesStatusSampleNameWideWorldImportersFull = DatabasePropertiesStatusSampleName("WideWorldImportersFull")
-	DatabasePropertiesStatusSampleNameWideWorldImportersStd  = DatabasePropertiesStatusSampleName("WideWorldImportersStd")
-)
-
-type DatabasePropertiesStatusSecondaryType string
-
-const (
-	DatabasePropertiesStatusSecondaryTypeGeo   = DatabasePropertiesStatusSecondaryType("Geo")
-	DatabasePropertiesStatusSecondaryTypeNamed = DatabasePropertiesStatusSecondaryType("Named")
-)
-
-type DatabasePropertiesStatusStatus string
-
-const (
-	DatabasePropertiesStatusStatusAutoClosed                        = DatabasePropertiesStatusStatus("AutoClosed")
-	DatabasePropertiesStatusStatusCopying                           = DatabasePropertiesStatusStatus("Copying")
-	DatabasePropertiesStatusStatusCreating                          = DatabasePropertiesStatusStatus("Creating")
-	DatabasePropertiesStatusStatusDisabled                          = DatabasePropertiesStatusStatus("Disabled")
-	DatabasePropertiesStatusStatusEmergencyMode                     = DatabasePropertiesStatusStatus("EmergencyMode")
-	DatabasePropertiesStatusStatusInaccessible                      = DatabasePropertiesStatusStatus("Inaccessible")
-	DatabasePropertiesStatusStatusOffline                           = DatabasePropertiesStatusStatus("Offline")
-	DatabasePropertiesStatusStatusOfflineChangingDwPerformanceTiers = DatabasePropertiesStatusStatus("OfflineChangingDwPerformanceTiers")
-	DatabasePropertiesStatusStatusOfflineSecondary                  = DatabasePropertiesStatusStatus("OfflineSecondary")
-	DatabasePropertiesStatusStatusOnline                            = DatabasePropertiesStatusStatus("Online")
-	DatabasePropertiesStatusStatusOnlineChangingDwPerformanceTiers  = DatabasePropertiesStatusStatus("OnlineChangingDwPerformanceTiers")
-	DatabasePropertiesStatusStatusPaused                            = DatabasePropertiesStatusStatus("Paused")
-	DatabasePropertiesStatusStatusPausing                           = DatabasePropertiesStatusStatus("Pausing")
-	DatabasePropertiesStatusStatusRecovering                        = DatabasePropertiesStatusStatus("Recovering")
-	DatabasePropertiesStatusStatusRecoveryPending                   = DatabasePropertiesStatusStatus("RecoveryPending")
-	DatabasePropertiesStatusStatusRestoring                         = DatabasePropertiesStatusStatus("Restoring")
-	DatabasePropertiesStatusStatusResuming                          = DatabasePropertiesStatusStatus("Resuming")
-	DatabasePropertiesStatusStatusScaling                           = DatabasePropertiesStatusStatus("Scaling")
-	DatabasePropertiesStatusStatusShutdown                          = DatabasePropertiesStatusStatus("Shutdown")
-	DatabasePropertiesStatusStatusStandby                           = DatabasePropertiesStatusStatus("Standby")
-	DatabasePropertiesStatusStatusSuspect                           = DatabasePropertiesStatusStatus("Suspect")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2020-11-01-preview/Microsoft.Sql.json#/definitions/Sku

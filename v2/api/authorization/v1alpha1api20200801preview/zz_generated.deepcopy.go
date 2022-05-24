@@ -165,7 +165,7 @@ func (in *RoleAssignmentProperties_StatusARM) DeepCopyInto(out *RoleAssignmentPr
 	}
 	if in.PrincipalType != nil {
 		in, out := &in.PrincipalType, &out.PrincipalType
-		*out = new(RoleAssignmentPropertiesStatusPrincipalType)
+		*out = new(string)
 		**out = **in
 	}
 	if in.RoleDefinitionId != nil {
@@ -257,7 +257,7 @@ func (in *RoleAssignment_Status) DeepCopyInto(out *RoleAssignment_Status) {
 	}
 	if in.PrincipalType != nil {
 		in, out := &in.PrincipalType, &out.PrincipalType
-		*out = new(RoleAssignmentPropertiesStatusPrincipalType)
+		*out = new(string)
 		**out = **in
 	}
 	if in.RoleDefinitionId != nil {

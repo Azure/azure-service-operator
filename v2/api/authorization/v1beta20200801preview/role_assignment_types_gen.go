@@ -355,7 +355,7 @@ type RoleAssignment_Status struct {
 	PrincipalId *string `json:"principalId,omitempty"`
 
 	// PrincipalType: The principal type of the assigned principal ID.
-	PrincipalType *RoleAssignmentPropertiesStatusPrincipalType `json:"principalType,omitempty"`
+	PrincipalType *string `json:"principalType,omitempty"`
 
 	// RoleDefinitionId: The role definition ID.
 	RoleDefinitionId *string `json:"roleDefinitionId,omitempty"`
@@ -603,12 +603,7 @@ func (assignment *RoleAssignment_Status) AssignPropertiesFromRoleAssignmentStatu
 	assignment.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
 
 	// PrincipalType
-	if source.PrincipalType != nil {
-		principalType := RoleAssignmentPropertiesStatusPrincipalType(*source.PrincipalType)
-		assignment.PrincipalType = &principalType
-	} else {
-		assignment.PrincipalType = nil
-	}
+	assignment.PrincipalType = genruntime.ClonePointerToString(source.PrincipalType)
 
 	// RoleDefinitionId
 	assignment.RoleDefinitionId = genruntime.ClonePointerToString(source.RoleDefinitionId)
@@ -665,12 +660,7 @@ func (assignment *RoleAssignment_Status) AssignPropertiesToRoleAssignmentStatus(
 	destination.PrincipalId = genruntime.ClonePointerToString(assignment.PrincipalId)
 
 	// PrincipalType
-	if assignment.PrincipalType != nil {
-		principalType := string(*assignment.PrincipalType)
-		destination.PrincipalType = &principalType
-	} else {
-		destination.PrincipalType = nil
-	}
+	destination.PrincipalType = genruntime.ClonePointerToString(assignment.PrincipalType)
 
 	// RoleDefinitionId
 	destination.RoleDefinitionId = genruntime.ClonePointerToString(assignment.RoleDefinitionId)
@@ -1094,15 +1084,6 @@ const (
 	RoleAssignmentPropertiesPrincipalTypeGroup            = RoleAssignmentPropertiesPrincipalType("Group")
 	RoleAssignmentPropertiesPrincipalTypeServicePrincipal = RoleAssignmentPropertiesPrincipalType("ServicePrincipal")
 	RoleAssignmentPropertiesPrincipalTypeUser             = RoleAssignmentPropertiesPrincipalType("User")
-)
-
-type RoleAssignmentPropertiesStatusPrincipalType string
-
-const (
-	RoleAssignmentPropertiesStatusPrincipalTypeForeignGroup     = RoleAssignmentPropertiesStatusPrincipalType("ForeignGroup")
-	RoleAssignmentPropertiesStatusPrincipalTypeGroup            = RoleAssignmentPropertiesStatusPrincipalType("Group")
-	RoleAssignmentPropertiesStatusPrincipalTypeServicePrincipal = RoleAssignmentPropertiesStatusPrincipalType("ServicePrincipal")
-	RoleAssignmentPropertiesStatusPrincipalTypeUser             = RoleAssignmentPropertiesStatusPrincipalType("User")
 )
 
 func init() {

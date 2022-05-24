@@ -43,7 +43,7 @@ type Identity_StatusARM struct {
 	TenantId *string `json:"tenantId,omitempty"`
 
 	// Type: Type of managed service identity.
-	Type *IdentityStatusType `json:"type,omitempty"`
+	Type *string `json:"type,omitempty"`
 
 	// UserAssignedIdentities: Metadata of user assigned identity.
 	UserAssignedIdentities map[string]v1.JSON `json:"userAssignedIdentities,omitempty"`
@@ -61,7 +61,7 @@ type ServerProperties_StatusARM struct {
 	Backup *Backup_StatusARM `json:"backup,omitempty"`
 
 	// CreateMode: The mode to create a new MySQL server.
-	CreateMode *ServerPropertiesStatusCreateMode `json:"createMode,omitempty"`
+	CreateMode *string `json:"createMode,omitempty"`
 
 	// DataEncryption: The Data Encryption for CMK.
 	DataEncryption *DataEncryption_StatusARM `json:"dataEncryption,omitempty"`
@@ -82,7 +82,7 @@ type ServerProperties_StatusARM struct {
 	ReplicaCapacity *int `json:"replicaCapacity,omitempty"`
 
 	// ReplicationRole: The replication role.
-	ReplicationRole *ReplicationRole_Status `json:"replicationRole,omitempty"`
+	ReplicationRole *string `json:"replicationRole,omitempty"`
 
 	// RestorePointInTime: Restore point creation time (ISO8601 format), specifying the time to restore from.
 	RestorePointInTime *string `json:"restorePointInTime,omitempty"`
@@ -91,13 +91,13 @@ type ServerProperties_StatusARM struct {
 	SourceServerResourceId *string `json:"sourceServerResourceId,omitempty"`
 
 	// State: The state of a server.
-	State *ServerPropertiesStatusState `json:"state,omitempty"`
+	State *string `json:"state,omitempty"`
 
 	// Storage: Storage related properties of a server.
 	Storage *Storage_StatusARM `json:"storage,omitempty"`
 
 	// Version: Server version.
-	Version *ServerVersion_Status `json:"version,omitempty"`
+	Version *string `json:"version,omitempty"`
 }
 
 type Sku_StatusARM struct {
@@ -105,7 +105,7 @@ type Sku_StatusARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Tier: The tier of the particular SKU, e.g. GeneralPurpose.
-	Tier *SkuStatusTier `json:"tier,omitempty"`
+	Tier *string `json:"tier,omitempty"`
 }
 
 type Backup_StatusARM struct {
@@ -116,7 +116,7 @@ type Backup_StatusARM struct {
 	EarliestRestoreDate *string `json:"earliestRestoreDate,omitempty"`
 
 	// GeoRedundantBackup: Whether or not geo redundant backup is enabled.
-	GeoRedundantBackup *EnableStatusEnum_Status `json:"geoRedundantBackup,omitempty"`
+	GeoRedundantBackup *string `json:"geoRedundantBackup,omitempty"`
 }
 
 type DataEncryption_StatusARM struct {
@@ -134,23 +134,19 @@ type DataEncryption_StatusARM struct {
 	PrimaryUserAssignedIdentityId *string `json:"primaryUserAssignedIdentityId,omitempty"`
 
 	// Type: The key type, AzureKeyVault for enable cmk, SystemManaged for disable cmk.
-	Type *DataEncryptionStatusType `json:"type,omitempty"`
+	Type *string `json:"type,omitempty"`
 }
 
 type HighAvailability_StatusARM struct {
 	// Mode: High availability mode for a server.
-	Mode *HighAvailabilityStatusMode `json:"mode,omitempty"`
+	Mode *string `json:"mode,omitempty"`
 
 	// StandbyAvailabilityZone: Availability zone of the standby server.
 	StandbyAvailabilityZone *string `json:"standbyAvailabilityZone,omitempty"`
 
 	// State: The state of server high availability.
-	State *HighAvailabilityStatusState `json:"state,omitempty"`
+	State *string `json:"state,omitempty"`
 }
-
-type IdentityStatusType string
-
-const IdentityStatusTypeUserAssigned = IdentityStatusType("UserAssigned")
 
 type MaintenanceWindow_StatusARM struct {
 	// CustomWindow: indicates whether custom window is enabled or disabled
@@ -175,20 +171,12 @@ type Network_StatusARM struct {
 
 	// PublicNetworkAccess: Whether or not public network access is allowed for this server. Value is 'Disabled' when server
 	// has VNet integration.
-	PublicNetworkAccess *EnableStatusEnum_Status `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *string `json:"publicNetworkAccess,omitempty"`
 }
-
-type SkuStatusTier string
-
-const (
-	SkuStatusTierBurstable       = SkuStatusTier("Burstable")
-	SkuStatusTierGeneralPurpose  = SkuStatusTier("GeneralPurpose")
-	SkuStatusTierMemoryOptimized = SkuStatusTier("MemoryOptimized")
-)
 
 type Storage_StatusARM struct {
 	// AutoGrow: Enable Storage Auto Grow or not.
-	AutoGrow *EnableStatusEnum_Status `json:"autoGrow,omitempty"`
+	AutoGrow *string `json:"autoGrow,omitempty"`
 
 	// Iops: Storage IOPS for a server.
 	Iops *int `json:"iops,omitempty"`

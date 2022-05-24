@@ -19,7 +19,7 @@ type ScheduleEntries_StatusARM struct {
 
 // Deprecated version of ScheduleEntry_Status. Use v1beta20201201.ScheduleEntry_Status instead
 type ScheduleEntry_StatusARM struct {
-	DayOfWeek         *ScheduleEntryStatusDayOfWeek `json:"dayOfWeek,omitempty"`
-	MaintenanceWindow *string                       `json:"maintenanceWindow,omitempty"`
-	StartHourUtc      *int                          `json:"startHourUtc,omitempty"`
+	DayOfWeek         *string `json:"dayOfWeek,omitempty"`
+	MaintenanceWindow *string `json:"maintenanceWindow,omitempty"`
+	StartHourUtc      *int    `json:"startHourUtc,omitempty"`
 }

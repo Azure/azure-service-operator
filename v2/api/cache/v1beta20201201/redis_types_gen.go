@@ -369,7 +369,7 @@ type RedisResource_Status struct {
 
 	// MinimumTlsVersion: Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, '1.0', '1.1',
 	// '1.2')
-	MinimumTlsVersion *RedisPropertiesStatusMinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
+	MinimumTlsVersion *string `json:"minimumTlsVersion,omitempty"`
 
 	// Name: The name of the resource
 	Name *string `json:"name,omitempty"`
@@ -381,12 +381,12 @@ type RedisResource_Status struct {
 	PrivateEndpointConnections []PrivateEndpointConnection_Status_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
 
 	// ProvisioningState: Redis instance provisioning status.
-	ProvisioningState *RedisPropertiesStatusProvisioningState `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	// PublicNetworkAccess: Whether or not public endpoint access is allowed for this cache.  Value is optional but if passed
 	// in, must be 'Enabled' or 'Disabled'. If 'Disabled', private endpoints are the exclusive access method. Default value is
 	// 'Enabled'
-	PublicNetworkAccess *RedisPropertiesStatusPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *string `json:"publicNetworkAccess,omitempty"`
 
 	// RedisConfiguration: All Redis Settings. Few possible keys:
 	// rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value
@@ -791,12 +791,7 @@ func (resource *RedisResource_Status) AssignPropertiesFromRedisResourceStatus(so
 	resource.Location = genruntime.ClonePointerToString(source.Location)
 
 	// MinimumTlsVersion
-	if source.MinimumTlsVersion != nil {
-		minimumTlsVersion := RedisPropertiesStatusMinimumTlsVersion(*source.MinimumTlsVersion)
-		resource.MinimumTlsVersion = &minimumTlsVersion
-	} else {
-		resource.MinimumTlsVersion = nil
-	}
+	resource.MinimumTlsVersion = genruntime.ClonePointerToString(source.MinimumTlsVersion)
 
 	// Name
 	resource.Name = genruntime.ClonePointerToString(source.Name)
@@ -823,20 +818,10 @@ func (resource *RedisResource_Status) AssignPropertiesFromRedisResourceStatus(so
 	}
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := RedisPropertiesStatusProvisioningState(*source.ProvisioningState)
-		resource.ProvisioningState = &provisioningState
-	} else {
-		resource.ProvisioningState = nil
-	}
+	resource.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// PublicNetworkAccess
-	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := RedisPropertiesStatusPublicNetworkAccess(*source.PublicNetworkAccess)
-		resource.PublicNetworkAccess = &publicNetworkAccess
-	} else {
-		resource.PublicNetworkAccess = nil
-	}
+	resource.PublicNetworkAccess = genruntime.ClonePointerToString(source.PublicNetworkAccess)
 
 	// RedisConfiguration
 	resource.RedisConfiguration = genruntime.CloneMapOfStringToString(source.RedisConfiguration)
@@ -952,12 +937,7 @@ func (resource *RedisResource_Status) AssignPropertiesToRedisResourceStatus(dest
 	destination.Location = genruntime.ClonePointerToString(resource.Location)
 
 	// MinimumTlsVersion
-	if resource.MinimumTlsVersion != nil {
-		minimumTlsVersion := string(*resource.MinimumTlsVersion)
-		destination.MinimumTlsVersion = &minimumTlsVersion
-	} else {
-		destination.MinimumTlsVersion = nil
-	}
+	destination.MinimumTlsVersion = genruntime.ClonePointerToString(resource.MinimumTlsVersion)
 
 	// Name
 	destination.Name = genruntime.ClonePointerToString(resource.Name)
@@ -984,20 +964,10 @@ func (resource *RedisResource_Status) AssignPropertiesToRedisResourceStatus(dest
 	}
 
 	// ProvisioningState
-	if resource.ProvisioningState != nil {
-		provisioningState := string(*resource.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(resource.ProvisioningState)
 
 	// PublicNetworkAccess
-	if resource.PublicNetworkAccess != nil {
-		publicNetworkAccess := string(*resource.PublicNetworkAccess)
-		destination.PublicNetworkAccess = &publicNetworkAccess
-	} else {
-		destination.PublicNetworkAccess = nil
-	}
+	destination.PublicNetworkAccess = genruntime.ClonePointerToString(resource.PublicNetworkAccess)
 
 	// RedisConfiguration
 	destination.RedisConfiguration = genruntime.CloneMapOfStringToString(resource.RedisConfiguration)
@@ -2020,38 +1990,6 @@ func (operator *RedisOperatorSpec) AssignPropertiesToRedisOperatorSpec(destinati
 	return nil
 }
 
-type RedisPropertiesStatusMinimumTlsVersion string
-
-const (
-	RedisPropertiesStatusMinimumTlsVersion10 = RedisPropertiesStatusMinimumTlsVersion("1.0")
-	RedisPropertiesStatusMinimumTlsVersion11 = RedisPropertiesStatusMinimumTlsVersion("1.1")
-	RedisPropertiesStatusMinimumTlsVersion12 = RedisPropertiesStatusMinimumTlsVersion("1.2")
-)
-
-type RedisPropertiesStatusProvisioningState string
-
-const (
-	RedisPropertiesStatusProvisioningStateCreating               = RedisPropertiesStatusProvisioningState("Creating")
-	RedisPropertiesStatusProvisioningStateDeleting               = RedisPropertiesStatusProvisioningState("Deleting")
-	RedisPropertiesStatusProvisioningStateDisabled               = RedisPropertiesStatusProvisioningState("Disabled")
-	RedisPropertiesStatusProvisioningStateFailed                 = RedisPropertiesStatusProvisioningState("Failed")
-	RedisPropertiesStatusProvisioningStateLinking                = RedisPropertiesStatusProvisioningState("Linking")
-	RedisPropertiesStatusProvisioningStateProvisioning           = RedisPropertiesStatusProvisioningState("Provisioning")
-	RedisPropertiesStatusProvisioningStateRecoveringScaleFailure = RedisPropertiesStatusProvisioningState("RecoveringScaleFailure")
-	RedisPropertiesStatusProvisioningStateScaling                = RedisPropertiesStatusProvisioningState("Scaling")
-	RedisPropertiesStatusProvisioningStateSucceeded              = RedisPropertiesStatusProvisioningState("Succeeded")
-	RedisPropertiesStatusProvisioningStateUnlinking              = RedisPropertiesStatusProvisioningState("Unlinking")
-	RedisPropertiesStatusProvisioningStateUnprovisioning         = RedisPropertiesStatusProvisioningState("Unprovisioning")
-	RedisPropertiesStatusProvisioningStateUpdating               = RedisPropertiesStatusProvisioningState("Updating")
-)
-
-type RedisPropertiesStatusPublicNetworkAccess string
-
-const (
-	RedisPropertiesStatusPublicNetworkAccessDisabled = RedisPropertiesStatusPublicNetworkAccess("Disabled")
-	RedisPropertiesStatusPublicNetworkAccessEnabled  = RedisPropertiesStatusPublicNetworkAccess("Enabled")
-)
-
 // Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/definitions/Sku
 type Sku struct {
 	// +kubebuilder:validation:Required
@@ -2198,10 +2136,10 @@ type Sku_Status struct {
 	Capacity *int `json:"capacity,omitempty"`
 
 	// Family: The SKU family to use. Valid values: (C, P). (C = Basic/Standard, P = Premium).
-	Family *SkuStatusFamily `json:"family,omitempty"`
+	Family *string `json:"family,omitempty"`
 
 	// Name: The type of Redis cache to deploy. Valid values: (Basic, Standard, Premium)
-	Name *SkuStatusName `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &Sku_Status{}
@@ -2247,20 +2185,10 @@ func (sku *Sku_Status) AssignPropertiesFromSkuStatus(source *v20201201s.Sku_Stat
 	sku.Capacity = genruntime.ClonePointerToInt(source.Capacity)
 
 	// Family
-	if source.Family != nil {
-		family := SkuStatusFamily(*source.Family)
-		sku.Family = &family
-	} else {
-		sku.Family = nil
-	}
+	sku.Family = genruntime.ClonePointerToString(source.Family)
 
 	// Name
-	if source.Name != nil {
-		name := SkuStatusName(*source.Name)
-		sku.Name = &name
-	} else {
-		sku.Name = nil
-	}
+	sku.Name = genruntime.ClonePointerToString(source.Name)
 
 	// No error
 	return nil
@@ -2275,20 +2203,10 @@ func (sku *Sku_Status) AssignPropertiesToSkuStatus(destination *v20201201s.Sku_S
 	destination.Capacity = genruntime.ClonePointerToInt(sku.Capacity)
 
 	// Family
-	if sku.Family != nil {
-		family := string(*sku.Family)
-		destination.Family = &family
-	} else {
-		destination.Family = nil
-	}
+	destination.Family = genruntime.ClonePointerToString(sku.Family)
 
 	// Name
-	if sku.Name != nil {
-		name := string(*sku.Name)
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(sku.Name)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2438,21 +2356,6 @@ const (
 	SkuNameBasic    = SkuName("Basic")
 	SkuNamePremium  = SkuName("Premium")
 	SkuNameStandard = SkuName("Standard")
-)
-
-type SkuStatusFamily string
-
-const (
-	SkuStatusFamilyC = SkuStatusFamily("C")
-	SkuStatusFamilyP = SkuStatusFamily("P")
-)
-
-type SkuStatusName string
-
-const (
-	SkuStatusNameBasic    = SkuStatusName("Basic")
-	SkuStatusNamePremium  = SkuStatusName("Premium")
-	SkuStatusNameStandard = SkuStatusName("Standard")
 )
 
 func init() {

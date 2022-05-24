@@ -26,7 +26,7 @@ type SBTopicProperties_StatusARM struct {
 	MaxSizeInMegabytes                  *int                           `json:"maxSizeInMegabytes,omitempty"`
 	RequiresDuplicateDetection          *bool                          `json:"requiresDuplicateDetection,omitempty"`
 	SizeInBytes                         *int                           `json:"sizeInBytes,omitempty"`
-	Status                              *EntityStatus_Status           `json:"status,omitempty"`
+	Status                              *string                        `json:"status,omitempty"`
 	SubscriptionCount                   *int                           `json:"subscriptionCount,omitempty"`
 	SupportOrdering                     *bool                          `json:"supportOrdering,omitempty"`
 	UpdatedAt                           *string                        `json:"updatedAt,omitempty"`

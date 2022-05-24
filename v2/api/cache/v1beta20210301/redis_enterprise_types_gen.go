@@ -337,7 +337,7 @@ type Cluster_Status struct {
 	Location *string `json:"location,omitempty"`
 
 	// MinimumTlsVersion: The minimum TLS version for the cluster to support, e.g. '1.2'
-	MinimumTlsVersion *ClusterPropertiesStatusMinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
+	MinimumTlsVersion *string `json:"minimumTlsVersion,omitempty"`
 
 	// Name: The name of the resource
 	Name *string `json:"name,omitempty"`
@@ -346,13 +346,13 @@ type Cluster_Status struct {
 	PrivateEndpointConnections []PrivateEndpointConnection_Status_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
 
 	// ProvisioningState: Current provisioning status of the cluster
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	// RedisVersion: Version of redis the cluster supports, e.g. '6'
 	RedisVersion *string `json:"redisVersion,omitempty"`
 
 	// ResourceState: Current resource status of the cluster
-	ResourceState *ResourceState_Status `json:"resourceState,omitempty"`
+	ResourceState *string `json:"resourceState,omitempty"`
 
 	// Sku: The SKU to create, which affects price, performance, and features.
 	Sku *Sku_Status `json:"sku,omitempty"`
@@ -559,12 +559,7 @@ func (cluster *Cluster_Status) AssignPropertiesFromClusterStatus(source *v202103
 	cluster.Location = genruntime.ClonePointerToString(source.Location)
 
 	// MinimumTlsVersion
-	if source.MinimumTlsVersion != nil {
-		minimumTlsVersion := ClusterPropertiesStatusMinimumTlsVersion(*source.MinimumTlsVersion)
-		cluster.MinimumTlsVersion = &minimumTlsVersion
-	} else {
-		cluster.MinimumTlsVersion = nil
-	}
+	cluster.MinimumTlsVersion = genruntime.ClonePointerToString(source.MinimumTlsVersion)
 
 	// Name
 	cluster.Name = genruntime.ClonePointerToString(source.Name)
@@ -588,23 +583,13 @@ func (cluster *Cluster_Status) AssignPropertiesFromClusterStatus(source *v202103
 	}
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_Status(*source.ProvisioningState)
-		cluster.ProvisioningState = &provisioningState
-	} else {
-		cluster.ProvisioningState = nil
-	}
+	cluster.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// RedisVersion
 	cluster.RedisVersion = genruntime.ClonePointerToString(source.RedisVersion)
 
 	// ResourceState
-	if source.ResourceState != nil {
-		resourceState := ResourceState_Status(*source.ResourceState)
-		cluster.ResourceState = &resourceState
-	} else {
-		cluster.ResourceState = nil
-	}
+	cluster.ResourceState = genruntime.ClonePointerToString(source.ResourceState)
 
 	// Sku
 	if source.Sku != nil {
@@ -649,12 +634,7 @@ func (cluster *Cluster_Status) AssignPropertiesToClusterStatus(destination *v202
 	destination.Location = genruntime.ClonePointerToString(cluster.Location)
 
 	// MinimumTlsVersion
-	if cluster.MinimumTlsVersion != nil {
-		minimumTlsVersion := string(*cluster.MinimumTlsVersion)
-		destination.MinimumTlsVersion = &minimumTlsVersion
-	} else {
-		destination.MinimumTlsVersion = nil
-	}
+	destination.MinimumTlsVersion = genruntime.ClonePointerToString(cluster.MinimumTlsVersion)
 
 	// Name
 	destination.Name = genruntime.ClonePointerToString(cluster.Name)
@@ -678,23 +658,13 @@ func (cluster *Cluster_Status) AssignPropertiesToClusterStatus(destination *v202
 	}
 
 	// ProvisioningState
-	if cluster.ProvisioningState != nil {
-		provisioningState := string(*cluster.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(cluster.ProvisioningState)
 
 	// RedisVersion
 	destination.RedisVersion = genruntime.ClonePointerToString(cluster.RedisVersion)
 
 	// ResourceState
-	if cluster.ResourceState != nil {
-		resourceState := string(*cluster.ResourceState)
-		destination.ResourceState = &resourceState
-	} else {
-		destination.ResourceState = nil
-	}
+	destination.ResourceState = genruntime.ClonePointerToString(cluster.ResourceState)
 
 	// Sku
 	if cluster.Sku != nil {
@@ -1218,7 +1188,7 @@ type Sku_Status struct {
 	Capacity *int `json:"capacity,omitempty"`
 
 	// Name: The type of RedisEnterprise cluster to deploy. Possible values: (Enterprise_E10, EnterpriseFlash_F300 etc.)
-	Name *SkuStatusName `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &Sku_Status{}
@@ -1258,12 +1228,7 @@ func (sku *Sku_Status) AssignPropertiesFromSkuStatus(source *v20210301s.Sku_Stat
 	sku.Capacity = genruntime.ClonePointerToInt(source.Capacity)
 
 	// Name
-	if source.Name != nil {
-		name := SkuStatusName(*source.Name)
-		sku.Name = &name
-	} else {
-		sku.Name = nil
-	}
+	sku.Name = genruntime.ClonePointerToString(source.Name)
 
 	// No error
 	return nil
@@ -1278,12 +1243,7 @@ func (sku *Sku_Status) AssignPropertiesToSkuStatus(destination *v20210301s.Sku_S
 	destination.Capacity = genruntime.ClonePointerToInt(sku.Capacity)
 
 	// Name
-	if sku.Name != nil {
-		name := string(*sku.Name)
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(sku.Name)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

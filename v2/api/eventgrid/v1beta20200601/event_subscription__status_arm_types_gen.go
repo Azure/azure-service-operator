@@ -28,7 +28,7 @@ type EventSubscriptionProperties_StatusARM struct {
 	Destination *EventSubscriptionDestination_StatusARM `json:"destination,omitempty"`
 
 	// EventDeliverySchema: The event delivery schema for the event subscription.
-	EventDeliverySchema *EventSubscriptionPropertiesStatusEventDeliverySchema `json:"eventDeliverySchema,omitempty"`
+	EventDeliverySchema *string `json:"eventDeliverySchema,omitempty"`
 
 	// ExpirationTimeUtc: Expiration time of the event subscription.
 	ExpirationTimeUtc *string `json:"expirationTimeUtc,omitempty"`
@@ -40,7 +40,7 @@ type EventSubscriptionProperties_StatusARM struct {
 	Labels []string `json:"labels,omitempty"`
 
 	// ProvisioningState: Provisioning state of the event subscription.
-	ProvisioningState *EventSubscriptionPropertiesStatusProvisioningState `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	// RetryPolicy: The retry policy for events. This can be used to configure maximum number of delivery attempts and time to
 	// live for events.
@@ -52,12 +52,12 @@ type EventSubscriptionProperties_StatusARM struct {
 
 type DeadLetterDestination_StatusARM struct {
 	// EndpointType: Type of the endpoint for the dead letter destination
-	EndpointType *DeadLetterDestinationStatusEndpointType `json:"endpointType,omitempty"`
+	EndpointType *string `json:"endpointType,omitempty"`
 }
 
 type EventSubscriptionDestination_StatusARM struct {
 	// EndpointType: Type of the endpoint for the event subscription destination.
-	EndpointType *EventSubscriptionDestinationStatusEndpointType `json:"endpointType,omitempty"`
+	EndpointType *string `json:"endpointType,omitempty"`
 }
 
 type EventSubscriptionFilter_StatusARM struct {
@@ -95,5 +95,5 @@ type AdvancedFilter_StatusARM struct {
 	Key *string `json:"key,omitempty"`
 
 	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
-	OperatorType *AdvancedFilterStatusOperatorType `json:"operatorType,omitempty"`
+	OperatorType *string `json:"operatorType,omitempty"`
 }

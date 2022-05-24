@@ -33,7 +33,7 @@ type SBQueueProperties_StatusARM struct {
 	RequiresDuplicateDetection          *bool                          `json:"requiresDuplicateDetection,omitempty"`
 	RequiresSession                     *bool                          `json:"requiresSession,omitempty"`
 	SizeInBytes                         *int                           `json:"sizeInBytes,omitempty"`
-	Status                              *EntityStatus_Status           `json:"status,omitempty"`
+	Status                              *string                        `json:"status,omitempty"`
 	UpdatedAt                           *string                        `json:"updatedAt,omitempty"`
 }
 

@@ -328,7 +328,7 @@ type DomainTopic_Status struct {
 	Name *string `json:"name,omitempty"`
 
 	// ProvisioningState: Provisioning state of the domain topic.
-	ProvisioningState *DomainTopicPropertiesStatusProvisioningState `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	// SystemData: The system metadata relating to Domain Topic resource.
 	SystemData *SystemData_Status `json:"systemData,omitempty"`
@@ -458,12 +458,7 @@ func (topic *DomainTopic_Status) AssignPropertiesFromDomainTopicStatus(source *v
 	topic.Name = genruntime.ClonePointerToString(source.Name)
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := DomainTopicPropertiesStatusProvisioningState(*source.ProvisioningState)
-		topic.ProvisioningState = &provisioningState
-	} else {
-		topic.ProvisioningState = nil
-	}
+	topic.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// SystemData
 	if source.SystemData != nil {
@@ -499,12 +494,7 @@ func (topic *DomainTopic_Status) AssignPropertiesToDomainTopicStatus(destination
 	destination.Name = genruntime.ClonePointerToString(topic.Name)
 
 	// ProvisioningState
-	if topic.ProvisioningState != nil {
-		provisioningState := string(*topic.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(topic.ProvisioningState)
 
 	// SystemData
 	if topic.SystemData != nil {

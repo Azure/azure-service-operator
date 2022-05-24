@@ -956,7 +956,7 @@ func (rules *NetworkSecurityGroupsSecurityRules_Spec) SetAzureName(azureName str
 
 // Deprecated version of SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded. Use v1beta20201101.SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded instead
 type SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded struct {
-	Access *SecurityRuleAccess_Status `json:"access,omitempty"`
+	Access *string `json:"access,omitempty"`
 
 	// Conditions: The observed state of the resource
 	Conditions                           []conditions.Condition                                                                  `json:"conditions,omitempty"`
@@ -966,13 +966,13 @@ type SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded s
 	DestinationApplicationSecurityGroups []ApplicationSecurityGroup_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded `json:"destinationApplicationSecurityGroups,omitempty"`
 	DestinationPortRange                 *string                                                                                 `json:"destinationPortRange,omitempty"`
 	DestinationPortRanges                []string                                                                                `json:"destinationPortRanges,omitempty"`
-	Direction                            *SecurityRuleDirection_Status                                                           `json:"direction,omitempty"`
+	Direction                            *string                                                                                 `json:"direction,omitempty"`
 	Etag                                 *string                                                                                 `json:"etag,omitempty"`
 	Id                                   *string                                                                                 `json:"id,omitempty"`
 	Name                                 *string                                                                                 `json:"name,omitempty"`
 	Priority                             *int                                                                                    `json:"priority,omitempty"`
-	Protocol                             *SecurityRulePropertiesFormatStatusProtocol                                             `json:"protocol,omitempty"`
-	ProvisioningState                    *ProvisioningState_Status                                                               `json:"provisioningState,omitempty"`
+	Protocol                             *string                                                                                 `json:"protocol,omitempty"`
+	ProvisioningState                    *string                                                                                 `json:"provisioningState,omitempty"`
 	SourceAddressPrefix                  *string                                                                                 `json:"sourceAddressPrefix,omitempty"`
 	SourceAddressPrefixes                []string                                                                                `json:"sourceAddressPrefixes,omitempty"`
 	SourceApplicationSecurityGroups      []ApplicationSecurityGroup_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded `json:"sourceApplicationSecurityGroups,omitempty"`
@@ -1227,12 +1227,7 @@ func (embedded *SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourc
 func (embedded *SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded) AssignPropertiesFromSecurityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded(source *alpha20201101s.SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded) error {
 
 	// Access
-	if source.Access != nil {
-		access := SecurityRuleAccess_Status(*source.Access)
-		embedded.Access = &access
-	} else {
-		embedded.Access = nil
-	}
+	embedded.Access = genruntime.ClonePointerToString(source.Access)
 
 	// Conditions
 	embedded.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -1271,12 +1266,7 @@ func (embedded *SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourc
 	embedded.DestinationPortRanges = genruntime.CloneSliceOfString(source.DestinationPortRanges)
 
 	// Direction
-	if source.Direction != nil {
-		direction := SecurityRuleDirection_Status(*source.Direction)
-		embedded.Direction = &direction
-	} else {
-		embedded.Direction = nil
-	}
+	embedded.Direction = genruntime.ClonePointerToString(source.Direction)
 
 	// Etag
 	embedded.Etag = genruntime.ClonePointerToString(source.Etag)
@@ -1291,20 +1281,10 @@ func (embedded *SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourc
 	embedded.Priority = genruntime.ClonePointerToInt(source.Priority)
 
 	// Protocol
-	if source.Protocol != nil {
-		protocol := SecurityRulePropertiesFormatStatusProtocol(*source.Protocol)
-		embedded.Protocol = &protocol
-	} else {
-		embedded.Protocol = nil
-	}
+	embedded.Protocol = genruntime.ClonePointerToString(source.Protocol)
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_Status(*source.ProvisioningState)
-		embedded.ProvisioningState = &provisioningState
-	} else {
-		embedded.ProvisioningState = nil
-	}
+	embedded.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// SourceAddressPrefix
 	embedded.SourceAddressPrefix = genruntime.ClonePointerToString(source.SourceAddressPrefix)
@@ -1349,12 +1329,7 @@ func (embedded *SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourc
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Access
-	if embedded.Access != nil {
-		access := string(*embedded.Access)
-		destination.Access = &access
-	} else {
-		destination.Access = nil
-	}
+	destination.Access = genruntime.ClonePointerToString(embedded.Access)
 
 	// Conditions
 	destination.Conditions = genruntime.CloneSliceOfCondition(embedded.Conditions)
@@ -1393,12 +1368,7 @@ func (embedded *SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourc
 	destination.DestinationPortRanges = genruntime.CloneSliceOfString(embedded.DestinationPortRanges)
 
 	// Direction
-	if embedded.Direction != nil {
-		direction := string(*embedded.Direction)
-		destination.Direction = &direction
-	} else {
-		destination.Direction = nil
-	}
+	destination.Direction = genruntime.ClonePointerToString(embedded.Direction)
 
 	// Etag
 	destination.Etag = genruntime.ClonePointerToString(embedded.Etag)
@@ -1413,20 +1383,10 @@ func (embedded *SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourc
 	destination.Priority = genruntime.ClonePointerToInt(embedded.Priority)
 
 	// Protocol
-	if embedded.Protocol != nil {
-		protocol := string(*embedded.Protocol)
-		destination.Protocol = &protocol
-	} else {
-		destination.Protocol = nil
-	}
+	destination.Protocol = genruntime.ClonePointerToString(embedded.Protocol)
 
 	// ProvisioningState
-	if embedded.ProvisioningState != nil {
-		provisioningState := string(*embedded.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(embedded.ProvisioningState)
 
 	// SourceAddressPrefix
 	destination.SourceAddressPrefix = genruntime.ClonePointerToString(embedded.SourceAddressPrefix)
@@ -1530,22 +1490,6 @@ func (embedded *ApplicationSecurityGroup_Status_NetworkSecurityGroupsSecurityRul
 	return nil
 }
 
-// Deprecated version of SecurityRuleAccess_Status. Use v1beta20201101.SecurityRuleAccess_Status instead
-type SecurityRuleAccess_Status string
-
-const (
-	SecurityRuleAccess_StatusAllow = SecurityRuleAccess_Status("Allow")
-	SecurityRuleAccess_StatusDeny  = SecurityRuleAccess_Status("Deny")
-)
-
-// Deprecated version of SecurityRuleDirection_Status. Use v1beta20201101.SecurityRuleDirection_Status instead
-type SecurityRuleDirection_Status string
-
-const (
-	SecurityRuleDirection_StatusInbound  = SecurityRuleDirection_Status("Inbound")
-	SecurityRuleDirection_StatusOutbound = SecurityRuleDirection_Status("Outbound")
-)
-
 // Deprecated version of SecurityRulePropertiesFormatAccess. Use v1beta20201101.SecurityRulePropertiesFormatAccess instead
 // +kubebuilder:validation:Enum={"Allow","Deny"}
 type SecurityRulePropertiesFormatAccess string
@@ -1577,19 +1521,6 @@ const (
 	SecurityRulePropertiesFormatProtocolStar = SecurityRulePropertiesFormatProtocol("*")
 	SecurityRulePropertiesFormatProtocolTcp  = SecurityRulePropertiesFormatProtocol("Tcp")
 	SecurityRulePropertiesFormatProtocolUdp  = SecurityRulePropertiesFormatProtocol("Udp")
-)
-
-// Deprecated version of SecurityRulePropertiesFormatStatusProtocol. Use
-// v1beta20201101.SecurityRulePropertiesFormatStatusProtocol instead
-type SecurityRulePropertiesFormatStatusProtocol string
-
-const (
-	SecurityRulePropertiesFormatStatusProtocolAh   = SecurityRulePropertiesFormatStatusProtocol("Ah")
-	SecurityRulePropertiesFormatStatusProtocolEsp  = SecurityRulePropertiesFormatStatusProtocol("Esp")
-	SecurityRulePropertiesFormatStatusProtocolIcmp = SecurityRulePropertiesFormatStatusProtocol("Icmp")
-	SecurityRulePropertiesFormatStatusProtocolStar = SecurityRulePropertiesFormatStatusProtocol("*")
-	SecurityRulePropertiesFormatStatusProtocolTcp  = SecurityRulePropertiesFormatStatusProtocol("Tcp")
-	SecurityRulePropertiesFormatStatusProtocolUdp  = SecurityRulePropertiesFormatStatusProtocol("Udp")
 )
 
 func init() {

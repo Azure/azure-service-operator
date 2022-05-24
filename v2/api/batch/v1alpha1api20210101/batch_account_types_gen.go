@@ -344,24 +344,24 @@ type BatchAccount_Status struct {
 	AutoStorage                  *AutoStorageProperties_Status `json:"autoStorage,omitempty"`
 
 	// Conditions: The observed state of the resource
-	Conditions                            []conditions.Condition                         `json:"conditions,omitempty"`
-	DedicatedCoreQuota                    *int                                           `json:"dedicatedCoreQuota,omitempty"`
-	DedicatedCoreQuotaPerVMFamily         []VirtualMachineFamilyCoreQuota_Status         `json:"dedicatedCoreQuotaPerVMFamily,omitempty"`
-	DedicatedCoreQuotaPerVMFamilyEnforced *bool                                          `json:"dedicatedCoreQuotaPerVMFamilyEnforced,omitempty"`
-	Encryption                            *EncryptionProperties_Status                   `json:"encryption,omitempty"`
-	Id                                    *string                                        `json:"id,omitempty"`
-	Identity                              *BatchAccountIdentity_Status                   `json:"identity,omitempty"`
-	KeyVaultReference                     *KeyVaultReference_Status                      `json:"keyVaultReference,omitempty"`
-	Location                              *string                                        `json:"location,omitempty"`
-	LowPriorityCoreQuota                  *int                                           `json:"lowPriorityCoreQuota,omitempty"`
-	Name                                  *string                                        `json:"name,omitempty"`
-	PoolAllocationMode                    *PoolAllocationMode_Status                     `json:"poolAllocationMode,omitempty"`
-	PoolQuota                             *int                                           `json:"poolQuota,omitempty"`
-	PrivateEndpointConnections            []PrivateEndpointConnection_Status             `json:"privateEndpointConnections,omitempty"`
-	ProvisioningState                     *BatchAccountPropertiesStatusProvisioningState `json:"provisioningState,omitempty"`
-	PublicNetworkAccess                   *PublicNetworkAccessType_Status                `json:"publicNetworkAccess,omitempty"`
-	Tags                                  map[string]string                              `json:"tags,omitempty"`
-	Type                                  *string                                        `json:"type,omitempty"`
+	Conditions                            []conditions.Condition                 `json:"conditions,omitempty"`
+	DedicatedCoreQuota                    *int                                   `json:"dedicatedCoreQuota,omitempty"`
+	DedicatedCoreQuotaPerVMFamily         []VirtualMachineFamilyCoreQuota_Status `json:"dedicatedCoreQuotaPerVMFamily,omitempty"`
+	DedicatedCoreQuotaPerVMFamilyEnforced *bool                                  `json:"dedicatedCoreQuotaPerVMFamilyEnforced,omitempty"`
+	Encryption                            *EncryptionProperties_Status           `json:"encryption,omitempty"`
+	Id                                    *string                                `json:"id,omitempty"`
+	Identity                              *BatchAccountIdentity_Status           `json:"identity,omitempty"`
+	KeyVaultReference                     *KeyVaultReference_Status              `json:"keyVaultReference,omitempty"`
+	Location                              *string                                `json:"location,omitempty"`
+	LowPriorityCoreQuota                  *int                                   `json:"lowPriorityCoreQuota,omitempty"`
+	Name                                  *string                                `json:"name,omitempty"`
+	PoolAllocationMode                    *string                                `json:"poolAllocationMode,omitempty"`
+	PoolQuota                             *int                                   `json:"poolQuota,omitempty"`
+	PrivateEndpointConnections            []PrivateEndpointConnection_Status     `json:"privateEndpointConnections,omitempty"`
+	ProvisioningState                     *string                                `json:"provisioningState,omitempty"`
+	PublicNetworkAccess                   *string                                `json:"publicNetworkAccess,omitempty"`
+	Tags                                  map[string]string                      `json:"tags,omitempty"`
+	Type                                  *string                                `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &BatchAccount_Status{}
@@ -728,12 +728,7 @@ func (account *BatchAccount_Status) AssignPropertiesFromBatchAccountStatus(sourc
 	account.Name = genruntime.ClonePointerToString(source.Name)
 
 	// PoolAllocationMode
-	if source.PoolAllocationMode != nil {
-		poolAllocationMode := PoolAllocationMode_Status(*source.PoolAllocationMode)
-		account.PoolAllocationMode = &poolAllocationMode
-	} else {
-		account.PoolAllocationMode = nil
-	}
+	account.PoolAllocationMode = genruntime.ClonePointerToString(source.PoolAllocationMode)
 
 	// PoolQuota
 	account.PoolQuota = genruntime.ClonePointerToInt(source.PoolQuota)
@@ -757,20 +752,10 @@ func (account *BatchAccount_Status) AssignPropertiesFromBatchAccountStatus(sourc
 	}
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := BatchAccountPropertiesStatusProvisioningState(*source.ProvisioningState)
-		account.ProvisioningState = &provisioningState
-	} else {
-		account.ProvisioningState = nil
-	}
+	account.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// PublicNetworkAccess
-	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := PublicNetworkAccessType_Status(*source.PublicNetworkAccess)
-		account.PublicNetworkAccess = &publicNetworkAccess
-	} else {
-		account.PublicNetworkAccess = nil
-	}
+	account.PublicNetworkAccess = genruntime.ClonePointerToString(source.PublicNetworkAccess)
 
 	// Tags
 	account.Tags = genruntime.CloneMapOfStringToString(source.Tags)
@@ -886,12 +871,7 @@ func (account *BatchAccount_Status) AssignPropertiesToBatchAccountStatus(destina
 	destination.Name = genruntime.ClonePointerToString(account.Name)
 
 	// PoolAllocationMode
-	if account.PoolAllocationMode != nil {
-		poolAllocationMode := string(*account.PoolAllocationMode)
-		destination.PoolAllocationMode = &poolAllocationMode
-	} else {
-		destination.PoolAllocationMode = nil
-	}
+	destination.PoolAllocationMode = genruntime.ClonePointerToString(account.PoolAllocationMode)
 
 	// PoolQuota
 	destination.PoolQuota = genruntime.ClonePointerToInt(account.PoolQuota)
@@ -915,20 +895,10 @@ func (account *BatchAccount_Status) AssignPropertiesToBatchAccountStatus(destina
 	}
 
 	// ProvisioningState
-	if account.ProvisioningState != nil {
-		provisioningState := string(*account.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(account.ProvisioningState)
 
 	// PublicNetworkAccess
-	if account.PublicNetworkAccess != nil {
-		publicNetworkAccess := string(*account.PublicNetworkAccess)
-		destination.PublicNetworkAccess = &publicNetworkAccess
-	} else {
-		destination.PublicNetworkAccess = nil
-	}
+	destination.PublicNetworkAccess = genruntime.ClonePointerToString(account.PublicNetworkAccess)
 
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(account.Tags)
@@ -1668,7 +1638,7 @@ func (identity *BatchAccountIdentity) AssignPropertiesToBatchAccountIdentity(des
 type BatchAccountIdentity_Status struct {
 	PrincipalId            *string                                                       `json:"principalId,omitempty"`
 	TenantId               *string                                                       `json:"tenantId,omitempty"`
-	Type                   *BatchAccountIdentityStatusType                               `json:"type,omitempty"`
+	Type                   *string                                                       `json:"type,omitempty"`
 	UserAssignedIdentities map[string]BatchAccountIdentity_Status_UserAssignedIdentities `json:"userAssignedIdentities,omitempty"`
 }
 
@@ -1731,12 +1701,7 @@ func (identity *BatchAccountIdentity_Status) AssignPropertiesFromBatchAccountIde
 	identity.TenantId = genruntime.ClonePointerToString(source.TenantId)
 
 	// Type
-	if source.Type != nil {
-		typeVar := BatchAccountIdentityStatusType(*source.Type)
-		identity.Type = &typeVar
-	} else {
-		identity.Type = nil
-	}
+	identity.Type = genruntime.ClonePointerToString(source.Type)
 
 	// UserAssignedIdentities
 	if source.UserAssignedIdentities != nil {
@@ -1772,12 +1737,7 @@ func (identity *BatchAccountIdentity_Status) AssignPropertiesToBatchAccountIdent
 	destination.TenantId = genruntime.ClonePointerToString(identity.TenantId)
 
 	// Type
-	if identity.Type != nil {
-		typeVar := string(*identity.Type)
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
+	destination.Type = genruntime.ClonePointerToString(identity.Type)
 
 	// UserAssignedIdentities
 	if identity.UserAssignedIdentities != nil {
@@ -1807,19 +1767,6 @@ func (identity *BatchAccountIdentity_Status) AssignPropertiesToBatchAccountIdent
 	// No error
 	return nil
 }
-
-// Deprecated version of BatchAccountPropertiesStatusProvisioningState. Use
-// v1beta20210101.BatchAccountPropertiesStatusProvisioningState instead
-type BatchAccountPropertiesStatusProvisioningState string
-
-const (
-	BatchAccountPropertiesStatusProvisioningStateCancelled = BatchAccountPropertiesStatusProvisioningState("Cancelled")
-	BatchAccountPropertiesStatusProvisioningStateCreating  = BatchAccountPropertiesStatusProvisioningState("Creating")
-	BatchAccountPropertiesStatusProvisioningStateDeleting  = BatchAccountPropertiesStatusProvisioningState("Deleting")
-	BatchAccountPropertiesStatusProvisioningStateFailed    = BatchAccountPropertiesStatusProvisioningState("Failed")
-	BatchAccountPropertiesStatusProvisioningStateInvalid   = BatchAccountPropertiesStatusProvisioningState("Invalid")
-	BatchAccountPropertiesStatusProvisioningStateSucceeded = BatchAccountPropertiesStatusProvisioningState("Succeeded")
-)
 
 // Deprecated version of EncryptionProperties. Use v1beta20210101.EncryptionProperties instead
 type EncryptionProperties struct {
@@ -1952,8 +1899,8 @@ func (properties *EncryptionProperties) AssignPropertiesToEncryptionProperties(d
 
 // Deprecated version of EncryptionProperties_Status. Use v1beta20210101.EncryptionProperties_Status instead
 type EncryptionProperties_Status struct {
-	KeySource          *EncryptionPropertiesStatusKeySource `json:"keySource,omitempty"`
-	KeyVaultProperties *KeyVaultProperties_Status           `json:"keyVaultProperties,omitempty"`
+	KeySource          *string                    `json:"keySource,omitempty"`
+	KeyVaultProperties *KeyVaultProperties_Status `json:"keyVaultProperties,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &EncryptionProperties_Status{}
@@ -1995,12 +1942,7 @@ func (properties *EncryptionProperties_Status) PopulateFromARM(owner genruntime.
 func (properties *EncryptionProperties_Status) AssignPropertiesFromEncryptionPropertiesStatus(source *alpha20210101s.EncryptionProperties_Status) error {
 
 	// KeySource
-	if source.KeySource != nil {
-		keySource := EncryptionPropertiesStatusKeySource(*source.KeySource)
-		properties.KeySource = &keySource
-	} else {
-		properties.KeySource = nil
-	}
+	properties.KeySource = genruntime.ClonePointerToString(source.KeySource)
 
 	// KeyVaultProperties
 	if source.KeyVaultProperties != nil {
@@ -2024,12 +1966,7 @@ func (properties *EncryptionProperties_Status) AssignPropertiesToEncryptionPrope
 	propertyBag := genruntime.NewPropertyBag()
 
 	// KeySource
-	if properties.KeySource != nil {
-		keySource := string(*properties.KeySource)
-		destination.KeySource = &keySource
-	} else {
-		destination.KeySource = nil
-	}
+	destination.KeySource = genruntime.ClonePointerToString(properties.KeySource)
 
 	// KeyVaultProperties
 	if properties.KeyVaultProperties != nil {
@@ -2230,23 +2167,15 @@ func (reference *KeyVaultReference_Status) AssignPropertiesToKeyVaultReferenceSt
 	return nil
 }
 
-// Deprecated version of PoolAllocationMode_Status. Use v1beta20210101.PoolAllocationMode_Status instead
-type PoolAllocationMode_Status string
-
-const (
-	PoolAllocationMode_StatusBatchService     = PoolAllocationMode_Status("BatchService")
-	PoolAllocationMode_StatusUserSubscription = PoolAllocationMode_Status("UserSubscription")
-)
-
 // Deprecated version of PrivateEndpointConnection_Status. Use v1beta20210101.PrivateEndpointConnection_Status instead
 type PrivateEndpointConnection_Status struct {
-	Etag                              *string                                                     `json:"etag,omitempty"`
-	Id                                *string                                                     `json:"id,omitempty"`
-	Name                              *string                                                     `json:"name,omitempty"`
-	PrivateEndpoint                   *PrivateEndpoint_Status                                     `json:"privateEndpoint,omitempty"`
-	PrivateLinkServiceConnectionState *PrivateLinkServiceConnectionState_Status                   `json:"privateLinkServiceConnectionState,omitempty"`
-	ProvisioningState                 *PrivateEndpointConnectionPropertiesStatusProvisioningState `json:"provisioningState,omitempty"`
-	Type                              *string                                                     `json:"type,omitempty"`
+	Etag                              *string                                   `json:"etag,omitempty"`
+	Id                                *string                                   `json:"id,omitempty"`
+	Name                              *string                                   `json:"name,omitempty"`
+	PrivateEndpoint                   *PrivateEndpoint_Status                   `json:"privateEndpoint,omitempty"`
+	PrivateLinkServiceConnectionState *PrivateLinkServiceConnectionState_Status `json:"privateLinkServiceConnectionState,omitempty"`
+	ProvisioningState                 *string                                   `json:"provisioningState,omitempty"`
+	Type                              *string                                   `json:"type,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &PrivateEndpointConnection_Status{}
@@ -2365,12 +2294,7 @@ func (connection *PrivateEndpointConnection_Status) AssignPropertiesFromPrivateE
 	}
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := PrivateEndpointConnectionPropertiesStatusProvisioningState(*source.ProvisioningState)
-		connection.ProvisioningState = &provisioningState
-	} else {
-		connection.ProvisioningState = nil
-	}
+	connection.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// Type
 	connection.Type = genruntime.ClonePointerToString(source.Type)
@@ -2418,12 +2342,7 @@ func (connection *PrivateEndpointConnection_Status) AssignPropertiesToPrivateEnd
 	}
 
 	// ProvisioningState
-	if connection.ProvisioningState != nil {
-		provisioningState := string(*connection.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(connection.ProvisioningState)
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(connection.Type)
@@ -2438,14 +2357,6 @@ func (connection *PrivateEndpointConnection_Status) AssignPropertiesToPrivateEnd
 	// No error
 	return nil
 }
-
-// Deprecated version of PublicNetworkAccessType_Status. Use v1beta20210101.PublicNetworkAccessType_Status instead
-type PublicNetworkAccessType_Status string
-
-const (
-	PublicNetworkAccessType_StatusDisabled = PublicNetworkAccessType_Status("Disabled")
-	PublicNetworkAccessType_StatusEnabled  = PublicNetworkAccessType_Status("Enabled")
-)
 
 // Deprecated version of VirtualMachineFamilyCoreQuota_Status. Use v1beta20210101.VirtualMachineFamilyCoreQuota_Status instead
 type VirtualMachineFamilyCoreQuota_Status struct {
@@ -2598,14 +2509,6 @@ const (
 	EncryptionPropertiesKeySourceMicrosoftKeyVault = EncryptionPropertiesKeySource("Microsoft.KeyVault")
 )
 
-// Deprecated version of EncryptionPropertiesStatusKeySource. Use v1beta20210101.EncryptionPropertiesStatusKeySource instead
-type EncryptionPropertiesStatusKeySource string
-
-const (
-	EncryptionPropertiesStatusKeySourceMicrosoftBatch    = EncryptionPropertiesStatusKeySource("Microsoft.Batch")
-	EncryptionPropertiesStatusKeySourceMicrosoftKeyVault = EncryptionPropertiesStatusKeySource("Microsoft.KeyVault")
-)
-
 // Deprecated version of KeyVaultProperties. Use v1beta20210101.KeyVaultProperties instead
 type KeyVaultProperties struct {
 	KeyIdentifier *string `json:"keyIdentifier,omitempty"`
@@ -2737,16 +2640,6 @@ func (properties *KeyVaultProperties_Status) AssignPropertiesToKeyVaultPropertie
 	return nil
 }
 
-// Deprecated version of PrivateEndpointConnectionPropertiesStatusProvisioningState. Use
-// v1beta20210101.PrivateEndpointConnectionPropertiesStatusProvisioningState instead
-type PrivateEndpointConnectionPropertiesStatusProvisioningState string
-
-const (
-	PrivateEndpointConnectionPropertiesStatusProvisioningStateFailed    = PrivateEndpointConnectionPropertiesStatusProvisioningState("Failed")
-	PrivateEndpointConnectionPropertiesStatusProvisioningStateSucceeded = PrivateEndpointConnectionPropertiesStatusProvisioningState("Succeeded")
-	PrivateEndpointConnectionPropertiesStatusProvisioningStateUpdating  = PrivateEndpointConnectionPropertiesStatusProvisioningState("Updating")
-)
-
 // Deprecated version of PrivateEndpoint_Status. Use v1beta20210101.PrivateEndpoint_Status instead
 type PrivateEndpoint_Status struct {
 	Id *string `json:"id,omitempty"`
@@ -2807,9 +2700,9 @@ func (endpoint *PrivateEndpoint_Status) AssignPropertiesToPrivateEndpointStatus(
 
 // Deprecated version of PrivateLinkServiceConnectionState_Status. Use v1beta20210101.PrivateLinkServiceConnectionState_Status instead
 type PrivateLinkServiceConnectionState_Status struct {
-	ActionRequired *string                                    `json:"actionRequired,omitempty"`
-	Description    *string                                    `json:"description,omitempty"`
-	Status         *PrivateLinkServiceConnectionStatus_Status `json:"status,omitempty"`
+	ActionRequired *string `json:"actionRequired,omitempty"`
+	Description    *string `json:"description,omitempty"`
+	Status         *string `json:"status,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &PrivateLinkServiceConnectionState_Status{}
@@ -2858,12 +2751,7 @@ func (state *PrivateLinkServiceConnectionState_Status) AssignPropertiesFromPriva
 	state.Description = genruntime.ClonePointerToString(source.Description)
 
 	// Status
-	if source.Status != nil {
-		status := PrivateLinkServiceConnectionStatus_Status(*source.Status)
-		state.Status = &status
-	} else {
-		state.Status = nil
-	}
+	state.Status = genruntime.ClonePointerToString(source.Status)
 
 	// No error
 	return nil
@@ -2881,12 +2769,7 @@ func (state *PrivateLinkServiceConnectionState_Status) AssignPropertiesToPrivate
 	destination.Description = genruntime.ClonePointerToString(state.Description)
 
 	// Status
-	if state.Status != nil {
-		status := string(*state.Status)
-		destination.Status = &status
-	} else {
-		destination.Status = nil
-	}
+	destination.Status = genruntime.ClonePointerToString(state.Status)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2898,17 +2781,6 @@ func (state *PrivateLinkServiceConnectionState_Status) AssignPropertiesToPrivate
 	// No error
 	return nil
 }
-
-// Deprecated version of PrivateLinkServiceConnectionStatus_Status. Use
-// v1beta20210101.PrivateLinkServiceConnectionStatus_Status instead
-type PrivateLinkServiceConnectionStatus_Status string
-
-const (
-	PrivateLinkServiceConnectionStatus_StatusApproved     = PrivateLinkServiceConnectionStatus_Status("Approved")
-	PrivateLinkServiceConnectionStatus_StatusDisconnected = PrivateLinkServiceConnectionStatus_Status("Disconnected")
-	PrivateLinkServiceConnectionStatus_StatusPending      = PrivateLinkServiceConnectionStatus_Status("Pending")
-	PrivateLinkServiceConnectionStatus_StatusRejected     = PrivateLinkServiceConnectionStatus_Status("Rejected")
-)
 
 func init() {
 	SchemeBuilder.Register(&BatchAccount{}, &BatchAccountList{})

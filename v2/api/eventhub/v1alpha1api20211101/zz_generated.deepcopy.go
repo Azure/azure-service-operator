@@ -63,7 +63,7 @@ func (in *AuthorizationRule_Status) DeepCopyInto(out *AuthorizationRule_Status) 
 	}
 	if in.Rights != nil {
 		in, out := &in.Rights, &out.Rights
-		*out = make([]AuthorizationRuleStatusPropertiesRights, len(*in))
+		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
 	if in.SystemData != nil {
@@ -138,7 +138,7 @@ func (in *AuthorizationRule_Status_PropertiesARM) DeepCopyInto(out *Authorizatio
 	*out = *in
 	if in.Rights != nil {
 		in, out := &in.Rights, &out.Rights
-		*out = make([]AuthorizationRuleStatusPropertiesRights, len(*in))
+		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
 }
@@ -168,7 +168,7 @@ func (in *CaptureDescription_Status) DeepCopyInto(out *CaptureDescription_Status
 	}
 	if in.Encoding != nil {
 		in, out := &in.Encoding, &out.Encoding
-		*out = new(CaptureDescriptionStatusEncoding)
+		*out = new(string)
 		**out = **in
 	}
 	if in.IntervalInSeconds != nil {
@@ -213,7 +213,7 @@ func (in *CaptureDescription_StatusARM) DeepCopyInto(out *CaptureDescription_Sta
 	}
 	if in.Encoding != nil {
 		in, out := &in.Encoding, &out.Encoding
-		*out = new(CaptureDescriptionStatusEncoding)
+		*out = new(string)
 		**out = **in
 	}
 	if in.IntervalInSeconds != nil {
@@ -929,7 +929,7 @@ func (in *Encryption_Status) DeepCopyInto(out *Encryption_Status) {
 	*out = *in
 	if in.KeySource != nil {
 		in, out := &in.KeySource, &out.KeySource
-		*out = new(EncryptionStatusKeySource)
+		*out = new(string)
 		**out = **in
 	}
 	if in.KeyVaultProperties != nil {
@@ -961,7 +961,7 @@ func (in *Encryption_StatusARM) DeepCopyInto(out *Encryption_StatusARM) {
 	*out = *in
 	if in.KeySource != nil {
 		in, out := &in.KeySource, &out.KeySource
-		*out = new(EncryptionStatusKeySource)
+		*out = new(string)
 		**out = **in
 	}
 	if in.KeyVaultProperties != nil {
@@ -1040,7 +1040,7 @@ func (in *Eventhub_Status) DeepCopyInto(out *Eventhub_Status) {
 	}
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(EventhubStatusPropertiesStatus)
+		*out = new(string)
 		**out = **in
 	}
 	if in.SystemData != nil {
@@ -1145,7 +1145,7 @@ func (in *Eventhub_Status_PropertiesARM) DeepCopyInto(out *Eventhub_Status_Prope
 	}
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(EventhubStatusPropertiesStatus)
+		*out = new(string)
 		**out = **in
 	}
 	if in.UpdatedAt != nil {
@@ -1220,7 +1220,7 @@ func (in *Identity_Status) DeepCopyInto(out *Identity_Status) {
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(IdentityStatusType)
+		*out = new(string)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
@@ -1257,7 +1257,7 @@ func (in *Identity_StatusARM) DeepCopyInto(out *Identity_StatusARM) {
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(IdentityStatusType)
+		*out = new(string)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
@@ -2608,12 +2608,12 @@ func (in *Sku_Status) DeepCopyInto(out *Sku_Status) {
 	}
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(SkuStatusName)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Tier != nil {
 		in, out := &in.Tier, &out.Tier
-		*out = new(SkuStatusTier)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -2638,12 +2638,12 @@ func (in *Sku_StatusARM) DeepCopyInto(out *Sku_StatusARM) {
 	}
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(SkuStatusName)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Tier != nil {
 		in, out := &in.Tier, &out.Tier
-		*out = new(SkuStatusTier)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -2673,7 +2673,7 @@ func (in *SystemData_Status) DeepCopyInto(out *SystemData_Status) {
 	}
 	if in.CreatedByType != nil {
 		in, out := &in.CreatedByType, &out.CreatedByType
-		*out = new(SystemDataStatusCreatedByType)
+		*out = new(string)
 		**out = **in
 	}
 	if in.LastModifiedAt != nil {
@@ -2688,7 +2688,7 @@ func (in *SystemData_Status) DeepCopyInto(out *SystemData_Status) {
 	}
 	if in.LastModifiedByType != nil {
 		in, out := &in.LastModifiedByType, &out.LastModifiedByType
-		*out = new(SystemDataStatusLastModifiedByType)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -2718,7 +2718,7 @@ func (in *SystemData_StatusARM) DeepCopyInto(out *SystemData_StatusARM) {
 	}
 	if in.CreatedByType != nil {
 		in, out := &in.CreatedByType, &out.CreatedByType
-		*out = new(SystemDataStatusCreatedByType)
+		*out = new(string)
 		**out = **in
 	}
 	if in.LastModifiedAt != nil {
@@ -2733,7 +2733,7 @@ func (in *SystemData_StatusARM) DeepCopyInto(out *SystemData_StatusARM) {
 	}
 	if in.LastModifiedByType != nil {
 		in, out := &in.LastModifiedByType, &out.LastModifiedByType
-		*out = new(SystemDataStatusLastModifiedByType)
+		*out = new(string)
 		**out = **in
 	}
 }

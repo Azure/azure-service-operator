@@ -108,7 +108,7 @@ func (in *ApplicationGatewayBackendAddressPoolPropertiesFormat_Status_NetworkInt
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_Status)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -150,7 +150,7 @@ func (in *ApplicationGatewayBackendAddressPool_Status_NetworkInterface_SubResour
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Type != nil {
@@ -265,7 +265,7 @@ func (in *ApplicationGatewayIPConfigurationPropertiesFormat_StatusARM) DeepCopyI
 	*out = *in
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Subnet != nil {
@@ -305,7 +305,7 @@ func (in *ApplicationGatewayIPConfiguration_Status) DeepCopyInto(out *Applicatio
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Subnet != nil {
@@ -753,7 +753,7 @@ func (in *DdosSettings_Status) DeepCopyInto(out *DdosSettings_Status) {
 	}
 	if in.ProtectionCoverage != nil {
 		in, out := &in.ProtectionCoverage, &out.ProtectionCoverage
-		*out = new(DdosSettingsStatusProtectionCoverage)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -783,7 +783,7 @@ func (in *DdosSettings_StatusARM) DeepCopyInto(out *DdosSettings_StatusARM) {
 	}
 	if in.ProtectionCoverage != nil {
 		in, out := &in.ProtectionCoverage, &out.ProtectionCoverage
-		*out = new(DdosSettingsStatusProtectionCoverage)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -823,7 +823,7 @@ func (in *Delegation_Status) DeepCopyInto(out *Delegation_Status) {
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.ServiceName != nil {
@@ -1028,7 +1028,7 @@ func (in *ExtendedLocation_Status) DeepCopyInto(out *ExtendedLocation_Status) {
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ExtendedLocationType_Status)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -1053,7 +1053,7 @@ func (in *ExtendedLocation_StatusARM) DeepCopyInto(out *ExtendedLocation_StatusA
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ExtendedLocationType_Status)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -1191,17 +1191,17 @@ func (in *FrontendIPConfigurationPropertiesFormat_Status_LoadBalancer_SubResourc
 	}
 	if in.PrivateIPAddressVersion != nil {
 		in, out := &in.PrivateIPAddressVersion, &out.PrivateIPAddressVersion
-		*out = new(IPVersion_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.PrivateIPAllocationMethod != nil {
 		in, out := &in.PrivateIPAllocationMethod, &out.PrivateIPAllocationMethod
-		*out = new(IPAllocationMethod_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.PublicIPAddress != nil {
@@ -1284,17 +1284,17 @@ func (in *FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded) DeepC
 	}
 	if in.PrivateIPAddressVersion != nil {
 		in, out := &in.PrivateIPAddressVersion, &out.PrivateIPAddressVersion
-		*out = new(IPVersion_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.PrivateIPAllocationMethod != nil {
 		in, out := &in.PrivateIPAllocationMethod, &out.PrivateIPAllocationMethod
-		*out = new(IPAllocationMethod_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.PublicIPAddress != nil {
@@ -1504,7 +1504,7 @@ func (in *IPConfigurationProfilePropertiesFormat_Status_VirtualNetworksSubnet_Su
 	*out = *in
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_Status)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -1539,7 +1539,7 @@ func (in *IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedde
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Type != nil {
@@ -1609,12 +1609,12 @@ func (in *IPConfigurationPropertiesFormat_Status_PublicIPAddress_SubResourceEmbe
 	}
 	if in.PrivateIPAllocationMethod != nil {
 		in, out := &in.PrivateIPAllocationMethod, &out.PrivateIPAllocationMethod
-		*out = new(IPAllocationMethod_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Subnet != nil {
@@ -1644,12 +1644,12 @@ func (in *IPConfigurationPropertiesFormat_Status_VirtualNetworksSubnet_SubResour
 	}
 	if in.PrivateIPAllocationMethod != nil {
 		in, out := &in.PrivateIPAllocationMethod, &out.PrivateIPAllocationMethod
-		*out = new(IPAllocationMethod_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.PublicIPAddress != nil {
@@ -1694,12 +1694,12 @@ func (in *IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded) DeepCopyIn
 	}
 	if in.PrivateIPAllocationMethod != nil {
 		in, out := &in.PrivateIPAllocationMethod, &out.PrivateIPAllocationMethod
-		*out = new(IPAllocationMethod_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Subnet != nil {
@@ -1779,12 +1779,12 @@ func (in *IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded) Deep
 	}
 	if in.PrivateIPAllocationMethod != nil {
 		in, out := &in.PrivateIPAllocationMethod, &out.PrivateIPAllocationMethod
-		*out = new(IPAllocationMethod_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.PublicIPAddress != nil {
@@ -1934,12 +1934,12 @@ func (in *InboundNatPoolPropertiesFormat_StatusARM) DeepCopyInto(out *InboundNat
 	}
 	if in.Protocol != nil {
 		in, out := &in.Protocol, &out.Protocol
-		*out = new(TransportProtocol_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_Status)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -2009,12 +2009,12 @@ func (in *InboundNatPool_Status) DeepCopyInto(out *InboundNatPool_Status) {
 	}
 	if in.Protocol != nil {
 		in, out := &in.Protocol, &out.Protocol
-		*out = new(TransportProtocol_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Type != nil {
@@ -2369,32 +2369,32 @@ func (in *IpsecPolicy_Status) DeepCopyInto(out *IpsecPolicy_Status) {
 	*out = *in
 	if in.DhGroup != nil {
 		in, out := &in.DhGroup, &out.DhGroup
-		*out = new(DhGroup_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.IkeEncryption != nil {
 		in, out := &in.IkeEncryption, &out.IkeEncryption
-		*out = new(IkeEncryption_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.IkeIntegrity != nil {
 		in, out := &in.IkeIntegrity, &out.IkeIntegrity
-		*out = new(IkeIntegrity_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.IpsecEncryption != nil {
 		in, out := &in.IpsecEncryption, &out.IpsecEncryption
-		*out = new(IpsecEncryption_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.IpsecIntegrity != nil {
 		in, out := &in.IpsecIntegrity, &out.IpsecIntegrity
-		*out = new(IpsecIntegrity_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.PfsGroup != nil {
 		in, out := &in.PfsGroup, &out.PfsGroup
-		*out = new(PfsGroup_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.SaDataSizeKilobytes != nil {
@@ -2424,32 +2424,32 @@ func (in *IpsecPolicy_StatusARM) DeepCopyInto(out *IpsecPolicy_StatusARM) {
 	*out = *in
 	if in.DhGroup != nil {
 		in, out := &in.DhGroup, &out.DhGroup
-		*out = new(DhGroup_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.IkeEncryption != nil {
 		in, out := &in.IkeEncryption, &out.IkeEncryption
-		*out = new(IkeEncryption_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.IkeIntegrity != nil {
 		in, out := &in.IkeIntegrity, &out.IkeIntegrity
-		*out = new(IkeIntegrity_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.IpsecEncryption != nil {
 		in, out := &in.IpsecEncryption, &out.IpsecEncryption
-		*out = new(IpsecEncryption_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.IpsecIntegrity != nil {
 		in, out := &in.IpsecIntegrity, &out.IpsecIntegrity
-		*out = new(IpsecIntegrity_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.PfsGroup != nil {
 		in, out := &in.PfsGroup, &out.PfsGroup
-		*out = new(PfsGroup_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.SaDataSizeKilobytes != nil {
@@ -2622,7 +2622,7 @@ func (in *LoadBalancerPropertiesFormat_StatusARM) DeepCopyInto(out *LoadBalancer
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.ResourceGuid != nil {
@@ -2697,12 +2697,12 @@ func (in *LoadBalancerSku_Status) DeepCopyInto(out *LoadBalancerSku_Status) {
 	*out = *in
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(LoadBalancerSkuStatusName)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Tier != nil {
 		in, out := &in.Tier, &out.Tier
-		*out = new(LoadBalancerSkuStatusTier)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -2722,12 +2722,12 @@ func (in *LoadBalancerSku_StatusARM) DeepCopyInto(out *LoadBalancerSku_StatusARM
 	*out = *in
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(LoadBalancerSkuStatusName)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Tier != nil {
 		in, out := &in.Tier, &out.Tier
-		*out = new(LoadBalancerSkuStatusTier)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -2828,7 +2828,7 @@ func (in *LoadBalancer_Status) DeepCopyInto(out *LoadBalancer_Status) {
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.ResourceGuid != nil {
@@ -3791,7 +3791,7 @@ func (in *LoadBalancingRulePropertiesFormat_StatusARM) DeepCopyInto(out *LoadBal
 	}
 	if in.LoadDistribution != nil {
 		in, out := &in.LoadDistribution, &out.LoadDistribution
-		*out = new(LoadBalancingRulePropertiesFormatStatusLoadDistribution)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Probe != nil {
@@ -3801,12 +3801,12 @@ func (in *LoadBalancingRulePropertiesFormat_StatusARM) DeepCopyInto(out *LoadBal
 	}
 	if in.Protocol != nil {
 		in, out := &in.Protocol, &out.Protocol
-		*out = new(TransportProtocol_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_Status)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -3876,7 +3876,7 @@ func (in *LoadBalancingRule_Status) DeepCopyInto(out *LoadBalancingRule_Status) 
 	}
 	if in.LoadDistribution != nil {
 		in, out := &in.LoadDistribution, &out.LoadDistribution
-		*out = new(LoadBalancingRulePropertiesFormatStatusLoadDistribution)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Name != nil {
@@ -3891,12 +3891,12 @@ func (in *LoadBalancingRule_Status) DeepCopyInto(out *LoadBalancingRule_Status) 
 	}
 	if in.Protocol != nil {
 		in, out := &in.Protocol, &out.Protocol
-		*out = new(TransportProtocol_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Type != nil {
@@ -3961,7 +3961,7 @@ func (in *NatGatewaySku_Status) DeepCopyInto(out *NatGatewaySku_Status) {
 	*out = *in
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(NatGatewaySkuStatusName)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -3981,7 +3981,7 @@ func (in *NatGatewaySku_StatusARM) DeepCopyInto(out *NatGatewaySku_StatusARM) {
 	*out = *in
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(NatGatewaySkuStatusName)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -4396,12 +4396,12 @@ func (in *NetworkInterfaceIPConfigurationPropertiesFormat_Status_NetworkInterfac
 	}
 	if in.PrivateIPAddressVersion != nil {
 		in, out := &in.PrivateIPAddressVersion, &out.PrivateIPAddressVersion
-		*out = new(IPVersion_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.PrivateIPAllocationMethod != nil {
 		in, out := &in.PrivateIPAllocationMethod, &out.PrivateIPAllocationMethod
-		*out = new(IPAllocationMethod_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.PrivateLinkConnectionProperties != nil {
@@ -4411,7 +4411,7 @@ func (in *NetworkInterfaceIPConfigurationPropertiesFormat_Status_NetworkInterfac
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.PublicIPAddress != nil {
@@ -4501,12 +4501,12 @@ func (in *NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResourceEmb
 	}
 	if in.PrivateIPAddressVersion != nil {
 		in, out := &in.PrivateIPAddressVersion, &out.PrivateIPAddressVersion
-		*out = new(IPVersion_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.PrivateIPAllocationMethod != nil {
 		in, out := &in.PrivateIPAllocationMethod, &out.PrivateIPAllocationMethod
-		*out = new(IPAllocationMethod_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.PrivateLinkConnectionProperties != nil {
@@ -4516,7 +4516,7 @@ func (in *NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResourceEmb
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.PublicIPAddress != nil {
@@ -4667,7 +4667,7 @@ func (in *NetworkInterfacePropertiesFormat_StatusARM) DeepCopyInto(out *NetworkI
 	}
 	if in.MigrationPhase != nil {
 		in, out := &in.MigrationPhase, &out.MigrationPhase
-		*out = new(NetworkInterfacePropertiesFormatStatusMigrationPhase)
+		*out = new(string)
 		**out = **in
 	}
 	if in.NetworkSecurityGroup != nil {
@@ -4677,7 +4677,7 @@ func (in *NetworkInterfacePropertiesFormat_StatusARM) DeepCopyInto(out *NetworkI
 	}
 	if in.NicType != nil {
 		in, out := &in.NicType, &out.NicType
-		*out = new(NetworkInterfacePropertiesFormatStatusNicType)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Primary != nil {
@@ -4697,7 +4697,7 @@ func (in *NetworkInterfacePropertiesFormat_StatusARM) DeepCopyInto(out *NetworkI
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.ResourceGuid != nil {
@@ -4838,7 +4838,7 @@ func (in *NetworkInterface_Status_NetworkInterface_SubResourceEmbedded) DeepCopy
 	}
 	if in.MigrationPhase != nil {
 		in, out := &in.MigrationPhase, &out.MigrationPhase
-		*out = new(NetworkInterfacePropertiesFormatStatusMigrationPhase)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Name != nil {
@@ -4853,7 +4853,7 @@ func (in *NetworkInterface_Status_NetworkInterface_SubResourceEmbedded) DeepCopy
 	}
 	if in.NicType != nil {
 		in, out := &in.NicType, &out.NicType
-		*out = new(NetworkInterfacePropertiesFormatStatusNicType)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Primary != nil {
@@ -4873,7 +4873,7 @@ func (in *NetworkInterface_Status_NetworkInterface_SubResourceEmbedded) DeepCopy
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.ResourceGuid != nil {
@@ -5362,7 +5362,7 @@ func (in *NetworkSecurityGroupPropertiesFormat_StatusARM) DeepCopyInto(out *Netw
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.ResourceGuid != nil {
@@ -5489,7 +5489,7 @@ func (in *NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded) 
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.ResourceGuid != nil {
@@ -5967,12 +5967,12 @@ func (in *OutboundRulePropertiesFormat_StatusARM) DeepCopyInto(out *OutboundRule
 	}
 	if in.Protocol != nil {
 		in, out := &in.Protocol, &out.Protocol
-		*out = new(OutboundRulePropertiesFormatStatusProtocol)
+		*out = new(string)
 		**out = **in
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_Status)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -6034,12 +6034,12 @@ func (in *OutboundRule_Status) DeepCopyInto(out *OutboundRule_Status) {
 	}
 	if in.Protocol != nil {
 		in, out := &in.Protocol, &out.Protocol
-		*out = new(OutboundRulePropertiesFormatStatusProtocol)
+		*out = new(string)
 		**out = **in
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Type != nil {
@@ -6316,12 +6316,12 @@ func (in *ProbePropertiesFormat_StatusARM) DeepCopyInto(out *ProbePropertiesForm
 	}
 	if in.Protocol != nil {
 		in, out := &in.Protocol, &out.Protocol
-		*out = new(ProbePropertiesFormatStatusProtocol)
+		*out = new(string)
 		**out = **in
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.RequestPath != nil {
@@ -6383,12 +6383,12 @@ func (in *Probe_Status) DeepCopyInto(out *Probe_Status) {
 	}
 	if in.Protocol != nil {
 		in, out := &in.Protocol, &out.Protocol
-		*out = new(ProbePropertiesFormatStatusProtocol)
+		*out = new(string)
 		**out = **in
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.RequestPath != nil {
@@ -6726,7 +6726,7 @@ func (in *PublicIPAddressPropertiesFormat_StatusARM) DeepCopyInto(out *PublicIPA
 	}
 	if in.MigrationPhase != nil {
 		in, out := &in.MigrationPhase, &out.MigrationPhase
-		*out = new(PublicIPAddressPropertiesFormatStatusMigrationPhase)
+		*out = new(string)
 		**out = **in
 	}
 	if in.NatGateway != nil {
@@ -6736,17 +6736,17 @@ func (in *PublicIPAddressPropertiesFormat_StatusARM) DeepCopyInto(out *PublicIPA
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.PublicIPAddressVersion != nil {
 		in, out := &in.PublicIPAddressVersion, &out.PublicIPAddressVersion
-		*out = new(IPVersion_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.PublicIPAllocationMethod != nil {
 		in, out := &in.PublicIPAllocationMethod, &out.PublicIPAllocationMethod
-		*out = new(IPAllocationMethod_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.PublicIPPrefix != nil {
@@ -6826,12 +6826,12 @@ func (in *PublicIPAddressSku_Status) DeepCopyInto(out *PublicIPAddressSku_Status
 	*out = *in
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(PublicIPAddressSkuStatusName)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Tier != nil {
 		in, out := &in.Tier, &out.Tier
-		*out = new(PublicIPAddressSkuStatusTier)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -6851,12 +6851,12 @@ func (in *PublicIPAddressSku_StatusARM) DeepCopyInto(out *PublicIPAddressSku_Sta
 	*out = *in
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(PublicIPAddressSkuStatusName)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Tier != nil {
 		in, out := &in.Tier, &out.Tier
-		*out = new(PublicIPAddressSkuStatusTier)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -7075,7 +7075,7 @@ func (in *PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded) DeepCopyIn
 	}
 	if in.MigrationPhase != nil {
 		in, out := &in.MigrationPhase, &out.MigrationPhase
-		*out = new(PublicIPAddressPropertiesFormatStatusMigrationPhase)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Name != nil {
@@ -7090,17 +7090,17 @@ func (in *PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded) DeepCopyIn
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.PublicIPAddressVersion != nil {
 		in, out := &in.PublicIPAddressVersion, &out.PublicIPAddressVersion
-		*out = new(IPVersion_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.PublicIPAllocationMethod != nil {
 		in, out := &in.PublicIPAllocationMethod, &out.PublicIPAllocationMethod
-		*out = new(IPAllocationMethod_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.PublicIPPrefix != nil {
@@ -7555,7 +7555,7 @@ func (in *ResourceNavigationLinkFormat_StatusARM) DeepCopyInto(out *ResourceNavi
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_Status)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -7600,7 +7600,7 @@ func (in *ResourceNavigationLink_Status) DeepCopyInto(out *ResourceNavigationLin
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Type != nil {
@@ -7715,12 +7715,12 @@ func (in *RoutePropertiesFormat_StatusARM) DeepCopyInto(out *RoutePropertiesForm
 	}
 	if in.NextHopType != nil {
 		in, out := &in.NextHopType, &out.NextHopType
-		*out = new(RouteNextHopType_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_Status)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -7804,7 +7804,7 @@ func (in *RouteTablePropertiesFormat_StatusARM) DeepCopyInto(out *RouteTableProp
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.ResourceGuid != nil {
@@ -7861,7 +7861,7 @@ func (in *RouteTable_Status) DeepCopyInto(out *RouteTable_Status) {
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.ResourceGuid != nil {
@@ -8267,12 +8267,12 @@ func (in *Route_Status) DeepCopyInto(out *Route_Status) {
 	}
 	if in.NextHopType != nil {
 		in, out := &in.NextHopType, &out.NextHopType
-		*out = new(RouteNextHopType_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Type != nil {
@@ -8431,7 +8431,7 @@ func (in *SecurityRulePropertiesFormat_StatusARM) DeepCopyInto(out *SecurityRule
 	*out = *in
 	if in.Access != nil {
 		in, out := &in.Access, &out.Access
-		*out = new(SecurityRuleAccess_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Description != nil {
@@ -8468,7 +8468,7 @@ func (in *SecurityRulePropertiesFormat_StatusARM) DeepCopyInto(out *SecurityRule
 	}
 	if in.Direction != nil {
 		in, out := &in.Direction, &out.Direction
-		*out = new(SecurityRuleDirection_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Priority != nil {
@@ -8478,12 +8478,12 @@ func (in *SecurityRulePropertiesFormat_StatusARM) DeepCopyInto(out *SecurityRule
 	}
 	if in.Protocol != nil {
 		in, out := &in.Protocol, &out.Protocol
-		*out = new(SecurityRulePropertiesFormatStatusProtocol)
+		*out = new(string)
 		**out = **in
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.SourceAddressPrefix != nil {
@@ -8570,7 +8570,7 @@ func (in *SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbed
 	*out = *in
 	if in.Access != nil {
 		in, out := &in.Access, &out.Access
-		*out = new(SecurityRuleAccess_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Conditions != nil {
@@ -8614,7 +8614,7 @@ func (in *SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbed
 	}
 	if in.Direction != nil {
 		in, out := &in.Direction, &out.Direction
-		*out = new(SecurityRuleDirection_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Etag != nil {
@@ -8639,12 +8639,12 @@ func (in *SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbed
 	}
 	if in.Protocol != nil {
 		in, out := &in.Protocol, &out.Protocol
-		*out = new(SecurityRulePropertiesFormatStatusProtocol)
+		*out = new(string)
 		**out = **in
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.SourceAddressPrefix != nil {
@@ -8756,7 +8756,7 @@ func (in *ServiceAssociationLinkPropertiesFormat_StatusARM) DeepCopyInto(out *Se
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_Status)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -8811,7 +8811,7 @@ func (in *ServiceAssociationLink_Status) DeepCopyInto(out *ServiceAssociationLin
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Type != nil {
@@ -8901,7 +8901,7 @@ func (in *ServiceDelegationPropertiesFormat_StatusARM) DeepCopyInto(out *Service
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.ServiceName != nil {
@@ -9031,7 +9031,7 @@ func (in *ServiceEndpointPropertiesFormat_Status) DeepCopyInto(out *ServiceEndpo
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Service != nil {
@@ -9061,7 +9061,7 @@ func (in *ServiceEndpointPropertiesFormat_StatusARM) DeepCopyInto(out *ServiceEn
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Service != nil {
@@ -9221,7 +9221,7 @@ func (in *SubnetPropertiesFormat_StatusARM) DeepCopyInto(out *SubnetPropertiesFo
 	}
 	if in.PrivateEndpointNetworkPolicies != nil {
 		in, out := &in.PrivateEndpointNetworkPolicies, &out.PrivateEndpointNetworkPolicies
-		*out = new(SubnetPropertiesFormatStatusPrivateEndpointNetworkPolicies)
+		*out = new(string)
 		**out = **in
 	}
 	if in.PrivateEndpoints != nil {
@@ -9233,12 +9233,12 @@ func (in *SubnetPropertiesFormat_StatusARM) DeepCopyInto(out *SubnetPropertiesFo
 	}
 	if in.PrivateLinkServiceNetworkPolicies != nil {
 		in, out := &in.PrivateLinkServiceNetworkPolicies, &out.PrivateLinkServiceNetworkPolicies
-		*out = new(SubnetPropertiesFormatStatusPrivateLinkServiceNetworkPolicies)
+		*out = new(string)
 		**out = **in
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Purpose != nil {
@@ -9533,7 +9533,7 @@ func (in *Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) DeepCopyInto(
 	}
 	if in.PrivateEndpointNetworkPolicies != nil {
 		in, out := &in.PrivateEndpointNetworkPolicies, &out.PrivateEndpointNetworkPolicies
-		*out = new(SubnetPropertiesFormatStatusPrivateEndpointNetworkPolicies)
+		*out = new(string)
 		**out = **in
 	}
 	if in.PrivateEndpoints != nil {
@@ -9545,12 +9545,12 @@ func (in *Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) DeepCopyInto(
 	}
 	if in.PrivateLinkServiceNetworkPolicies != nil {
 		in, out := &in.PrivateLinkServiceNetworkPolicies, &out.PrivateLinkServiceNetworkPolicies
-		*out = new(SubnetPropertiesFormatStatusPrivateLinkServiceNetworkPolicies)
+		*out = new(string)
 		**out = **in
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Purpose != nil {
@@ -9832,12 +9832,12 @@ func (in *VirtualNetworkGatewayIPConfigurationPropertiesFormat_StatusARM) DeepCo
 	}
 	if in.PrivateIPAllocationMethod != nil {
 		in, out := &in.PrivateIPAllocationMethod, &out.PrivateIPAllocationMethod
-		*out = new(IPAllocationMethod_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.PublicIPAddress != nil {
@@ -9887,12 +9887,12 @@ func (in *VirtualNetworkGatewayIPConfiguration_Status) DeepCopyInto(out *Virtual
 	}
 	if in.PrivateIPAllocationMethod != nil {
 		in, out := &in.PrivateIPAllocationMethod, &out.PrivateIPAllocationMethod
-		*out = new(IPAllocationMethod_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.PublicIPAddress != nil {
@@ -10024,7 +10024,7 @@ func (in *VirtualNetworkGatewayPropertiesFormat_StatusARM) DeepCopyInto(out *Vir
 	}
 	if in.GatewayType != nil {
 		in, out := &in.GatewayType, &out.GatewayType
-		*out = new(VirtualNetworkGatewayPropertiesFormatStatusGatewayType)
+		*out = new(string)
 		**out = **in
 	}
 	if in.InboundDnsForwardingEndpoint != nil {
@@ -10041,7 +10041,7 @@ func (in *VirtualNetworkGatewayPropertiesFormat_StatusARM) DeepCopyInto(out *Vir
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.ResourceGuid != nil {
@@ -10066,12 +10066,12 @@ func (in *VirtualNetworkGatewayPropertiesFormat_StatusARM) DeepCopyInto(out *Vir
 	}
 	if in.VpnGatewayGeneration != nil {
 		in, out := &in.VpnGatewayGeneration, &out.VpnGatewayGeneration
-		*out = new(VirtualNetworkGatewayPropertiesFormatStatusVpnGatewayGeneration)
+		*out = new(string)
 		**out = **in
 	}
 	if in.VpnType != nil {
 		in, out := &in.VpnType, &out.VpnType
-		*out = new(VirtualNetworkGatewayPropertiesFormatStatusVpnType)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -10146,12 +10146,12 @@ func (in *VirtualNetworkGatewaySku_Status) DeepCopyInto(out *VirtualNetworkGatew
 	}
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(VirtualNetworkGatewaySkuStatusName)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Tier != nil {
 		in, out := &in.Tier, &out.Tier
-		*out = new(VirtualNetworkGatewaySkuStatusTier)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -10176,12 +10176,12 @@ func (in *VirtualNetworkGatewaySku_StatusARM) DeepCopyInto(out *VirtualNetworkGa
 	}
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(VirtualNetworkGatewaySkuStatusName)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Tier != nil {
 		in, out := &in.Tier, &out.Tier
-		*out = new(VirtualNetworkGatewaySkuStatusTier)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -10253,7 +10253,7 @@ func (in *VirtualNetworkGateway_Status) DeepCopyInto(out *VirtualNetworkGateway_
 	}
 	if in.GatewayType != nil {
 		in, out := &in.GatewayType, &out.GatewayType
-		*out = new(VirtualNetworkGatewayPropertiesFormatStatusGatewayType)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Id != nil {
@@ -10285,7 +10285,7 @@ func (in *VirtualNetworkGateway_Status) DeepCopyInto(out *VirtualNetworkGateway_
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.ResourceGuid != nil {
@@ -10322,12 +10322,12 @@ func (in *VirtualNetworkGateway_Status) DeepCopyInto(out *VirtualNetworkGateway_
 	}
 	if in.VpnGatewayGeneration != nil {
 		in, out := &in.VpnGatewayGeneration, &out.VpnGatewayGeneration
-		*out = new(VirtualNetworkGatewayPropertiesFormatStatusVpnGatewayGeneration)
+		*out = new(string)
 		**out = **in
 	}
 	if in.VpnType != nil {
 		in, out := &in.VpnType, &out.VpnType
-		*out = new(VirtualNetworkGatewayPropertiesFormatStatusVpnType)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -11070,12 +11070,12 @@ func (in *VirtualNetworkPeeringPropertiesFormat_StatusARM) DeepCopyInto(out *Vir
 	}
 	if in.PeeringState != nil {
 		in, out := &in.PeeringState, &out.PeeringState
-		*out = new(VirtualNetworkPeeringPropertiesFormatStatusPeeringState)
+		*out = new(string)
 		**out = **in
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.RemoteAddressSpace != nil {
@@ -11162,12 +11162,12 @@ func (in *VirtualNetworkPeering_Status) DeepCopyInto(out *VirtualNetworkPeering_
 	}
 	if in.PeeringState != nil {
 		in, out := &in.PeeringState, &out.PeeringState
-		*out = new(VirtualNetworkPeeringPropertiesFormatStatusPeeringState)
+		*out = new(string)
 		**out = **in
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.RemoteAddressSpace != nil {
@@ -11294,7 +11294,7 @@ func (in *VirtualNetworkPropertiesFormat_StatusARM) DeepCopyInto(out *VirtualNet
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.ResourceGuid != nil {
@@ -11428,7 +11428,7 @@ func (in *VirtualNetwork_Status) DeepCopyInto(out *VirtualNetwork_Status) {
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.ResourceGuid != nil {
@@ -12337,7 +12337,7 @@ func (in *VpnClientConfiguration_Status) DeepCopyInto(out *VpnClientConfiguratio
 	}
 	if in.VpnAuthenticationTypes != nil {
 		in, out := &in.VpnAuthenticationTypes, &out.VpnAuthenticationTypes
-		*out = make([]VpnClientConfigurationStatusVpnAuthenticationTypes, len(*in))
+		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
 	if in.VpnClientAddressPool != nil {
@@ -12354,7 +12354,7 @@ func (in *VpnClientConfiguration_Status) DeepCopyInto(out *VpnClientConfiguratio
 	}
 	if in.VpnClientProtocols != nil {
 		in, out := &in.VpnClientProtocols, &out.VpnClientProtocols
-		*out = make([]VpnClientConfigurationStatusVpnClientProtocols, len(*in))
+		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
 	if in.VpnClientRevokedCertificates != nil {
@@ -12420,7 +12420,7 @@ func (in *VpnClientConfiguration_StatusARM) DeepCopyInto(out *VpnClientConfigura
 	}
 	if in.VpnAuthenticationTypes != nil {
 		in, out := &in.VpnAuthenticationTypes, &out.VpnAuthenticationTypes
-		*out = make([]VpnClientConfigurationStatusVpnAuthenticationTypes, len(*in))
+		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
 	if in.VpnClientAddressPool != nil {
@@ -12437,7 +12437,7 @@ func (in *VpnClientConfiguration_StatusARM) DeepCopyInto(out *VpnClientConfigura
 	}
 	if in.VpnClientProtocols != nil {
 		in, out := &in.VpnClientProtocols, &out.VpnClientProtocols
-		*out = make([]VpnClientConfigurationStatusVpnClientProtocols, len(*in))
+		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
 	if in.VpnClientRevokedCertificates != nil {
@@ -12491,7 +12491,7 @@ func (in *VpnClientRevokedCertificatePropertiesFormat_StatusARM) DeepCopyInto(ou
 	*out = *in
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Thumbprint != nil {
@@ -12531,7 +12531,7 @@ func (in *VpnClientRevokedCertificate_Status) DeepCopyInto(out *VpnClientRevoked
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Thumbprint != nil {
@@ -12611,7 +12611,7 @@ func (in *VpnClientRootCertificatePropertiesFormat_StatusARM) DeepCopyInto(out *
 	*out = *in
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.PublicCertData != nil {
@@ -12651,7 +12651,7 @@ func (in *VpnClientRootCertificate_Status) DeepCopyInto(out *VpnClientRootCertif
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.PublicCertData != nil {

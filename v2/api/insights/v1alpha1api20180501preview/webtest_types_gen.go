@@ -347,7 +347,7 @@ type WebTest_Status struct {
 	Enabled            *bool                                     `json:"Enabled,omitempty"`
 	Frequency          *int                                      `json:"Frequency,omitempty"`
 	Id                 *string                                   `json:"id,omitempty"`
-	Kind               *WebTestPropertiesStatusKind              `json:"Kind,omitempty"`
+	Kind               *string                                   `json:"Kind,omitempty"`
 	Location           *string                                   `json:"location,omitempty"`
 	Locations          []WebTestGeolocation_Status               `json:"Locations,omitempty"`
 	Name               *string                                   `json:"name,omitempty"`
@@ -634,12 +634,7 @@ func (test *WebTest_Status) AssignPropertiesFromWebTestStatus(source *alpha20180
 	test.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Kind
-	if source.Kind != nil {
-		kind := WebTestPropertiesStatusKind(*source.Kind)
-		test.Kind = &kind
-	} else {
-		test.Kind = nil
-	}
+	test.Kind = genruntime.ClonePointerToString(source.Kind)
 
 	// Location
 	test.Location = genruntime.ClonePointerToString(source.Location)
@@ -762,12 +757,7 @@ func (test *WebTest_Status) AssignPropertiesToWebTestStatus(destination *alpha20
 	destination.Id = genruntime.ClonePointerToString(test.Id)
 
 	// Kind
-	if test.Kind != nil {
-		kind := string(*test.Kind)
-		destination.Kind = &kind
-	} else {
-		destination.Kind = nil
-	}
+	destination.Kind = genruntime.ClonePointerToString(test.Kind)
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(test.Location)

@@ -166,7 +166,7 @@ func (in *ManagedIdentity_Status) DeepCopyInto(out *ManagedIdentity_Status) {
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ManagedIdentityType_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
@@ -203,7 +203,7 @@ func (in *ManagedIdentity_StatusARM) DeepCopyInto(out *ManagedIdentity_StatusARM
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ManagedIdentityType_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
@@ -280,12 +280,12 @@ func (in *NetworkACL_Status) DeepCopyInto(out *NetworkACL_Status) {
 	*out = *in
 	if in.Allow != nil {
 		in, out := &in.Allow, &out.Allow
-		*out = make([]SignalRRequestType_Status, len(*in))
+		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
 	if in.Deny != nil {
 		in, out := &in.Deny, &out.Deny
-		*out = make([]SignalRRequestType_Status, len(*in))
+		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
 }
@@ -305,12 +305,12 @@ func (in *NetworkACL_StatusARM) DeepCopyInto(out *NetworkACL_StatusARM) {
 	*out = *in
 	if in.Allow != nil {
 		in, out := &in.Allow, &out.Allow
-		*out = make([]SignalRRequestType_Status, len(*in))
+		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
 	if in.Deny != nil {
 		in, out := &in.Deny, &out.Deny
-		*out = make([]SignalRRequestType_Status, len(*in))
+		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
 }
@@ -390,12 +390,12 @@ func (in *PrivateEndpointACL_Status) DeepCopyInto(out *PrivateEndpointACL_Status
 	*out = *in
 	if in.Allow != nil {
 		in, out := &in.Allow, &out.Allow
-		*out = make([]SignalRRequestType_Status, len(*in))
+		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
 	if in.Deny != nil {
 		in, out := &in.Deny, &out.Deny
-		*out = make([]SignalRRequestType_Status, len(*in))
+		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
 	if in.Name != nil {
@@ -420,12 +420,12 @@ func (in *PrivateEndpointACL_StatusARM) DeepCopyInto(out *PrivateEndpointACL_Sta
 	*out = *in
 	if in.Allow != nil {
 		in, out := &in.Allow, &out.Allow
-		*out = make([]SignalRRequestType_Status, len(*in))
+		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
 	if in.Deny != nil {
 		in, out := &in.Deny, &out.Deny
-		*out = make([]SignalRRequestType_Status, len(*in))
+		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
 	if in.Name != nil {
@@ -768,7 +768,7 @@ func (in *ResourceSku_Status) DeepCopyInto(out *ResourceSku_Status) {
 	}
 	if in.Tier != nil {
 		in, out := &in.Tier, &out.Tier
-		*out = new(SignalRSkuTier_Status)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -808,7 +808,7 @@ func (in *ResourceSku_StatusARM) DeepCopyInto(out *ResourceSku_StatusARM) {
 	}
 	if in.Tier != nil {
 		in, out := &in.Tier, &out.Tier
-		*out = new(SignalRSkuTier_Status)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -1137,7 +1137,7 @@ func (in *SignalRFeature_Status) DeepCopyInto(out *SignalRFeature_Status) {
 	*out = *in
 	if in.Flag != nil {
 		in, out := &in.Flag, &out.Flag
-		*out = new(FeatureFlags_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Properties != nil {
@@ -1169,7 +1169,7 @@ func (in *SignalRFeature_StatusARM) DeepCopyInto(out *SignalRFeature_StatusARM) 
 	*out = *in
 	if in.Flag != nil {
 		in, out := &in.Flag, &out.Flag
-		*out = new(FeatureFlags_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Properties != nil {
@@ -1297,7 +1297,7 @@ func (in *SignalRNetworkACLs_Status) DeepCopyInto(out *SignalRNetworkACLs_Status
 	*out = *in
 	if in.DefaultAction != nil {
 		in, out := &in.DefaultAction, &out.DefaultAction
-		*out = new(ACLAction_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.PrivateEndpoints != nil {
@@ -1329,7 +1329,7 @@ func (in *SignalRNetworkACLs_StatusARM) DeepCopyInto(out *SignalRNetworkACLs_Sta
 	*out = *in
 	if in.DefaultAction != nil {
 		in, out := &in.DefaultAction, &out.DefaultAction
-		*out = new(ACLAction_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.PrivateEndpoints != nil {
@@ -1472,7 +1472,7 @@ func (in *SignalRProperties_StatusARM) DeepCopyInto(out *SignalRProperties_Statu
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.PublicNetworkAccess != nil {
@@ -1588,7 +1588,7 @@ func (in *SignalRResource_Status) DeepCopyInto(out *SignalRResource_Status) {
 	}
 	if in.Kind != nil {
 		in, out := &in.Kind, &out.Kind
-		*out = new(ServiceKind_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Location != nil {
@@ -1615,7 +1615,7 @@ func (in *SignalRResource_Status) DeepCopyInto(out *SignalRResource_Status) {
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.PublicNetworkAccess != nil {
@@ -1709,7 +1709,7 @@ func (in *SignalRResource_StatusARM) DeepCopyInto(out *SignalRResource_StatusARM
 	}
 	if in.Kind != nil {
 		in, out := &in.Kind, &out.Kind
-		*out = new(ServiceKind_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Location != nil {
@@ -1997,7 +1997,7 @@ func (in *SystemData_Status) DeepCopyInto(out *SystemData_Status) {
 	}
 	if in.CreatedByType != nil {
 		in, out := &in.CreatedByType, &out.CreatedByType
-		*out = new(SystemDataStatusCreatedByType)
+		*out = new(string)
 		**out = **in
 	}
 	if in.LastModifiedAt != nil {
@@ -2012,7 +2012,7 @@ func (in *SystemData_Status) DeepCopyInto(out *SystemData_Status) {
 	}
 	if in.LastModifiedByType != nil {
 		in, out := &in.LastModifiedByType, &out.LastModifiedByType
-		*out = new(SystemDataStatusLastModifiedByType)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -2042,7 +2042,7 @@ func (in *SystemData_StatusARM) DeepCopyInto(out *SystemData_StatusARM) {
 	}
 	if in.CreatedByType != nil {
 		in, out := &in.CreatedByType, &out.CreatedByType
-		*out = new(SystemDataStatusCreatedByType)
+		*out = new(string)
 		**out = **in
 	}
 	if in.LastModifiedAt != nil {
@@ -2057,7 +2057,7 @@ func (in *SystemData_StatusARM) DeepCopyInto(out *SystemData_StatusARM) {
 	}
 	if in.LastModifiedByType != nil {
 		in, out := &in.LastModifiedByType, &out.LastModifiedByType
-		*out = new(SystemDataStatusLastModifiedByType)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -2132,7 +2132,7 @@ func (in *UpstreamAuthSettings_Status) DeepCopyInto(out *UpstreamAuthSettings_St
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(UpstreamAuthType_Status)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -2157,7 +2157,7 @@ func (in *UpstreamAuthSettings_StatusARM) DeepCopyInto(out *UpstreamAuthSettings
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(UpstreamAuthType_Status)
+		*out = new(string)
 		**out = **in
 	}
 }

@@ -167,19 +167,10 @@ func PublicIPAddressPropertiesFormatStatusARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForPublicIPAddressPropertiesFormatStatusARM(gens map[string]gopter.Gen) {
 	gens["IdleTimeoutInMinutes"] = gen.PtrOf(gen.Int())
 	gens["IpAddress"] = gen.PtrOf(gen.AlphaString())
-	gens["MigrationPhase"] = gen.PtrOf(gen.OneConstOf(
-		PublicIPAddressPropertiesFormatStatusMigrationPhaseAbort,
-		PublicIPAddressPropertiesFormatStatusMigrationPhaseCommit,
-		PublicIPAddressPropertiesFormatStatusMigrationPhaseCommitted,
-		PublicIPAddressPropertiesFormatStatusMigrationPhaseNone,
-		PublicIPAddressPropertiesFormatStatusMigrationPhasePrepare))
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_StatusDeleting,
-		ProvisioningState_StatusFailed,
-		ProvisioningState_StatusSucceeded,
-		ProvisioningState_StatusUpdating))
-	gens["PublicIPAddressVersion"] = gen.PtrOf(gen.OneConstOf(IPVersion_StatusIPv4, IPVersion_StatusIPv6))
-	gens["PublicIPAllocationMethod"] = gen.PtrOf(gen.OneConstOf(IPAllocationMethod_StatusDynamic, IPAllocationMethod_StatusStatic))
+	gens["MigrationPhase"] = gen.PtrOf(gen.AlphaString())
+	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
+	gens["PublicIPAddressVersion"] = gen.PtrOf(gen.AlphaString())
+	gens["PublicIPAllocationMethod"] = gen.PtrOf(gen.AlphaString())
 	gens["ResourceGuid"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -250,8 +241,8 @@ func PublicIPAddressSkuStatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForPublicIPAddressSkuStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPublicIPAddressSkuStatusARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(PublicIPAddressSkuStatusNameBasic, PublicIPAddressSkuStatusNameStandard))
-	gens["Tier"] = gen.PtrOf(gen.OneConstOf(PublicIPAddressSkuStatusTierGlobal, PublicIPAddressSkuStatusTierRegional))
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Tier"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_DdosSettings_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -321,7 +312,7 @@ func DdosSettingsStatusARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForDdosSettingsStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDdosSettingsStatusARM(gens map[string]gopter.Gen) {
 	gens["ProtectedIP"] = gen.PtrOf(gen.Bool())
-	gens["ProtectionCoverage"] = gen.PtrOf(gen.OneConstOf(DdosSettingsStatusProtectionCoverageBasic, DdosSettingsStatusProtectionCoverageStandard))
+	gens["ProtectionCoverage"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForDdosSettingsStatusARM is a factory method for creating gopter generators
@@ -669,12 +660,8 @@ func IPConfigurationPropertiesFormatStatusPublicIPAddressSubResourceEmbeddedARMG
 // AddIndependentPropertyGeneratorsForIPConfigurationPropertiesFormatStatusPublicIPAddressSubResourceEmbeddedARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForIPConfigurationPropertiesFormatStatusPublicIPAddressSubResourceEmbeddedARM(gens map[string]gopter.Gen) {
 	gens["PrivateIPAddress"] = gen.PtrOf(gen.AlphaString())
-	gens["PrivateIPAllocationMethod"] = gen.PtrOf(gen.OneConstOf(IPAllocationMethod_StatusDynamic, IPAllocationMethod_StatusStatic))
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_StatusDeleting,
-		ProvisioningState_StatusFailed,
-		ProvisioningState_StatusSucceeded,
-		ProvisioningState_StatusUpdating))
+	gens["PrivateIPAllocationMethod"] = gen.PtrOf(gen.AlphaString())
+	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForIPConfigurationPropertiesFormatStatusPublicIPAddressSubResourceEmbeddedARM is a factory method for creating gopter generators
@@ -739,7 +726,7 @@ func NatGatewaySkuStatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForNatGatewaySkuStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNatGatewaySkuStatusARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(NatGatewaySkuStatusNameStandard))
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_Subnet_Status_PublicIPAddress_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

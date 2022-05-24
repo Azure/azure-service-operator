@@ -24,13 +24,13 @@ type NetworkInterfacePropertiesFormat_StatusARM struct {
 	HostedWorkloads             []string                                                                          `json:"hostedWorkloads,omitempty"`
 	IpConfigurations            []NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResourceEmbeddedARM  `json:"ipConfigurations,omitempty"`
 	MacAddress                  *string                                                                           `json:"macAddress,omitempty"`
-	MigrationPhase              *NetworkInterfacePropertiesFormatStatusMigrationPhase                             `json:"migrationPhase,omitempty"`
+	MigrationPhase              *string                                                                           `json:"migrationPhase,omitempty"`
 	NetworkSecurityGroup        *NetworkSecurityGroup_Status_NetworkInterface_SubResourceEmbeddedARM              `json:"networkSecurityGroup,omitempty"`
-	NicType                     *NetworkInterfacePropertiesFormatStatusNicType                                    `json:"nicType,omitempty"`
+	NicType                     *string                                                                           `json:"nicType,omitempty"`
 	Primary                     *bool                                                                             `json:"primary,omitempty"`
 	PrivateEndpoint             *PrivateEndpoint_Status_NetworkInterface_SubResourceEmbeddedARM                   `json:"privateEndpoint,omitempty"`
 	PrivateLinkService          *PrivateLinkService_Status_NetworkInterface_SubResourceEmbeddedARM                `json:"privateLinkService,omitempty"`
-	ProvisioningState           *ProvisioningState_Status                                                         `json:"provisioningState,omitempty"`
+	ProvisioningState           *string                                                                           `json:"provisioningState,omitempty"`
 	ResourceGuid                *string                                                                           `json:"resourceGuid,omitempty"`
 	TapConfigurations           []NetworkInterfaceTapConfiguration_Status_NetworkInterface_SubResourceEmbeddedARM `json:"tapConfigurations,omitempty"`
 	VirtualMachine              *SubResource_StatusARM                                                            `json:"virtualMachine,omitempty"`
@@ -89,10 +89,10 @@ type NetworkInterfaceIPConfigurationPropertiesFormat_Status_NetworkInterface_Sub
 	LoadBalancerInboundNatRules           []InboundNatRule_Status_NetworkInterface_SubResourceEmbeddedARM                       `json:"loadBalancerInboundNatRules,omitempty"`
 	Primary                               *bool                                                                                 `json:"primary,omitempty"`
 	PrivateIPAddress                      *string                                                                               `json:"privateIPAddress,omitempty"`
-	PrivateIPAddressVersion               *IPVersion_Status                                                                     `json:"privateIPAddressVersion,omitempty"`
-	PrivateIPAllocationMethod             *IPAllocationMethod_Status                                                            `json:"privateIPAllocationMethod,omitempty"`
+	PrivateIPAddressVersion               *string                                                                               `json:"privateIPAddressVersion,omitempty"`
+	PrivateIPAllocationMethod             *string                                                                               `json:"privateIPAllocationMethod,omitempty"`
 	PrivateLinkConnectionProperties       *NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_StatusARM             `json:"privateLinkConnectionProperties,omitempty"`
-	ProvisioningState                     *ProvisioningState_Status                                                             `json:"provisioningState,omitempty"`
+	ProvisioningState                     *string                                                                               `json:"provisioningState,omitempty"`
 	PublicIPAddress                       *PublicIPAddress_Status_NetworkInterface_SubResourceEmbeddedARM                       `json:"publicIPAddress,omitempty"`
 	Subnet                                *Subnet_Status_NetworkInterface_SubResourceEmbeddedARM                                `json:"subnet,omitempty"`
 	VirtualNetworkTaps                    []VirtualNetworkTap_Status_NetworkInterface_SubResourceEmbeddedARM                    `json:"virtualNetworkTaps,omitempty"`
@@ -150,7 +150,7 @@ type VirtualNetworkTap_Status_NetworkInterface_SubResourceEmbeddedARM struct {
 // Deprecated version of ApplicationGatewayBackendAddressPoolPropertiesFormat_Status_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.ApplicationGatewayBackendAddressPoolPropertiesFormat_Status_NetworkInterface_SubResourceEmbedded instead
 type ApplicationGatewayBackendAddressPoolPropertiesFormat_Status_NetworkInterface_SubResourceEmbeddedARM struct {
 	BackendAddresses  []ApplicationGatewayBackendAddress_StatusARM `json:"backendAddresses,omitempty"`
-	ProvisioningState *ProvisioningState_Status                    `json:"provisioningState,omitempty"`
+	ProvisioningState *string                                      `json:"provisioningState,omitempty"`
 }
 
 // Deprecated version of ApplicationGatewayBackendAddress_Status. Use v1beta20201101.ApplicationGatewayBackendAddress_Status instead

@@ -275,23 +275,11 @@ func AddIndependentPropertyGeneratorsForRedisResourceStatus(gens map[string]gopt
 	gens["HostName"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["MinimumTlsVersion"] = gen.PtrOf(gen.OneConstOf(RedisPropertiesStatusMinimumTlsVersion10, RedisPropertiesStatusMinimumTlsVersion11, RedisPropertiesStatusMinimumTlsVersion12))
+	gens["MinimumTlsVersion"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Port"] = gen.PtrOf(gen.Int())
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		RedisPropertiesStatusProvisioningStateCreating,
-		RedisPropertiesStatusProvisioningStateDeleting,
-		RedisPropertiesStatusProvisioningStateDisabled,
-		RedisPropertiesStatusProvisioningStateFailed,
-		RedisPropertiesStatusProvisioningStateLinking,
-		RedisPropertiesStatusProvisioningStateProvisioning,
-		RedisPropertiesStatusProvisioningStateRecoveringScaleFailure,
-		RedisPropertiesStatusProvisioningStateScaling,
-		RedisPropertiesStatusProvisioningStateSucceeded,
-		RedisPropertiesStatusProvisioningStateUnlinking,
-		RedisPropertiesStatusProvisioningStateUnprovisioning,
-		RedisPropertiesStatusProvisioningStateUpdating))
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(RedisPropertiesStatusPublicNetworkAccessDisabled, RedisPropertiesStatusPublicNetworkAccessEnabled))
+	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.AlphaString())
 	gens["RedisConfiguration"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["RedisVersion"] = gen.PtrOf(gen.AlphaString())
 	gens["ReplicasPerMaster"] = gen.PtrOf(gen.Int())
@@ -1057,8 +1045,8 @@ func SkuStatusGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSkuStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSkuStatus(gens map[string]gopter.Gen) {
 	gens["Capacity"] = gen.PtrOf(gen.Int())
-	gens["Family"] = gen.PtrOf(gen.OneConstOf(SkuStatusFamilyC, SkuStatusFamilyP))
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(SkuStatusNameBasic, SkuStatusNamePremium, SkuStatusNameStandard))
+	gens["Family"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_RedisOperatorSecrets_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

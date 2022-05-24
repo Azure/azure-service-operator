@@ -18,73 +18,20 @@ type Cluster_StatusARM struct {
 // Deprecated version of ClusterProperties_Status. Use v1beta20210301.ClusterProperties_Status instead
 type ClusterProperties_StatusARM struct {
 	HostName                   *string                                                   `json:"hostName,omitempty"`
-	MinimumTlsVersion          *ClusterPropertiesStatusMinimumTlsVersion                 `json:"minimumTlsVersion,omitempty"`
+	MinimumTlsVersion          *string                                                   `json:"minimumTlsVersion,omitempty"`
 	PrivateEndpointConnections []PrivateEndpointConnection_Status_SubResourceEmbeddedARM `json:"privateEndpointConnections,omitempty"`
-	ProvisioningState          *ProvisioningState_Status                                 `json:"provisioningState,omitempty"`
+	ProvisioningState          *string                                                   `json:"provisioningState,omitempty"`
 	RedisVersion               *string                                                   `json:"redisVersion,omitempty"`
-	ResourceState              *ResourceState_Status                                     `json:"resourceState,omitempty"`
+	ResourceState              *string                                                   `json:"resourceState,omitempty"`
 }
 
 // Deprecated version of Sku_Status. Use v1beta20210301.Sku_Status instead
 type Sku_StatusARM struct {
-	Capacity *int           `json:"capacity,omitempty"`
-	Name     *SkuStatusName `json:"name,omitempty"`
+	Capacity *int    `json:"capacity,omitempty"`
+	Name     *string `json:"name,omitempty"`
 }
-
-// Deprecated version of ClusterPropertiesStatusMinimumTlsVersion. Use
-// v1beta20210301.ClusterPropertiesStatusMinimumTlsVersion instead
-type ClusterPropertiesStatusMinimumTlsVersion string
-
-const (
-	ClusterPropertiesStatusMinimumTlsVersion10 = ClusterPropertiesStatusMinimumTlsVersion("1.0")
-	ClusterPropertiesStatusMinimumTlsVersion11 = ClusterPropertiesStatusMinimumTlsVersion("1.1")
-	ClusterPropertiesStatusMinimumTlsVersion12 = ClusterPropertiesStatusMinimumTlsVersion("1.2")
-)
 
 // Deprecated version of PrivateEndpointConnection_Status_SubResourceEmbedded. Use v1beta20210301.PrivateEndpointConnection_Status_SubResourceEmbedded instead
 type PrivateEndpointConnection_Status_SubResourceEmbeddedARM struct {
 	Id *string `json:"id,omitempty"`
 }
-
-// Deprecated version of ProvisioningState_Status. Use v1beta20210301.ProvisioningState_Status instead
-type ProvisioningState_Status string
-
-const (
-	ProvisioningState_StatusCanceled  = ProvisioningState_Status("Canceled")
-	ProvisioningState_StatusCreating  = ProvisioningState_Status("Creating")
-	ProvisioningState_StatusDeleting  = ProvisioningState_Status("Deleting")
-	ProvisioningState_StatusFailed    = ProvisioningState_Status("Failed")
-	ProvisioningState_StatusSucceeded = ProvisioningState_Status("Succeeded")
-	ProvisioningState_StatusUpdating  = ProvisioningState_Status("Updating")
-)
-
-// Deprecated version of ResourceState_Status. Use v1beta20210301.ResourceState_Status instead
-type ResourceState_Status string
-
-const (
-	ResourceState_StatusCreateFailed  = ResourceState_Status("CreateFailed")
-	ResourceState_StatusCreating      = ResourceState_Status("Creating")
-	ResourceState_StatusDeleteFailed  = ResourceState_Status("DeleteFailed")
-	ResourceState_StatusDeleting      = ResourceState_Status("Deleting")
-	ResourceState_StatusDisableFailed = ResourceState_Status("DisableFailed")
-	ResourceState_StatusDisabled      = ResourceState_Status("Disabled")
-	ResourceState_StatusDisabling     = ResourceState_Status("Disabling")
-	ResourceState_StatusEnableFailed  = ResourceState_Status("EnableFailed")
-	ResourceState_StatusEnabling      = ResourceState_Status("Enabling")
-	ResourceState_StatusRunning       = ResourceState_Status("Running")
-	ResourceState_StatusUpdateFailed  = ResourceState_Status("UpdateFailed")
-	ResourceState_StatusUpdating      = ResourceState_Status("Updating")
-)
-
-// Deprecated version of SkuStatusName. Use v1beta20210301.SkuStatusName instead
-type SkuStatusName string
-
-const (
-	SkuStatusNameEnterpriseE10        = SkuStatusName("Enterprise_E10")
-	SkuStatusNameEnterpriseE100       = SkuStatusName("Enterprise_E100")
-	SkuStatusNameEnterpriseE20        = SkuStatusName("Enterprise_E20")
-	SkuStatusNameEnterpriseE50        = SkuStatusName("Enterprise_E50")
-	SkuStatusNameEnterpriseFlashF1500 = SkuStatusName("EnterpriseFlash_F1500")
-	SkuStatusNameEnterpriseFlashF300  = SkuStatusName("EnterpriseFlash_F300")
-	SkuStatusNameEnterpriseFlashF700  = SkuStatusName("EnterpriseFlash_F700")
-)

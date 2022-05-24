@@ -7,7 +7,7 @@ package v1alpha1api20210515
 type DatabaseAccountGetResults_StatusARM struct {
 	Id         *string                                 `json:"id,omitempty"`
 	Identity   *ManagedServiceIdentity_StatusARM       `json:"identity,omitempty"`
-	Kind       *DatabaseAccountGetResultsStatusKind    `json:"kind,omitempty"`
+	Kind       *string                                 `json:"kind,omitempty"`
 	Location   *string                                 `json:"location,omitempty"`
 	Name       *string                                 `json:"name,omitempty"`
 	Properties *DatabaseAccountGetProperties_StatusARM `json:"properties,omitempty"`
@@ -21,10 +21,10 @@ type DatabaseAccountGetProperties_StatusARM struct {
 	ApiProperties                      *ApiProperties_StatusARM                                  `json:"apiProperties,omitempty"`
 	BackupPolicy                       *BackupPolicy_StatusARM                                   `json:"backupPolicy,omitempty"`
 	Capabilities                       []Capability_StatusARM                                    `json:"capabilities,omitempty"`
-	ConnectorOffer                     *ConnectorOffer_Status                                    `json:"connectorOffer,omitempty"`
+	ConnectorOffer                     *string                                                   `json:"connectorOffer,omitempty"`
 	ConsistencyPolicy                  *ConsistencyPolicy_StatusARM                              `json:"consistencyPolicy,omitempty"`
 	Cors                               []CorsPolicy_StatusARM                                    `json:"cors,omitempty"`
-	DatabaseAccountOfferType           *DatabaseAccountOfferType_Status                          `json:"databaseAccountOfferType,omitempty"`
+	DatabaseAccountOfferType           *string                                                   `json:"databaseAccountOfferType,omitempty"`
 	DefaultIdentity                    *string                                                   `json:"defaultIdentity,omitempty"`
 	DisableKeyBasedMetadataWriteAccess *bool                                                     `json:"disableKeyBasedMetadataWriteAccess,omitempty"`
 	DocumentEndpoint                   *string                                                   `json:"documentEndpoint,omitempty"`
@@ -38,46 +38,37 @@ type DatabaseAccountGetProperties_StatusARM struct {
 	IsVirtualNetworkFilterEnabled      *bool                                                     `json:"isVirtualNetworkFilterEnabled,omitempty"`
 	KeyVaultKeyUri                     *string                                                   `json:"keyVaultKeyUri,omitempty"`
 	Locations                          []Location_StatusARM                                      `json:"locations,omitempty"`
-	NetworkAclBypass                   *NetworkAclBypass_Status                                  `json:"networkAclBypass,omitempty"`
+	NetworkAclBypass                   *string                                                   `json:"networkAclBypass,omitempty"`
 	NetworkAclBypassResourceIds        []string                                                  `json:"networkAclBypassResourceIds,omitempty"`
 	PrivateEndpointConnections         []PrivateEndpointConnection_Status_SubResourceEmbeddedARM `json:"privateEndpointConnections,omitempty"`
 	ProvisioningState                  *string                                                   `json:"provisioningState,omitempty"`
-	PublicNetworkAccess                *PublicNetworkAccess_Status                               `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess                *string                                                   `json:"publicNetworkAccess,omitempty"`
 	ReadLocations                      []Location_StatusARM                                      `json:"readLocations,omitempty"`
 	VirtualNetworkRules                []VirtualNetworkRule_StatusARM                            `json:"virtualNetworkRules,omitempty"`
 	WriteLocations                     []Location_StatusARM                                      `json:"writeLocations,omitempty"`
 }
 
-// Deprecated version of DatabaseAccountGetResultsStatusKind. Use v1beta20210515.DatabaseAccountGetResultsStatusKind instead
-type DatabaseAccountGetResultsStatusKind string
-
-const (
-	DatabaseAccountGetResultsStatusKindGlobalDocumentDB = DatabaseAccountGetResultsStatusKind("GlobalDocumentDB")
-	DatabaseAccountGetResultsStatusKindMongoDB          = DatabaseAccountGetResultsStatusKind("MongoDB")
-	DatabaseAccountGetResultsStatusKindParse            = DatabaseAccountGetResultsStatusKind("Parse")
-)
-
 // Deprecated version of ManagedServiceIdentity_Status. Use v1beta20210515.ManagedServiceIdentity_Status instead
 type ManagedServiceIdentity_StatusARM struct {
 	PrincipalId            *string                                                            `json:"principalId,omitempty"`
 	TenantId               *string                                                            `json:"tenantId,omitempty"`
-	Type                   *ManagedServiceIdentityStatusType                                  `json:"type,omitempty"`
+	Type                   *string                                                            `json:"type,omitempty"`
 	UserAssignedIdentities map[string]ManagedServiceIdentity_Status_UserAssignedIdentitiesARM `json:"userAssignedIdentities,omitempty"`
 }
 
 // Deprecated version of AnalyticalStorageConfiguration_Status. Use v1beta20210515.AnalyticalStorageConfiguration_Status instead
 type AnalyticalStorageConfiguration_StatusARM struct {
-	SchemaType *AnalyticalStorageSchemaType_Status `json:"schemaType,omitempty"`
+	SchemaType *string `json:"schemaType,omitempty"`
 }
 
 // Deprecated version of ApiProperties_Status. Use v1beta20210515.ApiProperties_Status instead
 type ApiProperties_StatusARM struct {
-	ServerVersion *ApiPropertiesStatusServerVersion `json:"serverVersion,omitempty"`
+	ServerVersion *string `json:"serverVersion,omitempty"`
 }
 
 // Deprecated version of BackupPolicy_Status. Use v1beta20210515.BackupPolicy_Status instead
 type BackupPolicy_StatusARM struct {
-	Type *BackupPolicyType_Status `json:"type,omitempty"`
+	Type *string `json:"type,omitempty"`
 }
 
 // Deprecated version of Capability_Status. Use v1beta20210515.Capability_Status instead
@@ -87,9 +78,9 @@ type Capability_StatusARM struct {
 
 // Deprecated version of ConsistencyPolicy_Status. Use v1beta20210515.ConsistencyPolicy_Status instead
 type ConsistencyPolicy_StatusARM struct {
-	DefaultConsistencyLevel *ConsistencyPolicyStatusDefaultConsistencyLevel `json:"defaultConsistencyLevel,omitempty"`
-	MaxIntervalInSeconds    *int                                            `json:"maxIntervalInSeconds,omitempty"`
-	MaxStalenessPrefix      *int                                            `json:"maxStalenessPrefix,omitempty"`
+	DefaultConsistencyLevel *string `json:"defaultConsistencyLevel,omitempty"`
+	MaxIntervalInSeconds    *int    `json:"maxIntervalInSeconds,omitempty"`
+	MaxStalenessPrefix      *int    `json:"maxStalenessPrefix,omitempty"`
 }
 
 // Deprecated version of CorsPolicy_Status. Use v1beta20210515.CorsPolicy_Status instead
@@ -122,16 +113,6 @@ type Location_StatusARM struct {
 	LocationName      *string `json:"locationName,omitempty"`
 	ProvisioningState *string `json:"provisioningState,omitempty"`
 }
-
-// Deprecated version of ManagedServiceIdentityStatusType. Use v1beta20210515.ManagedServiceIdentityStatusType instead
-type ManagedServiceIdentityStatusType string
-
-const (
-	ManagedServiceIdentityStatusTypeNone                       = ManagedServiceIdentityStatusType("None")
-	ManagedServiceIdentityStatusTypeSystemAssigned             = ManagedServiceIdentityStatusType("SystemAssigned")
-	ManagedServiceIdentityStatusTypeSystemAssignedUserAssigned = ManagedServiceIdentityStatusType("SystemAssigned,UserAssigned")
-	ManagedServiceIdentityStatusTypeUserAssigned               = ManagedServiceIdentityStatusType("UserAssigned")
-)
 
 // Deprecated version of ManagedServiceIdentity_Status_UserAssignedIdentities. Use v1beta20210515.ManagedServiceIdentity_Status_UserAssignedIdentities instead
 type ManagedServiceIdentity_Status_UserAssignedIdentitiesARM struct {

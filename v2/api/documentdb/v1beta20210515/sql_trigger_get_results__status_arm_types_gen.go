@@ -39,10 +39,10 @@ type SqlTriggerGetProperties_Status_ResourceARM struct {
 	Rid *string `json:"_rid,omitempty"`
 
 	// TriggerOperation: The operation the trigger is associated with
-	TriggerOperation *SqlTriggerGetPropertiesStatusResourceTriggerOperation `json:"triggerOperation,omitempty"`
+	TriggerOperation *string `json:"triggerOperation,omitempty"`
 
 	// TriggerType: Type of the Trigger
-	TriggerType *SqlTriggerGetPropertiesStatusResourceTriggerType `json:"triggerType,omitempty"`
+	TriggerType *string `json:"triggerType,omitempty"`
 
 	// Ts: A system generated property that denotes the last updated timestamp of the resource.
 	Ts *float64 `json:"_ts,omitempty"`

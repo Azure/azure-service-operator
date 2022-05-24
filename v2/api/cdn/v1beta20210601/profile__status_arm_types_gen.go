@@ -38,31 +38,13 @@ type ProfileProperties_StatusARM struct {
 	OriginResponseTimeoutSeconds *int `json:"originResponseTimeoutSeconds,omitempty"`
 
 	// ProvisioningState: Provisioning status of the profile.
-	ProvisioningState *ProfilePropertiesStatusProvisioningState `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	// ResourceState: Resource status of the profile.
-	ResourceState *ProfilePropertiesStatusResourceState `json:"resourceState,omitempty"`
+	ResourceState *string `json:"resourceState,omitempty"`
 }
 
 type Sku_StatusARM struct {
 	// Name: Name of the pricing tier.
-	Name *SkuStatusName `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
 }
-
-type SkuStatusName string
-
-const (
-	SkuStatusNameCustomVerizon                    = SkuStatusName("Custom_Verizon")
-	SkuStatusNamePremiumAzureFrontDoor            = SkuStatusName("Premium_AzureFrontDoor")
-	SkuStatusNamePremiumVerizon                   = SkuStatusName("Premium_Verizon")
-	SkuStatusNameStandard955BandWidthChinaCdn     = SkuStatusName("Standard_955BandWidth_ChinaCdn")
-	SkuStatusNameStandardAkamai                   = SkuStatusName("Standard_Akamai")
-	SkuStatusNameStandardAvgBandWidthChinaCdn     = SkuStatusName("Standard_AvgBandWidth_ChinaCdn")
-	SkuStatusNameStandardAzureFrontDoor           = SkuStatusName("Standard_AzureFrontDoor")
-	SkuStatusNameStandardChinaCdn                 = SkuStatusName("Standard_ChinaCdn")
-	SkuStatusNameStandardMicrosoft                = SkuStatusName("Standard_Microsoft")
-	SkuStatusNameStandardPlus955BandWidthChinaCdn = SkuStatusName("StandardPlus_955BandWidth_ChinaCdn")
-	SkuStatusNameStandardPlusAvgBandWidthChinaCdn = SkuStatusName("StandardPlus_AvgBandWidth_ChinaCdn")
-	SkuStatusNameStandardPlusChinaCdn             = SkuStatusName("StandardPlus_ChinaCdn")
-	SkuStatusNameStandardVerizon                  = SkuStatusName("Standard_Verizon")
-)

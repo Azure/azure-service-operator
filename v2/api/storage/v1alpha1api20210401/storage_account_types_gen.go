@@ -364,7 +364,7 @@ const APIVersionValue = APIVersion("2021-04-01")
 
 // Deprecated version of StorageAccount_Status. Use v1beta20210401.StorageAccount_Status instead
 type StorageAccount_Status struct {
-	AccessTier                            *StorageAccountPropertiesStatusAccessTier     `json:"accessTier,omitempty"`
+	AccessTier                            *string                                       `json:"accessTier,omitempty"`
 	AllowBlobPublicAccess                 *bool                                         `json:"allowBlobPublicAccess,omitempty"`
 	AllowCrossTenantReplication           *bool                                         `json:"allowCrossTenantReplication,omitempty"`
 	AllowSharedKeyAccess                  *bool                                         `json:"allowSharedKeyAccess,omitempty"`
@@ -385,24 +385,24 @@ type StorageAccount_Status struct {
 	IsNfsV3Enabled             *bool                                                  `json:"isNfsV3Enabled,omitempty"`
 	KeyCreationTime            *KeyCreationTime_Status                                `json:"keyCreationTime,omitempty"`
 	KeyPolicy                  *KeyPolicy_Status                                      `json:"keyPolicy,omitempty"`
-	Kind                       *StorageAccountStatusKind                              `json:"kind,omitempty"`
-	LargeFileSharesState       *StorageAccountPropertiesStatusLargeFileSharesState    `json:"largeFileSharesState,omitempty"`
+	Kind                       *string                                                `json:"kind,omitempty"`
+	LargeFileSharesState       *string                                                `json:"largeFileSharesState,omitempty"`
 	LastGeoFailoverTime        *string                                                `json:"lastGeoFailoverTime,omitempty"`
 	Location                   *string                                                `json:"location,omitempty"`
-	MinimumTlsVersion          *StorageAccountPropertiesStatusMinimumTlsVersion       `json:"minimumTlsVersion,omitempty"`
+	MinimumTlsVersion          *string                                                `json:"minimumTlsVersion,omitempty"`
 	Name                       *string                                                `json:"name,omitempty"`
 	NetworkAcls                *NetworkRuleSet_Status                                 `json:"networkAcls,omitempty"`
 	PrimaryEndpoints           *Endpoints_Status                                      `json:"primaryEndpoints,omitempty"`
 	PrimaryLocation            *string                                                `json:"primaryLocation,omitempty"`
 	PrivateEndpointConnections []PrivateEndpointConnection_Status_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
-	ProvisioningState          *StorageAccountPropertiesStatusProvisioningState       `json:"provisioningState,omitempty"`
+	ProvisioningState          *string                                                `json:"provisioningState,omitempty"`
 	RoutingPreference          *RoutingPreference_Status                              `json:"routingPreference,omitempty"`
 	SasPolicy                  *SasPolicy_Status                                      `json:"sasPolicy,omitempty"`
 	SecondaryEndpoints         *Endpoints_Status                                      `json:"secondaryEndpoints,omitempty"`
 	SecondaryLocation          *string                                                `json:"secondaryLocation,omitempty"`
 	Sku                        *Sku_Status                                            `json:"sku,omitempty"`
-	StatusOfPrimary            *StorageAccountPropertiesStatusStatusOfPrimary         `json:"statusOfPrimary,omitempty"`
-	StatusOfSecondary          *StorageAccountPropertiesStatusStatusOfSecondary       `json:"statusOfSecondary,omitempty"`
+	StatusOfPrimary            *string                                                `json:"statusOfPrimary,omitempty"`
+	StatusOfSecondary          *string                                                `json:"statusOfSecondary,omitempty"`
 	SupportsHttpsTrafficOnly   *bool                                                  `json:"supportsHttpsTrafficOnly,omitempty"`
 	Tags                       map[string]string                                      `json:"tags,omitempty"`
 	Type                       *string                                                `json:"type,omitempty"`
@@ -887,12 +887,7 @@ func (account *StorageAccount_Status) PopulateFromARM(owner genruntime.Arbitrary
 func (account *StorageAccount_Status) AssignPropertiesFromStorageAccountStatus(source *alpha20210401s.StorageAccount_Status) error {
 
 	// AccessTier
-	if source.AccessTier != nil {
-		accessTier := StorageAccountPropertiesStatusAccessTier(*source.AccessTier)
-		account.AccessTier = &accessTier
-	} else {
-		account.AccessTier = nil
-	}
+	account.AccessTier = genruntime.ClonePointerToString(source.AccessTier)
 
 	// AllowBlobPublicAccess
 	if source.AllowBlobPublicAccess != nil {
@@ -1060,20 +1055,10 @@ func (account *StorageAccount_Status) AssignPropertiesFromStorageAccountStatus(s
 	}
 
 	// Kind
-	if source.Kind != nil {
-		kind := StorageAccountStatusKind(*source.Kind)
-		account.Kind = &kind
-	} else {
-		account.Kind = nil
-	}
+	account.Kind = genruntime.ClonePointerToString(source.Kind)
 
 	// LargeFileSharesState
-	if source.LargeFileSharesState != nil {
-		largeFileSharesState := StorageAccountPropertiesStatusLargeFileSharesState(*source.LargeFileSharesState)
-		account.LargeFileSharesState = &largeFileSharesState
-	} else {
-		account.LargeFileSharesState = nil
-	}
+	account.LargeFileSharesState = genruntime.ClonePointerToString(source.LargeFileSharesState)
 
 	// LastGeoFailoverTime
 	account.LastGeoFailoverTime = genruntime.ClonePointerToString(source.LastGeoFailoverTime)
@@ -1082,12 +1067,7 @@ func (account *StorageAccount_Status) AssignPropertiesFromStorageAccountStatus(s
 	account.Location = genruntime.ClonePointerToString(source.Location)
 
 	// MinimumTlsVersion
-	if source.MinimumTlsVersion != nil {
-		minimumTlsVersion := StorageAccountPropertiesStatusMinimumTlsVersion(*source.MinimumTlsVersion)
-		account.MinimumTlsVersion = &minimumTlsVersion
-	} else {
-		account.MinimumTlsVersion = nil
-	}
+	account.MinimumTlsVersion = genruntime.ClonePointerToString(source.MinimumTlsVersion)
 
 	// Name
 	account.Name = genruntime.ClonePointerToString(source.Name)
@@ -1138,12 +1118,7 @@ func (account *StorageAccount_Status) AssignPropertiesFromStorageAccountStatus(s
 	}
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := StorageAccountPropertiesStatusProvisioningState(*source.ProvisioningState)
-		account.ProvisioningState = &provisioningState
-	} else {
-		account.ProvisioningState = nil
-	}
+	account.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// RoutingPreference
 	if source.RoutingPreference != nil {
@@ -1197,20 +1172,10 @@ func (account *StorageAccount_Status) AssignPropertiesFromStorageAccountStatus(s
 	}
 
 	// StatusOfPrimary
-	if source.StatusOfPrimary != nil {
-		statusOfPrimary := StorageAccountPropertiesStatusStatusOfPrimary(*source.StatusOfPrimary)
-		account.StatusOfPrimary = &statusOfPrimary
-	} else {
-		account.StatusOfPrimary = nil
-	}
+	account.StatusOfPrimary = genruntime.ClonePointerToString(source.StatusOfPrimary)
 
 	// StatusOfSecondary
-	if source.StatusOfSecondary != nil {
-		statusOfSecondary := StorageAccountPropertiesStatusStatusOfSecondary(*source.StatusOfSecondary)
-		account.StatusOfSecondary = &statusOfSecondary
-	} else {
-		account.StatusOfSecondary = nil
-	}
+	account.StatusOfSecondary = genruntime.ClonePointerToString(source.StatusOfSecondary)
 
 	// SupportsHttpsTrafficOnly
 	if source.SupportsHttpsTrafficOnly != nil {
@@ -1236,12 +1201,7 @@ func (account *StorageAccount_Status) AssignPropertiesToStorageAccountStatus(des
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AccessTier
-	if account.AccessTier != nil {
-		accessTier := string(*account.AccessTier)
-		destination.AccessTier = &accessTier
-	} else {
-		destination.AccessTier = nil
-	}
+	destination.AccessTier = genruntime.ClonePointerToString(account.AccessTier)
 
 	// AllowBlobPublicAccess
 	if account.AllowBlobPublicAccess != nil {
@@ -1409,20 +1369,10 @@ func (account *StorageAccount_Status) AssignPropertiesToStorageAccountStatus(des
 	}
 
 	// Kind
-	if account.Kind != nil {
-		kind := string(*account.Kind)
-		destination.Kind = &kind
-	} else {
-		destination.Kind = nil
-	}
+	destination.Kind = genruntime.ClonePointerToString(account.Kind)
 
 	// LargeFileSharesState
-	if account.LargeFileSharesState != nil {
-		largeFileSharesState := string(*account.LargeFileSharesState)
-		destination.LargeFileSharesState = &largeFileSharesState
-	} else {
-		destination.LargeFileSharesState = nil
-	}
+	destination.LargeFileSharesState = genruntime.ClonePointerToString(account.LargeFileSharesState)
 
 	// LastGeoFailoverTime
 	destination.LastGeoFailoverTime = genruntime.ClonePointerToString(account.LastGeoFailoverTime)
@@ -1431,12 +1381,7 @@ func (account *StorageAccount_Status) AssignPropertiesToStorageAccountStatus(des
 	destination.Location = genruntime.ClonePointerToString(account.Location)
 
 	// MinimumTlsVersion
-	if account.MinimumTlsVersion != nil {
-		minimumTlsVersion := string(*account.MinimumTlsVersion)
-		destination.MinimumTlsVersion = &minimumTlsVersion
-	} else {
-		destination.MinimumTlsVersion = nil
-	}
+	destination.MinimumTlsVersion = genruntime.ClonePointerToString(account.MinimumTlsVersion)
 
 	// Name
 	destination.Name = genruntime.ClonePointerToString(account.Name)
@@ -1487,12 +1432,7 @@ func (account *StorageAccount_Status) AssignPropertiesToStorageAccountStatus(des
 	}
 
 	// ProvisioningState
-	if account.ProvisioningState != nil {
-		provisioningState := string(*account.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(account.ProvisioningState)
 
 	// RoutingPreference
 	if account.RoutingPreference != nil {
@@ -1546,20 +1486,10 @@ func (account *StorageAccount_Status) AssignPropertiesToStorageAccountStatus(des
 	}
 
 	// StatusOfPrimary
-	if account.StatusOfPrimary != nil {
-		statusOfPrimary := string(*account.StatusOfPrimary)
-		destination.StatusOfPrimary = &statusOfPrimary
-	} else {
-		destination.StatusOfPrimary = nil
-	}
+	destination.StatusOfPrimary = genruntime.ClonePointerToString(account.StatusOfPrimary)
 
 	// StatusOfSecondary
-	if account.StatusOfSecondary != nil {
-		statusOfSecondary := string(*account.StatusOfSecondary)
-		destination.StatusOfSecondary = &statusOfSecondary
-	} else {
-		destination.StatusOfSecondary = nil
-	}
+	destination.StatusOfSecondary = genruntime.ClonePointerToString(account.StatusOfSecondary)
 
 	// SupportsHttpsTrafficOnly
 	if account.SupportsHttpsTrafficOnly != nil {
@@ -2769,9 +2699,9 @@ func (authentication *AzureFilesIdentityBasedAuthentication) AssignPropertiesToA
 
 // Deprecated version of AzureFilesIdentityBasedAuthentication_Status. Use v1beta20210401.AzureFilesIdentityBasedAuthentication_Status instead
 type AzureFilesIdentityBasedAuthentication_Status struct {
-	ActiveDirectoryProperties *ActiveDirectoryProperties_Status                                   `json:"activeDirectoryProperties,omitempty"`
-	DefaultSharePermission    *AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermission  `json:"defaultSharePermission,omitempty"`
-	DirectoryServiceOptions   *AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptions `json:"directoryServiceOptions,omitempty"`
+	ActiveDirectoryProperties *ActiveDirectoryProperties_Status `json:"activeDirectoryProperties,omitempty"`
+	DefaultSharePermission    *string                           `json:"defaultSharePermission,omitempty"`
+	DirectoryServiceOptions   *string                           `json:"directoryServiceOptions,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &AzureFilesIdentityBasedAuthentication_Status{}
@@ -2831,20 +2761,10 @@ func (authentication *AzureFilesIdentityBasedAuthentication_Status) AssignProper
 	}
 
 	// DefaultSharePermission
-	if source.DefaultSharePermission != nil {
-		defaultSharePermission := AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermission(*source.DefaultSharePermission)
-		authentication.DefaultSharePermission = &defaultSharePermission
-	} else {
-		authentication.DefaultSharePermission = nil
-	}
+	authentication.DefaultSharePermission = genruntime.ClonePointerToString(source.DefaultSharePermission)
 
 	// DirectoryServiceOptions
-	if source.DirectoryServiceOptions != nil {
-		directoryServiceOption := AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptions(*source.DirectoryServiceOptions)
-		authentication.DirectoryServiceOptions = &directoryServiceOption
-	} else {
-		authentication.DirectoryServiceOptions = nil
-	}
+	authentication.DirectoryServiceOptions = genruntime.ClonePointerToString(source.DirectoryServiceOptions)
 
 	// No error
 	return nil
@@ -2868,20 +2788,10 @@ func (authentication *AzureFilesIdentityBasedAuthentication_Status) AssignProper
 	}
 
 	// DefaultSharePermission
-	if authentication.DefaultSharePermission != nil {
-		defaultSharePermission := string(*authentication.DefaultSharePermission)
-		destination.DefaultSharePermission = &defaultSharePermission
-	} else {
-		destination.DefaultSharePermission = nil
-	}
+	destination.DefaultSharePermission = genruntime.ClonePointerToString(authentication.DefaultSharePermission)
 
 	// DirectoryServiceOptions
-	if authentication.DirectoryServiceOptions != nil {
-		directoryServiceOption := string(*authentication.DirectoryServiceOptions)
-		destination.DirectoryServiceOptions = &directoryServiceOption
-	} else {
-		destination.DirectoryServiceOptions = nil
-	}
+	destination.DirectoryServiceOptions = genruntime.ClonePointerToString(authentication.DirectoryServiceOptions)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2896,10 +2806,10 @@ func (authentication *AzureFilesIdentityBasedAuthentication_Status) AssignProper
 
 // Deprecated version of BlobRestoreStatus_Status. Use v1beta20210401.BlobRestoreStatus_Status instead
 type BlobRestoreStatus_Status struct {
-	FailureReason *string                        `json:"failureReason,omitempty"`
-	Parameters    *BlobRestoreParameters_Status  `json:"parameters,omitempty"`
-	RestoreId     *string                        `json:"restoreId,omitempty"`
-	Status        *BlobRestoreStatusStatusStatus `json:"status,omitempty"`
+	FailureReason *string                       `json:"failureReason,omitempty"`
+	Parameters    *BlobRestoreParameters_Status `json:"parameters,omitempty"`
+	RestoreId     *string                       `json:"restoreId,omitempty"`
+	Status        *string                       `json:"status,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &BlobRestoreStatus_Status{}
@@ -2971,12 +2881,7 @@ func (restore *BlobRestoreStatus_Status) AssignPropertiesFromBlobRestoreStatusSt
 	restore.RestoreId = genruntime.ClonePointerToString(source.RestoreId)
 
 	// Status
-	if source.Status != nil {
-		status := BlobRestoreStatusStatusStatus(*source.Status)
-		restore.Status = &status
-	} else {
-		restore.Status = nil
-	}
+	restore.Status = genruntime.ClonePointerToString(source.Status)
 
 	// No error
 	return nil
@@ -3006,12 +2911,7 @@ func (restore *BlobRestoreStatus_Status) AssignPropertiesToBlobRestoreStatusStat
 	destination.RestoreId = genruntime.ClonePointerToString(restore.RestoreId)
 
 	// Status
-	if restore.Status != nil {
-		status := string(*restore.Status)
-		destination.Status = &status
-	} else {
-		destination.Status = nil
-	}
+	destination.Status = genruntime.ClonePointerToString(restore.Status)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3463,7 +3363,7 @@ func (encryption *Encryption) AssignPropertiesToEncryption(destination *alpha202
 // Deprecated version of Encryption_Status. Use v1beta20210401.Encryption_Status instead
 type Encryption_Status struct {
 	Identity                        *EncryptionIdentity_Status `json:"identity,omitempty"`
-	KeySource                       *EncryptionStatusKeySource `json:"keySource,omitempty"`
+	KeySource                       *string                    `json:"keySource,omitempty"`
 	Keyvaultproperties              *KeyVaultProperties_Status `json:"keyvaultproperties,omitempty"`
 	RequireInfrastructureEncryption *bool                      `json:"requireInfrastructureEncryption,omitempty"`
 	Services                        *EncryptionServices_Status `json:"services,omitempty"`
@@ -3548,12 +3448,7 @@ func (encryption *Encryption_Status) AssignPropertiesFromEncryptionStatus(source
 	}
 
 	// KeySource
-	if source.KeySource != nil {
-		keySource := EncryptionStatusKeySource(*source.KeySource)
-		encryption.KeySource = &keySource
-	} else {
-		encryption.KeySource = nil
-	}
+	encryption.KeySource = genruntime.ClonePointerToString(source.KeySource)
 
 	// Keyvaultproperties
 	if source.Keyvaultproperties != nil {
@@ -3609,12 +3504,7 @@ func (encryption *Encryption_Status) AssignPropertiesToEncryptionStatus(destinat
 	}
 
 	// KeySource
-	if encryption.KeySource != nil {
-		keySource := string(*encryption.KeySource)
-		destination.KeySource = &keySource
-	} else {
-		destination.KeySource = nil
-	}
+	destination.KeySource = genruntime.ClonePointerToString(encryption.KeySource)
 
 	// Keyvaultproperties
 	if encryption.Keyvaultproperties != nil {
@@ -3958,8 +3848,8 @@ func (location *ExtendedLocation) AssignPropertiesToExtendedLocation(destination
 
 // Deprecated version of ExtendedLocation_Status. Use v1beta20210401.ExtendedLocation_Status instead
 type ExtendedLocation_Status struct {
-	Name *string                      `json:"name,omitempty"`
-	Type *ExtendedLocationType_Status `json:"type,omitempty"`
+	Name *string `json:"name,omitempty"`
+	Type *string `json:"type,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ExtendedLocation_Status{}
@@ -3999,12 +3889,7 @@ func (location *ExtendedLocation_Status) AssignPropertiesFromExtendedLocationSta
 	location.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Type
-	if source.Type != nil {
-		typeVar := ExtendedLocationType_Status(*source.Type)
-		location.Type = &typeVar
-	} else {
-		location.Type = nil
-	}
+	location.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
@@ -4019,12 +3904,7 @@ func (location *ExtendedLocation_Status) AssignPropertiesToExtendedLocationStatu
 	destination.Name = genruntime.ClonePointerToString(location.Name)
 
 	// Type
-	if location.Type != nil {
-		typeVar := string(*location.Type)
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
+	destination.Type = genruntime.ClonePointerToString(location.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -4039,9 +3919,9 @@ func (location *ExtendedLocation_Status) AssignPropertiesToExtendedLocationStatu
 
 // Deprecated version of GeoReplicationStats_Status. Use v1beta20210401.GeoReplicationStats_Status instead
 type GeoReplicationStats_Status struct {
-	CanFailover  *bool                            `json:"canFailover,omitempty"`
-	LastSyncTime *string                          `json:"lastSyncTime,omitempty"`
-	Status       *GeoReplicationStatsStatusStatus `json:"status,omitempty"`
+	CanFailover  *bool   `json:"canFailover,omitempty"`
+	LastSyncTime *string `json:"lastSyncTime,omitempty"`
+	Status       *string `json:"status,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &GeoReplicationStats_Status{}
@@ -4095,12 +3975,7 @@ func (stats *GeoReplicationStats_Status) AssignPropertiesFromGeoReplicationStats
 	stats.LastSyncTime = genruntime.ClonePointerToString(source.LastSyncTime)
 
 	// Status
-	if source.Status != nil {
-		status := GeoReplicationStatsStatusStatus(*source.Status)
-		stats.Status = &status
-	} else {
-		stats.Status = nil
-	}
+	stats.Status = genruntime.ClonePointerToString(source.Status)
 
 	// No error
 	return nil
@@ -4123,12 +3998,7 @@ func (stats *GeoReplicationStats_Status) AssignPropertiesToGeoReplicationStatsSt
 	destination.LastSyncTime = genruntime.ClonePointerToString(stats.LastSyncTime)
 
 	// Status
-	if stats.Status != nil {
-		status := string(*stats.Status)
-		destination.Status = &status
-	} else {
-		destination.Status = nil
-	}
+	destination.Status = genruntime.ClonePointerToString(stats.Status)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -4229,7 +4099,7 @@ func (identity *Identity) AssignPropertiesToIdentity(destination *alpha20210401s
 type Identity_Status struct {
 	PrincipalId            *string                                `json:"principalId,omitempty"`
 	TenantId               *string                                `json:"tenantId,omitempty"`
-	Type                   *IdentityStatusType                    `json:"type,omitempty"`
+	Type                   *string                                `json:"type,omitempty"`
 	UserAssignedIdentities map[string]UserAssignedIdentity_Status `json:"userAssignedIdentities,omitempty"`
 }
 
@@ -4292,12 +4162,7 @@ func (identity *Identity_Status) AssignPropertiesFromIdentityStatus(source *alph
 	identity.TenantId = genruntime.ClonePointerToString(source.TenantId)
 
 	// Type
-	if source.Type != nil {
-		typeVar := IdentityStatusType(*source.Type)
-		identity.Type = &typeVar
-	} else {
-		identity.Type = nil
-	}
+	identity.Type = genruntime.ClonePointerToString(source.Type)
 
 	// UserAssignedIdentities
 	if source.UserAssignedIdentities != nil {
@@ -4333,12 +4198,7 @@ func (identity *Identity_Status) AssignPropertiesToIdentityStatus(destination *a
 	destination.TenantId = genruntime.ClonePointerToString(identity.TenantId)
 
 	// Type
-	if identity.Type != nil {
-		typeVar := string(*identity.Type)
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
+	destination.Type = genruntime.ClonePointerToString(identity.Type)
 
 	// UserAssignedIdentities
 	if identity.UserAssignedIdentities != nil {
@@ -4856,11 +4716,11 @@ func (ruleSet *NetworkRuleSet) AssignPropertiesToNetworkRuleSet(destination *alp
 
 // Deprecated version of NetworkRuleSet_Status. Use v1beta20210401.NetworkRuleSet_Status instead
 type NetworkRuleSet_Status struct {
-	Bypass              *NetworkRuleSetStatusBypass        `json:"bypass,omitempty"`
-	DefaultAction       *NetworkRuleSetStatusDefaultAction `json:"defaultAction,omitempty"`
-	IpRules             []IPRule_Status                    `json:"ipRules,omitempty"`
-	ResourceAccessRules []ResourceAccessRule_Status        `json:"resourceAccessRules,omitempty"`
-	VirtualNetworkRules []VirtualNetworkRule_Status        `json:"virtualNetworkRules,omitempty"`
+	Bypass              *string                     `json:"bypass,omitempty"`
+	DefaultAction       *string                     `json:"defaultAction,omitempty"`
+	IpRules             []IPRule_Status             `json:"ipRules,omitempty"`
+	ResourceAccessRules []ResourceAccessRule_Status `json:"resourceAccessRules,omitempty"`
+	VirtualNetworkRules []VirtualNetworkRule_Status `json:"virtualNetworkRules,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &NetworkRuleSet_Status{}
@@ -4927,20 +4787,10 @@ func (ruleSet *NetworkRuleSet_Status) PopulateFromARM(owner genruntime.Arbitrary
 func (ruleSet *NetworkRuleSet_Status) AssignPropertiesFromNetworkRuleSetStatus(source *alpha20210401s.NetworkRuleSet_Status) error {
 
 	// Bypass
-	if source.Bypass != nil {
-		bypass := NetworkRuleSetStatusBypass(*source.Bypass)
-		ruleSet.Bypass = &bypass
-	} else {
-		ruleSet.Bypass = nil
-	}
+	ruleSet.Bypass = genruntime.ClonePointerToString(source.Bypass)
 
 	// DefaultAction
-	if source.DefaultAction != nil {
-		defaultAction := NetworkRuleSetStatusDefaultAction(*source.DefaultAction)
-		ruleSet.DefaultAction = &defaultAction
-	} else {
-		ruleSet.DefaultAction = nil
-	}
+	ruleSet.DefaultAction = genruntime.ClonePointerToString(source.DefaultAction)
 
 	// IpRules
 	if source.IpRules != nil {
@@ -5006,20 +4856,10 @@ func (ruleSet *NetworkRuleSet_Status) AssignPropertiesToNetworkRuleSetStatus(des
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Bypass
-	if ruleSet.Bypass != nil {
-		bypass := string(*ruleSet.Bypass)
-		destination.Bypass = &bypass
-	} else {
-		destination.Bypass = nil
-	}
+	destination.Bypass = genruntime.ClonePointerToString(ruleSet.Bypass)
 
 	// DefaultAction
-	if ruleSet.DefaultAction != nil {
-		defaultAction := string(*ruleSet.DefaultAction)
-		destination.DefaultAction = &defaultAction
-	} else {
-		destination.DefaultAction = nil
-	}
+	destination.DefaultAction = genruntime.ClonePointerToString(ruleSet.DefaultAction)
 
 	// IpRules
 	if ruleSet.IpRules != nil {
@@ -5287,9 +5127,9 @@ func (preference *RoutingPreference) AssignPropertiesToRoutingPreference(destina
 
 // Deprecated version of RoutingPreference_Status. Use v1beta20210401.RoutingPreference_Status instead
 type RoutingPreference_Status struct {
-	PublishInternetEndpoints  *bool                                 `json:"publishInternetEndpoints,omitempty"`
-	PublishMicrosoftEndpoints *bool                                 `json:"publishMicrosoftEndpoints,omitempty"`
-	RoutingChoice             *RoutingPreferenceStatusRoutingChoice `json:"routingChoice,omitempty"`
+	PublishInternetEndpoints  *bool   `json:"publishInternetEndpoints,omitempty"`
+	PublishMicrosoftEndpoints *bool   `json:"publishMicrosoftEndpoints,omitempty"`
+	RoutingChoice             *string `json:"routingChoice,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &RoutingPreference_Status{}
@@ -5348,12 +5188,7 @@ func (preference *RoutingPreference_Status) AssignPropertiesFromRoutingPreferenc
 	}
 
 	// RoutingChoice
-	if source.RoutingChoice != nil {
-		routingChoice := RoutingPreferenceStatusRoutingChoice(*source.RoutingChoice)
-		preference.RoutingChoice = &routingChoice
-	} else {
-		preference.RoutingChoice = nil
-	}
+	preference.RoutingChoice = genruntime.ClonePointerToString(source.RoutingChoice)
 
 	// No error
 	return nil
@@ -5381,12 +5216,7 @@ func (preference *RoutingPreference_Status) AssignPropertiesToRoutingPreferenceS
 	}
 
 	// RoutingChoice
-	if preference.RoutingChoice != nil {
-		routingChoice := string(*preference.RoutingChoice)
-		destination.RoutingChoice = &routingChoice
-	} else {
-		destination.RoutingChoice = nil
-	}
+	destination.RoutingChoice = genruntime.ClonePointerToString(preference.RoutingChoice)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -5506,8 +5336,8 @@ func (policy *SasPolicy) AssignPropertiesToSasPolicy(destination *alpha20210401s
 
 // Deprecated version of SasPolicy_Status. Use v1beta20210401.SasPolicy_Status instead
 type SasPolicy_Status struct {
-	ExpirationAction    *SasPolicyStatusExpirationAction `json:"expirationAction,omitempty"`
-	SasExpirationPeriod *string                          `json:"sasExpirationPeriod,omitempty"`
+	ExpirationAction    *string `json:"expirationAction,omitempty"`
+	SasExpirationPeriod *string `json:"sasExpirationPeriod,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &SasPolicy_Status{}
@@ -5544,12 +5374,7 @@ func (policy *SasPolicy_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 func (policy *SasPolicy_Status) AssignPropertiesFromSasPolicyStatus(source *alpha20210401s.SasPolicy_Status) error {
 
 	// ExpirationAction
-	if source.ExpirationAction != nil {
-		expirationAction := SasPolicyStatusExpirationAction(*source.ExpirationAction)
-		policy.ExpirationAction = &expirationAction
-	} else {
-		policy.ExpirationAction = nil
-	}
+	policy.ExpirationAction = genruntime.ClonePointerToString(source.ExpirationAction)
 
 	// SasExpirationPeriod
 	policy.SasExpirationPeriod = genruntime.ClonePointerToString(source.SasExpirationPeriod)
@@ -5564,12 +5389,7 @@ func (policy *SasPolicy_Status) AssignPropertiesToSasPolicyStatus(destination *a
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ExpirationAction
-	if policy.ExpirationAction != nil {
-		expirationAction := string(*policy.ExpirationAction)
-		destination.ExpirationAction = &expirationAction
-	} else {
-		destination.ExpirationAction = nil
-	}
+	destination.ExpirationAction = genruntime.ClonePointerToString(policy.ExpirationAction)
 
 	// SasExpirationPeriod
 	destination.SasExpirationPeriod = genruntime.ClonePointerToString(policy.SasExpirationPeriod)
@@ -5700,8 +5520,8 @@ func (sku *Sku) AssignPropertiesToSku(destination *alpha20210401s.Sku) error {
 
 // Deprecated version of Sku_Status. Use v1beta20210401.Sku_Status instead
 type Sku_Status struct {
-	Name *SkuName_Status `json:"name,omitempty"`
-	Tier *Tier_Status    `json:"tier,omitempty"`
+	Name *string `json:"name,omitempty"`
+	Tier *string `json:"tier,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &Sku_Status{}
@@ -5738,20 +5558,10 @@ func (sku *Sku_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 func (sku *Sku_Status) AssignPropertiesFromSkuStatus(source *alpha20210401s.Sku_Status) error {
 
 	// Name
-	if source.Name != nil {
-		name := SkuName_Status(*source.Name)
-		sku.Name = &name
-	} else {
-		sku.Name = nil
-	}
+	sku.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Tier
-	if source.Tier != nil {
-		tier := Tier_Status(*source.Tier)
-		sku.Tier = &tier
-	} else {
-		sku.Tier = nil
-	}
+	sku.Tier = genruntime.ClonePointerToString(source.Tier)
 
 	// No error
 	return nil
@@ -5763,20 +5573,10 @@ func (sku *Sku_Status) AssignPropertiesToSkuStatus(destination *alpha20210401s.S
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	if sku.Name != nil {
-		name := string(*sku.Name)
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(sku.Name)
 
 	// Tier
-	if sku.Tier != nil {
-		tier := string(*sku.Tier)
-		destination.Tier = &tier
-	} else {
-		destination.Tier = nil
-	}
+	destination.Tier = genruntime.ClonePointerToString(sku.Tier)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -5871,62 +5671,6 @@ const (
 	StorageAccountPropertiesCreateParametersMinimumTlsVersionTLS10 = StorageAccountPropertiesCreateParametersMinimumTlsVersion("TLS1_0")
 	StorageAccountPropertiesCreateParametersMinimumTlsVersionTLS11 = StorageAccountPropertiesCreateParametersMinimumTlsVersion("TLS1_1")
 	StorageAccountPropertiesCreateParametersMinimumTlsVersionTLS12 = StorageAccountPropertiesCreateParametersMinimumTlsVersion("TLS1_2")
-)
-
-// Deprecated version of StorageAccountPropertiesStatusAccessTier. Use
-// v1beta20210401.StorageAccountPropertiesStatusAccessTier instead
-type StorageAccountPropertiesStatusAccessTier string
-
-const (
-	StorageAccountPropertiesStatusAccessTierCool = StorageAccountPropertiesStatusAccessTier("Cool")
-	StorageAccountPropertiesStatusAccessTierHot  = StorageAccountPropertiesStatusAccessTier("Hot")
-)
-
-// Deprecated version of StorageAccountPropertiesStatusLargeFileSharesState. Use
-// v1beta20210401.StorageAccountPropertiesStatusLargeFileSharesState instead
-type StorageAccountPropertiesStatusLargeFileSharesState string
-
-const (
-	StorageAccountPropertiesStatusLargeFileSharesStateDisabled = StorageAccountPropertiesStatusLargeFileSharesState("Disabled")
-	StorageAccountPropertiesStatusLargeFileSharesStateEnabled  = StorageAccountPropertiesStatusLargeFileSharesState("Enabled")
-)
-
-// Deprecated version of StorageAccountPropertiesStatusMinimumTlsVersion. Use
-// v1beta20210401.StorageAccountPropertiesStatusMinimumTlsVersion instead
-type StorageAccountPropertiesStatusMinimumTlsVersion string
-
-const (
-	StorageAccountPropertiesStatusMinimumTlsVersionTLS10 = StorageAccountPropertiesStatusMinimumTlsVersion("TLS1_0")
-	StorageAccountPropertiesStatusMinimumTlsVersionTLS11 = StorageAccountPropertiesStatusMinimumTlsVersion("TLS1_1")
-	StorageAccountPropertiesStatusMinimumTlsVersionTLS12 = StorageAccountPropertiesStatusMinimumTlsVersion("TLS1_2")
-)
-
-// Deprecated version of StorageAccountPropertiesStatusProvisioningState. Use
-// v1beta20210401.StorageAccountPropertiesStatusProvisioningState instead
-type StorageAccountPropertiesStatusProvisioningState string
-
-const (
-	StorageAccountPropertiesStatusProvisioningStateCreating     = StorageAccountPropertiesStatusProvisioningState("Creating")
-	StorageAccountPropertiesStatusProvisioningStateResolvingDNS = StorageAccountPropertiesStatusProvisioningState("ResolvingDNS")
-	StorageAccountPropertiesStatusProvisioningStateSucceeded    = StorageAccountPropertiesStatusProvisioningState("Succeeded")
-)
-
-// Deprecated version of StorageAccountPropertiesStatusStatusOfPrimary. Use
-// v1beta20210401.StorageAccountPropertiesStatusStatusOfPrimary instead
-type StorageAccountPropertiesStatusStatusOfPrimary string
-
-const (
-	StorageAccountPropertiesStatusStatusOfPrimaryAvailable   = StorageAccountPropertiesStatusStatusOfPrimary("available")
-	StorageAccountPropertiesStatusStatusOfPrimaryUnavailable = StorageAccountPropertiesStatusStatusOfPrimary("unavailable")
-)
-
-// Deprecated version of StorageAccountPropertiesStatusStatusOfSecondary. Use
-// v1beta20210401.StorageAccountPropertiesStatusStatusOfSecondary instead
-type StorageAccountPropertiesStatusStatusOfSecondary string
-
-const (
-	StorageAccountPropertiesStatusStatusOfSecondaryAvailable   = StorageAccountPropertiesStatusStatusOfSecondary("available")
-	StorageAccountPropertiesStatusStatusOfSecondaryUnavailable = StorageAccountPropertiesStatusStatusOfSecondary("unavailable")
 )
 
 // Deprecated version of ActiveDirectoryProperties. Use v1beta20210401.ActiveDirectoryProperties instead
@@ -6255,28 +5999,6 @@ const (
 	AzureFilesIdentityBasedAuthenticationDirectoryServiceOptionsNone  = AzureFilesIdentityBasedAuthenticationDirectoryServiceOptions("None")
 )
 
-// Deprecated version of AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermission. Use
-// v1beta20210401.AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermission instead
-type AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermission string
-
-const (
-	AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermissionNone                                       = AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermission("None")
-	AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermissionStorageFileDataSmbShareContributor         = AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermission("StorageFileDataSmbShareContributor")
-	AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermissionStorageFileDataSmbShareElevatedContributor = AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermission("StorageFileDataSmbShareElevatedContributor")
-	AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermissionStorageFileDataSmbShareOwner               = AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermission("StorageFileDataSmbShareOwner")
-	AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermissionStorageFileDataSmbShareReader              = AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermission("StorageFileDataSmbShareReader")
-)
-
-// Deprecated version of AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptions. Use
-// v1beta20210401.AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptions instead
-type AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptions string
-
-const (
-	AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptionsAADDS = AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptions("AADDS")
-	AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptionsAD    = AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptions("AD")
-	AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptionsNone  = AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptions("None")
-)
-
 // Deprecated version of BlobRestoreParameters_Status. Use v1beta20210401.BlobRestoreParameters_Status instead
 type BlobRestoreParameters_Status struct {
 	BlobRanges    []BlobRestoreRange_Status `json:"blobRanges,omitempty"`
@@ -6381,15 +6103,6 @@ func (parameters *BlobRestoreParameters_Status) AssignPropertiesToBlobRestorePar
 	// No error
 	return nil
 }
-
-// Deprecated version of BlobRestoreStatusStatusStatus. Use v1beta20210401.BlobRestoreStatusStatusStatus instead
-type BlobRestoreStatusStatusStatus string
-
-const (
-	BlobRestoreStatusStatusStatusComplete   = BlobRestoreStatusStatusStatus("Complete")
-	BlobRestoreStatusStatusStatusFailed     = BlobRestoreStatusStatusStatus("Failed")
-	BlobRestoreStatusStatusStatusInProgress = BlobRestoreStatusStatusStatus("InProgress")
-)
 
 // Deprecated version of EncryptionIdentity. Use v1beta20210401.EncryptionIdentity instead
 type EncryptionIdentity struct {
@@ -6968,23 +6681,6 @@ func (services *EncryptionServices_Status) AssignPropertiesToEncryptionServicesS
 	return nil
 }
 
-// Deprecated version of EncryptionStatusKeySource. Use v1beta20210401.EncryptionStatusKeySource instead
-type EncryptionStatusKeySource string
-
-const (
-	EncryptionStatusKeySourceMicrosoftKeyvault = EncryptionStatusKeySource("Microsoft.Keyvault")
-	EncryptionStatusKeySourceMicrosoftStorage  = EncryptionStatusKeySource("Microsoft.Storage")
-)
-
-// Deprecated version of GeoReplicationStatsStatusStatus. Use v1beta20210401.GeoReplicationStatsStatusStatus instead
-type GeoReplicationStatsStatusStatus string
-
-const (
-	GeoReplicationStatsStatusStatusBootstrap   = GeoReplicationStatsStatusStatus("Bootstrap")
-	GeoReplicationStatsStatusStatusLive        = GeoReplicationStatsStatusStatus("Live")
-	GeoReplicationStatsStatusStatusUnavailable = GeoReplicationStatsStatusStatus("Unavailable")
-)
-
 // Deprecated version of IPRule. Use v1beta20210401.IPRule instead
 type IPRule struct {
 	Action *IPRuleAction `json:"action,omitempty"`
@@ -7091,8 +6787,8 @@ func (rule *IPRule) AssignPropertiesToIPRule(destination *alpha20210401s.IPRule)
 
 // Deprecated version of IPRule_Status. Use v1beta20210401.IPRule_Status instead
 type IPRule_Status struct {
-	Action *IPRuleStatusAction `json:"action,omitempty"`
-	Value  *string             `json:"value,omitempty"`
+	Action *string `json:"action,omitempty"`
+	Value  *string `json:"value,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &IPRule_Status{}
@@ -7129,12 +6825,7 @@ func (rule *IPRule_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 func (rule *IPRule_Status) AssignPropertiesFromIPRuleStatus(source *alpha20210401s.IPRule_Status) error {
 
 	// Action
-	if source.Action != nil {
-		action := IPRuleStatusAction(*source.Action)
-		rule.Action = &action
-	} else {
-		rule.Action = nil
-	}
+	rule.Action = genruntime.ClonePointerToString(source.Action)
 
 	// Value
 	rule.Value = genruntime.ClonePointerToString(source.Value)
@@ -7149,12 +6840,7 @@ func (rule *IPRule_Status) AssignPropertiesToIPRuleStatus(destination *alpha2021
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Action
-	if rule.Action != nil {
-		action := string(*rule.Action)
-		destination.Action = &action
-	} else {
-		destination.Action = nil
-	}
+	destination.Action = genruntime.ClonePointerToString(rule.Action)
 
 	// Value
 	destination.Value = genruntime.ClonePointerToString(rule.Value)
@@ -7411,24 +7097,6 @@ const (
 	NetworkRuleSetDefaultActionDeny  = NetworkRuleSetDefaultAction("Deny")
 )
 
-// Deprecated version of NetworkRuleSetStatusBypass. Use v1beta20210401.NetworkRuleSetStatusBypass instead
-type NetworkRuleSetStatusBypass string
-
-const (
-	NetworkRuleSetStatusBypassAzureServices = NetworkRuleSetStatusBypass("AzureServices")
-	NetworkRuleSetStatusBypassLogging       = NetworkRuleSetStatusBypass("Logging")
-	NetworkRuleSetStatusBypassMetrics       = NetworkRuleSetStatusBypass("Metrics")
-	NetworkRuleSetStatusBypassNone          = NetworkRuleSetStatusBypass("None")
-)
-
-// Deprecated version of NetworkRuleSetStatusDefaultAction. Use v1beta20210401.NetworkRuleSetStatusDefaultAction instead
-type NetworkRuleSetStatusDefaultAction string
-
-const (
-	NetworkRuleSetStatusDefaultActionAllow = NetworkRuleSetStatusDefaultAction("Allow")
-	NetworkRuleSetStatusDefaultActionDeny  = NetworkRuleSetStatusDefaultAction("Deny")
-)
-
 // Deprecated version of ResourceAccessRule. Use v1beta20210401.ResourceAccessRule instead
 type ResourceAccessRule struct {
 	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
@@ -7611,25 +7279,11 @@ const (
 	RoutingPreferenceRoutingChoiceMicrosoftRouting = RoutingPreferenceRoutingChoice("MicrosoftRouting")
 )
 
-// Deprecated version of RoutingPreferenceStatusRoutingChoice. Use v1beta20210401.RoutingPreferenceStatusRoutingChoice
-// instead
-type RoutingPreferenceStatusRoutingChoice string
-
-const (
-	RoutingPreferenceStatusRoutingChoiceInternetRouting  = RoutingPreferenceStatusRoutingChoice("InternetRouting")
-	RoutingPreferenceStatusRoutingChoiceMicrosoftRouting = RoutingPreferenceStatusRoutingChoice("MicrosoftRouting")
-)
-
 // Deprecated version of SasPolicyExpirationAction. Use v1beta20210401.SasPolicyExpirationAction instead
 // +kubebuilder:validation:Enum={"Log"}
 type SasPolicyExpirationAction string
 
 const SasPolicyExpirationActionLog = SasPolicyExpirationAction("Log")
-
-// Deprecated version of SasPolicyStatusExpirationAction. Use v1beta20210401.SasPolicyStatusExpirationAction instead
-type SasPolicyStatusExpirationAction string
-
-const SasPolicyStatusExpirationActionLog = SasPolicyStatusExpirationAction("Log")
 
 // Deprecated version of StorageAccountInternetEndpoints_Status. Use v1beta20210401.StorageAccountInternetEndpoints_Status instead
 type StorageAccountInternetEndpoints_Status struct {
@@ -8250,9 +7904,9 @@ func (rule *VirtualNetworkRule) AssignPropertiesToVirtualNetworkRule(destination
 
 // Deprecated version of VirtualNetworkRule_Status. Use v1beta20210401.VirtualNetworkRule_Status instead
 type VirtualNetworkRule_Status struct {
-	Action *VirtualNetworkRuleStatusAction `json:"action,omitempty"`
-	Id     *string                         `json:"id,omitempty"`
-	State  *VirtualNetworkRuleStatusState  `json:"state,omitempty"`
+	Action *string `json:"action,omitempty"`
+	Id     *string `json:"id,omitempty"`
+	State  *string `json:"state,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &VirtualNetworkRule_Status{}
@@ -8295,23 +7949,13 @@ func (rule *VirtualNetworkRule_Status) PopulateFromARM(owner genruntime.Arbitrar
 func (rule *VirtualNetworkRule_Status) AssignPropertiesFromVirtualNetworkRuleStatus(source *alpha20210401s.VirtualNetworkRule_Status) error {
 
 	// Action
-	if source.Action != nil {
-		action := VirtualNetworkRuleStatusAction(*source.Action)
-		rule.Action = &action
-	} else {
-		rule.Action = nil
-	}
+	rule.Action = genruntime.ClonePointerToString(source.Action)
 
 	// Id
 	rule.Id = genruntime.ClonePointerToString(source.Id)
 
 	// State
-	if source.State != nil {
-		state := VirtualNetworkRuleStatusState(*source.State)
-		rule.State = &state
-	} else {
-		rule.State = nil
-	}
+	rule.State = genruntime.ClonePointerToString(source.State)
 
 	// No error
 	return nil
@@ -8323,23 +7967,13 @@ func (rule *VirtualNetworkRule_Status) AssignPropertiesToVirtualNetworkRuleStatu
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Action
-	if rule.Action != nil {
-		action := string(*rule.Action)
-		destination.Action = &action
-	} else {
-		destination.Action = nil
-	}
+	destination.Action = genruntime.ClonePointerToString(rule.Action)
 
 	// Id
 	destination.Id = genruntime.ClonePointerToString(rule.Id)
 
 	// State
-	if rule.State != nil {
-		state := string(*rule.State)
-		destination.State = &state
-	} else {
-		destination.State = nil
-	}
+	destination.State = genruntime.ClonePointerToString(rule.State)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -8537,9 +8171,9 @@ func (service *EncryptionService) AssignPropertiesToEncryptionService(destinatio
 
 // Deprecated version of EncryptionService_Status. Use v1beta20210401.EncryptionService_Status instead
 type EncryptionService_Status struct {
-	Enabled         *bool                           `json:"enabled,omitempty"`
-	KeyType         *EncryptionServiceStatusKeyType `json:"keyType,omitempty"`
-	LastEnabledTime *string                         `json:"lastEnabledTime,omitempty"`
+	Enabled         *bool   `json:"enabled,omitempty"`
+	KeyType         *string `json:"keyType,omitempty"`
+	LastEnabledTime *string `json:"lastEnabledTime,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &EncryptionService_Status{}
@@ -8590,12 +8224,7 @@ func (service *EncryptionService_Status) AssignPropertiesFromEncryptionServiceSt
 	}
 
 	// KeyType
-	if source.KeyType != nil {
-		keyType := EncryptionServiceStatusKeyType(*source.KeyType)
-		service.KeyType = &keyType
-	} else {
-		service.KeyType = nil
-	}
+	service.KeyType = genruntime.ClonePointerToString(source.KeyType)
 
 	// LastEnabledTime
 	service.LastEnabledTime = genruntime.ClonePointerToString(source.LastEnabledTime)
@@ -8618,12 +8247,7 @@ func (service *EncryptionService_Status) AssignPropertiesToEncryptionServiceStat
 	}
 
 	// KeyType
-	if service.KeyType != nil {
-		keyType := string(*service.KeyType)
-		destination.KeyType = &keyType
-	} else {
-		destination.KeyType = nil
-	}
+	destination.KeyType = genruntime.ClonePointerToString(service.KeyType)
 
 	// LastEnabledTime
 	destination.LastEnabledTime = genruntime.ClonePointerToString(service.LastEnabledTime)
@@ -8645,11 +8269,6 @@ type IPRuleAction string
 
 const IPRuleActionAllow = IPRuleAction("Allow")
 
-// Deprecated version of IPRuleStatusAction. Use v1beta20210401.IPRuleStatusAction instead
-type IPRuleStatusAction string
-
-const IPRuleStatusActionAllow = IPRuleStatusAction("Allow")
-
 // Deprecated version of VirtualNetworkRuleAction. Use v1beta20210401.VirtualNetworkRuleAction instead
 // +kubebuilder:validation:Enum={"Allow"}
 type VirtualNetworkRuleAction string
@@ -8668,22 +8287,6 @@ const (
 	VirtualNetworkRuleStateSucceeded            = VirtualNetworkRuleState("Succeeded")
 )
 
-// Deprecated version of VirtualNetworkRuleStatusAction. Use v1beta20210401.VirtualNetworkRuleStatusAction instead
-type VirtualNetworkRuleStatusAction string
-
-const VirtualNetworkRuleStatusActionAllow = VirtualNetworkRuleStatusAction("Allow")
-
-// Deprecated version of VirtualNetworkRuleStatusState. Use v1beta20210401.VirtualNetworkRuleStatusState instead
-type VirtualNetworkRuleStatusState string
-
-const (
-	VirtualNetworkRuleStatusStateDeprovisioning       = VirtualNetworkRuleStatusState("Deprovisioning")
-	VirtualNetworkRuleStatusStateFailed               = VirtualNetworkRuleStatusState("Failed")
-	VirtualNetworkRuleStatusStateNetworkSourceDeleted = VirtualNetworkRuleStatusState("NetworkSourceDeleted")
-	VirtualNetworkRuleStatusStateProvisioning         = VirtualNetworkRuleStatusState("Provisioning")
-	VirtualNetworkRuleStatusStateSucceeded            = VirtualNetworkRuleStatusState("Succeeded")
-)
-
 // Deprecated version of EncryptionServiceKeyType. Use v1beta20210401.EncryptionServiceKeyType instead
 // +kubebuilder:validation:Enum={"Account","Service"}
 type EncryptionServiceKeyType string
@@ -8691,14 +8294,6 @@ type EncryptionServiceKeyType string
 const (
 	EncryptionServiceKeyTypeAccount = EncryptionServiceKeyType("Account")
 	EncryptionServiceKeyTypeService = EncryptionServiceKeyType("Service")
-)
-
-// Deprecated version of EncryptionServiceStatusKeyType. Use v1beta20210401.EncryptionServiceStatusKeyType instead
-type EncryptionServiceStatusKeyType string
-
-const (
-	EncryptionServiceStatusKeyTypeAccount = EncryptionServiceStatusKeyType("Account")
-	EncryptionServiceStatusKeyTypeService = EncryptionServiceStatusKeyType("Service")
 )
 
 func init() {

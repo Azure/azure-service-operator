@@ -370,7 +370,7 @@ type LoadBalancer_Status struct {
 	Probes []Probe_Status `json:"probes,omitempty"`
 
 	// ProvisioningState: The provisioning state of the load balancer resource.
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	// ResourceGuid: The resource GUID property of the load balancer resource.
 	ResourceGuid *string `json:"resourceGuid,omitempty"`
@@ -781,12 +781,7 @@ func (balancer *LoadBalancer_Status) AssignPropertiesFromLoadBalancerStatus(sour
 	}
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_Status(*source.ProvisioningState)
-		balancer.ProvisioningState = &provisioningState
-	} else {
-		balancer.ProvisioningState = nil
-	}
+	balancer.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// ResourceGuid
 	balancer.ResourceGuid = genruntime.ClonePointerToString(source.ResourceGuid)
@@ -972,12 +967,7 @@ func (balancer *LoadBalancer_Status) AssignPropertiesToLoadBalancerStatus(destin
 	}
 
 	// ProvisioningState
-	if balancer.ProvisioningState != nil {
-		provisioningState := string(*balancer.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(balancer.ProvisioningState)
 
 	// ResourceGuid
 	destination.ResourceGuid = genruntime.ClonePointerToString(balancer.ResourceGuid)
@@ -1847,7 +1837,7 @@ type ExtendedLocation_Status struct {
 	Name *string `json:"name,omitempty"`
 
 	// Type: The type of the extended location.
-	Type *ExtendedLocationType_Status `json:"type,omitempty"`
+	Type *string `json:"type,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ExtendedLocation_Status{}
@@ -1887,12 +1877,7 @@ func (location *ExtendedLocation_Status) AssignPropertiesFromExtendedLocationSta
 	location.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Type
-	if source.Type != nil {
-		typeVar := ExtendedLocationType_Status(*source.Type)
-		location.Type = &typeVar
-	} else {
-		location.Type = nil
-	}
+	location.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
@@ -1907,12 +1892,7 @@ func (location *ExtendedLocation_Status) AssignPropertiesToExtendedLocationStatu
 	destination.Name = genruntime.ClonePointerToString(location.Name)
 
 	// Type
-	if location.Type != nil {
-		typeVar := string(*location.Type)
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
+	destination.Type = genruntime.ClonePointerToString(location.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1952,13 +1932,13 @@ type FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded struct {
 	PrivateIPAddress *string `json:"privateIPAddress,omitempty"`
 
 	// PrivateIPAddressVersion: Whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.
-	PrivateIPAddressVersion *IPVersion_Status `json:"privateIPAddressVersion,omitempty"`
+	PrivateIPAddressVersion *string `json:"privateIPAddressVersion,omitempty"`
 
 	// PrivateIPAllocationMethod: The Private IP allocation method.
-	PrivateIPAllocationMethod *IPAllocationMethod_Status `json:"privateIPAllocationMethod,omitempty"`
+	PrivateIPAllocationMethod *string `json:"privateIPAllocationMethod,omitempty"`
 
 	// ProvisioningState: The provisioning state of the frontend IP configuration resource.
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	// PublicIPAddress: The reference to the Public IP resource.
 	PublicIPAddress *PublicIPAddress_Status_LoadBalancer_SubResourceEmbedded `json:"publicIPAddress,omitempty"`
@@ -2241,28 +2221,13 @@ func (embedded *FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded)
 	embedded.PrivateIPAddress = genruntime.ClonePointerToString(source.PrivateIPAddress)
 
 	// PrivateIPAddressVersion
-	if source.PrivateIPAddressVersion != nil {
-		privateIPAddressVersion := IPVersion_Status(*source.PrivateIPAddressVersion)
-		embedded.PrivateIPAddressVersion = &privateIPAddressVersion
-	} else {
-		embedded.PrivateIPAddressVersion = nil
-	}
+	embedded.PrivateIPAddressVersion = genruntime.ClonePointerToString(source.PrivateIPAddressVersion)
 
 	// PrivateIPAllocationMethod
-	if source.PrivateIPAllocationMethod != nil {
-		privateIPAllocationMethod := IPAllocationMethod_Status(*source.PrivateIPAllocationMethod)
-		embedded.PrivateIPAllocationMethod = &privateIPAllocationMethod
-	} else {
-		embedded.PrivateIPAllocationMethod = nil
-	}
+	embedded.PrivateIPAllocationMethod = genruntime.ClonePointerToString(source.PrivateIPAllocationMethod)
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_Status(*source.ProvisioningState)
-		embedded.ProvisioningState = &provisioningState
-	} else {
-		embedded.ProvisioningState = nil
-	}
+	embedded.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// PublicIPAddress
 	if source.PublicIPAddress != nil {
@@ -2400,28 +2365,13 @@ func (embedded *FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded)
 	destination.PrivateIPAddress = genruntime.ClonePointerToString(embedded.PrivateIPAddress)
 
 	// PrivateIPAddressVersion
-	if embedded.PrivateIPAddressVersion != nil {
-		privateIPAddressVersion := string(*embedded.PrivateIPAddressVersion)
-		destination.PrivateIPAddressVersion = &privateIPAddressVersion
-	} else {
-		destination.PrivateIPAddressVersion = nil
-	}
+	destination.PrivateIPAddressVersion = genruntime.ClonePointerToString(embedded.PrivateIPAddressVersion)
 
 	// PrivateIPAllocationMethod
-	if embedded.PrivateIPAllocationMethod != nil {
-		privateIPAllocationMethod := string(*embedded.PrivateIPAllocationMethod)
-		destination.PrivateIPAllocationMethod = &privateIPAllocationMethod
-	} else {
-		destination.PrivateIPAllocationMethod = nil
-	}
+	destination.PrivateIPAllocationMethod = genruntime.ClonePointerToString(embedded.PrivateIPAllocationMethod)
 
 	// ProvisioningState
-	if embedded.ProvisioningState != nil {
-		provisioningState := string(*embedded.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(embedded.ProvisioningState)
 
 	// PublicIPAddress
 	if embedded.PublicIPAddress != nil {
@@ -2515,10 +2465,10 @@ type InboundNatPool_Status struct {
 	Name *string `json:"name,omitempty"`
 
 	// Protocol: The reference to the transport protocol used by the inbound NAT pool.
-	Protocol *TransportProtocol_Status `json:"protocol,omitempty"`
+	Protocol *string `json:"protocol,omitempty"`
 
 	// ProvisioningState: The provisioning state of the inbound NAT pool resource.
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	// Type: Type of the resource.
 	Type *string `json:"type,omitempty"`
@@ -2705,20 +2655,10 @@ func (pool *InboundNatPool_Status) AssignPropertiesFromInboundNatPoolStatus(sour
 	pool.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Protocol
-	if source.Protocol != nil {
-		protocol := TransportProtocol_Status(*source.Protocol)
-		pool.Protocol = &protocol
-	} else {
-		pool.Protocol = nil
-	}
+	pool.Protocol = genruntime.ClonePointerToString(source.Protocol)
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_Status(*source.ProvisioningState)
-		pool.ProvisioningState = &provisioningState
-	} else {
-		pool.ProvisioningState = nil
-	}
+	pool.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// Type
 	pool.Type = genruntime.ClonePointerToString(source.Type)
@@ -2782,20 +2722,10 @@ func (pool *InboundNatPool_Status) AssignPropertiesToInboundNatPoolStatus(destin
 	destination.Name = genruntime.ClonePointerToString(pool.Name)
 
 	// Protocol
-	if pool.Protocol != nil {
-		protocol := string(*pool.Protocol)
-		destination.Protocol = &protocol
-	} else {
-		destination.Protocol = nil
-	}
+	destination.Protocol = genruntime.ClonePointerToString(pool.Protocol)
 
 	// ProvisioningState
-	if pool.ProvisioningState != nil {
-		provisioningState := string(*pool.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(pool.ProvisioningState)
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(pool.Type)
@@ -2986,10 +2916,10 @@ func (balancerSku *LoadBalancerSku) AssignPropertiesToLoadBalancerSku(destinatio
 
 type LoadBalancerSku_Status struct {
 	// Name: Name of a load balancer SKU.
-	Name *LoadBalancerSkuStatusName `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
 
 	// Tier: Tier of a load balancer SKU.
-	Tier *LoadBalancerSkuStatusTier `json:"tier,omitempty"`
+	Tier *string `json:"tier,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &LoadBalancerSku_Status{}
@@ -3026,20 +2956,10 @@ func (balancerSku *LoadBalancerSku_Status) PopulateFromARM(owner genruntime.Arbi
 func (balancerSku *LoadBalancerSku_Status) AssignPropertiesFromLoadBalancerSkuStatus(source *v20201101s.LoadBalancerSku_Status) error {
 
 	// Name
-	if source.Name != nil {
-		name := LoadBalancerSkuStatusName(*source.Name)
-		balancerSku.Name = &name
-	} else {
-		balancerSku.Name = nil
-	}
+	balancerSku.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Tier
-	if source.Tier != nil {
-		tier := LoadBalancerSkuStatusTier(*source.Tier)
-		balancerSku.Tier = &tier
-	} else {
-		balancerSku.Tier = nil
-	}
+	balancerSku.Tier = genruntime.ClonePointerToString(source.Tier)
 
 	// No error
 	return nil
@@ -3051,20 +2971,10 @@ func (balancerSku *LoadBalancerSku_Status) AssignPropertiesToLoadBalancerSkuStat
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	if balancerSku.Name != nil {
-		name := string(*balancerSku.Name)
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(balancerSku.Name)
 
 	// Tier
-	if balancerSku.Tier != nil {
-		tier := string(*balancerSku.Tier)
-		destination.Tier = &tier
-	} else {
-		destination.Tier = nil
-	}
+	destination.Tier = genruntime.ClonePointerToString(balancerSku.Tier)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -4940,7 +4850,7 @@ type LoadBalancingRule_Status struct {
 	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
 
 	// LoadDistribution: The load distribution policy for this rule.
-	LoadDistribution *LoadBalancingRulePropertiesFormatStatusLoadDistribution `json:"loadDistribution,omitempty"`
+	LoadDistribution *string `json:"loadDistribution,omitempty"`
 
 	// Name: The name of the resource that is unique within the set of load balancing rules used by the load balancer. This
 	// name can be used to access the resource.
@@ -4950,10 +4860,10 @@ type LoadBalancingRule_Status struct {
 	Probe *SubResource_Status `json:"probe,omitempty"`
 
 	// Protocol: The reference to the transport protocol used by the load balancing rule.
-	Protocol *TransportProtocol_Status `json:"protocol,omitempty"`
+	Protocol *string `json:"protocol,omitempty"`
 
 	// ProvisioningState: The provisioning state of the load balancing rule resource.
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	// Type: Type of the resource.
 	Type *string `json:"type,omitempty"`
@@ -5191,12 +5101,7 @@ func (rule *LoadBalancingRule_Status) AssignPropertiesFromLoadBalancingRuleStatu
 	rule.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(source.IdleTimeoutInMinutes)
 
 	// LoadDistribution
-	if source.LoadDistribution != nil {
-		loadDistribution := LoadBalancingRulePropertiesFormatStatusLoadDistribution(*source.LoadDistribution)
-		rule.LoadDistribution = &loadDistribution
-	} else {
-		rule.LoadDistribution = nil
-	}
+	rule.LoadDistribution = genruntime.ClonePointerToString(source.LoadDistribution)
 
 	// Name
 	rule.Name = genruntime.ClonePointerToString(source.Name)
@@ -5214,20 +5119,10 @@ func (rule *LoadBalancingRule_Status) AssignPropertiesFromLoadBalancingRuleStatu
 	}
 
 	// Protocol
-	if source.Protocol != nil {
-		protocol := TransportProtocol_Status(*source.Protocol)
-		rule.Protocol = &protocol
-	} else {
-		rule.Protocol = nil
-	}
+	rule.Protocol = genruntime.ClonePointerToString(source.Protocol)
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_Status(*source.ProvisioningState)
-		rule.ProvisioningState = &provisioningState
-	} else {
-		rule.ProvisioningState = nil
-	}
+	rule.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// Type
 	rule.Type = genruntime.ClonePointerToString(source.Type)
@@ -5305,12 +5200,7 @@ func (rule *LoadBalancingRule_Status) AssignPropertiesToLoadBalancingRuleStatus(
 	destination.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(rule.IdleTimeoutInMinutes)
 
 	// LoadDistribution
-	if rule.LoadDistribution != nil {
-		loadDistribution := string(*rule.LoadDistribution)
-		destination.LoadDistribution = &loadDistribution
-	} else {
-		destination.LoadDistribution = nil
-	}
+	destination.LoadDistribution = genruntime.ClonePointerToString(rule.LoadDistribution)
 
 	// Name
 	destination.Name = genruntime.ClonePointerToString(rule.Name)
@@ -5328,20 +5218,10 @@ func (rule *LoadBalancingRule_Status) AssignPropertiesToLoadBalancingRuleStatus(
 	}
 
 	// Protocol
-	if rule.Protocol != nil {
-		protocol := string(*rule.Protocol)
-		destination.Protocol = &protocol
-	} else {
-		destination.Protocol = nil
-	}
+	destination.Protocol = genruntime.ClonePointerToString(rule.Protocol)
 
 	// ProvisioningState
-	if rule.ProvisioningState != nil {
-		provisioningState := string(*rule.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(rule.ProvisioningState)
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(rule.Type)
@@ -5386,10 +5266,10 @@ type OutboundRule_Status struct {
 	Name *string `json:"name,omitempty"`
 
 	// Protocol: The protocol for the outbound rule in load balancer.
-	Protocol *OutboundRulePropertiesFormatStatusProtocol `json:"protocol,omitempty"`
+	Protocol *string `json:"protocol,omitempty"`
 
 	// ProvisioningState: The provisioning state of the outbound rule resource.
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	// Type: Type of the resource.
 	Type *string `json:"type,omitempty"`
@@ -5566,20 +5446,10 @@ func (rule *OutboundRule_Status) AssignPropertiesFromOutboundRuleStatus(source *
 	rule.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Protocol
-	if source.Protocol != nil {
-		protocol := OutboundRulePropertiesFormatStatusProtocol(*source.Protocol)
-		rule.Protocol = &protocol
-	} else {
-		rule.Protocol = nil
-	}
+	rule.Protocol = genruntime.ClonePointerToString(source.Protocol)
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_Status(*source.ProvisioningState)
-		rule.ProvisioningState = &provisioningState
-	} else {
-		rule.ProvisioningState = nil
-	}
+	rule.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// Type
 	rule.Type = genruntime.ClonePointerToString(source.Type)
@@ -5647,20 +5517,10 @@ func (rule *OutboundRule_Status) AssignPropertiesToOutboundRuleStatus(destinatio
 	destination.Name = genruntime.ClonePointerToString(rule.Name)
 
 	// Protocol
-	if rule.Protocol != nil {
-		protocol := string(*rule.Protocol)
-		destination.Protocol = &protocol
-	} else {
-		destination.Protocol = nil
-	}
+	destination.Protocol = genruntime.ClonePointerToString(rule.Protocol)
 
 	// ProvisioningState
-	if rule.ProvisioningState != nil {
-		provisioningState := string(*rule.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(rule.ProvisioningState)
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(rule.Type)
@@ -5706,10 +5566,10 @@ type Probe_Status struct {
 	// Protocol: The protocol of the end point. If 'Tcp' is specified, a received ACK is required for the probe to be
 	// successful. If 'Http' or 'Https' is specified, a 200 OK response from the specifies URI is required for the probe to be
 	// successful.
-	Protocol *ProbePropertiesFormatStatusProtocol `json:"protocol,omitempty"`
+	Protocol *string `json:"protocol,omitempty"`
 
 	// ProvisioningState: The provisioning state of the probe resource.
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	// RequestPath: The URI used for requesting health status from the VM. Path is required if a protocol is set to http.
 	// Otherwise, it is not allowed. There is no default value.
@@ -5868,20 +5728,10 @@ func (probe *Probe_Status) AssignPropertiesFromProbeStatus(source *v20201101s.Pr
 	probe.Port = genruntime.ClonePointerToInt(source.Port)
 
 	// Protocol
-	if source.Protocol != nil {
-		protocol := ProbePropertiesFormatStatusProtocol(*source.Protocol)
-		probe.Protocol = &protocol
-	} else {
-		probe.Protocol = nil
-	}
+	probe.Protocol = genruntime.ClonePointerToString(source.Protocol)
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_Status(*source.ProvisioningState)
-		probe.ProvisioningState = &provisioningState
-	} else {
-		probe.ProvisioningState = nil
-	}
+	probe.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// RequestPath
 	probe.RequestPath = genruntime.ClonePointerToString(source.RequestPath)
@@ -5935,20 +5785,10 @@ func (probe *Probe_Status) AssignPropertiesToProbeStatus(destination *v20201101s
 	destination.Port = genruntime.ClonePointerToInt(probe.Port)
 
 	// Protocol
-	if probe.Protocol != nil {
-		protocol := string(*probe.Protocol)
-		destination.Protocol = &protocol
-	} else {
-		destination.Protocol = nil
-	}
+	destination.Protocol = genruntime.ClonePointerToString(probe.Protocol)
 
 	// ProvisioningState
-	if probe.ProvisioningState != nil {
-		provisioningState := string(*probe.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(probe.ProvisioningState)
 
 	// RequestPath
 	destination.RequestPath = genruntime.ClonePointerToString(probe.RequestPath)
@@ -5966,15 +5806,6 @@ func (probe *Probe_Status) AssignPropertiesToProbeStatus(destination *v20201101s
 	// No error
 	return nil
 }
-
-type ProvisioningState_Status string
-
-const (
-	ProvisioningState_StatusDeleting  = ProvisioningState_Status("Deleting")
-	ProvisioningState_StatusFailed    = ProvisioningState_Status("Failed")
-	ProvisioningState_StatusSucceeded = ProvisioningState_Status("Succeeded")
-	ProvisioningState_StatusUpdating  = ProvisioningState_Status("Updating")
-)
 
 // +kubebuilder:validation:Enum={"IPv4","IPv6"}
 type FrontendIPConfigurationPropertiesFormatPrivateIPAddressVersion string
@@ -6269,14 +6100,6 @@ const (
 	LoadBalancingRulePropertiesFormatProtocolUdp = LoadBalancingRulePropertiesFormatProtocol("Udp")
 )
 
-type LoadBalancingRulePropertiesFormatStatusLoadDistribution string
-
-const (
-	LoadBalancingRulePropertiesFormatStatusLoadDistributionDefault          = LoadBalancingRulePropertiesFormatStatusLoadDistribution("Default")
-	LoadBalancingRulePropertiesFormatStatusLoadDistributionSourceIP         = LoadBalancingRulePropertiesFormatStatusLoadDistribution("SourceIP")
-	LoadBalancingRulePropertiesFormatStatusLoadDistributionSourceIPProtocol = LoadBalancingRulePropertiesFormatStatusLoadDistribution("SourceIPProtocol")
-)
-
 // +kubebuilder:validation:Enum={"All","Tcp","Udp"}
 type OutboundRulePropertiesFormatProtocol string
 
@@ -6286,14 +6109,6 @@ const (
 	OutboundRulePropertiesFormatProtocolUdp = OutboundRulePropertiesFormatProtocol("Udp")
 )
 
-type OutboundRulePropertiesFormatStatusProtocol string
-
-const (
-	OutboundRulePropertiesFormatStatusProtocolAll = OutboundRulePropertiesFormatStatusProtocol("All")
-	OutboundRulePropertiesFormatStatusProtocolTcp = OutboundRulePropertiesFormatStatusProtocol("Tcp")
-	OutboundRulePropertiesFormatStatusProtocolUdp = OutboundRulePropertiesFormatStatusProtocol("Udp")
-)
-
 // +kubebuilder:validation:Enum={"Http","Https","Tcp"}
 type ProbePropertiesFormatProtocol string
 
@@ -6301,14 +6116,6 @@ const (
 	ProbePropertiesFormatProtocolHttp  = ProbePropertiesFormatProtocol("Http")
 	ProbePropertiesFormatProtocolHttps = ProbePropertiesFormatProtocol("Https")
 	ProbePropertiesFormatProtocolTcp   = ProbePropertiesFormatProtocol("Tcp")
-)
-
-type ProbePropertiesFormatStatusProtocol string
-
-const (
-	ProbePropertiesFormatStatusProtocolHttp  = ProbePropertiesFormatStatusProtocol("Http")
-	ProbePropertiesFormatStatusProtocolHttps = ProbePropertiesFormatStatusProtocol("Https")
-	ProbePropertiesFormatStatusProtocolTcp   = ProbePropertiesFormatStatusProtocol("Tcp")
 )
 
 type PublicIPAddress_Status_LoadBalancer_SubResourceEmbedded struct {
@@ -6516,14 +6323,6 @@ func (embedded *Subnet_Status_LoadBalancer_SubResourceEmbedded) AssignProperties
 	// No error
 	return nil
 }
-
-type TransportProtocol_Status string
-
-const (
-	TransportProtocol_StatusAll = TransportProtocol_Status("All")
-	TransportProtocol_StatusTcp = TransportProtocol_Status("Tcp")
-	TransportProtocol_StatusUdp = TransportProtocol_Status("Udp")
-)
 
 func init() {
 	SchemeBuilder.Register(&LoadBalancer{}, &LoadBalancerList{})

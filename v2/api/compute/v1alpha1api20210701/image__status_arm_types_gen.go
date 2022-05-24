@@ -16,22 +16,17 @@ type Image_StatusARM struct {
 
 // Deprecated version of ExtendedLocation_Status. Use v1beta20210701.ExtendedLocation_Status instead
 type ExtendedLocation_StatusARM struct {
-	Name *string                      `json:"name,omitempty"`
-	Type *ExtendedLocationType_Status `json:"type,omitempty"`
+	Name *string `json:"name,omitempty"`
+	Type *string `json:"type,omitempty"`
 }
 
 // Deprecated version of ImageProperties_Status. Use v1beta20210701.ImageProperties_Status instead
 type ImageProperties_StatusARM struct {
-	HyperVGeneration     *HyperVGenerationType_Status   `json:"hyperVGeneration,omitempty"`
+	HyperVGeneration     *string                        `json:"hyperVGeneration,omitempty"`
 	ProvisioningState    *string                        `json:"provisioningState,omitempty"`
 	SourceVirtualMachine *SubResource_StatusARM         `json:"sourceVirtualMachine,omitempty"`
 	StorageProfile       *ImageStorageProfile_StatusARM `json:"storageProfile,omitempty"`
 }
-
-// Deprecated version of ExtendedLocationType_Status. Use v1beta20210701.ExtendedLocationType_Status instead
-type ExtendedLocationType_Status string
-
-const ExtendedLocationType_StatusEdgeZone = ExtendedLocationType_Status("EdgeZone")
 
 // Deprecated version of ImageStorageProfile_Status. Use v1beta20210701.ImageStorageProfile_Status instead
 type ImageStorageProfile_StatusARM struct {
@@ -47,25 +42,25 @@ type SubResource_StatusARM struct {
 
 // Deprecated version of ImageDataDisk_Status. Use v1beta20210701.ImageDataDisk_Status instead
 type ImageDataDisk_StatusARM struct {
-	BlobUri            *string                     `json:"blobUri,omitempty"`
-	Caching            *ImageDataDiskStatusCaching `json:"caching,omitempty"`
-	DiskEncryptionSet  *SubResource_StatusARM      `json:"diskEncryptionSet,omitempty"`
-	DiskSizeGB         *int                        `json:"diskSizeGB,omitempty"`
-	Lun                *int                        `json:"lun,omitempty"`
-	ManagedDisk        *SubResource_StatusARM      `json:"managedDisk,omitempty"`
-	Snapshot           *SubResource_StatusARM      `json:"snapshot,omitempty"`
-	StorageAccountType *StorageAccountType_Status  `json:"storageAccountType,omitempty"`
+	BlobUri            *string                `json:"blobUri,omitempty"`
+	Caching            *string                `json:"caching,omitempty"`
+	DiskEncryptionSet  *SubResource_StatusARM `json:"diskEncryptionSet,omitempty"`
+	DiskSizeGB         *int                   `json:"diskSizeGB,omitempty"`
+	Lun                *int                   `json:"lun,omitempty"`
+	ManagedDisk        *SubResource_StatusARM `json:"managedDisk,omitempty"`
+	Snapshot           *SubResource_StatusARM `json:"snapshot,omitempty"`
+	StorageAccountType *string                `json:"storageAccountType,omitempty"`
 }
 
 // Deprecated version of ImageOSDisk_Status. Use v1beta20210701.ImageOSDisk_Status instead
 type ImageOSDisk_StatusARM struct {
-	BlobUri            *string                    `json:"blobUri,omitempty"`
-	Caching            *ImageOSDiskStatusCaching  `json:"caching,omitempty"`
-	DiskEncryptionSet  *SubResource_StatusARM     `json:"diskEncryptionSet,omitempty"`
-	DiskSizeGB         *int                       `json:"diskSizeGB,omitempty"`
-	ManagedDisk        *SubResource_StatusARM     `json:"managedDisk,omitempty"`
-	OsState            *ImageOSDiskStatusOsState  `json:"osState,omitempty"`
-	OsType             *ImageOSDiskStatusOsType   `json:"osType,omitempty"`
-	Snapshot           *SubResource_StatusARM     `json:"snapshot,omitempty"`
-	StorageAccountType *StorageAccountType_Status `json:"storageAccountType,omitempty"`
+	BlobUri            *string                `json:"blobUri,omitempty"`
+	Caching            *string                `json:"caching,omitempty"`
+	DiskEncryptionSet  *SubResource_StatusARM `json:"diskEncryptionSet,omitempty"`
+	DiskSizeGB         *int                   `json:"diskSizeGB,omitempty"`
+	ManagedDisk        *SubResource_StatusARM `json:"managedDisk,omitempty"`
+	OsState            *string                `json:"osState,omitempty"`
+	OsType             *string                `json:"osType,omitempty"`
+	Snapshot           *SubResource_StatusARM `json:"snapshot,omitempty"`
+	StorageAccountType *string                `json:"storageAccountType,omitempty"`
 }

@@ -35,7 +35,7 @@ type BatchAccountIdentity_StatusARM struct {
 	TenantId *string `json:"tenantId,omitempty"`
 
 	// Type: The type of identity used for the Batch account.
-	Type *BatchAccountIdentityStatusType `json:"type,omitempty"`
+	Type *string `json:"type,omitempty"`
 
 	// UserAssignedIdentities: The list of user identities associated with the Batch account. The user identity dictionary key
 	// references will be ARM resource ids in the form:
@@ -72,18 +72,18 @@ type BatchAccountProperties_StatusARM struct {
 
 	// LowPriorityCoreQuota: For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription
 	// so this value is not returned.
-	LowPriorityCoreQuota *int                       `json:"lowPriorityCoreQuota,omitempty"`
-	PoolAllocationMode   *PoolAllocationMode_Status `json:"poolAllocationMode,omitempty"`
-	PoolQuota            *int                       `json:"poolQuota,omitempty"`
+	LowPriorityCoreQuota *int    `json:"lowPriorityCoreQuota,omitempty"`
+	PoolAllocationMode   *string `json:"poolAllocationMode,omitempty"`
+	PoolQuota            *int    `json:"poolQuota,omitempty"`
 
 	// PrivateEndpointConnections: List of private endpoint connections associated with the Batch account
 	PrivateEndpointConnections []PrivateEndpointConnection_StatusARM `json:"privateEndpointConnections,omitempty"`
 
 	// ProvisioningState: The provisioned state of the resource
-	ProvisioningState *BatchAccountPropertiesStatusProvisioningState `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	// PublicNetworkAccess: If not specified, the default value is 'enabled'.
-	PublicNetworkAccess *PublicNetworkAccessType_Status `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *string `json:"publicNetworkAccess,omitempty"`
 }
 
 type AutoStorageProperties_StatusARM struct {
@@ -93,14 +93,6 @@ type AutoStorageProperties_StatusARM struct {
 	// StorageAccountId: The resource ID of the storage account to be used for auto-storage account.
 	StorageAccountId *string `json:"storageAccountId,omitempty"`
 }
-
-type BatchAccountIdentityStatusType string
-
-const (
-	BatchAccountIdentityStatusTypeNone           = BatchAccountIdentityStatusType("None")
-	BatchAccountIdentityStatusTypeSystemAssigned = BatchAccountIdentityStatusType("SystemAssigned")
-	BatchAccountIdentityStatusTypeUserAssigned   = BatchAccountIdentityStatusType("UserAssigned")
-)
 
 type BatchAccountIdentity_Status_UserAssignedIdentitiesARM struct {
 	// ClientId: The client id of user assigned identity.
@@ -112,7 +104,7 @@ type BatchAccountIdentity_Status_UserAssignedIdentitiesARM struct {
 
 type EncryptionProperties_StatusARM struct {
 	// KeySource: Type of the key source.
-	KeySource *EncryptionPropertiesStatusKeySource `json:"keySource,omitempty"`
+	KeySource *string `json:"keySource,omitempty"`
 
 	// KeyVaultProperties: Additional details when using Microsoft.KeyVault
 	KeyVaultProperties *KeyVaultProperties_StatusARM `json:"keyVaultProperties,omitempty"`
@@ -162,9 +154,9 @@ type KeyVaultProperties_StatusARM struct {
 }
 
 type PrivateEndpointConnectionProperties_StatusARM struct {
-	PrivateEndpoint                   *PrivateEndpoint_StatusARM                                  `json:"privateEndpoint,omitempty"`
-	PrivateLinkServiceConnectionState *PrivateLinkServiceConnectionState_StatusARM                `json:"privateLinkServiceConnectionState,omitempty"`
-	ProvisioningState                 *PrivateEndpointConnectionPropertiesStatusProvisioningState `json:"provisioningState,omitempty"`
+	PrivateEndpoint                   *PrivateEndpoint_StatusARM                   `json:"privateEndpoint,omitempty"`
+	PrivateLinkServiceConnectionState *PrivateLinkServiceConnectionState_StatusARM `json:"privateLinkServiceConnectionState,omitempty"`
+	ProvisioningState                 *string                                      `json:"provisioningState,omitempty"`
 }
 
 type PrivateEndpoint_StatusARM struct {
@@ -172,7 +164,7 @@ type PrivateEndpoint_StatusARM struct {
 }
 
 type PrivateLinkServiceConnectionState_StatusARM struct {
-	ActionRequired *string                                    `json:"actionRequired,omitempty"`
-	Description    *string                                    `json:"description,omitempty"`
-	Status         *PrivateLinkServiceConnectionStatus_Status `json:"status,omitempty"`
+	ActionRequired *string `json:"actionRequired,omitempty"`
+	Description    *string `json:"description,omitempty"`
+	Status         *string `json:"status,omitempty"`
 }

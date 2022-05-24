@@ -870,7 +870,7 @@ type SBTopic_Status struct {
 	SizeInBytes *int `json:"sizeInBytes,omitempty"`
 
 	// Status: Enumerates the possible values for the status of a messaging entity.
-	Status *EntityStatus_Status `json:"status,omitempty"`
+	Status *string `json:"status,omitempty"`
 
 	// SubscriptionCount: Number of subscriptions.
 	SubscriptionCount *int `json:"subscriptionCount,omitempty"`
@@ -1214,12 +1214,7 @@ func (topic *SBTopic_Status) AssignPropertiesFromSBTopicStatus(source *v20210101
 	topic.SizeInBytes = genruntime.ClonePointerToInt(source.SizeInBytes)
 
 	// Status
-	if source.Status != nil {
-		status := EntityStatus_Status(*source.Status)
-		topic.Status = &status
-	} else {
-		topic.Status = nil
-	}
+	topic.Status = genruntime.ClonePointerToString(source.Status)
 
 	// SubscriptionCount
 	topic.SubscriptionCount = genruntime.ClonePointerToInt(source.SubscriptionCount)
@@ -1334,12 +1329,7 @@ func (topic *SBTopic_Status) AssignPropertiesToSBTopicStatus(destination *v20210
 	destination.SizeInBytes = genruntime.ClonePointerToInt(topic.SizeInBytes)
 
 	// Status
-	if topic.Status != nil {
-		status := string(*topic.Status)
-		destination.Status = &status
-	} else {
-		destination.Status = nil
-	}
+	destination.Status = genruntime.ClonePointerToString(topic.Status)
 
 	// SubscriptionCount
 	destination.SubscriptionCount = genruntime.ClonePointerToInt(topic.SubscriptionCount)

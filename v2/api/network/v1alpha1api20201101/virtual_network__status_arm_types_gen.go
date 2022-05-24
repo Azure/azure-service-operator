@@ -24,7 +24,7 @@ type VirtualNetworkPropertiesFormat_StatusARM struct {
 	EnableDdosProtection *bool                                   `json:"enableDdosProtection,omitempty"`
 	EnableVmProtection   *bool                                   `json:"enableVmProtection,omitempty"`
 	IpAllocations        []SubResource_StatusARM                 `json:"ipAllocations,omitempty"`
-	ProvisioningState    *ProvisioningState_Status               `json:"provisioningState,omitempty"`
+	ProvisioningState    *string                                 `json:"provisioningState,omitempty"`
 	ResourceGuid         *string                                 `json:"resourceGuid,omitempty"`
 }
 

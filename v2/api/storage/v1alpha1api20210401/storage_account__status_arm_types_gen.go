@@ -8,7 +8,7 @@ type StorageAccount_StatusARM struct {
 	ExtendedLocation *ExtendedLocation_StatusARM         `json:"extendedLocation,omitempty"`
 	Id               *string                             `json:"id,omitempty"`
 	Identity         *Identity_StatusARM                 `json:"identity,omitempty"`
-	Kind             *StorageAccountStatusKind           `json:"kind,omitempty"`
+	Kind             *string                             `json:"kind,omitempty"`
 	Location         *string                             `json:"location,omitempty"`
 	Name             *string                             `json:"name,omitempty"`
 	Properties       *StorageAccountProperties_StatusARM `json:"properties,omitempty"`
@@ -19,21 +19,21 @@ type StorageAccount_StatusARM struct {
 
 // Deprecated version of ExtendedLocation_Status. Use v1beta20210401.ExtendedLocation_Status instead
 type ExtendedLocation_StatusARM struct {
-	Name *string                      `json:"name,omitempty"`
-	Type *ExtendedLocationType_Status `json:"type,omitempty"`
+	Name *string `json:"name,omitempty"`
+	Type *string `json:"type,omitempty"`
 }
 
 // Deprecated version of Identity_Status. Use v1beta20210401.Identity_Status instead
 type Identity_StatusARM struct {
 	PrincipalId            *string                                   `json:"principalId,omitempty"`
 	TenantId               *string                                   `json:"tenantId,omitempty"`
-	Type                   *IdentityStatusType                       `json:"type,omitempty"`
+	Type                   *string                                   `json:"type,omitempty"`
 	UserAssignedIdentities map[string]UserAssignedIdentity_StatusARM `json:"userAssignedIdentities,omitempty"`
 }
 
 // Deprecated version of StorageAccountProperties_Status. Use v1beta20210401.StorageAccountProperties_Status instead
 type StorageAccountProperties_StatusARM struct {
-	AccessTier                            *StorageAccountPropertiesStatusAccessTier                 `json:"accessTier,omitempty"`
+	AccessTier                            *string                                                   `json:"accessTier,omitempty"`
 	AllowBlobPublicAccess                 *bool                                                     `json:"allowBlobPublicAccess,omitempty"`
 	AllowCrossTenantReplication           *bool                                                     `json:"allowCrossTenantReplication,omitempty"`
 	AllowSharedKeyAccess                  *bool                                                     `json:"allowSharedKeyAccess,omitempty"`
@@ -48,39 +48,28 @@ type StorageAccountProperties_StatusARM struct {
 	IsNfsV3Enabled                        *bool                                                     `json:"isNfsV3Enabled,omitempty"`
 	KeyCreationTime                       *KeyCreationTime_StatusARM                                `json:"keyCreationTime,omitempty"`
 	KeyPolicy                             *KeyPolicy_StatusARM                                      `json:"keyPolicy,omitempty"`
-	LargeFileSharesState                  *StorageAccountPropertiesStatusLargeFileSharesState       `json:"largeFileSharesState,omitempty"`
+	LargeFileSharesState                  *string                                                   `json:"largeFileSharesState,omitempty"`
 	LastGeoFailoverTime                   *string                                                   `json:"lastGeoFailoverTime,omitempty"`
-	MinimumTlsVersion                     *StorageAccountPropertiesStatusMinimumTlsVersion          `json:"minimumTlsVersion,omitempty"`
+	MinimumTlsVersion                     *string                                                   `json:"minimumTlsVersion,omitempty"`
 	NetworkAcls                           *NetworkRuleSet_StatusARM                                 `json:"networkAcls,omitempty"`
 	PrimaryEndpoints                      *Endpoints_StatusARM                                      `json:"primaryEndpoints,omitempty"`
 	PrimaryLocation                       *string                                                   `json:"primaryLocation,omitempty"`
 	PrivateEndpointConnections            []PrivateEndpointConnection_Status_SubResourceEmbeddedARM `json:"privateEndpointConnections,omitempty"`
-	ProvisioningState                     *StorageAccountPropertiesStatusProvisioningState          `json:"provisioningState,omitempty"`
+	ProvisioningState                     *string                                                   `json:"provisioningState,omitempty"`
 	RoutingPreference                     *RoutingPreference_StatusARM                              `json:"routingPreference,omitempty"`
 	SasPolicy                             *SasPolicy_StatusARM                                      `json:"sasPolicy,omitempty"`
 	SecondaryEndpoints                    *Endpoints_StatusARM                                      `json:"secondaryEndpoints,omitempty"`
 	SecondaryLocation                     *string                                                   `json:"secondaryLocation,omitempty"`
-	StatusOfPrimary                       *StorageAccountPropertiesStatusStatusOfPrimary            `json:"statusOfPrimary,omitempty"`
-	StatusOfSecondary                     *StorageAccountPropertiesStatusStatusOfSecondary          `json:"statusOfSecondary,omitempty"`
+	StatusOfPrimary                       *string                                                   `json:"statusOfPrimary,omitempty"`
+	StatusOfSecondary                     *string                                                   `json:"statusOfSecondary,omitempty"`
 	SupportsHttpsTrafficOnly              *bool                                                     `json:"supportsHttpsTrafficOnly,omitempty"`
 }
 
-// Deprecated version of StorageAccountStatusKind. Use v1beta20210401.StorageAccountStatusKind instead
-type StorageAccountStatusKind string
-
-const (
-	StorageAccountStatusKindBlobStorage      = StorageAccountStatusKind("BlobStorage")
-	StorageAccountStatusKindBlockBlobStorage = StorageAccountStatusKind("BlockBlobStorage")
-	StorageAccountStatusKindFileStorage      = StorageAccountStatusKind("FileStorage")
-	StorageAccountStatusKindStorage          = StorageAccountStatusKind("Storage")
-	StorageAccountStatusKindStorageV2        = StorageAccountStatusKind("StorageV2")
-)
-
 // Deprecated version of AzureFilesIdentityBasedAuthentication_Status. Use v1beta20210401.AzureFilesIdentityBasedAuthentication_Status instead
 type AzureFilesIdentityBasedAuthentication_StatusARM struct {
-	ActiveDirectoryProperties *ActiveDirectoryProperties_StatusARM                                `json:"activeDirectoryProperties,omitempty"`
-	DefaultSharePermission    *AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermission  `json:"defaultSharePermission,omitempty"`
-	DirectoryServiceOptions   *AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptions `json:"directoryServiceOptions,omitempty"`
+	ActiveDirectoryProperties *ActiveDirectoryProperties_StatusARM `json:"activeDirectoryProperties,omitempty"`
+	DefaultSharePermission    *string                              `json:"defaultSharePermission,omitempty"`
+	DirectoryServiceOptions   *string                              `json:"directoryServiceOptions,omitempty"`
 }
 
 // Deprecated version of BlobRestoreStatus_Status. Use v1beta20210401.BlobRestoreStatus_Status instead
@@ -88,7 +77,7 @@ type BlobRestoreStatus_StatusARM struct {
 	FailureReason *string                          `json:"failureReason,omitempty"`
 	Parameters    *BlobRestoreParameters_StatusARM `json:"parameters,omitempty"`
 	RestoreId     *string                          `json:"restoreId,omitempty"`
-	Status        *BlobRestoreStatusStatusStatus   `json:"status,omitempty"`
+	Status        *string                          `json:"status,omitempty"`
 }
 
 // Deprecated version of CustomDomain_Status. Use v1beta20210401.CustomDomain_Status instead
@@ -100,7 +89,7 @@ type CustomDomain_StatusARM struct {
 // Deprecated version of Encryption_Status. Use v1beta20210401.Encryption_Status instead
 type Encryption_StatusARM struct {
 	Identity                        *EncryptionIdentity_StatusARM `json:"identity,omitempty"`
-	KeySource                       *EncryptionStatusKeySource    `json:"keySource,omitempty"`
+	KeySource                       *string                       `json:"keySource,omitempty"`
 	Keyvaultproperties              *KeyVaultProperties_StatusARM `json:"keyvaultproperties,omitempty"`
 	RequireInfrastructureEncryption *bool                         `json:"requireInfrastructureEncryption,omitempty"`
 	Services                        *EncryptionServices_StatusARM `json:"services,omitempty"`
@@ -118,27 +107,12 @@ type Endpoints_StatusARM struct {
 	Web                *string                                     `json:"web,omitempty"`
 }
 
-// Deprecated version of ExtendedLocationType_Status. Use v1beta20210401.ExtendedLocationType_Status instead
-type ExtendedLocationType_Status string
-
-const ExtendedLocationType_StatusEdgeZone = ExtendedLocationType_Status("EdgeZone")
-
 // Deprecated version of GeoReplicationStats_Status. Use v1beta20210401.GeoReplicationStats_Status instead
 type GeoReplicationStats_StatusARM struct {
-	CanFailover  *bool                            `json:"canFailover,omitempty"`
-	LastSyncTime *string                          `json:"lastSyncTime,omitempty"`
-	Status       *GeoReplicationStatsStatusStatus `json:"status,omitempty"`
+	CanFailover  *bool   `json:"canFailover,omitempty"`
+	LastSyncTime *string `json:"lastSyncTime,omitempty"`
+	Status       *string `json:"status,omitempty"`
 }
-
-// Deprecated version of IdentityStatusType. Use v1beta20210401.IdentityStatusType instead
-type IdentityStatusType string
-
-const (
-	IdentityStatusTypeNone                       = IdentityStatusType("None")
-	IdentityStatusTypeSystemAssigned             = IdentityStatusType("SystemAssigned")
-	IdentityStatusTypeSystemAssignedUserAssigned = IdentityStatusType("SystemAssigned,UserAssigned")
-	IdentityStatusTypeUserAssigned               = IdentityStatusType("UserAssigned")
-)
 
 // Deprecated version of KeyCreationTime_Status. Use v1beta20210401.KeyCreationTime_Status instead
 type KeyCreationTime_StatusARM struct {
@@ -153,11 +127,11 @@ type KeyPolicy_StatusARM struct {
 
 // Deprecated version of NetworkRuleSet_Status. Use v1beta20210401.NetworkRuleSet_Status instead
 type NetworkRuleSet_StatusARM struct {
-	Bypass              *NetworkRuleSetStatusBypass        `json:"bypass,omitempty"`
-	DefaultAction       *NetworkRuleSetStatusDefaultAction `json:"defaultAction,omitempty"`
-	IpRules             []IPRule_StatusARM                 `json:"ipRules,omitempty"`
-	ResourceAccessRules []ResourceAccessRule_StatusARM     `json:"resourceAccessRules,omitempty"`
-	VirtualNetworkRules []VirtualNetworkRule_StatusARM     `json:"virtualNetworkRules,omitempty"`
+	Bypass              *string                        `json:"bypass,omitempty"`
+	DefaultAction       *string                        `json:"defaultAction,omitempty"`
+	IpRules             []IPRule_StatusARM             `json:"ipRules,omitempty"`
+	ResourceAccessRules []ResourceAccessRule_StatusARM `json:"resourceAccessRules,omitempty"`
+	VirtualNetworkRules []VirtualNetworkRule_StatusARM `json:"virtualNetworkRules,omitempty"`
 }
 
 // Deprecated version of PrivateEndpointConnection_Status_SubResourceEmbedded. Use v1beta20210401.PrivateEndpointConnection_Status_SubResourceEmbedded instead
@@ -167,15 +141,15 @@ type PrivateEndpointConnection_Status_SubResourceEmbeddedARM struct {
 
 // Deprecated version of RoutingPreference_Status. Use v1beta20210401.RoutingPreference_Status instead
 type RoutingPreference_StatusARM struct {
-	PublishInternetEndpoints  *bool                                 `json:"publishInternetEndpoints,omitempty"`
-	PublishMicrosoftEndpoints *bool                                 `json:"publishMicrosoftEndpoints,omitempty"`
-	RoutingChoice             *RoutingPreferenceStatusRoutingChoice `json:"routingChoice,omitempty"`
+	PublishInternetEndpoints  *bool   `json:"publishInternetEndpoints,omitempty"`
+	PublishMicrosoftEndpoints *bool   `json:"publishMicrosoftEndpoints,omitempty"`
+	RoutingChoice             *string `json:"routingChoice,omitempty"`
 }
 
 // Deprecated version of SasPolicy_Status. Use v1beta20210401.SasPolicy_Status instead
 type SasPolicy_StatusARM struct {
-	ExpirationAction    *SasPolicyStatusExpirationAction `json:"expirationAction,omitempty"`
-	SasExpirationPeriod *string                          `json:"sasExpirationPeriod,omitempty"`
+	ExpirationAction    *string `json:"expirationAction,omitempty"`
+	SasExpirationPeriod *string `json:"sasExpirationPeriod,omitempty"`
 }
 
 // Deprecated version of UserAssignedIdentity_Status. Use v1beta20210401.UserAssignedIdentity_Status instead
@@ -215,8 +189,8 @@ type EncryptionServices_StatusARM struct {
 
 // Deprecated version of IPRule_Status. Use v1beta20210401.IPRule_Status instead
 type IPRule_StatusARM struct {
-	Action *IPRuleStatusAction `json:"action,omitempty"`
-	Value  *string             `json:"value,omitempty"`
+	Action *string `json:"action,omitempty"`
+	Value  *string `json:"value,omitempty"`
 }
 
 // Deprecated version of KeyVaultProperties_Status. Use v1beta20210401.KeyVaultProperties_Status instead
@@ -254,9 +228,9 @@ type StorageAccountMicrosoftEndpoints_StatusARM struct {
 
 // Deprecated version of VirtualNetworkRule_Status. Use v1beta20210401.VirtualNetworkRule_Status instead
 type VirtualNetworkRule_StatusARM struct {
-	Action *VirtualNetworkRuleStatusAction `json:"action,omitempty"`
-	Id     *string                         `json:"id,omitempty"`
-	State  *VirtualNetworkRuleStatusState  `json:"state,omitempty"`
+	Action *string `json:"action,omitempty"`
+	Id     *string `json:"id,omitempty"`
+	State  *string `json:"state,omitempty"`
 }
 
 // Deprecated version of BlobRestoreRange_Status. Use v1beta20210401.BlobRestoreRange_Status instead
@@ -267,7 +241,7 @@ type BlobRestoreRange_StatusARM struct {
 
 // Deprecated version of EncryptionService_Status. Use v1beta20210401.EncryptionService_Status instead
 type EncryptionService_StatusARM struct {
-	Enabled         *bool                           `json:"enabled,omitempty"`
-	KeyType         *EncryptionServiceStatusKeyType `json:"keyType,omitempty"`
-	LastEnabledTime *string                         `json:"lastEnabledTime,omitempty"`
+	Enabled         *bool   `json:"enabled,omitempty"`
+	KeyType         *string `json:"keyType,omitempty"`
+	LastEnabledTime *string `json:"lastEnabledTime,omitempty"`
 }

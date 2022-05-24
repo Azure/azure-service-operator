@@ -1579,9 +1579,9 @@ func (policy *ConflictResolutionPolicy) AssignPropertiesToConflictResolutionPoli
 
 // Deprecated version of ConflictResolutionPolicy_Status. Use v1beta20210515.ConflictResolutionPolicy_Status instead
 type ConflictResolutionPolicy_Status struct {
-	ConflictResolutionPath      *string                             `json:"conflictResolutionPath,omitempty"`
-	ConflictResolutionProcedure *string                             `json:"conflictResolutionProcedure,omitempty"`
-	Mode                        *ConflictResolutionPolicyStatusMode `json:"mode,omitempty"`
+	ConflictResolutionPath      *string `json:"conflictResolutionPath,omitempty"`
+	ConflictResolutionProcedure *string `json:"conflictResolutionProcedure,omitempty"`
+	Mode                        *string `json:"mode,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ConflictResolutionPolicy_Status{}
@@ -1630,12 +1630,7 @@ func (policy *ConflictResolutionPolicy_Status) AssignPropertiesFromConflictResol
 	policy.ConflictResolutionProcedure = genruntime.ClonePointerToString(source.ConflictResolutionProcedure)
 
 	// Mode
-	if source.Mode != nil {
-		mode := ConflictResolutionPolicyStatusMode(*source.Mode)
-		policy.Mode = &mode
-	} else {
-		policy.Mode = nil
-	}
+	policy.Mode = genruntime.ClonePointerToString(source.Mode)
 
 	// No error
 	return nil
@@ -1653,12 +1648,7 @@ func (policy *ConflictResolutionPolicy_Status) AssignPropertiesToConflictResolut
 	destination.ConflictResolutionProcedure = genruntime.ClonePointerToString(policy.ConflictResolutionProcedure)
 
 	// Mode
-	if policy.Mode != nil {
-		mode := string(*policy.Mode)
-		destination.Mode = &mode
-	} else {
-		destination.Mode = nil
-	}
+	destination.Mode = genruntime.ClonePointerToString(policy.Mode)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1805,10 +1795,10 @@ func (partitionKey *ContainerPartitionKey) AssignPropertiesToContainerPartitionK
 
 // Deprecated version of ContainerPartitionKey_Status. Use v1beta20210515.ContainerPartitionKey_Status instead
 type ContainerPartitionKey_Status struct {
-	Kind      *ContainerPartitionKeyStatusKind `json:"kind,omitempty"`
-	Paths     []string                         `json:"paths,omitempty"`
-	SystemKey *bool                            `json:"systemKey,omitempty"`
-	Version   *int                             `json:"version,omitempty"`
+	Kind      *string  `json:"kind,omitempty"`
+	Paths     []string `json:"paths,omitempty"`
+	SystemKey *bool    `json:"systemKey,omitempty"`
+	Version   *int     `json:"version,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ContainerPartitionKey_Status{}
@@ -1856,12 +1846,7 @@ func (partitionKey *ContainerPartitionKey_Status) PopulateFromARM(owner genrunti
 func (partitionKey *ContainerPartitionKey_Status) AssignPropertiesFromContainerPartitionKeyStatus(source *alpha20210515s.ContainerPartitionKey_Status) error {
 
 	// Kind
-	if source.Kind != nil {
-		kind := ContainerPartitionKeyStatusKind(*source.Kind)
-		partitionKey.Kind = &kind
-	} else {
-		partitionKey.Kind = nil
-	}
+	partitionKey.Kind = genruntime.ClonePointerToString(source.Kind)
 
 	// Paths
 	partitionKey.Paths = genruntime.CloneSliceOfString(source.Paths)
@@ -1887,12 +1872,7 @@ func (partitionKey *ContainerPartitionKey_Status) AssignPropertiesToContainerPar
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Kind
-	if partitionKey.Kind != nil {
-		kind := string(*partitionKey.Kind)
-		destination.Kind = &kind
-	} else {
-		destination.Kind = nil
-	}
+	destination.Kind = genruntime.ClonePointerToString(partitionKey.Kind)
 
 	// Paths
 	destination.Paths = genruntime.CloneSliceOfString(partitionKey.Paths)
@@ -2285,12 +2265,12 @@ func (policy *IndexingPolicy) AssignPropertiesToIndexingPolicy(destination *alph
 
 // Deprecated version of IndexingPolicy_Status. Use v1beta20210515.IndexingPolicy_Status instead
 type IndexingPolicy_Status struct {
-	Automatic        *bool                             `json:"automatic,omitempty"`
-	CompositeIndexes [][]CompositePath_Status          `json:"compositeIndexes,omitempty"`
-	ExcludedPaths    []ExcludedPath_Status             `json:"excludedPaths,omitempty"`
-	IncludedPaths    []IncludedPath_Status             `json:"includedPaths,omitempty"`
-	IndexingMode     *IndexingPolicyStatusIndexingMode `json:"indexingMode,omitempty"`
-	SpatialIndexes   []SpatialSpec_Status              `json:"spatialIndexes,omitempty"`
+	Automatic        *bool                    `json:"automatic,omitempty"`
+	CompositeIndexes [][]CompositePath_Status `json:"compositeIndexes,omitempty"`
+	ExcludedPaths    []ExcludedPath_Status    `json:"excludedPaths,omitempty"`
+	IncludedPaths    []IncludedPath_Status    `json:"includedPaths,omitempty"`
+	IndexingMode     *string                  `json:"indexingMode,omitempty"`
+	SpatialIndexes   []SpatialSpec_Status     `json:"spatialIndexes,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &IndexingPolicy_Status{}
@@ -2443,12 +2423,7 @@ func (policy *IndexingPolicy_Status) AssignPropertiesFromIndexingPolicyStatus(so
 	}
 
 	// IndexingMode
-	if source.IndexingMode != nil {
-		indexingMode := IndexingPolicyStatusIndexingMode(*source.IndexingMode)
-		policy.IndexingMode = &indexingMode
-	} else {
-		policy.IndexingMode = nil
-	}
+	policy.IndexingMode = genruntime.ClonePointerToString(source.IndexingMode)
 
 	// SpatialIndexes
 	if source.SpatialIndexes != nil {
@@ -2550,12 +2525,7 @@ func (policy *IndexingPolicy_Status) AssignPropertiesToIndexingPolicyStatus(dest
 	}
 
 	// IndexingMode
-	if policy.IndexingMode != nil {
-		indexingMode := string(*policy.IndexingMode)
-		destination.IndexingMode = &indexingMode
-	} else {
-		destination.IndexingMode = nil
-	}
+	destination.IndexingMode = genruntime.ClonePointerToString(policy.IndexingMode)
 
 	// SpatialIndexes
 	if policy.SpatialIndexes != nil {
@@ -2892,8 +2862,8 @@ func (path *CompositePath) AssignPropertiesToCompositePath(destination *alpha202
 
 // Deprecated version of CompositePath_Status. Use v1beta20210515.CompositePath_Status instead
 type CompositePath_Status struct {
-	Order *CompositePathStatusOrder `json:"order,omitempty"`
-	Path  *string                   `json:"path,omitempty"`
+	Order *string `json:"order,omitempty"`
+	Path  *string `json:"path,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &CompositePath_Status{}
@@ -2930,12 +2900,7 @@ func (path *CompositePath_Status) PopulateFromARM(owner genruntime.ArbitraryOwne
 func (path *CompositePath_Status) AssignPropertiesFromCompositePathStatus(source *alpha20210515s.CompositePath_Status) error {
 
 	// Order
-	if source.Order != nil {
-		order := CompositePathStatusOrder(*source.Order)
-		path.Order = &order
-	} else {
-		path.Order = nil
-	}
+	path.Order = genruntime.ClonePointerToString(source.Order)
 
 	// Path
 	path.Path = genruntime.ClonePointerToString(source.Path)
@@ -2950,12 +2915,7 @@ func (path *CompositePath_Status) AssignPropertiesToCompositePathStatus(destinat
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Order
-	if path.Order != nil {
-		order := string(*path.Order)
-		destination.Order = &order
-	} else {
-		destination.Order = nil
-	}
+	destination.Order = genruntime.ClonePointerToString(path.Order)
 
 	// Path
 	destination.Path = genruntime.ClonePointerToString(path.Path)
@@ -3448,8 +3408,8 @@ func (spatial *SpatialSpec) AssignPropertiesToSpatialSpec(destination *alpha2021
 
 // Deprecated version of SpatialSpec_Status. Use v1beta20210515.SpatialSpec_Status instead
 type SpatialSpec_Status struct {
-	Path  *string              `json:"path,omitempty"`
-	Types []SpatialType_Status `json:"types,omitempty"`
+	Path  *string  `json:"path,omitempty"`
+	Types []string `json:"types,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &SpatialSpec_Status{}
@@ -3488,17 +3448,7 @@ func (spatial *SpatialSpec_Status) AssignPropertiesFromSpatialSpecStatus(source 
 	spatial.Path = genruntime.ClonePointerToString(source.Path)
 
 	// Types
-	if source.Types != nil {
-		typeList := make([]SpatialType_Status, len(source.Types))
-		for typeIndex, typeItem := range source.Types {
-			// Shadow the loop variable to avoid aliasing
-			typeItem := typeItem
-			typeList[typeIndex] = SpatialType_Status(typeItem)
-		}
-		spatial.Types = typeList
-	} else {
-		spatial.Types = nil
-	}
+	spatial.Types = genruntime.CloneSliceOfString(source.Types)
 
 	// No error
 	return nil
@@ -3513,17 +3463,7 @@ func (spatial *SpatialSpec_Status) AssignPropertiesToSpatialSpecStatus(destinati
 	destination.Path = genruntime.ClonePointerToString(spatial.Path)
 
 	// Types
-	if spatial.Types != nil {
-		typeList := make([]string, len(spatial.Types))
-		for typeIndex, typeItem := range spatial.Types {
-			// Shadow the loop variable to avoid aliasing
-			typeItem := typeItem
-			typeList[typeIndex] = string(typeItem)
-		}
-		destination.Types = typeList
-	} else {
-		destination.Types = nil
-	}
+	destination.Types = genruntime.CloneSliceOfString(spatial.Types)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3797,9 +3737,9 @@ func (indexes *Indexes) AssignPropertiesToIndexes(destination *alpha20210515s.In
 
 // Deprecated version of Indexes_Status. Use v1beta20210515.Indexes_Status instead
 type Indexes_Status struct {
-	DataType  *IndexesStatusDataType `json:"dataType,omitempty"`
-	Kind      *IndexesStatusKind     `json:"kind,omitempty"`
-	Precision *int                   `json:"precision,omitempty"`
+	DataType  *string `json:"dataType,omitempty"`
+	Kind      *string `json:"kind,omitempty"`
+	Precision *int    `json:"precision,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &Indexes_Status{}
@@ -3842,20 +3782,10 @@ func (indexes *Indexes_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 func (indexes *Indexes_Status) AssignPropertiesFromIndexesStatus(source *alpha20210515s.Indexes_Status) error {
 
 	// DataType
-	if source.DataType != nil {
-		dataType := IndexesStatusDataType(*source.DataType)
-		indexes.DataType = &dataType
-	} else {
-		indexes.DataType = nil
-	}
+	indexes.DataType = genruntime.ClonePointerToString(source.DataType)
 
 	// Kind
-	if source.Kind != nil {
-		kind := IndexesStatusKind(*source.Kind)
-		indexes.Kind = &kind
-	} else {
-		indexes.Kind = nil
-	}
+	indexes.Kind = genruntime.ClonePointerToString(source.Kind)
 
 	// Precision
 	indexes.Precision = genruntime.ClonePointerToInt(source.Precision)
@@ -3870,20 +3800,10 @@ func (indexes *Indexes_Status) AssignPropertiesToIndexesStatus(destination *alph
 	propertyBag := genruntime.NewPropertyBag()
 
 	// DataType
-	if indexes.DataType != nil {
-		dataType := string(*indexes.DataType)
-		destination.DataType = &dataType
-	} else {
-		destination.DataType = nil
-	}
+	destination.DataType = genruntime.ClonePointerToString(indexes.DataType)
 
 	// Kind
-	if indexes.Kind != nil {
-		kind := string(*indexes.Kind)
-		destination.Kind = &kind
-	} else {
-		destination.Kind = nil
-	}
+	destination.Kind = genruntime.ClonePointerToString(indexes.Kind)
 
 	// Precision
 	destination.Precision = genruntime.ClonePointerToInt(indexes.Precision)

@@ -1147,7 +1147,7 @@ type ManagementPolicyRule_Status struct {
 	Name *string `json:"name,omitempty"`
 
 	// Type: The valid value is Lifecycle
-	Type *ManagementPolicyRuleStatusType `json:"type,omitempty"`
+	Type *string `json:"type,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ManagementPolicyRule_Status{}
@@ -1224,12 +1224,7 @@ func (rule *ManagementPolicyRule_Status) AssignPropertiesFromManagementPolicyRul
 	rule.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Type
-	if source.Type != nil {
-		typeVar := ManagementPolicyRuleStatusType(*source.Type)
-		rule.Type = &typeVar
-	} else {
-		rule.Type = nil
-	}
+	rule.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
@@ -1264,12 +1259,7 @@ func (rule *ManagementPolicyRule_Status) AssignPropertiesToManagementPolicyRuleS
 	destination.Name = genruntime.ClonePointerToString(rule.Name)
 
 	// Type
-	if rule.Type != nil {
-		typeVar := string(*rule.Type)
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
+	destination.Type = genruntime.ClonePointerToString(rule.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

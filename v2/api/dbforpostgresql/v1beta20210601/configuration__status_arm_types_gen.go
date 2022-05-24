@@ -26,7 +26,7 @@ type ConfigurationProperties_StatusARM struct {
 	AllowedValues *string `json:"allowedValues,omitempty"`
 
 	// DataType: Data type of the configuration.
-	DataType *ConfigurationPropertiesStatusDataType `json:"dataType,omitempty"`
+	DataType *string `json:"dataType,omitempty"`
 
 	// DefaultValue: Default value of the configuration.
 	DefaultValue *string `json:"defaultValue,omitempty"`
@@ -64,7 +64,7 @@ type SystemData_StatusARM struct {
 	CreatedBy *string `json:"createdBy,omitempty"`
 
 	// CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemDataStatusCreatedByType `json:"createdByType,omitempty"`
+	CreatedByType *string `json:"createdByType,omitempty"`
 
 	// LastModifiedAt: The timestamp of resource last modification (UTC)
 	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
@@ -73,32 +73,5 @@ type SystemData_StatusARM struct {
 	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
 
 	// LastModifiedByType: The type of identity that last modified the resource.
-	LastModifiedByType *SystemDataStatusLastModifiedByType `json:"lastModifiedByType,omitempty"`
+	LastModifiedByType *string `json:"lastModifiedByType,omitempty"`
 }
-
-type ConfigurationPropertiesStatusDataType string
-
-const (
-	ConfigurationPropertiesStatusDataTypeBoolean     = ConfigurationPropertiesStatusDataType("Boolean")
-	ConfigurationPropertiesStatusDataTypeEnumeration = ConfigurationPropertiesStatusDataType("Enumeration")
-	ConfigurationPropertiesStatusDataTypeInteger     = ConfigurationPropertiesStatusDataType("Integer")
-	ConfigurationPropertiesStatusDataTypeNumeric     = ConfigurationPropertiesStatusDataType("Numeric")
-)
-
-type SystemDataStatusCreatedByType string
-
-const (
-	SystemDataStatusCreatedByTypeApplication     = SystemDataStatusCreatedByType("Application")
-	SystemDataStatusCreatedByTypeKey             = SystemDataStatusCreatedByType("Key")
-	SystemDataStatusCreatedByTypeManagedIdentity = SystemDataStatusCreatedByType("ManagedIdentity")
-	SystemDataStatusCreatedByTypeUser            = SystemDataStatusCreatedByType("User")
-)
-
-type SystemDataStatusLastModifiedByType string
-
-const (
-	SystemDataStatusLastModifiedByTypeApplication     = SystemDataStatusLastModifiedByType("Application")
-	SystemDataStatusLastModifiedByTypeKey             = SystemDataStatusLastModifiedByType("Key")
-	SystemDataStatusLastModifiedByTypeManagedIdentity = SystemDataStatusLastModifiedByType("ManagedIdentity")
-	SystemDataStatusLastModifiedByTypeUser            = SystemDataStatusLastModifiedByType("User")
-)

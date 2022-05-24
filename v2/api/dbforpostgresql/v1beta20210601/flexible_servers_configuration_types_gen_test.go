@@ -272,11 +272,7 @@ func ConfigurationStatusGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForConfigurationStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForConfigurationStatus(gens map[string]gopter.Gen) {
 	gens["AllowedValues"] = gen.PtrOf(gen.AlphaString())
-	gens["DataType"] = gen.PtrOf(gen.OneConstOf(
-		ConfigurationPropertiesStatusDataTypeBoolean,
-		ConfigurationPropertiesStatusDataTypeEnumeration,
-		ConfigurationPropertiesStatusDataTypeInteger,
-		ConfigurationPropertiesStatusDataTypeNumeric))
+	gens["DataType"] = gen.PtrOf(gen.AlphaString())
 	gens["DefaultValue"] = gen.PtrOf(gen.AlphaString())
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["DocumentationLink"] = gen.PtrOf(gen.AlphaString())

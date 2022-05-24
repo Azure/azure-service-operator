@@ -228,7 +228,7 @@ func (in *BatchAccountIdentity_Status) DeepCopyInto(out *BatchAccountIdentity_St
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(BatchAccountIdentityStatusType)
+		*out = new(string)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
@@ -265,7 +265,7 @@ func (in *BatchAccountIdentity_StatusARM) DeepCopyInto(out *BatchAccountIdentity
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(BatchAccountIdentityStatusType)
+		*out = new(string)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
@@ -421,7 +421,7 @@ func (in *BatchAccountProperties_StatusARM) DeepCopyInto(out *BatchAccountProper
 	}
 	if in.PoolAllocationMode != nil {
 		in, out := &in.PoolAllocationMode, &out.PoolAllocationMode
-		*out = new(PoolAllocationMode_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.PoolQuota != nil {
@@ -438,12 +438,12 @@ func (in *BatchAccountProperties_StatusARM) DeepCopyInto(out *BatchAccountProper
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(BatchAccountPropertiesStatusProvisioningState)
+		*out = new(string)
 		**out = **in
 	}
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(PublicNetworkAccessType_Status)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -537,7 +537,7 @@ func (in *BatchAccount_Status) DeepCopyInto(out *BatchAccount_Status) {
 	}
 	if in.PoolAllocationMode != nil {
 		in, out := &in.PoolAllocationMode, &out.PoolAllocationMode
-		*out = new(PoolAllocationMode_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.PoolQuota != nil {
@@ -554,12 +554,12 @@ func (in *BatchAccount_Status) DeepCopyInto(out *BatchAccount_Status) {
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(BatchAccountPropertiesStatusProvisioningState)
+		*out = new(string)
 		**out = **in
 	}
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(PublicNetworkAccessType_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Tags != nil {
@@ -792,7 +792,7 @@ func (in *EncryptionProperties_Status) DeepCopyInto(out *EncryptionProperties_St
 	*out = *in
 	if in.KeySource != nil {
 		in, out := &in.KeySource, &out.KeySource
-		*out = new(EncryptionPropertiesStatusKeySource)
+		*out = new(string)
 		**out = **in
 	}
 	if in.KeyVaultProperties != nil {
@@ -817,7 +817,7 @@ func (in *EncryptionProperties_StatusARM) DeepCopyInto(out *EncryptionProperties
 	*out = *in
 	if in.KeySource != nil {
 		in, out := &in.KeySource, &out.KeySource
-		*out = new(EncryptionPropertiesStatusKeySource)
+		*out = new(string)
 		**out = **in
 	}
 	if in.KeyVaultProperties != nil {
@@ -1032,7 +1032,7 @@ func (in *PrivateEndpointConnectionProperties_StatusARM) DeepCopyInto(out *Priva
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(PrivateEndpointConnectionPropertiesStatusProvisioningState)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -1077,7 +1077,7 @@ func (in *PrivateEndpointConnection_Status) DeepCopyInto(out *PrivateEndpointCon
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(PrivateEndpointConnectionPropertiesStatusProvisioningState)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Type != nil {
@@ -1192,7 +1192,7 @@ func (in *PrivateLinkServiceConnectionState_Status) DeepCopyInto(out *PrivateLin
 	}
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(PrivateLinkServiceConnectionStatus_Status)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -1222,7 +1222,7 @@ func (in *PrivateLinkServiceConnectionState_StatusARM) DeepCopyInto(out *Private
 	}
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(PrivateLinkServiceConnectionStatus_Status)
+		*out = new(string)
 		**out = **in
 	}
 }

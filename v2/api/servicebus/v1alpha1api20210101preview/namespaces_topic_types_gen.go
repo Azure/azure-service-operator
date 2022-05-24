@@ -823,7 +823,7 @@ type SBTopic_Status struct {
 	Name                                *string                     `json:"name,omitempty"`
 	RequiresDuplicateDetection          *bool                       `json:"requiresDuplicateDetection,omitempty"`
 	SizeInBytes                         *int                        `json:"sizeInBytes,omitempty"`
-	Status                              *EntityStatus_Status        `json:"status,omitempty"`
+	Status                              *string                     `json:"status,omitempty"`
 	SubscriptionCount                   *int                        `json:"subscriptionCount,omitempty"`
 	SupportOrdering                     *bool                       `json:"supportOrdering,omitempty"`
 	SystemData                          *SystemData_Status          `json:"systemData,omitempty"`
@@ -1157,12 +1157,7 @@ func (topic *SBTopic_Status) AssignPropertiesFromSBTopicStatus(source *alpha2021
 	topic.SizeInBytes = genruntime.ClonePointerToInt(source.SizeInBytes)
 
 	// Status
-	if source.Status != nil {
-		status := EntityStatus_Status(*source.Status)
-		topic.Status = &status
-	} else {
-		topic.Status = nil
-	}
+	topic.Status = genruntime.ClonePointerToString(source.Status)
 
 	// SubscriptionCount
 	topic.SubscriptionCount = genruntime.ClonePointerToInt(source.SubscriptionCount)
@@ -1277,12 +1272,7 @@ func (topic *SBTopic_Status) AssignPropertiesToSBTopicStatus(destination *alpha2
 	destination.SizeInBytes = genruntime.ClonePointerToInt(topic.SizeInBytes)
 
 	// Status
-	if topic.Status != nil {
-		status := string(*topic.Status)
-		destination.Status = &status
-	} else {
-		destination.Status = nil
-	}
+	destination.Status = genruntime.ClonePointerToString(topic.Status)
 
 	// SubscriptionCount
 	destination.SubscriptionCount = genruntime.ClonePointerToInt(topic.SubscriptionCount)

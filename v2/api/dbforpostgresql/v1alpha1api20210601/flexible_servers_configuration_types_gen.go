@@ -336,21 +336,21 @@ type Configuration_Status struct {
 	AllowedValues *string `json:"allowedValues,omitempty"`
 
 	// Conditions: The observed state of the resource
-	Conditions             []conditions.Condition                 `json:"conditions,omitempty"`
-	DataType               *ConfigurationPropertiesStatusDataType `json:"dataType,omitempty"`
-	DefaultValue           *string                                `json:"defaultValue,omitempty"`
-	Description            *string                                `json:"description,omitempty"`
-	DocumentationLink      *string                                `json:"documentationLink,omitempty"`
-	Id                     *string                                `json:"id,omitempty"`
-	IsConfigPendingRestart *bool                                  `json:"isConfigPendingRestart,omitempty"`
-	IsDynamicConfig        *bool                                  `json:"isDynamicConfig,omitempty"`
-	IsReadOnly             *bool                                  `json:"isReadOnly,omitempty"`
-	Name                   *string                                `json:"name,omitempty"`
-	Source                 *string                                `json:"source,omitempty"`
-	SystemData             *SystemData_Status                     `json:"systemData,omitempty"`
-	Type                   *string                                `json:"type,omitempty"`
-	Unit                   *string                                `json:"unit,omitempty"`
-	Value                  *string                                `json:"value,omitempty"`
+	Conditions             []conditions.Condition `json:"conditions,omitempty"`
+	DataType               *string                `json:"dataType,omitempty"`
+	DefaultValue           *string                `json:"defaultValue,omitempty"`
+	Description            *string                `json:"description,omitempty"`
+	DocumentationLink      *string                `json:"documentationLink,omitempty"`
+	Id                     *string                `json:"id,omitempty"`
+	IsConfigPendingRestart *bool                  `json:"isConfigPendingRestart,omitempty"`
+	IsDynamicConfig        *bool                  `json:"isDynamicConfig,omitempty"`
+	IsReadOnly             *bool                  `json:"isReadOnly,omitempty"`
+	Name                   *string                `json:"name,omitempty"`
+	Source                 *string                `json:"source,omitempty"`
+	SystemData             *SystemData_Status     `json:"systemData,omitempty"`
+	Type                   *string                `json:"type,omitempty"`
+	Unit                   *string                `json:"unit,omitempty"`
+	Value                  *string                `json:"value,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &Configuration_Status{}
@@ -561,12 +561,7 @@ func (configuration *Configuration_Status) AssignPropertiesFromConfigurationStat
 	configuration.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// DataType
-	if source.DataType != nil {
-		dataType := ConfigurationPropertiesStatusDataType(*source.DataType)
-		configuration.DataType = &dataType
-	} else {
-		configuration.DataType = nil
-	}
+	configuration.DataType = genruntime.ClonePointerToString(source.DataType)
 
 	// DefaultValue
 	configuration.DefaultValue = genruntime.ClonePointerToString(source.DefaultValue)
@@ -647,12 +642,7 @@ func (configuration *Configuration_Status) AssignPropertiesToConfigurationStatus
 	destination.Conditions = genruntime.CloneSliceOfCondition(configuration.Conditions)
 
 	// DataType
-	if configuration.DataType != nil {
-		dataType := string(*configuration.DataType)
-		destination.DataType = &dataType
-	} else {
-		destination.DataType = nil
-	}
+	destination.DataType = genruntime.ClonePointerToString(configuration.DataType)
 
 	// DefaultValue
 	destination.DefaultValue = genruntime.ClonePointerToString(configuration.DefaultValue)

@@ -1032,7 +1032,7 @@ type SBQueue_Status struct {
 	SizeInBytes *int `json:"sizeInBytes,omitempty"`
 
 	// Status: Enumerates the possible values for the status of a messaging entity.
-	Status *EntityStatus_Status `json:"status,omitempty"`
+	Status *string `json:"status,omitempty"`
 
 	// SystemData: The system meta data relating to this resource.
 	SystemData *SystemData_Status `json:"systemData,omitempty"`
@@ -1446,12 +1446,7 @@ func (queue *SBQueue_Status) AssignPropertiesFromSBQueueStatus(source *v20210101
 	queue.SizeInBytes = genruntime.ClonePointerToInt(source.SizeInBytes)
 
 	// Status
-	if source.Status != nil {
-		status := EntityStatus_Status(*source.Status)
-		queue.Status = &status
-	} else {
-		queue.Status = nil
-	}
+	queue.Status = genruntime.ClonePointerToString(source.Status)
 
 	// SystemData
 	if source.SystemData != nil {
@@ -1586,12 +1581,7 @@ func (queue *SBQueue_Status) AssignPropertiesToSBQueueStatus(destination *v20210
 	destination.SizeInBytes = genruntime.ClonePointerToInt(queue.SizeInBytes)
 
 	// Status
-	if queue.Status != nil {
-		status := string(*queue.Status)
-		destination.Status = &status
-	} else {
-		destination.Status = nil
-	}
+	destination.Status = genruntime.ClonePointerToString(queue.Status)
 
 	// SystemData
 	if queue.SystemData != nil {
@@ -1621,20 +1611,6 @@ func (queue *SBQueue_Status) AssignPropertiesToSBQueueStatus(destination *v20210
 	// No error
 	return nil
 }
-
-type EntityStatus_Status string
-
-const (
-	EntityStatus_StatusActive          = EntityStatus_Status("Active")
-	EntityStatus_StatusCreating        = EntityStatus_Status("Creating")
-	EntityStatus_StatusDeleting        = EntityStatus_Status("Deleting")
-	EntityStatus_StatusDisabled        = EntityStatus_Status("Disabled")
-	EntityStatus_StatusReceiveDisabled = EntityStatus_Status("ReceiveDisabled")
-	EntityStatus_StatusRenaming        = EntityStatus_Status("Renaming")
-	EntityStatus_StatusRestoring       = EntityStatus_Status("Restoring")
-	EntityStatus_StatusSendDisabled    = EntityStatus_Status("SendDisabled")
-	EntityStatus_StatusUnknown         = EntityStatus_Status("Unknown")
-)
 
 type MessageCountDetails_Status struct {
 	// ActiveMessageCount: Number of active messages in the queue, topic, or subscription.

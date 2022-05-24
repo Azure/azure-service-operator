@@ -345,12 +345,12 @@ type PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded struct {
 	IpConfiguration          *IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded `json:"ipConfiguration,omitempty"`
 	IpTags                   []IpTag_Status                                              `json:"ipTags,omitempty"`
 	Location                 *string                                                     `json:"location,omitempty"`
-	MigrationPhase           *PublicIPAddressPropertiesFormatStatusMigrationPhase        `json:"migrationPhase,omitempty"`
+	MigrationPhase           *string                                                     `json:"migrationPhase,omitempty"`
 	Name                     *string                                                     `json:"name,omitempty"`
 	NatGateway               *NatGateway_Status_PublicIPAddress_SubResourceEmbedded      `json:"natGateway,omitempty"`
-	ProvisioningState        *ProvisioningState_Status                                   `json:"provisioningState,omitempty"`
-	PublicIPAddressVersion   *IPVersion_Status                                           `json:"publicIPAddressVersion,omitempty"`
-	PublicIPAllocationMethod *IPAllocationMethod_Status                                  `json:"publicIPAllocationMethod,omitempty"`
+	ProvisioningState        *string                                                     `json:"provisioningState,omitempty"`
+	PublicIPAddressVersion   *string                                                     `json:"publicIPAddressVersion,omitempty"`
+	PublicIPAllocationMethod *string                                                     `json:"publicIPAllocationMethod,omitempty"`
 	PublicIPPrefix           *SubResource_Status                                         `json:"publicIPPrefix,omitempty"`
 	ResourceGuid             *string                                                     `json:"resourceGuid,omitempty"`
 	Sku                      *PublicIPAddressSku_Status                                  `json:"sku,omitempty"`
@@ -728,12 +728,7 @@ func (embedded *PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded) Assi
 	embedded.Location = genruntime.ClonePointerToString(source.Location)
 
 	// MigrationPhase
-	if source.MigrationPhase != nil {
-		migrationPhase := PublicIPAddressPropertiesFormatStatusMigrationPhase(*source.MigrationPhase)
-		embedded.MigrationPhase = &migrationPhase
-	} else {
-		embedded.MigrationPhase = nil
-	}
+	embedded.MigrationPhase = genruntime.ClonePointerToString(source.MigrationPhase)
 
 	// Name
 	embedded.Name = genruntime.ClonePointerToString(source.Name)
@@ -751,28 +746,13 @@ func (embedded *PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded) Assi
 	}
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_Status(*source.ProvisioningState)
-		embedded.ProvisioningState = &provisioningState
-	} else {
-		embedded.ProvisioningState = nil
-	}
+	embedded.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// PublicIPAddressVersion
-	if source.PublicIPAddressVersion != nil {
-		publicIPAddressVersion := IPVersion_Status(*source.PublicIPAddressVersion)
-		embedded.PublicIPAddressVersion = &publicIPAddressVersion
-	} else {
-		embedded.PublicIPAddressVersion = nil
-	}
+	embedded.PublicIPAddressVersion = genruntime.ClonePointerToString(source.PublicIPAddressVersion)
 
 	// PublicIPAllocationMethod
-	if source.PublicIPAllocationMethod != nil {
-		publicIPAllocationMethod := IPAllocationMethod_Status(*source.PublicIPAllocationMethod)
-		embedded.PublicIPAllocationMethod = &publicIPAllocationMethod
-	} else {
-		embedded.PublicIPAllocationMethod = nil
-	}
+	embedded.PublicIPAllocationMethod = genruntime.ClonePointerToString(source.PublicIPAllocationMethod)
 
 	// PublicIPPrefix
 	if source.PublicIPPrefix != nil {
@@ -904,12 +884,7 @@ func (embedded *PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded) Assi
 	destination.Location = genruntime.ClonePointerToString(embedded.Location)
 
 	// MigrationPhase
-	if embedded.MigrationPhase != nil {
-		migrationPhase := string(*embedded.MigrationPhase)
-		destination.MigrationPhase = &migrationPhase
-	} else {
-		destination.MigrationPhase = nil
-	}
+	destination.MigrationPhase = genruntime.ClonePointerToString(embedded.MigrationPhase)
 
 	// Name
 	destination.Name = genruntime.ClonePointerToString(embedded.Name)
@@ -927,28 +902,13 @@ func (embedded *PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded) Assi
 	}
 
 	// ProvisioningState
-	if embedded.ProvisioningState != nil {
-		provisioningState := string(*embedded.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(embedded.ProvisioningState)
 
 	// PublicIPAddressVersion
-	if embedded.PublicIPAddressVersion != nil {
-		publicIPAddressVersion := string(*embedded.PublicIPAddressVersion)
-		destination.PublicIPAddressVersion = &publicIPAddressVersion
-	} else {
-		destination.PublicIPAddressVersion = nil
-	}
+	destination.PublicIPAddressVersion = genruntime.ClonePointerToString(embedded.PublicIPAddressVersion)
 
 	// PublicIPAllocationMethod
-	if embedded.PublicIPAllocationMethod != nil {
-		publicIPAllocationMethod := string(*embedded.PublicIPAllocationMethod)
-		destination.PublicIPAllocationMethod = &publicIPAllocationMethod
-	} else {
-		destination.PublicIPAllocationMethod = nil
-	}
+	destination.PublicIPAllocationMethod = genruntime.ClonePointerToString(embedded.PublicIPAllocationMethod)
 
 	// PublicIPPrefix
 	if embedded.PublicIPPrefix != nil {
@@ -1778,9 +1738,9 @@ func (settings *DdosSettings) AssignPropertiesToDdosSettings(destination *alpha2
 
 // Deprecated version of DdosSettings_Status. Use v1beta20201101.DdosSettings_Status instead
 type DdosSettings_Status struct {
-	DdosCustomPolicy   *SubResource_Status                   `json:"ddosCustomPolicy,omitempty"`
-	ProtectedIP        *bool                                 `json:"protectedIP,omitempty"`
-	ProtectionCoverage *DdosSettingsStatusProtectionCoverage `json:"protectionCoverage,omitempty"`
+	DdosCustomPolicy   *SubResource_Status `json:"ddosCustomPolicy,omitempty"`
+	ProtectedIP        *bool               `json:"protectedIP,omitempty"`
+	ProtectionCoverage *string             `json:"protectionCoverage,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &DdosSettings_Status{}
@@ -1848,12 +1808,7 @@ func (settings *DdosSettings_Status) AssignPropertiesFromDdosSettingsStatus(sour
 	}
 
 	// ProtectionCoverage
-	if source.ProtectionCoverage != nil {
-		protectionCoverage := DdosSettingsStatusProtectionCoverage(*source.ProtectionCoverage)
-		settings.ProtectionCoverage = &protectionCoverage
-	} else {
-		settings.ProtectionCoverage = nil
-	}
+	settings.ProtectionCoverage = genruntime.ClonePointerToString(source.ProtectionCoverage)
 
 	// No error
 	return nil
@@ -1885,12 +1840,7 @@ func (settings *DdosSettings_Status) AssignPropertiesToDdosSettingsStatus(destin
 	}
 
 	// ProtectionCoverage
-	if settings.ProtectionCoverage != nil {
-		protectionCoverage := string(*settings.ProtectionCoverage)
-		destination.ProtectionCoverage = &protectionCoverage
-	} else {
-		destination.ProtectionCoverage = nil
-	}
+	destination.ProtectionCoverage = genruntime.ClonePointerToString(settings.ProtectionCoverage)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1903,22 +1853,14 @@ func (settings *DdosSettings_Status) AssignPropertiesToDdosSettingsStatus(destin
 	return nil
 }
 
-// Deprecated version of IPAllocationMethod_Status. Use v1beta20201101.IPAllocationMethod_Status instead
-type IPAllocationMethod_Status string
-
-const (
-	IPAllocationMethod_StatusDynamic = IPAllocationMethod_Status("Dynamic")
-	IPAllocationMethod_StatusStatic  = IPAllocationMethod_Status("Static")
-)
-
 // Deprecated version of IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded. Use v1beta20201101.IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded instead
 type IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded struct {
 	Etag                      *string                                            `json:"etag,omitempty"`
 	Id                        *string                                            `json:"id,omitempty"`
 	Name                      *string                                            `json:"name,omitempty"`
 	PrivateIPAddress          *string                                            `json:"privateIPAddress,omitempty"`
-	PrivateIPAllocationMethod *IPAllocationMethod_Status                         `json:"privateIPAllocationMethod,omitempty"`
-	ProvisioningState         *ProvisioningState_Status                          `json:"provisioningState,omitempty"`
+	PrivateIPAllocationMethod *string                                            `json:"privateIPAllocationMethod,omitempty"`
+	ProvisioningState         *string                                            `json:"provisioningState,omitempty"`
 	Subnet                    *Subnet_Status_PublicIPAddress_SubResourceEmbedded `json:"subnet,omitempty"`
 }
 
@@ -2015,20 +1957,10 @@ func (embedded *IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded) Assi
 	embedded.PrivateIPAddress = genruntime.ClonePointerToString(source.PrivateIPAddress)
 
 	// PrivateIPAllocationMethod
-	if source.PrivateIPAllocationMethod != nil {
-		privateIPAllocationMethod := IPAllocationMethod_Status(*source.PrivateIPAllocationMethod)
-		embedded.PrivateIPAllocationMethod = &privateIPAllocationMethod
-	} else {
-		embedded.PrivateIPAllocationMethod = nil
-	}
+	embedded.PrivateIPAllocationMethod = genruntime.ClonePointerToString(source.PrivateIPAllocationMethod)
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_Status(*source.ProvisioningState)
-		embedded.ProvisioningState = &provisioningState
-	} else {
-		embedded.ProvisioningState = nil
-	}
+	embedded.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// Subnet
 	if source.Subnet != nil {
@@ -2064,20 +1996,10 @@ func (embedded *IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded) Assi
 	destination.PrivateIPAddress = genruntime.ClonePointerToString(embedded.PrivateIPAddress)
 
 	// PrivateIPAllocationMethod
-	if embedded.PrivateIPAllocationMethod != nil {
-		privateIPAllocationMethod := string(*embedded.PrivateIPAllocationMethod)
-		destination.PrivateIPAllocationMethod = &privateIPAllocationMethod
-	} else {
-		destination.PrivateIPAllocationMethod = nil
-	}
+	destination.PrivateIPAllocationMethod = genruntime.ClonePointerToString(embedded.PrivateIPAllocationMethod)
 
 	// ProvisioningState
-	if embedded.ProvisioningState != nil {
-		provisioningState := string(*embedded.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(embedded.ProvisioningState)
 
 	// Subnet
 	if embedded.Subnet != nil {
@@ -2101,14 +2023,6 @@ func (embedded *IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded) Assi
 	// No error
 	return nil
 }
-
-// Deprecated version of IPVersion_Status. Use v1beta20201101.IPVersion_Status instead
-type IPVersion_Status string
-
-const (
-	IPVersion_StatusIPv4 = IPVersion_Status("IPv4")
-	IPVersion_StatusIPv6 = IPVersion_Status("IPv6")
-)
 
 // Deprecated version of IpTag. Use v1beta20201101.IpTag instead
 type IpTag struct {
@@ -2595,18 +2509,6 @@ const (
 	PublicIPAddressPropertiesFormatPublicIPAllocationMethodStatic  = PublicIPAddressPropertiesFormatPublicIPAllocationMethod("Static")
 )
 
-// Deprecated version of PublicIPAddressPropertiesFormatStatusMigrationPhase. Use
-// v1beta20201101.PublicIPAddressPropertiesFormatStatusMigrationPhase instead
-type PublicIPAddressPropertiesFormatStatusMigrationPhase string
-
-const (
-	PublicIPAddressPropertiesFormatStatusMigrationPhaseAbort     = PublicIPAddressPropertiesFormatStatusMigrationPhase("Abort")
-	PublicIPAddressPropertiesFormatStatusMigrationPhaseCommit    = PublicIPAddressPropertiesFormatStatusMigrationPhase("Commit")
-	PublicIPAddressPropertiesFormatStatusMigrationPhaseCommitted = PublicIPAddressPropertiesFormatStatusMigrationPhase("Committed")
-	PublicIPAddressPropertiesFormatStatusMigrationPhaseNone      = PublicIPAddressPropertiesFormatStatusMigrationPhase("None")
-	PublicIPAddressPropertiesFormatStatusMigrationPhasePrepare   = PublicIPAddressPropertiesFormatStatusMigrationPhase("Prepare")
-)
-
 // Deprecated version of PublicIPAddressSku. Use v1beta20201101.PublicIPAddressSku instead
 type PublicIPAddressSku struct {
 	Name *PublicIPAddressSkuName `json:"name,omitempty"`
@@ -2721,8 +2623,8 @@ func (addressSku *PublicIPAddressSku) AssignPropertiesToPublicIPAddressSku(desti
 
 // Deprecated version of PublicIPAddressSku_Status. Use v1beta20201101.PublicIPAddressSku_Status instead
 type PublicIPAddressSku_Status struct {
-	Name *PublicIPAddressSkuStatusName `json:"name,omitempty"`
-	Tier *PublicIPAddressSkuStatusTier `json:"tier,omitempty"`
+	Name *string `json:"name,omitempty"`
+	Tier *string `json:"tier,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &PublicIPAddressSku_Status{}
@@ -2759,20 +2661,10 @@ func (addressSku *PublicIPAddressSku_Status) PopulateFromARM(owner genruntime.Ar
 func (addressSku *PublicIPAddressSku_Status) AssignPropertiesFromPublicIPAddressSkuStatus(source *alpha20201101s.PublicIPAddressSku_Status) error {
 
 	// Name
-	if source.Name != nil {
-		name := PublicIPAddressSkuStatusName(*source.Name)
-		addressSku.Name = &name
-	} else {
-		addressSku.Name = nil
-	}
+	addressSku.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Tier
-	if source.Tier != nil {
-		tier := PublicIPAddressSkuStatusTier(*source.Tier)
-		addressSku.Tier = &tier
-	} else {
-		addressSku.Tier = nil
-	}
+	addressSku.Tier = genruntime.ClonePointerToString(source.Tier)
 
 	// No error
 	return nil
@@ -2784,20 +2676,10 @@ func (addressSku *PublicIPAddressSku_Status) AssignPropertiesToPublicIPAddressSk
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	if addressSku.Name != nil {
-		name := string(*addressSku.Name)
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(addressSku.Name)
 
 	// Tier
-	if addressSku.Tier != nil {
-		tier := string(*addressSku.Tier)
-		destination.Tier = &tier
-	} else {
-		destination.Tier = nil
-	}
+	destination.Tier = genruntime.ClonePointerToString(addressSku.Tier)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2819,18 +2701,9 @@ const (
 	DdosSettingsProtectionCoverageStandard = DdosSettingsProtectionCoverage("Standard")
 )
 
-// Deprecated version of DdosSettingsStatusProtectionCoverage. Use v1beta20201101.DdosSettingsStatusProtectionCoverage
-// instead
-type DdosSettingsStatusProtectionCoverage string
-
-const (
-	DdosSettingsStatusProtectionCoverageBasic    = DdosSettingsStatusProtectionCoverage("Basic")
-	DdosSettingsStatusProtectionCoverageStandard = DdosSettingsStatusProtectionCoverage("Standard")
-)
-
 // Deprecated version of NatGatewaySku_Status. Use v1beta20201101.NatGatewaySku_Status instead
 type NatGatewaySku_Status struct {
-	Name *NatGatewaySkuStatusName `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &NatGatewaySku_Status{}
@@ -2861,12 +2734,7 @@ func (gatewaySku *NatGatewaySku_Status) PopulateFromARM(owner genruntime.Arbitra
 func (gatewaySku *NatGatewaySku_Status) AssignPropertiesFromNatGatewaySkuStatus(source *alpha20201101s.NatGatewaySku_Status) error {
 
 	// Name
-	if source.Name != nil {
-		name := NatGatewaySkuStatusName(*source.Name)
-		gatewaySku.Name = &name
-	} else {
-		gatewaySku.Name = nil
-	}
+	gatewaySku.Name = genruntime.ClonePointerToString(source.Name)
 
 	// No error
 	return nil
@@ -2878,12 +2746,7 @@ func (gatewaySku *NatGatewaySku_Status) AssignPropertiesToNatGatewaySkuStatus(de
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	if gatewaySku.Name != nil {
-		name := string(*gatewaySku.Name)
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(gatewaySku.Name)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2953,11 +2816,6 @@ func (embedded *Subnet_Status_PublicIPAddress_SubResourceEmbedded) AssignPropert
 	// No error
 	return nil
 }
-
-// Deprecated version of NatGatewaySkuStatusName. Use v1beta20201101.NatGatewaySkuStatusName instead
-type NatGatewaySkuStatusName string
-
-const NatGatewaySkuStatusNameStandard = NatGatewaySkuStatusName("Standard")
 
 func init() {
 	SchemeBuilder.Register(&PublicIPAddress{}, &PublicIPAddressList{})

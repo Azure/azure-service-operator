@@ -14,25 +14,25 @@ type EventSubscription_StatusARM struct {
 
 // Deprecated version of EventSubscriptionProperties_Status. Use v1beta20200601.EventSubscriptionProperties_Status instead
 type EventSubscriptionProperties_StatusARM struct {
-	DeadLetterDestination *DeadLetterDestination_StatusARM                      `json:"deadLetterDestination,omitempty"`
-	Destination           *EventSubscriptionDestination_StatusARM               `json:"destination,omitempty"`
-	EventDeliverySchema   *EventSubscriptionPropertiesStatusEventDeliverySchema `json:"eventDeliverySchema,omitempty"`
-	ExpirationTimeUtc     *string                                               `json:"expirationTimeUtc,omitempty"`
-	Filter                *EventSubscriptionFilter_StatusARM                    `json:"filter,omitempty"`
-	Labels                []string                                              `json:"labels,omitempty"`
-	ProvisioningState     *EventSubscriptionPropertiesStatusProvisioningState   `json:"provisioningState,omitempty"`
-	RetryPolicy           *RetryPolicy_StatusARM                                `json:"retryPolicy,omitempty"`
-	Topic                 *string                                               `json:"topic,omitempty"`
+	DeadLetterDestination *DeadLetterDestination_StatusARM        `json:"deadLetterDestination,omitempty"`
+	Destination           *EventSubscriptionDestination_StatusARM `json:"destination,omitempty"`
+	EventDeliverySchema   *string                                 `json:"eventDeliverySchema,omitempty"`
+	ExpirationTimeUtc     *string                                 `json:"expirationTimeUtc,omitempty"`
+	Filter                *EventSubscriptionFilter_StatusARM      `json:"filter,omitempty"`
+	Labels                []string                                `json:"labels,omitempty"`
+	ProvisioningState     *string                                 `json:"provisioningState,omitempty"`
+	RetryPolicy           *RetryPolicy_StatusARM                  `json:"retryPolicy,omitempty"`
+	Topic                 *string                                 `json:"topic,omitempty"`
 }
 
 // Deprecated version of DeadLetterDestination_Status. Use v1beta20200601.DeadLetterDestination_Status instead
 type DeadLetterDestination_StatusARM struct {
-	EndpointType *DeadLetterDestinationStatusEndpointType `json:"endpointType,omitempty"`
+	EndpointType *string `json:"endpointType,omitempty"`
 }
 
 // Deprecated version of EventSubscriptionDestination_Status. Use v1beta20200601.EventSubscriptionDestination_Status instead
 type EventSubscriptionDestination_StatusARM struct {
-	EndpointType *EventSubscriptionDestinationStatusEndpointType `json:"endpointType,omitempty"`
+	EndpointType *string `json:"endpointType,omitempty"`
 }
 
 // Deprecated version of EventSubscriptionFilter_Status. Use v1beta20200601.EventSubscriptionFilter_Status instead
@@ -52,6 +52,6 @@ type RetryPolicy_StatusARM struct {
 
 // Deprecated version of AdvancedFilter_Status. Use v1beta20200601.AdvancedFilter_Status instead
 type AdvancedFilter_StatusARM struct {
-	Key          *string                           `json:"key,omitempty"`
-	OperatorType *AdvancedFilterStatusOperatorType `json:"operatorType,omitempty"`
+	Key          *string `json:"key,omitempty"`
+	OperatorType *string `json:"operatorType,omitempty"`
 }

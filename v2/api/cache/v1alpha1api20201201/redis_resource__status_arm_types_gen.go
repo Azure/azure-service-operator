@@ -20,11 +20,11 @@ type RedisProperties_StatusARM struct {
 	HostName                   *string                                                   `json:"hostName,omitempty"`
 	Instances                  []RedisInstanceDetails_StatusARM                          `json:"instances,omitempty"`
 	LinkedServers              []RedisLinkedServer_StatusARM                             `json:"linkedServers,omitempty"`
-	MinimumTlsVersion          *RedisPropertiesStatusMinimumTlsVersion                   `json:"minimumTlsVersion,omitempty"`
+	MinimumTlsVersion          *string                                                   `json:"minimumTlsVersion,omitempty"`
 	Port                       *int                                                      `json:"port,omitempty"`
 	PrivateEndpointConnections []PrivateEndpointConnection_Status_SubResourceEmbeddedARM `json:"privateEndpointConnections,omitempty"`
-	ProvisioningState          *RedisPropertiesStatusProvisioningState                   `json:"provisioningState,omitempty"`
-	PublicNetworkAccess        *RedisPropertiesStatusPublicNetworkAccess                 `json:"publicNetworkAccess,omitempty"`
+	ProvisioningState          *string                                                   `json:"provisioningState,omitempty"`
+	PublicNetworkAccess        *string                                                   `json:"publicNetworkAccess,omitempty"`
 	RedisConfiguration         map[string]string                                         `json:"redisConfiguration,omitempty"`
 	RedisVersion               *string                                                   `json:"redisVersion,omitempty"`
 	ReplicasPerMaster          *int                                                      `json:"replicasPerMaster,omitempty"`
@@ -59,7 +59,7 @@ type RedisLinkedServer_StatusARM struct {
 
 // Deprecated version of Sku_Status. Use v1beta20201201.Sku_Status instead
 type Sku_StatusARM struct {
-	Capacity *int             `json:"capacity,omitempty"`
-	Family   *SkuStatusFamily `json:"family,omitempty"`
-	Name     *SkuStatusName   `json:"name,omitempty"`
+	Capacity *int    `json:"capacity,omitempty"`
+	Family   *string `json:"family,omitempty"`
+	Name     *string `json:"name,omitempty"`
 }

@@ -18,8 +18,8 @@ type LoadBalancer_StatusARM struct {
 
 // Deprecated version of ExtendedLocation_Status. Use v1beta20201101.ExtendedLocation_Status instead
 type ExtendedLocation_StatusARM struct {
-	Name *string                      `json:"name,omitempty"`
-	Type *ExtendedLocationType_Status `json:"type,omitempty"`
+	Name *string `json:"name,omitempty"`
+	Type *string `json:"type,omitempty"`
 }
 
 // Deprecated version of LoadBalancerPropertiesFormat_Status. Use v1beta20201101.LoadBalancerPropertiesFormat_Status instead
@@ -31,25 +31,20 @@ type LoadBalancerPropertiesFormat_StatusARM struct {
 	LoadBalancingRules       []LoadBalancingRule_StatusARM                                        `json:"loadBalancingRules,omitempty"`
 	OutboundRules            []OutboundRule_StatusARM                                             `json:"outboundRules,omitempty"`
 	Probes                   []Probe_StatusARM                                                    `json:"probes,omitempty"`
-	ProvisioningState        *ProvisioningState_Status                                            `json:"provisioningState,omitempty"`
+	ProvisioningState        *string                                                              `json:"provisioningState,omitempty"`
 	ResourceGuid             *string                                                              `json:"resourceGuid,omitempty"`
 }
 
 // Deprecated version of LoadBalancerSku_Status. Use v1beta20201101.LoadBalancerSku_Status instead
 type LoadBalancerSku_StatusARM struct {
-	Name *LoadBalancerSkuStatusName `json:"name,omitempty"`
-	Tier *LoadBalancerSkuStatusTier `json:"tier,omitempty"`
+	Name *string `json:"name,omitempty"`
+	Tier *string `json:"tier,omitempty"`
 }
 
 // Deprecated version of BackendAddressPool_Status_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.BackendAddressPool_Status_LoadBalancer_SubResourceEmbedded instead
 type BackendAddressPool_Status_LoadBalancer_SubResourceEmbeddedARM struct {
 	Id *string `json:"id,omitempty"`
 }
-
-// Deprecated version of ExtendedLocationType_Status. Use v1beta20201101.ExtendedLocationType_Status instead
-type ExtendedLocationType_Status string
-
-const ExtendedLocationType_StatusEdgeZone = ExtendedLocationType_Status("EdgeZone")
 
 // Deprecated version of FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded instead
 type FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbeddedARM struct {
@@ -74,22 +69,6 @@ type InboundNatPool_StatusARM struct {
 type InboundNatRule_Status_LoadBalancer_SubResourceEmbeddedARM struct {
 	Id *string `json:"id,omitempty"`
 }
-
-// Deprecated version of LoadBalancerSkuStatusName. Use v1beta20201101.LoadBalancerSkuStatusName instead
-type LoadBalancerSkuStatusName string
-
-const (
-	LoadBalancerSkuStatusNameBasic    = LoadBalancerSkuStatusName("Basic")
-	LoadBalancerSkuStatusNameStandard = LoadBalancerSkuStatusName("Standard")
-)
-
-// Deprecated version of LoadBalancerSkuStatusTier. Use v1beta20201101.LoadBalancerSkuStatusTier instead
-type LoadBalancerSkuStatusTier string
-
-const (
-	LoadBalancerSkuStatusTierGlobal   = LoadBalancerSkuStatusTier("Global")
-	LoadBalancerSkuStatusTierRegional = LoadBalancerSkuStatusTier("Regional")
-)
 
 // Deprecated version of LoadBalancingRule_Status. Use v1beta20201101.LoadBalancingRule_Status instead
 type LoadBalancingRule_StatusARM struct {
@@ -125,9 +104,9 @@ type FrontendIPConfigurationPropertiesFormat_Status_LoadBalancer_SubResourceEmbe
 	LoadBalancingRules        []SubResource_StatusARM                                     `json:"loadBalancingRules,omitempty"`
 	OutboundRules             []SubResource_StatusARM                                     `json:"outboundRules,omitempty"`
 	PrivateIPAddress          *string                                                     `json:"privateIPAddress,omitempty"`
-	PrivateIPAddressVersion   *IPVersion_Status                                           `json:"privateIPAddressVersion,omitempty"`
-	PrivateIPAllocationMethod *IPAllocationMethod_Status                                  `json:"privateIPAllocationMethod,omitempty"`
-	ProvisioningState         *ProvisioningState_Status                                   `json:"provisioningState,omitempty"`
+	PrivateIPAddressVersion   *string                                                     `json:"privateIPAddressVersion,omitempty"`
+	PrivateIPAllocationMethod *string                                                     `json:"privateIPAllocationMethod,omitempty"`
+	ProvisioningState         *string                                                     `json:"provisioningState,omitempty"`
 	PublicIPAddress           *PublicIPAddress_Status_LoadBalancer_SubResourceEmbeddedARM `json:"publicIPAddress,omitempty"`
 	PublicIPPrefix            *SubResource_StatusARM                                      `json:"publicIPPrefix,omitempty"`
 	Subnet                    *Subnet_Status_LoadBalancer_SubResourceEmbeddedARM          `json:"subnet,omitempty"`
@@ -135,53 +114,53 @@ type FrontendIPConfigurationPropertiesFormat_Status_LoadBalancer_SubResourceEmbe
 
 // Deprecated version of InboundNatPoolPropertiesFormat_Status. Use v1beta20201101.InboundNatPoolPropertiesFormat_Status instead
 type InboundNatPoolPropertiesFormat_StatusARM struct {
-	BackendPort             *int                      `json:"backendPort,omitempty"`
-	EnableFloatingIP        *bool                     `json:"enableFloatingIP,omitempty"`
-	EnableTcpReset          *bool                     `json:"enableTcpReset,omitempty"`
-	FrontendIPConfiguration *SubResource_StatusARM    `json:"frontendIPConfiguration,omitempty"`
-	FrontendPortRangeEnd    *int                      `json:"frontendPortRangeEnd,omitempty"`
-	FrontendPortRangeStart  *int                      `json:"frontendPortRangeStart,omitempty"`
-	IdleTimeoutInMinutes    *int                      `json:"idleTimeoutInMinutes,omitempty"`
-	Protocol                *TransportProtocol_Status `json:"protocol,omitempty"`
-	ProvisioningState       *ProvisioningState_Status `json:"provisioningState,omitempty"`
+	BackendPort             *int                   `json:"backendPort,omitempty"`
+	EnableFloatingIP        *bool                  `json:"enableFloatingIP,omitempty"`
+	EnableTcpReset          *bool                  `json:"enableTcpReset,omitempty"`
+	FrontendIPConfiguration *SubResource_StatusARM `json:"frontendIPConfiguration,omitempty"`
+	FrontendPortRangeEnd    *int                   `json:"frontendPortRangeEnd,omitempty"`
+	FrontendPortRangeStart  *int                   `json:"frontendPortRangeStart,omitempty"`
+	IdleTimeoutInMinutes    *int                   `json:"idleTimeoutInMinutes,omitempty"`
+	Protocol                *string                `json:"protocol,omitempty"`
+	ProvisioningState       *string                `json:"provisioningState,omitempty"`
 }
 
 // Deprecated version of LoadBalancingRulePropertiesFormat_Status. Use v1beta20201101.LoadBalancingRulePropertiesFormat_Status instead
 type LoadBalancingRulePropertiesFormat_StatusARM struct {
-	BackendAddressPool      *SubResource_StatusARM                                   `json:"backendAddressPool,omitempty"`
-	BackendPort             *int                                                     `json:"backendPort,omitempty"`
-	DisableOutboundSnat     *bool                                                    `json:"disableOutboundSnat,omitempty"`
-	EnableFloatingIP        *bool                                                    `json:"enableFloatingIP,omitempty"`
-	EnableTcpReset          *bool                                                    `json:"enableTcpReset,omitempty"`
-	FrontendIPConfiguration *SubResource_StatusARM                                   `json:"frontendIPConfiguration,omitempty"`
-	FrontendPort            *int                                                     `json:"frontendPort,omitempty"`
-	IdleTimeoutInMinutes    *int                                                     `json:"idleTimeoutInMinutes,omitempty"`
-	LoadDistribution        *LoadBalancingRulePropertiesFormatStatusLoadDistribution `json:"loadDistribution,omitempty"`
-	Probe                   *SubResource_StatusARM                                   `json:"probe,omitempty"`
-	Protocol                *TransportProtocol_Status                                `json:"protocol,omitempty"`
-	ProvisioningState       *ProvisioningState_Status                                `json:"provisioningState,omitempty"`
+	BackendAddressPool      *SubResource_StatusARM `json:"backendAddressPool,omitempty"`
+	BackendPort             *int                   `json:"backendPort,omitempty"`
+	DisableOutboundSnat     *bool                  `json:"disableOutboundSnat,omitempty"`
+	EnableFloatingIP        *bool                  `json:"enableFloatingIP,omitempty"`
+	EnableTcpReset          *bool                  `json:"enableTcpReset,omitempty"`
+	FrontendIPConfiguration *SubResource_StatusARM `json:"frontendIPConfiguration,omitempty"`
+	FrontendPort            *int                   `json:"frontendPort,omitempty"`
+	IdleTimeoutInMinutes    *int                   `json:"idleTimeoutInMinutes,omitempty"`
+	LoadDistribution        *string                `json:"loadDistribution,omitempty"`
+	Probe                   *SubResource_StatusARM `json:"probe,omitempty"`
+	Protocol                *string                `json:"protocol,omitempty"`
+	ProvisioningState       *string                `json:"provisioningState,omitempty"`
 }
 
 // Deprecated version of OutboundRulePropertiesFormat_Status. Use v1beta20201101.OutboundRulePropertiesFormat_Status instead
 type OutboundRulePropertiesFormat_StatusARM struct {
-	AllocatedOutboundPorts   *int                                        `json:"allocatedOutboundPorts,omitempty"`
-	BackendAddressPool       *SubResource_StatusARM                      `json:"backendAddressPool,omitempty"`
-	EnableTcpReset           *bool                                       `json:"enableTcpReset,omitempty"`
-	FrontendIPConfigurations []SubResource_StatusARM                     `json:"frontendIPConfigurations,omitempty"`
-	IdleTimeoutInMinutes     *int                                        `json:"idleTimeoutInMinutes,omitempty"`
-	Protocol                 *OutboundRulePropertiesFormatStatusProtocol `json:"protocol,omitempty"`
-	ProvisioningState        *ProvisioningState_Status                   `json:"provisioningState,omitempty"`
+	AllocatedOutboundPorts   *int                    `json:"allocatedOutboundPorts,omitempty"`
+	BackendAddressPool       *SubResource_StatusARM  `json:"backendAddressPool,omitempty"`
+	EnableTcpReset           *bool                   `json:"enableTcpReset,omitempty"`
+	FrontendIPConfigurations []SubResource_StatusARM `json:"frontendIPConfigurations,omitempty"`
+	IdleTimeoutInMinutes     *int                    `json:"idleTimeoutInMinutes,omitempty"`
+	Protocol                 *string                 `json:"protocol,omitempty"`
+	ProvisioningState        *string                 `json:"provisioningState,omitempty"`
 }
 
 // Deprecated version of ProbePropertiesFormat_Status. Use v1beta20201101.ProbePropertiesFormat_Status instead
 type ProbePropertiesFormat_StatusARM struct {
-	IntervalInSeconds  *int                                 `json:"intervalInSeconds,omitempty"`
-	LoadBalancingRules []SubResource_StatusARM              `json:"loadBalancingRules,omitempty"`
-	NumberOfProbes     *int                                 `json:"numberOfProbes,omitempty"`
-	Port               *int                                 `json:"port,omitempty"`
-	Protocol           *ProbePropertiesFormatStatusProtocol `json:"protocol,omitempty"`
-	ProvisioningState  *ProvisioningState_Status            `json:"provisioningState,omitempty"`
-	RequestPath        *string                              `json:"requestPath,omitempty"`
+	IntervalInSeconds  *int                    `json:"intervalInSeconds,omitempty"`
+	LoadBalancingRules []SubResource_StatusARM `json:"loadBalancingRules,omitempty"`
+	NumberOfProbes     *int                    `json:"numberOfProbes,omitempty"`
+	Port               *int                    `json:"port,omitempty"`
+	Protocol           *string                 `json:"protocol,omitempty"`
+	ProvisioningState  *string                 `json:"provisioningState,omitempty"`
+	RequestPath        *string                 `json:"requestPath,omitempty"`
 }
 
 // Deprecated version of PublicIPAddress_Status_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.PublicIPAddress_Status_LoadBalancer_SubResourceEmbedded instead

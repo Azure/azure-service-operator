@@ -18,23 +18,23 @@ type Domain_StatusARM struct {
 type DomainProperties_StatusARM struct {
 	Endpoint                   *string                                                          `json:"endpoint,omitempty"`
 	InboundIpRules             []InboundIpRule_StatusARM                                        `json:"inboundIpRules,omitempty"`
-	InputSchema                *DomainPropertiesStatusInputSchema                               `json:"inputSchema,omitempty"`
+	InputSchema                *string                                                          `json:"inputSchema,omitempty"`
 	InputSchemaMapping         *InputSchemaMapping_StatusARM                                    `json:"inputSchemaMapping,omitempty"`
 	MetricResourceId           *string                                                          `json:"metricResourceId,omitempty"`
 	PrivateEndpointConnections []PrivateEndpointConnection_Status_Domain_SubResourceEmbeddedARM `json:"privateEndpointConnections,omitempty"`
-	ProvisioningState          *DomainPropertiesStatusProvisioningState                         `json:"provisioningState,omitempty"`
-	PublicNetworkAccess        *DomainPropertiesStatusPublicNetworkAccess                       `json:"publicNetworkAccess,omitempty"`
+	ProvisioningState          *string                                                          `json:"provisioningState,omitempty"`
+	PublicNetworkAccess        *string                                                          `json:"publicNetworkAccess,omitempty"`
 }
 
 // Deprecated version of InboundIpRule_Status. Use v1beta20200601.InboundIpRule_Status instead
 type InboundIpRule_StatusARM struct {
-	Action *InboundIpRuleStatusAction `json:"action,omitempty"`
-	IpMask *string                    `json:"ipMask,omitempty"`
+	Action *string `json:"action,omitempty"`
+	IpMask *string `json:"ipMask,omitempty"`
 }
 
 // Deprecated version of InputSchemaMapping_Status. Use v1beta20200601.InputSchemaMapping_Status instead
 type InputSchemaMapping_StatusARM struct {
-	InputSchemaMappingType *InputSchemaMappingStatusInputSchemaMappingType `json:"inputSchemaMappingType,omitempty"`
+	InputSchemaMappingType *string `json:"inputSchemaMappingType,omitempty"`
 }
 
 // Deprecated version of PrivateEndpointConnection_Status_Domain_SubResourceEmbedded. Use v1beta20200601.PrivateEndpointConnection_Status_Domain_SubResourceEmbedded instead

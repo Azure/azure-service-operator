@@ -39,7 +39,7 @@ type WebTestProperties_StatusARM struct {
 	Frequency *int `json:"Frequency,omitempty"`
 
 	// Kind: The kind of web test this is, valid choices are ping, multistep, basic, and standard.
-	Kind *WebTestPropertiesStatusKind `json:"Kind,omitempty"`
+	Kind *string `json:"Kind,omitempty"`
 
 	// Locations: A list of where to physically run the tests from to give global coverage for accessibility of your
 	// application.
@@ -73,15 +73,6 @@ type WebTestGeolocation_StatusARM struct {
 	// Id: Location ID for the WebTest to run from.
 	Id *string `json:"Id,omitempty"`
 }
-
-type WebTestPropertiesStatusKind string
-
-const (
-	WebTestPropertiesStatusKindBasic     = WebTestPropertiesStatusKind("basic")
-	WebTestPropertiesStatusKindMultistep = WebTestPropertiesStatusKind("multistep")
-	WebTestPropertiesStatusKindPing      = WebTestPropertiesStatusKind("ping")
-	WebTestPropertiesStatusKindStandard  = WebTestPropertiesStatusKind("standard")
-)
 
 type WebTestProperties_Status_ConfigurationARM struct {
 	// WebTest: The XML specification of a WebTest to run against an application.

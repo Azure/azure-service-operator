@@ -344,14 +344,14 @@ type Domain_Status struct {
 	Endpoint                   *string                                                       `json:"endpoint,omitempty"`
 	Id                         *string                                                       `json:"id,omitempty"`
 	InboundIpRules             []InboundIpRule_Status                                        `json:"inboundIpRules,omitempty"`
-	InputSchema                *DomainPropertiesStatusInputSchema                            `json:"inputSchema,omitempty"`
+	InputSchema                *string                                                       `json:"inputSchema,omitempty"`
 	InputSchemaMapping         *InputSchemaMapping_Status                                    `json:"inputSchemaMapping,omitempty"`
 	Location                   *string                                                       `json:"location,omitempty"`
 	MetricResourceId           *string                                                       `json:"metricResourceId,omitempty"`
 	Name                       *string                                                       `json:"name,omitempty"`
 	PrivateEndpointConnections []PrivateEndpointConnection_Status_Domain_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
-	ProvisioningState          *DomainPropertiesStatusProvisioningState                      `json:"provisioningState,omitempty"`
-	PublicNetworkAccess        *DomainPropertiesStatusPublicNetworkAccess                    `json:"publicNetworkAccess,omitempty"`
+	ProvisioningState          *string                                                       `json:"provisioningState,omitempty"`
+	PublicNetworkAccess        *string                                                       `json:"publicNetworkAccess,omitempty"`
 	SystemData                 *SystemData_Status                                            `json:"systemData,omitempty"`
 	Tags                       map[string]string                                             `json:"tags,omitempty"`
 	Type                       *string                                                       `json:"type,omitempty"`
@@ -586,12 +586,7 @@ func (domain *Domain_Status) AssignPropertiesFromDomainStatus(source *alpha20200
 	}
 
 	// InputSchema
-	if source.InputSchema != nil {
-		inputSchema := DomainPropertiesStatusInputSchema(*source.InputSchema)
-		domain.InputSchema = &inputSchema
-	} else {
-		domain.InputSchema = nil
-	}
+	domain.InputSchema = genruntime.ClonePointerToString(source.InputSchema)
 
 	// InputSchemaMapping
 	if source.InputSchemaMapping != nil {
@@ -633,20 +628,10 @@ func (domain *Domain_Status) AssignPropertiesFromDomainStatus(source *alpha20200
 	}
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := DomainPropertiesStatusProvisioningState(*source.ProvisioningState)
-		domain.ProvisioningState = &provisioningState
-	} else {
-		domain.ProvisioningState = nil
-	}
+	domain.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// PublicNetworkAccess
-	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := DomainPropertiesStatusPublicNetworkAccess(*source.PublicNetworkAccess)
-		domain.PublicNetworkAccess = &publicNetworkAccess
-	} else {
-		domain.PublicNetworkAccess = nil
-	}
+	domain.PublicNetworkAccess = genruntime.ClonePointerToString(source.PublicNetworkAccess)
 
 	// SystemData
 	if source.SystemData != nil {
@@ -703,12 +688,7 @@ func (domain *Domain_Status) AssignPropertiesToDomainStatus(destination *alpha20
 	}
 
 	// InputSchema
-	if domain.InputSchema != nil {
-		inputSchema := string(*domain.InputSchema)
-		destination.InputSchema = &inputSchema
-	} else {
-		destination.InputSchema = nil
-	}
+	destination.InputSchema = genruntime.ClonePointerToString(domain.InputSchema)
 
 	// InputSchemaMapping
 	if domain.InputSchemaMapping != nil {
@@ -750,20 +730,10 @@ func (domain *Domain_Status) AssignPropertiesToDomainStatus(destination *alpha20
 	}
 
 	// ProvisioningState
-	if domain.ProvisioningState != nil {
-		provisioningState := string(*domain.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(domain.ProvisioningState)
 
 	// PublicNetworkAccess
-	if domain.PublicNetworkAccess != nil {
-		publicNetworkAccess := string(*domain.PublicNetworkAccess)
-		destination.PublicNetworkAccess = &publicNetworkAccess
-	} else {
-		destination.PublicNetworkAccess = nil
-	}
+	destination.PublicNetworkAccess = genruntime.ClonePointerToString(domain.PublicNetworkAccess)
 
 	// SystemData
 	if domain.SystemData != nil {
@@ -1183,37 +1153,6 @@ const (
 	DomainPropertiesPublicNetworkAccessEnabled  = DomainPropertiesPublicNetworkAccess("Enabled")
 )
 
-// Deprecated version of DomainPropertiesStatusInputSchema. Use v1beta20200601.DomainPropertiesStatusInputSchema instead
-type DomainPropertiesStatusInputSchema string
-
-const (
-	DomainPropertiesStatusInputSchemaCloudEventSchemaV10 = DomainPropertiesStatusInputSchema("CloudEventSchemaV1_0")
-	DomainPropertiesStatusInputSchemaCustomEventSchema   = DomainPropertiesStatusInputSchema("CustomEventSchema")
-	DomainPropertiesStatusInputSchemaEventGridSchema     = DomainPropertiesStatusInputSchema("EventGridSchema")
-)
-
-// Deprecated version of DomainPropertiesStatusProvisioningState. Use
-// v1beta20200601.DomainPropertiesStatusProvisioningState instead
-type DomainPropertiesStatusProvisioningState string
-
-const (
-	DomainPropertiesStatusProvisioningStateCanceled  = DomainPropertiesStatusProvisioningState("Canceled")
-	DomainPropertiesStatusProvisioningStateCreating  = DomainPropertiesStatusProvisioningState("Creating")
-	DomainPropertiesStatusProvisioningStateDeleting  = DomainPropertiesStatusProvisioningState("Deleting")
-	DomainPropertiesStatusProvisioningStateFailed    = DomainPropertiesStatusProvisioningState("Failed")
-	DomainPropertiesStatusProvisioningStateSucceeded = DomainPropertiesStatusProvisioningState("Succeeded")
-	DomainPropertiesStatusProvisioningStateUpdating  = DomainPropertiesStatusProvisioningState("Updating")
-)
-
-// Deprecated version of DomainPropertiesStatusPublicNetworkAccess. Use
-// v1beta20200601.DomainPropertiesStatusPublicNetworkAccess instead
-type DomainPropertiesStatusPublicNetworkAccess string
-
-const (
-	DomainPropertiesStatusPublicNetworkAccessDisabled = DomainPropertiesStatusPublicNetworkAccess("Disabled")
-	DomainPropertiesStatusPublicNetworkAccessEnabled  = DomainPropertiesStatusPublicNetworkAccess("Enabled")
-)
-
 // Deprecated version of InboundIpRule. Use v1beta20200601.InboundIpRule instead
 type InboundIpRule struct {
 	Action *InboundIpRuleAction `json:"action,omitempty"`
@@ -1318,8 +1257,8 @@ func (rule *InboundIpRule) AssignPropertiesToInboundIpRule(destination *alpha202
 
 // Deprecated version of InboundIpRule_Status. Use v1beta20200601.InboundIpRule_Status instead
 type InboundIpRule_Status struct {
-	Action *InboundIpRuleStatusAction `json:"action,omitempty"`
-	IpMask *string                    `json:"ipMask,omitempty"`
+	Action *string `json:"action,omitempty"`
+	IpMask *string `json:"ipMask,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &InboundIpRule_Status{}
@@ -1356,12 +1295,7 @@ func (rule *InboundIpRule_Status) PopulateFromARM(owner genruntime.ArbitraryOwne
 func (rule *InboundIpRule_Status) AssignPropertiesFromInboundIpRuleStatus(source *alpha20200601s.InboundIpRule_Status) error {
 
 	// Action
-	if source.Action != nil {
-		action := InboundIpRuleStatusAction(*source.Action)
-		rule.Action = &action
-	} else {
-		rule.Action = nil
-	}
+	rule.Action = genruntime.ClonePointerToString(source.Action)
 
 	// IpMask
 	rule.IpMask = genruntime.ClonePointerToString(source.IpMask)
@@ -1376,12 +1310,7 @@ func (rule *InboundIpRule_Status) AssignPropertiesToInboundIpRuleStatus(destinat
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Action
-	if rule.Action != nil {
-		action := string(*rule.Action)
-		destination.Action = &action
-	} else {
-		destination.Action = nil
-	}
+	destination.Action = genruntime.ClonePointerToString(rule.Action)
 
 	// IpMask
 	destination.IpMask = genruntime.ClonePointerToString(rule.IpMask)
@@ -1399,7 +1328,7 @@ func (rule *InboundIpRule_Status) AssignPropertiesToInboundIpRuleStatus(destinat
 
 // Deprecated version of InputSchemaMapping_Status. Use v1beta20200601.InputSchemaMapping_Status instead
 type InputSchemaMapping_Status struct {
-	InputSchemaMappingType *InputSchemaMappingStatusInputSchemaMappingType `json:"inputSchemaMappingType,omitempty"`
+	InputSchemaMappingType *string `json:"inputSchemaMappingType,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &InputSchemaMapping_Status{}
@@ -1430,12 +1359,7 @@ func (mapping *InputSchemaMapping_Status) PopulateFromARM(owner genruntime.Arbit
 func (mapping *InputSchemaMapping_Status) AssignPropertiesFromInputSchemaMappingStatus(source *alpha20200601s.InputSchemaMapping_Status) error {
 
 	// InputSchemaMappingType
-	if source.InputSchemaMappingType != nil {
-		inputSchemaMappingType := InputSchemaMappingStatusInputSchemaMappingType(*source.InputSchemaMappingType)
-		mapping.InputSchemaMappingType = &inputSchemaMappingType
-	} else {
-		mapping.InputSchemaMappingType = nil
-	}
+	mapping.InputSchemaMappingType = genruntime.ClonePointerToString(source.InputSchemaMappingType)
 
 	// No error
 	return nil
@@ -1447,12 +1371,7 @@ func (mapping *InputSchemaMapping_Status) AssignPropertiesToInputSchemaMappingSt
 	propertyBag := genruntime.NewPropertyBag()
 
 	// InputSchemaMappingType
-	if mapping.InputSchemaMappingType != nil {
-		inputSchemaMappingType := string(*mapping.InputSchemaMappingType)
-		destination.InputSchemaMappingType = &inputSchemaMappingType
-	} else {
-		destination.InputSchemaMappingType = nil
-	}
+	destination.InputSchemaMappingType = genruntime.ClonePointerToString(mapping.InputSchemaMappingType)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1655,12 +1574,12 @@ func (embedded *PrivateEndpointConnection_Status_Domain_SubResourceEmbedded) Ass
 
 // Deprecated version of SystemData_Status. Use v1beta20200601.SystemData_Status instead
 type SystemData_Status struct {
-	CreatedAt          *string                             `json:"createdAt,omitempty"`
-	CreatedBy          *string                             `json:"createdBy,omitempty"`
-	CreatedByType      *SystemDataStatusCreatedByType      `json:"createdByType,omitempty"`
-	LastModifiedAt     *string                             `json:"lastModifiedAt,omitempty"`
-	LastModifiedBy     *string                             `json:"lastModifiedBy,omitempty"`
-	LastModifiedByType *SystemDataStatusLastModifiedByType `json:"lastModifiedByType,omitempty"`
+	CreatedAt          *string `json:"createdAt,omitempty"`
+	CreatedBy          *string `json:"createdBy,omitempty"`
+	CreatedByType      *string `json:"createdByType,omitempty"`
+	LastModifiedAt     *string `json:"lastModifiedAt,omitempty"`
+	LastModifiedBy     *string `json:"lastModifiedBy,omitempty"`
+	LastModifiedByType *string `json:"lastModifiedByType,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &SystemData_Status{}
@@ -1727,12 +1646,7 @@ func (data *SystemData_Status) AssignPropertiesFromSystemDataStatus(source *alph
 	data.CreatedBy = genruntime.ClonePointerToString(source.CreatedBy)
 
 	// CreatedByType
-	if source.CreatedByType != nil {
-		createdByType := SystemDataStatusCreatedByType(*source.CreatedByType)
-		data.CreatedByType = &createdByType
-	} else {
-		data.CreatedByType = nil
-	}
+	data.CreatedByType = genruntime.ClonePointerToString(source.CreatedByType)
 
 	// LastModifiedAt
 	data.LastModifiedAt = genruntime.ClonePointerToString(source.LastModifiedAt)
@@ -1741,12 +1655,7 @@ func (data *SystemData_Status) AssignPropertiesFromSystemDataStatus(source *alph
 	data.LastModifiedBy = genruntime.ClonePointerToString(source.LastModifiedBy)
 
 	// LastModifiedByType
-	if source.LastModifiedByType != nil {
-		lastModifiedByType := SystemDataStatusLastModifiedByType(*source.LastModifiedByType)
-		data.LastModifiedByType = &lastModifiedByType
-	} else {
-		data.LastModifiedByType = nil
-	}
+	data.LastModifiedByType = genruntime.ClonePointerToString(source.LastModifiedByType)
 
 	// No error
 	return nil
@@ -1764,12 +1673,7 @@ func (data *SystemData_Status) AssignPropertiesToSystemDataStatus(destination *a
 	destination.CreatedBy = genruntime.ClonePointerToString(data.CreatedBy)
 
 	// CreatedByType
-	if data.CreatedByType != nil {
-		createdByType := string(*data.CreatedByType)
-		destination.CreatedByType = &createdByType
-	} else {
-		destination.CreatedByType = nil
-	}
+	destination.CreatedByType = genruntime.ClonePointerToString(data.CreatedByType)
 
 	// LastModifiedAt
 	destination.LastModifiedAt = genruntime.ClonePointerToString(data.LastModifiedAt)
@@ -1778,12 +1682,7 @@ func (data *SystemData_Status) AssignPropertiesToSystemDataStatus(destination *a
 	destination.LastModifiedBy = genruntime.ClonePointerToString(data.LastModifiedBy)
 
 	// LastModifiedByType
-	if data.LastModifiedByType != nil {
-		lastModifiedByType := string(*data.LastModifiedByType)
-		destination.LastModifiedByType = &lastModifiedByType
-	} else {
-		destination.LastModifiedByType = nil
-	}
+	destination.LastModifiedByType = genruntime.ClonePointerToString(data.LastModifiedByType)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1801,17 +1700,6 @@ func (data *SystemData_Status) AssignPropertiesToSystemDataStatus(destination *a
 type InboundIpRuleAction string
 
 const InboundIpRuleActionAllow = InboundIpRuleAction("Allow")
-
-// Deprecated version of InboundIpRuleStatusAction. Use v1beta20200601.InboundIpRuleStatusAction instead
-type InboundIpRuleStatusAction string
-
-const InboundIpRuleStatusActionAllow = InboundIpRuleStatusAction("Allow")
-
-// Deprecated version of InputSchemaMappingStatusInputSchemaMappingType. Use
-// v1beta20200601.InputSchemaMappingStatusInputSchemaMappingType instead
-type InputSchemaMappingStatusInputSchemaMappingType string
-
-const InputSchemaMappingStatusInputSchemaMappingTypeJson = InputSchemaMappingStatusInputSchemaMappingType("Json")
 
 // Deprecated version of JsonInputSchemaMappingInputSchemaMappingType. Use
 // v1beta20200601.JsonInputSchemaMappingInputSchemaMappingType instead

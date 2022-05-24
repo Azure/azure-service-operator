@@ -1072,25 +1072,25 @@ type Server_Status struct {
 	Backup             *Backup_Status `json:"backup,omitempty"`
 
 	// Conditions: The observed state of the resource
-	Conditions               []conditions.Condition            `json:"conditions,omitempty"`
-	CreateMode               *ServerPropertiesStatusCreateMode `json:"createMode,omitempty"`
-	FullyQualifiedDomainName *string                           `json:"fullyQualifiedDomainName,omitempty"`
-	HighAvailability         *HighAvailability_Status          `json:"highAvailability,omitempty"`
-	Id                       *string                           `json:"id,omitempty"`
-	Location                 *string                           `json:"location,omitempty"`
-	MaintenanceWindow        *MaintenanceWindow_Status         `json:"maintenanceWindow,omitempty"`
-	MinorVersion             *string                           `json:"minorVersion,omitempty"`
-	Name                     *string                           `json:"name,omitempty"`
-	Network                  *Network_Status                   `json:"network,omitempty"`
-	PointInTimeUTC           *string                           `json:"pointInTimeUTC,omitempty"`
-	Sku                      *Sku_Status                       `json:"sku,omitempty"`
-	SourceServerResourceId   *string                           `json:"sourceServerResourceId,omitempty"`
-	State                    *ServerPropertiesStatusState      `json:"state,omitempty"`
-	Storage                  *Storage_Status                   `json:"storage,omitempty"`
-	SystemData               *SystemData_Status                `json:"systemData,omitempty"`
-	Tags                     map[string]string                 `json:"tags,omitempty"`
-	Type                     *string                           `json:"type,omitempty"`
-	Version                  *ServerVersion_Status             `json:"version,omitempty"`
+	Conditions               []conditions.Condition    `json:"conditions,omitempty"`
+	CreateMode               *string                   `json:"createMode,omitempty"`
+	FullyQualifiedDomainName *string                   `json:"fullyQualifiedDomainName,omitempty"`
+	HighAvailability         *HighAvailability_Status  `json:"highAvailability,omitempty"`
+	Id                       *string                   `json:"id,omitempty"`
+	Location                 *string                   `json:"location,omitempty"`
+	MaintenanceWindow        *MaintenanceWindow_Status `json:"maintenanceWindow,omitempty"`
+	MinorVersion             *string                   `json:"minorVersion,omitempty"`
+	Name                     *string                   `json:"name,omitempty"`
+	Network                  *Network_Status           `json:"network,omitempty"`
+	PointInTimeUTC           *string                   `json:"pointInTimeUTC,omitempty"`
+	Sku                      *Sku_Status               `json:"sku,omitempty"`
+	SourceServerResourceId   *string                   `json:"sourceServerResourceId,omitempty"`
+	State                    *string                   `json:"state,omitempty"`
+	Storage                  *Storage_Status           `json:"storage,omitempty"`
+	SystemData               *SystemData_Status        `json:"systemData,omitempty"`
+	Tags                     map[string]string         `json:"tags,omitempty"`
+	Type                     *string                   `json:"type,omitempty"`
+	Version                  *string                   `json:"version,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &Server_Status{}
@@ -1393,12 +1393,7 @@ func (server *Server_Status) AssignPropertiesFromServerStatus(source *alpha20210
 	server.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// CreateMode
-	if source.CreateMode != nil {
-		createMode := ServerPropertiesStatusCreateMode(*source.CreateMode)
-		server.CreateMode = &createMode
-	} else {
-		server.CreateMode = nil
-	}
+	server.CreateMode = genruntime.ClonePointerToString(source.CreateMode)
 
 	// FullyQualifiedDomainName
 	server.FullyQualifiedDomainName = genruntime.ClonePointerToString(source.FullyQualifiedDomainName)
@@ -1470,12 +1465,7 @@ func (server *Server_Status) AssignPropertiesFromServerStatus(source *alpha20210
 	server.SourceServerResourceId = genruntime.ClonePointerToString(source.SourceServerResourceId)
 
 	// State
-	if source.State != nil {
-		state := ServerPropertiesStatusState(*source.State)
-		server.State = &state
-	} else {
-		server.State = nil
-	}
+	server.State = genruntime.ClonePointerToString(source.State)
 
 	// Storage
 	if source.Storage != nil {
@@ -1508,12 +1498,7 @@ func (server *Server_Status) AssignPropertiesFromServerStatus(source *alpha20210
 	server.Type = genruntime.ClonePointerToString(source.Type)
 
 	// Version
-	if source.Version != nil {
-		version := ServerVersion_Status(*source.Version)
-		server.Version = &version
-	} else {
-		server.Version = nil
-	}
+	server.Version = genruntime.ClonePointerToString(source.Version)
 
 	// No error
 	return nil
@@ -1546,12 +1531,7 @@ func (server *Server_Status) AssignPropertiesToServerStatus(destination *alpha20
 	destination.Conditions = genruntime.CloneSliceOfCondition(server.Conditions)
 
 	// CreateMode
-	if server.CreateMode != nil {
-		createMode := string(*server.CreateMode)
-		destination.CreateMode = &createMode
-	} else {
-		destination.CreateMode = nil
-	}
+	destination.CreateMode = genruntime.ClonePointerToString(server.CreateMode)
 
 	// FullyQualifiedDomainName
 	destination.FullyQualifiedDomainName = genruntime.ClonePointerToString(server.FullyQualifiedDomainName)
@@ -1623,12 +1603,7 @@ func (server *Server_Status) AssignPropertiesToServerStatus(destination *alpha20
 	destination.SourceServerResourceId = genruntime.ClonePointerToString(server.SourceServerResourceId)
 
 	// State
-	if server.State != nil {
-		state := string(*server.State)
-		destination.State = &state
-	} else {
-		destination.State = nil
-	}
+	destination.State = genruntime.ClonePointerToString(server.State)
 
 	// Storage
 	if server.Storage != nil {
@@ -1661,12 +1636,7 @@ func (server *Server_Status) AssignPropertiesToServerStatus(destination *alpha20
 	destination.Type = genruntime.ClonePointerToString(server.Type)
 
 	// Version
-	if server.Version != nil {
-		version := string(*server.Version)
-		destination.Version = &version
-	} else {
-		destination.Version = nil
-	}
+	destination.Version = genruntime.ClonePointerToString(server.Version)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1783,9 +1753,9 @@ func (backup *Backup) AssignPropertiesToBackup(destination *alpha20210601s.Backu
 
 // Deprecated version of Backup_Status. Use v1beta20210601.Backup_Status instead
 type Backup_Status struct {
-	BackupRetentionDays *int                            `json:"backupRetentionDays,omitempty"`
-	EarliestRestoreDate *string                         `json:"earliestRestoreDate,omitempty"`
-	GeoRedundantBackup  *BackupStatusGeoRedundantBackup `json:"geoRedundantBackup,omitempty"`
+	BackupRetentionDays *int    `json:"backupRetentionDays,omitempty"`
+	EarliestRestoreDate *string `json:"earliestRestoreDate,omitempty"`
+	GeoRedundantBackup  *string `json:"geoRedundantBackup,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &Backup_Status{}
@@ -1834,12 +1804,7 @@ func (backup *Backup_Status) AssignPropertiesFromBackupStatus(source *alpha20210
 	backup.EarliestRestoreDate = genruntime.ClonePointerToString(source.EarliestRestoreDate)
 
 	// GeoRedundantBackup
-	if source.GeoRedundantBackup != nil {
-		geoRedundantBackup := BackupStatusGeoRedundantBackup(*source.GeoRedundantBackup)
-		backup.GeoRedundantBackup = &geoRedundantBackup
-	} else {
-		backup.GeoRedundantBackup = nil
-	}
+	backup.GeoRedundantBackup = genruntime.ClonePointerToString(source.GeoRedundantBackup)
 
 	// No error
 	return nil
@@ -1857,12 +1822,7 @@ func (backup *Backup_Status) AssignPropertiesToBackupStatus(destination *alpha20
 	destination.EarliestRestoreDate = genruntime.ClonePointerToString(backup.EarliestRestoreDate)
 
 	// GeoRedundantBackup
-	if backup.GeoRedundantBackup != nil {
-		geoRedundantBackup := string(*backup.GeoRedundantBackup)
-		destination.GeoRedundantBackup = &geoRedundantBackup
-	} else {
-		destination.GeoRedundantBackup = nil
-	}
+	destination.GeoRedundantBackup = genruntime.ClonePointerToString(backup.GeoRedundantBackup)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2032,9 +1992,9 @@ func (availability *HighAvailability) AssignPropertiesToHighAvailability(destina
 
 // Deprecated version of HighAvailability_Status. Use v1beta20210601.HighAvailability_Status instead
 type HighAvailability_Status struct {
-	Mode                    *HighAvailabilityStatusMode  `json:"mode,omitempty"`
-	StandbyAvailabilityZone *string                      `json:"standbyAvailabilityZone,omitempty"`
-	State                   *HighAvailabilityStatusState `json:"state,omitempty"`
+	Mode                    *string `json:"mode,omitempty"`
+	StandbyAvailabilityZone *string `json:"standbyAvailabilityZone,omitempty"`
+	State                   *string `json:"state,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &HighAvailability_Status{}
@@ -2077,23 +2037,13 @@ func (availability *HighAvailability_Status) PopulateFromARM(owner genruntime.Ar
 func (availability *HighAvailability_Status) AssignPropertiesFromHighAvailabilityStatus(source *alpha20210601s.HighAvailability_Status) error {
 
 	// Mode
-	if source.Mode != nil {
-		mode := HighAvailabilityStatusMode(*source.Mode)
-		availability.Mode = &mode
-	} else {
-		availability.Mode = nil
-	}
+	availability.Mode = genruntime.ClonePointerToString(source.Mode)
 
 	// StandbyAvailabilityZone
 	availability.StandbyAvailabilityZone = genruntime.ClonePointerToString(source.StandbyAvailabilityZone)
 
 	// State
-	if source.State != nil {
-		state := HighAvailabilityStatusState(*source.State)
-		availability.State = &state
-	} else {
-		availability.State = nil
-	}
+	availability.State = genruntime.ClonePointerToString(source.State)
 
 	// No error
 	return nil
@@ -2105,23 +2055,13 @@ func (availability *HighAvailability_Status) AssignPropertiesToHighAvailabilityS
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Mode
-	if availability.Mode != nil {
-		mode := string(*availability.Mode)
-		destination.Mode = &mode
-	} else {
-		destination.Mode = nil
-	}
+	destination.Mode = genruntime.ClonePointerToString(availability.Mode)
 
 	// StandbyAvailabilityZone
 	destination.StandbyAvailabilityZone = genruntime.ClonePointerToString(availability.StandbyAvailabilityZone)
 
 	// State
-	if availability.State != nil {
-		state := string(*availability.State)
-		destination.State = &state
-	} else {
-		destination.State = nil
-	}
+	destination.State = genruntime.ClonePointerToString(availability.State)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2475,9 +2415,9 @@ func (network *Network) AssignPropertiesToNetwork(destination *alpha20210601s.Ne
 
 // Deprecated version of Network_Status. Use v1beta20210601.Network_Status instead
 type Network_Status struct {
-	DelegatedSubnetResourceId   *string                           `json:"delegatedSubnetResourceId,omitempty"`
-	PrivateDnsZoneArmResourceId *string                           `json:"privateDnsZoneArmResourceId,omitempty"`
-	PublicNetworkAccess         *NetworkStatusPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+	DelegatedSubnetResourceId   *string `json:"delegatedSubnetResourceId,omitempty"`
+	PrivateDnsZoneArmResourceId *string `json:"privateDnsZoneArmResourceId,omitempty"`
+	PublicNetworkAccess         *string `json:"publicNetworkAccess,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &Network_Status{}
@@ -2526,12 +2466,7 @@ func (network *Network_Status) AssignPropertiesFromNetworkStatus(source *alpha20
 	network.PrivateDnsZoneArmResourceId = genruntime.ClonePointerToString(source.PrivateDnsZoneArmResourceId)
 
 	// PublicNetworkAccess
-	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := NetworkStatusPublicNetworkAccess(*source.PublicNetworkAccess)
-		network.PublicNetworkAccess = &publicNetworkAccess
-	} else {
-		network.PublicNetworkAccess = nil
-	}
+	network.PublicNetworkAccess = genruntime.ClonePointerToString(source.PublicNetworkAccess)
 
 	// No error
 	return nil
@@ -2549,12 +2484,7 @@ func (network *Network_Status) AssignPropertiesToNetworkStatus(destination *alph
 	destination.PrivateDnsZoneArmResourceId = genruntime.ClonePointerToString(network.PrivateDnsZoneArmResourceId)
 
 	// PublicNetworkAccess
-	if network.PublicNetworkAccess != nil {
-		publicNetworkAccess := string(*network.PublicNetworkAccess)
-		destination.PublicNetworkAccess = &publicNetworkAccess
-	} else {
-		destination.PublicNetworkAccess = nil
-	}
+	destination.PublicNetworkAccess = genruntime.ClonePointerToString(network.PublicNetworkAccess)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2578,29 +2508,6 @@ const (
 	ServerPropertiesCreateModeUpdate             = ServerPropertiesCreateMode("Update")
 )
 
-// Deprecated version of ServerPropertiesStatusCreateMode. Use v1beta20210601.ServerPropertiesStatusCreateMode instead
-type ServerPropertiesStatusCreateMode string
-
-const (
-	ServerPropertiesStatusCreateModeCreate             = ServerPropertiesStatusCreateMode("Create")
-	ServerPropertiesStatusCreateModeDefault            = ServerPropertiesStatusCreateMode("Default")
-	ServerPropertiesStatusCreateModePointInTimeRestore = ServerPropertiesStatusCreateMode("PointInTimeRestore")
-	ServerPropertiesStatusCreateModeUpdate             = ServerPropertiesStatusCreateMode("Update")
-)
-
-// Deprecated version of ServerPropertiesStatusState. Use v1beta20210601.ServerPropertiesStatusState instead
-type ServerPropertiesStatusState string
-
-const (
-	ServerPropertiesStatusStateDisabled = ServerPropertiesStatusState("Disabled")
-	ServerPropertiesStatusStateDropping = ServerPropertiesStatusState("Dropping")
-	ServerPropertiesStatusStateReady    = ServerPropertiesStatusState("Ready")
-	ServerPropertiesStatusStateStarting = ServerPropertiesStatusState("Starting")
-	ServerPropertiesStatusStateStopped  = ServerPropertiesStatusState("Stopped")
-	ServerPropertiesStatusStateStopping = ServerPropertiesStatusState("Stopping")
-	ServerPropertiesStatusStateUpdating = ServerPropertiesStatusState("Updating")
-)
-
 // Deprecated version of ServerPropertiesVersion. Use v1beta20210601.ServerPropertiesVersion instead
 // +kubebuilder:validation:Enum={"11","12","13"}
 type ServerPropertiesVersion string
@@ -2609,15 +2516,6 @@ const (
 	ServerPropertiesVersion11 = ServerPropertiesVersion("11")
 	ServerPropertiesVersion12 = ServerPropertiesVersion("12")
 	ServerPropertiesVersion13 = ServerPropertiesVersion("13")
-)
-
-// Deprecated version of ServerVersion_Status. Use v1beta20210601.ServerVersion_Status instead
-type ServerVersion_Status string
-
-const (
-	ServerVersion_Status11 = ServerVersion_Status("11")
-	ServerVersion_Status12 = ServerVersion_Status("12")
-	ServerVersion_Status13 = ServerVersion_Status("13")
 )
 
 // Deprecated version of Sku. Use v1beta20210601.Sku instead
@@ -2727,8 +2625,8 @@ func (sku *Sku) AssignPropertiesToSku(destination *alpha20210601s.Sku) error {
 
 // Deprecated version of Sku_Status. Use v1beta20210601.Sku_Status instead
 type Sku_Status struct {
-	Name *string        `json:"name,omitempty"`
-	Tier *SkuStatusTier `json:"tier,omitempty"`
+	Name *string `json:"name,omitempty"`
+	Tier *string `json:"tier,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &Sku_Status{}
@@ -2768,12 +2666,7 @@ func (sku *Sku_Status) AssignPropertiesFromSkuStatus(source *alpha20210601s.Sku_
 	sku.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Tier
-	if source.Tier != nil {
-		tier := SkuStatusTier(*source.Tier)
-		sku.Tier = &tier
-	} else {
-		sku.Tier = nil
-	}
+	sku.Tier = genruntime.ClonePointerToString(source.Tier)
 
 	// No error
 	return nil
@@ -2788,12 +2681,7 @@ func (sku *Sku_Status) AssignPropertiesToSkuStatus(destination *alpha20210601s.S
 	destination.Name = genruntime.ClonePointerToString(sku.Name)
 
 	// Tier
-	if sku.Tier != nil {
-		tier := string(*sku.Tier)
-		destination.Tier = &tier
-	} else {
-		destination.Tier = nil
-	}
+	destination.Tier = genruntime.ClonePointerToString(sku.Tier)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2939,12 +2827,12 @@ func (storage *Storage_Status) AssignPropertiesToStorageStatus(destination *alph
 
 // Deprecated version of SystemData_Status. Use v1beta20210601.SystemData_Status instead
 type SystemData_Status struct {
-	CreatedAt          *string                             `json:"createdAt,omitempty"`
-	CreatedBy          *string                             `json:"createdBy,omitempty"`
-	CreatedByType      *SystemDataStatusCreatedByType      `json:"createdByType,omitempty"`
-	LastModifiedAt     *string                             `json:"lastModifiedAt,omitempty"`
-	LastModifiedBy     *string                             `json:"lastModifiedBy,omitempty"`
-	LastModifiedByType *SystemDataStatusLastModifiedByType `json:"lastModifiedByType,omitempty"`
+	CreatedAt          *string `json:"createdAt,omitempty"`
+	CreatedBy          *string `json:"createdBy,omitempty"`
+	CreatedByType      *string `json:"createdByType,omitempty"`
+	LastModifiedAt     *string `json:"lastModifiedAt,omitempty"`
+	LastModifiedBy     *string `json:"lastModifiedBy,omitempty"`
+	LastModifiedByType *string `json:"lastModifiedByType,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &SystemData_Status{}
@@ -3011,12 +2899,7 @@ func (data *SystemData_Status) AssignPropertiesFromSystemDataStatus(source *alph
 	data.CreatedBy = genruntime.ClonePointerToString(source.CreatedBy)
 
 	// CreatedByType
-	if source.CreatedByType != nil {
-		createdByType := SystemDataStatusCreatedByType(*source.CreatedByType)
-		data.CreatedByType = &createdByType
-	} else {
-		data.CreatedByType = nil
-	}
+	data.CreatedByType = genruntime.ClonePointerToString(source.CreatedByType)
 
 	// LastModifiedAt
 	data.LastModifiedAt = genruntime.ClonePointerToString(source.LastModifiedAt)
@@ -3025,12 +2908,7 @@ func (data *SystemData_Status) AssignPropertiesFromSystemDataStatus(source *alph
 	data.LastModifiedBy = genruntime.ClonePointerToString(source.LastModifiedBy)
 
 	// LastModifiedByType
-	if source.LastModifiedByType != nil {
-		lastModifiedByType := SystemDataStatusLastModifiedByType(*source.LastModifiedByType)
-		data.LastModifiedByType = &lastModifiedByType
-	} else {
-		data.LastModifiedByType = nil
-	}
+	data.LastModifiedByType = genruntime.ClonePointerToString(source.LastModifiedByType)
 
 	// No error
 	return nil
@@ -3048,12 +2926,7 @@ func (data *SystemData_Status) AssignPropertiesToSystemDataStatus(destination *a
 	destination.CreatedBy = genruntime.ClonePointerToString(data.CreatedBy)
 
 	// CreatedByType
-	if data.CreatedByType != nil {
-		createdByType := string(*data.CreatedByType)
-		destination.CreatedByType = &createdByType
-	} else {
-		destination.CreatedByType = nil
-	}
+	destination.CreatedByType = genruntime.ClonePointerToString(data.CreatedByType)
 
 	// LastModifiedAt
 	destination.LastModifiedAt = genruntime.ClonePointerToString(data.LastModifiedAt)
@@ -3062,12 +2935,7 @@ func (data *SystemData_Status) AssignPropertiesToSystemDataStatus(destination *a
 	destination.LastModifiedBy = genruntime.ClonePointerToString(data.LastModifiedBy)
 
 	// LastModifiedByType
-	if data.LastModifiedByType != nil {
-		lastModifiedByType := string(*data.LastModifiedByType)
-		destination.LastModifiedByType = &lastModifiedByType
-	} else {
-		destination.LastModifiedByType = nil
-	}
+	destination.LastModifiedByType = genruntime.ClonePointerToString(data.LastModifiedByType)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3087,14 +2955,6 @@ type BackupGeoRedundantBackup string
 const (
 	BackupGeoRedundantBackupDisabled = BackupGeoRedundantBackup("Disabled")
 	BackupGeoRedundantBackupEnabled  = BackupGeoRedundantBackup("Enabled")
-)
-
-// Deprecated version of BackupStatusGeoRedundantBackup. Use v1beta20210601.BackupStatusGeoRedundantBackup instead
-type BackupStatusGeoRedundantBackup string
-
-const (
-	BackupStatusGeoRedundantBackupDisabled = BackupStatusGeoRedundantBackup("Disabled")
-	BackupStatusGeoRedundantBackupEnabled  = BackupStatusGeoRedundantBackup("Enabled")
 )
 
 type FlexibleServerOperatorSecrets struct {
@@ -3149,34 +3009,6 @@ type HighAvailabilityMode string
 const (
 	HighAvailabilityModeDisabled      = HighAvailabilityMode("Disabled")
 	HighAvailabilityModeZoneRedundant = HighAvailabilityMode("ZoneRedundant")
-)
-
-// Deprecated version of HighAvailabilityStatusMode. Use v1beta20210601.HighAvailabilityStatusMode instead
-type HighAvailabilityStatusMode string
-
-const (
-	HighAvailabilityStatusModeDisabled      = HighAvailabilityStatusMode("Disabled")
-	HighAvailabilityStatusModeZoneRedundant = HighAvailabilityStatusMode("ZoneRedundant")
-)
-
-// Deprecated version of HighAvailabilityStatusState. Use v1beta20210601.HighAvailabilityStatusState instead
-type HighAvailabilityStatusState string
-
-const (
-	HighAvailabilityStatusStateCreatingStandby = HighAvailabilityStatusState("CreatingStandby")
-	HighAvailabilityStatusStateFailingOver     = HighAvailabilityStatusState("FailingOver")
-	HighAvailabilityStatusStateHealthy         = HighAvailabilityStatusState("Healthy")
-	HighAvailabilityStatusStateNotEnabled      = HighAvailabilityStatusState("NotEnabled")
-	HighAvailabilityStatusStateRemovingStandby = HighAvailabilityStatusState("RemovingStandby")
-	HighAvailabilityStatusStateReplicatingData = HighAvailabilityStatusState("ReplicatingData")
-)
-
-// Deprecated version of NetworkStatusPublicNetworkAccess. Use v1beta20210601.NetworkStatusPublicNetworkAccess instead
-type NetworkStatusPublicNetworkAccess string
-
-const (
-	NetworkStatusPublicNetworkAccessDisabled = NetworkStatusPublicNetworkAccess("Disabled")
-	NetworkStatusPublicNetworkAccessEnabled  = NetworkStatusPublicNetworkAccess("Enabled")
 )
 
 func init() {

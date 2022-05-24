@@ -951,18 +951,18 @@ type Registry_Status struct {
 	Location                   *string                                                `json:"location,omitempty"`
 	LoginServer                *string                                                `json:"loginServer,omitempty"`
 	Name                       *string                                                `json:"name,omitempty"`
-	NetworkRuleBypassOptions   *RegistryPropertiesStatusNetworkRuleBypassOptions      `json:"networkRuleBypassOptions,omitempty"`
+	NetworkRuleBypassOptions   *string                                                `json:"networkRuleBypassOptions,omitempty"`
 	NetworkRuleSet             *NetworkRuleSet_Status                                 `json:"networkRuleSet,omitempty"`
 	Policies                   *Policies_Status                                       `json:"policies,omitempty"`
 	PrivateEndpointConnections []PrivateEndpointConnection_Status_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
-	ProvisioningState          *RegistryPropertiesStatusProvisioningState             `json:"provisioningState,omitempty"`
-	PublicNetworkAccess        *RegistryPropertiesStatusPublicNetworkAccess           `json:"publicNetworkAccess,omitempty"`
+	ProvisioningState          *string                                                `json:"provisioningState,omitempty"`
+	PublicNetworkAccess        *string                                                `json:"publicNetworkAccess,omitempty"`
 	Sku                        *Sku_Status                                            `json:"sku,omitempty"`
 	Status                     *Status_Status                                         `json:"status,omitempty"`
 	SystemData                 *SystemData_Status                                     `json:"systemData,omitempty"`
 	Tags                       map[string]string                                      `json:"tags,omitempty"`
 	Type                       *string                                                `json:"type,omitempty"`
-	ZoneRedundancy             *RegistryPropertiesStatusZoneRedundancy                `json:"zoneRedundancy,omitempty"`
+	ZoneRedundancy             *string                                                `json:"zoneRedundancy,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &Registry_Status{}
@@ -1314,12 +1314,7 @@ func (registry *Registry_Status) AssignPropertiesFromRegistryStatus(source *alph
 	registry.Name = genruntime.ClonePointerToString(source.Name)
 
 	// NetworkRuleBypassOptions
-	if source.NetworkRuleBypassOptions != nil {
-		networkRuleBypassOption := RegistryPropertiesStatusNetworkRuleBypassOptions(*source.NetworkRuleBypassOptions)
-		registry.NetworkRuleBypassOptions = &networkRuleBypassOption
-	} else {
-		registry.NetworkRuleBypassOptions = nil
-	}
+	registry.NetworkRuleBypassOptions = genruntime.ClonePointerToString(source.NetworkRuleBypassOptions)
 
 	// NetworkRuleSet
 	if source.NetworkRuleSet != nil {
@@ -1364,20 +1359,10 @@ func (registry *Registry_Status) AssignPropertiesFromRegistryStatus(source *alph
 	}
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := RegistryPropertiesStatusProvisioningState(*source.ProvisioningState)
-		registry.ProvisioningState = &provisioningState
-	} else {
-		registry.ProvisioningState = nil
-	}
+	registry.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// PublicNetworkAccess
-	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := RegistryPropertiesStatusPublicNetworkAccess(*source.PublicNetworkAccess)
-		registry.PublicNetworkAccess = &publicNetworkAccess
-	} else {
-		registry.PublicNetworkAccess = nil
-	}
+	registry.PublicNetworkAccess = genruntime.ClonePointerToString(source.PublicNetworkAccess)
 
 	// Sku
 	if source.Sku != nil {
@@ -1422,12 +1407,7 @@ func (registry *Registry_Status) AssignPropertiesFromRegistryStatus(source *alph
 	registry.Type = genruntime.ClonePointerToString(source.Type)
 
 	// ZoneRedundancy
-	if source.ZoneRedundancy != nil {
-		zoneRedundancy := RegistryPropertiesStatusZoneRedundancy(*source.ZoneRedundancy)
-		registry.ZoneRedundancy = &zoneRedundancy
-	} else {
-		registry.ZoneRedundancy = nil
-	}
+	registry.ZoneRedundancy = genruntime.ClonePointerToString(source.ZoneRedundancy)
 
 	// No error
 	return nil
@@ -1500,12 +1480,7 @@ func (registry *Registry_Status) AssignPropertiesToRegistryStatus(destination *a
 	destination.Name = genruntime.ClonePointerToString(registry.Name)
 
 	// NetworkRuleBypassOptions
-	if registry.NetworkRuleBypassOptions != nil {
-		networkRuleBypassOption := string(*registry.NetworkRuleBypassOptions)
-		destination.NetworkRuleBypassOptions = &networkRuleBypassOption
-	} else {
-		destination.NetworkRuleBypassOptions = nil
-	}
+	destination.NetworkRuleBypassOptions = genruntime.ClonePointerToString(registry.NetworkRuleBypassOptions)
 
 	// NetworkRuleSet
 	if registry.NetworkRuleSet != nil {
@@ -1550,20 +1525,10 @@ func (registry *Registry_Status) AssignPropertiesToRegistryStatus(destination *a
 	}
 
 	// ProvisioningState
-	if registry.ProvisioningState != nil {
-		provisioningState := string(*registry.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(registry.ProvisioningState)
 
 	// PublicNetworkAccess
-	if registry.PublicNetworkAccess != nil {
-		publicNetworkAccess := string(*registry.PublicNetworkAccess)
-		destination.PublicNetworkAccess = &publicNetworkAccess
-	} else {
-		destination.PublicNetworkAccess = nil
-	}
+	destination.PublicNetworkAccess = genruntime.ClonePointerToString(registry.PublicNetworkAccess)
 
 	// Sku
 	if registry.Sku != nil {
@@ -1608,12 +1573,7 @@ func (registry *Registry_Status) AssignPropertiesToRegistryStatus(destination *a
 	destination.Type = genruntime.ClonePointerToString(registry.Type)
 
 	// ZoneRedundancy
-	if registry.ZoneRedundancy != nil {
-		zoneRedundancy := string(*registry.ZoneRedundancy)
-		destination.ZoneRedundancy = &zoneRedundancy
-	} else {
-		destination.ZoneRedundancy = nil
-	}
+	destination.ZoneRedundancy = genruntime.ClonePointerToString(registry.ZoneRedundancy)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1757,8 +1717,8 @@ func (property *EncryptionProperty) AssignPropertiesToEncryptionProperty(destina
 
 // Deprecated version of EncryptionProperty_Status. Use v1beta20210901.EncryptionProperty_Status instead
 type EncryptionProperty_Status struct {
-	KeyVaultProperties *KeyVaultProperties_Status      `json:"keyVaultProperties,omitempty"`
-	Status             *EncryptionPropertyStatusStatus `json:"status,omitempty"`
+	KeyVaultProperties *KeyVaultProperties_Status `json:"keyVaultProperties,omitempty"`
+	Status             *string                    `json:"status,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &EncryptionProperty_Status{}
@@ -1812,12 +1772,7 @@ func (property *EncryptionProperty_Status) AssignPropertiesFromEncryptionPropert
 	}
 
 	// Status
-	if source.Status != nil {
-		status := EncryptionPropertyStatusStatus(*source.Status)
-		property.Status = &status
-	} else {
-		property.Status = nil
-	}
+	property.Status = genruntime.ClonePointerToString(source.Status)
 
 	// No error
 	return nil
@@ -1841,12 +1796,7 @@ func (property *EncryptionProperty_Status) AssignPropertiesToEncryptionPropertyS
 	}
 
 	// Status
-	if property.Status != nil {
-		status := string(*property.Status)
-		destination.Status = &status
-	} else {
-		destination.Status = nil
-	}
+	destination.Status = genruntime.ClonePointerToString(property.Status)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2046,7 +1996,7 @@ func (properties *IdentityProperties) AssignPropertiesToIdentityProperties(desti
 type IdentityProperties_Status struct {
 	PrincipalId            *string                                  `json:"principalId,omitempty"`
 	TenantId               *string                                  `json:"tenantId,omitempty"`
-	Type                   *IdentityPropertiesStatusType            `json:"type,omitempty"`
+	Type                   *string                                  `json:"type,omitempty"`
 	UserAssignedIdentities map[string]UserIdentityProperties_Status `json:"userAssignedIdentities,omitempty"`
 }
 
@@ -2109,12 +2059,7 @@ func (properties *IdentityProperties_Status) AssignPropertiesFromIdentityPropert
 	properties.TenantId = genruntime.ClonePointerToString(source.TenantId)
 
 	// Type
-	if source.Type != nil {
-		typeVar := IdentityPropertiesStatusType(*source.Type)
-		properties.Type = &typeVar
-	} else {
-		properties.Type = nil
-	}
+	properties.Type = genruntime.ClonePointerToString(source.Type)
 
 	// UserAssignedIdentities
 	if source.UserAssignedIdentities != nil {
@@ -2150,12 +2095,7 @@ func (properties *IdentityProperties_Status) AssignPropertiesToIdentityPropertie
 	destination.TenantId = genruntime.ClonePointerToString(properties.TenantId)
 
 	// Type
-	if properties.Type != nil {
-		typeVar := string(*properties.Type)
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
+	destination.Type = genruntime.ClonePointerToString(properties.Type)
 
 	// UserAssignedIdentities
 	if properties.UserAssignedIdentities != nil {
@@ -2328,8 +2268,8 @@ func (ruleSet *NetworkRuleSet) AssignPropertiesToNetworkRuleSet(destination *alp
 
 // Deprecated version of NetworkRuleSet_Status. Use v1beta20210901.NetworkRuleSet_Status instead
 type NetworkRuleSet_Status struct {
-	DefaultAction *NetworkRuleSetStatusDefaultAction `json:"defaultAction,omitempty"`
-	IpRules       []IPRule_Status                    `json:"ipRules,omitempty"`
+	DefaultAction *string         `json:"defaultAction,omitempty"`
+	IpRules       []IPRule_Status `json:"ipRules,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &NetworkRuleSet_Status{}
@@ -2370,12 +2310,7 @@ func (ruleSet *NetworkRuleSet_Status) PopulateFromARM(owner genruntime.Arbitrary
 func (ruleSet *NetworkRuleSet_Status) AssignPropertiesFromNetworkRuleSetStatus(source *alpha20210901s.NetworkRuleSet_Status) error {
 
 	// DefaultAction
-	if source.DefaultAction != nil {
-		defaultAction := NetworkRuleSetStatusDefaultAction(*source.DefaultAction)
-		ruleSet.DefaultAction = &defaultAction
-	} else {
-		ruleSet.DefaultAction = nil
-	}
+	ruleSet.DefaultAction = genruntime.ClonePointerToString(source.DefaultAction)
 
 	// IpRules
 	if source.IpRules != nil {
@@ -2405,12 +2340,7 @@ func (ruleSet *NetworkRuleSet_Status) AssignPropertiesToNetworkRuleSetStatus(des
 	propertyBag := genruntime.NewPropertyBag()
 
 	// DefaultAction
-	if ruleSet.DefaultAction != nil {
-		defaultAction := string(*ruleSet.DefaultAction)
-		destination.DefaultAction = &defaultAction
-	} else {
-		destination.DefaultAction = nil
-	}
+	destination.DefaultAction = genruntime.ClonePointerToString(ruleSet.DefaultAction)
 
 	// IpRules
 	if ruleSet.IpRules != nil {
@@ -2962,46 +2892,6 @@ func (embedded *PrivateEndpointConnection_Status_SubResourceEmbedded) AssignProp
 	return nil
 }
 
-// Deprecated version of RegistryPropertiesStatusNetworkRuleBypassOptions. Use
-// v1beta20210901.RegistryPropertiesStatusNetworkRuleBypassOptions instead
-type RegistryPropertiesStatusNetworkRuleBypassOptions string
-
-const (
-	RegistryPropertiesStatusNetworkRuleBypassOptionsAzureServices = RegistryPropertiesStatusNetworkRuleBypassOptions("AzureServices")
-	RegistryPropertiesStatusNetworkRuleBypassOptionsNone          = RegistryPropertiesStatusNetworkRuleBypassOptions("None")
-)
-
-// Deprecated version of RegistryPropertiesStatusProvisioningState. Use
-// v1beta20210901.RegistryPropertiesStatusProvisioningState instead
-type RegistryPropertiesStatusProvisioningState string
-
-const (
-	RegistryPropertiesStatusProvisioningStateCanceled  = RegistryPropertiesStatusProvisioningState("Canceled")
-	RegistryPropertiesStatusProvisioningStateCreating  = RegistryPropertiesStatusProvisioningState("Creating")
-	RegistryPropertiesStatusProvisioningStateDeleting  = RegistryPropertiesStatusProvisioningState("Deleting")
-	RegistryPropertiesStatusProvisioningStateFailed    = RegistryPropertiesStatusProvisioningState("Failed")
-	RegistryPropertiesStatusProvisioningStateSucceeded = RegistryPropertiesStatusProvisioningState("Succeeded")
-	RegistryPropertiesStatusProvisioningStateUpdating  = RegistryPropertiesStatusProvisioningState("Updating")
-)
-
-// Deprecated version of RegistryPropertiesStatusPublicNetworkAccess. Use
-// v1beta20210901.RegistryPropertiesStatusPublicNetworkAccess instead
-type RegistryPropertiesStatusPublicNetworkAccess string
-
-const (
-	RegistryPropertiesStatusPublicNetworkAccessDisabled = RegistryPropertiesStatusPublicNetworkAccess("Disabled")
-	RegistryPropertiesStatusPublicNetworkAccessEnabled  = RegistryPropertiesStatusPublicNetworkAccess("Enabled")
-)
-
-// Deprecated version of RegistryPropertiesStatusZoneRedundancy. Use v1beta20210901.RegistryPropertiesStatusZoneRedundancy
-// instead
-type RegistryPropertiesStatusZoneRedundancy string
-
-const (
-	RegistryPropertiesStatusZoneRedundancyDisabled = RegistryPropertiesStatusZoneRedundancy("Disabled")
-	RegistryPropertiesStatusZoneRedundancyEnabled  = RegistryPropertiesStatusZoneRedundancy("Enabled")
-)
-
 // Deprecated version of Sku. Use v1beta20210901.Sku instead
 type Sku struct {
 	// +kubebuilder:validation:Required
@@ -3088,8 +2978,8 @@ func (sku *Sku) AssignPropertiesToSku(destination *alpha20210901s.Sku) error {
 
 // Deprecated version of Sku_Status. Use v1beta20210901.Sku_Status instead
 type Sku_Status struct {
-	Name *SkuStatusName `json:"name,omitempty"`
-	Tier *SkuStatusTier `json:"tier,omitempty"`
+	Name *string `json:"name,omitempty"`
+	Tier *string `json:"tier,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &Sku_Status{}
@@ -3126,20 +3016,10 @@ func (sku *Sku_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 func (sku *Sku_Status) AssignPropertiesFromSkuStatus(source *alpha20210901s.Sku_Status) error {
 
 	// Name
-	if source.Name != nil {
-		name := SkuStatusName(*source.Name)
-		sku.Name = &name
-	} else {
-		sku.Name = nil
-	}
+	sku.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Tier
-	if source.Tier != nil {
-		tier := SkuStatusTier(*source.Tier)
-		sku.Tier = &tier
-	} else {
-		sku.Tier = nil
-	}
+	sku.Tier = genruntime.ClonePointerToString(source.Tier)
 
 	// No error
 	return nil
@@ -3151,20 +3031,10 @@ func (sku *Sku_Status) AssignPropertiesToSkuStatus(destination *alpha20210901s.S
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	if sku.Name != nil {
-		name := string(*sku.Name)
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(sku.Name)
 
 	// Tier
-	if sku.Tier != nil {
-		tier := string(*sku.Tier)
-		destination.Tier = &tier
-	} else {
-		destination.Tier = nil
-	}
+	destination.Tier = genruntime.ClonePointerToString(sku.Tier)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3263,12 +3133,12 @@ func (status *Status_Status) AssignPropertiesToStatusStatus(destination *alpha20
 
 // Deprecated version of SystemData_Status. Use v1beta20210901.SystemData_Status instead
 type SystemData_Status struct {
-	CreatedAt          *string                             `json:"createdAt,omitempty"`
-	CreatedBy          *string                             `json:"createdBy,omitempty"`
-	CreatedByType      *SystemDataStatusCreatedByType      `json:"createdByType,omitempty"`
-	LastModifiedAt     *string                             `json:"lastModifiedAt,omitempty"`
-	LastModifiedBy     *string                             `json:"lastModifiedBy,omitempty"`
-	LastModifiedByType *SystemDataStatusLastModifiedByType `json:"lastModifiedByType,omitempty"`
+	CreatedAt          *string `json:"createdAt,omitempty"`
+	CreatedBy          *string `json:"createdBy,omitempty"`
+	CreatedByType      *string `json:"createdByType,omitempty"`
+	LastModifiedAt     *string `json:"lastModifiedAt,omitempty"`
+	LastModifiedBy     *string `json:"lastModifiedBy,omitempty"`
+	LastModifiedByType *string `json:"lastModifiedByType,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &SystemData_Status{}
@@ -3335,12 +3205,7 @@ func (data *SystemData_Status) AssignPropertiesFromSystemDataStatus(source *alph
 	data.CreatedBy = genruntime.ClonePointerToString(source.CreatedBy)
 
 	// CreatedByType
-	if source.CreatedByType != nil {
-		createdByType := SystemDataStatusCreatedByType(*source.CreatedByType)
-		data.CreatedByType = &createdByType
-	} else {
-		data.CreatedByType = nil
-	}
+	data.CreatedByType = genruntime.ClonePointerToString(source.CreatedByType)
 
 	// LastModifiedAt
 	data.LastModifiedAt = genruntime.ClonePointerToString(source.LastModifiedAt)
@@ -3349,12 +3214,7 @@ func (data *SystemData_Status) AssignPropertiesFromSystemDataStatus(source *alph
 	data.LastModifiedBy = genruntime.ClonePointerToString(source.LastModifiedBy)
 
 	// LastModifiedByType
-	if source.LastModifiedByType != nil {
-		lastModifiedByType := SystemDataStatusLastModifiedByType(*source.LastModifiedByType)
-		data.LastModifiedByType = &lastModifiedByType
-	} else {
-		data.LastModifiedByType = nil
-	}
+	data.LastModifiedByType = genruntime.ClonePointerToString(source.LastModifiedByType)
 
 	// No error
 	return nil
@@ -3372,12 +3232,7 @@ func (data *SystemData_Status) AssignPropertiesToSystemDataStatus(destination *a
 	destination.CreatedBy = genruntime.ClonePointerToString(data.CreatedBy)
 
 	// CreatedByType
-	if data.CreatedByType != nil {
-		createdByType := string(*data.CreatedByType)
-		destination.CreatedByType = &createdByType
-	} else {
-		destination.CreatedByType = nil
-	}
+	destination.CreatedByType = genruntime.ClonePointerToString(data.CreatedByType)
 
 	// LastModifiedAt
 	destination.LastModifiedAt = genruntime.ClonePointerToString(data.LastModifiedAt)
@@ -3386,12 +3241,7 @@ func (data *SystemData_Status) AssignPropertiesToSystemDataStatus(destination *a
 	destination.LastModifiedBy = genruntime.ClonePointerToString(data.LastModifiedBy)
 
 	// LastModifiedByType
-	if data.LastModifiedByType != nil {
-		lastModifiedByType := string(*data.LastModifiedByType)
-		destination.LastModifiedByType = &lastModifiedByType
-	} else {
-		destination.LastModifiedByType = nil
-	}
+	destination.LastModifiedByType = genruntime.ClonePointerToString(data.LastModifiedByType)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3403,14 +3253,6 @@ func (data *SystemData_Status) AssignPropertiesToSystemDataStatus(destination *a
 	// No error
 	return nil
 }
-
-// Deprecated version of EncryptionPropertyStatusStatus. Use v1beta20210901.EncryptionPropertyStatusStatus instead
-type EncryptionPropertyStatusStatus string
-
-const (
-	EncryptionPropertyStatusStatusDisabled = EncryptionPropertyStatusStatus("disabled")
-	EncryptionPropertyStatusStatusEnabled  = EncryptionPropertyStatusStatus("enabled")
-)
 
 // Deprecated version of ExportPolicy. Use v1beta20210901.ExportPolicy instead
 type ExportPolicy struct {
@@ -3497,7 +3339,7 @@ func (policy *ExportPolicy) AssignPropertiesToExportPolicy(destination *alpha202
 
 // Deprecated version of ExportPolicy_Status. Use v1beta20210901.ExportPolicy_Status instead
 type ExportPolicy_Status struct {
-	Status *ExportPolicyStatusStatus `json:"status,omitempty"`
+	Status *string `json:"status,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ExportPolicy_Status{}
@@ -3528,12 +3370,7 @@ func (policy *ExportPolicy_Status) PopulateFromARM(owner genruntime.ArbitraryOwn
 func (policy *ExportPolicy_Status) AssignPropertiesFromExportPolicyStatus(source *alpha20210901s.ExportPolicy_Status) error {
 
 	// Status
-	if source.Status != nil {
-		status := ExportPolicyStatusStatus(*source.Status)
-		policy.Status = &status
-	} else {
-		policy.Status = nil
-	}
+	policy.Status = genruntime.ClonePointerToString(source.Status)
 
 	// No error
 	return nil
@@ -3545,12 +3382,7 @@ func (policy *ExportPolicy_Status) AssignPropertiesToExportPolicyStatus(destinat
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Status
-	if policy.Status != nil {
-		status := string(*policy.Status)
-		destination.Status = &status
-	} else {
-		destination.Status = nil
-	}
+	destination.Status = genruntime.ClonePointerToString(policy.Status)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3669,8 +3501,8 @@ func (rule *IPRule) AssignPropertiesToIPRule(destination *alpha20210901s.IPRule)
 
 // Deprecated version of IPRule_Status. Use v1beta20210901.IPRule_Status instead
 type IPRule_Status struct {
-	Action *IPRuleStatusAction `json:"action,omitempty"`
-	Value  *string             `json:"value,omitempty"`
+	Action *string `json:"action,omitempty"`
+	Value  *string `json:"value,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &IPRule_Status{}
@@ -3707,12 +3539,7 @@ func (rule *IPRule_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 func (rule *IPRule_Status) AssignPropertiesFromIPRuleStatus(source *alpha20210901s.IPRule_Status) error {
 
 	// Action
-	if source.Action != nil {
-		action := IPRuleStatusAction(*source.Action)
-		rule.Action = &action
-	} else {
-		rule.Action = nil
-	}
+	rule.Action = genruntime.ClonePointerToString(source.Action)
 
 	// Value
 	rule.Value = genruntime.ClonePointerToString(source.Value)
@@ -3727,12 +3554,7 @@ func (rule *IPRule_Status) AssignPropertiesToIPRuleStatus(destination *alpha2021
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Action
-	if rule.Action != nil {
-		action := string(*rule.Action)
-		destination.Action = &action
-	} else {
-		destination.Action = nil
-	}
+	destination.Action = genruntime.ClonePointerToString(rule.Action)
 
 	// Value
 	destination.Value = genruntime.ClonePointerToString(rule.Value)
@@ -3960,14 +3782,6 @@ func (properties *KeyVaultProperties_Status) AssignPropertiesToKeyVaultPropertie
 	return nil
 }
 
-// Deprecated version of NetworkRuleSetStatusDefaultAction. Use v1beta20210901.NetworkRuleSetStatusDefaultAction instead
-type NetworkRuleSetStatusDefaultAction string
-
-const (
-	NetworkRuleSetStatusDefaultActionAllow = NetworkRuleSetStatusDefaultAction("Allow")
-	NetworkRuleSetStatusDefaultActionDeny  = NetworkRuleSetStatusDefaultAction("Deny")
-)
-
 // Deprecated version of QuarantinePolicy. Use v1beta20210901.QuarantinePolicy instead
 type QuarantinePolicy struct {
 	Status *QuarantinePolicyStatus `json:"status,omitempty"`
@@ -4053,7 +3867,7 @@ func (policy *QuarantinePolicy) AssignPropertiesToQuarantinePolicy(destination *
 
 // Deprecated version of QuarantinePolicy_Status. Use v1beta20210901.QuarantinePolicy_Status instead
 type QuarantinePolicy_Status struct {
-	Status *QuarantinePolicyStatusStatus `json:"status,omitempty"`
+	Status *string `json:"status,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &QuarantinePolicy_Status{}
@@ -4084,12 +3898,7 @@ func (policy *QuarantinePolicy_Status) PopulateFromARM(owner genruntime.Arbitrar
 func (policy *QuarantinePolicy_Status) AssignPropertiesFromQuarantinePolicyStatus(source *alpha20210901s.QuarantinePolicy_Status) error {
 
 	// Status
-	if source.Status != nil {
-		status := QuarantinePolicyStatusStatus(*source.Status)
-		policy.Status = &status
-	} else {
-		policy.Status = nil
-	}
+	policy.Status = genruntime.ClonePointerToString(source.Status)
 
 	// No error
 	return nil
@@ -4101,12 +3910,7 @@ func (policy *QuarantinePolicy_Status) AssignPropertiesToQuarantinePolicyStatus(
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Status
-	if policy.Status != nil {
-		status := string(*policy.Status)
-		destination.Status = &status
-	} else {
-		destination.Status = nil
-	}
+	destination.Status = genruntime.ClonePointerToString(policy.Status)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -4223,9 +4027,9 @@ func (policy *RetentionPolicy) AssignPropertiesToRetentionPolicy(destination *al
 
 // Deprecated version of RetentionPolicy_Status. Use v1beta20210901.RetentionPolicy_Status instead
 type RetentionPolicy_Status struct {
-	Days            *int                         `json:"days,omitempty"`
-	LastUpdatedTime *string                      `json:"lastUpdatedTime,omitempty"`
-	Status          *RetentionPolicyStatusStatus `json:"status,omitempty"`
+	Days            *int    `json:"days,omitempty"`
+	LastUpdatedTime *string `json:"lastUpdatedTime,omitempty"`
+	Status          *string `json:"status,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &RetentionPolicy_Status{}
@@ -4274,12 +4078,7 @@ func (policy *RetentionPolicy_Status) AssignPropertiesFromRetentionPolicyStatus(
 	policy.LastUpdatedTime = genruntime.ClonePointerToString(source.LastUpdatedTime)
 
 	// Status
-	if source.Status != nil {
-		status := RetentionPolicyStatusStatus(*source.Status)
-		policy.Status = &status
-	} else {
-		policy.Status = nil
-	}
+	policy.Status = genruntime.ClonePointerToString(source.Status)
 
 	// No error
 	return nil
@@ -4297,12 +4096,7 @@ func (policy *RetentionPolicy_Status) AssignPropertiesToRetentionPolicyStatus(de
 	destination.LastUpdatedTime = genruntime.ClonePointerToString(policy.LastUpdatedTime)
 
 	// Status
-	if policy.Status != nil {
-		status := string(*policy.Status)
-		destination.Status = &status
-	} else {
-		destination.Status = nil
-	}
+	destination.Status = genruntime.ClonePointerToString(policy.Status)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -4429,8 +4223,8 @@ func (policy *TrustPolicy) AssignPropertiesToTrustPolicy(destination *alpha20210
 
 // Deprecated version of TrustPolicy_Status. Use v1beta20210901.TrustPolicy_Status instead
 type TrustPolicy_Status struct {
-	Status *TrustPolicyStatusStatus `json:"status,omitempty"`
-	Type   *TrustPolicyStatusType   `json:"type,omitempty"`
+	Status *string `json:"status,omitempty"`
+	Type   *string `json:"type,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &TrustPolicy_Status{}
@@ -4467,20 +4261,10 @@ func (policy *TrustPolicy_Status) PopulateFromARM(owner genruntime.ArbitraryOwne
 func (policy *TrustPolicy_Status) AssignPropertiesFromTrustPolicyStatus(source *alpha20210901s.TrustPolicy_Status) error {
 
 	// Status
-	if source.Status != nil {
-		status := TrustPolicyStatusStatus(*source.Status)
-		policy.Status = &status
-	} else {
-		policy.Status = nil
-	}
+	policy.Status = genruntime.ClonePointerToString(source.Status)
 
 	// Type
-	if source.Type != nil {
-		typeVar := TrustPolicyStatusType(*source.Type)
-		policy.Type = &typeVar
-	} else {
-		policy.Type = nil
-	}
+	policy.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
@@ -4492,20 +4276,10 @@ func (policy *TrustPolicy_Status) AssignPropertiesToTrustPolicyStatus(destinatio
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Status
-	if policy.Status != nil {
-		status := string(*policy.Status)
-		destination.Status = &status
-	} else {
-		destination.Status = nil
-	}
+	destination.Status = genruntime.ClonePointerToString(policy.Status)
 
 	// Type
-	if policy.Type != nil {
-		typeVar := string(*policy.Type)
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
+	destination.Type = genruntime.ClonePointerToString(policy.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -4680,48 +4454,6 @@ func (properties *UserIdentityProperties_Status) AssignPropertiesToUserIdentityP
 	// No error
 	return nil
 }
-
-// Deprecated version of ExportPolicyStatusStatus. Use v1beta20210901.ExportPolicyStatusStatus instead
-type ExportPolicyStatusStatus string
-
-const (
-	ExportPolicyStatusStatusDisabled = ExportPolicyStatusStatus("disabled")
-	ExportPolicyStatusStatusEnabled  = ExportPolicyStatusStatus("enabled")
-)
-
-// Deprecated version of IPRuleStatusAction. Use v1beta20210901.IPRuleStatusAction instead
-type IPRuleStatusAction string
-
-const IPRuleStatusActionAllow = IPRuleStatusAction("Allow")
-
-// Deprecated version of QuarantinePolicyStatusStatus. Use v1beta20210901.QuarantinePolicyStatusStatus instead
-type QuarantinePolicyStatusStatus string
-
-const (
-	QuarantinePolicyStatusStatusDisabled = QuarantinePolicyStatusStatus("disabled")
-	QuarantinePolicyStatusStatusEnabled  = QuarantinePolicyStatusStatus("enabled")
-)
-
-// Deprecated version of RetentionPolicyStatusStatus. Use v1beta20210901.RetentionPolicyStatusStatus instead
-type RetentionPolicyStatusStatus string
-
-const (
-	RetentionPolicyStatusStatusDisabled = RetentionPolicyStatusStatus("disabled")
-	RetentionPolicyStatusStatusEnabled  = RetentionPolicyStatusStatus("enabled")
-)
-
-// Deprecated version of TrustPolicyStatusStatus. Use v1beta20210901.TrustPolicyStatusStatus instead
-type TrustPolicyStatusStatus string
-
-const (
-	TrustPolicyStatusStatusDisabled = TrustPolicyStatusStatus("disabled")
-	TrustPolicyStatusStatusEnabled  = TrustPolicyStatusStatus("enabled")
-)
-
-// Deprecated version of TrustPolicyStatusType. Use v1beta20210901.TrustPolicyStatusType instead
-type TrustPolicyStatusType string
-
-const TrustPolicyStatusTypeNotary = TrustPolicyStatusType("Notary")
 
 func init() {
 	SchemeBuilder.Register(&Registry{}, &RegistryList{})

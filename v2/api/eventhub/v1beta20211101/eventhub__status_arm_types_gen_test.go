@@ -164,16 +164,7 @@ func AddIndependentPropertyGeneratorsForEventhubStatusPropertiesARM(gens map[str
 	gens["MessageRetentionInDays"] = gen.PtrOf(gen.Int())
 	gens["PartitionCount"] = gen.PtrOf(gen.Int())
 	gens["PartitionIds"] = gen.SliceOf(gen.AlphaString())
-	gens["Status"] = gen.PtrOf(gen.OneConstOf(
-		EventhubStatusPropertiesStatusActive,
-		EventhubStatusPropertiesStatusCreating,
-		EventhubStatusPropertiesStatusDeleting,
-		EventhubStatusPropertiesStatusDisabled,
-		EventhubStatusPropertiesStatusReceiveDisabled,
-		EventhubStatusPropertiesStatusRenaming,
-		EventhubStatusPropertiesStatusRestoring,
-		EventhubStatusPropertiesStatusSendDisabled,
-		EventhubStatusPropertiesStatusUnknown))
+	gens["Status"] = gen.PtrOf(gen.AlphaString())
 	gens["UpdatedAt"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -249,7 +240,7 @@ func CaptureDescriptionStatusARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForCaptureDescriptionStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForCaptureDescriptionStatusARM(gens map[string]gopter.Gen) {
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
-	gens["Encoding"] = gen.PtrOf(gen.OneConstOf(CaptureDescriptionStatusEncodingAvro, CaptureDescriptionStatusEncodingAvroDeflate))
+	gens["Encoding"] = gen.PtrOf(gen.AlphaString())
 	gens["IntervalInSeconds"] = gen.PtrOf(gen.Int())
 	gens["SizeLimitInBytes"] = gen.PtrOf(gen.Int())
 	gens["SkipEmptyArchives"] = gen.PtrOf(gen.Bool())

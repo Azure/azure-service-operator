@@ -44,7 +44,7 @@ type SnapshotProperties_StatusARM struct {
 	DiskSizeGB *int `json:"diskSizeGB,omitempty"`
 
 	// DiskState: The state of the snapshot.
-	DiskState *DiskState_Status `json:"diskState,omitempty"`
+	DiskState *string `json:"diskState,omitempty"`
 
 	// Encryption: Encryption property can be used to encrypt data at rest with customer managed keys or platform managed keys.
 	Encryption *Encryption_StatusARM `json:"encryption,omitempty"`
@@ -54,15 +54,15 @@ type SnapshotProperties_StatusARM struct {
 	EncryptionSettingsCollection *EncryptionSettingsCollection_StatusARM `json:"encryptionSettingsCollection,omitempty"`
 
 	// HyperVGeneration: The hypervisor generation of the Virtual Machine. Applicable to OS disks only.
-	HyperVGeneration *SnapshotPropertiesStatusHyperVGeneration `json:"hyperVGeneration,omitempty"`
+	HyperVGeneration *string `json:"hyperVGeneration,omitempty"`
 
 	// Incremental: Whether a snapshot is incremental. Incremental snapshots on the same disk occupy less space than full
 	// snapshots and can be diffed.
-	Incremental         *bool                       `json:"incremental,omitempty"`
-	NetworkAccessPolicy *NetworkAccessPolicy_Status `json:"networkAccessPolicy,omitempty"`
+	Incremental         *bool   `json:"incremental,omitempty"`
+	NetworkAccessPolicy *string `json:"networkAccessPolicy,omitempty"`
 
 	// OsType: The Operating System type.
-	OsType *SnapshotPropertiesStatusOsType `json:"osType,omitempty"`
+	OsType *string `json:"osType,omitempty"`
 
 	// ProvisioningState: The disk provisioning state.
 	ProvisioningState *string `json:"provisioningState,omitempty"`
@@ -79,16 +79,8 @@ type SnapshotProperties_StatusARM struct {
 
 type SnapshotSku_StatusARM struct {
 	// Name: The sku name.
-	Name *SnapshotSkuStatusName `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
 
 	// Tier: The sku tier.
 	Tier *string `json:"tier,omitempty"`
 }
-
-type SnapshotSkuStatusName string
-
-const (
-	SnapshotSkuStatusNamePremiumLRS  = SnapshotSkuStatusName("Premium_LRS")
-	SnapshotSkuStatusNameStandardLRS = SnapshotSkuStatusName("Standard_LRS")
-	SnapshotSkuStatusNameStandardZRS = SnapshotSkuStatusName("Standard_ZRS")
-)

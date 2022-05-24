@@ -342,38 +342,38 @@ type Disk_Status struct {
 	BurstingEnabled *bool `json:"burstingEnabled,omitempty"`
 
 	// Conditions: The observed state of the resource
-	Conditions                   []conditions.Condition                `json:"conditions,omitempty"`
-	CreationData                 *CreationData_Status                  `json:"creationData,omitempty"`
-	DiskAccessId                 *string                               `json:"diskAccessId,omitempty"`
-	DiskIOPSReadOnly             *int                                  `json:"diskIOPSReadOnly,omitempty"`
-	DiskIOPSReadWrite            *int                                  `json:"diskIOPSReadWrite,omitempty"`
-	DiskMBpsReadOnly             *int                                  `json:"diskMBpsReadOnly,omitempty"`
-	DiskMBpsReadWrite            *int                                  `json:"diskMBpsReadWrite,omitempty"`
-	DiskSizeBytes                *int                                  `json:"diskSizeBytes,omitempty"`
-	DiskSizeGB                   *int                                  `json:"diskSizeGB,omitempty"`
-	DiskState                    *DiskState_Status                     `json:"diskState,omitempty"`
-	Encryption                   *Encryption_Status                    `json:"encryption,omitempty"`
-	EncryptionSettingsCollection *EncryptionSettingsCollection_Status  `json:"encryptionSettingsCollection,omitempty"`
-	ExtendedLocation             *ExtendedLocation_Status              `json:"extendedLocation,omitempty"`
-	HyperVGeneration             *DiskPropertiesStatusHyperVGeneration `json:"hyperVGeneration,omitempty"`
-	Id                           *string                               `json:"id,omitempty"`
-	Location                     *string                               `json:"location,omitempty"`
-	ManagedBy                    *string                               `json:"managedBy,omitempty"`
-	ManagedByExtended            []string                              `json:"managedByExtended,omitempty"`
-	MaxShares                    *int                                  `json:"maxShares,omitempty"`
-	Name                         *string                               `json:"name,omitempty"`
-	NetworkAccessPolicy          *NetworkAccessPolicy_Status           `json:"networkAccessPolicy,omitempty"`
-	OsType                       *DiskPropertiesStatusOsType           `json:"osType,omitempty"`
-	ProvisioningState            *string                               `json:"provisioningState,omitempty"`
-	PurchasePlan                 *PurchasePlan_Status                  `json:"purchasePlan,omitempty"`
-	ShareInfo                    []ShareInfoElement_Status             `json:"shareInfo,omitempty"`
-	Sku                          *DiskSku_Status                       `json:"sku,omitempty"`
-	Tags                         map[string]string                     `json:"tags,omitempty"`
-	Tier                         *string                               `json:"tier,omitempty"`
-	TimeCreated                  *string                               `json:"timeCreated,omitempty"`
-	Type                         *string                               `json:"type,omitempty"`
-	UniqueId                     *string                               `json:"uniqueId,omitempty"`
-	Zones                        []string                              `json:"zones,omitempty"`
+	Conditions                   []conditions.Condition               `json:"conditions,omitempty"`
+	CreationData                 *CreationData_Status                 `json:"creationData,omitempty"`
+	DiskAccessId                 *string                              `json:"diskAccessId,omitempty"`
+	DiskIOPSReadOnly             *int                                 `json:"diskIOPSReadOnly,omitempty"`
+	DiskIOPSReadWrite            *int                                 `json:"diskIOPSReadWrite,omitempty"`
+	DiskMBpsReadOnly             *int                                 `json:"diskMBpsReadOnly,omitempty"`
+	DiskMBpsReadWrite            *int                                 `json:"diskMBpsReadWrite,omitempty"`
+	DiskSizeBytes                *int                                 `json:"diskSizeBytes,omitempty"`
+	DiskSizeGB                   *int                                 `json:"diskSizeGB,omitempty"`
+	DiskState                    *string                              `json:"diskState,omitempty"`
+	Encryption                   *Encryption_Status                   `json:"encryption,omitempty"`
+	EncryptionSettingsCollection *EncryptionSettingsCollection_Status `json:"encryptionSettingsCollection,omitempty"`
+	ExtendedLocation             *ExtendedLocation_Status             `json:"extendedLocation,omitempty"`
+	HyperVGeneration             *string                              `json:"hyperVGeneration,omitempty"`
+	Id                           *string                              `json:"id,omitempty"`
+	Location                     *string                              `json:"location,omitempty"`
+	ManagedBy                    *string                              `json:"managedBy,omitempty"`
+	ManagedByExtended            []string                             `json:"managedByExtended,omitempty"`
+	MaxShares                    *int                                 `json:"maxShares,omitempty"`
+	Name                         *string                              `json:"name,omitempty"`
+	NetworkAccessPolicy          *string                              `json:"networkAccessPolicy,omitempty"`
+	OsType                       *string                              `json:"osType,omitempty"`
+	ProvisioningState            *string                              `json:"provisioningState,omitempty"`
+	PurchasePlan                 *PurchasePlan_Status                 `json:"purchasePlan,omitempty"`
+	ShareInfo                    []ShareInfoElement_Status            `json:"shareInfo,omitempty"`
+	Sku                          *DiskSku_Status                      `json:"sku,omitempty"`
+	Tags                         map[string]string                    `json:"tags,omitempty"`
+	Tier                         *string                              `json:"tier,omitempty"`
+	TimeCreated                  *string                              `json:"timeCreated,omitempty"`
+	Type                         *string                              `json:"type,omitempty"`
+	UniqueId                     *string                              `json:"uniqueId,omitempty"`
+	Zones                        []string                             `json:"zones,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &Disk_Status{}
@@ -786,12 +786,7 @@ func (disk *Disk_Status) AssignPropertiesFromDiskStatus(source *alpha20200930s.D
 	disk.DiskSizeGB = genruntime.ClonePointerToInt(source.DiskSizeGB)
 
 	// DiskState
-	if source.DiskState != nil {
-		diskState := DiskState_Status(*source.DiskState)
-		disk.DiskState = &diskState
-	} else {
-		disk.DiskState = nil
-	}
+	disk.DiskState = genruntime.ClonePointerToString(source.DiskState)
 
 	// Encryption
 	if source.Encryption != nil {
@@ -830,12 +825,7 @@ func (disk *Disk_Status) AssignPropertiesFromDiskStatus(source *alpha20200930s.D
 	}
 
 	// HyperVGeneration
-	if source.HyperVGeneration != nil {
-		hyperVGeneration := DiskPropertiesStatusHyperVGeneration(*source.HyperVGeneration)
-		disk.HyperVGeneration = &hyperVGeneration
-	} else {
-		disk.HyperVGeneration = nil
-	}
+	disk.HyperVGeneration = genruntime.ClonePointerToString(source.HyperVGeneration)
 
 	// Id
 	disk.Id = genruntime.ClonePointerToString(source.Id)
@@ -856,20 +846,10 @@ func (disk *Disk_Status) AssignPropertiesFromDiskStatus(source *alpha20200930s.D
 	disk.Name = genruntime.ClonePointerToString(source.Name)
 
 	// NetworkAccessPolicy
-	if source.NetworkAccessPolicy != nil {
-		networkAccessPolicy := NetworkAccessPolicy_Status(*source.NetworkAccessPolicy)
-		disk.NetworkAccessPolicy = &networkAccessPolicy
-	} else {
-		disk.NetworkAccessPolicy = nil
-	}
+	disk.NetworkAccessPolicy = genruntime.ClonePointerToString(source.NetworkAccessPolicy)
 
 	// OsType
-	if source.OsType != nil {
-		osType := DiskPropertiesStatusOsType(*source.OsType)
-		disk.OsType = &osType
-	} else {
-		disk.OsType = nil
-	}
+	disk.OsType = genruntime.ClonePointerToString(source.OsType)
 
 	// ProvisioningState
 	disk.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
@@ -988,12 +968,7 @@ func (disk *Disk_Status) AssignPropertiesToDiskStatus(destination *alpha20200930
 	destination.DiskSizeGB = genruntime.ClonePointerToInt(disk.DiskSizeGB)
 
 	// DiskState
-	if disk.DiskState != nil {
-		diskState := string(*disk.DiskState)
-		destination.DiskState = &diskState
-	} else {
-		destination.DiskState = nil
-	}
+	destination.DiskState = genruntime.ClonePointerToString(disk.DiskState)
 
 	// Encryption
 	if disk.Encryption != nil {
@@ -1032,12 +1007,7 @@ func (disk *Disk_Status) AssignPropertiesToDiskStatus(destination *alpha20200930
 	}
 
 	// HyperVGeneration
-	if disk.HyperVGeneration != nil {
-		hyperVGeneration := string(*disk.HyperVGeneration)
-		destination.HyperVGeneration = &hyperVGeneration
-	} else {
-		destination.HyperVGeneration = nil
-	}
+	destination.HyperVGeneration = genruntime.ClonePointerToString(disk.HyperVGeneration)
 
 	// Id
 	destination.Id = genruntime.ClonePointerToString(disk.Id)
@@ -1058,20 +1028,10 @@ func (disk *Disk_Status) AssignPropertiesToDiskStatus(destination *alpha20200930
 	destination.Name = genruntime.ClonePointerToString(disk.Name)
 
 	// NetworkAccessPolicy
-	if disk.NetworkAccessPolicy != nil {
-		networkAccessPolicy := string(*disk.NetworkAccessPolicy)
-		destination.NetworkAccessPolicy = &networkAccessPolicy
-	} else {
-		destination.NetworkAccessPolicy = nil
-	}
+	destination.NetworkAccessPolicy = genruntime.ClonePointerToString(disk.NetworkAccessPolicy)
 
 	// OsType
-	if disk.OsType != nil {
-		osType := string(*disk.OsType)
-		destination.OsType = &osType
-	} else {
-		destination.OsType = nil
-	}
+	destination.OsType = genruntime.ClonePointerToString(disk.OsType)
 
 	// ProvisioningState
 	destination.ProvisioningState = genruntime.ClonePointerToString(disk.ProvisioningState)
@@ -2234,15 +2194,15 @@ func (data *CreationData) AssignPropertiesToCreationData(destination *alpha20200
 
 // Deprecated version of CreationData_Status. Use v1beta20200930.CreationData_Status instead
 type CreationData_Status struct {
-	CreateOption          *CreationDataStatusCreateOption `json:"createOption,omitempty"`
-	GalleryImageReference *ImageDiskReference_Status      `json:"galleryImageReference,omitempty"`
-	ImageReference        *ImageDiskReference_Status      `json:"imageReference,omitempty"`
-	LogicalSectorSize     *int                            `json:"logicalSectorSize,omitempty"`
-	SourceResourceId      *string                         `json:"sourceResourceId,omitempty"`
-	SourceUniqueId        *string                         `json:"sourceUniqueId,omitempty"`
-	SourceUri             *string                         `json:"sourceUri,omitempty"`
-	StorageAccountId      *string                         `json:"storageAccountId,omitempty"`
-	UploadSizeBytes       *int                            `json:"uploadSizeBytes,omitempty"`
+	CreateOption          *string                    `json:"createOption,omitempty"`
+	GalleryImageReference *ImageDiskReference_Status `json:"galleryImageReference,omitempty"`
+	ImageReference        *ImageDiskReference_Status `json:"imageReference,omitempty"`
+	LogicalSectorSize     *int                       `json:"logicalSectorSize,omitempty"`
+	SourceResourceId      *string                    `json:"sourceResourceId,omitempty"`
+	SourceUniqueId        *string                    `json:"sourceUniqueId,omitempty"`
+	SourceUri             *string                    `json:"sourceUri,omitempty"`
+	StorageAccountId      *string                    `json:"storageAccountId,omitempty"`
+	UploadSizeBytes       *int                       `json:"uploadSizeBytes,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &CreationData_Status{}
@@ -2331,12 +2291,7 @@ func (data *CreationData_Status) PopulateFromARM(owner genruntime.ArbitraryOwner
 func (data *CreationData_Status) AssignPropertiesFromCreationDataStatus(source *alpha20200930s.CreationData_Status) error {
 
 	// CreateOption
-	if source.CreateOption != nil {
-		createOption := CreationDataStatusCreateOption(*source.CreateOption)
-		data.CreateOption = &createOption
-	} else {
-		data.CreateOption = nil
-	}
+	data.CreateOption = genruntime.ClonePointerToString(source.CreateOption)
 
 	// GalleryImageReference
 	if source.GalleryImageReference != nil {
@@ -2390,12 +2345,7 @@ func (data *CreationData_Status) AssignPropertiesToCreationDataStatus(destinatio
 	propertyBag := genruntime.NewPropertyBag()
 
 	// CreateOption
-	if data.CreateOption != nil {
-		createOption := string(*data.CreateOption)
-		destination.CreateOption = &createOption
-	} else {
-		destination.CreateOption = nil
-	}
+	destination.CreateOption = genruntime.ClonePointerToString(data.CreateOption)
 
 	// GalleryImageReference
 	if data.GalleryImageReference != nil {
@@ -2476,23 +2426,6 @@ type DiskPropertiesOsType string
 const (
 	DiskPropertiesOsTypeLinux   = DiskPropertiesOsType("Linux")
 	DiskPropertiesOsTypeWindows = DiskPropertiesOsType("Windows")
-)
-
-// Deprecated version of DiskPropertiesStatusHyperVGeneration. Use v1beta20200930.DiskPropertiesStatusHyperVGeneration
-// instead
-type DiskPropertiesStatusHyperVGeneration string
-
-const (
-	DiskPropertiesStatusHyperVGenerationV1 = DiskPropertiesStatusHyperVGeneration("V1")
-	DiskPropertiesStatusHyperVGenerationV2 = DiskPropertiesStatusHyperVGeneration("V2")
-)
-
-// Deprecated version of DiskPropertiesStatusOsType. Use v1beta20200930.DiskPropertiesStatusOsType instead
-type DiskPropertiesStatusOsType string
-
-const (
-	DiskPropertiesStatusOsTypeLinux   = DiskPropertiesStatusOsType("Linux")
-	DiskPropertiesStatusOsTypeWindows = DiskPropertiesStatusOsType("Windows")
 )
 
 // Deprecated version of DiskSku. Use v1beta20200930.DiskSku instead
@@ -2580,8 +2513,8 @@ func (diskSku *DiskSku) AssignPropertiesToDiskSku(destination *alpha20200930s.Di
 
 // Deprecated version of DiskSku_Status. Use v1beta20200930.DiskSku_Status instead
 type DiskSku_Status struct {
-	Name *DiskSkuStatusName `json:"name,omitempty"`
-	Tier *string            `json:"tier,omitempty"`
+	Name *string `json:"name,omitempty"`
+	Tier *string `json:"tier,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &DiskSku_Status{}
@@ -2618,12 +2551,7 @@ func (diskSku *DiskSku_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 func (diskSku *DiskSku_Status) AssignPropertiesFromDiskSkuStatus(source *alpha20200930s.DiskSku_Status) error {
 
 	// Name
-	if source.Name != nil {
-		name := DiskSkuStatusName(*source.Name)
-		diskSku.Name = &name
-	} else {
-		diskSku.Name = nil
-	}
+	diskSku.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Tier
 	diskSku.Tier = genruntime.ClonePointerToString(source.Tier)
@@ -2638,12 +2566,7 @@ func (diskSku *DiskSku_Status) AssignPropertiesToDiskSkuStatus(destination *alph
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	if diskSku.Name != nil {
-		name := string(*diskSku.Name)
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(diskSku.Name)
 
 	// Tier
 	destination.Tier = genruntime.ClonePointerToString(diskSku.Tier)
@@ -2658,18 +2581,6 @@ func (diskSku *DiskSku_Status) AssignPropertiesToDiskSkuStatus(destination *alph
 	// No error
 	return nil
 }
-
-// Deprecated version of DiskState_Status. Use v1beta20200930.DiskState_Status instead
-type DiskState_Status string
-
-const (
-	DiskState_StatusActiveSAS     = DiskState_Status("ActiveSAS")
-	DiskState_StatusActiveUpload  = DiskState_Status("ActiveUpload")
-	DiskState_StatusAttached      = DiskState_Status("Attached")
-	DiskState_StatusReadyToUpload = DiskState_Status("ReadyToUpload")
-	DiskState_StatusReserved      = DiskState_Status("Reserved")
-	DiskState_StatusUnattached    = DiskState_Status("Unattached")
-)
 
 // Deprecated version of Encryption. Use v1beta20200930.Encryption instead
 type Encryption struct {
@@ -3072,8 +2983,8 @@ func (collection *EncryptionSettingsCollection_Status) AssignPropertiesToEncrypt
 
 // Deprecated version of Encryption_Status. Use v1beta20200930.Encryption_Status instead
 type Encryption_Status struct {
-	DiskEncryptionSetId *string                `json:"diskEncryptionSetId,omitempty"`
-	Type                *EncryptionType_Status `json:"type,omitempty"`
+	DiskEncryptionSetId *string `json:"diskEncryptionSetId,omitempty"`
+	Type                *string `json:"type,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &Encryption_Status{}
@@ -3113,12 +3024,7 @@ func (encryption *Encryption_Status) AssignPropertiesFromEncryptionStatus(source
 	encryption.DiskEncryptionSetId = genruntime.ClonePointerToString(source.DiskEncryptionSetId)
 
 	// Type
-	if source.Type != nil {
-		typeVar := EncryptionType_Status(*source.Type)
-		encryption.Type = &typeVar
-	} else {
-		encryption.Type = nil
-	}
+	encryption.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
@@ -3133,12 +3039,7 @@ func (encryption *Encryption_Status) AssignPropertiesToEncryptionStatus(destinat
 	destination.DiskEncryptionSetId = genruntime.ClonePointerToString(encryption.DiskEncryptionSetId)
 
 	// Type
-	if encryption.Type != nil {
-		typeVar := string(*encryption.Type)
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
+	destination.Type = genruntime.ClonePointerToString(encryption.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3255,8 +3156,8 @@ func (location *ExtendedLocation) AssignPropertiesToExtendedLocation(destination
 
 // Deprecated version of ExtendedLocation_Status. Use v1beta20200930.ExtendedLocation_Status instead
 type ExtendedLocation_Status struct {
-	Name *string                      `json:"name,omitempty"`
-	Type *ExtendedLocationType_Status `json:"type,omitempty"`
+	Name *string `json:"name,omitempty"`
+	Type *string `json:"type,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ExtendedLocation_Status{}
@@ -3296,12 +3197,7 @@ func (location *ExtendedLocation_Status) AssignPropertiesFromExtendedLocationSta
 	location.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Type
-	if source.Type != nil {
-		typeVar := ExtendedLocationType_Status(*source.Type)
-		location.Type = &typeVar
-	} else {
-		location.Type = nil
-	}
+	location.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
@@ -3316,12 +3212,7 @@ func (location *ExtendedLocation_Status) AssignPropertiesToExtendedLocationStatu
 	destination.Name = genruntime.ClonePointerToString(location.Name)
 
 	// Type
-	if location.Type != nil {
-		typeVar := string(*location.Type)
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
+	destination.Type = genruntime.ClonePointerToString(location.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3333,15 +3224,6 @@ func (location *ExtendedLocation_Status) AssignPropertiesToExtendedLocationStatu
 	// No error
 	return nil
 }
-
-// Deprecated version of NetworkAccessPolicy_Status. Use v1beta20200930.NetworkAccessPolicy_Status instead
-type NetworkAccessPolicy_Status string
-
-const (
-	NetworkAccessPolicy_StatusAllowAll     = NetworkAccessPolicy_Status("AllowAll")
-	NetworkAccessPolicy_StatusAllowPrivate = NetworkAccessPolicy_Status("AllowPrivate")
-	NetworkAccessPolicy_StatusDenyAll      = NetworkAccessPolicy_Status("DenyAll")
-)
 
 // Deprecated version of PurchasePlan. Use v1beta20200930.PurchasePlan instead
 type PurchasePlan struct {
@@ -3647,19 +3529,6 @@ const (
 	CreationDataCreateOptionUpload    = CreationDataCreateOption("Upload")
 )
 
-// Deprecated version of CreationDataStatusCreateOption. Use v1beta20200930.CreationDataStatusCreateOption instead
-type CreationDataStatusCreateOption string
-
-const (
-	CreationDataStatusCreateOptionAttach    = CreationDataStatusCreateOption("Attach")
-	CreationDataStatusCreateOptionCopy      = CreationDataStatusCreateOption("Copy")
-	CreationDataStatusCreateOptionEmpty     = CreationDataStatusCreateOption("Empty")
-	CreationDataStatusCreateOptionFromImage = CreationDataStatusCreateOption("FromImage")
-	CreationDataStatusCreateOptionImport    = CreationDataStatusCreateOption("Import")
-	CreationDataStatusCreateOptionRestore   = CreationDataStatusCreateOption("Restore")
-	CreationDataStatusCreateOptionUpload    = CreationDataStatusCreateOption("Upload")
-)
-
 // Deprecated version of EncryptionSettingsElement. Use v1beta20200930.EncryptionSettingsElement instead
 type EncryptionSettingsElement struct {
 	DiskEncryptionKey *KeyVaultAndSecretReference `json:"diskEncryptionKey,omitempty"`
@@ -3931,15 +3800,6 @@ const (
 	EncryptionTypeEncryptionAtRestWithCustomerKey             = EncryptionType("EncryptionAtRestWithCustomerKey")
 	EncryptionTypeEncryptionAtRestWithPlatformAndCustomerKeys = EncryptionType("EncryptionAtRestWithPlatformAndCustomerKeys")
 	EncryptionTypeEncryptionAtRestWithPlatformKey             = EncryptionType("EncryptionAtRestWithPlatformKey")
-)
-
-// Deprecated version of EncryptionType_Status. Use v1beta20200930.EncryptionType_Status instead
-type EncryptionType_Status string
-
-const (
-	EncryptionType_StatusEncryptionAtRestWithCustomerKey             = EncryptionType_Status("EncryptionAtRestWithCustomerKey")
-	EncryptionType_StatusEncryptionAtRestWithPlatformAndCustomerKeys = EncryptionType_Status("EncryptionAtRestWithPlatformAndCustomerKeys")
-	EncryptionType_StatusEncryptionAtRestWithPlatformKey             = EncryptionType_Status("EncryptionAtRestWithPlatformKey")
 )
 
 // Deprecated version of ImageDiskReference. Use v1beta20200930.ImageDiskReference instead

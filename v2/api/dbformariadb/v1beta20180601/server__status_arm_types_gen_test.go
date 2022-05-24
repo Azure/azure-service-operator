@@ -165,17 +165,13 @@ func AddIndependentPropertyGeneratorsForServerPropertiesStatusARM(gens map[strin
 	gens["EarliestRestoreDate"] = gen.PtrOf(gen.AlphaString())
 	gens["FullyQualifiedDomainName"] = gen.PtrOf(gen.AlphaString())
 	gens["MasterServerId"] = gen.PtrOf(gen.AlphaString())
-	gens["MinimalTlsVersion"] = gen.PtrOf(gen.OneConstOf(
-		MinimalTlsVersion_StatusTLS10,
-		MinimalTlsVersion_StatusTLS11,
-		MinimalTlsVersion_StatusTLS12,
-		MinimalTlsVersion_StatusTLSEnforcementDisabled))
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccess_StatusDisabled, PublicNetworkAccess_StatusEnabled))
+	gens["MinimalTlsVersion"] = gen.PtrOf(gen.AlphaString())
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.AlphaString())
 	gens["ReplicaCapacity"] = gen.PtrOf(gen.Int())
 	gens["ReplicationRole"] = gen.PtrOf(gen.AlphaString())
-	gens["SslEnforcement"] = gen.PtrOf(gen.OneConstOf(SslEnforcement_StatusDisabled, SslEnforcement_StatusEnabled))
-	gens["UserVisibleState"] = gen.PtrOf(gen.OneConstOf(ServerPropertiesStatusUserVisibleStateDisabled, ServerPropertiesStatusUserVisibleStateDropping, ServerPropertiesStatusUserVisibleStateReady))
-	gens["Version"] = gen.PtrOf(gen.OneConstOf(ServerVersion_Status102, ServerVersion_Status103))
+	gens["SslEnforcement"] = gen.PtrOf(gen.AlphaString())
+	gens["UserVisibleState"] = gen.PtrOf(gen.AlphaString())
+	gens["Version"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForServerPropertiesStatusARM is a factory method for creating gopter generators
@@ -244,7 +240,7 @@ func AddIndependentPropertyGeneratorsForSkuStatusARM(gens map[string]gopter.Gen)
 	gens["Family"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Size"] = gen.PtrOf(gen.AlphaString())
-	gens["Tier"] = gen.PtrOf(gen.OneConstOf(SkuStatusTierBasic, SkuStatusTierGeneralPurpose, SkuStatusTierMemoryOptimized))
+	gens["Tier"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_ServerPrivateEndpointConnection_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -379,8 +375,8 @@ func StorageProfileStatusARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForStorageProfileStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForStorageProfileStatusARM(gens map[string]gopter.Gen) {
 	gens["BackupRetentionDays"] = gen.PtrOf(gen.Int())
-	gens["GeoRedundantBackup"] = gen.PtrOf(gen.OneConstOf(StorageProfileStatusGeoRedundantBackupDisabled, StorageProfileStatusGeoRedundantBackupEnabled))
-	gens["StorageAutogrow"] = gen.PtrOf(gen.OneConstOf(StorageProfileStatusStorageAutogrowDisabled, StorageProfileStatusStorageAutogrowEnabled))
+	gens["GeoRedundantBackup"] = gen.PtrOf(gen.AlphaString())
+	gens["StorageAutogrow"] = gen.PtrOf(gen.AlphaString())
 	gens["StorageMB"] = gen.PtrOf(gen.Int())
 }
 
@@ -450,12 +446,7 @@ func ServerPrivateEndpointConnectionPropertiesStatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForServerPrivateEndpointConnectionPropertiesStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForServerPrivateEndpointConnectionPropertiesStatusARM(gens map[string]gopter.Gen) {
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ServerPrivateEndpointConnectionPropertiesStatusProvisioningStateApproving,
-		ServerPrivateEndpointConnectionPropertiesStatusProvisioningStateDropping,
-		ServerPrivateEndpointConnectionPropertiesStatusProvisioningStateFailed,
-		ServerPrivateEndpointConnectionPropertiesStatusProvisioningStateReady,
-		ServerPrivateEndpointConnectionPropertiesStatusProvisioningStateRejecting))
+	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForServerPrivateEndpointConnectionPropertiesStatusARM is a factory method for creating gopter generators
@@ -581,11 +572,7 @@ func ServerPrivateLinkServiceConnectionStatePropertyStatusARMGenerator() gopter.
 
 // AddIndependentPropertyGeneratorsForServerPrivateLinkServiceConnectionStatePropertyStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForServerPrivateLinkServiceConnectionStatePropertyStatusARM(gens map[string]gopter.Gen) {
-	gens["ActionsRequired"] = gen.PtrOf(gen.OneConstOf(ServerPrivateLinkServiceConnectionStatePropertyStatusActionsRequiredNone))
+	gens["ActionsRequired"] = gen.PtrOf(gen.AlphaString())
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
-	gens["Status"] = gen.PtrOf(gen.OneConstOf(
-		ServerPrivateLinkServiceConnectionStatePropertyStatusStatusApproved,
-		ServerPrivateLinkServiceConnectionStatePropertyStatusStatusDisconnected,
-		ServerPrivateLinkServiceConnectionStatePropertyStatusStatusPending,
-		ServerPrivateLinkServiceConnectionStatePropertyStatusStatusRejected))
+	gens["Status"] = gen.PtrOf(gen.AlphaString())
 }

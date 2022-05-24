@@ -153,5 +153,5 @@ func AddIndependentPropertyGeneratorsForRedisLinkedServerPropertiesStatusARM(gen
 	gens["LinkedRedisCacheId"] = gen.PtrOf(gen.AlphaString())
 	gens["LinkedRedisCacheLocation"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
-	gens["ServerRole"] = gen.PtrOf(gen.OneConstOf(RedisLinkedServerPropertiesStatusServerRolePrimary, RedisLinkedServerPropertiesStatusServerRoleSecondary))
+	gens["ServerRole"] = gen.PtrOf(gen.AlphaString())
 }

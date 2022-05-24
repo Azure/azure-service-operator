@@ -22,8 +22,8 @@ type VirtualMachineScaleSet_StatusARM struct {
 
 // Deprecated version of ExtendedLocation_Status. Use v1beta20201201.ExtendedLocation_Status instead
 type ExtendedLocation_StatusARM struct {
-	Name *string                      `json:"name,omitempty"`
-	Type *ExtendedLocationType_Status `json:"type,omitempty"`
+	Name *string `json:"name,omitempty"`
+	Type *string `json:"type,omitempty"`
 }
 
 // Deprecated version of Plan_Status. Use v1beta20201201.Plan_Status instead
@@ -45,7 +45,7 @@ type Sku_StatusARM struct {
 type VirtualMachineScaleSetIdentity_StatusARM struct {
 	PrincipalId            *string                                                                    `json:"principalId,omitempty"`
 	TenantId               *string                                                                    `json:"tenantId,omitempty"`
-	Type                   *VirtualMachineScaleSetIdentityStatusType                                  `json:"type,omitempty"`
+	Type                   *string                                                                    `json:"type,omitempty"`
 	UserAssignedIdentities map[string]VirtualMachineScaleSetIdentity_Status_UserAssignedIdentitiesARM `json:"userAssignedIdentities,omitempty"`
 }
 
@@ -55,7 +55,7 @@ type VirtualMachineScaleSetProperties_StatusARM struct {
 	AutomaticRepairsPolicy                 *AutomaticRepairsPolicy_StatusARM          `json:"automaticRepairsPolicy,omitempty"`
 	DoNotRunExtensionsOnOverprovisionedVMs *bool                                      `json:"doNotRunExtensionsOnOverprovisionedVMs,omitempty"`
 	HostGroup                              *SubResource_StatusARM                     `json:"hostGroup,omitempty"`
-	OrchestrationMode                      *OrchestrationMode_Status                  `json:"orchestrationMode,omitempty"`
+	OrchestrationMode                      *string                                    `json:"orchestrationMode,omitempty"`
 	Overprovision                          *bool                                      `json:"overprovision,omitempty"`
 	PlatformFaultDomainCount               *int                                       `json:"platformFaultDomainCount,omitempty"`
 	ProvisioningState                      *string                                    `json:"provisioningState,omitempty"`
@@ -79,14 +79,9 @@ type AutomaticRepairsPolicy_StatusARM struct {
 	GracePeriod *string `json:"gracePeriod,omitempty"`
 }
 
-// Deprecated version of ExtendedLocationType_Status. Use v1beta20201201.ExtendedLocationType_Status instead
-type ExtendedLocationType_Status string
-
-const ExtendedLocationType_StatusEdgeZone = ExtendedLocationType_Status("EdgeZone")
-
 // Deprecated version of ScaleInPolicy_Status. Use v1beta20201201.ScaleInPolicy_Status instead
 type ScaleInPolicy_StatusARM struct {
-	Rules []ScaleInPolicyStatusRules `json:"rules,omitempty"`
+	Rules []string `json:"rules,omitempty"`
 }
 
 // Deprecated version of SubResource_Status. Use v1beta20201201.SubResource_Status instead
@@ -97,20 +92,9 @@ type SubResource_StatusARM struct {
 // Deprecated version of UpgradePolicy_Status. Use v1beta20201201.UpgradePolicy_Status instead
 type UpgradePolicy_StatusARM struct {
 	AutomaticOSUpgradePolicy *AutomaticOSUpgradePolicy_StatusARM `json:"automaticOSUpgradePolicy,omitempty"`
-	Mode                     *UpgradePolicyStatusMode            `json:"mode,omitempty"`
+	Mode                     *string                             `json:"mode,omitempty"`
 	RollingUpgradePolicy     *RollingUpgradePolicy_StatusARM     `json:"rollingUpgradePolicy,omitempty"`
 }
-
-// Deprecated version of VirtualMachineScaleSetIdentityStatusType. Use
-// v1beta20201201.VirtualMachineScaleSetIdentityStatusType instead
-type VirtualMachineScaleSetIdentityStatusType string
-
-const (
-	VirtualMachineScaleSetIdentityStatusTypeNone                       = VirtualMachineScaleSetIdentityStatusType("None")
-	VirtualMachineScaleSetIdentityStatusTypeSystemAssigned             = VirtualMachineScaleSetIdentityStatusType("SystemAssigned")
-	VirtualMachineScaleSetIdentityStatusTypeSystemAssignedUserAssigned = VirtualMachineScaleSetIdentityStatusType("SystemAssigned, UserAssigned")
-	VirtualMachineScaleSetIdentityStatusTypeUserAssigned               = VirtualMachineScaleSetIdentityStatusType("UserAssigned")
-)
 
 // Deprecated version of VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities. Use v1beta20201201.VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities instead
 type VirtualMachineScaleSetIdentity_Status_UserAssignedIdentitiesARM struct {
@@ -122,12 +106,12 @@ type VirtualMachineScaleSetIdentity_Status_UserAssignedIdentitiesARM struct {
 type VirtualMachineScaleSetVMProfile_StatusARM struct {
 	BillingProfile         *BillingProfile_StatusARM                         `json:"billingProfile,omitempty"`
 	DiagnosticsProfile     *DiagnosticsProfile_StatusARM                     `json:"diagnosticsProfile,omitempty"`
-	EvictionPolicy         *EvictionPolicy_Status                            `json:"evictionPolicy,omitempty"`
+	EvictionPolicy         *string                                           `json:"evictionPolicy,omitempty"`
 	ExtensionProfile       *VirtualMachineScaleSetExtensionProfile_StatusARM `json:"extensionProfile,omitempty"`
 	LicenseType            *string                                           `json:"licenseType,omitempty"`
 	NetworkProfile         *VirtualMachineScaleSetNetworkProfile_StatusARM   `json:"networkProfile,omitempty"`
 	OsProfile              *VirtualMachineScaleSetOSProfile_StatusARM        `json:"osProfile,omitempty"`
-	Priority               *Priority_Status                                  `json:"priority,omitempty"`
+	Priority               *string                                           `json:"priority,omitempty"`
 	ScheduledEventsProfile *ScheduledEventsProfile_StatusARM                 `json:"scheduledEventsProfile,omitempty"`
 	SecurityProfile        *SecurityProfile_StatusARM                        `json:"securityProfile,omitempty"`
 	StorageProfile         *VirtualMachineScaleSetStorageProfile_StatusARM   `json:"storageProfile,omitempty"`
@@ -196,8 +180,8 @@ type TerminateNotificationProfile_StatusARM struct {
 
 // Deprecated version of VirtualMachineScaleSetDataDisk_Status. Use v1beta20201201.VirtualMachineScaleSetDataDisk_Status instead
 type VirtualMachineScaleSetDataDisk_StatusARM struct {
-	Caching                 *Caching_Status                                        `json:"caching,omitempty"`
-	CreateOption            *CreateOption_Status                                   `json:"createOption,omitempty"`
+	Caching                 *string                                                `json:"caching,omitempty"`
+	CreateOption            *string                                                `json:"createOption,omitempty"`
 	DiskIOPSReadWrite       *int                                                   `json:"diskIOPSReadWrite,omitempty"`
 	DiskMBpsReadWrite       *int                                                   `json:"diskMBpsReadWrite,omitempty"`
 	DiskSizeGB              *int                                                   `json:"diskSizeGB,omitempty"`
@@ -224,14 +208,14 @@ type VirtualMachineScaleSetNetworkConfiguration_StatusARM struct {
 
 // Deprecated version of VirtualMachineScaleSetOSDisk_Status. Use v1beta20201201.VirtualMachineScaleSetOSDisk_Status instead
 type VirtualMachineScaleSetOSDisk_StatusARM struct {
-	Caching                 *Caching_Status                                        `json:"caching,omitempty"`
-	CreateOption            *CreateOption_Status                                   `json:"createOption,omitempty"`
+	Caching                 *string                                                `json:"caching,omitempty"`
+	CreateOption            *string                                                `json:"createOption,omitempty"`
 	DiffDiskSettings        *DiffDiskSettings_StatusARM                            `json:"diffDiskSettings,omitempty"`
 	DiskSizeGB              *int                                                   `json:"diskSizeGB,omitempty"`
 	Image                   *VirtualHardDisk_StatusARM                             `json:"image,omitempty"`
 	ManagedDisk             *VirtualMachineScaleSetManagedDiskParameters_StatusARM `json:"managedDisk,omitempty"`
 	Name                    *string                                                `json:"name,omitempty"`
-	OsType                  *VirtualMachineScaleSetOSDiskStatusOsType              `json:"osType,omitempty"`
+	OsType                  *string                                                `json:"osType,omitempty"`
 	VhdContainers           []string                                               `json:"vhdContainers,omitempty"`
 	WriteAcceleratorEnabled *bool                                                  `json:"writeAcceleratorEnabled,omitempty"`
 }
@@ -252,8 +236,8 @@ type VirtualMachineScaleSetExtensionProperties_StatusARM struct {
 
 // Deprecated version of VirtualMachineScaleSetManagedDiskParameters_Status. Use v1beta20201201.VirtualMachineScaleSetManagedDiskParameters_Status instead
 type VirtualMachineScaleSetManagedDiskParameters_StatusARM struct {
-	DiskEncryptionSet  *SubResource_StatusARM     `json:"diskEncryptionSet,omitempty"`
-	StorageAccountType *StorageAccountType_Status `json:"storageAccountType,omitempty"`
+	DiskEncryptionSet  *SubResource_StatusARM `json:"diskEncryptionSet,omitempty"`
+	StorageAccountType *string                `json:"storageAccountType,omitempty"`
 }
 
 // Deprecated version of VirtualMachineScaleSetNetworkConfigurationProperties_Status. Use v1beta20201201.VirtualMachineScaleSetNetworkConfigurationProperties_Status instead
@@ -281,14 +265,14 @@ type VirtualMachineScaleSetNetworkConfigurationDnsSettings_StatusARM struct {
 
 // Deprecated version of VirtualMachineScaleSetIPConfigurationProperties_Status. Use v1beta20201201.VirtualMachineScaleSetIPConfigurationProperties_Status instead
 type VirtualMachineScaleSetIPConfigurationProperties_StatusARM struct {
-	ApplicationGatewayBackendAddressPools []SubResource_StatusARM                                                       `json:"applicationGatewayBackendAddressPools,omitempty"`
-	ApplicationSecurityGroups             []SubResource_StatusARM                                                       `json:"applicationSecurityGroups,omitempty"`
-	LoadBalancerBackendAddressPools       []SubResource_StatusARM                                                       `json:"loadBalancerBackendAddressPools,omitempty"`
-	LoadBalancerInboundNatPools           []SubResource_StatusARM                                                       `json:"loadBalancerInboundNatPools,omitempty"`
-	Primary                               *bool                                                                         `json:"primary,omitempty"`
-	PrivateIPAddressVersion               *VirtualMachineScaleSetIPConfigurationPropertiesStatusPrivateIPAddressVersion `json:"privateIPAddressVersion,omitempty"`
-	PublicIPAddressConfiguration          *VirtualMachineScaleSetPublicIPAddressConfiguration_StatusARM                 `json:"publicIPAddressConfiguration,omitempty"`
-	Subnet                                *ApiEntityReference_StatusARM                                                 `json:"subnet,omitempty"`
+	ApplicationGatewayBackendAddressPools []SubResource_StatusARM                                       `json:"applicationGatewayBackendAddressPools,omitempty"`
+	ApplicationSecurityGroups             []SubResource_StatusARM                                       `json:"applicationSecurityGroups,omitempty"`
+	LoadBalancerBackendAddressPools       []SubResource_StatusARM                                       `json:"loadBalancerBackendAddressPools,omitempty"`
+	LoadBalancerInboundNatPools           []SubResource_StatusARM                                       `json:"loadBalancerInboundNatPools,omitempty"`
+	Primary                               *bool                                                         `json:"primary,omitempty"`
+	PrivateIPAddressVersion               *string                                                       `json:"privateIPAddressVersion,omitempty"`
+	PublicIPAddressConfiguration          *VirtualMachineScaleSetPublicIPAddressConfiguration_StatusARM `json:"publicIPAddressConfiguration,omitempty"`
+	Subnet                                *ApiEntityReference_StatusARM                                 `json:"subnet,omitempty"`
 }
 
 // Deprecated version of VirtualMachineScaleSetPublicIPAddressConfiguration_Status. Use v1beta20201201.VirtualMachineScaleSetPublicIPAddressConfiguration_Status instead
@@ -299,11 +283,11 @@ type VirtualMachineScaleSetPublicIPAddressConfiguration_StatusARM struct {
 
 // Deprecated version of VirtualMachineScaleSetPublicIPAddressConfigurationProperties_Status. Use v1beta20201201.VirtualMachineScaleSetPublicIPAddressConfigurationProperties_Status instead
 type VirtualMachineScaleSetPublicIPAddressConfigurationProperties_StatusARM struct {
-	DnsSettings            *VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_StatusARM                  `json:"dnsSettings,omitempty"`
-	IdleTimeoutInMinutes   *int                                                                                      `json:"idleTimeoutInMinutes,omitempty"`
-	IpTags                 []VirtualMachineScaleSetIpTag_StatusARM                                                   `json:"ipTags,omitempty"`
-	PublicIPAddressVersion *VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesStatusPublicIPAddressVersion `json:"publicIPAddressVersion,omitempty"`
-	PublicIPPrefix         *SubResource_StatusARM                                                                    `json:"publicIPPrefix,omitempty"`
+	DnsSettings            *VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_StatusARM `json:"dnsSettings,omitempty"`
+	IdleTimeoutInMinutes   *int                                                                     `json:"idleTimeoutInMinutes,omitempty"`
+	IpTags                 []VirtualMachineScaleSetIpTag_StatusARM                                  `json:"ipTags,omitempty"`
+	PublicIPAddressVersion *string                                                                  `json:"publicIPAddressVersion,omitempty"`
+	PublicIPPrefix         *SubResource_StatusARM                                                   `json:"publicIPPrefix,omitempty"`
 }
 
 // Deprecated version of VirtualMachineScaleSetIpTag_Status. Use v1beta20201201.VirtualMachineScaleSetIpTag_Status instead

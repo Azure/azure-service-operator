@@ -116,7 +116,7 @@ func (in *ExtendedLocation_Status) DeepCopyInto(out *ExtendedLocation_Status) {
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ExtendedLocationType_Status)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -141,7 +141,7 @@ func (in *ExtendedLocation_StatusARM) DeepCopyInto(out *ExtendedLocation_StatusA
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ExtendedLocationType_Status)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -303,7 +303,7 @@ func (in *ImageDataDisk_Status) DeepCopyInto(out *ImageDataDisk_Status) {
 	}
 	if in.Caching != nil {
 		in, out := &in.Caching, &out.Caching
-		*out = new(ImageDataDiskStatusCaching)
+		*out = new(string)
 		**out = **in
 	}
 	if in.DiskEncryptionSet != nil {
@@ -333,7 +333,7 @@ func (in *ImageDataDisk_Status) DeepCopyInto(out *ImageDataDisk_Status) {
 	}
 	if in.StorageAccountType != nil {
 		in, out := &in.StorageAccountType, &out.StorageAccountType
-		*out = new(StorageAccountType_Status)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -358,7 +358,7 @@ func (in *ImageDataDisk_StatusARM) DeepCopyInto(out *ImageDataDisk_StatusARM) {
 	}
 	if in.Caching != nil {
 		in, out := &in.Caching, &out.Caching
-		*out = new(ImageDataDiskStatusCaching)
+		*out = new(string)
 		**out = **in
 	}
 	if in.DiskEncryptionSet != nil {
@@ -388,7 +388,7 @@ func (in *ImageDataDisk_StatusARM) DeepCopyInto(out *ImageDataDisk_StatusARM) {
 	}
 	if in.StorageAccountType != nil {
 		in, out := &in.StorageAccountType, &out.StorageAccountType
-		*out = new(StorageAccountType_Status)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -565,7 +565,7 @@ func (in *ImageOSDisk_Status) DeepCopyInto(out *ImageOSDisk_Status) {
 	}
 	if in.Caching != nil {
 		in, out := &in.Caching, &out.Caching
-		*out = new(ImageOSDiskStatusCaching)
+		*out = new(string)
 		**out = **in
 	}
 	if in.DiskEncryptionSet != nil {
@@ -585,12 +585,12 @@ func (in *ImageOSDisk_Status) DeepCopyInto(out *ImageOSDisk_Status) {
 	}
 	if in.OsState != nil {
 		in, out := &in.OsState, &out.OsState
-		*out = new(ImageOSDiskStatusOsState)
+		*out = new(string)
 		**out = **in
 	}
 	if in.OsType != nil {
 		in, out := &in.OsType, &out.OsType
-		*out = new(ImageOSDiskStatusOsType)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Snapshot != nil {
@@ -600,7 +600,7 @@ func (in *ImageOSDisk_Status) DeepCopyInto(out *ImageOSDisk_Status) {
 	}
 	if in.StorageAccountType != nil {
 		in, out := &in.StorageAccountType, &out.StorageAccountType
-		*out = new(StorageAccountType_Status)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -625,7 +625,7 @@ func (in *ImageOSDisk_StatusARM) DeepCopyInto(out *ImageOSDisk_StatusARM) {
 	}
 	if in.Caching != nil {
 		in, out := &in.Caching, &out.Caching
-		*out = new(ImageOSDiskStatusCaching)
+		*out = new(string)
 		**out = **in
 	}
 	if in.DiskEncryptionSet != nil {
@@ -645,12 +645,12 @@ func (in *ImageOSDisk_StatusARM) DeepCopyInto(out *ImageOSDisk_StatusARM) {
 	}
 	if in.OsState != nil {
 		in, out := &in.OsState, &out.OsState
-		*out = new(ImageOSDiskStatusOsState)
+		*out = new(string)
 		**out = **in
 	}
 	if in.OsType != nil {
 		in, out := &in.OsType, &out.OsType
-		*out = new(ImageOSDiskStatusOsType)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Snapshot != nil {
@@ -660,7 +660,7 @@ func (in *ImageOSDisk_StatusARM) DeepCopyInto(out *ImageOSDisk_StatusARM) {
 	}
 	if in.StorageAccountType != nil {
 		in, out := &in.StorageAccountType, &out.StorageAccountType
-		*out = new(StorageAccountType_Status)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -710,7 +710,7 @@ func (in *ImageProperties_StatusARM) DeepCopyInto(out *ImageProperties_StatusARM
 	*out = *in
 	if in.HyperVGeneration != nil {
 		in, out := &in.HyperVGeneration, &out.HyperVGeneration
-		*out = new(HyperVGenerationType_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.ProvisioningState != nil {
@@ -885,7 +885,7 @@ func (in *Image_Status) DeepCopyInto(out *Image_Status) {
 	}
 	if in.HyperVGeneration != nil {
 		in, out := &in.HyperVGeneration, &out.HyperVGeneration
-		*out = new(HyperVGenerationType_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Id != nil {

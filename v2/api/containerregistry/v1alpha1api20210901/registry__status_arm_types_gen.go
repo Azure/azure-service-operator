@@ -20,7 +20,7 @@ type Registry_StatusARM struct {
 type IdentityProperties_StatusARM struct {
 	PrincipalId            *string                                     `json:"principalId,omitempty"`
 	TenantId               *string                                     `json:"tenantId,omitempty"`
-	Type                   *IdentityPropertiesStatusType               `json:"type,omitempty"`
+	Type                   *string                                     `json:"type,omitempty"`
 	UserAssignedIdentities map[string]UserIdentityProperties_StatusARM `json:"userAssignedIdentities,omitempty"`
 }
 
@@ -32,52 +32,42 @@ type RegistryProperties_StatusARM struct {
 	DataEndpointHostNames      []string                                                  `json:"dataEndpointHostNames,omitempty"`
 	Encryption                 *EncryptionProperty_StatusARM                             `json:"encryption,omitempty"`
 	LoginServer                *string                                                   `json:"loginServer,omitempty"`
-	NetworkRuleBypassOptions   *RegistryPropertiesStatusNetworkRuleBypassOptions         `json:"networkRuleBypassOptions,omitempty"`
+	NetworkRuleBypassOptions   *string                                                   `json:"networkRuleBypassOptions,omitempty"`
 	NetworkRuleSet             *NetworkRuleSet_StatusARM                                 `json:"networkRuleSet,omitempty"`
 	Policies                   *Policies_StatusARM                                       `json:"policies,omitempty"`
 	PrivateEndpointConnections []PrivateEndpointConnection_Status_SubResourceEmbeddedARM `json:"privateEndpointConnections,omitempty"`
-	ProvisioningState          *RegistryPropertiesStatusProvisioningState                `json:"provisioningState,omitempty"`
-	PublicNetworkAccess        *RegistryPropertiesStatusPublicNetworkAccess              `json:"publicNetworkAccess,omitempty"`
+	ProvisioningState          *string                                                   `json:"provisioningState,omitempty"`
+	PublicNetworkAccess        *string                                                   `json:"publicNetworkAccess,omitempty"`
 	Status                     *Status_StatusARM                                         `json:"status,omitempty"`
-	ZoneRedundancy             *RegistryPropertiesStatusZoneRedundancy                   `json:"zoneRedundancy,omitempty"`
+	ZoneRedundancy             *string                                                   `json:"zoneRedundancy,omitempty"`
 }
 
 // Deprecated version of Sku_Status. Use v1beta20210901.Sku_Status instead
 type Sku_StatusARM struct {
-	Name *SkuStatusName `json:"name,omitempty"`
-	Tier *SkuStatusTier `json:"tier,omitempty"`
+	Name *string `json:"name,omitempty"`
+	Tier *string `json:"tier,omitempty"`
 }
 
 // Deprecated version of SystemData_Status. Use v1beta20210901.SystemData_Status instead
 type SystemData_StatusARM struct {
-	CreatedAt          *string                             `json:"createdAt,omitempty"`
-	CreatedBy          *string                             `json:"createdBy,omitempty"`
-	CreatedByType      *SystemDataStatusCreatedByType      `json:"createdByType,omitempty"`
-	LastModifiedAt     *string                             `json:"lastModifiedAt,omitempty"`
-	LastModifiedBy     *string                             `json:"lastModifiedBy,omitempty"`
-	LastModifiedByType *SystemDataStatusLastModifiedByType `json:"lastModifiedByType,omitempty"`
+	CreatedAt          *string `json:"createdAt,omitempty"`
+	CreatedBy          *string `json:"createdBy,omitempty"`
+	CreatedByType      *string `json:"createdByType,omitempty"`
+	LastModifiedAt     *string `json:"lastModifiedAt,omitempty"`
+	LastModifiedBy     *string `json:"lastModifiedBy,omitempty"`
+	LastModifiedByType *string `json:"lastModifiedByType,omitempty"`
 }
 
 // Deprecated version of EncryptionProperty_Status. Use v1beta20210901.EncryptionProperty_Status instead
 type EncryptionProperty_StatusARM struct {
-	KeyVaultProperties *KeyVaultProperties_StatusARM   `json:"keyVaultProperties,omitempty"`
-	Status             *EncryptionPropertyStatusStatus `json:"status,omitempty"`
+	KeyVaultProperties *KeyVaultProperties_StatusARM `json:"keyVaultProperties,omitempty"`
+	Status             *string                       `json:"status,omitempty"`
 }
-
-// Deprecated version of IdentityPropertiesStatusType. Use v1beta20210901.IdentityPropertiesStatusType instead
-type IdentityPropertiesStatusType string
-
-const (
-	IdentityPropertiesStatusTypeNone                       = IdentityPropertiesStatusType("None")
-	IdentityPropertiesStatusTypeSystemAssigned             = IdentityPropertiesStatusType("SystemAssigned")
-	IdentityPropertiesStatusTypeSystemAssignedUserAssigned = IdentityPropertiesStatusType("SystemAssigned, UserAssigned")
-	IdentityPropertiesStatusTypeUserAssigned               = IdentityPropertiesStatusType("UserAssigned")
-)
 
 // Deprecated version of NetworkRuleSet_Status. Use v1beta20210901.NetworkRuleSet_Status instead
 type NetworkRuleSet_StatusARM struct {
-	DefaultAction *NetworkRuleSetStatusDefaultAction `json:"defaultAction,omitempty"`
-	IpRules       []IPRule_StatusARM                 `json:"ipRules,omitempty"`
+	DefaultAction *string            `json:"defaultAction,omitempty"`
+	IpRules       []IPRule_StatusARM `json:"ipRules,omitempty"`
 }
 
 // Deprecated version of Policies_Status. Use v1beta20210901.Policies_Status instead
@@ -94,52 +84,12 @@ type PrivateEndpointConnection_Status_SubResourceEmbeddedARM struct {
 	SystemData *SystemData_StatusARM `json:"systemData,omitempty"`
 }
 
-// Deprecated version of SkuStatusName. Use v1beta20210901.SkuStatusName instead
-type SkuStatusName string
-
-const (
-	SkuStatusNameBasic    = SkuStatusName("Basic")
-	SkuStatusNameClassic  = SkuStatusName("Classic")
-	SkuStatusNamePremium  = SkuStatusName("Premium")
-	SkuStatusNameStandard = SkuStatusName("Standard")
-)
-
-// Deprecated version of SkuStatusTier. Use v1beta20210901.SkuStatusTier instead
-type SkuStatusTier string
-
-const (
-	SkuStatusTierBasic    = SkuStatusTier("Basic")
-	SkuStatusTierClassic  = SkuStatusTier("Classic")
-	SkuStatusTierPremium  = SkuStatusTier("Premium")
-	SkuStatusTierStandard = SkuStatusTier("Standard")
-)
-
 // Deprecated version of Status_Status. Use v1beta20210901.Status_Status instead
 type Status_StatusARM struct {
 	DisplayStatus *string `json:"displayStatus,omitempty"`
 	Message       *string `json:"message,omitempty"`
 	Timestamp     *string `json:"timestamp,omitempty"`
 }
-
-// Deprecated version of SystemDataStatusCreatedByType. Use v1beta20210901.SystemDataStatusCreatedByType instead
-type SystemDataStatusCreatedByType string
-
-const (
-	SystemDataStatusCreatedByTypeApplication     = SystemDataStatusCreatedByType("Application")
-	SystemDataStatusCreatedByTypeKey             = SystemDataStatusCreatedByType("Key")
-	SystemDataStatusCreatedByTypeManagedIdentity = SystemDataStatusCreatedByType("ManagedIdentity")
-	SystemDataStatusCreatedByTypeUser            = SystemDataStatusCreatedByType("User")
-)
-
-// Deprecated version of SystemDataStatusLastModifiedByType. Use v1beta20210901.SystemDataStatusLastModifiedByType instead
-type SystemDataStatusLastModifiedByType string
-
-const (
-	SystemDataStatusLastModifiedByTypeApplication     = SystemDataStatusLastModifiedByType("Application")
-	SystemDataStatusLastModifiedByTypeKey             = SystemDataStatusLastModifiedByType("Key")
-	SystemDataStatusLastModifiedByTypeManagedIdentity = SystemDataStatusLastModifiedByType("ManagedIdentity")
-	SystemDataStatusLastModifiedByTypeUser            = SystemDataStatusLastModifiedByType("User")
-)
 
 // Deprecated version of UserIdentityProperties_Status. Use v1beta20210901.UserIdentityProperties_Status instead
 type UserIdentityProperties_StatusARM struct {
@@ -149,13 +99,13 @@ type UserIdentityProperties_StatusARM struct {
 
 // Deprecated version of ExportPolicy_Status. Use v1beta20210901.ExportPolicy_Status instead
 type ExportPolicy_StatusARM struct {
-	Status *ExportPolicyStatusStatus `json:"status,omitempty"`
+	Status *string `json:"status,omitempty"`
 }
 
 // Deprecated version of IPRule_Status. Use v1beta20210901.IPRule_Status instead
 type IPRule_StatusARM struct {
-	Action *IPRuleStatusAction `json:"action,omitempty"`
-	Value  *string             `json:"value,omitempty"`
+	Action *string `json:"action,omitempty"`
+	Value  *string `json:"value,omitempty"`
 }
 
 // Deprecated version of KeyVaultProperties_Status. Use v1beta20210901.KeyVaultProperties_Status instead
@@ -169,18 +119,18 @@ type KeyVaultProperties_StatusARM struct {
 
 // Deprecated version of QuarantinePolicy_Status. Use v1beta20210901.QuarantinePolicy_Status instead
 type QuarantinePolicy_StatusARM struct {
-	Status *QuarantinePolicyStatusStatus `json:"status,omitempty"`
+	Status *string `json:"status,omitempty"`
 }
 
 // Deprecated version of RetentionPolicy_Status. Use v1beta20210901.RetentionPolicy_Status instead
 type RetentionPolicy_StatusARM struct {
-	Days            *int                         `json:"days,omitempty"`
-	LastUpdatedTime *string                      `json:"lastUpdatedTime,omitempty"`
-	Status          *RetentionPolicyStatusStatus `json:"status,omitempty"`
+	Days            *int    `json:"days,omitempty"`
+	LastUpdatedTime *string `json:"lastUpdatedTime,omitempty"`
+	Status          *string `json:"status,omitempty"`
 }
 
 // Deprecated version of TrustPolicy_Status. Use v1beta20210901.TrustPolicy_Status instead
 type TrustPolicy_StatusARM struct {
-	Status *TrustPolicyStatusStatus `json:"status,omitempty"`
-	Type   *TrustPolicyStatusType   `json:"type,omitempty"`
+	Status *string `json:"status,omitempty"`
+	Type   *string `json:"type,omitempty"`
 }

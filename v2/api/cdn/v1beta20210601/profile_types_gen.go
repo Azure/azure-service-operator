@@ -347,10 +347,10 @@ type Profile_Status struct {
 	OriginResponseTimeoutSeconds *int `json:"originResponseTimeoutSeconds,omitempty"`
 
 	// ProvisioningState: Provisioning status of the profile.
-	ProvisioningState *ProfilePropertiesStatusProvisioningState `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	// ResourceState: Resource status of the profile.
-	ResourceState *ProfilePropertiesStatusResourceState `json:"resourceState,omitempty"`
+	ResourceState *string `json:"resourceState,omitempty"`
 
 	// Sku: The pricing tier (defines Azure Front Door Standard or Premium or a CDN provider, feature list and rate) of the
 	// profile.
@@ -555,20 +555,10 @@ func (profile *Profile_Status) AssignPropertiesFromProfileStatus(source *v202106
 	profile.OriginResponseTimeoutSeconds = genruntime.ClonePointerToInt(source.OriginResponseTimeoutSeconds)
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := ProfilePropertiesStatusProvisioningState(*source.ProvisioningState)
-		profile.ProvisioningState = &provisioningState
-	} else {
-		profile.ProvisioningState = nil
-	}
+	profile.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// ResourceState
-	if source.ResourceState != nil {
-		resourceState := ProfilePropertiesStatusResourceState(*source.ResourceState)
-		profile.ResourceState = &resourceState
-	} else {
-		profile.ResourceState = nil
-	}
+	profile.ResourceState = genruntime.ClonePointerToString(source.ResourceState)
 
 	// Sku
 	if source.Sku != nil {
@@ -631,20 +621,10 @@ func (profile *Profile_Status) AssignPropertiesToProfileStatus(destination *v202
 	destination.OriginResponseTimeoutSeconds = genruntime.ClonePointerToInt(profile.OriginResponseTimeoutSeconds)
 
 	// ProvisioningState
-	if profile.ProvisioningState != nil {
-		provisioningState := string(*profile.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(profile.ProvisioningState)
 
 	// ResourceState
-	if profile.ResourceState != nil {
-		resourceState := string(*profile.ResourceState)
-		destination.ResourceState = &resourceState
-	} else {
-		destination.ResourceState = nil
-	}
+	destination.ResourceState = genruntime.ClonePointerToString(profile.ResourceState)
 
 	// Sku
 	if profile.Sku != nil {
@@ -1174,25 +1154,6 @@ func (identity *ManagedServiceIdentity) AssignPropertiesToManagedServiceIdentity
 	return nil
 }
 
-type ProfilePropertiesStatusProvisioningState string
-
-const (
-	ProfilePropertiesStatusProvisioningStateCreating  = ProfilePropertiesStatusProvisioningState("Creating")
-	ProfilePropertiesStatusProvisioningStateDeleting  = ProfilePropertiesStatusProvisioningState("Deleting")
-	ProfilePropertiesStatusProvisioningStateFailed    = ProfilePropertiesStatusProvisioningState("Failed")
-	ProfilePropertiesStatusProvisioningStateSucceeded = ProfilePropertiesStatusProvisioningState("Succeeded")
-	ProfilePropertiesStatusProvisioningStateUpdating  = ProfilePropertiesStatusProvisioningState("Updating")
-)
-
-type ProfilePropertiesStatusResourceState string
-
-const (
-	ProfilePropertiesStatusResourceStateActive   = ProfilePropertiesStatusResourceState("Active")
-	ProfilePropertiesStatusResourceStateCreating = ProfilePropertiesStatusResourceState("Creating")
-	ProfilePropertiesStatusResourceStateDeleting = ProfilePropertiesStatusResourceState("Deleting")
-	ProfilePropertiesStatusResourceStateDisabled = ProfilePropertiesStatusResourceState("Disabled")
-)
-
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/Sku
 type Sku struct {
 	// Name: Name of the pricing tier.
@@ -1279,7 +1240,7 @@ func (sku *Sku) AssignPropertiesToSku(destination *v20210601s.Sku) error {
 
 type Sku_Status struct {
 	// Name: Name of the pricing tier.
-	Name *SkuStatusName `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &Sku_Status{}
@@ -1310,12 +1271,7 @@ func (sku *Sku_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 func (sku *Sku_Status) AssignPropertiesFromSkuStatus(source *v20210601s.Sku_Status) error {
 
 	// Name
-	if source.Name != nil {
-		name := SkuStatusName(*source.Name)
-		sku.Name = &name
-	} else {
-		sku.Name = nil
-	}
+	sku.Name = genruntime.ClonePointerToString(source.Name)
 
 	// No error
 	return nil
@@ -1327,12 +1283,7 @@ func (sku *Sku_Status) AssignPropertiesToSkuStatus(destination *v20210601s.Sku_S
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	if sku.Name != nil {
-		name := string(*sku.Name)
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(sku.Name)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1353,7 +1304,7 @@ type SystemData_Status struct {
 	CreatedBy *string `json:"createdBy,omitempty"`
 
 	// CreatedByType: The type of identity that created the resource
-	CreatedByType *IdentityType_Status `json:"createdByType,omitempty"`
+	CreatedByType *string `json:"createdByType,omitempty"`
 
 	// LastModifiedAt: The timestamp of resource last modification (UTC)
 	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
@@ -1362,7 +1313,7 @@ type SystemData_Status struct {
 	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
 
 	// LastModifiedByType: The type of identity that last modified the resource
-	LastModifiedByType *IdentityType_Status `json:"lastModifiedByType,omitempty"`
+	LastModifiedByType *string `json:"lastModifiedByType,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &SystemData_Status{}
@@ -1429,12 +1380,7 @@ func (data *SystemData_Status) AssignPropertiesFromSystemDataStatus(source *v202
 	data.CreatedBy = genruntime.ClonePointerToString(source.CreatedBy)
 
 	// CreatedByType
-	if source.CreatedByType != nil {
-		createdByType := IdentityType_Status(*source.CreatedByType)
-		data.CreatedByType = &createdByType
-	} else {
-		data.CreatedByType = nil
-	}
+	data.CreatedByType = genruntime.ClonePointerToString(source.CreatedByType)
 
 	// LastModifiedAt
 	data.LastModifiedAt = genruntime.ClonePointerToString(source.LastModifiedAt)
@@ -1443,12 +1389,7 @@ func (data *SystemData_Status) AssignPropertiesFromSystemDataStatus(source *v202
 	data.LastModifiedBy = genruntime.ClonePointerToString(source.LastModifiedBy)
 
 	// LastModifiedByType
-	if source.LastModifiedByType != nil {
-		lastModifiedByType := IdentityType_Status(*source.LastModifiedByType)
-		data.LastModifiedByType = &lastModifiedByType
-	} else {
-		data.LastModifiedByType = nil
-	}
+	data.LastModifiedByType = genruntime.ClonePointerToString(source.LastModifiedByType)
 
 	// No error
 	return nil
@@ -1466,12 +1407,7 @@ func (data *SystemData_Status) AssignPropertiesToSystemDataStatus(destination *v
 	destination.CreatedBy = genruntime.ClonePointerToString(data.CreatedBy)
 
 	// CreatedByType
-	if data.CreatedByType != nil {
-		createdByType := string(*data.CreatedByType)
-		destination.CreatedByType = &createdByType
-	} else {
-		destination.CreatedByType = nil
-	}
+	destination.CreatedByType = genruntime.ClonePointerToString(data.CreatedByType)
 
 	// LastModifiedAt
 	destination.LastModifiedAt = genruntime.ClonePointerToString(data.LastModifiedAt)
@@ -1480,12 +1416,7 @@ func (data *SystemData_Status) AssignPropertiesToSystemDataStatus(destination *v
 	destination.LastModifiedBy = genruntime.ClonePointerToString(data.LastModifiedBy)
 
 	// LastModifiedByType
-	if data.LastModifiedByType != nil {
-		lastModifiedByType := string(*data.LastModifiedByType)
-		destination.LastModifiedByType = &lastModifiedByType
-	} else {
-		destination.LastModifiedByType = nil
-	}
+	destination.LastModifiedByType = genruntime.ClonePointerToString(data.LastModifiedByType)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

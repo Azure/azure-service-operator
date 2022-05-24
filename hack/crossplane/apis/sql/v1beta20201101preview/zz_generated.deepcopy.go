@@ -25,7 +25,7 @@ func (in *DatabaseObservation) DeepCopyInto(out *DatabaseObservation) {
 	}
 	if in.CatalogCollation != nil {
 		in, out := &in.CatalogCollation, &out.CatalogCollation
-		*out = new(DatabasePropertiesStatusCatalogCollation)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Collation != nil {
@@ -35,7 +35,7 @@ func (in *DatabaseObservation) DeepCopyInto(out *DatabaseObservation) {
 	}
 	if in.CreateMode != nil {
 		in, out := &in.CreateMode, &out.CreateMode
-		*out = new(DatabasePropertiesStatusCreateMode)
+		*out = new(string)
 		**out = **in
 	}
 	if in.CreationDate != nil {
@@ -45,7 +45,7 @@ func (in *DatabaseObservation) DeepCopyInto(out *DatabaseObservation) {
 	}
 	if in.CurrentBackupStorageRedundancy != nil {
 		in, out := &in.CurrentBackupStorageRedundancy, &out.CurrentBackupStorageRedundancy
-		*out = new(DatabasePropertiesStatusCurrentBackupStorageRedundancy)
+		*out = new(string)
 		**out = **in
 	}
 	if in.CurrentServiceObjectiveName != nil {
@@ -100,7 +100,7 @@ func (in *DatabaseObservation) DeepCopyInto(out *DatabaseObservation) {
 	}
 	if in.LicenseType != nil {
 		in, out := &in.LicenseType, &out.LicenseType
-		*out = new(DatabasePropertiesStatusLicenseType)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Location != nil {
@@ -150,7 +150,7 @@ func (in *DatabaseObservation) DeepCopyInto(out *DatabaseObservation) {
 	}
 	if in.ReadScale != nil {
 		in, out := &in.ReadScale, &out.ReadScale
-		*out = new(DatabasePropertiesStatusReadScale)
+		*out = new(string)
 		**out = **in
 	}
 	if in.RecoverableDatabaseId != nil {
@@ -165,7 +165,7 @@ func (in *DatabaseObservation) DeepCopyInto(out *DatabaseObservation) {
 	}
 	if in.RequestedBackupStorageRedundancy != nil {
 		in, out := &in.RequestedBackupStorageRedundancy, &out.RequestedBackupStorageRedundancy
-		*out = new(DatabasePropertiesStatusRequestedBackupStorageRedundancy)
+		*out = new(string)
 		**out = **in
 	}
 	if in.RequestedServiceObjectiveName != nil {
@@ -190,12 +190,12 @@ func (in *DatabaseObservation) DeepCopyInto(out *DatabaseObservation) {
 	}
 	if in.SampleName != nil {
 		in, out := &in.SampleName, &out.SampleName
-		*out = new(DatabasePropertiesStatusSampleName)
+		*out = new(string)
 		**out = **in
 	}
 	if in.SecondaryType != nil {
 		in, out := &in.SecondaryType, &out.SecondaryType
-		*out = new(DatabasePropertiesStatusSecondaryType)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Sku != nil {
@@ -215,7 +215,7 @@ func (in *DatabaseObservation) DeepCopyInto(out *DatabaseObservation) {
 	}
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(DatabasePropertiesStatusStatus)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Tags != nil {
@@ -279,7 +279,7 @@ func (in *PrivateEndpointConnectionProperties_Status) DeepCopyInto(out *PrivateE
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(PrivateEndpointConnectionPropertiesStatusProvisioningState)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -319,7 +319,7 @@ func (in *PrivateLinkServiceConnectionStateProperty_Status) DeepCopyInto(out *Pr
 	*out = *in
 	if in.ActionsRequired != nil {
 		in, out := &in.ActionsRequired, &out.ActionsRequired
-		*out = new(PrivateLinkServiceConnectionStatePropertyStatusActionsRequired)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Description != nil {
@@ -329,7 +329,7 @@ func (in *PrivateLinkServiceConnectionStateProperty_Status) DeepCopyInto(out *Pr
 	}
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(PrivateLinkServiceConnectionStatePropertyStatusStatus)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -379,7 +379,7 @@ func (in *ResourceIdentity_Status) DeepCopyInto(out *ResourceIdentity_Status) {
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ResourceIdentityStatusType)
+		*out = new(string)
 		**out = **in
 	}
 	if in.UserAssignedIdentities != nil {
@@ -478,7 +478,7 @@ func (in *ServerExternalAdministrator_Status) DeepCopyInto(out *ServerExternalAd
 	*out = *in
 	if in.AdministratorType != nil {
 		in, out := &in.AdministratorType, &out.AdministratorType
-		*out = new(ServerExternalAdministratorStatusAdministratorType)
+		*out = new(string)
 		**out = **in
 	}
 	if in.AzureADOnlyAuthentication != nil {
@@ -493,7 +493,7 @@ func (in *ServerExternalAdministrator_Status) DeepCopyInto(out *ServerExternalAd
 	}
 	if in.PrincipalType != nil {
 		in, out := &in.PrincipalType, &out.PrincipalType
-		*out = new(ServerExternalAdministratorStatusPrincipalType)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Sid != nil {
@@ -622,7 +622,7 @@ func (in *ServerObservation) DeepCopyInto(out *ServerObservation) {
 	}
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(ServerPropertiesStatusPublicNetworkAccess)
+		*out = new(string)
 		**out = **in
 	}
 	if in.State != nil {
@@ -649,7 +649,7 @@ func (in *ServerObservation) DeepCopyInto(out *ServerObservation) {
 	}
 	if in.WorkspaceFeature != nil {
 		in, out := &in.WorkspaceFeature, &out.WorkspaceFeature
-		*out = new(ServerPropertiesStatusWorkspaceFeature)
+		*out = new(string)
 		**out = **in
 	}
 }

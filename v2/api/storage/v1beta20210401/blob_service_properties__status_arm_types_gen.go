@@ -54,8 +54,8 @@ type BlobServiceProperties_Status_PropertiesARM struct {
 }
 
 type Sku_StatusARM struct {
-	Name *SkuName_Status `json:"name,omitempty"`
-	Tier *Tier_Status    `json:"tier,omitempty"`
+	Name *string `json:"name,omitempty"`
+	Tier *string `json:"tier,omitempty"`
 }
 
 type ChangeFeed_StatusARM struct {
@@ -90,7 +90,7 @@ type LastAccessTimeTrackingPolicy_StatusARM struct {
 	Enable *bool `json:"enable,omitempty"`
 
 	// Name: Name of the policy. The valid value is AccessTimeTracking. This field is currently read only
-	Name *LastAccessTimeTrackingPolicyStatusName `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
 
 	// TrackingGranularityInDays: The field specifies blob object tracking granularity in days, typically how often the blob
 	// object should be tracked.This field is currently read only with value as 1
@@ -111,26 +111,6 @@ type RestorePolicyProperties_StatusARM struct {
 	MinRestoreTime *string `json:"minRestoreTime,omitempty"`
 }
 
-type SkuName_Status string
-
-const (
-	SkuName_StatusPremiumLRS     = SkuName_Status("Premium_LRS")
-	SkuName_StatusPremiumZRS     = SkuName_Status("Premium_ZRS")
-	SkuName_StatusStandardGRS    = SkuName_Status("Standard_GRS")
-	SkuName_StatusStandardGZRS   = SkuName_Status("Standard_GZRS")
-	SkuName_StatusStandardLRS    = SkuName_Status("Standard_LRS")
-	SkuName_StatusStandardRAGRS  = SkuName_Status("Standard_RAGRS")
-	SkuName_StatusStandardRAGZRS = SkuName_Status("Standard_RAGZRS")
-	SkuName_StatusStandardZRS    = SkuName_Status("Standard_ZRS")
-)
-
-type Tier_Status string
-
-const (
-	Tier_StatusPremium  = Tier_Status("Premium")
-	Tier_StatusStandard = Tier_Status("Standard")
-)
-
 type CorsRule_StatusARM struct {
 	// AllowedHeaders: Required if CorsRule element is present. A list of headers allowed to be part of the cross-origin
 	// request.
@@ -138,7 +118,7 @@ type CorsRule_StatusARM struct {
 
 	// AllowedMethods: Required if CorsRule element is present. A list of HTTP methods that are allowed to be executed by the
 	// origin.
-	AllowedMethods []CorsRuleStatusAllowedMethods `json:"allowedMethods,omitempty"`
+	AllowedMethods []string `json:"allowedMethods,omitempty"`
 
 	// AllowedOrigins: Required if CorsRule element is present. A list of origin domains that will be allowed via CORS, or "*"
 	// to allow all domains
@@ -151,19 +131,3 @@ type CorsRule_StatusARM struct {
 	// preflight response.
 	MaxAgeInSeconds *int `json:"maxAgeInSeconds,omitempty"`
 }
-
-type LastAccessTimeTrackingPolicyStatusName string
-
-const LastAccessTimeTrackingPolicyStatusNameAccessTimeTracking = LastAccessTimeTrackingPolicyStatusName("AccessTimeTracking")
-
-type CorsRuleStatusAllowedMethods string
-
-const (
-	CorsRuleStatusAllowedMethodsDELETE  = CorsRuleStatusAllowedMethods("DELETE")
-	CorsRuleStatusAllowedMethodsGET     = CorsRuleStatusAllowedMethods("GET")
-	CorsRuleStatusAllowedMethodsHEAD    = CorsRuleStatusAllowedMethods("HEAD")
-	CorsRuleStatusAllowedMethodsMERGE   = CorsRuleStatusAllowedMethods("MERGE")
-	CorsRuleStatusAllowedMethodsOPTIONS = CorsRuleStatusAllowedMethods("OPTIONS")
-	CorsRuleStatusAllowedMethodsPOST    = CorsRuleStatusAllowedMethods("POST")
-	CorsRuleStatusAllowedMethodsPUT     = CorsRuleStatusAllowedMethods("PUT")
-)

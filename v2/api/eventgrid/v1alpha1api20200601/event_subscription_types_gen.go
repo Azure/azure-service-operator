@@ -333,20 +333,20 @@ type EventSubscriptionList struct {
 // Deprecated version of EventSubscription_Status. Use v1beta20200601.EventSubscription_Status instead
 type EventSubscription_Status struct {
 	// Conditions: The observed state of the resource
-	Conditions            []conditions.Condition                                `json:"conditions,omitempty"`
-	DeadLetterDestination *DeadLetterDestination_Status                         `json:"deadLetterDestination,omitempty"`
-	Destination           *EventSubscriptionDestination_Status                  `json:"destination,omitempty"`
-	EventDeliverySchema   *EventSubscriptionPropertiesStatusEventDeliverySchema `json:"eventDeliverySchema,omitempty"`
-	ExpirationTimeUtc     *string                                               `json:"expirationTimeUtc,omitempty"`
-	Filter                *EventSubscriptionFilter_Status                       `json:"filter,omitempty"`
-	Id                    *string                                               `json:"id,omitempty"`
-	Labels                []string                                              `json:"labels,omitempty"`
-	Name                  *string                                               `json:"name,omitempty"`
-	ProvisioningState     *EventSubscriptionPropertiesStatusProvisioningState   `json:"provisioningState,omitempty"`
-	RetryPolicy           *RetryPolicy_Status                                   `json:"retryPolicy,omitempty"`
-	SystemData            *SystemData_Status                                    `json:"systemData,omitempty"`
-	Topic                 *string                                               `json:"topic,omitempty"`
-	Type                  *string                                               `json:"type,omitempty"`
+	Conditions            []conditions.Condition               `json:"conditions,omitempty"`
+	DeadLetterDestination *DeadLetterDestination_Status        `json:"deadLetterDestination,omitempty"`
+	Destination           *EventSubscriptionDestination_Status `json:"destination,omitempty"`
+	EventDeliverySchema   *string                              `json:"eventDeliverySchema,omitempty"`
+	ExpirationTimeUtc     *string                              `json:"expirationTimeUtc,omitempty"`
+	Filter                *EventSubscriptionFilter_Status      `json:"filter,omitempty"`
+	Id                    *string                              `json:"id,omitempty"`
+	Labels                []string                             `json:"labels,omitempty"`
+	Name                  *string                              `json:"name,omitempty"`
+	ProvisioningState     *string                              `json:"provisioningState,omitempty"`
+	RetryPolicy           *RetryPolicy_Status                  `json:"retryPolicy,omitempty"`
+	SystemData            *SystemData_Status                   `json:"systemData,omitempty"`
+	Topic                 *string                              `json:"topic,omitempty"`
+	Type                  *string                              `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &EventSubscription_Status{}
@@ -579,12 +579,7 @@ func (subscription *EventSubscription_Status) AssignPropertiesFromEventSubscript
 	}
 
 	// EventDeliverySchema
-	if source.EventDeliverySchema != nil {
-		eventDeliverySchema := EventSubscriptionPropertiesStatusEventDeliverySchema(*source.EventDeliverySchema)
-		subscription.EventDeliverySchema = &eventDeliverySchema
-	} else {
-		subscription.EventDeliverySchema = nil
-	}
+	subscription.EventDeliverySchema = genruntime.ClonePointerToString(source.EventDeliverySchema)
 
 	// ExpirationTimeUtc
 	subscription.ExpirationTimeUtc = genruntime.ClonePointerToString(source.ExpirationTimeUtc)
@@ -611,12 +606,7 @@ func (subscription *EventSubscription_Status) AssignPropertiesFromEventSubscript
 	subscription.Name = genruntime.ClonePointerToString(source.Name)
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := EventSubscriptionPropertiesStatusProvisioningState(*source.ProvisioningState)
-		subscription.ProvisioningState = &provisioningState
-	} else {
-		subscription.ProvisioningState = nil
-	}
+	subscription.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// RetryPolicy
 	if source.RetryPolicy != nil {
@@ -685,12 +675,7 @@ func (subscription *EventSubscription_Status) AssignPropertiesToEventSubscriptio
 	}
 
 	// EventDeliverySchema
-	if subscription.EventDeliverySchema != nil {
-		eventDeliverySchema := string(*subscription.EventDeliverySchema)
-		destination.EventDeliverySchema = &eventDeliverySchema
-	} else {
-		destination.EventDeliverySchema = nil
-	}
+	destination.EventDeliverySchema = genruntime.ClonePointerToString(subscription.EventDeliverySchema)
 
 	// ExpirationTimeUtc
 	destination.ExpirationTimeUtc = genruntime.ClonePointerToString(subscription.ExpirationTimeUtc)
@@ -717,12 +702,7 @@ func (subscription *EventSubscription_Status) AssignPropertiesToEventSubscriptio
 	destination.Name = genruntime.ClonePointerToString(subscription.Name)
 
 	// ProvisioningState
-	if subscription.ProvisioningState != nil {
-		provisioningState := string(*subscription.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(subscription.ProvisioningState)
 
 	// RetryPolicy
 	if subscription.RetryPolicy != nil {
@@ -1242,7 +1222,7 @@ func (subscriptions *EventSubscriptions_Spec) SetAzureName(azureName string) {
 
 // Deprecated version of DeadLetterDestination_Status. Use v1beta20200601.DeadLetterDestination_Status instead
 type DeadLetterDestination_Status struct {
-	EndpointType *DeadLetterDestinationStatusEndpointType `json:"endpointType,omitempty"`
+	EndpointType *string `json:"endpointType,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &DeadLetterDestination_Status{}
@@ -1273,12 +1253,7 @@ func (destination *DeadLetterDestination_Status) PopulateFromARM(owner genruntim
 func (destination *DeadLetterDestination_Status) AssignPropertiesFromDeadLetterDestinationStatus(source *alpha20200601s.DeadLetterDestination_Status) error {
 
 	// EndpointType
-	if source.EndpointType != nil {
-		endpointType := DeadLetterDestinationStatusEndpointType(*source.EndpointType)
-		destination.EndpointType = &endpointType
-	} else {
-		destination.EndpointType = nil
-	}
+	destination.EndpointType = genruntime.ClonePointerToString(source.EndpointType)
 
 	// No error
 	return nil
@@ -1290,12 +1265,7 @@ func (destination *DeadLetterDestination_Status) AssignPropertiesToDeadLetterDes
 	propertyBag := genruntime.NewPropertyBag()
 
 	// EndpointType
-	if destination.EndpointType != nil {
-		endpointType := string(*destination.EndpointType)
-		target.EndpointType = &endpointType
-	} else {
-		target.EndpointType = nil
-	}
+	target.EndpointType = genruntime.ClonePointerToString(destination.EndpointType)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1686,7 +1656,7 @@ func (destination *EventSubscriptionDestination) AssignPropertiesToEventSubscrip
 
 // Deprecated version of EventSubscriptionDestination_Status. Use v1beta20200601.EventSubscriptionDestination_Status instead
 type EventSubscriptionDestination_Status struct {
-	EndpointType *EventSubscriptionDestinationStatusEndpointType `json:"endpointType,omitempty"`
+	EndpointType *string `json:"endpointType,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &EventSubscriptionDestination_Status{}
@@ -1717,12 +1687,7 @@ func (destination *EventSubscriptionDestination_Status) PopulateFromARM(owner ge
 func (destination *EventSubscriptionDestination_Status) AssignPropertiesFromEventSubscriptionDestinationStatus(source *alpha20200601s.EventSubscriptionDestination_Status) error {
 
 	// EndpointType
-	if source.EndpointType != nil {
-		endpointType := EventSubscriptionDestinationStatusEndpointType(*source.EndpointType)
-		destination.EndpointType = &endpointType
-	} else {
-		destination.EndpointType = nil
-	}
+	destination.EndpointType = genruntime.ClonePointerToString(source.EndpointType)
 
 	// No error
 	return nil
@@ -1734,12 +1699,7 @@ func (destination *EventSubscriptionDestination_Status) AssignPropertiesToEventS
 	propertyBag := genruntime.NewPropertyBag()
 
 	// EndpointType
-	if destination.EndpointType != nil {
-		endpointType := string(*destination.EndpointType)
-		target.EndpointType = &endpointType
-	} else {
-		target.EndpointType = nil
-	}
+	target.EndpointType = genruntime.ClonePointerToString(destination.EndpointType)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2108,30 +2068,6 @@ const (
 	EventSubscriptionPropertiesEventDeliverySchemaCloudEventSchemaV10 = EventSubscriptionPropertiesEventDeliverySchema("CloudEventSchemaV1_0")
 	EventSubscriptionPropertiesEventDeliverySchemaCustomInputSchema   = EventSubscriptionPropertiesEventDeliverySchema("CustomInputSchema")
 	EventSubscriptionPropertiesEventDeliverySchemaEventGridSchema     = EventSubscriptionPropertiesEventDeliverySchema("EventGridSchema")
-)
-
-// Deprecated version of EventSubscriptionPropertiesStatusEventDeliverySchema. Use
-// v1beta20200601.EventSubscriptionPropertiesStatusEventDeliverySchema instead
-type EventSubscriptionPropertiesStatusEventDeliverySchema string
-
-const (
-	EventSubscriptionPropertiesStatusEventDeliverySchemaCloudEventSchemaV10 = EventSubscriptionPropertiesStatusEventDeliverySchema("CloudEventSchemaV1_0")
-	EventSubscriptionPropertiesStatusEventDeliverySchemaCustomInputSchema   = EventSubscriptionPropertiesStatusEventDeliverySchema("CustomInputSchema")
-	EventSubscriptionPropertiesStatusEventDeliverySchemaEventGridSchema     = EventSubscriptionPropertiesStatusEventDeliverySchema("EventGridSchema")
-)
-
-// Deprecated version of EventSubscriptionPropertiesStatusProvisioningState. Use
-// v1beta20200601.EventSubscriptionPropertiesStatusProvisioningState instead
-type EventSubscriptionPropertiesStatusProvisioningState string
-
-const (
-	EventSubscriptionPropertiesStatusProvisioningStateAwaitingManualAction = EventSubscriptionPropertiesStatusProvisioningState("AwaitingManualAction")
-	EventSubscriptionPropertiesStatusProvisioningStateCanceled             = EventSubscriptionPropertiesStatusProvisioningState("Canceled")
-	EventSubscriptionPropertiesStatusProvisioningStateCreating             = EventSubscriptionPropertiesStatusProvisioningState("Creating")
-	EventSubscriptionPropertiesStatusProvisioningStateDeleting             = EventSubscriptionPropertiesStatusProvisioningState("Deleting")
-	EventSubscriptionPropertiesStatusProvisioningStateFailed               = EventSubscriptionPropertiesStatusProvisioningState("Failed")
-	EventSubscriptionPropertiesStatusProvisioningStateSucceeded            = EventSubscriptionPropertiesStatusProvisioningState("Succeeded")
-	EventSubscriptionPropertiesStatusProvisioningStateUpdating             = EventSubscriptionPropertiesStatusProvisioningState("Updating")
 )
 
 // Deprecated version of RetryPolicy. Use v1beta20200601.RetryPolicy instead
@@ -3035,8 +2971,8 @@ func (filter *AdvancedFilter) AssignPropertiesToAdvancedFilter(destination *alph
 
 // Deprecated version of AdvancedFilter_Status. Use v1beta20200601.AdvancedFilter_Status instead
 type AdvancedFilter_Status struct {
-	Key          *string                           `json:"key,omitempty"`
-	OperatorType *AdvancedFilterStatusOperatorType `json:"operatorType,omitempty"`
+	Key          *string `json:"key,omitempty"`
+	OperatorType *string `json:"operatorType,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &AdvancedFilter_Status{}
@@ -3076,12 +3012,7 @@ func (filter *AdvancedFilter_Status) AssignPropertiesFromAdvancedFilterStatus(so
 	filter.Key = genruntime.ClonePointerToString(source.Key)
 
 	// OperatorType
-	if source.OperatorType != nil {
-		operatorType := AdvancedFilterStatusOperatorType(*source.OperatorType)
-		filter.OperatorType = &operatorType
-	} else {
-		filter.OperatorType = nil
-	}
+	filter.OperatorType = genruntime.ClonePointerToString(source.OperatorType)
 
 	// No error
 	return nil
@@ -3096,12 +3027,7 @@ func (filter *AdvancedFilter_Status) AssignPropertiesToAdvancedFilterStatus(dest
 	destination.Key = genruntime.ClonePointerToString(filter.Key)
 
 	// OperatorType
-	if filter.OperatorType != nil {
-		operatorType := string(*filter.OperatorType)
-		destination.OperatorType = &operatorType
-	} else {
-		destination.OperatorType = nil
-	}
+	destination.OperatorType = genruntime.ClonePointerToString(filter.OperatorType)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3240,12 +3166,6 @@ func (destination *AzureFunctionEventSubscriptionDestination) AssignPropertiesTo
 	return nil
 }
 
-// Deprecated version of DeadLetterDestinationStatusEndpointType. Use
-// v1beta20200601.DeadLetterDestinationStatusEndpointType instead
-type DeadLetterDestinationStatusEndpointType string
-
-const DeadLetterDestinationStatusEndpointTypeStorageBlob = DeadLetterDestinationStatusEndpointType("StorageBlob")
-
 // Deprecated version of EventHubEventSubscriptionDestination. Use v1beta20200601.EventHubEventSubscriptionDestination instead
 type EventHubEventSubscriptionDestination struct {
 	// +kubebuilder:validation:Required
@@ -3371,20 +3291,6 @@ func (destination *EventHubEventSubscriptionDestination) AssignPropertiesToEvent
 	// No error
 	return nil
 }
-
-// Deprecated version of EventSubscriptionDestinationStatusEndpointType. Use
-// v1beta20200601.EventSubscriptionDestinationStatusEndpointType instead
-type EventSubscriptionDestinationStatusEndpointType string
-
-const (
-	EventSubscriptionDestinationStatusEndpointTypeAzureFunction    = EventSubscriptionDestinationStatusEndpointType("AzureFunction")
-	EventSubscriptionDestinationStatusEndpointTypeEventHub         = EventSubscriptionDestinationStatusEndpointType("EventHub")
-	EventSubscriptionDestinationStatusEndpointTypeHybridConnection = EventSubscriptionDestinationStatusEndpointType("HybridConnection")
-	EventSubscriptionDestinationStatusEndpointTypeServiceBusQueue  = EventSubscriptionDestinationStatusEndpointType("ServiceBusQueue")
-	EventSubscriptionDestinationStatusEndpointTypeServiceBusTopic  = EventSubscriptionDestinationStatusEndpointType("ServiceBusTopic")
-	EventSubscriptionDestinationStatusEndpointTypeStorageQueue     = EventSubscriptionDestinationStatusEndpointType("StorageQueue")
-	EventSubscriptionDestinationStatusEndpointTypeWebHook          = EventSubscriptionDestinationStatusEndpointType("WebHook")
-)
 
 // Deprecated version of HybridConnectionEventSubscriptionDestination. Use v1beta20200601.HybridConnectionEventSubscriptionDestination instead
 type HybridConnectionEventSubscriptionDestination struct {
@@ -4124,24 +4030,6 @@ func (destination *WebHookEventSubscriptionDestination) AssignPropertiesToWebHoo
 	// No error
 	return nil
 }
-
-// Deprecated version of AdvancedFilterStatusOperatorType. Use v1beta20200601.AdvancedFilterStatusOperatorType instead
-type AdvancedFilterStatusOperatorType string
-
-const (
-	AdvancedFilterStatusOperatorTypeBoolEquals                = AdvancedFilterStatusOperatorType("BoolEquals")
-	AdvancedFilterStatusOperatorTypeNumberGreaterThan         = AdvancedFilterStatusOperatorType("NumberGreaterThan")
-	AdvancedFilterStatusOperatorTypeNumberGreaterThanOrEquals = AdvancedFilterStatusOperatorType("NumberGreaterThanOrEquals")
-	AdvancedFilterStatusOperatorTypeNumberIn                  = AdvancedFilterStatusOperatorType("NumberIn")
-	AdvancedFilterStatusOperatorTypeNumberLessThan            = AdvancedFilterStatusOperatorType("NumberLessThan")
-	AdvancedFilterStatusOperatorTypeNumberLessThanOrEquals    = AdvancedFilterStatusOperatorType("NumberLessThanOrEquals")
-	AdvancedFilterStatusOperatorTypeNumberNotIn               = AdvancedFilterStatusOperatorType("NumberNotIn")
-	AdvancedFilterStatusOperatorTypeStringBeginsWith          = AdvancedFilterStatusOperatorType("StringBeginsWith")
-	AdvancedFilterStatusOperatorTypeStringContains            = AdvancedFilterStatusOperatorType("StringContains")
-	AdvancedFilterStatusOperatorTypeStringEndsWith            = AdvancedFilterStatusOperatorType("StringEndsWith")
-	AdvancedFilterStatusOperatorTypeStringIn                  = AdvancedFilterStatusOperatorType("StringIn")
-	AdvancedFilterStatusOperatorTypeStringNotIn               = AdvancedFilterStatusOperatorType("StringNotIn")
-)
 
 // Deprecated version of AdvancedFilter_BoolEquals. Use v1beta20200601.AdvancedFilter_BoolEquals instead
 type AdvancedFilter_BoolEquals struct {

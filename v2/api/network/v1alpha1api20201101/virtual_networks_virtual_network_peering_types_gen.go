@@ -338,19 +338,19 @@ type VirtualNetworkPeering_Status struct {
 	AllowVirtualNetworkAccess *bool `json:"allowVirtualNetworkAccess,omitempty"`
 
 	// Conditions: The observed state of the resource
-	Conditions                []conditions.Condition                                   `json:"conditions,omitempty"`
-	DoNotVerifyRemoteGateways *bool                                                    `json:"doNotVerifyRemoteGateways,omitempty"`
-	Etag                      *string                                                  `json:"etag,omitempty"`
-	Id                        *string                                                  `json:"id,omitempty"`
-	Name                      *string                                                  `json:"name,omitempty"`
-	PeeringState              *VirtualNetworkPeeringPropertiesFormatStatusPeeringState `json:"peeringState,omitempty"`
-	ProvisioningState         *ProvisioningState_Status                                `json:"provisioningState,omitempty"`
-	RemoteAddressSpace        *AddressSpace_Status                                     `json:"remoteAddressSpace,omitempty"`
-	RemoteBgpCommunities      *VirtualNetworkBgpCommunities_Status                     `json:"remoteBgpCommunities,omitempty"`
-	RemoteVirtualNetwork      *SubResource_Status                                      `json:"remoteVirtualNetwork,omitempty"`
-	ResourceGuid              *string                                                  `json:"resourceGuid,omitempty"`
-	Type                      *string                                                  `json:"type,omitempty"`
-	UseRemoteGateways         *bool                                                    `json:"useRemoteGateways,omitempty"`
+	Conditions                []conditions.Condition               `json:"conditions,omitempty"`
+	DoNotVerifyRemoteGateways *bool                                `json:"doNotVerifyRemoteGateways,omitempty"`
+	Etag                      *string                              `json:"etag,omitempty"`
+	Id                        *string                              `json:"id,omitempty"`
+	Name                      *string                              `json:"name,omitempty"`
+	PeeringState              *string                              `json:"peeringState,omitempty"`
+	ProvisioningState         *string                              `json:"provisioningState,omitempty"`
+	RemoteAddressSpace        *AddressSpace_Status                 `json:"remoteAddressSpace,omitempty"`
+	RemoteBgpCommunities      *VirtualNetworkBgpCommunities_Status `json:"remoteBgpCommunities,omitempty"`
+	RemoteVirtualNetwork      *SubResource_Status                  `json:"remoteVirtualNetwork,omitempty"`
+	ResourceGuid              *string                              `json:"resourceGuid,omitempty"`
+	Type                      *string                              `json:"type,omitempty"`
+	UseRemoteGateways         *bool                                `json:"useRemoteGateways,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &VirtualNetworkPeering_Status{}
@@ -609,20 +609,10 @@ func (peering *VirtualNetworkPeering_Status) AssignPropertiesFromVirtualNetworkP
 	peering.Name = genruntime.ClonePointerToString(source.Name)
 
 	// PeeringState
-	if source.PeeringState != nil {
-		peeringState := VirtualNetworkPeeringPropertiesFormatStatusPeeringState(*source.PeeringState)
-		peering.PeeringState = &peeringState
-	} else {
-		peering.PeeringState = nil
-	}
+	peering.PeeringState = genruntime.ClonePointerToString(source.PeeringState)
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_Status(*source.ProvisioningState)
-		peering.ProvisioningState = &provisioningState
-	} else {
-		peering.ProvisioningState = nil
-	}
+	peering.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// RemoteAddressSpace
 	if source.RemoteAddressSpace != nil {
@@ -728,20 +718,10 @@ func (peering *VirtualNetworkPeering_Status) AssignPropertiesToVirtualNetworkPee
 	destination.Name = genruntime.ClonePointerToString(peering.Name)
 
 	// PeeringState
-	if peering.PeeringState != nil {
-		peeringState := string(*peering.PeeringState)
-		destination.PeeringState = &peeringState
-	} else {
-		destination.PeeringState = nil
-	}
+	destination.PeeringState = genruntime.ClonePointerToString(peering.PeeringState)
 
 	// ProvisioningState
-	if peering.ProvisioningState != nil {
-		provisioningState := string(*peering.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(peering.ProvisioningState)
 
 	// RemoteAddressSpace
 	if peering.RemoteAddressSpace != nil {

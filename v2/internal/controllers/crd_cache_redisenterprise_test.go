@@ -117,7 +117,7 @@ func RedisEnterprise_Database_CRUD(tc *testcommon.KubePerTestContext, redis *cac
 	database.Spec.Persistence.AofFrequency = &oneSecond
 	tc.PatchResourceAndWait(old, &database)
 
-	oneSecondStatus := cache.PersistenceStatusAofFrequency1S
+	oneSecondStatus := string(cache.PersistenceAofFrequency1S)
 	expectedPersistenceStatus := &cache.Persistence_Status{
 		AofEnabled:   to.BoolPtr(true),
 		AofFrequency: &oneSecondStatus,

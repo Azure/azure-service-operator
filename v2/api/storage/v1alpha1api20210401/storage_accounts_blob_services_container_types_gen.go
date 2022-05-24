@@ -334,28 +334,28 @@ type StorageAccountsBlobServicesContainerList struct {
 // Deprecated version of BlobContainer_Status. Use v1beta20210401.BlobContainer_Status instead
 type BlobContainer_Status struct {
 	// Conditions: The observed state of the resource
-	Conditions                     []conditions.Condition                  `json:"conditions,omitempty"`
-	DefaultEncryptionScope         *string                                 `json:"defaultEncryptionScope,omitempty"`
-	Deleted                        *bool                                   `json:"deleted,omitempty"`
-	DeletedTime                    *string                                 `json:"deletedTime,omitempty"`
-	DenyEncryptionScopeOverride    *bool                                   `json:"denyEncryptionScopeOverride,omitempty"`
-	Etag                           *string                                 `json:"etag,omitempty"`
-	HasImmutabilityPolicy          *bool                                   `json:"hasImmutabilityPolicy,omitempty"`
-	HasLegalHold                   *bool                                   `json:"hasLegalHold,omitempty"`
-	Id                             *string                                 `json:"id,omitempty"`
-	ImmutabilityPolicy             *ImmutabilityPolicyProperties_Status    `json:"immutabilityPolicy,omitempty"`
-	ImmutableStorageWithVersioning *ImmutableStorageWithVersioning_Status  `json:"immutableStorageWithVersioning,omitempty"`
-	LastModifiedTime               *string                                 `json:"lastModifiedTime,omitempty"`
-	LeaseDuration                  *ContainerPropertiesStatusLeaseDuration `json:"leaseDuration,omitempty"`
-	LeaseState                     *ContainerPropertiesStatusLeaseState    `json:"leaseState,omitempty"`
-	LeaseStatus                    *ContainerPropertiesStatusLeaseStatus   `json:"leaseStatus,omitempty"`
-	LegalHold                      *LegalHoldProperties_Status             `json:"legalHold,omitempty"`
-	Metadata                       map[string]string                       `json:"metadata,omitempty"`
-	Name                           *string                                 `json:"name,omitempty"`
-	PublicAccess                   *ContainerPropertiesStatusPublicAccess  `json:"publicAccess,omitempty"`
-	RemainingRetentionDays         *int                                    `json:"remainingRetentionDays,omitempty"`
-	Type                           *string                                 `json:"type,omitempty"`
-	Version                        *string                                 `json:"version,omitempty"`
+	Conditions                     []conditions.Condition                 `json:"conditions,omitempty"`
+	DefaultEncryptionScope         *string                                `json:"defaultEncryptionScope,omitempty"`
+	Deleted                        *bool                                  `json:"deleted,omitempty"`
+	DeletedTime                    *string                                `json:"deletedTime,omitempty"`
+	DenyEncryptionScopeOverride    *bool                                  `json:"denyEncryptionScopeOverride,omitempty"`
+	Etag                           *string                                `json:"etag,omitempty"`
+	HasImmutabilityPolicy          *bool                                  `json:"hasImmutabilityPolicy,omitempty"`
+	HasLegalHold                   *bool                                  `json:"hasLegalHold,omitempty"`
+	Id                             *string                                `json:"id,omitempty"`
+	ImmutabilityPolicy             *ImmutabilityPolicyProperties_Status   `json:"immutabilityPolicy,omitempty"`
+	ImmutableStorageWithVersioning *ImmutableStorageWithVersioning_Status `json:"immutableStorageWithVersioning,omitempty"`
+	LastModifiedTime               *string                                `json:"lastModifiedTime,omitempty"`
+	LeaseDuration                  *string                                `json:"leaseDuration,omitempty"`
+	LeaseState                     *string                                `json:"leaseState,omitempty"`
+	LeaseStatus                    *string                                `json:"leaseStatus,omitempty"`
+	LegalHold                      *LegalHoldProperties_Status            `json:"legalHold,omitempty"`
+	Metadata                       map[string]string                      `json:"metadata,omitempty"`
+	Name                           *string                                `json:"name,omitempty"`
+	PublicAccess                   *string                                `json:"publicAccess,omitempty"`
+	RemainingRetentionDays         *int                                   `json:"remainingRetentionDays,omitempty"`
+	Type                           *string                                `json:"type,omitempty"`
+	Version                        *string                                `json:"version,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &BlobContainer_Status{}
@@ -700,28 +700,13 @@ func (container *BlobContainer_Status) AssignPropertiesFromBlobContainerStatus(s
 	container.LastModifiedTime = genruntime.ClonePointerToString(source.LastModifiedTime)
 
 	// LeaseDuration
-	if source.LeaseDuration != nil {
-		leaseDuration := ContainerPropertiesStatusLeaseDuration(*source.LeaseDuration)
-		container.LeaseDuration = &leaseDuration
-	} else {
-		container.LeaseDuration = nil
-	}
+	container.LeaseDuration = genruntime.ClonePointerToString(source.LeaseDuration)
 
 	// LeaseState
-	if source.LeaseState != nil {
-		leaseState := ContainerPropertiesStatusLeaseState(*source.LeaseState)
-		container.LeaseState = &leaseState
-	} else {
-		container.LeaseState = nil
-	}
+	container.LeaseState = genruntime.ClonePointerToString(source.LeaseState)
 
 	// LeaseStatus
-	if source.LeaseStatus != nil {
-		leaseStatus := ContainerPropertiesStatusLeaseStatus(*source.LeaseStatus)
-		container.LeaseStatus = &leaseStatus
-	} else {
-		container.LeaseStatus = nil
-	}
+	container.LeaseStatus = genruntime.ClonePointerToString(source.LeaseStatus)
 
 	// LegalHold
 	if source.LegalHold != nil {
@@ -742,12 +727,7 @@ func (container *BlobContainer_Status) AssignPropertiesFromBlobContainerStatus(s
 	container.Name = genruntime.ClonePointerToString(source.Name)
 
 	// PublicAccess
-	if source.PublicAccess != nil {
-		publicAccess := ContainerPropertiesStatusPublicAccess(*source.PublicAccess)
-		container.PublicAccess = &publicAccess
-	} else {
-		container.PublicAccess = nil
-	}
+	container.PublicAccess = genruntime.ClonePointerToString(source.PublicAccess)
 
 	// RemainingRetentionDays
 	container.RemainingRetentionDays = genruntime.ClonePointerToInt(source.RemainingRetentionDays)
@@ -842,28 +822,13 @@ func (container *BlobContainer_Status) AssignPropertiesToBlobContainerStatus(des
 	destination.LastModifiedTime = genruntime.ClonePointerToString(container.LastModifiedTime)
 
 	// LeaseDuration
-	if container.LeaseDuration != nil {
-		leaseDuration := string(*container.LeaseDuration)
-		destination.LeaseDuration = &leaseDuration
-	} else {
-		destination.LeaseDuration = nil
-	}
+	destination.LeaseDuration = genruntime.ClonePointerToString(container.LeaseDuration)
 
 	// LeaseState
-	if container.LeaseState != nil {
-		leaseState := string(*container.LeaseState)
-		destination.LeaseState = &leaseState
-	} else {
-		destination.LeaseState = nil
-	}
+	destination.LeaseState = genruntime.ClonePointerToString(container.LeaseState)
 
 	// LeaseStatus
-	if container.LeaseStatus != nil {
-		leaseStatus := string(*container.LeaseStatus)
-		destination.LeaseStatus = &leaseStatus
-	} else {
-		destination.LeaseStatus = nil
-	}
+	destination.LeaseStatus = genruntime.ClonePointerToString(container.LeaseStatus)
 
 	// LegalHold
 	if container.LegalHold != nil {
@@ -884,12 +849,7 @@ func (container *BlobContainer_Status) AssignPropertiesToBlobContainerStatus(des
 	destination.Name = genruntime.ClonePointerToString(container.Name)
 
 	// PublicAccess
-	if container.PublicAccess != nil {
-		publicAccess := string(*container.PublicAccess)
-		destination.PublicAccess = &publicAccess
-	} else {
-		destination.PublicAccess = nil
-	}
+	destination.PublicAccess = genruntime.ClonePointerToString(container.PublicAccess)
 
 	// RemainingRetentionDays
 	destination.RemainingRetentionDays = genruntime.ClonePointerToInt(container.RemainingRetentionDays)
@@ -1285,11 +1245,11 @@ const (
 
 // Deprecated version of ImmutabilityPolicyProperties_Status. Use v1beta20210401.ImmutabilityPolicyProperties_Status instead
 type ImmutabilityPolicyProperties_Status struct {
-	AllowProtectedAppendWrites            *bool                                  `json:"allowProtectedAppendWrites,omitempty"`
-	Etag                                  *string                                `json:"etag,omitempty"`
-	ImmutabilityPeriodSinceCreationInDays *int                                   `json:"immutabilityPeriodSinceCreationInDays,omitempty"`
-	State                                 *ImmutabilityPolicyPropertyStatusState `json:"state,omitempty"`
-	UpdateHistory                         []UpdateHistoryProperty_Status         `json:"updateHistory,omitempty"`
+	AllowProtectedAppendWrites            *bool                          `json:"allowProtectedAppendWrites,omitempty"`
+	Etag                                  *string                        `json:"etag,omitempty"`
+	ImmutabilityPeriodSinceCreationInDays *int                           `json:"immutabilityPeriodSinceCreationInDays,omitempty"`
+	State                                 *string                        `json:"state,omitempty"`
+	UpdateHistory                         []UpdateHistoryProperty_Status `json:"updateHistory,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ImmutabilityPolicyProperties_Status{}
@@ -1371,12 +1331,7 @@ func (properties *ImmutabilityPolicyProperties_Status) AssignPropertiesFromImmut
 	properties.ImmutabilityPeriodSinceCreationInDays = genruntime.ClonePointerToInt(source.ImmutabilityPeriodSinceCreationInDays)
 
 	// State
-	if source.State != nil {
-		state := ImmutabilityPolicyPropertyStatusState(*source.State)
-		properties.State = &state
-	} else {
-		properties.State = nil
-	}
+	properties.State = genruntime.ClonePointerToString(source.State)
 
 	// UpdateHistory
 	if source.UpdateHistory != nil {
@@ -1420,12 +1375,7 @@ func (properties *ImmutabilityPolicyProperties_Status) AssignPropertiesToImmutab
 	destination.ImmutabilityPeriodSinceCreationInDays = genruntime.ClonePointerToInt(properties.ImmutabilityPeriodSinceCreationInDays)
 
 	// State
-	if properties.State != nil {
-		state := string(*properties.State)
-		destination.State = &state
-	} else {
-		destination.State = nil
-	}
+	destination.State = genruntime.ClonePointerToString(properties.State)
 
 	// UpdateHistory
 	if properties.UpdateHistory != nil {
@@ -1541,9 +1491,9 @@ func (versioning *ImmutableStorageWithVersioning) AssignPropertiesToImmutableSto
 
 // Deprecated version of ImmutableStorageWithVersioning_Status. Use v1beta20210401.ImmutableStorageWithVersioning_Status instead
 type ImmutableStorageWithVersioning_Status struct {
-	Enabled        *bool                                               `json:"enabled,omitempty"`
-	MigrationState *ImmutableStorageWithVersioningStatusMigrationState `json:"migrationState,omitempty"`
-	TimeStamp      *string                                             `json:"timeStamp,omitempty"`
+	Enabled        *bool   `json:"enabled,omitempty"`
+	MigrationState *string `json:"migrationState,omitempty"`
+	TimeStamp      *string `json:"timeStamp,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ImmutableStorageWithVersioning_Status{}
@@ -1594,12 +1544,7 @@ func (versioning *ImmutableStorageWithVersioning_Status) AssignPropertiesFromImm
 	}
 
 	// MigrationState
-	if source.MigrationState != nil {
-		migrationState := ImmutableStorageWithVersioningStatusMigrationState(*source.MigrationState)
-		versioning.MigrationState = &migrationState
-	} else {
-		versioning.MigrationState = nil
-	}
+	versioning.MigrationState = genruntime.ClonePointerToString(source.MigrationState)
 
 	// TimeStamp
 	versioning.TimeStamp = genruntime.ClonePointerToString(source.TimeStamp)
@@ -1622,12 +1567,7 @@ func (versioning *ImmutableStorageWithVersioning_Status) AssignPropertiesToImmut
 	}
 
 	// MigrationState
-	if versioning.MigrationState != nil {
-		migrationState := string(*versioning.MigrationState)
-		destination.MigrationState = &migrationState
-	} else {
-		destination.MigrationState = nil
-	}
+	destination.MigrationState = genruntime.ClonePointerToString(versioning.MigrationState)
 
 	// TimeStamp
 	destination.TimeStamp = genruntime.ClonePointerToString(versioning.TimeStamp)
@@ -1758,15 +1698,6 @@ func (properties *LegalHoldProperties_Status) AssignPropertiesToLegalHoldPropert
 	return nil
 }
 
-// Deprecated version of ImmutabilityPolicyPropertyStatusState. Use v1beta20210401.ImmutabilityPolicyPropertyStatusState
-// instead
-type ImmutabilityPolicyPropertyStatusState string
-
-const (
-	ImmutabilityPolicyPropertyStatusStateLocked   = ImmutabilityPolicyPropertyStatusState("Locked")
-	ImmutabilityPolicyPropertyStatusStateUnlocked = ImmutabilityPolicyPropertyStatusState("Unlocked")
-)
-
 // Deprecated version of TagProperty_Status. Use v1beta20210401.TagProperty_Status instead
 type TagProperty_Status struct {
 	ObjectIdentifier *string `json:"objectIdentifier,omitempty"`
@@ -1879,12 +1810,12 @@ func (property *TagProperty_Status) AssignPropertiesToTagPropertyStatus(destinat
 
 // Deprecated version of UpdateHistoryProperty_Status. Use v1beta20210401.UpdateHistoryProperty_Status instead
 type UpdateHistoryProperty_Status struct {
-	ImmutabilityPeriodSinceCreationInDays *int                               `json:"immutabilityPeriodSinceCreationInDays,omitempty"`
-	ObjectIdentifier                      *string                            `json:"objectIdentifier,omitempty"`
-	TenantId                              *string                            `json:"tenantId,omitempty"`
-	Timestamp                             *string                            `json:"timestamp,omitempty"`
-	Update                                *UpdateHistoryPropertyStatusUpdate `json:"update,omitempty"`
-	Upn                                   *string                            `json:"upn,omitempty"`
+	ImmutabilityPeriodSinceCreationInDays *int    `json:"immutabilityPeriodSinceCreationInDays,omitempty"`
+	ObjectIdentifier                      *string `json:"objectIdentifier,omitempty"`
+	TenantId                              *string `json:"tenantId,omitempty"`
+	Timestamp                             *string `json:"timestamp,omitempty"`
+	Update                                *string `json:"update,omitempty"`
+	Upn                                   *string `json:"upn,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &UpdateHistoryProperty_Status{}
@@ -1957,12 +1888,7 @@ func (property *UpdateHistoryProperty_Status) AssignPropertiesFromUpdateHistoryP
 	property.Timestamp = genruntime.ClonePointerToString(source.Timestamp)
 
 	// Update
-	if source.Update != nil {
-		update := UpdateHistoryPropertyStatusUpdate(*source.Update)
-		property.Update = &update
-	} else {
-		property.Update = nil
-	}
+	property.Update = genruntime.ClonePointerToString(source.Update)
 
 	// Upn
 	property.Upn = genruntime.ClonePointerToString(source.Upn)
@@ -1989,12 +1915,7 @@ func (property *UpdateHistoryProperty_Status) AssignPropertiesToUpdateHistoryPro
 	destination.Timestamp = genruntime.ClonePointerToString(property.Timestamp)
 
 	// Update
-	if property.Update != nil {
-		update := string(*property.Update)
-		destination.Update = &update
-	} else {
-		destination.Update = nil
-	}
+	destination.Update = genruntime.ClonePointerToString(property.Update)
 
 	// Upn
 	destination.Upn = genruntime.ClonePointerToString(property.Upn)

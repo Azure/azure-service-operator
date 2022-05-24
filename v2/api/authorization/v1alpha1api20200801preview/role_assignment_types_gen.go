@@ -342,20 +342,20 @@ type RoleAssignment_Status struct {
 	ConditionVersion *string `json:"conditionVersion,omitempty"`
 
 	// Conditions: The observed state of the resource
-	Conditions                         []conditions.Condition                       `json:"conditions,omitempty"`
-	CreatedBy                          *string                                      `json:"createdBy,omitempty"`
-	CreatedOn                          *string                                      `json:"createdOn,omitempty"`
-	DelegatedManagedIdentityResourceId *string                                      `json:"delegatedManagedIdentityResourceId,omitempty"`
-	Description                        *string                                      `json:"description,omitempty"`
-	Id                                 *string                                      `json:"id,omitempty"`
-	Name                               *string                                      `json:"name,omitempty"`
-	PrincipalId                        *string                                      `json:"principalId,omitempty"`
-	PrincipalType                      *RoleAssignmentPropertiesStatusPrincipalType `json:"principalType,omitempty"`
-	RoleDefinitionId                   *string                                      `json:"roleDefinitionId,omitempty"`
-	Scope                              *string                                      `json:"scope,omitempty"`
-	Type                               *string                                      `json:"type,omitempty"`
-	UpdatedBy                          *string                                      `json:"updatedBy,omitempty"`
-	UpdatedOn                          *string                                      `json:"updatedOn,omitempty"`
+	Conditions                         []conditions.Condition `json:"conditions,omitempty"`
+	CreatedBy                          *string                `json:"createdBy,omitempty"`
+	CreatedOn                          *string                `json:"createdOn,omitempty"`
+	DelegatedManagedIdentityResourceId *string                `json:"delegatedManagedIdentityResourceId,omitempty"`
+	Description                        *string                `json:"description,omitempty"`
+	Id                                 *string                `json:"id,omitempty"`
+	Name                               *string                `json:"name,omitempty"`
+	PrincipalId                        *string                `json:"principalId,omitempty"`
+	PrincipalType                      *string                `json:"principalType,omitempty"`
+	RoleDefinitionId                   *string                `json:"roleDefinitionId,omitempty"`
+	Scope                              *string                `json:"scope,omitempty"`
+	Type                               *string                `json:"type,omitempty"`
+	UpdatedBy                          *string                `json:"updatedBy,omitempty"`
+	UpdatedOn                          *string                `json:"updatedOn,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &RoleAssignment_Status{}
@@ -588,12 +588,7 @@ func (assignment *RoleAssignment_Status) AssignPropertiesFromRoleAssignmentStatu
 	assignment.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
 
 	// PrincipalType
-	if source.PrincipalType != nil {
-		principalType := RoleAssignmentPropertiesStatusPrincipalType(*source.PrincipalType)
-		assignment.PrincipalType = &principalType
-	} else {
-		assignment.PrincipalType = nil
-	}
+	assignment.PrincipalType = genruntime.ClonePointerToString(source.PrincipalType)
 
 	// RoleDefinitionId
 	assignment.RoleDefinitionId = genruntime.ClonePointerToString(source.RoleDefinitionId)
@@ -650,12 +645,7 @@ func (assignment *RoleAssignment_Status) AssignPropertiesToRoleAssignmentStatus(
 	destination.PrincipalId = genruntime.ClonePointerToString(assignment.PrincipalId)
 
 	// PrincipalType
-	if assignment.PrincipalType != nil {
-		principalType := string(*assignment.PrincipalType)
-		destination.PrincipalType = &principalType
-	} else {
-		destination.PrincipalType = nil
-	}
+	destination.PrincipalType = genruntime.ClonePointerToString(assignment.PrincipalType)
 
 	// RoleDefinitionId
 	destination.RoleDefinitionId = genruntime.ClonePointerToString(assignment.RoleDefinitionId)
@@ -1063,17 +1053,6 @@ const (
 	RoleAssignmentPropertiesPrincipalTypeGroup            = RoleAssignmentPropertiesPrincipalType("Group")
 	RoleAssignmentPropertiesPrincipalTypeServicePrincipal = RoleAssignmentPropertiesPrincipalType("ServicePrincipal")
 	RoleAssignmentPropertiesPrincipalTypeUser             = RoleAssignmentPropertiesPrincipalType("User")
-)
-
-// Deprecated version of RoleAssignmentPropertiesStatusPrincipalType. Use
-// v1beta20200801preview.RoleAssignmentPropertiesStatusPrincipalType instead
-type RoleAssignmentPropertiesStatusPrincipalType string
-
-const (
-	RoleAssignmentPropertiesStatusPrincipalTypeForeignGroup     = RoleAssignmentPropertiesStatusPrincipalType("ForeignGroup")
-	RoleAssignmentPropertiesStatusPrincipalTypeGroup            = RoleAssignmentPropertiesStatusPrincipalType("Group")
-	RoleAssignmentPropertiesStatusPrincipalTypeServicePrincipal = RoleAssignmentPropertiesStatusPrincipalType("ServicePrincipal")
-	RoleAssignmentPropertiesStatusPrincipalTypeUser             = RoleAssignmentPropertiesStatusPrincipalType("User")
 )
 
 func init() {

@@ -35,7 +35,7 @@ type DomainProperties_StatusARM struct {
 	InboundIpRules []InboundIpRule_StatusARM `json:"inboundIpRules,omitempty"`
 
 	// InputSchema: This determines the format that Event Grid should expect for incoming events published to the domain.
-	InputSchema *DomainPropertiesStatusInputSchema `json:"inputSchema,omitempty"`
+	InputSchema *string `json:"inputSchema,omitempty"`
 
 	// InputSchemaMapping: Information about the InputSchemaMapping which specified the info about mapping event payload.
 	InputSchemaMapping *InputSchemaMapping_StatusARM `json:"inputSchemaMapping,omitempty"`
@@ -47,17 +47,17 @@ type DomainProperties_StatusARM struct {
 	PrivateEndpointConnections []PrivateEndpointConnection_Status_Domain_SubResourceEmbeddedARM `json:"privateEndpointConnections,omitempty"`
 
 	// ProvisioningState: Provisioning state of the domain.
-	ProvisioningState *DomainPropertiesStatusProvisioningState `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	// PublicNetworkAccess: This determines if traffic is allowed over public network. By default it is enabled.
 	// You can further restrict to specific IPs by configuring <seealso
 	// cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainProperties.InboundIpRules" />
-	PublicNetworkAccess *DomainPropertiesStatusPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *string `json:"publicNetworkAccess,omitempty"`
 }
 
 type InboundIpRule_StatusARM struct {
 	// Action: Action to perform based on the match or no match of the IpMask.
-	Action *InboundIpRuleStatusAction `json:"action,omitempty"`
+	Action *string `json:"action,omitempty"`
 
 	// IpMask: IP Address in CIDR notation e.g., 10.0.0.0/8.
 	IpMask *string `json:"ipMask,omitempty"`
@@ -65,7 +65,7 @@ type InboundIpRule_StatusARM struct {
 
 type InputSchemaMapping_StatusARM struct {
 	// InputSchemaMappingType: Type of the custom mapping
-	InputSchemaMappingType *InputSchemaMappingStatusInputSchemaMappingType `json:"inputSchemaMappingType,omitempty"`
+	InputSchemaMappingType *string `json:"inputSchemaMappingType,omitempty"`
 }
 
 type PrivateEndpointConnection_Status_Domain_SubResourceEmbeddedARM struct {

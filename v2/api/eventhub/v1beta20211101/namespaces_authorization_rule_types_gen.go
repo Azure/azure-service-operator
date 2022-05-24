@@ -332,7 +332,7 @@ type AuthorizationRule_Status struct {
 	Name *string `json:"name,omitempty"`
 
 	// Rights: The rights associated with the rule.
-	Rights []AuthorizationRuleStatusPropertiesRights `json:"rights,omitempty"`
+	Rights []string `json:"rights,omitempty"`
 
 	// SystemData: The system meta data relating to this resource.
 	SystemData *SystemData_Status `json:"systemData,omitempty"`
@@ -470,17 +470,7 @@ func (rule *AuthorizationRule_Status) AssignPropertiesFromAuthorizationRuleStatu
 	rule.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Rights
-	if source.Rights != nil {
-		rightList := make([]AuthorizationRuleStatusPropertiesRights, len(source.Rights))
-		for rightIndex, rightItem := range source.Rights {
-			// Shadow the loop variable to avoid aliasing
-			rightItem := rightItem
-			rightList[rightIndex] = AuthorizationRuleStatusPropertiesRights(rightItem)
-		}
-		rule.Rights = rightList
-	} else {
-		rule.Rights = nil
-	}
+	rule.Rights = genruntime.CloneSliceOfString(source.Rights)
 
 	// SystemData
 	if source.SystemData != nil {
@@ -519,17 +509,7 @@ func (rule *AuthorizationRule_Status) AssignPropertiesToAuthorizationRuleStatus(
 	destination.Name = genruntime.ClonePointerToString(rule.Name)
 
 	// Rights
-	if rule.Rights != nil {
-		rightList := make([]string, len(rule.Rights))
-		for rightIndex, rightItem := range rule.Rights {
-			// Shadow the loop variable to avoid aliasing
-			rightItem := rightItem
-			rightList[rightIndex] = string(rightItem)
-		}
-		destination.Rights = rightList
-	} else {
-		destination.Rights = nil
-	}
+	destination.Rights = genruntime.CloneSliceOfString(rule.Rights)
 
 	// SystemData
 	if rule.SystemData != nil {

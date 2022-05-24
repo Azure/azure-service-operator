@@ -275,17 +275,8 @@ func AddIndependentPropertyGeneratorsForProfileStatus(gens map[string]gopter.Gen
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginResponseTimeoutSeconds"] = gen.PtrOf(gen.Int())
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProfilePropertiesStatusProvisioningStateCreating,
-		ProfilePropertiesStatusProvisioningStateDeleting,
-		ProfilePropertiesStatusProvisioningStateFailed,
-		ProfilePropertiesStatusProvisioningStateSucceeded,
-		ProfilePropertiesStatusProvisioningStateUpdating))
-	gens["ResourceState"] = gen.PtrOf(gen.OneConstOf(
-		ProfilePropertiesStatusResourceStateActive,
-		ProfilePropertiesStatusResourceStateCreating,
-		ProfilePropertiesStatusResourceStateDeleting,
-		ProfilePropertiesStatusResourceStateDisabled))
+	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
+	gens["ResourceState"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
@@ -733,20 +724,7 @@ func SkuStatusGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSkuStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSkuStatus(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(
-		SkuStatusNameCustomVerizon,
-		SkuStatusNamePremiumAzureFrontDoor,
-		SkuStatusNamePremiumVerizon,
-		SkuStatusNameStandard955BandWidthChinaCdn,
-		SkuStatusNameStandardAkamai,
-		SkuStatusNameStandardAvgBandWidthChinaCdn,
-		SkuStatusNameStandardAzureFrontDoor,
-		SkuStatusNameStandardChinaCdn,
-		SkuStatusNameStandardMicrosoft,
-		SkuStatusNameStandardPlus955BandWidthChinaCdn,
-		SkuStatusNameStandardPlusAvgBandWidthChinaCdn,
-		SkuStatusNameStandardPlusChinaCdn,
-		SkuStatusNameStandardVerizon))
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_SystemData_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -849,16 +827,8 @@ func SystemDataStatusGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForSystemDataStatus(gens map[string]gopter.Gen) {
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
-		IdentityType_StatusApplication,
-		IdentityType_StatusKey,
-		IdentityType_StatusManagedIdentity,
-		IdentityType_StatusUser))
+	gens["CreatedByType"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
-		IdentityType_StatusApplication,
-		IdentityType_StatusKey,
-		IdentityType_StatusManagedIdentity,
-		IdentityType_StatusUser))
+	gens["LastModifiedByType"] = gen.PtrOf(gen.AlphaString())
 }

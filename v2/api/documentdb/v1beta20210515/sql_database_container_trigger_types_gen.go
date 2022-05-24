@@ -862,10 +862,10 @@ type SqlTriggerGetProperties_Status_Resource struct {
 	Rid *string `json:"_rid,omitempty"`
 
 	// TriggerOperation: The operation the trigger is associated with
-	TriggerOperation *SqlTriggerGetPropertiesStatusResourceTriggerOperation `json:"triggerOperation,omitempty"`
+	TriggerOperation *string `json:"triggerOperation,omitempty"`
 
 	// TriggerType: Type of the Trigger
-	TriggerType *SqlTriggerGetPropertiesStatusResourceTriggerType `json:"triggerType,omitempty"`
+	TriggerType *string `json:"triggerType,omitempty"`
 
 	// Ts: A system generated property that denotes the last updated timestamp of the resource.
 	Ts *float64 `json:"_ts,omitempty"`
@@ -947,20 +947,10 @@ func (resource *SqlTriggerGetProperties_Status_Resource) AssignPropertiesFromSql
 	resource.Rid = genruntime.ClonePointerToString(source.Rid)
 
 	// TriggerOperation
-	if source.TriggerOperation != nil {
-		triggerOperation := SqlTriggerGetPropertiesStatusResourceTriggerOperation(*source.TriggerOperation)
-		resource.TriggerOperation = &triggerOperation
-	} else {
-		resource.TriggerOperation = nil
-	}
+	resource.TriggerOperation = genruntime.ClonePointerToString(source.TriggerOperation)
 
 	// TriggerType
-	if source.TriggerType != nil {
-		triggerType := SqlTriggerGetPropertiesStatusResourceTriggerType(*source.TriggerType)
-		resource.TriggerType = &triggerType
-	} else {
-		resource.TriggerType = nil
-	}
+	resource.TriggerType = genruntime.ClonePointerToString(source.TriggerType)
 
 	// Ts
 	if source.Ts != nil {
@@ -992,20 +982,10 @@ func (resource *SqlTriggerGetProperties_Status_Resource) AssignPropertiesToSqlTr
 	destination.Rid = genruntime.ClonePointerToString(resource.Rid)
 
 	// TriggerOperation
-	if resource.TriggerOperation != nil {
-		triggerOperation := string(*resource.TriggerOperation)
-		destination.TriggerOperation = &triggerOperation
-	} else {
-		destination.TriggerOperation = nil
-	}
+	destination.TriggerOperation = genruntime.ClonePointerToString(resource.TriggerOperation)
 
 	// TriggerType
-	if resource.TriggerType != nil {
-		triggerType := string(*resource.TriggerType)
-		destination.TriggerType = &triggerType
-	} else {
-		destination.TriggerType = nil
-	}
+	destination.TriggerType = genruntime.ClonePointerToString(resource.TriggerType)
 
 	// Ts
 	if resource.Ts != nil {
@@ -1183,23 +1163,6 @@ func (resource *SqlTriggerResource) AssignPropertiesToSqlTriggerResource(destina
 	// No error
 	return nil
 }
-
-type SqlTriggerGetPropertiesStatusResourceTriggerOperation string
-
-const (
-	SqlTriggerGetPropertiesStatusResourceTriggerOperationAll     = SqlTriggerGetPropertiesStatusResourceTriggerOperation("All")
-	SqlTriggerGetPropertiesStatusResourceTriggerOperationCreate  = SqlTriggerGetPropertiesStatusResourceTriggerOperation("Create")
-	SqlTriggerGetPropertiesStatusResourceTriggerOperationDelete  = SqlTriggerGetPropertiesStatusResourceTriggerOperation("Delete")
-	SqlTriggerGetPropertiesStatusResourceTriggerOperationReplace = SqlTriggerGetPropertiesStatusResourceTriggerOperation("Replace")
-	SqlTriggerGetPropertiesStatusResourceTriggerOperationUpdate  = SqlTriggerGetPropertiesStatusResourceTriggerOperation("Update")
-)
-
-type SqlTriggerGetPropertiesStatusResourceTriggerType string
-
-const (
-	SqlTriggerGetPropertiesStatusResourceTriggerTypePost = SqlTriggerGetPropertiesStatusResourceTriggerType("Post")
-	SqlTriggerGetPropertiesStatusResourceTriggerTypePre  = SqlTriggerGetPropertiesStatusResourceTriggerType("Pre")
-)
 
 func init() {
 	SchemeBuilder.Register(&SqlDatabaseContainerTrigger{}, &SqlDatabaseContainerTriggerList{})

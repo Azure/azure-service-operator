@@ -275,20 +275,16 @@ func AddIndependentPropertyGeneratorsForServerStatus(gens map[string]gopter.Gen)
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["MasterServerId"] = gen.PtrOf(gen.AlphaString())
-	gens["MinimalTlsVersion"] = gen.PtrOf(gen.OneConstOf(
-		MinimalTlsVersion_StatusTLS10,
-		MinimalTlsVersion_StatusTLS11,
-		MinimalTlsVersion_StatusTLS12,
-		MinimalTlsVersion_StatusTLSEnforcementDisabled))
+	gens["MinimalTlsVersion"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccess_StatusDisabled, PublicNetworkAccess_StatusEnabled))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.AlphaString())
 	gens["ReplicaCapacity"] = gen.PtrOf(gen.Int())
 	gens["ReplicationRole"] = gen.PtrOf(gen.AlphaString())
-	gens["SslEnforcement"] = gen.PtrOf(gen.OneConstOf(SslEnforcement_StatusDisabled, SslEnforcement_StatusEnabled))
+	gens["SslEnforcement"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
-	gens["UserVisibleState"] = gen.PtrOf(gen.OneConstOf(ServerPropertiesStatusUserVisibleStateDisabled, ServerPropertiesStatusUserVisibleStateDropping, ServerPropertiesStatusUserVisibleStateReady))
-	gens["Version"] = gen.PtrOf(gen.OneConstOf(ServerVersion_Status102, ServerVersion_Status103))
+	gens["UserVisibleState"] = gen.PtrOf(gen.AlphaString())
+	gens["Version"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForServerStatus is a factory method for creating gopter generators
@@ -962,7 +958,7 @@ func AddIndependentPropertyGeneratorsForSkuStatus(gens map[string]gopter.Gen) {
 	gens["Family"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Size"] = gen.PtrOf(gen.AlphaString())
-	gens["Tier"] = gen.PtrOf(gen.OneConstOf(SkuStatusTierBasic, SkuStatusTierGeneralPurpose, SkuStatusTierMemoryOptimized))
+	gens["Tier"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_StorageProfile_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1065,8 +1061,8 @@ func StorageProfileStatusGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForStorageProfileStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForStorageProfileStatus(gens map[string]gopter.Gen) {
 	gens["BackupRetentionDays"] = gen.PtrOf(gen.Int())
-	gens["GeoRedundantBackup"] = gen.PtrOf(gen.OneConstOf(StorageProfileStatusGeoRedundantBackupDisabled, StorageProfileStatusGeoRedundantBackupEnabled))
-	gens["StorageAutogrow"] = gen.PtrOf(gen.OneConstOf(StorageProfileStatusStorageAutogrowDisabled, StorageProfileStatusStorageAutogrowEnabled))
+	gens["GeoRedundantBackup"] = gen.PtrOf(gen.AlphaString())
+	gens["StorageAutogrow"] = gen.PtrOf(gen.AlphaString())
 	gens["StorageMB"] = gen.PtrOf(gen.Int())
 }
 
@@ -1274,12 +1270,7 @@ func ServerPrivateEndpointConnectionPropertiesStatusGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForServerPrivateEndpointConnectionPropertiesStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForServerPrivateEndpointConnectionPropertiesStatus(gens map[string]gopter.Gen) {
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ServerPrivateEndpointConnectionPropertiesStatusProvisioningStateApproving,
-		ServerPrivateEndpointConnectionPropertiesStatusProvisioningStateDropping,
-		ServerPrivateEndpointConnectionPropertiesStatusProvisioningStateFailed,
-		ServerPrivateEndpointConnectionPropertiesStatusProvisioningStateReady,
-		ServerPrivateEndpointConnectionPropertiesStatusProvisioningStateRejecting))
+	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForServerPrivateEndpointConnectionPropertiesStatus is a factory method for creating gopter generators
@@ -1990,13 +1981,9 @@ func ServerPrivateLinkServiceConnectionStatePropertyStatusGenerator() gopter.Gen
 
 // AddIndependentPropertyGeneratorsForServerPrivateLinkServiceConnectionStatePropertyStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForServerPrivateLinkServiceConnectionStatePropertyStatus(gens map[string]gopter.Gen) {
-	gens["ActionsRequired"] = gen.PtrOf(gen.OneConstOf(ServerPrivateLinkServiceConnectionStatePropertyStatusActionsRequiredNone))
+	gens["ActionsRequired"] = gen.PtrOf(gen.AlphaString())
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
-	gens["Status"] = gen.PtrOf(gen.OneConstOf(
-		ServerPrivateLinkServiceConnectionStatePropertyStatusStatusApproved,
-		ServerPrivateLinkServiceConnectionStatePropertyStatusStatusDisconnected,
-		ServerPrivateLinkServiceConnectionStatePropertyStatusStatusPending,
-		ServerPrivateLinkServiceConnectionStatePropertyStatusStatusRejected))
+	gens["Status"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_StorageProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

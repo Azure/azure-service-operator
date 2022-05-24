@@ -333,7 +333,7 @@ type Image_Status struct {
 	// 2019-03-01 if the image source is a blob, then we need the user to specify the value, if the source is managed resource
 	// like disk or snapshot, we may require the user to specify the property if we cannot deduce it from the source managed
 	// resource.
-	HyperVGeneration *HyperVGenerationType_Status `json:"hyperVGeneration,omitempty"`
+	HyperVGeneration *string `json:"hyperVGeneration,omitempty"`
 
 	// Id: Resource Id
 	Id *string `json:"id,omitempty"`
@@ -538,12 +538,7 @@ func (image *Image_Status) AssignPropertiesFromImageStatus(source *v20210701s.Im
 	}
 
 	// HyperVGeneration
-	if source.HyperVGeneration != nil {
-		hyperVGeneration := HyperVGenerationType_Status(*source.HyperVGeneration)
-		image.HyperVGeneration = &hyperVGeneration
-	} else {
-		image.HyperVGeneration = nil
-	}
+	image.HyperVGeneration = genruntime.ClonePointerToString(source.HyperVGeneration)
 
 	// Id
 	image.Id = genruntime.ClonePointerToString(source.Id)
@@ -612,12 +607,7 @@ func (image *Image_Status) AssignPropertiesToImageStatus(destination *v20210701s
 	}
 
 	// HyperVGeneration
-	if image.HyperVGeneration != nil {
-		hyperVGeneration := string(*image.HyperVGeneration)
-		destination.HyperVGeneration = &hyperVGeneration
-	} else {
-		destination.HyperVGeneration = nil
-	}
+	destination.HyperVGeneration = genruntime.ClonePointerToString(image.HyperVGeneration)
 
 	// Id
 	destination.Id = genruntime.ClonePointerToString(image.Id)
@@ -1170,7 +1160,7 @@ type ExtendedLocation_Status struct {
 	Name *string `json:"name,omitempty"`
 
 	// Type: The type of the extended location.
-	Type *ExtendedLocationType_Status `json:"type,omitempty"`
+	Type *string `json:"type,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ExtendedLocation_Status{}
@@ -1210,12 +1200,7 @@ func (location *ExtendedLocation_Status) AssignPropertiesFromExtendedLocationSta
 	location.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Type
-	if source.Type != nil {
-		typeVar := ExtendedLocationType_Status(*source.Type)
-		location.Type = &typeVar
-	} else {
-		location.Type = nil
-	}
+	location.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
@@ -1230,12 +1215,7 @@ func (location *ExtendedLocation_Status) AssignPropertiesToExtendedLocationStatu
 	destination.Name = genruntime.ClonePointerToString(location.Name)
 
 	// Type
-	if location.Type != nil {
-		typeVar := string(*location.Type)
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
+	destination.Type = genruntime.ClonePointerToString(location.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1247,13 +1227,6 @@ func (location *ExtendedLocation_Status) AssignPropertiesToExtendedLocationStatu
 	// No error
 	return nil
 }
-
-type HyperVGenerationType_Status string
-
-const (
-	HyperVGenerationType_StatusV1 = HyperVGenerationType_Status("V1")
-	HyperVGenerationType_StatusV2 = HyperVGenerationType_Status("V2")
-)
 
 // +kubebuilder:validation:Enum={"V1","V2"}
 type ImagePropertiesHyperVGeneration string
@@ -2099,7 +2072,7 @@ type ImageDataDisk_Status struct {
 	// ReadOnly
 	// ReadWrite
 	// Default: None for Standard storage. ReadOnly for Premium storage
-	Caching *ImageDataDiskStatusCaching `json:"caching,omitempty"`
+	Caching *string `json:"caching,omitempty"`
 
 	// DiskEncryptionSet: Specifies the customer managed disk encryption set resource id for the managed image disk.
 	DiskEncryptionSet *SubResource_Status `json:"diskEncryptionSet,omitempty"`
@@ -2121,7 +2094,7 @@ type ImageDataDisk_Status struct {
 
 	// StorageAccountType: Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used with
 	// data disks, it cannot be used with OS Disk.
-	StorageAccountType *StorageAccountType_Status `json:"storageAccountType,omitempty"`
+	StorageAccountType *string `json:"storageAccountType,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ImageDataDisk_Status{}
@@ -2212,12 +2185,7 @@ func (disk *ImageDataDisk_Status) AssignPropertiesFromImageDataDiskStatus(source
 	disk.BlobUri = genruntime.ClonePointerToString(source.BlobUri)
 
 	// Caching
-	if source.Caching != nil {
-		caching := ImageDataDiskStatusCaching(*source.Caching)
-		disk.Caching = &caching
-	} else {
-		disk.Caching = nil
-	}
+	disk.Caching = genruntime.ClonePointerToString(source.Caching)
 
 	// DiskEncryptionSet
 	if source.DiskEncryptionSet != nil {
@@ -2262,12 +2230,7 @@ func (disk *ImageDataDisk_Status) AssignPropertiesFromImageDataDiskStatus(source
 	}
 
 	// StorageAccountType
-	if source.StorageAccountType != nil {
-		storageAccountType := StorageAccountType_Status(*source.StorageAccountType)
-		disk.StorageAccountType = &storageAccountType
-	} else {
-		disk.StorageAccountType = nil
-	}
+	disk.StorageAccountType = genruntime.ClonePointerToString(source.StorageAccountType)
 
 	// No error
 	return nil
@@ -2282,12 +2245,7 @@ func (disk *ImageDataDisk_Status) AssignPropertiesToImageDataDiskStatus(destinat
 	destination.BlobUri = genruntime.ClonePointerToString(disk.BlobUri)
 
 	// Caching
-	if disk.Caching != nil {
-		caching := string(*disk.Caching)
-		destination.Caching = &caching
-	} else {
-		destination.Caching = nil
-	}
+	destination.Caching = genruntime.ClonePointerToString(disk.Caching)
 
 	// DiskEncryptionSet
 	if disk.DiskEncryptionSet != nil {
@@ -2332,12 +2290,7 @@ func (disk *ImageDataDisk_Status) AssignPropertiesToImageDataDiskStatus(destinat
 	}
 
 	// StorageAccountType
-	if disk.StorageAccountType != nil {
-		storageAccountType := string(*disk.StorageAccountType)
-		destination.StorageAccountType = &storageAccountType
-	} else {
-		destination.StorageAccountType = nil
-	}
+	destination.StorageAccountType = genruntime.ClonePointerToString(disk.StorageAccountType)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2736,7 +2689,7 @@ type ImageOSDisk_Status struct {
 	// ReadOnly
 	// ReadWrite
 	// Default: None for Standard storage. ReadOnly for Premium storage
-	Caching *ImageOSDiskStatusCaching `json:"caching,omitempty"`
+	Caching *string `json:"caching,omitempty"`
 
 	// DiskEncryptionSet: Specifies the customer managed disk encryption set resource id for the managed image disk.
 	DiskEncryptionSet *SubResource_Status `json:"diskEncryptionSet,omitempty"`
@@ -2750,21 +2703,21 @@ type ImageOSDisk_Status struct {
 	ManagedDisk *SubResource_Status `json:"managedDisk,omitempty"`
 
 	// OsState: The OS State.
-	OsState *ImageOSDiskStatusOsState `json:"osState,omitempty"`
+	OsState *string `json:"osState,omitempty"`
 
 	// OsType: This property allows you to specify the type of the OS that is included in the disk if creating a VM from a
 	// custom image.
 	// Possible values are:
 	// Windows
 	// Linux
-	OsType *ImageOSDiskStatusOsType `json:"osType,omitempty"`
+	OsType *string `json:"osType,omitempty"`
 
 	// Snapshot: The snapshot.
 	Snapshot *SubResource_Status `json:"snapshot,omitempty"`
 
 	// StorageAccountType: Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used with
 	// data disks, it cannot be used with OS Disk.
-	StorageAccountType *StorageAccountType_Status `json:"storageAccountType,omitempty"`
+	StorageAccountType *string `json:"storageAccountType,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ImageOSDisk_Status{}
@@ -2861,12 +2814,7 @@ func (disk *ImageOSDisk_Status) AssignPropertiesFromImageOSDiskStatus(source *v2
 	disk.BlobUri = genruntime.ClonePointerToString(source.BlobUri)
 
 	// Caching
-	if source.Caching != nil {
-		caching := ImageOSDiskStatusCaching(*source.Caching)
-		disk.Caching = &caching
-	} else {
-		disk.Caching = nil
-	}
+	disk.Caching = genruntime.ClonePointerToString(source.Caching)
 
 	// DiskEncryptionSet
 	if source.DiskEncryptionSet != nil {
@@ -2896,20 +2844,10 @@ func (disk *ImageOSDisk_Status) AssignPropertiesFromImageOSDiskStatus(source *v2
 	}
 
 	// OsState
-	if source.OsState != nil {
-		osState := ImageOSDiskStatusOsState(*source.OsState)
-		disk.OsState = &osState
-	} else {
-		disk.OsState = nil
-	}
+	disk.OsState = genruntime.ClonePointerToString(source.OsState)
 
 	// OsType
-	if source.OsType != nil {
-		osType := ImageOSDiskStatusOsType(*source.OsType)
-		disk.OsType = &osType
-	} else {
-		disk.OsType = nil
-	}
+	disk.OsType = genruntime.ClonePointerToString(source.OsType)
 
 	// Snapshot
 	if source.Snapshot != nil {
@@ -2924,12 +2862,7 @@ func (disk *ImageOSDisk_Status) AssignPropertiesFromImageOSDiskStatus(source *v2
 	}
 
 	// StorageAccountType
-	if source.StorageAccountType != nil {
-		storageAccountType := StorageAccountType_Status(*source.StorageAccountType)
-		disk.StorageAccountType = &storageAccountType
-	} else {
-		disk.StorageAccountType = nil
-	}
+	disk.StorageAccountType = genruntime.ClonePointerToString(source.StorageAccountType)
 
 	// No error
 	return nil
@@ -2944,12 +2877,7 @@ func (disk *ImageOSDisk_Status) AssignPropertiesToImageOSDiskStatus(destination 
 	destination.BlobUri = genruntime.ClonePointerToString(disk.BlobUri)
 
 	// Caching
-	if disk.Caching != nil {
-		caching := string(*disk.Caching)
-		destination.Caching = &caching
-	} else {
-		destination.Caching = nil
-	}
+	destination.Caching = genruntime.ClonePointerToString(disk.Caching)
 
 	// DiskEncryptionSet
 	if disk.DiskEncryptionSet != nil {
@@ -2979,20 +2907,10 @@ func (disk *ImageOSDisk_Status) AssignPropertiesToImageOSDiskStatus(destination 
 	}
 
 	// OsState
-	if disk.OsState != nil {
-		osState := string(*disk.OsState)
-		destination.OsState = &osState
-	} else {
-		destination.OsState = nil
-	}
+	destination.OsState = genruntime.ClonePointerToString(disk.OsState)
 
 	// OsType
-	if disk.OsType != nil {
-		osType := string(*disk.OsType)
-		destination.OsType = &osType
-	} else {
-		destination.OsType = nil
-	}
+	destination.OsType = genruntime.ClonePointerToString(disk.OsType)
 
 	// Snapshot
 	if disk.Snapshot != nil {
@@ -3007,12 +2925,7 @@ func (disk *ImageOSDisk_Status) AssignPropertiesToImageOSDiskStatus(destination 
 	}
 
 	// StorageAccountType
-	if disk.StorageAccountType != nil {
-		storageAccountType := string(*disk.StorageAccountType)
-		destination.StorageAccountType = &storageAccountType
-	} else {
-		destination.StorageAccountType = nil
-	}
+	destination.StorageAccountType = genruntime.ClonePointerToString(disk.StorageAccountType)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3118,14 +3031,6 @@ const (
 	ImageDataDiskCachingReadWrite = ImageDataDiskCaching("ReadWrite")
 )
 
-type ImageDataDiskStatusCaching string
-
-const (
-	ImageDataDiskStatusCachingNone      = ImageDataDiskStatusCaching("None")
-	ImageDataDiskStatusCachingReadOnly  = ImageDataDiskStatusCaching("ReadOnly")
-	ImageDataDiskStatusCachingReadWrite = ImageDataDiskStatusCaching("ReadWrite")
-)
-
 // +kubebuilder:validation:Enum={"Premium_LRS","Premium_ZRS","Standard_LRS","StandardSSD_LRS","StandardSSD_ZRS","UltraSSD_LRS"}
 type ImageDataDiskStorageAccountType string
 
@@ -3163,28 +3068,6 @@ const (
 	ImageOSDiskOsTypeWindows = ImageOSDiskOsType("Windows")
 )
 
-type ImageOSDiskStatusCaching string
-
-const (
-	ImageOSDiskStatusCachingNone      = ImageOSDiskStatusCaching("None")
-	ImageOSDiskStatusCachingReadOnly  = ImageOSDiskStatusCaching("ReadOnly")
-	ImageOSDiskStatusCachingReadWrite = ImageOSDiskStatusCaching("ReadWrite")
-)
-
-type ImageOSDiskStatusOsState string
-
-const (
-	ImageOSDiskStatusOsStateGeneralized = ImageOSDiskStatusOsState("Generalized")
-	ImageOSDiskStatusOsStateSpecialized = ImageOSDiskStatusOsState("Specialized")
-)
-
-type ImageOSDiskStatusOsType string
-
-const (
-	ImageOSDiskStatusOsTypeLinux   = ImageOSDiskStatusOsType("Linux")
-	ImageOSDiskStatusOsTypeWindows = ImageOSDiskStatusOsType("Windows")
-)
-
 // +kubebuilder:validation:Enum={"Premium_LRS","Premium_ZRS","Standard_LRS","StandardSSD_LRS","StandardSSD_ZRS","UltraSSD_LRS"}
 type ImageOSDiskStorageAccountType string
 
@@ -3195,17 +3078,6 @@ const (
 	ImageOSDiskStorageAccountTypeStandardSSDLRS = ImageOSDiskStorageAccountType("StandardSSD_LRS")
 	ImageOSDiskStorageAccountTypeStandardSSDZRS = ImageOSDiskStorageAccountType("StandardSSD_ZRS")
 	ImageOSDiskStorageAccountTypeUltraSSDLRS    = ImageOSDiskStorageAccountType("UltraSSD_LRS")
-)
-
-type StorageAccountType_Status string
-
-const (
-	StorageAccountType_StatusPremiumLRS     = StorageAccountType_Status("Premium_LRS")
-	StorageAccountType_StatusPremiumZRS     = StorageAccountType_Status("Premium_ZRS")
-	StorageAccountType_StatusStandardLRS    = StorageAccountType_Status("Standard_LRS")
-	StorageAccountType_StatusStandardSSDLRS = StorageAccountType_Status("StandardSSD_LRS")
-	StorageAccountType_StatusStandardSSDZRS = StorageAccountType_Status("StandardSSD_ZRS")
-	StorageAccountType_StatusUltraSSDLRS    = StorageAccountType_Status("UltraSSD_LRS")
 )
 
 func init() {

@@ -331,7 +331,7 @@ type ApplicationInsightsComponent_Status struct {
 	ApplicationId *string `json:"ApplicationId,omitempty"`
 
 	// ApplicationType: Type of application being monitored.
-	ApplicationType *ApplicationInsightsComponentPropertiesStatusApplicationType `json:"Application_Type,omitempty"`
+	ApplicationType *string `json:"Application_Type,omitempty"`
 
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
@@ -353,7 +353,7 @@ type ApplicationInsightsComponent_Status struct {
 
 	// FlowType: Used by the Application Insights system to determine what kind of flow this component was created by. This is
 	// to be set to 'Bluefield' when creating/updating a component via the REST API.
-	FlowType *ApplicationInsightsComponentPropertiesStatusFlowType `json:"Flow_Type,omitempty"`
+	FlowType *string `json:"Flow_Type,omitempty"`
 
 	// ForceCustomerStorageForProfiler: Force users to create their own storage account for profiler and debugger.
 	ForceCustomerStorageForProfiler *bool `json:"ForceCustomerStorageForProfiler,omitempty"`
@@ -372,7 +372,7 @@ type ApplicationInsightsComponent_Status struct {
 	ImmediatePurgeDataOn30Days *bool `json:"ImmediatePurgeDataOn30Days,omitempty"`
 
 	// IngestionMode: Indicates the flow of the ingestion.
-	IngestionMode *ApplicationInsightsComponentPropertiesStatusIngestionMode `json:"IngestionMode,omitempty"`
+	IngestionMode *string `json:"IngestionMode,omitempty"`
 
 	// InstrumentationKey: Application Insights Instrumentation key. A read-only value that applications can use to identify
 	// the destination for all telemetry sent to Azure Application Insights. This value will be supplied upon construction of
@@ -404,14 +404,14 @@ type ApplicationInsightsComponent_Status struct {
 	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	// PublicNetworkAccessForIngestion: The network access type for accessing Application Insights ingestion.
-	PublicNetworkAccessForIngestion *PublicNetworkAccessType_Status `json:"publicNetworkAccessForIngestion,omitempty"`
+	PublicNetworkAccessForIngestion *string `json:"publicNetworkAccessForIngestion,omitempty"`
 
 	// PublicNetworkAccessForQuery: The network access type for accessing Application Insights query.
-	PublicNetworkAccessForQuery *PublicNetworkAccessType_Status `json:"publicNetworkAccessForQuery,omitempty"`
+	PublicNetworkAccessForQuery *string `json:"publicNetworkAccessForQuery,omitempty"`
 
 	// RequestSource: Describes what tool created this Application Insights component. Customers using this API should set this
 	// to the default 'rest'.
-	RequestSource *ApplicationInsightsComponentPropertiesStatusRequestSource `json:"Request_Source,omitempty"`
+	RequestSource *string `json:"Request_Source,omitempty"`
 
 	// RetentionInDays: Retention period in days.
 	RetentionInDays *int `json:"RetentionInDays,omitempty"`
@@ -785,12 +785,7 @@ func (component *ApplicationInsightsComponent_Status) AssignPropertiesFromApplic
 	component.ApplicationId = genruntime.ClonePointerToString(source.ApplicationId)
 
 	// ApplicationType
-	if source.ApplicationType != nil {
-		applicationType := ApplicationInsightsComponentPropertiesStatusApplicationType(*source.ApplicationType)
-		component.ApplicationType = &applicationType
-	} else {
-		component.ApplicationType = nil
-	}
+	component.ApplicationType = genruntime.ClonePointerToString(source.ApplicationType)
 
 	// Conditions
 	component.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -821,12 +816,7 @@ func (component *ApplicationInsightsComponent_Status) AssignPropertiesFromApplic
 	component.Etag = genruntime.ClonePointerToString(source.Etag)
 
 	// FlowType
-	if source.FlowType != nil {
-		flowType := ApplicationInsightsComponentPropertiesStatusFlowType(*source.FlowType)
-		component.FlowType = &flowType
-	} else {
-		component.FlowType = nil
-	}
+	component.FlowType = genruntime.ClonePointerToString(source.FlowType)
 
 	// ForceCustomerStorageForProfiler
 	if source.ForceCustomerStorageForProfiler != nil {
@@ -854,12 +844,7 @@ func (component *ApplicationInsightsComponent_Status) AssignPropertiesFromApplic
 	}
 
 	// IngestionMode
-	if source.IngestionMode != nil {
-		ingestionMode := ApplicationInsightsComponentPropertiesStatusIngestionMode(*source.IngestionMode)
-		component.IngestionMode = &ingestionMode
-	} else {
-		component.IngestionMode = nil
-	}
+	component.IngestionMode = genruntime.ClonePointerToString(source.IngestionMode)
 
 	// InstrumentationKey
 	component.InstrumentationKey = genruntime.ClonePointerToString(source.InstrumentationKey)
@@ -901,28 +886,13 @@ func (component *ApplicationInsightsComponent_Status) AssignPropertiesFromApplic
 	component.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// PublicNetworkAccessForIngestion
-	if source.PublicNetworkAccessForIngestion != nil {
-		publicNetworkAccessForIngestion := PublicNetworkAccessType_Status(*source.PublicNetworkAccessForIngestion)
-		component.PublicNetworkAccessForIngestion = &publicNetworkAccessForIngestion
-	} else {
-		component.PublicNetworkAccessForIngestion = nil
-	}
+	component.PublicNetworkAccessForIngestion = genruntime.ClonePointerToString(source.PublicNetworkAccessForIngestion)
 
 	// PublicNetworkAccessForQuery
-	if source.PublicNetworkAccessForQuery != nil {
-		publicNetworkAccessForQuery := PublicNetworkAccessType_Status(*source.PublicNetworkAccessForQuery)
-		component.PublicNetworkAccessForQuery = &publicNetworkAccessForQuery
-	} else {
-		component.PublicNetworkAccessForQuery = nil
-	}
+	component.PublicNetworkAccessForQuery = genruntime.ClonePointerToString(source.PublicNetworkAccessForQuery)
 
 	// RequestSource
-	if source.RequestSource != nil {
-		requestSource := ApplicationInsightsComponentPropertiesStatusRequestSource(*source.RequestSource)
-		component.RequestSource = &requestSource
-	} else {
-		component.RequestSource = nil
-	}
+	component.RequestSource = genruntime.ClonePointerToString(source.RequestSource)
 
 	// RetentionInDays
 	component.RetentionInDays = genruntime.ClonePointerToInt(source.RetentionInDays)
@@ -968,12 +938,7 @@ func (component *ApplicationInsightsComponent_Status) AssignPropertiesToApplicat
 	destination.ApplicationId = genruntime.ClonePointerToString(component.ApplicationId)
 
 	// ApplicationType
-	if component.ApplicationType != nil {
-		applicationType := string(*component.ApplicationType)
-		destination.ApplicationType = &applicationType
-	} else {
-		destination.ApplicationType = nil
-	}
+	destination.ApplicationType = genruntime.ClonePointerToString(component.ApplicationType)
 
 	// Conditions
 	destination.Conditions = genruntime.CloneSliceOfCondition(component.Conditions)
@@ -1004,12 +969,7 @@ func (component *ApplicationInsightsComponent_Status) AssignPropertiesToApplicat
 	destination.Etag = genruntime.ClonePointerToString(component.Etag)
 
 	// FlowType
-	if component.FlowType != nil {
-		flowType := string(*component.FlowType)
-		destination.FlowType = &flowType
-	} else {
-		destination.FlowType = nil
-	}
+	destination.FlowType = genruntime.ClonePointerToString(component.FlowType)
 
 	// ForceCustomerStorageForProfiler
 	if component.ForceCustomerStorageForProfiler != nil {
@@ -1037,12 +997,7 @@ func (component *ApplicationInsightsComponent_Status) AssignPropertiesToApplicat
 	}
 
 	// IngestionMode
-	if component.IngestionMode != nil {
-		ingestionMode := string(*component.IngestionMode)
-		destination.IngestionMode = &ingestionMode
-	} else {
-		destination.IngestionMode = nil
-	}
+	destination.IngestionMode = genruntime.ClonePointerToString(component.IngestionMode)
 
 	// InstrumentationKey
 	destination.InstrumentationKey = genruntime.ClonePointerToString(component.InstrumentationKey)
@@ -1084,28 +1039,13 @@ func (component *ApplicationInsightsComponent_Status) AssignPropertiesToApplicat
 	destination.ProvisioningState = genruntime.ClonePointerToString(component.ProvisioningState)
 
 	// PublicNetworkAccessForIngestion
-	if component.PublicNetworkAccessForIngestion != nil {
-		publicNetworkAccessForIngestion := string(*component.PublicNetworkAccessForIngestion)
-		destination.PublicNetworkAccessForIngestion = &publicNetworkAccessForIngestion
-	} else {
-		destination.PublicNetworkAccessForIngestion = nil
-	}
+	destination.PublicNetworkAccessForIngestion = genruntime.ClonePointerToString(component.PublicNetworkAccessForIngestion)
 
 	// PublicNetworkAccessForQuery
-	if component.PublicNetworkAccessForQuery != nil {
-		publicNetworkAccessForQuery := string(*component.PublicNetworkAccessForQuery)
-		destination.PublicNetworkAccessForQuery = &publicNetworkAccessForQuery
-	} else {
-		destination.PublicNetworkAccessForQuery = nil
-	}
+	destination.PublicNetworkAccessForQuery = genruntime.ClonePointerToString(component.PublicNetworkAccessForQuery)
 
 	// RequestSource
-	if component.RequestSource != nil {
-		requestSource := string(*component.RequestSource)
-		destination.RequestSource = &requestSource
-	} else {
-		destination.RequestSource = nil
-	}
+	destination.RequestSource = genruntime.ClonePointerToString(component.RequestSource)
 
 	// RetentionInDays
 	destination.RetentionInDays = genruntime.ClonePointerToInt(component.RetentionInDays)

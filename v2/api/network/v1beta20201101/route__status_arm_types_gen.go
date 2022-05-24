@@ -32,8 +32,8 @@ type RoutePropertiesFormat_StatusARM struct {
 	NextHopIpAddress *string `json:"nextHopIpAddress,omitempty"`
 
 	// NextHopType: The type of Azure hop the packet should be sent to.
-	NextHopType *RouteNextHopType_Status `json:"nextHopType,omitempty"`
+	NextHopType *string `json:"nextHopType,omitempty"`
 
 	// ProvisioningState: The provisioning state of the route resource.
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 }

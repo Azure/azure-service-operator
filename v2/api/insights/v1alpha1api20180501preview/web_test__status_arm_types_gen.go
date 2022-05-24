@@ -21,7 +21,7 @@ type WebTestProperties_StatusARM struct {
 	Description        *string                                      `json:"Description,omitempty"`
 	Enabled            *bool                                        `json:"Enabled,omitempty"`
 	Frequency          *int                                         `json:"Frequency,omitempty"`
-	Kind               *WebTestPropertiesStatusKind                 `json:"Kind,omitempty"`
+	Kind               *string                                      `json:"Kind,omitempty"`
 	Locations          []WebTestGeolocation_StatusARM               `json:"Locations,omitempty"`
 	Name               *string                                      `json:"Name,omitempty"`
 	ProvisioningState  *string                                      `json:"provisioningState,omitempty"`
@@ -36,16 +36,6 @@ type WebTestProperties_StatusARM struct {
 type WebTestGeolocation_StatusARM struct {
 	Id *string `json:"Id,omitempty"`
 }
-
-// Deprecated version of WebTestPropertiesStatusKind. Use v1beta20180501preview.WebTestPropertiesStatusKind instead
-type WebTestPropertiesStatusKind string
-
-const (
-	WebTestPropertiesStatusKindBasic     = WebTestPropertiesStatusKind("basic")
-	WebTestPropertiesStatusKindMultistep = WebTestPropertiesStatusKind("multistep")
-	WebTestPropertiesStatusKindPing      = WebTestPropertiesStatusKind("ping")
-	WebTestPropertiesStatusKindStandard  = WebTestPropertiesStatusKind("standard")
-)
 
 // Deprecated version of WebTestProperties_Status_Configuration. Use v1beta20180501preview.WebTestProperties_Status_Configuration instead
 type WebTestProperties_Status_ConfigurationARM struct {

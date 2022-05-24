@@ -14,17 +14,17 @@ type VirtualNetworkPeering_StatusARM struct {
 
 // Deprecated version of VirtualNetworkPeeringPropertiesFormat_Status. Use v1beta20201101.VirtualNetworkPeeringPropertiesFormat_Status instead
 type VirtualNetworkPeeringPropertiesFormat_StatusARM struct {
-	AllowForwardedTraffic     *bool                                                    `json:"allowForwardedTraffic,omitempty"`
-	AllowGatewayTransit       *bool                                                    `json:"allowGatewayTransit,omitempty"`
-	AllowVirtualNetworkAccess *bool                                                    `json:"allowVirtualNetworkAccess,omitempty"`
-	DoNotVerifyRemoteGateways *bool                                                    `json:"doNotVerifyRemoteGateways,omitempty"`
-	PeeringState              *VirtualNetworkPeeringPropertiesFormatStatusPeeringState `json:"peeringState,omitempty"`
-	ProvisioningState         *ProvisioningState_Status                                `json:"provisioningState,omitempty"`
-	RemoteAddressSpace        *AddressSpace_StatusARM                                  `json:"remoteAddressSpace,omitempty"`
-	RemoteBgpCommunities      *VirtualNetworkBgpCommunities_StatusARM                  `json:"remoteBgpCommunities,omitempty"`
-	RemoteVirtualNetwork      *SubResource_StatusARM                                   `json:"remoteVirtualNetwork,omitempty"`
-	ResourceGuid              *string                                                  `json:"resourceGuid,omitempty"`
-	UseRemoteGateways         *bool                                                    `json:"useRemoteGateways,omitempty"`
+	AllowForwardedTraffic     *bool                                   `json:"allowForwardedTraffic,omitempty"`
+	AllowGatewayTransit       *bool                                   `json:"allowGatewayTransit,omitempty"`
+	AllowVirtualNetworkAccess *bool                                   `json:"allowVirtualNetworkAccess,omitempty"`
+	DoNotVerifyRemoteGateways *bool                                   `json:"doNotVerifyRemoteGateways,omitempty"`
+	PeeringState              *string                                 `json:"peeringState,omitempty"`
+	ProvisioningState         *string                                 `json:"provisioningState,omitempty"`
+	RemoteAddressSpace        *AddressSpace_StatusARM                 `json:"remoteAddressSpace,omitempty"`
+	RemoteBgpCommunities      *VirtualNetworkBgpCommunities_StatusARM `json:"remoteBgpCommunities,omitempty"`
+	RemoteVirtualNetwork      *SubResource_StatusARM                  `json:"remoteVirtualNetwork,omitempty"`
+	ResourceGuid              *string                                 `json:"resourceGuid,omitempty"`
+	UseRemoteGateways         *bool                                   `json:"useRemoteGateways,omitempty"`
 }
 
 // Deprecated version of VirtualNetworkBgpCommunities_Status. Use v1beta20201101.VirtualNetworkBgpCommunities_Status instead
@@ -32,13 +32,3 @@ type VirtualNetworkBgpCommunities_StatusARM struct {
 	RegionalCommunity       *string `json:"regionalCommunity,omitempty"`
 	VirtualNetworkCommunity *string `json:"virtualNetworkCommunity,omitempty"`
 }
-
-// Deprecated version of VirtualNetworkPeeringPropertiesFormatStatusPeeringState. Use
-// v1beta20201101.VirtualNetworkPeeringPropertiesFormatStatusPeeringState instead
-type VirtualNetworkPeeringPropertiesFormatStatusPeeringState string
-
-const (
-	VirtualNetworkPeeringPropertiesFormatStatusPeeringStateConnected    = VirtualNetworkPeeringPropertiesFormatStatusPeeringState("Connected")
-	VirtualNetworkPeeringPropertiesFormatStatusPeeringStateDisconnected = VirtualNetworkPeeringPropertiesFormatStatusPeeringState("Disconnected")
-	VirtualNetworkPeeringPropertiesFormatStatusPeeringStateInitiated    = VirtualNetworkPeeringPropertiesFormatStatusPeeringState("Initiated")
-)

@@ -334,13 +334,13 @@ type NamespacesAuthorizationRuleList struct {
 // Deprecated version of AuthorizationRule_Status. Use v1beta20211101.AuthorizationRule_Status instead
 type AuthorizationRule_Status struct {
 	// Conditions: The observed state of the resource
-	Conditions []conditions.Condition                    `json:"conditions,omitempty"`
-	Id         *string                                   `json:"id,omitempty"`
-	Location   *string                                   `json:"location,omitempty"`
-	Name       *string                                   `json:"name,omitempty"`
-	Rights     []AuthorizationRuleStatusPropertiesRights `json:"rights,omitempty"`
-	SystemData *SystemData_Status                        `json:"systemData,omitempty"`
-	Type       *string                                   `json:"type,omitempty"`
+	Conditions []conditions.Condition `json:"conditions,omitempty"`
+	Id         *string                `json:"id,omitempty"`
+	Location   *string                `json:"location,omitempty"`
+	Name       *string                `json:"name,omitempty"`
+	Rights     []string               `json:"rights,omitempty"`
+	SystemData *SystemData_Status     `json:"systemData,omitempty"`
+	Type       *string                `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &AuthorizationRule_Status{}
@@ -472,17 +472,7 @@ func (rule *AuthorizationRule_Status) AssignPropertiesFromAuthorizationRuleStatu
 	rule.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Rights
-	if source.Rights != nil {
-		rightList := make([]AuthorizationRuleStatusPropertiesRights, len(source.Rights))
-		for rightIndex, rightItem := range source.Rights {
-			// Shadow the loop variable to avoid aliasing
-			rightItem := rightItem
-			rightList[rightIndex] = AuthorizationRuleStatusPropertiesRights(rightItem)
-		}
-		rule.Rights = rightList
-	} else {
-		rule.Rights = nil
-	}
+	rule.Rights = genruntime.CloneSliceOfString(source.Rights)
 
 	// SystemData
 	if source.SystemData != nil {
@@ -521,17 +511,7 @@ func (rule *AuthorizationRule_Status) AssignPropertiesToAuthorizationRuleStatus(
 	destination.Name = genruntime.ClonePointerToString(rule.Name)
 
 	// Rights
-	if rule.Rights != nil {
-		rightList := make([]string, len(rule.Rights))
-		for rightIndex, rightItem := range rule.Rights {
-			// Shadow the loop variable to avoid aliasing
-			rightItem := rightItem
-			rightList[rightIndex] = string(rightItem)
-		}
-		destination.Rights = rightList
-	} else {
-		destination.Rights = nil
-	}
+	destination.Rights = genruntime.CloneSliceOfString(rule.Rights)
 
 	// SystemData
 	if rule.SystemData != nil {

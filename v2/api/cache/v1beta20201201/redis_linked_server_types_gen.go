@@ -338,7 +338,7 @@ type RedisLinkedServerWithProperties_Status struct {
 	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	// ServerRole: Role of the linked server.
-	ServerRole *RedisLinkedServerPropertiesStatusServerRole `json:"serverRole,omitempty"`
+	ServerRole *string `json:"serverRole,omitempty"`
 
 	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
@@ -490,12 +490,7 @@ func (properties *RedisLinkedServerWithProperties_Status) AssignPropertiesFromRe
 	properties.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// ServerRole
-	if source.ServerRole != nil {
-		serverRole := RedisLinkedServerPropertiesStatusServerRole(*source.ServerRole)
-		properties.ServerRole = &serverRole
-	} else {
-		properties.ServerRole = nil
-	}
+	properties.ServerRole = genruntime.ClonePointerToString(source.ServerRole)
 
 	// Type
 	properties.Type = genruntime.ClonePointerToString(source.Type)
@@ -528,12 +523,7 @@ func (properties *RedisLinkedServerWithProperties_Status) AssignPropertiesToRedi
 	destination.ProvisioningState = genruntime.ClonePointerToString(properties.ProvisioningState)
 
 	// ServerRole
-	if properties.ServerRole != nil {
-		serverRole := string(*properties.ServerRole)
-		destination.ServerRole = &serverRole
-	} else {
-		destination.ServerRole = nil
-	}
+	destination.ServerRole = genruntime.ClonePointerToString(properties.ServerRole)
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(properties.Type)
@@ -850,13 +840,6 @@ type RedisLinkedServerCreatePropertiesServerRole string
 const (
 	RedisLinkedServerCreatePropertiesServerRolePrimary   = RedisLinkedServerCreatePropertiesServerRole("Primary")
 	RedisLinkedServerCreatePropertiesServerRoleSecondary = RedisLinkedServerCreatePropertiesServerRole("Secondary")
-)
-
-type RedisLinkedServerPropertiesStatusServerRole string
-
-const (
-	RedisLinkedServerPropertiesStatusServerRolePrimary   = RedisLinkedServerPropertiesStatusServerRole("Primary")
-	RedisLinkedServerPropertiesStatusServerRoleSecondary = RedisLinkedServerPropertiesStatusServerRole("Secondary")
 )
 
 func init() {

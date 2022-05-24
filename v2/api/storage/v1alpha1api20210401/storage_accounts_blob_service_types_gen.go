@@ -2110,10 +2110,10 @@ func (policy *LastAccessTimeTrackingPolicy) AssignPropertiesToLastAccessTimeTrac
 
 // Deprecated version of LastAccessTimeTrackingPolicy_Status. Use v1beta20210401.LastAccessTimeTrackingPolicy_Status instead
 type LastAccessTimeTrackingPolicy_Status struct {
-	BlobType                  []string                                `json:"blobType,omitempty"`
-	Enable                    *bool                                   `json:"enable,omitempty"`
-	Name                      *LastAccessTimeTrackingPolicyStatusName `json:"name,omitempty"`
-	TrackingGranularityInDays *int                                    `json:"trackingGranularityInDays,omitempty"`
+	BlobType                  []string `json:"blobType,omitempty"`
+	Enable                    *bool    `json:"enable,omitempty"`
+	Name                      *string  `json:"name,omitempty"`
+	TrackingGranularityInDays *int     `json:"trackingGranularityInDays,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &LastAccessTimeTrackingPolicy_Status{}
@@ -2172,12 +2172,7 @@ func (policy *LastAccessTimeTrackingPolicy_Status) AssignPropertiesFromLastAcces
 	}
 
 	// Name
-	if source.Name != nil {
-		name := LastAccessTimeTrackingPolicyStatusName(*source.Name)
-		policy.Name = &name
-	} else {
-		policy.Name = nil
-	}
+	policy.Name = genruntime.ClonePointerToString(source.Name)
 
 	// TrackingGranularityInDays
 	policy.TrackingGranularityInDays = genruntime.ClonePointerToInt(source.TrackingGranularityInDays)
@@ -2203,12 +2198,7 @@ func (policy *LastAccessTimeTrackingPolicy_Status) AssignPropertiesToLastAccessT
 	}
 
 	// Name
-	if policy.Name != nil {
-		name := string(*policy.Name)
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(policy.Name)
 
 	// TrackingGranularityInDays
 	destination.TrackingGranularityInDays = genruntime.ClonePointerToInt(policy.TrackingGranularityInDays)
@@ -2619,11 +2609,11 @@ func (rule *CorsRule) AssignPropertiesToCorsRule(destination *alpha20210401s.Cor
 
 // Deprecated version of CorsRule_Status. Use v1beta20210401.CorsRule_Status instead
 type CorsRule_Status struct {
-	AllowedHeaders  []string                       `json:"allowedHeaders,omitempty"`
-	AllowedMethods  []CorsRuleStatusAllowedMethods `json:"allowedMethods,omitempty"`
-	AllowedOrigins  []string                       `json:"allowedOrigins,omitempty"`
-	ExposedHeaders  []string                       `json:"exposedHeaders,omitempty"`
-	MaxAgeInSeconds *int                           `json:"maxAgeInSeconds,omitempty"`
+	AllowedHeaders  []string `json:"allowedHeaders,omitempty"`
+	AllowedMethods  []string `json:"allowedMethods,omitempty"`
+	AllowedOrigins  []string `json:"allowedOrigins,omitempty"`
+	ExposedHeaders  []string `json:"exposedHeaders,omitempty"`
+	MaxAgeInSeconds *int     `json:"maxAgeInSeconds,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &CorsRule_Status{}
@@ -2677,17 +2667,7 @@ func (rule *CorsRule_Status) AssignPropertiesFromCorsRuleStatus(source *alpha202
 	rule.AllowedHeaders = genruntime.CloneSliceOfString(source.AllowedHeaders)
 
 	// AllowedMethods
-	if source.AllowedMethods != nil {
-		allowedMethodList := make([]CorsRuleStatusAllowedMethods, len(source.AllowedMethods))
-		for allowedMethodIndex, allowedMethodItem := range source.AllowedMethods {
-			// Shadow the loop variable to avoid aliasing
-			allowedMethodItem := allowedMethodItem
-			allowedMethodList[allowedMethodIndex] = CorsRuleStatusAllowedMethods(allowedMethodItem)
-		}
-		rule.AllowedMethods = allowedMethodList
-	} else {
-		rule.AllowedMethods = nil
-	}
+	rule.AllowedMethods = genruntime.CloneSliceOfString(source.AllowedMethods)
 
 	// AllowedOrigins
 	rule.AllowedOrigins = genruntime.CloneSliceOfString(source.AllowedOrigins)
@@ -2711,17 +2691,7 @@ func (rule *CorsRule_Status) AssignPropertiesToCorsRuleStatus(destination *alpha
 	destination.AllowedHeaders = genruntime.CloneSliceOfString(rule.AllowedHeaders)
 
 	// AllowedMethods
-	if rule.AllowedMethods != nil {
-		allowedMethodList := make([]string, len(rule.AllowedMethods))
-		for allowedMethodIndex, allowedMethodItem := range rule.AllowedMethods {
-			// Shadow the loop variable to avoid aliasing
-			allowedMethodItem := allowedMethodItem
-			allowedMethodList[allowedMethodIndex] = string(allowedMethodItem)
-		}
-		destination.AllowedMethods = allowedMethodList
-	} else {
-		destination.AllowedMethods = nil
-	}
+	destination.AllowedMethods = genruntime.CloneSliceOfString(rule.AllowedMethods)
 
 	// AllowedOrigins
 	destination.AllowedOrigins = genruntime.CloneSliceOfString(rule.AllowedOrigins)

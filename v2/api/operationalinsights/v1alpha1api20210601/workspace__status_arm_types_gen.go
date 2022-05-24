@@ -16,18 +16,18 @@ type Workspace_StatusARM struct {
 
 // Deprecated version of WorkspaceProperties_Status. Use v1beta20210601.WorkspaceProperties_Status instead
 type WorkspaceProperties_StatusARM struct {
-	CreatedDate                     *string                                     `json:"createdDate,omitempty"`
-	CustomerId                      *string                                     `json:"customerId,omitempty"`
-	Features                        *WorkspaceFeatures_StatusARM                `json:"features,omitempty"`
-	ForceCmkForQuery                *bool                                       `json:"forceCmkForQuery,omitempty"`
-	ModifiedDate                    *string                                     `json:"modifiedDate,omitempty"`
-	PrivateLinkScopedResources      []PrivateLinkScopedResource_StatusARM       `json:"privateLinkScopedResources,omitempty"`
-	ProvisioningState               *WorkspacePropertiesStatusProvisioningState `json:"provisioningState,omitempty"`
-	PublicNetworkAccessForIngestion *PublicNetworkAccessType_Status             `json:"publicNetworkAccessForIngestion,omitempty"`
-	PublicNetworkAccessForQuery     *PublicNetworkAccessType_Status             `json:"publicNetworkAccessForQuery,omitempty"`
-	RetentionInDays                 *int                                        `json:"retentionInDays,omitempty"`
-	Sku                             *WorkspaceSku_StatusARM                     `json:"sku,omitempty"`
-	WorkspaceCapping                *WorkspaceCapping_StatusARM                 `json:"workspaceCapping,omitempty"`
+	CreatedDate                     *string                               `json:"createdDate,omitempty"`
+	CustomerId                      *string                               `json:"customerId,omitempty"`
+	Features                        *WorkspaceFeatures_StatusARM          `json:"features,omitempty"`
+	ForceCmkForQuery                *bool                                 `json:"forceCmkForQuery,omitempty"`
+	ModifiedDate                    *string                               `json:"modifiedDate,omitempty"`
+	PrivateLinkScopedResources      []PrivateLinkScopedResource_StatusARM `json:"privateLinkScopedResources,omitempty"`
+	ProvisioningState               *string                               `json:"provisioningState,omitempty"`
+	PublicNetworkAccessForIngestion *string                               `json:"publicNetworkAccessForIngestion,omitempty"`
+	PublicNetworkAccessForQuery     *string                               `json:"publicNetworkAccessForQuery,omitempty"`
+	RetentionInDays                 *int                                  `json:"retentionInDays,omitempty"`
+	Sku                             *WorkspaceSku_StatusARM               `json:"sku,omitempty"`
+	WorkspaceCapping                *WorkspaceCapping_StatusARM           `json:"workspaceCapping,omitempty"`
 }
 
 // Deprecated version of PrivateLinkScopedResource_Status. Use v1beta20210601.PrivateLinkScopedResource_Status instead
@@ -38,9 +38,9 @@ type PrivateLinkScopedResource_StatusARM struct {
 
 // Deprecated version of WorkspaceCapping_Status. Use v1beta20210601.WorkspaceCapping_Status instead
 type WorkspaceCapping_StatusARM struct {
-	DailyQuotaGb        *float64                                   `json:"dailyQuotaGb,omitempty"`
-	DataIngestionStatus *WorkspaceCappingStatusDataIngestionStatus `json:"dataIngestionStatus,omitempty"`
-	QuotaNextResetTime  *string                                    `json:"quotaNextResetTime,omitempty"`
+	DailyQuotaGb        *float64 `json:"dailyQuotaGb,omitempty"`
+	DataIngestionStatus *string  `json:"dataIngestionStatus,omitempty"`
+	QuotaNextResetTime  *string  `json:"quotaNextResetTime,omitempty"`
 }
 
 // Deprecated version of WorkspaceFeatures_Status. Use v1beta20210601.WorkspaceFeatures_Status instead
@@ -54,7 +54,7 @@ type WorkspaceFeatures_StatusARM struct {
 
 // Deprecated version of WorkspaceSku_Status. Use v1beta20210601.WorkspaceSku_Status instead
 type WorkspaceSku_StatusARM struct {
-	CapacityReservationLevel *WorkspaceSkuStatusCapacityReservationLevel `json:"capacityReservationLevel,omitempty"`
-	LastSkuUpdate            *string                                     `json:"lastSkuUpdate,omitempty"`
-	Name                     *WorkspaceSkuStatusName                     `json:"name,omitempty"`
+	CapacityReservationLevel *int    `json:"capacityReservationLevel,omitempty"`
+	LastSkuUpdate            *string `json:"lastSkuUpdate,omitempty"`
+	Name                     *string `json:"name,omitempty"`
 }

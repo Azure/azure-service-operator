@@ -29,7 +29,7 @@ type ExtendedLocation_StatusARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Type: The type of the extended location.
-	Type *ExtendedLocationType_Status `json:"type,omitempty"`
+	Type *string `json:"type,omitempty"`
 }
 
 type ImageProperties_StatusARM struct {
@@ -37,7 +37,7 @@ type ImageProperties_StatusARM struct {
 	// 2019-03-01 if the image source is a blob, then we need the user to specify the value, if the source is managed resource
 	// like disk or snapshot, we may require the user to specify the property if we cannot deduce it from the source managed
 	// resource.
-	HyperVGeneration *HyperVGenerationType_Status `json:"hyperVGeneration,omitempty"`
+	HyperVGeneration *string `json:"hyperVGeneration,omitempty"`
 
 	// ProvisioningState: The provisioning state.
 	ProvisioningState *string `json:"provisioningState,omitempty"`
@@ -48,10 +48,6 @@ type ImageProperties_StatusARM struct {
 	// StorageProfile: Specifies the storage settings for the virtual machine disks.
 	StorageProfile *ImageStorageProfile_StatusARM `json:"storageProfile,omitempty"`
 }
-
-type ExtendedLocationType_Status string
-
-const ExtendedLocationType_StatusEdgeZone = ExtendedLocationType_Status("EdgeZone")
 
 type ImageStorageProfile_StatusARM struct {
 	// DataDisks: Specifies the parameters that are used to add a data disk to a virtual machine.
@@ -84,7 +80,7 @@ type ImageDataDisk_StatusARM struct {
 	// ReadOnly
 	// ReadWrite
 	// Default: None for Standard storage. ReadOnly for Premium storage
-	Caching *ImageDataDiskStatusCaching `json:"caching,omitempty"`
+	Caching *string `json:"caching,omitempty"`
 
 	// DiskEncryptionSet: Specifies the customer managed disk encryption set resource id for the managed image disk.
 	DiskEncryptionSet *SubResource_StatusARM `json:"diskEncryptionSet,omitempty"`
@@ -106,7 +102,7 @@ type ImageDataDisk_StatusARM struct {
 
 	// StorageAccountType: Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used with
 	// data disks, it cannot be used with OS Disk.
-	StorageAccountType *StorageAccountType_Status `json:"storageAccountType,omitempty"`
+	StorageAccountType *string `json:"storageAccountType,omitempty"`
 }
 
 type ImageOSDisk_StatusARM struct {
@@ -119,7 +115,7 @@ type ImageOSDisk_StatusARM struct {
 	// ReadOnly
 	// ReadWrite
 	// Default: None for Standard storage. ReadOnly for Premium storage
-	Caching *ImageOSDiskStatusCaching `json:"caching,omitempty"`
+	Caching *string `json:"caching,omitempty"`
 
 	// DiskEncryptionSet: Specifies the customer managed disk encryption set resource id for the managed image disk.
 	DiskEncryptionSet *SubResource_StatusARM `json:"diskEncryptionSet,omitempty"`
@@ -133,19 +129,19 @@ type ImageOSDisk_StatusARM struct {
 	ManagedDisk *SubResource_StatusARM `json:"managedDisk,omitempty"`
 
 	// OsState: The OS State.
-	OsState *ImageOSDiskStatusOsState `json:"osState,omitempty"`
+	OsState *string `json:"osState,omitempty"`
 
 	// OsType: This property allows you to specify the type of the OS that is included in the disk if creating a VM from a
 	// custom image.
 	// Possible values are:
 	// Windows
 	// Linux
-	OsType *ImageOSDiskStatusOsType `json:"osType,omitempty"`
+	OsType *string `json:"osType,omitempty"`
 
 	// Snapshot: The snapshot.
 	Snapshot *SubResource_StatusARM `json:"snapshot,omitempty"`
 
 	// StorageAccountType: Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used with
 	// data disks, it cannot be used with OS Disk.
-	StorageAccountType *StorageAccountType_Status `json:"storageAccountType,omitempty"`
+	StorageAccountType *string `json:"storageAccountType,omitempty"`
 }

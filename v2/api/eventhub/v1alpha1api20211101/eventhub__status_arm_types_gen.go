@@ -15,47 +15,24 @@ type Eventhub_StatusARM struct {
 
 // Deprecated version of Eventhub_Status_Properties. Use v1beta20211101.Eventhub_Status_Properties instead
 type Eventhub_Status_PropertiesARM struct {
-	CaptureDescription     *CaptureDescription_StatusARM   `json:"captureDescription,omitempty"`
-	CreatedAt              *string                         `json:"createdAt,omitempty"`
-	MessageRetentionInDays *int                            `json:"messageRetentionInDays,omitempty"`
-	PartitionCount         *int                            `json:"partitionCount,omitempty"`
-	PartitionIds           []string                        `json:"partitionIds,omitempty"`
-	Status                 *EventhubStatusPropertiesStatus `json:"status,omitempty"`
-	UpdatedAt              *string                         `json:"updatedAt,omitempty"`
+	CaptureDescription     *CaptureDescription_StatusARM `json:"captureDescription,omitempty"`
+	CreatedAt              *string                       `json:"createdAt,omitempty"`
+	MessageRetentionInDays *int                          `json:"messageRetentionInDays,omitempty"`
+	PartitionCount         *int                          `json:"partitionCount,omitempty"`
+	PartitionIds           []string                      `json:"partitionIds,omitempty"`
+	Status                 *string                       `json:"status,omitempty"`
+	UpdatedAt              *string                       `json:"updatedAt,omitempty"`
 }
 
 // Deprecated version of CaptureDescription_Status. Use v1beta20211101.CaptureDescription_Status instead
 type CaptureDescription_StatusARM struct {
-	Destination       *Destination_StatusARM            `json:"destination,omitempty"`
-	Enabled           *bool                             `json:"enabled,omitempty"`
-	Encoding          *CaptureDescriptionStatusEncoding `json:"encoding,omitempty"`
-	IntervalInSeconds *int                              `json:"intervalInSeconds,omitempty"`
-	SizeLimitInBytes  *int                              `json:"sizeLimitInBytes,omitempty"`
-	SkipEmptyArchives *bool                             `json:"skipEmptyArchives,omitempty"`
+	Destination       *Destination_StatusARM `json:"destination,omitempty"`
+	Enabled           *bool                  `json:"enabled,omitempty"`
+	Encoding          *string                `json:"encoding,omitempty"`
+	IntervalInSeconds *int                   `json:"intervalInSeconds,omitempty"`
+	SizeLimitInBytes  *int                   `json:"sizeLimitInBytes,omitempty"`
+	SkipEmptyArchives *bool                  `json:"skipEmptyArchives,omitempty"`
 }
-
-// Deprecated version of EventhubStatusPropertiesStatus. Use v1beta20211101.EventhubStatusPropertiesStatus instead
-type EventhubStatusPropertiesStatus string
-
-const (
-	EventhubStatusPropertiesStatusActive          = EventhubStatusPropertiesStatus("Active")
-	EventhubStatusPropertiesStatusCreating        = EventhubStatusPropertiesStatus("Creating")
-	EventhubStatusPropertiesStatusDeleting        = EventhubStatusPropertiesStatus("Deleting")
-	EventhubStatusPropertiesStatusDisabled        = EventhubStatusPropertiesStatus("Disabled")
-	EventhubStatusPropertiesStatusReceiveDisabled = EventhubStatusPropertiesStatus("ReceiveDisabled")
-	EventhubStatusPropertiesStatusRenaming        = EventhubStatusPropertiesStatus("Renaming")
-	EventhubStatusPropertiesStatusRestoring       = EventhubStatusPropertiesStatus("Restoring")
-	EventhubStatusPropertiesStatusSendDisabled    = EventhubStatusPropertiesStatus("SendDisabled")
-	EventhubStatusPropertiesStatusUnknown         = EventhubStatusPropertiesStatus("Unknown")
-)
-
-// Deprecated version of CaptureDescriptionStatusEncoding. Use v1beta20211101.CaptureDescriptionStatusEncoding instead
-type CaptureDescriptionStatusEncoding string
-
-const (
-	CaptureDescriptionStatusEncodingAvro        = CaptureDescriptionStatusEncoding("Avro")
-	CaptureDescriptionStatusEncodingAvroDeflate = CaptureDescriptionStatusEncoding("AvroDeflate")
-)
 
 // Deprecated version of Destination_Status. Use v1beta20211101.Destination_Status instead
 type Destination_StatusARM struct {

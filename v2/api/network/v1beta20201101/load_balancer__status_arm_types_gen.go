@@ -37,7 +37,7 @@ type ExtendedLocation_StatusARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Type: The type of the extended location.
-	Type *ExtendedLocationType_Status `json:"type,omitempty"`
+	Type *string `json:"type,omitempty"`
 }
 
 type LoadBalancerPropertiesFormat_StatusARM struct {
@@ -70,7 +70,7 @@ type LoadBalancerPropertiesFormat_StatusARM struct {
 	Probes []Probe_StatusARM `json:"probes,omitempty"`
 
 	// ProvisioningState: The provisioning state of the load balancer resource.
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	// ResourceGuid: The resource GUID property of the load balancer resource.
 	ResourceGuid *string `json:"resourceGuid,omitempty"`
@@ -78,20 +78,16 @@ type LoadBalancerPropertiesFormat_StatusARM struct {
 
 type LoadBalancerSku_StatusARM struct {
 	// Name: Name of a load balancer SKU.
-	Name *LoadBalancerSkuStatusName `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
 
 	// Tier: Tier of a load balancer SKU.
-	Tier *LoadBalancerSkuStatusTier `json:"tier,omitempty"`
+	Tier *string `json:"tier,omitempty"`
 }
 
 type BackendAddressPool_Status_LoadBalancer_SubResourceEmbeddedARM struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
-
-type ExtendedLocationType_Status string
-
-const ExtendedLocationType_StatusEdgeZone = ExtendedLocationType_Status("EdgeZone")
 
 type FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbeddedARM struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
@@ -136,20 +132,6 @@ type InboundNatRule_Status_LoadBalancer_SubResourceEmbeddedARM struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
-
-type LoadBalancerSkuStatusName string
-
-const (
-	LoadBalancerSkuStatusNameBasic    = LoadBalancerSkuStatusName("Basic")
-	LoadBalancerSkuStatusNameStandard = LoadBalancerSkuStatusName("Standard")
-)
-
-type LoadBalancerSkuStatusTier string
-
-const (
-	LoadBalancerSkuStatusTierGlobal   = LoadBalancerSkuStatusTier("Global")
-	LoadBalancerSkuStatusTierRegional = LoadBalancerSkuStatusTier("Regional")
-)
 
 type LoadBalancingRule_StatusARM struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
@@ -222,13 +204,13 @@ type FrontendIPConfigurationPropertiesFormat_Status_LoadBalancer_SubResourceEmbe
 	PrivateIPAddress *string `json:"privateIPAddress,omitempty"`
 
 	// PrivateIPAddressVersion: Whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.
-	PrivateIPAddressVersion *IPVersion_Status `json:"privateIPAddressVersion,omitempty"`
+	PrivateIPAddressVersion *string `json:"privateIPAddressVersion,omitempty"`
 
 	// PrivateIPAllocationMethod: The Private IP allocation method.
-	PrivateIPAllocationMethod *IPAllocationMethod_Status `json:"privateIPAllocationMethod,omitempty"`
+	PrivateIPAllocationMethod *string `json:"privateIPAllocationMethod,omitempty"`
 
 	// ProvisioningState: The provisioning state of the frontend IP configuration resource.
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	// PublicIPAddress: The reference to the Public IP resource.
 	PublicIPAddress *PublicIPAddress_Status_LoadBalancer_SubResourceEmbeddedARM `json:"publicIPAddress,omitempty"`
@@ -269,10 +251,10 @@ type InboundNatPoolPropertiesFormat_StatusARM struct {
 	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
 
 	// Protocol: The reference to the transport protocol used by the inbound NAT pool.
-	Protocol *TransportProtocol_Status `json:"protocol,omitempty"`
+	Protocol *string `json:"protocol,omitempty"`
 
 	// ProvisioningState: The provisioning state of the inbound NAT pool resource.
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 }
 
 type LoadBalancingRulePropertiesFormat_StatusARM struct {
@@ -309,16 +291,16 @@ type LoadBalancingRulePropertiesFormat_StatusARM struct {
 	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
 
 	// LoadDistribution: The load distribution policy for this rule.
-	LoadDistribution *LoadBalancingRulePropertiesFormatStatusLoadDistribution `json:"loadDistribution,omitempty"`
+	LoadDistribution *string `json:"loadDistribution,omitempty"`
 
 	// Probe: The reference to the load balancer probe used by the load balancing rule.
 	Probe *SubResource_StatusARM `json:"probe,omitempty"`
 
 	// Protocol: The reference to the transport protocol used by the load balancing rule.
-	Protocol *TransportProtocol_Status `json:"protocol,omitempty"`
+	Protocol *string `json:"protocol,omitempty"`
 
 	// ProvisioningState: The provisioning state of the load balancing rule resource.
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 }
 
 type OutboundRulePropertiesFormat_StatusARM struct {
@@ -340,10 +322,10 @@ type OutboundRulePropertiesFormat_StatusARM struct {
 	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
 
 	// Protocol: The protocol for the outbound rule in load balancer.
-	Protocol *OutboundRulePropertiesFormatStatusProtocol `json:"protocol,omitempty"`
+	Protocol *string `json:"protocol,omitempty"`
 
 	// ProvisioningState: The provisioning state of the outbound rule resource.
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 }
 
 type ProbePropertiesFormat_StatusARM struct {
@@ -366,10 +348,10 @@ type ProbePropertiesFormat_StatusARM struct {
 	// Protocol: The protocol of the end point. If 'Tcp' is specified, a received ACK is required for the probe to be
 	// successful. If 'Http' or 'Https' is specified, a 200 OK response from the specifies URI is required for the probe to be
 	// successful.
-	Protocol *ProbePropertiesFormatStatusProtocol `json:"protocol,omitempty"`
+	Protocol *string `json:"protocol,omitempty"`
 
 	// ProvisioningState: The provisioning state of the probe resource.
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	// RequestPath: The URI used for requesting health status from the VM. Path is required if a protocol is set to http.
 	// Otherwise, it is not allowed. There is no default value.

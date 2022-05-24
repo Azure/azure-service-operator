@@ -20,7 +20,7 @@ type SBNamespace_StatusARM struct {
 type Identity_StatusARM struct {
 	PrincipalId            *string                              `json:"principalId,omitempty"`
 	TenantId               *string                              `json:"tenantId,omitempty"`
-	Type                   *IdentityStatusType                  `json:"type,omitempty"`
+	Type                   *string                              `json:"type,omitempty"`
 	UserAssignedIdentities map[string]DictionaryValue_StatusARM `json:"userAssignedIdentities,omitempty"`
 }
 
@@ -39,19 +39,19 @@ type SBNamespaceProperties_StatusARM struct {
 
 // Deprecated version of SBSku_Status. Use v1beta20210101preview.SBSku_Status instead
 type SBSku_StatusARM struct {
-	Capacity *int             `json:"capacity,omitempty"`
-	Name     *SBSkuStatusName `json:"name,omitempty"`
-	Tier     *SBSkuStatusTier `json:"tier,omitempty"`
+	Capacity *int    `json:"capacity,omitempty"`
+	Name     *string `json:"name,omitempty"`
+	Tier     *string `json:"tier,omitempty"`
 }
 
 // Deprecated version of SystemData_Status. Use v1beta20210101preview.SystemData_Status instead
 type SystemData_StatusARM struct {
-	CreatedAt          *string                             `json:"createdAt,omitempty"`
-	CreatedBy          *string                             `json:"createdBy,omitempty"`
-	CreatedByType      *SystemDataStatusCreatedByType      `json:"createdByType,omitempty"`
-	LastModifiedAt     *string                             `json:"lastModifiedAt,omitempty"`
-	LastModifiedBy     *string                             `json:"lastModifiedBy,omitempty"`
-	LastModifiedByType *SystemDataStatusLastModifiedByType `json:"lastModifiedByType,omitempty"`
+	CreatedAt          *string `json:"createdAt,omitempty"`
+	CreatedBy          *string `json:"createdBy,omitempty"`
+	CreatedByType      *string `json:"createdByType,omitempty"`
+	LastModifiedAt     *string `json:"lastModifiedAt,omitempty"`
+	LastModifiedBy     *string `json:"lastModifiedBy,omitempty"`
+	LastModifiedByType *string `json:"lastModifiedByType,omitempty"`
 }
 
 // Deprecated version of DictionaryValue_Status. Use v1beta20210101preview.DictionaryValue_Status instead
@@ -62,65 +62,16 @@ type DictionaryValue_StatusARM struct {
 
 // Deprecated version of Encryption_Status. Use v1beta20210101preview.Encryption_Status instead
 type Encryption_StatusARM struct {
-	KeySource                       *EncryptionStatusKeySource     `json:"keySource,omitempty"`
+	KeySource                       *string                        `json:"keySource,omitempty"`
 	KeyVaultProperties              []KeyVaultProperties_StatusARM `json:"keyVaultProperties,omitempty"`
 	RequireInfrastructureEncryption *bool                          `json:"requireInfrastructureEncryption,omitempty"`
 }
-
-// Deprecated version of IdentityStatusType. Use v1beta20210101preview.IdentityStatusType instead
-type IdentityStatusType string
-
-const (
-	IdentityStatusTypeNone                       = IdentityStatusType("None")
-	IdentityStatusTypeSystemAssigned             = IdentityStatusType("SystemAssigned")
-	IdentityStatusTypeSystemAssignedUserAssigned = IdentityStatusType("SystemAssigned, UserAssigned")
-	IdentityStatusTypeUserAssigned               = IdentityStatusType("UserAssigned")
-)
 
 // Deprecated version of PrivateEndpointConnection_Status_SubResourceEmbedded. Use v1beta20210101preview.PrivateEndpointConnection_Status_SubResourceEmbedded instead
 type PrivateEndpointConnection_Status_SubResourceEmbeddedARM struct {
 	Id         *string               `json:"id,omitempty"`
 	SystemData *SystemData_StatusARM `json:"systemData,omitempty"`
 }
-
-// Deprecated version of SBSkuStatusName. Use v1beta20210101preview.SBSkuStatusName instead
-type SBSkuStatusName string
-
-const (
-	SBSkuStatusNameBasic    = SBSkuStatusName("Basic")
-	SBSkuStatusNamePremium  = SBSkuStatusName("Premium")
-	SBSkuStatusNameStandard = SBSkuStatusName("Standard")
-)
-
-// Deprecated version of SBSkuStatusTier. Use v1beta20210101preview.SBSkuStatusTier instead
-type SBSkuStatusTier string
-
-const (
-	SBSkuStatusTierBasic    = SBSkuStatusTier("Basic")
-	SBSkuStatusTierPremium  = SBSkuStatusTier("Premium")
-	SBSkuStatusTierStandard = SBSkuStatusTier("Standard")
-)
-
-// Deprecated version of SystemDataStatusCreatedByType. Use v1beta20210101preview.SystemDataStatusCreatedByType instead
-type SystemDataStatusCreatedByType string
-
-const (
-	SystemDataStatusCreatedByTypeApplication     = SystemDataStatusCreatedByType("Application")
-	SystemDataStatusCreatedByTypeKey             = SystemDataStatusCreatedByType("Key")
-	SystemDataStatusCreatedByTypeManagedIdentity = SystemDataStatusCreatedByType("ManagedIdentity")
-	SystemDataStatusCreatedByTypeUser            = SystemDataStatusCreatedByType("User")
-)
-
-// Deprecated version of SystemDataStatusLastModifiedByType. Use v1beta20210101preview.SystemDataStatusLastModifiedByType
-// instead
-type SystemDataStatusLastModifiedByType string
-
-const (
-	SystemDataStatusLastModifiedByTypeApplication     = SystemDataStatusLastModifiedByType("Application")
-	SystemDataStatusLastModifiedByTypeKey             = SystemDataStatusLastModifiedByType("Key")
-	SystemDataStatusLastModifiedByTypeManagedIdentity = SystemDataStatusLastModifiedByType("ManagedIdentity")
-	SystemDataStatusLastModifiedByTypeUser            = SystemDataStatusLastModifiedByType("User")
-)
 
 // Deprecated version of KeyVaultProperties_Status. Use v1beta20210101preview.KeyVaultProperties_Status instead
 type KeyVaultProperties_StatusARM struct {

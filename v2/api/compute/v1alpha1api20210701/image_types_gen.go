@@ -340,17 +340,17 @@ const APIVersionValue = APIVersion("2021-07-01")
 // Deprecated version of Image_Status. Use v1beta20210701.Image_Status instead
 type Image_Status struct {
 	// Conditions: The observed state of the resource
-	Conditions           []conditions.Condition       `json:"conditions,omitempty"`
-	ExtendedLocation     *ExtendedLocation_Status     `json:"extendedLocation,omitempty"`
-	HyperVGeneration     *HyperVGenerationType_Status `json:"hyperVGeneration,omitempty"`
-	Id                   *string                      `json:"id,omitempty"`
-	Location             *string                      `json:"location,omitempty"`
-	Name                 *string                      `json:"name,omitempty"`
-	ProvisioningState    *string                      `json:"provisioningState,omitempty"`
-	SourceVirtualMachine *SubResource_Status          `json:"sourceVirtualMachine,omitempty"`
-	StorageProfile       *ImageStorageProfile_Status  `json:"storageProfile,omitempty"`
-	Tags                 map[string]string            `json:"tags,omitempty"`
-	Type                 *string                      `json:"type,omitempty"`
+	Conditions           []conditions.Condition      `json:"conditions,omitempty"`
+	ExtendedLocation     *ExtendedLocation_Status    `json:"extendedLocation,omitempty"`
+	HyperVGeneration     *string                     `json:"hyperVGeneration,omitempty"`
+	Id                   *string                     `json:"id,omitempty"`
+	Location             *string                     `json:"location,omitempty"`
+	Name                 *string                     `json:"name,omitempty"`
+	ProvisioningState    *string                     `json:"provisioningState,omitempty"`
+	SourceVirtualMachine *SubResource_Status         `json:"sourceVirtualMachine,omitempty"`
+	StorageProfile       *ImageStorageProfile_Status `json:"storageProfile,omitempty"`
+	Tags                 map[string]string           `json:"tags,omitempty"`
+	Type                 *string                     `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &Image_Status{}
@@ -531,12 +531,7 @@ func (image *Image_Status) AssignPropertiesFromImageStatus(source *alpha20210701
 	}
 
 	// HyperVGeneration
-	if source.HyperVGeneration != nil {
-		hyperVGeneration := HyperVGenerationType_Status(*source.HyperVGeneration)
-		image.HyperVGeneration = &hyperVGeneration
-	} else {
-		image.HyperVGeneration = nil
-	}
+	image.HyperVGeneration = genruntime.ClonePointerToString(source.HyperVGeneration)
 
 	// Id
 	image.Id = genruntime.ClonePointerToString(source.Id)
@@ -605,12 +600,7 @@ func (image *Image_Status) AssignPropertiesToImageStatus(destination *alpha20210
 	}
 
 	// HyperVGeneration
-	if image.HyperVGeneration != nil {
-		hyperVGeneration := string(*image.HyperVGeneration)
-		destination.HyperVGeneration = &hyperVGeneration
-	} else {
-		destination.HyperVGeneration = nil
-	}
+	destination.HyperVGeneration = genruntime.ClonePointerToString(image.HyperVGeneration)
 
 	// Id
 	destination.Id = genruntime.ClonePointerToString(image.Id)
@@ -1144,8 +1134,8 @@ func (location *ExtendedLocation) AssignPropertiesToExtendedLocation(destination
 
 // Deprecated version of ExtendedLocation_Status. Use v1beta20210701.ExtendedLocation_Status instead
 type ExtendedLocation_Status struct {
-	Name *string                      `json:"name,omitempty"`
-	Type *ExtendedLocationType_Status `json:"type,omitempty"`
+	Name *string `json:"name,omitempty"`
+	Type *string `json:"type,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ExtendedLocation_Status{}
@@ -1185,12 +1175,7 @@ func (location *ExtendedLocation_Status) AssignPropertiesFromExtendedLocationSta
 	location.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Type
-	if source.Type != nil {
-		typeVar := ExtendedLocationType_Status(*source.Type)
-		location.Type = &typeVar
-	} else {
-		location.Type = nil
-	}
+	location.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
@@ -1205,12 +1190,7 @@ func (location *ExtendedLocation_Status) AssignPropertiesToExtendedLocationStatu
 	destination.Name = genruntime.ClonePointerToString(location.Name)
 
 	// Type
-	if location.Type != nil {
-		typeVar := string(*location.Type)
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
+	destination.Type = genruntime.ClonePointerToString(location.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1222,14 +1202,6 @@ func (location *ExtendedLocation_Status) AssignPropertiesToExtendedLocationStatu
 	// No error
 	return nil
 }
-
-// Deprecated version of HyperVGenerationType_Status. Use v1beta20210701.HyperVGenerationType_Status instead
-type HyperVGenerationType_Status string
-
-const (
-	HyperVGenerationType_StatusV1 = HyperVGenerationType_Status("V1")
-	HyperVGenerationType_StatusV2 = HyperVGenerationType_Status("V2")
-)
 
 // Deprecated version of ImagePropertiesHyperVGeneration. Use v1beta20210701.ImagePropertiesHyperVGeneration instead
 // +kubebuilder:validation:Enum={"V1","V2"}
@@ -2028,14 +2000,14 @@ func (disk *ImageDataDisk) AssignPropertiesToImageDataDisk(destination *alpha202
 
 // Deprecated version of ImageDataDisk_Status. Use v1beta20210701.ImageDataDisk_Status instead
 type ImageDataDisk_Status struct {
-	BlobUri            *string                     `json:"blobUri,omitempty"`
-	Caching            *ImageDataDiskStatusCaching `json:"caching,omitempty"`
-	DiskEncryptionSet  *SubResource_Status         `json:"diskEncryptionSet,omitempty"`
-	DiskSizeGB         *int                        `json:"diskSizeGB,omitempty"`
-	Lun                *int                        `json:"lun,omitempty"`
-	ManagedDisk        *SubResource_Status         `json:"managedDisk,omitempty"`
-	Snapshot           *SubResource_Status         `json:"snapshot,omitempty"`
-	StorageAccountType *StorageAccountType_Status  `json:"storageAccountType,omitempty"`
+	BlobUri            *string             `json:"blobUri,omitempty"`
+	Caching            *string             `json:"caching,omitempty"`
+	DiskEncryptionSet  *SubResource_Status `json:"diskEncryptionSet,omitempty"`
+	DiskSizeGB         *int                `json:"diskSizeGB,omitempty"`
+	Lun                *int                `json:"lun,omitempty"`
+	ManagedDisk        *SubResource_Status `json:"managedDisk,omitempty"`
+	Snapshot           *SubResource_Status `json:"snapshot,omitempty"`
+	StorageAccountType *string             `json:"storageAccountType,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ImageDataDisk_Status{}
@@ -2126,12 +2098,7 @@ func (disk *ImageDataDisk_Status) AssignPropertiesFromImageDataDiskStatus(source
 	disk.BlobUri = genruntime.ClonePointerToString(source.BlobUri)
 
 	// Caching
-	if source.Caching != nil {
-		caching := ImageDataDiskStatusCaching(*source.Caching)
-		disk.Caching = &caching
-	} else {
-		disk.Caching = nil
-	}
+	disk.Caching = genruntime.ClonePointerToString(source.Caching)
 
 	// DiskEncryptionSet
 	if source.DiskEncryptionSet != nil {
@@ -2176,12 +2143,7 @@ func (disk *ImageDataDisk_Status) AssignPropertiesFromImageDataDiskStatus(source
 	}
 
 	// StorageAccountType
-	if source.StorageAccountType != nil {
-		storageAccountType := StorageAccountType_Status(*source.StorageAccountType)
-		disk.StorageAccountType = &storageAccountType
-	} else {
-		disk.StorageAccountType = nil
-	}
+	disk.StorageAccountType = genruntime.ClonePointerToString(source.StorageAccountType)
 
 	// No error
 	return nil
@@ -2196,12 +2158,7 @@ func (disk *ImageDataDisk_Status) AssignPropertiesToImageDataDiskStatus(destinat
 	destination.BlobUri = genruntime.ClonePointerToString(disk.BlobUri)
 
 	// Caching
-	if disk.Caching != nil {
-		caching := string(*disk.Caching)
-		destination.Caching = &caching
-	} else {
-		destination.Caching = nil
-	}
+	destination.Caching = genruntime.ClonePointerToString(disk.Caching)
 
 	// DiskEncryptionSet
 	if disk.DiskEncryptionSet != nil {
@@ -2246,12 +2203,7 @@ func (disk *ImageDataDisk_Status) AssignPropertiesToImageDataDiskStatus(destinat
 	}
 
 	// StorageAccountType
-	if disk.StorageAccountType != nil {
-		storageAccountType := string(*disk.StorageAccountType)
-		destination.StorageAccountType = &storageAccountType
-	} else {
-		destination.StorageAccountType = nil
-	}
+	destination.StorageAccountType = genruntime.ClonePointerToString(disk.StorageAccountType)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2616,15 +2568,15 @@ func (disk *ImageOSDisk) AssignPropertiesToImageOSDisk(destination *alpha2021070
 
 // Deprecated version of ImageOSDisk_Status. Use v1beta20210701.ImageOSDisk_Status instead
 type ImageOSDisk_Status struct {
-	BlobUri            *string                    `json:"blobUri,omitempty"`
-	Caching            *ImageOSDiskStatusCaching  `json:"caching,omitempty"`
-	DiskEncryptionSet  *SubResource_Status        `json:"diskEncryptionSet,omitempty"`
-	DiskSizeGB         *int                       `json:"diskSizeGB,omitempty"`
-	ManagedDisk        *SubResource_Status        `json:"managedDisk,omitempty"`
-	OsState            *ImageOSDiskStatusOsState  `json:"osState,omitempty"`
-	OsType             *ImageOSDiskStatusOsType   `json:"osType,omitempty"`
-	Snapshot           *SubResource_Status        `json:"snapshot,omitempty"`
-	StorageAccountType *StorageAccountType_Status `json:"storageAccountType,omitempty"`
+	BlobUri            *string             `json:"blobUri,omitempty"`
+	Caching            *string             `json:"caching,omitempty"`
+	DiskEncryptionSet  *SubResource_Status `json:"diskEncryptionSet,omitempty"`
+	DiskSizeGB         *int                `json:"diskSizeGB,omitempty"`
+	ManagedDisk        *SubResource_Status `json:"managedDisk,omitempty"`
+	OsState            *string             `json:"osState,omitempty"`
+	OsType             *string             `json:"osType,omitempty"`
+	Snapshot           *SubResource_Status `json:"snapshot,omitempty"`
+	StorageAccountType *string             `json:"storageAccountType,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ImageOSDisk_Status{}
@@ -2721,12 +2673,7 @@ func (disk *ImageOSDisk_Status) AssignPropertiesFromImageOSDiskStatus(source *al
 	disk.BlobUri = genruntime.ClonePointerToString(source.BlobUri)
 
 	// Caching
-	if source.Caching != nil {
-		caching := ImageOSDiskStatusCaching(*source.Caching)
-		disk.Caching = &caching
-	} else {
-		disk.Caching = nil
-	}
+	disk.Caching = genruntime.ClonePointerToString(source.Caching)
 
 	// DiskEncryptionSet
 	if source.DiskEncryptionSet != nil {
@@ -2756,20 +2703,10 @@ func (disk *ImageOSDisk_Status) AssignPropertiesFromImageOSDiskStatus(source *al
 	}
 
 	// OsState
-	if source.OsState != nil {
-		osState := ImageOSDiskStatusOsState(*source.OsState)
-		disk.OsState = &osState
-	} else {
-		disk.OsState = nil
-	}
+	disk.OsState = genruntime.ClonePointerToString(source.OsState)
 
 	// OsType
-	if source.OsType != nil {
-		osType := ImageOSDiskStatusOsType(*source.OsType)
-		disk.OsType = &osType
-	} else {
-		disk.OsType = nil
-	}
+	disk.OsType = genruntime.ClonePointerToString(source.OsType)
 
 	// Snapshot
 	if source.Snapshot != nil {
@@ -2784,12 +2721,7 @@ func (disk *ImageOSDisk_Status) AssignPropertiesFromImageOSDiskStatus(source *al
 	}
 
 	// StorageAccountType
-	if source.StorageAccountType != nil {
-		storageAccountType := StorageAccountType_Status(*source.StorageAccountType)
-		disk.StorageAccountType = &storageAccountType
-	} else {
-		disk.StorageAccountType = nil
-	}
+	disk.StorageAccountType = genruntime.ClonePointerToString(source.StorageAccountType)
 
 	// No error
 	return nil
@@ -2804,12 +2736,7 @@ func (disk *ImageOSDisk_Status) AssignPropertiesToImageOSDiskStatus(destination 
 	destination.BlobUri = genruntime.ClonePointerToString(disk.BlobUri)
 
 	// Caching
-	if disk.Caching != nil {
-		caching := string(*disk.Caching)
-		destination.Caching = &caching
-	} else {
-		destination.Caching = nil
-	}
+	destination.Caching = genruntime.ClonePointerToString(disk.Caching)
 
 	// DiskEncryptionSet
 	if disk.DiskEncryptionSet != nil {
@@ -2839,20 +2766,10 @@ func (disk *ImageOSDisk_Status) AssignPropertiesToImageOSDiskStatus(destination 
 	}
 
 	// OsState
-	if disk.OsState != nil {
-		osState := string(*disk.OsState)
-		destination.OsState = &osState
-	} else {
-		destination.OsState = nil
-	}
+	destination.OsState = genruntime.ClonePointerToString(disk.OsState)
 
 	// OsType
-	if disk.OsType != nil {
-		osType := string(*disk.OsType)
-		destination.OsType = &osType
-	} else {
-		destination.OsType = nil
-	}
+	destination.OsType = genruntime.ClonePointerToString(disk.OsType)
 
 	// Snapshot
 	if disk.Snapshot != nil {
@@ -2867,12 +2784,7 @@ func (disk *ImageOSDisk_Status) AssignPropertiesToImageOSDiskStatus(destination 
 	}
 
 	// StorageAccountType
-	if disk.StorageAccountType != nil {
-		storageAccountType := string(*disk.StorageAccountType)
-		destination.StorageAccountType = &storageAccountType
-	} else {
-		destination.StorageAccountType = nil
-	}
+	destination.StorageAccountType = genruntime.ClonePointerToString(disk.StorageAccountType)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2978,15 +2890,6 @@ const (
 	ImageDataDiskCachingReadWrite = ImageDataDiskCaching("ReadWrite")
 )
 
-// Deprecated version of ImageDataDiskStatusCaching. Use v1beta20210701.ImageDataDiskStatusCaching instead
-type ImageDataDiskStatusCaching string
-
-const (
-	ImageDataDiskStatusCachingNone      = ImageDataDiskStatusCaching("None")
-	ImageDataDiskStatusCachingReadOnly  = ImageDataDiskStatusCaching("ReadOnly")
-	ImageDataDiskStatusCachingReadWrite = ImageDataDiskStatusCaching("ReadWrite")
-)
-
 // Deprecated version of ImageDataDiskStorageAccountType. Use v1beta20210701.ImageDataDiskStorageAccountType instead
 // +kubebuilder:validation:Enum={"Premium_LRS","Premium_ZRS","Standard_LRS","StandardSSD_LRS","StandardSSD_ZRS","UltraSSD_LRS"}
 type ImageDataDiskStorageAccountType string
@@ -3028,31 +2931,6 @@ const (
 	ImageOSDiskOsTypeWindows = ImageOSDiskOsType("Windows")
 )
 
-// Deprecated version of ImageOSDiskStatusCaching. Use v1beta20210701.ImageOSDiskStatusCaching instead
-type ImageOSDiskStatusCaching string
-
-const (
-	ImageOSDiskStatusCachingNone      = ImageOSDiskStatusCaching("None")
-	ImageOSDiskStatusCachingReadOnly  = ImageOSDiskStatusCaching("ReadOnly")
-	ImageOSDiskStatusCachingReadWrite = ImageOSDiskStatusCaching("ReadWrite")
-)
-
-// Deprecated version of ImageOSDiskStatusOsState. Use v1beta20210701.ImageOSDiskStatusOsState instead
-type ImageOSDiskStatusOsState string
-
-const (
-	ImageOSDiskStatusOsStateGeneralized = ImageOSDiskStatusOsState("Generalized")
-	ImageOSDiskStatusOsStateSpecialized = ImageOSDiskStatusOsState("Specialized")
-)
-
-// Deprecated version of ImageOSDiskStatusOsType. Use v1beta20210701.ImageOSDiskStatusOsType instead
-type ImageOSDiskStatusOsType string
-
-const (
-	ImageOSDiskStatusOsTypeLinux   = ImageOSDiskStatusOsType("Linux")
-	ImageOSDiskStatusOsTypeWindows = ImageOSDiskStatusOsType("Windows")
-)
-
 // Deprecated version of ImageOSDiskStorageAccountType. Use v1beta20210701.ImageOSDiskStorageAccountType instead
 // +kubebuilder:validation:Enum={"Premium_LRS","Premium_ZRS","Standard_LRS","StandardSSD_LRS","StandardSSD_ZRS","UltraSSD_LRS"}
 type ImageOSDiskStorageAccountType string
@@ -3064,18 +2942,6 @@ const (
 	ImageOSDiskStorageAccountTypeStandardSSDLRS = ImageOSDiskStorageAccountType("StandardSSD_LRS")
 	ImageOSDiskStorageAccountTypeStandardSSDZRS = ImageOSDiskStorageAccountType("StandardSSD_ZRS")
 	ImageOSDiskStorageAccountTypeUltraSSDLRS    = ImageOSDiskStorageAccountType("UltraSSD_LRS")
-)
-
-// Deprecated version of StorageAccountType_Status. Use v1beta20210701.StorageAccountType_Status instead
-type StorageAccountType_Status string
-
-const (
-	StorageAccountType_StatusPremiumLRS     = StorageAccountType_Status("Premium_LRS")
-	StorageAccountType_StatusPremiumZRS     = StorageAccountType_Status("Premium_ZRS")
-	StorageAccountType_StatusStandardLRS    = StorageAccountType_Status("Standard_LRS")
-	StorageAccountType_StatusStandardSSDLRS = StorageAccountType_Status("StandardSSD_LRS")
-	StorageAccountType_StatusStandardSSDZRS = StorageAccountType_Status("StandardSSD_ZRS")
-	StorageAccountType_StatusUltraSSDLRS    = StorageAccountType_Status("UltraSSD_LRS")
 )
 
 func init() {

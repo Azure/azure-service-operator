@@ -13,16 +13,16 @@ type RoleAssignment_StatusARM struct {
 
 // Deprecated version of RoleAssignmentProperties_Status. Use v1beta20200801preview.RoleAssignmentProperties_Status instead
 type RoleAssignmentProperties_StatusARM struct {
-	Condition                          *string                                      `json:"condition,omitempty"`
-	ConditionVersion                   *string                                      `json:"conditionVersion,omitempty"`
-	CreatedBy                          *string                                      `json:"createdBy,omitempty"`
-	CreatedOn                          *string                                      `json:"createdOn,omitempty"`
-	DelegatedManagedIdentityResourceId *string                                      `json:"delegatedManagedIdentityResourceId,omitempty"`
-	Description                        *string                                      `json:"description,omitempty"`
-	PrincipalId                        *string                                      `json:"principalId,omitempty"`
-	PrincipalType                      *RoleAssignmentPropertiesStatusPrincipalType `json:"principalType,omitempty"`
-	RoleDefinitionId                   *string                                      `json:"roleDefinitionId,omitempty"`
-	Scope                              *string                                      `json:"scope,omitempty"`
-	UpdatedBy                          *string                                      `json:"updatedBy,omitempty"`
-	UpdatedOn                          *string                                      `json:"updatedOn,omitempty"`
+	Condition                          *string `json:"condition,omitempty"`
+	ConditionVersion                   *string `json:"conditionVersion,omitempty"`
+	CreatedBy                          *string `json:"createdBy,omitempty"`
+	CreatedOn                          *string `json:"createdOn,omitempty"`
+	DelegatedManagedIdentityResourceId *string `json:"delegatedManagedIdentityResourceId,omitempty"`
+	Description                        *string `json:"description,omitempty"`
+	PrincipalId                        *string `json:"principalId,omitempty"`
+	PrincipalType                      *string `json:"principalType,omitempty"`
+	RoleDefinitionId                   *string `json:"roleDefinitionId,omitempty"`
+	Scope                              *string `json:"scope,omitempty"`
+	UpdatedBy                          *string `json:"updatedBy,omitempty"`
+	UpdatedOn                          *string `json:"updatedOn,omitempty"`
 }

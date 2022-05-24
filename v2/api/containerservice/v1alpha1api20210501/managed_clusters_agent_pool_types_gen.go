@@ -343,15 +343,15 @@ type AgentPool_Status struct {
 	EnableFIPS                *bool                            `json:"enableFIPS,omitempty"`
 	EnableNodePublicIP        *bool                            `json:"enableNodePublicIP,omitempty"`
 	EnableUltraSSD            *bool                            `json:"enableUltraSSD,omitempty"`
-	GpuInstanceProfile        *GPUInstanceProfile_Status       `json:"gpuInstanceProfile,omitempty"`
+	GpuInstanceProfile        *string                          `json:"gpuInstanceProfile,omitempty"`
 	Id                        *string                          `json:"id,omitempty"`
 	KubeletConfig             *KubeletConfig_Status            `json:"kubeletConfig,omitempty"`
-	KubeletDiskType           *KubeletDiskType_Status          `json:"kubeletDiskType,omitempty"`
+	KubeletDiskType           *string                          `json:"kubeletDiskType,omitempty"`
 	LinuxOSConfig             *LinuxOSConfig_Status            `json:"linuxOSConfig,omitempty"`
 	MaxCount                  *int                             `json:"maxCount,omitempty"`
 	MaxPods                   *int                             `json:"maxPods,omitempty"`
 	MinCount                  *int                             `json:"minCount,omitempty"`
-	Mode                      *AgentPoolMode_Status            `json:"mode,omitempty"`
+	Mode                      *string                          `json:"mode,omitempty"`
 	Name                      *string                          `json:"name,omitempty"`
 	NodeImageVersion          *string                          `json:"nodeImageVersion,omitempty"`
 	NodeLabels                map[string]string                `json:"nodeLabels,omitempty"`
@@ -359,16 +359,16 @@ type AgentPool_Status struct {
 	NodeTaints                []string                         `json:"nodeTaints,omitempty"`
 	OrchestratorVersion       *string                          `json:"orchestratorVersion,omitempty"`
 	OsDiskSizeGB              *int                             `json:"osDiskSizeGB,omitempty"`
-	OsDiskType                *OSDiskType_Status               `json:"osDiskType,omitempty"`
-	OsSKU                     *OSSKU_Status                    `json:"osSKU,omitempty"`
-	OsType                    *OSType_Status                   `json:"osType,omitempty"`
+	OsDiskType                *string                          `json:"osDiskType,omitempty"`
+	OsSKU                     *string                          `json:"osSKU,omitempty"`
+	OsType                    *string                          `json:"osType,omitempty"`
 	PodSubnetID               *string                          `json:"podSubnetID,omitempty"`
 	PowerState                *PowerState_Status               `json:"powerState,omitempty"`
-	PropertiesType            *AgentPoolType_Status            `json:"properties_type,omitempty"`
+	PropertiesType            *string                          `json:"properties_type,omitempty"`
 	ProvisioningState         *string                          `json:"provisioningState,omitempty"`
 	ProximityPlacementGroupID *string                          `json:"proximityPlacementGroupID,omitempty"`
-	ScaleSetEvictionPolicy    *ScaleSetEvictionPolicy_Status   `json:"scaleSetEvictionPolicy,omitempty"`
-	ScaleSetPriority          *ScaleSetPriority_Status         `json:"scaleSetPriority,omitempty"`
+	ScaleSetEvictionPolicy    *string                          `json:"scaleSetEvictionPolicy,omitempty"`
+	ScaleSetPriority          *string                          `json:"scaleSetPriority,omitempty"`
 	SpotMaxPrice              *float64                         `json:"spotMaxPrice,omitempty"`
 	Tags                      map[string]string                `json:"tags,omitempty"`
 	Type                      *string                          `json:"type,omitempty"`
@@ -864,12 +864,7 @@ func (pool *AgentPool_Status) AssignPropertiesFromAgentPoolStatus(source *alpha2
 	}
 
 	// GpuInstanceProfile
-	if source.GpuInstanceProfile != nil {
-		gpuInstanceProfile := GPUInstanceProfile_Status(*source.GpuInstanceProfile)
-		pool.GpuInstanceProfile = &gpuInstanceProfile
-	} else {
-		pool.GpuInstanceProfile = nil
-	}
+	pool.GpuInstanceProfile = genruntime.ClonePointerToString(source.GpuInstanceProfile)
 
 	// Id
 	pool.Id = genruntime.ClonePointerToString(source.Id)
@@ -887,12 +882,7 @@ func (pool *AgentPool_Status) AssignPropertiesFromAgentPoolStatus(source *alpha2
 	}
 
 	// KubeletDiskType
-	if source.KubeletDiskType != nil {
-		kubeletDiskType := KubeletDiskType_Status(*source.KubeletDiskType)
-		pool.KubeletDiskType = &kubeletDiskType
-	} else {
-		pool.KubeletDiskType = nil
-	}
+	pool.KubeletDiskType = genruntime.ClonePointerToString(source.KubeletDiskType)
 
 	// LinuxOSConfig
 	if source.LinuxOSConfig != nil {
@@ -916,12 +906,7 @@ func (pool *AgentPool_Status) AssignPropertiesFromAgentPoolStatus(source *alpha2
 	pool.MinCount = genruntime.ClonePointerToInt(source.MinCount)
 
 	// Mode
-	if source.Mode != nil {
-		mode := AgentPoolMode_Status(*source.Mode)
-		pool.Mode = &mode
-	} else {
-		pool.Mode = nil
-	}
+	pool.Mode = genruntime.ClonePointerToString(source.Mode)
 
 	// Name
 	pool.Name = genruntime.ClonePointerToString(source.Name)
@@ -945,28 +930,13 @@ func (pool *AgentPool_Status) AssignPropertiesFromAgentPoolStatus(source *alpha2
 	pool.OsDiskSizeGB = genruntime.ClonePointerToInt(source.OsDiskSizeGB)
 
 	// OsDiskType
-	if source.OsDiskType != nil {
-		osDiskType := OSDiskType_Status(*source.OsDiskType)
-		pool.OsDiskType = &osDiskType
-	} else {
-		pool.OsDiskType = nil
-	}
+	pool.OsDiskType = genruntime.ClonePointerToString(source.OsDiskType)
 
 	// OsSKU
-	if source.OsSKU != nil {
-		osSKU := OSSKU_Status(*source.OsSKU)
-		pool.OsSKU = &osSKU
-	} else {
-		pool.OsSKU = nil
-	}
+	pool.OsSKU = genruntime.ClonePointerToString(source.OsSKU)
 
 	// OsType
-	if source.OsType != nil {
-		osType := OSType_Status(*source.OsType)
-		pool.OsType = &osType
-	} else {
-		pool.OsType = nil
-	}
+	pool.OsType = genruntime.ClonePointerToString(source.OsType)
 
 	// PodSubnetID
 	pool.PodSubnetID = genruntime.ClonePointerToString(source.PodSubnetID)
@@ -984,12 +954,7 @@ func (pool *AgentPool_Status) AssignPropertiesFromAgentPoolStatus(source *alpha2
 	}
 
 	// PropertiesType
-	if source.PropertiesType != nil {
-		propertiesType := AgentPoolType_Status(*source.PropertiesType)
-		pool.PropertiesType = &propertiesType
-	} else {
-		pool.PropertiesType = nil
-	}
+	pool.PropertiesType = genruntime.ClonePointerToString(source.PropertiesType)
 
 	// ProvisioningState
 	pool.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
@@ -998,20 +963,10 @@ func (pool *AgentPool_Status) AssignPropertiesFromAgentPoolStatus(source *alpha2
 	pool.ProximityPlacementGroupID = genruntime.ClonePointerToString(source.ProximityPlacementGroupID)
 
 	// ScaleSetEvictionPolicy
-	if source.ScaleSetEvictionPolicy != nil {
-		scaleSetEvictionPolicy := ScaleSetEvictionPolicy_Status(*source.ScaleSetEvictionPolicy)
-		pool.ScaleSetEvictionPolicy = &scaleSetEvictionPolicy
-	} else {
-		pool.ScaleSetEvictionPolicy = nil
-	}
+	pool.ScaleSetEvictionPolicy = genruntime.ClonePointerToString(source.ScaleSetEvictionPolicy)
 
 	// ScaleSetPriority
-	if source.ScaleSetPriority != nil {
-		scaleSetPriority := ScaleSetPriority_Status(*source.ScaleSetPriority)
-		pool.ScaleSetPriority = &scaleSetPriority
-	} else {
-		pool.ScaleSetPriority = nil
-	}
+	pool.ScaleSetPriority = genruntime.ClonePointerToString(source.ScaleSetPriority)
 
 	// SpotMaxPrice
 	if source.SpotMaxPrice != nil {
@@ -1104,12 +1059,7 @@ func (pool *AgentPool_Status) AssignPropertiesToAgentPoolStatus(destination *alp
 	}
 
 	// GpuInstanceProfile
-	if pool.GpuInstanceProfile != nil {
-		gpuInstanceProfile := string(*pool.GpuInstanceProfile)
-		destination.GpuInstanceProfile = &gpuInstanceProfile
-	} else {
-		destination.GpuInstanceProfile = nil
-	}
+	destination.GpuInstanceProfile = genruntime.ClonePointerToString(pool.GpuInstanceProfile)
 
 	// Id
 	destination.Id = genruntime.ClonePointerToString(pool.Id)
@@ -1127,12 +1077,7 @@ func (pool *AgentPool_Status) AssignPropertiesToAgentPoolStatus(destination *alp
 	}
 
 	// KubeletDiskType
-	if pool.KubeletDiskType != nil {
-		kubeletDiskType := string(*pool.KubeletDiskType)
-		destination.KubeletDiskType = &kubeletDiskType
-	} else {
-		destination.KubeletDiskType = nil
-	}
+	destination.KubeletDiskType = genruntime.ClonePointerToString(pool.KubeletDiskType)
 
 	// LinuxOSConfig
 	if pool.LinuxOSConfig != nil {
@@ -1156,12 +1101,7 @@ func (pool *AgentPool_Status) AssignPropertiesToAgentPoolStatus(destination *alp
 	destination.MinCount = genruntime.ClonePointerToInt(pool.MinCount)
 
 	// Mode
-	if pool.Mode != nil {
-		mode := string(*pool.Mode)
-		destination.Mode = &mode
-	} else {
-		destination.Mode = nil
-	}
+	destination.Mode = genruntime.ClonePointerToString(pool.Mode)
 
 	// Name
 	destination.Name = genruntime.ClonePointerToString(pool.Name)
@@ -1185,28 +1125,13 @@ func (pool *AgentPool_Status) AssignPropertiesToAgentPoolStatus(destination *alp
 	destination.OsDiskSizeGB = genruntime.ClonePointerToInt(pool.OsDiskSizeGB)
 
 	// OsDiskType
-	if pool.OsDiskType != nil {
-		osDiskType := string(*pool.OsDiskType)
-		destination.OsDiskType = &osDiskType
-	} else {
-		destination.OsDiskType = nil
-	}
+	destination.OsDiskType = genruntime.ClonePointerToString(pool.OsDiskType)
 
 	// OsSKU
-	if pool.OsSKU != nil {
-		osSKU := string(*pool.OsSKU)
-		destination.OsSKU = &osSKU
-	} else {
-		destination.OsSKU = nil
-	}
+	destination.OsSKU = genruntime.ClonePointerToString(pool.OsSKU)
 
 	// OsType
-	if pool.OsType != nil {
-		osType := string(*pool.OsType)
-		destination.OsType = &osType
-	} else {
-		destination.OsType = nil
-	}
+	destination.OsType = genruntime.ClonePointerToString(pool.OsType)
 
 	// PodSubnetID
 	destination.PodSubnetID = genruntime.ClonePointerToString(pool.PodSubnetID)
@@ -1224,12 +1149,7 @@ func (pool *AgentPool_Status) AssignPropertiesToAgentPoolStatus(destination *alp
 	}
 
 	// PropertiesType
-	if pool.PropertiesType != nil {
-		propertiesType := string(*pool.PropertiesType)
-		destination.PropertiesType = &propertiesType
-	} else {
-		destination.PropertiesType = nil
-	}
+	destination.PropertiesType = genruntime.ClonePointerToString(pool.PropertiesType)
 
 	// ProvisioningState
 	destination.ProvisioningState = genruntime.ClonePointerToString(pool.ProvisioningState)
@@ -1238,20 +1158,10 @@ func (pool *AgentPool_Status) AssignPropertiesToAgentPoolStatus(destination *alp
 	destination.ProximityPlacementGroupID = genruntime.ClonePointerToString(pool.ProximityPlacementGroupID)
 
 	// ScaleSetEvictionPolicy
-	if pool.ScaleSetEvictionPolicy != nil {
-		scaleSetEvictionPolicy := string(*pool.ScaleSetEvictionPolicy)
-		destination.ScaleSetEvictionPolicy = &scaleSetEvictionPolicy
-	} else {
-		destination.ScaleSetEvictionPolicy = nil
-	}
+	destination.ScaleSetEvictionPolicy = genruntime.ClonePointerToString(pool.ScaleSetEvictionPolicy)
 
 	// ScaleSetPriority
-	if pool.ScaleSetPriority != nil {
-		scaleSetPriority := string(*pool.ScaleSetPriority)
-		destination.ScaleSetPriority = &scaleSetPriority
-	} else {
-		destination.ScaleSetPriority = nil
-	}
+	destination.ScaleSetPriority = genruntime.ClonePointerToString(pool.ScaleSetPriority)
 
 	// SpotMaxPrice
 	if pool.SpotMaxPrice != nil {

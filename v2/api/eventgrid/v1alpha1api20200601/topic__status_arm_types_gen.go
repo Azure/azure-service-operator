@@ -18,12 +18,12 @@ type Topic_StatusARM struct {
 type TopicProperties_StatusARM struct {
 	Endpoint                   *string                                                         `json:"endpoint,omitempty"`
 	InboundIpRules             []InboundIpRule_StatusARM                                       `json:"inboundIpRules,omitempty"`
-	InputSchema                *TopicPropertiesStatusInputSchema                               `json:"inputSchema,omitempty"`
+	InputSchema                *string                                                         `json:"inputSchema,omitempty"`
 	InputSchemaMapping         *InputSchemaMapping_StatusARM                                   `json:"inputSchemaMapping,omitempty"`
 	MetricResourceId           *string                                                         `json:"metricResourceId,omitempty"`
 	PrivateEndpointConnections []PrivateEndpointConnection_Status_Topic_SubResourceEmbeddedARM `json:"privateEndpointConnections,omitempty"`
-	ProvisioningState          *TopicPropertiesStatusProvisioningState                         `json:"provisioningState,omitempty"`
-	PublicNetworkAccess        *TopicPropertiesStatusPublicNetworkAccess                       `json:"publicNetworkAccess,omitempty"`
+	ProvisioningState          *string                                                         `json:"provisioningState,omitempty"`
+	PublicNetworkAccess        *string                                                         `json:"publicNetworkAccess,omitempty"`
 }
 
 // Deprecated version of PrivateEndpointConnection_Status_Topic_SubResourceEmbedded. Use v1beta20200601.PrivateEndpointConnection_Status_Topic_SubResourceEmbedded instead

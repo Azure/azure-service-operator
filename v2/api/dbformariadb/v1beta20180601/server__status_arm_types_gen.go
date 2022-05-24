@@ -42,14 +42,14 @@ type ServerProperties_StatusARM struct {
 	MasterServerId *string `json:"masterServerId,omitempty"`
 
 	// MinimalTlsVersion: Enforce a minimal Tls version for the server.
-	MinimalTlsVersion *MinimalTlsVersion_Status `json:"minimalTlsVersion,omitempty"`
+	MinimalTlsVersion *string `json:"minimalTlsVersion,omitempty"`
 
 	// PrivateEndpointConnections: List of private endpoint connections on a server
 	PrivateEndpointConnections []ServerPrivateEndpointConnection_StatusARM `json:"privateEndpointConnections,omitempty"`
 
 	// PublicNetworkAccess: Whether or not public network access is allowed for this server. Value is optional but if passed
 	// in, must be 'Enabled' or 'Disabled'
-	PublicNetworkAccess *PublicNetworkAccess_Status `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *string `json:"publicNetworkAccess,omitempty"`
 
 	// ReplicaCapacity: The maximum number of replicas that a master server can have.
 	ReplicaCapacity *int `json:"replicaCapacity,omitempty"`
@@ -58,16 +58,16 @@ type ServerProperties_StatusARM struct {
 	ReplicationRole *string `json:"replicationRole,omitempty"`
 
 	// SslEnforcement: Enable ssl enforcement or not when connect to server.
-	SslEnforcement *SslEnforcement_Status `json:"sslEnforcement,omitempty"`
+	SslEnforcement *string `json:"sslEnforcement,omitempty"`
 
 	// StorageProfile: Storage profile of a server.
 	StorageProfile *StorageProfile_StatusARM `json:"storageProfile,omitempty"`
 
 	// UserVisibleState: A state of a server that is visible to user.
-	UserVisibleState *ServerPropertiesStatusUserVisibleState `json:"userVisibleState,omitempty"`
+	UserVisibleState *string `json:"userVisibleState,omitempty"`
 
 	// Version: Server version.
-	Version *ServerVersion_Status `json:"version,omitempty"`
+	Version *string `json:"version,omitempty"`
 }
 
 type Sku_StatusARM struct {
@@ -84,7 +84,7 @@ type Sku_StatusARM struct {
 	Size *string `json:"size,omitempty"`
 
 	// Tier: The tier of the particular SKU, e.g. Basic.
-	Tier *SkuStatusTier `json:"tier,omitempty"`
+	Tier *string `json:"tier,omitempty"`
 }
 
 type ServerPrivateEndpointConnection_StatusARM struct {
@@ -95,23 +95,15 @@ type ServerPrivateEndpointConnection_StatusARM struct {
 	Properties *ServerPrivateEndpointConnectionProperties_StatusARM `json:"properties,omitempty"`
 }
 
-type SkuStatusTier string
-
-const (
-	SkuStatusTierBasic           = SkuStatusTier("Basic")
-	SkuStatusTierGeneralPurpose  = SkuStatusTier("GeneralPurpose")
-	SkuStatusTierMemoryOptimized = SkuStatusTier("MemoryOptimized")
-)
-
 type StorageProfile_StatusARM struct {
 	// BackupRetentionDays: Backup retention days for the server.
 	BackupRetentionDays *int `json:"backupRetentionDays,omitempty"`
 
 	// GeoRedundantBackup: Enable Geo-redundant or not for server backup.
-	GeoRedundantBackup *StorageProfileStatusGeoRedundantBackup `json:"geoRedundantBackup,omitempty"`
+	GeoRedundantBackup *string `json:"geoRedundantBackup,omitempty"`
 
 	// StorageAutogrow: Enable Storage Auto Grow.
-	StorageAutogrow *StorageProfileStatusStorageAutogrow `json:"storageAutogrow,omitempty"`
+	StorageAutogrow *string `json:"storageAutogrow,omitempty"`
 
 	// StorageMB: Max storage allowed for a server.
 	StorageMB *int `json:"storageMB,omitempty"`
@@ -125,7 +117,7 @@ type ServerPrivateEndpointConnectionProperties_StatusARM struct {
 	PrivateLinkServiceConnectionState *ServerPrivateLinkServiceConnectionStateProperty_StatusARM `json:"privateLinkServiceConnectionState,omitempty"`
 
 	// ProvisioningState: State of the private endpoint connection.
-	ProvisioningState *ServerPrivateEndpointConnectionPropertiesStatusProvisioningState `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 }
 
 type PrivateEndpointProperty_StatusARM struct {
@@ -135,11 +127,11 @@ type PrivateEndpointProperty_StatusARM struct {
 
 type ServerPrivateLinkServiceConnectionStateProperty_StatusARM struct {
 	// ActionsRequired: The actions required for private link service connection.
-	ActionsRequired *ServerPrivateLinkServiceConnectionStatePropertyStatusActionsRequired `json:"actionsRequired,omitempty"`
+	ActionsRequired *string `json:"actionsRequired,omitempty"`
 
 	// Description: The private link service connection description.
 	Description *string `json:"description,omitempty"`
 
 	// Status: The private link service connection status.
-	Status *ServerPrivateLinkServiceConnectionStatePropertyStatusStatus `json:"status,omitempty"`
+	Status *string `json:"status,omitempty"`
 }

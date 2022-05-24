@@ -358,16 +358,16 @@ type Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded struct {
 	NetworkSecurityGroup *NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded `json:"networkSecurityGroup,omitempty"`
 
 	// PrivateEndpointNetworkPolicies: Enable or Disable apply network policies on private end point in the subnet.
-	PrivateEndpointNetworkPolicies *SubnetPropertiesFormatStatusPrivateEndpointNetworkPolicies `json:"privateEndpointNetworkPolicies,omitempty"`
+	PrivateEndpointNetworkPolicies *string `json:"privateEndpointNetworkPolicies,omitempty"`
 
 	// PrivateEndpoints: An array of references to private endpoints.
 	PrivateEndpoints []PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded `json:"privateEndpoints,omitempty"`
 
 	// PrivateLinkServiceNetworkPolicies: Enable or Disable apply network policies on private link service in the subnet.
-	PrivateLinkServiceNetworkPolicies *SubnetPropertiesFormatStatusPrivateLinkServiceNetworkPolicies `json:"privateLinkServiceNetworkPolicies,omitempty"`
+	PrivateLinkServiceNetworkPolicies *string `json:"privateLinkServiceNetworkPolicies,omitempty"`
 
 	// ProvisioningState: The provisioning state of the subnet resource.
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	// Purpose: A read-only string identifying the intention of use for this subnet based on delegations and other user-defined
 	// properties.
@@ -847,12 +847,7 @@ func (embedded *Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignP
 	}
 
 	// PrivateEndpointNetworkPolicies
-	if source.PrivateEndpointNetworkPolicies != nil {
-		privateEndpointNetworkPolicy := SubnetPropertiesFormatStatusPrivateEndpointNetworkPolicies(*source.PrivateEndpointNetworkPolicies)
-		embedded.PrivateEndpointNetworkPolicies = &privateEndpointNetworkPolicy
-	} else {
-		embedded.PrivateEndpointNetworkPolicies = nil
-	}
+	embedded.PrivateEndpointNetworkPolicies = genruntime.ClonePointerToString(source.PrivateEndpointNetworkPolicies)
 
 	// PrivateEndpoints
 	if source.PrivateEndpoints != nil {
@@ -873,20 +868,10 @@ func (embedded *Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignP
 	}
 
 	// PrivateLinkServiceNetworkPolicies
-	if source.PrivateLinkServiceNetworkPolicies != nil {
-		privateLinkServiceNetworkPolicy := SubnetPropertiesFormatStatusPrivateLinkServiceNetworkPolicies(*source.PrivateLinkServiceNetworkPolicies)
-		embedded.PrivateLinkServiceNetworkPolicies = &privateLinkServiceNetworkPolicy
-	} else {
-		embedded.PrivateLinkServiceNetworkPolicies = nil
-	}
+	embedded.PrivateLinkServiceNetworkPolicies = genruntime.ClonePointerToString(source.PrivateLinkServiceNetworkPolicies)
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_Status(*source.ProvisioningState)
-		embedded.ProvisioningState = &provisioningState
-	} else {
-		embedded.ProvisioningState = nil
-	}
+	embedded.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// Purpose
 	embedded.Purpose = genruntime.ClonePointerToString(source.Purpose)
@@ -1120,12 +1105,7 @@ func (embedded *Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignP
 	}
 
 	// PrivateEndpointNetworkPolicies
-	if embedded.PrivateEndpointNetworkPolicies != nil {
-		privateEndpointNetworkPolicy := string(*embedded.PrivateEndpointNetworkPolicies)
-		destination.PrivateEndpointNetworkPolicies = &privateEndpointNetworkPolicy
-	} else {
-		destination.PrivateEndpointNetworkPolicies = nil
-	}
+	destination.PrivateEndpointNetworkPolicies = genruntime.ClonePointerToString(embedded.PrivateEndpointNetworkPolicies)
 
 	// PrivateEndpoints
 	if embedded.PrivateEndpoints != nil {
@@ -1146,20 +1126,10 @@ func (embedded *Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignP
 	}
 
 	// PrivateLinkServiceNetworkPolicies
-	if embedded.PrivateLinkServiceNetworkPolicies != nil {
-		privateLinkServiceNetworkPolicy := string(*embedded.PrivateLinkServiceNetworkPolicies)
-		destination.PrivateLinkServiceNetworkPolicies = &privateLinkServiceNetworkPolicy
-	} else {
-		destination.PrivateLinkServiceNetworkPolicies = nil
-	}
+	destination.PrivateLinkServiceNetworkPolicies = genruntime.ClonePointerToString(embedded.PrivateLinkServiceNetworkPolicies)
 
 	// ProvisioningState
-	if embedded.ProvisioningState != nil {
-		provisioningState := string(*embedded.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(embedded.ProvisioningState)
 
 	// Purpose
 	destination.Purpose = genruntime.ClonePointerToString(embedded.Purpose)
@@ -1916,7 +1886,7 @@ type ApplicationGatewayIPConfiguration_Status struct {
 	Name *string `json:"name,omitempty"`
 
 	// ProvisioningState: The provisioning state of the application gateway IP configuration resource.
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	// Subnet: Reference to the subnet resource. A subnet from where application gateway gets its private address.
 	Subnet *SubResource_Status `json:"subnet,omitempty"`
@@ -2003,12 +1973,7 @@ func (configuration *ApplicationGatewayIPConfiguration_Status) AssignPropertiesF
 	configuration.Name = genruntime.ClonePointerToString(source.Name)
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_Status(*source.ProvisioningState)
-		configuration.ProvisioningState = &provisioningState
-	} else {
-		configuration.ProvisioningState = nil
-	}
+	configuration.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// Subnet
 	if source.Subnet != nil {
@@ -2044,12 +2009,7 @@ func (configuration *ApplicationGatewayIPConfiguration_Status) AssignPropertiesT
 	destination.Name = genruntime.ClonePointerToString(configuration.Name)
 
 	// ProvisioningState
-	if configuration.ProvisioningState != nil {
-		provisioningState := string(*configuration.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(configuration.ProvisioningState)
 
 	// Subnet
 	if configuration.Subnet != nil {
@@ -2091,7 +2051,7 @@ type Delegation_Status struct {
 	Name *string `json:"name,omitempty"`
 
 	// ProvisioningState: The provisioning state of the service delegation resource.
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	// ServiceName: The name of the service to whom the subnet should be delegated (e.g. Microsoft.Sql/servers).
 	ServiceName *string `json:"serviceName,omitempty"`
@@ -2184,12 +2144,7 @@ func (delegation *Delegation_Status) AssignPropertiesFromDelegationStatus(source
 	delegation.Name = genruntime.ClonePointerToString(source.Name)
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_Status(*source.ProvisioningState)
-		delegation.ProvisioningState = &provisioningState
-	} else {
-		delegation.ProvisioningState = nil
-	}
+	delegation.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// ServiceName
 	delegation.ServiceName = genruntime.ClonePointerToString(source.ServiceName)
@@ -2219,12 +2174,7 @@ func (delegation *Delegation_Status) AssignPropertiesToDelegationStatus(destinat
 	destination.Name = genruntime.ClonePointerToString(delegation.Name)
 
 	// ProvisioningState
-	if delegation.ProvisioningState != nil {
-		provisioningState := string(*delegation.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(delegation.ProvisioningState)
 
 	// ServiceName
 	destination.ServiceName = genruntime.ClonePointerToString(delegation.ServiceName)
@@ -2254,7 +2204,7 @@ type IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded str
 	Name *string `json:"name,omitempty"`
 
 	// ProvisioningState: The provisioning state of the IP configuration profile resource.
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	// Type: Sub Resource type.
 	Type *string `json:"type,omitempty"`
@@ -2324,12 +2274,7 @@ func (embedded *IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceE
 	embedded.Name = genruntime.ClonePointerToString(source.Name)
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_Status(*source.ProvisioningState)
-		embedded.ProvisioningState = &provisioningState
-	} else {
-		embedded.ProvisioningState = nil
-	}
+	embedded.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// Type
 	embedded.Type = genruntime.ClonePointerToString(source.Type)
@@ -2353,12 +2298,7 @@ func (embedded *IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceE
 	destination.Name = genruntime.ClonePointerToString(embedded.Name)
 
 	// ProvisioningState
-	if embedded.ProvisioningState != nil {
-		provisioningState := string(*embedded.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(embedded.ProvisioningState)
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(embedded.Type)
@@ -2388,10 +2328,10 @@ type IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded struct {
 	PrivateIPAddress *string `json:"privateIPAddress,omitempty"`
 
 	// PrivateIPAllocationMethod: The private IP address allocation method.
-	PrivateIPAllocationMethod *IPAllocationMethod_Status `json:"privateIPAllocationMethod,omitempty"`
+	PrivateIPAllocationMethod *string `json:"privateIPAllocationMethod,omitempty"`
 
 	// ProvisioningState: The provisioning state of the IP configuration resource.
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	// PublicIPAddress: The reference to the public IP resource.
 	PublicIPAddress *PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded `json:"publicIPAddress,omitempty"`
@@ -2490,20 +2430,10 @@ func (embedded *IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded
 	embedded.PrivateIPAddress = genruntime.ClonePointerToString(source.PrivateIPAddress)
 
 	// PrivateIPAllocationMethod
-	if source.PrivateIPAllocationMethod != nil {
-		privateIPAllocationMethod := IPAllocationMethod_Status(*source.PrivateIPAllocationMethod)
-		embedded.PrivateIPAllocationMethod = &privateIPAllocationMethod
-	} else {
-		embedded.PrivateIPAllocationMethod = nil
-	}
+	embedded.PrivateIPAllocationMethod = genruntime.ClonePointerToString(source.PrivateIPAllocationMethod)
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_Status(*source.ProvisioningState)
-		embedded.ProvisioningState = &provisioningState
-	} else {
-		embedded.ProvisioningState = nil
-	}
+	embedded.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// PublicIPAddress
 	if source.PublicIPAddress != nil {
@@ -2539,20 +2469,10 @@ func (embedded *IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded
 	destination.PrivateIPAddress = genruntime.ClonePointerToString(embedded.PrivateIPAddress)
 
 	// PrivateIPAllocationMethod
-	if embedded.PrivateIPAllocationMethod != nil {
-		privateIPAllocationMethod := string(*embedded.PrivateIPAllocationMethod)
-		destination.PrivateIPAllocationMethod = &privateIPAllocationMethod
-	} else {
-		destination.PrivateIPAllocationMethod = nil
-	}
+	destination.PrivateIPAllocationMethod = genruntime.ClonePointerToString(embedded.PrivateIPAllocationMethod)
 
 	// ProvisioningState
-	if embedded.ProvisioningState != nil {
-		provisioningState := string(*embedded.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(embedded.ProvisioningState)
 
 	// PublicIPAddress
 	if embedded.PublicIPAddress != nil {
@@ -2748,7 +2668,7 @@ type ResourceNavigationLink_Status struct {
 	Name *string `json:"name,omitempty"`
 
 	// ProvisioningState: The provisioning state of the resource navigation link resource.
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	// Type: Resource type.
 	Type *string `json:"type,omitempty"`
@@ -2842,12 +2762,7 @@ func (link *ResourceNavigationLink_Status) AssignPropertiesFromResourceNavigatio
 	link.Name = genruntime.ClonePointerToString(source.Name)
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_Status(*source.ProvisioningState)
-		link.ProvisioningState = &provisioningState
-	} else {
-		link.ProvisioningState = nil
-	}
+	link.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// Type
 	link.Type = genruntime.ClonePointerToString(source.Type)
@@ -2877,12 +2792,7 @@ func (link *ResourceNavigationLink_Status) AssignPropertiesToResourceNavigationL
 	destination.Name = genruntime.ClonePointerToString(link.Name)
 
 	// ProvisioningState
-	if link.ProvisioningState != nil {
-		provisioningState := string(*link.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(link.ProvisioningState)
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(link.Type)
@@ -2979,7 +2889,7 @@ type ServiceAssociationLink_Status struct {
 	Name *string `json:"name,omitempty"`
 
 	// ProvisioningState: The provisioning state of the service association link resource.
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	// Type: Resource type.
 	Type *string `json:"type,omitempty"`
@@ -3101,12 +3011,7 @@ func (link *ServiceAssociationLink_Status) AssignPropertiesFromServiceAssociatio
 	link.Name = genruntime.ClonePointerToString(source.Name)
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_Status(*source.ProvisioningState)
-		link.ProvisioningState = &provisioningState
-	} else {
-		link.ProvisioningState = nil
-	}
+	link.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// Type
 	link.Type = genruntime.ClonePointerToString(source.Type)
@@ -3147,12 +3052,7 @@ func (link *ServiceAssociationLink_Status) AssignPropertiesToServiceAssociationL
 	destination.Name = genruntime.ClonePointerToString(link.Name)
 
 	// ProvisioningState
-	if link.ProvisioningState != nil {
-		provisioningState := string(*link.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(link.ProvisioningState)
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(link.Type)
@@ -3339,7 +3239,7 @@ type ServiceEndpointPropertiesFormat_Status struct {
 	Locations []string `json:"locations,omitempty"`
 
 	// ProvisioningState: The provisioning state of the service endpoint resource.
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	// Service: The type of the endpoint service.
 	Service *string `json:"service,omitempty"`
@@ -3387,12 +3287,7 @@ func (format *ServiceEndpointPropertiesFormat_Status) AssignPropertiesFromServic
 	format.Locations = genruntime.CloneSliceOfString(source.Locations)
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_Status(*source.ProvisioningState)
-		format.ProvisioningState = &provisioningState
-	} else {
-		format.ProvisioningState = nil
-	}
+	format.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// Service
 	format.Service = genruntime.ClonePointerToString(source.Service)
@@ -3410,12 +3305,7 @@ func (format *ServiceEndpointPropertiesFormat_Status) AssignPropertiesToServiceE
 	destination.Locations = genruntime.CloneSliceOfString(format.Locations)
 
 	// ProvisioningState
-	if format.ProvisioningState != nil {
-		provisioningState := string(*format.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(format.ProvisioningState)
 
 	// Service
 	destination.Service = genruntime.ClonePointerToString(format.Service)

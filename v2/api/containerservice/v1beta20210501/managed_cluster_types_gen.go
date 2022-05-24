@@ -3601,20 +3601,20 @@ type ContainerServiceNetworkProfile_Status struct {
 	// LoadBalancerSku: The default is 'standard'. See [Azure Load Balancer
 	// SKUs](https://docs.microsoft.com/azure/load-balancer/skus) for more information about the differences between load
 	// balancer SKUs.
-	LoadBalancerSku *ContainerServiceNetworkProfileStatusLoadBalancerSku `json:"loadBalancerSku,omitempty"`
+	LoadBalancerSku *string `json:"loadBalancerSku,omitempty"`
 
 	// NetworkMode: This cannot be specified if networkPlugin is anything other than 'azure'.
-	NetworkMode *ContainerServiceNetworkProfileStatusNetworkMode `json:"networkMode,omitempty"`
+	NetworkMode *string `json:"networkMode,omitempty"`
 
 	// NetworkPlugin: Network plugin used for building the Kubernetes network.
-	NetworkPlugin *ContainerServiceNetworkProfileStatusNetworkPlugin `json:"networkPlugin,omitempty"`
+	NetworkPlugin *string `json:"networkPlugin,omitempty"`
 
 	// NetworkPolicy: Network policy used for building the Kubernetes network.
-	NetworkPolicy *ContainerServiceNetworkProfileStatusNetworkPolicy `json:"networkPolicy,omitempty"`
+	NetworkPolicy *string `json:"networkPolicy,omitempty"`
 
 	// OutboundType: This can only be set at cluster creation time and cannot be changed later. For more information see
 	// [egress outbound type](https://docs.microsoft.com/azure/aks/egress-outboundtype).
-	OutboundType *ContainerServiceNetworkProfileStatusOutboundType `json:"outboundType,omitempty"`
+	OutboundType *string `json:"outboundType,omitempty"`
 
 	// PodCidr: A CIDR notation IP range from which to assign pod IPs when kubenet is used.
 	PodCidr *string `json:"podCidr,omitempty"`
@@ -3729,44 +3729,19 @@ func (profile *ContainerServiceNetworkProfile_Status) AssignPropertiesFromContai
 	}
 
 	// LoadBalancerSku
-	if source.LoadBalancerSku != nil {
-		loadBalancerSku := ContainerServiceNetworkProfileStatusLoadBalancerSku(*source.LoadBalancerSku)
-		profile.LoadBalancerSku = &loadBalancerSku
-	} else {
-		profile.LoadBalancerSku = nil
-	}
+	profile.LoadBalancerSku = genruntime.ClonePointerToString(source.LoadBalancerSku)
 
 	// NetworkMode
-	if source.NetworkMode != nil {
-		networkMode := ContainerServiceNetworkProfileStatusNetworkMode(*source.NetworkMode)
-		profile.NetworkMode = &networkMode
-	} else {
-		profile.NetworkMode = nil
-	}
+	profile.NetworkMode = genruntime.ClonePointerToString(source.NetworkMode)
 
 	// NetworkPlugin
-	if source.NetworkPlugin != nil {
-		networkPlugin := ContainerServiceNetworkProfileStatusNetworkPlugin(*source.NetworkPlugin)
-		profile.NetworkPlugin = &networkPlugin
-	} else {
-		profile.NetworkPlugin = nil
-	}
+	profile.NetworkPlugin = genruntime.ClonePointerToString(source.NetworkPlugin)
 
 	// NetworkPolicy
-	if source.NetworkPolicy != nil {
-		networkPolicy := ContainerServiceNetworkProfileStatusNetworkPolicy(*source.NetworkPolicy)
-		profile.NetworkPolicy = &networkPolicy
-	} else {
-		profile.NetworkPolicy = nil
-	}
+	profile.NetworkPolicy = genruntime.ClonePointerToString(source.NetworkPolicy)
 
 	// OutboundType
-	if source.OutboundType != nil {
-		outboundType := ContainerServiceNetworkProfileStatusOutboundType(*source.OutboundType)
-		profile.OutboundType = &outboundType
-	} else {
-		profile.OutboundType = nil
-	}
+	profile.OutboundType = genruntime.ClonePointerToString(source.OutboundType)
 
 	// PodCidr
 	profile.PodCidr = genruntime.ClonePointerToString(source.PodCidr)
@@ -3802,44 +3777,19 @@ func (profile *ContainerServiceNetworkProfile_Status) AssignPropertiesToContaine
 	}
 
 	// LoadBalancerSku
-	if profile.LoadBalancerSku != nil {
-		loadBalancerSku := string(*profile.LoadBalancerSku)
-		destination.LoadBalancerSku = &loadBalancerSku
-	} else {
-		destination.LoadBalancerSku = nil
-	}
+	destination.LoadBalancerSku = genruntime.ClonePointerToString(profile.LoadBalancerSku)
 
 	// NetworkMode
-	if profile.NetworkMode != nil {
-		networkMode := string(*profile.NetworkMode)
-		destination.NetworkMode = &networkMode
-	} else {
-		destination.NetworkMode = nil
-	}
+	destination.NetworkMode = genruntime.ClonePointerToString(profile.NetworkMode)
 
 	// NetworkPlugin
-	if profile.NetworkPlugin != nil {
-		networkPlugin := string(*profile.NetworkPlugin)
-		destination.NetworkPlugin = &networkPlugin
-	} else {
-		destination.NetworkPlugin = nil
-	}
+	destination.NetworkPlugin = genruntime.ClonePointerToString(profile.NetworkPlugin)
 
 	// NetworkPolicy
-	if profile.NetworkPolicy != nil {
-		networkPolicy := string(*profile.NetworkPolicy)
-		destination.NetworkPolicy = &networkPolicy
-	} else {
-		destination.NetworkPolicy = nil
-	}
+	destination.NetworkPolicy = genruntime.ClonePointerToString(profile.NetworkPolicy)
 
 	// OutboundType
-	if profile.OutboundType != nil {
-		outboundType := string(*profile.OutboundType)
-		destination.OutboundType = &outboundType
-	} else {
-		destination.OutboundType = nil
-	}
+	destination.OutboundType = genruntime.ClonePointerToString(profile.OutboundType)
 
 	// PodCidr
 	destination.PodCidr = genruntime.ClonePointerToString(profile.PodCidr)
@@ -3968,7 +3918,7 @@ type ExtendedLocation_Status struct {
 	Name *string `json:"name,omitempty"`
 
 	// Type: The type of the extended location.
-	Type *ExtendedLocationType_Status `json:"type,omitempty"`
+	Type *string `json:"type,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ExtendedLocation_Status{}
@@ -4008,12 +3958,7 @@ func (location *ExtendedLocation_Status) AssignPropertiesFromExtendedLocationSta
 	location.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Type
-	if source.Type != nil {
-		typeVar := ExtendedLocationType_Status(*source.Type)
-		location.Type = &typeVar
-	} else {
-		location.Type = nil
-	}
+	location.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
@@ -4028,12 +3973,7 @@ func (location *ExtendedLocation_Status) AssignPropertiesToExtendedLocationStatu
 	destination.Name = genruntime.ClonePointerToString(location.Name)
 
 	// Type
-	if location.Type != nil {
-		typeVar := string(*location.Type)
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
+	destination.Type = genruntime.ClonePointerToString(location.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -5932,11 +5872,11 @@ type ManagedClusterAgentPoolProfile_Status struct {
 	EnableUltraSSD *bool `json:"enableUltraSSD,omitempty"`
 
 	// GpuInstanceProfile: GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU.
-	GpuInstanceProfile *GPUInstanceProfile_Status `json:"gpuInstanceProfile,omitempty"`
+	GpuInstanceProfile *string `json:"gpuInstanceProfile,omitempty"`
 
 	// KubeletConfig: The Kubelet configuration on the agent pool nodes.
-	KubeletConfig   *KubeletConfig_Status   `json:"kubeletConfig,omitempty"`
-	KubeletDiskType *KubeletDiskType_Status `json:"kubeletDiskType,omitempty"`
+	KubeletConfig   *KubeletConfig_Status `json:"kubeletConfig,omitempty"`
+	KubeletDiskType *string               `json:"kubeletDiskType,omitempty"`
 
 	// LinuxOSConfig: The OS configuration of Linux agent nodes.
 	LinuxOSConfig *LinuxOSConfig_Status `json:"linuxOSConfig,omitempty"`
@@ -5948,8 +5888,8 @@ type ManagedClusterAgentPoolProfile_Status struct {
 	MaxPods *int `json:"maxPods,omitempty"`
 
 	// MinCount: The minimum number of nodes for auto-scaling
-	MinCount *int                  `json:"minCount,omitempty"`
-	Mode     *AgentPoolMode_Status `json:"mode,omitempty"`
+	MinCount *int    `json:"minCount,omitempty"`
+	Mode     *string `json:"mode,omitempty"`
 
 	// Name: Windows agent pool names must be 6 characters or less.
 	Name *string `json:"name,omitempty"`
@@ -5972,11 +5912,11 @@ type ManagedClusterAgentPoolProfile_Status struct {
 	// be within two minor versions of the control plane version. The node pool version cannot be greater than the control
 	// plane version. For more information see [upgrading a node
 	// pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#upgrade-a-node-pool).
-	OrchestratorVersion *string            `json:"orchestratorVersion,omitempty"`
-	OsDiskSizeGB        *int               `json:"osDiskSizeGB,omitempty"`
-	OsDiskType          *OSDiskType_Status `json:"osDiskType,omitempty"`
-	OsSKU               *OSSKU_Status      `json:"osSKU,omitempty"`
-	OsType              *OSType_Status     `json:"osType,omitempty"`
+	OrchestratorVersion *string `json:"orchestratorVersion,omitempty"`
+	OsDiskSizeGB        *int    `json:"osDiskSizeGB,omitempty"`
+	OsDiskType          *string `json:"osDiskType,omitempty"`
+	OsSKU               *string `json:"osSKU,omitempty"`
+	OsType              *string `json:"osType,omitempty"`
 
 	// PodSubnetID: If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is
 	// of the form:
@@ -5994,10 +5934,10 @@ type ManagedClusterAgentPoolProfile_Status struct {
 
 	// ScaleSetEvictionPolicy: This cannot be specified unless the scaleSetPriority is 'Spot'. If not specified, the default is
 	// 'Delete'.
-	ScaleSetEvictionPolicy *ScaleSetEvictionPolicy_Status `json:"scaleSetEvictionPolicy,omitempty"`
+	ScaleSetEvictionPolicy *string `json:"scaleSetEvictionPolicy,omitempty"`
 
 	// ScaleSetPriority: The Virtual Machine Scale Set priority. If not specified, the default is 'Regular'.
-	ScaleSetPriority *ScaleSetPriority_Status `json:"scaleSetPriority,omitempty"`
+	ScaleSetPriority *string `json:"scaleSetPriority,omitempty"`
 
 	// SpotMaxPrice: Possible values are any decimal value greater than zero or -1 which indicates the willingness to pay any
 	// on-demand price. For more details on spot pricing, see [spot VMs
@@ -6005,8 +5945,8 @@ type ManagedClusterAgentPoolProfile_Status struct {
 	SpotMaxPrice *float64 `json:"spotMaxPrice,omitempty"`
 
 	// Tags: The tags to be persisted on the agent pool virtual machine scale set.
-	Tags map[string]string     `json:"tags,omitempty"`
-	Type *AgentPoolType_Status `json:"type,omitempty"`
+	Tags map[string]string `json:"tags,omitempty"`
+	Type *string           `json:"type,omitempty"`
 
 	// UpgradeSettings: Settings for upgrading the agentpool
 	UpgradeSettings *AgentPoolUpgradeSettings_Status `json:"upgradeSettings,omitempty"`
@@ -6334,12 +6274,7 @@ func (profile *ManagedClusterAgentPoolProfile_Status) AssignPropertiesFromManage
 	}
 
 	// GpuInstanceProfile
-	if source.GpuInstanceProfile != nil {
-		gpuInstanceProfile := GPUInstanceProfile_Status(*source.GpuInstanceProfile)
-		profile.GpuInstanceProfile = &gpuInstanceProfile
-	} else {
-		profile.GpuInstanceProfile = nil
-	}
+	profile.GpuInstanceProfile = genruntime.ClonePointerToString(source.GpuInstanceProfile)
 
 	// KubeletConfig
 	if source.KubeletConfig != nil {
@@ -6354,12 +6289,7 @@ func (profile *ManagedClusterAgentPoolProfile_Status) AssignPropertiesFromManage
 	}
 
 	// KubeletDiskType
-	if source.KubeletDiskType != nil {
-		kubeletDiskType := KubeletDiskType_Status(*source.KubeletDiskType)
-		profile.KubeletDiskType = &kubeletDiskType
-	} else {
-		profile.KubeletDiskType = nil
-	}
+	profile.KubeletDiskType = genruntime.ClonePointerToString(source.KubeletDiskType)
 
 	// LinuxOSConfig
 	if source.LinuxOSConfig != nil {
@@ -6383,12 +6313,7 @@ func (profile *ManagedClusterAgentPoolProfile_Status) AssignPropertiesFromManage
 	profile.MinCount = genruntime.ClonePointerToInt(source.MinCount)
 
 	// Mode
-	if source.Mode != nil {
-		mode := AgentPoolMode_Status(*source.Mode)
-		profile.Mode = &mode
-	} else {
-		profile.Mode = nil
-	}
+	profile.Mode = genruntime.ClonePointerToString(source.Mode)
 
 	// Name
 	profile.Name = genruntime.ClonePointerToString(source.Name)
@@ -6412,28 +6337,13 @@ func (profile *ManagedClusterAgentPoolProfile_Status) AssignPropertiesFromManage
 	profile.OsDiskSizeGB = genruntime.ClonePointerToInt(source.OsDiskSizeGB)
 
 	// OsDiskType
-	if source.OsDiskType != nil {
-		osDiskType := OSDiskType_Status(*source.OsDiskType)
-		profile.OsDiskType = &osDiskType
-	} else {
-		profile.OsDiskType = nil
-	}
+	profile.OsDiskType = genruntime.ClonePointerToString(source.OsDiskType)
 
 	// OsSKU
-	if source.OsSKU != nil {
-		osSKU := OSSKU_Status(*source.OsSKU)
-		profile.OsSKU = &osSKU
-	} else {
-		profile.OsSKU = nil
-	}
+	profile.OsSKU = genruntime.ClonePointerToString(source.OsSKU)
 
 	// OsType
-	if source.OsType != nil {
-		osType := OSType_Status(*source.OsType)
-		profile.OsType = &osType
-	} else {
-		profile.OsType = nil
-	}
+	profile.OsType = genruntime.ClonePointerToString(source.OsType)
 
 	// PodSubnetID
 	profile.PodSubnetID = genruntime.ClonePointerToString(source.PodSubnetID)
@@ -6457,20 +6367,10 @@ func (profile *ManagedClusterAgentPoolProfile_Status) AssignPropertiesFromManage
 	profile.ProximityPlacementGroupID = genruntime.ClonePointerToString(source.ProximityPlacementGroupID)
 
 	// ScaleSetEvictionPolicy
-	if source.ScaleSetEvictionPolicy != nil {
-		scaleSetEvictionPolicy := ScaleSetEvictionPolicy_Status(*source.ScaleSetEvictionPolicy)
-		profile.ScaleSetEvictionPolicy = &scaleSetEvictionPolicy
-	} else {
-		profile.ScaleSetEvictionPolicy = nil
-	}
+	profile.ScaleSetEvictionPolicy = genruntime.ClonePointerToString(source.ScaleSetEvictionPolicy)
 
 	// ScaleSetPriority
-	if source.ScaleSetPriority != nil {
-		scaleSetPriority := ScaleSetPriority_Status(*source.ScaleSetPriority)
-		profile.ScaleSetPriority = &scaleSetPriority
-	} else {
-		profile.ScaleSetPriority = nil
-	}
+	profile.ScaleSetPriority = genruntime.ClonePointerToString(source.ScaleSetPriority)
 
 	// SpotMaxPrice
 	if source.SpotMaxPrice != nil {
@@ -6484,12 +6384,7 @@ func (profile *ManagedClusterAgentPoolProfile_Status) AssignPropertiesFromManage
 	profile.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
-	if source.Type != nil {
-		typeVar := AgentPoolType_Status(*source.Type)
-		profile.Type = &typeVar
-	} else {
-		profile.Type = nil
-	}
+	profile.Type = genruntime.ClonePointerToString(source.Type)
 
 	// UpgradeSettings
 	if source.UpgradeSettings != nil {
@@ -6565,12 +6460,7 @@ func (profile *ManagedClusterAgentPoolProfile_Status) AssignPropertiesToManagedC
 	}
 
 	// GpuInstanceProfile
-	if profile.GpuInstanceProfile != nil {
-		gpuInstanceProfile := string(*profile.GpuInstanceProfile)
-		destination.GpuInstanceProfile = &gpuInstanceProfile
-	} else {
-		destination.GpuInstanceProfile = nil
-	}
+	destination.GpuInstanceProfile = genruntime.ClonePointerToString(profile.GpuInstanceProfile)
 
 	// KubeletConfig
 	if profile.KubeletConfig != nil {
@@ -6585,12 +6475,7 @@ func (profile *ManagedClusterAgentPoolProfile_Status) AssignPropertiesToManagedC
 	}
 
 	// KubeletDiskType
-	if profile.KubeletDiskType != nil {
-		kubeletDiskType := string(*profile.KubeletDiskType)
-		destination.KubeletDiskType = &kubeletDiskType
-	} else {
-		destination.KubeletDiskType = nil
-	}
+	destination.KubeletDiskType = genruntime.ClonePointerToString(profile.KubeletDiskType)
 
 	// LinuxOSConfig
 	if profile.LinuxOSConfig != nil {
@@ -6614,12 +6499,7 @@ func (profile *ManagedClusterAgentPoolProfile_Status) AssignPropertiesToManagedC
 	destination.MinCount = genruntime.ClonePointerToInt(profile.MinCount)
 
 	// Mode
-	if profile.Mode != nil {
-		mode := string(*profile.Mode)
-		destination.Mode = &mode
-	} else {
-		destination.Mode = nil
-	}
+	destination.Mode = genruntime.ClonePointerToString(profile.Mode)
 
 	// Name
 	destination.Name = genruntime.ClonePointerToString(profile.Name)
@@ -6643,28 +6523,13 @@ func (profile *ManagedClusterAgentPoolProfile_Status) AssignPropertiesToManagedC
 	destination.OsDiskSizeGB = genruntime.ClonePointerToInt(profile.OsDiskSizeGB)
 
 	// OsDiskType
-	if profile.OsDiskType != nil {
-		osDiskType := string(*profile.OsDiskType)
-		destination.OsDiskType = &osDiskType
-	} else {
-		destination.OsDiskType = nil
-	}
+	destination.OsDiskType = genruntime.ClonePointerToString(profile.OsDiskType)
 
 	// OsSKU
-	if profile.OsSKU != nil {
-		osSKU := string(*profile.OsSKU)
-		destination.OsSKU = &osSKU
-	} else {
-		destination.OsSKU = nil
-	}
+	destination.OsSKU = genruntime.ClonePointerToString(profile.OsSKU)
 
 	// OsType
-	if profile.OsType != nil {
-		osType := string(*profile.OsType)
-		destination.OsType = &osType
-	} else {
-		destination.OsType = nil
-	}
+	destination.OsType = genruntime.ClonePointerToString(profile.OsType)
 
 	// PodSubnetID
 	destination.PodSubnetID = genruntime.ClonePointerToString(profile.PodSubnetID)
@@ -6688,20 +6553,10 @@ func (profile *ManagedClusterAgentPoolProfile_Status) AssignPropertiesToManagedC
 	destination.ProximityPlacementGroupID = genruntime.ClonePointerToString(profile.ProximityPlacementGroupID)
 
 	// ScaleSetEvictionPolicy
-	if profile.ScaleSetEvictionPolicy != nil {
-		scaleSetEvictionPolicy := string(*profile.ScaleSetEvictionPolicy)
-		destination.ScaleSetEvictionPolicy = &scaleSetEvictionPolicy
-	} else {
-		destination.ScaleSetEvictionPolicy = nil
-	}
+	destination.ScaleSetEvictionPolicy = genruntime.ClonePointerToString(profile.ScaleSetEvictionPolicy)
 
 	// ScaleSetPriority
-	if profile.ScaleSetPriority != nil {
-		scaleSetPriority := string(*profile.ScaleSetPriority)
-		destination.ScaleSetPriority = &scaleSetPriority
-	} else {
-		destination.ScaleSetPriority = nil
-	}
+	destination.ScaleSetPriority = genruntime.ClonePointerToString(profile.ScaleSetPriority)
 
 	// SpotMaxPrice
 	if profile.SpotMaxPrice != nil {
@@ -6715,12 +6570,7 @@ func (profile *ManagedClusterAgentPoolProfile_Status) AssignPropertiesToManagedC
 	destination.Tags = genruntime.CloneMapOfStringToString(profile.Tags)
 
 	// Type
-	if profile.Type != nil {
-		typeVar := string(*profile.Type)
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
+	destination.Type = genruntime.ClonePointerToString(profile.Type)
 
 	// UpgradeSettings
 	if profile.UpgradeSettings != nil {
@@ -6839,7 +6689,7 @@ func (profile *ManagedClusterAutoUpgradeProfile) AssignPropertiesToManagedCluste
 type ManagedClusterAutoUpgradeProfile_Status struct {
 	// UpgradeChannel: For more information see [setting the AKS cluster auto-upgrade
 	// channel](https://docs.microsoft.com/azure/aks/upgrade-cluster#set-auto-upgrade-channel).
-	UpgradeChannel *ManagedClusterAutoUpgradeProfileStatusUpgradeChannel `json:"upgradeChannel,omitempty"`
+	UpgradeChannel *string `json:"upgradeChannel,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ManagedClusterAutoUpgradeProfile_Status{}
@@ -6870,12 +6720,7 @@ func (profile *ManagedClusterAutoUpgradeProfile_Status) PopulateFromARM(owner ge
 func (profile *ManagedClusterAutoUpgradeProfile_Status) AssignPropertiesFromManagedClusterAutoUpgradeProfileStatus(source *v20210501s.ManagedClusterAutoUpgradeProfile_Status) error {
 
 	// UpgradeChannel
-	if source.UpgradeChannel != nil {
-		upgradeChannel := ManagedClusterAutoUpgradeProfileStatusUpgradeChannel(*source.UpgradeChannel)
-		profile.UpgradeChannel = &upgradeChannel
-	} else {
-		profile.UpgradeChannel = nil
-	}
+	profile.UpgradeChannel = genruntime.ClonePointerToString(source.UpgradeChannel)
 
 	// No error
 	return nil
@@ -6887,12 +6732,7 @@ func (profile *ManagedClusterAutoUpgradeProfile_Status) AssignPropertiesToManage
 	propertyBag := genruntime.NewPropertyBag()
 
 	// UpgradeChannel
-	if profile.UpgradeChannel != nil {
-		upgradeChannel := string(*profile.UpgradeChannel)
-		destination.UpgradeChannel = &upgradeChannel
-	} else {
-		destination.UpgradeChannel = nil
-	}
+	destination.UpgradeChannel = genruntime.ClonePointerToString(profile.UpgradeChannel)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -7282,7 +7122,7 @@ type ManagedClusterIdentity_Status struct {
 
 	// Type: For more information see [use managed identities in
 	// AKS](https://docs.microsoft.com/azure/aks/use-managed-identity).
-	Type *ManagedClusterIdentityStatusType `json:"type,omitempty"`
+	Type *string `json:"type,omitempty"`
 
 	// UserAssignedIdentities: The keys must be ARM resource IDs in the form:
 	// '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
@@ -7348,12 +7188,7 @@ func (identity *ManagedClusterIdentity_Status) AssignPropertiesFromManagedCluste
 	identity.TenantId = genruntime.ClonePointerToString(source.TenantId)
 
 	// Type
-	if source.Type != nil {
-		typeVar := ManagedClusterIdentityStatusType(*source.Type)
-		identity.Type = &typeVar
-	} else {
-		identity.Type = nil
-	}
+	identity.Type = genruntime.ClonePointerToString(source.Type)
 
 	// UserAssignedIdentities
 	if source.UserAssignedIdentities != nil {
@@ -7389,12 +7224,7 @@ func (identity *ManagedClusterIdentity_Status) AssignPropertiesToManagedClusterI
 	destination.TenantId = genruntime.ClonePointerToString(identity.TenantId)
 
 	// Type
-	if identity.Type != nil {
-		typeVar := string(*identity.Type)
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
+	destination.Type = genruntime.ClonePointerToString(identity.Type)
 
 	// UserAssignedIdentities
 	if identity.UserAssignedIdentities != nil {
@@ -8290,7 +8120,7 @@ type ManagedClusterProperties_Status_AutoScalerProfile struct {
 	// Expander: If not specified, the default is 'random'. See
 	// [expanders](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-are-expanders) for more
 	// information.
-	Expander *ManagedClusterPropertiesStatusAutoScalerProfileExpander `json:"expander,omitempty"`
+	Expander *string `json:"expander,omitempty"`
 
 	// MaxEmptyBulkDelete: The default is 10.
 	MaxEmptyBulkDelete *string `json:"max-empty-bulk-delete,omitempty"`
@@ -8473,12 +8303,7 @@ func (profile *ManagedClusterProperties_Status_AutoScalerProfile) AssignProperti
 	profile.BalanceSimilarNodeGroups = genruntime.ClonePointerToString(source.BalanceSimilarNodeGroups)
 
 	// Expander
-	if source.Expander != nil {
-		expander := ManagedClusterPropertiesStatusAutoScalerProfileExpander(*source.Expander)
-		profile.Expander = &expander
-	} else {
-		profile.Expander = nil
-	}
+	profile.Expander = genruntime.ClonePointerToString(source.Expander)
 
 	// MaxEmptyBulkDelete
 	profile.MaxEmptyBulkDelete = genruntime.ClonePointerToString(source.MaxEmptyBulkDelete)
@@ -8538,12 +8363,7 @@ func (profile *ManagedClusterProperties_Status_AutoScalerProfile) AssignProperti
 	destination.BalanceSimilarNodeGroups = genruntime.ClonePointerToString(profile.BalanceSimilarNodeGroups)
 
 	// Expander
-	if profile.Expander != nil {
-		expander := string(*profile.Expander)
-		destination.Expander = &expander
-	} else {
-		destination.Expander = nil
-	}
+	destination.Expander = genruntime.ClonePointerToString(profile.Expander)
 
 	// MaxEmptyBulkDelete
 	destination.MaxEmptyBulkDelete = genruntime.ClonePointerToString(profile.MaxEmptyBulkDelete)
@@ -8719,11 +8539,11 @@ func (clusterSKU *ManagedClusterSKU) AssignPropertiesToManagedClusterSKU(destina
 
 type ManagedClusterSKU_Status struct {
 	// Name: The name of a managed cluster SKU.
-	Name *ManagedClusterSKUStatusName `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
 
 	// Tier: If not specified, the default is 'Free'. See [uptime SLA](https://docs.microsoft.com/azure/aks/uptime-sla) for
 	// more details.
-	Tier *ManagedClusterSKUStatusTier `json:"tier,omitempty"`
+	Tier *string `json:"tier,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ManagedClusterSKU_Status{}
@@ -8760,20 +8580,10 @@ func (clusterSKU *ManagedClusterSKU_Status) PopulateFromARM(owner genruntime.Arb
 func (clusterSKU *ManagedClusterSKU_Status) AssignPropertiesFromManagedClusterSKUStatus(source *v20210501s.ManagedClusterSKU_Status) error {
 
 	// Name
-	if source.Name != nil {
-		name := ManagedClusterSKUStatusName(*source.Name)
-		clusterSKU.Name = &name
-	} else {
-		clusterSKU.Name = nil
-	}
+	clusterSKU.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Tier
-	if source.Tier != nil {
-		tier := ManagedClusterSKUStatusTier(*source.Tier)
-		clusterSKU.Tier = &tier
-	} else {
-		clusterSKU.Tier = nil
-	}
+	clusterSKU.Tier = genruntime.ClonePointerToString(source.Tier)
 
 	// No error
 	return nil
@@ -8785,20 +8595,10 @@ func (clusterSKU *ManagedClusterSKU_Status) AssignPropertiesToManagedClusterSKUS
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	if clusterSKU.Name != nil {
-		name := string(*clusterSKU.Name)
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(clusterSKU.Name)
 
 	// Tier
-	if clusterSKU.Tier != nil {
-		tier := string(*clusterSKU.Tier)
-		destination.Tier = &tier
-	} else {
-		destination.Tier = nil
-	}
+	destination.Tier = genruntime.ClonePointerToString(clusterSKU.Tier)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -9183,7 +8983,7 @@ type ManagedClusterWindowsProfile_Status struct {
 
 	// LicenseType: The license type to use for Windows VMs. See [Azure Hybrid User
 	// Benefits](https://azure.microsoft.com/pricing/hybrid-benefit/faq/) for more details.
-	LicenseType *ManagedClusterWindowsProfileStatusLicenseType `json:"licenseType,omitempty"`
+	LicenseType *string `json:"licenseType,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ManagedClusterWindowsProfile_Status{}
@@ -9246,12 +9046,7 @@ func (profile *ManagedClusterWindowsProfile_Status) AssignPropertiesFromManagedC
 	}
 
 	// LicenseType
-	if source.LicenseType != nil {
-		licenseType := ManagedClusterWindowsProfileStatusLicenseType(*source.LicenseType)
-		profile.LicenseType = &licenseType
-	} else {
-		profile.LicenseType = nil
-	}
+	profile.LicenseType = genruntime.ClonePointerToString(source.LicenseType)
 
 	// No error
 	return nil
@@ -9277,12 +9072,7 @@ func (profile *ManagedClusterWindowsProfile_Status) AssignPropertiesToManagedClu
 	}
 
 	// LicenseType
-	if profile.LicenseType != nil {
-		licenseType := string(*profile.LicenseType)
-		destination.LicenseType = &licenseType
-	} else {
-		destination.LicenseType = nil
-	}
+	destination.LicenseType = genruntime.ClonePointerToString(profile.LicenseType)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -9297,7 +9087,7 @@ func (profile *ManagedClusterWindowsProfile_Status) AssignPropertiesToManagedClu
 
 type PowerState_Status struct {
 	// Code: Tells whether the cluster is Running or Stopped
-	Code *PowerStateStatusCode `json:"code,omitempty"`
+	Code *string `json:"code,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &PowerState_Status{}
@@ -9328,12 +9118,7 @@ func (state *PowerState_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 func (state *PowerState_Status) AssignPropertiesFromPowerStateStatus(source *v20210501s.PowerState_Status) error {
 
 	// Code
-	if source.Code != nil {
-		code := PowerStateStatusCode(*source.Code)
-		state.Code = &code
-	} else {
-		state.Code = nil
-	}
+	state.Code = genruntime.ClonePointerToString(source.Code)
 
 	// No error
 	return nil
@@ -9345,12 +9130,7 @@ func (state *PowerState_Status) AssignPropertiesToPowerStateStatus(destination *
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Code
-	if state.Code != nil {
-		code := string(*state.Code)
-		destination.Code = &code
-	} else {
-		destination.Code = nil
-	}
+	destination.Code = genruntime.ClonePointerToString(state.Code)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -9701,41 +9481,6 @@ const (
 	ContainerServiceNetworkProfileOutboundTypeUserDefinedRouting = ContainerServiceNetworkProfileOutboundType("userDefinedRouting")
 )
 
-type ContainerServiceNetworkProfileStatusLoadBalancerSku string
-
-const (
-	ContainerServiceNetworkProfileStatusLoadBalancerSkuBasic    = ContainerServiceNetworkProfileStatusLoadBalancerSku("basic")
-	ContainerServiceNetworkProfileStatusLoadBalancerSkuStandard = ContainerServiceNetworkProfileStatusLoadBalancerSku("standard")
-)
-
-type ContainerServiceNetworkProfileStatusNetworkMode string
-
-const (
-	ContainerServiceNetworkProfileStatusNetworkModeBridge      = ContainerServiceNetworkProfileStatusNetworkMode("bridge")
-	ContainerServiceNetworkProfileStatusNetworkModeTransparent = ContainerServiceNetworkProfileStatusNetworkMode("transparent")
-)
-
-type ContainerServiceNetworkProfileStatusNetworkPlugin string
-
-const (
-	ContainerServiceNetworkProfileStatusNetworkPluginAzure   = ContainerServiceNetworkProfileStatusNetworkPlugin("azure")
-	ContainerServiceNetworkProfileStatusNetworkPluginKubenet = ContainerServiceNetworkProfileStatusNetworkPlugin("kubenet")
-)
-
-type ContainerServiceNetworkProfileStatusNetworkPolicy string
-
-const (
-	ContainerServiceNetworkProfileStatusNetworkPolicyAzure  = ContainerServiceNetworkProfileStatusNetworkPolicy("azure")
-	ContainerServiceNetworkProfileStatusNetworkPolicyCalico = ContainerServiceNetworkProfileStatusNetworkPolicy("calico")
-)
-
-type ContainerServiceNetworkProfileStatusOutboundType string
-
-const (
-	ContainerServiceNetworkProfileStatusOutboundTypeLoadBalancer       = ContainerServiceNetworkProfileStatusOutboundType("loadBalancer")
-	ContainerServiceNetworkProfileStatusOutboundTypeUserDefinedRouting = ContainerServiceNetworkProfileStatusOutboundType("userDefinedRouting")
-)
-
 // Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ContainerServiceSshConfiguration
 type ContainerServiceSshConfiguration struct {
 	// +kubebuilder:validation:Required
@@ -10013,16 +9758,6 @@ type ManagedClusterAgentPoolProfileType string
 const (
 	ManagedClusterAgentPoolProfileTypeAvailabilitySet         = ManagedClusterAgentPoolProfileType("AvailabilitySet")
 	ManagedClusterAgentPoolProfileTypeVirtualMachineScaleSets = ManagedClusterAgentPoolProfileType("VirtualMachineScaleSets")
-)
-
-type ManagedClusterAutoUpgradeProfileStatusUpgradeChannel string
-
-const (
-	ManagedClusterAutoUpgradeProfileStatusUpgradeChannelNodeImage = ManagedClusterAutoUpgradeProfileStatusUpgradeChannel("node-image")
-	ManagedClusterAutoUpgradeProfileStatusUpgradeChannelNone      = ManagedClusterAutoUpgradeProfileStatusUpgradeChannel("none")
-	ManagedClusterAutoUpgradeProfileStatusUpgradeChannelPatch     = ManagedClusterAutoUpgradeProfileStatusUpgradeChannel("patch")
-	ManagedClusterAutoUpgradeProfileStatusUpgradeChannelRapid     = ManagedClusterAutoUpgradeProfileStatusUpgradeChannel("rapid")
-	ManagedClusterAutoUpgradeProfileStatusUpgradeChannelStable    = ManagedClusterAutoUpgradeProfileStatusUpgradeChannel("stable")
 )
 
 // +kubebuilder:validation:Enum={"node-image","none","patch","rapid","stable"}
@@ -11065,7 +10800,7 @@ type ManagedClusterPodIdentity_Status struct {
 	ProvisioningInfo *ManagedClusterPodIdentity_Status_ProvisioningInfo `json:"provisioningInfo,omitempty"`
 
 	// ProvisioningState: The current provisioning state of the pod identity.
-	ProvisioningState *ManagedClusterPodIdentityStatusProvisioningState `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ManagedClusterPodIdentity_Status{}
@@ -11169,12 +10904,7 @@ func (identity *ManagedClusterPodIdentity_Status) AssignPropertiesFromManagedClu
 	}
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := ManagedClusterPodIdentityStatusProvisioningState(*source.ProvisioningState)
-		identity.ProvisioningState = &provisioningState
-	} else {
-		identity.ProvisioningState = nil
-	}
+	identity.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// No error
 	return nil
@@ -11219,12 +10949,7 @@ func (identity *ManagedClusterPodIdentity_Status) AssignPropertiesToManagedClust
 	}
 
 	// ProvisioningState
-	if identity.ProvisioningState != nil {
-		provisioningState := string(*identity.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(identity.ProvisioningState)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -11247,28 +10972,12 @@ const (
 	ManagedClusterPropertiesAutoScalerProfileExpanderRandom     = ManagedClusterPropertiesAutoScalerProfileExpander("random")
 )
 
-type ManagedClusterPropertiesStatusAutoScalerProfileExpander string
-
-const (
-	ManagedClusterPropertiesStatusAutoScalerProfileExpanderLeastWaste = ManagedClusterPropertiesStatusAutoScalerProfileExpander("least-waste")
-	ManagedClusterPropertiesStatusAutoScalerProfileExpanderMostPods   = ManagedClusterPropertiesStatusAutoScalerProfileExpander("most-pods")
-	ManagedClusterPropertiesStatusAutoScalerProfileExpanderPriority   = ManagedClusterPropertiesStatusAutoScalerProfileExpander("priority")
-	ManagedClusterPropertiesStatusAutoScalerProfileExpanderRandom     = ManagedClusterPropertiesStatusAutoScalerProfileExpander("random")
-)
-
 // +kubebuilder:validation:Enum={"None","Windows_Server"}
 type ManagedClusterWindowsProfileLicenseType string
 
 const (
 	ManagedClusterWindowsProfileLicenseTypeNone          = ManagedClusterWindowsProfileLicenseType("None")
 	ManagedClusterWindowsProfileLicenseTypeWindowsServer = ManagedClusterWindowsProfileLicenseType("Windows_Server")
-)
-
-type ManagedClusterWindowsProfileStatusLicenseType string
-
-const (
-	ManagedClusterWindowsProfileStatusLicenseTypeNone          = ManagedClusterWindowsProfileStatusLicenseType("None")
-	ManagedClusterWindowsProfileStatusLicenseTypeWindowsServer = ManagedClusterWindowsProfileStatusLicenseType("Windows_Server")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ContainerServiceSshPublicKey
@@ -11957,15 +11666,6 @@ func (iPs *ManagedClusterLoadBalancerProfile_Status_OutboundIPs) AssignPropertie
 	// No error
 	return nil
 }
-
-type ManagedClusterPodIdentityStatusProvisioningState string
-
-const (
-	ManagedClusterPodIdentityStatusProvisioningStateAssigned = ManagedClusterPodIdentityStatusProvisioningState("Assigned")
-	ManagedClusterPodIdentityStatusProvisioningStateDeleting = ManagedClusterPodIdentityStatusProvisioningState("Deleting")
-	ManagedClusterPodIdentityStatusProvisioningStateFailed   = ManagedClusterPodIdentityStatusProvisioningState("Failed")
-	ManagedClusterPodIdentityStatusProvisioningStateUpdating = ManagedClusterPodIdentityStatusProvisioningState("Updating")
-)
 
 type ManagedClusterPodIdentity_Status_ProvisioningInfo struct {
 	// Error: Pod identity assignment error (if any).

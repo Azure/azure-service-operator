@@ -337,21 +337,21 @@ type VirtualNetwork_Status struct {
 	BgpCommunities *VirtualNetworkBgpCommunities_Status `json:"bgpCommunities,omitempty"`
 
 	// Conditions: The observed state of the resource
-	Conditions           []conditions.Condition    `json:"conditions,omitempty"`
-	DdosProtectionPlan   *SubResource_Status       `json:"ddosProtectionPlan,omitempty"`
-	DhcpOptions          *DhcpOptions_Status       `json:"dhcpOptions,omitempty"`
-	EnableDdosProtection *bool                     `json:"enableDdosProtection,omitempty"`
-	EnableVmProtection   *bool                     `json:"enableVmProtection,omitempty"`
-	Etag                 *string                   `json:"etag,omitempty"`
-	ExtendedLocation     *ExtendedLocation_Status  `json:"extendedLocation,omitempty"`
-	Id                   *string                   `json:"id,omitempty"`
-	IpAllocations        []SubResource_Status      `json:"ipAllocations,omitempty"`
-	Location             *string                   `json:"location,omitempty"`
-	Name                 *string                   `json:"name,omitempty"`
-	ProvisioningState    *ProvisioningState_Status `json:"provisioningState,omitempty"`
-	ResourceGuid         *string                   `json:"resourceGuid,omitempty"`
-	Tags                 map[string]string         `json:"tags,omitempty"`
-	Type                 *string                   `json:"type,omitempty"`
+	Conditions           []conditions.Condition   `json:"conditions,omitempty"`
+	DdosProtectionPlan   *SubResource_Status      `json:"ddosProtectionPlan,omitempty"`
+	DhcpOptions          *DhcpOptions_Status      `json:"dhcpOptions,omitempty"`
+	EnableDdosProtection *bool                    `json:"enableDdosProtection,omitempty"`
+	EnableVmProtection   *bool                    `json:"enableVmProtection,omitempty"`
+	Etag                 *string                  `json:"etag,omitempty"`
+	ExtendedLocation     *ExtendedLocation_Status `json:"extendedLocation,omitempty"`
+	Id                   *string                  `json:"id,omitempty"`
+	IpAllocations        []SubResource_Status     `json:"ipAllocations,omitempty"`
+	Location             *string                  `json:"location,omitempty"`
+	Name                 *string                  `json:"name,omitempty"`
+	ProvisioningState    *string                  `json:"provisioningState,omitempty"`
+	ResourceGuid         *string                  `json:"resourceGuid,omitempty"`
+	Tags                 map[string]string        `json:"tags,omitempty"`
+	Type                 *string                  `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &VirtualNetwork_Status{}
@@ -691,12 +691,7 @@ func (network *VirtualNetwork_Status) AssignPropertiesFromVirtualNetworkStatus(s
 	network.Name = genruntime.ClonePointerToString(source.Name)
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_Status(*source.ProvisioningState)
-		network.ProvisioningState = &provisioningState
-	} else {
-		network.ProvisioningState = nil
-	}
+	network.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// ResourceGuid
 	network.ResourceGuid = genruntime.ClonePointerToString(source.ResourceGuid)
@@ -826,12 +821,7 @@ func (network *VirtualNetwork_Status) AssignPropertiesToVirtualNetworkStatus(des
 	destination.Name = genruntime.ClonePointerToString(network.Name)
 
 	// ProvisioningState
-	if network.ProvisioningState != nil {
-		provisioningState := string(*network.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(network.ProvisioningState)
 
 	// ResourceGuid
 	destination.ResourceGuid = genruntime.ClonePointerToString(network.ResourceGuid)

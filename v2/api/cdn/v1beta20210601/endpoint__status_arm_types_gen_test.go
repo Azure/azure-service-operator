@@ -166,33 +166,13 @@ func AddIndependentPropertyGeneratorsForEndpointPropertiesStatusARM(gens map[str
 	gens["IsCompressionEnabled"] = gen.PtrOf(gen.Bool())
 	gens["IsHttpAllowed"] = gen.PtrOf(gen.Bool())
 	gens["IsHttpsAllowed"] = gen.PtrOf(gen.Bool())
-	gens["OptimizationType"] = gen.PtrOf(gen.OneConstOf(
-		OptimizationType_StatusDynamicSiteAcceleration,
-		OptimizationType_StatusGeneralMediaStreaming,
-		OptimizationType_StatusGeneralWebDelivery,
-		OptimizationType_StatusLargeFileDownload,
-		OptimizationType_StatusVideoOnDemandMediaStreaming))
+	gens["OptimizationType"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginHostHeader"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginPath"] = gen.PtrOf(gen.AlphaString())
 	gens["ProbePath"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		EndpointPropertiesStatusProvisioningStateCreating,
-		EndpointPropertiesStatusProvisioningStateDeleting,
-		EndpointPropertiesStatusProvisioningStateFailed,
-		EndpointPropertiesStatusProvisioningStateSucceeded,
-		EndpointPropertiesStatusProvisioningStateUpdating))
-	gens["QueryStringCachingBehavior"] = gen.PtrOf(gen.OneConstOf(
-		QueryStringCachingBehavior_StatusBypassCaching,
-		QueryStringCachingBehavior_StatusIgnoreQueryString,
-		QueryStringCachingBehavior_StatusNotSet,
-		QueryStringCachingBehavior_StatusUseQueryString))
-	gens["ResourceState"] = gen.PtrOf(gen.OneConstOf(
-		EndpointPropertiesStatusResourceStateCreating,
-		EndpointPropertiesStatusResourceStateDeleting,
-		EndpointPropertiesStatusResourceStateRunning,
-		EndpointPropertiesStatusResourceStateStarting,
-		EndpointPropertiesStatusResourceStateStopped,
-		EndpointPropertiesStatusResourceStateStopping))
+	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
+	gens["QueryStringCachingBehavior"] = gen.PtrOf(gen.AlphaString())
+	gens["ResourceState"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForEndpointPropertiesStatusARM is a factory method for creating gopter generators
@@ -266,18 +246,10 @@ func SystemDataStatusARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForSystemDataStatusARM(gens map[string]gopter.Gen) {
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
-		IdentityType_StatusApplication,
-		IdentityType_StatusKey,
-		IdentityType_StatusManagedIdentity,
-		IdentityType_StatusUser))
+	gens["CreatedByType"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
-		IdentityType_StatusApplication,
-		IdentityType_StatusKey,
-		IdentityType_StatusManagedIdentity,
-		IdentityType_StatusUser))
+	gens["LastModifiedByType"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_CustomDomain_Status_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -692,7 +664,7 @@ func GeoFilterStatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForGeoFilterStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForGeoFilterStatusARM(gens map[string]gopter.Gen) {
-	gens["Action"] = gen.PtrOf(gen.OneConstOf(GeoFilterStatusActionAllow, GeoFilterStatusActionBlock))
+	gens["Action"] = gen.PtrOf(gen.AlphaString())
 	gens["CountryCodes"] = gen.SliceOf(gen.AlphaString())
 	gens["RelativePath"] = gen.PtrOf(gen.AlphaString())
 }
@@ -970,12 +942,7 @@ func AddIndependentPropertyGeneratorsForDeepCreatedOriginPropertiesStatusARM(gen
 	gens["HttpsPort"] = gen.PtrOf(gen.Int())
 	gens["OriginHostHeader"] = gen.PtrOf(gen.AlphaString())
 	gens["Priority"] = gen.PtrOf(gen.Int())
-	gens["PrivateEndpointStatus"] = gen.PtrOf(gen.OneConstOf(
-		PrivateEndpointStatus_StatusApproved,
-		PrivateEndpointStatus_StatusDisconnected,
-		PrivateEndpointStatus_StatusPending,
-		PrivateEndpointStatus_StatusRejected,
-		PrivateEndpointStatus_StatusTimeout))
+	gens["PrivateEndpointStatus"] = gen.PtrOf(gen.AlphaString())
 	gens["PrivateLinkAlias"] = gen.PtrOf(gen.AlphaString())
 	gens["PrivateLinkApprovalMessage"] = gen.PtrOf(gen.AlphaString())
 	gens["PrivateLinkLocation"] = gen.PtrOf(gen.AlphaString())
@@ -1120,7 +1087,7 @@ func AddIndependentPropertyGeneratorsForKeyVaultSigningKeyParametersStatusARM(ge
 	gens["SecretName"] = gen.PtrOf(gen.AlphaString())
 	gens["SecretVersion"] = gen.PtrOf(gen.AlphaString())
 	gens["SubscriptionId"] = gen.PtrOf(gen.AlphaString())
-	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(KeyVaultSigningKeyParametersStatusTypeNameKeyVaultSigningKeyParameters))
+	gens["TypeName"] = gen.PtrOf(gen.AlphaString())
 	gens["VaultName"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -1181,16 +1148,7 @@ func DeliveryRuleActionStatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleActionStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleActionStatusARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(
-		DeliveryRuleActionStatusNameCacheExpiration,
-		DeliveryRuleActionStatusNameCacheKeyQueryString,
-		DeliveryRuleActionStatusNameModifyRequestHeader,
-		DeliveryRuleActionStatusNameModifyResponseHeader,
-		DeliveryRuleActionStatusNameOriginGroupOverride,
-		DeliveryRuleActionStatusNameRouteConfigurationOverride,
-		DeliveryRuleActionStatusNameUrlRedirect,
-		DeliveryRuleActionStatusNameUrlRewrite,
-		DeliveryRuleActionStatusNameUrlSigning))
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_DeliveryRuleCondition_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1250,26 +1208,7 @@ func DeliveryRuleConditionStatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleConditionStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleConditionStatusARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(
-		DeliveryRuleConditionStatusNameClientPort,
-		DeliveryRuleConditionStatusNameCookies,
-		DeliveryRuleConditionStatusNameHostName,
-		DeliveryRuleConditionStatusNameHttpVersion,
-		DeliveryRuleConditionStatusNameIsDevice,
-		DeliveryRuleConditionStatusNamePostArgs,
-		DeliveryRuleConditionStatusNameQueryString,
-		DeliveryRuleConditionStatusNameRemoteAddress,
-		DeliveryRuleConditionStatusNameRequestBody,
-		DeliveryRuleConditionStatusNameRequestHeader,
-		DeliveryRuleConditionStatusNameRequestMethod,
-		DeliveryRuleConditionStatusNameRequestScheme,
-		DeliveryRuleConditionStatusNameRequestUri,
-		DeliveryRuleConditionStatusNameServerPort,
-		DeliveryRuleConditionStatusNameSocketAddr,
-		DeliveryRuleConditionStatusNameSslProtocol,
-		DeliveryRuleConditionStatusNameUrlFileExtension,
-		DeliveryRuleConditionStatusNameUrlFileName,
-		DeliveryRuleConditionStatusNameUrlPath))
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_HealthProbeParameters_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1331,8 +1270,8 @@ func HealthProbeParametersStatusARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForHealthProbeParametersStatusARM(gens map[string]gopter.Gen) {
 	gens["ProbeIntervalInSeconds"] = gen.PtrOf(gen.Int())
 	gens["ProbePath"] = gen.PtrOf(gen.AlphaString())
-	gens["ProbeProtocol"] = gen.PtrOf(gen.OneConstOf(HealthProbeParametersStatusProbeProtocolHttp, HealthProbeParametersStatusProbeProtocolHttps, HealthProbeParametersStatusProbeProtocolNotSet))
-	gens["ProbeRequestType"] = gen.PtrOf(gen.OneConstOf(HealthProbeParametersStatusProbeRequestTypeGET, HealthProbeParametersStatusProbeRequestTypeHEAD, HealthProbeParametersStatusProbeRequestTypeNotSet))
+	gens["ProbeProtocol"] = gen.PtrOf(gen.AlphaString())
+	gens["ProbeRequestType"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_ResponseBasedOriginErrorDetectionParameters_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1401,7 +1340,7 @@ func ResponseBasedOriginErrorDetectionParametersStatusARMGenerator() gopter.Gen 
 
 // AddIndependentPropertyGeneratorsForResponseBasedOriginErrorDetectionParametersStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForResponseBasedOriginErrorDetectionParametersStatusARM(gens map[string]gopter.Gen) {
-	gens["ResponseBasedDetectedErrorTypes"] = gen.PtrOf(gen.OneConstOf(ResponseBasedOriginErrorDetectionParametersStatusResponseBasedDetectedErrorTypesNone, ResponseBasedOriginErrorDetectionParametersStatusResponseBasedDetectedErrorTypesTcpAndHttpErrors, ResponseBasedOriginErrorDetectionParametersStatusResponseBasedDetectedErrorTypesTcpErrorsOnly))
+	gens["ResponseBasedDetectedErrorTypes"] = gen.PtrOf(gen.AlphaString())
 	gens["ResponseBasedFailoverThresholdPercentage"] = gen.PtrOf(gen.Int())
 }
 

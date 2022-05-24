@@ -361,7 +361,7 @@ type Disk_Status struct {
 	DiskSizeGB *int `json:"diskSizeGB,omitempty"`
 
 	// DiskState: The state of the disk.
-	DiskState *DiskState_Status `json:"diskState,omitempty"`
+	DiskState *string `json:"diskState,omitempty"`
 
 	// Encryption: Encryption property can be used to encrypt data at rest with customer managed keys or platform managed keys.
 	Encryption *Encryption_Status `json:"encryption,omitempty"`
@@ -374,7 +374,7 @@ type Disk_Status struct {
 	ExtendedLocation *ExtendedLocation_Status `json:"extendedLocation,omitempty"`
 
 	// HyperVGeneration: The hypervisor generation of the Virtual Machine. Applicable to OS disks only.
-	HyperVGeneration *DiskPropertiesStatusHyperVGeneration `json:"hyperVGeneration,omitempty"`
+	HyperVGeneration *string `json:"hyperVGeneration,omitempty"`
 
 	// Id: Resource Id
 	Id *string `json:"id,omitempty"`
@@ -394,11 +394,11 @@ type Disk_Status struct {
 	MaxShares *int `json:"maxShares,omitempty"`
 
 	// Name: Resource name
-	Name                *string                     `json:"name,omitempty"`
-	NetworkAccessPolicy *NetworkAccessPolicy_Status `json:"networkAccessPolicy,omitempty"`
+	Name                *string `json:"name,omitempty"`
+	NetworkAccessPolicy *string `json:"networkAccessPolicy,omitempty"`
 
 	// OsType: The Operating System type.
-	OsType *DiskPropertiesStatusOsType `json:"osType,omitempty"`
+	OsType *string `json:"osType,omitempty"`
 
 	// ProvisioningState: The disk provisioning state.
 	ProvisioningState *string `json:"provisioningState,omitempty"`
@@ -842,12 +842,7 @@ func (disk *Disk_Status) AssignPropertiesFromDiskStatus(source *v20200930s.Disk_
 	disk.DiskSizeGB = genruntime.ClonePointerToInt(source.DiskSizeGB)
 
 	// DiskState
-	if source.DiskState != nil {
-		diskState := DiskState_Status(*source.DiskState)
-		disk.DiskState = &diskState
-	} else {
-		disk.DiskState = nil
-	}
+	disk.DiskState = genruntime.ClonePointerToString(source.DiskState)
 
 	// Encryption
 	if source.Encryption != nil {
@@ -886,12 +881,7 @@ func (disk *Disk_Status) AssignPropertiesFromDiskStatus(source *v20200930s.Disk_
 	}
 
 	// HyperVGeneration
-	if source.HyperVGeneration != nil {
-		hyperVGeneration := DiskPropertiesStatusHyperVGeneration(*source.HyperVGeneration)
-		disk.HyperVGeneration = &hyperVGeneration
-	} else {
-		disk.HyperVGeneration = nil
-	}
+	disk.HyperVGeneration = genruntime.ClonePointerToString(source.HyperVGeneration)
 
 	// Id
 	disk.Id = genruntime.ClonePointerToString(source.Id)
@@ -912,20 +902,10 @@ func (disk *Disk_Status) AssignPropertiesFromDiskStatus(source *v20200930s.Disk_
 	disk.Name = genruntime.ClonePointerToString(source.Name)
 
 	// NetworkAccessPolicy
-	if source.NetworkAccessPolicy != nil {
-		networkAccessPolicy := NetworkAccessPolicy_Status(*source.NetworkAccessPolicy)
-		disk.NetworkAccessPolicy = &networkAccessPolicy
-	} else {
-		disk.NetworkAccessPolicy = nil
-	}
+	disk.NetworkAccessPolicy = genruntime.ClonePointerToString(source.NetworkAccessPolicy)
 
 	// OsType
-	if source.OsType != nil {
-		osType := DiskPropertiesStatusOsType(*source.OsType)
-		disk.OsType = &osType
-	} else {
-		disk.OsType = nil
-	}
+	disk.OsType = genruntime.ClonePointerToString(source.OsType)
 
 	// ProvisioningState
 	disk.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
@@ -1044,12 +1024,7 @@ func (disk *Disk_Status) AssignPropertiesToDiskStatus(destination *v20200930s.Di
 	destination.DiskSizeGB = genruntime.ClonePointerToInt(disk.DiskSizeGB)
 
 	// DiskState
-	if disk.DiskState != nil {
-		diskState := string(*disk.DiskState)
-		destination.DiskState = &diskState
-	} else {
-		destination.DiskState = nil
-	}
+	destination.DiskState = genruntime.ClonePointerToString(disk.DiskState)
 
 	// Encryption
 	if disk.Encryption != nil {
@@ -1088,12 +1063,7 @@ func (disk *Disk_Status) AssignPropertiesToDiskStatus(destination *v20200930s.Di
 	}
 
 	// HyperVGeneration
-	if disk.HyperVGeneration != nil {
-		hyperVGeneration := string(*disk.HyperVGeneration)
-		destination.HyperVGeneration = &hyperVGeneration
-	} else {
-		destination.HyperVGeneration = nil
-	}
+	destination.HyperVGeneration = genruntime.ClonePointerToString(disk.HyperVGeneration)
 
 	// Id
 	destination.Id = genruntime.ClonePointerToString(disk.Id)
@@ -1114,20 +1084,10 @@ func (disk *Disk_Status) AssignPropertiesToDiskStatus(destination *v20200930s.Di
 	destination.Name = genruntime.ClonePointerToString(disk.Name)
 
 	// NetworkAccessPolicy
-	if disk.NetworkAccessPolicy != nil {
-		networkAccessPolicy := string(*disk.NetworkAccessPolicy)
-		destination.NetworkAccessPolicy = &networkAccessPolicy
-	} else {
-		destination.NetworkAccessPolicy = nil
-	}
+	destination.NetworkAccessPolicy = genruntime.ClonePointerToString(disk.NetworkAccessPolicy)
 
 	// OsType
-	if disk.OsType != nil {
-		osType := string(*disk.OsType)
-		destination.OsType = &osType
-	} else {
-		destination.OsType = nil
-	}
+	destination.OsType = genruntime.ClonePointerToString(disk.OsType)
 
 	// ProvisioningState
 	destination.ProvisioningState = genruntime.ClonePointerToString(disk.ProvisioningState)
@@ -2356,7 +2316,7 @@ func (data *CreationData) AssignPropertiesToCreationData(destination *v20200930s
 
 type CreationData_Status struct {
 	// CreateOption: This enumerates the possible sources of a disk's creation.
-	CreateOption *CreationDataStatusCreateOption `json:"createOption,omitempty"`
+	CreateOption *string `json:"createOption,omitempty"`
 
 	// GalleryImageReference: Required if creating from a Gallery Image. The id of the ImageDiskReference will be the ARM id of
 	// the shared galley image version from which to create a disk.
@@ -2473,12 +2433,7 @@ func (data *CreationData_Status) PopulateFromARM(owner genruntime.ArbitraryOwner
 func (data *CreationData_Status) AssignPropertiesFromCreationDataStatus(source *v20200930s.CreationData_Status) error {
 
 	// CreateOption
-	if source.CreateOption != nil {
-		createOption := CreationDataStatusCreateOption(*source.CreateOption)
-		data.CreateOption = &createOption
-	} else {
-		data.CreateOption = nil
-	}
+	data.CreateOption = genruntime.ClonePointerToString(source.CreateOption)
 
 	// GalleryImageReference
 	if source.GalleryImageReference != nil {
@@ -2532,12 +2487,7 @@ func (data *CreationData_Status) AssignPropertiesToCreationDataStatus(destinatio
 	propertyBag := genruntime.NewPropertyBag()
 
 	// CreateOption
-	if data.CreateOption != nil {
-		createOption := string(*data.CreateOption)
-		destination.CreateOption = &createOption
-	} else {
-		destination.CreateOption = nil
-	}
+	destination.CreateOption = genruntime.ClonePointerToString(data.CreateOption)
 
 	// GalleryImageReference
 	if data.GalleryImageReference != nil {
@@ -2615,20 +2565,6 @@ type DiskPropertiesOsType string
 const (
 	DiskPropertiesOsTypeLinux   = DiskPropertiesOsType("Linux")
 	DiskPropertiesOsTypeWindows = DiskPropertiesOsType("Windows")
-)
-
-type DiskPropertiesStatusHyperVGeneration string
-
-const (
-	DiskPropertiesStatusHyperVGenerationV1 = DiskPropertiesStatusHyperVGeneration("V1")
-	DiskPropertiesStatusHyperVGenerationV2 = DiskPropertiesStatusHyperVGeneration("V2")
-)
-
-type DiskPropertiesStatusOsType string
-
-const (
-	DiskPropertiesStatusOsTypeLinux   = DiskPropertiesStatusOsType("Linux")
-	DiskPropertiesStatusOsTypeWindows = DiskPropertiesStatusOsType("Windows")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/DiskSku
@@ -2717,7 +2653,7 @@ func (diskSku *DiskSku) AssignPropertiesToDiskSku(destination *v20200930s.DiskSk
 
 type DiskSku_Status struct {
 	// Name: The sku name.
-	Name *DiskSkuStatusName `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
 
 	// Tier: The sku tier.
 	Tier *string `json:"tier,omitempty"`
@@ -2757,12 +2693,7 @@ func (diskSku *DiskSku_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 func (diskSku *DiskSku_Status) AssignPropertiesFromDiskSkuStatus(source *v20200930s.DiskSku_Status) error {
 
 	// Name
-	if source.Name != nil {
-		name := DiskSkuStatusName(*source.Name)
-		diskSku.Name = &name
-	} else {
-		diskSku.Name = nil
-	}
+	diskSku.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Tier
 	diskSku.Tier = genruntime.ClonePointerToString(source.Tier)
@@ -2777,12 +2708,7 @@ func (diskSku *DiskSku_Status) AssignPropertiesToDiskSkuStatus(destination *v202
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	if diskSku.Name != nil {
-		name := string(*diskSku.Name)
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(diskSku.Name)
 
 	// Tier
 	destination.Tier = genruntime.ClonePointerToString(diskSku.Tier)
@@ -2797,17 +2723,6 @@ func (diskSku *DiskSku_Status) AssignPropertiesToDiskSkuStatus(destination *v202
 	// No error
 	return nil
 }
-
-type DiskState_Status string
-
-const (
-	DiskState_StatusActiveSAS     = DiskState_Status("ActiveSAS")
-	DiskState_StatusActiveUpload  = DiskState_Status("ActiveUpload")
-	DiskState_StatusAttached      = DiskState_Status("Attached")
-	DiskState_StatusReadyToUpload = DiskState_Status("ReadyToUpload")
-	DiskState_StatusReserved      = DiskState_Status("Reserved")
-	DiskState_StatusUnattached    = DiskState_Status("Unattached")
-)
 
 // Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/Encryption
 type Encryption struct {
@@ -3226,8 +3141,8 @@ func (collection *EncryptionSettingsCollection_Status) AssignPropertiesToEncrypt
 
 type Encryption_Status struct {
 	// DiskEncryptionSetId: ResourceId of the disk encryption set to use for enabling encryption at rest.
-	DiskEncryptionSetId *string                `json:"diskEncryptionSetId,omitempty"`
-	Type                *EncryptionType_Status `json:"type,omitempty"`
+	DiskEncryptionSetId *string `json:"diskEncryptionSetId,omitempty"`
+	Type                *string `json:"type,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &Encryption_Status{}
@@ -3267,12 +3182,7 @@ func (encryption *Encryption_Status) AssignPropertiesFromEncryptionStatus(source
 	encryption.DiskEncryptionSetId = genruntime.ClonePointerToString(source.DiskEncryptionSetId)
 
 	// Type
-	if source.Type != nil {
-		typeVar := EncryptionType_Status(*source.Type)
-		encryption.Type = &typeVar
-	} else {
-		encryption.Type = nil
-	}
+	encryption.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
@@ -3287,12 +3197,7 @@ func (encryption *Encryption_Status) AssignPropertiesToEncryptionStatus(destinat
 	destination.DiskEncryptionSetId = genruntime.ClonePointerToString(encryption.DiskEncryptionSetId)
 
 	// Type
-	if encryption.Type != nil {
-		typeVar := string(*encryption.Type)
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
+	destination.Type = genruntime.ClonePointerToString(encryption.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3415,7 +3320,7 @@ type ExtendedLocation_Status struct {
 	Name *string `json:"name,omitempty"`
 
 	// Type: The type of the extended location.
-	Type *ExtendedLocationType_Status `json:"type,omitempty"`
+	Type *string `json:"type,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ExtendedLocation_Status{}
@@ -3455,12 +3360,7 @@ func (location *ExtendedLocation_Status) AssignPropertiesFromExtendedLocationSta
 	location.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Type
-	if source.Type != nil {
-		typeVar := ExtendedLocationType_Status(*source.Type)
-		location.Type = &typeVar
-	} else {
-		location.Type = nil
-	}
+	location.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
@@ -3475,12 +3375,7 @@ func (location *ExtendedLocation_Status) AssignPropertiesToExtendedLocationStatu
 	destination.Name = genruntime.ClonePointerToString(location.Name)
 
 	// Type
-	if location.Type != nil {
-		typeVar := string(*location.Type)
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
+	destination.Type = genruntime.ClonePointerToString(location.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3492,14 +3387,6 @@ func (location *ExtendedLocation_Status) AssignPropertiesToExtendedLocationStatu
 	// No error
 	return nil
 }
-
-type NetworkAccessPolicy_Status string
-
-const (
-	NetworkAccessPolicy_StatusAllowAll     = NetworkAccessPolicy_Status("AllowAll")
-	NetworkAccessPolicy_StatusAllowPrivate = NetworkAccessPolicy_Status("AllowPrivate")
-	NetworkAccessPolicy_StatusDenyAll      = NetworkAccessPolicy_Status("DenyAll")
-)
 
 // Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/PurchasePlan
 type PurchasePlan struct {
@@ -3817,18 +3704,6 @@ const (
 	CreationDataCreateOptionUpload    = CreationDataCreateOption("Upload")
 )
 
-type CreationDataStatusCreateOption string
-
-const (
-	CreationDataStatusCreateOptionAttach    = CreationDataStatusCreateOption("Attach")
-	CreationDataStatusCreateOptionCopy      = CreationDataStatusCreateOption("Copy")
-	CreationDataStatusCreateOptionEmpty     = CreationDataStatusCreateOption("Empty")
-	CreationDataStatusCreateOptionFromImage = CreationDataStatusCreateOption("FromImage")
-	CreationDataStatusCreateOptionImport    = CreationDataStatusCreateOption("Import")
-	CreationDataStatusCreateOptionRestore   = CreationDataStatusCreateOption("Restore")
-	CreationDataStatusCreateOptionUpload    = CreationDataStatusCreateOption("Upload")
-)
-
 // Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/EncryptionSettingsElement
 type EncryptionSettingsElement struct {
 	// DiskEncryptionKey: Key Vault Secret Url and vault id of the encryption key
@@ -4106,14 +3981,6 @@ const (
 	EncryptionTypeEncryptionAtRestWithCustomerKey             = EncryptionType("EncryptionAtRestWithCustomerKey")
 	EncryptionTypeEncryptionAtRestWithPlatformAndCustomerKeys = EncryptionType("EncryptionAtRestWithPlatformAndCustomerKeys")
 	EncryptionTypeEncryptionAtRestWithPlatformKey             = EncryptionType("EncryptionAtRestWithPlatformKey")
-)
-
-type EncryptionType_Status string
-
-const (
-	EncryptionType_StatusEncryptionAtRestWithCustomerKey             = EncryptionType_Status("EncryptionAtRestWithCustomerKey")
-	EncryptionType_StatusEncryptionAtRestWithPlatformAndCustomerKeys = EncryptionType_Status("EncryptionAtRestWithPlatformAndCustomerKeys")
-	EncryptionType_StatusEncryptionAtRestWithPlatformKey             = EncryptionType_Status("EncryptionAtRestWithPlatformKey")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/ImageDiskReference

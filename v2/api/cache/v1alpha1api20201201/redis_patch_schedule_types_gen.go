@@ -914,9 +914,9 @@ func (entry *ScheduleEntry) AssignPropertiesToScheduleEntry(destination *alpha20
 
 // Deprecated version of ScheduleEntry_Status. Use v1beta20201201.ScheduleEntry_Status instead
 type ScheduleEntry_Status struct {
-	DayOfWeek         *ScheduleEntryStatusDayOfWeek `json:"dayOfWeek,omitempty"`
-	MaintenanceWindow *string                       `json:"maintenanceWindow,omitempty"`
-	StartHourUtc      *int                          `json:"startHourUtc,omitempty"`
+	DayOfWeek         *string `json:"dayOfWeek,omitempty"`
+	MaintenanceWindow *string `json:"maintenanceWindow,omitempty"`
+	StartHourUtc      *int    `json:"startHourUtc,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ScheduleEntry_Status{}
@@ -959,12 +959,7 @@ func (entry *ScheduleEntry_Status) PopulateFromARM(owner genruntime.ArbitraryOwn
 func (entry *ScheduleEntry_Status) AssignPropertiesFromScheduleEntryStatus(source *alpha20201201s.ScheduleEntry_Status) error {
 
 	// DayOfWeek
-	if source.DayOfWeek != nil {
-		dayOfWeek := ScheduleEntryStatusDayOfWeek(*source.DayOfWeek)
-		entry.DayOfWeek = &dayOfWeek
-	} else {
-		entry.DayOfWeek = nil
-	}
+	entry.DayOfWeek = genruntime.ClonePointerToString(source.DayOfWeek)
 
 	// MaintenanceWindow
 	entry.MaintenanceWindow = genruntime.ClonePointerToString(source.MaintenanceWindow)
@@ -982,12 +977,7 @@ func (entry *ScheduleEntry_Status) AssignPropertiesToScheduleEntryStatus(destina
 	propertyBag := genruntime.NewPropertyBag()
 
 	// DayOfWeek
-	if entry.DayOfWeek != nil {
-		dayOfWeek := string(*entry.DayOfWeek)
-		destination.DayOfWeek = &dayOfWeek
-	} else {
-		destination.DayOfWeek = nil
-	}
+	destination.DayOfWeek = genruntime.ClonePointerToString(entry.DayOfWeek)
 
 	// MaintenanceWindow
 	destination.MaintenanceWindow = genruntime.ClonePointerToString(entry.MaintenanceWindow)
@@ -1020,21 +1010,6 @@ const (
 	ScheduleEntryDayOfWeekTuesday   = ScheduleEntryDayOfWeek("Tuesday")
 	ScheduleEntryDayOfWeekWednesday = ScheduleEntryDayOfWeek("Wednesday")
 	ScheduleEntryDayOfWeekWeekend   = ScheduleEntryDayOfWeek("Weekend")
-)
-
-// Deprecated version of ScheduleEntryStatusDayOfWeek. Use v1beta20201201.ScheduleEntryStatusDayOfWeek instead
-type ScheduleEntryStatusDayOfWeek string
-
-const (
-	ScheduleEntryStatusDayOfWeekEveryday  = ScheduleEntryStatusDayOfWeek("Everyday")
-	ScheduleEntryStatusDayOfWeekFriday    = ScheduleEntryStatusDayOfWeek("Friday")
-	ScheduleEntryStatusDayOfWeekMonday    = ScheduleEntryStatusDayOfWeek("Monday")
-	ScheduleEntryStatusDayOfWeekSaturday  = ScheduleEntryStatusDayOfWeek("Saturday")
-	ScheduleEntryStatusDayOfWeekSunday    = ScheduleEntryStatusDayOfWeek("Sunday")
-	ScheduleEntryStatusDayOfWeekThursday  = ScheduleEntryStatusDayOfWeek("Thursday")
-	ScheduleEntryStatusDayOfWeekTuesday   = ScheduleEntryStatusDayOfWeek("Tuesday")
-	ScheduleEntryStatusDayOfWeekWednesday = ScheduleEntryStatusDayOfWeek("Wednesday")
-	ScheduleEntryStatusDayOfWeekWeekend   = ScheduleEntryStatusDayOfWeek("Weekend")
 )
 
 func init() {

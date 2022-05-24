@@ -29,13 +29,13 @@ type DiskProperties_StatusARM struct {
 	DiskMBpsReadWrite            *int                                    `json:"diskMBpsReadWrite,omitempty"`
 	DiskSizeBytes                *int                                    `json:"diskSizeBytes,omitempty"`
 	DiskSizeGB                   *int                                    `json:"diskSizeGB,omitempty"`
-	DiskState                    *DiskState_Status                       `json:"diskState,omitempty"`
+	DiskState                    *string                                 `json:"diskState,omitempty"`
 	Encryption                   *Encryption_StatusARM                   `json:"encryption,omitempty"`
 	EncryptionSettingsCollection *EncryptionSettingsCollection_StatusARM `json:"encryptionSettingsCollection,omitempty"`
-	HyperVGeneration             *DiskPropertiesStatusHyperVGeneration   `json:"hyperVGeneration,omitempty"`
+	HyperVGeneration             *string                                 `json:"hyperVGeneration,omitempty"`
 	MaxShares                    *int                                    `json:"maxShares,omitempty"`
-	NetworkAccessPolicy          *NetworkAccessPolicy_Status             `json:"networkAccessPolicy,omitempty"`
-	OsType                       *DiskPropertiesStatusOsType             `json:"osType,omitempty"`
+	NetworkAccessPolicy          *string                                 `json:"networkAccessPolicy,omitempty"`
+	OsType                       *string                                 `json:"osType,omitempty"`
 	ProvisioningState            *string                                 `json:"provisioningState,omitempty"`
 	PurchasePlan                 *PurchasePlan_StatusARM                 `json:"purchasePlan,omitempty"`
 	ShareInfo                    []ShareInfoElement_StatusARM            `json:"shareInfo,omitempty"`
@@ -46,38 +46,28 @@ type DiskProperties_StatusARM struct {
 
 // Deprecated version of DiskSku_Status. Use v1beta20200930.DiskSku_Status instead
 type DiskSku_StatusARM struct {
-	Name *DiskSkuStatusName `json:"name,omitempty"`
-	Tier *string            `json:"tier,omitempty"`
+	Name *string `json:"name,omitempty"`
+	Tier *string `json:"tier,omitempty"`
 }
 
 // Deprecated version of ExtendedLocation_Status. Use v1beta20200930.ExtendedLocation_Status instead
 type ExtendedLocation_StatusARM struct {
-	Name *string                      `json:"name,omitempty"`
-	Type *ExtendedLocationType_Status `json:"type,omitempty"`
+	Name *string `json:"name,omitempty"`
+	Type *string `json:"type,omitempty"`
 }
 
 // Deprecated version of CreationData_Status. Use v1beta20200930.CreationData_Status instead
 type CreationData_StatusARM struct {
-	CreateOption          *CreationDataStatusCreateOption `json:"createOption,omitempty"`
-	GalleryImageReference *ImageDiskReference_StatusARM   `json:"galleryImageReference,omitempty"`
-	ImageReference        *ImageDiskReference_StatusARM   `json:"imageReference,omitempty"`
-	LogicalSectorSize     *int                            `json:"logicalSectorSize,omitempty"`
-	SourceResourceId      *string                         `json:"sourceResourceId,omitempty"`
-	SourceUniqueId        *string                         `json:"sourceUniqueId,omitempty"`
-	SourceUri             *string                         `json:"sourceUri,omitempty"`
-	StorageAccountId      *string                         `json:"storageAccountId,omitempty"`
-	UploadSizeBytes       *int                            `json:"uploadSizeBytes,omitempty"`
+	CreateOption          *string                       `json:"createOption,omitempty"`
+	GalleryImageReference *ImageDiskReference_StatusARM `json:"galleryImageReference,omitempty"`
+	ImageReference        *ImageDiskReference_StatusARM `json:"imageReference,omitempty"`
+	LogicalSectorSize     *int                          `json:"logicalSectorSize,omitempty"`
+	SourceResourceId      *string                       `json:"sourceResourceId,omitempty"`
+	SourceUniqueId        *string                       `json:"sourceUniqueId,omitempty"`
+	SourceUri             *string                       `json:"sourceUri,omitempty"`
+	StorageAccountId      *string                       `json:"storageAccountId,omitempty"`
+	UploadSizeBytes       *int                          `json:"uploadSizeBytes,omitempty"`
 }
-
-// Deprecated version of DiskSkuStatusName. Use v1beta20200930.DiskSkuStatusName instead
-type DiskSkuStatusName string
-
-const (
-	DiskSkuStatusNamePremiumLRS     = DiskSkuStatusName("Premium_LRS")
-	DiskSkuStatusNameStandardLRS    = DiskSkuStatusName("Standard_LRS")
-	DiskSkuStatusNameStandardSSDLRS = DiskSkuStatusName("StandardSSD_LRS")
-	DiskSkuStatusNameUltraSSDLRS    = DiskSkuStatusName("UltraSSD_LRS")
-)
 
 // Deprecated version of EncryptionSettingsCollection_Status. Use v1beta20200930.EncryptionSettingsCollection_Status instead
 type EncryptionSettingsCollection_StatusARM struct {
@@ -88,14 +78,9 @@ type EncryptionSettingsCollection_StatusARM struct {
 
 // Deprecated version of Encryption_Status. Use v1beta20200930.Encryption_Status instead
 type Encryption_StatusARM struct {
-	DiskEncryptionSetId *string                `json:"diskEncryptionSetId,omitempty"`
-	Type                *EncryptionType_Status `json:"type,omitempty"`
+	DiskEncryptionSetId *string `json:"diskEncryptionSetId,omitempty"`
+	Type                *string `json:"type,omitempty"`
 }
-
-// Deprecated version of ExtendedLocationType_Status. Use v1beta20200930.ExtendedLocationType_Status instead
-type ExtendedLocationType_Status string
-
-const ExtendedLocationType_StatusEdgeZone = ExtendedLocationType_Status("EdgeZone")
 
 // Deprecated version of PurchasePlan_Status. Use v1beta20200930.PurchasePlan_Status instead
 type PurchasePlan_StatusARM struct {

@@ -343,7 +343,7 @@ type WebTest_Status struct {
 	Id *string `json:"id,omitempty"`
 
 	// Kind: The kind of web test this is, valid choices are ping, multistep, basic, and standard.
-	Kind *WebTestPropertiesStatusKind `json:"Kind,omitempty"`
+	Kind *string `json:"Kind,omitempty"`
 
 	// Location: Resource location
 	Location *string `json:"location,omitempty"`
@@ -657,12 +657,7 @@ func (test *WebTest_Status) AssignPropertiesFromWebTestStatus(source *v20180501p
 	test.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Kind
-	if source.Kind != nil {
-		kind := WebTestPropertiesStatusKind(*source.Kind)
-		test.Kind = &kind
-	} else {
-		test.Kind = nil
-	}
+	test.Kind = genruntime.ClonePointerToString(source.Kind)
 
 	// Location
 	test.Location = genruntime.ClonePointerToString(source.Location)
@@ -785,12 +780,7 @@ func (test *WebTest_Status) AssignPropertiesToWebTestStatus(destination *v201805
 	destination.Id = genruntime.ClonePointerToString(test.Id)
 
 	// Kind
-	if test.Kind != nil {
-		kind := string(*test.Kind)
-		destination.Kind = &kind
-	} else {
-		destination.Kind = nil
-	}
+	destination.Kind = genruntime.ClonePointerToString(test.Kind)
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(test.Location)

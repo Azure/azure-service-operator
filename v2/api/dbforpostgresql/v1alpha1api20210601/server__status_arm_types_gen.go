@@ -17,40 +17,40 @@ type Server_StatusARM struct {
 
 // Deprecated version of ServerProperties_Status. Use v1beta20210601.ServerProperties_Status instead
 type ServerProperties_StatusARM struct {
-	AdministratorLogin       *string                           `json:"administratorLogin,omitempty"`
-	AvailabilityZone         *string                           `json:"availabilityZone,omitempty"`
-	Backup                   *Backup_StatusARM                 `json:"backup,omitempty"`
-	CreateMode               *ServerPropertiesStatusCreateMode `json:"createMode,omitempty"`
-	FullyQualifiedDomainName *string                           `json:"fullyQualifiedDomainName,omitempty"`
-	HighAvailability         *HighAvailability_StatusARM       `json:"highAvailability,omitempty"`
-	MaintenanceWindow        *MaintenanceWindow_StatusARM      `json:"maintenanceWindow,omitempty"`
-	MinorVersion             *string                           `json:"minorVersion,omitempty"`
-	Network                  *Network_StatusARM                `json:"network,omitempty"`
-	PointInTimeUTC           *string                           `json:"pointInTimeUTC,omitempty"`
-	SourceServerResourceId   *string                           `json:"sourceServerResourceId,omitempty"`
-	State                    *ServerPropertiesStatusState      `json:"state,omitempty"`
-	Storage                  *Storage_StatusARM                `json:"storage,omitempty"`
-	Version                  *ServerVersion_Status             `json:"version,omitempty"`
+	AdministratorLogin       *string                      `json:"administratorLogin,omitempty"`
+	AvailabilityZone         *string                      `json:"availabilityZone,omitempty"`
+	Backup                   *Backup_StatusARM            `json:"backup,omitempty"`
+	CreateMode               *string                      `json:"createMode,omitempty"`
+	FullyQualifiedDomainName *string                      `json:"fullyQualifiedDomainName,omitempty"`
+	HighAvailability         *HighAvailability_StatusARM  `json:"highAvailability,omitempty"`
+	MaintenanceWindow        *MaintenanceWindow_StatusARM `json:"maintenanceWindow,omitempty"`
+	MinorVersion             *string                      `json:"minorVersion,omitempty"`
+	Network                  *Network_StatusARM           `json:"network,omitempty"`
+	PointInTimeUTC           *string                      `json:"pointInTimeUTC,omitempty"`
+	SourceServerResourceId   *string                      `json:"sourceServerResourceId,omitempty"`
+	State                    *string                      `json:"state,omitempty"`
+	Storage                  *Storage_StatusARM           `json:"storage,omitempty"`
+	Version                  *string                      `json:"version,omitempty"`
 }
 
 // Deprecated version of Sku_Status. Use v1beta20210601.Sku_Status instead
 type Sku_StatusARM struct {
-	Name *string        `json:"name,omitempty"`
-	Tier *SkuStatusTier `json:"tier,omitempty"`
+	Name *string `json:"name,omitempty"`
+	Tier *string `json:"tier,omitempty"`
 }
 
 // Deprecated version of Backup_Status. Use v1beta20210601.Backup_Status instead
 type Backup_StatusARM struct {
-	BackupRetentionDays *int                            `json:"backupRetentionDays,omitempty"`
-	EarliestRestoreDate *string                         `json:"earliestRestoreDate,omitempty"`
-	GeoRedundantBackup  *BackupStatusGeoRedundantBackup `json:"geoRedundantBackup,omitempty"`
+	BackupRetentionDays *int    `json:"backupRetentionDays,omitempty"`
+	EarliestRestoreDate *string `json:"earliestRestoreDate,omitempty"`
+	GeoRedundantBackup  *string `json:"geoRedundantBackup,omitempty"`
 }
 
 // Deprecated version of HighAvailability_Status. Use v1beta20210601.HighAvailability_Status instead
 type HighAvailability_StatusARM struct {
-	Mode                    *HighAvailabilityStatusMode  `json:"mode,omitempty"`
-	StandbyAvailabilityZone *string                      `json:"standbyAvailabilityZone,omitempty"`
-	State                   *HighAvailabilityStatusState `json:"state,omitempty"`
+	Mode                    *string `json:"mode,omitempty"`
+	StandbyAvailabilityZone *string `json:"standbyAvailabilityZone,omitempty"`
+	State                   *string `json:"state,omitempty"`
 }
 
 // Deprecated version of MaintenanceWindow_Status. Use v1beta20210601.MaintenanceWindow_Status instead
@@ -63,19 +63,10 @@ type MaintenanceWindow_StatusARM struct {
 
 // Deprecated version of Network_Status. Use v1beta20210601.Network_Status instead
 type Network_StatusARM struct {
-	DelegatedSubnetResourceId   *string                           `json:"delegatedSubnetResourceId,omitempty"`
-	PrivateDnsZoneArmResourceId *string                           `json:"privateDnsZoneArmResourceId,omitempty"`
-	PublicNetworkAccess         *NetworkStatusPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+	DelegatedSubnetResourceId   *string `json:"delegatedSubnetResourceId,omitempty"`
+	PrivateDnsZoneArmResourceId *string `json:"privateDnsZoneArmResourceId,omitempty"`
+	PublicNetworkAccess         *string `json:"publicNetworkAccess,omitempty"`
 }
-
-// Deprecated version of SkuStatusTier. Use v1beta20210601.SkuStatusTier instead
-type SkuStatusTier string
-
-const (
-	SkuStatusTierBurstable       = SkuStatusTier("Burstable")
-	SkuStatusTierGeneralPurpose  = SkuStatusTier("GeneralPurpose")
-	SkuStatusTierMemoryOptimized = SkuStatusTier("MemoryOptimized")
-)
 
 // Deprecated version of Storage_Status. Use v1beta20210601.Storage_Status instead
 type Storage_StatusARM struct {

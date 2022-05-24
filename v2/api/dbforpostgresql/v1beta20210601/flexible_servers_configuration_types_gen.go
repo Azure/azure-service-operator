@@ -325,7 +325,7 @@ type Configuration_Status struct {
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
 	// DataType: Data type of the configuration.
-	DataType *ConfigurationPropertiesStatusDataType `json:"dataType,omitempty"`
+	DataType *string `json:"dataType,omitempty"`
 
 	// DefaultValue: Default value of the configuration.
 	DefaultValue *string `json:"defaultValue,omitempty"`
@@ -576,12 +576,7 @@ func (configuration *Configuration_Status) AssignPropertiesFromConfigurationStat
 	configuration.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// DataType
-	if source.DataType != nil {
-		dataType := ConfigurationPropertiesStatusDataType(*source.DataType)
-		configuration.DataType = &dataType
-	} else {
-		configuration.DataType = nil
-	}
+	configuration.DataType = genruntime.ClonePointerToString(source.DataType)
 
 	// DefaultValue
 	configuration.DefaultValue = genruntime.ClonePointerToString(source.DefaultValue)
@@ -662,12 +657,7 @@ func (configuration *Configuration_Status) AssignPropertiesToConfigurationStatus
 	destination.Conditions = genruntime.CloneSliceOfCondition(configuration.Conditions)
 
 	// DataType
-	if configuration.DataType != nil {
-		dataType := string(*configuration.DataType)
-		destination.DataType = &dataType
-	} else {
-		destination.DataType = nil
-	}
+	destination.DataType = genruntime.ClonePointerToString(configuration.DataType)
 
 	// DefaultValue
 	destination.DefaultValue = genruntime.ClonePointerToString(configuration.DefaultValue)

@@ -40,7 +40,7 @@ func (in *PrivateEndpointConnection_Status) DeepCopyInto(out *PrivateEndpointCon
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(PrivateEndpointConnectionProvisioningState_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Type != nil {
@@ -95,7 +95,7 @@ func (in *PrivateLinkServiceConnectionState_Status) DeepCopyInto(out *PrivateLin
 	}
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
-		*out = new(PrivateEndpointServiceConnectionStatus_Status)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -541,7 +541,7 @@ func (in *RedisResourceObservation) DeepCopyInto(out *RedisResourceObservation) 
 	}
 	if in.MinimumTlsVersion != nil {
 		in, out := &in.MinimumTlsVersion, &out.MinimumTlsVersion
-		*out = new(RedisPropertiesStatusMinimumTlsVersion)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Name != nil {
@@ -563,12 +563,12 @@ func (in *RedisResourceObservation) DeepCopyInto(out *RedisResourceObservation) 
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(RedisPropertiesStatusProvisioningState)
+		*out = new(string)
 		**out = **in
 	}
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(RedisPropertiesStatusPublicNetworkAccess)
+		*out = new(string)
 		**out = **in
 	}
 	if in.RedisConfiguration != nil {
@@ -721,12 +721,12 @@ func (in *Sku_Status) DeepCopyInto(out *Sku_Status) {
 	}
 	if in.Family != nil {
 		in, out := &in.Family, &out.Family
-		*out = new(SkuStatusFamily)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(SkuStatusName)
+		*out = new(string)
 		**out = **in
 	}
 }

@@ -320,16 +320,16 @@ type RedisEnterpriseDatabaseList struct {
 type Database_Status struct {
 	// ClientProtocol: Specifies whether redis clients can connect using TLS-encrypted or plaintext redis protocols. Default is
 	// TLS-encrypted.
-	ClientProtocol *DatabasePropertiesStatusClientProtocol `json:"clientProtocol,omitempty"`
+	ClientProtocol *string `json:"clientProtocol,omitempty"`
 
 	// ClusteringPolicy: Clustering policy - default is OSSCluster. Specified at create time.
-	ClusteringPolicy *DatabasePropertiesStatusClusteringPolicy `json:"clusteringPolicy,omitempty"`
+	ClusteringPolicy *string `json:"clusteringPolicy,omitempty"`
 
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
 	// EvictionPolicy: Redis eviction policy - default is VolatileLRU
-	EvictionPolicy *DatabasePropertiesStatusEvictionPolicy `json:"evictionPolicy,omitempty"`
+	EvictionPolicy *string `json:"evictionPolicy,omitempty"`
 
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -348,10 +348,10 @@ type Database_Status struct {
 	Port *int `json:"port,omitempty"`
 
 	// ProvisioningState: Current provisioning status of the database
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	// ResourceState: Current resource status of the database
-	ResourceState *ResourceState_Status `json:"resourceState,omitempty"`
+	ResourceState *string `json:"resourceState,omitempty"`
 
 	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
@@ -530,31 +530,16 @@ func (database *Database_Status) PopulateFromARM(owner genruntime.ArbitraryOwner
 func (database *Database_Status) AssignPropertiesFromDatabaseStatus(source *v20210301s.Database_Status) error {
 
 	// ClientProtocol
-	if source.ClientProtocol != nil {
-		clientProtocol := DatabasePropertiesStatusClientProtocol(*source.ClientProtocol)
-		database.ClientProtocol = &clientProtocol
-	} else {
-		database.ClientProtocol = nil
-	}
+	database.ClientProtocol = genruntime.ClonePointerToString(source.ClientProtocol)
 
 	// ClusteringPolicy
-	if source.ClusteringPolicy != nil {
-		clusteringPolicy := DatabasePropertiesStatusClusteringPolicy(*source.ClusteringPolicy)
-		database.ClusteringPolicy = &clusteringPolicy
-	} else {
-		database.ClusteringPolicy = nil
-	}
+	database.ClusteringPolicy = genruntime.ClonePointerToString(source.ClusteringPolicy)
 
 	// Conditions
 	database.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// EvictionPolicy
-	if source.EvictionPolicy != nil {
-		evictionPolicy := DatabasePropertiesStatusEvictionPolicy(*source.EvictionPolicy)
-		database.EvictionPolicy = &evictionPolicy
-	} else {
-		database.EvictionPolicy = nil
-	}
+	database.EvictionPolicy = genruntime.ClonePointerToString(source.EvictionPolicy)
 
 	// Id
 	database.Id = genruntime.ClonePointerToString(source.Id)
@@ -596,20 +581,10 @@ func (database *Database_Status) AssignPropertiesFromDatabaseStatus(source *v202
 	database.Port = genruntime.ClonePointerToInt(source.Port)
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_Status(*source.ProvisioningState)
-		database.ProvisioningState = &provisioningState
-	} else {
-		database.ProvisioningState = nil
-	}
+	database.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// ResourceState
-	if source.ResourceState != nil {
-		resourceState := ResourceState_Status(*source.ResourceState)
-		database.ResourceState = &resourceState
-	} else {
-		database.ResourceState = nil
-	}
+	database.ResourceState = genruntime.ClonePointerToString(source.ResourceState)
 
 	// Type
 	database.Type = genruntime.ClonePointerToString(source.Type)
@@ -624,31 +599,16 @@ func (database *Database_Status) AssignPropertiesToDatabaseStatus(destination *v
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ClientProtocol
-	if database.ClientProtocol != nil {
-		clientProtocol := string(*database.ClientProtocol)
-		destination.ClientProtocol = &clientProtocol
-	} else {
-		destination.ClientProtocol = nil
-	}
+	destination.ClientProtocol = genruntime.ClonePointerToString(database.ClientProtocol)
 
 	// ClusteringPolicy
-	if database.ClusteringPolicy != nil {
-		clusteringPolicy := string(*database.ClusteringPolicy)
-		destination.ClusteringPolicy = &clusteringPolicy
-	} else {
-		destination.ClusteringPolicy = nil
-	}
+	destination.ClusteringPolicy = genruntime.ClonePointerToString(database.ClusteringPolicy)
 
 	// Conditions
 	destination.Conditions = genruntime.CloneSliceOfCondition(database.Conditions)
 
 	// EvictionPolicy
-	if database.EvictionPolicy != nil {
-		evictionPolicy := string(*database.EvictionPolicy)
-		destination.EvictionPolicy = &evictionPolicy
-	} else {
-		destination.EvictionPolicy = nil
-	}
+	destination.EvictionPolicy = genruntime.ClonePointerToString(database.EvictionPolicy)
 
 	// Id
 	destination.Id = genruntime.ClonePointerToString(database.Id)
@@ -690,20 +650,10 @@ func (database *Database_Status) AssignPropertiesToDatabaseStatus(destination *v
 	destination.Port = genruntime.ClonePointerToInt(database.Port)
 
 	// ProvisioningState
-	if database.ProvisioningState != nil {
-		provisioningState := string(*database.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(database.ProvisioningState)
 
 	// ResourceState
-	if database.ResourceState != nil {
-		resourceState := string(*database.ResourceState)
-		destination.ResourceState = &resourceState
-	} else {
-		destination.ResourceState = nil
-	}
+	destination.ResourceState = genruntime.ClonePointerToString(database.ResourceState)
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(database.Type)
@@ -1556,13 +1506,13 @@ type Persistence_Status struct {
 	AofEnabled *bool `json:"aofEnabled,omitempty"`
 
 	// AofFrequency: Sets the frequency at which data is written to disk.
-	AofFrequency *PersistenceStatusAofFrequency `json:"aofFrequency,omitempty"`
+	AofFrequency *string `json:"aofFrequency,omitempty"`
 
 	// RdbEnabled: Sets whether RDB is enabled.
 	RdbEnabled *bool `json:"rdbEnabled,omitempty"`
 
 	// RdbFrequency: Sets the frequency at which a snapshot of the database is created.
-	RdbFrequency *PersistenceStatusRdbFrequency `json:"rdbFrequency,omitempty"`
+	RdbFrequency *string `json:"rdbFrequency,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &Persistence_Status{}
@@ -1619,12 +1569,7 @@ func (persistence *Persistence_Status) AssignPropertiesFromPersistenceStatus(sou
 	}
 
 	// AofFrequency
-	if source.AofFrequency != nil {
-		aofFrequency := PersistenceStatusAofFrequency(*source.AofFrequency)
-		persistence.AofFrequency = &aofFrequency
-	} else {
-		persistence.AofFrequency = nil
-	}
+	persistence.AofFrequency = genruntime.ClonePointerToString(source.AofFrequency)
 
 	// RdbEnabled
 	if source.RdbEnabled != nil {
@@ -1635,12 +1580,7 @@ func (persistence *Persistence_Status) AssignPropertiesFromPersistenceStatus(sou
 	}
 
 	// RdbFrequency
-	if source.RdbFrequency != nil {
-		rdbFrequency := PersistenceStatusRdbFrequency(*source.RdbFrequency)
-		persistence.RdbFrequency = &rdbFrequency
-	} else {
-		persistence.RdbFrequency = nil
-	}
+	persistence.RdbFrequency = genruntime.ClonePointerToString(source.RdbFrequency)
 
 	// No error
 	return nil
@@ -1660,12 +1600,7 @@ func (persistence *Persistence_Status) AssignPropertiesToPersistenceStatus(desti
 	}
 
 	// AofFrequency
-	if persistence.AofFrequency != nil {
-		aofFrequency := string(*persistence.AofFrequency)
-		destination.AofFrequency = &aofFrequency
-	} else {
-		destination.AofFrequency = nil
-	}
+	destination.AofFrequency = genruntime.ClonePointerToString(persistence.AofFrequency)
 
 	// RdbEnabled
 	if persistence.RdbEnabled != nil {
@@ -1676,12 +1611,7 @@ func (persistence *Persistence_Status) AssignPropertiesToPersistenceStatus(desti
 	}
 
 	// RdbFrequency
-	if persistence.RdbFrequency != nil {
-		rdbFrequency := string(*persistence.RdbFrequency)
-		destination.RdbFrequency = &rdbFrequency
-	} else {
-		destination.RdbFrequency = nil
-	}
+	destination.RdbFrequency = genruntime.ClonePointerToString(persistence.RdbFrequency)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

@@ -1233,7 +1233,7 @@ func LastAccessTimeTrackingPolicyStatusGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForLastAccessTimeTrackingPolicyStatus(gens map[string]gopter.Gen) {
 	gens["BlobType"] = gen.SliceOf(gen.AlphaString())
 	gens["Enable"] = gen.PtrOf(gen.Bool())
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(LastAccessTimeTrackingPolicyStatusNameAccessTimeTracking))
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["TrackingGranularityInDays"] = gen.PtrOf(gen.Int())
 }
 
@@ -1656,14 +1656,7 @@ func CorsRuleStatusGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForCorsRuleStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForCorsRuleStatus(gens map[string]gopter.Gen) {
 	gens["AllowedHeaders"] = gen.SliceOf(gen.AlphaString())
-	gens["AllowedMethods"] = gen.SliceOf(gen.OneConstOf(
-		CorsRuleStatusAllowedMethodsDELETE,
-		CorsRuleStatusAllowedMethodsGET,
-		CorsRuleStatusAllowedMethodsHEAD,
-		CorsRuleStatusAllowedMethodsMERGE,
-		CorsRuleStatusAllowedMethodsOPTIONS,
-		CorsRuleStatusAllowedMethodsPOST,
-		CorsRuleStatusAllowedMethodsPUT))
+	gens["AllowedMethods"] = gen.SliceOf(gen.AlphaString())
 	gens["AllowedOrigins"] = gen.SliceOf(gen.AlphaString())
 	gens["ExposedHeaders"] = gen.SliceOf(gen.AlphaString())
 	gens["MaxAgeInSeconds"] = gen.PtrOf(gen.Int())

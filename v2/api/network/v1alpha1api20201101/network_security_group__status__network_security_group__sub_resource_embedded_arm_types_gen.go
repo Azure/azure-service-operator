@@ -19,7 +19,7 @@ type NetworkSecurityGroupPropertiesFormat_StatusARM struct {
 	DefaultSecurityRules []SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbeddedARM     `json:"defaultSecurityRules,omitempty"`
 	FlowLogs             []FlowLog_Status_SubResourceEmbeddedARM                               `json:"flowLogs,omitempty"`
 	NetworkInterfaces    []NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbeddedARM `json:"networkInterfaces,omitempty"`
-	ProvisioningState    *ProvisioningState_Status                                             `json:"provisioningState,omitempty"`
+	ProvisioningState    *string                                                               `json:"provisioningState,omitempty"`
 	ResourceGuid         *string                                                               `json:"resourceGuid,omitempty"`
 	SecurityRules        []SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbeddedARM     `json:"securityRules,omitempty"`
 	Subnets              []Subnet_Status_NetworkSecurityGroup_SubResourceEmbeddedARM           `json:"subnets,omitempty"`

@@ -4,11 +4,8 @@
 | DictionaryValue_Status                               | v1alpha1api20210101preview | v1beta20210101preview |
 | Encryption                                           | v1alpha1api20210101preview | v1beta20210101preview |
 | EncryptionKeySource                                  | v1alpha1api20210101preview | v1beta20210101preview |
-| EncryptionStatusKeySource                            | v1alpha1api20210101preview | v1beta20210101preview |
 | Encryption_Status                                    | v1alpha1api20210101preview | v1beta20210101preview |
-| EntityStatus_Status                                  | v1alpha1api20210101preview | v1beta20210101preview |
 | Identity                                             | v1alpha1api20210101preview | v1beta20210101preview |
-| IdentityStatusType                                   | v1alpha1api20210101preview | v1beta20210101preview |
 | IdentityType                                         | v1alpha1api20210101preview | v1beta20210101preview |
 | Identity_Status                                      | v1alpha1api20210101preview | v1beta20210101preview |
 | KeyVaultProperties                                   | v1alpha1api20210101preview | v1beta20210101preview |
@@ -29,15 +26,11 @@
 | SBQueue_Status                                       | v1alpha1api20210101preview | v1beta20210101preview |
 | SBSku                                                | v1alpha1api20210101preview | v1beta20210101preview |
 | SBSkuName                                            | v1alpha1api20210101preview | v1beta20210101preview |
-| SBSkuStatusName                                      | v1alpha1api20210101preview | v1beta20210101preview |
-| SBSkuStatusTier                                      | v1alpha1api20210101preview | v1beta20210101preview |
 | SBSkuTier                                            | v1alpha1api20210101preview | v1beta20210101preview |
 | SBSku_Status                                         | v1alpha1api20210101preview | v1beta20210101preview |
 | SBTopicProperties                                    | v1alpha1api20210101preview | v1beta20210101preview |
 | SBTopicProperties_Status                             | v1alpha1api20210101preview | v1beta20210101preview |
 | SBTopic_Status                                       | v1alpha1api20210101preview | v1beta20210101preview |
-| SystemDataStatusCreatedByType                        | v1alpha1api20210101preview | v1beta20210101preview |
-| SystemDataStatusLastModifiedByType                   | v1alpha1api20210101preview | v1beta20210101preview |
 | SystemData_Status                                    | v1alpha1api20210101preview | v1beta20210101preview |
 | UserAssignedIdentityProperties                       | v1alpha1api20210101preview | v1beta20210101preview |
 | UserAssignedIdentityProperties_Status                | v1alpha1api20210101preview | v1beta20210101preview |

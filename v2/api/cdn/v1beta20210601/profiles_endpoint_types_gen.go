@@ -364,7 +364,7 @@ type Endpoint_Status struct {
 
 	// OptimizationType: Specifies what scenario the customer wants this CDN endpoint to optimize for, e.g. Download, Media
 	// services. With this information, CDN can apply scenario driven optimization.
-	OptimizationType *OptimizationType_Status `json:"optimizationType,omitempty"`
+	OptimizationType *string `json:"optimizationType,omitempty"`
 
 	// OriginGroups: The origin groups comprising of origins that are used for load balancing the traffic based on availability.
 	OriginGroups []DeepCreatedOriginGroup_Status `json:"originGroups,omitempty"`
@@ -388,16 +388,16 @@ type Endpoint_Status struct {
 	ProbePath *string `json:"probePath,omitempty"`
 
 	// ProvisioningState: Provisioning status of the endpoint.
-	ProvisioningState *EndpointPropertiesStatusProvisioningState `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	// QueryStringCachingBehavior: Defines how CDN caches requests that include query strings. You can ignore any query strings
 	// when caching, bypass caching to prevent requests that contain query strings from being cached, or cache every request
 	// with a unique URL.
-	QueryStringCachingBehavior *QueryStringCachingBehavior_Status `json:"queryStringCachingBehavior,omitempty"`
+	QueryStringCachingBehavior *string `json:"queryStringCachingBehavior,omitempty"`
 
 	// ResourceState: Resource status of the endpoint.
-	ResourceState *EndpointPropertiesStatusResourceState `json:"resourceState,omitempty"`
-	SystemData    *SystemData_Status                     `json:"systemData,omitempty"`
+	ResourceState *string            `json:"resourceState,omitempty"`
+	SystemData    *SystemData_Status `json:"systemData,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -845,12 +845,7 @@ func (endpoint *Endpoint_Status) AssignPropertiesFromEndpointStatus(source *v202
 	endpoint.Name = genruntime.ClonePointerToString(source.Name)
 
 	// OptimizationType
-	if source.OptimizationType != nil {
-		optimizationType := OptimizationType_Status(*source.OptimizationType)
-		endpoint.OptimizationType = &optimizationType
-	} else {
-		endpoint.OptimizationType = nil
-	}
+	endpoint.OptimizationType = genruntime.ClonePointerToString(source.OptimizationType)
 
 	// OriginGroups
 	if source.OriginGroups != nil {
@@ -898,28 +893,13 @@ func (endpoint *Endpoint_Status) AssignPropertiesFromEndpointStatus(source *v202
 	endpoint.ProbePath = genruntime.ClonePointerToString(source.ProbePath)
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := EndpointPropertiesStatusProvisioningState(*source.ProvisioningState)
-		endpoint.ProvisioningState = &provisioningState
-	} else {
-		endpoint.ProvisioningState = nil
-	}
+	endpoint.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// QueryStringCachingBehavior
-	if source.QueryStringCachingBehavior != nil {
-		queryStringCachingBehavior := QueryStringCachingBehavior_Status(*source.QueryStringCachingBehavior)
-		endpoint.QueryStringCachingBehavior = &queryStringCachingBehavior
-	} else {
-		endpoint.QueryStringCachingBehavior = nil
-	}
+	endpoint.QueryStringCachingBehavior = genruntime.ClonePointerToString(source.QueryStringCachingBehavior)
 
 	// ResourceState
-	if source.ResourceState != nil {
-		resourceState := EndpointPropertiesStatusResourceState(*source.ResourceState)
-		endpoint.ResourceState = &resourceState
-	} else {
-		endpoint.ResourceState = nil
-	}
+	endpoint.ResourceState = genruntime.ClonePointerToString(source.ResourceState)
 
 	// SystemData
 	if source.SystemData != nil {
@@ -1081,12 +1061,7 @@ func (endpoint *Endpoint_Status) AssignPropertiesToEndpointStatus(destination *v
 	destination.Name = genruntime.ClonePointerToString(endpoint.Name)
 
 	// OptimizationType
-	if endpoint.OptimizationType != nil {
-		optimizationType := string(*endpoint.OptimizationType)
-		destination.OptimizationType = &optimizationType
-	} else {
-		destination.OptimizationType = nil
-	}
+	destination.OptimizationType = genruntime.ClonePointerToString(endpoint.OptimizationType)
 
 	// OriginGroups
 	if endpoint.OriginGroups != nil {
@@ -1134,28 +1109,13 @@ func (endpoint *Endpoint_Status) AssignPropertiesToEndpointStatus(destination *v
 	destination.ProbePath = genruntime.ClonePointerToString(endpoint.ProbePath)
 
 	// ProvisioningState
-	if endpoint.ProvisioningState != nil {
-		provisioningState := string(*endpoint.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(endpoint.ProvisioningState)
 
 	// QueryStringCachingBehavior
-	if endpoint.QueryStringCachingBehavior != nil {
-		queryStringCachingBehavior := string(*endpoint.QueryStringCachingBehavior)
-		destination.QueryStringCachingBehavior = &queryStringCachingBehavior
-	} else {
-		destination.QueryStringCachingBehavior = nil
-	}
+	destination.QueryStringCachingBehavior = genruntime.ClonePointerToString(endpoint.QueryStringCachingBehavior)
 
 	// ResourceState
-	if endpoint.ResourceState != nil {
-		resourceState := string(*endpoint.ResourceState)
-		destination.ResourceState = &resourceState
-	} else {
-		destination.ResourceState = nil
-	}
+	destination.ResourceState = genruntime.ClonePointerToString(endpoint.ResourceState)
 
 	// SystemData
 	if endpoint.SystemData != nil {
@@ -2418,7 +2378,7 @@ type DeepCreatedOrigin_Status struct {
 	Priority *int `json:"priority,omitempty"`
 
 	// PrivateEndpointStatus: The approval status for the connection to the Private Link
-	PrivateEndpointStatus *PrivateEndpointStatus_Status `json:"privateEndpointStatus,omitempty"`
+	PrivateEndpointStatus *string `json:"privateEndpointStatus,omitempty"`
 
 	// PrivateLinkAlias: The Alias of the Private Link resource. Populating this optional field indicates that this origin is
 	// 'Private'
@@ -2600,12 +2560,7 @@ func (origin *DeepCreatedOrigin_Status) AssignPropertiesFromDeepCreatedOriginSta
 	origin.Priority = genruntime.ClonePointerToInt(source.Priority)
 
 	// PrivateEndpointStatus
-	if source.PrivateEndpointStatus != nil {
-		privateEndpointStatus := PrivateEndpointStatus_Status(*source.PrivateEndpointStatus)
-		origin.PrivateEndpointStatus = &privateEndpointStatus
-	} else {
-		origin.PrivateEndpointStatus = nil
-	}
+	origin.PrivateEndpointStatus = genruntime.ClonePointerToString(source.PrivateEndpointStatus)
 
 	// PrivateLinkAlias
 	origin.PrivateLinkAlias = genruntime.ClonePointerToString(source.PrivateLinkAlias)
@@ -2658,12 +2613,7 @@ func (origin *DeepCreatedOrigin_Status) AssignPropertiesToDeepCreatedOriginStatu
 	destination.Priority = genruntime.ClonePointerToInt(origin.Priority)
 
 	// PrivateEndpointStatus
-	if origin.PrivateEndpointStatus != nil {
-		privateEndpointStatus := string(*origin.PrivateEndpointStatus)
-		destination.PrivateEndpointStatus = &privateEndpointStatus
-	} else {
-		destination.PrivateEndpointStatus = nil
-	}
+	destination.PrivateEndpointStatus = genruntime.ClonePointerToString(origin.PrivateEndpointStatus)
 
 	// PrivateLinkAlias
 	destination.PrivateLinkAlias = genruntime.ClonePointerToString(origin.PrivateLinkAlias)
@@ -3202,7 +3152,7 @@ func (filter *GeoFilter) AssignPropertiesToGeoFilter(destination *v20210601s.Geo
 
 type GeoFilter_Status struct {
 	// Action: Action of the geo filter, i.e. allow or block access.
-	Action *GeoFilterStatusAction `json:"action,omitempty"`
+	Action *string `json:"action,omitempty"`
 
 	// CountryCodes: Two letter country or region codes defining user country or region access in a geo filter, e.g. AU, MX, US.
 	CountryCodes []string `json:"countryCodes,omitempty"`
@@ -3250,12 +3200,7 @@ func (filter *GeoFilter_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 func (filter *GeoFilter_Status) AssignPropertiesFromGeoFilterStatus(source *v20210601s.GeoFilter_Status) error {
 
 	// Action
-	if source.Action != nil {
-		action := GeoFilterStatusAction(*source.Action)
-		filter.Action = &action
-	} else {
-		filter.Action = nil
-	}
+	filter.Action = genruntime.ClonePointerToString(source.Action)
 
 	// CountryCodes
 	filter.CountryCodes = genruntime.CloneSliceOfString(source.CountryCodes)
@@ -3273,12 +3218,7 @@ func (filter *GeoFilter_Status) AssignPropertiesToGeoFilterStatus(destination *v
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Action
-	if filter.Action != nil {
-		action := string(*filter.Action)
-		destination.Action = &action
-	} else {
-		destination.Action = nil
-	}
+	destination.Action = genruntime.ClonePointerToString(filter.Action)
 
 	// CountryCodes
 	destination.CountryCodes = genruntime.CloneSliceOfString(filter.CountryCodes)
@@ -4935,10 +4875,10 @@ type HealthProbeParameters_Status struct {
 	ProbePath *string `json:"probePath,omitempty"`
 
 	// ProbeProtocol: Protocol to use for health probe.
-	ProbeProtocol *HealthProbeParametersStatusProbeProtocol `json:"probeProtocol,omitempty"`
+	ProbeProtocol *string `json:"probeProtocol,omitempty"`
 
 	// ProbeRequestType: The type of health probe request that is made.
-	ProbeRequestType *HealthProbeParametersStatusProbeRequestType `json:"probeRequestType,omitempty"`
+	ProbeRequestType *string `json:"probeRequestType,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &HealthProbeParameters_Status{}
@@ -4993,20 +4933,10 @@ func (parameters *HealthProbeParameters_Status) AssignPropertiesFromHealthProbeP
 	parameters.ProbePath = genruntime.ClonePointerToString(source.ProbePath)
 
 	// ProbeProtocol
-	if source.ProbeProtocol != nil {
-		probeProtocol := HealthProbeParametersStatusProbeProtocol(*source.ProbeProtocol)
-		parameters.ProbeProtocol = &probeProtocol
-	} else {
-		parameters.ProbeProtocol = nil
-	}
+	parameters.ProbeProtocol = genruntime.ClonePointerToString(source.ProbeProtocol)
 
 	// ProbeRequestType
-	if source.ProbeRequestType != nil {
-		probeRequestType := HealthProbeParametersStatusProbeRequestType(*source.ProbeRequestType)
-		parameters.ProbeRequestType = &probeRequestType
-	} else {
-		parameters.ProbeRequestType = nil
-	}
+	parameters.ProbeRequestType = genruntime.ClonePointerToString(source.ProbeRequestType)
 
 	// No error
 	return nil
@@ -5024,20 +4954,10 @@ func (parameters *HealthProbeParameters_Status) AssignPropertiesToHealthProbePar
 	destination.ProbePath = genruntime.ClonePointerToString(parameters.ProbePath)
 
 	// ProbeProtocol
-	if parameters.ProbeProtocol != nil {
-		probeProtocol := string(*parameters.ProbeProtocol)
-		destination.ProbeProtocol = &probeProtocol
-	} else {
-		destination.ProbeProtocol = nil
-	}
+	destination.ProbeProtocol = genruntime.ClonePointerToString(parameters.ProbeProtocol)
 
 	// ProbeRequestType
-	if parameters.ProbeRequestType != nil {
-		probeRequestType := string(*parameters.ProbeRequestType)
-		destination.ProbeRequestType = &probeRequestType
-	} else {
-		destination.ProbeRequestType = nil
-	}
+	destination.ProbeRequestType = genruntime.ClonePointerToString(parameters.ProbeRequestType)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -5255,8 +5175,8 @@ type KeyVaultSigningKeyParameters_Status struct {
 	SecretVersion *string `json:"secretVersion,omitempty"`
 
 	// SubscriptionId: Subscription Id of the user's Key Vault containing the secret
-	SubscriptionId *string                                     `json:"subscriptionId,omitempty"`
-	TypeName       *KeyVaultSigningKeyParametersStatusTypeName `json:"typeName,omitempty"`
+	SubscriptionId *string `json:"subscriptionId,omitempty"`
+	TypeName       *string `json:"typeName,omitempty"`
 
 	// VaultName: The name of the user's Key Vault containing the secret
 	VaultName *string `json:"vaultName,omitempty"`
@@ -5332,12 +5252,7 @@ func (parameters *KeyVaultSigningKeyParameters_Status) AssignPropertiesFromKeyVa
 	parameters.SubscriptionId = genruntime.ClonePointerToString(source.SubscriptionId)
 
 	// TypeName
-	if source.TypeName != nil {
-		typeName := KeyVaultSigningKeyParametersStatusTypeName(*source.TypeName)
-		parameters.TypeName = &typeName
-	} else {
-		parameters.TypeName = nil
-	}
+	parameters.TypeName = genruntime.ClonePointerToString(source.TypeName)
 
 	// VaultName
 	parameters.VaultName = genruntime.ClonePointerToString(source.VaultName)
@@ -5364,12 +5279,7 @@ func (parameters *KeyVaultSigningKeyParameters_Status) AssignPropertiesToKeyVaul
 	destination.SubscriptionId = genruntime.ClonePointerToString(parameters.SubscriptionId)
 
 	// TypeName
-	if parameters.TypeName != nil {
-		typeName := string(*parameters.TypeName)
-		destination.TypeName = &typeName
-	} else {
-		destination.TypeName = nil
-	}
+	destination.TypeName = genruntime.ClonePointerToString(parameters.TypeName)
 
 	// VaultName
 	destination.VaultName = genruntime.ClonePointerToString(parameters.VaultName)
@@ -5384,16 +5294,6 @@ func (parameters *KeyVaultSigningKeyParameters_Status) AssignPropertiesToKeyVaul
 	// No error
 	return nil
 }
-
-type PrivateEndpointStatus_Status string
-
-const (
-	PrivateEndpointStatus_StatusApproved     = PrivateEndpointStatus_Status("Approved")
-	PrivateEndpointStatus_StatusDisconnected = PrivateEndpointStatus_Status("Disconnected")
-	PrivateEndpointStatus_StatusPending      = PrivateEndpointStatus_Status("Pending")
-	PrivateEndpointStatus_StatusRejected     = PrivateEndpointStatus_Status("Rejected")
-	PrivateEndpointStatus_StatusTimeout      = PrivateEndpointStatus_Status("Timeout")
-)
 
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/ResponseBasedOriginErrorDetectionParameters
 type ResponseBasedOriginErrorDetectionParameters struct {
@@ -5578,7 +5478,7 @@ type ResponseBasedOriginErrorDetectionParameters_Status struct {
 	HttpErrorRanges []HttpErrorRangeParameters_Status `json:"httpErrorRanges,omitempty"`
 
 	// ResponseBasedDetectedErrorTypes: Type of response errors for real user requests for which origin will be deemed unhealthy
-	ResponseBasedDetectedErrorTypes *ResponseBasedOriginErrorDetectionParametersStatusResponseBasedDetectedErrorTypes `json:"responseBasedDetectedErrorTypes,omitempty"`
+	ResponseBasedDetectedErrorTypes *string `json:"responseBasedDetectedErrorTypes,omitempty"`
 
 	// ResponseBasedFailoverThresholdPercentage: The percentage of failed requests in the sample where failover should trigger.
 	ResponseBasedFailoverThresholdPercentage *int `json:"responseBasedFailoverThresholdPercentage,omitempty"`
@@ -5646,12 +5546,7 @@ func (parameters *ResponseBasedOriginErrorDetectionParameters_Status) AssignProp
 	}
 
 	// ResponseBasedDetectedErrorTypes
-	if source.ResponseBasedDetectedErrorTypes != nil {
-		responseBasedDetectedErrorType := ResponseBasedOriginErrorDetectionParametersStatusResponseBasedDetectedErrorTypes(*source.ResponseBasedDetectedErrorTypes)
-		parameters.ResponseBasedDetectedErrorTypes = &responseBasedDetectedErrorType
-	} else {
-		parameters.ResponseBasedDetectedErrorTypes = nil
-	}
+	parameters.ResponseBasedDetectedErrorTypes = genruntime.ClonePointerToString(source.ResponseBasedDetectedErrorTypes)
 
 	// ResponseBasedFailoverThresholdPercentage
 	parameters.ResponseBasedFailoverThresholdPercentage = genruntime.ClonePointerToInt(source.ResponseBasedFailoverThresholdPercentage)
@@ -5684,12 +5579,7 @@ func (parameters *ResponseBasedOriginErrorDetectionParameters_Status) AssignProp
 	}
 
 	// ResponseBasedDetectedErrorTypes
-	if parameters.ResponseBasedDetectedErrorTypes != nil {
-		responseBasedDetectedErrorType := string(*parameters.ResponseBasedDetectedErrorTypes)
-		destination.ResponseBasedDetectedErrorTypes = &responseBasedDetectedErrorType
-	} else {
-		destination.ResponseBasedDetectedErrorTypes = nil
-	}
+	destination.ResponseBasedDetectedErrorTypes = genruntime.ClonePointerToString(parameters.ResponseBasedDetectedErrorTypes)
 
 	// ResponseBasedFailoverThresholdPercentage
 	destination.ResponseBasedFailoverThresholdPercentage = genruntime.ClonePointerToInt(parameters.ResponseBasedFailoverThresholdPercentage)
@@ -6192,7 +6082,7 @@ func (action1 *DeliveryRuleAction1) AssignPropertiesToDeliveryRuleAction1(destin
 
 type DeliveryRuleAction_Status struct {
 	// Name: The name of the action for the delivery rule.
-	Name *DeliveryRuleActionStatusName `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &DeliveryRuleAction_Status{}
@@ -6223,12 +6113,7 @@ func (action *DeliveryRuleAction_Status) PopulateFromARM(owner genruntime.Arbitr
 func (action *DeliveryRuleAction_Status) AssignPropertiesFromDeliveryRuleActionStatus(source *v20210601s.DeliveryRuleAction_Status) error {
 
 	// Name
-	if source.Name != nil {
-		name := DeliveryRuleActionStatusName(*source.Name)
-		action.Name = &name
-	} else {
-		action.Name = nil
-	}
+	action.Name = genruntime.ClonePointerToString(source.Name)
 
 	// No error
 	return nil
@@ -6240,12 +6125,7 @@ func (action *DeliveryRuleAction_Status) AssignPropertiesToDeliveryRuleActionSta
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	if action.Name != nil {
-		name := string(*action.Name)
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(action.Name)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -7225,7 +7105,7 @@ func (condition *DeliveryRuleCondition) AssignPropertiesToDeliveryRuleCondition(
 
 type DeliveryRuleCondition_Status struct {
 	// Name: The name of the condition for the delivery rule.
-	Name *DeliveryRuleConditionStatusName `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &DeliveryRuleCondition_Status{}
@@ -7256,12 +7136,7 @@ func (condition *DeliveryRuleCondition_Status) PopulateFromARM(owner genruntime.
 func (condition *DeliveryRuleCondition_Status) AssignPropertiesFromDeliveryRuleConditionStatus(source *v20210601s.DeliveryRuleCondition_Status) error {
 
 	// Name
-	if source.Name != nil {
-		name := DeliveryRuleConditionStatusName(*source.Name)
-		condition.Name = &name
-	} else {
-		condition.Name = nil
-	}
+	condition.Name = genruntime.ClonePointerToString(source.Name)
 
 	// No error
 	return nil
@@ -7273,12 +7148,7 @@ func (condition *DeliveryRuleCondition_Status) AssignPropertiesToDeliveryRuleCon
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	if condition.Name != nil {
-		name := string(*condition.Name)
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(condition.Name)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -7307,22 +7177,6 @@ const (
 	HealthProbeParametersProbeRequestTypeGET    = HealthProbeParametersProbeRequestType("GET")
 	HealthProbeParametersProbeRequestTypeHEAD   = HealthProbeParametersProbeRequestType("HEAD")
 	HealthProbeParametersProbeRequestTypeNotSet = HealthProbeParametersProbeRequestType("NotSet")
-)
-
-type HealthProbeParametersStatusProbeProtocol string
-
-const (
-	HealthProbeParametersStatusProbeProtocolHttp   = HealthProbeParametersStatusProbeProtocol("Http")
-	HealthProbeParametersStatusProbeProtocolHttps  = HealthProbeParametersStatusProbeProtocol("Https")
-	HealthProbeParametersStatusProbeProtocolNotSet = HealthProbeParametersStatusProbeProtocol("NotSet")
-)
-
-type HealthProbeParametersStatusProbeRequestType string
-
-const (
-	HealthProbeParametersStatusProbeRequestTypeGET    = HealthProbeParametersStatusProbeRequestType("GET")
-	HealthProbeParametersStatusProbeRequestTypeHEAD   = HealthProbeParametersStatusProbeRequestType("HEAD")
-	HealthProbeParametersStatusProbeRequestTypeNotSet = HealthProbeParametersStatusProbeRequestType("NotSet")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/HttpErrorRangeParameters
@@ -7529,14 +7383,6 @@ const (
 	ResponseBasedOriginErrorDetectionParametersResponseBasedDetectedErrorTypesNone             = ResponseBasedOriginErrorDetectionParametersResponseBasedDetectedErrorTypes("None")
 	ResponseBasedOriginErrorDetectionParametersResponseBasedDetectedErrorTypesTcpAndHttpErrors = ResponseBasedOriginErrorDetectionParametersResponseBasedDetectedErrorTypes("TcpAndHttpErrors")
 	ResponseBasedOriginErrorDetectionParametersResponseBasedDetectedErrorTypesTcpErrorsOnly    = ResponseBasedOriginErrorDetectionParametersResponseBasedDetectedErrorTypes("TcpErrorsOnly")
-)
-
-type ResponseBasedOriginErrorDetectionParametersStatusResponseBasedDetectedErrorTypes string
-
-const (
-	ResponseBasedOriginErrorDetectionParametersStatusResponseBasedDetectedErrorTypesNone             = ResponseBasedOriginErrorDetectionParametersStatusResponseBasedDetectedErrorTypes("None")
-	ResponseBasedOriginErrorDetectionParametersStatusResponseBasedDetectedErrorTypesTcpAndHttpErrors = ResponseBasedOriginErrorDetectionParametersStatusResponseBasedDetectedErrorTypes("TcpAndHttpErrors")
-	ResponseBasedOriginErrorDetectionParametersStatusResponseBasedDetectedErrorTypesTcpErrorsOnly    = ResponseBasedOriginErrorDetectionParametersStatusResponseBasedDetectedErrorTypes("TcpErrorsOnly")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleCacheExpirationAction

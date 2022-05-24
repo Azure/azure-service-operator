@@ -354,7 +354,7 @@ type VirtualMachine_Status struct {
 	// For Azure Spot virtual machines, both 'Deallocate' and 'Delete' are supported and the minimum api-version is 2019-03-01.
 	// For Azure Spot scale sets, both 'Deallocate' and 'Delete' are supported and the minimum api-version is
 	// 2017-10-30-preview.
-	EvictionPolicy *EvictionPolicy_Status `json:"evictionPolicy,omitempty"`
+	EvictionPolicy *string `json:"evictionPolicy,omitempty"`
 
 	// ExtendedLocation: The extended location of the Virtual Machine.
 	ExtendedLocation *ExtendedLocation_Status `json:"extendedLocation,omitempty"`
@@ -430,7 +430,7 @@ type VirtualMachine_Status struct {
 
 	// Priority: Specifies the priority for the virtual machine.
 	// Minimum api-version: 2019-03-01
-	Priority *Priority_Status `json:"priority,omitempty"`
+	Priority *string `json:"priority,omitempty"`
 
 	// ProvisioningState: The provisioning state, which only appears in the response.
 	ProvisioningState *string `json:"provisioningState,omitempty"`
@@ -935,12 +935,7 @@ func (machine *VirtualMachine_Status) AssignPropertiesFromVirtualMachineStatus(s
 	}
 
 	// EvictionPolicy
-	if source.EvictionPolicy != nil {
-		evictionPolicy := EvictionPolicy_Status(*source.EvictionPolicy)
-		machine.EvictionPolicy = &evictionPolicy
-	} else {
-		machine.EvictionPolicy = nil
-	}
+	machine.EvictionPolicy = genruntime.ClonePointerToString(source.EvictionPolicy)
 
 	// ExtendedLocation
 	if source.ExtendedLocation != nil {
@@ -1069,12 +1064,7 @@ func (machine *VirtualMachine_Status) AssignPropertiesFromVirtualMachineStatus(s
 	machine.PlatformFaultDomain = genruntime.ClonePointerToInt(source.PlatformFaultDomain)
 
 	// Priority
-	if source.Priority != nil {
-		priority := Priority_Status(*source.Priority)
-		machine.Priority = &priority
-	} else {
-		machine.Priority = nil
-	}
+	machine.Priority = genruntime.ClonePointerToString(source.Priority)
 
 	// ProvisioningState
 	machine.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
@@ -1218,12 +1208,7 @@ func (machine *VirtualMachine_Status) AssignPropertiesToVirtualMachineStatus(des
 	}
 
 	// EvictionPolicy
-	if machine.EvictionPolicy != nil {
-		evictionPolicy := string(*machine.EvictionPolicy)
-		destination.EvictionPolicy = &evictionPolicy
-	} else {
-		destination.EvictionPolicy = nil
-	}
+	destination.EvictionPolicy = genruntime.ClonePointerToString(machine.EvictionPolicy)
 
 	// ExtendedLocation
 	if machine.ExtendedLocation != nil {
@@ -1352,12 +1337,7 @@ func (machine *VirtualMachine_Status) AssignPropertiesToVirtualMachineStatus(des
 	destination.PlatformFaultDomain = genruntime.ClonePointerToInt(machine.PlatformFaultDomain)
 
 	// Priority
-	if machine.Priority != nil {
-		priority := string(*machine.Priority)
-		destination.Priority = &priority
-	} else {
-		destination.Priority = nil
-	}
+	destination.Priority = genruntime.ClonePointerToString(machine.Priority)
 
 	// ProvisioningState
 	destination.ProvisioningState = genruntime.ClonePointerToString(machine.ProvisioningState)
@@ -3143,13 +3123,6 @@ func (profile *DiagnosticsProfile_Status) AssignPropertiesToDiagnosticsProfileSt
 	return nil
 }
 
-type EvictionPolicy_Status string
-
-const (
-	EvictionPolicy_StatusDeallocate = EvictionPolicy_Status("Deallocate")
-	EvictionPolicy_StatusDelete     = EvictionPolicy_Status("Delete")
-)
-
 // Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/ExtendedLocation
 type ExtendedLocation struct {
 	// Name: The name of the extended location.
@@ -3260,7 +3233,7 @@ type ExtendedLocation_Status struct {
 	Name *string `json:"name,omitempty"`
 
 	// Type: The type of the extended location.
-	Type *ExtendedLocationType_Status `json:"type,omitempty"`
+	Type *string `json:"type,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ExtendedLocation_Status{}
@@ -3300,12 +3273,7 @@ func (location *ExtendedLocation_Status) AssignPropertiesFromExtendedLocationSta
 	location.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Type
-	if source.Type != nil {
-		typeVar := ExtendedLocationType_Status(*source.Type)
-		location.Type = &typeVar
-	} else {
-		location.Type = nil
-	}
+	location.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
@@ -3320,12 +3288,7 @@ func (location *ExtendedLocation_Status) AssignPropertiesToExtendedLocationStatu
 	destination.Name = genruntime.ClonePointerToString(location.Name)
 
 	// Type
-	if location.Type != nil {
-		typeVar := string(*location.Type)
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
+	destination.Type = genruntime.ClonePointerToString(location.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3444,7 +3407,7 @@ type HardwareProfile_Status struct {
 	// resizing](https://docs.microsoft.com/rest/api/compute/virtualmachines/listavailablesizes). For more information about
 	// virtual machine sizes, see [Sizes for virtual machines](https://docs.microsoft.com/en-us/azure/virtual-machines/sizes).
 	// The available VM sizes depend on region and availability set.
-	VmSize *HardwareProfileStatusVmSize `json:"vmSize,omitempty"`
+	VmSize *string `json:"vmSize,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &HardwareProfile_Status{}
@@ -3475,12 +3438,7 @@ func (profile *HardwareProfile_Status) PopulateFromARM(owner genruntime.Arbitrar
 func (profile *HardwareProfile_Status) AssignPropertiesFromHardwareProfileStatus(source *v20201201s.HardwareProfile_Status) error {
 
 	// VmSize
-	if source.VmSize != nil {
-		vmSize := HardwareProfileStatusVmSize(*source.VmSize)
-		profile.VmSize = &vmSize
-	} else {
-		profile.VmSize = nil
-	}
+	profile.VmSize = genruntime.ClonePointerToString(source.VmSize)
 
 	// No error
 	return nil
@@ -3492,12 +3450,7 @@ func (profile *HardwareProfile_Status) AssignPropertiesToHardwareProfileStatus(d
 	propertyBag := genruntime.NewPropertyBag()
 
 	// VmSize
-	if profile.VmSize != nil {
-		vmSize := string(*profile.VmSize)
-		destination.VmSize = &vmSize
-	} else {
-		destination.VmSize = nil
-	}
+	destination.VmSize = genruntime.ClonePointerToString(profile.VmSize)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -4138,14 +4091,6 @@ func (plan *Plan_Status) AssignPropertiesToPlanStatus(destination *v20201201s.Pl
 	return nil
 }
 
-type Priority_Status string
-
-const (
-	Priority_StatusLow     = Priority_Status("Low")
-	Priority_StatusRegular = Priority_Status("Regular")
-	Priority_StatusSpot    = Priority_Status("Spot")
-)
-
 // Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/SecurityProfile
 type SecurityProfile struct {
 	// EncryptionAtHost: This property can be used by user in the request to enable or disable the Host Encryption for the
@@ -4323,7 +4268,7 @@ type SecurityProfile_Status struct {
 
 	// SecurityType: Specifies the SecurityType of the virtual machine. It is set as TrustedLaunch to enable UefiSettings.
 	// Default: UefiSettings will not be enabled unless this property is set as TrustedLaunch.
-	SecurityType *SecurityProfileStatusSecurityType `json:"securityType,omitempty"`
+	SecurityType *string `json:"securityType,omitempty"`
 
 	// UefiSettings: Specifies the security settings like secure boot and vTPM used while creating the virtual machine.
 	// Minimum api-version: 2020-12-01
@@ -4383,12 +4328,7 @@ func (profile *SecurityProfile_Status) AssignPropertiesFromSecurityProfileStatus
 	}
 
 	// SecurityType
-	if source.SecurityType != nil {
-		securityType := SecurityProfileStatusSecurityType(*source.SecurityType)
-		profile.SecurityType = &securityType
-	} else {
-		profile.SecurityType = nil
-	}
+	profile.SecurityType = genruntime.ClonePointerToString(source.SecurityType)
 
 	// UefiSettings
 	if source.UefiSettings != nil {
@@ -4420,12 +4360,7 @@ func (profile *SecurityProfile_Status) AssignPropertiesToSecurityProfileStatus(d
 	}
 
 	// SecurityType
-	if profile.SecurityType != nil {
-		securityType := string(*profile.SecurityType)
-		destination.SecurityType = &securityType
-	} else {
-		destination.SecurityType = nil
-	}
+	destination.SecurityType = genruntime.ClonePointerToString(profile.SecurityType)
 
 	// UefiSettings
 	if profile.UefiSettings != nil {
@@ -5516,7 +5451,7 @@ type VirtualMachineIdentity_Status struct {
 	// Type: The type of identity used for the virtual machine. The type 'SystemAssigned, UserAssigned' includes both an
 	// implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the
 	// virtual machine.
-	Type *VirtualMachineIdentityStatusType `json:"type,omitempty"`
+	Type *string `json:"type,omitempty"`
 
 	// UserAssignedIdentities: The list of user identities associated with the Virtual Machine. The user identity dictionary
 	// key references will be ARM resource ids in the form:
@@ -5583,12 +5518,7 @@ func (identity *VirtualMachineIdentity_Status) AssignPropertiesFromVirtualMachin
 	identity.TenantId = genruntime.ClonePointerToString(source.TenantId)
 
 	// Type
-	if source.Type != nil {
-		typeVar := VirtualMachineIdentityStatusType(*source.Type)
-		identity.Type = &typeVar
-	} else {
-		identity.Type = nil
-	}
+	identity.Type = genruntime.ClonePointerToString(source.Type)
 
 	// UserAssignedIdentities
 	if source.UserAssignedIdentities != nil {
@@ -5624,12 +5554,7 @@ func (identity *VirtualMachineIdentity_Status) AssignPropertiesToVirtualMachineI
 	destination.TenantId = genruntime.ClonePointerToString(identity.TenantId)
 
 	// Type
-	if identity.Type != nil {
-		typeVar := string(*identity.Type)
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
+	destination.Type = genruntime.ClonePointerToString(identity.Type)
 
 	// UserAssignedIdentities
 	if identity.UserAssignedIdentities != nil {
@@ -5682,7 +5607,7 @@ type VirtualMachineInstanceView_Status struct {
 	Extensions []VirtualMachineExtensionInstanceView_Status `json:"extensions,omitempty"`
 
 	// HyperVGeneration: Specifies the HyperVGeneration Type associated with a resource
-	HyperVGeneration *VirtualMachineInstanceViewStatusHyperVGeneration `json:"hyperVGeneration,omitempty"`
+	HyperVGeneration *string `json:"hyperVGeneration,omitempty"`
 
 	// MaintenanceRedeployStatus: The Maintenance Operation status on the virtual machine.
 	MaintenanceRedeployStatus *MaintenanceRedeployStatus_Status `json:"maintenanceRedeployStatus,omitempty"`
@@ -5924,12 +5849,7 @@ func (view *VirtualMachineInstanceView_Status) AssignPropertiesFromVirtualMachin
 	}
 
 	// HyperVGeneration
-	if source.HyperVGeneration != nil {
-		hyperVGeneration := VirtualMachineInstanceViewStatusHyperVGeneration(*source.HyperVGeneration)
-		view.HyperVGeneration = &hyperVGeneration
-	} else {
-		view.HyperVGeneration = nil
-	}
+	view.HyperVGeneration = genruntime.ClonePointerToString(source.HyperVGeneration)
 
 	// MaintenanceRedeployStatus
 	if source.MaintenanceRedeployStatus != nil {
@@ -6076,12 +5996,7 @@ func (view *VirtualMachineInstanceView_Status) AssignPropertiesToVirtualMachineI
 	}
 
 	// HyperVGeneration
-	if view.HyperVGeneration != nil {
-		hyperVGeneration := string(*view.HyperVGeneration)
-		destination.HyperVGeneration = &hyperVGeneration
-	} else {
-		destination.HyperVGeneration = nil
-	}
+	destination.HyperVGeneration = genruntime.ClonePointerToString(view.HyperVGeneration)
 
 	// MaintenanceRedeployStatus
 	if view.MaintenanceRedeployStatus != nil {
@@ -7458,7 +7373,7 @@ type DataDisk_Status struct {
 	// ReadOnly
 	// ReadWrite
 	// Default: None for Standard storage. ReadOnly for Premium storage
-	Caching *Caching_Status `json:"caching,omitempty"`
+	Caching *string `json:"caching,omitempty"`
 
 	// CreateOption: Specifies how the virtual machine should be created.
 	// Possible values are:
@@ -7466,7 +7381,7 @@ type DataDisk_Status struct {
 	// FromImage \u2013 This value is used when you are using an image to create the virtual machine. If you are using a
 	// platform image, you also use the imageReference element described above. If you are using a marketplace image, you  also
 	// use the plan element previously described.
-	CreateOption *CreateOption_Status `json:"createOption,omitempty"`
+	CreateOption *string `json:"createOption,omitempty"`
 
 	// DetachOption: Specifies the detach behavior to be used while detaching a disk or which is already in the process of
 	// detachment from the virtual machine. Supported values: ForceDetach.
@@ -7476,7 +7391,7 @@ type DataDisk_Status struct {
 	// when using this detach behavior.
 	// This feature is still in preview mode and is not supported for VirtualMachineScaleSet. To force-detach a data disk
 	// update toBeDetached to 'true' along with setting detachOption: 'ForceDetach'.
-	DetachOption *DetachOption_Status `json:"detachOption,omitempty"`
+	DetachOption *string `json:"detachOption,omitempty"`
 
 	// DiskIOPSReadWrite: Specifies the Read-Write IOPS for the managed disk when StorageAccountType is UltraSSD_LRS. Returned
 	// only for VirtualMachine ScaleSet VM disks. Can be updated only via updates to the VirtualMachine Scale Set.
@@ -7631,28 +7546,13 @@ func (disk *DataDisk_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 func (disk *DataDisk_Status) AssignPropertiesFromDataDiskStatus(source *v20201201s.DataDisk_Status) error {
 
 	// Caching
-	if source.Caching != nil {
-		caching := Caching_Status(*source.Caching)
-		disk.Caching = &caching
-	} else {
-		disk.Caching = nil
-	}
+	disk.Caching = genruntime.ClonePointerToString(source.Caching)
 
 	// CreateOption
-	if source.CreateOption != nil {
-		createOption := CreateOption_Status(*source.CreateOption)
-		disk.CreateOption = &createOption
-	} else {
-		disk.CreateOption = nil
-	}
+	disk.CreateOption = genruntime.ClonePointerToString(source.CreateOption)
 
 	// DetachOption
-	if source.DetachOption != nil {
-		detachOption := DetachOption_Status(*source.DetachOption)
-		disk.DetachOption = &detachOption
-	} else {
-		disk.DetachOption = nil
-	}
+	disk.DetachOption = genruntime.ClonePointerToString(source.DetachOption)
 
 	// DiskIOPSReadWrite
 	disk.DiskIOPSReadWrite = genruntime.ClonePointerToInt(source.DiskIOPSReadWrite)
@@ -7731,28 +7631,13 @@ func (disk *DataDisk_Status) AssignPropertiesToDataDiskStatus(destination *v2020
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Caching
-	if disk.Caching != nil {
-		caching := string(*disk.Caching)
-		destination.Caching = &caching
-	} else {
-		destination.Caching = nil
-	}
+	destination.Caching = genruntime.ClonePointerToString(disk.Caching)
 
 	// CreateOption
-	if disk.CreateOption != nil {
-		createOption := string(*disk.CreateOption)
-		destination.CreateOption = &createOption
-	} else {
-		destination.CreateOption = nil
-	}
+	destination.CreateOption = genruntime.ClonePointerToString(disk.CreateOption)
 
 	// DetachOption
-	if disk.DetachOption != nil {
-		detachOption := string(*disk.DetachOption)
-		destination.DetachOption = &detachOption
-	} else {
-		destination.DetachOption = nil
-	}
+	destination.DetachOption = genruntime.ClonePointerToString(disk.DetachOption)
 
 	// DiskIOPSReadWrite
 	destination.DiskIOPSReadWrite = genruntime.ClonePointerToInt(disk.DiskIOPSReadWrite)
@@ -7988,177 +7873,6 @@ func (view *DiskInstanceView_Status) AssignPropertiesToDiskInstanceViewStatus(de
 	// No error
 	return nil
 }
-
-type HardwareProfileStatusVmSize string
-
-const (
-	HardwareProfileStatusVmSizeBasicA0          = HardwareProfileStatusVmSize("Basic_A0")
-	HardwareProfileStatusVmSizeBasicA1          = HardwareProfileStatusVmSize("Basic_A1")
-	HardwareProfileStatusVmSizeBasicA2          = HardwareProfileStatusVmSize("Basic_A2")
-	HardwareProfileStatusVmSizeBasicA3          = HardwareProfileStatusVmSize("Basic_A3")
-	HardwareProfileStatusVmSizeBasicA4          = HardwareProfileStatusVmSize("Basic_A4")
-	HardwareProfileStatusVmSizeStandardA0       = HardwareProfileStatusVmSize("Standard_A0")
-	HardwareProfileStatusVmSizeStandardA1       = HardwareProfileStatusVmSize("Standard_A1")
-	HardwareProfileStatusVmSizeStandardA10      = HardwareProfileStatusVmSize("Standard_A10")
-	HardwareProfileStatusVmSizeStandardA11      = HardwareProfileStatusVmSize("Standard_A11")
-	HardwareProfileStatusVmSizeStandardA1V2     = HardwareProfileStatusVmSize("Standard_A1_v2")
-	HardwareProfileStatusVmSizeStandardA2       = HardwareProfileStatusVmSize("Standard_A2")
-	HardwareProfileStatusVmSizeStandardA2MV2    = HardwareProfileStatusVmSize("Standard_A2m_v2")
-	HardwareProfileStatusVmSizeStandardA2V2     = HardwareProfileStatusVmSize("Standard_A2_v2")
-	HardwareProfileStatusVmSizeStandardA3       = HardwareProfileStatusVmSize("Standard_A3")
-	HardwareProfileStatusVmSizeStandardA4       = HardwareProfileStatusVmSize("Standard_A4")
-	HardwareProfileStatusVmSizeStandardA4MV2    = HardwareProfileStatusVmSize("Standard_A4m_v2")
-	HardwareProfileStatusVmSizeStandardA4V2     = HardwareProfileStatusVmSize("Standard_A4_v2")
-	HardwareProfileStatusVmSizeStandardA5       = HardwareProfileStatusVmSize("Standard_A5")
-	HardwareProfileStatusVmSizeStandardA6       = HardwareProfileStatusVmSize("Standard_A6")
-	HardwareProfileStatusVmSizeStandardA7       = HardwareProfileStatusVmSize("Standard_A7")
-	HardwareProfileStatusVmSizeStandardA8       = HardwareProfileStatusVmSize("Standard_A8")
-	HardwareProfileStatusVmSizeStandardA8MV2    = HardwareProfileStatusVmSize("Standard_A8m_v2")
-	HardwareProfileStatusVmSizeStandardA8V2     = HardwareProfileStatusVmSize("Standard_A8_v2")
-	HardwareProfileStatusVmSizeStandardA9       = HardwareProfileStatusVmSize("Standard_A9")
-	HardwareProfileStatusVmSizeStandardB1Ms     = HardwareProfileStatusVmSize("Standard_B1ms")
-	HardwareProfileStatusVmSizeStandardB1S      = HardwareProfileStatusVmSize("Standard_B1s")
-	HardwareProfileStatusVmSizeStandardB2Ms     = HardwareProfileStatusVmSize("Standard_B2ms")
-	HardwareProfileStatusVmSizeStandardB2S      = HardwareProfileStatusVmSize("Standard_B2s")
-	HardwareProfileStatusVmSizeStandardB4Ms     = HardwareProfileStatusVmSize("Standard_B4ms")
-	HardwareProfileStatusVmSizeStandardB8Ms     = HardwareProfileStatusVmSize("Standard_B8ms")
-	HardwareProfileStatusVmSizeStandardD1       = HardwareProfileStatusVmSize("Standard_D1")
-	HardwareProfileStatusVmSizeStandardD11      = HardwareProfileStatusVmSize("Standard_D11")
-	HardwareProfileStatusVmSizeStandardD11V2    = HardwareProfileStatusVmSize("Standard_D11_v2")
-	HardwareProfileStatusVmSizeStandardD12      = HardwareProfileStatusVmSize("Standard_D12")
-	HardwareProfileStatusVmSizeStandardD12V2    = HardwareProfileStatusVmSize("Standard_D12_v2")
-	HardwareProfileStatusVmSizeStandardD13      = HardwareProfileStatusVmSize("Standard_D13")
-	HardwareProfileStatusVmSizeStandardD13V2    = HardwareProfileStatusVmSize("Standard_D13_v2")
-	HardwareProfileStatusVmSizeStandardD14      = HardwareProfileStatusVmSize("Standard_D14")
-	HardwareProfileStatusVmSizeStandardD14V2    = HardwareProfileStatusVmSize("Standard_D14_v2")
-	HardwareProfileStatusVmSizeStandardD15V2    = HardwareProfileStatusVmSize("Standard_D15_v2")
-	HardwareProfileStatusVmSizeStandardD16SV3   = HardwareProfileStatusVmSize("Standard_D16s_v3")
-	HardwareProfileStatusVmSizeStandardD16V3    = HardwareProfileStatusVmSize("Standard_D16_v3")
-	HardwareProfileStatusVmSizeStandardD1V2     = HardwareProfileStatusVmSize("Standard_D1_v2")
-	HardwareProfileStatusVmSizeStandardD2       = HardwareProfileStatusVmSize("Standard_D2")
-	HardwareProfileStatusVmSizeStandardD2SV3    = HardwareProfileStatusVmSize("Standard_D2s_v3")
-	HardwareProfileStatusVmSizeStandardD2V2     = HardwareProfileStatusVmSize("Standard_D2_v2")
-	HardwareProfileStatusVmSizeStandardD2V3     = HardwareProfileStatusVmSize("Standard_D2_v3")
-	HardwareProfileStatusVmSizeStandardD3       = HardwareProfileStatusVmSize("Standard_D3")
-	HardwareProfileStatusVmSizeStandardD32SV3   = HardwareProfileStatusVmSize("Standard_D32s_v3")
-	HardwareProfileStatusVmSizeStandardD32V3    = HardwareProfileStatusVmSize("Standard_D32_v3")
-	HardwareProfileStatusVmSizeStandardD3V2     = HardwareProfileStatusVmSize("Standard_D3_v2")
-	HardwareProfileStatusVmSizeStandardD4       = HardwareProfileStatusVmSize("Standard_D4")
-	HardwareProfileStatusVmSizeStandardD4SV3    = HardwareProfileStatusVmSize("Standard_D4s_v3")
-	HardwareProfileStatusVmSizeStandardD4V2     = HardwareProfileStatusVmSize("Standard_D4_v2")
-	HardwareProfileStatusVmSizeStandardD4V3     = HardwareProfileStatusVmSize("Standard_D4_v3")
-	HardwareProfileStatusVmSizeStandardD5V2     = HardwareProfileStatusVmSize("Standard_D5_v2")
-	HardwareProfileStatusVmSizeStandardD64SV3   = HardwareProfileStatusVmSize("Standard_D64s_v3")
-	HardwareProfileStatusVmSizeStandardD64V3    = HardwareProfileStatusVmSize("Standard_D64_v3")
-	HardwareProfileStatusVmSizeStandardD8SV3    = HardwareProfileStatusVmSize("Standard_D8s_v3")
-	HardwareProfileStatusVmSizeStandardD8V3     = HardwareProfileStatusVmSize("Standard_D8_v3")
-	HardwareProfileStatusVmSizeStandardDS1      = HardwareProfileStatusVmSize("Standard_DS1")
-	HardwareProfileStatusVmSizeStandardDS11     = HardwareProfileStatusVmSize("Standard_DS11")
-	HardwareProfileStatusVmSizeStandardDS11V2   = HardwareProfileStatusVmSize("Standard_DS11_v2")
-	HardwareProfileStatusVmSizeStandardDS12     = HardwareProfileStatusVmSize("Standard_DS12")
-	HardwareProfileStatusVmSizeStandardDS12V2   = HardwareProfileStatusVmSize("Standard_DS12_v2")
-	HardwareProfileStatusVmSizeStandardDS13     = HardwareProfileStatusVmSize("Standard_DS13")
-	HardwareProfileStatusVmSizeStandardDS132V2  = HardwareProfileStatusVmSize("Standard_DS13-2_v2")
-	HardwareProfileStatusVmSizeStandardDS134V2  = HardwareProfileStatusVmSize("Standard_DS13-4_v2")
-	HardwareProfileStatusVmSizeStandardDS13V2   = HardwareProfileStatusVmSize("Standard_DS13_v2")
-	HardwareProfileStatusVmSizeStandardDS14     = HardwareProfileStatusVmSize("Standard_DS14")
-	HardwareProfileStatusVmSizeStandardDS144V2  = HardwareProfileStatusVmSize("Standard_DS14-4_v2")
-	HardwareProfileStatusVmSizeStandardDS148V2  = HardwareProfileStatusVmSize("Standard_DS14-8_v2")
-	HardwareProfileStatusVmSizeStandardDS14V2   = HardwareProfileStatusVmSize("Standard_DS14_v2")
-	HardwareProfileStatusVmSizeStandardDS15V2   = HardwareProfileStatusVmSize("Standard_DS15_v2")
-	HardwareProfileStatusVmSizeStandardDS1V2    = HardwareProfileStatusVmSize("Standard_DS1_v2")
-	HardwareProfileStatusVmSizeStandardDS2      = HardwareProfileStatusVmSize("Standard_DS2")
-	HardwareProfileStatusVmSizeStandardDS2V2    = HardwareProfileStatusVmSize("Standard_DS2_v2")
-	HardwareProfileStatusVmSizeStandardDS3      = HardwareProfileStatusVmSize("Standard_DS3")
-	HardwareProfileStatusVmSizeStandardDS3V2    = HardwareProfileStatusVmSize("Standard_DS3_v2")
-	HardwareProfileStatusVmSizeStandardDS4      = HardwareProfileStatusVmSize("Standard_DS4")
-	HardwareProfileStatusVmSizeStandardDS4V2    = HardwareProfileStatusVmSize("Standard_DS4_v2")
-	HardwareProfileStatusVmSizeStandardDS5V2    = HardwareProfileStatusVmSize("Standard_DS5_v2")
-	HardwareProfileStatusVmSizeStandardE16SV3   = HardwareProfileStatusVmSize("Standard_E16s_v3")
-	HardwareProfileStatusVmSizeStandardE16V3    = HardwareProfileStatusVmSize("Standard_E16_v3")
-	HardwareProfileStatusVmSizeStandardE2SV3    = HardwareProfileStatusVmSize("Standard_E2s_v3")
-	HardwareProfileStatusVmSizeStandardE2V3     = HardwareProfileStatusVmSize("Standard_E2_v3")
-	HardwareProfileStatusVmSizeStandardE3216V3  = HardwareProfileStatusVmSize("Standard_E32-16_v3")
-	HardwareProfileStatusVmSizeStandardE328SV3  = HardwareProfileStatusVmSize("Standard_E32-8s_v3")
-	HardwareProfileStatusVmSizeStandardE32SV3   = HardwareProfileStatusVmSize("Standard_E32s_v3")
-	HardwareProfileStatusVmSizeStandardE32V3    = HardwareProfileStatusVmSize("Standard_E32_v3")
-	HardwareProfileStatusVmSizeStandardE4SV3    = HardwareProfileStatusVmSize("Standard_E4s_v3")
-	HardwareProfileStatusVmSizeStandardE4V3     = HardwareProfileStatusVmSize("Standard_E4_v3")
-	HardwareProfileStatusVmSizeStandardE6416SV3 = HardwareProfileStatusVmSize("Standard_E64-16s_v3")
-	HardwareProfileStatusVmSizeStandardE6432SV3 = HardwareProfileStatusVmSize("Standard_E64-32s_v3")
-	HardwareProfileStatusVmSizeStandardE64SV3   = HardwareProfileStatusVmSize("Standard_E64s_v3")
-	HardwareProfileStatusVmSizeStandardE64V3    = HardwareProfileStatusVmSize("Standard_E64_v3")
-	HardwareProfileStatusVmSizeStandardE8SV3    = HardwareProfileStatusVmSize("Standard_E8s_v3")
-	HardwareProfileStatusVmSizeStandardE8V3     = HardwareProfileStatusVmSize("Standard_E8_v3")
-	HardwareProfileStatusVmSizeStandardF1       = HardwareProfileStatusVmSize("Standard_F1")
-	HardwareProfileStatusVmSizeStandardF16      = HardwareProfileStatusVmSize("Standard_F16")
-	HardwareProfileStatusVmSizeStandardF16S     = HardwareProfileStatusVmSize("Standard_F16s")
-	HardwareProfileStatusVmSizeStandardF16SV2   = HardwareProfileStatusVmSize("Standard_F16s_v2")
-	HardwareProfileStatusVmSizeStandardF1S      = HardwareProfileStatusVmSize("Standard_F1s")
-	HardwareProfileStatusVmSizeStandardF2       = HardwareProfileStatusVmSize("Standard_F2")
-	HardwareProfileStatusVmSizeStandardF2S      = HardwareProfileStatusVmSize("Standard_F2s")
-	HardwareProfileStatusVmSizeStandardF2SV2    = HardwareProfileStatusVmSize("Standard_F2s_v2")
-	HardwareProfileStatusVmSizeStandardF32SV2   = HardwareProfileStatusVmSize("Standard_F32s_v2")
-	HardwareProfileStatusVmSizeStandardF4       = HardwareProfileStatusVmSize("Standard_F4")
-	HardwareProfileStatusVmSizeStandardF4S      = HardwareProfileStatusVmSize("Standard_F4s")
-	HardwareProfileStatusVmSizeStandardF4SV2    = HardwareProfileStatusVmSize("Standard_F4s_v2")
-	HardwareProfileStatusVmSizeStandardF64SV2   = HardwareProfileStatusVmSize("Standard_F64s_v2")
-	HardwareProfileStatusVmSizeStandardF72SV2   = HardwareProfileStatusVmSize("Standard_F72s_v2")
-	HardwareProfileStatusVmSizeStandardF8       = HardwareProfileStatusVmSize("Standard_F8")
-	HardwareProfileStatusVmSizeStandardF8S      = HardwareProfileStatusVmSize("Standard_F8s")
-	HardwareProfileStatusVmSizeStandardF8SV2    = HardwareProfileStatusVmSize("Standard_F8s_v2")
-	HardwareProfileStatusVmSizeStandardG1       = HardwareProfileStatusVmSize("Standard_G1")
-	HardwareProfileStatusVmSizeStandardG2       = HardwareProfileStatusVmSize("Standard_G2")
-	HardwareProfileStatusVmSizeStandardG3       = HardwareProfileStatusVmSize("Standard_G3")
-	HardwareProfileStatusVmSizeStandardG4       = HardwareProfileStatusVmSize("Standard_G4")
-	HardwareProfileStatusVmSizeStandardG5       = HardwareProfileStatusVmSize("Standard_G5")
-	HardwareProfileStatusVmSizeStandardGS1      = HardwareProfileStatusVmSize("Standard_GS1")
-	HardwareProfileStatusVmSizeStandardGS2      = HardwareProfileStatusVmSize("Standard_GS2")
-	HardwareProfileStatusVmSizeStandardGS3      = HardwareProfileStatusVmSize("Standard_GS3")
-	HardwareProfileStatusVmSizeStandardGS4      = HardwareProfileStatusVmSize("Standard_GS4")
-	HardwareProfileStatusVmSizeStandardGS44     = HardwareProfileStatusVmSize("Standard_GS4-4")
-	HardwareProfileStatusVmSizeStandardGS48     = HardwareProfileStatusVmSize("Standard_GS4-8")
-	HardwareProfileStatusVmSizeStandardGS5      = HardwareProfileStatusVmSize("Standard_GS5")
-	HardwareProfileStatusVmSizeStandardGS516    = HardwareProfileStatusVmSize("Standard_GS5-16")
-	HardwareProfileStatusVmSizeStandardGS58     = HardwareProfileStatusVmSize("Standard_GS5-8")
-	HardwareProfileStatusVmSizeStandardH16      = HardwareProfileStatusVmSize("Standard_H16")
-	HardwareProfileStatusVmSizeStandardH16M     = HardwareProfileStatusVmSize("Standard_H16m")
-	HardwareProfileStatusVmSizeStandardH16Mr    = HardwareProfileStatusVmSize("Standard_H16mr")
-	HardwareProfileStatusVmSizeStandardH16R     = HardwareProfileStatusVmSize("Standard_H16r")
-	HardwareProfileStatusVmSizeStandardH8       = HardwareProfileStatusVmSize("Standard_H8")
-	HardwareProfileStatusVmSizeStandardH8M      = HardwareProfileStatusVmSize("Standard_H8m")
-	HardwareProfileStatusVmSizeStandardL16S     = HardwareProfileStatusVmSize("Standard_L16s")
-	HardwareProfileStatusVmSizeStandardL32S     = HardwareProfileStatusVmSize("Standard_L32s")
-	HardwareProfileStatusVmSizeStandardL4S      = HardwareProfileStatusVmSize("Standard_L4s")
-	HardwareProfileStatusVmSizeStandardL8S      = HardwareProfileStatusVmSize("Standard_L8s")
-	HardwareProfileStatusVmSizeStandardM12832Ms = HardwareProfileStatusVmSize("Standard_M128-32ms")
-	HardwareProfileStatusVmSizeStandardM12864Ms = HardwareProfileStatusVmSize("Standard_M128-64ms")
-	HardwareProfileStatusVmSizeStandardM128Ms   = HardwareProfileStatusVmSize("Standard_M128ms")
-	HardwareProfileStatusVmSizeStandardM128S    = HardwareProfileStatusVmSize("Standard_M128s")
-	HardwareProfileStatusVmSizeStandardM6416Ms  = HardwareProfileStatusVmSize("Standard_M64-16ms")
-	HardwareProfileStatusVmSizeStandardM6432Ms  = HardwareProfileStatusVmSize("Standard_M64-32ms")
-	HardwareProfileStatusVmSizeStandardM64Ms    = HardwareProfileStatusVmSize("Standard_M64ms")
-	HardwareProfileStatusVmSizeStandardM64S     = HardwareProfileStatusVmSize("Standard_M64s")
-	HardwareProfileStatusVmSizeStandardNC12     = HardwareProfileStatusVmSize("Standard_NC12")
-	HardwareProfileStatusVmSizeStandardNC12SV2  = HardwareProfileStatusVmSize("Standard_NC12s_v2")
-	HardwareProfileStatusVmSizeStandardNC12SV3  = HardwareProfileStatusVmSize("Standard_NC12s_v3")
-	HardwareProfileStatusVmSizeStandardNC24     = HardwareProfileStatusVmSize("Standard_NC24")
-	HardwareProfileStatusVmSizeStandardNC24R    = HardwareProfileStatusVmSize("Standard_NC24r")
-	HardwareProfileStatusVmSizeStandardNC24RsV2 = HardwareProfileStatusVmSize("Standard_NC24rs_v2")
-	HardwareProfileStatusVmSizeStandardNC24RsV3 = HardwareProfileStatusVmSize("Standard_NC24rs_v3")
-	HardwareProfileStatusVmSizeStandardNC24SV2  = HardwareProfileStatusVmSize("Standard_NC24s_v2")
-	HardwareProfileStatusVmSizeStandardNC24SV3  = HardwareProfileStatusVmSize("Standard_NC24s_v3")
-	HardwareProfileStatusVmSizeStandardNC6      = HardwareProfileStatusVmSize("Standard_NC6")
-	HardwareProfileStatusVmSizeStandardNC6SV2   = HardwareProfileStatusVmSize("Standard_NC6s_v2")
-	HardwareProfileStatusVmSizeStandardNC6SV3   = HardwareProfileStatusVmSize("Standard_NC6s_v3")
-	HardwareProfileStatusVmSizeStandardND12S    = HardwareProfileStatusVmSize("Standard_ND12s")
-	HardwareProfileStatusVmSizeStandardND24Rs   = HardwareProfileStatusVmSize("Standard_ND24rs")
-	HardwareProfileStatusVmSizeStandardND24S    = HardwareProfileStatusVmSize("Standard_ND24s")
-	HardwareProfileStatusVmSizeStandardND6S     = HardwareProfileStatusVmSize("Standard_ND6s")
-	HardwareProfileStatusVmSizeStandardNV12     = HardwareProfileStatusVmSize("Standard_NV12")
-	HardwareProfileStatusVmSizeStandardNV24     = HardwareProfileStatusVmSize("Standard_NV24")
-	HardwareProfileStatusVmSizeStandardNV6      = HardwareProfileStatusVmSize("Standard_NV6")
-)
 
 // +kubebuilder:validation:Enum={"Basic_A0","Basic_A1","Basic_A2","Basic_A3","Basic_A4","Standard_A0","Standard_A1","Standard_A10","Standard_A11","Standard_A1_v2","Standard_A2","Standard_A2m_v2","Standard_A2_v2","Standard_A3","Standard_A4","Standard_A4m_v2","Standard_A4_v2","Standard_A5","Standard_A6","Standard_A7","Standard_A8","Standard_A8m_v2","Standard_A8_v2","Standard_A9","Standard_B1ms","Standard_B1s","Standard_B2ms","Standard_B2s","Standard_B4ms","Standard_B8ms","Standard_D1","Standard_D11","Standard_D11_v2","Standard_D12","Standard_D12_v2","Standard_D13","Standard_D13_v2","Standard_D14","Standard_D14_v2","Standard_D15_v2","Standard_D16s_v3","Standard_D16_v3","Standard_D1_v2","Standard_D2","Standard_D2s_v3","Standard_D2_v2","Standard_D2_v3","Standard_D3","Standard_D32s_v3","Standard_D32_v3","Standard_D3_v2","Standard_D4","Standard_D4s_v3","Standard_D4_v2","Standard_D4_v3","Standard_D5_v2","Standard_D64s_v3","Standard_D64_v3","Standard_D8s_v3","Standard_D8_v3","Standard_DS1","Standard_DS11","Standard_DS11_v2","Standard_DS12","Standard_DS12_v2","Standard_DS13","Standard_DS13-2_v2","Standard_DS13-4_v2","Standard_DS13_v2","Standard_DS14","Standard_DS14-4_v2","Standard_DS14-8_v2","Standard_DS14_v2","Standard_DS15_v2","Standard_DS1_v2","Standard_DS2","Standard_DS2_v2","Standard_DS3","Standard_DS3_v2","Standard_DS4","Standard_DS4_v2","Standard_DS5_v2","Standard_E16s_v3","Standard_E16_v3","Standard_E2s_v3","Standard_E2_v3","Standard_E32-16_v3","Standard_E32-8s_v3","Standard_E32s_v3","Standard_E32_v3","Standard_E4s_v3","Standard_E4_v3","Standard_E64-16s_v3","Standard_E64-32s_v3","Standard_E64s_v3","Standard_E64_v3","Standard_E8s_v3","Standard_E8_v3","Standard_F1","Standard_F16","Standard_F16s","Standard_F16s_v2","Standard_F1s","Standard_F2","Standard_F2s","Standard_F2s_v2","Standard_F32s_v2","Standard_F4","Standard_F4s","Standard_F4s_v2","Standard_F64s_v2","Standard_F72s_v2","Standard_F8","Standard_F8s","Standard_F8s_v2","Standard_G1","Standard_G2","Standard_G3","Standard_G4","Standard_G5","Standard_GS1","Standard_GS2","Standard_GS3","Standard_GS4","Standard_GS4-4","Standard_GS4-8","Standard_GS5","Standard_GS5-16","Standard_GS5-8","Standard_H16","Standard_H16m","Standard_H16mr","Standard_H16r","Standard_H8","Standard_H8m","Standard_L16s","Standard_L32s","Standard_L4s","Standard_L8s","Standard_M128-32ms","Standard_M128-64ms","Standard_M128ms","Standard_M128s","Standard_M64-16ms","Standard_M64-32ms","Standard_M64ms","Standard_M64s","Standard_NC12","Standard_NC12s_v2","Standard_NC12s_v3","Standard_NC24","Standard_NC24r","Standard_NC24rs_v2","Standard_NC24rs_v3","Standard_NC24s_v2","Standard_NC24s_v3","Standard_NC6","Standard_NC6s_v2","Standard_NC6s_v3","Standard_ND12s","Standard_ND24rs","Standard_ND24s","Standard_ND6s","Standard_NV12","Standard_NV24","Standard_NV6"}
 type HardwareProfileVmSize string
@@ -8648,7 +8362,7 @@ type InstanceViewStatus_Status struct {
 	DisplayStatus *string `json:"displayStatus,omitempty"`
 
 	// Level: The level code.
-	Level *InstanceViewStatusStatusLevel `json:"level,omitempty"`
+	Level *string `json:"level,omitempty"`
 
 	// Message: The detailed status message, including for alerts and error messages.
 	Message *string `json:"message,omitempty"`
@@ -8715,12 +8429,7 @@ func (view *InstanceViewStatus_Status) AssignPropertiesFromInstanceViewStatusSta
 	view.DisplayStatus = genruntime.ClonePointerToString(source.DisplayStatus)
 
 	// Level
-	if source.Level != nil {
-		level := InstanceViewStatusStatusLevel(*source.Level)
-		view.Level = &level
-	} else {
-		view.Level = nil
-	}
+	view.Level = genruntime.ClonePointerToString(source.Level)
 
 	// Message
 	view.Message = genruntime.ClonePointerToString(source.Message)
@@ -8744,12 +8453,7 @@ func (view *InstanceViewStatus_Status) AssignPropertiesToInstanceViewStatusStatu
 	destination.DisplayStatus = genruntime.ClonePointerToString(view.DisplayStatus)
 
 	// Level
-	if view.Level != nil {
-		level := string(*view.Level)
-		destination.Level = &level
-	} else {
-		destination.Level = nil
-	}
+	destination.Level = genruntime.ClonePointerToString(view.Level)
 
 	// Message
 	destination.Message = genruntime.ClonePointerToString(view.Message)
@@ -9160,7 +8864,7 @@ type MaintenanceRedeployStatus_Status struct {
 	LastOperationMessage *string `json:"lastOperationMessage,omitempty"`
 
 	// LastOperationResultCode: The Last Maintenance Operation Result Code.
-	LastOperationResultCode *MaintenanceRedeployStatusStatusLastOperationResultCode `json:"lastOperationResultCode,omitempty"`
+	LastOperationResultCode *string `json:"lastOperationResultCode,omitempty"`
 
 	// MaintenanceWindowEndTime: End Time for the Maintenance Window.
 	MaintenanceWindowEndTime *string `json:"maintenanceWindowEndTime,omitempty"`
@@ -9250,12 +8954,7 @@ func (redeploy *MaintenanceRedeployStatus_Status) AssignPropertiesFromMaintenanc
 	redeploy.LastOperationMessage = genruntime.ClonePointerToString(source.LastOperationMessage)
 
 	// LastOperationResultCode
-	if source.LastOperationResultCode != nil {
-		lastOperationResultCode := MaintenanceRedeployStatusStatusLastOperationResultCode(*source.LastOperationResultCode)
-		redeploy.LastOperationResultCode = &lastOperationResultCode
-	} else {
-		redeploy.LastOperationResultCode = nil
-	}
+	redeploy.LastOperationResultCode = genruntime.ClonePointerToString(source.LastOperationResultCode)
 
 	// MaintenanceWindowEndTime
 	redeploy.MaintenanceWindowEndTime = genruntime.ClonePointerToString(source.MaintenanceWindowEndTime)
@@ -9290,12 +8989,7 @@ func (redeploy *MaintenanceRedeployStatus_Status) AssignPropertiesToMaintenanceR
 	destination.LastOperationMessage = genruntime.ClonePointerToString(redeploy.LastOperationMessage)
 
 	// LastOperationResultCode
-	if redeploy.LastOperationResultCode != nil {
-		lastOperationResultCode := string(*redeploy.LastOperationResultCode)
-		destination.LastOperationResultCode = &lastOperationResultCode
-	} else {
-		destination.LastOperationResultCode = nil
-	}
+	destination.LastOperationResultCode = genruntime.ClonePointerToString(redeploy.LastOperationResultCode)
 
 	// MaintenanceWindowEndTime
 	destination.MaintenanceWindowEndTime = genruntime.ClonePointerToString(redeploy.MaintenanceWindowEndTime)
@@ -9890,7 +9584,7 @@ type OSDisk_Status struct {
 	// ReadOnly
 	// ReadWrite
 	// Default: None for Standard storage. ReadOnly for Premium storage.
-	Caching *Caching_Status `json:"caching,omitempty"`
+	Caching *string `json:"caching,omitempty"`
 
 	// CreateOption: Specifies how the virtual machine should be created.
 	// Possible values are:
@@ -9898,7 +9592,7 @@ type OSDisk_Status struct {
 	// FromImage \u2013 This value is used when you are using an image to create the virtual machine. If you are using a
 	// platform image, you also use the imageReference element described above. If you are using a marketplace image, you  also
 	// use the plan element previously described.
-	CreateOption *CreateOption_Status `json:"createOption,omitempty"`
+	CreateOption *string `json:"createOption,omitempty"`
 
 	// DiffDiskSettings: Specifies the ephemeral Disk Settings for the operating system disk used by the virtual machine.
 	DiffDiskSettings *DiffDiskSettings_Status `json:"diffDiskSettings,omitempty"`
@@ -9927,7 +9621,7 @@ type OSDisk_Status struct {
 	// Possible values are:
 	// Windows
 	// Linux
-	OsType *OSDiskStatusOsType `json:"osType,omitempty"`
+	OsType *string `json:"osType,omitempty"`
 
 	// Vhd: The virtual hard disk.
 	Vhd *VirtualHardDisk_Status `json:"vhd,omitempty"`
@@ -10049,20 +9743,10 @@ func (disk *OSDisk_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 func (disk *OSDisk_Status) AssignPropertiesFromOSDiskStatus(source *v20201201s.OSDisk_Status) error {
 
 	// Caching
-	if source.Caching != nil {
-		caching := Caching_Status(*source.Caching)
-		disk.Caching = &caching
-	} else {
-		disk.Caching = nil
-	}
+	disk.Caching = genruntime.ClonePointerToString(source.Caching)
 
 	// CreateOption
-	if source.CreateOption != nil {
-		createOption := CreateOption_Status(*source.CreateOption)
-		disk.CreateOption = &createOption
-	} else {
-		disk.CreateOption = nil
-	}
+	disk.CreateOption = genruntime.ClonePointerToString(source.CreateOption)
 
 	// DiffDiskSettings
 	if source.DiffDiskSettings != nil {
@@ -10119,12 +9803,7 @@ func (disk *OSDisk_Status) AssignPropertiesFromOSDiskStatus(source *v20201201s.O
 	disk.Name = genruntime.ClonePointerToString(source.Name)
 
 	// OsType
-	if source.OsType != nil {
-		osType := OSDiskStatusOsType(*source.OsType)
-		disk.OsType = &osType
-	} else {
-		disk.OsType = nil
-	}
+	disk.OsType = genruntime.ClonePointerToString(source.OsType)
 
 	// Vhd
 	if source.Vhd != nil {
@@ -10156,20 +9835,10 @@ func (disk *OSDisk_Status) AssignPropertiesToOSDiskStatus(destination *v20201201
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Caching
-	if disk.Caching != nil {
-		caching := string(*disk.Caching)
-		destination.Caching = &caching
-	} else {
-		destination.Caching = nil
-	}
+	destination.Caching = genruntime.ClonePointerToString(disk.Caching)
 
 	// CreateOption
-	if disk.CreateOption != nil {
-		createOption := string(*disk.CreateOption)
-		destination.CreateOption = &createOption
-	} else {
-		destination.CreateOption = nil
-	}
+	destination.CreateOption = genruntime.ClonePointerToString(disk.CreateOption)
 
 	// DiffDiskSettings
 	if disk.DiffDiskSettings != nil {
@@ -10226,12 +9895,7 @@ func (disk *OSDisk_Status) AssignPropertiesToOSDiskStatus(destination *v20201201
 	destination.Name = genruntime.ClonePointerToString(disk.Name)
 
 	// OsType
-	if disk.OsType != nil {
-		osType := string(*disk.OsType)
-		destination.OsType = &osType
-	} else {
-		destination.OsType = nil
-	}
+	destination.OsType = genruntime.ClonePointerToString(disk.OsType)
 
 	// Vhd
 	if disk.Vhd != nil {
@@ -10268,10 +9932,6 @@ func (disk *OSDisk_Status) AssignPropertiesToOSDiskStatus(destination *v20201201
 type SecurityProfileSecurityType string
 
 const SecurityProfileSecurityTypeTrustedLaunch = SecurityProfileSecurityType("TrustedLaunch")
-
-type SecurityProfileStatusSecurityType string
-
-const SecurityProfileStatusSecurityTypeTrustedLaunch = SecurityProfileStatusSecurityType("TrustedLaunch")
 
 // Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/UefiSettings
 type UefiSettings struct {
@@ -11268,13 +10928,6 @@ func (identities *VirtualMachineIdentity_Status_UserAssignedIdentities) AssignPr
 	// No error
 	return nil
 }
-
-type VirtualMachineInstanceViewStatusHyperVGeneration string
-
-const (
-	VirtualMachineInstanceViewStatusHyperVGenerationV1 = VirtualMachineInstanceViewStatusHyperVGeneration("V1")
-	VirtualMachineInstanceViewStatusHyperVGenerationV2 = VirtualMachineInstanceViewStatusHyperVGeneration("V2")
-)
 
 type VirtualMachinePatchStatus_Status struct {
 	// AvailablePatchSummary: The available patch summary of the latest assessment operation for the virtual machine.
@@ -12277,7 +11930,7 @@ func (content *AdditionalUnattendContent) AssignPropertiesToAdditionalUnattendCo
 
 type AdditionalUnattendContent_Status struct {
 	// ComponentName: The component name. Currently, the only allowable value is Microsoft-Windows-Shell-Setup.
-	ComponentName *AdditionalUnattendContentStatusComponentName `json:"componentName,omitempty"`
+	ComponentName *string `json:"componentName,omitempty"`
 
 	// Content: Specifies the XML formatted content that is added to the unattend.xml file for the specified path and
 	// component. The XML must be less than 4KB and must include the root element for the setting or feature that is being
@@ -12285,11 +11938,11 @@ type AdditionalUnattendContent_Status struct {
 	Content *string `json:"content,omitempty"`
 
 	// PassName: The pass name. Currently, the only allowable value is OobeSystem.
-	PassName *AdditionalUnattendContentStatusPassName `json:"passName,omitempty"`
+	PassName *string `json:"passName,omitempty"`
 
 	// SettingName: Specifies the name of the setting to which the content applies. Possible values are: FirstLogonCommands and
 	// AutoLogon.
-	SettingName *AdditionalUnattendContentStatusSettingName `json:"settingName,omitempty"`
+	SettingName *string `json:"settingName,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &AdditionalUnattendContent_Status{}
@@ -12338,31 +11991,16 @@ func (content *AdditionalUnattendContent_Status) PopulateFromARM(owner genruntim
 func (content *AdditionalUnattendContent_Status) AssignPropertiesFromAdditionalUnattendContentStatus(source *v20201201s.AdditionalUnattendContent_Status) error {
 
 	// ComponentName
-	if source.ComponentName != nil {
-		componentName := AdditionalUnattendContentStatusComponentName(*source.ComponentName)
-		content.ComponentName = &componentName
-	} else {
-		content.ComponentName = nil
-	}
+	content.ComponentName = genruntime.ClonePointerToString(source.ComponentName)
 
 	// Content
 	content.Content = genruntime.ClonePointerToString(source.Content)
 
 	// PassName
-	if source.PassName != nil {
-		passName := AdditionalUnattendContentStatusPassName(*source.PassName)
-		content.PassName = &passName
-	} else {
-		content.PassName = nil
-	}
+	content.PassName = genruntime.ClonePointerToString(source.PassName)
 
 	// SettingName
-	if source.SettingName != nil {
-		settingName := AdditionalUnattendContentStatusSettingName(*source.SettingName)
-		content.SettingName = &settingName
-	} else {
-		content.SettingName = nil
-	}
+	content.SettingName = genruntime.ClonePointerToString(source.SettingName)
 
 	// No error
 	return nil
@@ -12374,31 +12012,16 @@ func (content *AdditionalUnattendContent_Status) AssignPropertiesToAdditionalUna
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ComponentName
-	if content.ComponentName != nil {
-		componentName := string(*content.ComponentName)
-		destination.ComponentName = &componentName
-	} else {
-		destination.ComponentName = nil
-	}
+	destination.ComponentName = genruntime.ClonePointerToString(content.ComponentName)
 
 	// Content
 	destination.Content = genruntime.ClonePointerToString(content.Content)
 
 	// PassName
-	if content.PassName != nil {
-		passName := string(*content.PassName)
-		destination.PassName = &passName
-	} else {
-		destination.PassName = nil
-	}
+	destination.PassName = genruntime.ClonePointerToString(content.PassName)
 
 	// SettingName
-	if content.SettingName != nil {
-		settingName := string(*content.SettingName)
-		destination.SettingName = &settingName
-	} else {
-		destination.SettingName = nil
-	}
+	destination.SettingName = genruntime.ClonePointerToString(content.SettingName)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -12438,7 +12061,7 @@ type AvailablePatchSummary_Status struct {
 
 	// Status: The overall success or failure status of the operation. It remains "InProgress" until the operation completes.
 	// At that point it will become "Unknown", "Failed", "Succeeded", or "CompletedWithWarnings."
-	Status *AvailablePatchSummaryStatusStatus `json:"status,omitempty"`
+	Status *string `json:"status,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &AvailablePatchSummary_Status{}
@@ -12551,12 +12174,7 @@ func (summary *AvailablePatchSummary_Status) AssignPropertiesFromAvailablePatchS
 	summary.StartTime = genruntime.ClonePointerToString(source.StartTime)
 
 	// Status
-	if source.Status != nil {
-		status := AvailablePatchSummaryStatusStatus(*source.Status)
-		summary.Status = &status
-	} else {
-		summary.Status = nil
-	}
+	summary.Status = genruntime.ClonePointerToString(source.Status)
 
 	// No error
 	return nil
@@ -12603,12 +12221,7 @@ func (summary *AvailablePatchSummary_Status) AssignPropertiesToAvailablePatchSum
 	destination.StartTime = genruntime.ClonePointerToString(summary.StartTime)
 
 	// Status
-	if summary.Status != nil {
-		status := string(*summary.Status)
-		destination.Status = &status
-	} else {
-		destination.Status = nil
-	}
+	destination.Status = genruntime.ClonePointerToString(summary.Status)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -12620,22 +12233,6 @@ func (summary *AvailablePatchSummary_Status) AssignPropertiesToAvailablePatchSum
 	// No error
 	return nil
 }
-
-type Caching_Status string
-
-const (
-	Caching_StatusNone      = Caching_Status("None")
-	Caching_StatusReadOnly  = Caching_Status("ReadOnly")
-	Caching_StatusReadWrite = Caching_Status("ReadWrite")
-)
-
-type CreateOption_Status string
-
-const (
-	CreateOption_StatusAttach    = CreateOption_Status("Attach")
-	CreateOption_StatusEmpty     = CreateOption_Status("Empty")
-	CreateOption_StatusFromImage = CreateOption_Status("FromImage")
-)
 
 // +kubebuilder:validation:Enum={"None","ReadOnly","ReadWrite"}
 type DataDiskCaching string
@@ -12659,10 +12256,6 @@ const (
 type DataDiskDetachOption string
 
 const DataDiskDetachOptionForceDetach = DataDiskDetachOption("ForceDetach")
-
-type DetachOption_Status string
-
-const DetachOption_StatusForceDetach = DetachOption_Status("ForceDetach")
 
 // Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/DiffDiskSettings
 type DiffDiskSettings struct {
@@ -12788,7 +12381,7 @@ func (settings *DiffDiskSettings) AssignPropertiesToDiffDiskSettings(destination
 
 type DiffDiskSettings_Status struct {
 	// Option: Specifies the ephemeral disk settings for operating system disk.
-	Option *DiffDiskOption_Status `json:"option,omitempty"`
+	Option *string `json:"option,omitempty"`
 
 	// Placement: Specifies the ephemeral disk placement for operating system disk.
 	// Possible values are:
@@ -12798,7 +12391,7 @@ type DiffDiskSettings_Status struct {
 	// Refer to VM size documentation for Windows VM at https://docs.microsoft.com/en-us/azure/virtual-machines/windows/sizes
 	// and Linux VM at https://docs.microsoft.com/en-us/azure/virtual-machines/linux/sizes to check which VM sizes exposes a
 	// cache disk.
-	Placement *DiffDiskPlacement_Status `json:"placement,omitempty"`
+	Placement *string `json:"placement,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &DiffDiskSettings_Status{}
@@ -12835,20 +12428,10 @@ func (settings *DiffDiskSettings_Status) PopulateFromARM(owner genruntime.Arbitr
 func (settings *DiffDiskSettings_Status) AssignPropertiesFromDiffDiskSettingsStatus(source *v20201201s.DiffDiskSettings_Status) error {
 
 	// Option
-	if source.Option != nil {
-		option := DiffDiskOption_Status(*source.Option)
-		settings.Option = &option
-	} else {
-		settings.Option = nil
-	}
+	settings.Option = genruntime.ClonePointerToString(source.Option)
 
 	// Placement
-	if source.Placement != nil {
-		placement := DiffDiskPlacement_Status(*source.Placement)
-		settings.Placement = &placement
-	} else {
-		settings.Placement = nil
-	}
+	settings.Placement = genruntime.ClonePointerToString(source.Placement)
 
 	// No error
 	return nil
@@ -12860,20 +12443,10 @@ func (settings *DiffDiskSettings_Status) AssignPropertiesToDiffDiskSettingsStatu
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Option
-	if settings.Option != nil {
-		option := string(*settings.Option)
-		destination.Option = &option
-	} else {
-		destination.Option = nil
-	}
+	destination.Option = genruntime.ClonePointerToString(settings.Option)
 
 	// Placement
-	if settings.Placement != nil {
-		placement := string(*settings.Placement)
-		destination.Placement = &placement
-	} else {
-		destination.Placement = nil
-	}
+	destination.Placement = genruntime.ClonePointerToString(settings.Placement)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -13210,14 +12783,6 @@ func (settings *DiskEncryptionSettings_Status) AssignPropertiesToDiskEncryptionS
 	return nil
 }
 
-type InstanceViewStatusStatusLevel string
-
-const (
-	InstanceViewStatusStatusLevelError   = InstanceViewStatusStatusLevel("Error")
-	InstanceViewStatusStatusLevelInfo    = InstanceViewStatusStatusLevel("Info")
-	InstanceViewStatusStatusLevelWarning = InstanceViewStatusStatusLevel("Warning")
-)
-
 type LastPatchInstallationSummary_Status struct {
 	// Error: The errors that were encountered during execution of the operation. The details array contains the list of them.
 	Error *ApiError_Status `json:"error,omitempty"`
@@ -13255,7 +12820,7 @@ type LastPatchInstallationSummary_Status struct {
 
 	// Status: The overall success or failure status of the operation. It remains "InProgress" until the operation completes.
 	// At that point it will become "Unknown", "Failed", "Succeeded", or "CompletedWithWarnings."
-	Status *LastPatchInstallationSummaryStatusStatus `json:"status,omitempty"`
+	Status *string `json:"status,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &LastPatchInstallationSummary_Status{}
@@ -13395,12 +12960,7 @@ func (summary *LastPatchInstallationSummary_Status) AssignPropertiesFromLastPatc
 	summary.StartTime = genruntime.ClonePointerToString(source.StartTime)
 
 	// Status
-	if source.Status != nil {
-		status := LastPatchInstallationSummaryStatusStatus(*source.Status)
-		summary.Status = &status
-	} else {
-		summary.Status = nil
-	}
+	summary.Status = genruntime.ClonePointerToString(source.Status)
 
 	// No error
 	return nil
@@ -13456,12 +13016,7 @@ func (summary *LastPatchInstallationSummary_Status) AssignPropertiesToLastPatchI
 	destination.StartTime = genruntime.ClonePointerToString(summary.StartTime)
 
 	// Status
-	if summary.Status != nil {
-		status := string(*summary.Status)
-		destination.Status = &status
-	} else {
-		destination.Status = nil
-	}
+	destination.Status = genruntime.ClonePointerToString(summary.Status)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -13568,7 +13123,7 @@ type LinuxPatchSettings_Status struct {
 	// ImageDefault - The virtual machine's default patching configuration is used.
 	// AutomaticByPlatform - The virtual machine will be automatically updated by the platform. The property provisionVMAgent
 	// must be true
-	PatchMode *LinuxPatchSettingsStatusPatchMode `json:"patchMode,omitempty"`
+	PatchMode *string `json:"patchMode,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &LinuxPatchSettings_Status{}
@@ -13599,12 +13154,7 @@ func (settings *LinuxPatchSettings_Status) PopulateFromARM(owner genruntime.Arbi
 func (settings *LinuxPatchSettings_Status) AssignPropertiesFromLinuxPatchSettingsStatus(source *v20201201s.LinuxPatchSettings_Status) error {
 
 	// PatchMode
-	if source.PatchMode != nil {
-		patchMode := LinuxPatchSettingsStatusPatchMode(*source.PatchMode)
-		settings.PatchMode = &patchMode
-	} else {
-		settings.PatchMode = nil
-	}
+	settings.PatchMode = genruntime.ClonePointerToString(source.PatchMode)
 
 	// No error
 	return nil
@@ -13616,12 +13166,7 @@ func (settings *LinuxPatchSettings_Status) AssignPropertiesToLinuxPatchSettingsS
 	propertyBag := genruntime.NewPropertyBag()
 
 	// PatchMode
-	if settings.PatchMode != nil {
-		patchMode := string(*settings.PatchMode)
-		destination.PatchMode = &patchMode
-	} else {
-		destination.PatchMode = nil
-	}
+	destination.PatchMode = genruntime.ClonePointerToString(settings.PatchMode)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -13633,15 +13178,6 @@ func (settings *LinuxPatchSettings_Status) AssignPropertiesToLinuxPatchSettingsS
 	// No error
 	return nil
 }
-
-type MaintenanceRedeployStatusStatusLastOperationResultCode string
-
-const (
-	MaintenanceRedeployStatusStatusLastOperationResultCodeMaintenanceAborted   = MaintenanceRedeployStatusStatusLastOperationResultCode("MaintenanceAborted")
-	MaintenanceRedeployStatusStatusLastOperationResultCodeMaintenanceCompleted = MaintenanceRedeployStatusStatusLastOperationResultCode("MaintenanceCompleted")
-	MaintenanceRedeployStatusStatusLastOperationResultCodeNone                 = MaintenanceRedeployStatusStatusLastOperationResultCode("None")
-	MaintenanceRedeployStatusStatusLastOperationResultCodeRetryLater           = MaintenanceRedeployStatusStatusLastOperationResultCode("RetryLater")
-)
 
 // Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/ManagedDiskParameters
 type ManagedDiskParameters struct {
@@ -13821,7 +13357,7 @@ type ManagedDiskParameters_Status struct {
 	// StorageAccountType: Specifies the storage account type for the managed disk. Managed OS disk storage account type can
 	// only be set when you create the scale set. NOTE: UltraSSD_LRS can only be used with data disks, it cannot be used with
 	// OS Disk.
-	StorageAccountType *StorageAccountType_Status `json:"storageAccountType,omitempty"`
+	StorageAccountType *string `json:"storageAccountType,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ManagedDiskParameters_Status{}
@@ -13884,12 +13420,7 @@ func (parameters *ManagedDiskParameters_Status) AssignPropertiesFromManagedDiskP
 	parameters.Id = genruntime.ClonePointerToString(source.Id)
 
 	// StorageAccountType
-	if source.StorageAccountType != nil {
-		storageAccountType := StorageAccountType_Status(*source.StorageAccountType)
-		parameters.StorageAccountType = &storageAccountType
-	} else {
-		parameters.StorageAccountType = nil
-	}
+	parameters.StorageAccountType = genruntime.ClonePointerToString(source.StorageAccountType)
 
 	// No error
 	return nil
@@ -13916,12 +13447,7 @@ func (parameters *ManagedDiskParameters_Status) AssignPropertiesToManagedDiskPar
 	destination.Id = genruntime.ClonePointerToString(parameters.Id)
 
 	// StorageAccountType
-	if parameters.StorageAccountType != nil {
-		storageAccountType := string(*parameters.StorageAccountType)
-		destination.StorageAccountType = &storageAccountType
-	} else {
-		destination.StorageAccountType = nil
-	}
+	destination.StorageAccountType = genruntime.ClonePointerToString(parameters.StorageAccountType)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -13958,13 +13484,6 @@ type OSDiskOsType string
 const (
 	OSDiskOsTypeLinux   = OSDiskOsType("Linux")
 	OSDiskOsTypeWindows = OSDiskOsType("Windows")
-)
-
-type OSDiskStatusOsType string
-
-const (
-	OSDiskStatusOsTypeLinux   = OSDiskStatusOsType("Linux")
-	OSDiskStatusOsTypeWindows = OSDiskStatusOsType("Windows")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/PatchSettings
@@ -14105,7 +13624,7 @@ type PatchSettings_Status struct {
 	// WindowsConfiguration.enableAutomaticUpdates must be true.
 	// AutomaticByPlatform - the virtual machine will automatically updated by the platform. The properties provisionVMAgent
 	// and WindowsConfiguration.enableAutomaticUpdates must be true
-	PatchMode *PatchSettingsStatusPatchMode `json:"patchMode,omitempty"`
+	PatchMode *string `json:"patchMode,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &PatchSettings_Status{}
@@ -14150,12 +13669,7 @@ func (settings *PatchSettings_Status) AssignPropertiesFromPatchSettingsStatus(so
 	}
 
 	// PatchMode
-	if source.PatchMode != nil {
-		patchMode := PatchSettingsStatusPatchMode(*source.PatchMode)
-		settings.PatchMode = &patchMode
-	} else {
-		settings.PatchMode = nil
-	}
+	settings.PatchMode = genruntime.ClonePointerToString(source.PatchMode)
 
 	// No error
 	return nil
@@ -14175,12 +13689,7 @@ func (settings *PatchSettings_Status) AssignPropertiesToPatchSettingsStatus(dest
 	}
 
 	// PatchMode
-	if settings.PatchMode != nil {
-		patchMode := string(*settings.PatchMode)
-		destination.PatchMode = &patchMode
-	} else {
-		destination.PatchMode = nil
-	}
+	destination.PatchMode = genruntime.ClonePointerToString(settings.PatchMode)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -15052,21 +14561,6 @@ const (
 	AdditionalUnattendContentSettingNameFirstLogonCommands = AdditionalUnattendContentSettingName("FirstLogonCommands")
 )
 
-type AdditionalUnattendContentStatusComponentName string
-
-const AdditionalUnattendContentStatusComponentNameMicrosoftWindowsShellSetup = AdditionalUnattendContentStatusComponentName("Microsoft-Windows-Shell-Setup")
-
-type AdditionalUnattendContentStatusPassName string
-
-const AdditionalUnattendContentStatusPassNameOobeSystem = AdditionalUnattendContentStatusPassName("OobeSystem")
-
-type AdditionalUnattendContentStatusSettingName string
-
-const (
-	AdditionalUnattendContentStatusSettingNameAutoLogon          = AdditionalUnattendContentStatusSettingName("AutoLogon")
-	AdditionalUnattendContentStatusSettingNameFirstLogonCommands = AdditionalUnattendContentStatusSettingName("FirstLogonCommands")
-)
-
 type ApiError_Status struct {
 	// Code: The error code.
 	Code *string `json:"code,omitempty"`
@@ -15241,27 +14735,6 @@ func (error *ApiError_Status) AssignPropertiesToApiErrorStatus(destination *v202
 	// No error
 	return nil
 }
-
-type AvailablePatchSummaryStatusStatus string
-
-const (
-	AvailablePatchSummaryStatusStatusCompletedWithWarnings = AvailablePatchSummaryStatusStatus("CompletedWithWarnings")
-	AvailablePatchSummaryStatusStatusFailed                = AvailablePatchSummaryStatusStatus("Failed")
-	AvailablePatchSummaryStatusStatusInProgress            = AvailablePatchSummaryStatusStatus("InProgress")
-	AvailablePatchSummaryStatusStatusSucceeded             = AvailablePatchSummaryStatusStatus("Succeeded")
-	AvailablePatchSummaryStatusStatusUnknown               = AvailablePatchSummaryStatusStatus("Unknown")
-)
-
-type DiffDiskOption_Status string
-
-const DiffDiskOption_StatusLocal = DiffDiskOption_Status("Local")
-
-type DiffDiskPlacement_Status string
-
-const (
-	DiffDiskPlacement_StatusCacheDisk    = DiffDiskPlacement_Status("CacheDisk")
-	DiffDiskPlacement_StatusResourceDisk = DiffDiskPlacement_Status("ResourceDisk")
-)
 
 // +kubebuilder:validation:Enum={"Local"}
 type DiffDiskSettingsOption string
@@ -15798,29 +15271,12 @@ func (reference *KeyVaultSecretReference_Status) AssignPropertiesToKeyVaultSecre
 	return nil
 }
 
-type LastPatchInstallationSummaryStatusStatus string
-
-const (
-	LastPatchInstallationSummaryStatusStatusCompletedWithWarnings = LastPatchInstallationSummaryStatusStatus("CompletedWithWarnings")
-	LastPatchInstallationSummaryStatusStatusFailed                = LastPatchInstallationSummaryStatusStatus("Failed")
-	LastPatchInstallationSummaryStatusStatusInProgress            = LastPatchInstallationSummaryStatusStatus("InProgress")
-	LastPatchInstallationSummaryStatusStatusSucceeded             = LastPatchInstallationSummaryStatusStatus("Succeeded")
-	LastPatchInstallationSummaryStatusStatusUnknown               = LastPatchInstallationSummaryStatusStatus("Unknown")
-)
-
 // +kubebuilder:validation:Enum={"AutomaticByPlatform","ImageDefault"}
 type LinuxPatchSettingsPatchMode string
 
 const (
 	LinuxPatchSettingsPatchModeAutomaticByPlatform = LinuxPatchSettingsPatchMode("AutomaticByPlatform")
 	LinuxPatchSettingsPatchModeImageDefault        = LinuxPatchSettingsPatchMode("ImageDefault")
-)
-
-type LinuxPatchSettingsStatusPatchMode string
-
-const (
-	LinuxPatchSettingsStatusPatchModeAutomaticByPlatform = LinuxPatchSettingsStatusPatchMode("AutomaticByPlatform")
-	LinuxPatchSettingsStatusPatchModeImageDefault        = LinuxPatchSettingsStatusPatchMode("ImageDefault")
 )
 
 // +kubebuilder:validation:Enum={"Premium_LRS","Premium_ZRS","Standard_LRS","StandardSSD_LRS","StandardSSD_ZRS","UltraSSD_LRS"}
@@ -15842,14 +15298,6 @@ const (
 	PatchSettingsPatchModeAutomaticByOS       = PatchSettingsPatchMode("AutomaticByOS")
 	PatchSettingsPatchModeAutomaticByPlatform = PatchSettingsPatchMode("AutomaticByPlatform")
 	PatchSettingsPatchModeManual              = PatchSettingsPatchMode("Manual")
-)
-
-type PatchSettingsStatusPatchMode string
-
-const (
-	PatchSettingsStatusPatchModeAutomaticByOS       = PatchSettingsStatusPatchMode("AutomaticByOS")
-	PatchSettingsStatusPatchModeAutomaticByPlatform = PatchSettingsStatusPatchMode("AutomaticByPlatform")
-	PatchSettingsStatusPatchModeManual              = PatchSettingsStatusPatchMode("Manual")
 )
 
 // Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/SshPublicKey
@@ -16028,17 +15476,6 @@ func (publicKey *SshPublicKey_Status) AssignPropertiesToSshPublicKeyStatus(desti
 	return nil
 }
 
-type StorageAccountType_Status string
-
-const (
-	StorageAccountType_StatusPremiumLRS     = StorageAccountType_Status("Premium_LRS")
-	StorageAccountType_StatusPremiumZRS     = StorageAccountType_Status("Premium_ZRS")
-	StorageAccountType_StatusStandardLRS    = StorageAccountType_Status("Standard_LRS")
-	StorageAccountType_StatusStandardSSDLRS = StorageAccountType_Status("StandardSSD_LRS")
-	StorageAccountType_StatusStandardSSDZRS = StorageAccountType_Status("StandardSSD_ZRS")
-	StorageAccountType_StatusUltraSSDLRS    = StorageAccountType_Status("UltraSSD_LRS")
-)
-
 // Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/WinRMListener
 type WinRMListener struct {
 	// CertificateUrl: This is the URL of a certificate that has been uploaded to Key Vault as a secret. For adding a secret to
@@ -16171,7 +15608,7 @@ type WinRMListener_Status struct {
 	// Possible values are:
 	// http
 	// https
-	Protocol *WinRMListenerStatusProtocol `json:"protocol,omitempty"`
+	Protocol *string `json:"protocol,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &WinRMListener_Status{}
@@ -16211,12 +15648,7 @@ func (listener *WinRMListener_Status) AssignPropertiesFromWinRMListenerStatus(so
 	listener.CertificateUrl = genruntime.ClonePointerToString(source.CertificateUrl)
 
 	// Protocol
-	if source.Protocol != nil {
-		protocol := WinRMListenerStatusProtocol(*source.Protocol)
-		listener.Protocol = &protocol
-	} else {
-		listener.Protocol = nil
-	}
+	listener.Protocol = genruntime.ClonePointerToString(source.Protocol)
 
 	// No error
 	return nil
@@ -16231,12 +15663,7 @@ func (listener *WinRMListener_Status) AssignPropertiesToWinRMListenerStatus(dest
 	destination.CertificateUrl = genruntime.ClonePointerToString(listener.CertificateUrl)
 
 	// Protocol
-	if listener.Protocol != nil {
-		protocol := string(*listener.Protocol)
-		destination.Protocol = &protocol
-	} else {
-		destination.Protocol = nil
-	}
+	destination.Protocol = genruntime.ClonePointerToString(listener.Protocol)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -16416,13 +15843,6 @@ type WinRMListenerProtocol string
 const (
 	WinRMListenerProtocolHttp  = WinRMListenerProtocol("Http")
 	WinRMListenerProtocolHttps = WinRMListenerProtocol("Https")
-)
-
-type WinRMListenerStatusProtocol string
-
-const (
-	WinRMListenerStatusProtocolHttp  = WinRMListenerStatusProtocol("Http")
-	WinRMListenerStatusProtocolHttps = WinRMListenerStatusProtocol("Https")
 )
 
 func init() {

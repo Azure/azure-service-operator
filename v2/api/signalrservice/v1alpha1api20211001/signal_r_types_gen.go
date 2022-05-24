@@ -351,12 +351,12 @@ type SignalRResource_Status struct {
 	HostNamePrefix             *string                                                        `json:"hostNamePrefix,omitempty"`
 	Id                         *string                                                        `json:"id,omitempty"`
 	Identity                   *ManagedIdentity_Status                                        `json:"identity,omitempty"`
-	Kind                       *ServiceKind_Status                                            `json:"kind,omitempty"`
+	Kind                       *string                                                        `json:"kind,omitempty"`
 	Location                   *string                                                        `json:"location,omitempty"`
 	Name                       *string                                                        `json:"name,omitempty"`
 	NetworkACLs                *SignalRNetworkACLs_Status                                     `json:"networkACLs,omitempty"`
 	PrivateEndpointConnections []PrivateEndpointConnection_Status_SignalR_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
-	ProvisioningState          *ProvisioningState_Status                                      `json:"provisioningState,omitempty"`
+	ProvisioningState          *string                                                        `json:"provisioningState,omitempty"`
 	PublicNetworkAccess        *string                                                        `json:"publicNetworkAccess,omitempty"`
 	PublicPort                 *int                                                           `json:"publicPort,omitempty"`
 	ResourceLogConfiguration   *ResourceLogConfiguration_Status                               `json:"resourceLogConfiguration,omitempty"`
@@ -788,12 +788,7 @@ func (resource *SignalRResource_Status) AssignPropertiesFromSignalRResourceStatu
 	}
 
 	// Kind
-	if source.Kind != nil {
-		kind := ServiceKind_Status(*source.Kind)
-		resource.Kind = &kind
-	} else {
-		resource.Kind = nil
-	}
+	resource.Kind = genruntime.ClonePointerToString(source.Kind)
 
 	// Location
 	resource.Location = genruntime.ClonePointerToString(source.Location)
@@ -832,12 +827,7 @@ func (resource *SignalRResource_Status) AssignPropertiesFromSignalRResourceStatu
 	}
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_Status(*source.ProvisioningState)
-		resource.ProvisioningState = &provisioningState
-	} else {
-		resource.ProvisioningState = nil
-	}
+	resource.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// PublicNetworkAccess
 	resource.PublicNetworkAccess = genruntime.ClonePointerToString(source.PublicNetworkAccess)
@@ -1018,12 +1008,7 @@ func (resource *SignalRResource_Status) AssignPropertiesToSignalRResourceStatus(
 	}
 
 	// Kind
-	if resource.Kind != nil {
-		kind := string(*resource.Kind)
-		destination.Kind = &kind
-	} else {
-		destination.Kind = nil
-	}
+	destination.Kind = genruntime.ClonePointerToString(resource.Kind)
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(resource.Location)
@@ -1062,12 +1047,7 @@ func (resource *SignalRResource_Status) AssignPropertiesToSignalRResourceStatus(
 	}
 
 	// ProvisioningState
-	if resource.ProvisioningState != nil {
-		provisioningState := string(*resource.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(resource.ProvisioningState)
 
 	// PublicNetworkAccess
 	destination.PublicNetworkAccess = genruntime.ClonePointerToString(resource.PublicNetworkAccess)
@@ -2010,7 +1990,7 @@ func (identity *ManagedIdentity) AssignPropertiesToManagedIdentity(destination *
 type ManagedIdentity_Status struct {
 	PrincipalId            *string                                        `json:"principalId,omitempty"`
 	TenantId               *string                                        `json:"tenantId,omitempty"`
-	Type                   *ManagedIdentityType_Status                    `json:"type,omitempty"`
+	Type                   *string                                        `json:"type,omitempty"`
 	UserAssignedIdentities map[string]UserAssignedIdentityProperty_Status `json:"userAssignedIdentities,omitempty"`
 }
 
@@ -2073,12 +2053,7 @@ func (identity *ManagedIdentity_Status) AssignPropertiesFromManagedIdentityStatu
 	identity.TenantId = genruntime.ClonePointerToString(source.TenantId)
 
 	// Type
-	if source.Type != nil {
-		typeVar := ManagedIdentityType_Status(*source.Type)
-		identity.Type = &typeVar
-	} else {
-		identity.Type = nil
-	}
+	identity.Type = genruntime.ClonePointerToString(source.Type)
 
 	// UserAssignedIdentities
 	if source.UserAssignedIdentities != nil {
@@ -2114,12 +2089,7 @@ func (identity *ManagedIdentity_Status) AssignPropertiesToManagedIdentityStatus(
 	destination.TenantId = genruntime.ClonePointerToString(identity.TenantId)
 
 	// Type
-	if identity.Type != nil {
-		typeVar := string(*identity.Type)
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
+	destination.Type = genruntime.ClonePointerToString(identity.Type)
 
 	// UserAssignedIdentities
 	if identity.UserAssignedIdentities != nil {
@@ -2243,21 +2213,6 @@ func (embedded *PrivateEndpointConnection_Status_SignalR_SubResourceEmbedded) As
 	// No error
 	return nil
 }
-
-// Deprecated version of ProvisioningState_Status. Use v1beta20211001.ProvisioningState_Status instead
-type ProvisioningState_Status string
-
-const (
-	ProvisioningState_StatusCanceled  = ProvisioningState_Status("Canceled")
-	ProvisioningState_StatusCreating  = ProvisioningState_Status("Creating")
-	ProvisioningState_StatusDeleting  = ProvisioningState_Status("Deleting")
-	ProvisioningState_StatusFailed    = ProvisioningState_Status("Failed")
-	ProvisioningState_StatusMoving    = ProvisioningState_Status("Moving")
-	ProvisioningState_StatusRunning   = ProvisioningState_Status("Running")
-	ProvisioningState_StatusSucceeded = ProvisioningState_Status("Succeeded")
-	ProvisioningState_StatusUnknown   = ProvisioningState_Status("Unknown")
-	ProvisioningState_StatusUpdating  = ProvisioningState_Status("Updating")
-)
 
 // Deprecated version of ResourceLogConfiguration. Use v1beta20211001.ResourceLogConfiguration instead
 type ResourceLogConfiguration struct {
@@ -2586,11 +2541,11 @@ func (resourceSku *ResourceSku) AssignPropertiesToResourceSku(destination *alpha
 
 // Deprecated version of ResourceSku_Status. Use v1beta20211001.ResourceSku_Status instead
 type ResourceSku_Status struct {
-	Capacity *int                   `json:"capacity,omitempty"`
-	Family   *string                `json:"family,omitempty"`
-	Name     *string                `json:"name,omitempty"`
-	Size     *string                `json:"size,omitempty"`
-	Tier     *SignalRSkuTier_Status `json:"tier,omitempty"`
+	Capacity *int    `json:"capacity,omitempty"`
+	Family   *string `json:"family,omitempty"`
+	Name     *string `json:"name,omitempty"`
+	Size     *string `json:"size,omitempty"`
+	Tier     *string `json:"tier,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ResourceSku_Status{}
@@ -2657,12 +2612,7 @@ func (resourceSku *ResourceSku_Status) AssignPropertiesFromResourceSkuStatus(sou
 	resourceSku.Size = genruntime.ClonePointerToString(source.Size)
 
 	// Tier
-	if source.Tier != nil {
-		tier := SignalRSkuTier_Status(*source.Tier)
-		resourceSku.Tier = &tier
-	} else {
-		resourceSku.Tier = nil
-	}
+	resourceSku.Tier = genruntime.ClonePointerToString(source.Tier)
 
 	// No error
 	return nil
@@ -2686,12 +2636,7 @@ func (resourceSku *ResourceSku_Status) AssignPropertiesToResourceSkuStatus(desti
 	destination.Size = genruntime.ClonePointerToString(resourceSku.Size)
 
 	// Tier
-	if resourceSku.Tier != nil {
-		tier := string(*resourceSku.Tier)
-		destination.Tier = &tier
-	} else {
-		destination.Tier = nil
-	}
+	destination.Tier = genruntime.ClonePointerToString(resourceSku.Tier)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3270,9 +3215,9 @@ func (feature *SignalRFeature) AssignPropertiesToSignalRFeature(destination *alp
 
 // Deprecated version of SignalRFeature_Status. Use v1beta20211001.SignalRFeature_Status instead
 type SignalRFeature_Status struct {
-	Flag       *FeatureFlags_Status `json:"flag,omitempty"`
-	Properties map[string]string    `json:"properties,omitempty"`
-	Value      *string              `json:"value,omitempty"`
+	Flag       *string           `json:"flag,omitempty"`
+	Properties map[string]string `json:"properties,omitempty"`
+	Value      *string           `json:"value,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &SignalRFeature_Status{}
@@ -3317,12 +3262,7 @@ func (feature *SignalRFeature_Status) PopulateFromARM(owner genruntime.Arbitrary
 func (feature *SignalRFeature_Status) AssignPropertiesFromSignalRFeatureStatus(source *alpha20211001s.SignalRFeature_Status) error {
 
 	// Flag
-	if source.Flag != nil {
-		flag := FeatureFlags_Status(*source.Flag)
-		feature.Flag = &flag
-	} else {
-		feature.Flag = nil
-	}
+	feature.Flag = genruntime.ClonePointerToString(source.Flag)
 
 	// Properties
 	feature.Properties = genruntime.CloneMapOfStringToString(source.Properties)
@@ -3340,12 +3280,7 @@ func (feature *SignalRFeature_Status) AssignPropertiesToSignalRFeatureStatus(des
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Flag
-	if feature.Flag != nil {
-		flag := string(*feature.Flag)
-		destination.Flag = &flag
-	} else {
-		destination.Flag = nil
-	}
+	destination.Flag = genruntime.ClonePointerToString(feature.Flag)
 
 	// Properties
 	destination.Properties = genruntime.CloneMapOfStringToString(feature.Properties)
@@ -3551,7 +3486,7 @@ func (acLs *SignalRNetworkACLs) AssignPropertiesToSignalRNetworkACLs(destination
 
 // Deprecated version of SignalRNetworkACLs_Status. Use v1beta20211001.SignalRNetworkACLs_Status instead
 type SignalRNetworkACLs_Status struct {
-	DefaultAction    *ACLAction_Status           `json:"defaultAction,omitempty"`
+	DefaultAction    *string                     `json:"defaultAction,omitempty"`
 	PrivateEndpoints []PrivateEndpointACL_Status `json:"privateEndpoints,omitempty"`
 	PublicNetwork    *NetworkACL_Status          `json:"publicNetwork,omitempty"`
 }
@@ -3605,12 +3540,7 @@ func (acLs *SignalRNetworkACLs_Status) PopulateFromARM(owner genruntime.Arbitrar
 func (acLs *SignalRNetworkACLs_Status) AssignPropertiesFromSignalRNetworkACLsStatus(source *alpha20211001s.SignalRNetworkACLs_Status) error {
 
 	// DefaultAction
-	if source.DefaultAction != nil {
-		defaultAction := ACLAction_Status(*source.DefaultAction)
-		acLs.DefaultAction = &defaultAction
-	} else {
-		acLs.DefaultAction = nil
-	}
+	acLs.DefaultAction = genruntime.ClonePointerToString(source.DefaultAction)
 
 	// PrivateEndpoints
 	if source.PrivateEndpoints != nil {
@@ -3652,12 +3582,7 @@ func (acLs *SignalRNetworkACLs_Status) AssignPropertiesToSignalRNetworkACLsStatu
 	propertyBag := genruntime.NewPropertyBag()
 
 	// DefaultAction
-	if acLs.DefaultAction != nil {
-		defaultAction := string(*acLs.DefaultAction)
-		destination.DefaultAction = &defaultAction
-	} else {
-		destination.DefaultAction = nil
-	}
+	destination.DefaultAction = genruntime.ClonePointerToString(acLs.DefaultAction)
 
 	// PrivateEndpoints
 	if acLs.PrivateEndpoints != nil {
@@ -3853,12 +3778,12 @@ func (settings *SignalRTlsSettings_Status) AssignPropertiesToSignalRTlsSettingsS
 
 // Deprecated version of SystemData_Status. Use v1beta20211001.SystemData_Status instead
 type SystemData_Status struct {
-	CreatedAt          *string                             `json:"createdAt,omitempty"`
-	CreatedBy          *string                             `json:"createdBy,omitempty"`
-	CreatedByType      *SystemDataStatusCreatedByType      `json:"createdByType,omitempty"`
-	LastModifiedAt     *string                             `json:"lastModifiedAt,omitempty"`
-	LastModifiedBy     *string                             `json:"lastModifiedBy,omitempty"`
-	LastModifiedByType *SystemDataStatusLastModifiedByType `json:"lastModifiedByType,omitempty"`
+	CreatedAt          *string `json:"createdAt,omitempty"`
+	CreatedBy          *string `json:"createdBy,omitempty"`
+	CreatedByType      *string `json:"createdByType,omitempty"`
+	LastModifiedAt     *string `json:"lastModifiedAt,omitempty"`
+	LastModifiedBy     *string `json:"lastModifiedBy,omitempty"`
+	LastModifiedByType *string `json:"lastModifiedByType,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &SystemData_Status{}
@@ -3925,12 +3850,7 @@ func (data *SystemData_Status) AssignPropertiesFromSystemDataStatus(source *alph
 	data.CreatedBy = genruntime.ClonePointerToString(source.CreatedBy)
 
 	// CreatedByType
-	if source.CreatedByType != nil {
-		createdByType := SystemDataStatusCreatedByType(*source.CreatedByType)
-		data.CreatedByType = &createdByType
-	} else {
-		data.CreatedByType = nil
-	}
+	data.CreatedByType = genruntime.ClonePointerToString(source.CreatedByType)
 
 	// LastModifiedAt
 	data.LastModifiedAt = genruntime.ClonePointerToString(source.LastModifiedAt)
@@ -3939,12 +3859,7 @@ func (data *SystemData_Status) AssignPropertiesFromSystemDataStatus(source *alph
 	data.LastModifiedBy = genruntime.ClonePointerToString(source.LastModifiedBy)
 
 	// LastModifiedByType
-	if source.LastModifiedByType != nil {
-		lastModifiedByType := SystemDataStatusLastModifiedByType(*source.LastModifiedByType)
-		data.LastModifiedByType = &lastModifiedByType
-	} else {
-		data.LastModifiedByType = nil
-	}
+	data.LastModifiedByType = genruntime.ClonePointerToString(source.LastModifiedByType)
 
 	// No error
 	return nil
@@ -3962,12 +3877,7 @@ func (data *SystemData_Status) AssignPropertiesToSystemDataStatus(destination *a
 	destination.CreatedBy = genruntime.ClonePointerToString(data.CreatedBy)
 
 	// CreatedByType
-	if data.CreatedByType != nil {
-		createdByType := string(*data.CreatedByType)
-		destination.CreatedByType = &createdByType
-	} else {
-		destination.CreatedByType = nil
-	}
+	destination.CreatedByType = genruntime.ClonePointerToString(data.CreatedByType)
 
 	// LastModifiedAt
 	destination.LastModifiedAt = genruntime.ClonePointerToString(data.LastModifiedAt)
@@ -3976,12 +3886,7 @@ func (data *SystemData_Status) AssignPropertiesToSystemDataStatus(destination *a
 	destination.LastModifiedBy = genruntime.ClonePointerToString(data.LastModifiedBy)
 
 	// LastModifiedByType
-	if data.LastModifiedByType != nil {
-		lastModifiedByType := string(*data.LastModifiedByType)
-		destination.LastModifiedByType = &lastModifiedByType
-	} else {
-		destination.LastModifiedByType = nil
-	}
+	destination.LastModifiedByType = genruntime.ClonePointerToString(data.LastModifiedByType)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3993,24 +3898,6 @@ func (data *SystemData_Status) AssignPropertiesToSystemDataStatus(destination *a
 	// No error
 	return nil
 }
-
-// Deprecated version of ACLAction_Status. Use v1beta20211001.ACLAction_Status instead
-type ACLAction_Status string
-
-const (
-	ACLAction_StatusAllow = ACLAction_Status("Allow")
-	ACLAction_StatusDeny  = ACLAction_Status("Deny")
-)
-
-// Deprecated version of FeatureFlags_Status. Use v1beta20211001.FeatureFlags_Status instead
-type FeatureFlags_Status string
-
-const (
-	FeatureFlags_StatusEnableConnectivityLogs = FeatureFlags_Status("EnableConnectivityLogs")
-	FeatureFlags_StatusEnableLiveTrace        = FeatureFlags_Status("EnableLiveTrace")
-	FeatureFlags_StatusEnableMessagingLogs    = FeatureFlags_Status("EnableMessagingLogs")
-	FeatureFlags_StatusServiceMode            = FeatureFlags_Status("ServiceMode")
-)
 
 // Deprecated version of NetworkACL. Use v1beta20211001.NetworkACL instead
 type NetworkACL struct {
@@ -4142,8 +4029,8 @@ func (networkACL *NetworkACL) AssignPropertiesToNetworkACL(destination *alpha202
 
 // Deprecated version of NetworkACL_Status. Use v1beta20211001.NetworkACL_Status instead
 type NetworkACL_Status struct {
-	Allow []SignalRRequestType_Status `json:"allow,omitempty"`
-	Deny  []SignalRRequestType_Status `json:"deny,omitempty"`
+	Allow []string `json:"allow,omitempty"`
+	Deny  []string `json:"deny,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &NetworkACL_Status{}
@@ -4178,30 +4065,10 @@ func (networkACL *NetworkACL_Status) PopulateFromARM(owner genruntime.ArbitraryO
 func (networkACL *NetworkACL_Status) AssignPropertiesFromNetworkACLStatus(source *alpha20211001s.NetworkACL_Status) error {
 
 	// Allow
-	if source.Allow != nil {
-		allowList := make([]SignalRRequestType_Status, len(source.Allow))
-		for allowIndex, allowItem := range source.Allow {
-			// Shadow the loop variable to avoid aliasing
-			allowItem := allowItem
-			allowList[allowIndex] = SignalRRequestType_Status(allowItem)
-		}
-		networkACL.Allow = allowList
-	} else {
-		networkACL.Allow = nil
-	}
+	networkACL.Allow = genruntime.CloneSliceOfString(source.Allow)
 
 	// Deny
-	if source.Deny != nil {
-		denyList := make([]SignalRRequestType_Status, len(source.Deny))
-		for denyIndex, denyItem := range source.Deny {
-			// Shadow the loop variable to avoid aliasing
-			denyItem := denyItem
-			denyList[denyIndex] = SignalRRequestType_Status(denyItem)
-		}
-		networkACL.Deny = denyList
-	} else {
-		networkACL.Deny = nil
-	}
+	networkACL.Deny = genruntime.CloneSliceOfString(source.Deny)
 
 	// No error
 	return nil
@@ -4213,30 +4080,10 @@ func (networkACL *NetworkACL_Status) AssignPropertiesToNetworkACLStatus(destinat
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Allow
-	if networkACL.Allow != nil {
-		allowList := make([]string, len(networkACL.Allow))
-		for allowIndex, allowItem := range networkACL.Allow {
-			// Shadow the loop variable to avoid aliasing
-			allowItem := allowItem
-			allowList[allowIndex] = string(allowItem)
-		}
-		destination.Allow = allowList
-	} else {
-		destination.Allow = nil
-	}
+	destination.Allow = genruntime.CloneSliceOfString(networkACL.Allow)
 
 	// Deny
-	if networkACL.Deny != nil {
-		denyList := make([]string, len(networkACL.Deny))
-		for denyIndex, denyItem := range networkACL.Deny {
-			// Shadow the loop variable to avoid aliasing
-			denyItem := denyItem
-			denyList[denyIndex] = string(denyItem)
-		}
-		destination.Deny = denyList
-	} else {
-		destination.Deny = nil
-	}
+	destination.Deny = genruntime.CloneSliceOfString(networkACL.Deny)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -4400,9 +4247,9 @@ func (endpointACL *PrivateEndpointACL) AssignPropertiesToPrivateEndpointACL(dest
 
 // Deprecated version of PrivateEndpointACL_Status. Use v1beta20211001.PrivateEndpointACL_Status instead
 type PrivateEndpointACL_Status struct {
-	Allow []SignalRRequestType_Status `json:"allow,omitempty"`
-	Deny  []SignalRRequestType_Status `json:"deny,omitempty"`
-	Name  *string                     `json:"name,omitempty"`
+	Allow []string `json:"allow,omitempty"`
+	Deny  []string `json:"deny,omitempty"`
+	Name  *string  `json:"name,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &PrivateEndpointACL_Status{}
@@ -4443,30 +4290,10 @@ func (endpointACL *PrivateEndpointACL_Status) PopulateFromARM(owner genruntime.A
 func (endpointACL *PrivateEndpointACL_Status) AssignPropertiesFromPrivateEndpointACLStatus(source *alpha20211001s.PrivateEndpointACL_Status) error {
 
 	// Allow
-	if source.Allow != nil {
-		allowList := make([]SignalRRequestType_Status, len(source.Allow))
-		for allowIndex, allowItem := range source.Allow {
-			// Shadow the loop variable to avoid aliasing
-			allowItem := allowItem
-			allowList[allowIndex] = SignalRRequestType_Status(allowItem)
-		}
-		endpointACL.Allow = allowList
-	} else {
-		endpointACL.Allow = nil
-	}
+	endpointACL.Allow = genruntime.CloneSliceOfString(source.Allow)
 
 	// Deny
-	if source.Deny != nil {
-		denyList := make([]SignalRRequestType_Status, len(source.Deny))
-		for denyIndex, denyItem := range source.Deny {
-			// Shadow the loop variable to avoid aliasing
-			denyItem := denyItem
-			denyList[denyIndex] = SignalRRequestType_Status(denyItem)
-		}
-		endpointACL.Deny = denyList
-	} else {
-		endpointACL.Deny = nil
-	}
+	endpointACL.Deny = genruntime.CloneSliceOfString(source.Deny)
 
 	// Name
 	endpointACL.Name = genruntime.ClonePointerToString(source.Name)
@@ -4481,30 +4308,10 @@ func (endpointACL *PrivateEndpointACL_Status) AssignPropertiesToPrivateEndpointA
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Allow
-	if endpointACL.Allow != nil {
-		allowList := make([]string, len(endpointACL.Allow))
-		for allowIndex, allowItem := range endpointACL.Allow {
-			// Shadow the loop variable to avoid aliasing
-			allowItem := allowItem
-			allowList[allowIndex] = string(allowItem)
-		}
-		destination.Allow = allowList
-	} else {
-		destination.Allow = nil
-	}
+	destination.Allow = genruntime.CloneSliceOfString(endpointACL.Allow)
 
 	// Deny
-	if endpointACL.Deny != nil {
-		denyList := make([]string, len(endpointACL.Deny))
-		for denyIndex, denyItem := range endpointACL.Deny {
-			// Shadow the loop variable to avoid aliasing
-			denyItem := denyItem
-			denyList[denyIndex] = string(denyItem)
-		}
-		destination.Deny = denyList
-	} else {
-		destination.Deny = nil
-	}
+	destination.Deny = genruntime.CloneSliceOfString(endpointACL.Deny)
 
 	// Name
 	destination.Name = genruntime.ClonePointerToString(endpointACL.Name)
@@ -5129,16 +4936,6 @@ const (
 	PrivateEndpointACLDenyTrace            = PrivateEndpointACLDeny("Trace")
 )
 
-// Deprecated version of SignalRRequestType_Status. Use v1beta20211001.SignalRRequestType_Status instead
-type SignalRRequestType_Status string
-
-const (
-	SignalRRequestType_StatusClientConnection = SignalRRequestType_Status("ClientConnection")
-	SignalRRequestType_StatusRESTAPI          = SignalRRequestType_Status("RESTAPI")
-	SignalRRequestType_StatusServerConnection = SignalRRequestType_Status("ServerConnection")
-	SignalRRequestType_StatusTrace            = SignalRRequestType_Status("Trace")
-)
-
 // Deprecated version of UpstreamAuthSettings. Use v1beta20211001.UpstreamAuthSettings instead
 type UpstreamAuthSettings struct {
 	ManagedIdentity *ManagedIdentitySettings  `json:"managedIdentity,omitempty"`
@@ -5271,7 +5068,7 @@ func (settings *UpstreamAuthSettings) AssignPropertiesToUpstreamAuthSettings(des
 // Deprecated version of UpstreamAuthSettings_Status. Use v1beta20211001.UpstreamAuthSettings_Status instead
 type UpstreamAuthSettings_Status struct {
 	ManagedIdentity *ManagedIdentitySettings_Status `json:"managedIdentity,omitempty"`
-	Type            *UpstreamAuthType_Status        `json:"type,omitempty"`
+	Type            *string                         `json:"type,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &UpstreamAuthSettings_Status{}
@@ -5325,12 +5122,7 @@ func (settings *UpstreamAuthSettings_Status) AssignPropertiesFromUpstreamAuthSet
 	}
 
 	// Type
-	if source.Type != nil {
-		typeVar := UpstreamAuthType_Status(*source.Type)
-		settings.Type = &typeVar
-	} else {
-		settings.Type = nil
-	}
+	settings.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
@@ -5354,12 +5146,7 @@ func (settings *UpstreamAuthSettings_Status) AssignPropertiesToUpstreamAuthSetti
 	}
 
 	// Type
-	if settings.Type != nil {
-		typeVar := string(*settings.Type)
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
+	destination.Type = genruntime.ClonePointerToString(settings.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -5510,14 +5297,6 @@ type UpstreamAuthSettingsType string
 const (
 	UpstreamAuthSettingsTypeManagedIdentity = UpstreamAuthSettingsType("ManagedIdentity")
 	UpstreamAuthSettingsTypeNone            = UpstreamAuthSettingsType("None")
-)
-
-// Deprecated version of UpstreamAuthType_Status. Use v1beta20211001.UpstreamAuthType_Status instead
-type UpstreamAuthType_Status string
-
-const (
-	UpstreamAuthType_StatusManagedIdentity = UpstreamAuthType_Status("ManagedIdentity")
-	UpstreamAuthType_StatusNone            = UpstreamAuthType_Status("None")
 )
 
 func init() {

@@ -359,7 +359,7 @@ type VirtualNetwork_Status struct {
 	Name *string `json:"name,omitempty"`
 
 	// ProvisioningState: The provisioning state of the virtual network resource.
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	// ResourceGuid: The resourceGuid property of the Virtual Network resource.
 	ResourceGuid *string `json:"resourceGuid,omitempty"`
@@ -708,12 +708,7 @@ func (network *VirtualNetwork_Status) AssignPropertiesFromVirtualNetworkStatus(s
 	network.Name = genruntime.ClonePointerToString(source.Name)
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_Status(*source.ProvisioningState)
-		network.ProvisioningState = &provisioningState
-	} else {
-		network.ProvisioningState = nil
-	}
+	network.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// ResourceGuid
 	network.ResourceGuid = genruntime.ClonePointerToString(source.ResourceGuid)
@@ -843,12 +838,7 @@ func (network *VirtualNetwork_Status) AssignPropertiesToVirtualNetworkStatus(des
 	destination.Name = genruntime.ClonePointerToString(network.Name)
 
 	// ProvisioningState
-	if network.ProvisioningState != nil {
-		provisioningState := string(*network.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(network.ProvisioningState)
 
 	// ResourceGuid
 	destination.ResourceGuid = genruntime.ClonePointerToString(network.ResourceGuid)

@@ -13,8 +13,8 @@ type RedisLinkedServerWithProperties_StatusARM struct {
 
 // Deprecated version of RedisLinkedServerProperties_Status. Use v1beta20201201.RedisLinkedServerProperties_Status instead
 type RedisLinkedServerProperties_StatusARM struct {
-	LinkedRedisCacheId       *string                                      `json:"linkedRedisCacheId,omitempty"`
-	LinkedRedisCacheLocation *string                                      `json:"linkedRedisCacheLocation,omitempty"`
-	ProvisioningState        *string                                      `json:"provisioningState,omitempty"`
-	ServerRole               *RedisLinkedServerPropertiesStatusServerRole `json:"serverRole,omitempty"`
+	LinkedRedisCacheId       *string `json:"linkedRedisCacheId,omitempty"`
+	LinkedRedisCacheLocation *string `json:"linkedRedisCacheLocation,omitempty"`
+	ProvisioningState        *string `json:"provisioningState,omitempty"`
+	ServerRole               *string `json:"serverRole,omitempty"`
 }

@@ -2175,7 +2175,7 @@ type LastAccessTimeTrackingPolicy_Status struct {
 	Enable *bool `json:"enable,omitempty"`
 
 	// Name: Name of the policy. The valid value is AccessTimeTracking. This field is currently read only
-	Name *LastAccessTimeTrackingPolicyStatusName `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
 
 	// TrackingGranularityInDays: The field specifies blob object tracking granularity in days, typically how often the blob
 	// object should be tracked.This field is currently read only with value as 1
@@ -2238,12 +2238,7 @@ func (policy *LastAccessTimeTrackingPolicy_Status) AssignPropertiesFromLastAcces
 	}
 
 	// Name
-	if source.Name != nil {
-		name := LastAccessTimeTrackingPolicyStatusName(*source.Name)
-		policy.Name = &name
-	} else {
-		policy.Name = nil
-	}
+	policy.Name = genruntime.ClonePointerToString(source.Name)
 
 	// TrackingGranularityInDays
 	policy.TrackingGranularityInDays = genruntime.ClonePointerToInt(source.TrackingGranularityInDays)
@@ -2269,12 +2264,7 @@ func (policy *LastAccessTimeTrackingPolicy_Status) AssignPropertiesToLastAccessT
 	}
 
 	// Name
-	if policy.Name != nil {
-		name := string(*policy.Name)
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(policy.Name)
 
 	// TrackingGranularityInDays
 	destination.TrackingGranularityInDays = genruntime.ClonePointerToInt(policy.TrackingGranularityInDays)
@@ -2707,7 +2697,7 @@ type CorsRule_Status struct {
 
 	// AllowedMethods: Required if CorsRule element is present. A list of HTTP methods that are allowed to be executed by the
 	// origin.
-	AllowedMethods []CorsRuleStatusAllowedMethods `json:"allowedMethods,omitempty"`
+	AllowedMethods []string `json:"allowedMethods,omitempty"`
 
 	// AllowedOrigins: Required if CorsRule element is present. A list of origin domains that will be allowed via CORS, or "*"
 	// to allow all domains
@@ -2772,17 +2762,7 @@ func (rule *CorsRule_Status) AssignPropertiesFromCorsRuleStatus(source *v2021040
 	rule.AllowedHeaders = genruntime.CloneSliceOfString(source.AllowedHeaders)
 
 	// AllowedMethods
-	if source.AllowedMethods != nil {
-		allowedMethodList := make([]CorsRuleStatusAllowedMethods, len(source.AllowedMethods))
-		for allowedMethodIndex, allowedMethodItem := range source.AllowedMethods {
-			// Shadow the loop variable to avoid aliasing
-			allowedMethodItem := allowedMethodItem
-			allowedMethodList[allowedMethodIndex] = CorsRuleStatusAllowedMethods(allowedMethodItem)
-		}
-		rule.AllowedMethods = allowedMethodList
-	} else {
-		rule.AllowedMethods = nil
-	}
+	rule.AllowedMethods = genruntime.CloneSliceOfString(source.AllowedMethods)
 
 	// AllowedOrigins
 	rule.AllowedOrigins = genruntime.CloneSliceOfString(source.AllowedOrigins)
@@ -2806,17 +2786,7 @@ func (rule *CorsRule_Status) AssignPropertiesToCorsRuleStatus(destination *v2021
 	destination.AllowedHeaders = genruntime.CloneSliceOfString(rule.AllowedHeaders)
 
 	// AllowedMethods
-	if rule.AllowedMethods != nil {
-		allowedMethodList := make([]string, len(rule.AllowedMethods))
-		for allowedMethodIndex, allowedMethodItem := range rule.AllowedMethods {
-			// Shadow the loop variable to avoid aliasing
-			allowedMethodItem := allowedMethodItem
-			allowedMethodList[allowedMethodIndex] = string(allowedMethodItem)
-		}
-		destination.AllowedMethods = allowedMethodList
-	} else {
-		destination.AllowedMethods = nil
-	}
+	destination.AllowedMethods = genruntime.CloneSliceOfString(rule.AllowedMethods)
 
 	// AllowedOrigins
 	destination.AllowedOrigins = genruntime.CloneSliceOfString(rule.AllowedOrigins)

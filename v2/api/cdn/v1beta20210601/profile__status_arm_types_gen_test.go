@@ -156,17 +156,8 @@ func ProfilePropertiesStatusARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForProfilePropertiesStatusARM(gens map[string]gopter.Gen) {
 	gens["FrontDoorId"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginResponseTimeoutSeconds"] = gen.PtrOf(gen.Int())
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProfilePropertiesStatusProvisioningStateCreating,
-		ProfilePropertiesStatusProvisioningStateDeleting,
-		ProfilePropertiesStatusProvisioningStateFailed,
-		ProfilePropertiesStatusProvisioningStateSucceeded,
-		ProfilePropertiesStatusProvisioningStateUpdating))
-	gens["ResourceState"] = gen.PtrOf(gen.OneConstOf(
-		ProfilePropertiesStatusResourceStateActive,
-		ProfilePropertiesStatusResourceStateCreating,
-		ProfilePropertiesStatusResourceStateDeleting,
-		ProfilePropertiesStatusResourceStateDisabled))
+	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
+	gens["ResourceState"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_Sku_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -225,18 +216,5 @@ func SkuStatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSkuStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSkuStatusARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(
-		SkuStatusNameCustomVerizon,
-		SkuStatusNamePremiumAzureFrontDoor,
-		SkuStatusNamePremiumVerizon,
-		SkuStatusNameStandard955BandWidthChinaCdn,
-		SkuStatusNameStandardAkamai,
-		SkuStatusNameStandardAvgBandWidthChinaCdn,
-		SkuStatusNameStandardAzureFrontDoor,
-		SkuStatusNameStandardChinaCdn,
-		SkuStatusNameStandardMicrosoft,
-		SkuStatusNameStandardPlus955BandWidthChinaCdn,
-		SkuStatusNameStandardPlusAvgBandWidthChinaCdn,
-		SkuStatusNameStandardPlusChinaCdn,
-		SkuStatusNameStandardVerizon))
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
 }

@@ -693,7 +693,7 @@ func (in *DeepCreatedOriginProperties_StatusARM) DeepCopyInto(out *DeepCreatedOr
 	}
 	if in.PrivateEndpointStatus != nil {
 		in, out := &in.PrivateEndpointStatus, &out.PrivateEndpointStatus
-		*out = new(PrivateEndpointStatus_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.PrivateLinkAlias != nil {
@@ -773,7 +773,7 @@ func (in *DeepCreatedOrigin_Status) DeepCopyInto(out *DeepCreatedOrigin_Status) 
 	}
 	if in.PrivateEndpointStatus != nil {
 		in, out := &in.PrivateEndpointStatus, &out.PrivateEndpointStatus
-		*out = new(PrivateEndpointStatus_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.PrivateLinkAlias != nil {
@@ -1041,7 +1041,7 @@ func (in *DeliveryRuleAction_Status) DeepCopyInto(out *DeliveryRuleAction_Status
 	*out = *in
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(DeliveryRuleActionStatusName)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -1061,7 +1061,7 @@ func (in *DeliveryRuleAction_StatusARM) DeepCopyInto(out *DeliveryRuleAction_Sta
 	*out = *in
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(DeliveryRuleActionStatusName)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -1436,7 +1436,7 @@ func (in *DeliveryRuleCondition_Status) DeepCopyInto(out *DeliveryRuleCondition_
 	*out = *in
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(DeliveryRuleConditionStatusName)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -1456,7 +1456,7 @@ func (in *DeliveryRuleCondition_StatusARM) DeepCopyInto(out *DeliveryRuleConditi
 	*out = *in
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(DeliveryRuleConditionStatusName)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -2642,7 +2642,7 @@ func (in *EndpointProperties_StatusARM) DeepCopyInto(out *EndpointProperties_Sta
 	}
 	if in.OptimizationType != nil {
 		in, out := &in.OptimizationType, &out.OptimizationType
-		*out = new(OptimizationType_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.OriginGroups != nil {
@@ -2676,17 +2676,17 @@ func (in *EndpointProperties_StatusARM) DeepCopyInto(out *EndpointProperties_Sta
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(EndpointPropertiesStatusProvisioningState)
+		*out = new(string)
 		**out = **in
 	}
 	if in.QueryStringCachingBehavior != nil {
 		in, out := &in.QueryStringCachingBehavior, &out.QueryStringCachingBehavior
-		*out = new(QueryStringCachingBehavior_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.ResourceState != nil {
 		in, out := &in.ResourceState, &out.ResourceState
-		*out = new(EndpointPropertiesStatusResourceState)
+		*out = new(string)
 		**out = **in
 	}
 	if in.UrlSigningKeys != nil {
@@ -2883,7 +2883,7 @@ func (in *Endpoint_Status) DeepCopyInto(out *Endpoint_Status) {
 	}
 	if in.OptimizationType != nil {
 		in, out := &in.OptimizationType, &out.OptimizationType
-		*out = new(OptimizationType_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.OriginGroups != nil {
@@ -2917,17 +2917,17 @@ func (in *Endpoint_Status) DeepCopyInto(out *Endpoint_Status) {
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(EndpointPropertiesStatusProvisioningState)
+		*out = new(string)
 		**out = **in
 	}
 	if in.QueryStringCachingBehavior != nil {
 		in, out := &in.QueryStringCachingBehavior, &out.QueryStringCachingBehavior
-		*out = new(QueryStringCachingBehavior_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.ResourceState != nil {
 		in, out := &in.ResourceState, &out.ResourceState
-		*out = new(EndpointPropertiesStatusResourceState)
+		*out = new(string)
 		**out = **in
 	}
 	if in.SystemData != nil {
@@ -3088,7 +3088,7 @@ func (in *GeoFilter_Status) DeepCopyInto(out *GeoFilter_Status) {
 	*out = *in
 	if in.Action != nil {
 		in, out := &in.Action, &out.Action
-		*out = new(GeoFilterStatusAction)
+		*out = new(string)
 		**out = **in
 	}
 	if in.CountryCodes != nil {
@@ -3118,7 +3118,7 @@ func (in *GeoFilter_StatusARM) DeepCopyInto(out *GeoFilter_StatusARM) {
 	*out = *in
 	if in.Action != nil {
 		in, out := &in.Action, &out.Action
-		*out = new(GeoFilterStatusAction)
+		*out = new(string)
 		**out = **in
 	}
 	if in.CountryCodes != nil {
@@ -3298,12 +3298,12 @@ func (in *HealthProbeParameters_Status) DeepCopyInto(out *HealthProbeParameters_
 	}
 	if in.ProbeProtocol != nil {
 		in, out := &in.ProbeProtocol, &out.ProbeProtocol
-		*out = new(HealthProbeParametersStatusProbeProtocol)
+		*out = new(string)
 		**out = **in
 	}
 	if in.ProbeRequestType != nil {
 		in, out := &in.ProbeRequestType, &out.ProbeRequestType
-		*out = new(HealthProbeParametersStatusProbeRequestType)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -3333,12 +3333,12 @@ func (in *HealthProbeParameters_StatusARM) DeepCopyInto(out *HealthProbeParamete
 	}
 	if in.ProbeProtocol != nil {
 		in, out := &in.ProbeProtocol, &out.ProbeProtocol
-		*out = new(HealthProbeParametersStatusProbeProtocol)
+		*out = new(string)
 		**out = **in
 	}
 	if in.ProbeRequestType != nil {
 		in, out := &in.ProbeRequestType, &out.ProbeRequestType
-		*out = new(HealthProbeParametersStatusProbeRequestType)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -3808,7 +3808,7 @@ func (in *KeyVaultSigningKeyParameters_Status) DeepCopyInto(out *KeyVaultSigning
 	}
 	if in.TypeName != nil {
 		in, out := &in.TypeName, &out.TypeName
-		*out = new(KeyVaultSigningKeyParametersStatusTypeName)
+		*out = new(string)
 		**out = **in
 	}
 	if in.VaultName != nil {
@@ -3853,7 +3853,7 @@ func (in *KeyVaultSigningKeyParameters_StatusARM) DeepCopyInto(out *KeyVaultSign
 	}
 	if in.TypeName != nil {
 		in, out := &in.TypeName, &out.TypeName
-		*out = new(KeyVaultSigningKeyParametersStatusTypeName)
+		*out = new(string)
 		**out = **in
 	}
 	if in.VaultName != nil {
@@ -4261,12 +4261,12 @@ func (in *ProfileProperties_StatusARM) DeepCopyInto(out *ProfileProperties_Statu
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProfilePropertiesStatusProvisioningState)
+		*out = new(string)
 		**out = **in
 	}
 	if in.ResourceState != nil {
 		in, out := &in.ResourceState, &out.ResourceState
-		*out = new(ProfilePropertiesStatusResourceState)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -4323,12 +4323,12 @@ func (in *Profile_Status) DeepCopyInto(out *Profile_Status) {
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProfilePropertiesStatusProvisioningState)
+		*out = new(string)
 		**out = **in
 	}
 	if in.ResourceState != nil {
 		in, out := &in.ResourceState, &out.ResourceState
-		*out = new(ProfilePropertiesStatusResourceState)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Sku != nil {
@@ -5718,7 +5718,7 @@ func (in *ResponseBasedOriginErrorDetectionParameters_Status) DeepCopyInto(out *
 	}
 	if in.ResponseBasedDetectedErrorTypes != nil {
 		in, out := &in.ResponseBasedDetectedErrorTypes, &out.ResponseBasedDetectedErrorTypes
-		*out = new(ResponseBasedOriginErrorDetectionParametersStatusResponseBasedDetectedErrorTypes)
+		*out = new(string)
 		**out = **in
 	}
 	if in.ResponseBasedFailoverThresholdPercentage != nil {
@@ -5750,7 +5750,7 @@ func (in *ResponseBasedOriginErrorDetectionParameters_StatusARM) DeepCopyInto(ou
 	}
 	if in.ResponseBasedDetectedErrorTypes != nil {
 		in, out := &in.ResponseBasedDetectedErrorTypes, &out.ResponseBasedDetectedErrorTypes
-		*out = new(ResponseBasedOriginErrorDetectionParametersStatusResponseBasedDetectedErrorTypes)
+		*out = new(string)
 		**out = **in
 	}
 	if in.ResponseBasedFailoverThresholdPercentage != nil {
@@ -5955,7 +5955,7 @@ func (in *Sku_Status) DeepCopyInto(out *Sku_Status) {
 	*out = *in
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(SkuStatusName)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -5975,7 +5975,7 @@ func (in *Sku_StatusARM) DeepCopyInto(out *Sku_StatusARM) {
 	*out = *in
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(SkuStatusName)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -6165,7 +6165,7 @@ func (in *SystemData_Status) DeepCopyInto(out *SystemData_Status) {
 	}
 	if in.CreatedByType != nil {
 		in, out := &in.CreatedByType, &out.CreatedByType
-		*out = new(IdentityType_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.LastModifiedAt != nil {
@@ -6180,7 +6180,7 @@ func (in *SystemData_Status) DeepCopyInto(out *SystemData_Status) {
 	}
 	if in.LastModifiedByType != nil {
 		in, out := &in.LastModifiedByType, &out.LastModifiedByType
-		*out = new(IdentityType_Status)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -6210,7 +6210,7 @@ func (in *SystemData_StatusARM) DeepCopyInto(out *SystemData_StatusARM) {
 	}
 	if in.CreatedByType != nil {
 		in, out := &in.CreatedByType, &out.CreatedByType
-		*out = new(IdentityType_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.LastModifiedAt != nil {
@@ -6225,7 +6225,7 @@ func (in *SystemData_StatusARM) DeepCopyInto(out *SystemData_StatusARM) {
 	}
 	if in.LastModifiedByType != nil {
 		in, out := &in.LastModifiedByType, &out.LastModifiedByType
-		*out = new(IdentityType_Status)
+		*out = new(string)
 		**out = **in
 	}
 }

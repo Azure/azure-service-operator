@@ -561,7 +561,7 @@ func (in *AdvancedFilter_Status) DeepCopyInto(out *AdvancedFilter_Status) {
 	}
 	if in.OperatorType != nil {
 		in, out := &in.OperatorType, &out.OperatorType
-		*out = new(AdvancedFilterStatusOperatorType)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -586,7 +586,7 @@ func (in *AdvancedFilter_StatusARM) DeepCopyInto(out *AdvancedFilter_StatusARM) 
 	}
 	if in.OperatorType != nil {
 		in, out := &in.OperatorType, &out.OperatorType
-		*out = new(AdvancedFilterStatusOperatorType)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -986,7 +986,7 @@ func (in *DeadLetterDestination_Status) DeepCopyInto(out *DeadLetterDestination_
 	*out = *in
 	if in.EndpointType != nil {
 		in, out := &in.EndpointType, &out.EndpointType
-		*out = new(DeadLetterDestinationStatusEndpointType)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -1006,7 +1006,7 @@ func (in *DeadLetterDestination_StatusARM) DeepCopyInto(out *DeadLetterDestinati
 	*out = *in
 	if in.EndpointType != nil {
 		in, out := &in.EndpointType, &out.EndpointType
-		*out = new(DeadLetterDestinationStatusEndpointType)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -1134,7 +1134,7 @@ func (in *DomainProperties_StatusARM) DeepCopyInto(out *DomainProperties_StatusA
 	}
 	if in.InputSchema != nil {
 		in, out := &in.InputSchema, &out.InputSchema
-		*out = new(DomainPropertiesStatusInputSchema)
+		*out = new(string)
 		**out = **in
 	}
 	if in.InputSchemaMapping != nil {
@@ -1156,12 +1156,12 @@ func (in *DomainProperties_StatusARM) DeepCopyInto(out *DomainProperties_StatusA
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(DomainPropertiesStatusProvisioningState)
+		*out = new(string)
 		**out = **in
 	}
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(DomainPropertiesStatusPublicNetworkAccess)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -1181,7 +1181,7 @@ func (in *DomainTopicProperties_StatusARM) DeepCopyInto(out *DomainTopicProperti
 	*out = *in
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(DomainTopicPropertiesStatusProvisioningState)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -1218,7 +1218,7 @@ func (in *DomainTopic_Status) DeepCopyInto(out *DomainTopic_Status) {
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(DomainTopicPropertiesStatusProvisioningState)
+		*out = new(string)
 		**out = **in
 	}
 	if in.SystemData != nil {
@@ -1312,7 +1312,7 @@ func (in *Domain_Status) DeepCopyInto(out *Domain_Status) {
 	}
 	if in.InputSchema != nil {
 		in, out := &in.InputSchema, &out.InputSchema
-		*out = new(DomainPropertiesStatusInputSchema)
+		*out = new(string)
 		**out = **in
 	}
 	if in.InputSchemaMapping != nil {
@@ -1344,12 +1344,12 @@ func (in *Domain_Status) DeepCopyInto(out *Domain_Status) {
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(DomainPropertiesStatusProvisioningState)
+		*out = new(string)
 		**out = **in
 	}
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(DomainPropertiesStatusPublicNetworkAccess)
+		*out = new(string)
 		**out = **in
 	}
 	if in.SystemData != nil {
@@ -1854,7 +1854,7 @@ func (in *EventSubscriptionDestination_Status) DeepCopyInto(out *EventSubscripti
 	*out = *in
 	if in.EndpointType != nil {
 		in, out := &in.EndpointType, &out.EndpointType
-		*out = new(EventSubscriptionDestinationStatusEndpointType)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -1874,7 +1874,7 @@ func (in *EventSubscriptionDestination_StatusARM) DeepCopyInto(out *EventSubscri
 	*out = *in
 	if in.EndpointType != nil {
 		in, out := &in.EndpointType, &out.EndpointType
-		*out = new(EventSubscriptionDestinationStatusEndpointType)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -2154,7 +2154,7 @@ func (in *EventSubscriptionProperties_StatusARM) DeepCopyInto(out *EventSubscrip
 	}
 	if in.EventDeliverySchema != nil {
 		in, out := &in.EventDeliverySchema, &out.EventDeliverySchema
-		*out = new(EventSubscriptionPropertiesStatusEventDeliverySchema)
+		*out = new(string)
 		**out = **in
 	}
 	if in.ExpirationTimeUtc != nil {
@@ -2174,7 +2174,7 @@ func (in *EventSubscriptionProperties_StatusARM) DeepCopyInto(out *EventSubscrip
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(EventSubscriptionPropertiesStatusProvisioningState)
+		*out = new(string)
 		**out = **in
 	}
 	if in.RetryPolicy != nil {
@@ -2221,7 +2221,7 @@ func (in *EventSubscription_Status) DeepCopyInto(out *EventSubscription_Status) 
 	}
 	if in.EventDeliverySchema != nil {
 		in, out := &in.EventDeliverySchema, &out.EventDeliverySchema
-		*out = new(EventSubscriptionPropertiesStatusEventDeliverySchema)
+		*out = new(string)
 		**out = **in
 	}
 	if in.ExpirationTimeUtc != nil {
@@ -2251,7 +2251,7 @@ func (in *EventSubscription_Status) DeepCopyInto(out *EventSubscription_Status) 
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(EventSubscriptionPropertiesStatusProvisioningState)
+		*out = new(string)
 		**out = **in
 	}
 	if in.RetryPolicy != nil {
@@ -2565,7 +2565,7 @@ func (in *InboundIpRule_Status) DeepCopyInto(out *InboundIpRule_Status) {
 	*out = *in
 	if in.Action != nil {
 		in, out := &in.Action, &out.Action
-		*out = new(InboundIpRuleStatusAction)
+		*out = new(string)
 		**out = **in
 	}
 	if in.IpMask != nil {
@@ -2590,7 +2590,7 @@ func (in *InboundIpRule_StatusARM) DeepCopyInto(out *InboundIpRule_StatusARM) {
 	*out = *in
 	if in.Action != nil {
 		in, out := &in.Action, &out.Action
-		*out = new(InboundIpRuleStatusAction)
+		*out = new(string)
 		**out = **in
 	}
 	if in.IpMask != nil {
@@ -2615,7 +2615,7 @@ func (in *InputSchemaMapping_Status) DeepCopyInto(out *InputSchemaMapping_Status
 	*out = *in
 	if in.InputSchemaMappingType != nil {
 		in, out := &in.InputSchemaMappingType, &out.InputSchemaMappingType
-		*out = new(InputSchemaMappingStatusInputSchemaMappingType)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -2635,7 +2635,7 @@ func (in *InputSchemaMapping_StatusARM) DeepCopyInto(out *InputSchemaMapping_Sta
 	*out = *in
 	if in.InputSchemaMappingType != nil {
 		in, out := &in.InputSchemaMappingType, &out.InputSchemaMappingType
-		*out = new(InputSchemaMappingStatusInputSchemaMappingType)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -3440,7 +3440,7 @@ func (in *SystemData_Status) DeepCopyInto(out *SystemData_Status) {
 	}
 	if in.CreatedByType != nil {
 		in, out := &in.CreatedByType, &out.CreatedByType
-		*out = new(SystemDataStatusCreatedByType)
+		*out = new(string)
 		**out = **in
 	}
 	if in.LastModifiedAt != nil {
@@ -3455,7 +3455,7 @@ func (in *SystemData_Status) DeepCopyInto(out *SystemData_Status) {
 	}
 	if in.LastModifiedByType != nil {
 		in, out := &in.LastModifiedByType, &out.LastModifiedByType
-		*out = new(SystemDataStatusLastModifiedByType)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -3485,7 +3485,7 @@ func (in *SystemData_StatusARM) DeepCopyInto(out *SystemData_StatusARM) {
 	}
 	if in.CreatedByType != nil {
 		in, out := &in.CreatedByType, &out.CreatedByType
-		*out = new(SystemDataStatusCreatedByType)
+		*out = new(string)
 		**out = **in
 	}
 	if in.LastModifiedAt != nil {
@@ -3500,7 +3500,7 @@ func (in *SystemData_StatusARM) DeepCopyInto(out *SystemData_StatusARM) {
 	}
 	if in.LastModifiedByType != nil {
 		in, out := &in.LastModifiedByType, &out.LastModifiedByType
-		*out = new(SystemDataStatusLastModifiedByType)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -3591,7 +3591,7 @@ func (in *TopicProperties_StatusARM) DeepCopyInto(out *TopicProperties_StatusARM
 	}
 	if in.InputSchema != nil {
 		in, out := &in.InputSchema, &out.InputSchema
-		*out = new(TopicPropertiesStatusInputSchema)
+		*out = new(string)
 		**out = **in
 	}
 	if in.InputSchemaMapping != nil {
@@ -3613,12 +3613,12 @@ func (in *TopicProperties_StatusARM) DeepCopyInto(out *TopicProperties_StatusARM
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(TopicPropertiesStatusProvisioningState)
+		*out = new(string)
 		**out = **in
 	}
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(TopicPropertiesStatusPublicNetworkAccess)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -3662,7 +3662,7 @@ func (in *Topic_Status) DeepCopyInto(out *Topic_Status) {
 	}
 	if in.InputSchema != nil {
 		in, out := &in.InputSchema, &out.InputSchema
-		*out = new(TopicPropertiesStatusInputSchema)
+		*out = new(string)
 		**out = **in
 	}
 	if in.InputSchemaMapping != nil {
@@ -3694,12 +3694,12 @@ func (in *Topic_Status) DeepCopyInto(out *Topic_Status) {
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(TopicPropertiesStatusProvisioningState)
+		*out = new(string)
 		**out = **in
 	}
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(TopicPropertiesStatusPublicNetworkAccess)
+		*out = new(string)
 		**out = **in
 	}
 	if in.SystemData != nil {

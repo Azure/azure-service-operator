@@ -616,10 +616,10 @@ type Route_Status struct {
 	NextHopIpAddress *string `json:"nextHopIpAddress,omitempty"`
 
 	// NextHopType: The type of Azure hop the packet should be sent to.
-	NextHopType *RouteNextHopType_Status `json:"nextHopType,omitempty"`
+	NextHopType *string `json:"nextHopType,omitempty"`
 
 	// ProvisioningState: The provisioning state of the route resource.
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	// Type: The type of the resource.
 	Type *string `json:"type,omitempty"`
@@ -794,20 +794,10 @@ func (route *Route_Status) AssignPropertiesFromRouteStatus(source *v20201101s.Ro
 	route.NextHopIpAddress = genruntime.ClonePointerToString(source.NextHopIpAddress)
 
 	// NextHopType
-	if source.NextHopType != nil {
-		nextHopType := RouteNextHopType_Status(*source.NextHopType)
-		route.NextHopType = &nextHopType
-	} else {
-		route.NextHopType = nil
-	}
+	route.NextHopType = genruntime.ClonePointerToString(source.NextHopType)
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_Status(*source.ProvisioningState)
-		route.ProvisioningState = &provisioningState
-	} else {
-		route.ProvisioningState = nil
-	}
+	route.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// Type
 	route.Type = genruntime.ClonePointerToString(source.Type)
@@ -848,20 +838,10 @@ func (route *Route_Status) AssignPropertiesToRouteStatus(destination *v20201101s
 	destination.NextHopIpAddress = genruntime.ClonePointerToString(route.NextHopIpAddress)
 
 	// NextHopType
-	if route.NextHopType != nil {
-		nextHopType := string(*route.NextHopType)
-		destination.NextHopType = &nextHopType
-	} else {
-		destination.NextHopType = nil
-	}
+	destination.NextHopType = genruntime.ClonePointerToString(route.NextHopType)
 
 	// ProvisioningState
-	if route.ProvisioningState != nil {
-		provisioningState := string(*route.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(route.ProvisioningState)
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(route.Type)
@@ -876,16 +856,6 @@ func (route *Route_Status) AssignPropertiesToRouteStatus(destination *v20201101s
 	// No error
 	return nil
 }
-
-type RouteNextHopType_Status string
-
-const (
-	RouteNextHopType_StatusInternet              = RouteNextHopType_Status("Internet")
-	RouteNextHopType_StatusNone                  = RouteNextHopType_Status("None")
-	RouteNextHopType_StatusVirtualAppliance      = RouteNextHopType_Status("VirtualAppliance")
-	RouteNextHopType_StatusVirtualNetworkGateway = RouteNextHopType_Status("VirtualNetworkGateway")
-	RouteNextHopType_StatusVnetLocal             = RouteNextHopType_Status("VnetLocal")
-)
 
 // +kubebuilder:validation:Enum={"Internet","None","VirtualAppliance","VirtualNetworkGateway","VnetLocal"}
 type RoutePropertiesFormatNextHopType string

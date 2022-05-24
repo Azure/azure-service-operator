@@ -14,17 +14,17 @@ type SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbeddedAR
 
 // Deprecated version of SecurityRulePropertiesFormat_Status. Use v1beta20201101.SecurityRulePropertiesFormat_Status instead
 type SecurityRulePropertiesFormat_StatusARM struct {
-	Access                               *SecurityRuleAccess_Status                                                                 `json:"access,omitempty"`
+	Access                               *string                                                                                    `json:"access,omitempty"`
 	Description                          *string                                                                                    `json:"description,omitempty"`
 	DestinationAddressPrefix             *string                                                                                    `json:"destinationAddressPrefix,omitempty"`
 	DestinationAddressPrefixes           []string                                                                                   `json:"destinationAddressPrefixes,omitempty"`
 	DestinationApplicationSecurityGroups []ApplicationSecurityGroup_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbeddedARM `json:"destinationApplicationSecurityGroups,omitempty"`
 	DestinationPortRange                 *string                                                                                    `json:"destinationPortRange,omitempty"`
 	DestinationPortRanges                []string                                                                                   `json:"destinationPortRanges,omitempty"`
-	Direction                            *SecurityRuleDirection_Status                                                              `json:"direction,omitempty"`
+	Direction                            *string                                                                                    `json:"direction,omitempty"`
 	Priority                             *int                                                                                       `json:"priority,omitempty"`
-	Protocol                             *SecurityRulePropertiesFormatStatusProtocol                                                `json:"protocol,omitempty"`
-	ProvisioningState                    *ProvisioningState_Status                                                                  `json:"provisioningState,omitempty"`
+	Protocol                             *string                                                                                    `json:"protocol,omitempty"`
+	ProvisioningState                    *string                                                                                    `json:"provisioningState,omitempty"`
 	SourceAddressPrefix                  *string                                                                                    `json:"sourceAddressPrefix,omitempty"`
 	SourceAddressPrefixes                []string                                                                                   `json:"sourceAddressPrefixes,omitempty"`
 	SourceApplicationSecurityGroups      []ApplicationSecurityGroup_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbeddedARM `json:"sourceApplicationSecurityGroups,omitempty"`

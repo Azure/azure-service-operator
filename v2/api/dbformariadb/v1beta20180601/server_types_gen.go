@@ -360,7 +360,7 @@ type Server_Status struct {
 	MasterServerId *string `json:"masterServerId,omitempty"`
 
 	// MinimalTlsVersion: Enforce a minimal Tls version for the server.
-	MinimalTlsVersion *MinimalTlsVersion_Status `json:"minimalTlsVersion,omitempty"`
+	MinimalTlsVersion *string `json:"minimalTlsVersion,omitempty"`
 
 	// Name: The name of the resource
 	Name *string `json:"name,omitempty"`
@@ -370,7 +370,7 @@ type Server_Status struct {
 
 	// PublicNetworkAccess: Whether or not public network access is allowed for this server. Value is optional but if passed
 	// in, must be 'Enabled' or 'Disabled'
-	PublicNetworkAccess *PublicNetworkAccess_Status `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *string `json:"publicNetworkAccess,omitempty"`
 
 	// ReplicaCapacity: The maximum number of replicas that a master server can have.
 	ReplicaCapacity *int `json:"replicaCapacity,omitempty"`
@@ -382,7 +382,7 @@ type Server_Status struct {
 	Sku *Sku_Status `json:"sku,omitempty"`
 
 	// SslEnforcement: Enable ssl enforcement or not when connect to server.
-	SslEnforcement *SslEnforcement_Status `json:"sslEnforcement,omitempty"`
+	SslEnforcement *string `json:"sslEnforcement,omitempty"`
 
 	// StorageProfile: Storage profile of a server.
 	StorageProfile *StorageProfile_Status `json:"storageProfile,omitempty"`
@@ -394,10 +394,10 @@ type Server_Status struct {
 	Type *string `json:"type,omitempty"`
 
 	// UserVisibleState: A state of a server that is visible to user.
-	UserVisibleState *ServerPropertiesStatusUserVisibleState `json:"userVisibleState,omitempty"`
+	UserVisibleState *string `json:"userVisibleState,omitempty"`
 
 	// Version: Server version.
-	Version *ServerVersion_Status `json:"version,omitempty"`
+	Version *string `json:"version,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &Server_Status{}
@@ -664,12 +664,7 @@ func (server *Server_Status) AssignPropertiesFromServerStatus(source *v20180601s
 	server.MasterServerId = genruntime.ClonePointerToString(source.MasterServerId)
 
 	// MinimalTlsVersion
-	if source.MinimalTlsVersion != nil {
-		minimalTlsVersion := MinimalTlsVersion_Status(*source.MinimalTlsVersion)
-		server.MinimalTlsVersion = &minimalTlsVersion
-	} else {
-		server.MinimalTlsVersion = nil
-	}
+	server.MinimalTlsVersion = genruntime.ClonePointerToString(source.MinimalTlsVersion)
 
 	// Name
 	server.Name = genruntime.ClonePointerToString(source.Name)
@@ -693,12 +688,7 @@ func (server *Server_Status) AssignPropertiesFromServerStatus(source *v20180601s
 	}
 
 	// PublicNetworkAccess
-	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := PublicNetworkAccess_Status(*source.PublicNetworkAccess)
-		server.PublicNetworkAccess = &publicNetworkAccess
-	} else {
-		server.PublicNetworkAccess = nil
-	}
+	server.PublicNetworkAccess = genruntime.ClonePointerToString(source.PublicNetworkAccess)
 
 	// ReplicaCapacity
 	server.ReplicaCapacity = genruntime.ClonePointerToInt(source.ReplicaCapacity)
@@ -719,12 +709,7 @@ func (server *Server_Status) AssignPropertiesFromServerStatus(source *v20180601s
 	}
 
 	// SslEnforcement
-	if source.SslEnforcement != nil {
-		sslEnforcement := SslEnforcement_Status(*source.SslEnforcement)
-		server.SslEnforcement = &sslEnforcement
-	} else {
-		server.SslEnforcement = nil
-	}
+	server.SslEnforcement = genruntime.ClonePointerToString(source.SslEnforcement)
 
 	// StorageProfile
 	if source.StorageProfile != nil {
@@ -745,20 +730,10 @@ func (server *Server_Status) AssignPropertiesFromServerStatus(source *v20180601s
 	server.Type = genruntime.ClonePointerToString(source.Type)
 
 	// UserVisibleState
-	if source.UserVisibleState != nil {
-		userVisibleState := ServerPropertiesStatusUserVisibleState(*source.UserVisibleState)
-		server.UserVisibleState = &userVisibleState
-	} else {
-		server.UserVisibleState = nil
-	}
+	server.UserVisibleState = genruntime.ClonePointerToString(source.UserVisibleState)
 
 	// Version
-	if source.Version != nil {
-		version := ServerVersion_Status(*source.Version)
-		server.Version = &version
-	} else {
-		server.Version = nil
-	}
+	server.Version = genruntime.ClonePointerToString(source.Version)
 
 	// No error
 	return nil
@@ -791,12 +766,7 @@ func (server *Server_Status) AssignPropertiesToServerStatus(destination *v201806
 	destination.MasterServerId = genruntime.ClonePointerToString(server.MasterServerId)
 
 	// MinimalTlsVersion
-	if server.MinimalTlsVersion != nil {
-		minimalTlsVersion := string(*server.MinimalTlsVersion)
-		destination.MinimalTlsVersion = &minimalTlsVersion
-	} else {
-		destination.MinimalTlsVersion = nil
-	}
+	destination.MinimalTlsVersion = genruntime.ClonePointerToString(server.MinimalTlsVersion)
 
 	// Name
 	destination.Name = genruntime.ClonePointerToString(server.Name)
@@ -820,12 +790,7 @@ func (server *Server_Status) AssignPropertiesToServerStatus(destination *v201806
 	}
 
 	// PublicNetworkAccess
-	if server.PublicNetworkAccess != nil {
-		publicNetworkAccess := string(*server.PublicNetworkAccess)
-		destination.PublicNetworkAccess = &publicNetworkAccess
-	} else {
-		destination.PublicNetworkAccess = nil
-	}
+	destination.PublicNetworkAccess = genruntime.ClonePointerToString(server.PublicNetworkAccess)
 
 	// ReplicaCapacity
 	destination.ReplicaCapacity = genruntime.ClonePointerToInt(server.ReplicaCapacity)
@@ -846,12 +811,7 @@ func (server *Server_Status) AssignPropertiesToServerStatus(destination *v201806
 	}
 
 	// SslEnforcement
-	if server.SslEnforcement != nil {
-		sslEnforcement := string(*server.SslEnforcement)
-		destination.SslEnforcement = &sslEnforcement
-	} else {
-		destination.SslEnforcement = nil
-	}
+	destination.SslEnforcement = genruntime.ClonePointerToString(server.SslEnforcement)
 
 	// StorageProfile
 	if server.StorageProfile != nil {
@@ -872,20 +832,10 @@ func (server *Server_Status) AssignPropertiesToServerStatus(destination *v201806
 	destination.Type = genruntime.ClonePointerToString(server.Type)
 
 	// UserVisibleState
-	if server.UserVisibleState != nil {
-		userVisibleState := string(*server.UserVisibleState)
-		destination.UserVisibleState = &userVisibleState
-	} else {
-		destination.UserVisibleState = nil
-	}
+	destination.UserVisibleState = genruntime.ClonePointerToString(server.UserVisibleState)
 
 	// Version
-	if server.Version != nil {
-		version := string(*server.Version)
-		destination.Version = &version
-	} else {
-		destination.Version = nil
-	}
+	destination.Version = genruntime.ClonePointerToString(server.Version)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1226,22 +1176,6 @@ func (servers *Servers_Spec) OriginalVersion() string {
 
 // SetAzureName sets the Azure name of the resource
 func (servers *Servers_Spec) SetAzureName(azureName string) { servers.AzureName = azureName }
-
-type MinimalTlsVersion_Status string
-
-const (
-	MinimalTlsVersion_StatusTLS10                  = MinimalTlsVersion_Status("TLS1_0")
-	MinimalTlsVersion_StatusTLS11                  = MinimalTlsVersion_Status("TLS1_1")
-	MinimalTlsVersion_StatusTLS12                  = MinimalTlsVersion_Status("TLS1_2")
-	MinimalTlsVersion_StatusTLSEnforcementDisabled = MinimalTlsVersion_Status("TLSEnforcementDisabled")
-)
-
-type PublicNetworkAccess_Status string
-
-const (
-	PublicNetworkAccess_StatusDisabled = PublicNetworkAccess_Status("Disabled")
-	PublicNetworkAccess_StatusEnabled  = PublicNetworkAccess_Status("Enabled")
-)
 
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type ServerOperatorSpec struct {
@@ -1637,21 +1571,6 @@ func (create *ServerPropertiesForCreate) AssignPropertiesToServerPropertiesForCr
 	return nil
 }
 
-type ServerPropertiesStatusUserVisibleState string
-
-const (
-	ServerPropertiesStatusUserVisibleStateDisabled = ServerPropertiesStatusUserVisibleState("Disabled")
-	ServerPropertiesStatusUserVisibleStateDropping = ServerPropertiesStatusUserVisibleState("Dropping")
-	ServerPropertiesStatusUserVisibleStateReady    = ServerPropertiesStatusUserVisibleState("Ready")
-)
-
-type ServerVersion_Status string
-
-const (
-	ServerVersion_Status102 = ServerVersion_Status("10.2")
-	ServerVersion_Status103 = ServerVersion_Status("10.3")
-)
-
 // Generated from: https://schema.management.azure.com/schemas/2018-06-01/Microsoft.DBforMariaDB.json#/definitions/Sku
 type Sku struct {
 	// +kubebuilder:validation:Minimum=0
@@ -1846,7 +1765,7 @@ type Sku_Status struct {
 	Size *string `json:"size,omitempty"`
 
 	// Tier: The tier of the particular SKU, e.g. Basic.
-	Tier *SkuStatusTier `json:"tier,omitempty"`
+	Tier *string `json:"tier,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &Sku_Status{}
@@ -1913,12 +1832,7 @@ func (sku *Sku_Status) AssignPropertiesFromSkuStatus(source *v20180601s.Sku_Stat
 	sku.Size = genruntime.ClonePointerToString(source.Size)
 
 	// Tier
-	if source.Tier != nil {
-		tier := SkuStatusTier(*source.Tier)
-		sku.Tier = &tier
-	} else {
-		sku.Tier = nil
-	}
+	sku.Tier = genruntime.ClonePointerToString(source.Tier)
 
 	// No error
 	return nil
@@ -1942,12 +1856,7 @@ func (sku *Sku_Status) AssignPropertiesToSkuStatus(destination *v20180601s.Sku_S
 	destination.Size = genruntime.ClonePointerToString(sku.Size)
 
 	// Tier
-	if sku.Tier != nil {
-		tier := string(*sku.Tier)
-		destination.Tier = &tier
-	} else {
-		destination.Tier = nil
-	}
+	destination.Tier = genruntime.ClonePointerToString(sku.Tier)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1960,22 +1869,15 @@ func (sku *Sku_Status) AssignPropertiesToSkuStatus(destination *v20180601s.Sku_S
 	return nil
 }
 
-type SslEnforcement_Status string
-
-const (
-	SslEnforcement_StatusDisabled = SslEnforcement_Status("Disabled")
-	SslEnforcement_StatusEnabled  = SslEnforcement_Status("Enabled")
-)
-
 type StorageProfile_Status struct {
 	// BackupRetentionDays: Backup retention days for the server.
 	BackupRetentionDays *int `json:"backupRetentionDays,omitempty"`
 
 	// GeoRedundantBackup: Enable Geo-redundant or not for server backup.
-	GeoRedundantBackup *StorageProfileStatusGeoRedundantBackup `json:"geoRedundantBackup,omitempty"`
+	GeoRedundantBackup *string `json:"geoRedundantBackup,omitempty"`
 
 	// StorageAutogrow: Enable Storage Auto Grow.
-	StorageAutogrow *StorageProfileStatusStorageAutogrow `json:"storageAutogrow,omitempty"`
+	StorageAutogrow *string `json:"storageAutogrow,omitempty"`
 
 	// StorageMB: Max storage allowed for a server.
 	StorageMB *int `json:"storageMB,omitempty"`
@@ -2030,20 +1932,10 @@ func (profile *StorageProfile_Status) AssignPropertiesFromStorageProfileStatus(s
 	profile.BackupRetentionDays = genruntime.ClonePointerToInt(source.BackupRetentionDays)
 
 	// GeoRedundantBackup
-	if source.GeoRedundantBackup != nil {
-		geoRedundantBackup := StorageProfileStatusGeoRedundantBackup(*source.GeoRedundantBackup)
-		profile.GeoRedundantBackup = &geoRedundantBackup
-	} else {
-		profile.GeoRedundantBackup = nil
-	}
+	profile.GeoRedundantBackup = genruntime.ClonePointerToString(source.GeoRedundantBackup)
 
 	// StorageAutogrow
-	if source.StorageAutogrow != nil {
-		storageAutogrow := StorageProfileStatusStorageAutogrow(*source.StorageAutogrow)
-		profile.StorageAutogrow = &storageAutogrow
-	} else {
-		profile.StorageAutogrow = nil
-	}
+	profile.StorageAutogrow = genruntime.ClonePointerToString(source.StorageAutogrow)
 
 	// StorageMB
 	profile.StorageMB = genruntime.ClonePointerToInt(source.StorageMB)
@@ -2061,20 +1953,10 @@ func (profile *StorageProfile_Status) AssignPropertiesToStorageProfileStatus(des
 	destination.BackupRetentionDays = genruntime.ClonePointerToInt(profile.BackupRetentionDays)
 
 	// GeoRedundantBackup
-	if profile.GeoRedundantBackup != nil {
-		geoRedundantBackup := string(*profile.GeoRedundantBackup)
-		destination.GeoRedundantBackup = &geoRedundantBackup
-	} else {
-		destination.GeoRedundantBackup = nil
-	}
+	destination.GeoRedundantBackup = genruntime.ClonePointerToString(profile.GeoRedundantBackup)
 
 	// StorageAutogrow
-	if profile.StorageAutogrow != nil {
-		storageAutogrow := string(*profile.StorageAutogrow)
-		destination.StorageAutogrow = &storageAutogrow
-	} else {
-		destination.StorageAutogrow = nil
-	}
+	destination.StorageAutogrow = genruntime.ClonePointerToString(profile.StorageAutogrow)
 
 	// StorageMB
 	destination.StorageMB = genruntime.ClonePointerToInt(profile.StorageMB)
@@ -2143,7 +2025,7 @@ type ServerPrivateEndpointConnectionProperties_Status struct {
 	PrivateLinkServiceConnectionState *ServerPrivateLinkServiceConnectionStateProperty_Status `json:"privateLinkServiceConnectionState,omitempty"`
 
 	// ProvisioningState: State of the private endpoint connection.
-	ProvisioningState *ServerPrivateEndpointConnectionPropertiesStatusProvisioningState `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ServerPrivateEndpointConnectionProperties_Status{}
@@ -2220,12 +2102,7 @@ func (properties *ServerPrivateEndpointConnectionProperties_Status) AssignProper
 	}
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := ServerPrivateEndpointConnectionPropertiesStatusProvisioningState(*source.ProvisioningState)
-		properties.ProvisioningState = &provisioningState
-	} else {
-		properties.ProvisioningState = nil
-	}
+	properties.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// No error
 	return nil
@@ -2261,12 +2138,7 @@ func (properties *ServerPrivateEndpointConnectionProperties_Status) AssignProper
 	}
 
 	// ProvisioningState
-	if properties.ProvisioningState != nil {
-		provisioningState := string(*properties.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(properties.ProvisioningState)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3432,20 +3304,6 @@ func (restore *ServerPropertiesForRestore) AssignPropertiesToServerPropertiesFor
 	return nil
 }
 
-type StorageProfileStatusGeoRedundantBackup string
-
-const (
-	StorageProfileStatusGeoRedundantBackupDisabled = StorageProfileStatusGeoRedundantBackup("Disabled")
-	StorageProfileStatusGeoRedundantBackupEnabled  = StorageProfileStatusGeoRedundantBackup("Enabled")
-)
-
-type StorageProfileStatusStorageAutogrow string
-
-const (
-	StorageProfileStatusStorageAutogrowDisabled = StorageProfileStatusStorageAutogrow("Disabled")
-	StorageProfileStatusStorageAutogrowEnabled  = StorageProfileStatusStorageAutogrow("Enabled")
-)
-
 type PrivateEndpointProperty_Status struct {
 	// Id: Resource id of the private endpoint.
 	Id *string `json:"id,omitempty"`
@@ -3504,25 +3362,15 @@ func (property *PrivateEndpointProperty_Status) AssignPropertiesToPrivateEndpoin
 	return nil
 }
 
-type ServerPrivateEndpointConnectionPropertiesStatusProvisioningState string
-
-const (
-	ServerPrivateEndpointConnectionPropertiesStatusProvisioningStateApproving = ServerPrivateEndpointConnectionPropertiesStatusProvisioningState("Approving")
-	ServerPrivateEndpointConnectionPropertiesStatusProvisioningStateDropping  = ServerPrivateEndpointConnectionPropertiesStatusProvisioningState("Dropping")
-	ServerPrivateEndpointConnectionPropertiesStatusProvisioningStateFailed    = ServerPrivateEndpointConnectionPropertiesStatusProvisioningState("Failed")
-	ServerPrivateEndpointConnectionPropertiesStatusProvisioningStateReady     = ServerPrivateEndpointConnectionPropertiesStatusProvisioningState("Ready")
-	ServerPrivateEndpointConnectionPropertiesStatusProvisioningStateRejecting = ServerPrivateEndpointConnectionPropertiesStatusProvisioningState("Rejecting")
-)
-
 type ServerPrivateLinkServiceConnectionStateProperty_Status struct {
 	// ActionsRequired: The actions required for private link service connection.
-	ActionsRequired *ServerPrivateLinkServiceConnectionStatePropertyStatusActionsRequired `json:"actionsRequired,omitempty"`
+	ActionsRequired *string `json:"actionsRequired,omitempty"`
 
 	// Description: The private link service connection description.
 	Description *string `json:"description,omitempty"`
 
 	// Status: The private link service connection status.
-	Status *ServerPrivateLinkServiceConnectionStatePropertyStatusStatus `json:"status,omitempty"`
+	Status *string `json:"status,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ServerPrivateLinkServiceConnectionStateProperty_Status{}
@@ -3565,23 +3413,13 @@ func (property *ServerPrivateLinkServiceConnectionStateProperty_Status) Populate
 func (property *ServerPrivateLinkServiceConnectionStateProperty_Status) AssignPropertiesFromServerPrivateLinkServiceConnectionStatePropertyStatus(source *v20180601s.ServerPrivateLinkServiceConnectionStateProperty_Status) error {
 
 	// ActionsRequired
-	if source.ActionsRequired != nil {
-		actionsRequired := ServerPrivateLinkServiceConnectionStatePropertyStatusActionsRequired(*source.ActionsRequired)
-		property.ActionsRequired = &actionsRequired
-	} else {
-		property.ActionsRequired = nil
-	}
+	property.ActionsRequired = genruntime.ClonePointerToString(source.ActionsRequired)
 
 	// Description
 	property.Description = genruntime.ClonePointerToString(source.Description)
 
 	// Status
-	if source.Status != nil {
-		status := ServerPrivateLinkServiceConnectionStatePropertyStatusStatus(*source.Status)
-		property.Status = &status
-	} else {
-		property.Status = nil
-	}
+	property.Status = genruntime.ClonePointerToString(source.Status)
 
 	// No error
 	return nil
@@ -3593,23 +3431,13 @@ func (property *ServerPrivateLinkServiceConnectionStateProperty_Status) AssignPr
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ActionsRequired
-	if property.ActionsRequired != nil {
-		actionsRequired := string(*property.ActionsRequired)
-		destination.ActionsRequired = &actionsRequired
-	} else {
-		destination.ActionsRequired = nil
-	}
+	destination.ActionsRequired = genruntime.ClonePointerToString(property.ActionsRequired)
 
 	// Description
 	destination.Description = genruntime.ClonePointerToString(property.Description)
 
 	// Status
-	if property.Status != nil {
-		status := string(*property.Status)
-		destination.Status = &status
-	} else {
-		destination.Status = nil
-	}
+	destination.Status = genruntime.ClonePointerToString(property.Status)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3778,19 +3606,6 @@ func (profile *StorageProfile) AssignPropertiesToStorageProfile(destination *v20
 	// No error
 	return nil
 }
-
-type ServerPrivateLinkServiceConnectionStatePropertyStatusActionsRequired string
-
-const ServerPrivateLinkServiceConnectionStatePropertyStatusActionsRequiredNone = ServerPrivateLinkServiceConnectionStatePropertyStatusActionsRequired("None")
-
-type ServerPrivateLinkServiceConnectionStatePropertyStatusStatus string
-
-const (
-	ServerPrivateLinkServiceConnectionStatePropertyStatusStatusApproved     = ServerPrivateLinkServiceConnectionStatePropertyStatusStatus("Approved")
-	ServerPrivateLinkServiceConnectionStatePropertyStatusStatusDisconnected = ServerPrivateLinkServiceConnectionStatePropertyStatusStatus("Disconnected")
-	ServerPrivateLinkServiceConnectionStatePropertyStatusStatusPending      = ServerPrivateLinkServiceConnectionStatePropertyStatusStatus("Pending")
-	ServerPrivateLinkServiceConnectionStatePropertyStatusStatusRejected     = ServerPrivateLinkServiceConnectionStatePropertyStatusStatus("Rejected")
-)
 
 func init() {
 	SchemeBuilder.Register(&Server{}, &ServerList{})

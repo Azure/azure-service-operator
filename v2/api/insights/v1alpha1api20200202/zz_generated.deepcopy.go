@@ -117,7 +117,7 @@ func (in *ApplicationInsightsComponentProperties_StatusARM) DeepCopyInto(out *Ap
 	}
 	if in.ApplicationType != nil {
 		in, out := &in.ApplicationType, &out.ApplicationType
-		*out = new(ApplicationInsightsComponentPropertiesStatusApplicationType)
+		*out = new(string)
 		**out = **in
 	}
 	if in.ConnectionString != nil {
@@ -142,7 +142,7 @@ func (in *ApplicationInsightsComponentProperties_StatusARM) DeepCopyInto(out *Ap
 	}
 	if in.FlowType != nil {
 		in, out := &in.FlowType, &out.FlowType
-		*out = new(ApplicationInsightsComponentPropertiesStatusFlowType)
+		*out = new(string)
 		**out = **in
 	}
 	if in.ForceCustomerStorageForProfiler != nil {
@@ -167,7 +167,7 @@ func (in *ApplicationInsightsComponentProperties_StatusARM) DeepCopyInto(out *Ap
 	}
 	if in.IngestionMode != nil {
 		in, out := &in.IngestionMode, &out.IngestionMode
-		*out = new(ApplicationInsightsComponentPropertiesStatusIngestionMode)
+		*out = new(string)
 		**out = **in
 	}
 	if in.InstrumentationKey != nil {
@@ -199,17 +199,17 @@ func (in *ApplicationInsightsComponentProperties_StatusARM) DeepCopyInto(out *Ap
 	}
 	if in.PublicNetworkAccessForIngestion != nil {
 		in, out := &in.PublicNetworkAccessForIngestion, &out.PublicNetworkAccessForIngestion
-		*out = new(PublicNetworkAccessType_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.PublicNetworkAccessForQuery != nil {
 		in, out := &in.PublicNetworkAccessForQuery, &out.PublicNetworkAccessForQuery
-		*out = new(PublicNetworkAccessType_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.RequestSource != nil {
 		in, out := &in.RequestSource, &out.RequestSource
-		*out = new(ApplicationInsightsComponentPropertiesStatusRequestSource)
+		*out = new(string)
 		**out = **in
 	}
 	if in.RetentionInDays != nil {
@@ -259,7 +259,7 @@ func (in *ApplicationInsightsComponent_Status) DeepCopyInto(out *ApplicationInsi
 	}
 	if in.ApplicationType != nil {
 		in, out := &in.ApplicationType, &out.ApplicationType
-		*out = new(ApplicationInsightsComponentPropertiesStatusApplicationType)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Conditions != nil {
@@ -296,7 +296,7 @@ func (in *ApplicationInsightsComponent_Status) DeepCopyInto(out *ApplicationInsi
 	}
 	if in.FlowType != nil {
 		in, out := &in.FlowType, &out.FlowType
-		*out = new(ApplicationInsightsComponentPropertiesStatusFlowType)
+		*out = new(string)
 		**out = **in
 	}
 	if in.ForceCustomerStorageForProfiler != nil {
@@ -326,7 +326,7 @@ func (in *ApplicationInsightsComponent_Status) DeepCopyInto(out *ApplicationInsi
 	}
 	if in.IngestionMode != nil {
 		in, out := &in.IngestionMode, &out.IngestionMode
-		*out = new(ApplicationInsightsComponentPropertiesStatusIngestionMode)
+		*out = new(string)
 		**out = **in
 	}
 	if in.InstrumentationKey != nil {
@@ -373,17 +373,17 @@ func (in *ApplicationInsightsComponent_Status) DeepCopyInto(out *ApplicationInsi
 	}
 	if in.PublicNetworkAccessForIngestion != nil {
 		in, out := &in.PublicNetworkAccessForIngestion, &out.PublicNetworkAccessForIngestion
-		*out = new(PublicNetworkAccessType_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.PublicNetworkAccessForQuery != nil {
 		in, out := &in.PublicNetworkAccessForQuery, &out.PublicNetworkAccessForQuery
-		*out = new(PublicNetworkAccessType_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.RequestSource != nil {
 		in, out := &in.RequestSource, &out.RequestSource
-		*out = new(ApplicationInsightsComponentPropertiesStatusRequestSource)
+		*out = new(string)
 		**out = **in
 	}
 	if in.RetentionInDays != nil {

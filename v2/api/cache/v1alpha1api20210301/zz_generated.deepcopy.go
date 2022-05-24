@@ -46,7 +46,7 @@ func (in *ClusterProperties_StatusARM) DeepCopyInto(out *ClusterProperties_Statu
 	}
 	if in.MinimumTlsVersion != nil {
 		in, out := &in.MinimumTlsVersion, &out.MinimumTlsVersion
-		*out = new(ClusterPropertiesStatusMinimumTlsVersion)
+		*out = new(string)
 		**out = **in
 	}
 	if in.PrivateEndpointConnections != nil {
@@ -58,7 +58,7 @@ func (in *ClusterProperties_StatusARM) DeepCopyInto(out *ClusterProperties_Statu
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.RedisVersion != nil {
@@ -68,7 +68,7 @@ func (in *ClusterProperties_StatusARM) DeepCopyInto(out *ClusterProperties_Statu
 	}
 	if in.ResourceState != nil {
 		in, out := &in.ResourceState, &out.ResourceState
-		*out = new(ResourceState_Status)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -110,7 +110,7 @@ func (in *Cluster_Status) DeepCopyInto(out *Cluster_Status) {
 	}
 	if in.MinimumTlsVersion != nil {
 		in, out := &in.MinimumTlsVersion, &out.MinimumTlsVersion
-		*out = new(ClusterPropertiesStatusMinimumTlsVersion)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Name != nil {
@@ -127,7 +127,7 @@ func (in *Cluster_Status) DeepCopyInto(out *Cluster_Status) {
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.RedisVersion != nil {
@@ -137,7 +137,7 @@ func (in *Cluster_Status) DeepCopyInto(out *Cluster_Status) {
 	}
 	if in.ResourceState != nil {
 		in, out := &in.ResourceState, &out.ResourceState
-		*out = new(ResourceState_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Sku != nil {
@@ -283,17 +283,17 @@ func (in *DatabaseProperties_StatusARM) DeepCopyInto(out *DatabaseProperties_Sta
 	*out = *in
 	if in.ClientProtocol != nil {
 		in, out := &in.ClientProtocol, &out.ClientProtocol
-		*out = new(DatabasePropertiesStatusClientProtocol)
+		*out = new(string)
 		**out = **in
 	}
 	if in.ClusteringPolicy != nil {
 		in, out := &in.ClusteringPolicy, &out.ClusteringPolicy
-		*out = new(DatabasePropertiesStatusClusteringPolicy)
+		*out = new(string)
 		**out = **in
 	}
 	if in.EvictionPolicy != nil {
 		in, out := &in.EvictionPolicy, &out.EvictionPolicy
-		*out = new(DatabasePropertiesStatusEvictionPolicy)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Modules != nil {
@@ -315,12 +315,12 @@ func (in *DatabaseProperties_StatusARM) DeepCopyInto(out *DatabaseProperties_Sta
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.ResourceState != nil {
 		in, out := &in.ResourceState, &out.ResourceState
-		*out = new(ResourceState_Status)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -340,12 +340,12 @@ func (in *Database_Status) DeepCopyInto(out *Database_Status) {
 	*out = *in
 	if in.ClientProtocol != nil {
 		in, out := &in.ClientProtocol, &out.ClientProtocol
-		*out = new(DatabasePropertiesStatusClientProtocol)
+		*out = new(string)
 		**out = **in
 	}
 	if in.ClusteringPolicy != nil {
 		in, out := &in.ClusteringPolicy, &out.ClusteringPolicy
-		*out = new(DatabasePropertiesStatusClusteringPolicy)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Conditions != nil {
@@ -357,7 +357,7 @@ func (in *Database_Status) DeepCopyInto(out *Database_Status) {
 	}
 	if in.EvictionPolicy != nil {
 		in, out := &in.EvictionPolicy, &out.EvictionPolicy
-		*out = new(DatabasePropertiesStatusEvictionPolicy)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Id != nil {
@@ -389,12 +389,12 @@ func (in *Database_Status) DeepCopyInto(out *Database_Status) {
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ProvisioningState_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.ResourceState != nil {
 		in, out := &in.ResourceState, &out.ResourceState
-		*out = new(ResourceState_Status)
+		*out = new(string)
 		**out = **in
 	}
 	if in.Type != nil {
@@ -639,7 +639,7 @@ func (in *Persistence_Status) DeepCopyInto(out *Persistence_Status) {
 	}
 	if in.AofFrequency != nil {
 		in, out := &in.AofFrequency, &out.AofFrequency
-		*out = new(PersistenceStatusAofFrequency)
+		*out = new(string)
 		**out = **in
 	}
 	if in.RdbEnabled != nil {
@@ -649,7 +649,7 @@ func (in *Persistence_Status) DeepCopyInto(out *Persistence_Status) {
 	}
 	if in.RdbFrequency != nil {
 		in, out := &in.RdbFrequency, &out.RdbFrequency
-		*out = new(PersistenceStatusRdbFrequency)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -674,7 +674,7 @@ func (in *Persistence_StatusARM) DeepCopyInto(out *Persistence_StatusARM) {
 	}
 	if in.AofFrequency != nil {
 		in, out := &in.AofFrequency, &out.AofFrequency
-		*out = new(PersistenceStatusAofFrequency)
+		*out = new(string)
 		**out = **in
 	}
 	if in.RdbEnabled != nil {
@@ -684,7 +684,7 @@ func (in *Persistence_StatusARM) DeepCopyInto(out *Persistence_StatusARM) {
 	}
 	if in.RdbFrequency != nil {
 		in, out := &in.RdbFrequency, &out.RdbFrequency
-		*out = new(PersistenceStatusRdbFrequency)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -1102,7 +1102,7 @@ func (in *Sku_Status) DeepCopyInto(out *Sku_Status) {
 	}
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(SkuStatusName)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -1127,7 +1127,7 @@ func (in *Sku_StatusARM) DeepCopyInto(out *Sku_StatusARM) {
 	}
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(SkuStatusName)
+		*out = new(string)
 		**out = **in
 	}
 }

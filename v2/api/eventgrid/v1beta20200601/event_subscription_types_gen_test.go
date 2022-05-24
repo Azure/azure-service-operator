@@ -270,19 +270,12 @@ func EventSubscriptionStatusGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForEventSubscriptionStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForEventSubscriptionStatus(gens map[string]gopter.Gen) {
-	gens["EventDeliverySchema"] = gen.PtrOf(gen.OneConstOf(EventSubscriptionPropertiesStatusEventDeliverySchemaCloudEventSchemaV10, EventSubscriptionPropertiesStatusEventDeliverySchemaCustomInputSchema, EventSubscriptionPropertiesStatusEventDeliverySchemaEventGridSchema))
+	gens["EventDeliverySchema"] = gen.PtrOf(gen.AlphaString())
 	gens["ExpirationTimeUtc"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Labels"] = gen.SliceOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		EventSubscriptionPropertiesStatusProvisioningStateAwaitingManualAction,
-		EventSubscriptionPropertiesStatusProvisioningStateCanceled,
-		EventSubscriptionPropertiesStatusProvisioningStateCreating,
-		EventSubscriptionPropertiesStatusProvisioningStateDeleting,
-		EventSubscriptionPropertiesStatusProvisioningStateFailed,
-		EventSubscriptionPropertiesStatusProvisioningStateSucceeded,
-		EventSubscriptionPropertiesStatusProvisioningStateUpdating))
+	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["Topic"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
@@ -519,7 +512,7 @@ func DeadLetterDestinationStatusGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeadLetterDestinationStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeadLetterDestinationStatus(gens map[string]gopter.Gen) {
-	gens["EndpointType"] = gen.PtrOf(gen.OneConstOf(DeadLetterDestinationStatusEndpointTypeStorageBlob))
+	gens["EndpointType"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_EventSubscriptionDestination_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -751,14 +744,7 @@ func EventSubscriptionDestinationStatusGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForEventSubscriptionDestinationStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForEventSubscriptionDestinationStatus(gens map[string]gopter.Gen) {
-	gens["EndpointType"] = gen.PtrOf(gen.OneConstOf(
-		EventSubscriptionDestinationStatusEndpointTypeAzureFunction,
-		EventSubscriptionDestinationStatusEndpointTypeEventHub,
-		EventSubscriptionDestinationStatusEndpointTypeHybridConnection,
-		EventSubscriptionDestinationStatusEndpointTypeServiceBusQueue,
-		EventSubscriptionDestinationStatusEndpointTypeServiceBusTopic,
-		EventSubscriptionDestinationStatusEndpointTypeStorageQueue,
-		EventSubscriptionDestinationStatusEndpointTypeWebHook))
+	gens["EndpointType"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_EventSubscriptionFilter_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1563,19 +1549,7 @@ func AdvancedFilterStatusGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForAdvancedFilterStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAdvancedFilterStatus(gens map[string]gopter.Gen) {
 	gens["Key"] = gen.PtrOf(gen.AlphaString())
-	gens["OperatorType"] = gen.PtrOf(gen.OneConstOf(
-		AdvancedFilterStatusOperatorTypeBoolEquals,
-		AdvancedFilterStatusOperatorTypeNumberGreaterThan,
-		AdvancedFilterStatusOperatorTypeNumberGreaterThanOrEquals,
-		AdvancedFilterStatusOperatorTypeNumberIn,
-		AdvancedFilterStatusOperatorTypeNumberLessThan,
-		AdvancedFilterStatusOperatorTypeNumberLessThanOrEquals,
-		AdvancedFilterStatusOperatorTypeNumberNotIn,
-		AdvancedFilterStatusOperatorTypeStringBeginsWith,
-		AdvancedFilterStatusOperatorTypeStringContains,
-		AdvancedFilterStatusOperatorTypeStringEndsWith,
-		AdvancedFilterStatusOperatorTypeStringIn,
-		AdvancedFilterStatusOperatorTypeStringNotIn))
+	gens["OperatorType"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_AzureFunctionEventSubscriptionDestination_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

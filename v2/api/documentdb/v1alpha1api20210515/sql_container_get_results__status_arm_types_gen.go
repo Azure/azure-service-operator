@@ -35,27 +35,27 @@ type SqlContainerGetProperties_Status_ResourceARM struct {
 
 // Deprecated version of ConflictResolutionPolicy_Status. Use v1beta20210515.ConflictResolutionPolicy_Status instead
 type ConflictResolutionPolicy_StatusARM struct {
-	ConflictResolutionPath      *string                             `json:"conflictResolutionPath,omitempty"`
-	ConflictResolutionProcedure *string                             `json:"conflictResolutionProcedure,omitempty"`
-	Mode                        *ConflictResolutionPolicyStatusMode `json:"mode,omitempty"`
+	ConflictResolutionPath      *string `json:"conflictResolutionPath,omitempty"`
+	ConflictResolutionProcedure *string `json:"conflictResolutionProcedure,omitempty"`
+	Mode                        *string `json:"mode,omitempty"`
 }
 
 // Deprecated version of ContainerPartitionKey_Status. Use v1beta20210515.ContainerPartitionKey_Status instead
 type ContainerPartitionKey_StatusARM struct {
-	Kind      *ContainerPartitionKeyStatusKind `json:"kind,omitempty"`
-	Paths     []string                         `json:"paths,omitempty"`
-	SystemKey *bool                            `json:"systemKey,omitempty"`
-	Version   *int                             `json:"version,omitempty"`
+	Kind      *string  `json:"kind,omitempty"`
+	Paths     []string `json:"paths,omitempty"`
+	SystemKey *bool    `json:"systemKey,omitempty"`
+	Version   *int     `json:"version,omitempty"`
 }
 
 // Deprecated version of IndexingPolicy_Status. Use v1beta20210515.IndexingPolicy_Status instead
 type IndexingPolicy_StatusARM struct {
-	Automatic        *bool                             `json:"automatic,omitempty"`
-	CompositeIndexes [][]CompositePath_StatusARM       `json:"compositeIndexes,omitempty"`
-	ExcludedPaths    []ExcludedPath_StatusARM          `json:"excludedPaths,omitempty"`
-	IncludedPaths    []IncludedPath_StatusARM          `json:"includedPaths,omitempty"`
-	IndexingMode     *IndexingPolicyStatusIndexingMode `json:"indexingMode,omitempty"`
-	SpatialIndexes   []SpatialSpec_StatusARM           `json:"spatialIndexes,omitempty"`
+	Automatic        *bool                       `json:"automatic,omitempty"`
+	CompositeIndexes [][]CompositePath_StatusARM `json:"compositeIndexes,omitempty"`
+	ExcludedPaths    []ExcludedPath_StatusARM    `json:"excludedPaths,omitempty"`
+	IncludedPaths    []IncludedPath_StatusARM    `json:"includedPaths,omitempty"`
+	IndexingMode     *string                     `json:"indexingMode,omitempty"`
+	SpatialIndexes   []SpatialSpec_StatusARM     `json:"spatialIndexes,omitempty"`
 }
 
 // Deprecated version of UniqueKeyPolicy_Status. Use v1beta20210515.UniqueKeyPolicy_Status instead
@@ -65,26 +65,9 @@ type UniqueKeyPolicy_StatusARM struct {
 
 // Deprecated version of CompositePath_Status. Use v1beta20210515.CompositePath_Status instead
 type CompositePath_StatusARM struct {
-	Order *CompositePathStatusOrder `json:"order,omitempty"`
-	Path  *string                   `json:"path,omitempty"`
+	Order *string `json:"order,omitempty"`
+	Path  *string `json:"path,omitempty"`
 }
-
-// Deprecated version of ConflictResolutionPolicyStatusMode. Use v1beta20210515.ConflictResolutionPolicyStatusMode instead
-type ConflictResolutionPolicyStatusMode string
-
-const (
-	ConflictResolutionPolicyStatusModeCustom         = ConflictResolutionPolicyStatusMode("Custom")
-	ConflictResolutionPolicyStatusModeLastWriterWins = ConflictResolutionPolicyStatusMode("LastWriterWins")
-)
-
-// Deprecated version of ContainerPartitionKeyStatusKind. Use v1beta20210515.ContainerPartitionKeyStatusKind instead
-type ContainerPartitionKeyStatusKind string
-
-const (
-	ContainerPartitionKeyStatusKindHash      = ContainerPartitionKeyStatusKind("Hash")
-	ContainerPartitionKeyStatusKindMultiHash = ContainerPartitionKeyStatusKind("MultiHash")
-	ContainerPartitionKeyStatusKindRange     = ContainerPartitionKeyStatusKind("Range")
-)
 
 // Deprecated version of ExcludedPath_Status. Use v1beta20210515.ExcludedPath_Status instead
 type ExcludedPath_StatusARM struct {
@@ -97,19 +80,10 @@ type IncludedPath_StatusARM struct {
 	Path    *string             `json:"path,omitempty"`
 }
 
-// Deprecated version of IndexingPolicyStatusIndexingMode. Use v1beta20210515.IndexingPolicyStatusIndexingMode instead
-type IndexingPolicyStatusIndexingMode string
-
-const (
-	IndexingPolicyStatusIndexingModeConsistent = IndexingPolicyStatusIndexingMode("consistent")
-	IndexingPolicyStatusIndexingModeLazy       = IndexingPolicyStatusIndexingMode("lazy")
-	IndexingPolicyStatusIndexingModeNone       = IndexingPolicyStatusIndexingMode("none")
-)
-
 // Deprecated version of SpatialSpec_Status. Use v1beta20210515.SpatialSpec_Status instead
 type SpatialSpec_StatusARM struct {
-	Path  *string              `json:"path,omitempty"`
-	Types []SpatialType_Status `json:"types,omitempty"`
+	Path  *string  `json:"path,omitempty"`
+	Types []string `json:"types,omitempty"`
 }
 
 // Deprecated version of UniqueKey_Status. Use v1beta20210515.UniqueKey_Status instead
@@ -117,48 +91,9 @@ type UniqueKey_StatusARM struct {
 	Paths []string `json:"paths,omitempty"`
 }
 
-// Deprecated version of CompositePathStatusOrder. Use v1beta20210515.CompositePathStatusOrder instead
-type CompositePathStatusOrder string
-
-const (
-	CompositePathStatusOrderAscending  = CompositePathStatusOrder("ascending")
-	CompositePathStatusOrderDescending = CompositePathStatusOrder("descending")
-)
-
 // Deprecated version of Indexes_Status. Use v1beta20210515.Indexes_Status instead
 type Indexes_StatusARM struct {
-	DataType  *IndexesStatusDataType `json:"dataType,omitempty"`
-	Kind      *IndexesStatusKind     `json:"kind,omitempty"`
-	Precision *int                   `json:"precision,omitempty"`
+	DataType  *string `json:"dataType,omitempty"`
+	Kind      *string `json:"kind,omitempty"`
+	Precision *int    `json:"precision,omitempty"`
 }
-
-// Deprecated version of SpatialType_Status. Use v1beta20210515.SpatialType_Status instead
-type SpatialType_Status string
-
-const (
-	SpatialType_StatusLineString   = SpatialType_Status("LineString")
-	SpatialType_StatusMultiPolygon = SpatialType_Status("MultiPolygon")
-	SpatialType_StatusPoint        = SpatialType_Status("Point")
-	SpatialType_StatusPolygon      = SpatialType_Status("Polygon")
-)
-
-// Deprecated version of IndexesStatusDataType. Use v1beta20210515.IndexesStatusDataType instead
-type IndexesStatusDataType string
-
-const (
-	IndexesStatusDataTypeLineString   = IndexesStatusDataType("LineString")
-	IndexesStatusDataTypeMultiPolygon = IndexesStatusDataType("MultiPolygon")
-	IndexesStatusDataTypeNumber       = IndexesStatusDataType("Number")
-	IndexesStatusDataTypePoint        = IndexesStatusDataType("Point")
-	IndexesStatusDataTypePolygon      = IndexesStatusDataType("Polygon")
-	IndexesStatusDataTypeString       = IndexesStatusDataType("String")
-)
-
-// Deprecated version of IndexesStatusKind. Use v1beta20210515.IndexesStatusKind instead
-type IndexesStatusKind string
-
-const (
-	IndexesStatusKindHash    = IndexesStatusKind("Hash")
-	IndexesStatusKindRange   = IndexesStatusKind("Range")
-	IndexesStatusKindSpatial = IndexesStatusKind("Spatial")
-)

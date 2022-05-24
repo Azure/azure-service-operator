@@ -22,7 +22,7 @@ type DomainTopic_StatusARM struct {
 
 type DomainTopicProperties_StatusARM struct {
 	// ProvisioningState: Provisioning state of the domain topic.
-	ProvisioningState *DomainTopicPropertiesStatusProvisioningState `json:"provisioningState,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 }
 
 type SystemData_StatusARM struct {
@@ -33,7 +33,7 @@ type SystemData_StatusARM struct {
 	CreatedBy *string `json:"createdBy,omitempty"`
 
 	// CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemDataStatusCreatedByType `json:"createdByType,omitempty"`
+	CreatedByType *string `json:"createdByType,omitempty"`
 
 	// LastModifiedAt: The timestamp of resource last modification (UTC)
 	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
@@ -42,34 +42,5 @@ type SystemData_StatusARM struct {
 	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
 
 	// LastModifiedByType: The type of identity that last modified the resource.
-	LastModifiedByType *SystemDataStatusLastModifiedByType `json:"lastModifiedByType,omitempty"`
+	LastModifiedByType *string `json:"lastModifiedByType,omitempty"`
 }
-
-type DomainTopicPropertiesStatusProvisioningState string
-
-const (
-	DomainTopicPropertiesStatusProvisioningStateCanceled  = DomainTopicPropertiesStatusProvisioningState("Canceled")
-	DomainTopicPropertiesStatusProvisioningStateCreating  = DomainTopicPropertiesStatusProvisioningState("Creating")
-	DomainTopicPropertiesStatusProvisioningStateDeleting  = DomainTopicPropertiesStatusProvisioningState("Deleting")
-	DomainTopicPropertiesStatusProvisioningStateFailed    = DomainTopicPropertiesStatusProvisioningState("Failed")
-	DomainTopicPropertiesStatusProvisioningStateSucceeded = DomainTopicPropertiesStatusProvisioningState("Succeeded")
-	DomainTopicPropertiesStatusProvisioningStateUpdating  = DomainTopicPropertiesStatusProvisioningState("Updating")
-)
-
-type SystemDataStatusCreatedByType string
-
-const (
-	SystemDataStatusCreatedByTypeApplication     = SystemDataStatusCreatedByType("Application")
-	SystemDataStatusCreatedByTypeKey             = SystemDataStatusCreatedByType("Key")
-	SystemDataStatusCreatedByTypeManagedIdentity = SystemDataStatusCreatedByType("ManagedIdentity")
-	SystemDataStatusCreatedByTypeUser            = SystemDataStatusCreatedByType("User")
-)
-
-type SystemDataStatusLastModifiedByType string
-
-const (
-	SystemDataStatusLastModifiedByTypeApplication     = SystemDataStatusLastModifiedByType("Application")
-	SystemDataStatusLastModifiedByTypeKey             = SystemDataStatusLastModifiedByType("Key")
-	SystemDataStatusLastModifiedByTypeManagedIdentity = SystemDataStatusLastModifiedByType("ManagedIdentity")
-	SystemDataStatusLastModifiedByTypeUser            = SystemDataStatusLastModifiedByType("User")
-)

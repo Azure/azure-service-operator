@@ -955,7 +955,7 @@ type SBQueue_Status struct {
 	RequiresDuplicateDetection          *bool                       `json:"requiresDuplicateDetection,omitempty"`
 	RequiresSession                     *bool                       `json:"requiresSession,omitempty"`
 	SizeInBytes                         *int                        `json:"sizeInBytes,omitempty"`
-	Status                              *EntityStatus_Status        `json:"status,omitempty"`
+	Status                              *string                     `json:"status,omitempty"`
 	SystemData                          *SystemData_Status          `json:"systemData,omitempty"`
 	Type                                *string                     `json:"type,omitempty"`
 	UpdatedAt                           *string                     `json:"updatedAt,omitempty"`
@@ -1363,12 +1363,7 @@ func (queue *SBQueue_Status) AssignPropertiesFromSBQueueStatus(source *alpha2021
 	queue.SizeInBytes = genruntime.ClonePointerToInt(source.SizeInBytes)
 
 	// Status
-	if source.Status != nil {
-		status := EntityStatus_Status(*source.Status)
-		queue.Status = &status
-	} else {
-		queue.Status = nil
-	}
+	queue.Status = genruntime.ClonePointerToString(source.Status)
 
 	// SystemData
 	if source.SystemData != nil {
@@ -1503,12 +1498,7 @@ func (queue *SBQueue_Status) AssignPropertiesToSBQueueStatus(destination *alpha2
 	destination.SizeInBytes = genruntime.ClonePointerToInt(queue.SizeInBytes)
 
 	// Status
-	if queue.Status != nil {
-		status := string(*queue.Status)
-		destination.Status = &status
-	} else {
-		destination.Status = nil
-	}
+	destination.Status = genruntime.ClonePointerToString(queue.Status)
 
 	// SystemData
 	if queue.SystemData != nil {
@@ -1538,21 +1528,6 @@ func (queue *SBQueue_Status) AssignPropertiesToSBQueueStatus(destination *alpha2
 	// No error
 	return nil
 }
-
-// Deprecated version of EntityStatus_Status. Use v1beta20210101preview.EntityStatus_Status instead
-type EntityStatus_Status string
-
-const (
-	EntityStatus_StatusActive          = EntityStatus_Status("Active")
-	EntityStatus_StatusCreating        = EntityStatus_Status("Creating")
-	EntityStatus_StatusDeleting        = EntityStatus_Status("Deleting")
-	EntityStatus_StatusDisabled        = EntityStatus_Status("Disabled")
-	EntityStatus_StatusReceiveDisabled = EntityStatus_Status("ReceiveDisabled")
-	EntityStatus_StatusRenaming        = EntityStatus_Status("Renaming")
-	EntityStatus_StatusRestoring       = EntityStatus_Status("Restoring")
-	EntityStatus_StatusSendDisabled    = EntityStatus_Status("SendDisabled")
-	EntityStatus_StatusUnknown         = EntityStatus_Status("Unknown")
-)
 
 // Deprecated version of MessageCountDetails_Status. Use v1beta20210101preview.MessageCountDetails_Status instead
 type MessageCountDetails_Status struct {

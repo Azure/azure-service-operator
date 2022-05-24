@@ -15,45 +15,15 @@ type AuthorizationRule_StatusARM struct {
 
 // Deprecated version of AuthorizationRule_Status_Properties. Use v1beta20211101.AuthorizationRule_Status_Properties instead
 type AuthorizationRule_Status_PropertiesARM struct {
-	Rights []AuthorizationRuleStatusPropertiesRights `json:"rights,omitempty"`
+	Rights []string `json:"rights,omitempty"`
 }
 
 // Deprecated version of SystemData_Status. Use v1beta20211101.SystemData_Status instead
 type SystemData_StatusARM struct {
-	CreatedAt          *string                             `json:"createdAt,omitempty"`
-	CreatedBy          *string                             `json:"createdBy,omitempty"`
-	CreatedByType      *SystemDataStatusCreatedByType      `json:"createdByType,omitempty"`
-	LastModifiedAt     *string                             `json:"lastModifiedAt,omitempty"`
-	LastModifiedBy     *string                             `json:"lastModifiedBy,omitempty"`
-	LastModifiedByType *SystemDataStatusLastModifiedByType `json:"lastModifiedByType,omitempty"`
+	CreatedAt          *string `json:"createdAt,omitempty"`
+	CreatedBy          *string `json:"createdBy,omitempty"`
+	CreatedByType      *string `json:"createdByType,omitempty"`
+	LastModifiedAt     *string `json:"lastModifiedAt,omitempty"`
+	LastModifiedBy     *string `json:"lastModifiedBy,omitempty"`
+	LastModifiedByType *string `json:"lastModifiedByType,omitempty"`
 }
-
-// Deprecated version of AuthorizationRuleStatusPropertiesRights. Use
-// v1beta20211101.AuthorizationRuleStatusPropertiesRights instead
-type AuthorizationRuleStatusPropertiesRights string
-
-const (
-	AuthorizationRuleStatusPropertiesRightsListen = AuthorizationRuleStatusPropertiesRights("Listen")
-	AuthorizationRuleStatusPropertiesRightsManage = AuthorizationRuleStatusPropertiesRights("Manage")
-	AuthorizationRuleStatusPropertiesRightsSend   = AuthorizationRuleStatusPropertiesRights("Send")
-)
-
-// Deprecated version of SystemDataStatusCreatedByType. Use v1beta20211101.SystemDataStatusCreatedByType instead
-type SystemDataStatusCreatedByType string
-
-const (
-	SystemDataStatusCreatedByTypeApplication     = SystemDataStatusCreatedByType("Application")
-	SystemDataStatusCreatedByTypeKey             = SystemDataStatusCreatedByType("Key")
-	SystemDataStatusCreatedByTypeManagedIdentity = SystemDataStatusCreatedByType("ManagedIdentity")
-	SystemDataStatusCreatedByTypeUser            = SystemDataStatusCreatedByType("User")
-)
-
-// Deprecated version of SystemDataStatusLastModifiedByType. Use v1beta20211101.SystemDataStatusLastModifiedByType instead
-type SystemDataStatusLastModifiedByType string
-
-const (
-	SystemDataStatusLastModifiedByTypeApplication     = SystemDataStatusLastModifiedByType("Application")
-	SystemDataStatusLastModifiedByTypeKey             = SystemDataStatusLastModifiedByType("Key")
-	SystemDataStatusLastModifiedByTypeManagedIdentity = SystemDataStatusLastModifiedByType("ManagedIdentity")
-	SystemDataStatusLastModifiedByTypeUser            = SystemDataStatusLastModifiedByType("User")
-)

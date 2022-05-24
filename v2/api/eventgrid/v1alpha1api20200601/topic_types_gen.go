@@ -338,14 +338,14 @@ type Topic_Status struct {
 	Endpoint                   *string                                                      `json:"endpoint,omitempty"`
 	Id                         *string                                                      `json:"id,omitempty"`
 	InboundIpRules             []InboundIpRule_Status                                       `json:"inboundIpRules,omitempty"`
-	InputSchema                *TopicPropertiesStatusInputSchema                            `json:"inputSchema,omitempty"`
+	InputSchema                *string                                                      `json:"inputSchema,omitempty"`
 	InputSchemaMapping         *InputSchemaMapping_Status                                   `json:"inputSchemaMapping,omitempty"`
 	Location                   *string                                                      `json:"location,omitempty"`
 	MetricResourceId           *string                                                      `json:"metricResourceId,omitempty"`
 	Name                       *string                                                      `json:"name,omitempty"`
 	PrivateEndpointConnections []PrivateEndpointConnection_Status_Topic_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
-	ProvisioningState          *TopicPropertiesStatusProvisioningState                      `json:"provisioningState,omitempty"`
-	PublicNetworkAccess        *TopicPropertiesStatusPublicNetworkAccess                    `json:"publicNetworkAccess,omitempty"`
+	ProvisioningState          *string                                                      `json:"provisioningState,omitempty"`
+	PublicNetworkAccess        *string                                                      `json:"publicNetworkAccess,omitempty"`
 	SystemData                 *SystemData_Status                                           `json:"systemData,omitempty"`
 	Tags                       map[string]string                                            `json:"tags,omitempty"`
 	Type                       *string                                                      `json:"type,omitempty"`
@@ -580,12 +580,7 @@ func (topic *Topic_Status) AssignPropertiesFromTopicStatus(source *alpha20200601
 	}
 
 	// InputSchema
-	if source.InputSchema != nil {
-		inputSchema := TopicPropertiesStatusInputSchema(*source.InputSchema)
-		topic.InputSchema = &inputSchema
-	} else {
-		topic.InputSchema = nil
-	}
+	topic.InputSchema = genruntime.ClonePointerToString(source.InputSchema)
 
 	// InputSchemaMapping
 	if source.InputSchemaMapping != nil {
@@ -627,20 +622,10 @@ func (topic *Topic_Status) AssignPropertiesFromTopicStatus(source *alpha20200601
 	}
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := TopicPropertiesStatusProvisioningState(*source.ProvisioningState)
-		topic.ProvisioningState = &provisioningState
-	} else {
-		topic.ProvisioningState = nil
-	}
+	topic.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// PublicNetworkAccess
-	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := TopicPropertiesStatusPublicNetworkAccess(*source.PublicNetworkAccess)
-		topic.PublicNetworkAccess = &publicNetworkAccess
-	} else {
-		topic.PublicNetworkAccess = nil
-	}
+	topic.PublicNetworkAccess = genruntime.ClonePointerToString(source.PublicNetworkAccess)
 
 	// SystemData
 	if source.SystemData != nil {
@@ -697,12 +682,7 @@ func (topic *Topic_Status) AssignPropertiesToTopicStatus(destination *alpha20200
 	}
 
 	// InputSchema
-	if topic.InputSchema != nil {
-		inputSchema := string(*topic.InputSchema)
-		destination.InputSchema = &inputSchema
-	} else {
-		destination.InputSchema = nil
-	}
+	destination.InputSchema = genruntime.ClonePointerToString(topic.InputSchema)
 
 	// InputSchemaMapping
 	if topic.InputSchemaMapping != nil {
@@ -744,20 +724,10 @@ func (topic *Topic_Status) AssignPropertiesToTopicStatus(destination *alpha20200
 	}
 
 	// ProvisioningState
-	if topic.ProvisioningState != nil {
-		provisioningState := string(*topic.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(topic.ProvisioningState)
 
 	// PublicNetworkAccess
-	if topic.PublicNetworkAccess != nil {
-		publicNetworkAccess := string(*topic.PublicNetworkAccess)
-		destination.PublicNetworkAccess = &publicNetworkAccess
-	} else {
-		destination.PublicNetworkAccess = nil
-	}
+	destination.PublicNetworkAccess = genruntime.ClonePointerToString(topic.PublicNetworkAccess)
 
 	// SystemData
 	if topic.SystemData != nil {
@@ -1043,37 +1013,6 @@ func (embedded *PrivateEndpointConnection_Status_Topic_SubResourceEmbedded) Assi
 	// No error
 	return nil
 }
-
-// Deprecated version of TopicPropertiesStatusInputSchema. Use v1beta20200601.TopicPropertiesStatusInputSchema instead
-type TopicPropertiesStatusInputSchema string
-
-const (
-	TopicPropertiesStatusInputSchemaCloudEventSchemaV10 = TopicPropertiesStatusInputSchema("CloudEventSchemaV1_0")
-	TopicPropertiesStatusInputSchemaCustomEventSchema   = TopicPropertiesStatusInputSchema("CustomEventSchema")
-	TopicPropertiesStatusInputSchemaEventGridSchema     = TopicPropertiesStatusInputSchema("EventGridSchema")
-)
-
-// Deprecated version of TopicPropertiesStatusProvisioningState. Use v1beta20200601.TopicPropertiesStatusProvisioningState
-// instead
-type TopicPropertiesStatusProvisioningState string
-
-const (
-	TopicPropertiesStatusProvisioningStateCanceled  = TopicPropertiesStatusProvisioningState("Canceled")
-	TopicPropertiesStatusProvisioningStateCreating  = TopicPropertiesStatusProvisioningState("Creating")
-	TopicPropertiesStatusProvisioningStateDeleting  = TopicPropertiesStatusProvisioningState("Deleting")
-	TopicPropertiesStatusProvisioningStateFailed    = TopicPropertiesStatusProvisioningState("Failed")
-	TopicPropertiesStatusProvisioningStateSucceeded = TopicPropertiesStatusProvisioningState("Succeeded")
-	TopicPropertiesStatusProvisioningStateUpdating  = TopicPropertiesStatusProvisioningState("Updating")
-)
-
-// Deprecated version of TopicPropertiesStatusPublicNetworkAccess. Use
-// v1beta20200601.TopicPropertiesStatusPublicNetworkAccess instead
-type TopicPropertiesStatusPublicNetworkAccess string
-
-const (
-	TopicPropertiesStatusPublicNetworkAccessDisabled = TopicPropertiesStatusPublicNetworkAccess("Disabled")
-	TopicPropertiesStatusPublicNetworkAccessEnabled  = TopicPropertiesStatusPublicNetworkAccess("Enabled")
-)
 
 func init() {
 	SchemeBuilder.Register(&Topic{}, &TopicList{})

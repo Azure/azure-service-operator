@@ -45,7 +45,7 @@ type ManagementPolicyRule_StatusARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Type: The valid value is Lifecycle
-	Type *ManagementPolicyRuleStatusType `json:"type,omitempty"`
+	Type *string `json:"type,omitempty"`
 }
 
 type ManagementPolicyDefinition_StatusARM struct {
@@ -55,10 +55,6 @@ type ManagementPolicyDefinition_StatusARM struct {
 	// Filters: An object that defines the filter set.
 	Filters *ManagementPolicyFilter_StatusARM `json:"filters,omitempty"`
 }
-
-type ManagementPolicyRuleStatusType string
-
-const ManagementPolicyRuleStatusTypeLifecycle = ManagementPolicyRuleStatusType("Lifecycle")
 
 type ManagementPolicyAction_StatusARM struct {
 	// BaseBlob: The management policy action for base blob

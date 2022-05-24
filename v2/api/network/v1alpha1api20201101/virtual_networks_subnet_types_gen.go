@@ -348,10 +348,10 @@ type Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded struct {
 	Name                              *string                                                                   `json:"name,omitempty"`
 	NatGateway                        *SubResource_Status                                                       `json:"natGateway,omitempty"`
 	NetworkSecurityGroup              *NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded    `json:"networkSecurityGroup,omitempty"`
-	PrivateEndpointNetworkPolicies    *SubnetPropertiesFormatStatusPrivateEndpointNetworkPolicies               `json:"privateEndpointNetworkPolicies,omitempty"`
+	PrivateEndpointNetworkPolicies    *string                                                                   `json:"privateEndpointNetworkPolicies,omitempty"`
 	PrivateEndpoints                  []PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded        `json:"privateEndpoints,omitempty"`
-	PrivateLinkServiceNetworkPolicies *SubnetPropertiesFormatStatusPrivateLinkServiceNetworkPolicies            `json:"privateLinkServiceNetworkPolicies,omitempty"`
-	ProvisioningState                 *ProvisioningState_Status                                                 `json:"provisioningState,omitempty"`
+	PrivateLinkServiceNetworkPolicies *string                                                                   `json:"privateLinkServiceNetworkPolicies,omitempty"`
+	ProvisioningState                 *string                                                                   `json:"provisioningState,omitempty"`
 	Purpose                           *string                                                                   `json:"purpose,omitempty"`
 	ResourceNavigationLinks           []ResourceNavigationLink_Status                                           `json:"resourceNavigationLinks,omitempty"`
 	RouteTable                        *RouteTable_Status_SubResourceEmbedded                                    `json:"routeTable,omitempty"`
@@ -816,12 +816,7 @@ func (embedded *Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignP
 	}
 
 	// PrivateEndpointNetworkPolicies
-	if source.PrivateEndpointNetworkPolicies != nil {
-		privateEndpointNetworkPolicy := SubnetPropertiesFormatStatusPrivateEndpointNetworkPolicies(*source.PrivateEndpointNetworkPolicies)
-		embedded.PrivateEndpointNetworkPolicies = &privateEndpointNetworkPolicy
-	} else {
-		embedded.PrivateEndpointNetworkPolicies = nil
-	}
+	embedded.PrivateEndpointNetworkPolicies = genruntime.ClonePointerToString(source.PrivateEndpointNetworkPolicies)
 
 	// PrivateEndpoints
 	if source.PrivateEndpoints != nil {
@@ -842,20 +837,10 @@ func (embedded *Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignP
 	}
 
 	// PrivateLinkServiceNetworkPolicies
-	if source.PrivateLinkServiceNetworkPolicies != nil {
-		privateLinkServiceNetworkPolicy := SubnetPropertiesFormatStatusPrivateLinkServiceNetworkPolicies(*source.PrivateLinkServiceNetworkPolicies)
-		embedded.PrivateLinkServiceNetworkPolicies = &privateLinkServiceNetworkPolicy
-	} else {
-		embedded.PrivateLinkServiceNetworkPolicies = nil
-	}
+	embedded.PrivateLinkServiceNetworkPolicies = genruntime.ClonePointerToString(source.PrivateLinkServiceNetworkPolicies)
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_Status(*source.ProvisioningState)
-		embedded.ProvisioningState = &provisioningState
-	} else {
-		embedded.ProvisioningState = nil
-	}
+	embedded.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// Purpose
 	embedded.Purpose = genruntime.ClonePointerToString(source.Purpose)
@@ -1089,12 +1074,7 @@ func (embedded *Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignP
 	}
 
 	// PrivateEndpointNetworkPolicies
-	if embedded.PrivateEndpointNetworkPolicies != nil {
-		privateEndpointNetworkPolicy := string(*embedded.PrivateEndpointNetworkPolicies)
-		destination.PrivateEndpointNetworkPolicies = &privateEndpointNetworkPolicy
-	} else {
-		destination.PrivateEndpointNetworkPolicies = nil
-	}
+	destination.PrivateEndpointNetworkPolicies = genruntime.ClonePointerToString(embedded.PrivateEndpointNetworkPolicies)
 
 	// PrivateEndpoints
 	if embedded.PrivateEndpoints != nil {
@@ -1115,20 +1095,10 @@ func (embedded *Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignP
 	}
 
 	// PrivateLinkServiceNetworkPolicies
-	if embedded.PrivateLinkServiceNetworkPolicies != nil {
-		privateLinkServiceNetworkPolicy := string(*embedded.PrivateLinkServiceNetworkPolicies)
-		destination.PrivateLinkServiceNetworkPolicies = &privateLinkServiceNetworkPolicy
-	} else {
-		destination.PrivateLinkServiceNetworkPolicies = nil
-	}
+	destination.PrivateLinkServiceNetworkPolicies = genruntime.ClonePointerToString(embedded.PrivateLinkServiceNetworkPolicies)
 
 	// ProvisioningState
-	if embedded.ProvisioningState != nil {
-		provisioningState := string(*embedded.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(embedded.ProvisioningState)
 
 	// Purpose
 	destination.Purpose = genruntime.ClonePointerToString(embedded.Purpose)
@@ -1855,12 +1825,12 @@ func (subnets *VirtualNetworksSubnets_Spec) SetAzureName(azureName string) {
 
 // Deprecated version of ApplicationGatewayIPConfiguration_Status. Use v1beta20201101.ApplicationGatewayIPConfiguration_Status instead
 type ApplicationGatewayIPConfiguration_Status struct {
-	Etag              *string                   `json:"etag,omitempty"`
-	Id                *string                   `json:"id,omitempty"`
-	Name              *string                   `json:"name,omitempty"`
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
-	Subnet            *SubResource_Status       `json:"subnet,omitempty"`
-	Type              *string                   `json:"type,omitempty"`
+	Etag              *string             `json:"etag,omitempty"`
+	Id                *string             `json:"id,omitempty"`
+	Name              *string             `json:"name,omitempty"`
+	ProvisioningState *string             `json:"provisioningState,omitempty"`
+	Subnet            *SubResource_Status `json:"subnet,omitempty"`
+	Type              *string             `json:"type,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ApplicationGatewayIPConfiguration_Status{}
@@ -1941,12 +1911,7 @@ func (configuration *ApplicationGatewayIPConfiguration_Status) AssignPropertiesF
 	configuration.Name = genruntime.ClonePointerToString(source.Name)
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_Status(*source.ProvisioningState)
-		configuration.ProvisioningState = &provisioningState
-	} else {
-		configuration.ProvisioningState = nil
-	}
+	configuration.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// Subnet
 	if source.Subnet != nil {
@@ -1982,12 +1947,7 @@ func (configuration *ApplicationGatewayIPConfiguration_Status) AssignPropertiesT
 	destination.Name = genruntime.ClonePointerToString(configuration.Name)
 
 	// ProvisioningState
-	if configuration.ProvisioningState != nil {
-		provisioningState := string(*configuration.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(configuration.ProvisioningState)
 
 	// Subnet
 	if configuration.Subnet != nil {
@@ -2017,13 +1977,13 @@ func (configuration *ApplicationGatewayIPConfiguration_Status) AssignPropertiesT
 
 // Deprecated version of Delegation_Status. Use v1beta20201101.Delegation_Status instead
 type Delegation_Status struct {
-	Actions           []string                  `json:"actions,omitempty"`
-	Etag              *string                   `json:"etag,omitempty"`
-	Id                *string                   `json:"id,omitempty"`
-	Name              *string                   `json:"name,omitempty"`
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
-	ServiceName       *string                   `json:"serviceName,omitempty"`
-	Type              *string                   `json:"type,omitempty"`
+	Actions           []string `json:"actions,omitempty"`
+	Etag              *string  `json:"etag,omitempty"`
+	Id                *string  `json:"id,omitempty"`
+	Name              *string  `json:"name,omitempty"`
+	ProvisioningState *string  `json:"provisioningState,omitempty"`
+	ServiceName       *string  `json:"serviceName,omitempty"`
+	Type              *string  `json:"type,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &Delegation_Status{}
@@ -2110,12 +2070,7 @@ func (delegation *Delegation_Status) AssignPropertiesFromDelegationStatus(source
 	delegation.Name = genruntime.ClonePointerToString(source.Name)
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_Status(*source.ProvisioningState)
-		delegation.ProvisioningState = &provisioningState
-	} else {
-		delegation.ProvisioningState = nil
-	}
+	delegation.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// ServiceName
 	delegation.ServiceName = genruntime.ClonePointerToString(source.ServiceName)
@@ -2145,12 +2100,7 @@ func (delegation *Delegation_Status) AssignPropertiesToDelegationStatus(destinat
 	destination.Name = genruntime.ClonePointerToString(delegation.Name)
 
 	// ProvisioningState
-	if delegation.ProvisioningState != nil {
-		provisioningState := string(*delegation.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(delegation.ProvisioningState)
 
 	// ServiceName
 	destination.ServiceName = genruntime.ClonePointerToString(delegation.ServiceName)
@@ -2171,11 +2121,11 @@ func (delegation *Delegation_Status) AssignPropertiesToDelegationStatus(destinat
 
 // Deprecated version of IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded. Use v1beta20201101.IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded instead
 type IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded struct {
-	Etag              *string                   `json:"etag,omitempty"`
-	Id                *string                   `json:"id,omitempty"`
-	Name              *string                   `json:"name,omitempty"`
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
-	Type              *string                   `json:"type,omitempty"`
+	Etag              *string `json:"etag,omitempty"`
+	Id                *string `json:"id,omitempty"`
+	Name              *string `json:"name,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
+	Type              *string `json:"type,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded{}
@@ -2242,12 +2192,7 @@ func (embedded *IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceE
 	embedded.Name = genruntime.ClonePointerToString(source.Name)
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_Status(*source.ProvisioningState)
-		embedded.ProvisioningState = &provisioningState
-	} else {
-		embedded.ProvisioningState = nil
-	}
+	embedded.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// Type
 	embedded.Type = genruntime.ClonePointerToString(source.Type)
@@ -2271,12 +2216,7 @@ func (embedded *IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceE
 	destination.Name = genruntime.ClonePointerToString(embedded.Name)
 
 	// ProvisioningState
-	if embedded.ProvisioningState != nil {
-		provisioningState := string(*embedded.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(embedded.ProvisioningState)
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(embedded.Type)
@@ -2298,8 +2238,8 @@ type IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded struct {
 	Id                        *string                                                           `json:"id,omitempty"`
 	Name                      *string                                                           `json:"name,omitempty"`
 	PrivateIPAddress          *string                                                           `json:"privateIPAddress,omitempty"`
-	PrivateIPAllocationMethod *IPAllocationMethod_Status                                        `json:"privateIPAllocationMethod,omitempty"`
-	ProvisioningState         *ProvisioningState_Status                                         `json:"provisioningState,omitempty"`
+	PrivateIPAllocationMethod *string                                                           `json:"privateIPAllocationMethod,omitempty"`
+	ProvisioningState         *string                                                           `json:"provisioningState,omitempty"`
 	PublicIPAddress           *PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded `json:"publicIPAddress,omitempty"`
 }
 
@@ -2396,20 +2336,10 @@ func (embedded *IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded
 	embedded.PrivateIPAddress = genruntime.ClonePointerToString(source.PrivateIPAddress)
 
 	// PrivateIPAllocationMethod
-	if source.PrivateIPAllocationMethod != nil {
-		privateIPAllocationMethod := IPAllocationMethod_Status(*source.PrivateIPAllocationMethod)
-		embedded.PrivateIPAllocationMethod = &privateIPAllocationMethod
-	} else {
-		embedded.PrivateIPAllocationMethod = nil
-	}
+	embedded.PrivateIPAllocationMethod = genruntime.ClonePointerToString(source.PrivateIPAllocationMethod)
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_Status(*source.ProvisioningState)
-		embedded.ProvisioningState = &provisioningState
-	} else {
-		embedded.ProvisioningState = nil
-	}
+	embedded.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// PublicIPAddress
 	if source.PublicIPAddress != nil {
@@ -2445,20 +2375,10 @@ func (embedded *IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded
 	destination.PrivateIPAddress = genruntime.ClonePointerToString(embedded.PrivateIPAddress)
 
 	// PrivateIPAllocationMethod
-	if embedded.PrivateIPAllocationMethod != nil {
-		privateIPAllocationMethod := string(*embedded.PrivateIPAllocationMethod)
-		destination.PrivateIPAllocationMethod = &privateIPAllocationMethod
-	} else {
-		destination.PrivateIPAllocationMethod = nil
-	}
+	destination.PrivateIPAllocationMethod = genruntime.ClonePointerToString(embedded.PrivateIPAllocationMethod)
 
 	// ProvisioningState
-	if embedded.ProvisioningState != nil {
-		provisioningState := string(*embedded.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(embedded.ProvisioningState)
 
 	// PublicIPAddress
 	if embedded.PublicIPAddress != nil {
@@ -2637,13 +2557,13 @@ func (embedded *PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded
 
 // Deprecated version of ResourceNavigationLink_Status. Use v1beta20201101.ResourceNavigationLink_Status instead
 type ResourceNavigationLink_Status struct {
-	Etag               *string                   `json:"etag,omitempty"`
-	Id                 *string                   `json:"id,omitempty"`
-	Link               *string                   `json:"link,omitempty"`
-	LinkedResourceType *string                   `json:"linkedResourceType,omitempty"`
-	Name               *string                   `json:"name,omitempty"`
-	ProvisioningState  *ProvisioningState_Status `json:"provisioningState,omitempty"`
-	Type               *string                   `json:"type,omitempty"`
+	Etag               *string `json:"etag,omitempty"`
+	Id                 *string `json:"id,omitempty"`
+	Link               *string `json:"link,omitempty"`
+	LinkedResourceType *string `json:"linkedResourceType,omitempty"`
+	Name               *string `json:"name,omitempty"`
+	ProvisioningState  *string `json:"provisioningState,omitempty"`
+	Type               *string `json:"type,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ResourceNavigationLink_Status{}
@@ -2734,12 +2654,7 @@ func (link *ResourceNavigationLink_Status) AssignPropertiesFromResourceNavigatio
 	link.Name = genruntime.ClonePointerToString(source.Name)
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_Status(*source.ProvisioningState)
-		link.ProvisioningState = &provisioningState
-	} else {
-		link.ProvisioningState = nil
-	}
+	link.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// Type
 	link.Type = genruntime.ClonePointerToString(source.Type)
@@ -2769,12 +2684,7 @@ func (link *ResourceNavigationLink_Status) AssignPropertiesToResourceNavigationL
 	destination.Name = genruntime.ClonePointerToString(link.Name)
 
 	// ProvisioningState
-	if link.ProvisioningState != nil {
-		provisioningState := string(*link.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(link.ProvisioningState)
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(link.Type)
@@ -2850,15 +2760,15 @@ func (embedded *RouteTable_Status_SubResourceEmbedded) AssignPropertiesToRouteTa
 
 // Deprecated version of ServiceAssociationLink_Status. Use v1beta20201101.ServiceAssociationLink_Status instead
 type ServiceAssociationLink_Status struct {
-	AllowDelete        *bool                     `json:"allowDelete,omitempty"`
-	Etag               *string                   `json:"etag,omitempty"`
-	Id                 *string                   `json:"id,omitempty"`
-	Link               *string                   `json:"link,omitempty"`
-	LinkedResourceType *string                   `json:"linkedResourceType,omitempty"`
-	Locations          []string                  `json:"locations,omitempty"`
-	Name               *string                   `json:"name,omitempty"`
-	ProvisioningState  *ProvisioningState_Status `json:"provisioningState,omitempty"`
-	Type               *string                   `json:"type,omitempty"`
+	AllowDelete        *bool    `json:"allowDelete,omitempty"`
+	Etag               *string  `json:"etag,omitempty"`
+	Id                 *string  `json:"id,omitempty"`
+	Link               *string  `json:"link,omitempty"`
+	LinkedResourceType *string  `json:"linkedResourceType,omitempty"`
+	Locations          []string `json:"locations,omitempty"`
+	Name               *string  `json:"name,omitempty"`
+	ProvisioningState  *string  `json:"provisioningState,omitempty"`
+	Type               *string  `json:"type,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ServiceAssociationLink_Status{}
@@ -2977,12 +2887,7 @@ func (link *ServiceAssociationLink_Status) AssignPropertiesFromServiceAssociatio
 	link.Name = genruntime.ClonePointerToString(source.Name)
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_Status(*source.ProvisioningState)
-		link.ProvisioningState = &provisioningState
-	} else {
-		link.ProvisioningState = nil
-	}
+	link.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// Type
 	link.Type = genruntime.ClonePointerToString(source.Type)
@@ -3023,12 +2928,7 @@ func (link *ServiceAssociationLink_Status) AssignPropertiesToServiceAssociationL
 	destination.Name = genruntime.ClonePointerToString(link.Name)
 
 	// ProvisioningState
-	if link.ProvisioningState != nil {
-		provisioningState := string(*link.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(link.ProvisioningState)
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(link.Type)
@@ -3207,9 +3107,9 @@ func (format *ServiceEndpointPropertiesFormat) AssignPropertiesToServiceEndpoint
 
 // Deprecated version of ServiceEndpointPropertiesFormat_Status. Use v1beta20201101.ServiceEndpointPropertiesFormat_Status instead
 type ServiceEndpointPropertiesFormat_Status struct {
-	Locations         []string                  `json:"locations,omitempty"`
-	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
-	Service           *string                   `json:"service,omitempty"`
+	Locations         []string `json:"locations,omitempty"`
+	ProvisioningState *string  `json:"provisioningState,omitempty"`
+	Service           *string  `json:"service,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ServiceEndpointPropertiesFormat_Status{}
@@ -3254,12 +3154,7 @@ func (format *ServiceEndpointPropertiesFormat_Status) AssignPropertiesFromServic
 	format.Locations = genruntime.CloneSliceOfString(source.Locations)
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_Status(*source.ProvisioningState)
-		format.ProvisioningState = &provisioningState
-	} else {
-		format.ProvisioningState = nil
-	}
+	format.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// Service
 	format.Service = genruntime.ClonePointerToString(source.Service)
@@ -3277,12 +3172,7 @@ func (format *ServiceEndpointPropertiesFormat_Status) AssignPropertiesToServiceE
 	destination.Locations = genruntime.CloneSliceOfString(format.Locations)
 
 	// ProvisioningState
-	if format.ProvisioningState != nil {
-		provisioningState := string(*format.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(format.ProvisioningState)
 
 	// Service
 	destination.Service = genruntime.ClonePointerToString(format.Service)

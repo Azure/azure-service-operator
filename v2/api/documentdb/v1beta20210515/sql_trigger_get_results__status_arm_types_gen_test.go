@@ -216,12 +216,7 @@ func AddIndependentPropertyGeneratorsForSqlTriggerGetPropertiesStatusResourceARM
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Rid"] = gen.PtrOf(gen.AlphaString())
-	gens["TriggerOperation"] = gen.PtrOf(gen.OneConstOf(
-		SqlTriggerGetPropertiesStatusResourceTriggerOperationAll,
-		SqlTriggerGetPropertiesStatusResourceTriggerOperationCreate,
-		SqlTriggerGetPropertiesStatusResourceTriggerOperationDelete,
-		SqlTriggerGetPropertiesStatusResourceTriggerOperationReplace,
-		SqlTriggerGetPropertiesStatusResourceTriggerOperationUpdate))
-	gens["TriggerType"] = gen.PtrOf(gen.OneConstOf(SqlTriggerGetPropertiesStatusResourceTriggerTypePost, SqlTriggerGetPropertiesStatusResourceTriggerTypePre))
+	gens["TriggerOperation"] = gen.PtrOf(gen.AlphaString())
+	gens["TriggerType"] = gen.PtrOf(gen.AlphaString())
 	gens["Ts"] = gen.PtrOf(gen.Float64())
 }

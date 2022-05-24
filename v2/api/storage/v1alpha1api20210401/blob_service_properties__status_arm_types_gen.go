@@ -27,8 +27,8 @@ type BlobServiceProperties_Status_PropertiesARM struct {
 
 // Deprecated version of Sku_Status. Use v1beta20210401.Sku_Status instead
 type Sku_StatusARM struct {
-	Name *SkuName_Status `json:"name,omitempty"`
-	Tier *Tier_Status    `json:"tier,omitempty"`
+	Name *string `json:"name,omitempty"`
+	Tier *string `json:"tier,omitempty"`
 }
 
 // Deprecated version of ChangeFeed_Status. Use v1beta20210401.ChangeFeed_Status instead
@@ -50,10 +50,10 @@ type DeleteRetentionPolicy_StatusARM struct {
 
 // Deprecated version of LastAccessTimeTrackingPolicy_Status. Use v1beta20210401.LastAccessTimeTrackingPolicy_Status instead
 type LastAccessTimeTrackingPolicy_StatusARM struct {
-	BlobType                  []string                                `json:"blobType,omitempty"`
-	Enable                    *bool                                   `json:"enable,omitempty"`
-	Name                      *LastAccessTimeTrackingPolicyStatusName `json:"name,omitempty"`
-	TrackingGranularityInDays *int                                    `json:"trackingGranularityInDays,omitempty"`
+	BlobType                  []string `json:"blobType,omitempty"`
+	Enable                    *bool    `json:"enable,omitempty"`
+	Name                      *string  `json:"name,omitempty"`
+	TrackingGranularityInDays *int     `json:"trackingGranularityInDays,omitempty"`
 }
 
 // Deprecated version of RestorePolicyProperties_Status. Use v1beta20210401.RestorePolicyProperties_Status instead
@@ -64,52 +64,11 @@ type RestorePolicyProperties_StatusARM struct {
 	MinRestoreTime  *string `json:"minRestoreTime,omitempty"`
 }
 
-// Deprecated version of SkuName_Status. Use v1beta20210401.SkuName_Status instead
-type SkuName_Status string
-
-const (
-	SkuName_StatusPremiumLRS     = SkuName_Status("Premium_LRS")
-	SkuName_StatusPremiumZRS     = SkuName_Status("Premium_ZRS")
-	SkuName_StatusStandardGRS    = SkuName_Status("Standard_GRS")
-	SkuName_StatusStandardGZRS   = SkuName_Status("Standard_GZRS")
-	SkuName_StatusStandardLRS    = SkuName_Status("Standard_LRS")
-	SkuName_StatusStandardRAGRS  = SkuName_Status("Standard_RAGRS")
-	SkuName_StatusStandardRAGZRS = SkuName_Status("Standard_RAGZRS")
-	SkuName_StatusStandardZRS    = SkuName_Status("Standard_ZRS")
-)
-
-// Deprecated version of Tier_Status. Use v1beta20210401.Tier_Status instead
-type Tier_Status string
-
-const (
-	Tier_StatusPremium  = Tier_Status("Premium")
-	Tier_StatusStandard = Tier_Status("Standard")
-)
-
 // Deprecated version of CorsRule_Status. Use v1beta20210401.CorsRule_Status instead
 type CorsRule_StatusARM struct {
-	AllowedHeaders  []string                       `json:"allowedHeaders,omitempty"`
-	AllowedMethods  []CorsRuleStatusAllowedMethods `json:"allowedMethods,omitempty"`
-	AllowedOrigins  []string                       `json:"allowedOrigins,omitempty"`
-	ExposedHeaders  []string                       `json:"exposedHeaders,omitempty"`
-	MaxAgeInSeconds *int                           `json:"maxAgeInSeconds,omitempty"`
+	AllowedHeaders  []string `json:"allowedHeaders,omitempty"`
+	AllowedMethods  []string `json:"allowedMethods,omitempty"`
+	AllowedOrigins  []string `json:"allowedOrigins,omitempty"`
+	ExposedHeaders  []string `json:"exposedHeaders,omitempty"`
+	MaxAgeInSeconds *int     `json:"maxAgeInSeconds,omitempty"`
 }
-
-// Deprecated version of LastAccessTimeTrackingPolicyStatusName. Use v1beta20210401.LastAccessTimeTrackingPolicyStatusName
-// instead
-type LastAccessTimeTrackingPolicyStatusName string
-
-const LastAccessTimeTrackingPolicyStatusNameAccessTimeTracking = LastAccessTimeTrackingPolicyStatusName("AccessTimeTracking")
-
-// Deprecated version of CorsRuleStatusAllowedMethods. Use v1beta20210401.CorsRuleStatusAllowedMethods instead
-type CorsRuleStatusAllowedMethods string
-
-const (
-	CorsRuleStatusAllowedMethodsDELETE  = CorsRuleStatusAllowedMethods("DELETE")
-	CorsRuleStatusAllowedMethodsGET     = CorsRuleStatusAllowedMethods("GET")
-	CorsRuleStatusAllowedMethodsHEAD    = CorsRuleStatusAllowedMethods("HEAD")
-	CorsRuleStatusAllowedMethodsMERGE   = CorsRuleStatusAllowedMethods("MERGE")
-	CorsRuleStatusAllowedMethodsOPTIONS = CorsRuleStatusAllowedMethods("OPTIONS")
-	CorsRuleStatusAllowedMethodsPOST    = CorsRuleStatusAllowedMethods("POST")
-	CorsRuleStatusAllowedMethodsPUT     = CorsRuleStatusAllowedMethods("PUT")
-)

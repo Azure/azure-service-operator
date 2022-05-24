@@ -162,16 +162,10 @@ func DomainPropertiesStatusARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForDomainPropertiesStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDomainPropertiesStatusARM(gens map[string]gopter.Gen) {
 	gens["Endpoint"] = gen.PtrOf(gen.AlphaString())
-	gens["InputSchema"] = gen.PtrOf(gen.OneConstOf(DomainPropertiesStatusInputSchemaCloudEventSchemaV10, DomainPropertiesStatusInputSchemaCustomEventSchema, DomainPropertiesStatusInputSchemaEventGridSchema))
+	gens["InputSchema"] = gen.PtrOf(gen.AlphaString())
 	gens["MetricResourceId"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		DomainPropertiesStatusProvisioningStateCanceled,
-		DomainPropertiesStatusProvisioningStateCreating,
-		DomainPropertiesStatusProvisioningStateDeleting,
-		DomainPropertiesStatusProvisioningStateFailed,
-		DomainPropertiesStatusProvisioningStateSucceeded,
-		DomainPropertiesStatusProvisioningStateUpdating))
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(DomainPropertiesStatusPublicNetworkAccessDisabled, DomainPropertiesStatusPublicNetworkAccessEnabled))
+	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForDomainPropertiesStatusARM is a factory method for creating gopter generators
@@ -238,7 +232,7 @@ func InboundIpRuleStatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForInboundIpRuleStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForInboundIpRuleStatusARM(gens map[string]gopter.Gen) {
-	gens["Action"] = gen.PtrOf(gen.OneConstOf(InboundIpRuleStatusActionAllow))
+	gens["Action"] = gen.PtrOf(gen.AlphaString())
 	gens["IpMask"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -299,7 +293,7 @@ func InputSchemaMappingStatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForInputSchemaMappingStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForInputSchemaMappingStatusARM(gens map[string]gopter.Gen) {
-	gens["InputSchemaMappingType"] = gen.PtrOf(gen.OneConstOf(InputSchemaMappingStatusInputSchemaMappingTypeJson))
+	gens["InputSchemaMappingType"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_PrivateEndpointConnection_Status_Domain_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

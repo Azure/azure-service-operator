@@ -170,16 +170,7 @@ func AddIndependentPropertyGeneratorsForSBTopicPropertiesStatusARM(gens map[stri
 	gens["MaxSizeInMegabytes"] = gen.PtrOf(gen.Int())
 	gens["RequiresDuplicateDetection"] = gen.PtrOf(gen.Bool())
 	gens["SizeInBytes"] = gen.PtrOf(gen.Int())
-	gens["Status"] = gen.PtrOf(gen.OneConstOf(
-		EntityStatus_StatusActive,
-		EntityStatus_StatusCreating,
-		EntityStatus_StatusDeleting,
-		EntityStatus_StatusDisabled,
-		EntityStatus_StatusReceiveDisabled,
-		EntityStatus_StatusRenaming,
-		EntityStatus_StatusRestoring,
-		EntityStatus_StatusSendDisabled,
-		EntityStatus_StatusUnknown))
+	gens["Status"] = gen.PtrOf(gen.AlphaString())
 	gens["SubscriptionCount"] = gen.PtrOf(gen.Int())
 	gens["SupportOrdering"] = gen.PtrOf(gen.Bool())
 	gens["UpdatedAt"] = gen.PtrOf(gen.AlphaString())
