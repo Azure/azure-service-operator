@@ -37,10 +37,23 @@ func newGlobMatcher(glob string) *globMatcher {
 
 func (gm *globMatcher) Matches(term string) bool {
 	gm.once.Do(gm.createRegex)
-	gm.candidates.Add(term)
-	result := gm.regex.MatchString(term)
-	gm.matched = gm.matched || result
-	return result
+
+	if gm.regex.MatchString(term) {
+		if !gm.matched {
+			// First time we match, clear out our candidates as we won't be needing them
+			gm.matched = true
+			gm.candidates.Clear()
+		}
+
+		return true
+	}
+
+	if !gm.matched {
+		// Still collecting candidates
+		gm.candidates.Add(term)
+	}
+
+	return false
 }
 
 func (gm *globMatcher) WasMatched() error {

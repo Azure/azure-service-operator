@@ -28,10 +28,22 @@ func newLiteralMatcher(literal string) *literalMatcher {
 
 // Matches returns true if the passed value is a case-insensitive match with our configured literal
 func (lm *literalMatcher) Matches(value string) bool {
-	lm.advisor.AddTerm(value)
-	result := strings.EqualFold(lm.literal, value)
-	lm.matched = lm.matched||result
-	return result
+	if strings.EqualFold(lm.literal, value) {
+		if !lm.matched {
+			// First time we match, clear out our advisory as we won't be using it
+			lm.matched = true
+			lm.advisor.ClearTerms()
+		}
+
+		return true
+	}
+
+	if !lm.matched {
+		// Still collecting potential suggestions
+		lm.advisor.AddTerm(value)
+	}
+
+	return false
 }
 
 // WasMatched returns an error if we didn't match anything, nil otherwise

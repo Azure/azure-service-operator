@@ -40,6 +40,11 @@ func (advisor *TypoAdvisor) HasTerms() bool {
 	return len(advisor.terms) > 0
 }
 
+// ClearTerms removes all the terms from ths advisor
+func (advisor *TypoAdvisor) ClearTerms() {
+	advisor.terms.Clear()
+}
+
 // Errorf creates a new error with advice, or a simple error if no advice possible
 func (advisor *TypoAdvisor) Errorf(typo string, format string, args ...interface{}) error {
 	advisor.lock.RLock()

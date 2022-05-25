@@ -48,6 +48,11 @@ func (set Set[T]) Copy() Set[T] {
 	return maps.Clone(set)
 }
 
+// Clear removes all the itesm from this set
+func (set Set[T]) Clear() {
+	maps.Clear(set)
+}
+
 /* compiler crashes at the moment: https://github.com/golang/go/issues/51840
 
 func (set Set[T]) Equals(other Set[T]) bool {
