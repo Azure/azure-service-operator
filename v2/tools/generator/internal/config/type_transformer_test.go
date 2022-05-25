@@ -208,7 +208,7 @@ func Test_TransformWithRemoveAndTarget_ReportsError(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	transformer := config.TypeTransformer{
-		Property: "hat",
+		Property: config.NewFieldMatcher("hat"),
 		Target: &config.TransformTarget{
 			Name: "int",
 		},
@@ -293,7 +293,7 @@ func Test_TransformCanTransformProperty(t *testing.T) {
 		TypeMatcher: config.TypeMatcher{
 			Name: config.NewFieldMatcher("*"),
 		},
-		Property: "foo",
+		Property: config.NewFieldMatcher("foo"),
 		Target: &config.TransformTarget{
 			Name: "string",
 		},
@@ -322,7 +322,7 @@ func Test_TransformCanTransformProperty_Wildcard(t *testing.T) {
 		TypeMatcher: config.TypeMatcher{
 			Name: config.NewFieldMatcher("*"),
 		},
-		Property: "foo*",
+		Property: config.NewFieldMatcher("foo*"),
 		Target: &config.TransformTarget{
 			Name: "string",
 		},
@@ -366,7 +366,7 @@ func Test_TransformDoesNotTransformPropertyIfTypeDoesNotMatch(t *testing.T) {
 		IfType: &config.TransformTarget{
 			Name: "string",
 		},
-		Property: "foo",
+		Property: config.NewFieldMatcher("foo"),
 		Target: &config.TransformTarget{
 			Name: "int",
 		},
@@ -394,7 +394,7 @@ func Test_TransformDoesTransformPropertyIfTypeDoesMatch(t *testing.T) {
 		IfType: &config.TransformTarget{
 			Name: "int",
 		},
-		Property: "foo",
+		Property: config.NewFieldMatcher("foo"),
 		Target: &config.TransformTarget{
 			Name: "string",
 		},
@@ -426,7 +426,7 @@ func Test_TransformCanRemoveProperty(t *testing.T) {
 		IfType: &config.TransformTarget{
 			Name: "int",
 		},
-		Property: "foo",
+		Property: config.NewFieldMatcher("foo"),
 		Remove:   true,
 	}
 

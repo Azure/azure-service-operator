@@ -7,7 +7,6 @@ package config
 
 import (
 	"fmt"
-	"regexp"
 
 	"github.com/pkg/errors"
 
@@ -33,8 +32,7 @@ type TypeTransformer struct {
 	TypeMatcher `yaml:",inline"`
 
 	// Property is a wildcard matching specific properties on the types selected by this filter
-	Property      string `yaml:",omitempty"`
-	propertyRegex *regexp.Regexp
+	Property FieldMatcher `yaml:",omitempty"`
 
 	// IfType only performs the transform if the original type matches (only usable with Property at the moment)
 	IfType *TransformTarget `yaml:"ifType,omitempty"`
@@ -115,7 +113,7 @@ func (transformer *TypeTransformer) Initialize(makeLocalPackageReferenceFunc fun
 	transformer.matchedProperties = make(map[astmodel.TypeName]string)
 
 	if transformer.Remove {
-		if transformer.Property == "" {
+		if transformer.Property.String() == "" {
 			return errors.Errorf("remove is only usable with property matches")
 		}
 		if transformer.Target != nil {
@@ -127,9 +125,8 @@ func (transformer *TypeTransformer) Initialize(makeLocalPackageReferenceFunc fun
 		}
 	}
 
-	transformer.propertyRegex = createGlobbingRegex(transformer.Property)
 	if transformer.IfType != nil {
-		if transformer.Property == "" {
+		if transformer.Property.String() == "" {
 			return errors.Errorf("ifType is only usable with property matches (for now)")
 		}
 
@@ -174,10 +171,6 @@ func primitiveTypeTarget(name string) (astmodel.Type, error) {
 	}
 }
 
-func (transformer *TypeTransformer) propertyNameMatches(propName astmodel.PropertyName) bool {
-	return transformer.matches(transformer.Property, &transformer.propertyRegex, string(propName))
-}
-
 // TransformTypeName transforms the type with the specified name into the TypeTransformer target type if
 // the provided type name matches the pattern(s) specified in the TypeTransformer
 func (transformer *TypeTransformer) TransformTypeName(typeName astmodel.TypeName) astmodel.Type {
@@ -219,7 +212,7 @@ func (r PropertyTransformResult) String() string {
 func (transformer *TypeTransformer) MatchedRequiredProperties() bool {
 	// If this transformer applies to entire types (instead of just properties on types), we just defer to
 	// transformer.MatchedRequiredTypes
-	if transformer.Property == "" {
+	if transformer.Property.String() == "" {
 		return transformer.MatchedRequiredTypes()
 	}
 
@@ -241,7 +234,7 @@ func (transformer *TypeTransformer) TransformProperty(name astmodel.TypeName, ob
 	var newProps []*astmodel.PropertyDefinition
 
 	for _, prop := range objectType.Properties().AsSlice() {
-		if transformer.propertyNameMatches(prop.PropertyName()) &&
+		if transformer.Property.Matches(string(prop.PropertyName())) &&
 			(transformer.ifType == nil || astmodel.TypeEquals(transformer.ifType, prop.PropertyType())) {
 
 			found = true
@@ -250,7 +243,7 @@ func (transformer *TypeTransformer) TransformProperty(name astmodel.TypeName, ob
 			if transformer.targetType != nil {
 				newProps = append(newProps, prop.WithType(transformer.targetType))
 			}
-			// Otherwise this is a removal - we don't copy the prop across.
+			// Otherwise, this is a removal - we don't copy the prop across.
 		} else {
 			newProps = append(newProps, prop)
 		}
