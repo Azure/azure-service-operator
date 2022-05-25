@@ -99,7 +99,7 @@ func (workspace *Workspace) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-07-01"
 func (workspace Workspace) GetAPIVersion() string {
-	return "2021-07-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -317,6 +317,11 @@ type WorkspaceList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Workspace `json:"items"`
 }
+
+// +kubebuilder:validation:Enum={"2021-07-01"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2021-07-01")
 
 type Workspace_Status struct {
 	// AllowPublicAccessWhenBehindVnet: The flag to indicate whether to allow public access when behind VNet.
@@ -1239,11 +1244,6 @@ func (workspace *Workspace_Status) AssignPropertiesToWorkspaceStatus(destination
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"2021-07-01"}
-type WorkspacesSpecAPIVersion string
-
-const WorkspacesSpecAPIVersion20210701 = WorkspacesSpecAPIVersion("2021-07-01")
-
 type Workspaces_Spec struct {
 	// AllowPublicAccessWhenBehindVnet: The flag to indicate whether to allow public access when behind VNet.
 	AllowPublicAccessWhenBehindVnet *bool `json:"allowPublicAccessWhenBehindVnet,omitempty"`
@@ -1323,7 +1323,7 @@ func (workspaces *Workspaces_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	if workspaces == nil {
 		return nil, nil
 	}
-	var result Workspaces_SpecARM
+	result := &Workspaces_SpecARM{}
 
 	// Set property ‘Identity’:
 	if workspaces.Identity != nil {
@@ -1331,7 +1331,7 @@ func (workspaces *Workspaces_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		if err != nil {
 			return nil, err
 		}
-		identity := identityARM.(IdentityARM)
+		identity := *identityARM.(*IdentityARM)
 		result.Identity = &identity
 	}
 
@@ -1395,7 +1395,7 @@ func (workspaces *Workspaces_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		if err != nil {
 			return nil, err
 		}
-		encryption := encryptionARM.(EncryptionPropertyARM)
+		encryption := *encryptionARM.(*EncryptionPropertyARM)
 		result.Properties.Encryption = &encryption
 	}
 	if workspaces.FriendlyName != nil {
@@ -1435,7 +1435,7 @@ func (workspaces *Workspaces_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		if err != nil {
 			return nil, err
 		}
-		serviceManagedResourcesSettings := serviceManagedResourcesSettingsARM.(ServiceManagedResourcesSettingsARM)
+		serviceManagedResourcesSettings := *serviceManagedResourcesSettingsARM.(*ServiceManagedResourcesSettingsARM)
 		result.Properties.ServiceManagedResourcesSettings = &serviceManagedResourcesSettings
 	}
 	for _, item := range workspaces.SharedPrivateLinkResources {
@@ -1443,7 +1443,7 @@ func (workspaces *Workspaces_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.SharedPrivateLinkResources = append(result.Properties.SharedPrivateLinkResources, itemARM.(Workspaces_Spec_Properties_SharedPrivateLinkResourcesARM))
+		result.Properties.SharedPrivateLinkResources = append(result.Properties.SharedPrivateLinkResources, *itemARM.(*Workspaces_Spec_Properties_SharedPrivateLinkResourcesARM))
 	}
 	if workspaces.StorageAccountReference != nil {
 		storageAccountARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*workspaces.StorageAccountReference)
@@ -1460,7 +1460,7 @@ func (workspaces *Workspaces_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		if err != nil {
 			return nil, err
 		}
-		sku := skuARM.(SkuARM)
+		sku := *skuARM.(*SkuARM)
 		result.Sku = &sku
 	}
 
@@ -1470,7 +1470,7 @@ func (workspaces *Workspaces_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		if err != nil {
 			return nil, err
 		}
-		systemData := systemDataARM.(SystemDataARM)
+		systemData := *systemDataARM.(*SystemDataARM)
 		result.SystemData = &systemData
 	}
 
@@ -2115,7 +2115,7 @@ func (property *EncryptionProperty) ConvertToARM(resolved genruntime.ConvertToAR
 	if property == nil {
 		return nil, nil
 	}
-	var result EncryptionPropertyARM
+	result := &EncryptionPropertyARM{}
 
 	// Set property ‘Identity’:
 	if property.Identity != nil {
@@ -2123,7 +2123,7 @@ func (property *EncryptionProperty) ConvertToARM(resolved genruntime.ConvertToAR
 		if err != nil {
 			return nil, err
 		}
-		identity := identityARM.(IdentityForCmkARM)
+		identity := *identityARM.(*IdentityForCmkARM)
 		result.Identity = &identity
 	}
 
@@ -2133,7 +2133,7 @@ func (property *EncryptionProperty) ConvertToARM(resolved genruntime.ConvertToAR
 		if err != nil {
 			return nil, err
 		}
-		keyVaultProperties := keyVaultPropertiesARM.(KeyVaultPropertiesARM)
+		keyVaultProperties := *keyVaultPropertiesARM.(*KeyVaultPropertiesARM)
 		result.KeyVaultProperties = &keyVaultProperties
 	}
 
@@ -2436,7 +2436,7 @@ func (identity *Identity) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 	if identity == nil {
 		return nil, nil
 	}
-	var result IdentityARM
+	result := &IdentityARM{}
 
 	// Set property ‘Type’:
 	if identity.Type != nil {
@@ -2994,7 +2994,7 @@ func (settings *ServiceManagedResourcesSettings) ConvertToARM(resolved genruntim
 	if settings == nil {
 		return nil, nil
 	}
-	var result ServiceManagedResourcesSettingsARM
+	result := &ServiceManagedResourcesSettingsARM{}
 
 	// Set property ‘CosmosDb’:
 	if settings.CosmosDb != nil {
@@ -3002,7 +3002,7 @@ func (settings *ServiceManagedResourcesSettings) ConvertToARM(resolved genruntim
 		if err != nil {
 			return nil, err
 		}
-		cosmosDb := cosmosDbARM.(CosmosDbSettingsARM)
+		cosmosDb := *cosmosDbARM.(*CosmosDbSettingsARM)
 		result.CosmosDb = &cosmosDb
 	}
 	return result, nil
@@ -3319,7 +3319,7 @@ func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 	if sku == nil {
 		return nil, nil
 	}
-	var result SkuARM
+	result := &SkuARM{}
 
 	// Set property ‘Name’:
 	if sku.Name != nil {
@@ -3499,7 +3499,7 @@ func (data *SystemData) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 	if data == nil {
 		return nil, nil
 	}
-	var result SystemDataARM
+	result := &SystemDataARM{}
 
 	// Set property ‘CreatedAt’:
 	if data.CreatedAt != nil {
@@ -3894,7 +3894,7 @@ func (resources *Workspaces_Spec_Properties_SharedPrivateLinkResources) ConvertT
 	if resources == nil {
 		return nil, nil
 	}
-	var result Workspaces_Spec_Properties_SharedPrivateLinkResourcesARM
+	result := &Workspaces_Spec_Properties_SharedPrivateLinkResourcesARM{}
 
 	// Set property ‘Name’:
 	if resources.Name != nil {
@@ -4069,7 +4069,7 @@ func (settings *CosmosDbSettings) ConvertToARM(resolved genruntime.ConvertToARMR
 	if settings == nil {
 		return nil, nil
 	}
-	var result CosmosDbSettingsARM
+	result := &CosmosDbSettingsARM{}
 
 	// Set property ‘CollectionsThroughput’:
 	if settings.CollectionsThroughput != nil {
@@ -4216,7 +4216,7 @@ func (forCmk *IdentityForCmk) ConvertToARM(resolved genruntime.ConvertToARMResol
 	if forCmk == nil {
 		return nil, nil
 	}
-	var result IdentityForCmkARM
+	result := &IdentityForCmkARM{}
 
 	// Set property ‘UserAssignedIdentity’:
 	if forCmk.UserAssignedIdentity != nil {
@@ -4356,7 +4356,7 @@ func (properties *KeyVaultProperties) ConvertToARM(resolved genruntime.ConvertTo
 	if properties == nil {
 		return nil, nil
 	}
-	var result KeyVaultPropertiesARM
+	result := &KeyVaultPropertiesARM{}
 
 	// Set property ‘IdentityClientId’:
 	if properties.IdentityClientId != nil {

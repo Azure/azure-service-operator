@@ -36,16 +36,16 @@ var _ genruntime.ARMResourceSpec = &WorkspacesComputes_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-07-01"
 func (computes WorkspacesComputes_SpecARM) GetAPIVersion() string {
-	return "2021-07-01"
+	return string(APIVersionValue)
 }
 
 // GetName returns the Name of the resource
-func (computes WorkspacesComputes_SpecARM) GetName() string {
+func (computes *WorkspacesComputes_SpecARM) GetName() string {
 	return computes.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.MachineLearningServices/workspaces/computes"
-func (computes WorkspacesComputes_SpecARM) GetType() string {
+func (computes *WorkspacesComputes_SpecARM) GetType() string {
 	return "Microsoft.MachineLearningServices/workspaces/computes"
 }
 

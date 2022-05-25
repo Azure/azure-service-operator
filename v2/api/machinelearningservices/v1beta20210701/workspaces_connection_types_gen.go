@@ -98,7 +98,7 @@ func (connection *WorkspacesConnection) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-07-01"
 func (connection WorkspacesConnection) GetAPIVersion() string {
-	return "2021-07-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -566,11 +566,6 @@ func (connection *WorkspaceConnection_Status) AssignPropertiesToWorkspaceConnect
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"2021-07-01"}
-type WorkspacesConnectionsSpecAPIVersion string
-
-const WorkspacesConnectionsSpecAPIVersion20210701 = WorkspacesConnectionsSpecAPIVersion("2021-07-01")
-
 type WorkspacesConnections_Spec struct {
 	// AuthType: Authorization type of the workspace connection.
 	AuthType *string `json:"authType,omitempty"`
@@ -611,7 +606,7 @@ func (connections *WorkspacesConnections_Spec) ConvertToARM(resolved genruntime.
 	if connections == nil {
 		return nil, nil
 	}
-	var result WorkspacesConnections_SpecARM
+	result := &WorkspacesConnections_SpecARM{}
 
 	// Set property ‘Location’:
 	if connections.Location != nil {

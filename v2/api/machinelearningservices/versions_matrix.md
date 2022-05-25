@@ -3,6 +3,7 @@
 | AKSProperties                                             | v1beta20210701 |
 | AKSPropertiesClusterPurpose                               | v1beta20210701 |
 | AKSPropertiesLoadBalancerType                             | v1beta20210701 |
+| APIVersion                                                | v1beta20210701 |
 | AksNetworkingConfiguration                                | v1beta20210701 |
 | AmlComputeProperties                                      | v1beta20210701 |
 | AmlComputePropertiesOsType                                | v1beta20210701 |
@@ -103,12 +104,9 @@
 | WorkspaceProperties_Status                                | v1beta20210701 |
 | Workspace_Status                                          | v1beta20210701 |
 | WorkspacesCompute                                         | v1beta20210701 |
-| WorkspacesComputesSpecAPIVersion                          | v1beta20210701 |
 | WorkspacesComputes_Spec                                   | v1beta20210701 |
 | WorkspacesConnection                                      | v1beta20210701 |
-| WorkspacesConnectionsSpecAPIVersion                       | v1beta20210701 |
 | WorkspacesConnections_Spec                                | v1beta20210701 |
-| WorkspacesSpecAPIVersion                                  | v1beta20210701 |
 | WorkspacesSpecPropertiesPublicNetworkAccess               | v1beta20210701 |
 | Workspaces_Spec                                           | v1beta20210701 |
 | Workspaces_Spec_Properties                                | v1beta20210701 |

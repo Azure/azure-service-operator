@@ -92,6 +92,12 @@ import (
 	keyvault_customizations "github.com/Azure/azure-service-operator/v2/api/keyvault/customizations"
 	keyvault_v20210401p "github.com/Azure/azure-service-operator/v2/api/keyvault/v1beta20210401preview"
 	keyvault_v20210401ps "github.com/Azure/azure-service-operator/v2/api/keyvault/v1beta20210401previewstorage"
+<<<<<<< HEAD
+=======
+	machinelearningservices_customizations "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/customizations"
+	machinelearningservices_v20210701 "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta20210701"
+	machinelearningservices_v20210701s "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta20210701storage"
+>>>>>>> 699ec955b (Add support for MLS)
 	managedidentity_customizations "github.com/Azure/azure-service-operator/v2/api/managedidentity/customizations"
 	managedidentity_alpha20181130 "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1alpha1api20181130"
 	managedidentity_alpha20181130s "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1alpha1api20181130storage"
@@ -460,6 +466,21 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Watches: []registration.Watch{},
 	})
 	result = append(result, &registration.StorageType{
+		Obj:     new(machinelearningservices_v20210701s.Workspace),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{},
+	})
+	result = append(result, &registration.StorageType{
+		Obj:     new(machinelearningservices_v20210701s.WorkspacesCompute),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{},
+	})
+	result = append(result, &registration.StorageType{
+		Obj:     new(machinelearningservices_v20210701s.WorkspacesConnection),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{},
+	})
+	result = append(result, &registration.StorageType{
 		Obj:     new(managedidentity_v20181130s.UserAssignedIdentity),
 		Indexes: []registration.Index{},
 		Watches: []registration.Watch{},
@@ -778,6 +799,12 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(insights_v20200202s.Component))
 	result = append(result, new(keyvault_v20210401p.Vault))
 	result = append(result, new(keyvault_v20210401ps.Vault))
+	result = append(result, new(machinelearningservices_v20210701.Workspace))
+	result = append(result, new(machinelearningservices_v20210701.WorkspacesCompute))
+	result = append(result, new(machinelearningservices_v20210701.WorkspacesConnection))
+	result = append(result, new(machinelearningservices_v20210701s.Workspace))
+	result = append(result, new(machinelearningservices_v20210701s.WorkspacesCompute))
+	result = append(result, new(machinelearningservices_v20210701s.WorkspacesConnection))
 	result = append(result, new(managedidentity_alpha20181130.UserAssignedIdentity))
 	result = append(result, new(managedidentity_alpha20181130s.UserAssignedIdentity))
 	result = append(result, new(managedidentity_v20181130.UserAssignedIdentity))
@@ -945,6 +972,8 @@ func createScheme() *runtime.Scheme {
 	_ = insights_v20200202s.AddToScheme(scheme)
 	_ = keyvault_v20210401p.AddToScheme(scheme)
 	_ = keyvault_v20210401ps.AddToScheme(scheme)
+	_ = machinelearningservices_v20210701.AddToScheme(scheme)
+	_ = machinelearningservices_v20210701s.AddToScheme(scheme)
 	_ = managedidentity_alpha20181130.AddToScheme(scheme)
 	_ = managedidentity_alpha20181130s.AddToScheme(scheme)
 	_ = managedidentity_v20181130.AddToScheme(scheme)
@@ -1028,6 +1057,9 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &insights_customizations.ComponentExtension{})
 	result = append(result, &insights_customizations.WebtestExtension{})
 	result = append(result, &keyvault_customizations.VaultExtension{})
+	result = append(result, &machinelearningservices_customizations.WorkspaceExtension{})
+	result = append(result, &machinelearningservices_customizations.WorkspacesComputeExtension{})
+	result = append(result, &machinelearningservices_customizations.WorkspacesConnectionExtension{})
 	result = append(result, &managedidentity_customizations.UserAssignedIdentityExtension{})
 	result = append(result, &network_customizations.LoadBalancerExtension{})
 	result = append(result, &network_customizations.NetworkInterfaceExtension{})

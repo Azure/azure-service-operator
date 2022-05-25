@@ -99,7 +99,7 @@ func (compute *WorkspacesCompute) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-07-01"
 func (compute WorkspacesCompute) GetAPIVersion() string {
-	return "2021-07-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -652,11 +652,6 @@ func (resource *ComputeResource_Status) AssignPropertiesToComputeResourceStatus(
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"2021-07-01"}
-type WorkspacesComputesSpecAPIVersion string
-
-const WorkspacesComputesSpecAPIVersion20210701 = WorkspacesComputesSpecAPIVersion("2021-07-01")
-
 type WorkspacesComputes_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
@@ -695,7 +690,7 @@ func (computes *WorkspacesComputes_Spec) ConvertToARM(resolved genruntime.Conver
 	if computes == nil {
 		return nil, nil
 	}
-	var result WorkspacesComputes_SpecARM
+	result := &WorkspacesComputes_SpecARM{}
 
 	// Set property ‘Identity’:
 	if computes.Identity != nil {
@@ -703,7 +698,7 @@ func (computes *WorkspacesComputes_Spec) ConvertToARM(resolved genruntime.Conver
 		if err != nil {
 			return nil, err
 		}
-		identity := identityARM.(IdentityARM)
+		identity := *identityARM.(*IdentityARM)
 		result.Identity = &identity
 	}
 
@@ -722,7 +717,7 @@ func (computes *WorkspacesComputes_Spec) ConvertToARM(resolved genruntime.Conver
 		if err != nil {
 			return nil, err
 		}
-		properties := propertiesARM.(ComputeARM)
+		properties := *propertiesARM.(*ComputeARM)
 		result.Properties = &properties
 	}
 
@@ -732,7 +727,7 @@ func (computes *WorkspacesComputes_Spec) ConvertToARM(resolved genruntime.Conver
 		if err != nil {
 			return nil, err
 		}
-		sku := skuARM.(SkuARM)
+		sku := *skuARM.(*SkuARM)
 		result.Sku = &sku
 	}
 
@@ -742,7 +737,7 @@ func (computes *WorkspacesComputes_Spec) ConvertToARM(resolved genruntime.Conver
 		if err != nil {
 			return nil, err
 		}
-		systemData := systemDataARM.(SystemDataARM)
+		systemData := *systemDataARM.(*SystemDataARM)
 		result.SystemData = &systemData
 	}
 
@@ -1091,7 +1086,7 @@ func (compute *Compute) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 	if compute == nil {
 		return nil, nil
 	}
-	var result ComputeARM
+	result := &ComputeARM{}
 
 	// Set property ‘AKS’:
 	if compute.AKS != nil {
@@ -1099,7 +1094,7 @@ func (compute *Compute) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 		if err != nil {
 			return nil, err
 		}
-		aks := aksARM.(Compute_AKSARM)
+		aks := *aksARM.(*Compute_AKSARM)
 		result.AKS = &aks
 	}
 
@@ -1109,7 +1104,7 @@ func (compute *Compute) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 		if err != nil {
 			return nil, err
 		}
-		amlCompute := amlComputeARM.(Compute_AmlComputeARM)
+		amlCompute := *amlComputeARM.(*Compute_AmlComputeARM)
 		result.AmlCompute = &amlCompute
 	}
 
@@ -1119,7 +1114,7 @@ func (compute *Compute) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 		if err != nil {
 			return nil, err
 		}
-		computeInstance := computeInstanceARM.(Compute_ComputeInstanceARM)
+		computeInstance := *computeInstanceARM.(*Compute_ComputeInstanceARM)
 		result.ComputeInstance = &computeInstance
 	}
 
@@ -1129,7 +1124,7 @@ func (compute *Compute) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 		if err != nil {
 			return nil, err
 		}
-		dataFactory := dataFactoryARM.(Compute_DataFactoryARM)
+		dataFactory := *dataFactoryARM.(*Compute_DataFactoryARM)
 		result.DataFactory = &dataFactory
 	}
 
@@ -1139,7 +1134,7 @@ func (compute *Compute) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 		if err != nil {
 			return nil, err
 		}
-		dataLakeAnalytics := dataLakeAnalyticsARM.(Compute_DataLakeAnalyticsARM)
+		dataLakeAnalytics := *dataLakeAnalyticsARM.(*Compute_DataLakeAnalyticsARM)
 		result.DataLakeAnalytics = &dataLakeAnalytics
 	}
 
@@ -1149,7 +1144,7 @@ func (compute *Compute) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 		if err != nil {
 			return nil, err
 		}
-		databricks := databricksARM.(Compute_DatabricksARM)
+		databricks := *databricksARM.(*Compute_DatabricksARM)
 		result.Databricks = &databricks
 	}
 
@@ -1159,7 +1154,7 @@ func (compute *Compute) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 		if err != nil {
 			return nil, err
 		}
-		hdInsight := hdInsightARM.(Compute_HDInsightARM)
+		hdInsight := *hdInsightARM.(*Compute_HDInsightARM)
 		result.HDInsight = &hdInsight
 	}
 
@@ -1169,7 +1164,7 @@ func (compute *Compute) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 		if err != nil {
 			return nil, err
 		}
-		synapseSpark := synapseSparkARM.(Compute_SynapseSparkARM)
+		synapseSpark := *synapseSparkARM.(*Compute_SynapseSparkARM)
 		result.SynapseSpark = &synapseSpark
 	}
 
@@ -1179,7 +1174,7 @@ func (compute *Compute) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 		if err != nil {
 			return nil, err
 		}
-		virtualMachine := virtualMachineARM.(Compute_VirtualMachineARM)
+		virtualMachine := *virtualMachineARM.(*Compute_VirtualMachineARM)
 		result.VirtualMachine = &virtualMachine
 	}
 	return result, nil
@@ -1837,7 +1832,7 @@ func (computeAKS *Compute_AKS) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if computeAKS == nil {
 		return nil, nil
 	}
-	var result Compute_AKSARM
+	result := &Compute_AKSARM{}
 
 	// Set property ‘ComputeLocation’:
 	if computeAKS.ComputeLocation != nil {
@@ -1868,7 +1863,7 @@ func (computeAKS *Compute_AKS) ConvertToARM(resolved genruntime.ConvertToARMReso
 		if err != nil {
 			return nil, err
 		}
-		properties := propertiesARM.(AKSPropertiesARM)
+		properties := *propertiesARM.(*AKSPropertiesARM)
 		result.Properties = &properties
 	}
 
@@ -2069,7 +2064,7 @@ func (compute *Compute_AmlCompute) ConvertToARM(resolved genruntime.ConvertToARM
 	if compute == nil {
 		return nil, nil
 	}
-	var result Compute_AmlComputeARM
+	result := &Compute_AmlComputeARM{}
 
 	// Set property ‘ComputeLocation’:
 	if compute.ComputeLocation != nil {
@@ -2100,7 +2095,7 @@ func (compute *Compute_AmlCompute) ConvertToARM(resolved genruntime.ConvertToARM
 		if err != nil {
 			return nil, err
 		}
-		properties := propertiesARM.(AmlComputePropertiesARM)
+		properties := *propertiesARM.(*AmlComputePropertiesARM)
 		result.Properties = &properties
 	}
 
@@ -2301,7 +2296,7 @@ func (instance *Compute_ComputeInstance) ConvertToARM(resolved genruntime.Conver
 	if instance == nil {
 		return nil, nil
 	}
-	var result Compute_ComputeInstanceARM
+	result := &Compute_ComputeInstanceARM{}
 
 	// Set property ‘ComputeLocation’:
 	if instance.ComputeLocation != nil {
@@ -2332,7 +2327,7 @@ func (instance *Compute_ComputeInstance) ConvertToARM(resolved genruntime.Conver
 		if err != nil {
 			return nil, err
 		}
-		properties := propertiesARM.(ComputeInstancePropertiesARM)
+		properties := *propertiesARM.(*ComputeInstancePropertiesARM)
 		result.Properties = &properties
 	}
 
@@ -2530,7 +2525,7 @@ func (factory *Compute_DataFactory) ConvertToARM(resolved genruntime.ConvertToAR
 	if factory == nil {
 		return nil, nil
 	}
-	var result Compute_DataFactoryARM
+	result := &Compute_DataFactoryARM{}
 
 	// Set property ‘ComputeLocation’:
 	if factory.ComputeLocation != nil {
@@ -2715,7 +2710,7 @@ func (analytics *Compute_DataLakeAnalytics) ConvertToARM(resolved genruntime.Con
 	if analytics == nil {
 		return nil, nil
 	}
-	var result Compute_DataLakeAnalyticsARM
+	result := &Compute_DataLakeAnalyticsARM{}
 
 	// Set property ‘ComputeLocation’:
 	if analytics.ComputeLocation != nil {
@@ -2746,7 +2741,7 @@ func (analytics *Compute_DataLakeAnalytics) ConvertToARM(resolved genruntime.Con
 		if err != nil {
 			return nil, err
 		}
-		properties := propertiesARM.(DataLakeAnalyticsPropertiesARM)
+		properties := *propertiesARM.(*DataLakeAnalyticsPropertiesARM)
 		result.Properties = &properties
 	}
 
@@ -2947,7 +2942,7 @@ func (databricks *Compute_Databricks) ConvertToARM(resolved genruntime.ConvertTo
 	if databricks == nil {
 		return nil, nil
 	}
-	var result Compute_DatabricksARM
+	result := &Compute_DatabricksARM{}
 
 	// Set property ‘ComputeLocation’:
 	if databricks.ComputeLocation != nil {
@@ -2978,7 +2973,7 @@ func (databricks *Compute_Databricks) ConvertToARM(resolved genruntime.ConvertTo
 		if err != nil {
 			return nil, err
 		}
-		properties := propertiesARM.(DatabricksPropertiesARM)
+		properties := *propertiesARM.(*DatabricksPropertiesARM)
 		result.Properties = &properties
 	}
 
@@ -3179,7 +3174,7 @@ func (insight *Compute_HDInsight) ConvertToARM(resolved genruntime.ConvertToARMR
 	if insight == nil {
 		return nil, nil
 	}
-	var result Compute_HDInsightARM
+	result := &Compute_HDInsightARM{}
 
 	// Set property ‘ComputeLocation’:
 	if insight.ComputeLocation != nil {
@@ -3210,7 +3205,7 @@ func (insight *Compute_HDInsight) ConvertToARM(resolved genruntime.ConvertToARMR
 		if err != nil {
 			return nil, err
 		}
-		properties := propertiesARM.(HDInsightPropertiesARM)
+		properties := *propertiesARM.(*HDInsightPropertiesARM)
 		result.Properties = &properties
 	}
 
@@ -3409,7 +3404,7 @@ func (spark *Compute_SynapseSpark) ConvertToARM(resolved genruntime.ConvertToARM
 	if spark == nil {
 		return nil, nil
 	}
-	var result Compute_SynapseSparkARM
+	result := &Compute_SynapseSparkARM{}
 
 	// Set property ‘ComputeLocation’:
 	if spark.ComputeLocation != nil {
@@ -3440,7 +3435,7 @@ func (spark *Compute_SynapseSpark) ConvertToARM(resolved genruntime.ConvertToARM
 		if err != nil {
 			return nil, err
 		}
-		properties := propertiesARM.(SynapseSparkPropertiesARM)
+		properties := *propertiesARM.(*SynapseSparkPropertiesARM)
 		result.Properties = &properties
 	}
 
@@ -3639,7 +3634,7 @@ func (machine *Compute_VirtualMachine) ConvertToARM(resolved genruntime.ConvertT
 	if machine == nil {
 		return nil, nil
 	}
-	var result Compute_VirtualMachineARM
+	result := &Compute_VirtualMachineARM{}
 
 	// Set property ‘ComputeLocation’:
 	if machine.ComputeLocation != nil {
@@ -3670,7 +3665,7 @@ func (machine *Compute_VirtualMachine) ConvertToARM(resolved genruntime.ConvertT
 		if err != nil {
 			return nil, err
 		}
-		properties := propertiesARM.(VirtualMachinePropertiesARM)
+		properties := *propertiesARM.(*VirtualMachinePropertiesARM)
 		result.Properties = &properties
 	}
 
@@ -3959,7 +3954,7 @@ func (properties *AKSProperties) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if properties == nil {
 		return nil, nil
 	}
-	var result AKSPropertiesARM
+	result := &AKSPropertiesARM{}
 
 	// Set property ‘AgentCount’:
 	if properties.AgentCount != nil {
@@ -3979,7 +3974,7 @@ func (properties *AKSProperties) ConvertToARM(resolved genruntime.ConvertToARMRe
 		if err != nil {
 			return nil, err
 		}
-		aksNetworkingConfiguration := aksNetworkingConfigurationARM.(AksNetworkingConfigurationARM)
+		aksNetworkingConfiguration := *aksNetworkingConfigurationARM.(*AksNetworkingConfigurationARM)
 		result.AksNetworkingConfiguration = &aksNetworkingConfiguration
 	}
 
@@ -4013,7 +4008,7 @@ func (properties *AKSProperties) ConvertToARM(resolved genruntime.ConvertToARMRe
 		if err != nil {
 			return nil, err
 		}
-		sslConfiguration := sslConfigurationARM.(SslConfigurationARM)
+		sslConfiguration := *sslConfigurationARM.(*SslConfigurationARM)
 		result.SslConfiguration = &sslConfiguration
 	}
 	return result, nil
@@ -4276,7 +4271,7 @@ func (properties *AmlComputeProperties) ConvertToARM(resolved genruntime.Convert
 	if properties == nil {
 		return nil, nil
 	}
-	var result AmlComputePropertiesARM
+	result := &AmlComputePropertiesARM{}
 
 	// Set property ‘EnableNodePublicIp’:
 	if properties.EnableNodePublicIp != nil {
@@ -4308,7 +4303,7 @@ func (properties *AmlComputeProperties) ConvertToARM(resolved genruntime.Convert
 		if err != nil {
 			return nil, err
 		}
-		scaleSettings := scaleSettingsARM.(ScaleSettingsARM)
+		scaleSettings := *scaleSettingsARM.(*ScaleSettingsARM)
 		result.ScaleSettings = &scaleSettings
 	}
 
@@ -4318,7 +4313,7 @@ func (properties *AmlComputeProperties) ConvertToARM(resolved genruntime.Convert
 		if err != nil {
 			return nil, err
 		}
-		subnet := subnetARM.(ResourceIdARM)
+		subnet := *subnetARM.(*ResourceIdARM)
 		result.Subnet = &subnet
 	}
 
@@ -4328,7 +4323,7 @@ func (properties *AmlComputeProperties) ConvertToARM(resolved genruntime.Convert
 		if err != nil {
 			return nil, err
 		}
-		userAccountCredentials := userAccountCredentialsARM.(UserAccountCredentialsARM)
+		userAccountCredentials := *userAccountCredentialsARM.(*UserAccountCredentialsARM)
 		result.UserAccountCredentials = &userAccountCredentials
 	}
 
@@ -4338,7 +4333,7 @@ func (properties *AmlComputeProperties) ConvertToARM(resolved genruntime.Convert
 		if err != nil {
 			return nil, err
 		}
-		virtualMachineImage := virtualMachineImageARM.(VirtualMachineImageARM)
+		virtualMachineImage := *virtualMachineImageARM.(*VirtualMachineImageARM)
 		result.VirtualMachineImage = &virtualMachineImage
 	}
 
@@ -4690,7 +4685,7 @@ func (properties *ComputeInstanceProperties) ConvertToARM(resolved genruntime.Co
 	if properties == nil {
 		return nil, nil
 	}
-	var result ComputeInstancePropertiesARM
+	result := &ComputeInstancePropertiesARM{}
 
 	// Set property ‘ApplicationSharingPolicy’:
 	if properties.ApplicationSharingPolicy != nil {
@@ -4710,7 +4705,7 @@ func (properties *ComputeInstanceProperties) ConvertToARM(resolved genruntime.Co
 		if err != nil {
 			return nil, err
 		}
-		personalComputeInstanceSettings := personalComputeInstanceSettingsARM.(PersonalComputeInstanceSettingsARM)
+		personalComputeInstanceSettings := *personalComputeInstanceSettingsARM.(*PersonalComputeInstanceSettingsARM)
 		result.PersonalComputeInstanceSettings = &personalComputeInstanceSettings
 	}
 
@@ -4720,7 +4715,7 @@ func (properties *ComputeInstanceProperties) ConvertToARM(resolved genruntime.Co
 		if err != nil {
 			return nil, err
 		}
-		setupScripts := setupScriptsARM.(SetupScriptsARM)
+		setupScripts := *setupScriptsARM.(*SetupScriptsARM)
 		result.SetupScripts = &setupScripts
 	}
 
@@ -4730,7 +4725,7 @@ func (properties *ComputeInstanceProperties) ConvertToARM(resolved genruntime.Co
 		if err != nil {
 			return nil, err
 		}
-		sshSettings := sshSettingsARM.(ComputeInstanceSshSettingsARM)
+		sshSettings := *sshSettingsARM.(*ComputeInstanceSshSettingsARM)
 		result.SshSettings = &sshSettings
 	}
 
@@ -4740,7 +4735,7 @@ func (properties *ComputeInstanceProperties) ConvertToARM(resolved genruntime.Co
 		if err != nil {
 			return nil, err
 		}
-		subnet := subnetARM.(ResourceIdARM)
+		subnet := *subnetARM.(*ResourceIdARM)
 		result.Subnet = &subnet
 	}
 
@@ -5000,7 +4995,7 @@ func (properties *DataLakeAnalyticsProperties) ConvertToARM(resolved genruntime.
 	if properties == nil {
 		return nil, nil
 	}
-	var result DataLakeAnalyticsPropertiesARM
+	result := &DataLakeAnalyticsPropertiesARM{}
 
 	// Set property ‘DataLakeStoreAccountName’:
 	if properties.DataLakeStoreAccountName != nil {
@@ -5077,7 +5072,7 @@ func (properties *DatabricksProperties) ConvertToARM(resolved genruntime.Convert
 	if properties == nil {
 		return nil, nil
 	}
-	var result DatabricksPropertiesARM
+	result := &DatabricksPropertiesARM{}
 
 	// Set property ‘DatabricksAccessToken’:
 	if properties.DatabricksAccessToken != nil {
@@ -5361,7 +5356,7 @@ func (properties *HDInsightProperties) ConvertToARM(resolved genruntime.ConvertT
 	if properties == nil {
 		return nil, nil
 	}
-	var result HDInsightPropertiesARM
+	result := &HDInsightPropertiesARM{}
 
 	// Set property ‘Address’:
 	if properties.Address != nil {
@@ -5375,7 +5370,7 @@ func (properties *HDInsightProperties) ConvertToARM(resolved genruntime.ConvertT
 		if err != nil {
 			return nil, err
 		}
-		administratorAccount := administratorAccountARM.(VirtualMachineSshCredentialsARM)
+		administratorAccount := *administratorAccountARM.(*VirtualMachineSshCredentialsARM)
 		result.AdministratorAccount = &administratorAccount
 	}
 
@@ -5525,7 +5520,7 @@ func (properties *SynapseSparkProperties) ConvertToARM(resolved genruntime.Conve
 	if properties == nil {
 		return nil, nil
 	}
-	var result SynapseSparkPropertiesARM
+	result := &SynapseSparkPropertiesARM{}
 
 	// Set property ‘AutoPauseProperties’:
 	if properties.AutoPauseProperties != nil {
@@ -5533,7 +5528,7 @@ func (properties *SynapseSparkProperties) ConvertToARM(resolved genruntime.Conve
 		if err != nil {
 			return nil, err
 		}
-		autoPauseProperties := autoPausePropertiesARM.(AutoPausePropertiesARM)
+		autoPauseProperties := *autoPausePropertiesARM.(*AutoPausePropertiesARM)
 		result.AutoPauseProperties = &autoPauseProperties
 	}
 
@@ -5543,7 +5538,7 @@ func (properties *SynapseSparkProperties) ConvertToARM(resolved genruntime.Conve
 		if err != nil {
 			return nil, err
 		}
-		autoScaleProperties := autoScalePropertiesARM.(AutoScalePropertiesARM)
+		autoScaleProperties := *autoScalePropertiesARM.(*AutoScalePropertiesARM)
 		result.AutoScaleProperties = &autoScaleProperties
 	}
 
@@ -5827,7 +5822,7 @@ func (properties *VirtualMachineProperties) ConvertToARM(resolved genruntime.Con
 	if properties == nil {
 		return nil, nil
 	}
-	var result VirtualMachinePropertiesARM
+	result := &VirtualMachinePropertiesARM{}
 
 	// Set property ‘Address’:
 	if properties.Address != nil {
@@ -5841,7 +5836,7 @@ func (properties *VirtualMachineProperties) ConvertToARM(resolved genruntime.Con
 		if err != nil {
 			return nil, err
 		}
-		administratorAccount := administratorAccountARM.(VirtualMachineSshCredentialsARM)
+		administratorAccount := *administratorAccountARM.(*VirtualMachineSshCredentialsARM)
 		result.AdministratorAccount = &administratorAccount
 	}
 
@@ -6025,7 +6020,7 @@ func (configuration *AksNetworkingConfiguration) ConvertToARM(resolved genruntim
 	if configuration == nil {
 		return nil, nil
 	}
-	var result AksNetworkingConfigurationARM
+	result := &AksNetworkingConfigurationARM{}
 
 	// Set property ‘DnsServiceIP’:
 	if configuration.DnsServiceIP != nil {
@@ -6193,7 +6188,7 @@ func (properties *AutoPauseProperties) ConvertToARM(resolved genruntime.ConvertT
 	if properties == nil {
 		return nil, nil
 	}
-	var result AutoPausePropertiesARM
+	result := &AutoPausePropertiesARM{}
 
 	// Set property ‘DelayInMinutes’:
 	if properties.DelayInMinutes != nil {
@@ -6296,7 +6291,7 @@ func (properties *AutoScaleProperties) ConvertToARM(resolved genruntime.ConvertT
 	if properties == nil {
 		return nil, nil
 	}
-	var result AutoScalePropertiesARM
+	result := &AutoScalePropertiesARM{}
 
 	// Set property ‘Enabled’:
 	if properties.Enabled != nil {
@@ -6422,7 +6417,7 @@ func (settings *ComputeInstanceSshSettings) ConvertToARM(resolved genruntime.Con
 	if settings == nil {
 		return nil, nil
 	}
-	var result ComputeInstanceSshSettingsARM
+	result := &ComputeInstanceSshSettingsARM{}
 
 	// Set property ‘AdminPublicKey’:
 	if settings.AdminPublicKey != nil {
@@ -6756,7 +6751,7 @@ func (settings *PersonalComputeInstanceSettings) ConvertToARM(resolved genruntim
 	if settings == nil {
 		return nil, nil
 	}
-	var result PersonalComputeInstanceSettingsARM
+	result := &PersonalComputeInstanceSettingsARM{}
 
 	// Set property ‘AssignedUser’:
 	if settings.AssignedUser != nil {
@@ -6764,7 +6759,7 @@ func (settings *PersonalComputeInstanceSettings) ConvertToARM(resolved genruntim
 		if err != nil {
 			return nil, err
 		}
-		assignedUser := assignedUserARM.(AssignedUserARM)
+		assignedUser := *assignedUserARM.(*AssignedUserARM)
 		result.AssignedUser = &assignedUser
 	}
 	return result, nil
@@ -6858,7 +6853,7 @@ func (resourceId *ResourceId) ConvertToARM(resolved genruntime.ConvertToARMResol
 	if resourceId == nil {
 		return nil, nil
 	}
-	var result ResourceIdARM
+	result := &ResourceIdARM{}
 
 	// Set property ‘Id’:
 	if resourceId.Reference != nil {
@@ -6949,7 +6944,7 @@ func (settings *ScaleSettings) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if settings == nil {
 		return nil, nil
 	}
-	var result ScaleSettingsARM
+	result := &ScaleSettingsARM{}
 
 	// Set property ‘MaxNodeCount’:
 	if settings.MaxNodeCount != nil {
@@ -7069,7 +7064,7 @@ func (scripts *SetupScripts) ConvertToARM(resolved genruntime.ConvertToARMResolv
 	if scripts == nil {
 		return nil, nil
 	}
-	var result SetupScriptsARM
+	result := &SetupScriptsARM{}
 
 	// Set property ‘Scripts’:
 	if scripts.Scripts != nil {
@@ -7077,7 +7072,7 @@ func (scripts *SetupScripts) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		if err != nil {
 			return nil, err
 		}
-		scripts1 := scriptsARM.(ScriptsToExecuteARM)
+		scripts1 := *scriptsARM.(*ScriptsToExecuteARM)
 		result.Scripts = &scripts1
 	}
 	return result, nil
@@ -7185,7 +7180,7 @@ func (configuration *SslConfiguration) ConvertToARM(resolved genruntime.ConvertT
 	if configuration == nil {
 		return nil, nil
 	}
-	var result SslConfigurationARM
+	result := &SslConfigurationARM{}
 
 	// Set property ‘Cert’:
 	if configuration.Cert != nil {
@@ -7376,7 +7371,7 @@ func (credentials *UserAccountCredentials) ConvertToARM(resolved genruntime.Conv
 	if credentials == nil {
 		return nil, nil
 	}
-	var result UserAccountCredentialsARM
+	result := &UserAccountCredentialsARM{}
 
 	// Set property ‘AdminUserName’:
 	if credentials.AdminUserName != nil {
@@ -7487,7 +7482,7 @@ func (image *VirtualMachineImage) ConvertToARM(resolved genruntime.ConvertToARMR
 	if image == nil {
 		return nil, nil
 	}
-	var result VirtualMachineImageARM
+	result := &VirtualMachineImageARM{}
 
 	// Set property ‘Id’:
 	if image.Reference != nil {
@@ -7580,7 +7575,7 @@ func (credentials *VirtualMachineSshCredentials) ConvertToARM(resolved genruntim
 	if credentials == nil {
 		return nil, nil
 	}
-	var result VirtualMachineSshCredentialsARM
+	result := &VirtualMachineSshCredentialsARM{}
 
 	// Set property ‘Password’:
 	if credentials.Password != nil {
@@ -7713,7 +7708,7 @@ func (user *AssignedUser) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 	if user == nil {
 		return nil, nil
 	}
-	var result AssignedUserARM
+	result := &AssignedUserARM{}
 
 	// Set property ‘ObjectId’:
 	if user.ObjectId != nil {
@@ -7808,7 +7803,7 @@ func (execute *ScriptsToExecute) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if execute == nil {
 		return nil, nil
 	}
-	var result ScriptsToExecuteARM
+	result := &ScriptsToExecuteARM{}
 
 	// Set property ‘CreationScript’:
 	if execute.CreationScript != nil {
@@ -7816,7 +7811,7 @@ func (execute *ScriptsToExecute) ConvertToARM(resolved genruntime.ConvertToARMRe
 		if err != nil {
 			return nil, err
 		}
-		creationScript := creationScriptARM.(ScriptReferenceARM)
+		creationScript := *creationScriptARM.(*ScriptReferenceARM)
 		result.CreationScript = &creationScript
 	}
 
@@ -7826,7 +7821,7 @@ func (execute *ScriptsToExecute) ConvertToARM(resolved genruntime.ConvertToARMRe
 		if err != nil {
 			return nil, err
 		}
-		startupScript := startupScriptARM.(ScriptReferenceARM)
+		startupScript := *startupScriptARM.(*ScriptReferenceARM)
 		result.StartupScript = &startupScript
 	}
 	return result, nil
@@ -7963,7 +7958,7 @@ func (reference *ScriptReference) ConvertToARM(resolved genruntime.ConvertToARMR
 	if reference == nil {
 		return nil, nil
 	}
-	var result ScriptReferenceARM
+	result := &ScriptReferenceARM{}
 
 	// Set property ‘ScriptArguments’:
 	if reference.ScriptArguments != nil {
