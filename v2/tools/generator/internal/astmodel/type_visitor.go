@@ -144,7 +144,7 @@ func MakeIdentityVisitOfObjectType(makeCtx MakePerPropertyContext) func(this *Ty
 
 		var errs []error
 		var newProps []*PropertyDefinition
-		for _, prop := range it.Properties().AsSlice() {
+		for _, prop := range it.Properties() { // no need for this to be ordered via AsSlice, which allocates
 			newCtx, err := makeCtx(it, prop, ctx)
 			if err != nil {
 				errs = append(errs, err)
