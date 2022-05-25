@@ -1,5 +1,5 @@
 apiVersion: machinelearningservices.azure.com/v1beta20210701
-kind: Workspaces
+kind: Workspace
 metadata:
   name: sampleworkspaces
   namespace: default
