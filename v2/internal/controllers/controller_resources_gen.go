@@ -86,6 +86,9 @@ import (
 	insights_v20180501ps "github.com/Azure/azure-service-operator/v2/api/insights/v1beta20180501previewstorage"
 	insights_v20200202 "github.com/Azure/azure-service-operator/v2/api/insights/v1beta20200202"
 	insights_v20200202s "github.com/Azure/azure-service-operator/v2/api/insights/v1beta20200202storage"
+	keyvault_customizations "github.com/Azure/azure-service-operator/v2/api/keyvault/customizations"
+	keyvault_v20210401p "github.com/Azure/azure-service-operator/v2/api/keyvault/v1beta20210401preview"
+	keyvault_v20210401ps "github.com/Azure/azure-service-operator/v2/api/keyvault/v1beta20210401previewstorage"
 	managedidentity_customizations "github.com/Azure/azure-service-operator/v2/api/managedidentity/customizations"
 	managedidentity_alpha20181130 "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1alpha1api20181130"
 	managedidentity_alpha20181130s "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1alpha1api20181130storage"
@@ -434,6 +437,11 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Watches: []registration.Watch{},
 	})
 	result = append(result, &registration.StorageType{
+		Obj:     new(keyvault_v20210401ps.Vault),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{},
+	})
+	result = append(result, &registration.StorageType{
 		Obj:     new(managedidentity_v20181130s.UserAssignedIdentity),
 		Indexes: []registration.Index{},
 		Watches: []registration.Watch{},
@@ -748,6 +756,8 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(insights_v20180501ps.Webtest))
 	result = append(result, new(insights_v20200202.Component))
 	result = append(result, new(insights_v20200202s.Component))
+	result = append(result, new(keyvault_v20210401p.Vault))
+	result = append(result, new(keyvault_v20210401ps.Vault))
 	result = append(result, new(managedidentity_alpha20181130.UserAssignedIdentity))
 	result = append(result, new(managedidentity_alpha20181130s.UserAssignedIdentity))
 	result = append(result, new(managedidentity_v20181130.UserAssignedIdentity))
@@ -909,6 +919,8 @@ func createScheme() *runtime.Scheme {
 	_ = insights_v20180501ps.AddToScheme(scheme)
 	_ = insights_v20200202.AddToScheme(scheme)
 	_ = insights_v20200202s.AddToScheme(scheme)
+	_ = keyvault_v20210401p.AddToScheme(scheme)
+	_ = keyvault_v20210401ps.AddToScheme(scheme)
 	_ = managedidentity_alpha20181130.AddToScheme(scheme)
 	_ = managedidentity_alpha20181130s.AddToScheme(scheme)
 	_ = managedidentity_v20181130.AddToScheme(scheme)
@@ -990,6 +1002,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &eventhub_customizations.NamespacesEventhubsConsumerGroupExtension{})
 	result = append(result, &insights_customizations.ComponentExtension{})
 	result = append(result, &insights_customizations.WebtestExtension{})
+	result = append(result, &keyvault_customizations.VaultExtension{})
 	result = append(result, &managedidentity_customizations.UserAssignedIdentityExtension{})
 	result = append(result, &network_customizations.LoadBalancerExtension{})
 	result = append(result, &network_customizations.NetworkInterfaceExtension{})

@@ -171,6 +171,12 @@ These are the resources with Azure Service Operator support committed to our **m
 | Webtest   | 2018-05-01-preview | v1beta20180501preview      | v2.0.0-beta.0  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/insights/v1beta20180501preview_webtest.yaml)      |
 | Webtest   | 2018-05-01-preview | v1alpha1api20180501preview | v2.0.0-alpha.4 | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/insights/v1alpha1api20180501preview_webtest.yaml) |
 
+## Keyvault
+
+| Resource | ARM Version        | CRD Version           | Supported From | Sample                                                                                                                        |
+|----------|--------------------|-----------------------|----------------|-------------------------------------------------------------------------------------------------------------------------------|
+| Vault    | 2021-04-01-preview | v1beta20210401preview | v2.0.0-beta.1  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/keyvault/v1beta20210401preview_vault.yaml) |
+
 ## Managedidentity
 
 | Resource             | ARM Version | CRD Version         | Supported From | Sample                                                                                                                                            |
