@@ -41,13 +41,13 @@ func Test_MLS_Workspaces_CRUD(t *testing.T) {
 		testcommon.Subtest{
 			Name: "Test_WorkspacesCompute_CRUD",
 			Test: func(testContext *testcommon.KubePerTestContext) {
-				workspaceComputeTest(tc, testcommon.AsOwner(workspaces), rg)
+				WorkspaceCompute_CRUD(tc, testcommon.AsOwner(workspaces), rg)
 			},
 		},
 		testcommon.Subtest{
 			Name: "Test_WorkspacesConnection_CRUD",
 			Test: func(testContext *testcommon.KubePerTestContext) {
-				workspaceConnectionTest(tc, testcommon.AsOwner(workspaces))
+				WorkspaceConnection_CRUD(tc, testcommon.AsOwner(workspaces))
 			},
 		},
 	)
@@ -79,7 +79,7 @@ func newWorkspaces(tc *testcommon.KubePerTestContext, owner *genruntime.KnownRes
 	return workspaces
 }
 
-func workspaceConnectionTest(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference) {
+func WorkspaceConnection_CRUD(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference) {
 
 	jsonValue := "{\"user\":\"admin\", \"password\":\"abctest\"}"
 
@@ -103,7 +103,7 @@ func workspaceConnectionTest(tc *testcommon.KubePerTestContext, owner *genruntim
 	tc.DeleteResourcesAndWait(connection)
 }
 
-func workspaceComputeTest(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference, rg *resources.ResourceGroup) {
+func WorkspaceCompute_CRUD(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference, rg *resources.ResourceGroup) {
 
 	vnet := newVMVirtualNetwork(tc, testcommon.AsOwner(rg))
 	tc.CreateResourceAndWait(vnet)
