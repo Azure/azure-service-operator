@@ -80,7 +80,7 @@ func (gc *GroupConfiguration) visitVersions(visitor *configurationVisitor) error
 	// All our versions are listed under multiple keys, so we hedge against processing them multiple times
 	versionsSeen := set.Make[string]()
 
-	errs := make([]error, 0, len(gc.versions))
+	errs := make([]error, 0)
 	for _, v := range gc.versions {
 		if versionsSeen.Contains(v.name) {
 			continue
