@@ -147,9 +147,9 @@ func (transformer *TypeTransformer) Initialize(makeLocalPackageReferenceFunc fun
 			return errors.Wrapf(
 				err,
 				"type transformer for group: %s, version: %s, name: %s",
-				transformer.Group,
-				transformer.Version,
-				transformer.Name)
+				transformer.Group.String(),
+				transformer.Version.String(),
+				transformer.Name.String())
 		}
 
 		transformer.targetType = targetType

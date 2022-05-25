@@ -15,15 +15,9 @@ import (
 
 // TypeMatcher contains basic functionality for a filter
 type TypeMatcher struct {
-	// Group is a wildcard matching specifier for which groups are selected by this filter
-	Group      string `yaml:",omitempty"`
-	groupRegex *regexp.Regexp
-	// Version is a wildcard matching specifier for which types are selected by this filter
-	Version      string `yaml:",omitempty"`
-	versionRegex *regexp.Regexp
-	// Name is a wildcard matching specifier for which types are selected by this filter
-	Name      string `yaml:",omitempty"`
-	nameRegex *regexp.Regexp
+	Group     FieldMatcher `yaml:",omitempty"` // Filter matching types by group
+	Version   FieldMatcher `yaml:",omitempty"` // Filter matching types by version
+	Name      FieldMatcher `yaml:",omitempty"` // Filter matching types by name
 	// Because is used to articulate why the filter applied to a type (used to generate explanatory logs in debug mode)
 	Because string
 	// MatchRequired indicates if an error will be raised if this TypeMatcher doesn't match at least one type.
@@ -38,9 +32,6 @@ var _ fmt.Stringer = &TypeMatcher{}
 
 // Initialize initializes the type matcher
 func (t *TypeMatcher) Initialize() error {
-	t.groupRegex = createGlobbingRegex(t.Group)
-	t.versionRegex = createGlobbingRegex(t.Version)
-	t.nameRegex = createGlobbingRegex(t.Name)
 	t.matchedTypes = astmodel.NewTypeNameSet()
 
 	// Default MatchRequired
@@ -52,30 +43,6 @@ func (t *TypeMatcher) Initialize() error {
 	return nil
 }
 
-func (t *TypeMatcher) groupMatches(schema string) bool {
-	return t.matches(t.Group, &t.groupRegex, schema)
-}
-
-func (t *TypeMatcher) versionMatches(version string) bool {
-	return t.matches(t.Version, &t.versionRegex, version)
-}
-
-func (t *TypeMatcher) nameMatches(name string) bool {
-	return t.matches(t.Name, &t.nameRegex, name)
-}
-
-func (t *TypeMatcher) matches(glob string, regex **regexp.Regexp, name string) bool {
-	if glob == "" {
-		return true
-	}
-
-	if *regex == nil {
-		*regex = createGlobbingRegex(glob)
-	}
-
-	return (*regex).MatchString(name)
-}
-
 // AppliesToType indicates whether this filter should be applied to the supplied type definition
 func (t *TypeMatcher) AppliesToType(typeName astmodel.TypeName) bool {
 	group, version, ok := typeName.PackageReference.TryGroupVersion()
@@ -84,9 +51,9 @@ func (t *TypeMatcher) AppliesToType(typeName astmodel.TypeName) bool {
 		return false
 	}
 
-	result := t.groupMatches(group) &&
-		t.versionMatches(version) &&
-		t.nameMatches(typeName.Name())
+	result := t.Group.Matches(group) &&
+		t.Version.Matches(version) &&
+		t.Name.Matches(typeName.Name())
 
 	// Track this match, so we can later report if we didn't match anything
 	if result {
@@ -117,18 +84,18 @@ func (t *TypeMatcher) HasMatches() bool {
 func (t *TypeMatcher) String() string {
 	var result strings.Builder
 	var spacer string
-	if t.Group != "" {
-		result.WriteString(fmt.Sprintf("Group: %q", t.Group))
+	if t.Group.String() != "" {
+		result.WriteString(fmt.Sprintf("Group: %q", t.Group.String()))
 		spacer = "; "
 	}
 
-	if t.Name != "" {
-		result.WriteString(fmt.Sprintf("%sName: %q", spacer, t.Name))
+	if t.Version.String() != "" {
+		result.WriteString(fmt.Sprintf("%sVersion: %q", spacer, t.Version.String()))
 		spacer = "; "
 	}
 
-	if t.Version != "" {
-		result.WriteString(fmt.Sprintf("%sVersion: %q", spacer, t.Version))
+	if t.Name.String() != "" {
+		result.WriteString(fmt.Sprintf("%sName: %q", spacer, t.Name.String()))
 		spacer = "; "
 	}
 
