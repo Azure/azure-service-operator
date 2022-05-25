@@ -72,8 +72,8 @@ func extractChildResourcePropertyTypeDef(
 	definitions astmodel.TypeDefinitionSet,
 	resourceName astmodel.TypeName,
 	resourceSpecName astmodel.TypeName,
-	specType *astmodel.ObjectType) (*astmodel.TypeDefinition, error) {
-
+	specType *astmodel.ObjectType,
+) (*astmodel.TypeDefinition, error) {
 	// We're looking for a magical "Resources" property - if we don't find
 	// one just move on
 	resourcesProp, ok := specType.Property(resourcesPropertyName)
@@ -111,11 +111,13 @@ func extractChildResourcePropertyTypeDef(
 
 func resolveResourcesTypeNames(
 	resourcesPropertyName astmodel.TypeName,
-	resourcesPropertyType *astmodel.ObjectType) ([]astmodel.TypeName, error) {
-	var results []astmodel.TypeName
+	resourcesPropertyType *astmodel.ObjectType,
+) ([]astmodel.TypeName, error) {
+	props := resourcesPropertyType.Properties()
+	results := make([]astmodel.TypeName, 0, len(props))
 
 	// Each property type is a subresource type
-	for _, prop := range resourcesPropertyType.Properties() {
+	for _, prop := range props {
 		optionalType, ok := prop.PropertyType().(*astmodel.OptionalType)
 		if !ok {
 			return nil, errors.Errorf(
@@ -164,8 +166,8 @@ func updateChildResourceDefinitionsWithOwner(
 	definitions astmodel.TypeDefinitionSet,
 	childResourceTypeNames []astmodel.TypeName,
 	owningResourceName astmodel.TypeName,
-	updatedDefs astmodel.TypeDefinitionSet) error {
-
+	updatedDefs astmodel.TypeDefinitionSet,
+) error {
 	for _, typeName := range childResourceTypeNames {
 		// If the typename ends in ChildResource, remove that
 		if strings.HasSuffix(typeName.Name(), ChildResourceNameSuffix) {
@@ -209,8 +211,8 @@ func updateChildResourceDefinitionsWithOwner(
 func setDefaultOwner(
 	configuration *config.Configuration,
 	definitions astmodel.TypeDefinitionSet,
-	updatedDefs astmodel.TypeDefinitionSet) {
-
+	updatedDefs astmodel.TypeDefinitionSet,
+) {
 	// Go over all of the resource types and flag any that don't have an owner as having resource group as their owner
 	for _, def := range definitions {
 		// Check if we've already modified this type - we need to use the already modified value

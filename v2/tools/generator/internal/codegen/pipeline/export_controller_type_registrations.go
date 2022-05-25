@@ -36,7 +36,6 @@ func ExportControllerResourceRegistrations(idFactory astmodel.IdentifierFactory,
 
 			// We need to register each version
 			for _, def := range definitions {
-
 				if resource, ok := astmodel.AsResourceType(def.Type()); ok {
 
 					if resource.IsStorageVersion() {
@@ -54,12 +53,10 @@ func ExportControllerResourceRegistrations(idFactory astmodel.IdentifierFactory,
 
 					resources = append(resources, def.Name())
 				} else if object, ok := astmodel.AsObjectType(def.Type()); ok {
-
 					if object.HasFunctionWithName(functions.ExtendedResourcesFunctionName) {
 						resourceExtensions = append(resourceExtensions, def.Name())
 					}
 				}
-
 			}
 			file := NewResourceRegistrationFile(resources, storageVersionResources, indexFunctions, secretPropertyKeys, resourceExtensions)
 			fileWriter := astmodel.NewGoSourceFileWriter(file)
@@ -76,10 +73,10 @@ func ExportControllerResourceRegistrations(idFactory astmodel.IdentifierFactory,
 func handleSecretPropertyChains(
 	chains [][]*astmodel.PropertyDefinition,
 	idFactory astmodel.IdentifierFactory,
-	def astmodel.TypeDefinition) ([]*functions.IndexRegistrationFunction, []string) {
-
-	var indexFunctions []*functions.IndexRegistrationFunction
-	var secretPropertyKeys []string
+	def astmodel.TypeDefinition,
+) ([]*functions.IndexRegistrationFunction, []string) {
+	indexFunctions := make([]*functions.IndexRegistrationFunction, 0, len(chains))
+	secretPropertyKeys := make([]string, 0, len(chains))
 
 	for _, chain := range chains {
 		secretPropertyKey := makeIndexPropertyKey(chain)
@@ -157,8 +154,8 @@ func (b *indexFunctionBuilder) catalogSecretProperties(this *astmodel.TypeVisito
 func makeUniqueIndexMethodName(
 	idFactory astmodel.IdentifierFactory,
 	resourceTypeName astmodel.TypeName,
-	propertyChain []*astmodel.PropertyDefinition) string {
-
+	propertyChain []*astmodel.PropertyDefinition,
+) string {
 	// TODO: Technically speaking it's still possible to generate names that clash here, although it's pretty
 	// TODO: unlikely. Do we need to do more?
 

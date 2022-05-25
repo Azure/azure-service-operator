@@ -43,6 +43,7 @@ type identifierFactory struct {
 	reservedWords             map[string]string
 	forbiddenReceiverSuffixes set.Set[string]
 
+	internCache   internCache
 	idCache       idCache
 	receiverCache map[string]string
 	rwLock        sync.RWMutex
@@ -51,6 +52,17 @@ type identifierFactory struct {
 type idCacheKey struct {
 	name       string
 	visibility Visibility
+}
+
+type internCache map[string]string
+
+func (c internCache) intern(value string) string {
+	if interned, ok := c[value]; ok {
+		return interned
+	}
+
+	c[value] = value
+	return value
 }
 
 type idCache map[idCacheKey]string
@@ -64,6 +76,7 @@ func NewIdentifierFactory() IdentifierFactory {
 		renames:                   createRenames(),
 		reservedWords:             createReservedWords(),
 		idCache:                   make(idCache),
+		internCache:               make(internCache),
 		receiverCache:             make(map[string]string),
 		forbiddenReceiverSuffixes: createForbiddenReceiverSuffixes(),
 	}
@@ -81,6 +94,7 @@ func (factory *identifierFactory) CreateIdentifier(name string, visibility Visib
 
 	result := factory.createIdentifierUncached(name, visibility)
 	factory.rwLock.Lock()
+	result = factory.internCache.intern(result)
 	factory.idCache[cacheKey] = result
 	factory.rwLock.Unlock()
 	return result
@@ -180,6 +194,7 @@ func (factory *identifierFactory) CreateReceiver(name string) string {
 	result = factory.CreateLocal(base)
 
 	factory.rwLock.Lock()
+	result = factory.internCache.intern(result)
 	factory.receiverCache[name] = result
 	factory.rwLock.Unlock()
 

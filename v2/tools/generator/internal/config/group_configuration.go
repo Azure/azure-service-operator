@@ -77,10 +77,10 @@ func (gc *GroupConfiguration) visitVersion(
 
 // visitVersions invokes the provided visitor on all versions.
 func (gc *GroupConfiguration) visitVersions(visitor *configurationVisitor) error {
-	var errs []error
-
 	// All our versions are listed under multiple keys, so we hedge against processing them multiple times
 	versionsSeen := set.Make[string]()
+
+	errs := make([]error, 0, len(gc.versions))
 	for _, v := range gc.versions {
 		if versionsSeen.Contains(v.name) {
 			continue
@@ -175,10 +175,9 @@ func (gc *GroupConfiguration) UnmarshalYAML(value *yaml.Node) error {
 
 // configuredVersions returns a sorted slice containing all the versions configured in this group
 func (gc *GroupConfiguration) configuredVersions() []string {
-	var result []string
-
 	// All our versions are listed twice, under two different keys, so we hedge against processing them multiple times
 	versionsSeen := set.Make[string]()
+	result := make([]string, 0, len(gc.versions))
 	for _, v := range gc.versions {
 		if versionsSeen.Contains(v.name) {
 			continue

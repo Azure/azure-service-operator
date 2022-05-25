@@ -8,10 +8,6 @@ package codegen
 import (
 	"context"
 	"fmt"
-	"log"
-	"os"
-	"runtime"
-	"runtime/pprof"
 	"time"
 
 	"github.com/pkg/errors"
@@ -228,11 +224,6 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 func (generator *CodeGenerator) Generate(ctx context.Context) error {
 	klog.V(1).Infof("Generator version: %s", version.BuildVersion)
 
-	f, err := os.Create("cpuprofile.prof")
-	if err != nil {
-		log.Fatal(err)
-	}
-
 	state := pipeline.NewState()
 	for i, stage := range generator.pipeline {
 		klog.V(0).Infof(
@@ -240,17 +231,6 @@ func (generator *CodeGenerator) Generate(ctx context.Context) error {
 			i+1, // Computers count from 0, people from 1
 			len(generator.pipeline),
 			stage.Description())
-
-		if stage.Id() == "allof-anyof-objects" {
-			// skip JSON stage, not much we can do about it
-			runtime.GC()
-			pprof.StartCPUProfile(f)
-		}
-
-		if stage.Id() == pipeline.DetectSkippingPropertiesStageID {
-			// don't profile file writing
-			pprof.StopCPUProfile()
-		}
 
 		start := time.Now()
 
@@ -309,8 +289,7 @@ func (generator *CodeGenerator) RemoveStages(stageIds ...string) {
 		stagesToRemove[s] = false
 	}
 
-	var stages []*pipeline.Stage
-
+	stages := make([]*pipeline.Stage, 0, len(generator.pipeline))
 	for _, stage := range generator.pipeline {
 		if _, ok := stagesToRemove[stage.Id()]; ok {
 			stagesToRemove[stage.Id()] = true

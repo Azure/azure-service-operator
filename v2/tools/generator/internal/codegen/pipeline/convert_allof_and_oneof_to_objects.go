@@ -519,7 +519,7 @@ func (s synthesizer) handleObjectObject(leftObj *astmodel.ObjectType, rightObj *
 	}
 
 	// flatten
-	var properties []*astmodel.PropertyDefinition
+	properties := make([]*astmodel.PropertyDefinition, 0, len(mergedProps))
 	for _, p := range mergedProps {
 		properties = append(properties, p)
 	}
@@ -554,8 +554,9 @@ func (s synthesizer) handleEnum(leftEnum *astmodel.EnumType, right astmodel.Type
 		return leftEnum, nil
 	}
 
-	var strs []string
-	for _, enumValue := range leftEnum.Options() {
+	opts := leftEnum.Options()
+	strs := make([]string, 0, len(opts))
+	for _, enumValue := range opts {
 		strs = append(strs, enumValue.String())
 	}
 

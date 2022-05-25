@@ -339,7 +339,7 @@ func (v *ValidatorBuilder) makeLocalValidationFuncDetails(kind ValidationKind, c
 //		<receiver>.<validationFunc2>,
 //	}
 func (v *ValidatorBuilder) localValidationFuncBody(kind ValidationKind, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName) []dst.Stmt {
-	var elements []dst.Expr
+	elements := make([]dst.Expr, 0, len(v.validations[kind]))
 	for _, validationFunc := range v.validations[kind] {
 		elements = append(elements, v.makeLocalValidationElement(kind, validationFunc, codeGenerationContext, receiver))
 	}
@@ -370,8 +370,8 @@ func (v *ValidatorBuilder) makeLocalValidationElement(
 	kind ValidationKind,
 	validation *ResourceFunction,
 	codeGenerationContext *astmodel.CodeGenerationContext,
-	receiver astmodel.TypeName) dst.Expr {
-
+	receiver astmodel.TypeName,
+) dst.Expr {
 	receiverIdent := v.idFactory.CreateReceiver(receiver.Name())
 
 	if kind == ValidationKindUpdate {

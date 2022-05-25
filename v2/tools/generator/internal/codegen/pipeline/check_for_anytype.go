@@ -114,7 +114,7 @@ func collectBadPackages(
 		grouped[groupVersion] = append(grouped[groupVersion], name.Name())
 	}
 
-	var groupNames []string
+	var groupNames []string //nolint:prealloc // unlikely case
 	for groupName := range grouped {
 		// Only complain about this package if it's one we don't know about.
 		if expectedPackages.Contains(groupName) {
