@@ -14,6 +14,7 @@ import (
 
 const (
 	SubscriptionIDVar   = "AZURE_SUBSCRIPTION_ID"
+	TenantIDVar         = "AZURE_TENANT_ID"
 	targetNamespacesVar = "AZURE_TARGET_NAMESPACES"
 	operatorModeVar     = "AZURE_OPERATOR_MODE"
 	syncPeriodVar       = "AZURE_SYNC_PERIOD"
