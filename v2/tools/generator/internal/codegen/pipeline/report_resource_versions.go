@@ -16,7 +16,7 @@ import (
 
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/pkg/errors"
-	"k8s.io/klog/v2"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
@@ -33,7 +33,13 @@ func ReportResourceVersions(configuration *config.Configuration) *Stage {
 		"Generate a report listing all the resources generated",
 		func(ctx context.Context, state *State) (*State, error) {
 			report := NewResourceVersionsReport(state.Definitions(), configuration.ObjectModelConfiguration)
+
 			err := report.WriteTo(configuration.FullTypesOutputPath(), configuration.SamplesURL)
+			if err != nil {
+				return nil, err
+			}
+
+			err = configuration.ObjectModelConfiguration.VerifySupportedFromConsumed()
 			return state, err
 		})
 }
@@ -88,7 +94,10 @@ func (report *ResourceVersionsReport) summarize(definitions astmodel.TypeDefinit
 // WriteTo creates a file containing the generated report
 func (report *ResourceVersionsReport) WriteTo(outputPath string, samplesURL string) error {
 	var buffer strings.Builder
-	report.WriteToBuffer(&buffer, samplesURL)
+	err := report.WriteToBuffer(&buffer, samplesURL)
+	if err != nil {
+		return errors.Wrapf(err, "writing versions report to %s", outputPath)
+	}
 
 	if _, err := os.Stat(outputPath); os.IsNotExist(err) {
 		err = os.MkdirAll(outputPath, 0o700)
@@ -102,7 +111,7 @@ func (report *ResourceVersionsReport) WriteTo(outputPath string, samplesURL stri
 }
 
 // WriteToBuffer creates the report in the provided buffer
-func (report *ResourceVersionsReport) WriteToBuffer(buffer *strings.Builder, samplesURL string) {
+func (report *ResourceVersionsReport) WriteToBuffer(buffer *strings.Builder, samplesURL string) error {
 	buffer.WriteString("---\n")
 	buffer.WriteString("title: Supported Resources\n")
 	buffer.WriteString("---\n\n")
@@ -110,22 +119,30 @@ func (report *ResourceVersionsReport) WriteToBuffer(buffer *strings.Builder, sam
 	buffer.WriteString("grouped by the originating ARM service. ")
 	buffer.WriteString("(Newly supported resources will appear in this list prior to inclusion in any ASO release.)\n\n")
 
-	// Sort groups into increasing order
+	// Sort groups into alphabetical order
 	groups := set.AsSortedSlice(report.groups)
 
+	var errs []error
 	for _, svc := range groups {
 		buffer.WriteString(fmt.Sprintf("## %s\n\n", strings.Title(svc)))
-		table := report.createTable(report.kinds[svc], svc, samplesURL)
+		table, err := report.createTable(report.kinds[svc], svc, samplesURL)
+		if err != nil {
+			errs = append(errs, err)
+			continue
+		}
+
 		table.WriteTo(buffer)
 		buffer.WriteString("\n")
 	}
+
+	return kerrors.NewAggregate(errs)
 }
 
 func (report *ResourceVersionsReport) createTable(
 	resources astmodel.TypeDefinitionSet,
 	group string,
 	samplesURL string,
-) *reporting.MarkdownTable {
+) (*reporting.MarkdownTable, error) {
 	const (
 		name          = "Resource"
 		armVersion    = "ARM Version"
@@ -153,6 +170,7 @@ func (report *ResourceVersionsReport) createTable(
 		return astmodel.ComparePathAndVersion(right.PackageReference.PackagePath(), left.PackageReference.PackagePath())
 	})
 
+	var errs []error
 	for _, rsrc := range toIterate {
 		resourceType := astmodel.MustBeResourceType(rsrc.Type())
 
@@ -163,7 +181,8 @@ func (report *ResourceVersionsReport) createTable(
 		}
 
 		sample := report.generateSampleLink(samplesURL, group, rsrc)
-		supportedFrom := report.generateSupportedFrom(rsrc.Name())
+		supportedFrom, err := report.generateSupportedFrom(rsrc.Name())
+		errs = append(errs, err)
 
 		result.AddRow(
 			rsrc.Name().Name(),
@@ -173,7 +192,12 @@ func (report *ResourceVersionsReport) createTable(
 			sample)
 	}
 
-	return result
+	err := kerrors.NewAggregate(errs)
+	if err != nil {
+		return nil, errors.Wrap(err, "generating versions report")
+	}
+
+	return result, nil
 }
 
 func (report *ResourceVersionsReport) generateSampleLink(samplesURL string, group string, rsrc astmodel.TypeDefinition) string {
@@ -187,24 +211,19 @@ func (report *ResourceVersionsReport) generateSampleLink(samplesURL string, grou
 	return "-"
 }
 
-func (report *ResourceVersionsReport) generateSupportedFrom(typeName astmodel.TypeName) string {
+func (report *ResourceVersionsReport) generateSupportedFrom(typeName astmodel.TypeName) (string, error) {
 	supportedFrom, err := report.objectModelConfiguration.LookupSupportedFrom(typeName)
 	if err != nil {
-		if config.IsNotConfiguredError(err) {
-			klog.Warning(err.Error())
-			return "-"
-		}
-
-		return err.Error()
+		return "", err
 	}
 
 	_, ver := typeName.PackageReference.GroupVersion()
 
 	// Special case for resources that existed prior to beta.0
 	// the `v1beta` versions of those resources are only available from "beta.0"
-	if !strings.Contains(ver, "alpha") && strings.HasPrefix(supportedFrom, "v2.0.0-alpha") {
-		return "v2.0.0-beta.0"
+	if strings.Contains(ver, "v1beta") && strings.HasPrefix(supportedFrom, "v2.0.0-alpha") {
+		return "v2.0.0-beta.0", nil
 	}
 
-	return supportedFrom
+	return supportedFrom, nil
 }
