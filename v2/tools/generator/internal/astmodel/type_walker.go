@@ -57,6 +57,8 @@ func NewTypeWalker(allDefs TypeDefinitionSet, visitor TypeVisitor) *TypeWalker {
 
 	// visitor is a copy - modifications won't impact passed visitor
 	visitor.visitTypeName = typeWalker.visitTypeName
+	visitor.visitTypeNameIsIdentity = false // disable short-cut optimization
+
 	visitor.visitObjectType = typeWalker.visitObjectType
 
 	typeWalker.visitor = visitor

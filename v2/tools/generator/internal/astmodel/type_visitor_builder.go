@@ -46,8 +46,11 @@ type TypeVisitorBuilder struct {
 }
 
 func (b TypeVisitorBuilder) Build() TypeVisitor {
+	visitTypeNameIsIdentity, visitTypeName := b.buildVisitTypeName()
 	return TypeVisitor{
-		visitTypeName:      b.buildVisitTypeName(),
+		visitTypeNameIsIdentity: visitTypeNameIsIdentity,
+		visitTypeName:           visitTypeName,
+
 		visitOneOfType:     b.buildVisitOneOfType(),
 		visitAllOfType:     b.buildVisitAllOfType(),
 		visitArrayType:     b.buildVisitArrayType(),
@@ -66,20 +69,20 @@ func (b TypeVisitorBuilder) Build() TypeVisitor {
 // buildVisitTypeName returns a function to use in the TypeVisitor
 // If the field VisitTypeName is nil, we return an identity visitor. Otherwise we attempt to
 // convert the func found in the field, triggering a panic if no suitable func is found.
-func (b *TypeVisitorBuilder) buildVisitTypeName() func(*TypeVisitor, TypeName, interface{}) (Type, error) {
+func (b *TypeVisitorBuilder) buildVisitTypeName() (bool, func(*TypeVisitor, TypeName, interface{}) (Type, error)) {
 	if b.VisitTypeName == nil {
-		return IdentityVisitOfTypeName
+		return true, IdentityVisitOfTypeName
 	}
 
 	switch v := b.VisitTypeName.(type) {
 	case func(*TypeVisitor, TypeName, interface{}) (Type, error):
-		return v
+		return false, v
 	case func(TypeName) (Type, error):
-		return func(_ *TypeVisitor, it TypeName, _ interface{}) (Type, error) {
+		return false, func(_ *TypeVisitor, it TypeName, _ interface{}) (Type, error) {
 			return v(it)
 		}
 	case func(TypeName) Type:
-		return func(_ *TypeVisitor, it TypeName, _ interface{}) (Type, error) {
+		return false, func(_ *TypeVisitor, it TypeName, _ interface{}) (Type, error) {
 			return v(it), nil
 		}
 	}

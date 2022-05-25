@@ -16,7 +16,9 @@ import (
 // TypeVisitor represents a visitor for a tree of types.
 // The `ctx` argument can be used to “smuggle” additional data down the call-chain.
 type TypeVisitor struct {
-	visitTypeName      func(this *TypeVisitor, it TypeName, ctx interface{}) (Type, error)
+	visitTypeNameIsIdentity bool // performance optimization to avoid reboxing TypeNames constantly
+	visitTypeName           func(this *TypeVisitor, it TypeName, ctx interface{}) (Type, error)
+
 	visitOneOfType     func(this *TypeVisitor, it *OneOfType, ctx interface{}) (Type, error)
 	visitAllOfType     func(this *TypeVisitor, it *AllOfType, ctx interface{}) (Type, error)
 	visitArrayType     func(this *TypeVisitor, it *ArrayType, ctx interface{}) (Type, error)
@@ -39,6 +41,11 @@ func (tv *TypeVisitor) Visit(t Type, ctx interface{}) (Type, error) {
 
 	switch it := t.(type) {
 	case TypeName:
+		// IdentityVisitOfTypeName will re-box the TypeName
+		// avoid this allocation if possible by short-cutting
+		if tv.visitTypeNameIsIdentity {
+			return t, nil
+		}
 		return tv.visitTypeName(tv, it, ctx)
 	case *OneOfType:
 		return tv.visitOneOfType(tv, it, ctx)
