@@ -23,6 +23,10 @@ type StringMatcher interface {
 // o If the string contains '*' or '?' a globbing wildcard matcher
 // o Otherwise a case-insensitive literal string matcher
 func NewStringMatcher(matcher string) StringMatcher {
+	if matcher == "" {
+		return newAlwaysMatcher()
+	}
+	
 	if HasMultipleMatchers(matcher) {
 		return newMultiMatcher(matcher)
 	}
