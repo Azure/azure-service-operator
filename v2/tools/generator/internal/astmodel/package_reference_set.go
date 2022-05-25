@@ -5,7 +5,9 @@
 
 package astmodel
 
-import "sort"
+import (
+	"sort"
+)
 
 // PackageReferenceSet represents a set of distinct PackageReferences
 type PackageReferenceSet struct {
@@ -15,7 +17,7 @@ type PackageReferenceSet struct {
 // NewPackageReferenceSet creates a new empty set of PackageReferences
 func NewPackageReferenceSet(refs ...PackageReference) *PackageReferenceSet {
 	result := &PackageReferenceSet{
-		references: make(map[PackageReference]struct{}),
+		references: make(map[PackageReference]struct{}, len(refs)),
 	}
 
 	for _, ref := range refs {

@@ -468,7 +468,7 @@ func (table *RouteTable_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		table.Tags = make(map[string]string)
+		table.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			table.Tags[key] = value
 		}
@@ -637,7 +637,7 @@ func (tables *RouteTables_Spec) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 	// Set property ‘Tags’:
 	if tables.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(tables.Tags))
 		for key, value := range tables.Tags {
 			result.Tags[key] = value
 		}
@@ -682,7 +682,7 @@ func (tables *RouteTables_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		tables.Tags = make(map[string]string)
+		tables.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			tables.Tags[key] = value
 		}

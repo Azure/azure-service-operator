@@ -12,6 +12,7 @@ import (
 
 	"github.com/dave/dst"
 	"golang.org/x/exp/maps"
+	"golang.org/x/exp/slices"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 )
@@ -74,15 +75,14 @@ var _ fmt.Stringer = &PropertyDefinition{}
 // name is the name for the new property (mandatory)
 // propertyType is the type for the new property (mandatory)
 func NewPropertyDefinition(propertyName PropertyName, jsonName string, propertyType Type) *PropertyDefinition {
-	tags := make(map[string][]string)
-	tags["json"] = []string{jsonName, "omitempty"}
-
 	return &PropertyDefinition{
 		propertyName:  propertyName,
 		propertyType:  propertyType,
 		description:   "",
 		flattenedFrom: []PropertyName{propertyName},
-		tags:          tags,
+		tags: map[string][]string{
+			"json": {jsonName, "omitempty"},
+		},
 	}
 }
 
@@ -111,7 +111,7 @@ func (property *PropertyDefinition) WithJsonName(jsonName string) *PropertyDefin
 }
 
 func cloneMapOfStringToSliceOfString(m map[string][]string) map[string][]string {
-	result := make(map[string][]string)
+	result := make(map[string][]string, len(m))
 	for k, v := range m {
 		result[k] = v
 	}
@@ -487,7 +487,7 @@ func (property *PropertyDefinition) copy() *PropertyDefinition {
 	// Copy ptr fields
 	result.tags = make(map[string][]string, len(property.tags))
 	for key, value := range property.tags {
-		result.tags[key] = append([]string(nil), value...)
+		result.tags[key] = slices.Clone(value)
 	}
 
 	return &result

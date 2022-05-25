@@ -577,7 +577,7 @@ func (schedules *RedisPatchSchedules_Spec) ConvertToARM(resolved genruntime.Conv
 
 	// Set property ‘Tags’:
 	if schedules.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(schedules.Tags))
 		for key, value := range schedules.Tags {
 			result.Tags[key] = value
 		}
@@ -623,7 +623,7 @@ func (schedules *RedisPatchSchedules_Spec) PopulateFromARM(owner genruntime.Arbi
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		schedules.Tags = make(map[string]string)
+		schedules.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			schedules.Tags[key] = value
 		}

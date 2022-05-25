@@ -615,7 +615,7 @@ func (servers *RedisLinkedServers_Spec) ConvertToARM(resolved genruntime.Convert
 
 	// Set property ‘Tags’:
 	if servers.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(servers.Tags))
 		for key, value := range servers.Tags {
 			result.Tags[key] = value
 		}
@@ -671,7 +671,7 @@ func (servers *RedisLinkedServers_Spec) PopulateFromARM(owner genruntime.Arbitra
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		servers.Tags = make(map[string]string)
+		servers.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			servers.Tags[key] = value
 		}

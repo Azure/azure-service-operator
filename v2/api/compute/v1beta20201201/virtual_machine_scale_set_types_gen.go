@@ -665,7 +665,7 @@ func (scaleSet *VirtualMachineScaleSet_Status) PopulateFromARM(owner genruntime.
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		scaleSet.Tags = make(map[string]string)
+		scaleSet.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			scaleSet.Tags[key] = value
 		}
@@ -1392,7 +1392,7 @@ func (sets *VirtualMachineScaleSets_Spec) ConvertToARM(resolved genruntime.Conve
 
 	// Set property ‘Tags’:
 	if sets.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(sets.Tags))
 		for key, value := range sets.Tags {
 			result.Tags[key] = value
 		}
@@ -1592,7 +1592,7 @@ func (sets *VirtualMachineScaleSets_Spec) PopulateFromARM(owner genruntime.Arbit
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		sets.Tags = make(map[string]string)
+		sets.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			sets.Tags[key] = value
 		}
@@ -3192,7 +3192,7 @@ func (identity *VirtualMachineScaleSetIdentity_Status) PopulateFromARM(owner gen
 
 	// Set property ‘UserAssignedIdentities’:
 	if typedInput.UserAssignedIdentities != nil {
-		identity.UserAssignedIdentities = make(map[string]VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities)
+		identity.UserAssignedIdentities = make(map[string]VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities, len(typedInput.UserAssignedIdentities))
 		for key, value := range typedInput.UserAssignedIdentities {
 			var value1 VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities
 			err := value1.PopulateFromARM(owner, value)
@@ -7678,7 +7678,7 @@ func (extension *VirtualMachineScaleSetExtension_Status) PopulateFromARM(owner g
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProtectedSettings != nil {
-			extension.ProtectedSettings = make(map[string]v1.JSON)
+			extension.ProtectedSettings = make(map[string]v1.JSON, len(typedInput.Properties.ProtectedSettings))
 			for key, value := range typedInput.Properties.ProtectedSettings {
 				extension.ProtectedSettings[key] = *value.DeepCopy()
 			}
@@ -7715,7 +7715,7 @@ func (extension *VirtualMachineScaleSetExtension_Status) PopulateFromARM(owner g
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Settings != nil {
-			extension.Settings = make(map[string]v1.JSON)
+			extension.Settings = make(map[string]v1.JSON, len(typedInput.Properties.Settings))
 			for key, value := range typedInput.Properties.Settings {
 				extension.Settings[key] = *value.DeepCopy()
 			}
@@ -8986,7 +8986,7 @@ func (extensions *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_
 		result.Properties.Publisher = &publisher
 	}
 	if extensions.Settings != nil {
-		result.Properties.Settings = make(map[string]v1.JSON)
+		result.Properties.Settings = make(map[string]v1.JSON, len(extensions.Settings))
 		for key, value := range extensions.Settings {
 			result.Properties.Settings[key] = *value.DeepCopy()
 		}
@@ -9033,7 +9033,7 @@ func (extensions *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Settings != nil {
-			extensions.Settings = make(map[string]v1.JSON)
+			extensions.Settings = make(map[string]v1.JSON, len(typedInput.Properties.Settings))
 			for key, value := range typedInput.Properties.Settings {
 				extensions.Settings[key] = *value.DeepCopy()
 			}

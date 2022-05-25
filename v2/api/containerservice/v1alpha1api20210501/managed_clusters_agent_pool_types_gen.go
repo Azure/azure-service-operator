@@ -612,7 +612,7 @@ func (pool *AgentPool_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NodeLabels != nil {
-			pool.NodeLabels = make(map[string]string)
+			pool.NodeLabels = make(map[string]string, len(typedInput.Properties.NodeLabels))
 			for key, value := range typedInput.Properties.NodeLabels {
 				pool.NodeLabels[key] = value
 			}
@@ -762,7 +762,7 @@ func (pool *AgentPool_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Tags != nil {
-			pool.Tags = make(map[string]string)
+			pool.Tags = make(map[string]string, len(typedInput.Properties.Tags))
 			for key, value := range typedInput.Properties.Tags {
 				pool.Tags[key] = value
 			}
@@ -1468,7 +1468,7 @@ func (pools *ManagedClustersAgentPools_Spec) ConvertToARM(resolved genruntime.Co
 		result.Properties.Mode = &mode
 	}
 	if pools.NodeLabels != nil {
-		result.Properties.NodeLabels = make(map[string]string)
+		result.Properties.NodeLabels = make(map[string]string, len(pools.NodeLabels))
 		for key, value := range pools.NodeLabels {
 			result.Properties.NodeLabels[key] = value
 		}
@@ -1529,7 +1529,7 @@ func (pools *ManagedClustersAgentPools_Spec) ConvertToARM(resolved genruntime.Co
 		result.Properties.SpotMaxPrice = &spotMaxPrice
 	}
 	if pools.Tags != nil {
-		result.Properties.Tags = make(map[string]string)
+		result.Properties.Tags = make(map[string]string, len(pools.Tags))
 		for key, value := range pools.Tags {
 			result.Properties.Tags[key] = value
 		}
@@ -1730,7 +1730,7 @@ func (pools *ManagedClustersAgentPools_Spec) PopulateFromARM(owner genruntime.Ar
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NodeLabels != nil {
-			pools.NodeLabels = make(map[string]string)
+			pools.NodeLabels = make(map[string]string, len(typedInput.Properties.NodeLabels))
 			for key, value := range typedInput.Properties.NodeLabels {
 				pools.NodeLabels[key] = value
 			}
@@ -1839,7 +1839,7 @@ func (pools *ManagedClustersAgentPools_Spec) PopulateFromARM(owner genruntime.Ar
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Tags != nil {
-			pools.Tags = make(map[string]string)
+			pools.Tags = make(map[string]string, len(typedInput.Properties.Tags))
 			for key, value := range typedInput.Properties.Tags {
 				pools.Tags[key] = value
 			}

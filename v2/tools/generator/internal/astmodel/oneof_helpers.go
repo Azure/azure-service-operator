@@ -47,10 +47,11 @@ func resolveOneOfMemberToObjectType(t Type, definitions TypeDefinitionSet) (Type
 func getDiscriminatorMapping(
 	oneOf *ObjectType,
 	propName PropertyName,
-	definitions TypeDefinitionSet) map[string]PropertyNameAndType {
-
-	result := make(map[string]PropertyNameAndType)
-	for _, prop := range oneOf.Properties() {
+	definitions TypeDefinitionSet,
+) map[string]PropertyNameAndType {
+	props := oneOf.Properties()
+	result := make(map[string]PropertyNameAndType, len(props))
+	for _, prop := range props {
 		propObjTypeName, propObjType := resolveOneOfMemberToObjectType(prop.PropertyType(), definitions)
 
 		potentialDiscriminatorProp, ok := propObjType.Property(propName)
