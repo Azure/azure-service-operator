@@ -11,6 +11,7 @@ import (
 	"strings"
 
 	"github.com/dave/dst"
+	"golang.org/x/exp/maps"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 )
@@ -372,16 +373,13 @@ func (property *PropertyDefinition) IsSecret() bool {
 }
 
 func (property *PropertyDefinition) renderedTags() string {
-	var orderedKeys []string
-	for key := range property.tags {
-		orderedKeys = append(orderedKeys, key)
-	}
+	orderedKeys := maps.Keys(property.tags)
 
 	sort.Slice(orderedKeys, func(i, j int) bool {
 		return orderedKeys[i] < orderedKeys[j]
 	})
 
-	var tags []string
+	tags := make([]string, 0, len(orderedKeys))
 	for _, key := range orderedKeys {
 		tagString := strings.Join(property.tags[key], ",")
 		tags = append(tags, fmt.Sprintf("%s:%q", key, tagString))

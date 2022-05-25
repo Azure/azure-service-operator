@@ -10,6 +10,8 @@ import (
 	"sort"
 	"strings"
 
+	"golang.org/x/exp/maps"
+
 	"github.com/dave/dst"
 	"github.com/pkg/errors"
 
@@ -82,9 +84,9 @@ func (objectType *ObjectType) AsDeclarations(codeGenerationContext *CodeGenerati
 }
 
 func (objectType *ObjectType) generateMethodDecls(codeGenerationContext *CodeGenerationContext, typeName TypeName) []dst.Decl {
-	var result []dst.Decl
-
-	for _, f := range objectType.Functions() {
+	funcs := objectType.Functions()
+	result := make([]dst.Decl, 0, len(funcs))
+	for _, f := range funcs {
 		funcDef := generateMethodDeclForFunction(typeName, f, codeGenerationContext)
 		result = append(result, funcDef)
 	}
@@ -119,7 +121,7 @@ func (objectType *ObjectType) Property(name PropertyName) (*PropertyDefinition, 
 // EmbeddedProperties returns all the embedded properties
 // A sorted slice is returned to preserve immutability and provide determinism
 func (objectType *ObjectType) EmbeddedProperties() []*PropertyDefinition {
-	var result []*PropertyDefinition
+	result := make([]*PropertyDefinition, 0, len(objectType.embedded))
 	for _, embedded := range objectType.embedded {
 		result = append(result, embedded)
 	}
@@ -166,8 +168,9 @@ func (objectType *ObjectType) HasFunctionWithName(name string) bool {
 
 // AsType implements Type for ObjectType
 func (objectType *ObjectType) AsType(codeGenerationContext *CodeGenerationContext) dst.Expr {
-	var fields []*dst.Field
-	for _, f := range objectType.EmbeddedProperties() {
+	embedded := objectType.EmbeddedProperties()
+	fields := make([]*dst.Field, 0, len(embedded))
+	for _, f := range embedded {
 		fields = append(fields, f.AsField(codeGenerationContext))
 	}
 
@@ -499,22 +502,15 @@ func (objectType *ObjectType) WithTestCase(testcase TestCase) *ObjectType {
 }
 
 func (objectType *ObjectType) copy() *ObjectType {
-	result := NewObjectType()
-
-	for key, value := range objectType.embedded {
-		result.embedded[key] = value
+	result := &ObjectType{
+		properties: maps.Clone(objectType.properties),
+		functions:  maps.Clone(objectType.functions),
+		testcases:  maps.Clone(objectType.testcases),
 	}
 
-	for key, value := range objectType.properties {
-		result.properties[key] = value
-	}
-
-	for key, value := range objectType.functions {
-		result.functions[key] = value
-	}
-
-	for key, value := range objectType.testcases {
-		result.testcases[key] = value
+	result.embedded = make(map[TypeName]*PropertyDefinition, len(objectType.embedded))
+	for k, v := range objectType.embedded {
+		result.embedded[k] = v
 	}
 
 	result.InterfaceImplementer = objectType.InterfaceImplementer.copy()
@@ -532,10 +528,7 @@ func (objectType *ObjectType) HasTestCases() bool {
 }
 
 func (objectType *ObjectType) TestCases() []TestCase {
-	var result []TestCase
-	for _, tc := range objectType.testcases {
-		result = append(result, tc)
-	}
+	result := maps.Values(objectType.testcases)
 
 	sort.Slice(result, func(i int, j int) bool {
 		return result[i].Name() < result[j].Name()

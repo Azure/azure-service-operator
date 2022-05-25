@@ -12,6 +12,7 @@ import (
 	"strings"
 
 	"github.com/dave/dst"
+	"golang.org/x/exp/maps"
 	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
@@ -274,10 +275,7 @@ func (resource *ResourceType) WithAPIVersion(apiVersionTypeName TypeName, apiVer
 
 // TestCases returns a new slice containing all the test cases associated with this resource
 func (resource *ResourceType) TestCases() []TestCase {
-	var result []TestCase
-	for _, tc := range resource.testcases {
-		result = append(result, tc)
-	}
+	result := maps.Values(resource.testcases)
 
 	sort.Slice(result, func(i int, j int) bool {
 		return result[i].Name() < result[j].Name()
@@ -441,10 +439,7 @@ func (resource *ResourceType) APIVersionEnumValue() EnumValue {
 // Functions returns all the function implementations
 // A sorted slice is returned to preserve immutability and provide determinism
 func (resource *ResourceType) Functions() []Function {
-	var functions []Function
-	for _, f := range resource.functions {
-		functions = append(functions, f)
-	}
+	functions := maps.Values(resource.functions)
 
 	sort.Slice(functions, func(i int, j int) bool {
 		return functions[i].Name() < functions[j].Name()
@@ -616,9 +611,9 @@ func (resource *ResourceType) AsDeclarations(codeGenerationContext *CodeGenerati
 }
 
 func (resource *ResourceType) generateMethodDecls(codeGenerationContext *CodeGenerationContext, typeName TypeName) []dst.Decl {
-	var result []dst.Decl
-
-	for _, f := range resource.Functions() {
+	funcs := resource.Functions()
+	result := make([]dst.Decl, 0, len(funcs))
+	for _, f := range funcs {
 		funcDef := generateMethodDeclForFunction(typeName, f, codeGenerationContext)
 		result = append(result, funcDef)
 	}

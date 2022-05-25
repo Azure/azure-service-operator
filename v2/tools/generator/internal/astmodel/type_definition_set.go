@@ -295,7 +295,7 @@ func (set TypeDefinitionSet) ResolveResourceStatusDefinition(resourceType *Resou
 
 // AsSlice creates a new slice containing all the definitions
 func (set TypeDefinitionSet) AsSlice() []TypeDefinition {
-	var result []TypeDefinition
+	result := make([]TypeDefinition, 0, len(set))
 	for _, def := range set {
 		result = append(result, def)
 	}

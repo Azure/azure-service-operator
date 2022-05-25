@@ -8,7 +8,8 @@ package secrets
 import (
 	"sort"
 
-	"k8s.io/api/core/v1"
+	"golang.org/x/exp/maps"
+	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -54,11 +55,7 @@ func (c *SecretCollector) AddSecretValue(dest *genruntime.SecretDestination, sec
 
 // Secrets returns the set of secrets that have been collected.
 func (c *SecretCollector) Secrets() []*v1.Secret {
-	var result []*v1.Secret
-
-	for _, secret := range c.secrets {
-		result = append(result, secret)
-	}
+	result := maps.Values(c.secrets)
 
 	// Force a deterministic ordering
 	sort.Slice(result, func(i, j int) bool {

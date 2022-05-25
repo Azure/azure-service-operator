@@ -8,7 +8,7 @@ package secrets
 import (
 	"context"
 
-	"k8s.io/api/core/v1"
+	v1 "k8s.io/api/core/v1"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
@@ -39,7 +39,7 @@ func ApplySecret(ctx context.Context, client client.Client, secret *v1.Secret) (
 // they are created. If they exist, they are updated. An attempt is made to apply each secret before returning an error.
 func ApplySecrets(ctx context.Context, client client.Client, secrets []*v1.Secret) ([]controllerutil.OperationResult, error) {
 	var errs []error
-	var results []controllerutil.OperationResult
+	results := make([]controllerutil.OperationResult, 0, len(secrets))
 
 	for _, secret := range secrets {
 		result, err := ApplySecret(ctx, client, secret)
@@ -93,7 +93,7 @@ func ApplySecretAndEnsureOwner(ctx context.Context, client client.Client, obj cl
 // they are created. If they exist, they are updated. An attempt is made to apply each secret before returning an error.
 func ApplySecretsAndEnsureOwner(ctx context.Context, client client.Client, obj client.Object, secrets []*v1.Secret) ([]controllerutil.OperationResult, error) {
 	var errs []error
-	var results []controllerutil.OperationResult
+	results := make([]controllerutil.OperationResult, 0, len(secrets))
 
 	for _, secret := range secrets {
 		result, err := ApplySecretAndEnsureOwner(ctx, client, obj, secret)

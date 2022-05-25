@@ -7,6 +7,8 @@ package astmodel
 
 import (
 	"sort"
+
+	"golang.org/x/exp/maps"
 )
 
 // PropertySet wraps a set of property definitions, indexed by name, along with some convenience methods
@@ -14,7 +16,7 @@ type PropertySet map[PropertyName]*PropertyDefinition
 
 // NewPropertySet creates a new set of properties
 func NewPropertySet(properties ...*PropertyDefinition) PropertySet {
-	result := make(PropertySet)
+	result := make(PropertySet, len(properties))
 	for _, prop := range properties {
 		result[prop.PropertyName()] = prop
 	}
@@ -24,10 +26,7 @@ func NewPropertySet(properties ...*PropertyDefinition) PropertySet {
 
 // AsSlice returns all the properties in a slice, sorted alphabetically by name
 func (p PropertySet) AsSlice() []*PropertyDefinition {
-	var result []*PropertyDefinition
-	for _, prop := range p {
-		result = append(result, prop)
-	}
+	result := maps.Values(p)
 
 	// Sort it so that it's always consistent
 	sort.Slice(result, func(left int, right int) bool {

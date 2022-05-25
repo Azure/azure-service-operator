@@ -32,8 +32,8 @@ func (extension *RouteTableExtension) ModifyARMResource(
 	obj genruntime.ARMMetaObject,
 	kubeClient kubeclient.Client,
 	resolver *resolver.Resolver,
-	log logr.Logger) (genruntime.ARMResource, error) {
-
+	log logr.Logger,
+) (genruntime.ARMResource, error) {
 	typedObj, ok := obj.(*network.RouteTable)
 	if !ok {
 		return nil, errors.Errorf("cannot run on unknown resource type %T", obj)
@@ -52,7 +52,7 @@ func (extension *RouteTableExtension) ModifyARMResource(
 		return nil, errors.Wrapf(err, "failed listing routes owned by RouteTable %s/%s", obj.GetNamespace(), obj.GetName())
 	}
 
-	var armRoutes []genruntime.ARMResourceSpec
+	armRoutes := make([]genruntime.ARMResourceSpec, 0, len(routes.Items))
 	for _, route := range routes.Items {
 		route := route
 

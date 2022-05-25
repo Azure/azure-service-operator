@@ -56,7 +56,7 @@ func (set *PackageReferenceSet) Contains(ref PackageReference) bool {
 
 // AsSlice returns a slice containing all the imports
 func (set *PackageReferenceSet) AsSlice() []PackageReference {
-	var result []PackageReference
+	result := make([]PackageReference, 0, len(set.references))
 	for ref := range set.references {
 		result = append(result, ref)
 	}
