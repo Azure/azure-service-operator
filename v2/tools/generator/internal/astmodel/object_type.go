@@ -354,6 +354,11 @@ func (objectType *ObjectType) WithProperty(property *PropertyDefinition) *Object
 // WithProperties creates a new ObjectType that's a copy with additional properties included
 // Properties are unique by name, so this can be used to both Add and Replace properties.
 func (objectType *ObjectType) WithProperties(properties ...*PropertyDefinition) *ObjectType {
+	if len(properties) == 0 {
+		// short-circuit
+		return objectType
+	}
+
 	// Create a copy of objectType to preserve immutability
 	result := objectType.copy()
 	for _, f := range properties {

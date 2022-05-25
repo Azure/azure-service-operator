@@ -139,9 +139,9 @@ type MakePerPropertyContext func(ot *ObjectType, prop *PropertyDefinition, ctx i
 // MakeIdentityVisitOfObjectType creates a visitor function which creates a per-property context before visiting each
 // property of the ObjectType
 func MakeIdentityVisitOfObjectType(makeCtx MakePerPropertyContext) func(this *TypeVisitor, it *ObjectType, ctx interface{}) (Type, error) {
-
 	return func(this *TypeVisitor, it *ObjectType, ctx interface{}) (Type, error) {
 		// just map the property types
+
 		var errs []error
 		var newProps []*PropertyDefinition
 		for _, prop := range it.Properties().AsSlice() {
@@ -155,7 +155,11 @@ func MakeIdentityVisitOfObjectType(makeCtx MakePerPropertyContext) func(this *Ty
 			if err != nil {
 				errs = append(errs, err)
 			} else {
-				newProps = append(newProps, prop.WithType(p))
+				// only replace property if the type was changed;
+				// this allows short-circuiting below
+				if !TypeEquals(p, prop.propertyType) {
+					newProps = append(newProps, prop.WithType(p))
+				}
 			}
 		}
 
@@ -164,6 +168,7 @@ func MakeIdentityVisitOfObjectType(makeCtx MakePerPropertyContext) func(this *Ty
 		}
 
 		// map the embedded types too
+		embeddedPropsChanged := false
 		var newEmbeddedProps []*PropertyDefinition
 		for _, prop := range it.EmbeddedProperties() {
 			newCtx, err := makeCtx(it, prop, ctx)
@@ -176,6 +181,10 @@ func MakeIdentityVisitOfObjectType(makeCtx MakePerPropertyContext) func(this *Ty
 			if err != nil {
 				errs = append(errs, err)
 			} else {
+				if !TypeEquals(p, prop.propertyType) {
+					embeddedPropsChanged = true
+				}
+
 				newEmbeddedProps = append(newEmbeddedProps, prop.WithType(p))
 			}
 		}
@@ -185,9 +194,14 @@ func MakeIdentityVisitOfObjectType(makeCtx MakePerPropertyContext) func(this *Ty
 		}
 
 		result := it.WithProperties(newProps...)
-		// Since it's possible that the type was renamed we need to clear the old embedded properties
-		result = result.WithoutEmbeddedProperties()
-		result, err := result.WithEmbeddedProperties(newEmbeddedProps...)
+
+		var err error
+		if embeddedPropsChanged {
+			// Since it's possible that the type was renamed we need to clear the old embedded properties
+			result = result.WithoutEmbeddedProperties()
+			result, err = result.WithEmbeddedProperties(newEmbeddedProps...)
+		}
+
 		if err != nil {
 			return nil, err
 		}
