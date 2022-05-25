@@ -96,7 +96,9 @@ func TestGolden_ReportResourceVersions(t *testing.T) {
 	report := NewResourceVersionsReport(defs, cfg)
 
 	var buffer strings.Builder
-	report.WriteToBuffer(&buffer, "https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples")
+	g.Expect(report.WriteToBuffer(
+		&buffer, "https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples")).
+		To(Succeed())
 
 	gold.Assert(t, t.Name(), []byte(buffer.String()))
 }

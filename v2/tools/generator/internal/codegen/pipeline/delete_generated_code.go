@@ -42,16 +42,29 @@ func DeleteGeneratedCode(outputFolder string) *Stage {
 }
 
 func deleteGeneratedCodeFromFolder(ctx context.Context, outputFolder string) error {
-	// We use doublestar here rather than filepath.Glob because filepath.Glob doesn't support **
-	globPattern := path.Join(outputFolder, "**", "*", "*"+astmodel.CodeGeneratedFileSuffix+"*.go")
+	genPattern := path.Join(outputFolder, "**", "*", "*"+astmodel.CodeGeneratedFileSuffix+"*.go")
+	err := deleteGeneratedCodeByPattern(ctx, genPattern)
+	if err != nil {
+		return err
+	}
 
+	docPattern := path.Join(outputFolder, "**", "*", "doc.go")
+	err = deleteGeneratedCodeByPattern(ctx, docPattern)
+	if err != nil {
+		return err
+	}
+
+	return deleteEmptyDirectories(ctx, outputFolder)
+}
+
+func deleteGeneratedCodeByPattern(ctx context.Context, globPattern string) error {
+	// We use doublestar here rather than filepath.Glob because filepath.Glob doesn't support **
 	files, err := doublestar.Glob(globPattern)
 	if err != nil {
 		return errors.Wrapf(err, "error globbing files with pattern %q", globPattern)
 	}
 
 	var errs []error
-
 	for _, file := range files {
 		if ctx.Err() != nil { // check for cancellation
 			return ctx.Err()
@@ -68,10 +81,6 @@ func deleteGeneratedCodeFromFolder(ctx context.Context, outputFolder string) err
 				errs = append(errs, errors.Wrapf(err, "error removing file %q", file))
 			}
 		}
-	}
-
-	if err := deleteEmptyDirectories(ctx, outputFolder); err != nil {
-		errs = append(errs, err)
 	}
 
 	return kerrors.NewAggregate(errs)

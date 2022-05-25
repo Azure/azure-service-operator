@@ -77,8 +77,8 @@ These are the resources with Azure Service Operator support committed to our **m
 
 | Resource      | ARM Version | CRD Version    | Supported From | Sample                                                                                                                             |
 |---------------|-------------|----------------|----------------|------------------------------------------------------------------------------------------------------------------------------------|
-| Configuration | 2018-06-01  | v1beta20180601 | -              | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/dbformariadb/v1beta20180601_configuration.yaml) |
-| Database      | 2018-06-01  | v1beta20180601 | -              | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/dbformariadb/v1beta20180601_database.yaml)      |
+| Configuration | 2018-06-01  | v1beta20180601 | v2.0.0-beta.1  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/dbformariadb/v1beta20180601_configuration.yaml) |
+| Database      | 2018-06-01  | v1beta20180601 | v2.0.0-beta.1  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/dbformariadb/v1beta20180601_database.yaml)      |
 | Server        | 2018-06-01  | v1beta20180601 | v2.0.0-beta.1  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/dbformariadb/v1beta20180601_server.yaml)        |
 
 ## Dbformysql
