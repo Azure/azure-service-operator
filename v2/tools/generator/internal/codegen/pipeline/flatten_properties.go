@@ -58,7 +58,7 @@ func makeFlatteningVisitor(defs astmodel.TypeDefinitionSet) astmodel.TypeVisitor
 			// fix any colliding names:
 			newProps = fixCollisions(newProps)
 
-			if len(newProps) != len(it.Properties()) {
+			if len(newProps) != it.Properties().Len() {
 				klog.V(4).Infof("Flattened properties in %s", name)
 			}
 
@@ -71,12 +71,12 @@ func makeFlatteningVisitor(defs astmodel.TypeDefinitionSet) astmodel.TypeVisitor
 
 func removeFlattenFromObject(tObj *astmodel.ObjectType) *astmodel.ObjectType {
 	objProps := tObj.Properties()
-	props := make([]*astmodel.PropertyDefinition, 0, len(objProps))
-	for _, prop := range objProps {
+	props := make([]*astmodel.PropertyDefinition, 0, objProps.Len())
+	objProps.ForEach(func(prop *astmodel.PropertyDefinition) {
 		prop = prop.WithType(removeFlatten(prop.PropertyType()))
 		prop = prop.SetFlatten(false)
 		props = append(props, prop)
-	}
+	})
 
 	return tObj.WithProperties(props...)
 }
@@ -148,12 +148,11 @@ func collectAndFlattenProperties(
 ) ([]*astmodel.PropertyDefinition, error) {
 	var flattenedProps []*astmodel.PropertyDefinition
 
-	props := objectType.Properties()
-	for _, prop := range props {
+	objectType.Properties().ForEach(func(prop *astmodel.PropertyDefinition) {
 		if !prop.Flatten() {
 			// Property doesn't need to be flattened, move along
 			flattenedProps = append(flattenedProps, prop)
-			continue
+			return // continue
 		}
 
 		innerProps, err := flattenProperty(container, prop, defs)
@@ -165,7 +164,7 @@ func collectAndFlattenProperties(
 		}
 
 		flattenedProps = append(flattenedProps, innerProps...)
-	}
+	})
 
 	return flattenedProps, nil
 }

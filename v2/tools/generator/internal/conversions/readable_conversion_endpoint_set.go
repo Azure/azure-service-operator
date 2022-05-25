@@ -57,14 +57,15 @@ func (set ReadableConversionEndpointSet) CreatePropertyBagMemberEndpoints(destin
 // Returns the count of new endpoints created.
 func (set ReadableConversionEndpointSet) addForEachProperty(
 	instance astmodel.Type,
-	factory func(definition *astmodel.PropertyDefinition) *ReadableConversionEndpoint) int {
+	factory func(definition *astmodel.PropertyDefinition) *ReadableConversionEndpoint,
+) int {
 	count := 0
 	if container, ok := astmodel.AsPropertyContainer(instance); ok {
 
 		// Construct a set containing the properties we can assign
 		// This is made up of all regular properties, plus specific kinds of embedded properties
 
-		properties := container.Properties()
+		properties := container.Properties().Copy()
 		typesToCopy := astmodel.NewTypeNameSet(astmodel.ObjectMetaType)
 		for _, prop := range container.EmbeddedProperties() {
 			name, ok := astmodel.AsTypeName(prop.PropertyType())
@@ -107,7 +108,8 @@ func (set ReadableConversionEndpointSet) addForEachProperty(
 // Returns the count of new endpoints created.
 func (set ReadableConversionEndpointSet) addForEachValueFunction(
 	instance astmodel.Type,
-	factory func(definition astmodel.ValueFunction) *ReadableConversionEndpoint) int {
+	factory func(definition astmodel.ValueFunction) *ReadableConversionEndpoint,
+) int {
 	count := 0
 	if container, ok := astmodel.AsFunctionContainer(instance); ok {
 		for _, fn := range container.Functions() {

@@ -14,6 +14,15 @@ import (
 // PropertySet wraps a set of property definitions, indexed by name, along with some convenience methods
 type PropertySet map[PropertyName]*PropertyDefinition
 
+type ReadOnlyPropertySet interface {
+	ForEach(func(def *PropertyDefinition))
+	Len() int
+	Copy() PropertySet
+	First() *PropertyDefinition
+	AsSlice() []*PropertyDefinition
+	IsEmpty() bool
+}
+
 // NewPropertySet creates a new set of properties
 func NewPropertySet(properties ...*PropertyDefinition) PropertySet {
 	result := make(PropertySet, len(properties))
@@ -22,6 +31,28 @@ func NewPropertySet(properties ...*PropertyDefinition) PropertySet {
 	}
 
 	return result
+}
+
+func (p PropertySet) First() *PropertyDefinition {
+	for _, v := range p {
+		return v
+	}
+
+	return nil
+}
+
+func (p PropertySet) IsEmpty() bool {
+	return len(p) == 0
+}
+
+func (p PropertySet) ForEach(f func(*PropertyDefinition)) {
+	for _, v := range p {
+		f(v)
+	}
+}
+
+func (p PropertySet) Len() int {
+	return len(p)
 }
 
 // AsSlice returns all the properties in a slice, sorted alphabetically by name

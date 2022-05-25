@@ -108,8 +108,8 @@ func defineField(fieldName string, fieldType dst.Expr, tag string) *dst.Field {
 }
 
 // Properties returns all the property definitions
-func (objectType *ObjectType) Properties() PropertySet {
-	return objectType.properties.Copy()
+func (objectType *ObjectType) Properties() ReadOnlyPropertySet {
+	return objectType.properties
 }
 
 // Property returns the details of a specific property based on its unique case-sensitive name
@@ -398,6 +398,21 @@ func (objectType *ObjectType) WithEmbeddedProperties(properties ...*PropertyDefi
 func (objectType *ObjectType) WithoutProperties() *ObjectType {
 	result := objectType.copy()
 	result.properties = make(map[PropertyName]*PropertyDefinition)
+	return result
+}
+
+// WithoutSpecificProperties creates a new ObjectType from this one but
+// without any properties.
+func (objectType *ObjectType) WithoutSpecificProperties(props ...PropertyName) *ObjectType {
+	if len(props) == 0 {
+		return objectType
+	}
+
+	result := objectType.copy()
+	for _, name := range props {
+		delete(result.properties, name)
+	}
+
 	return result
 }
 

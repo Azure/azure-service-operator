@@ -137,12 +137,15 @@ func (t *TypeWalker) visitObjectType(this *TypeVisitor, it *ObjectType, ctx inte
 		panic(fmt.Sprintf("TypeWalker visitor visitObjectType must return a *ObjectType, instead returned %T", result))
 	}
 
-	for _, prop := range ot.Properties() {
+	var toRemove []PropertyName
+	ot.Properties().ForEach(func(prop *PropertyDefinition) {
 		shouldRemove := shouldRemove(prop.PropertyType())
 		if shouldRemove {
-			ot = ot.WithoutProperty(prop.PropertyName())
+			toRemove = append(toRemove, prop.PropertyName())
 		}
-	}
+	})
+
+	ot = ot.WithoutSpecificProperties(toRemove...)
 
 	return ot, nil
 }

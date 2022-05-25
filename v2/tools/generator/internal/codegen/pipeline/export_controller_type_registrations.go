@@ -139,13 +139,13 @@ func preservePropertyContext(_ *astmodel.ObjectType, prop *astmodel.PropertyDefi
 func (b *indexFunctionBuilder) catalogSecretProperties(this *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
 	typedCtx := ctx.(indexFunctionBuilderContext)
 
-	for _, prop := range it.Properties() {
+	it.Properties().ForEach(func(prop *astmodel.PropertyDefinition) {
 		if prop.IsSecret() {
 			newCtx := typedCtx.clone()
 			newCtx.props = append(newCtx.props, prop)
 			b.propChains = append(b.propChains, newCtx.props)
 		}
-	}
+	})
 
 	identityVisit := astmodel.MakeIdentityVisitOfObjectType(preservePropertyContext)
 	return identityVisit(this, it, ctx)

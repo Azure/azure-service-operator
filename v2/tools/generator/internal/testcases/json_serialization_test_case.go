@@ -62,7 +62,7 @@ func (o *JSONSerializationTestCase) References() astmodel.TypeNameSet {
 // subject is the name of the type under test
 // codeGenerationContext contains reference material to use when generating
 func (o *JSONSerializationTestCase) AsFuncs(name astmodel.TypeName, genContext *astmodel.CodeGenerationContext) []dst.Decl {
-	properties := o.container.Properties()
+	properties := o.container.Properties().Copy()
 
 	// Find all the simple generators (those with no external dependencies)
 	simpleGenerators := o.createGenerators(properties, genContext, o.createIndependentGenerator)
@@ -138,11 +138,11 @@ func (o *JSONSerializationTestCase) RequiredImports() *astmodel.PackageImportSet
 	result.AddImportOfReference(astmodel.PrettyReference)
 
 	// Merge references required for properties
-	for _, prop := range o.container.Properties() {
+	o.container.Properties().ForEach(func(prop *astmodel.PropertyDefinition) {
 		for _, ref := range prop.PropertyType().RequiredPackageReferences().AsSlice() {
 			result.AddImportOfReference(ref)
 		}
-	}
+	})
 
 	// We're not currently creating generators for types in this package, so leave it out
 	result.Remove(astmodel.NewPackageImport(astmodel.GenRuntimeReference))

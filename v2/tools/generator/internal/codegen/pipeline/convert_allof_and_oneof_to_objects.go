@@ -495,18 +495,18 @@ func max(left, right int) int {
 func (s synthesizer) handleObjectObject(leftObj *astmodel.ObjectType, rightObj *astmodel.ObjectType) (astmodel.Type, error) {
 	leftProperties := leftObj.Properties()
 	rightProperties := rightObj.Properties()
-	mergedProps := make(map[astmodel.PropertyName]*astmodel.PropertyDefinition, max(len(leftProperties), len(rightProperties)))
+	mergedProps := make(map[astmodel.PropertyName]*astmodel.PropertyDefinition, max(leftProperties.Len(), rightProperties.Len()))
 
-	for _, p := range leftProperties {
+	leftProperties.ForEach(func(p *astmodel.PropertyDefinition) {
 		mergedProps[p.PropertyName()] = p
-	}
+	})
 
-	for _, p := range rightProperties {
+	rightProperties.ForEach(func(p *astmodel.PropertyDefinition) {
 		if existingProp, ok := mergedProps[p.PropertyName()]; ok {
 			newType, err := s.intersectTypes(existingProp.PropertyType(), p.PropertyType())
 			if err != nil {
 				klog.Errorf("unable to combine properties: %s (%s)", p.PropertyName(), err)
-				continue
+				return // continue
 				// return nil, err
 			}
 
@@ -524,7 +524,7 @@ func (s synthesizer) handleObjectObject(leftObj *astmodel.ObjectType, rightObj *
 		} else {
 			mergedProps[p.PropertyName()] = p
 		}
-	}
+	})
 
 	// flatten
 	properties := maps.Values(mergedProps)
@@ -668,7 +668,7 @@ func (synthesizer) handleValidatedAndNonValidated(validated *astmodel.ValidatedT
 // a string map and object can be combined with the map type becoming additionalProperties
 func (synthesizer) handleMapObject(leftMap *astmodel.MapType, rightObj *astmodel.ObjectType) (astmodel.Type, error) {
 	if astmodel.TypeEquals(leftMap.KeyType(), astmodel.StringType) {
-		if len(rightObj.Properties()) == 0 {
+		if rightObj.Properties().IsEmpty() {
 			// no properties, treat as map
 			// TODO: there could be other things in the object to check?
 			return leftMap, nil

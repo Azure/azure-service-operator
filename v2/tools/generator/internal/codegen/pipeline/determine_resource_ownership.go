@@ -113,7 +113,7 @@ func resolveResourcesTypeNames(
 	resourcesPropertyName astmodel.TypeName,
 	resourcesPropertyType *astmodel.ObjectType,
 ) ([]astmodel.TypeName, error) {
-	props := resourcesPropertyType.Properties()
+	props := resourcesPropertyType.Properties().Copy()
 	results := make([]astmodel.TypeName, 0, len(props))
 
 	// Each property type is a subresource type

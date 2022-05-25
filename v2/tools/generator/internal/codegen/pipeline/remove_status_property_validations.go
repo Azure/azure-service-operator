@@ -118,9 +118,9 @@ func removeEnumValidations(this *astmodel.TypeVisitor, et *astmodel.EnumType, _ 
 
 // removeKubebuilderRequired removes kubebuilder:validation:Required from all properties
 func removeKubebuilderRequired(this *astmodel.TypeVisitor, ot *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
-	for _, prop := range ot.Properties() {
+	ot.Properties().ForEach(func(prop *astmodel.PropertyDefinition) {
 		ot = ot.WithProperty(prop.MakeOptional())
-	}
+	})
 
 	return astmodel.IdentityVisitOfObjectType(this, ot, ctx)
 }

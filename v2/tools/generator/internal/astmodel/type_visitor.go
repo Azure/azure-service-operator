@@ -151,11 +151,11 @@ func MakeIdentityVisitOfObjectType(makeCtx MakePerPropertyContext) func(this *Ty
 
 		var errs []error
 		var newProps []*PropertyDefinition
-		for _, prop := range it.Properties() { // no need for this to be ordered via AsSlice, which allocates
+		it.Properties().ForEach(func(prop *PropertyDefinition) {
 			newCtx, err := makeCtx(it, prop, ctx)
 			if err != nil {
 				errs = append(errs, err)
-				continue
+				return // continue
 			}
 
 			p, err := this.Visit(prop.propertyType, newCtx)
@@ -168,7 +168,7 @@ func MakeIdentityVisitOfObjectType(makeCtx MakePerPropertyContext) func(this *Ty
 					newProps = append(newProps, prop.WithType(p))
 				}
 			}
-		}
+		})
 
 		if len(errs) > 0 {
 			return nil, kerrors.NewAggregate(errs)

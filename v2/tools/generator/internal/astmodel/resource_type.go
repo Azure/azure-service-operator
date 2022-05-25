@@ -80,7 +80,7 @@ func NewAzureResourceType(specType Type, statusType Type, typeName TypeName, kin
 
 		isNameOptional := false
 		isTypeOptional := false
-		for _, property := range objectType.Properties() {
+		objectType.Properties().ForEach(func(property *PropertyDefinition) {
 			// force this string because otherwise linter complains thinking it's an enum without an exhaustive switch...
 			// It turns out there are other reasons to alias string than just to make an enum, seems like the linter doesn't
 			// realize that
@@ -98,7 +98,7 @@ func NewAzureResourceType(specType Type, statusType Type, typeName TypeName, kin
 			case APIVersionProperty:
 				apiVersionProperty = property
 			}
-		}
+		})
 
 		if typeProperty == nil {
 			panic(fmt.Sprintf("Resource %s is missing type property", typeName))
@@ -375,7 +375,7 @@ func (resource *ResourceType) EmbeddedProperties() []*PropertyDefinition {
 }
 
 // Properties returns all the properties from this resource type
-func (resource *ResourceType) Properties() PropertySet {
+func (resource *ResourceType) Properties() ReadOnlyPropertySet {
 	result := NewPropertySet(resource.createSpecProperty())
 	if resource.status != nil {
 		result.Add(resource.createStatusProperty())

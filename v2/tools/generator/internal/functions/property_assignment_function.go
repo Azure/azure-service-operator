@@ -415,7 +415,7 @@ func (fn *PropertyAssignmentFunction) createConversion(
 // We recognize the property bag by type, so that the name can vary to avoid collisions with other properties if needed.
 func (fn *PropertyAssignmentFunction) findPropertyBagProperty(instance astmodel.Type) (*astmodel.PropertyDefinition, bool) {
 	if container, ok := astmodel.AsPropertyContainer(instance); ok {
-		for _, prop := range container.Properties() {
+		for _, prop := range container.Properties().Copy() {
 			if astmodel.TypeEquals(prop.PropertyType(), astmodel.PropertyBagType) {
 				return prop, true
 			}
