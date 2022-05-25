@@ -22,7 +22,7 @@ var _ FunctionContainer = &InterfaceImplementation{}
 
 // NewInterfaceImplementation creates a new interface implementation with the given name and set of functions
 func NewInterfaceImplementation(name TypeName, functions ...Function) *InterfaceImplementation {
-	result := &InterfaceImplementation{name: name, functions: make(map[string]Function)}
+	result := &InterfaceImplementation{name: name, functions: make(map[string]Function, len(functions))}
 	for _, f := range functions {
 		result.functions[f.Name()] = f
 	}

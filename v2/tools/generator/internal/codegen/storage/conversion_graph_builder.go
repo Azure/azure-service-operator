@@ -23,7 +23,8 @@ type ConversionGraphBuilder struct {
 // NewConversionGraphBuilder creates a new builder for all our required conversion graphs
 func NewConversionGraphBuilder(
 	configuration *config.ObjectModelConfiguration,
-	versionPrefix string) *ConversionGraphBuilder {
+	versionPrefix string,
+) *ConversionGraphBuilder {
 	return &ConversionGraphBuilder{
 		configuration: configuration,
 		versionPrefix: versionPrefix,
@@ -48,7 +49,7 @@ func (b *ConversionGraphBuilder) AddAll(set *astmodel.PackageReferenceSet) {
 
 // Build connects all the provided API definitions together into a single conversion graph
 func (b *ConversionGraphBuilder) Build() (*ConversionGraph, error) {
-	subgraphs := make(map[string]*GroupConversionGraph)
+	subgraphs := make(map[string]*GroupConversionGraph, len(b.subBuilders))
 	for group, builder := range b.subBuilders {
 		subgraph, err := builder.Build()
 		if err != nil {

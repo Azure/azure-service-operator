@@ -39,7 +39,7 @@ var _ OpenAPIFileLoader = CachingFileLoader{}
 // NewCachingFileLoader creates an OpenAPISchemaCache with the initial
 // file path → spec mapping
 func NewCachingFileLoader(specs map[string]PackageAndSwagger) CachingFileLoader {
-	files := make(map[string]PackageAndSwagger)
+	files := make(map[string]PackageAndSwagger, len(specs))
 	for specPath, spec := range specs {
 		files[filepath.ToSlash(specPath)] = spec
 	}

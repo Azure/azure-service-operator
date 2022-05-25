@@ -11,6 +11,7 @@ import (
 	"strings"
 
 	"github.com/pkg/errors"
+	"golang.org/x/exp/maps"
 	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -483,11 +484,18 @@ func (s synthesizer) handleArrayArray(leftArray *astmodel.ArrayType, rightArray 
 	return leftArray.WithElement(intersected), nil
 }
 
-func (s synthesizer) handleObjectObject(leftObj *astmodel.ObjectType, rightObj *astmodel.ObjectType) (astmodel.Type, error) {
-	mergedProps := make(map[astmodel.PropertyName]*astmodel.PropertyDefinition)
+func max(left, right int) int {
+	if left > right {
+		return left
+	}
 
+	return right
+}
+
+func (s synthesizer) handleObjectObject(leftObj *astmodel.ObjectType, rightObj *astmodel.ObjectType) (astmodel.Type, error) {
 	leftProperties := leftObj.Properties()
 	rightProperties := rightObj.Properties()
+	mergedProps := make(map[astmodel.PropertyName]*astmodel.PropertyDefinition, max(len(leftProperties), len(rightProperties)))
 
 	for _, p := range leftProperties {
 		mergedProps[p.PropertyName()] = p
@@ -519,10 +527,7 @@ func (s synthesizer) handleObjectObject(leftObj *astmodel.ObjectType, rightObj *
 	}
 
 	// flatten
-	properties := make([]*astmodel.PropertyDefinition, 0, len(mergedProps))
-	for _, p := range mergedProps {
-		properties = append(properties, p)
-	}
+	properties := maps.Values(mergedProps)
 
 	// TODO: need to handle merging other bits of objects
 	return leftObj.WithProperties(properties...), nil

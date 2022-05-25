@@ -9,7 +9,7 @@ import (
 	"context"
 
 	"github.com/pkg/errors"
-	"k8s.io/api/core/v1"
+	v1 "k8s.io/api/core/v1"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/types"
 
@@ -68,7 +68,7 @@ func (r *kubeSecretResolver) ResolveSecretReference(ctx context.Context, ref gen
 
 // ResolveSecretReferences resolves all provided secret references
 func (r *kubeSecretResolver) ResolveSecretReferences(ctx context.Context, refs set.Set[genruntime.NamespacedSecretReference]) (genruntime.ResolvedSecrets, error) {
-	result := make(map[genruntime.SecretReference]string)
+	result := make(map[genruntime.SecretReference]string, len(refs))
 
 	for ref := range refs {
 		value, err := r.ResolveSecretReference(ctx, ref)
